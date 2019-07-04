@@ -18,34 +18,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * @Description: Description
+ * @Description: 启动基于Spring Security的安全认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.config.BaseSecurityConfig
- * @Author: 姚明洋
  * @Date: 2019/6/28 15:31
  * @Version: 1.0
  */
 @Configuration
 @EnableWebSecurity
 public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
-    //  未登陆时返回 JSON 格式的数据给前端（否则为 html）
     @Autowired
     UserAuthenticationEntryPoint authenticationEntryPoint;
-    // 登录成功返回的 JSON 格式数据给前端（否则为 html）
     @Autowired
     UserAuthenticationSuccessHandler authenticationSuccessHandler;
-    //  登录失败返回的 JSON 格式数据给前端（否则为 html）
     @Autowired
     UserAuthenticationFailureHandler authenticationFailureHandler;
-    // 注销成功返回的 JSON 格式数据给前端（否则为 登录时的 html）
     @Autowired
     UserLogoutSuccessHandler logoutSuccessHandler;
-    // 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
     @Autowired
     UserAccessDeniedHandler accessDeniedHandler;
-    // JWT 拦截器
     @Autowired
-    private TokenAuthenticationFilter jwtAuthenticationTokenFilter;
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
     @Autowired
     private AuthUserDetailsService authUserDetailsService;
 
@@ -59,6 +52,7 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     //配置 Http Basic 验证
                     .httpBasic()
+                    //匿名用户异常拦截处理器
                     .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                     .authorizeRequests()
@@ -86,26 +80,43 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .logoutSuccessHandler(logoutSuccessHandler)
-                    .permitAll();
+                    .permitAll()
+                .and()
+                    //认证过的用户访问无权限资源时的处理
+                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         // 记住我
        // http.rememberMe().rememberMeParameter("remember-me").userDetailsService(userDetailsService).tokenValiditySeconds(600);
         // 无权访问 JSON 格式的数据
-        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+        //http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
         // JWT Filter
-        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
-
+    /**
+     * @Description JWT加密算法
+     * @Date 2019/7/4 17:38
+     * @Version  1.0
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+    /**
+     * @Description Spring security认证Bean
+     * @Date 2019/7/4 17:39
+     * @Version  1.0
+     */
     @Bean
     public AuthenticationProvider authenticationProvider(){
         AuthenticationProvider authenticationProvider = new UserAuthenticationProvider();
         return authenticationProvider;
     }
+    /**
+     * @Description Spring Security认证服务中的相关实现重新定义
+     * @Date 2019/7/4 17:40
+     * @Version  1.0
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 加入自定义的安全认证

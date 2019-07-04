@@ -20,6 +20,7 @@ import java.util.Set;
  */
 @Component(value = "rbacServiceImpl")
 public class RbacServiceImpl implements RbacService {
+
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
         System.out.println(authentication.getDetails());

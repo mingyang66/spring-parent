@@ -21,7 +21,6 @@ import java.io.IOException;
  * @Description: OncePerRequestFilter确保一次请求只执行一次Filter
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.filter.JwtAuthenticationTokenFilter
- * @Author: 姚明洋
  * @Date: 2019/7/1 15:40
  * @Version: 1.0
  */

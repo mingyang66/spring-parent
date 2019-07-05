@@ -50,13 +50,4 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         return true;
     }
 
-    public static void main(String[] args) {
-        BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
-        String hashPass = bcryptPasswordEncoder.encode("admin");
-        System.out.println(hashPass);
-
-        boolean f = bcryptPasswordEncoder.matches("admin",hashPass);
-        System.out.println(f);
-
-    }
 }

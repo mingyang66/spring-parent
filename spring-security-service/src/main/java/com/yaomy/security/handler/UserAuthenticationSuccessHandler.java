@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yaomy.security.po.ResponseBody;
 import com.yaomy.security.po.AuthUserDetails;
 import com.yaomy.security.util.TokenUtil;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         String token = TokenUtil.generateToken(userDetails.getUsername());
         responseBody.setToken(token);
+        responseBody.setResult(DateFormatUtils.format(TokenUtil.getExpirationDateFromToken(token), "yyyy-MM-dd HH:mm:ss"));
 
         httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
     }

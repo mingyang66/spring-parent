@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.security.auth.Subject;
 import java.io.InputStream;
 import java.security.Key;
 import java.security.KeyStore;
@@ -85,5 +86,53 @@ public class TokenUtil {
         }
         return subject;
     }
-
+    /**
+     * @Description 获取令牌声明
+     * @Date 2019/7/5 13:54
+     * @Version  1.0
+     */
+    private static Claims getClaimsFromToken(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(salt)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            claims = null;
+        }
+        return claims;
+    }
+    /**
+     * @Description 获取令牌过期时间
+     * @Date 2019/7/5 13:53
+     * @Version  1.0
+     */
+    public static Date getExpirationDateFromToken(String token) {
+        Date expiration;
+        try {
+            final Claims claims = getClaimsFromToken(token);
+            expiration = claims.getExpiration();
+        } catch (Exception e) {
+            expiration = null;
+        }
+        return expiration;
+    }
+    /**
+     * @Description 刷新token令牌
+     * @Author 姚明洋
+     * @Date 2019/7/5 13:56
+     * @Version  1.0
+     */
+    public static String refreshToken(String token) {
+        String refreshedToken;
+        try {
+            final String subject = parseToken(token);
+           // claims.put(CLAIM_KEY_CREATED, new Date());
+            refreshedToken = generateToken(subject);
+        } catch (Exception e) {
+            refreshedToken = null;
+        }
+        return refreshedToken;
+    }
 }

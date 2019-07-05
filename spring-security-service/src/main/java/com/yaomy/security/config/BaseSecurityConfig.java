@@ -94,7 +94,7 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
                     .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         // 记住我
-       // http.rememberMe().rememberMeParameter("remember-me").userDetailsService(userDetailsService).tokenValiditySeconds(600);
+        http.rememberMe().rememberMeParameter("remember-me").userDetailsService(authUserDetailsService).tokenValiditySeconds(60);
 
     }
     /**

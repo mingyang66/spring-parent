@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>spring-security-service</module>
-        <module>common</module>
+        <module>spring-security-jwt-service</module>
+        <module>spring-common-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -9,14 +9,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 /**
- * @Description: 用户自定义认证
+ * @Description: 用户自定义身份认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.provider.MyAuthenticationProvider
  * @Date: 2019/7/2 17:17
@@ -28,7 +27,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     private AuthUserDetailsService authUserDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    /**
+     * @Description 认证处理，返回一个Authentication的实现类则代表认证成功，返回null则代表认证失败
+     * @Date 2019/7/5 15:19
+     * @Version  1.0
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -44,10 +47,14 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(user, password, authorities);
 
     }
-
+    /**
+     * @Description 如果该AuthenticationProvider支持传入的Authentication对象，则返回true
+     * @Date 2019/7/5 15:18
+     * @Version  1.0
+     */
     @Override
     public boolean supports(Class<?> aClass) {
-        return true;
+        return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
 
 }

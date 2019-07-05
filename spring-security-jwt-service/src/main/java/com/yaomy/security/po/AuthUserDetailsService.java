@@ -2,6 +2,7 @@ package com.yaomy.security.po;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,6 +41,8 @@ public class AuthUserDetailsService implements UserDetailsService {
         Set authoritiesSet = new HashSet();
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
         authoritiesSet.add(authority);
+        //使用逗号分隔符中创建GrantedAuthority数组
+        //List<GrantedAuthority> list = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN,ROLE_Dev, ROLE_Manager");
         userInfo.setAuthorities(authoritiesSet);
 
         return userInfo;

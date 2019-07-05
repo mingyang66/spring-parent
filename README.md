@@ -1,5 +1,5 @@
 # spring-parent
-###JWT
+### JWT
 JSON WEB TOKEN（JWT）是目前最流行的跨域身份验证解决方案，服务器不保存任何回话信息，即服务器变为无状态。
 
 * JWT TOKEN分为如下三部分： <br> 

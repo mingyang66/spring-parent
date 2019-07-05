@@ -1,6 +1,6 @@
-package com.yaomy.security.provider;
+package com.yaomy.security.jwt.provider;
 
-import com.yaomy.security.po.AuthUserDetailsService;
+import com.yaomy.security.jwt.po.AuthUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.DisabledException;

@@ -1,4 +1,4 @@
-package com.yaomy.security.util;
+package com.yaomy.security.jwt.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

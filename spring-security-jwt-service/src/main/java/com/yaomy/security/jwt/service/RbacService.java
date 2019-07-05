@@ -1,4 +1,4 @@
-package com.yaomy.security.service;
+package com.yaomy.security.jwt.service;
 
 import org.springframework.security.core.Authentication;
 

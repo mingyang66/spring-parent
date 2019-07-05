@@ -1,6 +1,6 @@
-package com.yaomy.security.serviceImpl;
+package com.yaomy.security.jwt.serviceImpl;
 
-import com.yaomy.security.service.RbacService;
+import com.yaomy.security.jwt.service.RbacService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;

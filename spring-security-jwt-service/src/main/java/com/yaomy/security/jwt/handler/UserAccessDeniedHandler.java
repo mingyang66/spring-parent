@@ -1,7 +1,7 @@
-package com.yaomy.security.handler;
+package com.yaomy.security.jwt.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.yaomy.security.po.ResponseBody;
+import com.yaomy.security.jwt.po.ResponseBody;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

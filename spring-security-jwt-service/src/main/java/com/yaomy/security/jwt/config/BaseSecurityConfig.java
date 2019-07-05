@@ -1,9 +1,9 @@
-package com.yaomy.security.config;
+package com.yaomy.security.jwt.config;
 
-import com.yaomy.security.filter.TokenAuthenticationFilter;
-import com.yaomy.security.handler.*;
-import com.yaomy.security.po.AuthUserDetailsService;
-import com.yaomy.security.provider.UserAuthenticationProvider;
+import com.yaomy.security.jwt.filter.TokenAuthenticationFilter;
+import com.yaomy.security.jwt.handler.*;
+import com.yaomy.security.jwt.po.AuthUserDetailsService;
+import com.yaomy.security.jwt.provider.UserAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

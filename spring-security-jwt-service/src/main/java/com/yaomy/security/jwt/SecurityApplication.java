@@ -1,4 +1,4 @@
-package com.yaomy.security;
+package com.yaomy.security.jwt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

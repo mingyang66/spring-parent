@@ -1,4 +1,4 @@
-package com.yaomy.security.po;
+package com.yaomy.security.jwt.po;
 
 /**
  * @Description: Description

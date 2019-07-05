@@ -1,9 +1,9 @@
-package com.yaomy.security.handler;
+package com.yaomy.security.jwt.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.yaomy.security.po.ResponseBody;
-import com.yaomy.security.po.AuthUserDetails;
-import com.yaomy.security.util.TokenUtil;
+import com.yaomy.security.jwt.po.ResponseBody;
+import com.yaomy.security.jwt.po.AuthUserDetails;
+import com.yaomy.security.jwt.util.TokenUtil;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

@@ -1,4 +1,4 @@
-package com.yaomy.security.po;
+package com.yaomy.security.jwt.po;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

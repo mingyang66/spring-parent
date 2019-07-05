@@ -15,7 +15,6 @@ import java.io.IOException;
  * @Description: 用来解决认证过的用户访问无权限资源时的异常
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxAccessDeniedHandler
- * @Author: 姚明洋
  * @Date: 2019/7/1 15:34
  * @Version: 1.0
  */

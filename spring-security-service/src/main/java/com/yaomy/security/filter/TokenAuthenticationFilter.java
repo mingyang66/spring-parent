@@ -1,7 +1,7 @@
 package com.yaomy.security.filter;
 
 import com.yaomy.security.po.AuthUserDetailsService;
-import com.yaomy.security.util.JwtTokenUtil;
+import com.yaomy.security.util.TokenUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,11 +34,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         //获取认证token
         String token = request.getHeader("Authorization");
         if (StringUtils.isNotBlank(token)) {
-            String username = JwtTokenUtil.parseToken(token, "_secret");
+            String username = TokenUtil.parseToken(token);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (userDetails != null) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);

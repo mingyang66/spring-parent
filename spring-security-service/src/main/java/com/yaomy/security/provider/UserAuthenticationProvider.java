@@ -19,7 +19,6 @@ import java.util.Collection;
  * @Description: 用户自定义认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.provider.MyAuthenticationProvider
- * @Author: 姚明洋
  * @Date: 2019/7/2 17:17
  * @Version: 1.0
  */

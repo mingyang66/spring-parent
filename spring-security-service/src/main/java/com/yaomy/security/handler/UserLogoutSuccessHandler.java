@@ -15,7 +15,6 @@ import java.io.IOException;
  * @Description: 用户成功退出
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxLogoutSuccessHandler
- * @Author: 姚明洋
  * @Date: 2019/7/1 15:39
  * @Version: 1.0
  */

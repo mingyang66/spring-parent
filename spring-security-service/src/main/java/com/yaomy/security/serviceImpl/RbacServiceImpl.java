@@ -40,7 +40,6 @@ public class RbacServiceImpl implements RbacService {
             Set set3 = new HashSet();
 
             AntPathMatcher antPathMatcher = new AntPathMatcher();
-
             for (String url : urls) {
                 if (antPathMatcher.match(url, request.getRequestURI())) {
                     hasPermission = true;

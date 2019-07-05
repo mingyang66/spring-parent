@@ -22,8 +22,19 @@ import java.util.Map;
  * @Date: 2019/7/1 16:43
  * @Version: 1.0
  */
-public class JwtTokenUtil {
+public class TokenUtil {
+    /**
+     * @Description token 过期时间
+     * @Date 2019/7/5 9:53
+     * @Version  1.0
+     */
     private static Long expirationSeconds = 300L;
+    /**
+     * @Description 加密盐
+     * @Date 2019/7/5 9:53
+     * @Version  1.0
+     */
+    private static String salt = "_secret";
    /* private static InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("src/main/resources/jwt.jks"); // 寻找证书文件
     private static PrivateKey privateKey = null;
     private static PublicKey publicKey = null;
@@ -40,8 +51,12 @@ public class JwtTokenUtil {
             e.printStackTrace();
         }
     }*/
-
-    public static String generateToken(String subject, String salt) {
+    /**
+     * @Description 生成JWT用户令牌
+     * @Date 2019/7/5 9:50
+     * @Version  1.0
+     */
+    public static String generateToken(String subject) {
         return Jwts.builder()
                 .setClaims(null)
                 .setSubject(subject)
@@ -51,15 +66,20 @@ public class JwtTokenUtil {
               //  .signWith(SignatureAlgorithm.RS256, privateKey)
                 .compact();
     }
-
-    public static String parseToken(String token, String salt) {
+    /**
+     * @Description 解析token令牌，获取用户subject
+     * @Date 2019/7/5 10:19
+     * @Version  1.0
+     */
+    public static String parseToken(String token) {
         String subject = null;
         try {
             Claims claims = Jwts.parser()
                     // 不使用公钥私钥
                     .setSigningKey(salt)
                     //.setSigningKey(publicKey)
-                    .parseClaimsJws(token).getBody();
+                    .parseClaimsJws(token)
+                    .getBody();
             subject = claims.getSubject();
         } catch (Exception e) {
         }

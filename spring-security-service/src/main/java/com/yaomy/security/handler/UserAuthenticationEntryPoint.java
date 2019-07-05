@@ -15,7 +15,6 @@ import java.io.IOException;
  * @Description: 用来解决匿名用户访问无权限资源时的异常
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxAuthenticationEntryPoint
- * @Author: 姚明洋
  * @Date: 2019/7/1 15:36
  * @Version: 1.0
  */

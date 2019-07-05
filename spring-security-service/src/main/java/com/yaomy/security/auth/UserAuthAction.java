@@ -7,22 +7,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Description: Description
+ * @Description: API测试类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.auth.UserAuthAction
- * @Author: 姚明洋
  * @Date: 2019/6/28 15:18
  * @Version: 1.0
  */
 @RestController
 @RequestMapping(value = "auth_user")
 public class UserAuthAction {
-    @RequestMapping(value = "login")
-    public String login(){
-        System.out.println("===================");
+    /**
+     * @Description
+     * @Date 2019/7/4 18:05
+     * @Version  1.0
+     */
+    @RequestMapping(value = "get_token_info")
+    public Object getTokenInfo(){
+        //获取Security空间上下文,默认使用ThreadLocal存储上下文对象，如果要改变存储上下文策略可以通过spring.security.strategy更改，
         SecurityContext ctx = SecurityContextHolder.getContext();
         Authentication auth = ctx.getAuthentication();
         System.out.println(auth.getAuthorities()+"--"+auth.getCredentials()+"--"+auth.getDetails()+"--"+auth.getPrincipal()+"--"+auth.getName());
-        return "hello";
+        return auth;
     }
 }

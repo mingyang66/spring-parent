@@ -15,7 +15,6 @@ import java.io.IOException;
  * @Description: 用户认证失败处理
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxAuthenticationFailureHandler
- * @Author: 姚明洋
  * @Date: 2019/7/1 15:37
  * @Version: 1.0
  */

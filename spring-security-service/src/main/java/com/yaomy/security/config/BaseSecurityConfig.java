@@ -45,9 +45,11 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        // 去掉 CSRF
-        http.csrf().disable()
-                // 使用 JWT，关闭token
+
+            http
+                // 去掉 CSRF（Cross-site request forgery）跨站请求伪造,依赖web浏览器，被混淆过的代理人攻击
+                .csrf().disable()
+                // 使用 JWT，使用无状态会话，不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     //配置 Http Basic 验证
@@ -56,6 +58,9 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                     .authorizeRequests()
+                    /**
+                     * ant路径风格有三种通配符：[?]匹配任何单字符；[*]匹配0或者任意数量的字符；[**]匹配0或更多的目录
+                     */
                     .antMatchers("/user/login").permitAll()
                     .anyRequest()
                     // RBAC 动态 url 认证
@@ -83,14 +88,13 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     //认证过的用户访问无权限资源时的处理
-                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .and()
+                    //将JWT Token Filter验证配置到Spring Security
+                    .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         // 记住我
        // http.rememberMe().rememberMeParameter("remember-me").userDetailsService(userDetailsService).tokenValiditySeconds(600);
-        // 无权访问 JSON 格式的数据
-        //http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-        // JWT Filter
-        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
     /**

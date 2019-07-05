@@ -3,7 +3,7 @@ package com.yaomy.security.handler;
 import com.alibaba.fastjson.JSON;
 import com.yaomy.security.po.ResponseBody;
 import com.yaomy.security.po.AuthUserDetails;
-import com.yaomy.security.util.JwtTokenUtil;
+import com.yaomy.security.util.TokenUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,6 @@ import java.io.IOException;
  * @Description: 用户认证成功处理
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxAuthenticationSuccessHandler
- * @Author: 姚明洋
  * @Date: 2019/7/1 15:38
  * @Version: 1.0
  */
@@ -32,7 +31,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         AuthUserDetails userDetails = (AuthUserDetails) authentication.getPrincipal();
 
-        String token = JwtTokenUtil.generateToken(userDetails.getUsername(), "_secret");
+        String token = TokenUtil.generateToken(userDetails.getUsername());
         responseBody.setToken(token);
 
         httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));

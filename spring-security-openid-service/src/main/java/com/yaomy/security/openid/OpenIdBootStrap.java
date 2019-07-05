@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2019/7/5 16:10
  * @Version: 1.0
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.yaomy.security.openid"})
 public class OpenIdBootStrap {
     public static void main(String[] args) {
         SpringApplication.run(OpenIdBootStrap.class, args);

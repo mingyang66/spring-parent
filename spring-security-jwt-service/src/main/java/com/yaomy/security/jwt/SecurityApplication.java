@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2019/6/28 13:21
  * @Version: 1.0
  */
-@SpringBootApplication(scanBasePackages = {"com.yaomy.security"})
+@SpringBootApplication(scanBasePackages = {"com.yaomy.security.jwt"})
 public class SecurityApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecurityApplication.class, args);

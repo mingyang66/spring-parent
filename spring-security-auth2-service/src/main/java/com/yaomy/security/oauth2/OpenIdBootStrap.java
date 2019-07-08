@@ -1,4 +1,4 @@
-package com.yaomy.security.openid;
+package com.yaomy.security.oauth2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2019/7/5 16:10
  * @Version: 1.0
  */
-@SpringBootApplication(scanBasePackages = {"com.yaomy.security.openid"})
+@SpringBootApplication(scanBasePackages = {"com.yaomy.security.oauth2"})
 public class OpenIdBootStrap {
     public static void main(String[] args) {
         SpringApplication.run(OpenIdBootStrap.class, args);

@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yaomy.security.openid</groupId>
-    <artifactId>spring-security-openid-service</artifactId>
+    <groupId>com.yaomy.security</groupId>
+    <artifactId>spring-security-auth2-service</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -22,4 +22,5 @@
             <version>2.0.0.RELEASE</version>
         </dependency>
     </dependencies>
+
 </project>

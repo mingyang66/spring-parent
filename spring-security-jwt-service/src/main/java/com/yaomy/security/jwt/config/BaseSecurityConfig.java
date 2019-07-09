@@ -47,7 +47,7 @@ public class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
             http
-                // 去掉 CSRF（Cross-site request forgery）跨站请求伪造,依赖web浏览器，被混淆过的代理人攻击
+                // 去掉 CSRF（Cross-site request forgery）跨站请求伪造,依赖web浏览器，被混淆过的代理人攻击,使用无状态认证时要关闭
                 .csrf().disable()
                 // 使用 JWT，使用无状态会话，不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @Description: Spring Security OpenId启动类
+ * @Description: Spring Security oauth2启动类
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.openid.OpenIdBootStrap
+ * @Package: com.yaomy.security.oauth2.OAuth2BootStrap
  * @Date: 2019/7/5 16:10
  * @Version: 1.0
  */

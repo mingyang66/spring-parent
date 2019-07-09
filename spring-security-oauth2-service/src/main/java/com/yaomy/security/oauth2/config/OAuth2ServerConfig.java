@@ -1,11 +1,10 @@
 package com.yaomy.security.oauth2.config;
 
+import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -17,10 +16,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
- * @Description: OAuth2认证服务
+ * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.OAuth2ServerConfig
- * @Author: 姚明洋
  * @Date: 2019/7/9 11:26
  * @Version: 1.0
  */
@@ -34,35 +32,31 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ApprovalStore approvalStore;
+    private OAuth2ClientDetailsService oAuth2ClientDetailsService;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private ApprovalStore approvalStore;
+    /**
+     用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里初始化，
+     你可以把客户端详情信息写死也可以写入内存或者数据库中
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        //添加客户端信息
-        //使用内存存储OAuth客户端信息
-        clients.inMemory()
-                // client_id
-                .withClient("client")
-                // client_secret
-                .secret(passwordEncoder.encode("secret"))
-                /**
-                 * 授权模式，授权码模式（authorization code）、简化模式（implicit）、密码模式（resource owner password credentials）、客户端模式（client credentials）
-                 */
-                .authorizedGrantTypes("authorization_code","implicit","refresh_token","password")
-                .resourceIds("resourceId")
-                //回调uri，在authorization_code与implicit授权方式时，用以接收服务器的返回信息
-                .redirectUris("http://localhost:9001/auth_user/get_token_info")
-                // 允许的授权范围
-                .scopes("app","test","role", "ttt");
+        //使用自定义ClientDetailsService初始化配置
+        clients.withClientDetails(oAuth2ClientDetailsService);
     }
-
+    /**
+     用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore).approvalStore(approvalStore)
+        endpoints.tokenStore(tokenStore)
+                .approvalStore(approvalStore)
                 .authenticationManager(authenticationManager);
     }
-
+    /**
+     用来配置令牌端点（Token Endpoint）的安全约束
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.realm("OAuth2-Sample")
@@ -70,7 +64,11 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
-
+    /**
+     * @Description OAuth2 token持久化接口
+     * @Date 2019/7/9 17:45
+     * @Version  1.0
+     */
     @Bean
     public TokenStore tokenStore() {
         //token保存在内存中（也可以保存在数据库、Redis中）。

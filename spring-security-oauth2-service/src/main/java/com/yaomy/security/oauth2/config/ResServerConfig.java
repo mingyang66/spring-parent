@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @Description: Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.ResServerConfig
- * @Author: 姚明洋
  * @Date: 2019/7/9 13:28
  * @Version: 1.0
  */

@@ -31,9 +31,15 @@ public class LoginController {
         System.out.println(auth.getAuthorities()+"--"+auth.getCredentials()+"--"+auth.getDetails()+"--"+auth.getPrincipal()+"--"+auth.getName());
         return auth;
     }
-    @RequestMapping("/home")
-    public String home() {
-        return "home page";
+    /**
+     * @Description 获取授权码
+     * @Date 2019/7/9 15:44
+     * @Version  1.0
+     */
+    @RequestMapping("/get_auth_code")
+    public String home(HttpServletRequest request) {
+        String code = request.getParameter("code");
+        return code;
     }
 
     @RequestMapping("/")

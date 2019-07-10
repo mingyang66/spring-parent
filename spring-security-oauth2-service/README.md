@@ -18,11 +18,13 @@ http://localhost:9001/oauth/token?username=user&password=user&grant_type=passwor
 - client_id：客户端ID，必选
 - response_type：必须为code，必选
 - redirect_uri：回掉url,必选
-* 获取授权码：<br>
+* 获取授权码：
+
 ```
 http://localhost:9001/oauth/authorize?client_id=client&response_type=code&redirect_uri=http://localhost:9001/auth_user/get_auth_code
 ```
 * 获取access_token
+
 ```
 http://localhost:9001/oauth/token?grant_type=authorization_code&code=XQfMUi&client_id=client&client_secret=secret&redirect_uri=http://localhost:9001/auth_user/get_token_info
 ```

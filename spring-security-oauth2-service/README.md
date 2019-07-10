@@ -7,6 +7,7 @@
 - 客户端模式
 - 简化模式
 <h4>2.密码模式</h4>
+
 ```
 http://localhost:9001/oauth/token?username=user&password=user&grant_type=password&client_id=client&client_secret=secret
 ```

@@ -56,8 +56,6 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         //token持久化容器
         tokenServices.setTokenStore(tokenStore());
-        //是否支持refresh_token，默认false
-        tokenServices.setSupportRefreshToken(true);
         //客户端信息
         tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
         //自定义token生成
@@ -66,6 +64,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         tokenServices.setAccessTokenValiditySeconds(60*15);
         //refresh_token 的有效时长 (秒), 默认 30 天
         tokenServices.setRefreshTokenValiditySeconds(60*20);
+        //是否支持refresh_token，默认false
+        tokenServices.setSupportRefreshToken(true);
         //是否复用refresh_token,默认为true(如果为false,则每次请求刷新都会删除旧的refresh_token,创建新的refresh_token)
         tokenServices.setReuseRefreshToken(true);
 

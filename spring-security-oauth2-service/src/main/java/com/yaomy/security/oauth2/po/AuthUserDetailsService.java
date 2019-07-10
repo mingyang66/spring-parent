@@ -18,7 +18,6 @@ import java.util.Set;
  * @Description: 用户认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.User
- * @Author: 姚明洋
  * @Date: 2019/6/28 17:37
  * @Version: 1.0
  */
@@ -28,13 +27,12 @@ public class AuthUserDetailsService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     /**
      * @Description 根据用户名查询用户角色、权限等信息
-     * @Author 姚明洋
      * @Date 2019/7/1 14:50
      * @Version  1.0
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("---用户登录----"+username);
+        System.out.println("---用户信息验证----"+username);
         /**
          isEnabled 账户是否启用
          isAccountNonExpired 账户没有过期

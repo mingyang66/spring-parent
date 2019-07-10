@@ -16,7 +16,6 @@ import java.util.UUID;
  * @Description: 用户自定义token令牌，包括access_token和refresh_token
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
- * @Author: 姚明洋
  * @Date: 2019/7/9 19:43
  * @Version: 1.0
  */

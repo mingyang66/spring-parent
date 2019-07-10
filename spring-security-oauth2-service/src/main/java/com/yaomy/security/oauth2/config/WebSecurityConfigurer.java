@@ -39,7 +39,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.formLogin() //登记界面，默认是permit All
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/oauth/token")
+                    .antMatchers("/oauth/*")
                     .permitAll() //不用身份认证可以访问
                 .and()
                     //其它的请求要求必须有身份认证

@@ -1,6 +1,7 @@
 package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
+import com.yaomy.security.oauth2.po.AuthUserDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private OAuth2ClientDetailsService oAuth2ClientDetailsService;
+    @Autowired
+    private AuthUserDetailsService authUserDetailsService;
 
     @Autowired
     private ApprovalStore approvalStore;
@@ -54,8 +57,12 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore)
                 .approvalStore(approvalStore)
+                //通过authenticationManager开启密码授权
                 .authenticationManager(authenticationManager)
-                .tokenEnhancer(tokenEnhancer());
+                //自定义token生成
+                .tokenEnhancer(tokenEnhancer())
+                //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
+                .userDetailsService(authUserDetailsService);
     }
     /**
      用来配置令牌端点（Token Endpoint）的安全约束

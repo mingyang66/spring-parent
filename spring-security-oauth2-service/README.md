@@ -192,3 +192,37 @@ public class UserTokenEnhancer implements TokenEnhancer {
     }
     
 ```
+
+#### 5.自定义token过期时长
+
+```
+    /**
+     用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        //token持久化容器
+        tokenServices.setTokenStore(tokenStore());
+        //是否支持refresh_token，默认false
+        tokenServices.setSupportRefreshToken(true);
+        //客户端信息
+        tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+        //自定义token生成
+        tokenServices.setTokenEnhancer(tokenEnhancer());
+        //access_token 的有效时长 (秒), 默认 12 小时
+        tokenServices.setAccessTokenValiditySeconds(60*15);
+        //refresh_token 的有效时长 (秒), 默认 30 天
+        tokenServices.setRefreshTokenValiditySeconds(60*20);
+        //是否复用refresh_token,默认为true(如果为false,则每次请求刷新都会删除旧的refresh_token,创建新的refresh_token)
+        tokenServices.setReuseRefreshToken(true);
+
+        endpoints
+                //通过authenticationManager开启密码授权
+                .authenticationManager(authenticationManager)
+                //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
+                .userDetailsService(authUserDetailsService)
+                //token相关服务
+                .tokenServices(tokenServices);
+    }
+```

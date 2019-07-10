@@ -1,5 +1,6 @@
 package com.yaomy.security.oauth2.config;
 
+import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+
+import java.util.Arrays;
 
 /**
  * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
@@ -50,9 +55,12 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer()));
         endpoints.tokenStore(tokenStore)
                 .approvalStore(approvalStore)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .tokenEnhancer(enhancerChain);
     }
     /**
      用来配置令牌端点（Token Endpoint）的安全约束
@@ -82,5 +90,14 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         TokenApprovalStore store = new TokenApprovalStore();
         store.setTokenStore(tokenStore);
         return store;
+    }
+    /**
+     * @Description 自定义生成令牌token
+     * @Date 2019/7/9 19:58
+     * @Version  1.0
+     */
+    @Bean
+    public TokenEnhancer tokenEnhancer(){
+        return new UserTokenEnhancer();
     }
 }

@@ -14,11 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-
-import java.util.Arrays;
 
 /**
  * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
@@ -55,12 +52,10 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer()));
         endpoints.tokenStore(tokenStore)
                 .approvalStore(approvalStore)
                 .authenticationManager(authenticationManager)
-                .tokenEnhancer(enhancerChain);
+                .tokenEnhancer(tokenEnhancer());
     }
     /**
      用来配置令牌端点（Token Endpoint）的安全约束
@@ -100,4 +95,5 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     public TokenEnhancer tokenEnhancer(){
         return new UserTokenEnhancer();
     }
+
 }

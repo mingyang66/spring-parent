@@ -60,6 +60,20 @@
     <form method="post" action="/oauth/authorize">
         <input type="hidden" name="user_oauth_approval" value="true">
         <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
+        <ul>
+            <li>
+                <div class="form-group">scope.app: <input type="radio" name="scope.app" value="true">Approve <input type="radio" name="scope.app" value="false" checked="">Deny</div>
+            </li>
+            <li>
+                <div class="form-group">scope.test: <input type="radio" name="scope.test" value="true">Approve <input type="radio" name="scope.test" value="false" checked="">Deny</div>
+            </li>
+            <li>
+                <div class="form-group">scope.role: <input type="radio" name="scope.role" value="true">Approve <input type="radio" name="scope.role" value="false" checked="">Deny</div>
+            </li>
+            <li>
+                <div class="form-group">scope.ttt: <input type="radio" name="scope.ttt" value="true">Approve <input type="radio" name="scope.ttt" value="false" checked="">Deny</div>
+            </li>
+        </ul>
         <button class="btn" type="submit"> 同意/授权</button>
     </form>
 </div>

@@ -76,6 +76,16 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .userDetailsService(authUserDetailsService)
                 //token相关服务
                 .tokenServices(tokenServices)
+                /**
+                 pathMapping用来配置端点URL链接，第一个参数是端点URL默认地址，第二个参数是你要替换的URL地址
+                 上面的参数都是以“/”开头，框架的URL链接如下：
+                 /oauth/authorize：授权端点。
+                 /oauth/token：令牌端点。
+                 /oauth/confirm_access：用户确认授权提交端点。
+                 /oauth/error：授权服务错误信息端点。
+                 /oauth/check_token：用于资源服务访问的令牌解析端点。
+                 /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
+                 */
                 .pathMapping("/oauth/confirm_access", "/custom/confirm_access");
     }
     /**

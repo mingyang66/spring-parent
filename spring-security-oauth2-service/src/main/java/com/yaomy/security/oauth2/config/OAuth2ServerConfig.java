@@ -75,7 +75,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
                 .userDetailsService(authUserDetailsService)
                 //token相关服务
-                .tokenServices(tokenServices);
+                .tokenServices(tokenServices)
+                .pathMapping("/oauth/confirm_access", "/custom/confirm_access");
     }
     /**
      用来配置令牌端点（Token Endpoint）的安全约束

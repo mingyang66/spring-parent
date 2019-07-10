@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
@@ -52,14 +53,29 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore())
-                .approvalStore(approvalStore)
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        //token持久化容器
+        tokenServices.setTokenStore(tokenStore());
+        //是否支持refresh_token，默认false
+        tokenServices.setSupportRefreshToken(true);
+        //客户端信息
+        tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+        //自定义token生成
+        tokenServices.setTokenEnhancer(tokenEnhancer());
+        //access_token 的有效时长 (秒), 默认 12 小时
+        tokenServices.setAccessTokenValiditySeconds(60*15);
+        //refresh_token 的有效时长 (秒), 默认 30 天
+        tokenServices.setRefreshTokenValiditySeconds(60*20);
+        //是否复用refresh_token,默认为true(如果为false,则每次请求刷新都会删除旧的refresh_token,创建新的refresh_token)
+        tokenServices.setReuseRefreshToken(true);
+
+        endpoints
                 //通过authenticationManager开启密码授权
                 .authenticationManager(authenticationManager)
-                //自定义token生成
-                .tokenEnhancer(tokenEnhancer())
                 //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
-                .userDetailsService(authUserDetailsService);
+                .userDetailsService(authUserDetailsService)
+                //token相关服务
+                .tokenServices(tokenServices);
     }
     /**
      用来配置令牌端点（Token Endpoint）的安全约束
@@ -99,5 +115,6 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     public TokenEnhancer tokenEnhancer(){
         return new UserTokenEnhancer();
     }
+
 
 }

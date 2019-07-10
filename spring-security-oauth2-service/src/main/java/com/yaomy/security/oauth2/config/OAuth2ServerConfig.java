@@ -29,9 +29,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
-    private TokenStore tokenStore;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -55,7 +52,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
+        endpoints.tokenStore(tokenStore())
                 .approvalStore(approvalStore)
                 //通过authenticationManager开启密码授权
                 .authenticationManager(authenticationManager)
@@ -90,7 +87,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Bean
     public ApprovalStore approvalStore() throws Exception {
         TokenApprovalStore store = new TokenApprovalStore();
-        store.setTokenStore(tokenStore);
+        store.setTokenStore(tokenStore());
         return store;
     }
     /**

@@ -29,10 +29,10 @@ public class UserTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
        if(accessToken instanceof DefaultOAuth2AccessToken){
            DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-           token.setValue(getToken());
+           token.setValue(getToken("access_token_"));
            OAuth2RefreshToken refreshToken = token.getRefreshToken();
            if(refreshToken instanceof DefaultOAuth2RefreshToken){
-               token.setRefreshToken(new DefaultOAuth2RefreshToken(getToken()));
+               token.setRefreshToken(new DefaultOAuth2RefreshToken(getToken("refresh_token_")));
            }
            Map<String, Object> additionalInformation = Maps.newHashMap();
            additionalInformation.put("client_id", authentication.getOAuth2Request().getClientId());
@@ -46,7 +46,10 @@ public class UserTokenEnhancer implements TokenEnhancer {
      * @Date 2019/7/9 19:50
      * @Version  1.0
      */
-    private String getToken(){
-        return StringUtils.join("Beare", UUID.randomUUID().toString().replace("-", ""));
+    private String getToken(String prefix){
+        if(StringUtils.isBlank(prefix)){
+            prefix = "";
+        }
+        return StringUtils.join(prefix, UUID.randomUUID().toString().replace("-", ""));
     }
 }

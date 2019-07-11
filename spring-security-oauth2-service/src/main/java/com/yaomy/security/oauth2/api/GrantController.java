@@ -33,6 +33,9 @@ public class GrantController {
         ModelAndView view = new ModelAndView();
         view.setViewName("grant");
         view.addObject("clientId", authorizationRequest.getClientId());
+        view.addObject("scope", authorizationRequest.getScope());
+        System.out.println(authorizationRequest.getScope());
+        System.out.println(authorizationRequest.getClientId());
         return view;
     }
 

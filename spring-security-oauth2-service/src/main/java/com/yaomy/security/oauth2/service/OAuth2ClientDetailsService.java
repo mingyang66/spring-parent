@@ -50,7 +50,7 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                     //回调uri，在authorization_code与implicit授权方式时，用以接收服务器的返回信息
                     .redirectUris("http://localhost:9001/auth_user/get_auth_code")
                     // 允许的授权范围
-                    .scopes("app","test","role", "ttt")
+                    .scopes("insert","update","del", "select", "replace")
                     .and()
                 .withClient("client_password")
                     .secret(passwordEncoder.encode("secret"))

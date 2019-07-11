@@ -48,32 +48,22 @@
 </style>
 <body style="margin: 0px">
 <div class="title">
-    <div class="title-right">OAUTH-BOOT 授权</div>
+    <div class="title-right">Spring Security 授权</div>
     <div class="title-left">
         <a href="#help">帮助</a>
     </div>
 </div>
 <div class="container">
     <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
-    <p>昵称，头像和性别</p>
-    授权后表明你已同意 <a  href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
     <form method="post" action="/oauth/authorize">
         <input type="hidden" name="user_oauth_approval" value="true">
-        <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
-        <ul>
-            <li>
-                <div class="form-group">scope.app: <input type="radio" name="scope.app" value="true">Approve <input type="radio" name="scope.app" value="false" checked="">Deny</div>
-            </li>
-            <li>
-                <div class="form-group">scope.test: <input type="radio" name="scope.test" value="true">Approve <input type="radio" name="scope.test" value="false" checked="">Deny</div>
-            </li>
-            <li>
-                <div class="form-group">scope.role: <input type="radio" name="scope.role" value="true">Approve <input type="radio" name="scope.role" value="false" checked="">Deny</div>
-            </li>
-            <li>
-                <div class="form-group">scope.ttt: <input type="radio" name="scope.ttt" value="true">Approve <input type="radio" name="scope.ttt" value="false" checked="">Deny</div>
+        <!--<input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>-->
+        <ul style="list-style-type: none">
+            <li th:each="s:${scope}">
+                <div class="form-group"><a th:text="${s}"></a>: <input type="radio" th:name="'scope.'+${s}" value="true">Approve(授权) <input type="radio" th:name="${s}" value="false" checked="">Deny（拒绝）</div>
             </li>
         </ul>
+        授权后表明你已同意 <a  href="#boot" style="color: #E9686B">服务协议</a><br>
         <button class="btn" type="submit"> 同意/授权</button>
     </form>
 </div>

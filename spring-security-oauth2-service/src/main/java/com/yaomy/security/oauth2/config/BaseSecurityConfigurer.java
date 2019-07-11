@@ -76,6 +76,7 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                     //认证过的用户访问无权限资源时的处理
                     .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+            http.csrf().disable();
     }
     /**
      * @Description Spring Security认证服务中的相关实现重新定义

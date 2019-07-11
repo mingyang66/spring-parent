@@ -45,7 +45,7 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
             http
                     //指定支持基于表单的身份验证。如果未指定FormLoginConfigurer#loginPage(String)，则将生成默认登录页面
-                    .formLogin()
+                .formLogin()
                     //自定义登录页url,默认为/login
                     .loginPage("/test/login")
                     //登录请求拦截的url,也就是form表单提交时指定的action

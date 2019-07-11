@@ -73,7 +73,6 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .userDetailsService(authUserDetailsService)
                 //token相关服务
                 .tokenServices(tokenServices)
-                //.approvalStore(approvalStore())
                 /**
                  pathMapping用来配置端点URL链接，第一个参数是端点URL默认地址，第二个参数是你要替换的URL地址
                  上面的参数都是以“/”开头，框架的URL链接如下：
@@ -114,12 +113,12 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      * @Date 2019/7/11 14:11
      * @Version  1.0
      */
-    @Bean
+/*    @Bean
     public ApprovalStore approvalStore() throws Exception {
         TokenApprovalStore store = new TokenApprovalStore();
         store.setTokenStore(tokenStore());
         return store;
-    }
+    }*/
 /*    @Bean
     public UserApprovalHandler userApprovalHandler1(){
         TokenStoreUserApprovalHandler userApprovalHandler = new TokenStoreUserApprovalHandler();

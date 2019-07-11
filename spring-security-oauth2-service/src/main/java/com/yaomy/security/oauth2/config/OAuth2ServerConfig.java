@@ -36,9 +36,6 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     private OAuth2ClientDetailsService oAuth2ClientDetailsService;
     @Autowired
     private AuthUserDetailsService authUserDetailsService;
-
-    @Autowired
-    private ApprovalStore approvalStore;
     /**
      用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里初始化，
      你可以把客户端详情信息写死也可以写入内存或者数据库中
@@ -76,6 +73,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .userDetailsService(authUserDetailsService)
                 //token相关服务
                 .tokenServices(tokenServices)
+                //.approvalStore(approvalStore())
                 /**
                  pathMapping用来配置端点URL链接，第一个参数是端点URL默认地址，第二个参数是你要替换的URL地址
                  上面的参数都是以“/”开头，框架的URL链接如下：
@@ -110,13 +108,24 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         //注意：如果不保存access_token，则没法通过access_token取得用户信息
         return new InMemoryTokenStore();
     }
-
+    /**
+     * @Description ApprovalStore用户保存、检索和撤销用户审批的界面
+     * @Author 姚明洋
+     * @Date 2019/7/11 14:11
+     * @Version  1.0
+     */
     @Bean
     public ApprovalStore approvalStore() throws Exception {
         TokenApprovalStore store = new TokenApprovalStore();
         store.setTokenStore(tokenStore());
         return store;
     }
+/*    @Bean
+    public UserApprovalHandler userApprovalHandler1(){
+        TokenStoreUserApprovalHandler userApprovalHandler = new TokenStoreUserApprovalHandler();
+        userApprovalHandler.setTokenStore(tokenStore());
+        return userApprovalHandler;
+    }*/
     /**
      * @Description 自定义生成令牌token
      * @Date 2019/7/9 19:58

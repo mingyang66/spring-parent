@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
- * @Description: Description
+ * @Description: 资源服务配置
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.ResServerConfig
  * @Date: 2019/7/9 13:28
@@ -18,7 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableResourceServer
-public class ResServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private TokenStore tokenStore;
 

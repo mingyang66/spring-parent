@@ -226,4 +226,4 @@ public class UserTokenEnhancer implements TokenEnhancer {
                 .tokenServices(tokenServices);
     }
 ```
-GitHub源码地址（jwt_token分支）：[https://github.com/mingyang66/spring-parent/tree/jwt_token/spring-security-oauth2-server-service](https://github.com/mingyang66/spring-parent/tree/jwt_token/spring-security-oauth2-server-service)
+GitHub源码地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service)

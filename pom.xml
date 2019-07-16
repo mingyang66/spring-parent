@@ -7,6 +7,8 @@
         <module>spring-security-jwt-service</module>
         <module>spring-common-service</module>
         <module>spring-security-oauth2-service</module>
+        <module>spring-security-oauth2-server-jwt-service</module>
+        <module>spring-security-oauth2-resource-jwt-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -14,10 +16,10 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
+    <groupId>com.yaomy</groupId>
     <artifactId>spring-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
+    <name>spring-parent</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

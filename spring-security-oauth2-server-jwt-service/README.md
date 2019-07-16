@@ -1,5 +1,5 @@
 # spring-parent
-<h3>Spring Security OAuth2</h3> 
+<h3>Spring Security OAuth2 JWT认证服务器配置</h3> 
 
 #### 1.四种授权模式
 - 授权码模式
@@ -33,8 +33,33 @@ http://localhost:9001/oauth/token?grant_type=authorization_code&code=XQfMUi&clie
 ```
 http://localhost:9001/oauth/token?grant_type=refresh_token&refresh_token=Beared5d74d532ba446b58f78186013f5e170&client_id=client&client_secret=secret
 ```
+#### 4.依赖pom
+```
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.0.10.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+```
 
-#### 4.认证服务器配置
+#### 5.认证服务器配置
 ```
 package com.yaomy.security.oauth2.config;
 
@@ -165,7 +190,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 }
 ```
 
-#### 5.自定义ClientDetailsService实现类
+#### 6.自定义ClientDetailsService实现类
 
 ```
 package com.yaomy.security.oauth2.service;
@@ -286,7 +311,7 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
 }
 ```
 
-#### 6.自定义WebSecurityConfigurerAdapter实现类
+#### 7.自定义WebSecurityConfigurerAdapter实现类
 
 ```
 package com.yaomy.security.oauth2.config;
@@ -415,7 +440,7 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
 }
 ```
 
-#### 7.自定义JWT token增强类
+#### 8.自定义JWT token增强类
 ```
 package com.yaomy.security.oauth2.enhancer;
 
@@ -468,7 +493,7 @@ public class UserTokenEnhancer extends JwtAccessTokenConverter {
     }
 }
 ```
-#### 8.用户自定义身份认证AuthenticationProvider
+#### 9.用户自定义身份认证AuthenticationProvider
 
 ```
 package com.yaomy.security.oauth2.provider;
@@ -533,5 +558,195 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 }
 ```
 
+#### 10.自定义登陆页面
+```
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+
+<style>
+    .login-container {
+        margin: 50px;
+        width: 100%;
+    }
+
+    .form-container {
+        margin: 0px auto;
+        width: 50%;
+        text-align: center;
+        box-shadow: 1px 1px 10px #888888;
+        height: 300px;
+        padding: 5px;
+    }
+
+    input {
+        margin-top: 10px;
+        width: 350px;
+        height: 30px;
+        border-radius: 3px;
+        border: 1px #E9686B solid;
+        padding-left: 2px;
+
+    }
+
+
+    .btn {
+        width: 350px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 3px;
+        background-color: #E9686B;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+
+    .title{
+        margin-top: 5px;
+        font-size: 18px;
+        color: #E9686B;
+    }
+</style>
+<body>
+<div class="login-container">
+    <div class="form-container">
+        <p class="title">用户登录</p>
+        <form name="loginForm" method="post" th:action="${loginProcessUrl}">
+            <input type="text" name="username" placeholder="用户名"/>
+            <br>
+            <input type="password" name="password" placeholder="密码"/>
+            <br>
+            <button type="submit" class="btn">登 &nbsp;&nbsp; 录</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+```
+
+#### 11.自定义授权页面
+```
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>授权</title>
+</head>
+<style>
+
+    html{
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .title {
+        background-color: #E9686B;
+        height: 50px;
+        padding-left: 20%;
+        padding-right: 20%;
+        color: white;
+        line-height: 50px;
+        font-size: 18px;
+    }
+    .title-left{
+        float: right;
+    }
+    .title-right{
+        float: left;
+    }
+    .title-left a{
+        color: white;
+    }
+    .container{
+        clear: both;
+        text-align: center;
+    }
+    .btn {
+        width: 350px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 3px;
+        background-color: #E9686B;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+</style>
+<body style="margin: 0px">
+<div class="title">
+    <div class="title-right">Spring Security 授权</div>
+    <div class="title-left">
+        <a href="#help">帮助</a>
+    </div>
+</div>
+<div class="container">
+    <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
+    <form method="post" action="/oauth/authorize">
+        <input type="hidden" name="user_oauth_approval" value="true">
+        <!--<input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>-->
+        <ul style="list-style-type: none">
+            <li th:each="s:${scope}">
+                <div class="form-group"><a th:text="${s}"></a>: <input type="radio" th:name="'scope.'+${s}" value="true">Approve(授权) <input type="radio" th:name="${s}" value="false" checked="">Deny（拒绝）</div>
+            </li>
+        </ul>
+        授权后表明你已同意 <a  href="#boot" style="color: #E9686B">服务协议</a><br>
+        <button class="btn" type="submit"> 同意/授权</button>
+    </form>
+</div>
+</body>
+</html>
+```
+
+#### 12.自定义授权重定向相关接口
+```
+package com.yaomy.security.oauth2.api;
+
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+/**
+ * @Description: 自定义登陆页面
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.api.GrantController
+ * @Date: 2019/7/10 16:28
+ * @Version: 1.0
+ */
+@Controller
+@SessionAttributes("authorizationRequest")
+public class GrantController {
+    @GetMapping("/test/login")
+    public String index(Model model) {
+        model.addAttribute("loginProcessUrl","/user/login");
+        return "login";
+    }
+    @RequestMapping("/custom/confirm_access")
+    public ModelAndView getAccessConfirmation(Map<String, Object> model, HttpServletRequest request) throws Exception {
+        AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
+        ModelAndView view = new ModelAndView();
+        view.setViewName("grant");
+        view.addObject("clientId", authorizationRequest.getClientId());
+        view.addObject("scope", authorizationRequest.getScope());
+        System.out.println(authorizationRequest.getScope());
+        System.out.println(authorizationRequest.getClientId());
+        return view;
+    }
+
+}
+```
 上面展示了主要得一些实现类，其他的一些辅助类可以参考源码：<br/>
 GitHub源码地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service)

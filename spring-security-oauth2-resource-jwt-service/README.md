@@ -1,7 +1,28 @@
 # spring-parent
 <h3>Spring Security OAuth2 JWT资源服务器配置</h3> 
 
-#### 1.添加资源服务器配置
+#### 1.POM相关依赖
+```
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.0.10.RELEASE</version>
+        </dependency>
+```
+#### 2.添加资源服务器配置
 ```package com.yaomy.security.resource.config;
    
    import org.springframework.context.annotation.Bean;
@@ -93,7 +114,7 @@
 @EnableResourceServer注解实际上相当于在拦截器链之中帮我们加上了OAuth2AuthenticationProcessingFilter过滤器，拦截器会拦截参数中的access_token及Header头中是否
 添加有Authorization，并且Authorization是以Bearer开头的access_token才能够识别；过滤器中相关的接口有TokenExtractor，其实现类是BearerTokenExtractor。
 
-#### 2.新增资源服务接口
+#### 3.新增资源服务接口
 ```
 package com.yaomy.security.resource.api;
 
@@ -124,7 +145,7 @@ public class ResourceController {
 }
 ```
 
-#### 3.启动服务类
+#### 4.启动服务类
 
 ```
 package com.yaomy.security.resource;

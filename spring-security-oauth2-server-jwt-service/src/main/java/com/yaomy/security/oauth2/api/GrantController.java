@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * @Description: Description
+ * @Description: 自定义登陆页面
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.api.GrantController
- * @Author: 姚明洋
  * @Date: 2019/7/10 16:28
  * @Version: 1.0
  */

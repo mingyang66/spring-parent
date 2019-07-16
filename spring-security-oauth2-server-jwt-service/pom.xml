@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.security</groupId>
-    <artifactId>spring-security-oauth2-service</artifactId>
+    <artifactId>spring-security-oauth2-server-jwt-service</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

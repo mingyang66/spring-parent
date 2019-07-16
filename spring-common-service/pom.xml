@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy</groupId>
-    <artifactId>common</artifactId>
+    <artifactId>spring-common-service</artifactId>
 
 
 </project>

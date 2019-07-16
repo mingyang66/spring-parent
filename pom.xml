@@ -6,7 +6,7 @@
     <modules>
         <module>spring-security-jwt-service</module>
         <module>spring-common-service</module>
-        <module>spring-security-oauth2-service</module>
+        <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>
         <module>spring-security-oauth2-resource-jwt-service</module>
     </modules>

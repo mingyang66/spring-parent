@@ -533,5 +533,5 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 }
 ```
 
-上面展示了主要得一些实现类，其他的一些辅助类可以参考源码：
+上面展示了主要得一些实现类，其他的一些辅助类可以参考源码：<br/>
 GitHub源码地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service)

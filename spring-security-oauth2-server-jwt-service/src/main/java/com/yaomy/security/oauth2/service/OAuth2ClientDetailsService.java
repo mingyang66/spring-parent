@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 /**
- * @Description: Description
+ * @Description: 自定义client详细信息类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.service.OAuth2ClientDetailsService
  * @Author: 姚明洋

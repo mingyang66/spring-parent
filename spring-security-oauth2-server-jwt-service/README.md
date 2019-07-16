@@ -33,169 +33,63 @@ http://localhost:9001/oauth/token?grant_type=authorization_code&code=XQfMUi&clie
 ```
 http://localhost:9001/oauth/token?grant_type=refresh_token&refresh_token=Beared5d74d532ba446b58f78186013f5e170&client_id=client&client_secret=secret
 ```
-* 通过refresh_token获取新的access_token时可以自定义用户信息验证service
-```
-package com.yaomy.security.oauth2.po;
 
+#### 4.认证服务器配置
+```
+package com.yaomy.security.oauth2.config;
+
+import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
+import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * @Description: 用户认证
- * @ProjectName: spring-parent
- * @Package: com.yaomy.security.po.User
- * @Date: 2019/6/28 17:37
- * @Version: 1.0
- */
-@Component
-public class AuthUserDetailsService implements UserDetailsService {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    /**
-     * @Description 根据用户名查询用户角色、权限等信息
-     * @Date 2019/7/1 14:50
-     * @Version  1.0
-     */
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("---用户信息验证----"+username);
-        /**
-         isEnabled 账户是否启用
-         isAccountNonExpired 账户没有过期
-         isCredentialsNonExpired 身份认证是否是有效的
-         isAccountNonLocked 账户没有被锁定
-         */
-         return new User(username, passwordEncoder.encode("123"),
-                true,
-                true,
-                true,
-                true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE"));
-    }
-
-}
-```
->在Security OAuth2授权服务配置类中添加上自定义的用户信息校验类
-```
-  /**
-     用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
-     */
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
-                .approvalStore(approvalStore)
-                //通过authenticationManager开启密码授权
-                .authenticationManager(authenticationManager)
-                //自定义token生成
-                .tokenEnhancer(tokenEnhancer())
-                //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
-                .userDetailsService(authUserDetailsService);
-    }
-```
-
-#### 4.自定义token生成
-
-* 自定义一个实现TokenEnhancer接口的token增强器
-```
-package com.yaomy.security.oauth2.enhancer;
-
-import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.core.userdetails.User;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
- * @Description: 用户自定义token令牌，包括access_token和refresh_token
+ * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
- * @Date: 2019/7/9 19:43
+ * @Package: com.yaomy.security.oauth2.config.AuthorizationServerConfig
+ * @Date: 2019/7/9 11:26
  * @Version: 1.0
  */
-public class UserTokenEnhancer implements TokenEnhancer {
+@Configuration
+@EnableAuthorizationServer
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private OAuth2ClientDetailsService oAuth2ClientDetailsService;
+    @Autowired
+    private AuthUserDetailsService authUserDetailsService;
     /**
-     * @Description 重新定义令牌token
-     * @Date 2019/7/9 19:56
-     * @Version  1.0
+     用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里初始化，
+     你可以把客户端详情信息写死也可以写入内存或者数据库中
      */
     @Override
-    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-       if(accessToken instanceof DefaultOAuth2AccessToken){
-           DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-           token.setValue(getToken());
-           OAuth2RefreshToken refreshToken = token.getRefreshToken();
-           if(refreshToken instanceof DefaultOAuth2RefreshToken){
-               token.setRefreshToken(new DefaultOAuth2RefreshToken(getToken()));
-           }
-           Map<String, Object> additionalInformation = Maps.newHashMap();
-           additionalInformation.put("client_id", authentication.getOAuth2Request().getClientId());
-           token.setAdditionalInformation(additionalInformation);
-           return token;
-       }
-        return accessToken;
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        //使用自定义ClientDetailsService初始化配置
+        clients.withClientDetails(oAuth2ClientDetailsService);
     }
-    /**
-     * @Description 生成自定义token
-     * @Date 2019/7/9 19:50
-     * @Version  1.0
-     */
-    private String getToken(){
-        return StringUtils.join("Beare", UUID.randomUUID().toString().replace("-", ""));
-    }
-}
-```
-
-* 将自定义的token增强器加入IOC容器中
-```
-    /**
-     * @Description 自定义生成令牌token
-     * @Date 2019/7/9 19:58
-     * @Version  1.0
-     */
-    @Bean
-    public TokenEnhancer tokenEnhancer(){
-        return new UserTokenEnhancer();
-    }
-```
-* 将token增强器加入授权配置端点
-```
-   /**
-     用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
-     */
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
-                .approvalStore(approvalStore)
-                //通过authenticationManager开启密码授权
-                .authenticationManager(authenticationManager)
-                //自定义token生成
-                .tokenEnhancer(tokenEnhancer())
-                //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
-                .userDetailsService(authUserDetailsService);
-    }
-    
-```
-
-#### 5.自定义token过期时长
-
-```
     /**
      用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
      */
@@ -204,16 +98,16 @@ public class UserTokenEnhancer implements TokenEnhancer {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         //token持久化容器
         tokenServices.setTokenStore(tokenStore());
-        //是否支持refresh_token，默认false
-        tokenServices.setSupportRefreshToken(true);
         //客户端信息
         tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
         //自定义token生成
-        tokenServices.setTokenEnhancer(tokenEnhancer());
+        tokenServices.setTokenEnhancer(accessTokenConverter());
         //access_token 的有效时长 (秒), 默认 12 小时
         tokenServices.setAccessTokenValiditySeconds(60*15);
         //refresh_token 的有效时长 (秒), 默认 30 天
         tokenServices.setRefreshTokenValiditySeconds(60*20);
+        //是否支持refresh_token，默认false
+        tokenServices.setSupportRefreshToken(true);
         //是否复用refresh_token,默认为true(如果为false,则每次请求刷新都会删除旧的refresh_token,创建新的refresh_token)
         tokenServices.setReuseRefreshToken(true);
 
@@ -223,7 +117,421 @@ public class UserTokenEnhancer implements TokenEnhancer {
                 //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
                 .userDetailsService(authUserDetailsService)
                 //token相关服务
-                .tokenServices(tokenServices);
+                .tokenServices(tokenServices)
+                //控制TokenEndpoint端点请求访问的类型，默认HttpMethod.POST
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                /**
+                 pathMapping用来配置端点URL链接，第一个参数是端点URL默认地址，第二个参数是你要替换的URL地址
+                 上面的参数都是以“/”开头，框架的URL链接如下：
+                 /oauth/authorize：授权端点。----对应的类：AuthorizationEndpoint.java
+                 /oauth/token：令牌端点。----对应的类：TokenEndpoint.java
+                 /oauth/confirm_access：用户确认授权提交端点。----对应的类：WhitelabelApprovalEndpoint.java
+                 /oauth/error：授权服务错误信息端点。
+                 /oauth/check_token：用于资源服务访问的令牌解析端点。
+                 /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
+                 */
+                .pathMapping("/oauth/confirm_access", "/custom/confirm_access");
     }
+    /**
+     用来配置令牌端点（Token Endpoint）的安全约束
+     */
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.realm("OAuth2-Sample")
+                .allowFormAuthenticationForClients()
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("permitAll()");
+    }
+    /**
+     * @Description OAuth2 token持久化接口
+     * @Date 2019/7/9 17:45
+     * @Version  1.0
+     */
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(accessTokenConverter());
+    }
+    /**
+     * @Description 自定义token令牌增强器
+     * @Date 2019/7/11 16:22
+     * @Version  1.0
+     */
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter(){
+        JwtAccessTokenConverter accessTokenConverter = new UserTokenEnhancer();
+        accessTokenConverter.setSigningKey("123");
+        return accessTokenConverter;
+    }
+}
 ```
+
+#### 5.自定义ClientDetailsService实现类
+
+```
+package com.yaomy.security.oauth2.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+
+/**
+ * @Description: 自定义client详细信息类
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.service.OAuth2ClientDetailsService
+ * @Author: 姚明洋
+ * @Date: 2019/7/9 16:25
+ * @Version: 1.0
+ */
+@Service
+public class OAuth2ClientDetailsService implements ClientDetailsService {
+
+    private ClientDetailsService clientDetailsService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    /**
+     被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器调用一次，类似于Serclet的inti()方法。
+     被@PostConstruct修饰的方法会在构造函数之后，init()方法之前运行。
+     */
+    @PostConstruct
+    public void init(){
+        InMemoryClientDetailsServiceBuilder inMemoryClientDetailsServiceBuilder = new InMemoryClientDetailsServiceBuilder();
+        inMemoryClientDetailsServiceBuilder
+                    .withClient("auth_code")
+                    // client secret
+                    .secret(passwordEncoder.encode("secret"))
+                    /**
+                     ----支持的认证授权类型----
+                     示例（授权码）：http://localhost:9001/oauth/authorize?client_id=auth_code&response_type=code&redirect_uri=http://localhost:9001/auth_user/get_auth_code
+                     示例（access_token）：http://localhost:9001/oauth/token?grant_type=authorization_code&code=kb04Ur&client_id=auth_code&client_secret=secret&redirect_uri=http://localhost:9001/auth_user/get_auth_code
+                     refresh_token示例：http://localhost:9001/oauth/token?client_id=auth_code&client_secret=secret&grant_type=refresh_token&refresh_token=xxxx
+                     授权码模式（authorization_code）
+                     --client_id：客户端ID，必选
+                     --response_type：必须为code，必选
+                     --redirect_uri：回掉url,必选
+                     简化模式（implicit）
+                     密码模式（password）
+                     客户端模式（client_credentials）
+                     */
+                    .authorizedGrantTypes("authorization_code","password", "implicit", "client_credentials", "refresh_token")
+                    //回调uri，在authorization_code与implicit授权方式时，用以接收服务器的返回信息
+                    .redirectUris("http://localhost:9001/auth_user/get_auth_code")
+                    // 允许的授权范围
+                    .scopes("insert","update","del", "select", "replace")
+                .and()
+                    .withClient("client_password")
+                    //client secret
+                    .secret(passwordEncoder.encode("secret"))
+                    /**
+                     ----密码模式---
+                     自己有一套账号权限体系在认证服务器中对应,客户端认证的时候需要带上自己的用户名和密码
+                     示例：http://localhost:9001/oauth/token?username=user&password=123&grant_type=password&client_id=client_password&client_secret=secret
+                     refresh_token示例：http://localhost:9001/oauth/token?grant_type=refresh_token&refresh_token=xxx&client_id=client_password&client_secret=secret
+                     --client_id：客户端ID，必选
+                     --client_secret：客户端密码，必选
+                     --grant_type：必须为password，必选
+                     --username:用户名，必选
+                     --password:密码，必选
+                     */
+                    .authorizedGrantTypes("password","refresh_token")
+                    //资源ID
+                    .resourceIds("resource_password_id")
+                    // 允许的授权范围
+                    .scopes("test","ceshi")
+                .and()
+                    .withClient("client")
+                    //client secret
+                    .secret(passwordEncoder.encode("secret"))
+                    /**
+                     ---clent模式---
+                     没有用户的概念，直接与认证服务器交互，用配置中的用户信息去申请access_token,客户端有自己的client_id、client_secret对应于用户的username、password,
+                     客户端拥有自己的authorities，采用client模式认证，客户端的权限就是客户端自己的权限
+                     示例：http://localhost:9001/oauth/token?grant_type=client_credentials&scope=insert&client_id=client&client_secret=secret
+                     --client_id：客户端ID，必选
+                     --client_secret：客户端密码，必选
+                     --grant_type：必须为password，必选
+                     --scope：授权范围，必选
+                     */
+                    .authorizedGrantTypes("client_credentials","refresh_token")
+                    //允许的授权范围
+                    .scopes("insert","del", "update")
+                .and()
+                    .withClient("client_implicit")
+                    /**
+                     ---授权模式：极简模式---
+                     示例:http://localhost:9001/oauth/authorize?client_id=client_implicit&response_type=token&redirect_uri=http://localhost:9001/auth_user/get_auth_code
+                     */
+                    .authorizedGrantTypes("implicit")
+                    //回调uri，在authorization_code与implicit授权方式时，用以接收服务器的返回信息
+                    .redirectUris("http://localhost:9001/auth_user/get_auth_code")
+                    //允许的授权范围
+                    .scopes("del","update");
+        try{
+            clientDetailsService = inMemoryClientDetailsServiceBuilder.build();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    @Override
+    public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+        System.out.println("--------clientId-------------"+clientId);
+        return clientDetailsService.loadClientByClientId(clientId);
+    }
+}
+```
+
+#### 6.自定义WebSecurityConfigurerAdapter实现类
+
+```
+package com.yaomy.security.oauth2.config;
+
+import com.yaomy.security.oauth2.handler.*;
+import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+/**
+ * @Description: 启动基于Spring Security的安全认证
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.config.WebSecurityConfigurer
+ * @Date: 2019/7/8 17:43
+ * @Version: 1.0
+ */
+@Configuration
+@EnableWebSecurity
+public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private AuthUserDetailsService authUserDetailsService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserAccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    private UserAuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private UserAuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    private UserAuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private UserLogoutSuccessHandler logoutSuccessHandler;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+            http
+                    //指定支持基于表单的身份验证。如果未指定FormLoginConfigurer#loginPage(String)，则将生成默认登录页面
+                .formLogin()
+                    //自定义登录页url,默认为/login
+                    .loginPage("/test/login")
+                    //登录请求拦截的url,也就是form表单提交时指定的action
+                    .loginProcessingUrl("/user/login")
+                    //用户名的请求字段 username
+                    .usernameParameter("username")
+                    // 密码的请求字段 默认为password
+                    .passwordParameter("password")
+                    // 登录成功
+                   // .successHandler(authenticationSuccessHandler)
+                    // 登录失败
+                    .failureHandler(authenticationFailureHandler)
+                    //无条件允许访问
+                    .permitAll()
+                .and()
+                    .requestMatchers()
+                    .anyRequest()
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/oauth/**")
+                    .permitAll()
+              /*  .and()
+                    //其它的请求要求必须有身份认证
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()*/
+                .and()
+                    .logout()
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    .permitAll()
+                .and()
+                    //认证过的用户访问无权限资源时的处理
+                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+            http.csrf().disable();
+    }
+    /**
+     * @Description Spring Security认证服务中的相关实现重新定义
+     * @Date 2019/7/4 17:40
+     * @Version  1.0
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 加入自定义的安全认证
+        auth.userDetailsService(this.authUserDetailsService).passwordEncoder(this.passwordEncoder());
+        auth.authenticationProvider(this.authenticationProvider());
+    }
+    /**
+     * @Description 需要主动暴漏AuthenticationManager，否则会报异常
+     * @Date 2019/7/12 13:42
+     * @Version  1.0
+     */
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    /**
+     * @Description Spring security认证Bean
+     * @Date 2019/7/4 17:39
+     * @Version  1.0
+     */
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+        AuthenticationProvider authenticationProvider = new UserAuthenticationProvider();
+        return authenticationProvider;
+    }
+    /**
+     * @Description 自定义加密器
+     * @Date 2019/7/10 15:07
+     * @Version  1.0
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+}
+```
+
+#### 7.自定义JWT token增强类
+```
+package com.yaomy.security.oauth2.enhancer;
+
+import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.Map;
+
+/**
+ * @Description: 用户自定义token令牌，包括access_token和refresh_token
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
+ * @Date: 2019/7/9 19:43
+ * @Version: 1.0
+ */
+public class UserTokenEnhancer extends JwtAccessTokenConverter {
+    /**
+     * @Description 重新定义令牌token
+     * @Date 2019/7/9 19:56
+     * @Version  1.0
+     */
+    @Override
+    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        //授权类型 authorization_code、password、client_credentials、refresh_token、implicit
+        String grantType = authentication.getOAuth2Request().getGrantType();
+        if(!StringUtils.equals(grantType, "client_credentials")){
+            String userName = authentication.getUserAuthentication().getName();
+            // 与登录时候放进去的UserDetail实现类一直查看link{SecurityConfiguration}
+            Object principal = authentication.getUserAuthentication().getPrincipal();
+            /**
+             自定义一些token属性
+             **/
+            Map<String, Object> additionalInformation = Maps.newHashMap();
+            additionalInformation.put("username", userName);
+            if(principal instanceof User){
+                additionalInformation.put("principal", ((User)principal).getAuthorities());
+            } else {
+                additionalInformation.put("principal", principal);
+            }
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
+
+        }
+        OAuth2AccessToken enhancedToken = super.enhance(accessToken, authentication);
+        return enhancedToken;
+    }
+}
+```
+#### 8.用户自定义身份认证AuthenticationProvider
+
+```
+package com.yaomy.security.oauth2.provider;
+
+import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+
+/**
+ * @Description: 用户自定义身份认证
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.provider.MyAuthenticationProvider
+ * @Date: 2019/7/2 17:17
+ * @Version: 1.0
+ */
+@Component
+public class UserAuthenticationProvider implements AuthenticationProvider {
+    @Autowired
+    private AuthUserDetailsService authUserDetailsService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    /**
+     * @Description 认证处理，返回一个Authentication的实现类则代表认证成功，返回null则代表认证失败
+     * @Date 2019/7/5 15:19
+     * @Version  1.0
+     */
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String username = authentication.getName();
+        String password = (String) authentication.getCredentials();
+        //获取用户信息
+        UserDetails user = authUserDetailsService.loadUserByUsername(username);
+        //比较前端传入的密码明文和数据库中加密的密码是否相等
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new DisabledException("用户密码不正确");
+        }
+        //获取用户权限信息
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+
+    }
+    /**
+     * @Description 如果该AuthenticationProvider支持传入的Authentication对象，则返回true
+     * @Date 2019/7/5 15:18
+     * @Version  1.0
+     */
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return aClass.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+}
+```
+
+上面展示了主要得一些实现类，其他的一些辅助类可以参考源码：
 GitHub源码地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-jwt-service)

@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Version: 1.0
  */
 @SpringBootApplication(scanBasePackages = {"com.yaomy.security.resource"})
-public class ResourceBootStrap {
+public class ResourceJwtBootStrap {
     public static void main(String[] args) {
-        SpringApplication.run(ResourceBootStrap.class, args);
+        SpringApplication.run(ResourceJwtBootStrap.class, args);
     }
 }

@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Version: 1.0
  */
 @SpringBootApplication(scanBasePackages = {"com.yaomy.security.oauth2"})
-public class OAuth2BootStrap {
+public class OAuth2JwtBootStrap {
     public static void main(String[] args) {
-        SpringApplication.run(OAuth2BootStrap.class, args);
+        SpringApplication.run(OAuth2JwtBootStrap.class, args);
     }
 }

@@ -6,6 +6,8 @@
 - 密码模式
 - 客户端模式
 - 简化模式
+
+***
 #### 2.密码模式
 
 ```
@@ -15,6 +17,8 @@ http://localhost:9001/oauth/token?username=user&password=user&grant_type=passwor
 - username：表示用户名，必选<br>
 - password：表示用户密码，必选<br>
 - scope：权限范围，可选<br>
+***
+
 #### 3.授权码模式
 - client_id：客户端ID，必选
 - response_type：必须为code，必选
@@ -103,6 +107,7 @@ public class AuthUserDetailsService implements UserDetailsService {
                 .userDetailsService(authUserDetailsService);
     }
 ```
+***
 
 #### 4.自定义token生成
 
@@ -192,6 +197,7 @@ public class UserTokenEnhancer implements TokenEnhancer {
     }
     
 ```
+***
 
 #### 5.自定义token过期时长
 
@@ -393,9 +399,9 @@ spring.redis.jedis.pool.max-active=8
 
 * RedisConnectionFactory可以通过如下三个配置类应用在不同的应用场景
 
- 1.RedisStandaloneConfiguration:RedisConnectionFactory工厂类单机模式的配置类<br>
- 2.RedisSentinelConfiguration：RedisConnectionFactory工厂类高可用模式的配置类<br>
- 3.RedisClusterConfiguration：RedisConnectionFactory工厂类集群模式的配置类<br>
+ 1. RedisStandaloneConfiguration:RedisConnectionFactory工厂类单机模式的配置类<br>
+ 2. RedisSentinelConfiguration：RedisConnectionFactory工厂类高可用模式的配置类<br>
+ 3. RedisClusterConfiguration：RedisConnectionFactory工厂类集群模式的配置类<br>
  
  ***
  

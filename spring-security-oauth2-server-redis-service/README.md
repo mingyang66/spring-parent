@@ -227,6 +227,8 @@ public class UserTokenEnhancer implements TokenEnhancer {
     }
 ```
 
+***
+
 #### 6.认证服务器配置--token存入redis缓存
 ```
 - 使用Redis缓存需要引入的依赖
@@ -382,14 +384,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 }
 ```
+替换的核心是将InMemoryTokenStore对象更换为RedisTokenStore对象，并传递一个RedisConnectionFactory接口，接口的具体实现类是JedisConnectionFactory类；<br>
 
->>替换的核心是将InMemoryTokenStore对象更换为RedisTokenStore对象，并传递一个RedisConnectionFactory接口，接口的具体实现类是JedisConnectionFactory类；
+
 - Redis缓存配置
 ```
 ##单机应用环境配置
 spring.redis.host=127.0.0.1
 spring.redis.port=6379
 #spring.redis.password=
+##Redis数据库索引，默认0
 spring.redis.database=0
 #spring.redis.timeout=
 
@@ -403,4 +407,8 @@ spring.redis.jedis.pool.max-wait=-1ms
 ##连接池最大连接数（使用负值表示没有限制），默认8
 spring.redis.jedis.pool.max-active=8
 ```
+
+* RedisConnectionFactory可以通过如下三个配置类应用在不同的应用场景
+
+* RedisStandaloneConfiguration
 

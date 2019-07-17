@@ -7,3 +7,4 @@
 - spring-security-oauth2-server-jwt-service (OAuth2 JWT模式下认证服务器)
 - spring-security-oauth2-resource-jwt-service（OAuth2 JWT模式下资源服务器）
 - spring-security-oauth2-server-redis-service （OAuth2 Redis模式下认证服务器）
+- spring-security-oauth2-resource-redis-service （OAuth2 Redis模式下资源服务器）

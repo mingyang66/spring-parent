@@ -405,4 +405,5 @@ spring.redis.jedis.pool.max-active=8
  
  ***
  
+ GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

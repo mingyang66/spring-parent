@@ -230,7 +230,7 @@ public class UserTokenEnhancer implements TokenEnhancer {
 ***
 
 #### 6.认证服务器配置--token存入redis缓存
-```
+
 - 使用Redis缓存需要引入的依赖
 
 ```
@@ -353,24 +353,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //return new InMemoryTokenStore();
         return new RedisTokenStore(redisConnectionFactory);
     }
-    /**
-     * @Description ApprovalStore用户保存、检索和撤销用户审批的界面
-     * @Author 姚明洋
-     * @Date 2019/7/11 14:11
-     * @Version  1.0
-     */
-/*    @Bean
-    public ApprovalStore approvalStore() throws Exception {
-        TokenApprovalStore store = new TokenApprovalStore();
-        store.setTokenStore(tokenStore());
-        return store;
-    }*/
-/*    @Bean
-    public UserApprovalHandler userApprovalHandler1(){
-        TokenStoreUserApprovalHandler userApprovalHandler = new TokenStoreUserApprovalHandler();
-        userApprovalHandler.setTokenStore(tokenStore());
-        return userApprovalHandler;
-    }*/
+
     /**
      * @Description 自定义生成令牌token
      * @Date 2019/7/9 19:58
@@ -384,7 +367,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 }
 ```
-替换的核心是将InMemoryTokenStore对象更换为RedisTokenStore对象，并传递一个RedisConnectionFactory接口，接口的具体实现类是JedisConnectionFactory类；<br>
+>>替换的核心是将InMemoryTokenStore对象更换为RedisTokenStore对象，并传递一个RedisConnectionFactory接口，接口的具体实现类是JedisConnectionFactory类；<br>
 
 
 - Redis缓存配置
@@ -410,5 +393,10 @@ spring.redis.jedis.pool.max-active=8
 
 * RedisConnectionFactory可以通过如下三个配置类应用在不同的应用场景
 
-* RedisStandaloneConfiguration
+ 1.RedisStandaloneConfiguration:RedisConnectionFactory工厂类单机模式的配置类<br>
+ 2.RedisSentinelConfiguration：RedisConnectionFactory工厂类高可用模式的配置类<br>
+ 3.RedisClusterConfiguration：RedisConnectionFactory工厂类集群模式的配置类<br>
+ 
+ ***
+ 
 

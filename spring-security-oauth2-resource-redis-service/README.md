@@ -165,4 +165,4 @@ public class ResourceController {
 
 ***
 
-GitHub源码：[]()
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service)

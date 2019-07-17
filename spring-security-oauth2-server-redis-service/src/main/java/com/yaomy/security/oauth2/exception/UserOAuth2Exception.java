@@ -5,10 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
- * @Description: Description
+ * @Description: 异常处理类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.exception.UserOAuth2Exception
- * @Author: 姚明洋
  * @Date: 2019/7/17 15:29
  * @Version: 1.0
  */

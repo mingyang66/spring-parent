@@ -405,5 +405,283 @@ spring.redis.jedis.pool.max-active=8
  
  ***
  
+ ### Spring Security OAuth2 认证服务器自定义异常处理
+ 
+ 认证服务器默认返回的数据格式如下：
+ ```
+ {
+     "error": "unsupported_grant_type",
+     "error_description": "Unsupported grant type: password1"
+ }
+ ```
+ 上面的返回结果很不友好，而且前端代码也很难判断是什么错误，所以我们需要对返回的错误进行统一的异常处理
+ 
+ #### 1.默认的异常处理器
+ 默认情况是使用WebResponseExceptionTranslator接口的实现类DefaultWebResponseExceptionTranslator对抛出的异常进行处理；所以可以通过WebResponseExceptionTranslator
+ 接口来入手，实现接口的方法对异常进行处理。
+ 
+ ***
+ 
+ #### 2.定义继承OAuth2Exception的异常类
+ ```
+ package com.yaomy.security.oauth2.exception;
+ 
+ 
+ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+ 
+ /**
+  * @Description: 异常处理类
+  * @ProjectName: spring-parent
+  * @Package: com.yaomy.security.oauth2.exception.UserOAuth2Exception
+  * @Date: 2019/7/17 15:29
+  * @Version: 1.0
+  */
+ @JsonSerialize(using = UserOAuth2ExceptionSerializer.class)
+ public class UserOAuth2Exception extends OAuth2Exception {
+     public UserOAuth2Exception(String message, Throwable t) {
+         super(message, t);
+     }
+ 
+     public UserOAuth2Exception(String message) {
+         super(message);
+     }
+ 
+ }
+```
+
+***
+
+#### 3.定义序列化实现类
+```
+package com.yaomy.security.oauth2.exception;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.springframework.web.util.HtmlUtils;
+
+import java.io.IOException;
+import java.util.Map;
+
+/**
+ * @Description: 序列化异常类
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.exception.BootOAuthExceptionJacksonSerializer
+ * @Date: 2019/7/17 15:32
+ * @Version: 1.0
+ */
+public class UserOAuth2ExceptionSerializer extends StdSerializer<UserOAuth2Exception> {
+
+    protected UserOAuth2ExceptionSerializer() {
+        super(UserOAuth2Exception.class);
+    }
+    @Override
+    public void serialize(UserOAuth2Exception e, JsonGenerator generator, SerializerProvider serializerProvider) throws IOException {
+        generator.writeStartObject();
+        generator.writeObjectField("status", e.getHttpErrorCode());
+        String message = e.getMessage();
+        if (message != null) {
+            message = HtmlUtils.htmlEscape(message);
+        }
+        generator.writeStringField("message", message);
+        if (e.getAdditionalInformation()!=null) {
+            for (Map.Entry<String, String> entry : e.getAdditionalInformation().entrySet()) {
+                String key = entry.getKey();
+                String add = entry.getValue();
+                generator.writeStringField(key, add);
+            }
+        }
+        generator.writeEndObject();
+    }
+}
+```
+***
+
+#### 4.自定义实现异常转换类
+```
+package com.yaomy.security.oauth2.exception;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
+import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.web.util.ThrowableAnalyzer;
+import org.springframework.stereotype.Component;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+
+import java.io.IOException;
+
+/**
+ * @Description: 资源服务器异常自定义捕获
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.exception.OAuth2ServerWebResponseExceptionTranslator
+ * @Date: 2019/7/17 14:49
+ * @Version: 1.0
+ */
+@Component
+public class UserOAuth2WebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+    private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
+
+    @Override
+    public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+        Throwable[] causeChain = this.throwableAnalyzer.determineCauseChain(e);
+        Exception ase = (OAuth2Exception)this.throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
+        //异常链中有OAuth2Exception异常
+        if (ase != null) {
+            return this.handleOAuth2Exception((OAuth2Exception)ase);
+        }
+        //身份验证相关异常
+        ase = (AuthenticationException)this.throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class, causeChain);
+        if (ase != null) {
+            return this.handleOAuth2Exception(new UserOAuth2WebResponseExceptionTranslator.UnauthorizedException(e.getMessage(), e));
+        }
+        //异常链中包含拒绝访问异常
+        ase = (AccessDeniedException)this.throwableAnalyzer.getFirstThrowableOfType(AccessDeniedException.class, causeChain);
+        if (ase instanceof AccessDeniedException) {
+            return this.handleOAuth2Exception(new UserOAuth2WebResponseExceptionTranslator.ForbiddenException(ase.getMessage(), ase));
+        }
+        //异常链中包含Http方法请求异常
+        ase = (HttpRequestMethodNotSupportedException)this.throwableAnalyzer.getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
+        if(ase instanceof HttpRequestMethodNotSupportedException){
+            return this.handleOAuth2Exception(new UserOAuth2WebResponseExceptionTranslator.MethodNotAllowed(ase.getMessage(), ase));
+        }
+        return this.handleOAuth2Exception(new UserOAuth2WebResponseExceptionTranslator.ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
+    }
+
+    private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) throws IOException {
+        int status = e.getHttpErrorCode();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cache-Control", "no-store");
+        headers.set("Pragma", "no-cache");
+        if (status == HttpStatus.UNAUTHORIZED.value() || e instanceof InsufficientScopeException) {
+            headers.set("WWW-Authenticate", String.format("%s %s", "Bearer", e.getSummary()));
+        }
+        UserOAuth2Exception exception = new UserOAuth2Exception(e.getMessage(),e);
+        ResponseEntity<OAuth2Exception> response = new ResponseEntity(exception, headers, HttpStatus.valueOf(status));
+        return response;
+    }
+
+
+    private static class MethodNotAllowed extends OAuth2Exception {
+        public MethodNotAllowed(String msg, Throwable t) {
+            super(msg, t);
+        }
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "method_not_allowed";
+        }
+        @Override
+        public int getHttpErrorCode() {
+            return 405;
+        }
+    }
+
+    private static class UnauthorizedException extends OAuth2Exception {
+        public UnauthorizedException(String msg, Throwable t) {
+            super(msg, t);
+        }
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "unauthorized";
+        }
+        @Override
+        public int getHttpErrorCode() {
+            return 401;
+        }
+    }
+
+    private static class ServerErrorException extends OAuth2Exception {
+        public ServerErrorException(String msg, Throwable t) {
+            super(msg, t);
+        }
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "server_error";
+        }
+        @Override
+        public int getHttpErrorCode() {
+            return 500;
+        }
+    }
+
+    private static class ForbiddenException extends OAuth2Exception {
+        public ForbiddenException(String msg, Throwable t) {
+            super(msg, t);
+        }
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "access_denied";
+        }
+        @Override
+        public int getHttpErrorCode() {
+            return 403;
+        }
+    }
+}
+```
+
+***
+
+#### 5.将自定义异常处理类添加到认证服务器配置
+```
+package com.yaomy.security.oauth2.config;
+
+import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
+import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
+import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
+import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+/**
+ * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.config.OAuth2ServerConfig
+ * @Date: 2019/7/9 11:26
+ * @Version: 1.0
+ */
+@Configuration
+@EnableAuthorizationServer
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    private WebResponseExceptionTranslator webResponseExceptionTranslator;
+   
+    /**
+     用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+       ...
+
+        endpoints.exceptionTranslator(webResponseExceptionTranslator);
+        ...
+    }
+    ...
+
+}
+```
+ 
+ ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

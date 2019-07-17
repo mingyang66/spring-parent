@@ -89,6 +89,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                  /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
                  */
                 .pathMapping("/oauth/confirm_access", "/custom/confirm_access")
+                //自定义异常转换处理类
                 .exceptionTranslator(webResponseExceptionTranslator);
     }
     /**

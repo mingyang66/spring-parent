@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * @Description: Description
+ * @Description: 序列化异常类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.exception.BootOAuthExceptionJacksonSerializer
  * @Date: 2019/7/17 15:32

@@ -30,7 +30,6 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private OAuth2ClientDetailsService oAuth2ClientDetailsService;
     @Autowired

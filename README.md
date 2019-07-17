@@ -1,7 +1,9 @@
 # spring-parent
 <h3>Spring相关项目</h3> 
 
-- Spring Security集成JWT
-- Spring Security集成OAuth2
-- Spring Security+OAuth2+jwt认证服务器（jwt_token分支）
-- Spring Security+OAuth2+jwt资源服务器（jwt_token分支）
+- spring-common-service（公用工具类）
+- spring-redis-service（Redis相关工具类）
+- spring-security-jwt-service （Security JWT模式下认证服务器）
+- spring-security-oauth2-server-jwt-service (OAuth2 JWT模式下认证服务器)
+- spring-security-oauth2-resource-jwt-service（OAuth2 JWT模式下资源服务器）
+- spring-security-oauth2-server-redis-service （OAuth2 Redis模式下认证服务器）

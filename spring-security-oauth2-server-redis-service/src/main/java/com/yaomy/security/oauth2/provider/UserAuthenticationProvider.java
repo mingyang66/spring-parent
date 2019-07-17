@@ -2,16 +2,17 @@ package com.yaomy.security.oauth2.provider;
 
 import com.yaomy.security.oauth2.po.AuthUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Component;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.Collection;
 
 /**
@@ -40,7 +41,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         UserDetails user = authUserDetailsService.loadUserByUsername(username);
         //比较前端传入的密码明文和数据库中加密的密码是否相等
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new DisabledException("用户密码不正确");
+            throw new DisabledException("密码不正确");
         }
         //获取用户权限信息
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

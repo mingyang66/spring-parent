@@ -1,6 +1,8 @@
 package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
+import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
+import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
 import com.yaomy.security.oauth2.po.AuthUserDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -36,6 +39,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthUserDetailsService authUserDetailsService;
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+    @Autowired
+    private WebResponseExceptionTranslator webResponseExceptionTranslator;
     /**
      用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里初始化，
      你可以把客户端详情信息写死也可以写入内存或者数据库中
@@ -83,7 +88,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                  /oauth/check_token：用于资源服务访问的令牌解析端点。
                  /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
                  */
-                .pathMapping("/oauth/confirm_access", "/custom/confirm_access");
+                .pathMapping("/oauth/confirm_access", "/custom/confirm_access")
+                .exceptionTranslator(webResponseExceptionTranslator);
     }
     /**
      用来配置令牌端点（Token Endpoint）的安全约束

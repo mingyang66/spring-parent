@@ -24,4 +24,10 @@ public class ResourceController {
         SecurityContext ctx = SecurityContextHolder.getContext();
         return ctx;
     }
+    @RequestMapping(value = "auth", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getAuth(){
+        SecurityContext ctx = SecurityContextHolder.getContext();
+        return ctx.getAuthentication();
+    }
 }

@@ -1,5 +1,8 @@
 package com.yaomy.security.oauth2.config;
 
+import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
+import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,23 +30,34 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+    @Autowired
+    private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
+    @Autowired
+    private UserAccessDeniedHandler userAccessDeniedHandler;
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
                 .tokenServices(tokenServices())
                 //资源ID
-                .resourceId("resource_password_id");
-        super.configure(resources);
+                .resourceId("resource_password_id")
+                //用来解决匿名用户访问无权限资源时的异常
+                .authenticationEntryPoint(userAuthenticationEntryPoint)
+                //访问资源权限相关异常处理
+                .accessDeniedHandler(userAccessDeniedHandler);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll();
-
         http.csrf().disable();
+        http
+            .authorizeRequests()
+            .antMatchers("/resource/auth")
+            .denyAll()
+        .and()
+            .authorizeRequests()
+            .anyRequest()
+            .permitAll();
+
     }
     /**
      * @Description OAuth2 token持久化接口

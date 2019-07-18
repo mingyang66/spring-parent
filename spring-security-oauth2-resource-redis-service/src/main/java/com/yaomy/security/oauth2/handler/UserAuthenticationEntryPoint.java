@@ -21,8 +21,8 @@ import java.io.IOException;
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        HttpUtils.writeError(BaseResponse.createResponse(401, e.getMessage()), httpServletResponse);
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        HttpUtils.writeError(BaseResponse.createResponse(401, e.getMessage()), response);
 
     }
 }

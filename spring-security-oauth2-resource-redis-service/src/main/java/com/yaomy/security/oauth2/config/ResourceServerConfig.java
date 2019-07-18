@@ -2,6 +2,7 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
 import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
+import com.yaomy.security.oauth2.handler.UserAuthenticationSuccessHandler;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     @Autowired
     private UserAccessDeniedHandler userAccessDeniedHandler;
+    @Autowired
+    private UserAuthenticationSuccessHandler userAuthenticationSuccessHandler;
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources

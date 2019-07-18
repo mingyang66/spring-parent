@@ -23,4 +23,13 @@ public class HttpUtils {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getOutputStream(), bs);
     }
+    /**
+     * SUCESS输出工具类
+     */
+    public static void writeSuccess(BaseResponse bs, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json,charset=utf-8");
+        response.setStatus(bs.getStatus());
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(response.getOutputStream(), bs);
+    }
 }

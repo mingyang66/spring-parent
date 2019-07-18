@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.alibaba.fastjson.JSON;
-import com.yaomy.security.oauth2.po.ResponseBody;
+import com.yaomy.common.po.BaseResponse;
+import com.yaomy.common.utils.HttpUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -21,18 +21,7 @@ import java.io.IOException;
 @Component
 public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        ResponseBody responseBody = new ResponseBody();
-
-        responseBody.setStatus("200");
-        responseBody.setMsg("Login Success!");
-
-       // AuthUserDetails userDetails = (AuthUserDetails) authentication.getPrincipal();
-
-      //  String token = TokenUtil.generateToken(userDetails.getUsername());
-        //responseBody.setToken(token);
-       // responseBody.setResult(DateFormatUtils.format(TokenUtil.getExpirationDateFromToken(token), "yyyy-MM-dd HH:mm:ss"));
-
-        httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        HttpUtils.writeSuccess(BaseResponse.createResponse(200, "SUCESS", authentication), response);
     }
 }

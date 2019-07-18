@@ -13,6 +13,7 @@ import lombok.Data;
 public class BaseResponse {
     private int status;
     private String message;
+    private Object data;
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10
@@ -22,6 +23,18 @@ public class BaseResponse {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(status);
         baseResponse.setMessage(message);
+        return baseResponse;
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static BaseResponse createResponse(int status, String message, Object data){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(status);
+        baseResponse.setMessage(message);
+        baseResponse.setData(data);
         return baseResponse;
     }
 }

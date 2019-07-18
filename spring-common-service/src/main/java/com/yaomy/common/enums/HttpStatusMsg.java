@@ -20,7 +20,9 @@ public enum HttpStatusMsg {
 
     //--------------------OAuth2认证异常------------------
     AUTHENTICATION_EXCEPTION(300, "认证授权异常"),
-    ACCESS_DENIDED_EXCEPTION(301, "无权限访问资源");
+    ACCESS_DENIDED_EXCEPTION(301, "无权限访问资源"),
+    PASSWORD_EXCEPTION(302, "密码异常"),
+    USERNAME_EXCEPTION(303, "用户名异常");
 
     private final int status;
     private final String message;

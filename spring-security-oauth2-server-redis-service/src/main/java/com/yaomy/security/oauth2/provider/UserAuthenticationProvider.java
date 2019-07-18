@@ -1,6 +1,9 @@
 package com.yaomy.security.oauth2.provider;
 
+import com.yaomy.security.oauth2.exception.PasswordException;
+import com.yaomy.security.oauth2.exception.UsernameException;
 import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -37,11 +40,15 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
+        if(StringUtils.isBlank(username)){
+            throw new UsernameException("username用户名不可以为空");
+        }
         //获取用户信息
         UserDetails user = authUserDetailsService.loadUserByUsername(username);
+
         //比较前端传入的密码明文和数据库中加密的密码是否相等
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new DisabledException("密码不正确");
+            throw new PasswordException("password密码不正确");
         }
         //获取用户权限信息
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

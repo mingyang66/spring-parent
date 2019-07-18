@@ -165,4 +165,144 @@ public class ResourceController {
 
 ***
 
+### Spring Security OAuth2认证资源服务器异常处理
+
+#### 1.我们先看两个异常处理的接口
+ - AuthenticationEntryPoint:用来解决匿名用户访问无权限资源时的异常,也就是跟token相关的资源异常
+ - AccessDeniedHandler：用来解决认证过的用户访问无权限资源时的异常，主要跟权限控制相关
+ 
+ ***
+ 
+ #### 2.自定义AuthenticationEntryPoint异常处理类
+ 
+ ```
+ package com.yaomy.security.oauth2.handler;
+ 
+ import com.yaomy.common.po.BaseResponse;
+ import com.yaomy.common.utils.HttpUtils;
+ import org.springframework.security.core.AuthenticationException;
+ import org.springframework.security.web.AuthenticationEntryPoint;
+ import org.springframework.stereotype.Component;
+ 
+ import javax.servlet.ServletException;
+ import javax.servlet.http.HttpServletRequest;
+ import javax.servlet.http.HttpServletResponse;
+ import java.io.IOException;
+ 
+ /**
+  * @Description: 用来解决匿名用户访问无权限资源时的异常
+  * @ProjectName: spring-parent
+  * @Package: com.yaomy.security.handler.AjaxAuthenticationEntryPoint
+  * @Date: 2019/7/1 15:36
+  * @Version: 1.0
+  */
+ @Component
+ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
+     @Override
+     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+         HttpUtils.writeError(BaseResponse.createResponse(401, e.getMessage()), httpServletResponse);
+ 
+     }
+ }
+```
+***
+
+#### 3.自定义AccessDeniedHandler接口实现类
+
+```
+package com.yaomy.security.oauth2.handler;
+
+import com.yaomy.common.po.BaseResponse;
+import com.yaomy.common.utils.HttpUtils;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @Description: 用来解决认证过的用户访问无权限资源时的异常
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.handler.AjaxAccessDeniedHandler
+ * @Date: 2019/7/1 15:34
+ * @Version: 1.0
+ */
+@Component
+public class UserAccessDeniedHandler implements AccessDeniedHandler {
+
+    @Override
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+        HttpUtils.writeError(BaseResponse.createResponse(300, e.getMessage()), httpServletResponse);
+
+    }
+}
+```
+
+***
+
+#### 4.相关工具方法如下
+
+```
+package com.yaomy.common.utils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.common.po.BaseResponse;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @Description: Description
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.common.utils.HttpUtils
+ * @Date: 2019/7/18 9:34
+ * @Version: 1.0
+ */
+public class HttpUtils {
+    /**
+     * 异常输出工具类
+     */
+    public static void writeError(BaseResponse bs, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json,charset=utf-8");
+        response.setStatus(bs.getStatus());
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(response.getOutputStream(), bs);
+    }
+}
+```
+
+```
+package com.yaomy.common.po;
+
+import lombok.Data;
+
+/**
+ * @Description: Description
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.po.AjaxResponseBody
+ * @Date: 2019/7/1 15:33
+ * @Version: 1.0
+ */
+@Data
+public class BaseResponse {
+    private int status;
+    private String message;
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static BaseResponse createResponse(int status, String message){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(status);
+        baseResponse.setMessage(message);
+        return baseResponse;
+    }
+}
+```
+***
+
 GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service)

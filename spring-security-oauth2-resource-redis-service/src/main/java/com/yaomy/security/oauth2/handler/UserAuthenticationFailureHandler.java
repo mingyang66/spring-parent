@@ -20,6 +20,7 @@ import java.io.IOException;
  */
 @Component
 public class UserAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         ResponseBody responseBody = new ResponseBody();

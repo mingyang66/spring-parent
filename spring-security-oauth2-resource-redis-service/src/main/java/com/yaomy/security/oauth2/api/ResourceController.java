@@ -1,11 +1,10 @@
 package com.yaomy.security.oauth2.api;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description: 资源服务器
@@ -19,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ResourceController {
 
     @RequestMapping(value = "context", method = RequestMethod.GET)
-    @ResponseBody
-    public Object get(){
+    public ResponseEntity<SecurityContext> get(@RequestParam String username, @RequestParam int age)  {
         SecurityContext ctx = SecurityContextHolder.getContext();
-        return ctx;
+        return new ResponseEntity<>(ctx, HttpStatus.OK);
     }
+
     @RequestMapping(value = "auth", method = RequestMethod.GET)
     @ResponseBody
     public Object getAuth(){

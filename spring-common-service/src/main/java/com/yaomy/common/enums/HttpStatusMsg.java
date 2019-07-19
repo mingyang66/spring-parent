@@ -8,7 +8,7 @@ package com.yaomy.common.enums;
  * @Version: 1.0
  */
 public enum HttpStatusMsg {
-    SUCCESS(200,"SUCCESS"),
+    OK(200,"SUCCESS"),
     UNKNOW_EXCEPTION(201, "未知异常"),
     RUNTIME_EXCEPTION(201, "运行时异常"),
     NULL_POINTER_EXCEPTION(203, "空指针异常"),

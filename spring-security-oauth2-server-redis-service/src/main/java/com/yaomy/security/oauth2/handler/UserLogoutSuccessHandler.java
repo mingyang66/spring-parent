@@ -1,8 +1,14 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.alibaba.fastjson.JSON;
-import com.yaomy.security.oauth2.po.ResponseBody;
+import com.yaomy.common.enums.HttpStatusMsg;
+import com.yaomy.common.po.BaseResponse;
+import com.yaomy.common.utils.HttpUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +26,18 @@ import java.io.IOException;
  */
 @Component
 public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
-    @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        ResponseBody responseBody = new ResponseBody();
+    @Autowired
+    private TokenStore tokenStore;
 
-        responseBody.setStatus("100");
-        responseBody.setMsg("Logout Success!");
-        System.out.println( request.getParameter("code"));;
-        response.getWriter().write(JSON.toJSONString(responseBody));
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        String accessToken = request.getParameter("access_token");
+        if(StringUtils.isNotBlank(accessToken)){
+            OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(accessToken);
+            System.out.println("----access_token是："+oAuth2AccessToken.getValue());
+            tokenStore.removeAccessToken(oAuth2AccessToken);
+        }
+        HttpUtils.writeSuccess(BaseResponse.createResponse(HttpStatusMsg.OK.getStatus(), "退出成功"), response);
 
     }
 }

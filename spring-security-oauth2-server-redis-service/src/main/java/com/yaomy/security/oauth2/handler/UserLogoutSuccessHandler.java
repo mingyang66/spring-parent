@@ -34,8 +34,10 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         String accessToken = request.getParameter("access_token");
         if(StringUtils.isNotBlank(accessToken)){
             OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(accessToken);
-            System.out.println("----access_token是："+oAuth2AccessToken.getValue());
-            tokenStore.removeAccessToken(oAuth2AccessToken);
+            if(oAuth2AccessToken != null){
+                System.out.println("----access_token是："+oAuth2AccessToken.getValue());
+                tokenStore.removeAccessToken(oAuth2AccessToken);
+            }
         }
         HttpUtils.writeSuccess(BaseResponse.createResponse(HttpStatusMsg.OK.getStatus(), "退出成功"), response);
 

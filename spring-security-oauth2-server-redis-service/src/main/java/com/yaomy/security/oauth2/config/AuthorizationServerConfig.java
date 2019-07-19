@@ -98,9 +98,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.realm("OAuth2-Sample")
-                .allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
+        /**
+         * 主要是让/oauth/token支持client_id和client_secret做登陆认证
+         * 如果开启了allowFormAuthenticationForClients，那么就在BasicAuthenticationFilter之前
+         * 添加ClientCredentialsTokenEndpointFilter,使用ClientDetailsUserDetailsService来进行
+         * 登陆认证
+         */
+        security.allowFormAuthenticationForClients();
     }
     /**
      * @Description OAuth2 token持久化接口

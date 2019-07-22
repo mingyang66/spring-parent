@@ -2,23 +2,17 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
 import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
-import com.yaomy.security.oauth2.handler.UserAuthenticationSuccessHandler;
 import com.yaomy.security.oauth2.handler.UserLogoutSuccessHandler;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  * @Description: @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器
@@ -35,8 +29,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter implem
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     @Autowired
     private UserAccessDeniedHandler userAccessDeniedHandler;
-    @Autowired
-    private UserAuthenticationSuccessHandler userAuthenticationSuccessHandler;
     @Autowired
     private UserLogoutSuccessHandler logoutSuccessHandler;
     @Autowired
@@ -58,7 +50,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter implem
         http
             .authorizeRequests()
             .antMatchers("/auth_user/*").denyAll()
-            .anyRequest().permitAll()
+            .antMatchers("/oauth/*").permitAll()
             .anyRequest().authenticated()
         .and()
             .logout()

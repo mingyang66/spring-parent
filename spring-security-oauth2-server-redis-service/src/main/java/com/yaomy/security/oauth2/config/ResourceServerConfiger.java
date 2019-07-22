@@ -23,7 +23,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter implements InitializingBean {
+public class ResourceServerConfiger extends ResourceServerConfigurerAdapter implements InitializingBean {
 
     @Autowired
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
@@ -50,7 +50,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter implem
         http
             .authorizeRequests()
             .antMatchers("/auth_user/*").denyAll()
-            .antMatchers("/oauth/*").permitAll()
+            .antMatchers("/oauth/token").permitAll()
             .anyRequest().authenticated()
         .and()
             .logout()

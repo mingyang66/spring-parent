@@ -135,6 +135,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("=====AuthorizationServerConfig===========");
+        System.out.println("=====init AuthorizationServerConfig===========");
     }
 }

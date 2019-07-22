@@ -49,9 +49,10 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-            http
+           /* http
+                 .httpBasic()*/
                     //指定支持基于表单的身份验证。如果未指定FormLoginConfigurer#loginPage(String)，则将生成默认登录页面
-                .formLogin()
+               /* .formLogin()
                     //自定义登录页url,默认为/login
                     .loginPage("/test/login")
                     //登录请求拦截的url,也就是form表单提交时指定的action
@@ -63,25 +64,21 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
                     // 登录成功
                    // .successHandler(authenticationSuccessHandler)
                     // 登录失败
-                    .failureHandler(authenticationFailureHandler)
-                    //无条件允许访问
-                    .permitAll()
-                .and()
-                    .authorizeRequests()
-                    .antMatchers()
-                    .permitAll()
-                .and()
+                    .failureHandler(authenticationFailureHandler)*/
+               /* .and()
                     //其它的请求要求必须有身份认证
                     .authorizeRequests()
-                    .anyRequest()
-                    .authenticated()
+                    .antMatchers("/oauth/token").permitAll()
+                    .anyRequest().authenticated()
                 .and()
                     .logout()
-                    .logoutSuccessHandler(logoutSuccessHandler)
-                .and()
+                    .logoutSuccessHandler(logoutSuccessHandler);*/
+               /* .and()
                     //认证过的用户访问无权限资源时的处理
-                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-            http.csrf().disable();
+                    .exceptionHandling()
+                    .accessDeniedHandler(accessDeniedHandler)
+                    .authenticationEntryPoint(authenticationEntryPoint);*/
+           /* http.csrf().disable();*/
     }
     /**
      * @Description Spring Security认证服务中的相关实现重新定义
@@ -133,6 +130,6 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     }
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("=====BaseSecurityConfigurer===========");
+        System.out.println("=====init BaseSecurityConfigurer===========");
     }
 }

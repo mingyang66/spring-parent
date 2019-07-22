@@ -43,9 +43,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         if(StringUtils.isBlank(username)){
             throw new UsernameException("username用户名不可以为空");
         }
+        if(StringUtils.isBlank(password)){
+            throw new PasswordException("密码不可以为空");
+        }
         //获取用户信息
         UserDetails user = authUserDetailsService.loadUserByUsername(username);
-
         //比较前端传入的密码明文和数据库中加密的密码是否相等
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new PasswordException("password密码不正确");

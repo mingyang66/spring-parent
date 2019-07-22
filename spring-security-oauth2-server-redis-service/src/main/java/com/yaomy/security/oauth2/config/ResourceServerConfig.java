@@ -57,11 +57,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter implem
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/auth_user/*")
-            .denyAll()
-        .and()
-            .authorizeRequests()
+            .antMatchers("/auth_user/*").denyAll()
             .anyRequest().permitAll()
+            .anyRequest().authenticated()
         .and()
             .logout()
             .logoutSuccessHandler(logoutSuccessHandler)

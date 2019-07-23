@@ -1,6 +1,9 @@
 package com.yaomy.common.po;
 
+import com.yaomy.common.enums.HttpStatusMsg;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @Description: Description
@@ -10,7 +13,7 @@ import lombok.Data;
  * @Version: 1.0
  */
 @Data
-public class BaseResponse {
+public class BaseResponse implements Serializable {
     private int status;
     private String message;
     private Object data;
@@ -30,10 +33,33 @@ public class BaseResponse {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
+    public static BaseResponse createResponse(HttpStatusMsg httpStatusMsg){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(httpStatusMsg.getStatus());
+        baseResponse.setMessage(httpStatusMsg.getMessage());
+        return baseResponse;
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
     public static BaseResponse createResponse(int status, String message, Object data){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(status);
         baseResponse.setMessage(message);
+        baseResponse.setData(data);
+        return baseResponse;
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static BaseResponse createResponse(HttpStatusMsg httpStatusMsg, Object data){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(httpStatusMsg.getStatus());
+        baseResponse.setMessage(httpStatusMsg.getMessage());
         baseResponse.setData(data);
         return baseResponse;
     }

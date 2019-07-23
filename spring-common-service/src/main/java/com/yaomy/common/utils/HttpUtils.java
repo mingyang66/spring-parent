@@ -2,6 +2,7 @@ package com.yaomy.common.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaomy.common.po.BaseResponse;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

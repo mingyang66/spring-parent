@@ -94,7 +94,7 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        /*security.realm("OAuth2-Sample")
+       /* security.realm("OAuth2-Sample")
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");*/
         /**

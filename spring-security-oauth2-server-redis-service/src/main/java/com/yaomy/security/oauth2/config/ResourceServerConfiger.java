@@ -50,7 +50,7 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
         http
             .authorizeRequests()
             .antMatchers("/auth_user/*").denyAll()
-            .antMatchers("/oauth/token").permitAll()
+            .antMatchers("/oauth2/get_token").permitAll()
             .anyRequest().authenticated()
         .and()
             .logout()

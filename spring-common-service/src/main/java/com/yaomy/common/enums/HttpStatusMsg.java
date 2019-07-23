@@ -10,7 +10,7 @@ package com.yaomy.common.enums;
 public enum HttpStatusMsg {
     OK(200,"SUCCESS"),
     UNKNOW_EXCEPTION(201, "未知异常"),
-    RUNTIME_EXCEPTION(201, "运行时异常"),
+    RUNTIME_EXCEPTION(202, "运行时异常"),
     NULL_POINTER_EXCEPTION(203, "空指针异常"),
     CLASS_CAST_EXCEPTION(204, "类型转换异常"),
     IO_EXCEPTION(205, "IO异常"),
@@ -19,8 +19,8 @@ public enum HttpStatusMsg {
     MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(208, "缺少参数"),
 
     //--------------------OAuth2认证异常------------------
-    AUTHENTICATION_EXCEPTION(300, "认证授权异常"),
-    ACCESS_DENIDED_EXCEPTION(301, "无权限访问资源"),
+    AUTHENTICATION_EXCEPTION(300, "账号认证授权不正确"),
+    ACCESS_DENIDED_EXCEPTION(301, "访问资源受限"),
     PASSWORD_EXCEPTION(302, "密码异常"),
     USERNAME_EXCEPTION(303, "用户名异常");
 

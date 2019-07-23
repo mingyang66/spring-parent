@@ -23,7 +23,7 @@ import java.io.IOException;
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage()), response);
+        HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage()+","+e.toString()), response);
 
     }
 }

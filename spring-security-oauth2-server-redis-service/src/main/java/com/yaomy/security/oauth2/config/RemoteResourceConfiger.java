@@ -1,5 +1,7 @@
 package com.yaomy.security.oauth2.config;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
@@ -18,21 +20,43 @@ import java.util.Arrays;
  */
 @Configuration
 @EnableOAuth2Client
-public class ClientResourceConfiger {
+public class RemoteResourceConfiger implements InitializingBean {
+
+    @Value("${oauth.token.uri}")
+    private String tokenUri;
+
+    @Value("${oauth.resource.id}")
+    private String resourceId;
+
+    @Value("${oauth.resource.client.id}")
+    private String resourceClientId;
+
+    @Value("${oauth.resource.client.secret}")
+    private String resourceClientSecret;
+
+    @Value("${oauth.resource.user.id}")
+    private String resourceUserId;
+
+    @Value("${oauth.resource.user.password}")
+    private String resourceUserPassword;
 
     @Bean
     public OAuth2RestOperations restTemplate() {
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
-        resource.setId("resource_password_id");
-        resource.setClientId("client_password");
-        resource.setClientSecret("secret");
+        resource.setId(resourceId);
+        resource.setClientId(resourceClientId);
+        resource.setClientSecret(resourceClientSecret);
         resource.setGrantType("password");
-        resource.setAccessTokenUri("http://127.0.0.1:9003/oauth/token");
-        resource.setUsername("user");
-        resource.setPassword("123");
+        resource.setAccessTokenUri(tokenUri);
+        resource.setUsername(resourceUserId);
+        resource.setPassword(resourceUserPassword);
         resource.setScope(Arrays.asList("test"));
 
         return new OAuth2RestTemplate(resource);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("init RemoteResourceConfiger-----------------");
+    }
 }

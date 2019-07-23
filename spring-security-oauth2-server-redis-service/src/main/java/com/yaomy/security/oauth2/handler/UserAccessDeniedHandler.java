@@ -24,6 +24,6 @@ public class UserAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getStatus(), HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getMessage()), response);
+        HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getStatus(), HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getMessage()+","+e.toString()), response);
     }
 }

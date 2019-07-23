@@ -48,7 +48,10 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     private UserLogoutSuccessHandler logoutSuccessHandler;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        http
+                .authorizeRequests()
+                .antMatchers("/oauth2/**").permitAll()
+                .anyRequest().authenticated();
            /* http
                  .httpBasic()*/
                     //指定支持基于表单的身份验证。如果未指定FormLoginConfigurer#loginPage(String)，则将生成默认登录页面

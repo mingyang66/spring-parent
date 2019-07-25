@@ -3,6 +3,7 @@ package com.yaomy.security.oauth2.api;
 import com.google.common.collect.Maps;
 import com.yaomy.common.enums.HttpStatusMsg;
 import com.yaomy.common.po.BaseResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,9 +112,9 @@ public class OAuth2Controller implements InitializingBean {
      * @Version  1.0
      */
     @RequestMapping(value = "check_token", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> checkToken(String token){
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
-        OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(token);
+    public ResponseEntity<BaseResponse> checkToken(String access_token){
+        OAuth2AccessToken accessToken = tokenStore.readAccessToken(access_token);
+        OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(access_token);
         Map<String, Object> map = Maps.newHashMap();
         //用户名
         map.put("username", auth2Authentication.getUserAuthentication().getName());
@@ -124,6 +125,32 @@ public class OAuth2Controller implements InitializingBean {
         BaseResponse response = null;
         try {
             response = BaseResponse.createResponse(HttpStatusMsg.OK, map);
+        } catch (Exception e){
+            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+        }
+        return ResponseEntity.ok(response);
+    }
+    /**
+     * @Description 账号退出
+     * @Author 姚明洋
+     * @Date 2019/7/25 17:47
+     * @Version  1.0
+     */
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
+    public ResponseEntity<BaseResponse> logOut(String access_token){
+        if(StringUtils.isNotBlank(access_token)){
+            OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
+            if(oAuth2AccessToken != null){
+                System.out.println("----access_token是："+oAuth2AccessToken.getValue());
+                tokenStore.removeAccessToken(oAuth2AccessToken);
+                OAuth2RefreshToken oAuth2RefreshToken = oAuth2AccessToken.getRefreshToken();
+                tokenStore.removeRefreshToken(oAuth2RefreshToken);
+                tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
+            }
+        }
+        BaseResponse response = null;
+        try {
+            response = BaseResponse.createResponse(HttpStatusMsg.OK);
         } catch (Exception e){
             response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
         }

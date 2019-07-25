@@ -817,7 +817,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      }
  }
  ```
- 
+
  
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)

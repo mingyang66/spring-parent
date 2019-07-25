@@ -2,7 +2,6 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
 import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
-import com.yaomy.security.oauth2.handler.UserLogoutSuccessHandler;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +28,8 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     @Autowired
     private UserAccessDeniedHandler userAccessDeniedHandler;
-    @Autowired
-    private UserLogoutSuccessHandler logoutSuccessHandler;
+   /* @Autowired
+    private UserLogoutSuccessHandler logoutSuccessHandler;*/
     @Autowired
     private TokenStore tokenStore;
     @Override
@@ -54,7 +53,7 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
             .anyRequest().authenticated()
         .and()
             .logout()
-            .logoutSuccessHandler(logoutSuccessHandler)
+            //.logoutSuccessHandler(logoutSuccessHandler)
         .and()
             .csrf().disable();
 

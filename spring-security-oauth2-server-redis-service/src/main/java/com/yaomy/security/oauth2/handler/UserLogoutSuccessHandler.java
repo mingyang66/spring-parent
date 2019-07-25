@@ -1,3 +1,4 @@
+/*
 package com.yaomy.security.oauth2.handler;
 
 import com.yaomy.common.enums.HttpStatusMsg;
@@ -18,13 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+*/
 /**
  * @Description: 用户成功退出
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxLogoutSuccessHandler
  * @Date: 2019/7/1 15:39
  * @Version: 1.0
- */
+ *//*
+
 @Component
 public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     @Autowired
@@ -47,3 +50,4 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 
     }
 }
+*/

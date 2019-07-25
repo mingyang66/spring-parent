@@ -1,6 +1,9 @@
 package com.yaomy.security.oauth2.config;
 
-import com.yaomy.security.oauth2.handler.*;
+import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
+import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
+import com.yaomy.security.oauth2.handler.UserAuthenticationFailureHandler;
+import com.yaomy.security.oauth2.handler.UserAuthenticationSuccessHandler;
 import com.yaomy.security.oauth2.po.AuthUserDetailsService;
 import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
 import org.springframework.beans.factory.InitializingBean;
@@ -18,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @Description: 启动基于Spring Security的安全认证
@@ -44,8 +46,8 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     private UserAuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
     private UserAuthenticationSuccessHandler authenticationSuccessHandler;
-    @Autowired
-    private UserLogoutSuccessHandler logoutSuccessHandler;
+    /*@Autowired
+    private UserLogoutSuccessHandler logoutSuccessHandler;*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

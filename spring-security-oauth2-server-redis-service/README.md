@@ -918,6 +918,67 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         return ResponseEntity.ok(response);
     }
 ```
+***
+
+### Spring Security OAuth2 使用Redis存储token
+
+#### 1.Spring Security OAuth2存储token值的方式由多种，所有的实现方式都是实现了TokenStore接口
+* InMemoryTokenStore:token存储在本机的内存之中
+* JdbcTokenStore:token存储在数据库之中
+* JwtTokenStore:token不会存储到任何介质中
+* RedisTokenStore:token存储在Redis数据库之中
+
+#### 2.看下RedisTokenStore实现类在redis中存储了那些key,贴上源码如下：
+```
+    private static final String ACCESS = "access:";
+    private static final String AUTH_TO_ACCESS = "auth_to_access:";
+    private static final String AUTH = "auth:";
+    private static final String REFRESH_AUTH = "refresh_auth:";
+    private static final String ACCESS_TO_REFRESH = "access_to_refresh:";
+    private static final String REFRESH = "refresh:";
+    private static final String REFRESH_TO_ACCESS = "refresh_to_access:";
+    private static final String CLIENT_ID_TO_ACCESS = "client_id_to_access:";
+    private static final String UNAME_TO_ACCESS = "uname_to_access:";
+```
+
+#### 3.通过查看RedisTokenStore源码（源码我就不贴出来了）的方式理解每个key所存储的数据
+
+1. access:中存储的键是access:be171b573f5a496ca601b32b1360fe84，值是OAuth2AccessToken对象序列化后的值
+* 键是access:+access_token
+* 值示例如下：
+  ```
+  {
+          "access_token": "12833d6c89fb4ea58cbe7b6ada5de7b5",
+          "token_type": "bearer",
+          "refresh_token": "357304ee0a404700b3e65d547713011b",
+          "expires_in": 898,
+          "scope": "test"
+      }
+  ```   
+2. auth_to_access:中存储的键是auth_to_access:a994f2a9a61186f32870e32d72a38d21，值是OAuth2AccessToken序列化后的值
+* 键是auth_to_access:+  username、client_id、scope三个MD5加密后的值 
+* 值示例如下：
+ 
+  ```
+  {
+          "access_token": "12833d6c89fb4ea58cbe7b6ada5de7b5",
+          "token_type": "bearer",
+          "refresh_token": "357304ee0a404700b3e65d547713011b",
+          "expires_in": 898,
+          "scope": "test"
+      }
+  ``` 
+   
+3. auth:中存储的键是auth:be171b573f5a496ca601b32b1360fe84，值是OAuth2Authentication对象序列化后的值
+* 键是auth:+access_token值
+* 值示例如下：
+
+4. refresh_auth:中存储的是refresh_auth:d0017ce6db6441d1b87a0a2804d1434b,值是OAuth2Authentication序列化后的值
+5. access_to_refresh:中存储的是access_to_refresh:c90cab28971948d2a85ca2ae814641ed，值是refresh_token值
+6. refresh:中存储的是refresh:d0017ce6db6441d1b87a0a2804d1434b，值是OAuth2RefreshToken对象序列化后的值
+7. refresh_to_access:中存储的值是refresh_to_access:d0017ce6db6441d1b87a0a2804d1434b，值是refresh_token值
+8. client_id_to_access:中存储的值是client_id_to_access:client_password，值是OAuth2AccessToken序列化后的值
+9. uname_to_access:中存储的键是uname_to_access:client_password:user，值是OAuth2AccessToken对象序列化后的值
 
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)

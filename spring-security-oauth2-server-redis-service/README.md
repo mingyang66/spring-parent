@@ -818,7 +818,107 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
  }
  ```
 
+***
+
+### Spring Security OAuth2 token存储Redis用户登出logOut
+
+Redis用户登出有两种方案,一种是通过资源服务器配置logoutSuccessHandler处理函数，并实现LogoutSuccessHandler接口来处理退出用户；
+另外一种是自定义封装接口，通过RedisTokenStore来删除用户信息的形式；
+
+#### 1.通过资源服务器配置的方式
+* ResourceServerConfigurerAdapter配置
+```
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+            .antMatchers("/auth_user/*").denyAll()
+            .antMatchers("/oauth2/**","/oauth/**").permitAll()
+            .anyRequest().authenticated()
+        .and()
+            .logout()
+            //
+            .logoutSuccessHandler(logoutSuccessHandler)
+        .and()
+            .csrf().disable();
+
+    }
+```
+* 退出成功处理LogoutSuccessHandler类
+```
+
+package com.yaomy.security.oauth2.handler;
+
+import com.yaomy.common.enums.HttpStatusMsg;
+import com.yaomy.common.po.BaseResponse;
+import com.yaomy.common.utils.HttpUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
+/**
+ * @Description: 用户成功退出
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.handler.AjaxLogoutSuccessHandler
+ * @Date: 2019/7/1 15:39
+ * @Version: 1.0
+ *//*
+
+@Component
+public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
+    @Autowired
+    private TokenStore tokenStore;
+
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        String accessToken = request.getParameter("access_token");
+        if(StringUtils.isNotBlank(accessToken)){
+            OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(accessToken);
+            if(oAuth2AccessToken != null){
+                System.out.println("----access_token是："+oAuth2AccessToken.getValue());
+                tokenStore.removeAccessToken(oAuth2AccessToken);
+                OAuth2RefreshToken oAuth2RefreshToken = oAuth2AccessToken.getRefreshToken();
+                tokenStore.removeRefreshToken(oAuth2RefreshToken);
+                tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
+            }
+        }
+        HttpUtils.writeSuccess(BaseResponse.createResponse(HttpStatusMsg.OK.getStatus(), "退出成功"), response);
+
+    }
+}
+```
  
+ #### 2.自定义退出接口方案
+ ```
+    @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
+    public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
+
+        ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+        resource.setClientId(resourceClientId);
+        resource.setClientSecret(resourceClientSecret);
+        resource.setGrantType("refresh_token");
+        resource.setAccessTokenUri(tokenUri);
+
+        ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+        OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
+        OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
+        BaseResponse response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);
+        return ResponseEntity.ok(response);
+    }
+```
+
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

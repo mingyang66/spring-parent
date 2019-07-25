@@ -98,12 +98,7 @@ public class OAuth2Controller implements InitializingBean {
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
         OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
-        BaseResponse response = null;
-        try {
-            response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);
-        } catch (Exception e){
-            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
-        }
+        BaseResponse response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);
         return ResponseEntity.ok(response);
     }
     /**
@@ -132,7 +127,6 @@ public class OAuth2Controller implements InitializingBean {
     }
     /**
      * @Description 账号退出
-     * @Author 姚明洋
      * @Date 2019/7/25 17:47
      * @Version  1.0
      */

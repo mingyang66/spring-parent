@@ -66,7 +66,7 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
         //是否支持refresh_token，默认false
         tokenServices.setSupportRefreshToken(true);
         //是否复用refresh_token,默认为true(如果为false,则每次请求刷新都会删除旧的refresh_token,创建新的refresh_token)
-        tokenServices.setReuseRefreshToken(true);
+        tokenServices.setReuseRefreshToken(false);
 
         endpoints
                 //通过authenticationManager开启密码授权

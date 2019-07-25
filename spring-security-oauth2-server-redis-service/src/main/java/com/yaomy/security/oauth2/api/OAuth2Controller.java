@@ -10,9 +10,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.OAuth2AccessTokenSupport;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,19 +81,30 @@ public class OAuth2Controller implements InitializingBean {
         }
         return ResponseEntity.ok(response);
     }
+    /**
+     * @Description refresh_token 刷新token令牌
+     * @Date 2019/7/25 16:13
+     * @Version  1.0
+     */
     @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
-    public ResponseEntity<Map> refreshToken(String refresh_token){
+    public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
 
-        Map<String, Object> param = Maps.newHashMap();
-        param.put("client_id", resourceClientId);
-        param.put("client_secret", resourceClientSecret);
-        param.put("grant_type", "refresh_token");
-        param.put("refresh_token", refresh_token);
+        ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+        resource.setClientId(resourceClientId);
+        resource.setClientSecret(resourceClientSecret);
+        resource.setGrantType("refresh_token");
+        resource.setAccessTokenUri(tokenUri);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> result = restTemplate.postForEntity(tokenUri, param, Map.class);
-
-        return result;
+        ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+        OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
+        OAuth2AccessToken accessToken = provider.refreshAccessToken(resource,refreshToken, new DefaultAccessTokenRequest());
+        BaseResponse response = null;
+        try {
+            response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);
+        } catch (Exception e){
+            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+        }
+        return ResponseEntity.ok(response);
     }
     @RequestMapping(value = "check_token", method = RequestMethod.POST)
     public ResponseEntity<Map> checkToken(String check_token){

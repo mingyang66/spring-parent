@@ -50,7 +50,7 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/oauth2/**").permitAll()
+                .antMatchers("/oauth2/**","/oauth/**").permitAll()
                 .anyRequest().authenticated();
            /* http
                  .httpBasic()*/

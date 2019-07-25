@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
@@ -42,6 +43,13 @@ public class RemoteResourceConfiger implements InitializingBean {
 
     @Bean
     public OAuth2RestOperations restTemplate() {
+        OAuth2RestTemplate template = new OAuth2RestTemplate(resource());
+        ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+        template.setAccessTokenProvider(provider);
+        return template;
+    }
+
+    private ResourceOwnerPasswordResourceDetails resource(){
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(resourceId);
         resource.setClientId(resourceClientId);
@@ -51,10 +59,8 @@ public class RemoteResourceConfiger implements InitializingBean {
         resource.setUsername(resourceUserId);
         resource.setPassword(resourceUserPassword);
         resource.setScope(Arrays.asList("test"));
-
-        return new OAuth2RestTemplate(resource);
+        return resource;
     }
-
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("init RemoteResourceConfiger-----------------");

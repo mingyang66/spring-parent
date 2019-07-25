@@ -142,13 +142,7 @@ public class OAuth2Controller implements InitializingBean {
                 tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
             }
         }
-        BaseResponse response = null;
-        try {
-            response = BaseResponse.createResponse(HttpStatusMsg.OK);
-        } catch (Exception e){
-            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
-        }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK));
     }
 
     @Override

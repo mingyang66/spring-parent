@@ -3,6 +3,7 @@ package com.yaomy.security.oauth2.api;
 import com.google.common.collect.Maps;
 import com.yaomy.common.enums.HttpStatusMsg;
 import com.yaomy.common.po.BaseResponse;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +52,7 @@ public class OAuth2Controller implements InitializingBean {
     private TokenStore tokenStore;
 
     /**
-     * @Description 获取token信息
+     * @Description /oauth/token(令牌端点) 获取用户token信息
      * @Date 2019/7/22 15:59
      * @Version  1.0
      */
@@ -79,7 +81,7 @@ public class OAuth2Controller implements InitializingBean {
         return ResponseEntity.ok(response);
     }
     /**
-     * @Description refresh_token 刷新token令牌
+     * @Description /oauth/token（令牌端点）刷新token信息
      * @Date 2019/7/25 16:13
      * @Version  1.0
      */
@@ -103,17 +105,29 @@ public class OAuth2Controller implements InitializingBean {
         }
         return ResponseEntity.ok(response);
     }
+    /**
+     * @Description oauth/check_token（端点校验）token有效性
+     * @Date 2019/7/25 16:22
+     * @Version  1.0
+     */
     @RequestMapping(value = "check_token", method = RequestMethod.POST)
-    public ResponseEntity<Map> checkToken(String check_token){
-        ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
-        OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
-        template.setAccessTokenProvider(new ResourceOwnerPasswordAccessTokenProvider());
-        Map<String, Object> param = Maps.newHashMap();
-        param.put("token", check_token);
-
-        ResponseEntity<Map> result = template.postForEntity(tokenUri, param, Map.class);
-
-        return result;
+    public ResponseEntity<BaseResponse> checkToken(String token){
+        OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
+        OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(token);
+        Map<String, Object> map = Maps.newHashMap();
+        //用户名
+        map.put("username", auth2Authentication.getUserAuthentication().getName());
+        //是否过期
+        map.put("isExpired", accessToken.isExpired());
+        //过期时间
+        map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), "yyyy-MM-dd HH:mm:ss"));
+        BaseResponse response = null;
+        try {
+            response = BaseResponse.createResponse(HttpStatusMsg.OK, map);
+        } catch (Exception e){
+            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+        }
+        return ResponseEntity.ok(response);
     }
 
     @Override

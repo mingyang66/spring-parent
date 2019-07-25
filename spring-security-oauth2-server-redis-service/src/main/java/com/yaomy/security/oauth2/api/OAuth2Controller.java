@@ -96,7 +96,7 @@ public class OAuth2Controller implements InitializingBean {
 
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
-        OAuth2AccessToken accessToken = provider.refreshAccessToken(resource,refreshToken, new DefaultAccessTokenRequest());
+        OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
         BaseResponse response = null;
         try {
             response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);

@@ -691,6 +691,134 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 }
 ```
  
+ 
+ ***
+ 
+ ### Spring boot + Security + OAuth2 password模式、refresh_token模式访问/oauth/token端点
+ 
+ #### 1./oauth/token端点
+ * 端点过滤器TokenEndpointAuthenticationFilter
+ * 端点对应的action类TokenEndpoint
+ * 受保护的资源信息类ResourceOwnerPasswordResourceDetails
+ * 和认证服务器交互资源信息类ResourceOwnerPasswordAccessTokenProvider
+ 
+ ***
+ #### 2./oauth/token(令牌端点) 获取用户token信息
+ ```
+    @RequestMapping(value = "token", method = RequestMethod.POST)
+     public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
+         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+         resource.setId(resourceId);
+         resource.setClientId(resourceClientId);
+         resource.setClientSecret(resourceClientSecret);
+         resource.setGrantType("password");
+         resource.setAccessTokenUri(tokenUri);
+         resource.setUsername(username);
+         resource.setPassword(password);
+         resource.setScope(Arrays.asList("test"));
+ 
+         OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
+         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+         template.setAccessTokenProvider(provider);
+         System.out.println("过期时间是："+template.getAccessToken().getExpiration());
+         BaseResponse response = null;
+         try {
+             response = BaseResponse.createResponse(HttpStatusMsg.OK, template.getAccessToken());
+         } catch (Exception e){
+             response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+         }
+         return ResponseEntity.ok(response);
+     }
+ ```
+ 返回结果如下：
+ ```
+ {
+     "status": 200,
+     "message": "SUCCESS",
+     "data": {
+         "access_token": "9de1856b9e0b4400a8b162cd3b3cfbea",
+         "token_type": "bearer",
+         "refresh_token": "71e5515f99424278bd53d93e322e60d5",
+         "expires_in": 898,
+         "scope": "test"
+     }
+ }
+ ```
+ 
+ #### 3./oauth/token（令牌端点）刷新token信息
+ 
+ ```
+    @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
+     public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
+ 
+         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+         resource.setClientId(resourceClientId);
+         resource.setClientSecret(resourceClientSecret);
+         resource.setGrantType("refresh_token");
+         resource.setAccessTokenUri(tokenUri);
+ 
+         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
+         OAuth2AccessToken accessToken = provider.refreshAccessToken(resource,refreshToken, new DefaultAccessTokenRequest());
+         BaseResponse response = null;
+         try {
+             response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);
+         } catch (Exception e){
+             response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+         }
+         return ResponseEntity.ok(response);
+     }
+ ```
+ 返回结果如下：
+ ```
+ {
+     "status": 200,
+     "message": "SUCCESS",
+     "data": {
+         "access_token": "2029dad0b3a0453c987d52815095b9dd",
+         "token_type": "bearer",
+         "refresh_token": "f7cffb9b19634f72943b5ab39c63d652",
+         "expires_in": 899,
+         "scope": "test"
+     }
+ }
+ ```
+ #### 4.oauth/check_token（端点校验）token有效性
+ ```
+     @RequestMapping(value = "check_token", method = RequestMethod.POST)
+     public ResponseEntity<BaseResponse> checkToken(String token){
+         OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
+         OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(token);
+         Map<String, Object> map = Maps.newHashMap();
+         //用户名
+         map.put("username", auth2Authentication.getUserAuthentication().getName());
+         //是否过期
+         map.put("isExpired", accessToken.isExpired());
+         //过期时间
+         map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), "yyyy-MM-dd HH:mm:ss"));
+         BaseResponse response = null;
+         try {
+             response = BaseResponse.createResponse(HttpStatusMsg.OK, map);
+         } catch (Exception e){
+             response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+         }
+         return ResponseEntity.ok(response);
+     }
+ ```
+ 返回结果如下：
+ ```
+ {
+     "status": 200,
+     "message": "SUCCESS",
+     "data": {
+         "expiration": "2019-07-25 17:42:14",
+         "isExpired": false,
+         "username": "user"
+     }
+ }
+ ```
+ 
+ 
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

@@ -22,7 +22,7 @@
     <artifactId>spring-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-parent</name>
-    <description>Demo project for Spring Boot</description>
+    <description>security auth system</description>
 
     <properties>
         <java.version>1.8</java.version>

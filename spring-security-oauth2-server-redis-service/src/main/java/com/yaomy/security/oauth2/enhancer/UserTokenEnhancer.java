@@ -2,10 +2,7 @@ package com.yaomy.security.oauth2.enhancer;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.common.*;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
@@ -30,12 +27,16 @@ public class UserTokenEnhancer implements TokenEnhancer {
        if(accessToken instanceof DefaultOAuth2AccessToken){
            DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
            token.setValue(getToken());
-           OAuth2RefreshToken refreshToken = token.getRefreshToken();
-           if(refreshToken instanceof DefaultOAuth2RefreshToken){
-               token.setRefreshToken(new DefaultOAuth2RefreshToken(getToken()));
+           //使用DefaultExpiringOAuth2RefreshToken类生成refresh_token，自带过期时间，否则不生效，refresh_token一直有效
+           DefaultExpiringOAuth2RefreshToken refreshToken = (DefaultExpiringOAuth2RefreshToken)token.getRefreshToken();
+           //OAuth2RefreshToken refreshToken = token.getRefreshToken();
+           if(refreshToken instanceof DefaultExpiringOAuth2RefreshToken){
+               token.setRefreshToken(new DefaultExpiringOAuth2RefreshToken(getToken(), refreshToken.getExpiration()));
            }
            Map<String, Object> additionalInformation = Maps.newHashMap();
            additionalInformation.put("client_id", authentication.getOAuth2Request().getClientId());
+           //添加额外配置信息
+           token.setAdditionalInformation(additionalInformation);
            return token;
        }
         return accessToken;

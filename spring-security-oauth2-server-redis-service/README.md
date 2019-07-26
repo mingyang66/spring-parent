@@ -1198,7 +1198,7 @@ be171b573f5a496ca601b32b1360fe84
  
  ### Spring Security OAuth2 Redis存储token refresh_token永不过期问题详解
  ***
- #### 1.我们可以先看几个实现类，然后我们在看源码分析这样我们会更清晰
+ #### 1.先看几个实现类，然后再看源码分析这样会更清晰
  * OAuth2AccessToken接口的默认实现是DefaultOAuth2AccessToken类（自带过期时间属性）
  * OAuth2RefreshToken接口的默认实现是DefaultOAuth2RefreshToken类（不带过期时间属性）
  * ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2RefreshToken的默认实现是DefaultExpiringOAuth2RefreshToken（自带过期时间属性）
@@ -1381,7 +1381,7 @@ be171b573f5a496ca601b32b1360fe84
  ***
  
  
- ### Spring Security OAuth2之@EnableAuthorizationServer（认证服务）、@EnableResourceServer（资源服务）、@EnableWebSecurity（web安全配置服务）优先级详解
+ ### Spring Security OAuth2之认证服务、资源服务、web安全配置服务加载优先级详解
  
  最近一直在搭建Spring Security OAuth2认证服务，经常会遇到在资源服务器配置中配置生效，但是在web安全配置类中配置就不生效等等像这样的问题，今天我就
  深入的研究了一下原来是三个类在IOC容器之中加载的优先级问题所造成的，下面我们就一步一步的来分析下三个类的优先级问题；
@@ -1435,7 +1435,8 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 上面的类使用注解@Order,优先级为100
 
 #### 4.分析说明
-order的值越小，类的优先级越高，上面的优先级是：认证服务器配置（0）>资源服务器配置（3）>web安全服务配置（100）
+* order的值越小，类的优先级越高，IOC容器就会优先加载，上面的优先级是：认证服务器配置（0）>资源服务器配置（3）>web安全服务配置（100）
+* 在做资源权限配置的时候按照优先级高的来配置，否则不会生效
 
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)

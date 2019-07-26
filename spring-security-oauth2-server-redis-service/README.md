@@ -920,7 +920,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 ```
 ***
 
-### Spring Security OAuth2 使用Redis存储token
+### Spring Security OAuth2 使用Redis存储token键值详解
 
 #### 1.Spring Security OAuth2存储token值的方式由多种，所有的实现方式都是实现了TokenStore接口
 * InMemoryTokenStore:token存储在本机的内存之中
@@ -940,6 +940,11 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     private static final String CLIENT_ID_TO_ACCESS = "client_id_to_access:";
     private static final String UNAME_TO_ACCESS = "uname_to_access:";
 ```
+本案例是使用password、refresh_token模式，在Redis缓存中共存储了9个键值对，其中有5个跟access_token相关，4个和refresh_token相关；
+* access_token相关access:(OAuth2AccessToken)、auth:(OAuth2Authentication)、auth_to_access:(OAuth2AccessToken)、client_id_to_access:(OAuth2AccessToken)、uname_to_access:(OAuth2AccessToken)
+* refresh_token相关refresh:(OAuth2RefreshToken)、refresh_auth:(OAuth2Authentication)、access_to_refresh(refresh_token):、refresh_to_access:(refresh_token)
+
+****
 
 #### 3.通过查看RedisTokenStore源码（源码我就不贴出来了）的方式理解每个key所存储的数据
 

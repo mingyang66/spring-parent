@@ -972,14 +972,223 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 3. auth:中存储的键是auth:be171b573f5a496ca601b32b1360fe84，值是OAuth2Authentication对象序列化后的值
 * 键是auth:+access_token值
 * 值示例如下：
+```
+{
+    "authorities": [
+        {
+            "authority": "ROLE"
+        }
+    ],
+    "details": {
+        "remoteAddress": "0:0:0:0:0:0:0:1",
+        "sessionId": null,
+        "tokenValue": "dfec9f18e161408dbf66b85b94401d7f",
+        "tokenType": "Bearer",
+        "decodedDetails": null
+    },
+    "authenticated": true,
+    "userAuthentication": {
+        "authorities": [
+            {
+                "authority": "ROLE"
+            }
+        ],
+        "details": {
+            "grant_type": "password",
+            "username": "user",
+            "scope": "test"
+        },
+        "authenticated": true,
+        "principal": {
+            "password": null,
+            "username": "user",
+            "authorities": [
+                {
+                    "authority": "ROLE"
+                }
+            ],
+            "accountNonExpired": true,
+            "accountNonLocked": true,
+            "credentialsNonExpired": true,
+            "enabled": true
+        },
+        "credentials": null,
+        "name": "user"
+    },
+    "credentials": "",
+    "principal": {
+        "password": null,
+        "username": "user",
+        "authorities": [
+            {
+                "authority": "ROLE"
+            }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true
+    },
+    "oauth2Request": {
+        "clientId": "client_password",
+        "scope": [
+            "test"
+        ],
+        "requestParameters": {
+            "grant_type": "password",
+            "scope": "test",
+            "username": "user"
+        },
+        "resourceIds": [
+            "resource_password_id"
+        ],
+        "authorities": [],
+        "approved": true,
+        "refresh": false,
+        "redirectUri": null,
+        "responseTypes": [],
+        "extensions": {},
+        "grantType": "password",
+        "refreshTokenRequest": null
+    },
+    "clientOnly": false,
+    "name": "user"
+}
+```
 
 4. refresh_auth:中存储的是refresh_auth:d0017ce6db6441d1b87a0a2804d1434b,值是OAuth2Authentication序列化后的值
+* 键是：refresh_auth:+refresh_token值
+* 值示例如下：
+```
+{
+    "authorities": [
+        {
+            "authority": "ROLE"
+        }
+    ],
+    "details": {
+        "remoteAddress": "0:0:0:0:0:0:0:1",
+        "sessionId": null,
+        "tokenValue": "dfec9f18e161408dbf66b85b94401d7f",
+        "tokenType": "Bearer",
+        "decodedDetails": null
+    },
+    "authenticated": true,
+    "userAuthentication": {
+        "authorities": [
+            {
+                "authority": "ROLE"
+            }
+        ],
+        "details": {
+            "grant_type": "password",
+            "username": "user",
+            "scope": "test"
+        },
+        "authenticated": true,
+        "principal": {
+            "password": null,
+            "username": "user",
+            "authorities": [
+                {
+                    "authority": "ROLE"
+                }
+            ],
+            "accountNonExpired": true,
+            "accountNonLocked": true,
+            "credentialsNonExpired": true,
+            "enabled": true
+        },
+        "credentials": null,
+        "name": "user"
+    },
+    "credentials": "",
+    "principal": {
+        "password": null,
+        "username": "user",
+        "authorities": [
+            {
+                "authority": "ROLE"
+            }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true
+    },
+    "oauth2Request": {
+        "clientId": "client_password",
+        "scope": [
+            "test"
+        ],
+        "requestParameters": {
+            "grant_type": "password",
+            "scope": "test",
+            "username": "user"
+        },
+        "resourceIds": [
+            "resource_password_id"
+        ],
+        "authorities": [],
+        "approved": true,
+        "refresh": false,
+        "redirectUri": null,
+        "responseTypes": [],
+        "extensions": {},
+        "grantType": "password",
+        "refreshTokenRequest": null
+    },
+    "clientOnly": false,
+    "name": "user"
+}
+```
 5. access_to_refresh:中存储的是access_to_refresh:c90cab28971948d2a85ca2ae814641ed，值是refresh_token值
+* 键是access_to_refresh:+refresh_token值
+* 值是refresh_token值
 6. refresh:中存储的是refresh:d0017ce6db6441d1b87a0a2804d1434b，值是OAuth2RefreshToken对象序列化后的值
+* 键是refresh:+refresh_token值
+* 值示例如下：
+```
+ {
+        "access_token": "dfec9f18e161408dbf66b85b94401d7f",
+        "token_type": "bearer",
+        "refresh_token": "8bcd9cfb04a3445e8933c788b2673a89",
+        "expires_in": 898,
+        "scope": "test"
+    }
+```
 7. refresh_to_access:中存储的值是refresh_to_access:d0017ce6db6441d1b87a0a2804d1434b，值是refresh_token值
-8. client_id_to_access:中存储的值是client_id_to_access:client_password，值是OAuth2AccessToken序列化后的值
-9. uname_to_access:中存储的键是uname_to_access:client_password:user，值是OAuth2AccessToken对象序列化后的值
+* 键是refresh_to_access:+refresh_token值
+* 值示例如下：
+```
+be171b573f5a496ca601b32b1360fe84
+```
 
+8. client_id_to_access:中存储的值是client_id_to_access:client_password，值是OAuth2AccessToken序列化后的值
+* 键是client_id_to_access:+clientId
+* 值示例如下：
+```
+{
+        "access_token": "dfec9f18e161408dbf66b85b94401d7f",
+        "token_type": "bearer",
+        "refresh_token": "8bcd9cfb04a3445e8933c788b2673a89",
+        "expires_in": 898,
+        "scope": "test"
+    }
+```
+
+9. uname_to_access:中存储的键是uname_to_access:client_password:user，值是OAuth2AccessToken对象序列化后的值
+* 键是：uname_to_access:+clientid+用户名
+* 值示例如下：
+```
+{
+        "access_token": "dfec9f18e161408dbf66b85b94401d7f",
+        "token_type": "bearer",
+        "refresh_token": "8bcd9cfb04a3445e8933c788b2673a89",
+        "expires_in": 898,
+        "scope": "test"
+    }
+```
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

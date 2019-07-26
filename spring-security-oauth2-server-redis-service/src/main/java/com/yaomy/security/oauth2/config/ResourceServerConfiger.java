@@ -48,7 +48,7 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/auth_user/*").denyAll()
+            .antMatchers().denyAll()
             .antMatchers("/oauth2/**","/oauth/**").permitAll()
             .anyRequest().authenticated()
         .and()

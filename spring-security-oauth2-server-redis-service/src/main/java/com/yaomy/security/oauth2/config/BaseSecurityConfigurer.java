@@ -37,54 +37,9 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     private RedisConnectionFactory redisConnectionFactory;
     @Autowired
     private AuthUserDetailsService authUserDetailsService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserAccessDeniedHandler accessDeniedHandler;
-    @Autowired
-    private UserAuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
-    private UserAuthenticationFailureHandler authenticationFailureHandler;
-    @Autowired
-    private UserAuthenticationSuccessHandler authenticationSuccessHandler;
-    /*@Autowired
-    private UserLogoutSuccessHandler logoutSuccessHandler;*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/oauth2/**","/oauth/**").permitAll()
-                .anyRequest().authenticated();
-           /* http
-                 .httpBasic()*/
-                    //指定支持基于表单的身份验证。如果未指定FormLoginConfigurer#loginPage(String)，则将生成默认登录页面
-               /* .formLogin()
-                    //自定义登录页url,默认为/login
-                    .loginPage("/test/login")
-                    //登录请求拦截的url,也就是form表单提交时指定的action
-                    .loginProcessingUrl("/user/login")
-                    //用户名的请求字段 username
-                    .usernameParameter("username")
-                    // 密码的请求字段 默认为password
-                    .passwordParameter("password")
-                    // 登录成功
-                   // .successHandler(authenticationSuccessHandler)
-                    // 登录失败
-                    .failureHandler(authenticationFailureHandler)*/
-               /* .and()
-                    //其它的请求要求必须有身份认证
-                    .authorizeRequests()
-                    .antMatchers("/oauth/token").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                    .logout()
-                    .logoutSuccessHandler(logoutSuccessHandler);*/
-               /* .and()
-                    //认证过的用户访问无权限资源时的处理
-                    .exceptionHandling()
-                    .accessDeniedHandler(accessDeniedHandler)
-                    .authenticationEntryPoint(authenticationEntryPoint);*/
-           /* http.csrf().disable();*/
+        super.configure(http);
     }
     @Override
     public void configure(WebSecurity web) throws Exception {

@@ -28,8 +28,7 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     @Autowired
     private UserAccessDeniedHandler userAccessDeniedHandler;
-   /* @Autowired
-    private UserLogoutSuccessHandler logoutSuccessHandler;*/
+
     @Autowired
     private TokenStore tokenStore;
     @Override
@@ -53,7 +52,6 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
             .anyRequest().authenticated()
         .and()
             .logout()
-            //.logoutSuccessHandler(logoutSuccessHandler)
         .and()
             .csrf().disable();
 

@@ -1197,8 +1197,13 @@ be171b573f5a496ca601b32b1360fe84
  ***
  
  ### Spring Security OAuth2 Redis存储token refresh_token永不过期问题详解
+ ***
+ #### 1.我们可以先看几个实现类，然后我们在看源码分析这样我们会更清晰
+ * OAuth2AccessToken接口的默认实现是DefaultOAuth2AccessToken类（自带过期时间属性）
+ * OAuth2RefreshToken接口的默认实现是DefaultOAuth2RefreshToken类（不带过期时间属性）
+ * ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2RefreshToken的默认实现是DefaultExpiringOAuth2RefreshToken（自带过期时间属性）
  
- #### 1.当前demo是使用自定义方式来实现access_token和refresh_token的生成，看如下代码：
+ #### 2.当前demo是使用自定义方式来实现access_token和refresh_token的生成，看如下代码：
  ```
  package com.yaomy.security.oauth2.enhancer;
  
@@ -1371,6 +1376,67 @@ be171b573f5a496ca601b32b1360fe84
  ```
  经测试上面的方案完美解决自定义token生成refresh_token永不过期问题。。。
  
+ 
+ ### 
+ ***
+ 
+ 
+ ### Spring Security OAuth2之@EnableAuthorizationServer（认证服务）、@EnableResourceServer（资源服务）、@EnableWebSecurity（web安全配置服务）优先级详解
+ 
+ 最近一直在搭建Spring Security OAuth2认证服务，经常会遇到在资源服务器配置中配置生效，但是在web安全配置类中配置就不生效等等像这样的问题，今天我就
+ 深入的研究了一下原来是三个类在IOC容器之中加载的优先级问题所造成的，下面我们就一步一步的来分析下三个类的优先级问题；
+ 
+ #### 1.@EnableAuthorizationServer注解的类继承AuthorizationServerConfigurerAdapter类配置认证服务
+ * 首先查看@EnableAuthorizationServer的源码如下
+ ```
+ 
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import({AuthorizationServerEndpointsConfiguration.class, AuthorizationServerSecurityConfiguration.class})
+public @interface EnableAuthorizationServer {
+}
+```
+* 上面的注解引入了两个类，我们点击进入ClientDetailsServiceConfiguration类中
+```
+@Configuration
+@Order(0)
+@Import({ClientDetailsServiceConfiguration.class, AuthorizationServerEndpointsConfiguration.class})
+public class AuthorizationServerSecurityConfiguration extends WebSecurityConfigurerAdapter {
+                        ...
+``` 
+上面的注解@Order(0)，也就是认证服务器配置的优先级为0；
+
+#### 2.@EnableResourceServer注解的类继承ResourceServerConfigurerAdapter类配置资源服务器
+* 点击注解@EnableResourceServer查看源码
+```
+
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import({ResourceServerConfiguration.class})
+public @interface EnableResourceServer {
+}
+```
+* 注解中引入了ResourceServerConfiguration类，点击进入
+```
+@Configuration
+public class ResourceServerConfiguration extends WebSecurityConfigurerAdapter implements Ordered {
+    private int order = 3;
+```
+上面的类实现了Ordered接口，优先级为3
+
+#### 3.@EnableWebSecurity注解修饰的类继承WebSecurityConfigurerAdapter类配置web安全配置
+* 查看WebSecurityConfigurerAdapter的源码
+```
+@Order(100)
+public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigurer<WebSecurity> {
+```
+上面的类使用注解@Order,优先级为100
+
+#### 4.分析说明
+order的值越小，类的优先级越高，上面的优先级是：认证服务器配置（0）>资源服务器配置（3）>web安全服务配置（100）
+
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

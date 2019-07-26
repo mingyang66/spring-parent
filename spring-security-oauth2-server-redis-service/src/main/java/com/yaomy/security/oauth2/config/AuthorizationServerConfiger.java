@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
- * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
+ * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制,优先级顺序order=0
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.OAuth2ServerConfig
  * @Date: 2019/7/9 11:26

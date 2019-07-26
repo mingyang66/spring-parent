@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +24,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: 启动基于Spring Security的安全认证
+ * @Description: 启动基于Spring Security的安全认证,优先级顺序order=100
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.WebSecurityConfigurer
  * @Date: 2019/7/8 17:43
@@ -84,6 +85,25 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
                     .accessDeniedHandler(accessDeniedHandler)
                     .authenticationEntryPoint(authenticationEntryPoint);*/
            /* http.csrf().disable();*/
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //忽略swagger访问权限限制
+        web.ignoring().antMatchers(
+                "/userlogin",
+                "/userlogout",
+                "/userjwt",
+                "/v2/api-docs",
+                "/swagger-resources/configuration/ui",
+                "/swagger-resources",
+                "/swagger-resources/configuration/security",
+                "/swagger-ui.html",
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/webjars/**",
+                "**/favicon.ico",
+                "/index");
     }
     /**
      * @Description Spring Security认证服务中的相关实现重新定义

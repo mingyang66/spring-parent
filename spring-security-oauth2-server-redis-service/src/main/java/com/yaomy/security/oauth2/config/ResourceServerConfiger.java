@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
- * @Description: @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器
+ * @Description: @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器，优先级顺序order=3
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.ResServerConfig
  * @Date: 2019/7/9 13:28

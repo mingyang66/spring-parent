@@ -1195,5 +1195,182 @@ be171b573f5a496ca601b32b1360fe84
     }
 ```
  ***
+ 
+ ### Spring Security OAuth2 Redis存储token refresh_token永不过期问题详解
+ 
+ #### 1.当前demo是使用自定义方式来实现access_token和refresh_token的生成，看如下代码：
+ ```
+ package com.yaomy.security.oauth2.enhancer;
+ 
+ import com.google.common.collect.Maps;
+ import org.apache.commons.lang3.StringUtils;
+ import org.springframework.security.oauth2.common.*;
+ import org.springframework.security.oauth2.provider.OAuth2Authentication;
+ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+ 
+ import java.util.Map;
+ import java.util.UUID;
+ 
+ /**
+  * @Description: 用户自定义token令牌，包括access_token和refresh_token
+  * @ProjectName: spring-parent
+  * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
+  * @Date: 2019/7/9 19:43
+  * @Version: 1.0
+  */
+ public class UserTokenEnhancer implements TokenEnhancer {
+     /**
+      * @Description 重新定义令牌token
+      * @Date 2019/7/9 19:56
+      * @Version  1.0
+      */
+     @Override
+     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        if(accessToken instanceof DefaultOAuth2AccessToken){
+            DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
+            token.setValue(getToken());
+            OAuth2RefreshToken refreshToken = token.getRefreshToken();
+            if(refreshToken instanceof OAuth2RefreshToken){
+                token.setRefreshToken(new OAuth2RefreshToken(getToken()));
+            }
+            Map<String, Object> additionalInformation = Maps.newHashMap();
+            additionalInformation.put("client_id", authentication.getOAuth2Request().getClientId());
+            //添加额外配置信息
+            token.setAdditionalInformation(additionalInformation);
+            return token;
+        }
+         return accessToken;
+     }
+     /**
+      * @Description 生成自定义token
+      * @Date 2019/7/9 19:50
+      * @Version  1.0
+      */
+     private String getToken(){
+         return StringUtils.join(UUID.randomUUID().toString().replace("-", ""));
+     }
+ }
+```
+ 在实际的测试环境之中我可以拿到access_token的过期时间，并且在redis的客户端查看access_token相关键值对都是跟我设置的过期时间是一直的，但是refresh_token设置的过期
+ 时间一直不起作用，TTL显示-1，也就是一直有效，感觉就很奇怪，所以就翻看了TokenStore的实现类RedisTokenStore，源码如下
+ * 生成access_token键值对的代码如下：
+ ```
+    public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
+        //序列化相关key
+         byte[] serializedAccessToken = this.serialize((Object)token);
+         byte[] serializedAuth = this.serialize((Object)authentication);
+         byte[] accessKey = this.serializeKey("access:" + token.getValue());
+         byte[] authKey = this.serializeKey("auth:" + token.getValue());
+         byte[] authToAccessKey = this.serializeKey("auth_to_access:" + this.authenticationKeyGenerator.extractKey(authentication));
+         byte[] approvalKey = this.serializeKey("uname_to_access:" + getApprovalKey(authentication));
+         byte[] clientId = this.serializeKey("client_id_to_access:" + authentication.getOAuth2Request().getClientId());
+         RedisConnection conn = this.getConnection();
+ 
+         try {
+             conn.openPipeline();
+             if (springDataRedis_2_0) {
+                 try {
+                     //存储键值对
+                     this.redisConnectionSet_2_0.invoke(conn, accessKey, serializedAccessToken);
+                     this.redisConnectionSet_2_0.invoke(conn, authKey, serializedAuth);
+                     this.redisConnectionSet_2_0.invoke(conn, authToAccessKey, serializedAccessToken);
+                 } catch (Exception var24) {
+                     throw new RuntimeException(var24);
+                 }
+             } else {
+                 conn.set(accessKey, serializedAccessToken);
+                 conn.set(authKey, serializedAuth);
+                 conn.set(authToAccessKey, serializedAccessToken);
+             }
+ 
+             if (!authentication.isClientOnly()) {
+                 conn.sAdd(approvalKey, new byte[][]{serializedAccessToken});
+             }
+ 
+             conn.sAdd(clientId, new byte[][]{serializedAccessToken});
+             //设置access_token过期时间
+             if (token.getExpiration() != null) {
+                 int seconds = token.getExpiresIn();
+                 conn.expire(accessKey, (long)seconds);
+                 conn.expire(authKey, (long)seconds);
+                 conn.expire(authToAccessKey, (long)seconds);
+                 conn.expire(clientId, (long)seconds);
+                 conn.expire(approvalKey, (long)seconds);
+             }
+ 
+             OAuth2RefreshToken refreshToken = token.getRefreshToken();
+             if (refreshToken != null && refreshToken.getValue() != null) {
+                 byte[] refresh = this.serialize(token.getRefreshToken().getValue());
+                 byte[] auth = this.serialize(token.getValue());
+                 byte[] refreshToAccessKey = this.serializeKey("refresh_to_access:" + token.getRefreshToken().getValue());
+                 byte[] accessToRefreshKey = this.serializeKey("access_to_refresh:" + token.getValue());
+                 if (springDataRedis_2_0) {
+                     try {
+                         this.redisConnectionSet_2_0.invoke(conn, refreshToAccessKey, auth);
+                         this.redisConnectionSet_2_0.invoke(conn, accessToRefreshKey, refresh);
+                     } catch (Exception var23) {
+                         throw new RuntimeException(var23);
+                     }
+                 } else {
+                     conn.set(refreshToAccessKey, auth);
+                     conn.set(accessToRefreshKey, refresh);
+                 }
+                 //判断refresh_token对象是否是ExpiringOAuth2RefreshToken的实例对象，这一段是设置refresh_token的关键，如果是就会进行过期时间
+                 //设置，否则生成的refresh_token相关的键值对永远有效          
+                 if (refreshToken instanceof ExpiringOAuth2RefreshToken) {
+                     ExpiringOAuth2RefreshToken expiringRefreshToken = (ExpiringOAuth2RefreshToken)refreshToken;
+                     Date expiration = expiringRefreshToken.getExpiration();
+                     if (expiration != null) {
+                         int seconds = Long.valueOf((expiration.getTime() - System.currentTimeMillis()) / 1000L).intValue();
+                         conn.expire(refreshToAccessKey, (long)seconds);
+                         conn.expire(accessToRefreshKey, (long)seconds);
+                     }
+                 }
+             }
+ 
+             conn.closePipeline();
+         } finally {
+             conn.close();
+         }
+ 
+     }
+ ```
+ 上面的refreshToken instanceof ExpiringOAuth2RefreshToken这一段代码是来判断刷新token是否是带有有效期时间的ExpiringOAuth2RefreshToken实例对象，我们可以
+ 看到上面我自定义的生成refresh_token的实例对象是OAuth2RefreshToken类型，只带有一个refresh_token值，而没有有效时间的字段值，我们看下ExpiringOAuth2RefreshToken
+ 类的源码：
+ ```
+ package org.springframework.security.oauth2.common;
+ 
+ import java.util.Date;
+ 
+ public interface ExpiringOAuth2RefreshToken extends OAuth2RefreshToken {
+     Date getExpiration();
+ }
+ ```
+ 我们可以看到ExpiringOAuth2RefreshToken是OAuth2RefreshToken的子类，所以我们可以将生成的refresh_token实例对象更改为ExpiringOAuth2RefreshToken对象，代码如下：
+ ```
+     @Override
+     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        if(accessToken instanceof DefaultOAuth2AccessToken){
+            DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
+            token.setValue(getToken());
+            //使用DefaultExpiringOAuth2RefreshToken类生成refresh_token，自带过期时间，否则不生效，refresh_token一直有效
+            DefaultExpiringOAuth2RefreshToken refreshToken = (DefaultExpiringOAuth2RefreshToken)token.getRefreshToken();
+            //OAuth2RefreshToken refreshToken = token.getRefreshToken();
+            if(refreshToken instanceof DefaultExpiringOAuth2RefreshToken){
+                token.setRefreshToken(new DefaultExpiringOAuth2RefreshToken(getToken(), refreshToken.getExpiration()));
+            }
+            Map<String, Object> additionalInformation = Maps.newHashMap();
+            additionalInformation.put("client_id", authentication.getOAuth2Request().getClientId());
+            //添加额外配置信息
+            token.setAdditionalInformation(additionalInformation);
+            return token;
+        }
+         return accessToken;
+     }
+ ```
+ 经测试上面的方案完美解决自定义token生成refresh_token永不过期问题。。。
+ 
+ ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

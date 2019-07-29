@@ -1438,6 +1438,114 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 * order的值越小，类的优先级越高，IOC容器就会优先加载，上面的优先级是：认证服务器配置（0）>资源服务器配置（3）>web安全服务配置（100）
 * 在做资源权限配置的时候按照优先级高的来配置，否则不会生效
 
+***
+
+### Spring Security OAuth2之scopes配置详解
+
+#### 1.先看下官方文档的说明
+* 地址：[https://projects.spring.io/spring-security-oauth/docs/oauth2.html](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
+* scope: The scope to which the client is limited. If scope is undefined or empty (the default) the client is not limited by scope.
+* 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
+scope中文翻译就是作用域，用来限制客户端权限访问的范围，可以用来设置角色或者权限，也可以不设置。
+
+#### 2.scopes的校验是在TokenEndpoint进行的
+
+```
+   @RequestMapping(
+        value = {"/oauth/token"},
+        method = {RequestMethod.POST}
+    )
+    public ResponseEntity<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+        if (!(principal instanceof Authentication)) {
+            throw new InsufficientAuthenticationException("There is no client authentication. Try adding an appropriate authentication filter.");
+        } else {
+            String clientId = this.getClientId(principal);
+            ClientDetails authenticatedClient = this.getClientDetailsService().loadClientByClientId(clientId);
+            TokenRequest tokenRequest = this.getOAuth2RequestFactory().createTokenRequest(parameters, authenticatedClient);
+            if (clientId != null && !clientId.equals("") && !clientId.equals(tokenRequest.getClientId())) {
+                throw new InvalidClientException("Given client ID does not match authenticated client");
+            } else {
+                //校验scope客户端和服务器端的设置是否匹配
+                if (authenticatedClient != null) {
+                    this.oAuth2RequestValidator.validateScope(tokenRequest, authenticatedClient);
+                }
+
+                if (!StringUtils.hasText(tokenRequest.getGrantType())) {
+                    throw new InvalidRequestException("Missing grant type");
+                } else if (tokenRequest.getGrantType().equals("implicit")) {
+                    throw new InvalidGrantException("Implicit grant type not supported from token endpoint");
+                } else {
+                    if (this.isAuthCodeRequest(parameters) && !tokenRequest.getScope().isEmpty()) {
+                        this.logger.debug("Clearing scope of incoming token request");
+                        tokenRequest.setScope(Collections.emptySet());
+                    }
+
+                    if (this.isRefreshTokenRequest(parameters)) {
+                        tokenRequest.setScope(OAuth2Utils.parseParameterList((String)parameters.get("scope")));
+                    }
+
+                    OAuth2AccessToken token = this.getTokenGranter().grant(tokenRequest.getGrantType(), tokenRequest);
+                    if (token == null) {
+                        throw new UnsupportedGrantTypeException("Unsupported grant type: " + tokenRequest.getGrantType());
+                    } else {
+                        return this.getResponse(token);
+                    }
+                }
+            }
+        }
+    }
+```
+#### 3.进入this.oAuth2RequestValidator.validateScope(tokenRequest, authenticatedClient);查看处理逻辑
+oAuth2RequestValidator对象是DefaultOAuth2RequestValidator的实例，进入看下实现逻辑：
+```
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package org.springframework.security.oauth2.provider.request;
+
+import java.util.Iterator;
+import java.util.Set;
+import org.springframework.security.oauth2.common.exceptions.InvalidScopeException;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.OAuth2RequestValidator;
+import org.springframework.security.oauth2.provider.TokenRequest;
+
+public class DefaultOAuth2RequestValidator implements OAuth2RequestValidator {
+    public DefaultOAuth2RequestValidator() {
+    }
+
+    public void validateScope(AuthorizationRequest authorizationRequest, ClientDetails client) throws InvalidScopeException {
+        this.validateScope(authorizationRequest.getScope(), client.getScope());
+    }
+    //校验客户端scope和服务端sope方法
+    public void validateScope(TokenRequest tokenRequest, ClientDetails client) throws InvalidScopeException {
+        this.validateScope(tokenRequest.getScope(), client.getScope());
+    }
+    //实际的校验方法
+    private void validateScope(Set<String> requestScopes, Set<String> clientScopes) {
+        //客户端scope不为空并且scope在服务端scope限制范围之内通过校验
+        //客户端scope不为空，服务端为空或不设置通过校验
+        if (clientScopes != null && !clientScopes.isEmpty()) {
+            Iterator var3 = requestScopes.iterator();
+
+            while(var3.hasNext()) {
+                String scope = (String)var3.next();
+                if (!clientScopes.contains(scope)) {
+                    throw new InvalidScopeException("Invalid scope: " + scope, clientScopes);
+                }
+            }
+        }
+        //如果客户端的scope为空将会抛出异常，所以客户端不可以为空
+        if (requestScopes.isEmpty()) {
+            throw new InvalidScopeException("Empty scope (either the client or the user is not allowed the requested scopes)");
+        }
+    }
+}
+```
+
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

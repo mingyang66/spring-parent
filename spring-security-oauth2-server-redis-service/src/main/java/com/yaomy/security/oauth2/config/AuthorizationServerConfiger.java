@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
-import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import com.yaomy.security.oauth2.po.UserAuthDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     @Autowired
     private OAuth2ClientDetailsService oAuth2ClientDetailsService;
     @Autowired
-    private AuthUserDetailsService authUserDetailsService;
+    private UserAuthDetailsService authUserDetailsService;
     @Autowired
     private WebResponseExceptionTranslator webResponseExceptionTranslator;
     @Autowired

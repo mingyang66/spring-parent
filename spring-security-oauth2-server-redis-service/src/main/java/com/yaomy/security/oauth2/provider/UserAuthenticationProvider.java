@@ -2,7 +2,7 @@ package com.yaomy.security.oauth2.provider;
 
 import com.yaomy.security.oauth2.exception.PasswordException;
 import com.yaomy.security.oauth2.exception.UsernameException;
-import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import com.yaomy.security.oauth2.po.UserAuthDetailsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
@@ -10,12 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Component;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.Collection;
 
 /**
@@ -28,7 +25,7 @@ import java.util.Collection;
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
     @Autowired
-    private AuthUserDetailsService authUserDetailsService;
+    private UserAuthDetailsService authUserDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     /**

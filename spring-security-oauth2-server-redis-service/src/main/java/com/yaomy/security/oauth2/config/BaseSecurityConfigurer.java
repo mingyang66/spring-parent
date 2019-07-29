@@ -1,10 +1,6 @@
 package com.yaomy.security.oauth2.config;
 
-import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
-import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
-import com.yaomy.security.oauth2.handler.UserAuthenticationFailureHandler;
-import com.yaomy.security.oauth2.handler.UserAuthenticationSuccessHandler;
-import com.yaomy.security.oauth2.po.AuthUserDetailsService;
+import com.yaomy.security.oauth2.po.UserAuthDetailsService;
 import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +32,7 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
     @Autowired
-    private AuthUserDetailsService authUserDetailsService;
+    private UserAuthDetailsService authUserDetailsService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);

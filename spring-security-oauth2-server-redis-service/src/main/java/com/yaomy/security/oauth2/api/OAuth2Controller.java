@@ -67,7 +67,7 @@ public class OAuth2Controller implements InitializingBean {
         resource.setAccessTokenUri(tokenUri);
         resource.setUsername(username);
         resource.setPassword(password);
-        resource.setScope(Arrays.asList("test"));
+        resource.setScope(Arrays.asList("all"));
 
         OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();

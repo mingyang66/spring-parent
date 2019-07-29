@@ -33,7 +33,7 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     @Autowired
     private OAuth2ClientDetailsService oAuth2ClientDetailsService;
     @Autowired
-    private UserAuthDetailsService authUserDetailsService;
+    private UserAuthDetailsService userAuthDetailsService;
     @Autowired
     private WebResponseExceptionTranslator webResponseExceptionTranslator;
     @Autowired
@@ -72,7 +72,7 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
                 //通过authenticationManager开启密码授权
                 .authenticationManager(authenticationManager)
                 //自定义refresh_token刷新令牌对用户信息的检查，以确保用户信息仍然有效
-                .userDetailsService(authUserDetailsService)
+                .userDetailsService(userAuthDetailsService)
                 //token相关服务
                 .tokenServices(tokenServices)
                 /**

@@ -32,7 +32,7 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
     public void init(){
         InMemoryClientDetailsServiceBuilder inMemoryClientDetailsServiceBuilder = new InMemoryClientDetailsServiceBuilder();
         inMemoryClientDetailsServiceBuilder
-                    .withClient("auth_code")
+                .withClient("auth_code")
                     // client secret
                     .secret(passwordEncoder.encode("secret"))
                     /**
@@ -51,12 +51,12 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                     .authorizedGrantTypes("authorization_code","password", "implicit", "client_credentials", "refresh_token")
                     //回调uri，在authorization_code与implicit授权方式时，用以接收服务器的返回信息
                     .redirectUris("http://localhost:9003/auth_user/get_auth_code")
-                    // 允许的授权范围
+                    // 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
                     .scopes("insert","update","del", "select", "replace")
-                .and()
-                    .withClient("client_password")
-                    //client secret
-                    .secret(passwordEncoder.encode("secret"))
+                    .and()
+                .withClient("client_password")
+                    //资源ID
+                    .resourceIds("resource_password_id")
                     /**
                      ----密码模式---
                      自己有一套账号权限体系在认证服务器中对应,客户端认证的时候需要带上自己的用户名和密码
@@ -69,12 +69,14 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                      --password:密码，必选
                      */
                     .authorizedGrantTypes("password", "refresh_token")
-                    //资源ID
-                    .resourceIds("resource_password_id")
-                    // 允许的授权范围
-                    .scopes("test","ceshi")
-                .and()
-                    .withClient("client")
+                    //此客户端可以使用的权限
+                    .authorities("/a/b")
+                    // 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
+                    .scopes()
+                    //client secret
+                    .secret(passwordEncoder.encode("secret"))
+                    .and()
+                .withClient("client")
                     //client secret
                     .secret(passwordEncoder.encode("secret"))
                     /**
@@ -88,10 +90,10 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                      --scope：授权范围，必选
                      */
                     .authorizedGrantTypes("client_credentials","refresh_token")
-                    //允许的授权范围
+                    //用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
                     .scopes("insert","del", "update")
-                .and()
-                    .withClient("client_implicit")
+                    .and()
+                .withClient("client_implicit")
                     /**
                      ---授权模式：极简模式---
                      示例:http://localhost:9003/oauth/authorize?client_id=client_implicit&response_type=token&redirect_uri=http://localhost:9003/auth_user/get_auth_code
@@ -99,7 +101,7 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                     .authorizedGrantTypes("implicit")
                     //回调uri，在authorization_code与implicit授权方式时，用以接收服务器的返回信息
                     .redirectUris("http://localhost:9003/auth_user/get_auth_code")
-                    //允许的授权范围
+                    //用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
                     .scopes("del","update");
         try{
             clientDetailsService = inMemoryClientDetailsServiceBuilder.build();

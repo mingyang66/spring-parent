@@ -86,7 +86,7 @@ public class OAuth2Controller {
             result.put("authorities", jsonObject);
             response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
         } catch (Exception e){
-            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, null);
         }
         return ResponseEntity.ok(response);
     }

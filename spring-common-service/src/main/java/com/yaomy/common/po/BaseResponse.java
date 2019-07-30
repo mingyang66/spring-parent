@@ -1,5 +1,6 @@
 package com.yaomy.common.po;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yaomy.common.enums.HttpStatusMsg;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ import java.io.Serializable;
 public class BaseResponse implements Serializable {
     private int status;
     private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object data;
     /**
      * @Description 创建响应对象

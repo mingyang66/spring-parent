@@ -72,12 +72,12 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                      --password:密码，必选
                      */
                     .authorizedGrantTypes(GrantTypeEnum.PASSWORD.getGrant_type(), GrantTypeEnum.REFRESH_TOKEN.getGrant_type())
+                    //client secret
+                    .secret(passwordEncoder.encode(propertyService.getProperty("spring.security.oauth.resource.client.secret")))
                     //此客户端可以使用的权限
                     //.authorities("/a/b")
                     // 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
                     .scopes("all")
-                    //client secret
-                    .secret(passwordEncoder.encode(propertyService.getProperty("spring.security.oauth.resource.client.secret")))
                     .and()
                 .withClient("client")
                     //client secret

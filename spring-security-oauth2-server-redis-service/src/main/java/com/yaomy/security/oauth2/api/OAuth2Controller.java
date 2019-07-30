@@ -80,11 +80,11 @@ public class OAuth2Controller {
             result.put("scope", StringUtils.join(accessToken.getScope(), ","));
             result.putAll(accessToken.getAdditionalInformation());
             Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(template.getAccessToken()).getUserAuthentication().getAuthorities();
-            List<JSONObject> authList = Lists.newArrayList();
+            JSONObject jsonObject = new JSONObject();
             for(GrantedAuthority authority:authorities){
-                authList.add(JSONObject.parseObject(authority.getAuthority()));
+                jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
             }
-            result.put("authorities", authList);
+            result.put("authorities", jsonObject);
             response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
         } catch (Exception e){
             response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
@@ -105,13 +105,12 @@ public class OAuth2Controller {
         resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
         resource.setGrantType(GrantTypeEnum.REFRESH_TOKEN.getGrant_type());
         resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
-        resource.setScope(Arrays.asList("all"));
 
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
         OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
 
-        Map<String, Object> result = Maps.newHashMap();
+        Map<String, Object> result = Maps.newLinkedHashMap();
         result.put("access_token", accessToken.getValue());
         result.put("token_type", accessToken.getTokenType());
         result.put("refresh_token", accessToken.getRefreshToken().getValue());
@@ -119,11 +118,11 @@ public class OAuth2Controller {
         result.put("scope", StringUtils.join(accessToken.getScope(), ","));
         result.putAll(accessToken.getAdditionalInformation());
         Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
-        List<JSONObject> authList = Lists.newArrayList();
+        JSONObject jsonObject = new JSONObject();
         for(GrantedAuthority authority:authorities){
-            authList.add(JSONObject.parseObject(authority.getAuthority()));
+            jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
         }
-        result.put("authorities", authList);
+        result.put("authorities", jsonObject);
 
         BaseResponse response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
         return ResponseEntity.ok(response);

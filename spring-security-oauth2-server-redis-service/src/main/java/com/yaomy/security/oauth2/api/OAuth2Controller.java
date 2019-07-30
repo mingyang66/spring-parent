@@ -1,5 +1,8 @@
 package com.yaomy.security.oauth2.api;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yaomy.common.enums.HttpStatusMsg;
 import com.yaomy.common.po.BaseResponse;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,7 +81,21 @@ public class OAuth2Controller implements InitializingBean {
         System.out.println("过期时间是："+template.getAccessToken().getExpiration());
         BaseResponse response = null;
         try {
-            response = BaseResponse.createResponse(HttpStatusMsg.OK, template.getAccessToken());
+            OAuth2AccessToken accessToken = template.getAccessToken();
+            Map<String, Object> result = Maps.newHashMap();
+            result.put("access_token", accessToken.getValue());
+            result.put("token_type", accessToken.getTokenType());
+            result.put("refresh_token", accessToken.getRefreshToken().getValue());
+            result.put("expires_in", accessToken.getExpiresIn());
+            result.put("scope", StringUtils.join(accessToken.getScope(), ","));
+            result.putAll(accessToken.getAdditionalInformation());
+            Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(template.getAccessToken()).getUserAuthentication().getAuthorities();
+            List<JSONObject> authList = Lists.newArrayList();
+            for(GrantedAuthority authority:authorities){
+                authList.add(JSONObject.parseObject(authority.getAuthority()));
+            }
+            result.put("authorities", authList);
+            response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
         } catch (Exception e){
             response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
         }

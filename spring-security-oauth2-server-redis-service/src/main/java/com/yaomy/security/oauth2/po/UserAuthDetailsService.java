@@ -1,6 +1,10 @@
 package com.yaomy.security.oauth2.po;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.yaomy.security.oauth2.authority.UserGrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * @Description: 用户认证
@@ -28,6 +34,13 @@ public class UserAuthDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("---用户信息验证----"+username);
+        GrantedAuthority authority = new UserGrantedAuthority("username", username);
+
+        JSONArray array = new JSONArray();
+        array.add("/a/b");
+        array.add("/a/c");
+        array.add("/a/d");
+        GrantedAuthority interfaces = new UserGrantedAuthority("interfaces", array);
         /**
          isEnabled 账户是否启用
          isAccountNonExpired 账户没有过期
@@ -39,7 +52,7 @@ public class UserAuthDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE"));
+                 Arrays.asList(authority, interfaces));
     }
 
 }

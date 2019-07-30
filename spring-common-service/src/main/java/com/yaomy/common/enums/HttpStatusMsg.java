@@ -17,6 +17,7 @@ public enum HttpStatusMsg {
     INDEX_OUTOF_BOUNDS_EXCEPTION(206, "数组越界异常"),
     METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION(207, "参数类型不匹配"),
     MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(208, "缺少参数"),
+    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(209, "不支持的method类型"),
 
     //--------------------OAuth2认证异常------------------
     AUTHENTICATION_EXCEPTION(300, "账号认证授权不正确"),

@@ -2,7 +2,9 @@ package com.yaomy.security.oauth2.exception;
 
 import com.yaomy.common.enums.HttpStatusMsg;
 import com.yaomy.common.po.BaseResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -90,6 +92,13 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
         return BaseResponse.createResponse(HttpStatusMsg.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), "缺少必要参数，参数名称为"+e.getParameterName());
+    }
+    /**
+     * 请求method不匹配
+     */
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
+    public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
+        return BaseResponse.createResponse(HttpStatusMsg.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), "不支持"+e.getMethod()+"方法，支持"+ StringUtils.join(e.getSupportedMethods(), ",")+"类型");
     }
 
 }

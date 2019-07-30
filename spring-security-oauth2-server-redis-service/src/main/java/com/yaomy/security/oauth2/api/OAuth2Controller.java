@@ -104,7 +104,6 @@ public class OAuth2Controller {
         resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
         resource.setGrantType(GrantTypeEnum.REFRESH_TOKEN.getGrant_type());
         resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
-        resource.setScope(Arrays.asList("all"));
 
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);

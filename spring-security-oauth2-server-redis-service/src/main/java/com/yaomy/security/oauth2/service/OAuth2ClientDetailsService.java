@@ -77,7 +77,7 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                     //此客户端可以使用的权限
                     //.authorities("/a/b")
                     // 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
-                    .scopes()
+                    .scopes("all")
                     .and()
                 .withClient("client")
                     //client secret

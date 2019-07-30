@@ -96,7 +96,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
+    public ResponseEntity<BaseResponse> refreshToken(@RequestParam String refresh_token){
         try {
             ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
             resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));

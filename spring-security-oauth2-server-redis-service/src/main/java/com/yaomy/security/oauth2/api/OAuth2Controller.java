@@ -67,7 +67,6 @@ public class OAuth2Controller {
         OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         template.setAccessTokenProvider(provider);
-        BaseResponse response = null;
         try {
             OAuth2AccessToken accessToken = template.getAccessToken();
             Map<String, Object> result = Maps.newHashMap();
@@ -84,11 +83,12 @@ public class OAuth2Controller {
                 jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
             }
             result.put("authorities", jsonObject);
-            response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
+
+            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){
-            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, null);
+            e.printStackTrace();
+            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString()));
         }
-        return ResponseEntity.ok(response);
     }
     /**
      * @Description /oauth/token（令牌端点）刷新token信息
@@ -97,35 +97,38 @@ public class OAuth2Controller {
      */
     @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
     public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
+        try {
+            ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+            resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
+            resource.setClientId(propertyService.getProperty("spring.security.oauth.resource.client.id"));
+            resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
+            resource.setGrantType(GrantTypeEnum.REFRESH_TOKEN.getGrant_type());
+            resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
 
-        ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
-        resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
-        resource.setClientId(propertyService.getProperty("spring.security.oauth.resource.client.id"));
-        resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
-        resource.setGrantType(GrantTypeEnum.REFRESH_TOKEN.getGrant_type());
-        resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
+            ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+            OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
+            OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
 
-        ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
-        OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
-        OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
+            Map<String, Object> result = Maps.newLinkedHashMap();
+            result.put("access_token", accessToken.getValue());
+            result.put("token_type", accessToken.getTokenType());
+            result.put("refresh_token", accessToken.getRefreshToken().getValue());
+            result.put("expires_in", accessToken.getExpiresIn());
+            result.put("scope", StringUtils.join(accessToken.getScope(), ","));
+            result.putAll(accessToken.getAdditionalInformation());
 
-        Map<String, Object> result = Maps.newLinkedHashMap();
-        result.put("access_token", accessToken.getValue());
-        result.put("token_type", accessToken.getTokenType());
-        result.put("refresh_token", accessToken.getRefreshToken().getValue());
-        result.put("expires_in", accessToken.getExpiresIn());
-        result.put("scope", StringUtils.join(accessToken.getScope(), ","));
-        result.putAll(accessToken.getAdditionalInformation());
+            Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
+            JSONObject jsonObject = new JSONObject();
+            for(GrantedAuthority authority:authorities){
+                jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
+            }
+            result.put("authorities", jsonObject);
 
-        Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
-        JSONObject jsonObject = new JSONObject();
-        for(GrantedAuthority authority:authorities){
-            jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
+            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString()));
         }
-        result.put("authorities", jsonObject);
-
-        BaseResponse response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
-        return ResponseEntity.ok(response);
     }
     /**
      * @Description oauth/check_token（端点校验）token有效性

@@ -1448,6 +1448,11 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 * 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
 scope中文翻译就是作用域，用来限制客户端权限访问的范围，可以用来设置角色或者权限，也可以不设置。
 
+> 虽然官方网站说是服务器端的client配置scopes可以为空，但是经过实际操作及跟踪源码来看password模式下调用/oauth/token端点拿用户token信息服务端可以为空，
+但是客户端必须传scopes;refresh_token模式服务端及client端的scopes都 需要配置，所以即使我们用不到scopes前后端最好都配置上scopes("all");
+
+资料信息：[https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope](https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope)
+
 #### 2.scopes的校验是在TokenEndpoint进行的
 
 ```
@@ -1461,6 +1466,7 @@ scope中文翻译就是作用域，用来限制客户端权限访问的范围，
         } else {
             String clientId = this.getClientId(principal);
             ClientDetails authenticatedClient = this.getClientDetailsService().loadClientByClientId(clientId);
+            //OAuth2RequestFactory接口的实现类DefaultOAuth2RequestFactory创建token请求对象
             TokenRequest tokenRequest = this.getOAuth2RequestFactory().createTokenRequest(parameters, authenticatedClient);
             if (clientId != null && !clientId.equals("") && !clientId.equals(tokenRequest.getClientId())) {
                 throw new InvalidClientException("Given client ID does not match authenticated client");
@@ -1541,6 +1547,129 @@ public class DefaultOAuth2RequestValidator implements OAuth2RequestValidator {
         //如果客户端的scope为空将会抛出异常，所以客户端不可以为空
         if (requestScopes.isEmpty()) {
             throw new InvalidScopeException("Empty scope (either the client or the user is not allowed the requested scopes)");
+        }
+    }
+}
+```
+
+#### 4.DefaultOAuth2RequestFactory实现类组装token请求及校验scopes
+```
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package org.springframework.security.oauth2.provider.request;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.DefaultSecurityContextAccessor;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.SecurityContextAccessor;
+import org.springframework.security.oauth2.provider.TokenRequest;
+
+public class DefaultOAuth2RequestFactory implements OAuth2RequestFactory {
+    private final ClientDetailsService clientDetailsService;
+    private SecurityContextAccessor securityContextAccessor = new DefaultSecurityContextAccessor();
+    private boolean checkUserScopes = false;
+
+    public DefaultOAuth2RequestFactory(ClientDetailsService clientDetailsService) {
+        this.clientDetailsService = clientDetailsService;
+    }
+
+    public void setSecurityContextAccessor(SecurityContextAccessor securityContextAccessor) {
+        this.securityContextAccessor = securityContextAccessor;
+    }
+
+    public void setCheckUserScopes(boolean checkUserScopes) {
+        this.checkUserScopes = checkUserScopes;
+    }
+
+    public AuthorizationRequest createAuthorizationRequest(Map<String, String> authorizationParameters) {
+        String clientId = (String)authorizationParameters.get("client_id");
+        String state = (String)authorizationParameters.get("state");
+        String redirectUri = (String)authorizationParameters.get("redirect_uri");
+        Set<String> responseTypes = OAuth2Utils.parseParameterList((String)authorizationParameters.get("response_type"));
+        Set<String> scopes = this.extractScopes(authorizationParameters, clientId);
+        AuthorizationRequest request = new AuthorizationRequest(authorizationParameters, Collections.emptyMap(), clientId, scopes, (Set)null, (Collection)null, false, state, redirectUri, responseTypes);
+        ClientDetails clientDetails = this.clientDetailsService.loadClientByClientId(clientId);
+        request.setResourceIdsAndAuthoritiesFromClientDetails(clientDetails);
+        return request;
+    }
+
+    public OAuth2Request createOAuth2Request(AuthorizationRequest request) {
+        return request.createOAuth2Request();
+    }
+    //创建请求入口类
+    public TokenRequest createTokenRequest(Map<String, String> requestParameters, ClientDetails authenticatedClient) {
+        String clientId = (String)requestParameters.get("client_id");
+        if (clientId == null) {
+            clientId = authenticatedClient.getClientId();
+        } else if (!clientId.equals(authenticatedClient.getClientId())) {
+            throw new InvalidClientException("Given client ID does not match authenticated client");
+        }
+
+        String grantType = (String)requestParameters.get("grant_type");
+        //获取客户端传递或者服务端的scope
+        Set<String> scopes = this.extractScopes(requestParameters, clientId);
+        TokenRequest tokenRequest = new TokenRequest(requestParameters, clientId, scopes, grantType);
+        return tokenRequest;
+    }
+
+    public TokenRequest createTokenRequest(AuthorizationRequest authorizationRequest, String grantType) {
+        TokenRequest tokenRequest = new TokenRequest(authorizationRequest.getRequestParameters(), authorizationRequest.getClientId(), authorizationRequest.getScope(), grantType);
+        return tokenRequest;
+    }
+
+    public OAuth2Request createOAuth2Request(ClientDetails client, TokenRequest tokenRequest) {
+        return tokenRequest.createOAuth2Request(client);
+    }
+    //如果参数中的scope为null,则从服务端配置的scope中取，并且根据this.checkUserScopes的值判断是否校验scopes的有效性
+    private Set<String> extractScopes(Map<String, String> requestParameters, String clientId) {
+        Set<String> scopes = OAuth2Utils.parseParameterList((String)requestParameters.get("scope"));
+        ClientDetails clientDetails = this.clientDetailsService.loadClientByClientId(clientId);
+        if (scopes == null || scopes.isEmpty()) {
+            scopes = clientDetails.getScope();
+        }
+
+        if (this.checkUserScopes) {
+            scopes = this.checkUserScopes(scopes, clientDetails);
+        }
+
+        return scopes;
+    }
+
+    private Set<String> checkUserScopes(Set<String> scopes, ClientDetails clientDetails) {
+        if (!this.securityContextAccessor.isUser()) {
+            return scopes;
+        } else {
+            Set<String> result = new LinkedHashSet();
+            Set<String> authorities = AuthorityUtils.authorityListToSet(this.securityContextAccessor.getAuthorities());
+            Iterator var5 = scopes.iterator();
+
+            while(true) {
+                String scope;
+                do {
+                    if (!var5.hasNext()) {
+                        return result;
+                    }
+
+                    scope = (String)var5.next();
+                } while(!authorities.contains(scope) && !authorities.contains(scope.toUpperCase()) && !authorities.contains("ROLE_" + scope.toUpperCase()));
+
+                result.add(scope);
+            }
         }
     }
 }

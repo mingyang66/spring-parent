@@ -1,7 +1,6 @@
 package com.yaomy.security.oauth2.api;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yaomy.common.enums.GrantTypeEnum;
 import com.yaomy.common.enums.HttpStatusMsg;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,6 +77,7 @@ public class OAuth2Controller {
             result.put("expires_in", accessToken.getExpiresIn());
             result.put("scope", StringUtils.join(accessToken.getScope(), ","));
             result.putAll(accessToken.getAdditionalInformation());
+
             Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(template.getAccessToken()).getUserAuthentication().getAuthorities();
             JSONObject jsonObject = new JSONObject();
             for(GrantedAuthority authority:authorities){
@@ -117,6 +116,7 @@ public class OAuth2Controller {
         result.put("expires_in", accessToken.getExpiresIn());
         result.put("scope", StringUtils.join(accessToken.getScope(), ","));
         result.putAll(accessToken.getAdditionalInformation());
+
         Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
         JSONObject jsonObject = new JSONObject();
         for(GrantedAuthority authority:authorities){

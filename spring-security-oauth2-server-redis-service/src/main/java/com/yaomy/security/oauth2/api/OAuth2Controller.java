@@ -55,6 +55,7 @@ public class OAuth2Controller {
      */
     @RequestMapping(value = "token", method = RequestMethod.POST)
     public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
+
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
         resource.setClientId(propertyService.getProperty("spring.security.oauth.resource.client.id"));
@@ -99,10 +100,12 @@ public class OAuth2Controller {
     public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+        resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
         resource.setClientId(propertyService.getProperty("spring.security.oauth.resource.client.id"));
         resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
         resource.setGrantType(GrantTypeEnum.REFRESH_TOKEN.getGrant_type());
         resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
+        resource.setScope(Arrays.asList("all"));
 
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);

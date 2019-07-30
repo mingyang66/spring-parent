@@ -1,5 +1,6 @@
 package com.yaomy.security.oauth2.service;
 
+import com.yaomy.common.enums.GrantTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
@@ -24,6 +25,8 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
     private ClientDetailsService clientDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PropertyService propertyService;
     /**
      被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器调用一次，类似于Serclet的inti()方法。
      被@PostConstruct修饰的方法会在构造函数之后，init()方法之前运行。
@@ -54,9 +57,9 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                     // 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
                     .scopes("insert","update","del", "select", "replace")
                     .and()
-                .withClient("client_password")
+                .withClient(propertyService.getProperty("spring.security.oauth.resource.client.id"))
                     //资源ID
-                    .resourceIds("resource_password_id")
+                    .resourceIds(propertyService.getProperty("spring.security.oauth.resource.id"))
                     /**
                      ----密码模式---
                      自己有一套账号权限体系在认证服务器中对应,客户端认证的时候需要带上自己的用户名和密码
@@ -68,13 +71,13 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
                      --username:用户名，必选
                      --password:密码，必选
                      */
-                    .authorizedGrantTypes("password", "refresh_token")
+                    .authorizedGrantTypes(GrantTypeEnum.PASSWORD.getGrant_type(), GrantTypeEnum.REFRESH_TOKEN.getGrant_type())
                     //此客户端可以使用的权限
                     //.authorities("/a/b")
                     // 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
-                    .scopes()
+                    .scopes("all")
                     //client secret
-                    .secret(passwordEncoder.encode("secret"))
+                    .secret(passwordEncoder.encode(propertyService.getProperty("spring.security.oauth.resource.client.secret")))
                     .and()
                 .withClient("client")
                     //client secret

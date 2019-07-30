@@ -3,7 +3,6 @@ package com.yaomy.security.oauth2.config;
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
 import com.yaomy.security.oauth2.po.UserAuthDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +26,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAdapter implements InitializingBean {
+public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -132,8 +131,4 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
         return new UserTokenEnhancer();
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("=====init AuthorizationServerConfig===========");
-    }
 }

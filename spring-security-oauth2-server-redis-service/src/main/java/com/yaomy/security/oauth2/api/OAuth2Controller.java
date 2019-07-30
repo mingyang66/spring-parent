@@ -1,16 +1,15 @@
 package com.yaomy.security.oauth2.api;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.yaomy.common.enums.GrantTypeEnum;
 import com.yaomy.common.enums.HttpStatusMsg;
 import com.yaomy.common.po.BaseResponse;
+import com.yaomy.security.oauth2.service.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,19 +40,10 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "oauth2")
-public class OAuth2Controller implements InitializingBean {
+public class OAuth2Controller {
 
-    @Value("${oauth.token.uri}")
-    private String tokenUri;
-
-    @Value("${oauth.resource.id}")
-    private String resourceId;
-
-    @Value("${oauth.resource.client.id}")
-    private String resourceClientId;
-
-    @Value("${oauth.resource.client.secret}")
-    private String resourceClientSecret;
+    @Autowired
+    private PropertyService propertyService;
     @Autowired
     @Lazy
     private TokenStore tokenStore;
@@ -66,11 +56,11 @@ public class OAuth2Controller implements InitializingBean {
     @RequestMapping(value = "token", method = RequestMethod.POST)
     public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
-        resource.setId(resourceId);
-        resource.setClientId(resourceClientId);
-        resource.setClientSecret(resourceClientSecret);
-        resource.setGrantType("password");
-        resource.setAccessTokenUri(tokenUri);
+        resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
+        resource.setClientId(propertyService.getProperty("spring.security.oauth.resource.client.id"));
+        resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
+        resource.setGrantType(GrantTypeEnum.PASSWORD.getGrant_type());
+        resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
         resource.setUsername(username);
         resource.setPassword(password);
         resource.setScope(Arrays.asList("all"));
@@ -78,7 +68,6 @@ public class OAuth2Controller implements InitializingBean {
         OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         template.setAccessTokenProvider(provider);
-        System.out.println("过期时间是："+template.getAccessToken().getExpiration());
         BaseResponse response = null;
         try {
             OAuth2AccessToken accessToken = template.getAccessToken();
@@ -110,14 +99,13 @@ public class OAuth2Controller implements InitializingBean {
     public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
-        resource.setClientId(resourceClientId);
-        resource.setClientSecret(resourceClientSecret);
-        resource.setGrantType("refresh_token");
-        resource.setAccessTokenUri(tokenUri);
+        resource.setClientId(propertyService.getProperty("spring.security.oauth.resource.client.id"));
+        resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
+        resource.setGrantType(GrantTypeEnum.REFRESH_TOKEN.getGrant_type());
+        resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
 
         ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
-        System.out.println("refresh_token过期时间是："+refreshToken.getValue());
         OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
 
         Map<String, Object> result = Maps.newHashMap();
@@ -179,10 +167,5 @@ public class OAuth2Controller implements InitializingBean {
             }
         }
         return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK));
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("init OAuth2Controller-----------");
     }
 }

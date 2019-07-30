@@ -39,7 +39,7 @@ public class UserAuthDetailsService implements UserDetailsService {
         JSONArray array = new JSONArray();
         array.add("/a/b");
         array.add("/a/c");
-        array.add("/a/d");
+        array.add("/oauth/token");
         GrantedAuthority interfaces = new UserGrantedAuthority("interfaces", array);
         /**
          isEnabled 账户是否启用

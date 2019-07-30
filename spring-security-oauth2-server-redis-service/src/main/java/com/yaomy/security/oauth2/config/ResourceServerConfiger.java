@@ -2,7 +2,7 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
 import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
-import org.springframework.beans.factory.InitializingBean;
+import com.yaomy.security.oauth2.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfiger extends ResourceServerConfigurerAdapter implements InitializingBean {
+public class ResourceServerConfiger extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
@@ -31,12 +31,14 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
 
     @Autowired
     private TokenStore tokenStore;
+    @Autowired
+    private PropertyService propertyService;
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
                 .tokenServices(tokenServices())
                 //资源ID
-                .resourceId("resource_password_id")
+                .resourceId(propertyService.getProperty("spring.security.oauth.resource.id"))
                 //用来解决匿名用户访问无权限资源时的异常
                 .authenticationEntryPoint(userAuthenticationEntryPoint)
                 //访问资源权限相关异常处理
@@ -47,7 +49,7 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers().denyAll()
+            //.antMatchers().denyAll()
             .antMatchers("/oauth2/**","/oauth/**").permitAll()
             .anyRequest().authenticated()
         .and()
@@ -67,10 +69,5 @@ public class ResourceServerConfiger extends ResourceServerConfigurerAdapter impl
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);
         return defaultTokenServices;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("----init ResourceServerConfig---");
     }
 }

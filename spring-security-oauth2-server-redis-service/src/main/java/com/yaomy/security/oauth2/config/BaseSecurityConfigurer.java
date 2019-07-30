@@ -2,7 +2,6 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.po.UserAuthDetailsService;
 import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +27,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  */
 @Configuration
 @EnableWebSecurity
-public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter implements InitializingBean {
+public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
     @Autowired
@@ -103,9 +102,5 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter impleme
         //注意：如果不保存access_token，则没法通过access_token取得用户信息
         //return new InMemoryTokenStore();
         return new RedisTokenStore(redisConnectionFactory);
-    }
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("=====init BaseSecurityConfigurer===========");
     }
 }

@@ -119,7 +119,22 @@ public class OAuth2Controller implements InitializingBean {
         OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
         System.out.println("refresh_token过期时间是："+refreshToken.getValue());
         OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
-        BaseResponse response = BaseResponse.createResponse(HttpStatusMsg.OK, accessToken);
+
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("access_token", accessToken.getValue());
+        result.put("token_type", accessToken.getTokenType());
+        result.put("refresh_token", accessToken.getRefreshToken().getValue());
+        result.put("expires_in", accessToken.getExpiresIn());
+        result.put("scope", StringUtils.join(accessToken.getScope(), ","));
+        result.putAll(accessToken.getAdditionalInformation());
+        Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
+        List<JSONObject> authList = Lists.newArrayList();
+        for(GrantedAuthority authority:authorities){
+            authList.add(JSONObject.parseObject(authority.getAuthority()));
+        }
+        result.put("authorities", authList);
+
+        BaseResponse response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
         return ResponseEntity.ok(response);
     }
     /**

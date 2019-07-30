@@ -7,10 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Map;
 
 /**
- * @Description: Description
+ * @Description: 自定义GrantedAuthority接口
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.authority.UserGrantedAuthority
- * @Author: 姚明洋
  * @Date: 2019/7/29 16:14
  * @Version: 1.0
  */

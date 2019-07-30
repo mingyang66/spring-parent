@@ -1546,6 +1546,173 @@ public class DefaultOAuth2RequestValidator implements OAuth2RequestValidator {
 }
 ```
 
+***
+
+### Spring Security OAuth2 自定义GrantedAuthority授权接口
+
+使用security oatuh2的时候需要返回给前端用户的角色或者权限，框架提供了GrantedAuthority接口，有一个默认的实现SimpleGrantedAuthority，但是它只能返回简单
+的字符串，如果我们想灵活的使用很难控制；所以我这边通过实现GrantedAuthority接口，自定义实现权限控制；
+
+#### 1.自定义授权接口如下
+```
+package com.yaomy.security.oauth2.authority;
+
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Map;
+
+/**
+ * @Description: 自定义GrantedAuthority接口
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.oauth2.authority.UserGrantedAuthority
+ * @Date: 2019/7/29 16:14
+ * @Version: 1.0
+ */
+public class UserGrantedAuthority implements GrantedAuthority {
+    private Map<String, Object> authoritys = Maps.newHashMap();
+    public UserGrantedAuthority(String name, Object value){
+        authoritys.put(name,value);
+    }
+    @Override
+    public String getAuthority() {
+        return JSON.toJSONString(authoritys);
+    }
+}
+```
+
+#### 2.用户验证信息类中的使用方法
+```
+package com.yaomy.security.oauth2.po;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.yaomy.security.oauth2.authority.UserGrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+/**
+ * @Description: 用户认证
+ * @ProjectName: spring-parent
+ * @Package: com.yaomy.security.po.User
+ * @Date: 2019/6/28 17:37
+ * @Version: 1.0
+ */
+@Component
+public class UserAuthDetailsService implements UserDetailsService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    /**
+     * @Description 根据用户名查询用户角色、权限等信息
+     * @Date 2019/7/1 14:50
+     * @Version  1.0
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("---用户信息验证----"+username);
+        GrantedAuthority authority = new UserGrantedAuthority("username", username);
+
+        JSONArray array = new JSONArray();
+        array.add("/a/b");
+        array.add("/a/c");
+        array.add("/a/d");
+        GrantedAuthority interfaces = new UserGrantedAuthority("interfaces", array);
+        /**
+         isEnabled 账户是否启用
+         isAccountNonExpired 账户没有过期
+         isCredentialsNonExpired 身份认证是否是有效的
+         isAccountNonLocked 账户没有被锁定
+         */
+         return new User(username, passwordEncoder.encode("123"),
+                true,
+                true,
+                true,
+                true,
+                 Arrays.asList(authority, interfaces));
+    }
+
+}
+```
+
+#### 3.控制器方法获取用户信息解析权限及返回前端
+```
+  @RequestMapping(value = "token", method = RequestMethod.POST)
+    public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
+        ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+        resource.setId(resourceId);
+        resource.setClientId(resourceClientId);
+        resource.setClientSecret(resourceClientSecret);
+        resource.setGrantType("password");
+        resource.setAccessTokenUri(tokenUri);
+        resource.setUsername(username);
+        resource.setPassword(password);
+        resource.setScope(Arrays.asList("all"));
+
+        OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
+        ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
+        template.setAccessTokenProvider(provider);
+        System.out.println("过期时间是："+template.getAccessToken().getExpiration());
+        BaseResponse response = null;
+        try {
+            OAuth2AccessToken accessToken = template.getAccessToken();
+            Map<String, Object> result = Maps.newHashMap();
+            result.put("access_token", accessToken.getValue());
+            result.put("token_type", accessToken.getTokenType());
+            result.put("refresh_token", accessToken.getRefreshToken().getValue());
+            result.put("expires_in", accessToken.getExpiresIn());
+            result.put("scope", StringUtils.join(accessToken.getScope(), ","));
+            result.putAll(accessToken.getAdditionalInformation());
+            Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(template.getAccessToken()).getUserAuthentication().getAuthorities();
+            List<JSONObject> authList = Lists.newArrayList();
+            for(GrantedAuthority authority:authorities){
+                authList.add(JSONObject.parseObject(authority.getAuthority()));
+            }
+            result.put("authorities", authList);
+            response = BaseResponse.createResponse(HttpStatusMsg.OK, result);
+        } catch (Exception e){
+            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+        }
+        return ResponseEntity.ok(response);
+    }
+```
+
+#### 4.测试返回结果如下
+```
+{
+    "status": 200,
+    "message": "SUCCESS",
+    "data": {
+        "access_token": "6de733c140ba475794c8a8fad3708ce0",
+        "refresh_token": "3d92e27a7b01471fa0c65d62eddb8434",
+        "scope": "test",
+        "token_type": "bearer",
+        "expires_in": 856,
+        "client_id": "client_password",
+        "authorities": [
+            {
+                "interfaces": [
+                    "/a/b",
+                    "/a/c",
+                    "/a/d"
+                ]
+            },
+            {
+                "username": "user"
+            }
+        ]
+    }
+}
+```
  ***
  GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

@@ -1,6 +1,7 @@
 package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
+import com.yaomy.security.oauth2.filter.IntegrationAuthenticationFilter;
 import com.yaomy.security.oauth2.po.UserAuthDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     private WebResponseExceptionTranslator webResponseExceptionTranslator;
     @Autowired
     private TokenStore tokenStore;
+    @Autowired
+    private IntegrationAuthenticationFilter integrationAuthenticationFilter;
     /**
      用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里初始化，
      你可以把客户端详情信息写死也可以写入内存或者数据库中
@@ -94,14 +97,15 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()")
-                .checkTokenAccess("permitAll()");
+                .checkTokenAccess("permitAll()")
         /**
          * 主要是让/oauth/token支持client_id和client_secret做登陆认证
          * 如果开启了allowFormAuthenticationForClients，那么就在BasicAuthenticationFilter之前
          * 添加ClientCredentialsTokenEndpointFilter,使用ClientDetailsUserDetailsService来进行
          * 登陆认证
          */
-        security.allowFormAuthenticationForClients();
+            .allowFormAuthenticationForClients()
+            .addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter);
     }
     /**
      * @Description ApprovalStore用户保存、检索和撤销用户审批的界面

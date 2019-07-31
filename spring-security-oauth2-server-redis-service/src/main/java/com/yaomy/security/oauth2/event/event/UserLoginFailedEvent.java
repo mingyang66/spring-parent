@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
  * @Description: 定义用户登录失败事件
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.event.event.UserLoginFailedEvent
- * @Author: 姚明洋
  * @Date: 2019/7/31 10:46
  * @Version: 1.0
  */

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  * @Description: 用户登录失败监听器
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.handler.ApplicationListenerAuthencationSuccess
- * @Author: 姚明洋
  * @Date: 2019/7/25 11:27
  * @Version: 1.0
  */

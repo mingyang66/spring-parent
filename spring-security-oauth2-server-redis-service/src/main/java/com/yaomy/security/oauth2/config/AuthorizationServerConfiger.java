@@ -98,14 +98,14 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("permitAll()")
-        /**
-         * 主要是让/oauth/token支持client_id和client_secret做登陆认证
-         * 如果开启了allowFormAuthenticationForClients，那么就在BasicAuthenticationFilter之前
-         * 添加ClientCredentialsTokenEndpointFilter,使用ClientDetailsUserDetailsService来进行
-         * 登陆认证
-         */
-            .allowFormAuthenticationForClients()
-            .addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter);
+                /**
+                 * 主要是让/oauth/token支持client_id和client_secret做登陆认证
+                 * 如果开启了allowFormAuthenticationForClients，那么就在BasicAuthenticationFilter之前
+                 * 添加ClientCredentialsTokenEndpointFilter,使用ClientDetailsUserDetailsService来进行
+                 * 登陆认证
+                 */
+                .allowFormAuthenticationForClients()
+                .addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter);
     }
     /**
      * @Description ApprovalStore用户保存、检索和撤销用户审批的界面

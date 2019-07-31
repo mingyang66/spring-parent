@@ -31,7 +31,6 @@ public class UserAuthDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("---用户信息验证----"+username);
         GrantedAuthority authority = new UserGrantedAuthority("username", username);
 
         JSONArray array = new JSONArray();

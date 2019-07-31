@@ -1,6 +1,5 @@
-package com.yaomy.security.oauth2.listener;
+package com.yaomy.security.oauth2.event.listener;
 
-import com.yaomy.common.enums.GrantTypeEnum;
 import com.yaomy.security.oauth2.service.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

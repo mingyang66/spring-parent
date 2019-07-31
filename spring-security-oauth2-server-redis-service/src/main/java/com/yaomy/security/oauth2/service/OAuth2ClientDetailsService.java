@@ -115,7 +115,6 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
     }
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-        System.out.println("--------clientId-------------"+clientId);
         if(clientId == null){
             throw new ClientRegistrationException("客户端不存在");
         }

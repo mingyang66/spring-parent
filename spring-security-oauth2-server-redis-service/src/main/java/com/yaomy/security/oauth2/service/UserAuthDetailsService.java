@@ -1,4 +1,4 @@
-package com.yaomy.security.oauth2.po;
+package com.yaomy.security.oauth2.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.yaomy.security.oauth2.authority.UserGrantedAuthority;

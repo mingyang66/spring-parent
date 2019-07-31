@@ -3,7 +3,7 @@ package com.yaomy.security.oauth2.provider;
 import com.yaomy.security.oauth2.event.event.UserLoginFailedEvent;
 import com.yaomy.security.oauth2.exception.PasswordException;
 import com.yaomy.security.oauth2.exception.UsernameException;
-import com.yaomy.security.oauth2.po.UserAuthDetailsService;
+import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

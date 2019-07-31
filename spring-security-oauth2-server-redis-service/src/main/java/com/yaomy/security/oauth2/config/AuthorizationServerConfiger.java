@@ -2,7 +2,7 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
 import com.yaomy.security.oauth2.filter.IntegrationAuthenticationFilter;
-import com.yaomy.security.oauth2.po.UserAuthDetailsService;
+import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

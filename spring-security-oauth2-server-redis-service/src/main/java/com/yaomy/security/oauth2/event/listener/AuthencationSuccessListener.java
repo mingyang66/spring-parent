@@ -23,7 +23,7 @@ public class AuthencationSuccessListener implements ApplicationListener<Authenti
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {
         Authentication authentication = authenticationSuccessEvent.getAuthentication();
-        if(StringUtils.equalsIgnoreCase(authentication.getName(), propertyService.getProperty("spring.security.oauth.resource.client.id"))){
+        if(!StringUtils.equalsIgnoreCase(authentication.getName(), propertyService.getProperty("spring.security.oauth.resource.client.id"))){
             System.out.println("------login success----------"+authentication.getName());
         }
     }

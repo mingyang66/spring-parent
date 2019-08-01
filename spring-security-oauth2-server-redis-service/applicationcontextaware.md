@@ -1,8 +1,8 @@
 ### Spring之ApplicationContextAware使用详解
 
-Spring定义的类实现ApplicationContextAware接口会自动的将应用程序上下文加入进入，首先我们看下具体的使用方式；
+Spring定义的类实现ApplicationContextAware接口会自动的将应用程序上下文加入，首先我们看下具体的实现示例；
 
-#### 1.应用使用示例代码
+#### 1.示例代码
 ```
 package com.yaomy.security.oauth2.filter;
 
@@ -120,5 +120,7 @@ AbstractApplicationContext类是Spring容器应用上下文的一个抽象父类
 
     }
  ```
+ 通过上面的代码可以很清楚的了解到ApplicationContextAware实现类在应用启动的时候就会初始化。。。
  
+ GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/applicationcontextaware.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/applicationcontextaware.md)
  

@@ -128,3 +128,5 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 ```
 
 通过以上操作就可以在用户登录失败后有效的监听到失败状态，并且很好的解耦代码；
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/event.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/event.md)

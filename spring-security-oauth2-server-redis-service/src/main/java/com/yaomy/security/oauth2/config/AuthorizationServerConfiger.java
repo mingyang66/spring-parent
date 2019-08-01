@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
-import com.yaomy.security.oauth2.filter.IntegrationAuthenticationFilter;
+import com.yaomy.security.oauth2.filter.OAuthTokenAuthenticationFilter;
 import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     @Autowired
     private TokenStore tokenStore;
     @Autowired
-    private IntegrationAuthenticationFilter integrationAuthenticationFilter;
+    private OAuthTokenAuthenticationFilter oAuthTokenAuthenticationFilter;
     /**
      用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里初始化，
      你可以把客户端详情信息写死也可以写入内存或者数据库中
@@ -105,7 +105,8 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
                  * 登陆认证
                  */
                 .allowFormAuthenticationForClients()
-                .addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter);
+                //oauth/token端点过滤器
+                .addTokenEndpointAuthenticationFilter(oAuthTokenAuthenticationFilter);
     }
     /**
      * @Description ApprovalStore用户保存、检索和撤销用户审批的界面

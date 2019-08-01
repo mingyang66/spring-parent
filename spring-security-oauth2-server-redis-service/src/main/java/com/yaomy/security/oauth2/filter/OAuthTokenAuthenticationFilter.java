@@ -1,9 +1,8 @@
 package com.yaomy.security.oauth2.filter;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
@@ -18,27 +17,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Description: Description
+ * @Description: token端点过滤器
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.oauth2.filter.IntegrationAuthenticationFilter
- * @Author: 姚明洋
  * @Date: 2019/7/30 16:33
  * @Version: 1.0
  */
 @Component
-public class IntegrationAuthenticationFilter extends GenericFilterBean implements ApplicationContextAware {
-    private static final String AUTH_TYPE_PARM_NAME = "auth_type";
-
-    private static final String OAUTH_TOKEN_URL = "/oauth/token";
-
-    private ApplicationContext applicationContext;
+public class OAuthTokenAuthenticationFilter extends GenericFilterBean {
+    private static final String OAUTH_TOKEN_URL = "/oauth2/token";
 
     private RequestMatcher requestMatcher;
 
-    public IntegrationAuthenticationFilter(){
+    public OAuthTokenAuthenticationFilter(){
+        //OrRequestMatcher or组合多个RequestMatcher
         this.requestMatcher = new OrRequestMatcher(
-                new AntPathRequestMatcher(OAUTH_TOKEN_URL, "GET"),
-                new AntPathRequestMatcher(OAUTH_TOKEN_URL, "POST")
+                new AntPathRequestMatcher(OAUTH_TOKEN_URL, HttpMethod.POST.name())
         );
     }
 
@@ -47,14 +40,12 @@ public class IntegrationAuthenticationFilter extends GenericFilterBean implement
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         if(requestMatcher.matches(request)){
-            response.getWriter().println("ssd");
-            return;
+            if(false){
+                response.getWriter().println("验证码或者图形验证码不正确");
+                return;
+            }
         }
         filterChain.doFilter(request, response);
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }

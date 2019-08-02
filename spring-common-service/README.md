@@ -183,3 +183,9 @@ public class CommonBootStrap {
 ```
 
 >到这里优先级类的示例及其执行原理都分析完毕；不过还是要强调下@Order、Ordered不影响类的加载顺序而是影响Bean加载如IOC容器之后执行的顺序（优先级）；
+
+
+个人理解是加载代码的底层要支持优先级执行程序，否则即使配置上Ordered、@Order也是不起任何作用的，
+个人的力量总是很微小的，欢迎大家来讨论，一起努力成长！！
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/README.md](https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/README.md)

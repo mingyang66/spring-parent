@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContextAware;
  * @Description: Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.common.order.ApplicationContextUtil
- * @Author: 姚明洋
  * @Date: 2019/8/2 11:22
  * @Version: 1.0
  */

@@ -25,7 +25,6 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  * @Date: 2019/7/8 17:43
  * @Version: 1.0
  */
-@Configuration
 @EnableWebSecurity
 public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired

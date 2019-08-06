@@ -18,7 +18,7 @@ public class DogImportSelector implements ImportSelector {
         Set<String> methodMetadata = importingClassMetadata.getAnnotationTypes();
         for (String meta: methodMetadata
              ) {
-            System.out.println(meta+"---------------");
+           // System.out.println(meta+"---------------");
         }
         return new String[]{BlackDog.class.getName(), YellowDog.class.getName()};
     }

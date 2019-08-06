@@ -24,7 +24,7 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         String[] names = applicationContext.getBeanDefinitionNames() ;
         for (String name:names
              ) {
-            System.out.println(name);
+            //System.out.println(name);
         }
     }
 }

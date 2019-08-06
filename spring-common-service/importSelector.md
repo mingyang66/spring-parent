@@ -71,3 +71,5 @@ applicationContextUtil
 com.yaomy.common.selector.BlackDog
 com.yaomy.common.selector.YellowDog
 ```
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/importSelector.md](https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/importSelector.md)

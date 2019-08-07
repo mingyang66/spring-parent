@@ -1,6 +1,7 @@
 package com.yaomy.security.oauth2.exception;
 
 import com.yaomy.common.enums.HttpStatusMsg;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  * @Date: 2019/7/18 16:43
  * @Version: 1.0
  */
-public class UsernameException extends OAuth2Exception {
+public class UsernameException extends AuthenticationException {
     public UsernameException(String message, Throwable t) {
         super(message, t);
     }
@@ -18,8 +19,8 @@ public class UsernameException extends OAuth2Exception {
     public UsernameException(String message) {
         super(message);
     }
-    @Override
+   /* @Override
     public int getHttpErrorCode() {
         return HttpStatusMsg.USERNAME_EXCEPTION.getStatus();
-    }
+    }*/
 }

@@ -1,5 +1,6 @@
 package com.yaomy.security.oauth2.config;
 
+import com.yaomy.security.oauth2.provider.UserSmsAuthenticationProvider;
 import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  * @Date: 2019/7/8 17:43
  * @Version: 1.0
  */
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
@@ -38,21 +39,22 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //忽略swagger访问权限限制
-        web.ignoring().antMatchers(
-                "/userlogin",
-                "/userlogout",
-                "/userjwt",
-                "/v2/api-docs",
-                "/swagger-resources/configuration/ui",
-                "/swagger-resources",
-                "/swagger-resources/configuration/security",
-                "/swagger-ui.html",
-                "/css/**",
-                "/js/**",
-                "/images/**",
-                "/webjars/**",
-                "**/favicon.ico",
-                "/index");
+       // web.ignoring().antMatchers(
+        //        "/userlogin",
+            //    "/userlogout",
+           //     "/userjwt",
+             //   "/v2/api-docs",
+             //   "/swagger-resources/configuration/ui",
+              //  "/swagger-resources",
+               // "/swagger-resources/configuration/security",
+                //"/swagger-ui.html",
+                //"/css/**",
+                //"/js/**",
+                //"/images/**",
+                //"/webjars/**",
+                //"**/favicon.ico",
+                //"/index");
+        super.configure(web);
     }
     /**
      * @Description Spring Security认证服务中的相关实现重新定义
@@ -62,8 +64,11 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 加入自定义的安全认证
-        auth.userDetailsService(this.authUserDetailsService).passwordEncoder(this.passwordEncoder());
-        auth.authenticationProvider(this.authenticationProvider());
+        auth.userDetailsService(this.authUserDetailsService)
+                .passwordEncoder(this.passwordEncoder())
+             .and()
+                .authenticationProvider(smsAuthenticationProvider())
+                .authenticationProvider(authenticationProvider());
     }
     @Override
     @Bean
@@ -78,6 +83,11 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationProvider authenticationProvider(){
         AuthenticationProvider authenticationProvider = new UserAuthenticationProvider();
+        return authenticationProvider;
+    }
+    @Bean
+    public AuthenticationProvider smsAuthenticationProvider(){
+        AuthenticationProvider authenticationProvider = new UserSmsAuthenticationProvider();
         return authenticationProvider;
     }
     /**

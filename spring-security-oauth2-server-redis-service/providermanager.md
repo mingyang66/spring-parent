@@ -1,4 +1,4 @@
-### Spring Security之ProviderManager源码浅析
+### Spring Security之AuthenticationManager、ProviderManager、AuthenticationProvider用户认证源码分析
 
 AuthenticationManager类源码解析
 ```
@@ -196,5 +196,6 @@ public interface AuthenticationProvider {
 		return providerManager;
 	}
 ```
+到这里用户认证从配置到AuthenticationManager、ProviderManager、AuthenticationPrivoder源码一步一步的分析完了，希望对学习Spring Security的你有所帮助。
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md)

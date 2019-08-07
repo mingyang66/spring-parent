@@ -166,7 +166,7 @@ public interface AuthenticationProvider {
                 .authenticationProvider(authenticationProvider());
     }
 ```
-可以通过AuthenticationManagerBuilder对象的authenticationProvider添加AuthenticationProvider实现对象，看下authenticationProvider方法：
+可以通过AuthenticationManagerBuilder对象的authenticationProvider方法添加AuthenticationProvider认证对象，看下authenticationProvider方法：
 ```
     private List<AuthenticationProvider> authenticationProviders = new ArrayList<>();
 	public AuthenticationManagerBuilder authenticationProvider(
@@ -196,6 +196,28 @@ public interface AuthenticationProvider {
 		return providerManager;
 	}
 ```
+
+AuthenticationManagerBuilder类实现了ProviderManagerBuilder接口，接口如下：
+```
+public interface ProviderManagerBuilder<B extends ProviderManagerBuilder<B>> extends
+		SecurityBuilder<AuthenticationManager> {
+
+	/**
+	 * Add authentication based upon the custom {@link AuthenticationProvider} that is
+	 * passed in. Since the {@link AuthenticationProvider} implementation is unknown, all
+	 * customizations must be done externally and the {@link ProviderManagerBuilder} is
+	 * returned immediately.
+	 *
+	 * Note that an Exception is thrown if an error occurs when adding the {@link AuthenticationProvider}.
+	 *
+	 * @return a {@link ProviderManagerBuilder} to allow further authentication to be
+	 * provided to the {@link ProviderManagerBuilder}
+	 */
+	B authenticationProvider(AuthenticationProvider authenticationProvider);
+}
+```
+ProviderManagerBuilder接口中定义了一个方法authenticationProvider，这个方法就是就是用来新增自定义实现的AuthenticationProvider;
+
 到这里用户认证从配置到AuthenticationManager、ProviderManager、AuthenticationPrivoder源码一步一步的分析完了，希望对学习Spring Security的你有所帮助。
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md)

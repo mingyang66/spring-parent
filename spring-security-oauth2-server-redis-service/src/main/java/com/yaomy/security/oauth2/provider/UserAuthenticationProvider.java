@@ -8,11 +8,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -43,10 +45,10 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         if(StringUtils.isBlank(username)){
-            throw new UsernameException("username用户名不可以为空");
+            throw new UsernameNotFoundException("username用户名不可以为空");
         }
         if(StringUtils.isBlank(password)){
-            throw new PasswordException("密码不可以为空");
+            throw new BadCredentialsException("密码不可以为空");
         }
         //获取用户信息
         UserDetails user = authUserDetailsService.loadUserByUsername(username);
@@ -54,7 +56,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             //发布密码不正确事件
             publisher.publishEvent(new UserLoginFailedEvent(authentication));
-            throw new PasswordException("password密码不正确");
+            throw new BadCredentialsException("password密码不正确");
         }
         //获取用户权限信息
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

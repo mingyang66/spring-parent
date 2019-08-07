@@ -2,6 +2,9 @@
 
 多AuthenticationProvider认证模式实现原理及源码分析可参考：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md)
 
+>多AuthenticationProvider实现ProviderManager会按照添加入认证请求链中的顺序来验证，上面的源码分析及实现原理已经说的很清楚了，
+这一片就直接看代码实现；
+
 #### 1.AuthenticationProvider认证类UserSmsAuthenticationProvider实现
 ```
 package com.yaomy.security.oauth2.provider;

@@ -283,4 +283,4 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
 }
 ```
 
-GitHub源码：[]
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/authenticateprovider.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/authenticateprovider.md)

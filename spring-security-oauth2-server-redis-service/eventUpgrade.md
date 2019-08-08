@@ -1,6 +1,6 @@
 ### Spring Security用户认证成功失败源码分析
 
- 通常我们用户登录成功或者失败之后要做一些处理，比如日志记录等等；Spring中提供了事件及监听器，Spring Security很好的运用了这一特点，
+ 通常用户登录成功或者失败之后要做一些处理，比如日志记录、数据初始化等等；Spring中提供了事件及监听器，而Spring Security很好的运用了这一特点，
  框架中用了很多的事件来处理,要想很好的控制这些我先看下源码，要知其所以然。
 
 #### 1.首先看下ProviderManager类,之前的文章已经对该类进行过分析，侧重点不太一样，对AuthenticationProvider不懂的可以翻看其它文章
@@ -87,12 +87,12 @@
         		eventPublisher.publishAuthenticationFailure(ex, auth);
         	}
 ```    
-发布事件对象eventPublisher是一个AuthenticationEventPublisher类型，他是一个接口，里面有如下两个方法：
+发布事件对象eventPublisher是一个AuthenticationEventPublisher类型，它是一个接口，里面有如下两个方法：
 ```
 public interface AuthenticationEventPublisher {
-    //发布成功事件
+    //发布认证成功事件
 	void publishAuthenticationSuccess(Authentication authentication);
-    //发布失败事件
+    //发布认证失败事件
 	void publishAuthenticationFailure(AuthenticationException exception,
 			Authentication authentication);
 }
@@ -106,7 +106,7 @@ public interface AuthenticationEventPublisher {
 		this.eventPublisher = eventPublisher;
 	}
 ```
-上面的方法就是初始化事件发布对象的入口，这个方法是有AuthenticationManagerBuilder类来进行初始化的
+上面的方法就是初始化事件发布对象的入口，这个方法是由AuthenticationManagerBuilder类来进行初始化的
 
 #### 2.AuthenticationManagerBuilder类分析
 ```
@@ -129,7 +129,7 @@ public interface AuthenticationEventPublisher {
 		return providerManager;
 	}
 ```
-看到上面的源码了没，就是在这里对发布事件进行初始化的；到了这一步还是不明白初始化的发布事件对象具体是哪一个，同样在该类中发现了eventPublisher对象及初始化方法，即：
+看到上面的源码了没，就是在这里对ProviderManager类中的发布事件进行初始化的；继续查看代码发现AuthenticationManagerBuilder类中存在eventPublisher对象及初始化方法，即：
 ```
 private AuthenticationEventPublisher eventPublisher;
 private AuthenticationEventPublisher eventPublisher;

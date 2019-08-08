@@ -1,5 +1,8 @@
 ### Spring boot Security OAuth2用户登录失败事件发布及监听
 
+[Spring Security用户认证成功失败源码分析](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)<br>
+[Spring Security用户认证成功失败自定义实现](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgradeCode.md)
+
 #### 1.spring事件简介
 spring中的事件分为三部分，事件、监听器、事件源，其中事件是核心；涉及到ApplicationEventPublisher接口、ApplicationEvent类、ApplicationListener接口；
 

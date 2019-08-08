@@ -14,17 +14,12 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class AuthencationSuccessListener implements ApplicationListener<AbstractAuthenticationEvent> {
+public class AuthencationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     @Override
-    public void onApplicationEvent(AbstractAuthenticationEvent event) {
-        if(event instanceof AuthenticationSuccessEvent){
+    public void onApplicationEvent(AuthenticationSuccessEvent event) {
             //用户通过输入用户名和密码登录成功
             System.out.println("---AuthenticationSuccessEvent---");
-        } else if(event instanceof InteractiveAuthenticationSuccessEvent){
-            //同样是登录成功，但表示通过自动交互的手段来登录成功，比如cookie自动登录
-            System.out.println("---InteractiveAuthenticationSuccessEvent---");
-        }
     }
 
 }

@@ -1,7 +1,9 @@
 ### Spring Security用户认证成功失败自定义实现
+ [Spring boot Security OAuth2用户登录失败事件发布及监听](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/event.md)
+ [Spring Security用户认证成功失败源码分析](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)，
 
  [上一篇文章讲解了用户认证成功或者失败事件发布的整个流程](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)，
- 这一篇就讲解下自定义的实现方式。首先看一下认证的遗产都有哪些：
+ 这一篇就讲解下自定义的实现方式。首先看一下认证的异常都有哪些：
  
  在org.springframework.security.authentication.event包下定义了发生认证时的所有事件类型，其中AbstractAuthenticationEvent是所有事件的父类，其它事件
  都继承于AbstractAuthenticationEvent，其子类有AbstractAuthenticationFailureEvent、AuthenticationFailureBadCredentialsEvent、AuthenticationFailureCredentialsExpiredEvent
@@ -86,5 +88,5 @@ public class AuthencationFailureListener implements ApplicationListener<Abstract
 
 }
 ```
-    
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgradeCode.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgradeCode.md)    
     

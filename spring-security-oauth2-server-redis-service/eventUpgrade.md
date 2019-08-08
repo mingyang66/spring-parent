@@ -210,6 +210,7 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
     //发布认证成功方法
 	public void publishAuthenticationSuccess(Authentication authentication) {
 		if (applicationEventPublisher != null) {
+		    //真实发布认证成功事件
 			applicationEventPublisher.publishEvent(new AuthenticationSuccessEvent(
 					authentication));
 		}
@@ -235,7 +236,7 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
 
 		if (event != null) {
 			if (applicationEventPublisher != null) {
-			    //发布事件
+			    //真实发布认证失败事件
 				applicationEventPublisher.publishEvent(event);
 			}
 		}
@@ -250,6 +251,9 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
     ...
 }
 ```
+到这里Spring Security中的事件发布采用倒叙的方式已经将源码分析完了，具体的代码实现将在下一篇文章中讲解；
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)
 
 
     

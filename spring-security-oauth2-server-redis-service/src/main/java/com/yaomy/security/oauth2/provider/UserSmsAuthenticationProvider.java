@@ -33,8 +33,8 @@ public class UserSmsAuthenticationProvider implements AuthenticationProvider {
     private UserAuthDetailsService authUserDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private ApplicationEventPublisher publisher;
+    //@Autowired
+    //private ApplicationEventPublisher publisher;
     /**
      * @Description 认证处理，返回一个Authentication的实现类则代表认证成功，返回null则代表认证失败
      * @Date 2019/7/5 15:19
@@ -57,7 +57,7 @@ public class UserSmsAuthenticationProvider implements AuthenticationProvider {
         //比较前端传入的密码明文和数据库中加密的密码是否相等
         if (!passwordEncoder.matches(smscode, smscodeCache)) {
             //发布密码不正确事件
-            publisher.publishEvent(new UserLoginFailedEvent(authentication));
+            //publisher.publishEvent(new UserLoginFailedEvent(authentication));
             throw new BadCredentialsException("sms_code验证码不正确");
         }
         //获取用户权限信息

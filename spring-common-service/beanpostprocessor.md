@@ -123,3 +123,5 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 ```
 
 到这里后置处理器BeanPostProcessor、InitializingBean、init-method调用逻辑已经分析完毕，有不理解或者文章有误的可以提出来一起努力成长！
+
+GitHub:[https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/beanpostprocessor.md](https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/beanpostprocessor.md)

@@ -44,12 +44,14 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-		    //applyBeanPostProcessorsBeforeInitialization方法是AutowireCapableBeanFactory接口中的方法，用来调用后置处理器BeanPostProcessor的postProcessBeforeInitialization方法
+		    //applyBeanPostProcessorsBeforeInitialization方法是AutowireCapableBeanFactory接口中的方法，
+		    //用来调用后置处理器BeanPostProcessor的postProcessBeforeInitialization方法
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
 		try {
-		    //Bean如果继承了InitializingBean类则会调用afterPropertiesSet方法，如果设置了init-method方法，则调用init-method方法，afterPropertiesSet方法在init-method方法之前调用
+		    //Bean如果继承了InitializingBean类则会调用afterPropertiesSet方法，如果设置了init-method方法，
+		    //则调用init-method方法，afterPropertiesSet方法在init-method方法之前调用
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {
@@ -58,7 +60,8 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-		//applyBeanPostProcessorsAfterInitialization方法是AutowireCapableBeanFactory接口中的方法，用来调用后置处理器BeanPostProcessor的postProcessAfterInitialization方法
+		//applyBeanPostProcessorsAfterInitialization方法是AutowireCapableBeanFactory接口中的方法，
+		//用来调用后置处理器BeanPostProcessor的postProcessAfterInitialization方法
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 

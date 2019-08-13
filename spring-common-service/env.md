@@ -81,7 +81,7 @@ public class UserEnvironmentPostProcessor implements EnvironmentPostProcessor {
 #### 3.要想使自定义的EnvironmentPostProcessor生效必须配置一个配置文件
 在resource目录下新增META-INF文件夹，在文件加下新建spring.facories文件，添加上如下配置
 ```
-org.springframework.boot.env.EnvironmentPostProcessor=com.uufund.ecapi.config.properties.UserEnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=com.yaomy.common.env.UserEnvironmentPostProcessor
 ```
 #### 4.在application.properties配置文件中新增
 ```
@@ -210,7 +210,7 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 	}
 }	
 ```	
-通过上面一步一步的源码分析，从事件发布到监听到自定义配置文件加载的整个过程
+通过上面一步一步的源码分析，从事件发布到监听到自定义配置文件加载的整个过程都串联了起来
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/env.md](https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/env.md)
 

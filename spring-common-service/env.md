@@ -127,7 +127,7 @@ spring.custom.file.path=D:\\work\\workplace\\config\\
 
     }
 ```    
->上面的分析我们知道了是通过监听器监听到事件之后出发自定义配置类的加载，那监听器又是在哪里启动及加载呢？它是在启动类SpringApplication中加载的，如下：
+>上面的分析我们知道了是通过监听器监听到事件之后触发自定义配置类的加载，那监听器又是在哪里启动及加载呢？它是在启动类SpringApplication中加载的，如下：
 ```
 public class SpringApplication {
     ...
@@ -141,10 +141,76 @@ public class SpringApplication {
     private <T> Collection<T> getSpringFactoriesInstances(Class<T> type) {
         return this.getSpringFactoriesInstances(type, new Class[0]);
     }
+}    
 ```    
 >TIPS：上面的从加载监听器->监听事件->加载自定义配置类->调用自定义配置类方法，整个流程都分析完毕了，那我会有一个疑问？事件是在哪里，何时发布？
 
-#### 6.
+#### 6.事件的广播发布
 
+```
+public class SpringApplication {
 
+    	public ConfigurableApplicationContext run(String... args) {
+    		StopWatch stopWatch = new StopWatch();
+    		stopWatch.start();
+    		ConfigurableApplicationContext context = null;
+    		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+    		configureHeadlessProperty();
+    		//获取应用程序的SpringApplicationEvent事件监听器包括ConfigFileApplicationListener
+    		SpringApplicationRunListeners listeners = getRunListeners(args);
+    		//启动并开始事件广播
+    		listeners.starting();
+
+    	}
+
+        //获取应用程序监听器SpringApplicationRunListener
+    	private SpringApplicationRunListeners getRunListeners(String[] args) {
+    		Class<?>[] types = new Class<?>[] { SpringApplication.class, String[].class };
+    		return new SpringApplicationRunListeners(logger, getSpringFactoriesInstances(
+    				SpringApplicationRunListener.class, types, this, args));
+    	}
+    	//启动事件广播
+        public void starting() {
+            for (SpringApplicationRunListener listener : this.listeners) {
+                //调用EventPublishingRunListener中的starting方法
+                listener.starting();
+            }
+        }
+}
+``` 
+>EventPublishingRunListener监听器中有一个SimpleApplicationEventMulticaster广播类，通过广播类向其它监听器发送广播事件
+```
+public class EventPublishingRunListener implements SpringApplicationRunListener, Ordered {
+
+	private final SpringApplication application;
+
+	private final String[] args;
+
+	private final SimpleApplicationEventMulticaster initialMulticaster;
+
+	public EventPublishingRunListener(SpringApplication application, String[] args) {
+		this.application = application;
+		this.args = args;
+		this.initialMulticaster = new SimpleApplicationEventMulticaster();
+		for (ApplicationListener<?> listener : application.getListeners()) {
+			this.initialMulticaster.addApplicationListener(listener);
+		}
+	}
+
+	@Override
+	public int getOrder() {
+		return 0;
+	}
+
+	@Override
+	public void starting() {
+	    //广播事件
+		this.initialMulticaster.multicastEvent(
+				new ApplicationStartingEvent(this.application, this.args));
+	}
+}	
+```	
+通过上面一步一步的源码分析，从事件发布到监听到自定义配置文件加载的整个过程
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/env.md](https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/env.md)
 

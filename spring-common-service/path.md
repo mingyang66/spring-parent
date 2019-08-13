@@ -32,3 +32,5 @@ public class PathTest {
 }
 
 ```
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/path.md](https://github.com/mingyang66/spring-parent/blob/master/spring-common-service/path.md)

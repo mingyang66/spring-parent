@@ -16,18 +16,18 @@ import org.springframework.stereotype.Component;
 public class MyInitializingBean implements BeanPostProcessor,InitializingBean {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("--------postProcessBeforeInitialization-------------");
+        //System.out.println("--------postProcessBeforeInitialization-------------");
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("-------postProcessAfterInitialization-------------------");
+        //System.out.println("-------postProcessAfterInitialization-------------------");
         return bean;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("---MyInitializingBean---");
+        //System.out.println("---MyInitializingBean---");
     }
 }

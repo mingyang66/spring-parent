@@ -3,6 +3,7 @@
 <configuration>
     <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。 -->
     <property name="log.path" value="./logs" />
+    <property name="log.date" value="7" />
     <property name="pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-10.10thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n"></property>
     <property name="patternMsg" value="%msg%n"></property>
     <!-- 控制台输出 -->
@@ -38,7 +39,7 @@
             <!-- 每天归档 -->
             <fileNamePattern>${log.path}/info/info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
-            <maxHistory>7</maxHistory>
+            <maxHistory>${log.date}</maxHistory>
         </rollingPolicy>
     </appender>
     <!-- TRACE日志文件输出 -->
@@ -61,7 +62,7 @@
             <!-- 每天归档 -->
             <fileNamePattern>${log.path}/user/user_action.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
-            <maxHistory>7</maxHistory>
+            <maxHistory>${log.date}</maxHistory>
         </rollingPolicy>
     </appender>
     <!-- ERROR日志文件输出 -->
@@ -84,7 +85,7 @@
             <!-- 每天归档 -->
             <fileNamePattern>${log.path}/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
-            <maxHistory>7</maxHistory>
+            <maxHistory>${log.date}</maxHistory>
         </rollingPolicy>
     </appender>
     <!-- WARN日志文件输出 -->
@@ -107,7 +108,7 @@
             <!-- 每天归档 -->
             <fileNamePattern>${log.path}/warn/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
-            <maxHistory>7</maxHistory>
+            <maxHistory>${log.date}</maxHistory>
         </rollingPolicy>
     </appender>
     <!-- DEBUG日志文件输出 -->
@@ -130,18 +131,16 @@
             <!-- 每天归档 -->
             <fileNamePattern>${log.path}/debug/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
-            <maxHistory>7</maxHistory>
+            <maxHistory>${log.date}</maxHistory>
         </rollingPolicy>
     </appender>
-    <logger name="org" level="DEBUG"/>
-    <logger name="o" level="DEBUG"/>
-    <!-- 基础日志输出级别,大于等于level -->
-    <root level="TRACE">
+    <!-- 基础日志输出级别,大于等于level,不过跟filter中的是冲突的，只有一个生效，默认filter优先级更高 -->
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="TRACE"/>
         <appender-ref ref="ERROR"/>
         <appender-ref ref="WARN"/>
         <appender-ref ref="INFO"/>
         <appender-ref ref="DEBUG"/>
+        <appender-ref ref="TRACE"/>
     </root>
 </configuration>

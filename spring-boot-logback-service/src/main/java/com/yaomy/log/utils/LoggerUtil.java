@@ -42,5 +42,8 @@ public class LoggerUtil {
     public static <T> void error(String msg){
         LoggerFactory.getLogger(LoggerUtil.class).error(msg);
     }
+    public static <T> void user(String msg){
+        LoggerFactory.getLogger(LoggerUtil.class).trace(msg);
+    }
 
 }

@@ -4,7 +4,7 @@ package com.yaomy.control.exception.enums;
  * @Description: 自定义状态码异常枚举类
  * @Version: 1.0
  */
-public enum HttpStatusMsg {
+public enum HttpStatus {
     OK(200,"SUCCESS"),
     UNKNOW_EXCEPTION(201, "未知异常"),
     RUNTIME_EXCEPTION(202, "运行时异常"),
@@ -20,7 +20,7 @@ public enum HttpStatusMsg {
     private final int status;
     private final String message;
 
-    HttpStatusMsg(int status, String message){
+    HttpStatus(int status, String message){
         this.status = status;
         this.message = message;
     }

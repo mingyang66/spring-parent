@@ -1,13 +1,11 @@
 package com.yaomy.control.exception.controller;
 
-import com.yaomy.control.exception.enums.HttpStatusMsg;
+import com.yaomy.control.exception.enums.HttpStatus;
 import com.yaomy.control.exception.po.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 
 /**
  * @Description: Description
@@ -21,6 +19,6 @@ public class TestController {
         String s = null;
        // s.length();
        // throw new Exception();
-        return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK));
+        return ResponseEntity.ok(BaseResponse.createResponse(HttpStatus.OK));
     }
 }

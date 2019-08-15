@@ -1,7 +1,7 @@
 package com.yaomy.control.exception.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.yaomy.control.exception.enums.HttpStatusMsg;
+import com.yaomy.control.exception.enums.HttpStatus;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class BaseResponse implements Serializable {
         return baseResponse;
     }
 
-    public static BaseResponse createResponse(HttpStatusMsg httpStatusMsg){
+    public static BaseResponse createResponse(HttpStatus httpStatusMsg){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());
         baseResponse.setMessage(httpStatusMsg.getMessage());
@@ -36,7 +36,7 @@ public class BaseResponse implements Serializable {
         return baseResponse;
     }
 
-    public static BaseResponse createResponse(HttpStatusMsg httpStatusMsg, Object data){
+    public static BaseResponse createResponse(HttpStatus httpStatusMsg, Object data){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());
         baseResponse.setMessage(httpStatusMsg.getMessage());

@@ -12,5 +12,7 @@
     <groupId>com.yaomy.log</groupId>
     <artifactId>spring-boot-logback-service</artifactId>
 
+    <packaging>jar</packaging>
+
 
 </project>

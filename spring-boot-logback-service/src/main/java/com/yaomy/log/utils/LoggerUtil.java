@@ -1,6 +1,12 @@
 package com.yaomy.log.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.log.po.UserAction;
 import org.slf4j.LoggerFactory;
+
+import static com.alibaba.fastjson.serializer.SerializerFeature.WriteMapNullValue;
 
 /**
  * @Description: 日志工具类 日志级别总共有TARCE < DEBUG < INFO < WARN < ERROR < FATAL，且级别是逐渐提供，
@@ -12,24 +18,12 @@ import org.slf4j.LoggerFactory;
  */
 public class LoggerUtil {
 
-    public static <T> void info(String msg){
-        LoggerFactory.getLogger(LoggerUtil.class).info(msg);
-    }
-
     public static <T> void info(Class<T> clazz, String msg){
         LoggerFactory.getLogger(clazz).info(msg);
     }
 
-    public static <T> void warn(String msg){
-        LoggerFactory.getLogger(LoggerUtil.class).warn(msg);
-    }
-
     public static <T> void warn(Class<T> clazz, String msg){
         LoggerFactory.getLogger(clazz).warn(msg);
-    }
-
-    public static <T> void debug(String msg){
-        LoggerFactory.getLogger(LoggerUtil.class).debug(msg);
     }
 
     public static <T> void debug(Class<T> clazz, String msg){
@@ -39,11 +33,15 @@ public class LoggerUtil {
     public static <T> void error(Class<T> clazz, String msg){
         LoggerFactory.getLogger(clazz).error(msg);
     }
-    public static <T> void error(String msg){
-        LoggerFactory.getLogger(LoggerUtil.class).error(msg);
-    }
-    public static <T> void user(String msg){
-        LoggerFactory.getLogger(LoggerUtil.class).trace(msg);
+
+    public static void user(UserAction userAction){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            LoggerFactory.getLogger(LoggerUtil.class).trace(objectMapper.writeValueAsString(userAction));
+        } catch (JsonProcessingException e){
+            error(LoggerUtil.class, e.toString());
+            System.out.println("----------");
+        }
     }
 
 }

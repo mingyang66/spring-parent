@@ -1,7 +1,7 @@
-package com.yaomy.security.oauth2.exception;
+package com.yaomy.control.exception.advice;
 
-import com.yaomy.common.enums.HttpStatusMsg;
-import com.yaomy.common.po.BaseResponse;
+import com.yaomy.control.exception.enums.HttpStatusMsg;
+import com.yaomy.control.exception.po.BaseResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -16,9 +16,6 @@ import java.io.IOException;
 /**
  * @Description: 控制并统一处理异常类
  * @ExceptionHandler标注的方法优先级问题，它会找到异常的最近继承关系，也就是继承关系最浅的注解方法
- * @ProjectName: spring-parent
- * @Package: com.yaomy.security.oauth2.exception.ExceptionAdviceHandler
- * @Date: 2019/7/18 11:03
  * @Version: 1.0
  */
 @RestControllerAdvice
@@ -30,7 +27,16 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler(value = Exception.class)
     public BaseResponse unKnowExceptionHandler(Exception e) {
         e.printStackTrace();
-        return BaseResponse.createResponse(HttpStatusMsg.UNKNOW_EXCEPTION.getStatus(), HttpStatusMsg.UNKNOW_EXCEPTION.getMessage()+e.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        String message = StringUtils.EMPTY;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatusMsg.UNKNOW_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -39,7 +45,16 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e) {
         e.printStackTrace();
-        return BaseResponse.createResponse(HttpStatusMsg.RUNTIME_EXCEPTION.getStatus(), HttpStatusMsg.RUNTIME_EXCEPTION.getMessage()+e.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        String message = StringUtils.EMPTY;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatusMsg.RUNTIME_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -48,7 +63,16 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e) {
         e.printStackTrace();
-        return BaseResponse.createResponse(HttpStatusMsg.NULL_POINTER_EXCEPTION.getStatus(), e.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        String message = StringUtils.EMPTY;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatusMsg.NULL_POINTER_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -57,7 +81,16 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e) {
         e.printStackTrace();
-        return BaseResponse.createResponse(HttpStatusMsg.CLASS_CAST_EXCEPTION.getStatus(), e.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        String message = StringUtils.EMPTY;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatusMsg.CLASS_CAST_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -66,7 +99,16 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler(IOException.class)
     public BaseResponse iOExceptionHandler(IOException e) {
         e.printStackTrace();
-        return BaseResponse.createResponse(HttpStatusMsg.IO_EXCEPTION.getStatus(), e.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        String message = StringUtils.EMPTY;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatusMsg.IO_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -76,7 +118,16 @@ public final class ExceptionAdviceHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         e.printStackTrace();
-        return BaseResponse.createResponse(HttpStatusMsg.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), e.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        String message = StringUtils.EMPTY;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatusMsg.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
     }
 
     /**

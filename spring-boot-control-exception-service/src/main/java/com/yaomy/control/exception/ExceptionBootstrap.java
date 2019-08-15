@@ -1,11 +1,16 @@
 package com.yaomy.control.exception;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
- * @Date: 2019/8/15 14:00
  * @Version: 1.0
  */
+@SpringBootApplication
 public class ExceptionBootstrap {
+    public static void main(String[] args) {
+        SpringApplication.run(ExceptionBootstrap.class, args);
+    }
 }

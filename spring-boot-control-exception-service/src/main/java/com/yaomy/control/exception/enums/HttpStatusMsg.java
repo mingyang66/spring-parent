@@ -1,10 +1,7 @@
-package com.yaomy.common.enums;
+package com.yaomy.control.exception.enums;
 
 /**
  * @Description: 自定义状态码异常枚举类
- * @ProjectName: spring-parent
- * @Package: com.yaomy.common.HttpStatusMsg
- * @Date: 2019/7/18 15:09
  * @Version: 1.0
  */
 public enum HttpStatusMsg {
@@ -17,18 +14,13 @@ public enum HttpStatusMsg {
     INDEX_OUTOF_BOUNDS_EXCEPTION(206, "数组越界异常"),
     METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION(207, "参数类型不匹配"),
     MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(208, "缺少参数"),
-    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(209, "不支持的method类型"),
+    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(209, "不支持的method类型");
 
-    //--------------------OAuth2认证异常------------------
-    AUTHENTICATION_EXCEPTION(300, "登录异常，请检查登录信息..."),
-    ACCESS_DENIDED_EXCEPTION(301, "访问资源受限"),
-    PASSWORD_EXCEPTION(302, "密码异常"),
-    USERNAME_EXCEPTION(303, "用户名异常");
 
     private final int status;
     private final String message;
 
-    private HttpStatusMsg(int status, String message){
+    HttpStatusMsg(int status, String message){
         this.status = status;
         this.message = message;
     }

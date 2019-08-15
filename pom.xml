@@ -12,6 +12,8 @@
         <module>spring-redis-service</module>
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-logback-service</module>
+        <module>com.yaomy.control.exception</module>
+        <module>spring-boot-control-exception-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

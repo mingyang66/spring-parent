@@ -1,6 +1,9 @@
 ### Spring boot logback日志系统集成
 
 Spring boot默认使用的日志就是logback，我们就以logback为基础搭建公用的log系统，并将其发不成为第三方jar包给其它的系统使用。
+参考网址：
+[http://logback.qos.ch/manual/appenders.html#ConsoleAppender](http://logback.qos.ch/manual/appenders.html#ConsoleAppender)
+[http://logback.qos.ch/manual/filters.html#thresholdFilter](http://logback.qos.ch/manual/filters.html#thresholdFilter)
 
 #### 1.配置日志xml文件logback-spring.xml
 ```

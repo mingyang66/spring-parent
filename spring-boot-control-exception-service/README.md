@@ -36,6 +36,8 @@ public @interface ExceptionHandler {
 
 }
 ```
+* 用于处理特定处理程序类或者方法的注解
+
 #### 3.控制器异常处理实现类
 ```
 package com.yaomy.control.exception.advice;
@@ -196,4 +198,4 @@ public final class ExceptionAdviceHandler {
 
 ```
 
-GitHub源码：
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-exception-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-exception-service)

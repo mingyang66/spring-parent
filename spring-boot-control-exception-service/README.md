@@ -19,7 +19,7 @@ public @interface RestControllerAdvice {
 
 }
 ```
-* 该注解被@ControllerAdvice和@ResponseBody声明，作用相当于@ExceptionHandler标注的异常处理方法同时也被@ResponseBody注解声明
+* 该注解被@ControllerAdvice和@ResponseBody声明，作用相当于@ExceptionHandler标注的异常处理方法同时也被@ResponseBody注解声明,返回JSON数据
 * 可以指定异常处理要扫描的包，如@RestControllerAdvice(basePackages="org.my.pkg")}、@RestControllerAdvice("org.my.pkg")
 
 #### 2.@ExceptionHandler注解声明处理具体异常的方法；

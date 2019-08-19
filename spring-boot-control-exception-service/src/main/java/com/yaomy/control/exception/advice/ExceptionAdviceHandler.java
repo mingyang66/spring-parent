@@ -1,16 +1,30 @@
 package com.yaomy.control.exception.advice;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
 import com.yaomy.control.exception.enums.HttpStatus;
 import com.yaomy.control.exception.po.BaseResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.http.HttpInputMessage;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @Description: 控制并统一处理异常类
@@ -19,6 +33,8 @@ import java.io.IOException;
  */
 @RestControllerAdvice
 public final class ExceptionAdviceHandler {
+
+    private ObjectError objectError;
 
     /**
      * 未知异常
@@ -149,6 +165,30 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         return BaseResponse.createResponse(HttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), "不支持"+e.getMethod()+"方法，支持"+ StringUtils.join(e.getSupportedMethods(), ",")+"类型");
+    }
+
+    /**
+     *
+     * 控制器方法中@RequestBody类型参数数据类型转换异常
+     */
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest wq){
+        e.printStackTrace();
+        Throwable throwable = e.getRootCause();
+        return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), throwable.getMessage());
+    }
+
+    /**
+     *
+     * 控制器方法参数异常
+     */
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e){
+        e.printStackTrace();
+        BindingResult bindingResult = e.getBindingResult();
+        FieldError fieldError = bindingResult.getFieldError();
+        String message = StringUtils.join(fieldError.getDefaultMessage());
+        return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 
 }

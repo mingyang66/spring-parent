@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yaomy.redis</groupId>
-    <artifactId>spring-redis-service</artifactId>
+    <groupId>com.yaomy.control</groupId>
+    <artifactId>spring-boot-control-redis-service</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

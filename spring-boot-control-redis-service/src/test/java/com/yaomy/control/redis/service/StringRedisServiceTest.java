@@ -1,4 +1,4 @@
-package com.yaomy.redis.service;
+package com.yaomy.control.redis.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

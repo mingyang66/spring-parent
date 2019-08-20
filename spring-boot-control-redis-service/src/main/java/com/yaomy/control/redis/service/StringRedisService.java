@@ -1,4 +1,4 @@
-package com.yaomy.redis.service;
+package com.yaomy.control.redis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

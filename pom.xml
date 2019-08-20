@@ -8,7 +8,6 @@
         <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>
         <module>spring-security-oauth2-resource-jwt-service</module>
-        <module>spring-redis-service</module>
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-logback-service</module>
         <module>spring-boot-control-exception-service</module>
@@ -16,6 +15,7 @@
         <module>spring-boot-control-common-service</module>
         <module>spring-boot-control-returnvalue-service</module>
         <module>spring-boot-control-test-service</module>
+        <module>spring-boot-control-redis-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

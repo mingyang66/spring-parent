@@ -1,4 +1,4 @@
-package com.yaomy.redis;
+package com.yaomy.control.redis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

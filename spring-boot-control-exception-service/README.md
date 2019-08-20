@@ -1,4 +1,4 @@
-### Spring boot控制器异常统一处理之@RestControllerAdvice
+### Spring boot控制器异常、参数异常统一处理之@RestControllerAdvice
 
 #### 1.@RestControllerAdvice注解定义全局处理异常类，异常处理类于@ControllerAdvice相比不需要添加@ResponseBody就可以返回JSON格式异常，
 ```
@@ -42,15 +42,20 @@ public @interface ExceptionHandler {
 ```
 package com.yaomy.control.exception.advice;
 
-import com.yaomy.control.exception.enums.HttpStatusMsg;
-import com.yaomy.control.exception.po.BaseResponse;
+import com.yaomy.control.common.control.enums.HttpStatus;
+import com.yaomy.control.common.control.po.BaseResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
@@ -62,6 +67,8 @@ import java.io.IOException;
  */
 @RestControllerAdvice
 public final class ExceptionAdviceHandler {
+
+    private ObjectError objectError;
 
     /**
      * 未知异常
@@ -78,7 +85,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatusMsg.UNKNOW_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.UNKNOW_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -96,7 +103,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatusMsg.RUNTIME_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.RUNTIME_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -114,7 +121,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatusMsg.NULL_POINTER_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -132,7 +139,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatusMsg.CLASS_CAST_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -150,14 +157,14 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatusMsg.IO_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.IO_EXCEPTION.getStatus(), message);
     }
 
     /**
      * 数组越界异常
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         e.printStackTrace();
         StackTraceElement[] elements = e.getStackTrace();
@@ -169,7 +176,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatusMsg.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -177,24 +184,49 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e){
-        return BaseResponse.createResponse(HttpStatusMsg.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), "参数类型不匹配，参数"+e.getName()+"类型必须为"+e.getRequiredType());
+        return BaseResponse.createResponse(HttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), "参数类型不匹配，参数"+e.getName()+"类型必须为"+e.getRequiredType());
     }
     /**
      * 缺少参数
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
-        return BaseResponse.createResponse(HttpStatusMsg.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), "缺少必要参数，参数名称为"+e.getParameterName());
+        return BaseResponse.createResponse(HttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), "缺少必要参数，参数名称为"+e.getParameterName());
     }
     /**
      * 请求method不匹配
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
-        return BaseResponse.createResponse(HttpStatusMsg.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), "不支持"+e.getMethod()+"方法，支持"+ StringUtils.join(e.getSupportedMethods(), ",")+"类型");
+        return BaseResponse.createResponse(HttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), "不支持"+e.getMethod()+"方法，支持"+ StringUtils.join(e.getSupportedMethods(), ",")+"类型");
+    }
+
+    /**
+     *
+     * 控制器方法中@RequestBody类型参数数据类型转换异常
+     */
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest wq){
+        e.printStackTrace();
+        Throwable throwable = e.getRootCause();
+        return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), throwable.getMessage());
+    }
+
+    /**
+     *
+     * 控制器方法参数异常
+     */
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e){
+        e.printStackTrace();
+        BindingResult bindingResult = e.getBindingResult();
+        FieldError fieldError = bindingResult.getFieldError();
+        String message = StringUtils.join(fieldError.getDefaultMessage());
+        return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 
 }
+
 
 ```
 

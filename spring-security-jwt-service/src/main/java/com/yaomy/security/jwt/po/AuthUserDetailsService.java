@@ -15,8 +15,6 @@ import java.util.*;
  * @Description: 用户认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.User
- * @Author: 姚明洋
- * @Date: 2019/6/28 17:37
  * @Version: 1.0
  */
 @Component
@@ -25,8 +23,6 @@ public class AuthUserDetailsService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     /**
      * @Description 根据用户名查询用户角色、权限等信息
-     * @Author 姚明洋
-     * @Date 2019/7/1 14:50
      * @Version  1.0
      */
     @Override

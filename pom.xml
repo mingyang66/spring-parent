@@ -5,16 +5,17 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-security-jwt-service</module>
-        <module>spring-common-service</module>
         <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>
         <module>spring-security-oauth2-resource-jwt-service</module>
         <module>spring-redis-service</module>
         <module>spring-security-oauth2-resource-redis-service</module>
-        <module>spring-boot-logback-service</module>
-        <module>com.yaomy.control.exception</module>
+        <module>spring-boot-control-logback-service</module>
         <module>spring-boot-control-exception-service</module>
-        <module>spring-boot-control-handler-service</module>
+        <module>spring-boot-control-conf-service</module>
+        <module>spring-boot-control-common-service</module>
+        <module>spring-boot-control-returnvalue-service</module>
+        <module>spring-boot-control-test-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -19,8 +19,6 @@ import java.util.Map;
  * @Description: Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.util.JwtTokenUtil
- * @Author: 姚明洋
- * @Date: 2019/7/1 16:43
  * @Version: 1.0
  */
 public class TokenUtil {
@@ -120,8 +118,6 @@ public class TokenUtil {
     }
     /**
      * @Description 刷新token令牌
-     * @Author 姚明洋
-     * @Date 2019/7/5 13:56
      * @Version  1.0
      */
     public static String refreshToken(String token) {

@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.oauth2.api.ExceptionController
- * @Author: 姚明洋
- * @Date: 2019/7/17 14:18
  * @Version: 1.0
  */
 @RestController

@@ -110,8 +110,6 @@ public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAd
     }
     /**
      * @Description ApprovalStore用户保存、检索和撤销用户审批的界面
-     * @Author 姚明洋
-     * @Date 2019/7/11 14:11
      * @Version  1.0
      */
 /*    @Bean

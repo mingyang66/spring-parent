@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @Description: 获取配置文件中配置属性类
- * @ProjectName: EM.FrontEnd.PrivateEquity.electronic-contract
- * @Package: com.uufund.ecapi.common.PropertyService
- * @Author: 姚明洋
- * @Date: 2019/6/11 14:31
  * @Version: 1.0
  */
 @Service
@@ -19,8 +15,6 @@ public class PropertyService {
     private Environment env;
     /**
      * @Description 获取配置文件中指定的属性值
-     * @Author 姚明洋
-     * @Date 2019/6/11 14:47
      * @Version  1.0
      */
     public String getProperty(String property){
@@ -28,8 +22,6 @@ public class PropertyService {
     }
     /**
      * @Description 获取配置文件的属性，如果为空，则为默认值
-     * @Author 姚明洋
-     * @Date 2019/6/19 14:01
      * @Version  1.0
      */
     public String getProperty(String property, String defaultValue){
@@ -41,8 +33,6 @@ public class PropertyService {
     }
     /**
      * @Description 获取配置文件中指定的属性值
-     * @Author 姚明洋
-     * @Date 2019/6/11 14:37
      * @Version  1.0
      */
     public <T> T getProperty(String property, Class<T> clazz){
@@ -50,8 +40,6 @@ public class PropertyService {
     }
     /**
      * @Description 获取配置文件中指定的属性，属性为null,则返回默认defaultValue
-     * @Author 姚明洋
-     * @Date 2019/6/19 14:06
      * @Version  1.0
      */
     public <T> T getProperty(String property, T defaultValue, Class<T> clazz){
@@ -63,8 +51,6 @@ public class PropertyService {
     }
     /**
      * @Description 判断配置文件中是否存在指定的key值
-     * @Author 姚明洋
-     * @Date 2019/6/11 14:36
      * @Version  1.0
      */
     public boolean containsProperty(String property){

@@ -13,9 +13,6 @@ import java.util.Set;
 /**
  * @Description: RBAC基于角色的访问控制
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.service.RbacAuthorityService
- * @Author: 姚明洋
- * @Date: 2019/7/1 16:45
  * @Version: 1.0
  */
 @Component(value = "rbacServiceImpl")

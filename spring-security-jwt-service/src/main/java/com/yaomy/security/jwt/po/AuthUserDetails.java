@@ -11,8 +11,6 @@ import java.util.Set;
  * @Description: Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.SelfUserDetails
- * @Author: 姚明洋
- * @Date: 2019/7/1 16:46
  * @Version: 1.0
  */
 public class AuthUserDetails implements UserDetails, Serializable {

@@ -9,8 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yaomy.control.exception</groupId>
+    <groupId>com.yaomy.control</groupId>
     <artifactId>spring-boot-control-exception-service</artifactId>
+    <dependencies>
 
+        <dependency>
+            <groupId>com.yaomy.control</groupId>
+            <artifactId>spring-boot-control-common-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

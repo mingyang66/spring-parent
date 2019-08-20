@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.service;
 
-import com.yaomy.common.enums.GrantTypeEnum;
+import com.yaomy.control.common.enums.GrantTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
@@ -14,9 +14,6 @@ import javax.annotation.PostConstruct;
 /**
  * @Description: 自定义client详细信息类
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.oauth2.service.OAuth2ClientDetailsService
- * @Author: 姚明洋
- * @Date: 2019/7/9 16:25
  * @Version: 1.0
  */
 @Service

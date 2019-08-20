@@ -15,8 +15,6 @@ import java.util.Map;
  * @Description: Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.api.GrantController
- * @Author: 姚明洋
- * @Date: 2019/7/10 16:28
  * @Version: 1.0
  */
 @Controller

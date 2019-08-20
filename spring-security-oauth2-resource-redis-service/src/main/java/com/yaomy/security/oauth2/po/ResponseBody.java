@@ -4,8 +4,6 @@ package com.yaomy.security.oauth2.po;
  * @Description: Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.AjaxResponseBody
- * @Author: 姚明洋
- * @Date: 2019/7/1 15:33
  * @Version: 1.0
  */
 public class ResponseBody {

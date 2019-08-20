@@ -5,7 +5,7 @@ Spring boot默认使用的日志就是logback，我们就以logback为基础搭�
 [http://logback.qos.ch/manual/appenders.html#ConsoleAppender](http://logback.qos.ch/manual/appenders.html#ConsoleAppender)
 [http://logback.qos.ch/manual/filters.html#thresholdFilter](http://logback.qos.ch/manual/filters.html#thresholdFilter)
 
-#### 1.配置日志xml文件logback-spring.xml
+#### 1.配置日志xml文件logback-control.xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL -->
@@ -302,4 +302,4 @@ public class LogBootStrap {
 ```
 >日志配置好之后就可以单独的将其达成jar包给其它系统来使用，也可以给其它的module使用
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-logback-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-logback-service)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-logback-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-logback-service)

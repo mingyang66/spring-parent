@@ -1,9 +1,22 @@
 ### Spring boot控制器返回值统一包装处理之HandlerMethodReturnValueHandler
 
-HandlerMethodReturnValueHandler是一个接口，用来处理spring-boot控制器请求和返回值的处理，其中控制返回值的有两个实现类RequestResponseBodyMethodProcessor
-、HttpEntityMethodProcessor，RequestResponseBodyMethodProcessor类是控制普通的返回值类型，HttpEntityMethodProcessor顾名思义就是控制ResponseEntity返回值类型；
+HandlerMethodReturnValueHandler是一个控制器返回值处理程序接口，用来处理spring-boot控制器请求和返回值的处理，其中控制返回值的有两个实现类RequestResponseBodyMethodProcessor
+、HttpEntityMethodProcessor（还有其它处理程序），RequestResponseBodyMethodProcessor类是控制普通的返回值类型，HttpEntityMethodProcessor顾名思义就是控制ResponseEntity返回值类型；
 
-#### 1.看下HandlerMethodReturnValueHandler接口
+通常我们希望返回的值类型是：
+```
+{
+    "status": 0,
+    "message": "SUCCESS",
+    "data": null
+}
+```
+* status:状态码
+* message:描述字段
+* data:真实返回数据
+>外层是统一包装的，不可能每个控制器都手动加上这些；所以可以通过重构后置的处理程序来灵活的控制返回值的格式；
+
+#### 1.看下HandlerMethodReturnValueHandler处理返回值程序接口
 ```
 public interface HandlerMethodReturnValueHandler {
 

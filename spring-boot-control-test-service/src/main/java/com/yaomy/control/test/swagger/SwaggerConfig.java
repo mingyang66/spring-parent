@@ -26,15 +26,15 @@ public class SwaggerConfig {
                 .apiInfo(createApiInfo())
                 .enable(true)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.eastmoney.hk.operate"))
+                .apis(RequestHandlerSelectors.basePackage("com.*.*.*"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo createApiInfo() {
         return new ApiInfoBuilder()
-                .description("港股运营项目接口")
-                .contact(new Contact("作者", "https://github.com", "abc@gmail.com"))
+                .description("xxxx")
+                .contact(new Contact("作者", "xxxx", "abc@gmail.com"))
                 .version("v1.0.1")
                 .title("API文档")
                 .license("Apache2.0")

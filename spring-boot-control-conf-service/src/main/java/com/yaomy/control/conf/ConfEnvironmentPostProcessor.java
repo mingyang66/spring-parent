@@ -1,6 +1,7 @@
 package com.yaomy.control.conf;
 
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -18,14 +19,21 @@ import java.util.Properties;
 
 /**
  * @Description 自定义配置文件路径加载
- * @Date 2019/8/20 9:20
  * @Version  1.0
  */
 public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
     /**
-     * 默认的配置文件
+     * CLASSPATH路径开头
      */
-    private static final String DEAFULT_PROFILES = "classpath:application.properties";
+    public static final String CLASSPATH = "classpath:";
+    /**
+     * FILE路径开头
+     */
+    //public static final String FILEPATH = "file:";
+    /**
+     * 默认支持的配置文件
+     */
+    private static final String DEFAULT_SEARCH_LOCATIONS = "classpath:/,classpath:/config/,file:./,file:./config/";
     /**
      * 是否是相对位置，默认false
      */
@@ -35,9 +43,13 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
      */
     private static final String PROFILES_CONF_PATH = "spring.profiles.conf.path";
     /**
+     * 当前系统运行的环境
+     */
+    public static final String SPINRG_PROFILES_ACTIVE = "spring.profiles.active";
+    /**
      * 配置文件的文件名，用逗号分开，只配置application-*.properties 星号代表的部分
      */
-    private static final String PROFILES_INCLUDE_FILE = "spring.profiles.include";
+    private static final String SPRING_PROFILES_INCLUDE = "spring.profiles.include";
     /**
      * 布尔TRUE字符串
      */
@@ -63,70 +75,136 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
      */
     private static final String EN_COMMA = ",";
     /**
+     * 斜杠
+     */
+    public static final String BACK_SLASH = "/";
+    /**
+     * 点斜杠
+     */
+    public static final String BACK_SLASH_SPOT = "./";
+    /**
      * @Description 加载配置文件方法
      * @Version  1.0
      */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        try{
-            File file = ResourceUtils.getFile(DEAFULT_PROFILES);
-            Properties properties = loadProperties(file);
-            String rootPath = StringUtils.EMPTY;
-            //相对位置 优先级第一
-            if(StringUtils.equalsIgnoreCase(properties.getProperty(PROFILES_RELATIVE_POSITION), BOOLEAN_TRUE)){
-                rootPath = getRootPath();
-            }
-            //绝对路径 优先级第二
-            if(StringUtils.isBlank(rootPath) && StringUtils.isNotBlank(properties.getProperty(PROFILES_CONF_PATH))){
-                rootPath = properties.getProperty(PROFILES_CONF_PATH);
-            }
-            if(StringUtils.isEmpty(rootPath)){
-                return;
-            }
-            MutablePropertySources propertySources = environment.getPropertySources();
-            File defaultFile = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, FILE_PREFIX, FILE_SUFFIX));
-            if(defaultFile.exists()){
-                Properties defaultProperties = loadProperties(defaultFile);
-                propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(FILE_PREFIX, FILE_SUFFIX), defaultProperties));
-                System.out.println("加载配置文件："+StringUtils.join(FILE_PREFIX, FILE_SUFFIX));
-                if(StringUtils.isNotBlank(defaultProperties.getProperty(PROFILES_INCLUDE_FILE))){
-                    properties = defaultProperties;
-                }
-            }
-
-            String[] list = StringUtils.split(properties.getProperty(PROFILES_INCLUDE_FILE), EN_COMMA);
-            if(null == list || list.length == 0){
-                return;
-            }
-
-            for(String fileName : list){
-                File f = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX));
-                if(f.exists()){
-                    propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX), loadProperties(f)));
-                    System.out.println("加载配置文件："+StringUtils.join(FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX));
-                }
-            }
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
+        //获取优先级最高的配置文件
+        File file = getPriorityHighestFile();
+        //加载配置application.properties文件
+        Properties properties = loadProperties(file);
+        //相对位置 优先级第二
+        if(StringUtils.equalsIgnoreCase(properties.getProperty(PROFILES_RELATIVE_POSITION), BOOLEAN_TRUE)){
+            load(environment, properties, getRootPath());
+        }
+        //绝对路径 优先级最高
+        if(StringUtils.isNotBlank(properties.getProperty(PROFILES_CONF_PATH))){
+            load(environment, properties, properties.getProperty(PROFILES_CONF_PATH));
         }
     }
     /**
      * @Description 加载配置文件
      * @Version  1.0
      */
-    private Properties loadProperties(File f) throws IOException{
-        FileSystemResource resource = new FileSystemResource(f);
-        return PropertiesLoaderUtils.loadProperties(resource);
+    private void load(ConfigurableEnvironment environment, Properties properties, String rootPath){
+        if(StringUtils.isEmpty(rootPath)){
+            return;
+        }
+        MutablePropertySources propertySources = environment.getPropertySources();
+        File defaultFile = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, FILE_PREFIX, FILE_SUFFIX));
+        if(defaultFile.exists()){
+            Properties defaultProperties = loadProperties(defaultFile);
+            propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(FILE_PREFIX, FILE_SUFFIX), defaultProperties));
+            if(StringUtils.isNotBlank(defaultProperties.getProperty(SPRING_PROFILES_INCLUDE))){
+                properties = defaultProperties;
+            }
+        }
+
+        String[] array = StringUtils.split(properties.getProperty(SPRING_PROFILES_INCLUDE), EN_COMMA);
+        if(ArrayUtils.isEmpty(array)){
+            return;
+        }
+        //当前环境变量配置
+        String profilesActive = properties.getProperty(SPINRG_PROFILES_ACTIVE);
+        if(StringUtils.isNotBlank(profilesActive) && !ArrayUtils.contains(array, properties.getProperty(SPINRG_PROFILES_ACTIVE))){
+            array = ArrayUtils.add(array, properties.getProperty(SPINRG_PROFILES_ACTIVE));
+        }
+        for(String fileName : array){
+            File f = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX));
+            if(f.exists()){
+                propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX), loadProperties(f)));
+            }
+        }
     }
     /**
-     * @Description 获取当前项目的根路径
+     * @Description 获取优先级最高的配置文件
      * @Version  1.0
      */
-    private String getRootPath() throws IOException{
-        File rootFile = new File("");
-        String rootPath = rootFile.getCanonicalPath();
-        return StringUtils.substring(rootPath, 0, StringUtils.lastIndexOf(rootPath, File.separator));
+    private File getPriorityHighestFile(){
+        File file = null;
+        //默认配置文件位置
+        String[] locations = StringUtils.split(DEFAULT_SEARCH_LOCATIONS, EN_COMMA);
+        for(String location:locations){
+            String url = null;
+            if(StringUtils.equals(location, StringUtils.join(CLASSPATH, BACK_SLASH))){
+                url = StringUtils.join(location.replace(BACK_SLASH, StringUtils.EMPTY), FILE_PREFIX, FILE_SUFFIX);
+            } else if(StringUtils.contains(location, BACK_SLASH_SPOT)){
+                url = StringUtils.join(location, FILE_PREFIX, FILE_SUFFIX);
+            } else {
+                url = StringUtils.join(StringUtils.removeFirst(location, BACK_SLASH), FILE_PREFIX, FILE_SUFFIX);
+            }
+            File defaultFile = getResourceFile(url);
+            if(null != defaultFile){
+                file = defaultFile;
+            }
+        }
+        return file;
+    }
+    /**
+     * @Description 加载文件并返回File对象，如果文件不存在就返回null
+     * @Version  1.0
+     */
+    private File getResourceFile(String url){
+        if(StringUtils.isBlank(url)){
+            return null;
+        }
+        try {
+            File file = ResourceUtils.getFile(url);
+            FileSystemResource resource = new FileSystemResource(file);
+            //判断file系统相对位置文件是否存在
+            if(resource.exists()){
+                return file;
+            }
+        } catch (FileNotFoundException e){
+        }
+        return null;
+    }
+    /**
+     * @Description 加载配置文件，返回Properties对象，否则返回null
+     * @Version  1.0
+     */
+    private Properties loadProperties(File file){
+        if(null == file || !file.exists()){
+            return null;
+        }
+        FileSystemResource resource = new FileSystemResource(file);
+        try {
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+            return properties;
+        } catch (IOException e){
+            return null;
+        }
+    }
+    /**
+     * @Description 获取当前项目的根路径,即项目到文件夹名路径
+     * @Version  1.0
+     */
+    private String getRootPath() {
+        try {
+            File rootFile = new File("");
+            String rootPath = rootFile.getCanonicalPath();
+            return StringUtils.substring(rootPath, 0, StringUtils.lastIndexOf(rootPath, File.separator));
+        } catch (IOException e){
+            return null;
+        }
     }
 }

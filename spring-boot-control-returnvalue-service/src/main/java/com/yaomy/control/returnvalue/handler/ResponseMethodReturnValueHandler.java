@@ -31,6 +31,8 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
 
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest request) throws Exception {
+        //标注该请求已经在当前处理程序处理过
+        mavContainer.setRequestHandled(true);
         if(null != returnValue && (returnValue instanceof BaseResponse)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, request);
         } else {
@@ -39,7 +41,6 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
             resultMap.put("message", "SUCCESS");
             resultMap.put("data", returnValue);
             proxyObject.handleReturnValue(resultMap, returnType, mavContainer, request);
-
         }
     }
 

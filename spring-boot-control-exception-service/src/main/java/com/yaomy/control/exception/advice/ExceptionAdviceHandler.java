@@ -184,8 +184,7 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest wq){
         printErrorMessage(e);
-        Throwable throwable = e.getRootCause();
-        String message = throwable.getMessage();
+        String message = e.getMessage();
         return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 

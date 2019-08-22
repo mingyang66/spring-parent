@@ -1,8 +1,6 @@
 package com.yaomy.security.oauth2.exception;
 
-import com.yaomy.common.enums.HttpStatusMsg;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
  * @Description: 用户名不存在异常类

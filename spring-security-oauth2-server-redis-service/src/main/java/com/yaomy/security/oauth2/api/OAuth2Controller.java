@@ -2,9 +2,9 @@ package com.yaomy.security.oauth2.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.yaomy.common.enums.GrantTypeEnum;
-import com.yaomy.common.enums.HttpStatusMsg;
-import com.yaomy.common.po.BaseResponse;
+import com.yaomy.control.common.enums.GrantTypeEnum;
+import com.yaomy.control.common.enums.HttpStatusMsg;
+import com.yaomy.control.common.po.BaseResponse;
 import com.yaomy.security.oauth2.service.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;

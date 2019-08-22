@@ -11,6 +11,11 @@
 
     <groupId>com.yaomy.security</groupId>
     <artifactId>spring-security-oauth2-server-redis-service</artifactId>
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,15 +39,9 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.yaomy.common</groupId>
-            <artifactId>spring-common-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>com.yaomy.control</groupId>
             <artifactId>spring-boot-control-common-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

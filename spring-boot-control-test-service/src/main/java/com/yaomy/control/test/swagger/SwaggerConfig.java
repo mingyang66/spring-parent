@@ -13,10 +13,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Description Swagger配置
- * @ProjectName com.eastmoney.hk.operate
- * @Package
- * @Author 黄鸣浪
- * @Date 2019/08/12 16:00
  * @Version 1.0
  */
 @Configuration

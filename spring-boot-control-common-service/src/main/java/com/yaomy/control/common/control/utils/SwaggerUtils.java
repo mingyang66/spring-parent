@@ -13,6 +13,7 @@ public class SwaggerUtils {
                                                             "/swagger-resources/configuration/security",
                                                             "/swagger-resources",
                                                             "/error",
-                                                            "/v2/api-docs");
+                                                            "/v2/api-docs",
+                                                            "/swagger-ui.html");
 
 }

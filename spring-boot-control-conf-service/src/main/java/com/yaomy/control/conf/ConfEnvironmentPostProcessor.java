@@ -27,21 +27,13 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
      */
     public static final String CLASSPATH = "classpath:";
     /**
-     * FILE路径开头
-     */
-    //public static final String FILEPATH = "file:";
-    /**
      * 默认支持的配置文件
      */
     private static final String DEFAULT_SEARCH_LOCATIONS = "classpath:/,classpath:/config/,file:./,file:./config/";
     /**
-     * 是否是相对位置，默认false
-     */
-    private static final String PROFILES_RELATIVE_POSITION = "spring.profiles.relative.position";
-    /**
      * 配置文件的绝对路径
      */
-    private static final String PROFILES_CONF_PATH = "spring.profiles.conf.path";
+    private static final String CONFIG_LOCATION_PROPERTY = "spring.config.location";
     /**
      * 当前系统运行的环境
      */
@@ -51,17 +43,13 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
      */
     private static final String SPRING_PROFILES_INCLUDE = "spring.profiles.include";
     /**
-     * 布尔TRUE字符串
-     */
-    private static final String BOOLEAN_TRUE = "true";
-    /**
      * 自定义配置文件前缀
      */
     private static final String CONFIG_PATH = "config";
     /**
      * 文件前缀
      */
-    private static final String FILE_PREFIX = "application";
+    private static final String DEFAULT_NAMES = "application";
     /**
      * 横线
      */
@@ -92,13 +80,14 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
         File file = getPriorityHighestFile();
         //加载配置application.properties文件
         Properties properties = loadProperties(file);
-        //相对位置 优先级第二
-        if(StringUtils.equalsIgnoreCase(properties.getProperty(PROFILES_RELATIVE_POSITION), BOOLEAN_TRUE)){
-            load(environment, properties, getRootPath());
+        if(null == properties || properties.isEmpty()){
+            return;
         }
+        //相对位置 优先级第二
+        load(environment, properties, getRootPath());
         //绝对路径 优先级最高
-        if(StringUtils.isNotBlank(properties.getProperty(PROFILES_CONF_PATH))){
-            load(environment, properties, properties.getProperty(PROFILES_CONF_PATH));
+        if(StringUtils.isNotBlank(properties.getProperty(CONFIG_LOCATION_PROPERTY))){
+            load(environment, properties, properties.getProperty(CONFIG_LOCATION_PROPERTY));
         }
     }
     /**
@@ -110,10 +99,10 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
             return;
         }
         MutablePropertySources propertySources = environment.getPropertySources();
-        File defaultFile = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, FILE_PREFIX, FILE_SUFFIX));
+        File defaultFile = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, DEFAULT_NAMES, FILE_SUFFIX));
         if(defaultFile.exists()){
             Properties defaultProperties = loadProperties(defaultFile);
-            propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(FILE_PREFIX, FILE_SUFFIX), defaultProperties));
+            propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(DEFAULT_NAMES, FILE_SUFFIX), defaultProperties));
             if(StringUtils.isNotBlank(defaultProperties.getProperty(SPRING_PROFILES_INCLUDE))){
                 properties = defaultProperties;
             }
@@ -129,9 +118,9 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
             array = ArrayUtils.add(array, properties.getProperty(SPINRG_PROFILES_ACTIVE));
         }
         for(String fileName : array){
-            File f = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX));
+            File f = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, DEFAULT_NAMES, FILE_LINE, fileName, FILE_SUFFIX));
             if(f.exists()){
-                propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(FILE_PREFIX, FILE_LINE, fileName, FILE_SUFFIX), loadProperties(f)));
+                propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(DEFAULT_NAMES, FILE_LINE, fileName, FILE_SUFFIX), loadProperties(f)));
             }
         }
     }
@@ -146,11 +135,11 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
         for(String location:locations){
             String url = null;
             if(StringUtils.equals(location, StringUtils.join(CLASSPATH, BACK_SLASH))){
-                url = StringUtils.join(location.replace(BACK_SLASH, StringUtils.EMPTY), FILE_PREFIX, FILE_SUFFIX);
+                url = StringUtils.join(location.replace(BACK_SLASH, StringUtils.EMPTY), DEFAULT_NAMES, FILE_SUFFIX);
             } else if(StringUtils.contains(location, BACK_SLASH_SPOT)){
-                url = StringUtils.join(location, FILE_PREFIX, FILE_SUFFIX);
+                url = StringUtils.join(location, DEFAULT_NAMES, FILE_SUFFIX);
             } else {
-                url = StringUtils.join(StringUtils.removeFirst(location, BACK_SLASH), FILE_PREFIX, FILE_SUFFIX);
+                url = StringUtils.join(StringUtils.removeFirst(location, BACK_SLASH), DEFAULT_NAMES, FILE_SUFFIX);
             }
             File defaultFile = getResourceFile(url);
             if(null != defaultFile){

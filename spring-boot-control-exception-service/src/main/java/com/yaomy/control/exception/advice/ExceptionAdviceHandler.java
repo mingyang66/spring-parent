@@ -16,7 +16,6 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
@@ -36,6 +35,14 @@ public final class ExceptionAdviceHandler {
      * 日志文件
      */
     private static final String LOGBACK_FILENAME = "classpath:logback-control.xml";
+    /**
+     * @RequestBody请求body缺失异常
+     */
+    private static final String REQUEST_BODY = "Required request body is missing";
+    /**
+     * @RequestBody请求body缺失message提示
+     */
+    public static final String REQUEST_BODY_MESSAGE = "注解@RequestBody标识的请求体缺失";
     /**
      * 加载配置文件属性
      */
@@ -182,9 +189,12 @@ public final class ExceptionAdviceHandler {
      * 控制器方法中@RequestBody类型参数数据类型转换异常
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest wq){
+    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e){
         printErrorMessage(e);
         String message = e.getMessage();
+        if(StringUtils.contains(message, REQUEST_BODY)){
+            message = REQUEST_BODY_MESSAGE;
+        }
         return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 

@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description: 控制器返回返回值包装类
+ * @Description: 控制器返回返回值包装类,处理带@ResponseBody标识的返回值类型
  * @Version: 1.0
  */
 public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValueHandler {

@@ -67,6 +67,9 @@ public class HttpClientService {
         return entity.getBody();
     }
     /**
+     * -----------------------------GET----------------------------------------------
+     */
+    /**
      * @Description 支持参数为非数组模式POST请求
      * @Version  1.0
      */

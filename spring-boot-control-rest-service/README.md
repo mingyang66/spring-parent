@@ -3,7 +3,8 @@
 并提取结果。默认情况下，RestTemplate默认依赖jdk的HTTP连接工具。当然你也可以 通过setRequestFactory属性切换到不同的HTTP源，
 比如Apache HttpComponents、Netty和OkHttp
 #### 1.简介
-RestTemplate默认使用SimpleClientHttpRequestFactory和DefaultResponseErrorHandler来分别处理HTTP的创建和错误，但也可以通过setRequestFactory和setErrorHandler来覆盖
+RestTemplate默认使用SimpleClientHttpRequestFactory和DefaultResponseErrorHandler来分别处理HTTP的创建和错误，但也可以通过setRequestFactory和setErrorHandler来覆盖;
+默认提供了多种的请求方式，本示例只提供通用的方式postForEntity、getForEntity
 #### 2.组装代码：
 >支持POST、GET请求，支持文件上传、支持数组参数传递、支持HTTP、HTTPS
 ```

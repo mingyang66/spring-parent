@@ -82,7 +82,6 @@ public class HandlerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // TODO 处理文件内容...
         return "OK";
     }
     @RequestMapping(value = "/handler/test3")

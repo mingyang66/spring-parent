@@ -5,6 +5,7 @@
 #### 1.简介
 RestTemplate默认使用SimpleClientHttpRequestFactory和DefaultResponseErrorHandler来分别处理HTTP的创建和错误，但也可以通过setRequestFactory和setErrorHandler来覆盖
 #### 2.组装代码：
+>支持POST、GET请求，支持文件上传、支持数组参数传递、支持HTTP、HTTPS
 ```
 package com.yaomy.control.rest.client;
 
@@ -97,7 +98,6 @@ public class HttpClientService {
 ```
 
 #### 3.Rest HTTP Client请求组件【spring-boot-control-rest-service】
->支持POST、GET请求，支持文件上传、支持数组参数传递、支持HTTP、HTTPS
 
 * 使用方式,示例如下
 ```
@@ -115,3 +115,28 @@ public class HttpClientService {
         System.out.println(result);
     }
 ```
+>支持文件上传
+
+#### 4.文件上传接收文件接口
+```
+    @RequestMapping(value = "/handler/upload")
+    public String upload(String fileName, MultipartFile jarFile) {
+        System.out.println(fileName+"==============");
+        System.out.println(jarFile.getOriginalFilename());
+        // 下面是测试代码
+        String originalFilename = jarFile.getOriginalFilename();
+        //System.out.println(originalFilename);
+        try {
+            String string = new String(jarFile.getBytes(), "UTF-8");
+            System.out.println(string+"---------------");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "OK";
+    }
+```
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rest-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rest-service)
+

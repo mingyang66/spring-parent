@@ -114,4 +114,9 @@ public class HandlerController {
         String result = httpClientService.postMulti(url, params, String.class);
         System.out.println(result);
     }
+    @RequestMapping(value = "/handler/client")
+    public ResponseEntity<String> testClient(String name) {
+        System.out.println("------PARAM--------"+name);
+      return ResponseEntity.ok(name);
+    }
 }

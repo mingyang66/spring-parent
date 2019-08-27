@@ -35,7 +35,7 @@ public class HandlerController {
     @Autowired
     private PropertyService propertyService;
     @Autowired
-    private HttpClientService httpPost;
+    private HttpClientService httpClientService;
 
     @RequestMapping(value = "/handler/test")
     public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response) throws IOException {
@@ -96,12 +96,12 @@ public class HandlerController {
     }
     @RequestMapping(value = "/handler/url")
     public void testUrl(@RequestBody @Valid User user){
-        String url = "http://172.30.67.122:9000/handler/test1";
+        String url = "https://peecapi.uufund.com/seal_label/list";
         Map<String, Object> params = new HashMap<>();
-        params.put("name", "liming");
-        params.put("age", 12);
-        params.put("weight", Arrays.asList(12,34,66));
-        Map<String, Object> result = httpPost.postMulti(url, params, Map.class);
+        params.put("token", "8b6deca08f174355a0da393fbf182a44");
+      /*  params.put("age", 12);
+        params.put("weight", Arrays.asList(12,34,66));*/
+        Map<String, Object> result = httpClientService.postMulti(url, params, Map.class);
         System.out.println(result);
     }
     @RequestMapping(value = "/handler/test4")
@@ -112,7 +112,7 @@ public class HandlerController {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.put("jarFile", Arrays.asList(resource, resource1));
         params.put("fileName", Arrays.asList("liming", "hello"));
-        String result = httpPost.postMulti(url, params, String.class);
+        String result = httpClientService.postMulti(url, params, String.class);
         System.out.println(result);
     }
 }

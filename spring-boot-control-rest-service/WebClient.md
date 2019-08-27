@@ -208,8 +208,7 @@ public interface UriBuilder {
 	UriBuilder replaceQueryParam(String name, Object... values);
 
 	/**
-	 * Set the query parameter values overriding all existing query values.
-	 * @param params the query parameter name
+	 * 替换多值参数
 	 */
 	UriBuilder replaceQueryParams(MultiValueMap<String, String> params);
 
@@ -231,6 +230,43 @@ public interface UriBuilder {
 	URI build(Map<String, ?> uriVariables);
 
 }
+```
+使用示例：
+```
+ Mono<String> result = webClient.post()
+                                    .uri(uriBuilder -> uriBuilder.path("/handler/client1")
+                                                                .scheme("http")
+                                                                .host("172.30.67.122")
+                                                                .port(9000)
+                                                                .queryParam("name", "李磊", "李明", "lisa")
+                                                                .replaceQueryParam("name", "hhhh")
+                                                                .replacePath("/handler/client")
+                                                                .fragment("122")
+                                                                .build())
+                                    .retrieve()
+                                    .bodyToMono(String.class);
+```
+#### 5.发送请求
+```
+        //发送请求
+        WebClient.ResponseSpec retrieve();
+        //发送请求，可以根据返回值拿到header、cookie等信息
+        Mono<ClientResponse> exchange();
+```
+
+#### 6.ResponseSpec 指定请求返回值转换为指定的数据类型，并包装为Mono对象
+```
+    public interface ResponseSpec {
+        WebClient.ResponseSpec onStatus(Predicate<HttpStatus> var1, Function<ClientResponse, Mono<? extends Throwable>> var2);
+
+        <T> Mono<T> bodyToMono(Class<T> var1);
+
+        <T> Mono<T> bodyToMono(ParameterizedTypeReference<T> var1);
+
+        <T> Flux<T> bodyToFlux(Class<T> var1);
+
+        <T> Flux<T> bodyToFlux(ParameterizedTypeReference<T> var1);
+    }
 ```
 
 

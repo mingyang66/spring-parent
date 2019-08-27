@@ -35,19 +35,12 @@ public class WebClientTest {
     }
     @Test
     public void testUrlBuilder(){
-        String baseUrl = "http://172.30.67.122:9000/handler/";
-        WebClient webClient = WebClient.create();
-        Mono<String> result = webClient.post()
-                                    .uri(uriBuilder -> uriBuilder.path("/handler/client1")
-                                                                .scheme("http")
-                                                                .host("172.30.67.122")
-                                                                .port(9000)
-                                                                .queryParam("name", "李磊", "李明", "lisa")
-                                                                .replaceQueryParam("name", "hhhh")
-                                                                .replacePath("/handler/{path}")
-                                                                .build("client"))
+        String baseUrl = "http://172.30.67.122:9000//handler/";
+        WebClient webClient = WebClient.create(baseUrl);
+        Mono<Map> result = webClient.post()
+                                    .uri("client")
                                     .retrieve()
-                                    .bodyToMono(String.class);
+                                    .bodyToMono(Map.class);
         System.out.println(result.block());
 
     }

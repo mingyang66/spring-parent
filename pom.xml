@@ -16,6 +16,7 @@
         <module>spring-security-oauth2-server-jwt-service</module>
         <module>spring-security-oauth2-resource-jwt-service</module>
         <module>spring-security-oauth2-resource-redis-service</module>
+        <module>spring-boot-control-rest-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

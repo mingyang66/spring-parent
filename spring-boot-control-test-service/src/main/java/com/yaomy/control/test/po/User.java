@@ -15,6 +15,7 @@ public class User {
     private String name;
     @DecimalMin(value = "0", message = "年龄不可以小于0")
     private Integer age;
+    private String[] weight;
 
     public String getName() {
         return name;
@@ -30,5 +31,13 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String[] getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String[] weight) {
+        this.weight = weight;
     }
 }

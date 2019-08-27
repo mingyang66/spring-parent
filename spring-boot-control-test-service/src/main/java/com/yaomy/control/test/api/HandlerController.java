@@ -4,17 +4,26 @@ import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.control.rest.client.HttpClientService;
 import com.yaomy.control.test.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * @Description 测试类
@@ -25,6 +34,8 @@ import java.io.IOException;
 public class HandlerController {
     @Autowired
     private PropertyService propertyService;
+    @Autowired
+    private HttpClientService httpPost;
 
     @RequestMapping(value = "/handler/test")
     public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response) throws IOException {
@@ -39,16 +50,41 @@ public class HandlerController {
         return httpHeaders;
     }
     @RequestMapping(value = "/handler/test1")
-    public BaseResponse testNull(@RequestBody @Valid User user){
+    public BaseResponse testNull(@RequestBody @Valid User user, Map<String, Object> map){
         LoggerUtil.info(HandlerController.class, "测试。。。");
+        System.out.println(user);
+        System.out.println(map);
+        System.out.println("-------------------"+user.getWeight()[1]);
         return BaseResponse.createResponse(1004, "sfsdf");
     }
     @RequestMapping(value = "/handler/test2")
-    public ResponseEntity<String> testNull1(@RequestBody @Valid User user){
+    public ResponseEntity<List> testNull1(@RequestBody @Valid User user){
         System.out.println("----------------deee");
-        return ResponseEntity.ok(null);
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "666");
+        map.put("age", 88);
+        list.add(map);
+        return ResponseEntity.ok(list);
     }
-
+    @RequestMapping(value = "/handler/upload")
+    public String upload(String fileName, MultipartFile jarFile) {
+        System.out.println(fileName+"==============");
+        System.out.println(jarFile.getOriginalFilename());
+        // 下面是测试代码
+        String originalFilename = jarFile.getOriginalFilename();
+        //System.out.println(originalFilename);
+        try {
+            String string = new String(jarFile.getBytes(), "UTF-8");
+            System.out.println(string+"---------------");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // TODO 处理文件内容...
+        return "OK";
+    }
     @RequestMapping(value = "/handler/test3")
     public void testNull13(@RequestBody @Valid User user){
         LoggerUtil.info(HandlerController.class, propertyService.getProperty("sms.code")+"---"+propertyService.getProperty("sms.message"));
@@ -58,5 +94,25 @@ public class HandlerController {
         LoggerUtil.user(userAction);
         System.out.println("----------------deee");
     }
-
+    @RequestMapping(value = "/handler/url")
+    public void testUrl(@RequestBody @Valid User user){
+        String url = "http://172.30.67.122:9000/handler/test1";
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "liming");
+        params.put("age", 12);
+        params.put("weight", Arrays.asList(12,34,66));
+        Map<String, Object> result = httpPost.postMulti(url, params, Map.class);
+        System.out.println(result);
+    }
+    @RequestMapping(value = "/handler/test4")
+    public void testUrl1(@RequestBody @Valid User user) throws IOException{
+        String url = "http://172.30.67.122:9000/handler/upload";
+        FileSystemResource resource = new FileSystemResource(new File("D:\\work\\ssr\\pac.txt"));
+        FileSystemResource resource1 = new FileSystemResource(new File("D:\\work\\ssr\\gui-config.json"));
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.put("jarFile", Arrays.asList(resource, resource1));
+        params.put("fileName", Arrays.asList("liming", "hello"));
+        String result = httpPost.postMulti(url, params, String.class);
+        System.out.println(result);
+    }
 }

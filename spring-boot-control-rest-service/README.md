@@ -1,6 +1,6 @@
 ### Spring boot之 RestTemplate组件
 
-#### 1.Rest HTTP Client请求组件【com.eastmoney.emis.rest】
+#### 1.Rest HTTP Client请求组件【spring-boot-control-rest-service】
 >支持POST、GET请求，支持文件上传、支持数组参数传递、支持HTTP、HTTPS
 
 * 使用方式,示例如下

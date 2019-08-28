@@ -1,4 +1,4 @@
-#### Java计算对象大小RamUsageEstimator
+#### Java计算对象大小RamUsageEstimator工具类
 
 #### 1.引入第三方jar
 ```
@@ -79,3 +79,5 @@ public class ObjectSizeUtil {
 
 ```
 >还有其它一些方法没有一一说明，看源码注解就很清楚了
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-common-service/memorySize.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-common-service/memorySize.md)

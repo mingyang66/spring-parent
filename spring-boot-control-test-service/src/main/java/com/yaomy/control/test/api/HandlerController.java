@@ -6,6 +6,7 @@ import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import com.yaomy.control.rest.client.HttpClientService;
 import com.yaomy.control.test.po.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -15,9 +16,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
@@ -118,5 +121,15 @@ public class HandlerController {
     public ResponseEntity<String> testClient(String name) {
         System.out.println("------PARAM--------"+name);
       return ResponseEntity.ok(name);
+    }
+    @RequestMapping(value = "/handler/client1")
+    public ResponseEntity<User> testClient(@RequestBody User user) {
+        System.out.println("------PARAM--------"+user.getName());
+        return ResponseEntity.ok(user);
+    }
+    @RequestMapping(value = "/handler/client2")
+    public ResponseEntity<String> testClient2(Integer age, String name, HttpServletRequest request) {
+        System.out.println("------PARAM--------"+name);
+        return ResponseEntity.ok(name+age);
     }
 }

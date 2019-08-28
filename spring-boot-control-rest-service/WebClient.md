@@ -48,7 +48,10 @@ WebClient webClient = WebClient.builder().build();
         return new DefaultWebClientBuilder();
     }
 ```
-
+* WebClient创建之后不可以更改，不过可以通过克隆的方式更改
+```
+webClient.mutate().build();
+```
 #### 3.WebClient传递URL一共提供了四种方式
 
 ```
@@ -257,16 +260,65 @@ public interface UriBuilder {
 #### 6.ResponseSpec 指定请求返回值转换为指定的数据类型，并包装为Mono对象
 ```
     public interface ResponseSpec {
+        //自定义异常处理，示例：onStatus(HttpStatus::is2xxSuccessful, clientResponse -> Mono.error(new Throwable()))
         WebClient.ResponseSpec onStatus(Predicate<HttpStatus> var1, Function<ClientResponse, Mono<? extends Throwable>> var2);
-
+        //将返回的数据转换为指定的数据类型，并包装为Mono类型
         <T> Mono<T> bodyToMono(Class<T> var1);
-
+        // 将返回的数据转换为指定的数据类型，并包装为Mono类型，参数示例：bodyToMono(ParameterizedTypeReference.forType(Map.class));
         <T> Mono<T> bodyToMono(ParameterizedTypeReference<T> var1);
-
+        //将返回的数据转换为指定的数据类型，并包装为Flux类型
         <T> Flux<T> bodyToFlux(Class<T> var1);
-
+        // 将返回的数据转换为指定的数据类型，并包装为Flux类型，参数示例：bodyToFlux(ParameterizedTypeReference.forType(Map.class));
         <T> Flux<T> bodyToFlux(ParameterizedTypeReference<T> var1);
     }
 ```
 
+#### 7.请求参数传递syncBody
 
+* 传递参数实体类型，如：User user = ...
+```
+   @Test
+    public void testUrlBuilder(){
+        /*User user = new User();
+        user.setName("李明");
+        user.setAge(26);*/
+        Map<String, Object> user = Maps.newHashMap();
+        user.put("name", "李明");
+        user.put("age", 26);
+        String baseUrl = "http://172.30.67.122:9000//handler/";
+        WebClient webClient = WebClient.create(baseUrl);
+        Flux<Map> result = webClient.post()
+                                    .uri("client1")
+                                   // .contentType(MediaType.APPLICATION_JSON)
+                                    .syncBody(user)
+                                    .retrieve()
+                                    .onStatus(HttpStatus::is3xxRedirection, clientResponse -> Mono.error(new Throwable()))
+                                    .bodyToFlux(ParameterizedTypeReference.forType(Map.class));
+        System.out.println(result.blockFirst());
+    }
+```
+>如果没有封装实体类Map数据类型也是支持的
+
+#### 8.支持多个参数传递
+```
+    @Test
+    public void testUrlBuilder(){
+        MultipartBodyBuilder multiValueMap = new MultipartBodyBuilder();
+        multiValueMap.part("name", "lili");
+        multiValueMap.part("age", 26);
+
+        String baseUrl = "http://172.30.67.122:9000/handler/";
+        WebClient webClient = WebClient.create(baseUrl);
+        Mono<Map> result = webClient.post()
+                                    .uri("client1")
+                                    .syncBody(multiValueMap.build())
+                                    .retrieve()
+                                    .onStatus(HttpStatus::is3xxRedirection, clientResponse -> Mono.error(new Throwable()))
+                                    .bodyToMono(ParameterizedTypeReference.forType(Map.class));
+        System.out.println(result.block());
+    }
+```
+
+
+
+参考：[https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client-body-form](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client-body-form)

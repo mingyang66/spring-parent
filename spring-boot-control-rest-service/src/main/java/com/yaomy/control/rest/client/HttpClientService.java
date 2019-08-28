@@ -43,7 +43,7 @@ public class HttpClientService {
         return entity.getBody();
     }
     /**
-     * @Description 支持文件上传、参数为数组模式、参数为非数组模式
+     * @Description 支持文件上传、多参数、参数为数组模式、参数为非数组模式
      * @Version  1.0
      */
     public <T> T postMulti(String url, MultiValueMap<String, Object> params, Class<T> responseType){
@@ -51,7 +51,7 @@ public class HttpClientService {
         return entity.getBody();
     }
     /**
-     * @Description 支持文件上传、参数为数组模式、参数为非数组模式
+     * @Description 支持文件上传、多参数、参数为数组模式、参数为非数组模式
      * @Version  1.0
      */
     public <T> T  postMulti(String url, Map<String, Object> params, Class<T> responseType, Object... uriVariables){
@@ -59,7 +59,7 @@ public class HttpClientService {
         return entity.getBody();
     }
     /**
-     * @Description 支持文件上传、参数为数组模式、参数为非数组模式
+     * @Description 支持文件上传、多参数、参数为数组模式、参数为非数组模式
      * @Version  1.0
      */
     public<T> T  postMulti(String url, Map<String, Object> params, Class<T> responseType, Map<String, ?> uriVariables){

@@ -33,13 +33,13 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
 
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
-        ResponseEntity entity = ((ResponseEntity) returnValue);
-        Object body = entity.getBody();
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
+        //获取ResponseEntity封装的真实返回值
+        Object body = (null == returnValue) ? null :((ResponseEntity) returnValue).getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if(SwaggerUtils.urls.contains(request.getRequestURI())){
-            proxyObject.handleReturnValue(entity, returnType, mavContainer, webRequest);
+            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if(null != body && (body instanceof BaseResponse)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {

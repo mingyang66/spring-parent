@@ -33,6 +33,7 @@ import java.util.*;
  * @Date 2019/8/19 11:32
  * @Version  1.0
  */
+@RequestMapping
 @RestController
 public class HandlerController {
     @Autowired
@@ -125,11 +126,18 @@ public class HandlerController {
     @RequestMapping(value = "/handler/client1")
     public ResponseEntity<User> testClient(@RequestBody User user) {
         System.out.println("------PARAM--------"+user.getName());
+        String a = null;
+        a.length();
         return ResponseEntity.ok(user);
     }
     @RequestMapping(value = "/handler/client2")
-    public ResponseEntity<String> testClient2(Integer age, String name, HttpServletRequest request) {
+    public ResponseEntity<String> testClient2(String name, Integer age, HttpServletRequest request, HttpServletResponse response) {
         System.out.println("------PARAM--------"+name);
-        return ResponseEntity.ok(name+age);
+        return ResponseEntity.ok(name);
+    }
+    @RequestMapping(value = "/handler/client3")
+    public User testClient3(@RequestBody User user) {
+        System.out.println("------PARAM--------"+user.getName());
+        return user;
     }
 }

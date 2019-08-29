@@ -2,6 +2,7 @@ package com.yaomy.control.test.api;
 
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import com.yaomy.control.rest.client.HttpClientService;
@@ -66,8 +67,8 @@ public class HandlerController {
         System.out.println("----------------deee");
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name", "666");
-        map.put("age", 88);
+        map.put("name", user.getName());
+        map.put("age", user.getAge());
         list.add(map);
         return ResponseEntity.ok(list);
     }
@@ -124,10 +125,9 @@ public class HandlerController {
       return ResponseEntity.ok(name);
     }
     @RequestMapping(value = "/handler/client1")
-    public ResponseEntity<User> testClient(@RequestBody User user) {
+    public ResponseEntity<User> testClient(@RequestBody User user, HttpServletRequest request) {
         System.out.println("------PARAM--------"+user.getName());
-        String a = null;
-        a.length();
+        System.out.println(request.getParameter("tt"));
         return ResponseEntity.ok(user);
     }
     @RequestMapping(value = "/handler/client2")
@@ -138,6 +138,25 @@ public class HandlerController {
     @RequestMapping(value = "/handler/client3")
     public User testClient3(@RequestBody User user) {
         System.out.println("------PARAM--------"+user.getName());
+        user.setName("2");
+        user.setWeight(new String[]{"2","2"});
+        System.out.println(ObjectSizeUtil.humanReadableUnits(user));
         return user;
+    }
+
+    @RequestMapping(value = "/handler/client4")
+    public String testClient4(Long n) {
+        String s = "";
+        for(int i=0;i<n;i++){
+            s = StringUtils.join(s, i);
+        }
+        return s;
+    }
+    @RequestMapping(value = "/handler/client5")
+    public ResponseEntity<String> testClient5(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+        String age = request.getParameter("age");
+        System.out.println("------PARAM--------"+name+"--"+age);
+        return ResponseEntity.ok(name);
     }
 }

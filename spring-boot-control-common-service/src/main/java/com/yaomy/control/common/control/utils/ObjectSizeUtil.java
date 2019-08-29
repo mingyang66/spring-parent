@@ -19,7 +19,11 @@ public class ObjectSizeUtil {
      * @Description 计算对象占用内存大小，数值后带单位：GB, MB, KB or bytes
      * @Version  1.0
      */
-    public static String getObjectSizeReadable(Object o){
+    public static String humanReadableUnits(Object o){
         return RamUsageEstimator.humanReadableUnits(getObjectSize(o));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(humanReadableUnits("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333"));
     }
 }

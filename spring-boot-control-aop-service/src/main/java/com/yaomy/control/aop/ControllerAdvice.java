@@ -2,6 +2,7 @@ package com.yaomy.control.aop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Description: 控制器切面，统计入参、出参相关信息，
@@ -69,12 +74,12 @@ public class ControllerAdvice {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //获取连接点（Joint Point）的签名
         MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
-        startTime.set(System.currentTimeMillis());
         ObjectMapper objectMapper = new ObjectMapper();
         String log = logApi.get();
         String reqParams = StringUtils.EMPTY;
         try {
-            reqParams = objectMapper.writeValueAsString(request.getParameterMap());
+            //获取请求参数
+            reqParams = objectMapper.writeValueAsString(getReqestParam(joinPoint, methodSignature, request));
             //调用Joint Point(连接点)并返回处理结果
             Object result = joinPoint.proceed();
             //如果切到了 没有返回类型的void方法，这里直接返回
@@ -116,6 +121,8 @@ public class ControllerAdvice {
      */
     @Before(value = pCutStr)
     public void before(JoinPoint joinPoint) {
+        System.out.println("--------before------------");
+        startTime.set(System.currentTimeMillis());
     }
     /**
      * @Description @After无论一个Joint Point(连接点)正常执行还是发生了异常都会执行的Advice(增强)
@@ -123,6 +130,8 @@ public class ControllerAdvice {
      */
     @After(value = pCutStr)
     public void after(JoinPoint joinPoint) {
+        /*startTime.remove();
+        logApi.remove();*/
     }
     /**
      * @Description 切入点方法执行之后执行,@AfterReturning是在一个Join Point(连接点)正常返回后执行的Advice(增强)
@@ -143,6 +152,7 @@ public class ControllerAdvice {
             } else{
                 log = StringUtils.join(log, "返回值是："+ objectMapper.writeValueAsString(returnValue), "\n");
             }
+            log = StringUtils.join(log, "数据大小："+ ObjectSizeUtil.humanReadableUnits(returnValue));
             logApi.set(log);
             LoggerUtil.info(signature.getDeclaringType(), logApi.get());
         } catch (JsonProcessingException e){
@@ -166,5 +176,27 @@ public class ControllerAdvice {
             }
         }
         return isController;
+    }
+    /**
+     * @Description 获取请求参数
+     * @Version  1.0
+     */
+    private Map<String, Object> getReqestParam(ProceedingJoinPoint joinPoint, MethodSignature methodSignature, HttpServletRequest request){
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        String[] parameterNames = methodSignature.getParameterNames();
+        Object[] args = joinPoint.getArgs();
+        for(int i=0; i<parameterNames.length; i++){
+            if(args[i] instanceof HttpServletRequest){
+                Enumeration<String> params = request.getParameterNames();
+                while (params.hasMoreElements()){
+                    String key = params.nextElement();
+                    System.out.println(key+"="+request.getParameter(key));
+                    paramMap.put(key, request.getParameter(key));
+                }
+            } else if(!(args[i] instanceof HttpServletResponse)){
+                paramMap.put(parameterNames[i], args[i]);
+            }
+        }
+        return paramMap;
     }
 }

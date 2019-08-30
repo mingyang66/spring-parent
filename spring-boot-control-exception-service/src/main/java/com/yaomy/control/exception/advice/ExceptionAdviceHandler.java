@@ -1,6 +1,7 @@
 package com.yaomy.control.exception.advice;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.enums.HttpStatus;
 import com.yaomy.control.common.control.po.BaseResponse;
@@ -181,7 +182,7 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         printErrorMessage(e);
-        String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", e.getSupportedMethods(), ","+"类型");
+        String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
         return BaseResponse.createResponse(HttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
     }
     /**

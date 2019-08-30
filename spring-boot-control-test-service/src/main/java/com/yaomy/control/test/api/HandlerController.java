@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -118,7 +119,7 @@ public class HandlerController {
         String result = httpClientService.postMulti(url, params,null, String.class);
         System.out.println(result);
     }
-    @RequestMapping(value = "/handler/client")
+    @PostMapping(value = "/handler/client")
     public ResponseEntity<String> testClient(String name) {
         System.out.println("------PARAM--------"+name);
       return ResponseEntity.ok(name);

@@ -1,3 +1,23 @@
+### Spring AOP拦截控制器请求入参返回值时间
+
+#### 1.概念
+* @Aspect把当前类标识为一个切面供容器读取,有点类似java中的类声明，包含切点（Point Cut）、连接点（Joint Point）
+* Joint Point（连接点）： 表示在程序中明确定义的点，如控制器中的一个个的方法
+* Point Cut(切点)：表示一组的Joint Point(连接点)，这些连接点是通过一定的逻辑规则组合起来的，如当前示例通过切入点函数表达式将控制器方法组合起来这一类就叫做切点，一个个的控制器方法就是Joint Point(连接点)
+* Advice(增强)：Advice定义了在Point Cut(切点)里面要做的事情，包括在切点Before、After、替换切点执行的代码模块
+
+#### 2.切入点函数表达式配置规则
+* 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
+切入点表达式：
+* 第一个*号：表示返回类型，*号表示所有的类型
+* 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
+* 第二个*号：表示类名，*号表示所有的类名
+* 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
+
+>示例：private final String pCutStr = "execution(public * com.yaomy.control.test.api..*.*(..))";
+
+#### 3.切入点表达式demo示例
+```
 package com.yaomy.control.aop.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,18 +47,8 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * @Description: 控制器切面，统计入参、出参相关信息，
- * @Aspect把当前类标识为一个切面供容器读取,有点类似java中的类声明，包含切点（Point Cut）、连接点（Joint Point）
- * Joint Point（连接点）： 表示在程序中明确定义的点，如控制器中的一个个的方法
- * Point Cut(切点)：表示一组的Joint Point(连接点)，这些连接点是通过一定的逻辑规则组合起来的，
- * 如当前示例通过切入点函数表达式将控制器方法组合起来这一类就叫做切点，一个个的控制器方法就是Joint Point(连接点)
- * Advice(增强)：Advice定义了在Point Cut(切点)里面要做的事情，包括在切点Before、After、替换切点执行的代码模块
- *
- * @Version: 1.0
- */
-//@Component
-//@Aspect
+@Component
+@Aspect
 public class ControllerAdvice {
     @Autowired
     private PropertyService propertyService;
@@ -50,14 +60,7 @@ public class ControllerAdvice {
      * 日志记录
      */
     private ThreadLocal<String> logApi = new ThreadLocal<>();
-    /**
-     * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
-     * 切入点表达式：
-     * 第一个*号：表示返回类型，*号表示所有的类型
-     * 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
-     * 第二个*号：表示类名，*号表示所有的类名
-     * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
-     */
+
     private final String pCutStr = "execution(public * com.yaomy.control.test.api..*.*(..))";
     /**
      * @Description 定义切入点
@@ -182,3 +185,124 @@ public class ControllerAdvice {
         return paramMap;
     }
 }
+```
+
+>上面这种是直接使用注解的方式来进行的，其实spring-aop已经封装了更简单的，下面直接看示例
+
+#### 4.编写继承MethodInterceptor接口类
+```
+package com.yaomy.control.aop.advice;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.control.common.control.utils.ObjectSizeUtil;
+import com.yaomy.control.logback.utils.LoggerUtil;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/**
+ * @Description: 拦截URL请求
+ * @Version: 1.0
+ */
+public class ControllerInterceptor implements MethodInterceptor {
+    /**
+     * 换行符
+     */
+    public static final String NEW_LINE = "\n";
+
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        Object result = invocation.proceed();
+        stopWatch.stop();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String log = StringUtils.join(NEW_LINE, "控制器  ：", invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
+        log = StringUtils.join(log, "访问URL ：", request.getRequestURL(), NEW_LINE);
+        log = StringUtils.join(log, "Method  ：", request.getMethod(), NEW_LINE);
+        log = StringUtils.join(log, "请求参数：", getReqestParam(invocation), NEW_LINE);
+        log = StringUtils.join(log,"耗  时  ：" , stopWatch.getTime(), "ms", NEW_LINE);
+        if(ObjectUtils.isEmpty(result)){
+            log = StringUtils.join(log, "返回结果：", result, NEW_LINE);
+        } else if(result instanceof ResponseEntity){
+            log = StringUtils.join(log, "返回结果：", objectMapper.writeValueAsString(((ResponseEntity)result).getBody()), NEW_LINE);
+        } else {
+            log = StringUtils.join(log, "返回结果：", objectMapper.writeValueAsString(result), NEW_LINE);
+        }
+        log = StringUtils.join(log, "数据大小：", ObjectSizeUtil.humanReadableUnits(result), NEW_LINE);
+        LoggerUtil.info(invocation.getThis().getClass(), log);
+        return result;
+    }
+    /**
+     * @Description 获取请求参数
+     * @Version  1.0
+     */
+    private Map<String, Object> getReqestParam(MethodInvocation invocation){
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> paramMap = new LinkedHashMap<>();
+            Object[] args = invocation.getArguments();
+            Method method = invocation.getMethod();
+            Parameter[] parameters = method.getParameters();
+            if(ArrayUtils.isEmpty(parameters)){
+                return null;
+            }
+            for(int i=0; i<parameters.length; i++){
+                if(args[i] instanceof HttpServletRequest){
+                    HttpServletRequest request = (HttpServletRequest) args[i];
+                    Enumeration<String> params = request.getParameterNames();
+                    while (params.hasMoreElements()){
+                        String key = params.nextElement();
+                        paramMap.put(key, request.getParameter(key));
+                    }
+                } else if(!(args[i] instanceof HttpServletResponse)){
+                    paramMap.put(parameters[i].getName(), objectMapper.writeValueAsString(args[i]));
+                }
+            }
+            return paramMap;
+        } catch (JsonProcessingException e){
+            return null;
+        }
+    }
+}
+```
+
+#### 5.开启拦截器配置
+```
+@Configuration
+public class ControllerConfig {
+    @Autowired
+    private Environment env;
+
+    public static final String defaultPointCut = "execution(public * com.yaomy.control.test.api..*.*(..))";
+    @Bean
+    public DefaultPointcutAdvisor defaultPointCutAdvice() {
+        ControllerInterceptor interceptor = new ControllerInterceptor();
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression(env.getProperty("spring.aop.control.expression", defaultPointCut));
+
+        // 配置增强类advisor
+        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
+        advisor.setPointcut(pointcut);
+        advisor.setAdvice(interceptor);
+        return advisor;
+    }
+}
+```

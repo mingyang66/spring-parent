@@ -173,7 +173,6 @@ public class ControllerAdvice {
                 Enumeration<String> params = request.getParameterNames();
                 while (params.hasMoreElements()){
                     String key = params.nextElement();
-                    System.out.println(key+"="+request.getParameter(key));
                     paramMap.put(key, request.getParameter(key));
                 }
             } else if(!(args[i] instanceof HttpServletResponse)){

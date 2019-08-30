@@ -121,7 +121,7 @@ public class ControllerAdvice {
      * @Version  1.0
      */
     @AfterReturning(value = pCutStr, returning="returnValue")
-    public void afterReturning(JoinPoint joinPoint, Object returnValue) throws Throwable{
+    public void afterReturning(JoinPoint joinPoint, Object returnValue) {
         CodeSignature signature = (CodeSignature)joinPoint.getSignature();
         try {
             long total =  System.currentTimeMillis() - startTime.get();

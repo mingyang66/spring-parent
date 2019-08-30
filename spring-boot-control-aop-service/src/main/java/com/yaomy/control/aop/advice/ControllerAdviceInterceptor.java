@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description: 拦截URL请求
+ * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Version: 1.0
  */
 public class ControllerInterceptor implements MethodInterceptor {

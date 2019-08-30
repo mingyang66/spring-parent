@@ -23,10 +23,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理，如统计运行时间，
+ * @Author yaomy
  * @Version: 1.0
  */
-public class ControllerInterceptor implements MethodInterceptor {
+public class ControllerAdviceInterceptor implements MethodInterceptor {
     /**
      * 换行符
      */
@@ -57,6 +58,7 @@ public class ControllerInterceptor implements MethodInterceptor {
         LoggerUtil.info(invocation.getThis().getClass(), log);
         return result;
     }
+
     /**
      * @Description 获取请求参数
      * @Version  1.0

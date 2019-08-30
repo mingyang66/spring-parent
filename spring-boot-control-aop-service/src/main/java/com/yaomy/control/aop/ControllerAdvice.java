@@ -70,50 +70,36 @@ public class ControllerAdvice {
      * @Version  1.0
      */
     @Around("pointCut()")
-    public Object around(ProceedingJoinPoint joinPoint) {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //获取连接点（Joint Point）的签名
         MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
         ObjectMapper objectMapper = new ObjectMapper();
-        String log = logApi.get();
-        String reqParams = StringUtils.EMPTY;
-        try {
-            //获取请求参数
-            reqParams = objectMapper.writeValueAsString(getReqestParam(joinPoint, methodSignature, request));
-            //调用Joint Point(连接点)并返回处理结果
-            Object result = joinPoint.proceed();
-            //如果切到了 没有返回类型的void方法，这里直接返回
-            if (ObjectUtils.isEmpty(result)) {
-                return null;
-            }
-            //获取控制器类的Class对象
-            Class declaringType = methodSignature.getDeclaringType();
-            //获取控制器类上的注解
-            Annotation[] annotations = declaringType.getAnnotations();
-            //控制器存在并且控制器方法也存在
-            if(isController(annotations)){
-                log = StringUtils.join(log, "\n");
-                log = StringUtils.join(log, "控制器  ：" + methodSignature.toLongString(), "\n");
-                log = StringUtils.join(log, "访问URL ："+request.getRequestURL(), "\n");
-                log = StringUtils.join(log, "Method  ："+request.getMethod(), "\n");
-                log = StringUtils.join(log, "参  数  ："+reqParams, "\n");
-                Long total = System.currentTimeMillis() - startTime.get();
-                log = StringUtils.join(log,"耗  时  ：" + total + "ms");
-            }
-            logApi.set(log);
-            return result;
-
-        } catch (Throwable e) {
+        //获取请求参数
+        String reqParams = objectMapper.writeValueAsString(getReqestParam(joinPoint, methodSignature, request));
+        //调用Joint Point(连接点)并返回处理结果
+        Object result = joinPoint.proceed();
+        //如果切到了 没有返回类型的void方法，这里直接返回
+        if (ObjectUtils.isEmpty(result)) {
+            return null;
+        }
+        //获取控制器类的Class对象
+        Class declaringType = methodSignature.getDeclaringType();
+        //获取控制器类上的注解
+        Annotation[] annotations = declaringType.getAnnotations();
+        //控制器存在并且控制器方法也存在
+        if(isController(annotations)){
+            String log = logApi.get();
             log = StringUtils.join(log, "\n");
             log = StringUtils.join(log, "控制器  ：" + methodSignature.toLongString(), "\n");
-            log = StringUtils.join(log, "访问URL ："+ request.getRequestURL(), "\n");
-            log = StringUtils.join(log, "Method  ："+ request.getMethod(), "\n");
-            log = StringUtils.join(log, "参  数  ："+ reqParams, "\n");
-            log = StringUtils.join(log, "耗  时  : " + (System.currentTimeMillis() - startTime.get()) + " ms");
+            log = StringUtils.join(log, "访问URL ："+request.getRequestURL(), "\n");
+            log = StringUtils.join(log, "Method  ："+request.getMethod(), "\n");
+            log = StringUtils.join(log, "参  数  ："+reqParams, "\n");
+            Long total = System.currentTimeMillis() - startTime.get();
+            log = StringUtils.join(log,"耗  时  ：" + total + "ms");
             logApi.set(log);
-            return e.toString();
         }
-
+        return result;
     }
     /**
      * @Description 切入点方法执行之前执行，@Before是在Join point(连接点)之前执行的Advice(增强)
@@ -135,7 +121,7 @@ public class ControllerAdvice {
      * @Version  1.0
      */
     @AfterReturning(value = pCutStr, returning="returnValue")
-    public void afterReturning(JoinPoint joinPoint, Object returnValue) {
+    public void afterReturning(JoinPoint joinPoint, Object returnValue) throws Throwable{
         CodeSignature signature = (CodeSignature)joinPoint.getSignature();
         try {
             long total =  System.currentTimeMillis() - startTime.get();

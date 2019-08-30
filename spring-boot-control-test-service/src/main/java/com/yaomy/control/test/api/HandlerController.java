@@ -15,10 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +39,8 @@ public class HandlerController {
     @Autowired
     private HttpClientService httpClientService;
 
-    @RequestMapping(value = "/handler/test")
-    public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/handler/${path}/{path1}")
+    public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response, PathVariable path) throws IOException {
         response.setStatus(201);
         response.setContentType("application/json");
         LoggerUtil.info(HandlerController.class, "测试。。。");
@@ -105,7 +102,9 @@ public class HandlerController {
         params.put("token", "8b6deca08f174355a0da393fbf182a44");
       /*  params.put("age", 12);
         params.put("weight", Arrays.asList(12,34,66));*/
-        Map<String, Object> result = httpClientService.postMulti(url, params, Map.class);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("yaomy", "test");
+        Map<String, Object> result = httpClientService.post(url, params, headers, Map.class);
         System.out.println(result);
     }
     @RequestMapping(value = "/handler/test4")
@@ -116,7 +115,7 @@ public class HandlerController {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.put("jarFile", Arrays.asList(resource, resource1));
         params.put("fileName", Arrays.asList("liming", "hello"));
-        String result = httpClientService.postMulti(url, params, String.class);
+        String result = httpClientService.postMulti(url, params,null, String.class);
         System.out.println(result);
     }
     @RequestMapping(value = "/handler/client")

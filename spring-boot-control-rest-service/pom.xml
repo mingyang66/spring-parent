@@ -11,6 +11,12 @@
 
     <groupId>com.yaomy.control</groupId>
     <artifactId>spring-boot-control-rest-service</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.yaomy.control</groupId>
+            <artifactId>spring-boot-control-logback-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

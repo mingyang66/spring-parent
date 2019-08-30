@@ -1,7 +1,8 @@
-package com.yaomy.control.aop;
+package com.yaomy.control.aop.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -11,10 +12,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,12 +35,13 @@ import java.util.Map;
  * 如当前示例通过切入点函数表达式将控制器方法组合起来这一类就叫做切点，一个个的控制器方法就是Joint Point(连接点)
  * Advice(增强)：Advice定义了在Point Cut(切点)里面要做的事情，包括在切点Before、After、替换切点执行的代码模块
  *
- * @ProjectName: spring-parent
  * @Version: 1.0
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ControllerAdvice {
+    @Autowired
+    private PropertyService propertyService;
     /**
      * 开始时间
      */
@@ -56,7 +58,7 @@ public class ControllerAdvice {
      * 第二个*号：表示类名，*号表示所有的类名
      * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
      */
-    static final String pCutStr = "execution(public * com.yaomy.control.test.api..*.*(..))";
+    private final String pCutStr = "";
     /**
      * @Description 定义切入点
      * @Version  1.0
@@ -79,10 +81,6 @@ public class ControllerAdvice {
         String reqParams = objectMapper.writeValueAsString(getReqestParam(joinPoint, methodSignature, request));
         //调用Joint Point(连接点)并返回处理结果
         Object result = joinPoint.proceed();
-        //如果切到了 没有返回类型的void方法，这里直接返回
-        if (ObjectUtils.isEmpty(result)) {
-            return null;
-        }
         //获取控制器类的Class对象
         Class declaringType = methodSignature.getDeclaringType();
         //获取控制器类上的注解
@@ -94,7 +92,7 @@ public class ControllerAdvice {
             log = StringUtils.join(log, "控制器  ：" + methodSignature.toLongString(), "\n");
             log = StringUtils.join(log, "访问URL ："+request.getRequestURL(), "\n");
             log = StringUtils.join(log, "Method  ："+request.getMethod(), "\n");
-            log = StringUtils.join(log, "参  数  ："+reqParams, "\n");
+            log = StringUtils.join(log, "请求参数："+reqParams, "\n");
             Long total = System.currentTimeMillis() - startTime.get();
             log = StringUtils.join(log,"耗  时  ：" + total + "ms");
             logApi.set(log);
@@ -105,7 +103,7 @@ public class ControllerAdvice {
      * @Description 切入点方法执行之前执行，@Before是在Join point(连接点)之前执行的Advice(增强)
      * @Version  1.0
      */
-    @Before(value = pCutStr)
+    @Before(value = "pointCut()")
     public void before(JoinPoint joinPoint) {
         startTime.set(System.currentTimeMillis());
     }
@@ -113,27 +111,29 @@ public class ControllerAdvice {
      * @Description @After无论一个Joint Point(连接点)正常执行还是发生了异常都会执行的Advice(增强)
      * @Version  1.0
      */
-    @After(value = pCutStr)
+    @After(value = "pointCut()")
     public void after(JoinPoint joinPoint) {
     }
     /**
      * @Description 切入点方法执行之后执行,@AfterReturning是在一个Join Point(连接点)正常返回后执行的Advice(增强)
      * @Version  1.0
      */
-    @AfterReturning(value = pCutStr, returning="returnValue")
+    @AfterReturning(value = "pointCut()", returning="returnValue")
     public void afterReturning(JoinPoint joinPoint, Object returnValue) {
         CodeSignature signature = (CodeSignature)joinPoint.getSignature();
+        Class[] exceptionTypes = signature.getExceptionTypes();
+        System.out.println(exceptionTypes.length);
         try {
             long total =  System.currentTimeMillis() - startTime.get();
             String log = logApi.get();
             log = StringUtils.join(log, ", 总耗时：" +total+"ms", "\n");
             ObjectMapper objectMapper = new ObjectMapper();
             if(null == returnValue){
-                log = StringUtils.join(log, "返回值是：", "\n");
+                log = StringUtils.join(log, "返回结果：", "\n");
             } else if(returnValue instanceof ResponseEntity){
-                log = StringUtils.join(log, "返回值是："+ objectMapper.writeValueAsString(((ResponseEntity)returnValue).getBody()), "\n");
+                log = StringUtils.join(log, "返回结果："+ objectMapper.writeValueAsString(((ResponseEntity)returnValue).getBody()), "\n");
             } else{
-                log = StringUtils.join(log, "返回值是："+ objectMapper.writeValueAsString(returnValue), "\n");
+                log = StringUtils.join(log, "返回结果："+ objectMapper.writeValueAsString(returnValue), "\n");
             }
             log = StringUtils.join(log, "数据大小："+ ObjectSizeUtil.humanReadableUnits(returnValue));
             logApi.set(log);

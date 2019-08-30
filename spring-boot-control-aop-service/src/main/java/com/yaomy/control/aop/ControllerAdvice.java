@@ -121,7 +121,6 @@ public class ControllerAdvice {
      */
     @Before(value = pCutStr)
     public void before(JoinPoint joinPoint) {
-        System.out.println("--------before------------");
         startTime.set(System.currentTimeMillis());
     }
     /**
@@ -130,8 +129,6 @@ public class ControllerAdvice {
      */
     @After(value = pCutStr)
     public void after(JoinPoint joinPoint) {
-        /*startTime.remove();
-        logApi.remove();*/
     }
     /**
      * @Description 切入点方法执行之后执行,@AfterReturning是在一个Join Point(连接点)正常返回后执行的Advice(增强)

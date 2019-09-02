@@ -17,7 +17,10 @@ public class ControllerConfig {
     @Autowired
     private Environment env;
 
-    public static final String defaultPointCut = "execution(public * com.yaomy.control.test.api..*.*(..))";
+    private static final String POINT_CUT = "spring.aop.control.expression";
+
+    private static final String DEFAULT_POINT_CUT = "execution(public * com.yaomy.control.test.api..*.*(..))";
+
     /**
      * @Description 定义接口拦截器切点
      * @Version  1.0
@@ -26,7 +29,7 @@ public class ControllerConfig {
     public DefaultPointcutAdvisor defaultPointCutAdvice() {
         ControllerAdviceInterceptor interceptor = new ControllerAdviceInterceptor();
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression(env.getProperty("spring.aop.control.expression", defaultPointCut));
+        pointcut.setExpression(env.getProperty(POINT_CUT, DEFAULT_POINT_CUT));
 
         // 配置增强类advisor
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();

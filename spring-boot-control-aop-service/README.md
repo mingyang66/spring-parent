@@ -300,7 +300,12 @@ public class ControllerConfig {
     @Autowired
     private Environment env;
 
-    public static final String defaultPointCut = "execution(public * com.yaomy.control.test.api..*.*(..))";
+    //public static final String defaultPointCut = "execution(public * com.yaomy.control.test.api..*.*(..))";
+    /**
+     * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
+     */
+    private static final String DEFAULT_POINT_CUT = "@annotation(org.springframework.web.bind.annotation.GetMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping) or @annotation(org.springframework.web.bind.annotation.RequestMapping)";
+
     @Bean
     public DefaultPointcutAdvisor defaultPointCutAdvice() {
         ControllerInterceptor interceptor = new ControllerInterceptor();

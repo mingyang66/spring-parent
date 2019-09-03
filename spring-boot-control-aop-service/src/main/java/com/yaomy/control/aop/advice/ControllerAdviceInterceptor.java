@@ -1,8 +1,7 @@
 package com.yaomy.control.aop.advice;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaomy.control.common.control.po.BaseRequest;
+import com.yaomy.control.common.control.utils.JSONUtils;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -109,26 +108,20 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * @Version  1.0
      */
     private void logInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime){
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
-            log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
-            log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
-            log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
-            log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
-            if(ObjectUtils.isEmpty(result)){
-                log = StringUtils.join(log, MSG_RETURN_VALUE, result, NEW_LINE);
-            } else if(result instanceof ResponseEntity){
-                log = StringUtils.join(log, MSG_RETURN_VALUE, objectMapper.writeValueAsString(((ResponseEntity)result).getBody()), NEW_LINE);
-            } else {
-                log = StringUtils.join(log, MSG_RETURN_VALUE, objectMapper.writeValueAsString(result), NEW_LINE);
-            }
-            log = StringUtils.join(log, MSG_DATA_SIZE, ObjectSizeUtil.humanReadableUnits(result), NEW_LINE);
-            LoggerUtil.info(invocation.getThis().getClass(), log);
-        } catch (JsonProcessingException e){
-            e.printStackTrace();
-            LoggerUtil.error(invocation.getThis().getClass(), "返回结果JSON转换异常："+e.toString());
+        String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
+        log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
+        log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
+        log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
+        log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
+        if(ObjectUtils.isEmpty(result)){
+            log = StringUtils.join(log, MSG_RETURN_VALUE, result, NEW_LINE);
+        } else if(result instanceof ResponseEntity){
+            log = StringUtils.join(log, MSG_RETURN_VALUE, JSONUtils.toJSONString(((ResponseEntity)result).getBody()), NEW_LINE);
+        } else {
+            log = StringUtils.join(log, MSG_RETURN_VALUE, JSONUtils.toJSONString(result), NEW_LINE);
         }
+        log = StringUtils.join(log, MSG_DATA_SIZE, ObjectSizeUtil.humanReadableUnits(result), NEW_LINE);
+        LoggerUtil.info(invocation.getThis().getClass(), log);
     }
     /**
      * @Description 异常日志
@@ -149,36 +142,31 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * @Version  1.0
      */
     private Map<String, Object> getRequestParam(MethodInvocation invocation, HttpServletRequest request){
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> paramMap = new LinkedHashMap<>();
-            Object[] args = invocation.getArguments();
-            Method method = invocation.getMethod();
-            Parameter[] parameters = method.getParameters();
-            if(ArrayUtils.isEmpty(parameters)){
-                return null;
-            }
-            for(int i=0; i<parameters.length; i++){
-                if(args[i] instanceof HttpServletRequest){
-                    Enumeration<String> params = request.getParameterNames();
-                    while (params.hasMoreElements()){
-                        String key = params.nextElement();
-                        paramMap.put(key, request.getParameter(key));
-                    }
-                } else if(!(args[i] instanceof HttpServletResponse)){
-                    if(args[i] instanceof BaseRequest){
-                        BaseRequest baseRequest = (BaseRequest) args[i];
-                        //将用户信息设置如HttpServletRequest中
-                        request.setAttribute(parameters[i].getName(), baseRequest);
-                        paramMap.put(parameters[i].getName(), objectMapper.writeValueAsString(baseRequest));
-                    } else {
-                        paramMap.put(parameters[i].getName(), objectMapper.writeValueAsString(args[i]));
-                    }
-                }
-            }
-            return paramMap;
-        } catch (JsonProcessingException e){
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        Object[] args = invocation.getArguments();
+        Method method = invocation.getMethod();
+        Parameter[] parameters = method.getParameters();
+        if(ArrayUtils.isEmpty(parameters)){
             return null;
         }
+        for(int i=0; i<parameters.length; i++){
+            if(args[i] instanceof HttpServletRequest){
+                Enumeration<String> params = request.getParameterNames();
+                while (params.hasMoreElements()){
+                    String key = params.nextElement();
+                    paramMap.put(key, request.getParameter(key));
+                }
+            } else if(!(args[i] instanceof HttpServletResponse)){
+                if(args[i] instanceof BaseRequest){
+                    BaseRequest baseRequest = (BaseRequest) args[i];
+                    //将用户信息设置如HttpServletRequest中
+                    request.setAttribute(parameters[i].getName(), baseRequest);
+                    paramMap.put(parameters[i].getName(), JSONUtils.toJSONString(baseRequest));
+                } else {
+                    paramMap.put(parameters[i].getName(), JSONUtils.toJSONString(args[i]));
+                }
+            }
+        }
+        return paramMap;
     }
 }

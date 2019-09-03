@@ -37,6 +37,7 @@ public class ControllerConfig {
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
         advisor.setAdvice(adviceInterceptor);
+
         return advisor;
     }
 }

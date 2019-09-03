@@ -8,7 +8,11 @@ public enum HttpStatus {
     /**
      * 执行成功
      */
-    OK(200,"SUCCESS"),
+    OK(0,"SUCCESS"),
+    /**
+     * 失败
+     */
+    FAILED(-1, "FAILED"),
     /**
      * 未知异常
      */

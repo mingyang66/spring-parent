@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * @Description: 控制并统一处理异常类
@@ -212,10 +213,28 @@ public final class ExceptionAdviceHandler {
         return BaseResponse.createResponse(HttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
     /**
+     * 如果代理异常调用方法将会抛出此异常
+     */
+    @ExceptionHandler(UndeclaredThrowableException.class)
+    public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e) {
+        String message = StringUtils.EMPTY;
+        Throwable throwable = e.getCause().getCause();
+        printErrorMessage(throwable);
+        StackTraceElement[] elements = throwable.getStackTrace();
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "的第", element.getLineNumber(), "行发生", throwable.toString(), "异常");
+        }
+        if(StringUtils.isBlank(message)){
+            message = e.toString();
+        }
+        return BaseResponse.createResponse(HttpStatus.FAILED.getStatus(), message);
+    }
+    /**
      * @Description 打印错误日志信息
      * @Version  1.0
      */
-    private void printErrorMessage(Exception e){
+    private void printErrorMessage(Throwable e){
         if(StringUtils.equalsIgnoreCase(propertyService.getProperty(LOGBACK_CONFIG), LOGBACK_FILENAME)){
             String message = e.toString();
             for (StackTraceElement element:e.getStackTrace()){

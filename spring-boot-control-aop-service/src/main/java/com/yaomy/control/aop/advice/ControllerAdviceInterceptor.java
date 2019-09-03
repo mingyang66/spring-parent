@@ -2,6 +2,7 @@ package com.yaomy.control.aop.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.control.common.control.po.BaseRequest;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,47 +25,128 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理，如统计运行时间，
- * @Author yaomy
+ * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ * @Author 姚明洋
  * @Version: 1.0
  */
+@Component
 public class ControllerAdviceInterceptor implements MethodInterceptor {
     /**
      * 换行符
      */
-    public static final String NEW_LINE = "\n";
+    private static final String NEW_LINE = "\n";
+    /**
+     * 毫秒
+     */
+    private static final String MILLI_SECOND = "ms";
+    /**
+     * 控制器
+     */
+    private static final String MSG_CONTROLLER = "控制器  ：";
+    /**
+     * 访问URL
+     */
+    private static final String MSG_ACCESS_URL = "访问URL ：";
+    /**
+     * 请求Method
+     */
+    public static final String MSG_METHOD = "Method  ：";
+    /**
+     * 请求PARAM
+     */
+    private static final String MSG_PARAMS = "请求参数：";
+    /**
+     * 耗时
+     */
+    private static final String MSG_TIME= "耗  时  ：";
+    /**
+     * 返回结果
+     */
+    private static final String MSG_RETURN_VALUE = "返回结果：";
+    /**
+     * 数据大小
+     */
+    private static final String MSG_DATA_SIZE = "数据大小：";
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        Object result = invocation.proceed();
-        stopWatch.stop();
-
-        ObjectMapper objectMapper = new ObjectMapper();
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String log = StringUtils.join(NEW_LINE, "控制器  ：", invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
-        log = StringUtils.join(log, "访问URL ：", request.getRequestURL(), NEW_LINE);
-        log = StringUtils.join(log, "Method  ：", request.getMethod(), NEW_LINE);
-        log = StringUtils.join(log, "请求参数：", getReqestParam(invocation), NEW_LINE);
-        log = StringUtils.join(log,"耗  时  ：" , stopWatch.getTime(), "ms", NEW_LINE);
-        if(ObjectUtils.isEmpty(result)){
-            log = StringUtils.join(log, "返回结果：", result, NEW_LINE);
-        } else if(result instanceof ResponseEntity){
-            log = StringUtils.join(log, "返回结果：", objectMapper.writeValueAsString(((ResponseEntity)result).getBody()), NEW_LINE);
-        } else {
-            log = StringUtils.join(log, "返回结果：", objectMapper.writeValueAsString(result), NEW_LINE);
+        //获取请求参数，且该参数获取必须在proceed之前
+        Map<String, Object> paramsMap = getRequestParam(invocation, request);
+        //新建计时器
+        StopWatch stopWatch = new StopWatch();
+        //开始计时
+        stopWatch.start();
+        try{
+            //调用升级的action方法
+            Object result = invocation.proceed();
+            //暂停计时
+            stopWatch.stop();
+            //耗时
+            long spentTime = stopWatch.getTime();
+            //打印INFO日志
+            logInfo(invocation, request, paramsMap, result, spentTime);
+            return result;
+        } catch (Throwable e){
+            //暂停计时
+            if(stopWatch.isStarted() || stopWatch.isSuspended()){
+                stopWatch.stop();
+            }
+            //耗时
+            long spentTime = stopWatch.getTime();
+            //打印ERROR日志
+            logError(invocation, request, paramsMap, spentTime);
+            throw new Throwable(e);
         }
-        log = StringUtils.join(log, "数据大小：", ObjectSizeUtil.humanReadableUnits(result), NEW_LINE);
-        LoggerUtil.info(invocation.getThis().getClass(), log);
-        return result;
-    }
 
+
+    }
+    /**
+     * @Description 记录INFO日志
+     * @Author 姚明洋
+     * @Date 2019/9/2 15:54
+     * @Version  1.0
+     */
+    private void logInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime){
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
+            log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
+            log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
+            log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
+            log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
+            if(ObjectUtils.isEmpty(result)){
+                log = StringUtils.join(log, MSG_RETURN_VALUE, result, NEW_LINE);
+            } else if(result instanceof ResponseEntity){
+                log = StringUtils.join(log, MSG_RETURN_VALUE, objectMapper.writeValueAsString(((ResponseEntity)result).getBody()), NEW_LINE);
+            } else {
+                log = StringUtils.join(log, MSG_RETURN_VALUE, objectMapper.writeValueAsString(result), NEW_LINE);
+            }
+            log = StringUtils.join(log, MSG_DATA_SIZE, ObjectSizeUtil.humanReadableUnits(result), NEW_LINE);
+            LoggerUtil.info(invocation.getThis().getClass(), log);
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+            LoggerUtil.error(invocation.getThis().getClass(), "返回结果JSON转换异常："+e.toString());
+        }
+    }
+    /**
+     * @Description 异常日志
+     * @Version  1.0
+     */
+    private void logError(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, long spentTime){
+        String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
+        log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
+        log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
+        log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
+        log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
+        LoggerUtil.error(invocation.getThis().getClass(), log);
+
+    }
     /**
      * @Description 获取请求参数
      * @Version  1.0
      */
-    private Map<String, Object> getReqestParam(MethodInvocation invocation){
+    private Map<String, Object> getRequestParam(MethodInvocation invocation, HttpServletRequest request){
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> paramMap = new LinkedHashMap<>();
@@ -75,14 +158,20 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
             }
             for(int i=0; i<parameters.length; i++){
                 if(args[i] instanceof HttpServletRequest){
-                    HttpServletRequest request = (HttpServletRequest) args[i];
                     Enumeration<String> params = request.getParameterNames();
                     while (params.hasMoreElements()){
                         String key = params.nextElement();
                         paramMap.put(key, request.getParameter(key));
                     }
                 } else if(!(args[i] instanceof HttpServletResponse)){
-                    paramMap.put(parameters[i].getName(), objectMapper.writeValueAsString(args[i]));
+                    if(args[i] instanceof BaseRequest){
+                        BaseRequest baseRequest = (BaseRequest) args[i];
+                        //将用户信息设置如HttpServletRequest中
+                        request.setAttribute(parameters[i].getName(), baseRequest);
+                        paramMap.put(parameters[i].getName(), objectMapper.writeValueAsString(baseRequest));
+                    } else {
+                        paramMap.put(parameters[i].getName(), objectMapper.writeValueAsString(args[i]));
+                    }
                 }
             }
             return paramMap;

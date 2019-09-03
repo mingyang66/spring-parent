@@ -16,6 +16,8 @@ import org.springframework.core.env.Environment;
 public class ControllerConfig {
     @Autowired
     private Environment env;
+    @Autowired
+    private ControllerAdviceInterceptor interceptor;
 
     private static final String POINT_CUT = "spring.aop.control.expression";
 
@@ -27,7 +29,6 @@ public class ControllerConfig {
      */
     @Bean
     public DefaultPointcutAdvisor defaultPointCutAdvice() {
-        ControllerAdviceInterceptor interceptor = new ControllerAdviceInterceptor();
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression(env.getProperty(POINT_CUT, DEFAULT_POINT_CUT));
 

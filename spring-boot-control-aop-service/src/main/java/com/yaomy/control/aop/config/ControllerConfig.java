@@ -1,7 +1,6 @@
 package com.yaomy.control.aop.config;
 
 import com.yaomy.control.aop.advice.ControllerAdviceInterceptor;
-import com.yaomy.control.common.control.conf.PropertyService;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ControllerConfig {
     @Autowired
-    private ControllerAdviceInterceptor interceptor;
+    private ControllerAdviceInterceptor adviceInterceptor;
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -27,14 +26,17 @@ public class ControllerConfig {
      */
     @Bean
     public DefaultPointcutAdvisor defaultPointCutAdvice() {
+        //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);
 
-        // 配置增强类advisor
+        // 配置增强类advisor, 切面=切点+增强
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
+        //设置切点
         advisor.setPointcut(pointcut);
-        advisor.setAdvice(interceptor);
+        //设置增强（Advice）
+        advisor.setAdvice(adviceInterceptor);
         return advisor;
     }
 }

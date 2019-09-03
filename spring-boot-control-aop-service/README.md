@@ -24,7 +24,8 @@ annotation切入点表达式：
 |:---:|:---:|:---:|:---:|
 |方法切点函数|execution()|方法匹配模式串|表示满足某一匹配模式的所有目标类方法连接点，如：execution(public * com.yaomy.control.test.api..*.*(..))|
 |--|@annotation()|方法注解类名|表示标注了特定注解的目标方法连接点，如：@annotation(org.springframework.web.bind.annotation.GetMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping)|
-
+|方法入参切入点函数|args()|类名|通过判断目标类方法运行时入参对象类型定义连接点，如：args(com.yaomy.control.test.po.User)|
+|--|@args()|注解类名|通过判定运行时目标方法的参数是否被指定注解标注判定连接点，如@args(org.springframework.web.bind.annotation.RequestBody)|
 #### 3.切入点表达式demo示例一（还有二，往下看）
 ```
 package com.yaomy.control.aop.advice;

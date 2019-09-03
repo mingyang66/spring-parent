@@ -26,7 +26,6 @@ import java.util.Map;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
- * @Author 姚明洋
  * @Version: 1.0
  */
 @Component
@@ -107,8 +106,6 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
     }
     /**
      * @Description 记录INFO日志
-     * @Author 姚明洋
-     * @Date 2019/9/2 15:54
      * @Version  1.0
      */
     private void logInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime){

@@ -67,6 +67,10 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * 数据大小
      */
     private static final String MSG_DATA_SIZE = "数据大小：";
+    /**
+     * 异常
+     */
+    private static final String MSG_EXCEPTION = "异  常  ：";
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -95,7 +99,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
             //耗时
             long spentTime = stopWatch.getTime();
             //打印ERROR日志
-            logError(invocation, request, paramsMap, spentTime);
+            logError(invocation, request, paramsMap, spentTime, e);
             throw new Throwable(e);
         }
 
@@ -133,12 +137,13 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * @Description 异常日志
      * @Version  1.0
      */
-    private void logError(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, long spentTime){
+    private void logError(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, long spentTime, Throwable e){
         String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
         log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
         log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
         log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
         log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
+        log = StringUtils.join(log, MSG_EXCEPTION , e.getStackTrace()[0], " ", e, NEW_LINE);
         LoggerUtil.error(invocation.getThis().getClass(), log);
 
     }

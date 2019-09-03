@@ -9,12 +9,19 @@
 
 #### 2.切入点函数表达式配置规则
 * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
-切入点表达式：
+execution切入点表达式：
 * 第一个*号：表示返回类型，*号表示所有的类型
 * 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
 * 第二个*号：表示类名，*号表示所有的类名
 * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
+annotation切入点表达式：
+* 参数表示注解类，必须为全限定名
+* 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
 
+|类别|函数|入参|说明|
+|:---:|:---:|:---:|:---:|
+|方法切点函数|execution()|方法匹配模式串|表示满足某一匹配模式的所有目标类方法连接点，如：execution(public * com.yaomy.control.test.api..*.*(..))|
+|--|@annotation()|方法注解类名|表示标注了特定注解的目标方法连接点，如：@annotation(org.springframework.web.bind.annotation.GetMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping)|
 >示例：private final String pCutStr = "execution(public * com.yaomy.control.test.api..*.*(..))";
 
 #### 3.切入点表达式demo示例一（还有二，往下看）

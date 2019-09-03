@@ -14,6 +14,7 @@ execution切入点表达式：
 * 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
 * 第二个*号：表示类名，*号表示所有的类名
 * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
+
 annotation切入点表达式：
 * 参数表示注解类，必须为全限定名
 * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -22,7 +23,6 @@ annotation切入点表达式：
 |:---:|:---:|:---:|:---:|
 |方法切点函数|execution()|方法匹配模式串|表示满足某一匹配模式的所有目标类方法连接点，如：execution(public * com.yaomy.control.test.api..*.*(..))|
 |--|@annotation()|方法注解类名|表示标注了特定注解的目标方法连接点，如：@annotation(org.springframework.web.bind.annotation.GetMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping)|
->示例：private final String pCutStr = "execution(public * com.yaomy.control.test.api..*.*(..))";
 
 #### 3.切入点表达式demo示例一（还有二，往下看）
 ```

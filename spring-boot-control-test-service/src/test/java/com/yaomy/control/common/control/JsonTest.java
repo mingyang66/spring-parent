@@ -1,6 +1,10 @@
 package com.yaomy.control.common.control;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaomy.control.common.control.utils.JSONUtils;
 import com.yaomy.control.test.HandlerBootStrap;
 import com.yaomy.control.test.po.User;
@@ -9,7 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.text.html.Option;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -86,6 +91,30 @@ public class JsonTest {
     @Test
     public void testUser(){
         User user = new User();
+
         System.out.println(JSONUtils.toJSONString(user, JsonInclude.Include.NON_EMPTY));
+    }
+    @Test
+    public void testFile(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("a", null);
+        map.put("b", 3);
+        map.put("c", new Date());
+        File file = new File("D:\\work\\workplace\\file.json");
+        boolean flag = JSONUtils.writeToFile(file, map);
+        System.out.println(flag);
+    }
+    @Test
+    public void testWriteFile() throws IOException {
+        JsonFactory jsonFactory = new JsonFactory();
+        jsonFactory.setCodec(new ObjectMapper());
+        File file = new File("D:\\work\\workplace\\file.json");
+        JsonGenerator jsonGenerator = jsonFactory.createGenerator(file, JsonEncoding.UTF8);
+        jsonGenerator.useDefaultPrettyPrinter();
+        jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("name", "hhh");
+        jsonGenerator.writeStringField("age", "12");
+        jsonGenerator.writeEndObject();
+        jsonGenerator.close();
     }
 }

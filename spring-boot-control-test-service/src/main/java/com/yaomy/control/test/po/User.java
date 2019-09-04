@@ -1,7 +1,5 @@
 package com.yaomy.control.test.po;
 
-import org.springframework.stereotype.Component;
-
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -12,7 +10,6 @@ import java.util.Map;
  * @Description: 测试
  * @Version: 1.0
  */
-@Component
 public class User {
     @NotBlank(message = "这个姓名不能为空")
     private String name;

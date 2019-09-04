@@ -1,41 +1,7 @@
-package com.yaomy.control.common.control.utils;
+### JSON工具类
 
-import com.fasterxml.jackson.annotation.JsonInclude.*;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.yaomy.control.common.control.enums.DateFormatEnum;
-import com.yaomy.control.logback.utils.LoggerUtil;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-
-/**
- * @Description: JSON工具类
- * @ProjectName: spring-parent
- * @Version: 1.0
- */
-public class JSONUtils {
-
-    private static ObjectMapper objectMapper = new ObjectMapper();
-
-    static {
-        //对象的所有字段全部序列化
-        objectMapper.setSerializationInclusion(Include.ALWAYS);
-        //取消默认转换timestamps
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-        //忽略空Bean转json的错误
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        //忽略，在json字符串中存在但是在java对象中不存在的属性
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    }
+#### 1.支持对象转字符串-toJSONString
+```
     /**
      * @Description 对象转换为json字符串,支持List、Map、Collection、字符串
      * @Version  1.0
@@ -43,6 +9,9 @@ public class JSONUtils {
     public static <T> String toJSONString(T o){
        return toJSONString(o, Include.ALWAYS);
     }
+```
+#### 2.支持对象转字符串多种处理模式-toJSONString
+```
     /**
      * @Description 对象转换为json字符串,支持List、Map、Collection、字符串
      * @param include 定义javaBean的那些属性需要序列化
@@ -68,6 +37,9 @@ public class JSONUtils {
             return null;
         }
     }
+```
+#### 3.支持对象转字符串格式化输出-toJSONPrettyString
+```
     /**
      * @Description 带格式化， 对象转换为json字符串,支持List、Map、Collection、字符串
      * @Version  1.0
@@ -75,7 +47,10 @@ public class JSONUtils {
     public static <T> String toJSONPrettyString(T o){
        return toJSONPrettyString(o, Include.ALWAYS);
     }
-    /**
+```
+#### 4.支持对象转字符串格式化输出-toJSONPrettyString
+```
+   /**
      * @Description 带格式化， 对象转换为json字符串,支持List、Map、Collection、字符串
      * @param include 定义javaBean的那些属性需要序列化
      *              ALWAYS：始终包含javaBean的值，与属性的值无关。
@@ -100,7 +75,10 @@ public class JSONUtils {
             return null;
         }
     }
-    /**
+```
+#### 5.JSON字符串转JAVA对象
+```
+   /**
      * @Description JSON字符串转换为java对象,支持List、Map、Collection、字符串
      * @Version  1.0
      */
@@ -121,7 +99,10 @@ public class JSONUtils {
             return null;
         }
     }
-    /**
+```
+#### 6.从文件中读取json字符串转换为java对象
+```
+   /**
      * @Description JSON字符串转换为java对象,支持List、Map、Collection、字符串
      * @Version  1.0
      */
@@ -142,7 +123,10 @@ public class JSONUtils {
             return null;
         }
     }
-    /**
+```
+#### 7.将对象写入到指定的文件中
+```
+   /**
      * @Description 将对象写入文件
      * @Version  1.0
      */
@@ -162,7 +146,11 @@ public class JSONUtils {
         }
         return false;
     }
-    /**
+```
+
+#### 8.将对象格式化写入到指定文件中
+```
+   /**
      * @Description 格式化，将对象写入文件
      * @Version  1.0
      */
@@ -182,4 +170,4 @@ public class JSONUtils {
         }
         return false;
     }
-}
+```

@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
  * @ProjectName: spring-parent
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public class JSONUtils {
 
     private static ObjectMapper objectMapper = new ObjectMapper();

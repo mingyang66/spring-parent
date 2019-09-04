@@ -7,6 +7,7 @@ import org.apache.lucene.util.RamUsageEstimator;
  * @ProjectName: spring-parent
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public class ObjectSizeUtil {
     /**
      * @Description 计算对象占用内存大小，单位：字节
@@ -21,9 +22,5 @@ public class ObjectSizeUtil {
      */
     public static String humanReadableUnits(Object o){
         return RamUsageEstimator.humanReadableUnits(getObjectSize(o));
-    }
-
-    public static void main(String[] args) {
-        System.out.println(humanReadableUnits("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333"));
     }
 }

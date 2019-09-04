@@ -28,7 +28,7 @@ public class BaseResponse implements Serializable {
         baseResponse.setMessage(httpStatusMsg.getMessage());
         return baseResponse;
     }
-
+    @SuppressWarnings("all")
     public static BaseResponse createResponse(int status, String message, Object data){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(status);
@@ -36,7 +36,7 @@ public class BaseResponse implements Serializable {
         baseResponse.setData(data);
         return baseResponse;
     }
-
+    @SuppressWarnings("all")
     public static BaseResponse createResponse(HttpStatus httpStatusMsg, Object data){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());

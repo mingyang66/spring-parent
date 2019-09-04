@@ -4,6 +4,7 @@ package com.yaomy.control.common.control.enums;
  * @Description: 日期格式
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public enum DateFormatEnum {
     YYYY_MM("yyyy-MM"),
     YYYY_MM_DD("yyyy-MM-dd"),

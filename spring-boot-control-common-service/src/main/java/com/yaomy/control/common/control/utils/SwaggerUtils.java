@@ -12,7 +12,6 @@ public class SwaggerUtils {
     public static final List<String> urls = Arrays.asList("/swagger-resources/configuration/ui",
                                                             "/swagger-resources/configuration/security",
                                                             "/swagger-resources",
-                                                            //"/error",
                                                             "/v2/api-docs",
                                                             "/swagger-ui.html");
 

@@ -2,6 +2,8 @@ package com.yaomy.control.aop.advice;
 
 import com.yaomy.control.aop.annotation.TargetDataSource;
 import com.yaomy.control.aop.datasource.DynamicDataSource;
+import com.yaomy.control.aop.exception.UnknownDataSourceException;
+import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseRequest;
 import com.yaomy.control.common.control.utils.JSONUtils;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
@@ -11,6 +13,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,9 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -72,6 +73,11 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * 异常
      */
     private static final String MSG_EXCEPTION = "异  常  ：";
+    /**
+     * 配置文件工具类
+     */
+    @Autowired
+    private PropertyService propertyService;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -90,7 +96,11 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
     private Object dataSourceHandler(MethodInvocation invocation) throws Throwable{
         //数据源切换开始
         TargetDataSource targetDataSource = invocation.getMethod().getAnnotation(TargetDataSource.class);
-        DynamicDataSource.setDataSource(targetDataSource.value());
+        String dataSource = targetDataSource.value();
+        if(!DynamicDataSource.isExist(dataSource)){
+            throw new UnknownDataSourceException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
+        }
+        DynamicDataSource.setDataSource(dataSource);
         System.out.println("-------before-----------------"+DynamicDataSource.getDataSource());
         //调用TargetDataSource标记的切换数据源方法
         Object result = invocation.proceed();

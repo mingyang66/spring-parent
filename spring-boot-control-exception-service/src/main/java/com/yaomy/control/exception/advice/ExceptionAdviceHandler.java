@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.enums.HttpStatus;
 import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.exception.unknown.UnknownDataSourceException;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public final class ExceptionAdviceHandler {
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();
@@ -78,7 +79,7 @@ public final class ExceptionAdviceHandler {
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();
@@ -96,7 +97,7 @@ public final class ExceptionAdviceHandler {
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();
@@ -114,7 +115,7 @@ public final class ExceptionAdviceHandler {
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();
@@ -132,7 +133,7 @@ public final class ExceptionAdviceHandler {
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();
@@ -151,7 +152,7 @@ public final class ExceptionAdviceHandler {
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();
@@ -188,7 +189,7 @@ public final class ExceptionAdviceHandler {
     }
     /**
      *
-     * 控制器方法中@RequestBody类型参数数据类型转换异常
+     * 类方法中@RequestBody类型参数数据类型转换异常
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e){
@@ -202,7 +203,7 @@ public final class ExceptionAdviceHandler {
 
     /**
      *
-     * 控制器方法参数异常
+     * 类方法参数异常
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e){
@@ -223,7 +224,7 @@ public final class ExceptionAdviceHandler {
         StackTraceElement[] elements = throwable.getStackTrace();
         if(elements.length > 0){
             StackTraceElement element = elements[0];
-            message = StringUtils.join("控制器", element.getClassName(), ".", element.getMethodName(), "的第", element.getLineNumber(), "行发生", throwable.toString(), "异常");
+            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "的第", element.getLineNumber(), "行发生", throwable.toString(), "异常");
         }
         if(StringUtils.isBlank(message)){
             message = e.toString();

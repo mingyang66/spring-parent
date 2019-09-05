@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface JobMapper {
-@TargetDataSource("first")
+@TargetDataSource()
     Job findJob();
 }

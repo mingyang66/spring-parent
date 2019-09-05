@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TargetDataSource {
-    String value() default "master";
+    String value() default "spring";
 }
 

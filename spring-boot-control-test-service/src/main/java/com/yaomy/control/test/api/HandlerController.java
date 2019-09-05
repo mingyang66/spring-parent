@@ -1,12 +1,16 @@
 package com.yaomy.control.test.api;
 
+import com.yaomy.control.aop.annotation.TargetDataSource;
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import com.yaomy.control.rest.client.HttpClientService;
+
+import com.yaomy.control.test.po.Job;
 import com.yaomy.control.test.po.User;
+import com.yaomy.control.test.service.JobService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -122,11 +126,15 @@ public class HandlerController {
         System.out.println("------PARAM--------"+name);
       return ResponseEntity.ok(name);
     }
+
+    @Autowired
+    private JobService jobService;
     @RequestMapping(value = "/handler/client1")
-    public ResponseEntity<User> testClient(@RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity<Job> testClient(@RequestBody User user, HttpServletRequest request) {
         System.out.println("------PARAM--------"+user.getName());
+        Job job = jobService.findJob();
         System.out.println(request.getParameter("tt"));
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(job);
     }
     @RequestMapping(value = "/handler/client2")
     public ResponseEntity<String> testClient2(String name, Integer age, HttpServletRequest request, HttpServletResponse response) {

@@ -3,6 +3,8 @@ HELP.md
 /**/target/
 /**/classes/
 !.mvn/wrapper/maven-wrapper.jar
+application.properties
+
 
 ### STS ###
 .apt_generated

@@ -1,5 +1,7 @@
 package com.yaomy.control.aop.advice;
 
+import com.yaomy.control.aop.annotation.TargetDataSource;
+import com.yaomy.control.aop.datasource.DynamicDataSource;
 import com.yaomy.control.common.control.po.BaseRequest;
 import com.yaomy.control.common.control.utils.JSONUtils;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
@@ -9,6 +11,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -72,6 +75,34 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        Method method = invocation.getMethod();
+        if(method.isAnnotationPresent(TargetDataSource.class)){
+            //数据源切换aop处理
+            return dataSourceHandler(invocation);
+        } else {
+            //控制器请求aop处理
+            return controllerHandler(invocation);
+        }
+    }
+    /**
+     * 数据源切换AOP拦截处理
+     */
+    private Object dataSourceHandler(MethodInvocation invocation) throws Throwable{
+        //数据源切换开始
+        TargetDataSource targetDataSource = invocation.getMethod().getAnnotation(TargetDataSource.class);
+        DynamicDataSource.setDataSource(targetDataSource.value());
+        System.out.println("-------before-----------------"+DynamicDataSource.getDataSource());
+        //调用TargetDataSource标记的切换数据源方法
+        Object result = invocation.proceed();
+        //移除当前线程对应的数据源
+        DynamicDataSource.remove();
+        System.out.println("-------after-----------------"+DynamicDataSource.getDataSource());
+        return result;
+    }
+    /**
+     *  控制器请求AOP拦截处理
+     */
+    private Object controllerHandler(MethodInvocation invocation) throws Throwable{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //获取请求参数，且该参数获取必须在proceed之前
         Map<String, Object> paramsMap = getRequestParam(invocation, request);
@@ -100,8 +131,6 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
             logError(invocation, request, paramsMap, spentTime, e);
             throw new Throwable(e);
         }
-
-
     }
     /**
      * @Description 记录INFO日志

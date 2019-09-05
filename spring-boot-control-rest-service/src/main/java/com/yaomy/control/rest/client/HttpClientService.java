@@ -143,8 +143,6 @@ public class HttpClientService {
     }
     /**
      * @Description 日志信息
-     * @Author 姚明洋
-     * @Date 2019/8/30 13:06
      * @Version  1.0
      */
     private <T> void logInfo(String url, HttpMethod httpMethod, Map<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity){

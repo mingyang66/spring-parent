@@ -9,6 +9,15 @@ import java.io.Serializable;
 public class Job implements Serializable {
     private Long id;
     private Long jobNumber;
+    private String jobDesc;
+
+    public String getJobDesc() {
+        return jobDesc;
+    }
+
+    public void setJobDesc(String jobDesc) {
+        this.jobDesc = jobDesc;
+    }
 
     public Long getId() {
         return id;

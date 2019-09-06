@@ -132,7 +132,7 @@ public class HandlerController {
     @RequestMapping(value = "/handler/client1")
     public ResponseEntity<Job> testClient(@RequestBody User user, HttpServletRequest request) {
         System.out.println("------PARAM--------"+user.getName());
-        Job job = jobService.findJob();
+        Job job = jobService.findJob(user.getName());
         System.out.println(request.getParameter("tt"));
         return ResponseEntity.ok(job);
     }

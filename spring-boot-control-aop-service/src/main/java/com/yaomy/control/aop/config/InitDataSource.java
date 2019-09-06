@@ -4,7 +4,6 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.yaomy.control.aop.datasource.DynamicDataSource;
 import com.yaomy.control.common.control.conf.PropertyService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -30,6 +29,9 @@ import java.util.Map;
  */
 @Configuration
 public class InitDataSource {
+    /**
+     * 配置文件对象
+     */
     @Autowired
     private PropertyService propertyService;
     /**
@@ -60,13 +62,18 @@ public class InitDataSource {
     public DataSource firstDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
-
+    @Bean
+    @ConfigurationProperties("second.datasource.druid")
+    public DataSource secondDataSource(){
+        return DruidDataSourceBuilder.create().build();
+    }
     @Bean
     @Primary
     public DataSource dynamicDataSource(){
         Map<Object, Object> targetDataSources = new HashMap<>(2);
         targetDataSources.put("spring", defaultDataSource());
         targetDataSources.put("first", firstDataSource());
+        targetDataSources.put("second", secondDataSource());
         return DynamicDataSource.build(defaultDataSource(), targetDataSources);
     }
 
@@ -81,10 +88,10 @@ public class InitDataSource {
         if(propertyService.containsProperty(MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_CONFIG_LOCATION))){
             sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(propertyService.getProperty(MYBATIS_CONFIG_LOCATION)));
         }
-       PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-       sqlSessionFactoryBean.setMapperLocations(resolver.getResources(propertyService.getProperty(MYBATIS_LOCATION_MAPPING, DEFAULT_DATASOURCE)));
-       sqlSessionFactoryBean.setDataSource(dynamicDataSource());
-       return  sqlSessionFactoryBean;
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources(propertyService.getProperty(MYBATIS_LOCATION_MAPPING, DEFAULT_DATASOURCE)));
+        sqlSessionFactoryBean.setDataSource(dynamicDataSource());
+        return  sqlSessionFactoryBean;
     }
 
     @Bean(name = "jdbcTemplate")

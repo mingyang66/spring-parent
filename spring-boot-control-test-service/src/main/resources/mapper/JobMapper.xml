@@ -4,10 +4,14 @@
 	<resultMap id="jobMap" type="com.yaomy.control.test.po.Job">
 		<id column="ID" property="id"/>
 		<result column="job_group" property="jobNumber"/>
+		<result column="JOB_DESC" property="jobDesc"/>
 	</resultMap>
 
 	<select id="findJob" resultMap="jobMap">
-		SELECT ID,job_group FROM xxl_job_qrtz_trigger_info WHERE ID=213000019887083887
+		SELECT ID,job_group,JOB_DESC FROM xxl_job_qrtz_trigger_info WHERE ID=213000019805096805
+    </select>
+	<select id="updateJob" resultMap="jobMap" parameterType="java.lang.String">
+		UPDATE xxl_job_qrtz_trigger_info SET JOB_DESC=#{jobDesc} WHERE ID=213000019805096805
     </select>
 
 </mapper>

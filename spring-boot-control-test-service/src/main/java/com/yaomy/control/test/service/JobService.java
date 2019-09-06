@@ -7,5 +7,5 @@ import com.yaomy.control.test.po.Job;
  * @Version: 1.0
  */
 public interface JobService {
-    Job findJob();
+    Job findJob(String desc);
 }

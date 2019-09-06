@@ -48,11 +48,13 @@ public class InitDataSource {
      * 默认数据源
      */
     private static final String DEFAULT_DATASOURCE = "spring";
+
     @Bean
     @ConfigurationProperties("spring.datasource.druid")
     public DataSource defaultDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
+
     @Bean
     @ConfigurationProperties("first.datasource.druid")
     public DataSource firstDataSource(){
@@ -75,6 +77,7 @@ public class InitDataSource {
         if(propertyService.containsProperty(MYBATIS_TYPPE_ALIASES_PACKAGE) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_TYPPE_ALIASES_PACKAGE))){
             sqlSessionFactoryBean.setTypeAliasesPackage(propertyService.getProperty(MYBATIS_TYPPE_ALIASES_PACKAGE));
         }
+
         if(propertyService.containsProperty(MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_CONFIG_LOCATION))){
             sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(propertyService.getProperty(MYBATIS_CONFIG_LOCATION)));
         }

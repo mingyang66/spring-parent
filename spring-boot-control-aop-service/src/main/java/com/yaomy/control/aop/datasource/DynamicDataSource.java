@@ -1,11 +1,12 @@
 package com.yaomy.control.aop.datasource;
 
-import com.yaomy.control.aop.exception.UnknownDataSourceException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Description: 线程持有数据源上线文
@@ -59,7 +60,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         if(isExist(dataSource)){
             CONTEXT_HOLDER.set(dataSource);
         } else {
-            throw new UnknownDataSourceException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
+            throw new NullPointerException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
         }
     }
     /**

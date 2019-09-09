@@ -2,8 +2,6 @@ package com.yaomy.control.aop.advice;
 
 import com.yaomy.control.aop.annotation.TargetDataSource;
 import com.yaomy.control.aop.datasource.DynamicDataSource;
-import com.yaomy.control.aop.exception.UnknownDataSourceException;
-import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseRequest;
 import com.yaomy.control.common.control.utils.JSONUtils;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
@@ -13,8 +11,6 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -25,7 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -44,7 +42,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
     /**
      * 控制器
      */
-    private static final String MSG_CONTROLLER = "控制器  ：";
+    private static final String MSG_CONTROLLER = "类|方法  ：";
     /**
      * 访问URL
      */
@@ -74,10 +72,18 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      */
     private static final String MSG_EXCEPTION = "异  常  ：";
     /**
-     * 配置文件工具类
+     * START消息
      */
-    @Autowired
-    private PropertyService propertyService;
+    private static final String MSG_DATASOURCE_START = "开始执行，切换数据源到【";
+    /**
+     * END消息
+     */
+    private static final String MSG_DATASOURCE_END = "执行结束，移除数据源【";
+    /**
+     * 中文右符号
+     */
+    private static final String MSG_RIGHT_SYMBOL = "】";
+
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -94,19 +100,26 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * 数据源切换AOP拦截处理
      */
     private Object dataSourceHandler(MethodInvocation invocation) throws Throwable{
+        //获取Method对象
+        Method method = invocation.getMethod();
         //数据源切换开始
-        TargetDataSource targetDataSource = invocation.getMethod().getAnnotation(TargetDataSource.class);
+        TargetDataSource targetDataSource = method.getAnnotation(TargetDataSource.class);
+        //获取注解标注的数据源
         String dataSource = targetDataSource.value();
+        //判断当前的数据源是否已经被加载进入到系统当中去
         if(!DynamicDataSource.isExist(dataSource)){
-            throw new UnknownDataSourceException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
+            throw new NullPointerException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
         }
+
+        LoggerUtil.info(invocation.getThis().getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_START, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
+        //切换到指定的数据源
         DynamicDataSource.setDataSource(dataSource);
-        System.out.println("-------before-----------------"+DynamicDataSource.getDataSource());
         //调用TargetDataSource标记的切换数据源方法
         Object result = invocation.proceed();
         //移除当前线程对应的数据源
         DynamicDataSource.remove();
-        System.out.println("-------after-----------------"+DynamicDataSource.getDataSource());
+
+        LoggerUtil.info(invocation.getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_END, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
         return result;
     }
     /**

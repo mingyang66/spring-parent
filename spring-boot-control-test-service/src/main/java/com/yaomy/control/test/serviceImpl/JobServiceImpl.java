@@ -17,9 +17,11 @@ public class JobServiceImpl implements JobService {
    @Autowired
     private JobMapper jobMapper;
     @Override
-    @TargetDataSource("first")
+    @TargetDataSource
     public Job findJob(String desc) {
-       jobMapper.updateJob(StringUtils.join("测试任务222", desc));
+        Job job1 = new Job();
+        job1.setJobDesc("test测试126");
+       jobMapper.updateJob(job1);
         System.out.println("-------updateJob----------");
        Job job = jobMapper.findJob();
         System.out.println(job);

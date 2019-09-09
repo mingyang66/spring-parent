@@ -8,5 +8,5 @@ import com.yaomy.control.test.po.Job;
  */
 public interface JobMapper {
     Job findJob();
-    void updateJob(String jobDesc);
+    Boolean updateJob(Job job);
 }

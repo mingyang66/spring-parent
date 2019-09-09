@@ -1,14 +1,10 @@
 package com.yaomy.control.exception.advice;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.enums.HttpStatus;
 import com.yaomy.control.common.control.po.BaseResponse;
-import com.yaomy.control.exception.unknown.UnknownDataSourceException;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -31,14 +27,6 @@ import java.lang.reflect.UndeclaredThrowableException;
 @RestControllerAdvice
 public final class ExceptionAdviceHandler {
     /**
-     * 日志配置文件key
-     */
-    private static final String LOGBACK_CONFIG = "logging.config";
-    /**
-     * 日志文件
-     */
-    private static final String LOGBACK_FILENAME = "classpath:logback-control.xml";
-    /**
      * @RequestBody请求body缺失异常
      */
     private static final String REQUEST_BODY = "Required request body is missing";
@@ -46,11 +34,6 @@ public final class ExceptionAdviceHandler {
      * @RequestBody请求body缺失message提示
      */
     public static final String REQUEST_BODY_MESSAGE = "注解@RequestBody标识的请求体缺失";
-    /**
-     * 加载配置文件属性
-     */
-    @Autowired
-    private PropertyService propertyService;
     /**
      * 未知异常
      */
@@ -236,15 +219,11 @@ public final class ExceptionAdviceHandler {
      * @Version  1.0
      */
     private void printErrorMessage(Throwable e){
-        if(StringUtils.equalsIgnoreCase(propertyService.getProperty(LOGBACK_CONFIG), LOGBACK_FILENAME)){
-            String message = e.toString();
-            for (StackTraceElement element:e.getStackTrace()){
-                message = StringUtils.join(message, "\n", element.toString());
-            }
-            LoggerUtil.error(ExceptionAdviceHandler.class, message);
-        } else {
-            e.printStackTrace();
+        String message = e.toString();
+        for (StackTraceElement element:e.getStackTrace()){
+            message = StringUtils.join(message, "\n", element.toString());
         }
+        LoggerUtil.error(ExceptionAdviceHandler.class, message);
     }
 }
 

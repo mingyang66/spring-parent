@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: Description
+ * @Description: 多数据源初始化配置
  * @Version: 1.0
  */
 @Configuration

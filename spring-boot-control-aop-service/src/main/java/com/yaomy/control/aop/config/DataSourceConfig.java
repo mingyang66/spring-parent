@@ -2,6 +2,7 @@ package com.yaomy.control.aop.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.yaomy.control.aop.datasource.DynamicDataSource;
+import com.yaomy.control.common.control.MybatisConstant;
 import com.yaomy.control.common.control.conf.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -29,29 +29,13 @@ import java.util.Map;
  * @Version: 1.0
  */
 @Configuration
-@MapperScan(value = "com.yaomy.control.test.mapper",sqlSessionTemplateRef = "jdbcTemplate")
-public class InitDataSource {
+@MapperScan(value = "com.yaomy.control.test.mapper", sqlSessionTemplateRef = "jdbcTemplate")
+public class DataSourceConfig {
     /**
      * 配置文件对象
      */
     @Autowired
     private PropertyService propertyService;
-    /**
-     * Mybatis xml映射文件配置
-     */
-    private static final String MYBATIS_LOCATION_MAPPING = "mybatis.mapper-locations";
-    /**
-     * Mybatis config location
-     */
-    private static final String MYBATIS_CONFIG_LOCATION = "mybatis.config-location";
-    /**
-     * mybatis.type-aliases-package
-     */
-    private static final String MYBATIS_TYPPE_ALIASES_PACKAGE = "mybatis.type-aliases-package";
-    /**
-     * 默认数据源
-     */
-    private static final String DEFAULT_DATASOURCE = "spring";
 
     @Bean
     @ConfigurationProperties("spring.datasource.druid")
@@ -64,15 +48,16 @@ public class InitDataSource {
     public DataSource firstDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
+
     @Bean
     @ConfigurationProperties("second.datasource.druid")
     public DataSource secondDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
+
     @Bean
-    @Primary
     public DataSource dynamicDataSource(){
-        Map<Object, Object> targetDataSources = new HashMap<>(2);
+        Map<Object, Object> targetDataSources = new HashMap<>(3);
         targetDataSources.put("spring", defaultDataSource());
         targetDataSources.put("first", firstDataSource());
         targetDataSources.put("second", secondDataSource());
@@ -83,16 +68,16 @@ public class InitDataSource {
     public SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception{
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
-        if(propertyService.containsProperty(MYBATIS_TYPPE_ALIASES_PACKAGE) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_TYPPE_ALIASES_PACKAGE))){
-            sqlSessionFactoryBean.setTypeAliasesPackage(propertyService.getProperty(MYBATIS_TYPPE_ALIASES_PACKAGE));
+        if(propertyService.containsProperty(MybatisConstant.MYBATIS_TYPPE_ALIASES_PACKAGE) && StringUtils.isNotBlank(propertyService.getProperty(MybatisConstant.MYBATIS_TYPPE_ALIASES_PACKAGE))){
+            sqlSessionFactoryBean.setTypeAliasesPackage(propertyService.getProperty(MybatisConstant.MYBATIS_TYPPE_ALIASES_PACKAGE));
         }
 
-        if(propertyService.containsProperty(MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_CONFIG_LOCATION))){
-            sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(propertyService.getProperty(MYBATIS_CONFIG_LOCATION)));
+        if(propertyService.containsProperty(MybatisConstant.MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(propertyService.getProperty(MybatisConstant.MYBATIS_CONFIG_LOCATION))){
+            sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(propertyService.getProperty(MybatisConstant.MYBATIS_CONFIG_LOCATION)));
         }
-        if(propertyService.containsProperty(MYBATIS_LOCATION_MAPPING) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_LOCATION_MAPPING))){
+        if(propertyService.containsProperty(MybatisConstant.MYBATIS_LOCATION_MAPPING) && StringUtils.isNotBlank(propertyService.getProperty(MybatisConstant.MYBATIS_LOCATION_MAPPING))){
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-            sqlSessionFactoryBean.setMapperLocations(resolver.getResources(propertyService.getProperty(MYBATIS_LOCATION_MAPPING)));
+            sqlSessionFactoryBean.setMapperLocations(resolver.getResources(propertyService.getProperty(MybatisConstant.MYBATIS_LOCATION_MAPPING)));
         }
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
         return  sqlSessionFactoryBean;
@@ -103,9 +88,9 @@ public class InitDataSource {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
-     @Bean
-     public PlatformTransactionManager transactionManager() {
-         DataSourceTransactionManager manager = new DataSourceTransactionManager(dynamicDataSource());
-         return manager;
-     }
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        DataSourceTransactionManager manager = new DataSourceTransactionManager(dynamicDataSource());
+        return manager;
+    }
 }

@@ -10,8 +10,8 @@
 	<select id="findJob" resultMap="jobMap">
 		SELECT ID,job_group,JOB_DESC FROM xxl_job_qrtz_trigger_info WHERE ID=213000019805096805
     </select>
-	<select id="updateJob" resultMap="jobMap" parameterType="java.lang.String">
+	<update id="updateJob" parameterType="java.lang.String">
 		UPDATE xxl_job_qrtz_trigger_info SET JOB_DESC=#{jobDesc} WHERE ID=213000019805096805
-    </select>
+    </update>
 
 </mapper>

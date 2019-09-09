@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @Version: 1.0
  */
 @Configuration
+@MapperScan(value = "com.yaomy.control.test.mapper",sqlSessionTemplateRef = "jdbcTemplate")
 public class InitDataSource {
     /**
      * 配置文件对象
@@ -88,8 +90,10 @@ public class InitDataSource {
         if(propertyService.containsProperty(MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_CONFIG_LOCATION))){
             sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(propertyService.getProperty(MYBATIS_CONFIG_LOCATION)));
         }
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources(propertyService.getProperty(MYBATIS_LOCATION_MAPPING, DEFAULT_DATASOURCE)));
+        if(propertyService.containsProperty(MYBATIS_LOCATION_MAPPING) && StringUtils.isNotBlank(propertyService.getProperty(MYBATIS_LOCATION_MAPPING))){
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            sqlSessionFactoryBean.setMapperLocations(resolver.getResources(propertyService.getProperty(MYBATIS_LOCATION_MAPPING)));
+        }
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
         return  sqlSessionFactoryBean;
     }

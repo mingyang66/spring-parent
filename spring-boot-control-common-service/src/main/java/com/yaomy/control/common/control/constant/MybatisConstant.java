@@ -1,4 +1,4 @@
-package com.yaomy.control.common.control;
+package com.yaomy.control.common.control.constant;
 
 /**
  * @Description: MyBatis 相关常量

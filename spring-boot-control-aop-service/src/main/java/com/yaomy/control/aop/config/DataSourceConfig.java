@@ -2,7 +2,7 @@ package com.yaomy.control.aop.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.yaomy.control.aop.datasource.DynamicDataSource;
-import com.yaomy.control.common.control.MybatisConstant;
+import com.yaomy.control.common.control.constant.MybatisConstant;
 import com.yaomy.control.common.control.conf.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;

@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(scanBasePackages = {"com.yaomy.control"}, exclude = {DataSourceAutoConfiguration.class, JdbcTemplateAutoConfiguration.class})
+@EnableTransactionManagement
 public class HandlerBootStrap {
     public static void main(String[] args) {
         SpringApplication.run(HandlerBootStrap.class, args);

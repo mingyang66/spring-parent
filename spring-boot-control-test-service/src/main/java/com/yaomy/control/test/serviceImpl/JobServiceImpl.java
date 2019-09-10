@@ -7,12 +7,14 @@ import com.yaomy.control.test.service.JobService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Description: Description
  * @Version: 1.0
  */
 @Service
+@Transactional
 public class JobServiceImpl implements JobService {
    @Autowired
     private JobMapper jobMapper;
@@ -20,10 +22,12 @@ public class JobServiceImpl implements JobService {
     @TargetDataSource
     public Job findJob(String desc) {
         Job job1 = new Job();
-        job1.setJobDesc("test测试126");
+        job1.setJobDesc("test测试12678");
        jobMapper.updateJob(job1);
         System.out.println("-------updateJob----------");
        Job job = jobMapper.findJob();
+       String s = null;
+       s.length();
         System.out.println(job);
        return job;
     }

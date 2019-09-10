@@ -1,4 +1,4 @@
-### Spring boot+mybatis+druid注解模式动态切换多数据源
+### Springboot+mybatis+druid注解模式动态切换多数据源
 
 >通常情况下一个项目里面只连接一个数据库就可以，但是也有很多种情况需要配置多个数据源的场景，本篇就讲解下使用spring boot、mybatis、druid配置多数据源的方式。
 

@@ -96,7 +96,7 @@
 ```
 >为了线程的安全使用ThreadLocal来存储数据源查找键（Look Up key）
 
-#### 3.多数据源实现，实现类需要继承AbstractRoutingDataSource抽象类,实现通过查找键动态的切换数据源
+#### 3.多数据源实现类，该类需要继承AbstractRoutingDataSource抽象类来实现通过查找键（Look Up Key）动态的切换数据源
 ```
 package com.yaomy.control.aop.datasource;
 

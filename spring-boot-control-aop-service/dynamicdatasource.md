@@ -283,3 +283,5 @@ public class JobServiceImpl implements JobService {
 com.yaomy.control.test.po.Job@68effeae
 [2019-09-10 17:39:09.677] [000-exec-1] [INFO ] [.CglibAopProxy$CglibMethodInvocation:16  ] : 类|方法  ：class com.yaomy.control.test.serviceImpl.JobServiceImpl.findJob执行结束，移除数据源【spring】
 ```
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-aop-service/dynamicdatasource.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-aop-service/dynamicdatasource.md)

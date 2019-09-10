@@ -101,7 +101,7 @@ public class DataSourceConfig {
      * @param sqlSessionFactory
      * @return
      */
-    @Bean(name = "jdbcTemplate")
+    @Bean(name = "sqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory){
         return new SqlSessionTemplate(sqlSessionFactory);
     }

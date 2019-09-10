@@ -40,7 +40,7 @@ public class DataSourceConfig {
     private PropertyService propertyService;
 
     /**
-     * 默认数据源
+     * 默认数据源,if not found prefix 'spring.datasource.druid' jdbc properties ,'spring.datasource' prefix jdbc properties will be used.
      */
     @Bean("defaultDataSource")
     @Primary
@@ -49,6 +49,11 @@ public class DataSourceConfig {
         return DruidDataSourceBuilder.create().build();
     }
 
+    /**
+     *  设置多数据源
+     * @param defaultDataSource 默认数据源
+     * @return
+     */
     @Bean("dynamicDataSource")
     public DataSource dynamicDataSource(@Qualifier("defaultDataSource") DataSource defaultDataSource){
         Map<Object, Object> targetDataSources = new HashMap<>(1);

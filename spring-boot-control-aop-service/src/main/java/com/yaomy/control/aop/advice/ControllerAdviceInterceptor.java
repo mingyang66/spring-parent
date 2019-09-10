@@ -1,7 +1,7 @@
 package com.yaomy.control.aop.advice;
 
 import com.yaomy.control.aop.annotation.TargetDataSource;
-import com.yaomy.control.aop.datasource.DynamicDataSource;
+import com.yaomy.control.aop.datasource.DataSourceContextHolder;
 import com.yaomy.control.common.control.po.BaseRequest;
 import com.yaomy.control.common.control.utils.JSONUtils;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
@@ -107,20 +107,26 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
         //获取注解标注的数据源
         String dataSource = targetDataSource.value();
         //判断当前的数据源是否已经被加载进入到系统当中去
-        if(!DynamicDataSource.isExist(dataSource)){
+        if(!DataSourceContextHolder.isExist(dataSource)){
             throw new NullPointerException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
         }
+        try{
+            LoggerUtil.info(invocation.getThis().getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_START, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
+            //切换到指定的数据源
+            DataSourceContextHolder.setDataSource(dataSource);
+            //调用TargetDataSource标记的切换数据源方法
+            Object result = invocation.proceed();
+            //移除当前线程对应的数据源
+            DataSourceContextHolder.remove();
+            LoggerUtil.info(invocation.getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_END, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
 
-        LoggerUtil.info(invocation.getThis().getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_START, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
-        //切换到指定的数据源
-        DynamicDataSource.setDataSource(dataSource);
-        //调用TargetDataSource标记的切换数据源方法
-        Object result = invocation.proceed();
-        //移除当前线程对应的数据源
-        DynamicDataSource.remove();
-
-        LoggerUtil.info(invocation.getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_END, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
-        return result;
+            return result;
+        } catch (Throwable e){
+            //移除当前线程对应的数据源
+            DataSourceContextHolder.remove();
+            LoggerUtil.error(invocation.getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_END, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
+            throw new Throwable(e);
+        }
     }
     /**
      *  控制器请求AOP拦截处理

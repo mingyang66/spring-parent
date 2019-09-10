@@ -26,8 +26,7 @@ public class JobServiceImpl implements JobService {
        jobMapper.updateJob(job1);
         System.out.println("-------updateJob----------");
        Job job = jobMapper.findJob();
-       String s = null;
-       s.length();
+
         System.out.println(job);
        return job;
     }

@@ -37,7 +37,7 @@ public class DataSourceConfig {
     /**
      * mapper下的接口层
      */
-    public static final String BASE_PACKAGE = "com.yaomy.control.test.mapper";
+    public static final String BASE_PACKAGE = "com.yaomy.control.*.mapper";
     /**
      * 配置文件对象
      */

@@ -1,29 +1,22 @@
 package com.yaomy.control.aop.datasource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * @Description: 线程持有数据源上线文
+ * @Description: 抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
+ * 的事务上下文来确定
  * @Author yaomy
  * @Version: 1.0
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
     /**
-     * 当前线程对应的数据源
+     * 私有的构造函数
+     * @param defaultTargetDataSource 默认数据源
+     * @param targetDataSources 所有的数据源
      */
-    private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
-    /**
-     * 存储当前系统加载的数据源的查找键（look up key）KEY
-     */
-    private static final Set<Object> ALL_DATA_SOURCE_KEY = new HashSet<>();
-
-
     private DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources){
         /**
          * 如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；
@@ -50,47 +43,11 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         /**
          * 将数据源查找键（look up key）KEY存储进入静态变量中，供其它地方校验使用
          */
-        ALL_DATA_SOURCE_KEY.addAll(targetDataSources.keySet());
+        DataSourceContextHolder.ALL_DATA_SOURCE_KEY.addAll(targetDataSources.keySet());
     }
 
     /**
-     * 设置当前线程持有的数据源
-     */
-    public static void setDataSource(String dataSource){
-        if(isExist(dataSource)){
-            CONTEXT_HOLDER.set(dataSource);
-        } else {
-            throw new NullPointerException(StringUtils.join("数据源查找键（Look up key）【", dataSource,"】不存在"));
-        }
-    }
-    /**
-     * 获取当前线程持有的数据源
-     */
-    public static String getDataSource(){
-        return CONTEXT_HOLDER.get();
-    }
-
-    /**
-     * 删除当前线程持有的数据源
-     */
-    public static void remove(){
-        CONTEXT_HOLDER.remove();
-    }
-
-    /**
-     * 判断数据源在系统中是否存在
-     */
-    public static boolean isExist(String dataSource){
-        if(StringUtils.isEmpty(dataSource)){
-            return false;
-        }
-        if(ALL_DATA_SOURCE_KEY.contains(dataSource)){
-            return true;
-        }
-        return false;
-    }
-    /**
-     * 构件DynamicDataSource对象
+     * 构件DynamicDataSource对象静态方法
      */
     public static DynamicDataSource build(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources){
         return new DynamicDataSource(defaultTargetDataSource, targetDataSources);
@@ -102,7 +59,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      */
     @Override
     protected Object determineCurrentLookupKey() {
-        return getDataSource();
+        return DataSourceContextHolder.getDataSource();
     }
 
 }

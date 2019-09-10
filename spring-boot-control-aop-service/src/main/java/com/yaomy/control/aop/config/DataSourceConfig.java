@@ -1,14 +1,14 @@
 package com.yaomy.control.aop.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.yaomy.control.aop.constant.DbType;
 import com.yaomy.control.aop.datasource.DynamicDataSource;
-import com.yaomy.control.common.control.constant.MybatisConstant;
 import com.yaomy.control.common.control.conf.PropertyService;
+import com.yaomy.control.common.control.constant.MybatisConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,51 +32,35 @@ import java.util.Map;
  * @Version: 1.0
  */
 @Configuration
-@MapperScan(basePackages = DataSourceConfig.BASE_PACKAGE, sqlSessionTemplateRef = "jdbcTemplate")
 public class DataSourceConfig {
-    /**
-     * mapper下的接口层
-     */
-    public static final String BASE_PACKAGE = "com.yaomy.control.*.mapper";
     /**
      * 配置文件对象
      */
     @Autowired
     private PropertyService propertyService;
 
-    @Bean
+    /**
+     * 默认数据源
+     */
+    @Bean("defaultDataSource")
     @Primary
     @ConfigurationProperties("spring.datasource.druid")
     public DataSource defaultDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
 
-    @Bean
-    @ConfigurationProperties("first.datasource.druid")
-    public DataSource firstDataSource(){
-        return DruidDataSourceBuilder.create().build();
-    }
-
-    @Bean
-    @ConfigurationProperties("second.datasource.druid")
-    public DataSource secondDataSource(){
-        return DruidDataSourceBuilder.create().build();
-    }
-
-    @Bean
-    public DataSource dynamicDataSource(){
-        Map<Object, Object> targetDataSources = new HashMap<>(3);
-        targetDataSources.put("spring", defaultDataSource());
-        targetDataSources.put("first", firstDataSource());
-        targetDataSources.put("second", secondDataSource());
-        return DynamicDataSource.build(defaultDataSource(), targetDataSources);
+    @Bean("dynamicDataSource")
+    public DataSource dynamicDataSource(@Qualifier("defaultDataSource") DataSource defaultDataSource){
+        Map<Object, Object> targetDataSources = new HashMap<>(1);
+        targetDataSources.put(DbType.DEFAULT_DATASOURCE, defaultDataSource);
+        return DynamicDataSource.build(defaultDataSource, targetDataSources);
     }
 
     /**
      * 创建SqlSessionFactoryBean
      */
     @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception{
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) throws Exception{
 
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         /**
@@ -107,11 +91,16 @@ public class DataSourceConfig {
         /**
          * 设置数据源
          */
-        sqlSessionFactoryBean.setDataSource(dynamicDataSource());
+        sqlSessionFactoryBean.setDataSource(dynamicDataSource);
 
         return  sqlSessionFactoryBean;
     }
 
+    /**
+     * 生成SqlSessionTemplate对象
+     * @param sqlSessionFactory
+     * @return
+     */
     @Bean(name = "jdbcTemplate")
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory){
         return new SqlSessionTemplate(sqlSessionFactory);
@@ -121,10 +110,10 @@ public class DataSourceConfig {
      * PlatformTransactionManager:这是Spring事务基础设施中的核心接口，应用程序可以直接使用它，应用程序可以使用TransactionTemplate或者AOP进行声明式事务划分；
      */
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager transactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
         /**
          * DataSourceTransactionManager:这个类可以在任何环境中使用任何JDBC驱动，
          */
-        return new DataSourceTransactionManager(dynamicDataSource());
+        return new DataSourceTransactionManager(dynamicDataSource);
     }
 }

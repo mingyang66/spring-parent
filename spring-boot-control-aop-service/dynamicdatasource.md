@@ -241,3 +241,45 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
 
 }
 ```
+
+#### 6.启用注解模式多数据源要在启动类上引入sqlSessionTemplate
+```
+@EnableTransactionManagement
+@SpringBootApplication(scanBasePackages = {"com.yaomy.control"})
+@MapperScan(basePackages = {"com.yaomy.control.*.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
+public class HandlerBootStrap {
+    public static void main(String[] args) {
+        SpringApplication.run(HandlerBootStrap.class, args);
+    }
+}
+```
+#### 7.使用示例
+```
+@Service
+@Transactional
+public class JobServiceImpl implements JobService {
+   @Autowired
+    private JobMapper jobMapper;
+    @Override
+    @TargetDataSource(DbType.DEFAULT_DATASOURCE)
+    public Job findJob(String desc) {
+        Job job1 = new Job();
+        job1.setJobDesc("test测试12678");
+       jobMapper.updateJob(job1);
+        System.out.println("-------updateJob----------");
+       Job job = jobMapper.findJob();
+
+        System.out.println(job);
+       return job;
+    }
+}
+```
+看下打印日志如下：
+```
+[2019-09-10 17:39:09.057] [000-exec-1] [INFO ] [c.y.c.t.serviceImpl.JobServiceImpl  :16  ] : 类|方法  ：class com.yaomy.control.test.serviceImpl.JobServiceImpl.findJob开始执行，切换数据源到【spring】
+
+[2019-09-10 17:39:09.250] [000-exec-1] [INFO ] [c.alibaba.druid.pool.DruidDataSource:1003] : {dataSource-1} inited
+-------updateJob----------
+com.yaomy.control.test.po.Job@68effeae
+[2019-09-10 17:39:09.677] [000-exec-1] [INFO ] [.CglibAopProxy$CglibMethodInvocation:16  ] : 类|方法  ：class com.yaomy.control.test.serviceImpl.JobServiceImpl.findJob执行结束，移除数据源【spring】
+```

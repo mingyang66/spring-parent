@@ -19,10 +19,16 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.yaomy.control</groupId>
+            <artifactId>spring-boot-control-common-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.zeromq</groupId>
             <artifactId>jeromq</artifactId>
-            <version>0.4.2</version>
+            <version>0.5.1</version>
         </dependency>
+
 
     </dependencies>
     <build>

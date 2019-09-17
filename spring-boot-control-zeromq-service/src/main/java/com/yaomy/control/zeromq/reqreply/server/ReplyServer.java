@@ -69,7 +69,7 @@ public class ReplyServer {
          * 提供长期的私钥{@link setCurveSecretKey},服务端不停工长期的公钥，该公钥仅由客户端使用。
          * 参考：http://api.zeromq.org/4-2:zmq-curve
          */
-        socket.setAsServerCurve(true);
+        socket.setAsServerCurve(false);
         socket.setCurveSecretKey("sdf".getBytes());
         System.out.println("send_time_out:"+socket.getSendTimeOut()+", recv_time_out:"+socket.getReceiveTimeOut());;
         System.out.println("-----------------start-------------------------");

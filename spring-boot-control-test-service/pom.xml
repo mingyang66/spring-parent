@@ -48,6 +48,11 @@
             <artifactId>spring-boot-control-aop-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.yaomy.control</groupId>
+            <artifactId>spring-boot-control-zeromq-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>

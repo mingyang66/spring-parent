@@ -1,6 +1,5 @@
 package com.yaomy.control.zeromq.pubsub.client;
 
-import com.google.protobuf.ByteString;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -105,6 +104,8 @@ public class ZeroMQClient {
                      */
                     if(event.getEvent() == ZMQ.EVENT_HANDSHAKE_PROTOCOL){
                         System.out.println("监控地址："+event.getAddress()+"--监控事件："+"已成功协商协议"+"--值："+event.getValue());
+                    } else {
+                        System.out.println("-------------------other---------------------");
                     }
                 }
         }).start();
@@ -120,14 +121,16 @@ public class ZeroMQClient {
          * 非空的选项值应订阅以指定前缀开头的所有消息；
          * 多个过滤器可以连接到单个ZMQ_SUB套接字上，在这种情况下，如果消息与至少一个过滤器匹配，则应该接受此消息
          */
-    /*    subscribe.subscribe("1");
-        subscribe.subscribe("2");*/
-        socket.subscribe("");
+    //   subscribe.subscribe("1");
+        //socket.subscribe(intToBytes_Little(3));
+       // socket.subscribe(intToBytes_Little(6));
+        socket.subscribe("A");
         //subscribe.subscribe("6".getBytes());
         /*subscribe.subscribe("10");
         subscribe.subscribe("11");
         subscribe.subscribe("12");
         subscribe.subscribe("13");*/
+        int i=0;
         while(true){
             System.out.println("----------------------start------------------------");
             /**
@@ -135,18 +138,20 @@ public class ZeroMQClient {
              * @param flags 接收消息的标记
              */
             try{
-                byte[] msg = socket.recv();
-                ByteString byteString = ByteString.copyFrom(msg);
-                System.out.println(new String(byteString.toByteArray()));
-               /* BytesValue bytesValue = BytesValue.parseFrom(msg);
-                System.out.println(new String(bytesValue.toByteString().toByteArray()));*/
-               /* String s = SerializationUtils.deserialize(msg);
-                System.out.println(s);*/
-
+                byte[] data = socket.recv();
+                System.out.println(new String(data)+(i++));
+                if(i == 10){
+                    socket.subscribe(new byte[]{2});
+                }
+                if(i == 20){
+                    socket.subscribe(new byte[]{3});
+                }
+                if(i == 30){
+                    socket.unsubscribe(new byte[]{2});
+                }
             } catch (Exception e){
-                System.out.println("---------------exception--------------------");
+                e.printStackTrace();
             }
-           // System.out.println(socket.recvStr());
         }
 
     }

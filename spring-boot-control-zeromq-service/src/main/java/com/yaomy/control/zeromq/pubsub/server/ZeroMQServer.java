@@ -4,9 +4,6 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
 /**
  * @Description: Description
  * @Version: 1.0
@@ -49,12 +46,18 @@ public class ZeroMQServer {
              * send方法如果发送成功将会返回true，否则将会返回false
              * 参考：http://api.zeromq.org/4-1:zmq-send
              */
-            publisher.send("A 哈哈".getBytes(), ZMQ.SNDMORE);
-            publisher.send("This is A 测试");
+            publisher.send("A".getBytes());
+            publisher.send("2EEE".getBytes());
+            publisher.send("3afdssd".getBytes());
+           /* publisher.send("This is A 测试");
             publisher.send("This is A");
             publisher.send("A This is A");
             publisher.send("B".getBytes());
-            publisher.send("This is B 测试".getBytes());
+            publisher.send("This is B 测试".getBytes());*/
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("你好".getBytes().length);
     }
 }

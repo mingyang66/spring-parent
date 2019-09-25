@@ -6,7 +6,7 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
 /**
- * @Description: Description
+ * @Description: 服务端
  * @Version: 1.0
  */
 public class ZeroMQServer {
@@ -22,9 +22,9 @@ public class ZeroMQServer {
          * 它提供一种在SOCKET套接字上设置延时超时的简单方法，并未I/O线程数配置上线文；设置进程的信号（中断）处理。
          * 默认构造函数分配给此上下文的IO线程数是1（ioThreads）
          */
-        ZContext context = new ZContext(1);
+        ZContext context = new ZContext();
         /**
-         * 在此ZContext中创建新的托管SOCKET套接字，指定创建的套接字类型是服务端（REP）
+         * 在此ZContext中创建新的托管SOCKET套接字，指定创建的套接字类型是服务端（PUB）
          */
         ZMQ.Socket socket = context.createSocket(SocketType.PUB);
         /**

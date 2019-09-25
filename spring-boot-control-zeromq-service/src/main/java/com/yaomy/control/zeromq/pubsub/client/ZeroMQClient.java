@@ -37,7 +37,7 @@ public class ZeroMQClient {
          */
         ZContext context = new ZContext();
         /**
-         * 在此ZContext中创建新的托管SOCKET套接字，指定创建的套接字类型是客户端（REQ）
+         * 在此ZContext中创建新的托管SOCKET套接字，指定创建的套接字类型是客户端（SUB）
          */
         socket = context.createSocket(SocketType.SUB);
         //指定监控所有的事件

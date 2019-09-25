@@ -1,7 +1,11 @@
 package com.yaomy.control.zeromq.reqreply.server;
 
+import com.yaomy.control.logback.utils.LoggerUtil;
+import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description: 请求应答模式--server
@@ -9,8 +13,19 @@ import org.zeromq.ZMQ;
  */
 @SuppressWarnings("all")
 public class ReplyServer {
+    /**
+     * 端点
+     */
+    private String endpoint;
 
-    public static void main(String[] args) {
+    public ReplyServer(String endpoint){
+        this.endpoint = endpoint;
+    }
+
+    /**
+     * 启动服务端
+     */
+    public void start(){
         /**
          * ZContext提供一种高级的ZeroMQ上下文管理类，它管理上下文中打开的SOCKET套接字，并在终止上下文之前自动关闭这些SOCKET套接字
          * 它提供一种在SOCKET套接字上设置延时超时的简单方法，并未I/O线程数配置上线文；设置进程的信号（中断）处理。
@@ -20,11 +35,11 @@ public class ReplyServer {
         /**
          * 在此ZContext中创建新的托管SOCKET套接字，指定创建的套接字类型是服务端（REP）
          */
-        ZMQ.Socket socket = context.createSocket(ZMQ.REP);
+        ZMQ.Socket socket = context.createSocket(SocketType.REP);
         /**
          * 绑定到网络端口，开始监听新的连接
          */
-        socket.bind("tcp://127.0.0.1:5554");
+        socket.bind(endpoint);
         /**
          * 设置SOCKET套接字发送时的超时时间，
          * 如果为0，则send将立即返回，如果无法发送消息，则返回false
@@ -43,55 +58,28 @@ public class ReplyServer {
          * 默认：-1
          */
         socket.setReceiveTimeOut(-1);
-        /**
-         * 定义Socket套接字是否作为纯服务器以实现简单的安全性
-         * 值为true表示Socket将作为纯服务器
-         * 值为false表示Socket不会充当纯服务器
-         * 其安全性则取决于其它选项设置
-         * @link{setPlainUsername}@link{setPlainPassword}
-         * 查看：http://api.zeromq.org/4-2:zmq-plain
-         */
-        socket.setAsServerPlain(false);
-        /**
-         * 设置通过TCP或者IPC传输的用户名
-         */
-        socket.setPlainUsername("user");
-        /**
-         * 设置通过TCP或者IPC传输的密码
-         */
-        socket.setPlainPassword("123");
-        /**
-         * 曲线（CURVE）机制定义了客户端和服务端通信的安全身份验证和机密性机制，曲线（CURVE）用于公共网络环境；
-         * 客户端和服务端角色
-         * 使用曲线（CURVE）的SOCKET可以是client也可以是server端，但是不能同时是两者，角色独立于绑定或连接的方向；
-         * 套接字可以通过设置新选项在任何时候更改角色，该角色会影响其后面的所有zmq_connect和zmq_bind调用；
-         * 要成为曲线（CURVE）服务器，应用程序在套接字上设置ZMQ_CURVE_SERVER{@link setAsServerCurve},然后设置ZMQ_CURVE_SECRETKEY
-         * 提供长期的私钥{@link setCurveSecretKey},服务端不停工长期的公钥，该公钥仅由客户端使用。
-         * 参考：http://api.zeromq.org/4-2:zmq-curve
-         */
-        socket.setAsServerCurve(false);
-        socket.setCurveSecretKey("sdf".getBytes());
-        System.out.println("send_time_out:"+socket.getSendTimeOut()+", recv_time_out:"+socket.getReceiveTimeOut());;
-        System.out.println("-----------------start-------------------------");
-        while (!Thread.currentThread().isInterrupted()) {
+
+        LoggerUtil.info(ReplyServer.class, "ReplyServer服务端启动成功...");
+        while (true) {
             /**
              * 接收消息，如果没有接收到消息会一直阻塞等待，直到超时返回null
              * @param flags 接收消息的标记
              */
-            byte[] reply = socket.recv(0);
-
+            byte[] reply = socket.recv();
             // Print the message
-            System.out.println("Received: [" + new String(reply, ZMQ.CHARSET) + "]");
-
-            // Send a response
-            String response = "Hello, world!";
+            LoggerUtil.info(ReplyServer.class, "Received: [" + new String(reply, ZMQ.CHARSET) + "]");
             /**
              * 发送消息到指定的标记
              * @param data 消息
              * @param flags 发送消息的标记
              */
-            socket.send(response.getBytes(ZMQ.CHARSET), 0);
+            socket.send("ZEROMQ SERVER RESPONSE...".getBytes(ZMQ.CHARSET), 0);
+            try{
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e){
+
+            }
         }
-        System.out.println("-----------------end-------------------------");
+
     }
 }

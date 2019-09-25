@@ -1,7 +1,7 @@
 package com.yaomy.control.test;
 
 
-import com.yaomy.control.test.zeromq.SocketTest;
+import com.yaomy.control.test.zeromq.PubSubTest;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,10 +25,9 @@ public class HandlerBootStrap {
 
     @Bean
     public RestTemplate restTemplate() {
+        String endpoint = "tcp://127.0.0.1:5000";
         try {
-           // String endPoint = "tcp://127.0.0.1:5000";
-            //String endPoint = "tcp://10.10.81.224:5000";
-            //String endPoint = "tcp://172.30.67.121:8200";
+
             //new Thread(()->new ZeroMQServer(endPoint).start()).start();
            // new Thread(()->new ZeroMQClient(endPoint).build()).start();
 
@@ -36,9 +35,17 @@ public class HandlerBootStrap {
 
         }
         /**
+         * 启动发布订阅模式服务端和客户端
+         */
+        PubSubTest.start(endpoint);
+        /**
+         * 启动ZEROMQk q请求响应模式服务端和客户端
+         */
+        //ReqRepTest.start(endpoint);
+        /**
          * 启动JAVA SOCKET服务器和客户端
          */
-        SocketTest.start(threadPool, "127.0.0.1", 5004);
+       // SocketTest.start(threadPool, "127.0.0.1", 5004);
         return new RestTemplate();
     }
 }

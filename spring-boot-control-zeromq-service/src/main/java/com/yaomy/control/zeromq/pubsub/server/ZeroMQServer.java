@@ -1,5 +1,6 @@
 package com.yaomy.control.zeromq.pubsub.server;
 
+import com.yaomy.control.logback.utils.LoggerUtil;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -25,39 +26,23 @@ public class ZeroMQServer {
         /**
          * 在此ZContext中创建新的托管SOCKET套接字，指定创建的套接字类型是服务端（REP）
          */
-        ZMQ.Socket publisher = context.createSocket(SocketType.PUB);
+        ZMQ.Socket socket = context.createSocket(SocketType.PUB);
         /**
          * 绑定到网络端口，开始监听新的连接
          */
-        publisher.bind(endPoint);
+        socket.bind(endPoint);
 
-        System.out.println("send_time_out:" + publisher.getSendTimeOut() + ", recv_time_out:" + publisher.getReceiveTimeOut());
-        ;
-        System.out.println("-----------------start-------------------------");
+        LoggerUtil.info(ZeroMQServer.class, "ZeroMQServer服务端启动成功...");
         while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-
-            }
+            String msg = "Time:给订阅客户端的回复："+System.currentTimeMillis();
             /**
              * ZMQ_SNDMORE 指定发送的消息是一个多部分组成消息，接下来是更多的消息；ZMQ消息由一个或者多个组成，ZMQ确保消息的原子性传递，对等方要么接收消息的所有部分，
              * 要么根本不接收任何消息部分，除可用内存外，消息部分的总数不受限制。
              * send方法如果发送成功将会返回true，否则将会返回false
              * 参考：http://api.zeromq.org/4-1:zmq-send
              */
-            publisher.send("A".getBytes());
-            publisher.send("2EEE".getBytes());
-            publisher.send("3afdssd".getBytes());
-           /* publisher.send("This is A 测试");
-            publisher.send("This is A");
-            publisher.send("A This is A");
-            publisher.send("B".getBytes());
-            publisher.send("This is B 测试".getBytes());*/
+            socket.send(msg);
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println("你好".getBytes().length);
-    }
 }

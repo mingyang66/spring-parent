@@ -15,13 +15,13 @@ public class SocketStreamServer {
     /**
      * 端口
      */
-    private String addr;
+    private String endpoint;
 
-    public SocketStreamServer(String addr) {
-        this.addr = addr;
+    public SocketStreamServer(String endpoint) {
+        this.endpoint = endpoint;
     }
 
-    public void start() throws Exception{
+    public void start() {
         ZContext context = new ZContext();
         /**
          * 指定STREAM流套接字标志；
@@ -35,28 +35,14 @@ public class SocketStreamServer {
          * 当建立连接时，应用程序将收到零长度的消息。同样的
          */
         ZMQ.Socket socket = context.createSocket(SocketType.STREAM);
-        socket.bind(addr);
-        /**
-         * 获取SOCKET套接字标识
-         */
-        byte[] identity = socket.getIdentity();
-        int a = socket.getRcvHWM();
-        int b = socket.getSndHWM();
-        System.out.println("identity:"+identity+"-a:"+a+"-b:"+b);
-        int size=0;
+        //绑定端点
+        socket.bind(endpoint);
         while (true){
             System.out.println("----------------start-------------------");
-            System.out.println(socket.recvStr());
-
-      /*      byte[] buffer = new byte[1];
-           size += socket.recv(buffer, 0, 1, zmq.ZMQ.ZMQ_DONTWAIT);
-           System.out.println("server端接收到数据是："+new String(buffer));*/
-          socket.send("你好！".getBytes(), zmq.ZMQ.ZMQ_DONTWAIT);
-          System.out.println("----------------end-------------------");
+            System.out.println("Server端接收到数据："+socket.recvStr());
+            socket.send("你好！".getBytes());
+            System.out.println("----------------end-------------------");
         }
     }
-    public static void main(String[] args) throws Exception {
-        new SocketStreamServer("tcp://127.0.0.1:5555").start();
 
-    }
 }

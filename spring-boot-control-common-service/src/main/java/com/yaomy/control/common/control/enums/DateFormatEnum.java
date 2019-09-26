@@ -10,13 +10,17 @@ public enum DateFormatEnum {
     YYYY_MM_DD("yyyy-MM-dd"),
     YYYY_MM_DD_HH_MM("yyyy-MM-dd HH:mm"),
     YYYY_MM_DD_HH_MM_SS("yyyy-MM-dd HH:mm:ss"),
-    YYYYMMDDHHMMSS("yyyyMMddHHmmss"),
     YYYY_MM_DD_HH_MM_SS_SSS("yyyy-MM-dd HH:mm:ss.SSS"),
+
+    YYYYMMDD("yyyyMMdd"),
+    YYYYMMDDHHMMSS("yyyyMMddHHmmss"),
 
     YYYY_MM_EN("yyyy/MM"),
     YYYY_MM_DD_EN("yyyy/MM/dd"),
     YYYY_MM_DD_HH_MM_EN("yyyy/MM/dd HH:mm"),
     YYYY_MM_DD_HH_MM_SS_EN("yyyy/MM/dd HH:mm:ss"),
+
+
 
     YYYY_MM_CN("yyyy年MM月"),
     YYYY_MM_DD_CN("yyyy年MM月dd日"),
@@ -25,6 +29,8 @@ public enum DateFormatEnum {
 
     HH_MM("HH:mm"),
     HH_MM_SS("HH:mm:ss"),
+
+    YYYY_MM_DD_SPOT("yyyy.MM.dd"),
 
     MM_DD("MM-dd"),
     MM_DD_HH_MM("MM-dd HH:mm"),

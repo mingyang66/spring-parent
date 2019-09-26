@@ -2,6 +2,7 @@ package com.yaomy.control.test.po;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * @Description: 测试
  * @Version: 1.0
  */
-public class User {
+public class User implements Serializable {
     @NotBlank(message = "这个姓名不能为空")
     private String name;
     @DecimalMin(value = "0", message = "年龄不可以小于0")

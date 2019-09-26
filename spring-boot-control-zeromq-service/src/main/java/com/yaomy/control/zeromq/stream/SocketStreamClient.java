@@ -1,5 +1,7 @@
 package com.yaomy.control.zeromq.stream;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -15,13 +17,13 @@ public class SocketStreamClient {
     /**
      * 端口
      */
-    private String addr;
+    private String endpoint;
 
-    public SocketStreamClient(String addr) {
-        this.addr = addr;
+    public SocketStreamClient(String endpoint) {
+        this.endpoint = endpoint;
     }
 
-    public void start() throws Exception{
+    public void build() {
         ZContext context = new ZContext();
         /**
          * 指定STREAM流套接字标志；
@@ -35,26 +37,25 @@ public class SocketStreamClient {
          * 当建立连接时，应用程序将收到零长度的消息。同样的
          */
         ZMQ.Socket socket = context.createSocket(SocketType.STREAM);
-        socket.connect(addr);
-        /**
-         * 获取SOCKET套接字标识
-         */
-        byte[] identity = socket.getIdentity();
-        int a = socket.getRcvHWM();
-        int b = socket.getSndHWM();
-        System.out.println("identity:"+identity+"-a:"+a+"-b:"+b);
+        //连接指定端点
+        socket.connect(endpoint);
         while (true){
             System.out.println("----------------start-------------------");
-            System.out.println(socket.send("你好"));
-            /*socket.send(new byte[]{3}, zmq.ZMQ.ZMQ_DONTWAIT);
-            byte[] buffer = new byte[1];
-            int size = socket.recv(buffer, 0, 1, 0);
-            System.out.println("client端接收到数据是："+new String(buffer));*/
+            socket.send(new byte[]{3});
+            byte[] buffer = new byte[4];
+            int len = socket.recv(buffer, 0, buffer.length, ZMQ.SNDMORE);
+            ByteBuf lenBuf = Unpooled.wrappedBuffer(buffer);
+            int dataLen = lenBuf.readIntLE();
+
             System.out.println("----------------end-------------------");
         }
     }
-    public static void main(String[] args) throws Exception {
-        new SocketStreamClient("tcp://127.0.0.1:5555").start();
+    public static void main(String[] args) {
+        String endpoint = "tcp://10.10.81.224:5004";
+        new Thread(()->{
+            new SocketStreamServer(endpoint).start();
+        }).start();
+        new SocketStreamClient(endpoint).build();
 
     }
 }

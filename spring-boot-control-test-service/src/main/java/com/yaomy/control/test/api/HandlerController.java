@@ -1,13 +1,11 @@
 package com.yaomy.control.test.api;
 
-import com.yaomy.control.aop.annotation.TargetDataSource;
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import com.yaomy.control.rest.client.HttpClientService;
-
 import com.yaomy.control.test.po.Job;
 import com.yaomy.control.test.po.User;
 import com.yaomy.control.test.service.JobService;
@@ -147,7 +145,7 @@ public class HandlerController {
         System.out.println("------PARAM--------"+user.getName());
         user.setName("2");
         user.setWeight(new String[]{"2","2"});
-        System.out.println(ObjectSizeUtil.humanReadableUnits(user));
+        System.out.println(ObjectSizeUtil.getObjectSizeUnit(user));
         return user;
     }
 

@@ -1,7 +1,6 @@
 package com.yaomy.control.test;
 
 
-import com.yaomy.control.test.zeromq.PubSubTest;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,7 +36,7 @@ public class HandlerBootStrap {
         /**
          * 启动发布订阅模式服务端和客户端
          */
-        PubSubTest.start(endpoint);
+        //PubSubTest.start(endpoint);
         /**
          * 启动ZEROMQk q请求响应模式服务端和客户端
          */

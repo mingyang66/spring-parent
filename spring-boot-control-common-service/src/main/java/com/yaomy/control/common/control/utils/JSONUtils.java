@@ -1,6 +1,6 @@
 package com.yaomy.control.common.control.utils;
 
-import com.fasterxml.jackson.annotation.JsonInclude.*;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -232,5 +232,23 @@ public class JSONUtils {
             LoggerUtil.error(JSONUtils.class, e.toString());
         }
         return false;
+    }
+
+    /**
+     * 将对象转换为字节数组
+     * @param value
+     * @return
+     */
+    public static byte[] toByteArray(Object value){
+        if(value == null){
+            return new byte[]{};
+        }
+        try{
+            return objectMapper.writeValueAsBytes(value);
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+            LoggerUtil.error(JSONUtils.class, e.toString());
+        }
+        return new byte[]{};
     }
 }

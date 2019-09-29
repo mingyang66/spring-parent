@@ -14,7 +14,6 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -135,7 +134,7 @@ public class ControllerAdvice {
             } else{
                 log = StringUtils.join(log, "返回结果："+ objectMapper.writeValueAsString(returnValue), "\n");
             }
-            log = StringUtils.join(log, "数据大小："+ ObjectSizeUtil.humanReadableUnits(returnValue));
+            log = StringUtils.join(log, "数据大小："+ ObjectSizeUtil.getObjectSizeUnit(returnValue));
             logApi.set(log);
             LoggerUtil.info(signature.getDeclaringType(), logApi.get());
         } catch (JsonProcessingException e){

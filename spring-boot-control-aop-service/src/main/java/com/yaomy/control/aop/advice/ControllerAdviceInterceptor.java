@@ -178,7 +178,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
         } else {
             log = StringUtils.join(log, MSG_RETURN_VALUE, JSONUtils.toJSONString(result), NEW_LINE);
         }
-        log = StringUtils.join(log, MSG_DATA_SIZE, ObjectSizeUtil.humanReadableUnits(result), NEW_LINE);
+        log = StringUtils.join(log, MSG_DATA_SIZE, ObjectSizeUtil.getObjectSizeUnit(result), NEW_LINE);
         LoggerUtil.info(invocation.getThis().getClass(), log);
     }
     /**

@@ -14,11 +14,11 @@
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>8.2.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.lucene</groupId>-->
+            <!--<artifactId>lucene-core</artifactId>-->
+            <!--<version>8.2.0</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.yaomy.control</groupId>
             <artifactId>spring-boot-control-logback-service</artifactId>

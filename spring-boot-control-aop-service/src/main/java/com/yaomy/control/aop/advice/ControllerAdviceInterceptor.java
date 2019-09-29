@@ -42,7 +42,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
     /**
      * 控制器
      */
-    private static final String MSG_CONTROLLER = "类|方法  ：";
+    private static final String MSG_CONTROLLER = "类|方法 ：";
     /**
      * 访问URL
      */
@@ -135,17 +135,15 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //获取请求参数，且该参数获取必须在proceed之前
         Map<String, Object> paramsMap = getRequestParam(invocation, request);
-        //新建计时器
-        StopWatch stopWatch = new StopWatch();
-        //开始计时
-        stopWatch.start();
+        //新建计时器并开始计时
+        StopWatch stopWatch = StopWatch.createStarted();
         try{
             //调用升级的action方法
             Object result = invocation.proceed();
             //暂停计时
             stopWatch.stop();
             //耗时
-            long spentTime = stopWatch.getTime();
+            long spentTime = (stopWatch.getTime() == 0) ? 1 : stopWatch.getTime();
             //打印INFO日志
             logInfo(invocation, request, paramsMap, result, spentTime);
             return result;
@@ -155,7 +153,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
                 stopWatch.stop();
             }
             //耗时
-            long spentTime = stopWatch.getTime();
+            long spentTime = (stopWatch.getTime() == 0) ? 1 : stopWatch.getTime();
             //打印ERROR日志
             logError(invocation, request, paramsMap, spentTime, e);
             throw new Throwable(e);

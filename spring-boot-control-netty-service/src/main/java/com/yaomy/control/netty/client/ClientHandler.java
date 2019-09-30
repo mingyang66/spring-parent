@@ -7,9 +7,6 @@ import java.time.LocalDateTime;
 
 /**
  * @Description: Description
- * @ProjectName: spring-parent
- * @Author: 姚明洋
- * @Date: 2019/9/23 14:18
  * @Version: 1.0
  */
 public class ClientHandler extends SimpleChannelInboundHandler<String> {

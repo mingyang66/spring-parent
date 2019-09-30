@@ -7,9 +7,6 @@ import java.util.UUID;
 
 /**
  * @Description: Description
- * @ProjectName: spring-parent
- * @Author: 姚明洋
- * @Date: 2019/9/23 14:16
  * @Version: 1.0
  */
 public class ServerHandler extends SimpleChannelInboundHandler<Object> {

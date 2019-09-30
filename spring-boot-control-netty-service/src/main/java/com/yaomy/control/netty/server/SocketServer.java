@@ -15,9 +15,6 @@ import io.netty.util.CharsetUtil;
 
 /**
  * @Description: Description
- * @ProjectName: spring-parent
- * @Author: 姚明洋
- * @Date: 2019/9/23 14:13
  * @Version: 1.0
  */
 public class SocketServer {

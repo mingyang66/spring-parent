@@ -1,7 +1,5 @@
 package com.yaomy.control.zeromq.stream;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -37,14 +35,18 @@ public class SocketStreamClient {
         //连接指定端点
         socket.connect(endpoint);
         while (true){
-            System.out.println("----------------start-------------------");
-            socket.send(new byte[]{3});
-            byte[] buffer = new byte[4];
-            int len = socket.recv(buffer, 0, buffer.length, ZMQ.SNDMORE);
-            ByteBuf lenBuf = Unpooled.wrappedBuffer(buffer);
-            int dataLen = lenBuf.readIntLE();
+            try{
+                System.out.println("----------------start-------------------");
+                byte[] c = "你好".getBytes();
+                byte d = (byte) c.length;
+                socket.send(new byte[]{d});
+                socket.send(c);
+                String s = socket.recvStr();
+                System.out.println(s);
+                System.out.println("----------------end-------------------");
+            }catch (Exception e){
 
-            System.out.println("----------------end-------------------");
+            }
         }
     }
     public static void main(String[] args) {

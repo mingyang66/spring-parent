@@ -1,8 +1,11 @@
 package com.yaomy.control.zeromq.stream;
 
+import com.yaomy.control.common.control.utils.CharsetUtils;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * @Description: Description
@@ -35,10 +38,17 @@ public class SocketStreamServer {
         //绑定端点
         socket.bind(endpoint);
         while (true){
-            System.out.println("----------------start-------------------");
-            System.out.println("Server端接收到数据："+socket.recvStr());
-            socket.send("你好！".getBytes());
-            System.out.println("----------------end-------------------");
+            try{
+                System.out.println("----------------start-------------------");
+                byte[] s = socket.recv();
+                byte[] buffer = new byte[s[0]];
+                socket.recv(buffer, 0, s[0], 0);
+                System.out.println("Server端接收到数据："+new String(buffer, CharsetUtils.UTF8));
+                socket.send("nihaoa".getBytes());
+                System.out.println("----------------end-------------------");
+            } catch (UnsupportedEncodingException e){
+
+            }
         }
     }
 

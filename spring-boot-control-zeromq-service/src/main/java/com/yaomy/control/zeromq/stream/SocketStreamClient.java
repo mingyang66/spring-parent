@@ -48,7 +48,7 @@ public class SocketStreamClient {
         }
     }
     public static void main(String[] args) {
-        String endpoint = "tcp://10.10.81.224:5004";
+        String endpoint = "tcp://127.0.0.1:5004";
         new Thread(()->{
             new SocketStreamServer(endpoint).start();
         }).start();

@@ -41,7 +41,7 @@ public class ClientSocket {
                         }
                     });
 
-            ChannelFuture channelFuture = bootstrap.connect("10.10.81.224", 5004).sync();
+            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 5004).sync();
             channelFuture.channel().closeFuture().sync();
 
         } finally {

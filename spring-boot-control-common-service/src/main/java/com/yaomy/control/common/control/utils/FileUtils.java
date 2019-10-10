@@ -5,16 +5,12 @@ import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 /**
@@ -770,14 +766,229 @@ public class FileUtils {
             return null;
         }
     }
-    public static void main(String[] args) throws Exception{
 
-        File file = new File("D:\\test\\asd\\a.txt");
-        File file1 = new File("D:\\test\\asd\\b.txt");
-        List<String> list = Lists.newArrayList("af", "bac");
-        list.add("sfdsd");
-        list.add("2322");
-       // Checksum f = org.apache.commons.io.FileUtils.cleanDirectory();
-       // System.out.println(f.getValue());
+    /**
+     * 清空目录但是不删除目录
+     * @param directory 目录
+     * @return true 清空目录成功，false 清空目录失败
+     */
+    public static boolean cleanDirectory(final File directory){
+        try {
+            org.apache.commons.io.FileUtils.cleanDirectory(directory);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "清空目录下面的文件及目录异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将整个目录复制到保留文件日期的新位置
+     * @param srcDir 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyDirectory(final File srcDir, final File destDir){
+        return copyDirectory(srcDir, destDir, true);
+    }
+    /**
+     * 将整个目录复制到新位置
+     *
+     * @param srcDir 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
+     * @param preserveFileDate true 如果副本的文件日期要保持与源文件相同
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyDirectory(final File srcDir, final File destDir, final boolean preserveFileDate){
+        return copyDirectory(srcDir, destDir, null, preserveFileDate);
+    }
+    /**
+     * 将筛选后的目录复制到保留文件日期的新位置
+     * 示例：复制目录和txt文件
+     * 为“.txt”文件创建过滤器
+     * OFileFilter txtSuffixFilter = FileFilterUtils.suffixFileFilter(".txt");
+     * IOFileFilter txtFiles = FileFilterUtils.andFileFilter(FileFileFilter.FILE, txtSuffixFilter);
+     *
+     * 为目录或“.txt”文件创建筛选器
+     * FileFilter filter = FileFilterUtils.orFileFilter(DirectoryFileFilter.DIRECTORY, txtFiles);
+     *
+     * 使用筛选器复制
+     * FileUtils.copyDirectory(srcDir, destDir, filter);
+     *
+     * @param srcDir 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
+     * @param filter 要应用的筛选器，null意味着复制所有的目录和文件
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyDirectory(final File srcDir, final File destDir, final FileFilter filter){
+        return copyDirectory(srcDir, destDir, filter, true);
+    }
+    /**
+     * 将经过过滤器筛选的目录复制到指定的目录
+     * 示例：复制目录和txt文件
+     * 为“.txt”文件创建过滤器
+     * OFileFilter txtSuffixFilter = FileFilterUtils.suffixFileFilter(".txt");
+     * IOFileFilter txtFiles = FileFilterUtils.andFileFilter(FileFileFilter.FILE, txtSuffixFilter);
+     *
+     * 为目录或“.txt”文件创建筛选器
+     * FileFilter filter = FileFilterUtils.orFileFilter(DirectoryFileFilter.DIRECTORY, txtFiles);
+     *
+     * 使用筛选器复制
+     * FileUtils.copyDirectory(srcDir, destDir, filter, false);
+     *
+     * @param srcDir 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
+     * @param filter 要应用的筛选器，null意味着复制所有的目录和文件
+     * @param preserveFileDate true 如果副本的文件日期要保持与源文件相同
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyDirectory(final File srcDir, final File destDir, final FileFilter filter, final boolean preserveFileDate){
+        try{
+            org.apache.commons.io.FileUtils.copyDirectory(srcDir, destDir, filter, true);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制目录文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将目录复制到保存文件日期的另外一个目录中，此方法将源目录及其所有内容复制到指定目标目录中同名的目录
+     * @param srcDir 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyDirectoryToDirectory(final File srcDir, final File destDir){
+        try{
+            org.apache.commons.io.FileUtils.copyDirectoryToDirectory(srcDir, destDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制目录文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+    /**
+     * 将文件复制到目录（保留文件日期）
+     * 此方法复制指定源文件内容到指定目标目录中同名文件；如果目标目录不存在，则创建该目录，否则将覆盖
+     * @param srcFile 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyFileToDirectory(final File srcFile, final File destDir){
+        return copyFileToDirectory(srcFile, destDir, true);
+    }
+    /**
+     * 将文件复制到目录（可以选择保留文件日期）
+     * 此方法复制指定源文件内容到指定目标目录中同名文件；如果目标目录不存在，则创建该目录，否则将覆盖
+     * @param srcFile 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null
+     * @param preserveFileDate true 保留文件最后修改日期，false 不保留
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyFileToDirectory(final File srcFile, final File destDir, final boolean preserveFileDate){
+        try {
+            org.apache.commons.io.FileUtils.copyFileToDirectory(srcFile, destDir, preserveFileDate);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制目录文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将文件或目录复制到保留文件日期的另外一个目录中；此方法将源文件或目录及其所有内容复制到指定目标目录中同名的目录，如果目标目录不存在，则创建该目录。
+     * 如果目标目录确实存在，则此方法将源与目标合并，以源为准
+     * @param src 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyToDirectory(final File src, final File destDir){
+        try{
+            org.apache.commons.io.FileUtils.copyToDirectory(src, destDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制目录文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+    /**
+     * 将文件复制到保留每个文件日期的目录；此方法复制指定源文件的内容到指定目标目录同名文件夹下，如果目录不存在，则创建该目录，否则覆盖目录
+     * @param srcs 要复制的现有目录，不可以为null
+     * @param destDir 新目录，不可以为null
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyToDirectory(final Iterable<File> srcs, final File destDir){
+        try{
+            org.apache.commons.io.FileUtils.copyToDirectory(srcs, destDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制目录文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+    /**
+     *  复制文件到一个新的位置,这个方法复制指定源文件的内容到指定的目标文件；如果目标文件不存在，则创建保存该文件的目录。如果目标文件存在，则此方法将覆盖它。
+     * @param srcFile 要复制现有的文件，不可以为null
+     * @param destFile 新的文件，不可以为null
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyFile(final File srcFile, final File destFile){
+        return copyFile(srcFile, destFile, true);
+    }
+    /**
+     *  复制文件到一个新的位置,这个方法复制指定源文件的内容到指定的目标文件；如果目标文件不存在，则创建保存该文件的目录。如果目标文件存在，则此方法将覆盖它。
+     * @param srcFile 要复制现有的文件，不可以为null
+     * @param destFile 新的文件，不可以为null
+     * @param preserveFileDate true 副本文件的日期保持一样，false 不保持
+     * @return true 复制成功， false 复制失败
+     */
+    public static boolean copyFile(final File srcFile, final File destFile, final boolean preserveFileDate){
+        try {
+            org.apache.commons.io.FileUtils.copyFile(srcFile, destFile, preserveFileDate);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将字节从文件中复制到OutputStream输出流中，
+     * @param input 读取字节流的文件
+     * @param output 将要写入的OutputStream字节流
+     * @return 复制的字节数
+     */
+    public static long copyFile(final File input, final OutputStream output){
+        try{
+            return org.apache.commons.io.FileUtils.copyFile(input, output);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());
+            return 0;
+        }
+    }
+
+    /**
+     * 从InputStream输入流中读取字节到目标文件，如果目标文件不存在，则将会被闯将；
+     * @param source 读取字节的InputStream流
+     * @param destination 写入字节的目标文件
+     * @return true 复制读取成功，false 复制读取失败
+     */
+    public static boolean copyToFile(final InputStream source, final File destination){
+        try {
+            org.apache.commons.io.FileUtils.copyToFile(source, destination);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());
+            return false;
+        }
+        return true;
     }
 }

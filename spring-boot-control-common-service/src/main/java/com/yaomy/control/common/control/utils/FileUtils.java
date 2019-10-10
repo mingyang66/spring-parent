@@ -1,6 +1,7 @@
 package com.yaomy.control.common.control.utils;
 
 import com.yaomy.control.logback.utils.LoggerUtil;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -999,6 +1000,40 @@ public class FileUtils {
     public static boolean copyToFile(final InputStream source, final File destination){
         try {
             org.apache.commons.io.FileUtils.copyToFile(source, destination);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将字节从URL中复制到目标文件中，如果目标文件不存在，则将会被创建，否则将会被覆盖
+     * @param source 要从中复制字节的URL,不可以为空
+     * @param destination 非目录File对象，写入文件，不可以为null
+     * @return
+     */
+    public static boolean copyURLToFile(final URL source, final File destination){
+        try {
+            return copyInputStreamToFile(source.openStream(), destination);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());
+            return false;
+        }
+    }
+    /**
+     * 将字节从URL中复制到目标文件中，如果目标文件不存在，则将会被创建，否则将会被覆盖
+     * @param source 要从中复制字节的URL,不可以为空
+     * @param destination 非目录File对象，写入文件，不可以为null
+     * @param connectionTimeout 连接url的超时时间，单位毫秒
+     * @param readTimeout 如果没有数据可以读取的超时时间，单位毫秒
+     * @return true 复制成功，false 复制失败
+     */
+    public static boolean copyURLToFile(final URL source, final File destination, final int connectionTimeout, final int readTimeout){
+        try {
+            org.apache.commons.io.FileUtils.copyURLToFile(source, destination, connectionTimeout, readTimeout);
         } catch (IOException e){
             e.printStackTrace();
             LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());

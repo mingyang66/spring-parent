@@ -1,7 +1,6 @@
 package com.yaomy.control.common.control.utils;
 
 import com.yaomy.control.logback.utils.LoggerUtil;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 

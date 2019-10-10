@@ -974,7 +974,23 @@ public class FileUtils {
             return 0;
         }
     }
+    /**
+     * 从InputStream输入流中读取字节到目标文件，如果目标文件不存在，则将会被闯将；
+     * @param source 读取字节的InputStream流
+     * @param destination 写入字节的目标文件
+     * @return true 复制读取成功，false 复制读取失败
+     */
+    public static boolean copyInputStreamToFile(final InputStream source, final File destination){
+        try {
+            org.apache.commons.io.FileUtils.copyInputStreamToFile(source, destination);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "复制文件异常："+e.toString());
+            return false;
+        }
+        return true;
 
+    }
     /**
      * 从InputStream输入流中读取字节到目标文件，如果目标文件不存在，则将会被闯将；
      * @param source 读取字节的InputStream流

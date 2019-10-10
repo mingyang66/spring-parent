@@ -1,6 +1,8 @@
 package com.yaomy.control.common.control.utils;
 
 import com.yaomy.control.logback.utils.LoggerUtil;
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,6 +11,7 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.Checksum;
 
@@ -612,6 +615,39 @@ public class FileUtils {
     }
 
     /**
+     * 创建目录，包括任何必需但不存在的父目录。如果已存在具有指定名称但不是目录的文件，则会引发IOException。如果无法创建目录（或目录不存在），
+     * 则会引发IOException。
+     * @param directory 要创建的目录，不可以为null
+     * @return true 创建成功，false创建失败
+     */
+    public static boolean forceMkdir(final File directory){
+        try {
+            org.apache.commons.io.FileUtils.forceMkdir(directory);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "强制创建目录异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 为给定文件生成任何必需但不存在的父目录。如果无法创建父目录，则会引发ioexception。
+     * @param file 要创建的父文件，不可以为null
+     * @return true 创建成功， false 创建失败
+     */
+    public static boolean forceMkdirParent(final File file){
+        try {
+            org.apache.commons.io.FileUtils.forceMkdirParent(file);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "强制创建目录异常："+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 将给定的字节（byte）数据转换为最接近的单位；如：1023->1023 bytes、1024->1KB、 1025->1KB、2047->1KB、2048->2KB、 2049->2kb
      * 单位包括：EB, PB, TB, GB, MB, KB or bytes
      * @param size 字节大小
@@ -1039,5 +1075,158 @@ public class FileUtils {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 测试指定的文件flie是否比引用的文件reference新
+     * @param file 文件的修改日期是作为比较用，不可以为null
+     * @param reference 文件的修改日期做为比较用，不可以为null
+     * @return true file的修改日期比reference的日期新，否则：false
+     */
+    public static boolean isFileNewer(final File file, final File reference){
+        return org.apache.commons.io.FileUtils.isFileNewer(file, reference);
+    }
+
+    /**
+     * 测试指定文件file的修改日期比指定日期date新
+     * @param file 指定文件的修改日期做比较用，不可以为null
+     * @param date 引用的日期，不可以为null
+     * @return true 指定文件修改日期比指定引用日期新，否则：false
+     */
+    public static boolean isFileNewer(final File file, final Date date){
+        return org.apache.commons.io.FileUtils.isFileNewer(file, date);
+    }
+
+    /**
+     * 测试指定文件file的修改日期比指定日期timeMillis新
+     * @param file 指定文件的修改日期做比较用，不可以为null
+     * @param timeMillis 引用的日期，不可以为null
+     * @return true 指定文件修改日期比指定引用日期新，否则：false
+     */
+    public static boolean isFileNewer(final File file, final long timeMillis){
+        return org.apache.commons.io.FileUtils.isFileNewer(file, timeMillis);
+    }
+
+    /**
+     * 测试指定的文件flie是否比引用的文件reference旧
+     * @param file 文件的修改日期是作为比较用，不可以为null
+     * @param reference 文件的修改日期做为比较用，不可以为null
+     * @return true file的修改日期比reference的日期旧，否则：false
+     */
+    public static boolean isFileOlder(final File file, final File reference){
+        return org.apache.commons.io.FileUtils.isFileOlder(file, reference);
+    }
+
+    /**
+     * 测试指定文件file的修改日期比指定日期date旧
+     * @param file 文件的修改日期是作为比较用，不可以为null
+     * @param date 文件的修改日期做为比较用，不可以为null
+     * @return true file的修改日期比reference的日期旧，否则：false
+     */
+    public static boolean isFileOlder(final File file, final Date date){
+        return org.apache.commons.io.FileUtils.isFileOlder(file, date);
+    }
+
+    /**
+     * 测试指定文件file的修改日期比指定日期timeMillis旧
+     * @param file 文件的修改日期是作为比较用，不可以为null
+     * @param timeMillis 文件的修改日期做为比较用，不可以为null
+     * @return true file的修改日期比reference的日期旧，否则：false
+     */
+    public static boolean isFileOlder(final File file, final long timeMillis) {
+        return org.apache.commons.io.FileUtils.isFileOlder(file, timeMillis);
+    }
+
+    /**
+     * 确定指定的文件是符号链接而不是实际文件
+     * 如果路径中有符号链接，则不会返回true
+     * @param file 要校验的文件
+     * @return true 如果文件时符号链接，否则：false
+     */
+    public static boolean isSymlink(final File file){
+        try {
+            return org.apache.commons.io.FileUtils.isSymlink(file);
+        }catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "判断文件对象是否是符号链接异常："+e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * 返回指定文件行的Iterator迭代器
+     * 此方法打开文件的InputStream读取流，当完成迭代器后，应该释放内部资源；这是可以通过调用close()方法或closeQuietly(LineIterator)方法做到
+     * 建议使用的模式是：
+     * LineIterator it = FileUtils.lineIterator(file, "UTF-8");
+     * try {
+     *   while (it.hasNext()) {
+     *     String line = it.nextLine();
+     *     /// do something with line
+     *   }
+     * } finally {
+     *   LineIterator.closeQuietly(iterator);
+     * }
+     * 如果在创建迭代器期间发生异常，则关闭底层流
+     * @param file 将要打开InputStream流的文件，不可以为空
+     * @param encoding 将要使用的编码，null使用默认编码
+     * @return 文件中行的迭代器
+     */
+    public static LineIterator lineIterator(final File file, final String encoding){
+        try {
+            return org.apache.commons.io.FileUtils.lineIterator(file, encoding);
+        } catch (IOException e){
+            return null;
+        }
+    }
+
+    /**
+     * 返回指定文件行的Iterator迭代器
+     * @param file 将要打开InputStream流的文件，不可以为空
+     * @return 文件中行的迭代器
+     */
+    public static LineIterator lineIterator(final File file){
+        return lineIterator(file, null);
+    }
+
+    /**
+     * 查找给定目录（及其子目录）中的文件并与扩展数组匹配
+     * @param directory 要搜索的目录
+     * @param extensions 扩展数组，ex:{"java","xml"},如果这个参数为null,则返回所有的文件
+     * @param recursive true 递归搜索所有子目录
+     * @return 匹配到的java.io.File集合
+     */
+    public static Collection<File> listFiles(final File directory, final String[] extensions, final boolean recursive){
+        return org.apache.commons.io.FileUtils.listFiles(directory, extensions, recursive);
+    }
+
+    /**
+     * 查找给定目录（及其子目录）中的文件,找到的所有文件都由IOFileFilter过滤;
+     * 如果你的搜索需要递归到子目录，你可以传入子目录IOFileFilter 过滤器，不需要将DirectoryFileFilter（通过逻辑AND）绑定到筛选器，这种方法对你很有用
+     * 示例：
+     * 如果你要搜索所有名为“temp”的目录，你可以传递FileFilterUtils.NameFileFilter("temp")
+     * 此方法的另一个常见用法是在目录树中查找文件，但忽略生成的cvs目录；你可以简单的传递：FileFilterUtils.makeCVSAware(null)
+     * @param directory 要搜索的目录
+     * @param fileFilter 查找文件时的过滤器，不可以为null，可以使用 TrueFileFilter#INSTANCE匹配所有的文件在搜索目录中，
+     * @param dirFilter 查找子目录时要应用的可选筛选器；如果参数为null,则子目录不在搜索范围中，可以使用 TrueFileFilter#INSTANCE匹配所有的文件在搜索目录中
+     * @return 匹配的java.io.File文件集合
+     */
+    public static Collection<File> listFiles(final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter){
+        return org.apache.commons.io.FileUtils.listFiles(directory, fileFilter, dirFilter);
+    }
+
+    /**
+     * 查找给定目录（及其子目录）中的文件。找到的所有文件都由IOFileFilter过滤。
+     * 结果集合包括起始目录和与目录筛选器匹配的任何子目录
+     * @param directory 要搜索的目录
+     * @param fileFilter 查找文件时应用的筛选器
+     * @param dirFilter 查找子目录时要应用的可选筛选器；如果参数为null,则子目录不在搜索范围中，可以使用 TrueFileFilter#INSTANCE匹配所有的文件在搜索目录中
+     * @return 匹配的java.io.File文件集合
+     */
+    public static Collection<File> listFilesAndDirs(final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter){
+        return org.apache.commons.io.FileUtils.listFilesAndDirs(directory, fileFilter, dirFilter);
+    }
+    public static void main(String[] args) throws Exception{
+      /*  boolean f = org.apache.commons.io.FileUtils.i
+        System.out.println(f);*/
     }
 }

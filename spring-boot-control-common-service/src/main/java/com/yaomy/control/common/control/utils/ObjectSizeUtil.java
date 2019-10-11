@@ -1,7 +1,5 @@
 package com.yaomy.control.common.control.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * @Description: 计算java对象的大小
  * @ProjectName: spring-parent
@@ -10,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("all")
 public class ObjectSizeUtil {
 
-    public static final String UNIT_BYTE = "byte";
     /**
      * @Description 计算对象占用内存大小，单位：字节
      * @Version  1.0
@@ -27,6 +24,6 @@ public class ObjectSizeUtil {
      * @Version  1.0
      */
     public static String getObjectSizeUnit(Object o){
-        return StringUtils.join(getObjectSize(o), " ", UNIT_BYTE);
+        return FileUtils.byteCountToDisplaySize(getObjectSize(o));
     }
 }

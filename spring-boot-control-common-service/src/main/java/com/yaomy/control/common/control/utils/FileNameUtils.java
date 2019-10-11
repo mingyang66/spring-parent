@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * @Description: 文件名称和文件路径操作工具类
+ * @Description: 文件名称和文件路径操作工具类，共27个工具方法
  * @Version: 1.0
  */
 public class FileNameUtils {

@@ -9,19 +9,26 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.zip.Checksum;
 
 /**
- * @Description: 文件读写工具类
+ * @Description: 文件读写工具类,共103个工具方法
  * @Date: 2019/10/9 10:37
  * @Version: 1.0
  */
 @SuppressWarnings("all")
 public class FileUtils {
+    /**
+     * 等待NFS传播文件创建，设置超时
+     * 此方法重复测试{@link File#exists()}，直到返回true,直到达到以秒为单位的指定最大时间为止
+     * @param file 要检测的文件，不可以为null
+     * @param seconds 最大等待时间，单位：秒
+     * @return true 如果文件存在
+     */
+    public static boolean waitFor(final File file, final int seconds){
+        return org.apache.commons.io.FileUtils.waitFor(file, seconds);
+    }
     /**
      * 写数据到指定的文件中
      * @param filePath 文件路径
@@ -1225,8 +1232,132 @@ public class FileUtils {
     public static Collection<File> listFilesAndDirs(final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter){
         return org.apache.commons.io.FileUtils.listFilesAndDirs(directory, fileFilter, dirFilter);
     }
-    public static void main(String[] args) throws Exception{
-      /*  boolean f = org.apache.commons.io.FileUtils.i
-        System.out.println(f);*/
+
+    /**
+     * 允许给定目录（及其子目录）中的文件进行迭代
+     * 所有文件都是通过IOFileFilter过滤，此方法是基于listFiles(File, IOFileFilter, IOFileFilter)，它支持iterable（'foreach'循环）
+     * @param directory 要查询的目录
+     * @param fileFilter 查找文件时应用的筛选器
+     * @param dirFilter 查找子目录时要应用的可选筛选器。如果此参数为{@code null}，则子目录将不包含在搜索中。使用TrueFileFilter.Instance匹配所有目录。
+     * @return 匹配的java.io.File迭代器
+     */
+    public static Iterator<File> iterateFiles(final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter){
+        return org.apache.commons.io.FileUtils.iterateFiles(directory, fileFilter, dirFilter);
+    }
+
+    /**
+     * 允许对给定目录（及其可选子目录）中与扩展名数组匹配的文件进行迭代。
+     * 此方法基于{@link listfiles（file，string[]，boolean）}，它支持iterable（'foreach'循环）。
+     * @param directory 要查询的目录
+     * @param extensions 扩展名数组，ex. {"java","xml"}，如果此参数为null,则返回所有的文件
+     * @param recursive true 同时搜索所有的子目录
+     * @return 匹配的java.io.File迭代器集合
+     */
+    public static Iterator<File> iterateFiles(final File directory, final String[] extensions, final boolean recursive){
+        return org.apache.commons.io.FileUtils.iterateFiles(directory, extensions, recursive);
+    }
+
+    /**
+     * 允许对给定目录（及其子目录）中的文件进行迭代
+     * 所有的文件通过IOFileFilter过滤器过滤，此方法是基于listFilesAndDirs(File, IOFileFilter, IOFileFilter)，支持Iterable ('foreach' 循环).
+     * 生成的迭代器包含子目录本身
+     * @param directory 要查询的目录
+     * @param fileFilter 查找文件时应用的筛选器
+     * @param dirFilter 查找子目录时要应用的可选筛选器。如果此参数为{@code null}，则子目录将不包含在搜索中。使用TrueFileFilter.Instance匹配所有目录。
+     * @return 匹配的java.io.File迭代器集合
+     */
+    public static Iterator<File> iterateFilesAndDirs(final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter){
+        return org.apache.commons.io.FileUtils.iterateFilesAndDirs(directory, fileFilter, dirFilter);
+    }
+
+    /**
+     * 移动目录
+     * 当目标目录位于另一个文件系统上时，执行“复制并删除”
+     * @param srcDir 要移动的目录
+     * @param destDir 目标目录
+     * @return true 移动成功， false 移动失败
+     */
+    public static boolean moveDirectory(final File srcDir, final File destDir){
+        try {
+            org.apache.commons.io.FileUtils.moveDirectory(srcDir, destDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "移动目录异常"+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 移动目录到另外一个目录
+     * @param src 要移动的文件
+     * @param destDir 目标目录
+     * @param createDestDir true 创建目标目录，false 抛出IOException异常
+     * @return true 移动成功，false 创建失败
+     */
+    public static boolean moveDirectoryToDirectory(final File src, final File destDir, final boolean createDestDir){
+        try {
+            org.apache.commons.io.FileUtils.moveDirectoryToDirectory(src, destDir, createDestDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "移动目录异常"+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 移动文件到另外一个文件
+     * 当目标目录位于另一个文件系统上时，执行“复制并删除”
+     * @param srcFile 要移动的文件
+     * @param destFile 目标目录
+     * @return true 移动成功，false 移动失败
+     */
+    public static boolean moveFile(final File srcFile, final File destFile){
+        try {
+            org.apache.commons.io.FileUtils.moveFile(srcFile, destFile);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "移动目录异常"+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 移动一个文件到一个目录
+     * @param srcFile 要移动的文件
+     * @param destDir 目标目录
+     * @param createDestDir true 创建目标目录，false 抛出IOException异常
+     * @return true 移动成功，false 移动失败
+     */
+    public static boolean moveFileToDirectory(final File srcFile, final File destDir, final boolean createDestDir){
+        try {
+            org.apache.commons.io.FileUtils.moveFileToDirectory(srcFile, destDir, createDestDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "移动目录异常"+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 移动一个文件或者目录到另外一个目录
+     * 当目标目录位于另一个文件系统上时，执行“复制并删除”
+     * @param src 要移动的文件或目录
+     * @param destDir 目标目录
+     * @param createDestDir true 创建目录，false 抛出IOException异常
+     * @return true 移动成功，false 移动失败
+     */
+    public static boolean moveToDirectory(final File src, final File destDir, final boolean createDestDir){
+        try {
+            org.apache.commons.io.FileUtils.moveToDirectory(src, destDir, createDestDir);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(FileUtils.class, "移动目录异常"+e.toString());
+            return false;
+        }
+        return true;
     }
 }

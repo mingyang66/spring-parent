@@ -11,6 +11,7 @@ import java.util.Collection;
  * @Description: 文件名称和文件路径操作工具类，共27个工具方法
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public class FileNameUtils {
     /**
      * 使用常规命令行样式规则将文件名连接到基础路径

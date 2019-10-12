@@ -46,7 +46,7 @@ public class CompressUtils {
             /**
              * 穿件新分配的字节流数组，它的大小是ByteArrayOutputStream输出流的大小
              */
-            byte[] result = outputStream.toByteArray();
+           return outputStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
             LoggerUtil.error(CompressUtils.class, e.toString());

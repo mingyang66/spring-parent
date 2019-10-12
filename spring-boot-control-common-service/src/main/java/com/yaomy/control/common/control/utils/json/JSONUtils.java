@@ -1,4 +1,4 @@
-package com.yaomy.control.common.control.utils;
+package com.yaomy.control.common.control.utils.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;

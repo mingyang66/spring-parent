@@ -14,10 +14,6 @@ import java.nio.charset.Charset;
  */
 @SuppressWarnings("all")
 public class IOUtils {
-    public static void main(String[] args) {
-        org.apache.commons.io.IOUtils.c
-    }
-
     /**
      * 返回BufferedReader，如果给定的reader是BufferedReader，则直接返回，否则创建一个新的BufferedReader返回
      * @param reader 要包装或者返回的reader,不可以为null

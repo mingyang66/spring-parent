@@ -2,10 +2,7 @@ package com.yaomy.control.common.control.utils.io;
 
 import com.yaomy.control.logback.utils.LoggerUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,6 +14,107 @@ import java.nio.charset.Charset;
  */
 @SuppressWarnings("all")
 public class IOUtils {
+    public static void main(String[] args) {
+        org.apache.commons.io.IOUtils.c
+    }
+
+    /**
+     * 返回BufferedReader，如果给定的reader是BufferedReader，则直接返回，否则创建一个新的BufferedReader返回
+     * @param reader 要包装或者返回的reader,不可以为null
+     * @return BufferedReader
+     */
+    public static BufferedReader buffer(final Reader reader){
+        return org.apache.commons.io.IOUtils.buffer(reader);
+    }
+
+    /**
+     * 返回BufferedReader，如果给定的reader是BufferedReader，则直接返回，否则创建一个新的BufferedReader返回
+     * @param reader 要包装或者返回的reader,不可以为null
+     * @param size 如果reader不是BufferedReader，则创建的BufferedReader的大小
+     * @return BufferedReader
+     */
+    public static BufferedReader buffer(final Reader reader, final int size){
+        return org.apache.commons.io.IOUtils.buffer(reader, size);
+    }
+
+    /**
+     * 返回BufferedWriter,如果给定的Writer已经是BufferedWriter，则直接返回，否则创建一个新的BufferedWriter
+     * @param writer 要包装或者返回的Writer,不可以为null
+     * @return  BufferedWriter
+     */
+    public static BufferedWriter buffer(final Writer writer){
+        return org.apache.commons.io.IOUtils.buffer(writer);
+    }
+    /**
+     * 返回BufferedWriter,如果给定的Writer已经是BufferedWriter，则直接返回，否则创建一个新的BufferedWriter
+     * @param writer 要包装或者返回的Writer,不可以为null
+     * @param size 如果writer不是BufferedWriter，则创建的BufferedWriter的大小
+     * @return  BufferedWriter
+     */
+    public static BufferedWriter buffer(final Writer writer, final int size){
+        return org.apache.commons.io.IOUtils.buffer(writer, size);
+    }
+
+    /**
+     * 返回BufferedOutputStream，如果给定的outputStream是BufferedOutputStream，则直接返回，否则创建一个BufferedOutputStream返回
+     * @param outputStream 给定要包装或者返回的输出流，不可以为null
+     * @return BufferedOutputStream
+     */
+    public static BufferedOutputStream buffer(final OutputStream outputStream){
+        try {
+            return org.apache.commons.io.IOUtils.buffer(outputStream);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            LoggerUtil.error(IOUtils.class, "转换OutputStream时异常："+e.toString());
+            return null;
+        }
+    }
+
+    /**
+     * 返回BufferedOutputStream，如果给定的outputStream是BufferedOutputStream，则直接返回，否则创建一个BufferedOutputStream返回
+     * @param outputStream 给定要包装或者返回的输出流，不可以为null
+     * @param size 如果outputStream不是BufferedOutputStream，则创建的BufferedOutputStream的大小
+     * @return BufferedOutputStream
+     */
+    public static BufferedOutputStream buffer(final OutputStream outputStream, final int size){
+        try {
+            return org.apache.commons.io.IOUtils.buffer(outputStream, size);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            LoggerUtil.error(IOUtils.class, "转换OutputStream时异常："+e.toString());
+            return null;
+        }
+    }
+
+    /**
+     * 返回BufferedInputStream，如果给定的inputStream是返回BufferedInputStream，则直接返回，否则创建一个BufferedInputStream返回
+     * @param inputStream 给定要返回或者包装的InputStream，不可以为null
+     * @return BufferedInputStream
+     */
+    public static BufferedInputStream buffer(final InputStream inputStream){
+        try {
+            return org.apache.commons.io.IOUtils.buffer(inputStream);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            LoggerUtil.error(IOUtils.class, "转换InputStream时异常："+e.toString());
+            return null;
+        }
+    }
+    /**
+     * 返回BufferedInputStream，如果给定的inputStream是返回BufferedInputStream，则直接返回，否则创建一个BufferedInputStream返回
+     * @param inputStream 给定要返回或者包装的InputStream，不可以为null
+     * @param size inputStream不是BufferedInputStream时创建新的BufferedInputStream的初始容量
+     * @return BufferedInputStream
+     */
+    public static BufferedInputStream buffer(final InputStream inputStream, final int size){
+        try {
+            return org.apache.commons.io.IOUtils.buffer(inputStream, size);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            LoggerUtil.error(IOUtils.class, "转换InputStream时异常："+e.toString());
+            return null;
+        }
+    }
     /**
      * 读取给定URI的内容
      * @param uri URI资源

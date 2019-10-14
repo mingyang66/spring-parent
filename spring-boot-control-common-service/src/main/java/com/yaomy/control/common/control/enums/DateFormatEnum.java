@@ -12,7 +12,8 @@ public enum DateFormatEnum {
     YYYY_MM_DD_HH_MM_SS("yyyy-MM-dd HH:mm:ss"),
     YYYY_MM_DD_HH_MM_SS_SSS("yyyy-MM-dd HH:mm:ss.SSS"),
 
-    YYYYMMDD("yyyyMMdd"),
+    YYYY("yyyy"),
+    YYYYMM("yyyyMM"),
     YYYYMMDDHHMMSS("yyyyMMddHHmmss"),
 
     YYYY_MM_EN("yyyy/MM"),
@@ -30,6 +31,7 @@ public enum DateFormatEnum {
     HH_MM("HH:mm"),
     HH_MM_SS("HH:mm:ss"),
 
+    YYYY_MM_SPOT("yyyy.MM"),
     YYYY_MM_DD_SPOT("yyyy.MM.dd"),
 
     MM_DD("MM-dd"),

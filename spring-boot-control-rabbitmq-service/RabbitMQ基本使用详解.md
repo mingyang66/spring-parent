@@ -263,11 +263,6 @@ public class Recv {
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception e){
-
-            }
         };
         /**
          * queue:队列名

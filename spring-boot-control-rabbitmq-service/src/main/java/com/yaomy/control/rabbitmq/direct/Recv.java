@@ -2,6 +2,8 @@ package com.yaomy.control.rabbitmq.direct;
 
 import com.rabbitmq.client.*;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Description: Description
  * @Version: 1.0
@@ -10,7 +12,7 @@ public class Recv {
     /**
      * 队列名称
      */
-    private static final String QUEUE_NAME = "hello";
+    private static final String QUEUE_NAME = "test_queue";
 
     public static void main(String[] args) throws Exception {
         /**
@@ -51,12 +53,25 @@ public class Recv {
         channel.basicQos(1);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         /**
-         * 接收到消息后消费者会回调对应接口
+         * 当一个消息被发送过来时，将会被回调的接口
+         * consumerTag：与消费者相关的消费者标签
+         * delivery:发送过来的消息
          */
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e){
+
+            }
         };
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+        /**
+         * queue:队列名
+         * autoAck：true 接收到传递过来的消息后acknowledged（应答服务器），false 接收到消息后不应答服务器
+         * deliverCallback： 当一个消息发送过来后的回调接口
+         * cancelCallback：当一个消费者关闭时的回调接口
+         */
+        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
     }
 }

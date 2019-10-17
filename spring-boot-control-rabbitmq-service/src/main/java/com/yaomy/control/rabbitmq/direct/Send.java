@@ -2,6 +2,8 @@ package com.yaomy.control.rabbitmq.direct;
 
 import com.rabbitmq.client.*;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Description: 发送消息客户端
  * @Version: 1.0
@@ -10,11 +12,15 @@ public class Send {
     /**
      * 队列名称
      */
-    private static final String QUEUE_NAME = "hello";
+    private static final String QUEUE_NAME = "test_queue";
     /**
      * 交换器
      */
-    public static final String EXCHANGE = "test.exchange";
+    public static final String EXCHANGE_NAME = "test_exchange";
+    /**
+     * 路由
+     */
+    public static final String ROUTING_KEY  = "test_routing_key";
 
     public static void main(String[] args) throws Exception{
         /**
@@ -58,7 +64,7 @@ public class Send {
              * internal: true 如果交换器是内置的，则表示客户端无法直接发送消息到这个交换器中，只能通过交换器路由到交换器的方式
              * arguments: 交换器的其它属性（构造参数）
              */
-            channel.exchangeDeclare(EXCHANGE, BuiltinExchangeType.TOPIC, true, false, false, null);
+            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT, true, false, false, null);
             /**
              * 声明队列
              * durable: true 如果我们声明一个持久化队列（队列将会在服务重启后任然存在）
@@ -67,17 +73,26 @@ public class Send {
              * arguments: 队列的其它属性（构造参数）
              */
             channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            String message = "Hello World";
             /**
-             * 发布消息
-             * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
-             * exchange: 要将消息发送到的交换器
-             * routingKey: 路由KEY
-             * props: 消息的其它属性，如：路由头等
-             * body: 消息体
+             * queue:队列名称
+             * exchange：交换器名称
+             * routingKey：用于绑定的路由key
              */
-            channel.basicPublish(EXCHANGE, QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
-            System.out.println(" [x] Sent '" + message + "'");
+            channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
+            String message = "Hello World";
+            while (true) {
+                /**
+                 * 发布消息
+                 * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
+                 * exchange: 要将消息发送到的交换器
+                 * routingKey: 路由KEY
+                 * props: 消息的其它属性，如：路由头等
+                 * body: 消息体
+                 */
+                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+                System.out.println(" [x] Sent '" + message + "'");
+                TimeUnit.SECONDS.sleep(1);
+            }
         }
     }
 }

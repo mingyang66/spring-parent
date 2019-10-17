@@ -280,4 +280,4 @@ public class Recv {
 }
 
 ```
-
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ基本使用详解.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ基本使用详解.md)

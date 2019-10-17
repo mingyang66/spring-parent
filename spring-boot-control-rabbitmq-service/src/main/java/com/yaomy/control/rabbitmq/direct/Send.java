@@ -5,7 +5,7 @@ import com.rabbitmq.client.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description: 发送消息客户端
+ * @Description: Direct类型交换器发送消息客户端
  * @Version: 1.0
  */
 public class Send {

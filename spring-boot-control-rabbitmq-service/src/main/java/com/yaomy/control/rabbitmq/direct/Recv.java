@@ -5,7 +5,7 @@ import com.rabbitmq.client.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description: Description
+ * @Description: Direct类型交换器消费者
  * @Version: 1.0
  */
 public class Recv {

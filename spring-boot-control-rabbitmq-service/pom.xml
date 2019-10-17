@@ -10,14 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.control</groupId>
-    <artifactId>spring-boot-control-rest-service</artifactId>
+    <artifactId>spring-boot-control-rabbitmq-service</artifactId>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
         <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-logback-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.7.3</version>
         </dependency>
-
     </dependencies>
 
 </project>

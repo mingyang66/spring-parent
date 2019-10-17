@@ -21,6 +21,7 @@
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-netty-service</module>
         <module>spring-boot-control-threadpool-service</module>
+        <module>spring-boot-control-rabbitmq-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

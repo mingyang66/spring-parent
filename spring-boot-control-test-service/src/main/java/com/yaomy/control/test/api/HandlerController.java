@@ -2,7 +2,6 @@ package com.yaomy.control.test.api;
 
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseResponse;
-import com.yaomy.control.common.control.utils.ObjectSizeUtil;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import com.yaomy.control.rest.client.HttpClientService;
@@ -26,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 测试类
@@ -141,11 +141,14 @@ public class HandlerController {
         return ResponseEntity.ok(name);
     }
     @RequestMapping(value = "/handler/client3")
-    public User testClient3(@RequestBody User user) {
-        System.out.println("------PARAM--------"+user.getName());
+    public User testClient3(@RequestBody User user) throws Exception{
+        /*System.out.println("------PARAM--------"+user.getName());
         user.setName("2");
         user.setWeight(new String[]{"2","2"});
-        System.out.println(ObjectSizeUtil.getObjectSizeUnit(user));
+        System.out.println(ObjectSizeUtil.getObjectSizeUnit(user));*/
+        String url = "http://172.30.67.122:9000/handler/client4?n=300";
+        String s = httpClientService.post(url, null, null, String.class);
+        user.setName(s);
         return user;
     }
 
@@ -154,6 +157,12 @@ public class HandlerController {
         String s = "";
         for(int i=0;i<n;i++){
             s = StringUtils.join(s, i);
+            System.out.println(s);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e){
+
+            }
         }
         return s;
     }

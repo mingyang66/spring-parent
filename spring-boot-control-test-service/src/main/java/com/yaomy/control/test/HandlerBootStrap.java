@@ -4,7 +4,6 @@ package com.yaomy.control.test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
@@ -22,7 +21,7 @@ public class HandlerBootStrap {
         SpringApplication.run(HandlerBootStrap.class, args);
     }
 
-    @Bean
+    //@Bean
     public RestTemplate restTemplate() {
         String endpoint = "tcp://127.0.0.1:5000";
         try {

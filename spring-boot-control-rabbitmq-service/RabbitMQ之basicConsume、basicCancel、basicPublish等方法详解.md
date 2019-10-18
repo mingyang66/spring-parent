@@ -452,4 +452,4 @@ void basicPublish(String exchange, String routingKey, boolean mandatory, BasicPr
 */
 void basicPublish(String exchange, String routingKey, BasicProperties props, byte[] body)
 ```
-
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E4%B9%8BbasicConsume%E3%80%81basicCancel%E3%80%81basicPublish%E7%AD%89%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E4%B9%8BbasicConsume%E3%80%81basicCancel%E3%80%81basicPublish%E7%AD%89%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md)

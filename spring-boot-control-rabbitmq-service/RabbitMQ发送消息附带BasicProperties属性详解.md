@@ -54,3 +54,4 @@ channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
         });
 ```
 
+GitHub地址:[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E9%99%84%E5%B8%A6BasicProperties%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E9%99%84%E5%B8%A6BasicProperties%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3.md)

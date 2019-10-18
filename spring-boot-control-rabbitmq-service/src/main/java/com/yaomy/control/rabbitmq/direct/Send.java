@@ -81,6 +81,9 @@ public class Send {
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
             String message = "Hello World";
             while (true) {
+                AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();
+                properties.messageId("消息ID");
+                properties.deliveryMode(2);
                 /**
                  * 发布消息
                  * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
@@ -89,7 +92,7 @@ public class Send {
                  * props: 消息的其它属性，如：路由头等
                  * body: 消息体
                  */
-                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, properties.build(), message.getBytes());
                 System.out.println(" [x] Sent '" + message + "'");
                 TimeUnit.SECONDS.sleep(1);
             }

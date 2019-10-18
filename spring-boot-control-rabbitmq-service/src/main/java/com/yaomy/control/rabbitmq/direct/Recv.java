@@ -57,7 +57,11 @@ public class Recv {
          */
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
-            System.out.println(" [x] Received '" + message + "'");
+            System.out.println(" [x] Received '" + message
+                    + "'deliveryTag:"+delivery.getEnvelope().getDeliveryTag());
+            BasicProperties properties = delivery.getProperties();
+            System.out.println("deliveryMode:"+properties.getDeliveryMode()
+                    +"-消息ID"+properties.getMessageId());
         };
         /**
          * String basicConsume(String queue, boolean autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)
@@ -68,7 +72,7 @@ public class Recv {
          * cancelCallback：当一个消费者取消订阅时的回调接口;取消消费者订阅队列时除了使用{@link Channel#basicCancel}之外的所有方式都会调用该回调方法
          * @return 服务端生成的消费者标识
          */
-        String ctag = channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
+        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
             System.out.println("调用"+consumerTag);
         });
     }

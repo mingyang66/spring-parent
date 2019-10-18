@@ -1,9 +1,6 @@
 package com.yaomy.control.rabbitmq.direct;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DeliverCallback;
+import com.rabbitmq.client.*;
 
 /**
  * @Description: Direct类型交换器消费者
@@ -63,11 +60,15 @@ public class Recv {
             System.out.println(" [x] Received '" + message + "'");
         };
         /**
+         * 启动一个消费者，并返回服务端生成的消费者标识
          * queue:队列名
          * autoAck：true 接收到传递过来的消息后acknowledged（应答服务器），false 接收到消息后不应答服务器
          * deliverCallback： 当一个消息发送过来后的回调接口
-         * cancelCallback：当一个消费者关闭时的回调接口
+         * cancelCallback：当一个消费者取消订阅时的回调接口;取消消费者订阅队列时除了使用{@link Channel#basicCancel}之外的所有方式都会调用该回调方法
+         * @return 服务端生成的消费者标识
          */
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
+        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
+            System.out.println("调用"+consumerTag);
+        });
     }
 }

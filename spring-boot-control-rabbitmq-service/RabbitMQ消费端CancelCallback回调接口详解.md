@@ -61,4 +61,4 @@ public interface CancelCallback {
         channel.queuePurge(QUEUE_NAME);
 ```
 
-
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E6%B6%88%E8%B4%B9%E7%AB%AFCancelCallback%E5%9B%9E%E8%B0%83%E6%8E%A5%E5%8F%A3%E8%AF%A6%E8%A7%A3.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E6%B6%88%E8%B4%B9%E7%AB%AFCancelCallback%E5%9B%9E%E8%B0%83%E6%8E%A5%E5%8F%A3%E8%AF%A6%E8%A7%A3.md)

@@ -60,6 +60,7 @@ public class Recv {
             System.out.println(" [x] Received '" + message + "'");
         };
         /**
+         * String basicConsume(String queue, boolean autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)
          * 启动一个消费者，并返回服务端生成的消费者标识
          * queue:队列名
          * autoAck：true 接收到传递过来的消息后acknowledged（应答服务器），false 接收到消息后不应答服务器
@@ -67,7 +68,7 @@ public class Recv {
          * cancelCallback：当一个消费者取消订阅时的回调接口;取消消费者订阅队列时除了使用{@link Channel#basicCancel}之外的所有方式都会调用该回调方法
          * @return 服务端生成的消费者标识
          */
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
+        String ctag = channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
             System.out.println("调用"+consumerTag);
         });
     }

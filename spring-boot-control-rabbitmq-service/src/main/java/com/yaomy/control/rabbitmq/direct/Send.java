@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @Description: Direct类型交换器发送消息客户端
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public class Send {
     /**
      * 队列名称
@@ -69,7 +70,7 @@ public class Send {
              */
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT, true, false, false, null);
 
-            channel.exchangeDeclare("some.exchange.name", BuiltinExchangeType.DIRECT);
+            //channel.exchangeDeclare("some.exchange.name", BuiltinExchangeType.DIRECT);
 
             Map<String, Object> arguments = Maps.newHashMap();
             /**
@@ -97,11 +98,11 @@ public class Send {
             /**
              * 死信交换器，消息被拒绝或过期时将会重新发送到的交换器
              */
-            arguments.put("x-dead-letter-exchange", "some.exchange.name");
+            //arguments.put("x-dead-letter-exchange", "some.exchange.name");
             /**
              * 当消息是死信时使用的可选替换路由
              */
-            arguments.put("x-dead-letter-routing-key", "some-routing-key");
+            //arguments.put("x-dead-letter-routing-key", "some-routing-key");
             /**
              * 声明队列
              * durable: true 如果我们声明一个持久化队列（队列将会在服务重启后任然存在）
@@ -110,7 +111,7 @@ public class Send {
              * arguments: 队列的其它属性（构造参数）
              */
             channel.queueDeclare(QUEUE_NAME, true, false, false, arguments);
-            channel.queueDeclare("some.queue.name", true, false, false, null);
+            //channel.queueDeclare("some.queue.name", true, false, false, null);
             /**
              * mandatory：如果为true,则消息回退，通过basic.return方法退回给发送者
              */

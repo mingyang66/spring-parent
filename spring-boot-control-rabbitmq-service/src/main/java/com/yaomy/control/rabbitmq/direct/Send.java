@@ -2,7 +2,6 @@ package com.yaomy.control.rabbitmq.direct;
 
 import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -71,6 +70,8 @@ public class Send {
              */
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT, true, false, false, null);
 
+            channel.exchangeDeclare("some.exchange.name", BuiltinExchangeType.DIRECT);
+
             Map<String, Object> arguments = Maps.newHashMap();
             /**
              * 设置消息发送到队列中在被丢弃之前可以存活的时间，单位：毫秒
@@ -79,7 +80,7 @@ public class Send {
             /**
              * 设置一个队列多长时间未被使用将会被删除，单位：毫秒
              */
-            arguments.put("x-expires", 15*60*1000);
+            //arguments.put("x-expires", 15*60*1000);
             /**
              * queue中可以存储处于ready状态的消息数量
              */
@@ -95,6 +96,11 @@ public class Send {
              */
             arguments.put("x-overflow", "reject-publish");
             /**
+             *
+             */
+            arguments.put("x-dead-letter-exchange", "some.exchange.name");
+            arguments.put("x-dead-letter-routing-key", "some-routing-key");
+            /**
              * 声明队列
              * durable: true 如果我们声明一个持久化队列（队列将会在服务重启后任然存在）
              * exclusive: true 如果我们声明一个独占队列（仅限于此链接）
@@ -102,6 +108,7 @@ public class Send {
              * arguments: 队列的其它属性（构造参数）
              */
             channel.queueDeclare(QUEUE_NAME, true, false, false, arguments);
+            channel.queueDeclare("some.queue.name", true, false, false, null);
             /**
              * mandatory：如果为true,则消息回退，通过basic.return方法退回给发送者
              */
@@ -118,11 +125,12 @@ public class Send {
              * routingKey：用于绑定的路由key
              */
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
+            channel.queueBind("some.queue.name", "some.exchange.name", "some-routing-key");
             String message = "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！";
-            for(int i=0;i<10;i++){
+            /*for(int i=0;i<10;i++){
                 message = StringUtils.join(message, "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！");
             }
-            System.out.println(message.getBytes().length);
+            System.out.println(message.getBytes().length);*/
             int i=0;
             while (true) {
                 AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();

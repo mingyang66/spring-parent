@@ -1,7 +1,12 @@
 package com.yaomy.control.rabbitmq.direct;
 
+import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -65,6 +70,30 @@ public class Send {
              * arguments: 交换器的其它属性（构造参数）
              */
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT, true, false, false, null);
+
+            Map<String, Object> arguments = Maps.newHashMap();
+            /**
+             * 设置消息发送到队列中在被丢弃之前可以存活的时间，单位：毫秒
+             */
+            arguments.put("x-message-ttl", 10*60*1000);
+            /**
+             * 设置一个队列多长时间未被使用将会被删除，单位：毫秒
+             */
+            arguments.put("x-expires", 15*60*1000);
+            /**
+             * queue中可以存储处于ready状态的消息数量
+             */
+            arguments.put("x-max-length", 6);
+            /**
+             * queue中可以存储处于ready状态的消息占用的内存空间
+             */
+            arguments.put("x-max-length-bytes", 1024);
+            /**
+             * queue溢出行为，这将决定当队列达到设置的最大长度或者最大的存储空间时发送到消息队列的消息的处理方式；
+             * 有效的值是：drop-head（删除queue头部的消息）、reject-publish（拒绝发送来的消息）、reject-publish-dlx（拒绝发送消息到死信交换器）
+             * 类型为quorum 的queue只支持drop-head;
+             */
+            arguments.put("x-overflow", "reject-publish");
             /**
              * 声明队列
              * durable: true 如果我们声明一个持久化队列（队列将会在服务重启后任然存在）
@@ -72,18 +101,33 @@ public class Send {
              * autoDelete: true 声明一个自动删除队列（服务器将在不使用它时删除，即队列的连接数为0）
              * arguments: 队列的其它属性（构造参数）
              */
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+            channel.queueDeclare(QUEUE_NAME, true, false, false, arguments);
+            /**
+             * mandatory：如果为true,则消息回退，通过basic.return方法退回给发送者
+             */
+            channel.addReturnListener((returnMessage)-> {
+                try {
+                    System.out.println("退回的消息是："+returnMessage.getExchange()+","+returnMessage.getRoutingKey()+","+returnMessage.getReplyCode()+","+returnMessage.getReplyText()+","+new String(returnMessage.getBody(), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            });
             /**
              * queue:队列名称
              * exchange：交换器名称
              * routingKey：用于绑定的路由key
              */
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
-            String message = "Hello World";
+            String message = "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！";
+            for(int i=0;i<10;i++){
+                message = StringUtils.join(message, "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！");
+            }
+            System.out.println(message.getBytes().length);
+            int i=0;
             while (true) {
                 AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();
-                properties.messageId("消息ID");
-                properties.deliveryMode(2);
+                //设置消息过期时间，单位：毫秒
+                properties.expiration("600000");
                 /**
                  * 发布消息
                  * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
@@ -92,9 +136,12 @@ public class Send {
                  * props: 消息的其它属性，如：路由头等
                  * body: 消息体
                  */
-                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, properties.build(), message.getBytes());
+                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (String.valueOf(new Date().getTime())+message).getBytes());
                 System.out.println(" [x] Sent '" + message + "'");
                 TimeUnit.SECONDS.sleep(1);
+                if(i++ == 10){
+                    //break;
+                }
             }
         }
     }

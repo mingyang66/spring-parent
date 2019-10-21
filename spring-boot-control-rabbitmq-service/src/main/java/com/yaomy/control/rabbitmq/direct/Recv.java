@@ -38,14 +38,6 @@ public class Recv {
          */
         Channel channel = connection.createChannel();
         /**
-         * 声明队列
-         * durable: true 如果我们声明一个持久化队列（队列将会在服务重启后任然存在）
-         * exclusive: true 如果我们声明一个独占队列（仅限于此链接）
-         * autoDelete: true 如果我们声明一个自动删除队列（服务器将在我们不在使用它时删除，即队列的连接数为0）
-         * arguments: 队列的其它属性（构造参数）
-         */
-        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-        /**
          * prefetchCount:服务端每次分派给消费者的消息数量
          */
         channel.basicQos(1);

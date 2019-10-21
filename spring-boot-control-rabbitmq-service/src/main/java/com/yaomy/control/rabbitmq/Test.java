@@ -1,5 +1,7 @@
 package com.yaomy.control.rabbitmq;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -18,6 +20,5 @@ public class Test {
            return 1;
         });
         System.out.println(futurePriceInUSD.get());
-
     }
 }

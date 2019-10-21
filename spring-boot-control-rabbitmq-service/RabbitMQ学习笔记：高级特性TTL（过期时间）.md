@@ -56,3 +56,5 @@ channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), messa
             channel.queueDeclare(QUEUE_NAME, true, false, false, arguments);
 ```
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7TTL%EF%BC%88%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7TTL%EF%BC%88%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%EF%BC%89.md)
+

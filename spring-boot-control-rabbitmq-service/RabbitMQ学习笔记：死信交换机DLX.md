@@ -123,3 +123,5 @@ reason这个属性的值表示了消息变为死信的原因，有以下几种�
 - x-first-death-exchange
 
 它们与消息进行首次死信路由时，设置的reason, queue, exchange字段值相同。**一旦添加，它们值将不会再被修改。**
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%AD%BB%E4%BF%A1%E4%BA%A4%E6%8D%A2%E6%9C%BADLX.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%AD%BB%E4%BF%A1%E4%BA%A4%E6%8D%A2%E6%9C%BADLX.md)

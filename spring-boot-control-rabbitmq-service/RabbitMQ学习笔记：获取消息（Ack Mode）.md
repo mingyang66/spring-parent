@@ -30,3 +30,5 @@
 
 > 定义一次从队列中获取的消息数量
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E8%8E%B7%E5%8F%96%E6%B6%88%E6%81%AF%EF%BC%88Ack%20Mode%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E8%8E%B7%E5%8F%96%E6%B6%88%E6%81%AF%EF%BC%88Ack%20Mode%EF%BC%89.md)
+

@@ -43,3 +43,4 @@ channel.addReturnListener((replyCode, replyText, exchange, routingKey, propertie
             });
 ```
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9AaddReturnListener%E7%9B%91%E5%90%AC%E5%9B%9E%E9%80%80%E6%B6%88%E6%81%AF.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9AaddReturnListener%E7%9B%91%E5%90%AC%E5%9B%9E%E9%80%80%E6%B6%88%E6%81%AF.md)

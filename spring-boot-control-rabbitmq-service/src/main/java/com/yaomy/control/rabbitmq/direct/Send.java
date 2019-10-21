@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -96,9 +95,12 @@ public class Send {
              */
             arguments.put("x-overflow", "reject-publish");
             /**
-             *
+             * 死信交换器，消息被拒绝或过期时将会重新发送到的交换器
              */
             arguments.put("x-dead-letter-exchange", "some.exchange.name");
+            /**
+             * 当消息是死信时使用的可选替换路由
+             */
             arguments.put("x-dead-letter-routing-key", "some-routing-key");
             /**
              * 声明队列
@@ -144,7 +146,7 @@ public class Send {
                  * props: 消息的其它属性，如：路由头等
                  * body: 消息体
                  */
-                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (String.valueOf(new Date().getTime())+message).getBytes());
+                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (System.currentTimeMillis()+message).getBytes());
                 System.out.println(" [x] Sent '" + message + "'");
                 TimeUnit.SECONDS.sleep(1);
                 if(i++ == 10){

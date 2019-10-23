@@ -2,6 +2,7 @@ package com.yaomy.control.rabbitmq.direct;
 
 import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -84,11 +85,11 @@ public class Send {
             /**
              * queue中可以存储处于ready状态的消息数量
              */
-            arguments.put("x-max-length", 6);
+            arguments.put("x-max-length", 600);
             /**
              * queue中可以存储处于ready状态的消息占用的内存空间
              */
-            arguments.put("x-max-length-bytes", 1024);
+            arguments.put("x-max-length-bytes", 111024);
             /**
              * queue溢出行为，这将决定当队列达到设置的最大长度或者最大的存储空间时发送到消息队列的消息的处理方式；
              * 有效的值是：drop-head（删除queue头部的消息）、reject-publish（拒绝发送来的消息）、reject-publish-dlx（拒绝发送消息到死信交换器）
@@ -103,6 +104,10 @@ public class Send {
              * 当消息是死信时使用的可选替换路由
              */
             //arguments.put("x-dead-letter-routing-key", "some-routing-key");
+            /**
+             * 设置队列支持的最大优先级为10，如果不设置此参数，队列将不会支持消息优先级
+             */
+            arguments.put("x-max-priority", 10);
             /**
              * 声明队列
              * durable: true 如果我们声明一个持久化队列（队列将会在服务重启后任然存在）
@@ -128,7 +133,7 @@ public class Send {
              * routingKey：用于绑定的路由key
              */
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
-            channel.queueBind("some.queue.name", "some.exchange.name", "some-routing-key");
+           // channel.queueBind("some.queue.name", "some.exchange.name", "some-routing-key");
             String message = "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！";
             /*for(int i=0;i<10;i++){
                 message = StringUtils.join(message, "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！");
@@ -139,6 +144,11 @@ public class Send {
                 AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();
                 //设置消息过期时间，单位：毫秒
                 properties.expiration("600000");
+                int priority = RandomUtils.nextInt(0, 15);
+                /**
+                 * 设置消息的优先级
+                 */
+                properties.priority(priority);
                 /**
                  * 发布消息
                  * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
@@ -147,11 +157,11 @@ public class Send {
                  * props: 消息的其它属性，如：路由头等
                  * body: 消息体
                  */
-                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (System.currentTimeMillis()+message).getBytes());
-                System.out.println(" [x] Sent '" + message + "'");
+                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
+                System.out.println(" [x] Sent '" + priority+":"+message + "'");
                 TimeUnit.SECONDS.sleep(1);
                 if(i++ == 10){
-                    //break;
+                    break;
                 }
             }
         }

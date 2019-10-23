@@ -1,10 +1,11 @@
 package com.yaomy.control.rest.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,21 +19,26 @@ import java.util.Map;
 
 /**
  * @Description: 发送Http请求Client服务类
+ * @Author 姚明洋
  * @Version: 1.0
  */
 @Component
+@SuppressWarnings("all")
 public class HttpClientService {
 
     @Autowired
+    @Lazy
     private RestTemplate restTemplate;
     /**
      * @Description 支持参数为非数组模式POST请求
      * @Version  1.0
      */
     public <T> T  post(String url, Map<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity);
+        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
         return entity.getBody();
     }
     /**
@@ -40,9 +46,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public <T> T  post(String url, Map<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity);
+        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
         return entity.getBody();
 
     }
@@ -51,9 +59,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public<T> T  post(String url, Map<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity);
+        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
         return entity.getBody();
 
     }
@@ -62,9 +72,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public <T> T postMulti(String url, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity);
+        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
         return entity.getBody();
     }
     /**
@@ -72,9 +84,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public <T> T  postMulti(String url, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity);
+        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
         return entity.getBody();
     }
     /**
@@ -82,9 +96,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public<T> T  postMulti(String url, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity);
+        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
         return entity.getBody();
     }
     /**
@@ -95,9 +111,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public <T> T  get(String url, Class<T> responseType, Object... uriVariables){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.getForEntity(url, responseType, uriVariables);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.GET, Collections.emptyMap(), null, responseType, entity);
+        logInfo(url, HttpMethod.GET, Collections.emptyMap(), null, responseType, entity, watch.getTime());
         return entity.getBody();
     }
     /**
@@ -105,9 +123,11 @@ public class HttpClientService {
      * @Version  1.0
      */
     public<T> T  get(String url, Class<T> responseType, Map<String, ?> uriVariables){
+        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.getForEntity(url, responseType, uriVariables);
+        watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.GET, Collections.emptyMap(), null, responseType, entity);
+        logInfo(url, HttpMethod.GET, Collections.emptyMap(), null, responseType, entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -143,46 +163,38 @@ public class HttpClientService {
     }
     /**
      * @Description 日志信息
+     * @Author 姚明洋
+     * @Date 2019/8/30 13:06
      * @Version  1.0
      */
-    private <T> void logInfo(String url, HttpMethod httpMethod, Map<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity){
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            String log = StringUtils.join("\n", "访问URL :", url, "\n", "Method  :", httpMethod, "\n");
-            if(!ObjectUtils.isEmpty(params)){
-                log = StringUtils.join(log, "请求参数：", objectMapper.writeValueAsString(params), "\n");
-            }
-            if(!ObjectUtils.isEmpty(headers)){
-                log = StringUtils.join(log, "Headers：", objectMapper.writeValueAsString(headers), "\n");
-            }
-            log = StringUtils.join(log, "返回类型：", responseType.getTypeName(), "\n");
-            log = StringUtils.join(log, "返回结果：", objectMapper.writeValueAsString(entity.getBody()), "\n");
-            LoggerUtil.info(HttpClientService.class, log);
-        } catch (JsonProcessingException e){
-            e.printStackTrace();
-            LoggerUtil.error(HttpClientService.class, e.toString());
+    private <T> void logInfo(String url, HttpMethod httpMethod, Map<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity, long time){
+        String log = StringUtils.join("\n", "访问URL :", url, "\n", "Method  :", httpMethod, "\n");
+        if(!ObjectUtils.isEmpty(params)){
+            log = StringUtils.join(log, "请求参数：", JSONUtils.toJSONString(params), "\n");
         }
+        if(!ObjectUtils.isEmpty(headers)){
+            log = StringUtils.join(log, "Headers：", JSONUtils.toJSONString(headers), "\n");
+        }
+        log = StringUtils.join(log, "耗    时：", time, "毫秒\n");
+        log = StringUtils.join(log, "返回类型：", responseType.getTypeName(), "\n");
+        log = StringUtils.join(log, "返回结果：", JSONUtils.toJSONString(entity.getBody()));
+        LoggerUtil.info(HttpClientService.class, log);
     }
     /**
      * @Description 日志信息
      * @Version  1.0
      */
-    private <T> void logInfo(String url, HttpMethod httpMethod, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity){
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            String log = StringUtils.join("\n", "访问URL :", url, "\n", "Method  :", HttpMethod.POST, "\n");
-            if(!ObjectUtils.isEmpty(params)){
-                log = StringUtils.join(log, "请求参数：", objectMapper.writeValueAsString(params), "\n");
-            }
-            if(!ObjectUtils.isEmpty(headers)){
-                log = StringUtils.join(log, "Headers：", objectMapper.writeValueAsString(headers), "\n");
-            }
-            log = StringUtils.join(log, "返回类型：", responseType.getTypeName(), "\n");
-            log = StringUtils.join(log, "返回结果：", objectMapper.writeValueAsString(entity.getBody()), "\n");
-            LoggerUtil.info(HttpClientService.class, log);
-        } catch (JsonProcessingException e){
-            e.printStackTrace();
-            LoggerUtil.error(HttpClientService.class, e.toString());
+    private <T> void logInfo(String url, HttpMethod httpMethod, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity, long time){
+        String log = StringUtils.join("\n", "访问URL :", url, "\n", "Method  :", HttpMethod.POST, "\n");
+        if(!ObjectUtils.isEmpty(params)){
+            log = StringUtils.join(log, "请求参数：", JSONUtils.toJSONString(params), "\n");
         }
+        if(!ObjectUtils.isEmpty(headers)){
+            log = StringUtils.join(log, "Headers：", JSONUtils.toJSONString(headers), "\n");
+        }
+        log = StringUtils.join(log, "耗    时：", time, "毫秒\n");
+        log = StringUtils.join(log, "返回类型：", responseType.getTypeName(), "\n");
+        log = StringUtils.join(log, "返回结果：", JSONUtils.toJSONString(entity.getBody()), "\n");
+        LoggerUtil.info(HttpClientService.class, log);
     }
 }

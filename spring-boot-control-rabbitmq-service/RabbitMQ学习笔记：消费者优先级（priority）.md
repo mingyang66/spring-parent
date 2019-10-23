@@ -40,3 +40,4 @@ args.put("x-priority", 10);
 channel.basicConsume("my-queue", false, args, consumer);
 ```
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B6%88%E8%B4%B9%E8%80%85%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88priority%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B6%88%E8%B4%B9%E8%80%85%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88priority%EF%BC%89.md)

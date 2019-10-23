@@ -64,3 +64,5 @@ channel.basicConsume("my-queue2", false, consumer2);
 ```
 
 这两个消费者之间只有15个未确认的消息，每个用户最多有10条消息，这将比上面的示例慢，因为在信道和队列之间进行协调以实施全局限制会增加额外的开销。
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B6%88%E8%B4%B9%E8%80%85%E9%A2%84%E5%8F%96%E6%B6%88%E6%81%AF%EF%BC%88basic.qos%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B6%88%E8%B4%B9%E8%80%85%E9%A2%84%E5%8F%96%E6%B6%88%E6%81%AF%EF%BC%88basic.qos%EF%BC%89.md)

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 import org.apache.commons.lang3.RandomUtils;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +61,17 @@ public class Send {
              * 使用内部分配的通道号创建一个新的频道
              */
             Channel channel = connection.createChannel();
+            connection.addBlockedListener(new BlockedListener() {
+                @Override
+                public void handleBlocked(String reason) throws IOException {
+                    System.out.println("Blocked:"+reason);
+                }
+
+                @Override
+                public void handleUnblocked() throws IOException {
+                    System.out.println("Unblocked");
+                }
+            });
             /**
              * 声明一个交换器（Exchange），通过完整的参数集；
              * exchange: 交换器的名称
@@ -77,7 +89,7 @@ public class Send {
             /**
              * 设置消息发送到队列中在被丢弃之前可以存活的时间，单位：毫秒
              */
-            arguments.put("x-message-ttl", 10*60*1000);
+            //arguments.put("x-message-ttl", 10*60*1000);
             /**
              * 设置一个队列多长时间未被使用将会被删除，单位：毫秒
              */
@@ -85,17 +97,17 @@ public class Send {
             /**
              * queue中可以存储处于ready状态的消息数量
              */
-            arguments.put("x-max-length", 600);
+            //arguments.put("x-max-length", 600);
             /**
              * queue中可以存储处于ready状态的消息占用的内存空间
              */
-            arguments.put("x-max-length-bytes", 111024);
+            //arguments.put("x-max-length-bytes", 111024);
             /**
              * queue溢出行为，这将决定当队列达到设置的最大长度或者最大的存储空间时发送到消息队列的消息的处理方式；
              * 有效的值是：drop-head（删除queue头部的消息）、reject-publish（拒绝发送来的消息）、reject-publish-dlx（拒绝发送消息到死信交换器）
              * 类型为quorum 的queue只支持drop-head;
              */
-            arguments.put("x-overflow", "reject-publish");
+            //arguments.put("x-overflow", "reject-publish");
             /**
              * 死信交换器，消息被拒绝或过期时将会重新发送到的交换器
              */
@@ -143,7 +155,7 @@ public class Send {
             while (true) {
                 AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();
                 //设置消息过期时间，单位：毫秒
-                properties.expiration("600000");
+                //properties.expiration("600000");
                 int priority = RandomUtils.nextInt(0, 15);
                 /**
                  * 设置消息的优先级
@@ -158,11 +170,11 @@ public class Send {
                  * body: 消息体
                  */
                 channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
-                System.out.println(" [x] Sent '" + priority+":"+message + "'");
-                TimeUnit.SECONDS.sleep(1);
+                //System.out.println(" [x] Sent '" + priority+":"+message + "'");
+                /*TimeUnit.SECONDS.sleep(1);
                 if(i++ == 10){
                     break;
-                }
+                }*/
             }
         }
     }

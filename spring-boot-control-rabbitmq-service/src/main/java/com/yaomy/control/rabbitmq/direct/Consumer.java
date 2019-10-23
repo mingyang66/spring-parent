@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-public class Recv {
+public class Consumer {
     /**
      * 队列名称
      */
@@ -45,7 +45,7 @@ public class Recv {
         /**
          * prefetchCount:服务端每次分派给消费者的消息数量
          */
-        channel.basicQos(10);
+        channel.basicQos(1);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         /**
          * 当一个消息被发送过来时，将会被回调的接口
@@ -54,7 +54,7 @@ public class Recv {
          */
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
-            System.out.println("消费者优先级为10的消费者标识："+consumerTag);
+            System.out.println("消费者优先级为9的消费者标识："+consumerTag);
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception e){
@@ -62,7 +62,7 @@ public class Recv {
             }
         };
         Map<String, Object> arguments = Maps.newHashMap();
-        arguments.put("x-priority", 10);
+        arguments.put("x-priority", 9);
         /**
          * String basicConsume(String queue, boolean autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)
          * 启动一个消费者，并返回服务端生成的消费者标识
@@ -72,8 +72,8 @@ public class Recv {
          * cancelCallback：当一个消费者取消订阅时的回调接口;取消消费者订阅队列时除了使用{@link Channel#basicCancel}之外的所有方式都会调用该回调方法
          * @return 服务端生成的消费者标识
          */
-        channel.basicConsume(QUEUE_NAME, true, arguments, deliverCallback, consumerTag -> {
-            System.out.println("消费者优先级为10的消费者标识："+consumerTag);
+        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
+            System.out.println("消费者优先级为9的消费者标识："+consumerTag);
         });
     }
 }

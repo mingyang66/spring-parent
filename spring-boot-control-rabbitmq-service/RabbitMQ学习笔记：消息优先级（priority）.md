@@ -61,3 +61,5 @@ channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (prio
 
 
 设置了最大长度的队列将像其它队列一样，从队列头部丢弃消息以强制执行该限制。这意味着高优先级的消息可能会被丢弃，以便为低优先级的消息让路，这可能不是你所期望的。
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B6%88%E6%81%AF%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88priority%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B6%88%E6%81%AF%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88priority%EF%BC%89.md)

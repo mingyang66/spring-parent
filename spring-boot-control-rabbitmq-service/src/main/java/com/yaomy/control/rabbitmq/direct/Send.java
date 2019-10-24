@@ -42,10 +42,6 @@ public class Send {
          */
         factory.setHost("127.0.0.1");
         /**
-         * 端口号
-         */
-        factory.setPort(5672);
-        /**
          * 设置端口号
          */
         factory.setPort(AMQP.PROTOCOL.PORT);
@@ -174,7 +170,7 @@ public class Send {
                  * body: 消息体
                  */
                 channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
-                //System.out.println(" [x] Sent '" + priority+":"+message + "'");
+                System.out.println(" [x] Sent '" + priority+":"+message + "'");
                 TimeUnit.SECONDS.sleep(1);
                 /*if(i++ == 10){
                     break;

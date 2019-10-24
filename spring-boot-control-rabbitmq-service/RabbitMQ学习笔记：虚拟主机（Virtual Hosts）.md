@@ -119,3 +119,4 @@ rabbitmqctl set_vhost_limits -p vhost_name '{"max-queues": 1024}
 rabbitmqctl set_vhost_limits -p vhost_name '{"max-queues": -1}'
 ```
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%EF%BC%88Virtual%20Hosts%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%EF%BC%88Virtual%20Hosts%EF%BC%89.md)

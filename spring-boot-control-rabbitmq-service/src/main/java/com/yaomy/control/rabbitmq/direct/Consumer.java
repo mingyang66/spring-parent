@@ -63,11 +63,11 @@ public class Consumer {
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println("消费者优先级为9的消费者标识："+consumerTag);
-            try {
+           /* try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception e){
 
-            }
+            }*/
         };
         Map<String, Object> arguments = Maps.newHashMap();
         arguments.put("x-priority", 9);

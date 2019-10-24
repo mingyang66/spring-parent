@@ -171,7 +171,7 @@ public class Send {
                  */
                 channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
                 System.out.println(" [x] Sent '" + priority+":"+message + "'");
-                TimeUnit.SECONDS.sleep(1);
+                //TimeUnit.SECONDS.sleep(1);
                 /*if(i++ == 10){
                     break;
                 }*/

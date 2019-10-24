@@ -115,3 +115,4 @@ rabbitmqctl set_disk_free_limit 42949672000
 
 RabbitMQ配置文件地址： https://github.com/rabbitmq/rabbitmq-server/blob/master/docs/rabbitmq.conf.example 
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%86%85%E5%AD%98(Memory)%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%EF%BC%88Disk%20space%EF%BC%89%E9%98%80%E5%80%BC.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%86%85%E5%AD%98(Memory)%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%EF%BC%88Disk%20space%EF%BC%89%E9%98%80%E5%80%BC.md)

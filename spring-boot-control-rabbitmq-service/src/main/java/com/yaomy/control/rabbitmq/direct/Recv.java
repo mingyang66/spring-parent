@@ -23,9 +23,17 @@ public class Recv {
          */
         ConnectionFactory factory = new ConnectionFactory();
         /**
+         * 设置vhost
+         */
+        factory.setVirtualHost(ConnectionFactory.DEFAULT_VHOST);
+        /**
          * 设置连接的主机
          */
         factory.setHost("127.0.0.1");
+        /**
+         * 设置端口号
+         */
+        factory.setPort(AMQP.PROTOCOL.PORT);
         /**
          * 用户名
          */

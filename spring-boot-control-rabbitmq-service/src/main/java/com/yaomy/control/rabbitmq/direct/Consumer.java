@@ -23,9 +23,17 @@ public class Consumer {
          */
         ConnectionFactory factory = new ConnectionFactory();
         /**
+         * 设置vhost
+         */
+        factory.setVirtualHost(ConnectionFactory.DEFAULT_VHOST);
+        /**
          * 设置连接的主机
          */
         factory.setHost("127.0.0.1");
+        /**
+         * 设置端口号
+         */
+        factory.setPort(AMQP.PROTOCOL.PORT);
         /**
          * 用户名
          */
@@ -45,7 +53,7 @@ public class Consumer {
         /**
          * prefetchCount:服务端每次分派给消费者的消息数量
          */
-        channel.basicQos(1);
+        channel.basicQos(10);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         /**
          * 当一个消息被发送过来时，将会被回调的接口

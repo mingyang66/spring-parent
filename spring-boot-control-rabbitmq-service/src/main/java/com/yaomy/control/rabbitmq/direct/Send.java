@@ -34,6 +34,10 @@ public class Send {
          */
         ConnectionFactory factory = new ConnectionFactory();
         /**
+         * 设置vhost
+         */
+        factory.setVirtualHost(ConnectionFactory.DEFAULT_VHOST);
+        /**
          * 设置连接的主机
          */
         factory.setHost("127.0.0.1");
@@ -42,6 +46,10 @@ public class Send {
          */
         factory.setPort(5672);
         /**
+         * 设置端口号
+         */
+        factory.setPort(AMQP.PROTOCOL.PORT);
+        /**
          * 用户名
          */
         factory.setUsername("admin");
@@ -49,10 +57,6 @@ public class Send {
          * 密码
          */
         factory.setPassword("admin");
-        /**
-         * 可以访问虚拟主机
-         */
-        factory.setVirtualHost("/");
         /**
          * 创建新的代理连接
          */
@@ -81,7 +85,7 @@ public class Send {
              * internal: true 如果交换器是内置的，则表示客户端无法直接发送消息到这个交换器中，只能通过交换器路由到交换器的方式
              * arguments: 交换器的其它属性（构造参数）
              */
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT, true, false, false, null);
+            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC, true, false, false, null);
 
             //channel.exchangeDeclare("some.exchange.name", BuiltinExchangeType.DIRECT);
 
@@ -171,8 +175,8 @@ public class Send {
                  */
                 channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
                 //System.out.println(" [x] Sent '" + priority+":"+message + "'");
-                /*TimeUnit.SECONDS.sleep(1);
-                if(i++ == 10){
+                TimeUnit.SECONDS.sleep(1);
+                /*if(i++ == 10){
                     break;
                 }*/
             }

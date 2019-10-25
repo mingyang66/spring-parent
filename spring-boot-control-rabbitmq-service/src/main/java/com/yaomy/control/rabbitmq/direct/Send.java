@@ -26,7 +26,11 @@ public class Send {
     /**
      * 路由
      */
-    public static final String ROUTING_KEY  = "test_routing_key";
+    public static final String ROUTING_KEY  = "test.routing.key";
+    /**
+     * BindingKey
+     */
+    public static final String BINDING_KEY  = "*.routing.key";
 
     public static void main(String[] args) throws Exception{
         /**
@@ -144,7 +148,7 @@ public class Send {
              * exchange：交换器名称
              * routingKey：用于绑定的路由key
              */
-            channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
+            channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, BINDING_KEY);
            // channel.queueBind("some.queue.name", "some.exchange.name", "some-routing-key");
             String message = "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！";
             /*for(int i=0;i<10;i++){
@@ -171,7 +175,7 @@ public class Send {
                  */
                 channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
                 System.out.println(" [x] Sent '" + priority+":"+message + "'");
-                //TimeUnit.SECONDS.sleep(1);
+                //TimeUnit.MILLISECONDS.sleep(100);
                 /*if(i++ == 10){
                     break;
                 }*/

@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Description: Direct类型交换器消费者
@@ -53,7 +52,7 @@ public class Consumer {
         /**
          * prefetchCount:服务端每次分派给消费者的消息数量
          */
-        channel.basicQos(10);
+        channel.basicQos(30);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         /**
          * 当一个消息被发送过来时，将会被回调的接口
@@ -70,6 +69,9 @@ public class Consumer {
             }*/
         };
         Map<String, Object> arguments = Maps.newHashMap();
+        /**
+         * 设置消息优先级
+         */
         arguments.put("x-priority", 9);
         /**
          * String basicConsume(String queue, boolean autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)

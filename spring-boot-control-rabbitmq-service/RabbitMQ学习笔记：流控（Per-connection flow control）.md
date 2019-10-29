@@ -28,3 +28,5 @@ NetWork -->Connection process -->Chnnel process --> Queue process -->Message sto
 
 RabbitMQ的流控制机制是基于信用证（Credit）的拥塞控制机制实现的；
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B5%81%E6%8E%A7%EF%BC%88Per-connection%20flow%20control%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%B5%81%E6%8E%A7%EF%BC%88Per-connection%20flow%20control%EF%BC%89.md)
+

@@ -53,7 +53,7 @@ public class Recv {
         /**
          * prefetchCount:服务端每次分派给消费者的消息数量
          */
-        channel.basicQos(10);
+        channel.basicQos(1);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         /**
          * 当一个消息被发送过来时，将会被回调的接口
@@ -62,12 +62,13 @@ public class Recv {
          */
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
-            System.out.println("消费者优先级为10的消费者标识："+consumerTag);
+            System.out.println("消费者优先级为10的消费者标识："+consumerTag+"-");
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception e){
 
             }
+            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
         Map<String, Object> arguments = Maps.newHashMap();
         /**
@@ -83,8 +84,8 @@ public class Recv {
          * cancelCallback：当一个消费者取消订阅时的回调接口;取消消费者订阅队列时除了使用{@link Channel#basicCancel}之外的所有方式都会调用该回调方法
          * @return 服务端生成的消费者标识
          */
-        channel.basicConsume(QUEUE_NAME, true, arguments, deliverCallback, consumerTag -> {
-            System.out.println("消费者优先级为10的消费者标识："+consumerTag);
+        channel.basicConsume(QUEUE_NAME, false, arguments, deliverCallback, consumerTag -> {
+            //System.out.println("消费者优先级为10的消费者标识："+consumerTag);
         });
     }
 }

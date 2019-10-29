@@ -1,6 +1,8 @@
 package com.yaomy.control.rabbitmq;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * @Description: Description
@@ -12,11 +14,24 @@ import java.util.concurrent.CompletableFuture;
 public class Test {
     public static void main(String[] args) throws Exception{
 
-
-        CompletableFuture<Integer> futurePriceInUSD = CompletableFuture.supplyAsync(()->{
-            System.out.println("0----------");
-           return 1;
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(()->{
+            System.out.println("------1------------");
+            String s = null;
+            s.length();
+            return 1;
+        }).exceptionally((throwable) -> {
+            return null;
         });
-        System.out.println(futurePriceInUSD.get());
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(()->{
+            System.out.println("------2------------");
+            return 2;
+        }).handleAsync((a, thrable)->{
+            System.out.println("-----------handle2---------");
+            return a;
+        });
+        System.out.println(future1.get());
+        System.out.println(future2.get());
+
+
     }
 }

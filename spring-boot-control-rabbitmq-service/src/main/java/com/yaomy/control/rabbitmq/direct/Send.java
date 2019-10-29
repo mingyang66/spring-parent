@@ -7,6 +7,8 @@ import org.apache.commons.lang3.RandomUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -155,7 +157,37 @@ public class Send {
                 message = StringUtils.join(message, "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！");
             }
             System.out.println(message.getBytes().length);*/
-            int i=0;
+            //int i=0;
+            /**
+             * 在此信道上开启发布者确认（publisher confirms）
+             */
+            channel.confirmSelect();
+            ConcurrentNavigableMap<Long, String> outstandingConfirms = new ConcurrentSkipListMap<>();
+            channel.addConfirmListener(new ConfirmListener() {
+                @Override
+                public void handleAck(long deliveryTag, boolean multiple) throws IOException {
+                    String body = outstandingConfirms.get(deliveryTag);
+                    System.out.println("发布的消息已经被ack,序列号是："+deliveryTag+",multiple:"+multiple+",message:"+message);
+                    if(multiple){
+                        ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(deliveryTag, true);
+                        confirmed.clear();
+                    } else {
+                        outstandingConfirms.remove(deliveryTag);
+                    }
+                }
+
+                @Override
+                public void handleNack(long deliveryTag, boolean multiple) throws IOException {
+                    String body = outstandingConfirms.get(deliveryTag);
+                    System.out.println("发布的消息已经被nack-ed,序列号是："+deliveryTag+",multiple:"+multiple+",message:"+message);
+                    if(multiple){
+                        ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(deliveryTag, true);
+                        confirmed.clear();
+                    } else {
+                        outstandingConfirms.remove(deliveryTag);
+                    }
+                }
+            });
             while (true) {
                 AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();
                 //设置消息过期时间，单位：毫秒
@@ -166,6 +198,10 @@ public class Send {
                  */
                 properties.priority(priority);
                 /**
+                 * 发布确认序号和消息映射关系
+                 */
+                outstandingConfirms.put(channel.getNextPublishSeqNo(), priority+":"+message);
+                /**
                  * 发布消息
                  * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
                  * exchange: 要将消息发送到的交换器
@@ -175,10 +211,14 @@ public class Send {
                  */
                 channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
                 System.out.println(" [x] Sent '" + priority+":"+message + "'");
-                //TimeUnit.MILLISECONDS.sleep(100);
+                TimeUnit.MILLISECONDS.sleep(100);
                 /*if(i++ == 10){
                     break;
                 }*/
+                /**
+                 * 等待自上次调用以来发布的所有消息都被代理确认，注意，在非publisher confirm信道上调用将会抛出IllegalStateException异常
+                 */
+               // channel.waitForConfirms();
             }
         }
     }

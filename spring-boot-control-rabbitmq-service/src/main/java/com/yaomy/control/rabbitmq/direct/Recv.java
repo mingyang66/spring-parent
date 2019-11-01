@@ -63,11 +63,11 @@ public class Recv {
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println("消费者优先级为10的消费者标识："+consumerTag+"-");
-            try {
+            /*try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception e){
 
-            }
+            }*/
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
         Map<String, Object> arguments = Maps.newHashMap();

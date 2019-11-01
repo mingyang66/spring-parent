@@ -50,7 +50,7 @@ public class Send {
         /**
          * 设置端口号
          */
-        factory.setPort(AMQP.PROTOCOL.PORT);
+        factory.setPort(5672);
         /**
          * 用户名
          */

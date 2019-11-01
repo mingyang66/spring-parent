@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description: Direct类型交换器消费者
@@ -32,7 +33,7 @@ public class Consumer {
         /**
          * 设置端口号
          */
-        factory.setPort(AMQP.PROTOCOL.PORT);
+        factory.setPort(5673);
         /**
          * 用户名
          */
@@ -62,11 +63,11 @@ public class Consumer {
         DeliverCallback deliverCallback = (consumerTag, delivery)->{
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println("消费者优先级为9的消费者标识："+consumerTag);
-           /* try {
+            try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception e){
 
-            }*/
+            }
         };
         Map<String, Object> arguments = Maps.newHashMap();
         /**

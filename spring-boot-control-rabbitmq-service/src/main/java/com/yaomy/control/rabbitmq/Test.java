@@ -1,5 +1,12 @@
 package com.yaomy.control.rabbitmq;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+import java.io.FileInputStream;
+import java.security.KeyStore;
+import java.security.Provider;
+import java.security.Security;
 import java.util.concurrent.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -12,26 +19,32 @@ import java.util.function.Function;
  * @Version: 1.0
  */
 public class Test {
+
     public static void main(String[] args) throws Exception{
+        System.out.println(KeyStore.getDefaultType());
+        for(int i=0; i<Security.getProviders().length;i++){
+            Provider provider = Security.getProviders()[i];
+            System.out.println(provider.getName());
+            provider.keySet().iterator().forEachRemaining((a)->{
+                System.out.println(a);
+            });
+        }
+        System.out.println(Security.getProviders()[0].getName());
+        char[] keyPassphrase = "MySecretPassword".toCharArray();
+        KeyStore ks = KeyStore.getInstance("PKCS12");
+        ks.load(new FileInputStream("/path/to/client/keycert.p12"), keyPassphrase);
 
-        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(()->{
-            System.out.println("------1------------");
-            String s = null;
-            s.length();
-            return 1;
-        }).exceptionally((throwable) -> {
-            return null;
-        });
-        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(()->{
-            System.out.println("------2------------");
-            return 2;
-        }).handleAsync((a, thrable)->{
-            System.out.println("-----------handle2---------");
-            return a;
-        });
-        System.out.println(future1.get());
-        System.out.println(future2.get());
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+        kmf.init(ks, "passphrase".toCharArray());
 
+        char[] trustPassphrase = "rabbitstore".toCharArray();
+        KeyStore tks = KeyStore.getInstance("JKS");
+        tks.load(new FileInputStream("/path/to/trustStore"), trustPassphrase);
 
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+        tmf.init(tks);
+
+        SSLContext c = SSLContext.getInstance("TLSv1.2");
+        c.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
     }
 }

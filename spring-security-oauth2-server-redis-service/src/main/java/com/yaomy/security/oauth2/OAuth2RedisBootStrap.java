@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2019/7/5 16:10
  * @Version: 1.0
  */
-@SpringBootApplication(scanBasePackages = {"com.yaomy.security.oauth2"})
+@SpringBootApplication(scanBasePackages = {"com.yaomy.security.oauth2", "com.yaomy.control"})
 public class OAuth2RedisBootStrap {
     public static void main(String[] args) {
         SpringApplication.run(OAuth2RedisBootStrap.class, args);

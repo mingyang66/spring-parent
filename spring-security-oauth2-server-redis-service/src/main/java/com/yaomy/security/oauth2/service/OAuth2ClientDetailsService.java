@@ -1,5 +1,6 @@
 package com.yaomy.security.oauth2.service;
 
+import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.enums.GrantTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

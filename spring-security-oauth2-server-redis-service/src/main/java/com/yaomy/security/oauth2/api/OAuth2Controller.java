@@ -2,12 +2,13 @@ package com.yaomy.security.oauth2.api;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.GrantTypeEnum;
 import com.yaomy.control.common.enums.HttpStatusMsg;
 import com.yaomy.control.common.po.BaseResponse;
+import com.yaomy.security.oauth2.po.MyToken;
 import com.yaomy.security.oauth2.po.MyUser;
-import com.yaomy.security.oauth2.service.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import java.util.Map;
  * @Date: 2019/7/22 15:57
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 @RestController
 @RequestMapping(value = "oauth2")
 public class OAuth2Controller {
@@ -95,8 +97,8 @@ public class OAuth2Controller {
      * @Date 2019/7/25 16:13
      * @Version  1.0
      */
-    @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> refreshToken(@RequestParam String refresh_token){
+    @PostMapping(value = "refresh_token")
+    public ResponseEntity<BaseResponse> refreshToken(@RequestBody MyToken token){
         try {
             ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
             resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -106,7 +108,7 @@ public class OAuth2Controller {
             resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
 
             ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
-            OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
+            OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(token.getRefreshToken());
             OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
 
             Map<String, Object> result = Maps.newLinkedHashMap();
@@ -118,16 +120,16 @@ public class OAuth2Controller {
             result.putAll(accessToken.getAdditionalInformation());
 
             Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
-            List<String> list = Lists.newArrayList();
+            List<Map> list = Lists.newArrayList();
             for(GrantedAuthority authority:authorities){
-                list.add(JSONUtils.toJavaBean(authority.getAuthority(), String.class));
+                list.add(JSONUtils.toJavaBean(authority.getAuthority(), Map.class));
             }
             result.put("authorities", list);
 
             return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString()));
+            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage()));
         }
     }
     /**

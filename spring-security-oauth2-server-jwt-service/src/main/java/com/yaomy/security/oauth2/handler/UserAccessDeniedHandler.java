@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.security.oauth2.po.ResponseBody;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -28,7 +28,7 @@ public class UserAccessDeniedHandler implements AccessDeniedHandler {
         responseBody.setStatus("300");
         responseBody.setMsg("Need Authorities!");
 
-        httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));
 
     }
 }

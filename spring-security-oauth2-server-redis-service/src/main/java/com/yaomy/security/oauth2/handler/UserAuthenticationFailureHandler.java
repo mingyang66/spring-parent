@@ -1,9 +1,8 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.security.oauth2.po.ResponseBody;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ public class UserAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         responseBody.setStatus("400");
         responseBody.setMsg("Login Failure!");
 
-        httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));
 
     }
 }

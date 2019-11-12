@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.security.oauth2.po.ResponseBody;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -33,6 +33,6 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         //responseBody.setToken(token);
        // responseBody.setResult(DateFormatUtils.format(TokenUtil.getExpirationDateFromToken(token), "yyyy-MM-dd HH:mm:ss"));
 
-        httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));
     }
 }

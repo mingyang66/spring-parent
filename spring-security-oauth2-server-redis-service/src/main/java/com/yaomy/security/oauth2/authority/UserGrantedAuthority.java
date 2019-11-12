@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.authority;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Map;
@@ -20,6 +20,6 @@ public class UserGrantedAuthority implements GrantedAuthority {
     }
     @Override
     public String getAuthority() {
-        return JSON.toJSONString(authoritys);
+        return JSONUtils.toJSONString(authoritys);
     }
 }

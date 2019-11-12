@@ -1,7 +1,8 @@
 package com.yaomy.security.oauth2.api;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.GrantTypeEnum;
 import com.yaomy.control.common.enums.HttpStatusMsg;
 import com.yaomy.control.common.po.BaseResponse;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,11 +78,11 @@ public class OAuth2Controller {
             result.putAll(accessToken.getAdditionalInformation());
 
             Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(template.getAccessToken()).getUserAuthentication().getAuthorities();
-            JSONObject jsonObject = new JSONObject();
+            List<Map> list = Lists.newArrayList();
             for(GrantedAuthority authority:authorities){
-                jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
+                list.add(JSONUtils.toJavaBean(authority.getAuthority(), Map.class));
             }
-            result.put("authorities", jsonObject);
+            result.put("authorities", list);
 
             return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){
@@ -116,11 +118,11 @@ public class OAuth2Controller {
             result.putAll(accessToken.getAdditionalInformation());
 
             Collection<? extends GrantedAuthority> authorities = tokenStore.readAuthentication(accessToken).getUserAuthentication().getAuthorities();
-            JSONObject jsonObject = new JSONObject();
+            List<String> list = Lists.newArrayList();
             for(GrantedAuthority authority:authorities){
-                jsonObject.putAll(JSONObject.parseObject(authority.getAuthority()));
+                list.add(JSONUtils.toJavaBean(authority.getAuthority(), String.class));
             }
-            result.put("authorities", jsonObject);
+            result.put("authorities", list);
 
             return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){

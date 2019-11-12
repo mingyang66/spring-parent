@@ -1,6 +1,6 @@
 package com.yaomy.security.jwt.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.security.jwt.po.ResponseBody;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -27,7 +27,7 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
         responseBody.setStatus("000");
         responseBody.setMsg("Need Authorities!");
 
-        httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));
 
     }
 }

@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.security.oauth2.po.ResponseBody;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -27,7 +27,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         responseBody.setStatus("100");
         responseBody.setMsg("Logout Success!");
         System.out.println( request.getParameter("code"));;
-        response.getWriter().write(JSON.toJSONString(responseBody));
+        response.getWriter().write(JSONUtils.toJSONString(responseBody));
 
     }
 }

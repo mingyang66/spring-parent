@@ -1,6 +1,6 @@
 package com.yaomy.security.jwt.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.security.jwt.po.ResponseBody;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -27,7 +27,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         responseBody.setStatus("100");
         responseBody.setMsg("Logout Success!");
 
-        httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));
 
     }
 }

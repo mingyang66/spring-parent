@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.service;
 
-import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Lists;
 import com.yaomy.security.oauth2.authority.UserGrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Description: 用户认证
@@ -33,11 +34,11 @@ public class UserAuthDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         GrantedAuthority authority = new UserGrantedAuthority("username", username);
 
-        JSONArray array = new JSONArray();
-        array.add("/a/b");
-        array.add("/a/c");
-        array.add("/oauth/token");
-        GrantedAuthority interfaces = new UserGrantedAuthority("interfaces", array);
+        List<String> list = Lists.newArrayList();
+        list.add("/a/b");
+        list.add("/a/c");
+        list.add("/oauth/token");
+        GrantedAuthority interfaces = new UserGrantedAuthority("interfaces", list);
         /**
          isEnabled 账户是否启用
          isAccountNonExpired 账户没有过期

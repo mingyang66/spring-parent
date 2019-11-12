@@ -6,6 +6,7 @@ import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
 import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -24,6 +25,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @Date: 2019/7/9 11:26
  * @Version: 1.0
  */
+@SuppressWarnings("all")
+@Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
     @Autowired
@@ -48,7 +51,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         clients.withClientDetails(oAuth2ClientDetailsService);
     }
     /**
-     用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
+     * 用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -90,7 +93,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
                 .exceptionTranslator(webResponseExceptionTranslator);
     }
     /**
-     用来配置令牌端点（Token Endpoint）的安全约束
+     * 用来配置令牌端点（Token Endpoint）的安全约束
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {

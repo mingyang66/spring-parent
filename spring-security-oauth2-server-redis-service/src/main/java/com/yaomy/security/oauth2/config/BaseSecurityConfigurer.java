@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  * @Version: 1.0
  */
 @SuppressWarnings("all")
+@Configuration
 @EnableWebSecurity(debug = true)
 public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -34,28 +35,13 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserAuthDetailsService authUserDetailsService;
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+    public void configure(WebSecurity web) throws Exception {
+        //Spring Security应该忽略URLS以xxx开头的路由
+         web.ignoring().antMatchers("/oauth2/**");
     }
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        //忽略swagger访问权限限制
-       // web.ignoring().antMatchers(
-        //        "/userlogin",
-            //    "/userlogout",
-           //     "/userjwt",
-             //   "/v2/api-docs",
-             //   "/swagger-resources/configuration/ui",
-              //  "/swagger-resources",
-               // "/swagger-resources/configuration/security",
-                //"/swagger-ui.html",
-                //"/css/**",
-                //"/js/**",
-                //"/images/**",
-                //"/webjars/**",
-                //"**/favicon.ico",
-                //"/index");
-         web.ignoring().antMatchers("/oauth2/*");
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/public/**").permitAll();
     }
     /**
      * @Description Spring Security认证服务中的相关实现重新定义

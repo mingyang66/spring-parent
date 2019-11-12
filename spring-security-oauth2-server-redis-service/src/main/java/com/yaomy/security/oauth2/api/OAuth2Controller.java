@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.yaomy.control.common.enums.GrantTypeEnum;
 import com.yaomy.control.common.enums.HttpStatusMsg;
 import com.yaomy.control.common.po.BaseResponse;
+import com.yaomy.security.oauth2.po.MyUser;
 import com.yaomy.security.oauth2.service.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -20,10 +21,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,8 +49,8 @@ public class OAuth2Controller {
      * @Date 2019/7/22 15:59
      * @Version  1.0
      */
-    @RequestMapping(value = "token", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
+    @PostMapping(value = "token")
+    public ResponseEntity<BaseResponse> getToken(@RequestBody MyUser user){
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -60,8 +58,8 @@ public class OAuth2Controller {
         resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
         resource.setGrantType(GrantTypeEnum.PASSWORD.getGrant_type());
         resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
-        resource.setUsername(username);
-        resource.setPassword(password);
+        resource.setUsername(user.getUsername());
+        resource.setPassword(user.getPassword());
         resource.setScope(Arrays.asList("all"));
 
         OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
@@ -87,7 +85,7 @@ public class OAuth2Controller {
             return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString()));
+            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage()));
         }
     }
     /**

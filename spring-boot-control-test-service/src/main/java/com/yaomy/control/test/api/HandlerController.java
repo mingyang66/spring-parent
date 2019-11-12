@@ -2,6 +2,7 @@ package com.yaomy.control.test.api;
 
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.exception.business.BusinessException;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import com.yaomy.control.rest.client.HttpClientService;
@@ -39,6 +40,16 @@ public class HandlerController {
     private PropertyService propertyService;
     @Autowired
     private HttpClientService httpClientService;
+
+    @PostMapping(value = "/handler/test")
+    public ResponseEntity<BaseResponse> getName(@RequestBody @Valid User user){
+        LoggerUtil.info(HandlerController.class, "测试。。。");
+        boolean flag = true;
+        if(flag){
+            throw new BusinessException(100001, "业务异常");
+        }
+        return ResponseEntity.ok(BaseResponse.createResponse(10006, "自定义测试", user));
+    }
 
     @RequestMapping(value = "/handler/${path}/{path1}")
     public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response, PathVariable path) throws IOException {

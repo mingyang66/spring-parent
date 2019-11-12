@@ -125,7 +125,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
             //移除当前线程对应的数据源
             DataSourceContextHolder.remove();
             LoggerUtil.error(invocation.getClass(), StringUtils.join(MSG_CONTROLLER, invocation.getThis().getClass(), ".", method.getName(), MSG_DATASOURCE_END, dataSource, MSG_RIGHT_SYMBOL, NEW_LINE));
-            throw new Throwable(e);
+            throw e;
         }
     }
     /**
@@ -156,7 +156,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
             long spentTime = (stopWatch.getTime() == 0) ? 1 : stopWatch.getTime();
             //打印ERROR日志
             logError(invocation, request, paramsMap, spentTime, e);
-            throw new Throwable(e);
+            throw e;
         }
     }
     /**

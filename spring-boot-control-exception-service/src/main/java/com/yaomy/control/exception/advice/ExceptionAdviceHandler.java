@@ -3,6 +3,7 @@ package com.yaomy.control.exception.advice;
 
 import com.yaomy.control.common.control.enums.HttpStatus;
 import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.exception.business.BusinessException;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -128,7 +129,6 @@ public final class ExceptionAdviceHandler {
      * 数组越界异常
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         printErrorMessage(e);
         StackTraceElement[] elements = e.getStackTrace();
@@ -213,6 +213,17 @@ public final class ExceptionAdviceHandler {
             message = e.toString();
         }
         return BaseResponse.createResponse(HttpStatus.FAILED.getStatus(), message);
+    }
+
+    /**
+     * 业务异常处理类
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BusinessException.class)
+    public BaseResponse undeclaredThrowableException(BusinessException e) {
+        printErrorMessage(e);
+        return BaseResponse.createResponse(e.getStatus(), e.getErrorMessage());
     }
     /**
      * @Description 打印错误日志信息

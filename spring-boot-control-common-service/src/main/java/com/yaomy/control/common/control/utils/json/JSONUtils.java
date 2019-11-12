@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.yaomy.control.common.control.enums.DateFormatEnum;
 import com.yaomy.control.logback.utils.LoggerUtil;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -249,6 +250,6 @@ public class JSONUtils {
             e.printStackTrace();
             LoggerUtil.error(JSONUtils.class, e.toString());
         }
-        return new byte[]{};
+        return ArrayUtils.EMPTY_BYTE_ARRAY;
     }
 }

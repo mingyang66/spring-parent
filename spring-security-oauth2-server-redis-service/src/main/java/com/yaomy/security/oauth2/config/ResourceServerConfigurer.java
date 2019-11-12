@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @Version: 1.0
  */
 @EnableResourceServer
-public class ResourceServerConfiger extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private UserAuthenticationEntryPoint userAuthenticationEntryPoint;

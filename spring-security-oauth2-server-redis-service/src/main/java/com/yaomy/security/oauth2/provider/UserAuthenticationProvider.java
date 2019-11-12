@@ -27,6 +27,7 @@ import java.util.Collection;
  * @Date: 2019/7/2 17:17
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
     @Autowired

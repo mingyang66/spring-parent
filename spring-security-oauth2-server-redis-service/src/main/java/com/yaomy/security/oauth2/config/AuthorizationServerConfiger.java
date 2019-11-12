@@ -2,11 +2,10 @@ package com.yaomy.security.oauth2.config;
 
 import com.yaomy.security.oauth2.enhancer.UserTokenEnhancer;
 import com.yaomy.security.oauth2.filter.OAuthTokenAuthenticationFilter;
-import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import com.yaomy.security.oauth2.service.OAuth2ClientDetailsService;
+import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -25,7 +24,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @Date: 2019/7/9 11:26
  * @Version: 1.0
  */
-@Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiger extends AuthorizationServerConfigurerAdapter {
     @Autowired

@@ -3,6 +3,7 @@ package com.yaomy.security.oauth2.api;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yaomy.control.common.control.conf.PropertyService;
+import com.yaomy.control.common.control.enums.DateFormatEnum;
 import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.GrantTypeEnum;
 import com.yaomy.control.common.enums.HttpStatusMsg;
@@ -54,7 +55,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "token")
-    public ResponseEntity<BaseResponse> getToken(@RequestBody MyUser user){
+    public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -62,8 +63,8 @@ public class OAuth2Controller {
         resource.setClientSecret(propertyService.getProperty("spring.security.oauth.resource.client.secret"));
         resource.setGrantType(GrantTypeEnum.PASSWORD.getGrant_type());
         resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
-        resource.setUsername(user.getUsername());
-        resource.setPassword(user.getPassword());
+        resource.setUsername(username);
+        resource.setPassword(password);
         resource.setScope(Arrays.asList("all"));
 
         OAuth2RestTemplate template = new OAuth2RestTemplate(resource);
@@ -89,7 +90,7 @@ public class OAuth2Controller {
             return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage()));
+            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage());
         }
     }
     /**
@@ -98,7 +99,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "refresh_token")
-    public ResponseEntity<BaseResponse> refreshToken(@RequestBody MyToken token){
+    public ResponseEntity<BaseResponse> refreshToken(@RequestParam String refresh_token){
         try {
             ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
             resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -108,7 +109,7 @@ public class OAuth2Controller {
             resource.setAccessTokenUri(propertyService.getProperty("spring.security.oauth.token.uri"));
 
             ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
-            OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(token.getRefreshToken());
+            OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(refresh_token);
             OAuth2AccessToken accessToken = provider.refreshAccessToken(resource, refreshToken, new DefaultAccessTokenRequest());
 
             Map<String, Object> result = Maps.newLinkedHashMap();
@@ -129,7 +130,7 @@ public class OAuth2Controller {
             return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage()));
+            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage());
         }
     }
     /**
@@ -137,42 +138,45 @@ public class OAuth2Controller {
      * @Date 2019/7/25 16:22
      * @Version  1.0
      */
-    @RequestMapping(value = "check_token", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> checkToken(String access_token){
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(access_token);
-        OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(access_token);
-        Map<String, Object> map = Maps.newHashMap();
-        //用户名
-        map.put("username", auth2Authentication.getUserAuthentication().getName());
-        //是否过期
-        map.put("isExpired", accessToken.isExpired());
-        //过期时间
-        map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), "yyyy-MM-dd HH:mm:ss"));
-        BaseResponse response = null;
+    @PostMapping(value = "check_token")
+    public ResponseEntity<BaseResponse> checkToken(@RequestParam String access_token){
         try {
-            response = BaseResponse.createResponse(HttpStatusMsg.OK, map);
+            OAuth2AccessToken accessToken = tokenStore.readAccessToken(access_token);
+            OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(access_token);
+            Map<String, Object> map = Maps.newHashMap();
+            //用户名
+            map.put("username", auth2Authentication.getUserAuthentication().getName());
+            //是否过期
+            map.put("isExpired", accessToken.isExpired());
+            //过期时间
+            map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            return BaseResponse.createResponseEntity(HttpStatusMsg.OK, map);
         } catch (Exception e){
-            response = BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.toString());
+            e.printStackTrace();
+            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage());
         }
-        return ResponseEntity.ok(response);
     }
     /**
      * @Description 账号退出
      * @Date 2019/7/25 17:47
      * @Version  1.0
      */
-    @RequestMapping(value = "logout", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> logOut(String access_token){
-        if(StringUtils.isNotBlank(access_token)){
-            OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
-            if(oAuth2AccessToken != null){
-                System.out.println("----access_token是："+oAuth2AccessToken.getValue());
-                tokenStore.removeAccessToken(oAuth2AccessToken);
-                OAuth2RefreshToken oAuth2RefreshToken = oAuth2AccessToken.getRefreshToken();
-                tokenStore.removeRefreshToken(oAuth2RefreshToken);
-                tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
+    @PostMapping(value = "logout")
+    public ResponseEntity<BaseResponse> logOut(@RequestParam String access_token){
+        try {
+            if(StringUtils.isNotBlank(access_token)){
+                OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
+                if(oAuth2AccessToken != null){
+                    System.out.println("----access_token是："+oAuth2AccessToken.getValue());
+                    tokenStore.removeAccessToken(oAuth2AccessToken);
+                    OAuth2RefreshToken oAuth2RefreshToken = oAuth2AccessToken.getRefreshToken();
+                    tokenStore.removeRefreshToken(oAuth2RefreshToken);
+                    tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
+                }
             }
+            return BaseResponse.createResponseEntity(HttpStatusMsg.OK);
+        } catch (Exception e){
+            return BaseResponse.createResponseEntity(HttpStatusMsg.LOGOUT_EXCEPTION, e.getMessage());
         }
-        return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK));
     }
 }

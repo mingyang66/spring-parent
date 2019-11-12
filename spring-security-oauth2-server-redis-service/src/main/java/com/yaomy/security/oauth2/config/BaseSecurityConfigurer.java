@@ -54,7 +54,7 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 //"/webjars/**",
                 //"**/favicon.ico",
                 //"/index");
-        super.configure(web);
+         web.ignoring().antMatchers("/oauth2/*");
     }
     /**
      * @Description Spring Security认证服务中的相关实现重新定义

@@ -1,12 +1,11 @@
 package com.yaomy.security.oauth2.config;
 
+import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
 import com.yaomy.security.oauth2.provider.UserSmsAuthenticationProvider;
 import com.yaomy.security.oauth2.service.UserAuthDetailsService;
-import com.yaomy.security.oauth2.provider.UserAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,11 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: 启动基于Spring Security的安全认证,优先级顺序order=100
+ * @Description: 启动基于Spring Security的安全认证,优先级顺序order=100-order的值越小，类的优先级越高
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.WebSecurityConfigurer
  * @Date: 2019/7/8 17:43
@@ -30,8 +27,9 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration
 @EnableWebSecurity(debug = true)
 public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
+    /**
+     * 加载用户数据，提供给AuthenticationProvider使用
+     */
     @Autowired
     private UserAuthDetailsService authUserDetailsService;
     @Override
@@ -51,12 +49,17 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 加入自定义的安全认证
-        auth.userDetailsService(this.authUserDetailsService)
-                .passwordEncoder(this.passwordEncoder())
-             .and()
-                .authenticationProvider(smsAuthenticationProvider())
-                .authenticationProvider(authenticationProvider());
+        auth
+            .userDetailsService(this.authUserDetailsService)
+            .passwordEncoder(this.passwordEncoder())
+         .and()
+            .authenticationProvider(smsAuthenticationProvider())
+            .authenticationProvider(authenticationProvider());
     }
+
+    /**
+     * 授权管理器
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -85,18 +88,5 @@ public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-    }
-    /**
-     * @Description OAuth2 token持久化接口
-     * @Date 2019/7/9 17:45
-     * @Version  1.0
-     */
-    @Bean
-    public TokenStore tokenStore() {
-        //token保存在内存中（也可以保存在数据库、Redis中）。
-        //如果保存在中间件（数据库、Redis），那么资源服务器与认证服务器可以不在同一个工程中。
-        //注意：如果不保存access_token，则没法通过access_token取得用户信息
-        //return new InMemoryTokenStore();
-        return new RedisTokenStore(redisConnectionFactory);
     }
 }

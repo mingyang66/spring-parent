@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @Description: 用户认证
+ * @Description: 加载用户的核心数据，它在整个框架中作为用户的Dao使用，被{@link org.springframework.security.authentication.dao.DaoAuthenticationProvider}使用
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.User
  * @Date: 2019/6/28 17:37

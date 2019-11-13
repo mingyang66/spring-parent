@@ -7,6 +7,7 @@ import com.yaomy.security.oauth2.service.UserAuthDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -17,9 +18,10 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制,优先级顺序order=0
+ * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制,优先级顺序order=0-order的值越小，类的优先级越高
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.OAuth2ServerConfig
  * @Date: 2019/7/9 11:26
@@ -29,6 +31,16 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
+    /**
+     * Redis工厂类
+     */
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+    /**
+     * OAuth2 token持久化接口
+     */
+    @Autowired
+    private TokenStore tokenStore;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -37,8 +49,6 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     private UserAuthDetailsService userAuthDetailsService;
     @Autowired
     private WebResponseExceptionTranslator webResponseExceptionTranslator;
-    @Autowired
-    private TokenStore tokenStore;
     @Autowired
     private OAuthTokenAuthenticationFilter oAuthTokenAuthenticationFilter;
     /**
@@ -134,5 +144,17 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     public TokenEnhancer tokenEnhancer(){
         return new UserTokenEnhancer();
     }
-
+    /**
+     * @Description OAuth2 token持久化接口初始化
+     * @Date 2019/7/9 17:45
+     * @Version  1.0
+     */
+    @Bean
+    public TokenStore tokenStore() {
+        //token保存在内存中（也可以保存在数据库、Redis中）。
+        //如果保存在中间件（数据库、Redis），那么资源服务器与认证服务器可以不在同一个工程中。
+        //注意：如果不保存access_token，则没法通过access_token取得用户信息
+        //return new InMemoryTokenStore();
+        return new RedisTokenStore(redisConnectionFactory);
+    }
 }

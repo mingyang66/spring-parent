@@ -15,6 +15,7 @@ import java.io.Serializable;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
+@Deprecated
 @Data
 public class BaseResponse implements Serializable {
     private int status;

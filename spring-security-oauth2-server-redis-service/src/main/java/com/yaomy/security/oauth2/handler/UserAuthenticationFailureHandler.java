@@ -1,7 +1,5 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.yaomy.control.common.control.utils.json.JSONUtils;
-import com.yaomy.security.oauth2.po.ResponseBody;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -22,12 +20,12 @@ import java.io.IOException;
 public class UserAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        ResponseBody responseBody = new ResponseBody();
+    /*    ResponseBody responseBody = new ResponseBody();
 
         responseBody.setStatus("400");
         responseBody.setMsg("Login Failure!");
 
-        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));
+        httpServletResponse.getWriter().write(JSONUtils.toJSONString(responseBody));*/
 
     }
 }

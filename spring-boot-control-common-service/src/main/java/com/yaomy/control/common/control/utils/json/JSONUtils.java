@@ -11,6 +11,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 
 /**
@@ -251,5 +252,20 @@ public class JSONUtils {
             LoggerUtil.error(JSONUtils.class, e.toString());
         }
         return ArrayUtils.EMPTY_BYTE_ARRAY;
+    }
+
+    /**
+     * 使用字节流将value对象输出
+     * @param outputStream
+     * @param value
+     */
+    public static void writeValue(OutputStream outputStream, Object value){
+        try {
+            objectMapper.writeValue(outputStream, value);
+        } catch (IOException e){
+            e.printStackTrace();
+            LoggerUtil.error(JSONUtils.class, e.toString());
+        }
+
     }
 }

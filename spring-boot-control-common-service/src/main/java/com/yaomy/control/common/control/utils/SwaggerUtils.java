@@ -8,6 +8,7 @@ import java.util.List;
  * @ProjectName: spring-parent
  * @Version: 1.0
  */
+@Deprecated
 public class SwaggerUtils {
     public static final List<String> urls = Arrays.asList("/swagger-resources/configuration/ui",
                                                             "/swagger-resources/configuration/security",

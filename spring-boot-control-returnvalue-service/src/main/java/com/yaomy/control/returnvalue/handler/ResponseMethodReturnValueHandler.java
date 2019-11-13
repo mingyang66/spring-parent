@@ -1,6 +1,7 @@
 package com.yaomy.control.returnvalue.handler;
 
 import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.returnvalue.route.ReadFileRoute;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -8,6 +9,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,7 +35,10 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
-        if(null != returnValue && (returnValue instanceof BaseResponse)){
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        if(ReadFileRoute.read().contains(request.getRequestURI())){
+            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+        } else if(null != returnValue && (returnValue instanceof BaseResponse)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
             Map<String, Object> resultMap = new LinkedHashMap<>();

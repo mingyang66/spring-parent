@@ -1,8 +1,8 @@
 package com.yaomy.security.oauth2.handler;
 
+import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.HttpStatusMsg;
-import com.yaomy.control.common.po.BaseResponse;
-import com.yaomy.control.common.utils.HttpUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,6 @@ public class UserAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getStatus(), HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getMessage()+","+e.toString()), response);
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getStatus(), HttpStatusMsg.ACCESS_DENIDED_EXCEPTION.getMessage()+","+e.toString()));
     }
 }

@@ -13,6 +13,7 @@ import java.io.IOException;
  * @Date: 2019/7/18 9:34
  * @Version: 1.0
  */
+@Deprecated
 public class HttpUtils {
     /**
      * 异常输出工具类

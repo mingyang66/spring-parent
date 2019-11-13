@@ -1,8 +1,8 @@
 package com.yaomy.security.oauth2.handler;
 
+import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.HttpStatusMsg;
-import com.yaomy.control.common.po.BaseResponse;
-import com.yaomy.control.common.utils.HttpUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,6 @@ import java.io.IOException;
 public class UserAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
-        HttpUtils.writeSuccess(BaseResponse.createResponse(HttpStatusMsg.OK.getStatus(), HttpStatusMsg.OK.getMessage()), response);
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(HttpStatusMsg.OK.getStatus(), HttpStatusMsg.OK.getMessage()));
     }
 }

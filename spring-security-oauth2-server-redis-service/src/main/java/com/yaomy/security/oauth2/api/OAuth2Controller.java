@@ -4,12 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.enums.DateFormatEnum;
+import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.GrantTypeEnum;
 import com.yaomy.control.common.enums.HttpStatusMsg;
-import com.yaomy.control.common.po.BaseResponse;
-import com.yaomy.security.oauth2.po.MyToken;
-import com.yaomy.security.oauth2.po.MyUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,10 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -87,10 +88,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
+            return BaseResponse.createResponseEntity(HttpStatusMsg.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage());
+            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION);
         }
     }
     /**
@@ -127,10 +128,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return ResponseEntity.ok(BaseResponse.createResponse(HttpStatusMsg.OK, result));
+            return BaseResponse.createResponseEntity(HttpStatusMsg.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage());
+            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION);
         }
     }
     /**
@@ -153,7 +154,7 @@ public class OAuth2Controller {
             return BaseResponse.createResponseEntity(HttpStatusMsg.OK, map);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION, e.getMessage());
+            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION);
         }
     }
     /**
@@ -176,7 +177,7 @@ public class OAuth2Controller {
             }
             return BaseResponse.createResponseEntity(HttpStatusMsg.OK);
         } catch (Exception e){
-            return BaseResponse.createResponseEntity(HttpStatusMsg.LOGOUT_EXCEPTION, e.getMessage());
+            return BaseResponse.createResponseEntity(HttpStatusMsg.LOGOUT_EXCEPTION);
         }
     }
 }

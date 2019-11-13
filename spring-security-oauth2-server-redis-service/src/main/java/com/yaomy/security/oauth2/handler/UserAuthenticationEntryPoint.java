@@ -1,8 +1,8 @@
 package com.yaomy.security.oauth2.handler;
 
+import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.common.control.utils.json.JSONUtils;
 import com.yaomy.control.common.enums.HttpStatusMsg;
-import com.yaomy.control.common.po.BaseResponse;
-import com.yaomy.control.common.utils.HttpUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage()+","+e.toString()), response);
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage()+","+e.toString()));
 
     }
 }

@@ -1,7 +1,7 @@
 package com.yaomy.control.returnvalue.handler;
 
 import com.yaomy.control.common.control.po.BaseResponse;
-import com.yaomy.control.common.control.utils.SwaggerUtils;
+import com.yaomy.control.returnvalue.route.ReadFileRoute;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
@@ -11,7 +11,9 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +23,8 @@ import java.util.Map;
 public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
     private HandlerMethodReturnValueHandler proxyObject;
+
+    private static List<String> routes = Collections.emptyList();
 
     public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject){
         this.proxyObject = proxyObject;
@@ -38,7 +42,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         //获取ResponseEntity封装的真实返回值
         Object body = (null == returnValue) ? null :((ResponseEntity) returnValue).getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if(SwaggerUtils.urls.contains(request.getRequestURI())){
+        if(ReadFileRoute.read().contains(request.getRequestURI())){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if(null != body && (body instanceof BaseResponse)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

@@ -19,35 +19,45 @@ import java.util.List;
  * @Date: 2019/11/13 13:39
  * @Version: 1.0
  */
-public class RouteFile {
+public class IgnoreRouteFile {
     /**
      * 路由配置文件地址
      */
     private static final String filePath = "classpath:route.url";
     public static List<String> list = Collections.emptyList();
-
-    /**
-     * 读取路由配置文件
-     */
-    public static List<String> readRoute(){
+    static {
         try {
             File file = ResourceUtils.getFile(filePath);
             list = FileUtils.readLines(file, CharsetUtils.UTF8);
         } catch (FileNotFoundException e){
-           e.printStackTrace();
-            LoggerUtil.error(RouteFile.class, "路由配置文件丢失"+e.toString());
+            e.printStackTrace();
+            LoggerUtil.error(IgnoreRouteFile.class, "路由配置文件丢失"+e.toString());
         }
+    }
+    /**
+     * 读取路由配置文件
+     */
+    public static List<String> readRoute(){
         return list;
     }
 
     /**
      * 新增路由
-     * @param routes
      */
-    public static void addRoure(String...routes){
+    public static void addRoute(String...routes){
         if(routes.length == 0){
             return;
         }
         list.addAll(Lists.newArrayList(routes));
+    }
+
+    /**
+     * 删除路由
+     */
+    public static void removeRoute(String route){
+        if(StringUtils.isBlank(route) || !list.contains(route)){
+            return;
+        }
+        list.remove(route);
     }
 }

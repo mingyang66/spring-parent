@@ -1,7 +1,7 @@
 package com.yaomy.control.returnvalue.handler;
 
 import com.yaomy.control.common.control.po.BaseResponse;
-import com.yaomy.control.returnvalue.route.ReadFileRoute;
+import com.yaomy.control.returnvalue.route.IgnoreRouteFile;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +36,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if(ReadFileRoute.read().contains(request.getRequestURI())){
+        if(IgnoreRouteFile.readRoute().contains(request.getRequestURI())){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if(null != returnValue && (returnValue instanceof BaseResponse)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

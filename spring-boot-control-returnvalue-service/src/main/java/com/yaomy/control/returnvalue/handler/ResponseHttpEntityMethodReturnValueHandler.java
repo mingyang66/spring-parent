@@ -1,7 +1,7 @@
 package com.yaomy.control.returnvalue.handler;
 
 import com.yaomy.control.common.control.po.BaseResponse;
-import com.yaomy.control.returnvalue.route.IgnoreRouteFile;
+import com.yaomy.control.common.control.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
@@ -42,7 +42,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         //获取ResponseEntity封装的真实返回值
         Object body = (null == returnValue) ? null :((ResponseEntity) returnValue).getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if(IgnoreRouteFile.readRoute().contains(request.getRequestURI())){
+        if(RouteUtils.readRoute().contains(request.getRequestURI())){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if(null != body && (body instanceof BaseResponse)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

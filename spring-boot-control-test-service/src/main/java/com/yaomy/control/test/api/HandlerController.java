@@ -64,20 +64,12 @@ public class HandlerController {
         httpHeaders.add("age", "12");
         return httpHeaders;
     }
-    @RequestMapping(value = "/handler/test1")
-    public BaseResponse testNull(@RequestBody @Valid User user, Map<String, Object> map){
-        LoggerUtil.info(HandlerController.class, "测试。。。");
-        System.out.println(user);
-        System.out.println(map);
-        System.out.println("-------------------"+user.getWeight()[1]);
-        return BaseResponse.createResponse(1004, "sfsdf");
-    }
-    @RequestMapping(value = "/handler/test2")
+    @PostMapping(value = "/handler/test2")
     public ResponseEntity<List> testNull1(@RequestBody @Valid User user){
-        System.out.println("----------------deee");
+        System.out.println("----------------3434334");
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name", user.getName());
+        map.put("name", user.getName()+"12");
         map.put("age", user.getAge());
         list.add(map);
         return ResponseEntity.ok(list);

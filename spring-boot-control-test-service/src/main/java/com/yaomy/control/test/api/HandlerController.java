@@ -43,6 +43,7 @@ public class HandlerController {
 
     @PostMapping(value = "/handler/test")
     public ResponseEntity<BaseResponse> getName(@RequestBody @Valid User user){
+        System.out.println(propertyService.getProperty("test"));
         LoggerUtil.info(HandlerController.class, "测试。。。");
         boolean flag = true;
         if(flag){

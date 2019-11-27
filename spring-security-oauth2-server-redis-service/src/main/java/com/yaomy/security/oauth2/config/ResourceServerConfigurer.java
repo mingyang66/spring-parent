@@ -20,8 +20,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @Date: 2019/7/9 13:28
  * @Version: 1.0
  */
-@Configuration
-@EnableResourceServer
+//@Configuration
+//@EnableResourceServer
 public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 
     @Autowired
@@ -35,14 +35,15 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
     private PropertyService propertyService;
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources
+       /* resources
                 .tokenServices(tokenServices())
                 //资源ID
                 .resourceId(propertyService.getProperty("spring.security.oauth.resource.id"))
                 //用来解决匿名用户访问无权限资源时的异常
                 .authenticationEntryPoint(userAuthenticationEntryPoint)
                 //访问资源权限相关异常处理
-                .accessDeniedHandler(userAccessDeniedHandler);
+                .accessDeniedHandler(userAccessDeniedHandler);*/
+       super.configure(resources);
     }
 
     @Override

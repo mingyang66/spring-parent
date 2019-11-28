@@ -52,7 +52,15 @@ public class RouteUtils {
             }
         }
     }
-
+    /**
+     * 新增路由,以文件的方式
+     */
+    public static void addRoute(File file){
+        if(ObjectUtils.isEmpty(file) || !file.exists()){
+            return;
+        }
+        list.addAll(FileUtils.readLines(file, CharsetUtils.UTF8));
+    }
     /**
      * 删除路由
      */

@@ -1,1 +1,2 @@
+org.springframework.boot.env.PropertySourceLoader=com.yaomy.control.conf.PropertiesPropertySourceLoader
 org.springframework.boot.env.EnvironmentPostProcessor=com.yaomy.control.conf.ConfEnvironmentPostProcessor

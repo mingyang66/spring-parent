@@ -66,7 +66,7 @@ public class HandlerController {
     }
     @PostMapping(value = "/handler/test2")
     public ResponseEntity<List> testNull1(@RequestBody @Valid User user){
-        System.out.println("----------------3434334");
+        System.out.println("----------------3434334"+propertyService.getProperty("test.a"));
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         map.put("name", user.getName()+"12");

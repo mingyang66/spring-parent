@@ -1,14 +1,12 @@
 package com.yaomy.control.common.control.utils;
 
 import com.yaomy.control.common.control.utils.io.FileUtils;
-import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.control.common.control.utils.io.IOUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,16 +19,11 @@ public class RouteUtils {
     /**
      * 路由配置文件地址
      */
-    private static final String filePath = "classpath:route.url";
-    public static List<String> list = Collections.emptyList();
+    private static final String filePath = "route.url";
+    public static List<String> list;
     static {
-        try {
-            File file = ResourceUtils.getFile(filePath);
-            list = FileUtils.readLines(file, CharsetUtils.UTF8);
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-            LoggerUtil.error(RouteUtils.class, "路由配置文件丢失"+e.toString());
-        }
+        InputStream inputStream = RouteUtils.class.getClassLoader().getResourceAsStream(filePath);
+        list = IOUtils.readLines(inputStream, CharsetUtils.UTF8);
     }
     /**
      * 读取路由配置文件

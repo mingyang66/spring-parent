@@ -298,3 +298,4 @@ tail -f /var/log/rabbitmq/rabbit\@rabbit3.log
 rabbitmqctl change_password [username] [new_password]
 ```
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9ACentOS7%E4%B8%AD%E5%AE%89%E8%A3%85RabbitMQ%E9%9B%86%E7%BE%A4.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9ACentOS7%E4%B8%AD%E5%AE%89%E8%A3%85RabbitMQ%E9%9B%86%E7%BE%A4.md)

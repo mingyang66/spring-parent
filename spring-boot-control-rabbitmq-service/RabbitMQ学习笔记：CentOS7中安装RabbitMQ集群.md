@@ -9,19 +9,19 @@ docker pull centos:7
 创建CentOS7服务器centos7
 
 ```
-docker run -itd --hostname rabbit1 --name centos7 -p 15672:15672 -p 5672:5672 -p 4369:4369 -p 25672:25672 centos:7
+docker run -itd --privileged=true --hostname rabbit1 --name centos7 -p 15672:15672 -p 5672:5672 -p 4369:4369 -p 25672:25672 centos:7
 ```
 
 创建CentOS7服务器centos8
 
 ```
-docker run -itd --hostname rabbit2 --name centos8 -p 15673:15672 -p 5673:5672 -p 4363:4369 -p 25673:25672 --link centos7:rabbit1  centos:7
+docker run -itd --privileged=true --hostname rabbit2 --name centos8 -p 15673:15672 -p 5673:5672 -p 4363:4369 -p 25673:25672 --link centos7:rabbit1  centos:7
 ```
 
 创建CentOS7服务器centos9
 
 ```
-docker run -itd --hostname rabbit3 --name centos9 -p 15674:15672 -p 5674:5672 -p 4364:4369 -p 25674:25672 --link centos7:rabbit1 --link centos8:rabbit2  centos:7
+docker run -itd --privileged=true --hostname rabbit3 --name centos9 -p 15674:15672 -p 5674:5672 -p 4364:4369 -p 25674:25672 --link centos7:rabbit1 --link centos8:rabbit2  centos:7
 ```
 
 生产环境是直接部署在CentOS7上，上面的步骤可以直接忽略；

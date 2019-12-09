@@ -10,7 +10,6 @@ import java.util.Base64;
 
 /**
  * @Description: 图片Base64相互转换
- * @Author: 姚明洋
  * @Date: 2019/12/9 15:29
  * @Version: 1.0
  */

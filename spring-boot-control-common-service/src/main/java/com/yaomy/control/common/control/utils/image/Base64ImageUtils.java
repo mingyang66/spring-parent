@@ -13,7 +13,7 @@ import java.util.Base64;
  * @Date: 2019/12/9 15:29
  * @Version: 1.0
  */
-public class ImageBase64Utils {
+public class Base64ImageUtils {
     /**
      * 将图片转换成Base64编码
      * @param imgFile 待处理图片
@@ -27,7 +27,7 @@ public class ImageBase64Utils {
             in.read(data);
         } catch (IOException e){
             e.printStackTrace();
-            LoggerUtil.error(ImageBase64Utils.class, e.toString());
+            LoggerUtil.error(Base64ImageUtils.class, e.toString());
         }
         return new String(Base64.getEncoder().encode(data));
     }
@@ -51,7 +51,7 @@ public class ImageBase64Utils {
             return b;
         } catch (Exception e) {
             e.printStackTrace();
-            LoggerUtil.error(ImageBase64Utils.class, e.toString());
+            LoggerUtil.error(Base64ImageUtils.class, e.toString());
             return ArrayUtils.EMPTY_BYTE_ARRAY;
         }
     }

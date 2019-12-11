@@ -48,3 +48,5 @@ root         1  0.0  0.1  11836  2932 pts/0    Ss+  06:06   0:00 /bin/bash
 ```
 
 可以看到RabbitMQ应用服务停止的时候进程没有发生任何变化，个人理解rabbit应用是建立在Erlang虚拟机节点之上，rabbit应用启动不会创建单独的进程表现到操作系统。如果有正确的答案请留言，谢谢！
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rabbitmq-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rabbitmq-service)

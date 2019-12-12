@@ -1,6 +1,7 @@
 package com.yaomy.control.common.control.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.yaomy.control.common.control.enums.HttpStatus;
 import com.yaomy.control.common.enums.HttpStatusMsg;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,19 @@ public class BaseResponse implements Serializable {
         baseResponse.setMessage(message);
         return ResponseEntity.ok(baseResponse);
     }
+
+    /**
+     * 创建响应对象
+     * @param data
+     * @return
+     */
+    public static BaseResponse createResponse(Object data){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(HttpStatus.OK.getStatus());
+        baseResponse.setMessage(HttpStatus.OK.getMessage());
+        baseResponse.setData(data);
+        return baseResponse;
+    }
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10
@@ -54,6 +68,18 @@ public class BaseResponse implements Serializable {
         baseResponse.setMessage(message);
         baseResponse.setData(data);
         return baseResponse;
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static ResponseEntity<BaseResponse> createResponseEntity(Object data){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(HttpStatus.OK.getStatus());
+        baseResponse.setMessage(HttpStatus.OK.getMessage());
+        baseResponse.setData(data);
+        return ResponseEntity.ok(baseResponse);
     }
     /**
      * @Description 创建响应对象

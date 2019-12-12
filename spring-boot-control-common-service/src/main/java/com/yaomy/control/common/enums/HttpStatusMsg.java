@@ -8,6 +8,7 @@ package com.yaomy.control.common.enums;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
+@Deprecated
 public enum HttpStatusMsg {
     OK(200,"SUCCESS"),
     UNKNOW_EXCEPTION(201, "未知异常"),

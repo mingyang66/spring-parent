@@ -17,3 +17,4 @@
 - [spring-security-oauth2-resource-redis-service （OAuth2 Redis模式下资源服务器）](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service)
 - [spring-boot-logback-service(Spring boot logback日志)](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-logback-service)
 - [spring-boot-control-threadpool-service 线程池](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-threadpool-service)
+- [spring-boot-control-rabbitmq-service（RabbitMQ消息中间件）](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rabbitmq-service)

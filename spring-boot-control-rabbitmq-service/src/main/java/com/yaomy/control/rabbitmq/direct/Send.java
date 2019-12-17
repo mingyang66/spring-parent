@@ -50,7 +50,7 @@ public class Send {
         /**
          * 设置端口号
          */
-        factory.setPort(5675);
+        factory.setPort(5672);
         /**
          * 用户名
          */

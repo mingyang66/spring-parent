@@ -178,13 +178,13 @@ public class HandlerController {
         System.out.println("------PARAM--------"+name+"--"+age);
         return ResponseEntity.ok(name);
     }
-    @RequestMapping(value = "/handler/client6")
+    @GetMapping(value = "/handler/client6")
     public ResponseEntity<String> testClient6(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("name");
-        String age = request.getParameter("age");
-        System.out.println("------PARAM--------"+name+"--"+age);
-        String s = null;
-        s.length();
+        String name = "";
+        for(int i=0; i<1000;i++){
+            name = StringUtils.join(name, UUID.randomUUID());
+        }
+        System.out.println(name.getBytes().length+"--------------------------------------------------------");
         return ResponseEntity.ok(name);
     }
 }

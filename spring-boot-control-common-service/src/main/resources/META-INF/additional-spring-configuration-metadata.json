@@ -1,0 +1,49 @@
+{"hints": [
+  {
+    "name": "spring.yaomy.test.context.keys",
+    "values": [
+      {
+        "value": "key1",
+        "description": "key description1."
+      },
+      {
+        "value": "key2",
+        "description": "key description2."
+      }
+    ]
+  },
+  {
+    "name": "spring.yaomy.test.context.values",
+    "values": [
+      {
+        "value": "value1",
+        "description": "value description1."
+      },
+      {
+        "value": "value2",
+        "description": "value description2."
+      }
+    ]
+  },
+  {
+    "name": "spring.yaomy.test.test-tip",
+    "values": [
+      {
+        "value": "add",
+        "description": "add description1."
+      },
+      {
+        "value": "del",
+        "description": "del description2."
+      },
+      {
+        "value": "update",
+        "description": "del description2."
+      },
+      {
+        "value": "query",
+        "description": "del description2."
+      }
+    ]
+  }
+]}

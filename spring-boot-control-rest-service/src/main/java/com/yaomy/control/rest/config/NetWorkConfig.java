@@ -1,10 +1,9 @@
 package com.yaomy.control.rest.config;
 
-import org.apache.commons.lang3.math.NumberUtils;
+import com.yaomy.control.common.control.conf.MetaDataProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -20,18 +19,12 @@ import java.io.IOException;
 @Configuration
 public class NetWorkConfig {
     /**
-            * 读取数据超时时间配置属性
-     */
-    public static final String HTTP_CLIENT_READ_TIMEOUT = "spring.emis.network.readTimeOut";
-    /**
-     * 连接超时时间属性设置
-     */
-    public static final String HTTP_CLIENT_CONNECT_TIMEOUT = "spring.emis.network.connectTimeOut";
-    /**
      * 读取配置属性服务类
      */
     @Autowired
-    private Environment env;
+    private MetaDataProperties metaDataProperties;
+
+
     /**
      * 将RestTemplate加入容器
      */
@@ -50,7 +43,6 @@ public class NetWorkConfig {
         restTemplate.setErrorHandler(responseErrorHandler);
         return restTemplate;
     }
-
     /**
      * 定义HTTP请求工厂方法
      */
@@ -58,9 +50,9 @@ public class NetWorkConfig {
     public ClientHttpRequestFactory simpleClientHttpRequestFactory(){
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
-        factory.setReadTimeout(NumberUtils.toInt(env.getProperty(HTTP_CLIENT_READ_TIMEOUT), 5000));
+        factory.setReadTimeout(metaDataProperties.getHttpClient().getReadTimeOut());
         //连接超时10秒，默认无限制，单位：毫秒
-        factory.setConnectTimeout(NumberUtils.toInt(env.getProperty(HTTP_CLIENT_CONNECT_TIMEOUT), 10000));
+        factory.setConnectTimeout(metaDataProperties.getHttpClient().getConnectTimeOut());
         return factory;
     }
 

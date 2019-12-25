@@ -26,7 +26,6 @@ import java.util.Map;
  */
 @Order(2147483646)
 public class PropertiesPropertySourceLoader implements PropertySourceLoader {
-    private static final String XML_FILE_EXTENSION = ".xml";
 
     public PropertiesPropertySourceLoader() {
     }

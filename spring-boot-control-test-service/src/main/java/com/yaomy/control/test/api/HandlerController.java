@@ -1,15 +1,18 @@
 package com.yaomy.control.test.api;
 
 import com.yaomy.control.common.control.conf.PropertyService;
+import com.yaomy.control.common.control.enums.DateFormatEnum;
 import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.exception.business.BusinessException;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.control.rabbitmq.amqp.RabbitSender;
 import com.yaomy.control.rest.client.HttpClientService;
 import com.yaomy.control.test.po.Job;
 import com.yaomy.control.test.po.User;
 import com.yaomy.control.test.service.JobService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -186,5 +189,17 @@ public class HandlerController {
         }
         System.out.println(name.getBytes().length+"--------------------------------------------------------");
         return ResponseEntity.ok(name);
+    }
+
+    @Autowired
+    private RabbitSender rabbitSender;
+
+    @GetMapping(value = "/handler/rabbit")
+    public void rabbit(String exchange, String route){
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("number", "12345");
+        properties.put("send_time", DateFormatUtils.format(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+        rabbitSender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
     }
 }

@@ -643,3 +643,6 @@ public class NetWorkConfig {
 ```
 
 > 综上两种方法，建议选择第二种方法，第一种需要在每个用到类中加上一个注解，比较麻烦；第二种方法只需要配置在spring.factories文件中，容器启动的时候自动的将java bean加载进入容器中，跟使用普通的Java Bean一样。
+
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-common-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-common-service)

@@ -1,18 +1,13 @@
 package com.yaomy.control.rabbitmq.amqp;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @Description: RabbitMQ生产者
@@ -27,7 +22,7 @@ public class RabbitSender {
     /**
      * 回调接口
      */
-    final RabbitTemplate.ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback() {
+    private final RabbitTemplate.ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback() {
         /**
          *
          * @param correlationData 回调相关数据
@@ -46,11 +41,11 @@ public class RabbitSender {
         }
     };
 
-    final RabbitTemplate.ReturnCallback returnCallback = new RabbitTemplate.ReturnCallback() {
+    private final RabbitTemplate.ReturnCallback returnCallback = new RabbitTemplate.ReturnCallback() {
         @Override
         public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
             System.err.println("return exchange: " + exchange + ", routingKey: "
-                    + routingKey + ", replyCode: " + replyCode + ", replyText: " + replyText);
+                    + routingKey + ", replyCode: " + replyCode + ", replyText: " + replyText+",MessageId:"+message.getMessageProperties().getMessageId());
         }
     };
 
@@ -61,41 +56,66 @@ public class RabbitSender {
      * @param message 消息
      * @param properties
      */
-    public void sendMsg(String exchange, String route, String message, Map<String, Object> properties){
-        MessageHeaders mhs = new MessageHeaders(properties);
-        MessageBuilder.createMessage(message, mhs);
-        org.springframework.messaging.Message msg = MessageBuilder.createMessage(message, mhs);
+    public void sendMsg(String exchange, String routingKey, String message, Map<String, Object> properties){
+        org.springframework.messaging.Message msg = org.springframework.messaging.support.MessageBuilder.withPayload(message).build();
+        /**
+         * 设置生产者消息publish-confirm回调函数
+         */
         this.rabbitTemplate.setConfirmCallback(confirmCallback);
+        /**
+         * 设置消息退回回调函数
+         */
         this.rabbitTemplate.setReturnCallback(returnCallback);
-        /**
-         * 设置AMQP消息属性
-         */
-        MessageProperties messageProperties = new MessageProperties();
-        /**
-         * 设置消息的内容类型，默认是application/octet-stream字节类型
-         */
-        messageProperties.setContentType(MessageProperties.DEFAULT_CONTENT_TYPE);
-        /**
-         * 设置消息过期时间，单位：毫秒
-         */
-        messageProperties.setExpiration("10000");
         /**
          * 将消息主题和属性封装在Message类中
          */
-        Message returnedMessage = new Message(message.getBytes(), messageProperties);
+        Message returnedMessage = MessageBuilder.withBody(message.getBytes()).build();
         /**
          * 相关数据
          */
         CorrelationData correlationData = new CorrelationData();
         /**
-         * 消息ID，全局必须唯一
+         * 消息ID，全局唯一
          */
-        correlationData.setId(UUID.randomUUID().toString());
+        correlationData.setId(msg.getHeaders().getId().toString());
 
         /**
          * 设置此相关数据的返回消息
          */
         correlationData.setReturnedMessage(returnedMessage);
-        this.rabbitTemplate.convertAndSend(exchange, route, msg, correlationData);
+        /**
+         * 如果msg是org.springframework.amqp.core.Message对象的实例，则直接返回，否则转化为Message对象
+         */
+        this.rabbitTemplate.convertAndSend(exchange, routingKey, msg, new MessagePostProcessor() {
+            /**
+             * 消息后置处理器，消息在转换成Message对象之后调用，可以用来修改消息中的属性、header
+             */
+            @Override
+            public Message postProcessMessage(Message message) throws AmqpException {
+                MessageProperties msgProperties = message.getMessageProperties();
+                /**
+                 * 设置消息发送到队列之后多久被丢弃，单位：毫秒
+                 * 此种方案需要每条消息都设置此属性，比较灵活；
+                 * 还有一种方案是在声明队列的时候指定发送到队列中的过期时间；
+                 * * Queue queue = new Queue("test_queue2");
+                 * * queue.getArguments().put("x-message-ttl", 10000);
+                 * 这两种方案可以同时存在，以值小的为准
+                 */
+                msgProperties.setExpiration("10000");
+                /**
+                 * 设置消息的优先级
+                 */
+                msgProperties.setPriority(9);
+                /**
+                 * 设置消息发送到队列中的模式，持久化|非持久化（只存在于内存中）
+                 */
+                msgProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                //msgProperties.setMessageId(msg.getHeaders().getId().toString());
+                //msgProperties.getHeaders().put("spring_listener_return_correlation", msg.getHeaders().getId().toString());
+                System.out.println("deliveryTag:"+message.getMessageProperties().getDeliveryTag());
+                System.out.println("ID:"+msgProperties.getHeaders().get("id"));
+                return message;
+            }
+        }, correlationData);
     }
 }

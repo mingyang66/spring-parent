@@ -1,4 +1,4 @@
-package com.yaomy.control.common.control.conf;
+package com.yaomy.control.conf.properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

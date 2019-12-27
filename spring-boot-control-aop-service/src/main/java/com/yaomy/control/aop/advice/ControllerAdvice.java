@@ -2,8 +2,8 @@ package com.yaomy.control.aop.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yaomy.control.common.control.conf.PropertyService;
 import com.yaomy.control.common.control.utils.ObjectSizeUtil;
+import com.yaomy.control.conf.properties.PropertyService;
 import com.yaomy.control.logback.utils.LoggerUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

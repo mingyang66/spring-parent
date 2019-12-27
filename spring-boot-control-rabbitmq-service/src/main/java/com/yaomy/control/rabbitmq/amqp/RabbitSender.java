@@ -86,12 +86,19 @@ public class RabbitSender {
      * @param message 消息
      * @param properties
      */
-    public void sendMsg(String exchange, String routingKey, String message, Map<String, Object> properties){
+    public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties){
         try {
-            //org.springframework.messaging.Message msg = org.springframework.messaging.support.MessageBuilder.withPayload(message).build();
-            MessageProperties properties1 = new MessageProperties();
-            properties1.setMessageId(UUID.randomUUID().toString());
-            Message msg = MessageBuilder.withBody(message.getBytes()).andProperties(properties1).build();
+            if(null == properties){
+                properties = new MessageProperties();
+            }
+            /**
+             * 设置消息唯一标识
+             */
+            properties.setMessageId(UUID.randomUUID().toString());
+            /**
+             * 创建消息包装对象
+             */
+            Message msg = MessageBuilder.withBody(message.getBytes()).andProperties(properties).build();
             /**
              * 设置生产者消息publish-confirm回调函数
              */

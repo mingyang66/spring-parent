@@ -1,6 +1,6 @@
 package com.yaomy.control.rest.config;
 
-import com.yaomy.control.common.control.conf.MetaDataProperties;
+import com.yaomy.control.conf.properties.MetaDataProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

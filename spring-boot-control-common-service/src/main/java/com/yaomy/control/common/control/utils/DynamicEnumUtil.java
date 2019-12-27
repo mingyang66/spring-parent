@@ -16,6 +16,7 @@ import java.util.List;
  * @Description: 动态新增枚举值工具类
  * @Version: 1.0
  */
+@Deprecated
 public class DynamicEnumUtil {
     private static ReflectionFactory reflectionFactory = ReflectionFactory.getReflectionFactory();
 

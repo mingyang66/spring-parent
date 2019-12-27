@@ -1,4 +1,4 @@
-package com.yaomy.control.common.control.conf;
+package com.yaomy.control.conf.properties;
 
 import com.yaomy.control.common.control.test.School;
 import org.springframework.boot.context.properties.ConfigurationProperties;

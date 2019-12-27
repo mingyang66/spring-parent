@@ -1,3 +1,3 @@
 org.springframework.boot.env.PropertySourceLoader=com.yaomy.control.conf.PropertiesPropertySourceLoader
 org.springframework.boot.env.EnvironmentPostProcessor=com.yaomy.control.conf.ConfEnvironmentPostProcessor
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.yaomy.control.common.control.conf.MetaDataProperties
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.yaomy.control.conf.properties.MetaDataProperties

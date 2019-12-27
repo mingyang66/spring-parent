@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Description: RabbitMQ消息消费者
  * @Version: 1.0
  */
-//@Component
+@Component
 public class RabbitReceiver {
 
     @RabbitListener(queues = "test_queue2")

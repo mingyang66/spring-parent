@@ -1,17 +1,13 @@
 package com.yaomy.control.rabbitmq.amqp;
 
-import com.yaomy.control.common.control.utils.CharsetUtils;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.connection.PublisherCallbackChannel;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.codec.StringDecoder;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -142,7 +138,7 @@ public class RabbitSender {
                      * * queue.getArguments().put("x-message-ttl", 10000);
                      * 这两种方案可以同时存在，以值小的为准
                      */
-                    msgProperties.setExpiration("10000");
+                    //msgProperties.setExpiration("10000");
                     /**
                      * 设置消息的优先级
                      */
@@ -151,10 +147,6 @@ public class RabbitSender {
                      * 设置消息发送到队列中的模式，持久化|非持久化（只存在于内存中）
                      */
                     msgProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-                    //msgProperties.setMessageId(msg.getHeaders().getId().toString());
-                    //msgProperties.getHeaders().put("spring_listener_return_correlation", msg.getHeaders().getId().toString());
-                    System.out.println("deliveryTag:" + message.getMessageProperties().getDeliveryTag());
-                    System.out.println("ID:" + msgProperties.getHeaders().get("id"));
                     return message;
                 }
             }, correlationData);

@@ -23,7 +23,7 @@ public class RabbitConfig {
         /**
          * 设置消息发送到队列之后多久被丢弃，单位：毫秒
          */
-        args.put("x-message-ttl", 60000);
+        //args.put("x-message-ttl", 60000);
         /**
          * 定义优先级队列，消息最大优先级为15，优先级范围为0-15，数字越大优先级越高
          */

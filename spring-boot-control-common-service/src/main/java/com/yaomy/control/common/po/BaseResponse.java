@@ -2,7 +2,6 @@ package com.yaomy.control.common.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yaomy.control.common.enums.HttpStatusMsg;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import java.io.Serializable;
  */
 @SuppressWarnings("all")
 @Deprecated
-@Data
 public class BaseResponse implements Serializable {
     private int status;
     private String message;
@@ -113,5 +111,29 @@ public class BaseResponse implements Serializable {
         baseResponse.setMessage(httpStatusMsg.getMessage());
         baseResponse.setData(data);
         return ResponseEntity.ok(baseResponse);
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

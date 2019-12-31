@@ -1,13 +1,12 @@
 package com.yaomy.control.common.control.test;
 
-import lombok.Data;
+import java.io.Serializable;
 
 /**
  * @Description: Description
  * @Version: 1.0
  */
-@Data
-public class School {
+public class School implements Serializable {
     /**
      * 学号
      */
@@ -20,4 +19,28 @@ public class School {
      * address
      */
     private String address;
+
+    public Integer getNo() {
+        return no;
+    }
+
+    public void setNo(Integer no) {
+        this.no = no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

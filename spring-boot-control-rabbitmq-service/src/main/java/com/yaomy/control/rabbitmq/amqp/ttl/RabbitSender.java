@@ -1,4 +1,4 @@
-package com.yaomy.control.rabbitmq.amqp;
+package com.yaomy.control.rabbitmq.amqp.ttl;
 
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;

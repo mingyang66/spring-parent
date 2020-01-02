@@ -6,7 +6,7 @@ import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.exception.business.BusinessException;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
-import com.yaomy.control.rabbitmq.amqp.RabbitSender;
+import com.yaomy.control.rabbitmq.amqp.ttl.RabbitSender;
 import com.yaomy.control.rest.client.HttpClientService;
 import com.yaomy.control.test.po.Job;
 import com.yaomy.control.test.po.User;

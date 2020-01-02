@@ -1,4 +1,4 @@
-package com.yaomy.control.rabbitmq.amqp.config;
+package com.yaomy.control.rabbitmq.amqp.ttl.config;
 
 import com.google.common.collect.Maps;
 import org.springframework.amqp.core.*;
@@ -14,8 +14,8 @@ import java.util.Map;
 @SuppressWarnings("all")
 @Configuration
 public class RabbitConfig {
-    public static final String TEST_EXCHANGE2 = "test.topic.exchange";
-    public static final String TEST_QUEUE2 = "test_topic_queue";
+    public static final String TEST_TOPIC_EXCHANGE = "test.topic.exchange";
+    public static final String TEST_TOPIC_QUEUE = "test_topic_queue";
     public static final String TEST_ROUTING_KEY = "*.topic.*";
     public static final String TEST_DELAY_EXCHANGE = "test.delay.exchange";
     public static final String TEST_DELAY_ROUTING_KEY = "test.delay.routingkey";
@@ -49,7 +49,7 @@ public class RabbitConfig {
         /**
          * 设置持久化队列
          */
-        return QueueBuilder.durable(TEST_QUEUE2).withArguments(args).build();
+        return QueueBuilder.durable(TEST_TOPIC_QUEUE).withArguments(args).build();
     }
 
 
@@ -58,7 +58,7 @@ public class RabbitConfig {
      */
     @Bean
     public TopicExchange topicExchange(){
-        TopicExchange exchange = new TopicExchange(TEST_EXCHANGE2);
+        TopicExchange exchange = new TopicExchange(TEST_TOPIC_EXCHANGE);
         return exchange;
     }
 

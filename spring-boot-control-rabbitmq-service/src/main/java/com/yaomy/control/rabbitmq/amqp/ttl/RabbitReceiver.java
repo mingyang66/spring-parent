@@ -1,6 +1,7 @@
-package com.yaomy.control.rabbitmq.amqp;
+package com.yaomy.control.rabbitmq.amqp.ttl;
 
 import com.rabbitmq.client.Channel;
+import com.yaomy.control.rabbitmq.amqp.ttl.config.RabbitConfig;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -26,13 +27,14 @@ public class RabbitReceiver {
      * @param message 消息
      * @throws Exception
      */
-    @RabbitListener(queues = "test_queue2")
+    @RabbitListener(queues = RabbitConfig.TEST_TOPIC_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
         System.out.println("--------------------------------------");
         System.out.println("消费端Payload: " + message.getPayload()+"-ID:"+message.getHeaders().getId()+"-messageId:"+message.getHeaders());
         Long deliveryTag = (Long)message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
+        channel.basicReject(deliveryTag, false);
         //手工ACK,获取deliveryTag
-        channel.basicAck(deliveryTag, false);
+        //channel.basicAck(deliveryTag, false);
     }
 
     /**
@@ -41,7 +43,7 @@ public class RabbitReceiver {
      * @param message 消息
      * @throws Exception
      */
-    @RabbitListener(queues = "test_queue2")
+    @RabbitListener(queues = RabbitConfig.TEST_TOPIC_QUEUE)
     public void onMessage(Channel channel, org.springframework.amqp.core.Message message) throws Exception {
         System.out.println("--------------------------------------");
         System.out.println("消费端Payload: " + new String(message.getBody())+"-messageId:"+message.getMessageProperties().getMessageId());
@@ -62,7 +64,7 @@ public class RabbitReceiver {
      * @throws Exception
      */
     //获取特定的消息
-    @RabbitListener(queues = "test_queue2")
+    @RabbitListener(queues = RabbitConfig.TEST_TOPIC_QUEUE)
     //@RabbitHandler
     public void handleMessage(Channel channel, @Payload byte[] body, @Header String amqp_messageId,  @Headers Map<String, Object> headers) throws Exception{
         System.out.println("====消费消息===amqp_messageId:"+amqp_messageId);
@@ -84,7 +86,7 @@ public class RabbitReceiver {
      * @param headers 消息header
      * @throws Exception
      */
-    @RabbitListener(queues = "test_queue2")
+    @RabbitListener(queues = RabbitConfig.TEST_TOPIC_QUEUE)
     //@RabbitHandler
     public void handleMessage(Channel channel, @Payload byte[] body, MessageHeaders headers) throws Exception{
         System.out.println("====消费消息===amqp_messageId:"+headers);

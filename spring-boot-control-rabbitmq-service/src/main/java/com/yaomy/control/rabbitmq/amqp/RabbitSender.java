@@ -110,6 +110,19 @@ public class RabbitSender {
      * @param properties
      */
     public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties){
+        /**
+         * 设置生产者消息publish-confirm回调函数
+         */
+        this.rabbitTemplate.setConfirmCallback(confirmCallback);
+        /**
+         * 设置消息退回回调函数
+         */
+        this.rabbitTemplate.setReturnCallback(returnCallback);
+        /**
+         * 新增消息转换完成后、发送之前的扩展点
+         */
+        this.rabbitTemplate.setBeforePublishPostProcessors(messagePostProcessor);
+
         try {
             if(null == properties){
                 properties = new MessageProperties();
@@ -122,18 +135,6 @@ public class RabbitSender {
              * 创建消息包装对象
              */
             Message msg = MessageBuilder.withBody(message.getBytes()).andProperties(properties).build();
-            /**
-             * 设置生产者消息publish-confirm回调函数
-             */
-            this.rabbitTemplate.setConfirmCallback(confirmCallback);
-            /**
-             * 设置消息退回回调函数
-             */
-            this.rabbitTemplate.setReturnCallback(returnCallback);
-            /**
-             * 新增消息转换完成后、发送之前的扩展点
-             */
-            this.rabbitTemplate.setBeforePublishPostProcessors(messagePostProcessor);
             /**
              * 将消息主题和属性封装在Message类中
              */

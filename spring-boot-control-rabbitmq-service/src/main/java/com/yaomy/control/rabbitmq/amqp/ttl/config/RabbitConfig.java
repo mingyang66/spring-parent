@@ -14,12 +14,12 @@ import java.util.Map;
 @SuppressWarnings("all")
 @Configuration
 public class RabbitConfig {
-    public static final String TEST_TOPIC_EXCHANGE = "ttl.topic.exchange";
-    public static final String TEST_TOPIC_QUEUE = "ttl_topic_queue";
-    public static final String TEST__TOPIC_ROUTING_KEY = "*.topic.*";
-    public static final String TEST_DELAY_EXCHANGE = "ttl.delay.exchange";
-    public static final String TEST_DELAY_ROUTING_KEY = "ttl.delay.routingkey";
-    public static final String TEST_DELAY_QUEUE = "ttl_delay_queue";
+    public static final String TTL_TOPIC_EXCHANGE = "ttl.topic.exchange";
+    public static final String TTL_TOPIC_QUEUE = "ttl_topic_queue";
+    public static final String TTL__TOPIC_ROUTING_KEY = "*.topic.*";
+    public static final String TTL_DELAY_EXCHANGE = "ttl.delay.exchange";
+    public static final String TTL_DELAY_ROUTING_KEY = "ttl.delay.routingkey";
+    public static final String TTL_DELAY_QUEUE = "ttl_delay_queue";
     /**
      * 声明队列
      */
@@ -37,11 +37,11 @@ public class RabbitConfig {
          * 3.队列达到最大长度
          * x-dead-letter-exchange参数是指消息编程死信之后重新发送的DLX
          */
-        args.put("x-dead-letter-exchange", TEST_DELAY_EXCHANGE);
+        args.put("x-dead-letter-exchange", TTL_DELAY_EXCHANGE);
         /**
          * 为DLX指定路由键DLK
          */
-        args.put("x-dead-letter-routing-key", TEST_DELAY_ROUTING_KEY);
+        args.put("x-dead-letter-routing-key", TTL_DELAY_ROUTING_KEY);
         /**
          * 定义优先级队列，消息最大优先级为15，优先级范围为0-15，数字越大优先级越高
          */
@@ -49,7 +49,7 @@ public class RabbitConfig {
         /**
          * 设置持久化队列
          */
-        return QueueBuilder.durable(TEST_TOPIC_QUEUE).withArguments(args).build();
+        return QueueBuilder.durable(TTL_TOPIC_QUEUE).withArguments(args).build();
     }
 
 
@@ -58,7 +58,7 @@ public class RabbitConfig {
      */
     @Bean
     public TopicExchange topicExchange(){
-        TopicExchange exchange = new TopicExchange(TEST_TOPIC_EXCHANGE);
+        TopicExchange exchange = new TopicExchange(TTL_TOPIC_EXCHANGE);
         return exchange;
     }
 
@@ -68,7 +68,7 @@ public class RabbitConfig {
      */
     @Bean
     public Binding bindingTopicExchangeQueue(){
-        return BindingBuilder.bind(topicQueue()).to(topicExchange()).with(TEST__TOPIC_ROUTING_KEY);
+        return BindingBuilder.bind(topicQueue()).to(topicExchange()).with(TTL__TOPIC_ROUTING_KEY);
     }
 
     //============================延迟队列及交换器定义=================================
@@ -77,7 +77,7 @@ public class RabbitConfig {
      */
     @Bean
     public Queue ttlQueue(){
-        return QueueBuilder.durable(TEST_DELAY_QUEUE).build();
+        return QueueBuilder.durable(TTL_DELAY_QUEUE).build();
     }
 
     /**
@@ -85,7 +85,7 @@ public class RabbitConfig {
      */
     @Bean
     public TopicExchange ttlExchange(){
-        TopicExchange exchange = new TopicExchange(TEST_DELAY_EXCHANGE);
+        TopicExchange exchange = new TopicExchange(TTL_DELAY_EXCHANGE);
         return exchange;
     }
 
@@ -94,6 +94,6 @@ public class RabbitConfig {
      */
     @Bean
     public Binding bindingTtlDirectExchangeQueue(){
-        return BindingBuilder.bind(ttlQueue()).to(ttlExchange()).with(TEST_DELAY_ROUTING_KEY);
+        return BindingBuilder.bind(ttlQueue()).to(ttlExchange()).with(TTL_DELAY_ROUTING_KEY);
     }
 }

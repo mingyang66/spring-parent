@@ -27,7 +27,7 @@ public class RabbitDelayReceiver {
      * @param message 消息
      * @throws Exception
      */
-    @RabbitListener(queues = RabbitDelayConfig.DELAY_TOPIC_QUEUE)
+    @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
         System.out.println("--------------------------------------");
         System.out.println("消费端Payload: " + message.getPayload()+"-ID:"+message.getHeaders().getId()+"-messageId:"+message.getHeaders());
@@ -42,7 +42,7 @@ public class RabbitDelayReceiver {
      * @param message 消息
      * @throws Exception
      */
-    @RabbitListener(queues = RabbitDelayConfig.DELAY_TOPIC_QUEUE)
+    @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     public void onMessage(Channel channel, org.springframework.amqp.core.Message message) throws Exception {
         System.out.println("--------------------------------------");
         System.out.println("消费端Payload: " + new String(message.getBody())+"-messageId:"+message.getMessageProperties().getMessageId());
@@ -63,7 +63,7 @@ public class RabbitDelayReceiver {
      * @throws Exception
      */
     //获取特定的消息
-    @RabbitListener(queues = RabbitDelayConfig.DELAY_TOPIC_QUEUE)
+    @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     //@RabbitHandler
     public void handleMessage(Channel channel, @Payload byte[] body, @Header String amqp_messageId,  @Headers Map<String, Object> headers) throws Exception{
         System.out.println("====消费消息===amqp_messageId:"+amqp_messageId);
@@ -85,7 +85,7 @@ public class RabbitDelayReceiver {
      * @param headers 消息header
      * @throws Exception
      */
-    @RabbitListener(queues = RabbitDelayConfig.DELAY_TOPIC_QUEUE)
+    @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     //@RabbitHandler
     public void handleMessage(Channel channel, @Payload byte[] body, MessageHeaders headers) throws Exception{
         System.out.println("====消费消息===amqp_messageId:"+headers);

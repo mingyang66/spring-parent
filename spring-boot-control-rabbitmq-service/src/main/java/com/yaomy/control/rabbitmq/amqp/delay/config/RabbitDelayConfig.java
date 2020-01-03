@@ -18,15 +18,15 @@ public class RabbitDelayConfig {
     /**
      * 交换器
      */
-    public static final String DELAY_TOPIC_EXCHANGE = "delay.topic.exchange";
+    public static final String DELAY_TEST_EXCHANGE = "delay.test.exchange";
     /**
      * 队列
      */
-    public static final String DELAY_TOPIC_QUEUE = "delay_topic_queue";
+    public static final String DELAY_TEST_QUEUE = "delay_test_queue";
     /**
      * 路由
      */
-    public static final String DELAY__TOPIC_ROUTING_KEY = "delay_routing_key";
+    public static final String DELAY_TEST_ROUTING_KEY = "delay.test.routing.key";
     /**
      * 声明延时队列
      */
@@ -40,7 +40,7 @@ public class RabbitDelayConfig {
         /**
          * 设置持久化队列
          */
-        return QueueBuilder.durable(DELAY_TOPIC_QUEUE).withArguments(args).build();
+        return QueueBuilder.durable(DELAY_TEST_QUEUE).withArguments(args).build();
     }
 
 
@@ -56,9 +56,9 @@ public class RabbitDelayConfig {
         /**
          * 设置自定义交换器路由消息的类型，direct类似direct交换器路由消息的模式，也可以传递topic、fanout,或者其它插件提供的自定义的交换器类型
          */
-        args.put("x-delayed-type", "direct");
+        args.put("x-delayed-type", "topic");
 
-        return new CustomExchange(DELAY_TOPIC_EXCHANGE, "x-delayed-message", true, false, args);
+        return new CustomExchange(DELAY_TEST_EXCHANGE, "x-delayed-message", true, false, args);
     }
 
     /**
@@ -66,6 +66,6 @@ public class RabbitDelayConfig {
      */
     @Bean
     public Binding bindingDelayCustomExchangeQueue(){
-        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(DELAY__TOPIC_ROUTING_KEY).noargs();
+        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(DELAY_TEST_ROUTING_KEY).noargs();
     }
 }

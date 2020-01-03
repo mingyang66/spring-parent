@@ -6,6 +6,7 @@ import com.yaomy.control.common.control.po.BaseResponse;
 import com.yaomy.control.exception.business.BusinessException;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.control.rabbitmq.amqp.delay.RabbitDelaySender;
 import com.yaomy.control.rabbitmq.amqp.ttl.RabbitSender;
 import com.yaomy.control.rest.client.HttpClientService;
 import com.yaomy.control.test.po.Job;
@@ -201,5 +202,17 @@ public class HandlerController {
         properties.getHeaders().put("number", "12345");
         properties.getHeaders().put("send_time", DateFormatUtils.format(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
         rabbitSender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
+    }
+
+    @Autowired
+    private RabbitDelaySender rabbitDelaySender;
+
+    @GetMapping(value = "/handler/rabbit_delay")
+    public void rabbit1(String exchange, String route){
+
+        MessageProperties properties = new MessageProperties();
+        properties.getHeaders().put("number", "12345");
+        properties.getHeaders().put("send_time", DateFormatUtils.format(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+        rabbitDelaySender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
     }
 }

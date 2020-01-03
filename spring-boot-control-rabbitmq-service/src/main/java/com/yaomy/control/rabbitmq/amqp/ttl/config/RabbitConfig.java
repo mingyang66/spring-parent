@@ -14,12 +14,12 @@ import java.util.Map;
 @SuppressWarnings("all")
 @Configuration
 public class RabbitConfig {
-    public static final String TEST_TOPIC_EXCHANGE = "test.topic.exchange";
-    public static final String TEST_TOPIC_QUEUE = "test_topic_queue";
+    public static final String TEST_TOPIC_EXCHANGE = "ttl.topic.exchange";
+    public static final String TEST_TOPIC_QUEUE = "ttl_topic_queue";
     public static final String TEST__TOPIC_ROUTING_KEY = "*.topic.*";
-    public static final String TEST_DELAY_EXCHANGE = "test.delay.exchange";
-    public static final String TEST_DELAY_ROUTING_KEY = "test.delay.routingkey";
-    public static final String TEST_DELAY_QUEUE = "test_dely_queue";
+    public static final String TEST_DELAY_EXCHANGE = "ttl.delay.exchange";
+    public static final String TEST_DELAY_ROUTING_KEY = "ttl.delay.routingkey";
+    public static final String TEST_DELAY_QUEUE = "ttl_delay_queue";
     /**
      * 声明队列
      */
@@ -76,7 +76,7 @@ public class RabbitConfig {
      * 定义延迟队列
      */
     @Bean
-    public Queue delayQueue(){
+    public Queue ttlQueue(){
         return QueueBuilder.durable(TEST_DELAY_QUEUE).build();
     }
 
@@ -84,7 +84,7 @@ public class RabbitConfig {
      * 定义延迟交换器
      */
     @Bean
-    public TopicExchange delayExchange(){
+    public TopicExchange ttlExchange(){
         TopicExchange exchange = new TopicExchange(TEST_DELAY_EXCHANGE);
         return exchange;
     }
@@ -93,7 +93,7 @@ public class RabbitConfig {
      * 延迟队列交换器绑定
      */
     @Bean
-    public Binding bindingDelyDirectExchangeQueue(){
-        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(TEST_DELAY_ROUTING_KEY);
+    public Binding bindingTtlDirectExchangeQueue(){
+        return BindingBuilder.bind(ttlQueue()).to(ttlExchange()).with(TEST_DELAY_ROUTING_KEY);
     }
 }

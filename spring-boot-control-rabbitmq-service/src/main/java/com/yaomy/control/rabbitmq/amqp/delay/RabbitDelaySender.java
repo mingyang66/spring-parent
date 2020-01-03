@@ -1,4 +1,4 @@
-package com.yaomy.control.rabbitmq.amqp.ttl;
+package com.yaomy.control.rabbitmq.amqp.delay;
 
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * @Description: RabbitMQ生产者
+ * @Description: RabbitMQ生产者（延迟队列）
  * @ProjectName: spring-parent
  * @Version: 1.0
  */
 @SuppressWarnings("all")
 @Component
-public class RabbitSender {
+public class RabbitDelaySender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     /**
@@ -82,15 +82,6 @@ public class RabbitSender {
         public Message postProcessMessage(Message message) throws AmqpException {
             MessageProperties properties = message.getMessageProperties();
             /**
-             * 设置消息发送到队列之后多久被丢弃，单位：毫秒
-             * 此种方案需要每条消息都设置此属性，比较灵活；
-             * 还有一种方案是在声明队列的时候指定发送到队列中的过期时间；
-             * * Queue queue = new Queue("test_queue2");
-             * * queue.getArguments().put("x-message-ttl", 10000);
-             * 这两种方案可以同时存在，以值小的为准
-             */
-            //properties.setExpiration("10000");
-            /**
              * 设置消息的优先级
              */
             properties.setPriority(9);
@@ -98,6 +89,14 @@ public class RabbitSender {
              * 设置消息发送到队列中的模式，持久化|非持久化（只存在于内存中）
              */
             properties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+            /**
+             * Set the x-delay header.
+             */
+            properties.setDelay(10000);
+            /**
+             * 或设置x延迟header
+             */
+            //properties.getHeaders().put("x-delay", 10000);
 
             return message;
         }

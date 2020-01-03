@@ -17,9 +17,9 @@ public class RabbitConfig {
     public static final String TTL_TOPIC_EXCHANGE = "ttl.topic.exchange";
     public static final String TTL_TOPIC_QUEUE = "ttl_topic_queue";
     public static final String TTL__TOPIC_ROUTING_KEY = "*.topic.*";
-    public static final String TTL_DELAY_EXCHANGE = "ttl.delay.exchange";
-    public static final String TTL_DELAY_ROUTING_KEY = "ttl.delay.routingkey";
-    public static final String TTL_DELAY_QUEUE = "ttl_delay_queue";
+    public static final String TTL_DELAY_EXCHANGE = "ttl.dlx.exchange";
+    public static final String TTL_DELAY_ROUTING_KEY = "ttl.dlrk.routingkey";
+    public static final String TTL_DELAY_QUEUE = "ttl_dlk_queue";
     /**
      * 声明队列
      */

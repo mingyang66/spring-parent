@@ -1,7 +1,10 @@
 package com.yaomy.control.rabbitmq.direct;
 
 import com.google.common.collect.Maps;
-import com.rabbitmq.client.*;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DeliverCallback;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;

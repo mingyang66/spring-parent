@@ -5,13 +5,8 @@ import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 import org.apache.commons.lang3.RandomUtils;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.KeyStore;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentNavigableMap;

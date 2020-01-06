@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Description: Direct类型交换器消费者

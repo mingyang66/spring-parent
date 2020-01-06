@@ -4,12 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.rabbitmq.client.*;
 import org.apache.commons.lang3.RandomUtils;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

@@ -204,8 +204,8 @@ public class HandlerController {
         rabbitSender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
     }
 
-    @Autowired
-    private RabbitDelaySender rabbitDelaySender;
+    //@Autowired
+    //private RabbitDelaySender rabbitDelaySender;
 
     @GetMapping(value = "/handler/rabbit_delay")
     public void rabbit1(String exchange, String route){
@@ -213,6 +213,6 @@ public class HandlerController {
         MessageProperties properties = new MessageProperties();
         properties.getHeaders().put("number", "12345");
         properties.getHeaders().put("send_time", DateFormatUtils.format(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-        rabbitDelaySender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
+        //rabbitDelaySender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
     }
 }

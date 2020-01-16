@@ -16,7 +16,7 @@ import java.util.UUID;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-//@Component
+@Component
 public class RabbitDelaySender {
     @Autowired
     private RabbitTemplate rabbitTemplate;

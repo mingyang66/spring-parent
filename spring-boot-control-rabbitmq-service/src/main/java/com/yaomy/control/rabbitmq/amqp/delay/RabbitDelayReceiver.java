@@ -19,7 +19,7 @@ import java.util.Map;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-//@Component
+@Component
 public class RabbitDelayReceiver {
     /**
      *

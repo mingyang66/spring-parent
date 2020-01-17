@@ -1,8 +1,8 @@
 package com.yaomy.control.test.api;
 
-import com.yaomy.control.conf.properties.PropertyService;
 import com.yaomy.control.common.control.enums.DateFormatEnum;
 import com.yaomy.control.common.control.po.BaseResponse;
+import com.yaomy.control.conf.properties.PropertyService;
 import com.yaomy.control.exception.business.BusinessException;
 import com.yaomy.control.logback.po.UserAction;
 import com.yaomy.control.logback.utils.LoggerUtil;
@@ -192,27 +192,5 @@ public class HandlerController {
         return ResponseEntity.ok(name);
     }
 
-    @Autowired
-    private RabbitSender rabbitSender;
 
-    @GetMapping(value = "/handler/rabbit")
-    public void rabbit(String exchange, String route){
-
-        MessageProperties properties = new MessageProperties();
-        properties.getHeaders().put("number", "12345");
-        properties.getHeaders().put("send_time", DateFormatUtils.format(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-        rabbitSender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
-    }
-
-    //@Autowired
-    //private RabbitDelaySender rabbitDelaySender;
-
-    @GetMapping(value = "/handler/rabbit_delay")
-    public void rabbit1(String exchange, String route){
-
-        MessageProperties properties = new MessageProperties();
-        properties.getHeaders().put("number", "12345");
-        properties.getHeaders().put("send_time", DateFormatUtils.format(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-        //rabbitDelaySender.sendMsg(exchange, route, "Hello RabbitMQ For Spring Boot!", properties);
-    }
 }

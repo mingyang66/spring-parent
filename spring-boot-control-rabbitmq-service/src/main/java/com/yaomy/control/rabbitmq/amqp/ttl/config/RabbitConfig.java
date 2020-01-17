@@ -16,7 +16,7 @@ import java.util.Map;
 public class RabbitConfig {
     public static final String TTL_TOPIC_EXCHANGE = "ttl.topic.exchange";
     public static final String TTL_TOPIC_QUEUE = "ttl_topic_queue";
-    public static final String TTL__TOPIC_ROUTING_KEY = "*.topic.*";
+    public static final String TTL_TOPIC_ROUTING_KEY = "*.topic.*";
     public static final String TTL_DELAY_EXCHANGE = "ttl.dlx.exchange";
     public static final String TTL_DELAY_ROUTING_KEY = "ttl.dlrk.routingkey";
     public static final String TTL_DELAY_QUEUE = "ttl_dlk_queue";
@@ -68,7 +68,7 @@ public class RabbitConfig {
      */
     @Bean
     public Binding bindingTopicExchangeQueue(){
-        return BindingBuilder.bind(topicQueue()).to(topicExchange()).with(TTL__TOPIC_ROUTING_KEY);
+        return BindingBuilder.bind(topicQueue()).to(topicExchange()).with(TTL_TOPIC_ROUTING_KEY);
     }
 
     //============================延迟队列及交换器定义=================================

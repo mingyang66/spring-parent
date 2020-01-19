@@ -20,7 +20,7 @@ public class RabbitLazyReceiver {
      * @param message 消息
      * @throws Exception
      */
-    //@RabbitListener(queues = RabbitLazyConfig.LAZY_TOPIC_QUEUE)
+    @RabbitListener(queues = RabbitLazyConfig.LAZY_TOPIC_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
         System.out.println("--------------------------------------");
         System.out.println("消费端Payload: " + message.getPayload()+"-ID:"+message.getHeaders().getId()+"-messageId:"+message.getHeaders());

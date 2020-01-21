@@ -44,7 +44,7 @@ public class EchoServer {
                         //分隔符半包解码器DelimiterBasedFrameDecoder，第一个参数1024表示单条消息的最大长度，当达到该长度后仍然没有查到到分隔符，
                         //就抛出TooLongFrameException异常，防止异常码流缺失导致的内存溢出，这是Netty解码器的可靠性保护，第二个参数就是分隔符缓冲对象
                         ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, delimiter));
-                        //固定长度编码器
+                        //固定长度解码器
                         //ch.pipeline().addLast(new FixedLengthFrameDecoder(20));
                         //解码器StringDecoder的功能非常简单，将接收到的对象转换为字符串
                         ch.pipeline().addLast(new StringDecoder());

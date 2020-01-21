@@ -1,6 +1,6 @@
-package com.yaomy.control.netty.nio;
+package com.yaomy.control.nio;
 
-import com.yaomy.control.netty.nio.thread.TimeClientHandle;
+import com.yaomy.control.nio.thread.TimeClientHandle;
 
 /**
  * @Description: NIO CLIENT

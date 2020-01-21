@@ -1,6 +1,6 @@
-package com.yaomy.control.netty.nio;
+package com.yaomy.control.nio;
 
-import com.yaomy.control.netty.nio.thread.MultiplexerTimeServer;
+import com.yaomy.control.nio.thread.MultiplexerTimeServer;
 
 /**
  * @Description: NIO SERVER

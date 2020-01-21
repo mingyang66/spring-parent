@@ -1,4 +1,4 @@
-package com.yaomy.control.netty.nio.thread;
+package com.yaomy.control.nio.thread;
 
 import com.yaomy.control.common.control.utils.CharsetUtils;
 

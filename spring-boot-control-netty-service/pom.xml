@@ -24,6 +24,18 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.44.Final</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.msgpack/msgpack-core -->
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>msgpack-core</artifactId>
+            <version>0.8.20</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.msgpack/jackson-dataformat-msgpack -->
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>jackson-dataformat-msgpack</artifactId>
+            <version>0.8.20</version>
+        </dependency>
 
     </dependencies>
 

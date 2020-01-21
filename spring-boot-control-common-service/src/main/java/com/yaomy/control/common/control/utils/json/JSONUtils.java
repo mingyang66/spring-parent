@@ -255,6 +255,21 @@ public class JSONUtils {
     }
 
     /**
+     * 将字节数组转化为指定的对象
+     * @param bytes 字节数组
+     * @param responseType 返回值类型
+     * @param <T>
+     */
+    public static <T> T toObject(byte[] bytes, Class<T> responseType){
+        try {
+            return objectMapper.readValue(bytes, responseType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            LoggerUtil.error(JSONUtils.class, e.toString());
+        }
+        return null;
+    }
+    /**
      * 使用字节流将value对象输出
      * @param outputStream
      * @param value

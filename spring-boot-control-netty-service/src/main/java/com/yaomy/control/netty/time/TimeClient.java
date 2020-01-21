@@ -1,6 +1,6 @@
-package com.yaomy.control.netty;
+package com.yaomy.control.netty.time;
 
-import com.yaomy.control.netty.handler.TimeClientHandler;
+import com.yaomy.control.netty.time.handler.TimeClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -9,6 +9,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 
 /**
  * @Description: 客户端Client
@@ -28,6 +30,8 @@ public class TimeClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                        ch.pipeline().addLast(new StringDecoder());
                         ch.pipeline().addLast(new TimeClientHandler());
                     }
                 });

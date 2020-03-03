@@ -44,7 +44,9 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
             Map<String, Object> resultMap = new LinkedHashMap<>();
             resultMap.put("status", 0);
             resultMap.put("message", "SUCCESS");
-            resultMap.put("data", returnValue);
+            if(!returnType.getMethod().getReturnType().equals(Void.TYPE)){
+                resultMap.put("data", returnValue);
+            }
             proxyObject.handleReturnValue(resultMap, returnType, mavContainer, webRequest);
         }
     }

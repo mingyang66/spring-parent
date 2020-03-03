@@ -11,6 +11,8 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -46,7 +48,10 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             Map<String, Object> resultMap = new LinkedHashMap<>();
             resultMap.put("status", 0);
             resultMap.put("message", "SUCCESS");
-            resultMap.put("data", body);
+            Type type = returnType.getMethod().getGenericReturnType();
+            if((type instanceof ParameterizedType) && !(((ParameterizedType)type).getActualTypeArguments()[0]).equals(Void.class)){
+                resultMap.put("data", body);
+            }
             proxyObject.handleReturnValue(ResponseEntity.ok(resultMap), returnType, mavContainer, webRequest);
         }
     }

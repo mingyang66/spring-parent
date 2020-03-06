@@ -19,7 +19,7 @@
         <module>sgrain-spring-boot-aop-service</module>
         <module>sgrain-spring-boot-logback-service</module>
         <module>sgrain-spring-boot-conf-service</module>
-        <module>sgrain-spring-boot-rest-service</module>
+        <module>sgrain-spring-boot-network-service</module>
         <module>sgrain-spring-boot-returnvalue-service</module>
         <module>sgrain-spring-boot-exception-service</module>
         <module>sgrain-spring-boot-starter</module>

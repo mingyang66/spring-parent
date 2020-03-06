@@ -15,14 +15,14 @@
         <module>spring-boot-control-netty-service</module>
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>spring-boot-sgrain-common-service</module>
-        <module>spring-boot-sgrain-aop-service</module>
-        <module>spring-boot-sgrain-logback-service</module>
-        <module>spring-boot-sgrain-conf-service</module>
-        <module>spring-boot-sgrain-rest-service</module>
-        <module>spring-boot-sgrain-returnvalue-service</module>
-        <module>spring-boot-sgrain-exception-service</module>
-        <module>spring-boot-sgrain-starter</module>
+        <module>sgrain-spring-boot-common-service</module>
+        <module>sgrain-spring-boot-aop-service</module>
+        <module>sgrain-spring-boot-logback-service</module>
+        <module>sgrain-spring-boot-conf-service</module>
+        <module>sgrain-spring-boot-rest-service</module>
+        <module>sgrain-spring-boot-returnvalue-service</module>
+        <module>sgrain-spring-boot-exception-service</module>
+        <module>sgrain-spring-boot-starter</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

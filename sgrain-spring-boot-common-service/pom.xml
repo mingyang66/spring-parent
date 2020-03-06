@@ -10,13 +10,5 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.sgrain</groupId>
-    <artifactId>spring-boot-sgrain-conf-service</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>com.yaomy.sgrain</groupId>
-            <artifactId>spring-boot-sgrain-common-service</artifactId>
-            <version>2.1.1.RELEASE</version>
-        </dependency>
-    </dependencies>
-
+    <artifactId>sgrain-spring-boot-common-service</artifactId>
 </project>

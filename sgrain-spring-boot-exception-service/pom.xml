@@ -10,22 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.sgrain</groupId>
-    <artifactId>spring-boot-sgrain-rest-service</artifactId>
-    <version>2.1.1.RELEASE</version>
+    <artifactId>sgrain-spring-boot-exception-service</artifactId>
     <dependencies>
+
         <dependency>
             <groupId>com.yaomy.sgrain</groupId>
-            <artifactId>spring-boot-sgrain-logback-service</artifactId>
+            <artifactId>sgrain-spring-boot-common-service</artifactId>
             <version>2.1.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.yaomy.sgrain</groupId>
-            <artifactId>spring-boot-sgrain-common-service</artifactId>
-            <version>2.1.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.sgrain</groupId>
-            <artifactId>spring-boot-sgrain-conf-service</artifactId>
+            <artifactId>sgrain-spring-boot-logback-service</artifactId>
             <version>2.1.1.RELEASE</version>
         </dependency>
     </dependencies>

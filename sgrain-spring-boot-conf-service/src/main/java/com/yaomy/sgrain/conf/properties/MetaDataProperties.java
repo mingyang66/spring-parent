@@ -1,9 +1,7 @@
 package com.yaomy.sgrain.conf.properties;
 
-import com.yaomy.sgrain.common.control.test.School;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.DeprecatedConfigurationProperty;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.Map;
 
@@ -72,11 +70,6 @@ public class MetaDataProperties {
          * test type
          */
         private Type testType = Type.ADD;
-        /**
-         * school
-         */
-        @NestedConfigurationProperty
-        private School school;
 
         /**
          * enable or disable default false
@@ -109,14 +102,6 @@ public class MetaDataProperties {
 
         public void setTestType(Type testType) {
             this.testType = testType;
-        }
-
-        public School getSchool() {
-            return school;
-        }
-
-        public void setSchool(School school) {
-            this.school = school;
         }
 
         public Boolean getTestEnable() {

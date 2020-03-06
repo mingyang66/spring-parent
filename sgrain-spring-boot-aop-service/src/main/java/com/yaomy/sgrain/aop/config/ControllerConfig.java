@@ -14,8 +14,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ControllerConfig {
-    @Autowired
+
     private ControllerAdviceInterceptor adviceInterceptor;
+
+    @Autowired
+    public ControllerConfig(ControllerAdviceInterceptor adviceInterceptor){
+        this.adviceInterceptor = adviceInterceptor;
+    }
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */

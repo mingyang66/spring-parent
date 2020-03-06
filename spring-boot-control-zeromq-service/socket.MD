@@ -4,7 +4,7 @@
 ```
 package com.yaomy.control.zeromq.socket.server;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.DataInputStream;
@@ -108,7 +108,7 @@ public class SocketServer {
 ```
 package com.yaomy.control.zeromq.socket.server;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 import com.yaomy.control.zeromq.socket.client.SocketClient;
 
 import java.io.DataInputStream;
@@ -159,7 +159,7 @@ public class ServerTask implements Runnable{
 ```
 package com.yaomy.control.zeromq.socket.client;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

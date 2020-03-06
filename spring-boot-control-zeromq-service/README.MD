@@ -5,7 +5,7 @@
 ```
 package com.yaomy.control.zeromq.pubsub.server;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -57,7 +57,7 @@ public class ZeroMQServer {
 ```
 package com.yaomy.control.zeromq.pubsub.client;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 import com.yaomy.control.zeromq.pubsub.client.task.MoniterMQTask;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -139,7 +139,7 @@ public class ZeroMQClient {
 ```
 package com.yaomy.control.zeromq.pubsub.client.task;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -247,7 +247,7 @@ public class MoniterMQTask implements Runnable{
 ```
 package com.yaomy.control.zeromq.pubsub.client.task;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import LoggerUtil;
 import org.zeromq.ZMQ;
 
 /**

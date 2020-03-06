@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.yaomy</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>2.1.1.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,49 +14,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-common-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-logback-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-returnvalue-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-conf-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-exception-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-rest-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-aop-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.yaomy.sgrain</groupId>
+            <artifactId>sgrain-spring-boot-starter</artifactId>
+            <version>2.1.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.yaomy.control</groupId>
             <artifactId>spring-boot-control-zeromq-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2.1.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.yaomy.control</groupId>
             <artifactId>spring-boot-control-rabbitmq-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2.1.1.RELEASE</version>
         </dependency>
         <!-- Swagger -->
         <dependency>

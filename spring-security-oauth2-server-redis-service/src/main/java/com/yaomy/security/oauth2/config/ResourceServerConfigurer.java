@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.config;
 
-import com.yaomy.control.conf.properties.PropertyService;
+import com.yaomy.sgrain.conf.properties.PropertyService;
 import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
 import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;

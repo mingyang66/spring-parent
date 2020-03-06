@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.yaomy</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>2.1.1.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -30,9 +30,9 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.yaomy.control</groupId>
-            <artifactId>spring-boot-control-common-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.yaomy.sgrain</groupId>
+            <artifactId>sgrain-spring-boot-starter</artifactId>
+            <version>2.1.1.RELEASE</version>
         </dependency>
     </dependencies>
 

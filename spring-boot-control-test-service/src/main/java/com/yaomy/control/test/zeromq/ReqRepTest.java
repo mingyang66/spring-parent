@@ -1,6 +1,6 @@
 package com.yaomy.control.test.zeromq;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.sgrain.logback.utils.LoggerUtil;
 import com.yaomy.control.zeromq.reqreply.client.RequestClient;
 import com.yaomy.control.zeromq.reqreply.server.ReplyServer;
 import org.zeromq.ZMQ;

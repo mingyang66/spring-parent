@@ -1,8 +1,5 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.yaomy.control.common.enums.HttpStatusMsg;
-import com.yaomy.control.common.po.BaseResponse;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

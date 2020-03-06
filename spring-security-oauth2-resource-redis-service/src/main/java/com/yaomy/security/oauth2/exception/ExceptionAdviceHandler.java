@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.exception;
 
-import com.yaomy.control.common.enums.HttpStatusMsg;
-import com.yaomy.control.common.po.BaseResponse;
+import com.yaomy.sgrain.common.enums.HttpStatusMsg;
+import com.yaomy.sgrain.common.po.BaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

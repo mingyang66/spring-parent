@@ -4,11 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>spring-boot-control-logback-service</module>
-        <module>spring-boot-control-exception-service</module>
-        <module>spring-boot-control-conf-service</module>
-        <module>spring-boot-control-common-service</module>
-        <module>spring-boot-control-returnvalue-service</module>
         <module>spring-boot-control-test-service</module>
         <module>spring-boot-control-redis-service</module>
         <module>spring-security-jwt-service</module>
@@ -16,12 +11,18 @@
         <module>spring-security-oauth2-server-jwt-service</module>
         <module>spring-security-oauth2-resource-jwt-service</module>
         <module>spring-security-oauth2-resource-redis-service</module>
-        <module>spring-boot-control-rest-service</module>
-        <module>spring-boot-control-aop-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-netty-service</module>
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
+        <module>spring-boot-sgrain-common-service</module>
+        <module>spring-boot-sgrain-aop-service</module>
+        <module>spring-boot-sgrain-logback-service</module>
+        <module>spring-boot-sgrain-conf-service</module>
+        <module>spring-boot-sgrain-rest-service</module>
+        <module>spring-boot-sgrain-returnvalue-service</module>
+        <module>spring-boot-sgrain-exception-service</module>
+        <module>spring-boot-sgrain-starter</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,7 +32,7 @@
     </parent>
     <groupId>com.yaomy</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2.1.1.RELEASE</version>
     <name>spring-parent</name>
     <description>security auth system</description>
 
@@ -88,33 +89,12 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
-                    <!--打包时去除调devtools热部署工具-->
-                    <excludeDevtools>true</excludeDevtools>
-                </configuration>
-            </plugin>
-            <!--执行测试用例的插件-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <!--跳过项目运行测试用例-->
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <proc>none</proc>
                 </configuration>
             </plugin>
         </plugins>

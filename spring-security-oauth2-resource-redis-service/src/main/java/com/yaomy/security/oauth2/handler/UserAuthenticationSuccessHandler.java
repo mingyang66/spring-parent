@@ -1,6 +1,5 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.yaomy.control.common.po.BaseResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;

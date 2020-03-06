@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.exception;
 
-import com.yaomy.control.common.enums.HttpStatusMsg;
+import com.yaomy.sgrain.common.enums.HttpStatusMsg;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**

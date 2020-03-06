@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.socket.server;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.sgrain.logback.utils.LoggerUtil;
 import com.yaomy.control.zeromq.socket.client.SocketClient;
 
 import java.io.DataInputStream;

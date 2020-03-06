@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.pubsub.client;
 
-import com.yaomy.control.logback.utils.LoggerUtil;
+import com.yaomy.sgrain.logback.utils.LoggerUtil;
 import com.yaomy.control.zeromq.pubsub.client.task.MoniterMQTask;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;

@@ -141,4 +141,4 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
 
 ```
 
-GitHub地址：(https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-returnvalue-service)[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-returnvalue-service]
+GitHub地址：(https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-returnvalue-service/doc)[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-returnvalue-service/doc]

@@ -107,7 +107,11 @@
             <version>1.1.8</version>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>com.eastmoney.emis</groupId>
+            <artifactId>emis-spring-boot-starter</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

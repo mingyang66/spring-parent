@@ -1,4 +1,4 @@
-package com.yaomy.sgrain.rest.config;
+package com.yaomy.sgrain.network.config;
 
 import com.yaomy.sgrain.conf.properties.MetaDataProperties;
 import org.springframework.beans.factory.annotation.Autowired;

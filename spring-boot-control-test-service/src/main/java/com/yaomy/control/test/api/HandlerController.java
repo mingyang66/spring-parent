@@ -5,7 +5,7 @@ import com.yaomy.sgrain.conf.properties.PropertyService;
 import com.yaomy.sgrain.exception.business.BusinessException;
 import com.yaomy.sgrain.logback.po.UserAction;
 import com.yaomy.sgrain.logback.utils.LoggerUtil;
-import com.yaomy.sgrain.rest.client.HttpClientService;
+import com.yaomy.sgrain.network.client.HttpClientService;
 import com.yaomy.control.test.po.Job;
 import com.yaomy.control.test.po.User;
 import com.yaomy.control.test.service.JobService;

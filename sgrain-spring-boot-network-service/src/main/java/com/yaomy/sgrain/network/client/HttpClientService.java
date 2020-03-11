@@ -1,4 +1,4 @@
-package com.yaomy.sgrain.rest.client;
+package com.yaomy.sgrain.network.client;
 
 
 import com.yaomy.sgrain.common.control.utils.json.JSONUtils;

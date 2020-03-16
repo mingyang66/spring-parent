@@ -11,12 +11,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PropertyService {
-    private Environment env;
-
     @Autowired
-    public PropertyService(Environment env){
-        this.env = env;
-    }
+    private Environment env;
     /**
      * @Description 获取配置文件中指定的属性值
      * @Version  1.0

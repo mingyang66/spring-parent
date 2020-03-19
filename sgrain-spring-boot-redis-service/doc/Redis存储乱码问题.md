@@ -1,3 +1,6 @@
+### Redis存储乱码问题
+
+```
 package com.yaomy.sgrain.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -70,3 +73,6 @@ public class RedisConfig {
         return jackson2JsonRedisSerializer;
     }
 }
+
+```
+

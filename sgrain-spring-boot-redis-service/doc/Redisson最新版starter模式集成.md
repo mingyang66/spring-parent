@@ -82,3 +82,4 @@ redisson配置文件优先级高于springboot配置文件优先级；
 
 参考：https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter#spring-boot-starter
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-redis-service/doc](https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-redis-service/doc)

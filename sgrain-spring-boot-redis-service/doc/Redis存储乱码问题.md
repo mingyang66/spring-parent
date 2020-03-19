@@ -76,3 +76,4 @@ public class RedisConfig {
 
 ```
 
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-redis-service/doc](https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-redis-service/doc)

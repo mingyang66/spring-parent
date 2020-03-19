@@ -22,7 +22,7 @@ mvn versions:commit
 ### 关闭不希望启动的组件
 ##### 1.关闭Redisson组件
 ```
-@SpringBootApplication(scanBasePackages = {"com.yaomy.sgrain"}, exclude = {RedissonAutoConfiguration.class})
+@SpringBootApplication(exclude = {RedissonAutoConfiguration.class})
 ```
 ------
 <h3>Spring相关项目</h3> 

@@ -26,8 +26,7 @@ public class ControllerConfig {
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(org.springframework.web.bind.annotation.GetMapping) ",
                                                                                 "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
-                                                                                "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ",
-                                                                                "or @annotation(com.yaomy.sgrain.aop.annotation.TargetDataSource)");
+                                                                                "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
 
     /**
      * @Description 定义接口拦截器切点

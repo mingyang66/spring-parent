@@ -5,7 +5,9 @@ import com.yaomy.sgrain.returnvalue.handler.ResponseHttpHeadersReturnValueHandle
 import com.yaomy.sgrain.returnvalue.handler.ResponseMethodReturnValueHandler;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor;
 import org.springframework.web.servlet.mvc.method.annotation.HttpHeadersReturnValueHandler;
@@ -20,6 +22,7 @@ import java.util.List;
  * @Version: 1.0
  */
 @Configuration
+@ConditionalOnClass({ResponseHttpEntityMethodReturnValueHandler.class, ResponseMethodReturnValueHandler.class, ResponseHttpEntityMethodReturnValueHandler.class})
 public class ReturnValueAutoConfiguration implements InitializingBean {
 
     @Autowired
@@ -29,24 +32,25 @@ public class ReturnValueAutoConfiguration implements InitializingBean {
     public void afterPropertiesSet()  {
 
         List<HandlerMethodReturnValueHandler> list = handlerAdapter.getReturnValueHandlers();
-        if (null != list) {
-            List<HandlerMethodReturnValueHandler> newList = new ArrayList<>();
-            for (HandlerMethodReturnValueHandler valueHandler: list) {
-                if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
-                    ResponseMethodReturnValueHandler proxy = new ResponseMethodReturnValueHandler(valueHandler);
-                    newList.add(proxy);
-                } else if(valueHandler instanceof HttpEntityMethodProcessor){
-                    ResponseHttpEntityMethodReturnValueHandler proxy = new ResponseHttpEntityMethodReturnValueHandler(valueHandler);
-                    newList.add(proxy);
-                } else if(valueHandler instanceof HttpHeadersReturnValueHandler){
-                    ResponseHttpHeadersReturnValueHandler proxy = new ResponseHttpHeadersReturnValueHandler(valueHandler);
-                    newList.add(proxy);
-                } else {
-                    newList.add(valueHandler);
-                }
-            }
-            handlerAdapter.setReturnValueHandlers(newList);
+        if (CollectionUtils.isEmpty(list)) {
+            return;
         }
+        List<HandlerMethodReturnValueHandler> pList = new ArrayList<>();
+        for (HandlerMethodReturnValueHandler valueHandler: list) {
+            if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
+                ResponseMethodReturnValueHandler proxy = new ResponseMethodReturnValueHandler(valueHandler);
+                pList.add(proxy);
+            } else if(valueHandler instanceof HttpEntityMethodProcessor){
+                ResponseHttpEntityMethodReturnValueHandler proxy = new ResponseHttpEntityMethodReturnValueHandler(valueHandler);
+                pList.add(proxy);
+            } else if(valueHandler instanceof HttpHeadersReturnValueHandler){
+                ResponseHttpHeadersReturnValueHandler proxy = new ResponseHttpHeadersReturnValueHandler(valueHandler);
+                pList.add(proxy);
+            } else {
+                pList.add(valueHandler);
+            }
+        }
+        handlerAdapter.setReturnValueHandlers(pList);
 
     }
 }

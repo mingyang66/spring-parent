@@ -20,7 +20,7 @@ import java.util.List;
  * @Version: 1.0
  */
 @Configuration
-public class ResponseMethodReturnValueConfigurer implements InitializingBean {
+public class ReturnValueAutoConfiguration implements InitializingBean {
 
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;

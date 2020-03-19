@@ -1,5 +1,6 @@
 package com.yaomy.sgrain.aop.advice;
 
+import com.yaomy.sgrain.aop.properties.InterceptorProperties;
 import com.yaomy.sgrain.common.control.po.BaseRequest;
 import com.yaomy.sgrain.common.control.utils.ObjectSizeUtil;
 import com.yaomy.sgrain.common.control.utils.json.JSONUtils;
@@ -10,7 +11,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,61 +28,12 @@ import java.util.Map;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-@Component
 public class ControllerAdviceInterceptor implements MethodInterceptor {
-    /**
-     * 换行符
-     */
-    private static final String NEW_LINE = "\n";
-    /**
-     * 毫秒
-     */
-    private static final String MILLI_SECOND = "ms";
-    /**
-     * 控制器
-     */
-    private static final String MSG_CONTROLLER = "类|方法 ：";
-    /**
-     * 访问URL
-     */
-    private static final String MSG_ACCESS_URL = "访问URL ：";
-    /**
-     * 请求Method
-     */
-    public static final String MSG_METHOD = "Method  ：";
-    /**
-     * 请求PARAM
-     */
-    private static final String MSG_PARAMS = "请求参数：";
-    /**
-     * 耗时
-     */
-    private static final String MSG_TIME= "耗  时  ：";
-    /**
-     * 返回结果
-     */
-    private static final String MSG_RETURN_VALUE = "返回结果：";
-    /**
-     * 数据大小
-     */
-    private static final String MSG_DATA_SIZE = "数据大小：";
-    /**
-     * 异常
-     */
-    private static final String MSG_EXCEPTION = "异  常  ：";
-    /**
-     * START消息
-     */
-    private static final String MSG_DATASOURCE_START = "开始执行，切换数据源到【";
-    /**
-     * END消息
-     */
-    private static final String MSG_DATASOURCE_END = "执行结束，移除数据源【";
-    /**
-     * 中文右符号
-     */
-    private static final String MSG_RIGHT_SYMBOL = "】";
 
+    private InterceptorProperties properties;
+    public ControllerAdviceInterceptor(InterceptorProperties properties){
+        this.properties = properties;
+    }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -125,19 +76,19 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * @Version  1.0
      */
     private void logInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime){
-        String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
-        log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
-        log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
-        log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
-        log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
+        String log = StringUtils.join(properties.getInterceptor().getNameLine(), properties.getInterceptor().getMsgController(), invocation.getThis().getClass(), ".", invocation.getMethod().getName(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgAccessUrl(), request.getRequestURL(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgMethod(), request.getMethod(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgParams(), paramsMap, properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgTime() , spentTime, properties.getInterceptor().getMillSecond(), properties.getInterceptor().getNameLine());
         if(ObjectUtils.isEmpty(result)){
-            log = StringUtils.join(log, MSG_RETURN_VALUE, result, NEW_LINE);
+            log = StringUtils.join(log, properties.getInterceptor().getMsgReturnValue(), result, properties.getInterceptor().getNameLine());
         } else if(result instanceof ResponseEntity){
-            log = StringUtils.join(log, MSG_RETURN_VALUE, JSONUtils.toJSONString(((ResponseEntity)result).getBody()), NEW_LINE);
+            log = StringUtils.join(log, properties.getInterceptor().getMsgReturnValue(), JSONUtils.toJSONString(((ResponseEntity)result).getBody()), properties.getInterceptor().getNameLine());
         } else {
-            log = StringUtils.join(log, MSG_RETURN_VALUE, JSONUtils.toJSONString(result), NEW_LINE);
+            log = StringUtils.join(log, properties.getInterceptor().getMsgReturnValue(), JSONUtils.toJSONString(result), properties.getInterceptor().getNameLine());
         }
-        log = StringUtils.join(log, MSG_DATA_SIZE, ObjectSizeUtil.getObjectSizeUnit(result), NEW_LINE);
+        log = StringUtils.join(log, properties.getInterceptor().getMsgDataSize(), ObjectSizeUtil.getObjectSizeUnit(result), properties.getInterceptor().getNameLine());
         LoggerUtil.info(invocation.getThis().getClass(), log);
     }
     /**
@@ -145,12 +96,12 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
      * @Version  1.0
      */
     private void logError(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, long spentTime, Throwable e){
-        String log = StringUtils.join(NEW_LINE, MSG_CONTROLLER, invocation.getThis().getClass(), ".", invocation.getMethod().getName(), NEW_LINE);
-        log = StringUtils.join(log, MSG_ACCESS_URL, request.getRequestURL(), NEW_LINE);
-        log = StringUtils.join(log, MSG_METHOD, request.getMethod(), NEW_LINE);
-        log = StringUtils.join(log, MSG_PARAMS, paramsMap, NEW_LINE);
-        log = StringUtils.join(log, MSG_TIME , spentTime, MILLI_SECOND, NEW_LINE);
-        log = StringUtils.join(log, MSG_EXCEPTION , e.getStackTrace()[0], " ", e, NEW_LINE);
+        String log = StringUtils.join(properties.getInterceptor().getNameLine(), properties.getInterceptor().getMsgController(), invocation.getThis().getClass(), ".", invocation.getMethod().getName(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgAccessUrl(), request.getRequestURL(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgMethod(), request.getMethod(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgParams(), paramsMap, properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgTime() , spentTime, properties.getInterceptor().getMillSecond(), properties.getInterceptor().getNameLine());
+        log = StringUtils.join(log, properties.getInterceptor().getMsgException() , e.getStackTrace()[0], " ", e, properties.getInterceptor().getNameLine());
         LoggerUtil.error(invocation.getThis().getClass(), log);
 
     }

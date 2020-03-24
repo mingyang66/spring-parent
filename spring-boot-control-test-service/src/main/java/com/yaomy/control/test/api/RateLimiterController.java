@@ -1,9 +1,15 @@
 package com.yaomy.control.test.api;
 
 import com.google.common.util.concurrent.RateLimiter;
+import com.yaomy.control.test.po.User;
+import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,6 +29,12 @@ public class RateLimiterController {
         } else{
             System.out.println("sorry,抢光了，下次再来吧");
         }
+        return "SUCCESS";
+    }
+    @GetMapping("/rate/limit")
+    @RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
+    public String rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
+        System.out.println(user.getName()+"---"+user.getAge());
         return "SUCCESS";
     }
 }

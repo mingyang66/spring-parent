@@ -52,7 +52,11 @@ public enum SgrainHttpStatus {
     /**
      * 参数异常
      */
-    PARAM_EXCEPTION(210, "参数异常");
+    PARAM_EXCEPTION(210, "参数异常"),
+    /**
+     * 方法访问频率控制
+     */
+    RATE_LIMIT_EXCEPTION(10000, "接口访问过于频繁，请稍后再试！");
 
     /**
      * 状态码

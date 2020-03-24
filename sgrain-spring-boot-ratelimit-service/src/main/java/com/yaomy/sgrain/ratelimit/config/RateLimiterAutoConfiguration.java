@@ -1,13 +1,17 @@
-package com.yaomy.sgrain.ratelimiter.config;
+package com.yaomy.sgrain.ratelimit.config;
 
 import com.yaomy.sgrain.common.enums.AopOrderEnum;
-import com.yaomy.sgrain.ratelimiter.interceptor.RateLimiterMethodInterceptor;
+import com.yaomy.sgrain.ratelimit.interceptor.RateLimiterMethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 /**
  * @program: spring-parent
@@ -20,14 +24,14 @@ public class RateLimiterAutoConfiguration {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String TEST_POINT_CUT = StringUtils.join("@annotation(com.yaomy.sgrain.ratelimiter.annotation.RateLimiter) ");
+    private static final String TEST_POINT_CUT = StringUtils.join("@annotation(com.yaomy.sgrain.ratelimit.annotation.RateLimit) ");
 
     /**
      * 控制器AOP拦截处理
      */
     @Bean
-    @ConditionalOnClass(RateLimiterMethodInterceptor.class)
-    public DefaultPointcutAdvisor testPointCutAdvice() {
+    @ConditionalOnClass(value = {RateLimiterMethodInterceptor.class, RedisTemplate.class})
+    public DefaultPointcutAdvisor testPointCutAdvice(RedisTemplate redisTemplate) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式
@@ -37,10 +41,21 @@ public class RateLimiterAutoConfiguration {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new RateLimiterMethodInterceptor());
+        advisor.setAdvice(new RateLimiterMethodInterceptor(redisTemplate, redisLuaScript()));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.RATE_LIMITER.getOrder());
 
         return advisor;
+    }
+
+    /**
+     * 加载lua脚本
+     */
+    @Bean
+    public DefaultRedisScript<Long> redisLuaScript(){
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("limit.lua")));
+        redisScript.setResultType(Long.class);
+        return redisScript;
     }
 }

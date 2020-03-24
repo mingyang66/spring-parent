@@ -1,5 +1,7 @@
 package com.yaomy.control.test.po;
 
+import com.yaomy.sgrain.common.po.BaseRequest;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -11,7 +13,7 @@ import java.util.Map;
  * @Description: 测试
  * @Version: 1.0
  */
-public class User implements Serializable {
+public class User extends BaseRequest implements Serializable {
     @NotBlank(message = "这个姓名不能为空")
     private String name;
     @DecimalMin(value = "0", message = "年龄不可以小于0")

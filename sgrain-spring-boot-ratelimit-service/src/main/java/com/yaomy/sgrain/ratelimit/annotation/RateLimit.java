@@ -1,4 +1,4 @@
-package com.yaomy.sgrain.ratelimiter.annotation;
+package com.yaomy.sgrain.ratelimit.annotation;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
@@ -12,17 +12,21 @@ import java.util.concurrent.TimeUnit;
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RateLimiter {
+public @interface RateLimit {
     /**
-     * 单位时间请求接口的数量限制，默认100
+     * 单位时间漏铜的阀值，默认10
      */
-    double permits() default 20;
+    long permits() default 10;
 
     /**
      * 参数之中带指定的参数时限制
      */
     String[] name() default {};
 
+    /**
+     * 时间
+     */
+    long time() default 1;
     /**
      * 单位，默认是秒
      */

@@ -37,3 +37,4 @@ mvnw.cmd
 logs/
 
 out/
+.DS_Store

@@ -12,6 +12,7 @@
         <module>sgrain-spring-boot-returnvalue-service</module>
         <module>sgrain-spring-boot-exception-service</module>
         <module>sgrain-spring-boot-redis-service</module>
+        <module>sgrain-spring-boot-ratelimit-service</module>
         <module>sgrain-spring-boot-starter</module>
         <module>spring-boot-control-test-service</module>
         <module>spring-security-jwt-service</module>
@@ -23,7 +24,6 @@
         <module>spring-boot-control-netty-service</module>
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>sgrain-spring-boot-ratelimiter-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

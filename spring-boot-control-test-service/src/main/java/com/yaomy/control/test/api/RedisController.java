@@ -1,6 +1,6 @@
 package com.yaomy.control.test.api;
 
-import com.yaomy.sgrain.ratelimiter.annotation.RateLimiter;
+import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +18,7 @@ public class RedisController {
     //private RedisTemplate redisTemplate;
 
     @GetMapping("/redis/test")
-    @RateLimiter(name = {"username","password"}, permits = 1000, timeUnit = TimeUnit.SECONDS)
+    @RateLimit(name = {"username","password"}, permits = 10, timeUnit = TimeUnit.SECONDS)
     public String testRedisson(){
        // redisTemplate.opsForValue().set("test", "测试数据abc123");
 

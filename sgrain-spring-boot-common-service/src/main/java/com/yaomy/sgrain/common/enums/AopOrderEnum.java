@@ -5,8 +5,14 @@ package com.yaomy.sgrain.common.enums;
 * @create: 2020/3/23
 */
 public enum AopOrderEnum {
+    /**
+     * 日志
+     */
     CONTROLLER_ADVICE(40),
-    RATE_LIMITER(30);
+    /**
+     * 接口流控
+     */
+    RATE_LIMITER(50);
 
     private int order;
     AopOrderEnum(int order){

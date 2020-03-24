@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.yaomy.sgrain.common.control.po.BaseResponse;
-import com.yaomy.sgrain.common.control.utils.json.JSONUtils;
+import com.yaomy.sgrain.common.po.BaseResponse;
+import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import com.yaomy.sgrain.common.enums.HttpStatusMsg;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;

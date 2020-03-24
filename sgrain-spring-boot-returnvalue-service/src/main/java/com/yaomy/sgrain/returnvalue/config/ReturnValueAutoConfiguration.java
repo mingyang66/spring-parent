@@ -25,9 +25,11 @@ import java.util.List;
 @ConditionalOnClass({ResponseHttpEntityMethodReturnValueHandler.class, ResponseMethodReturnValueHandler.class, ResponseHttpEntityMethodReturnValueHandler.class})
 public class ReturnValueAutoConfiguration implements InitializingBean {
 
-    @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
 
+    public ReturnValueAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter){
+        this.handlerAdapter = handlerAdapter;
+    }
     @Override
     public void afterPropertiesSet()  {
 

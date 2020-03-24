@@ -1,6 +1,10 @@
 package com.yaomy.control.test.api;
 
+import com.yaomy.sgrain.ratelimiter.annotation.RateLimiter;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -10,13 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class RedisController {
-/*    @Autowired
-    private RedissonClient redissonClient;
+    //@Autowired
+    //private RedisTemplate redisTemplate;
 
-    @GetMapping("/redisson/test")
+    @GetMapping("/redis/test")
+    @RateLimiter(name = {"username","password"}, permits = 1000, timeUnit = TimeUnit.SECONDS)
     public String testRedisson(){
-        RLock lock = redissonClient.getLock("anylock123");
+       // redisTemplate.opsForValue().set("test", "测试数据abc123");
 
         return "SUCCESS";
-    }*/
+    }
+    @GetMapping("/redis/test1")
+    public String testRedisson1(){
+        //redisTemplate.opsForValue().set("test", "测试数据abc123");
+
+        return "SUCCESS";
+    }
 }

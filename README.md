@@ -19,9 +19,33 @@ mvn versions:revert
 mvn versions:commit
 ```
 ------
-### 关闭不希望启动的组件
+### 自动化配置组件AutoConfiguration
 ##### 1.关闭Redisson组件
 ```
 @SpringBootApplication(exclude = {RedissonAutoConfiguration.class})
 ```
-------
+
+##### 2.关闭拦截控制器日志组件
+
+```
+@SpringBootApplication(exclude = {InterceptorAutoConfiguration.class})
+```
+
+##### 3.关闭RestTemplate网络请求配置组件
+
+```
+@SpringBootApplication(exclude = {HttpClientAutoConfiguration.class})
+```
+
+##### 4.关闭Redis配置组件
+
+```
+@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
+```
+
+##### 5.关闭控制器返回值包装组件
+
+```
+@SpringBootApplication(exclude = {ReturnValueAutoConfiguration.class})
+```
+

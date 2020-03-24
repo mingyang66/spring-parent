@@ -1,7 +1,7 @@
 package com.yaomy.control.test.api;
 
 import com.yaomy.control.test.po.User;
-import com.yaomy.sgrain.common.control.po.BaseResponse;
+import com.yaomy.sgrain.common.po.BaseResponse;
 import com.yaomy.sgrain.conf.properties.PropertyService;
 import com.yaomy.sgrain.exception.business.BusinessException;
 import com.yaomy.sgrain.logback.po.UserAction;

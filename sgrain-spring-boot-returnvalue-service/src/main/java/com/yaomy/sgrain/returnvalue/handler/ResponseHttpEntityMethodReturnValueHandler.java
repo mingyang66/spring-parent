@@ -1,8 +1,8 @@
 package com.yaomy.sgrain.returnvalue.handler;
 
-import com.yaomy.sgrain.common.control.enums.HttpStatus;
-import com.yaomy.sgrain.common.control.po.BaseResponse;
-import com.yaomy.sgrain.common.control.utils.RouteUtils;
+import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
+import com.yaomy.sgrain.common.po.BaseResponse;
+import com.yaomy.sgrain.common.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
@@ -47,8 +47,8 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
             Map<String, Object> resultMap = new LinkedHashMap<>();
-            resultMap.put("status", HttpStatus.OK.getStatus());
-            resultMap.put("message", HttpStatus.OK.getMessage());
+            resultMap.put("status", SgrainHttpStatus.OK.getStatus());
+            resultMap.put("message", SgrainHttpStatus.OK.getMessage());
             //获取控制器方法返回值得泛型类型
             Type type = returnType.getMethod().getGenericReturnType();
             //返回值为void类型的data字段不输出

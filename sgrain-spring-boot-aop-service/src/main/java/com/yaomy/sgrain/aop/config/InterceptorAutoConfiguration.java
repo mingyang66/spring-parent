@@ -1,12 +1,11 @@
 package com.yaomy.sgrain.aop.config;
 
-import com.yaomy.sgrain.aop.advice.ControllerAdviceInterceptor;
-import com.yaomy.sgrain.aop.po.Interceptor;
+import com.yaomy.sgrain.aop.advice.ControllerAdviceMethodInterceptor;
 import com.yaomy.sgrain.aop.properties.InterceptorProperties;
+import com.yaomy.sgrain.common.enums.AopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(InterceptorProperties.class)
-@ConditionalOnClass(Interceptor.class)
 public class InterceptorAutoConfiguration {
 
     /**
@@ -28,14 +26,17 @@ public class InterceptorAutoConfiguration {
                                                                             "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
 
-    @Autowired
     private InterceptorProperties properties;
 
+    public InterceptorAutoConfiguration(InterceptorProperties properties){
+        this.properties = properties;
+    }
     /**
      * @Description 定义接口拦截器切点
      * @Version  1.0
      */
     @Bean
+    @ConditionalOnClass(ControllerAdviceMethodInterceptor.class)
     public DefaultPointcutAdvisor defaultPointCutAdvice() {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -46,8 +47,9 @@ public class InterceptorAutoConfiguration {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ControllerAdviceInterceptor(properties));
-
+        advisor.setAdvice(new ControllerAdviceMethodInterceptor(properties));
+        //设置增强拦截器执行顺序
+        advisor.setOrder(AopOrderEnum.CONTROLLER_ADVICE.getOrder());
         return advisor;
     }
 }

@@ -1,8 +1,11 @@
 package com.yaomy.sgrain.network.client;
 
 
-import com.yaomy.sgrain.common.control.utils.json.JSONUtils;
+
+import com.yaomy.sgrain.common.utils.HiddenUtils;
+import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import com.yaomy.sgrain.logback.utils.LoggerUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import java.util.Map;
 
 /**
  * @Description: 发送Http请求Client服务类
+ * @Author 姚明洋
  * @Version: 1.0
  */
 @Component
@@ -165,6 +169,7 @@ public class HttpClientService {
         }
         return httpEntity;
     }
+
     /**
      * @Description 日志信息
      * @Author 姚明洋
@@ -172,9 +177,16 @@ public class HttpClientService {
      * @Version  1.0
      */
     private <T> void logInfo(String url, HttpMethod httpMethod, Object params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity, long time){
+        Object paramObj = params;
+        if(params instanceof Map){
+            String[] urlArray = StringUtils.split(url, "/");
+            String routeStr = StringUtils.join(ArrayUtils.subarray(urlArray, 2, urlArray.length), "/");
+            String route = StringUtils.prependIfMissing(routeStr, "/");
+            paramObj = HiddenUtils.hidden((Map<String, Object>) params, route);
+        }
         String log = StringUtils.join("\n", "访问URL :", url, "\n", "Method  :", httpMethod, "\n");
         if(!ObjectUtils.isEmpty(params) && (params instanceof Map)){
-            log = StringUtils.join(log, "请求参数：", JSONUtils.toJSONString(params), "\n");
+            log = StringUtils.join(log, "请求参数：", JSONUtils.toJSONString(paramObj), "\n");
         } else{
             log = StringUtils.join(log, "请求参数：", params, "\n");
         }

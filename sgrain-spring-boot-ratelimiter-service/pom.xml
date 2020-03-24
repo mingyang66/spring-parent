@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-parent</artifactId>
+        <groupId>com.yaomy</groupId>
+        <version>2.1.1.RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.yaomy.sgrain</groupId>
+    <artifactId>sgrain-spring-boot-ratelimiter-service</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.yaomy.sgrain</groupId>
+            <artifactId>sgrain-spring-boot-common-service</artifactId>
+            <version>2.1.1.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>

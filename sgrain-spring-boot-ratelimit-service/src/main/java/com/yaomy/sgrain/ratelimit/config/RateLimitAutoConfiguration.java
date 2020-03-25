@@ -1,7 +1,7 @@
 package com.yaomy.sgrain.ratelimit.config;
 
 import com.yaomy.sgrain.common.enums.AopOrderEnum;
-import com.yaomy.sgrain.ratelimit.interceptor.RateLimiterMethodInterceptor;
+import com.yaomy.sgrain.ratelimit.interceptor.RateLimitMethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -20,7 +20,7 @@ import org.springframework.scripting.support.ResourceScriptSource;
  * @create: 2020/03/23
  */
 @Configuration
-public class RateLimiterAutoConfiguration {
+public class RateLimitAutoConfiguration {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -30,7 +30,7 @@ public class RateLimiterAutoConfiguration {
      * 控制器AOP拦截处理
      */
     @Bean
-    @ConditionalOnClass(value = {RateLimiterMethodInterceptor.class, RedisTemplate.class})
+    @ConditionalOnClass(value = {RateLimitMethodInterceptor.class, RedisTemplate.class})
     public DefaultPointcutAdvisor testPointCutAdvice(RedisTemplate redisTemplate) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -41,7 +41,7 @@ public class RateLimiterAutoConfiguration {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new RateLimiterMethodInterceptor(redisTemplate, redisLuaScript()));
+        advisor.setAdvice(new RateLimitMethodInterceptor(redisTemplate, redisLuaScript()));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.RATE_LIMITER.getOrder());
 

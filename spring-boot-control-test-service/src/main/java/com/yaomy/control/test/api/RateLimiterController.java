@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
 
+
 /**
  * @program: spring-parent
  * @description: 限流控制器
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2020/03/06
  */
 @RestController
+@RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
 public class RateLimiterController {
     private RateLimiter rateLimiter = RateLimiter.create(2);
 
@@ -32,7 +34,7 @@ public class RateLimiterController {
         return "SUCCESS";
     }
     @GetMapping("/rate/limit")
-    @RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
+    //@RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
     public String rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
         System.out.println(user.getName()+"---"+user.getAge());
         return "SUCCESS";

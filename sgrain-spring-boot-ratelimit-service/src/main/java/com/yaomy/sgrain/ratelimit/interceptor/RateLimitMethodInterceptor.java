@@ -13,15 +13,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +28,7 @@ import java.util.Map;
  * @author: 姚明洋
  * @create: 2020/03/23
  */
-public class RateLimiterMethodInterceptor implements MethodInterceptor {
+public class RateLimitMethodInterceptor implements MethodInterceptor {
     /**
      * 分号
      */
@@ -45,7 +42,7 @@ public class RateLimiterMethodInterceptor implements MethodInterceptor {
      */
     private RedisScript<Long> redisScript;
 
-    public RateLimiterMethodInterceptor(RedisTemplate redisTemplate, RedisScript<Long> redisScript){
+    public RateLimitMethodInterceptor(RedisTemplate redisTemplate, RedisScript<Long> redisScript){
         this.redisTemplate = redisTemplate;
         this.redisScript = redisScript;
     }
@@ -77,6 +74,7 @@ public class RateLimiterMethodInterceptor implements MethodInterceptor {
         }
         //clientIp+url+name 进行md5 hash作为键值
         keys.add(Md5Utils.computeMD5Hash(key));
+        //执行lua脚本，将数据存储到redis缓存
         long result = NumberUtils.toLong(redisTemplate.execute(redisScript, keys, limiter.permits(), limiter.time()).toString());
         if(result == 0L){
             throw new BusinessException(SgrainHttpStatus.RATE_LIMIT_EXCEPTION);

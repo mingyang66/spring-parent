@@ -8,6 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.sgrain.http-client")
 public class HttpClientProperties {
     /**
+     * 组件开关
+     */
+    private Boolean enable = Boolean.TRUE;
+    /**
      * HttpClientService read timeout (in milliseconds),default:5000
      */
     private Integer readTimeOut = 5000;
@@ -30,5 +34,13 @@ public class HttpClientProperties {
 
     public void setConnectTimeOut(Integer connectTimeOut) {
         this.connectTimeOut = connectTimeOut;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 }

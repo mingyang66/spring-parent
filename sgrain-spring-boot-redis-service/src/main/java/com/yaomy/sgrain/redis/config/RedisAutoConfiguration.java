@@ -3,7 +3,9 @@ package com.yaomy.sgrain.redis.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import com.yaomy.sgrain.redis.properties.SgrainRedisProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -18,7 +20,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @create: 2020/03/16
  */
 @Configuration
-@ConditionalOnClass(RedisTemplate.class)
+@EnableConfigurationProperties(SgrainRedisProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.redis", name = "enable", havingValue = "true", matchIfMissing = true)
 public class RedisAutoConfiguration {
     /**
      * redis序列化方式选择：

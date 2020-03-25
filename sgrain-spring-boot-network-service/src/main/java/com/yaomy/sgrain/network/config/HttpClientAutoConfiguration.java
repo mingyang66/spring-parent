@@ -2,6 +2,7 @@ package com.yaomy.sgrain.network.config;
 
 import com.yaomy.sgrain.network.properties.HttpClientProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import java.io.IOException;
  */
 @Configuration
 @EnableConfigurationProperties(HttpClientProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration {
     /**
      * 读取配置属性服务类

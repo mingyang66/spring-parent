@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(InterceptorProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.interceptor", name = "enable", havingValue = "true", matchIfMissing = true)
 public class InterceptorAutoConfiguration {
 
     /**
@@ -25,7 +27,6 @@ public class InterceptorAutoConfiguration {
     private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(org.springframework.web.bind.annotation.GetMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
-
     private InterceptorProperties properties;
 
     public InterceptorAutoConfiguration(InterceptorProperties properties){

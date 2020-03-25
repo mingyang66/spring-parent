@@ -3,9 +3,12 @@ package com.yaomy.sgrain.returnvalue.config;
 import com.yaomy.sgrain.returnvalue.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.yaomy.sgrain.returnvalue.handler.ResponseHttpHeadersReturnValueHandler;
 import com.yaomy.sgrain.returnvalue.handler.ResponseMethodReturnValueHandler;
+import com.yaomy.sgrain.returnvalue.properties.ReturnValueProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -23,6 +26,8 @@ import java.util.List;
  */
 @Configuration
 @ConditionalOnClass({ResponseHttpEntityMethodReturnValueHandler.class, ResponseMethodReturnValueHandler.class, ResponseHttpEntityMethodReturnValueHandler.class})
+@EnableConfigurationProperties(ReturnValueProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.return-value", name = "enable", havingValue = "true", matchIfMissing = true)
 public class ReturnValueAutoConfiguration implements InitializingBean {
 
     private RequestMappingHandlerAdapter handlerAdapter;

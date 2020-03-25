@@ -11,6 +11,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.sgrain.interceptor")
 public class InterceptorProperties {
     /**
+     * 组件开关
+     */
+    private Boolean enable = Boolean.TRUE;
+    /**
      * 换行符
      */
     private static final String NEW_LINE = "\n";
@@ -76,6 +80,14 @@ public class InterceptorProperties {
     private String msgDataSourceStart = MSG_DATASOURCE_START;
     private String msgDataSourceEnd = MSG_DATASOURCE_END;
     private String msgRightSymbol = MSG_RIGHT_SYMBOL;
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
 
     public String getNameLine() {
         return nameLine;

@@ -67,13 +67,14 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         RateLimit limiter = method.getAnnotation(RateLimit.class);
         if(ArrayUtils.isNotEmpty(limiter.name())){
             Map<String, Object> paramMap = RequestUtil.getRequestParam(request, invocation);
-            System.out.println(JSONUtils.toJSONString(paramMap));
             for(String name:limiter.name()){
                 key = StringUtils.join(key, SEMICOLON, paramMap.get(name));
             }
         }
         //clientIp+url+name 进行md5 hash作为键值
         keys.add(Md5Utils.computeMD5Hash(key));
+        System.out.println(limiter.permits());
+        System.out.println(limiter.name());
         //执行lua脚本，将数据存储到redis缓存
         long result = NumberUtils.toLong(redisTemplate.execute(redisScript, keys, limiter.permits(), limiter.time()).toString());
         if(result == 0L){

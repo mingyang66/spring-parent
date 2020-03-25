@@ -49,3 +49,9 @@ mvn versions:commit
 @SpringBootApplication(exclude = {ReturnValueAutoConfiguration.class})
 ```
 
+##### 6.关闭流控组件
+
+```
+@SpringBootApplication(exclude = {RateLimitAutoConfiguration.class})
+```
+

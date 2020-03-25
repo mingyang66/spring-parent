@@ -2,10 +2,13 @@ package com.yaomy.sgrain.ratelimit.config;
 
 import com.yaomy.sgrain.common.enums.AopOrderEnum;
 import com.yaomy.sgrain.ratelimit.interceptor.RateLimitMethodInterceptor;
+import com.yaomy.sgrain.ratelimit.properties.RateLimitProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -20,6 +23,8 @@ import org.springframework.scripting.support.ResourceScriptSource;
  * @create: 2020/03/23
  */
 @Configuration
+@EnableConfigurationProperties(RateLimitProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.rate-limit", name = "enable", havingValue = "true", matchIfMissing = true)
 public class RateLimitAutoConfiguration {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -31,7 +36,7 @@ public class RateLimitAutoConfiguration {
      */
     @Bean
     @ConditionalOnClass(value = {RateLimitMethodInterceptor.class, RedisTemplate.class})
-    public DefaultPointcutAdvisor testPointCutAdvice(RedisTemplate redisTemplate) {
+    public DefaultPointcutAdvisor rateLimitPointCutAdvice(RedisTemplate redisTemplate) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式

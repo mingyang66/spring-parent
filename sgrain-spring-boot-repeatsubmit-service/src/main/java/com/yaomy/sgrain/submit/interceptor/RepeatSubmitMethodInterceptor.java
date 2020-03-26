@@ -13,7 +13,6 @@ import org.redisson.api.RedissonClient;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -30,7 +29,6 @@ public class RepeatSubmitMethodInterceptor implements MethodInterceptor {
      * 分号
      */
     private static final String SEMICOLON = ":";
-
     /**
      * Redisson 客户端对象
      */

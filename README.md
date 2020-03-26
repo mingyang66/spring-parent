@@ -20,38 +20,87 @@ mvn versions:commit
 ```
 ------
 ### 自动化配置组件AutoConfiguration
-##### 1.关闭Redisson组件
-```
-@SpringBootApplication(exclude = {RedissonAutoConfiguration.class})
-```
+##### 1.拦截控制器日志组件
 
-##### 2.关闭拦截控制器日志组件
+- 配置关闭组件
 
 ```
-@SpringBootApplication(exclude = {InterceptorAutoConfiguration.class})
+spring.sgrain.log-aop.enable=true
 ```
 
-##### 3.关闭RestTemplate网络请求配置组件
+- 注解关闭组件
+
+```
+@SpringBootApplication(exclude = {LogAopAutoConfiguration.class})
+```
+
+##### 2.RestTemplate网络请求配置组件
+
+- 配置关闭组件
+
+```
+spring.sgrain.http-client.enable=true
+```
+
+- 注解关闭组件
 
 ```
 @SpringBootApplication(exclude = {HttpClientAutoConfiguration.class})
 ```
 
-##### 4.关闭Redis配置组件
+##### 3.Redis配置组件
+
+- 配置关闭组件
+
+```
+spring.sgrain.redis.enable=true
+```
+
+- 注解关闭组件
 
 ```
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
 ```
 
-##### 5.关闭控制器返回值包装组件
+##### 4.控制器返回值包装组件
+
+- 配置关闭组件
+
+```
+spring.sgrain.return-value.enable=true
+```
+
+- 注解关闭组件
 
 ```
 @SpringBootApplication(exclude = {ReturnValueAutoConfiguration.class})
 ```
 
-##### 6.关闭流控组件
+##### 5.限流组件
+
+- 配置关闭组件
+
+```
+spring.sgrain.rate-limit.enable=true
+```
+
+- 注解关闭组件
 
 ```
 @SpringBootApplication(exclude = {RateLimitAutoConfiguration.class})
+```
+
+##### 6.防止重复提交组件
+
+- 配置关闭组件
+
+```
+spring.sgrain.repeat-submit.enable=true
+```
+
+- 注解关闭组件
+
+```
+@SpringBootApplication(exclude = {RepeatSubmitAutoConfiguration.class})
 ```
 

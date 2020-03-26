@@ -1,8 +1,8 @@
 package com.yaomy.sgrain.aop.config;
 
-import com.yaomy.sgrain.aop.advice.ControllerAdviceMethodInterceptor;
-import com.yaomy.sgrain.aop.properties.InterceptorProperties;
-import com.yaomy.sgrain.common.enums.AopOrderEnum;
+import com.yaomy.sgrain.aop.advice.LogAopMethodInterceptor;
+import com.yaomy.sgrain.aop.properties.LogAopProperties;
+import com.yaomy.sgrain.common.enums.SgrainAopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Configuration;
  * @Version: 1.0
  */
 @Configuration
-@EnableConfigurationProperties(InterceptorProperties.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.interceptor", name = "enable", havingValue = "true", matchIfMissing = true)
-public class InterceptorAutoConfiguration {
+@EnableConfigurationProperties(LogAopProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.log-aop", name = "enable", havingValue = "true", matchIfMissing = true)
+public class LogAopAutoConfiguration {
 
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -27,9 +27,9 @@ public class InterceptorAutoConfiguration {
     private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(org.springframework.web.bind.annotation.GetMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
-    private InterceptorProperties properties;
+    private LogAopProperties properties;
 
-    public InterceptorAutoConfiguration(InterceptorProperties properties){
+    public LogAopAutoConfiguration(LogAopProperties properties){
         this.properties = properties;
     }
     /**
@@ -37,8 +37,8 @@ public class InterceptorAutoConfiguration {
      * @Version  1.0
      */
     @Bean
-    @ConditionalOnClass(ControllerAdviceMethodInterceptor.class)
-    public DefaultPointcutAdvisor defaultPointCutAdvice() {
+    @ConditionalOnClass(LogAopMethodInterceptor.class)
+    public DefaultPointcutAdvisor logAopPointCutAdvice() {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式
@@ -48,9 +48,9 @@ public class InterceptorAutoConfiguration {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ControllerAdviceMethodInterceptor(properties));
+        advisor.setAdvice(new LogAopMethodInterceptor(properties));
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.CONTROLLER_ADVICE.getOrder());
+        advisor.setOrder(SgrainAopOrderEnum.CONTROLLER_ADVICE.getOrder());
         return advisor;
     }
 }

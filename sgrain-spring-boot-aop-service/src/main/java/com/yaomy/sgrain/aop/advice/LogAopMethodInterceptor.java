@@ -1,8 +1,9 @@
 package com.yaomy.sgrain.aop.advice;
 
-import com.yaomy.sgrain.aop.properties.InterceptorProperties;
+import com.yaomy.sgrain.aop.properties.LogAopProperties;
 import com.yaomy.sgrain.common.po.BaseRequest;
 import com.yaomy.sgrain.common.utils.ObjectSizeUtil;
+import com.yaomy.sgrain.common.utils.RequestUtils;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import com.yaomy.sgrain.logback.utils.LoggerUtil;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -12,8 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,23 +27,16 @@ import java.util.Map;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-public class ControllerAdviceMethodInterceptor implements MethodInterceptor {
+public class LogAopMethodInterceptor implements MethodInterceptor {
 
-    private InterceptorProperties properties;
-    public ControllerAdviceMethodInterceptor(InterceptorProperties properties){
+    private LogAopProperties properties;
+    public LogAopMethodInterceptor(LogAopProperties properties){
         this.properties = properties;
     }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        //控制器请求aop处理
-        return controllerHandler(invocation);
-    }
-    /**
-     *  控制器请求AOP拦截处理
-     */
-    private Object controllerHandler(MethodInvocation invocation) throws Throwable{
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = RequestUtils.getRequest();
         //获取请求参数，且该参数获取必须在proceed之前
         Map<String, Object> paramsMap = getRequestParam(invocation, request);
         //新建计时器并开始计时

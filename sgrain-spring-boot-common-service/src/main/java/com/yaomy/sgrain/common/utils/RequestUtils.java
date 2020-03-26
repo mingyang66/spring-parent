@@ -4,6 +4,8 @@ import com.yaomy.sgrain.common.po.BaseRequest;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +27,7 @@ import java.util.regex.Pattern;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-public class RequestUtil {
+public class RequestUtils {
     /**
      * unknown
      */
@@ -126,5 +128,21 @@ public class RequestUtil {
             }
         }
         return paramMap;
+    }
+
+    /**
+     * 获取用户当前请求的HttpServletRequest
+     */
+    public static HttpServletRequest getRequest(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request;
+    }
+
+    /**
+     * 获取当前请求的HttpServletResponse
+     */
+    public static HttpServletResponse getResponse(){
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        return response;
     }
 }

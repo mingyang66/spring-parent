@@ -3,6 +3,7 @@ package com.yaomy.control.test.api;
 import com.google.common.util.concurrent.RateLimiter;
 import com.yaomy.control.test.po.User;
 import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
+import com.yaomy.sgrain.submit.annotation.NoRepeatSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,10 +37,11 @@ public class RateLimiterController {
         return "SUCCESS";
     }
     @GetMapping("/rate/limit")
-    @RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
+    //@RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
+    @NoRepeatSubmit
     public String rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
         System.out.println(user.getName()+"---"+user.getAge());
-        redisTemplate.opsForValue().set("test666", "888");
+        //redisTemplate.opsForValue().set("test666", "888");
         return "SUCCESS";
     }
 }

@@ -4,18 +4,23 @@ package com.yaomy.sgrain.common.enums;
 * @Author: 姚明洋
 * @create: 2020/3/23
 */
-public enum AopOrderEnum {
+public enum SgrainAopOrderEnum {
     /**
      * 日志
      */
-    CONTROLLER_ADVICE(40),
+    CONTROLLER_ADVICE(400),
     /**
      * 接口流控
      */
-    RATE_LIMITER(50);
+    RATE_LIMITER(500),
+    /**
+     * 接口重复提交拦截器
+     */
+    REPEAT_SUBMIT(600);
 
     private int order;
-    AopOrderEnum(int order){
+
+    SgrainAopOrderEnum(int order){
         this.order = order;
     }
 

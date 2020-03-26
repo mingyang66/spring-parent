@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: 姚明洋
  * @create: 2020/03/19
  */
-@ConfigurationProperties(prefix = "spring.sgrain.interceptor")
-public class InterceptorProperties {
+@ConfigurationProperties(prefix = "spring.sgrain.log-aop")
+public class LogAopProperties {
     /**
      * 组件开关
      */

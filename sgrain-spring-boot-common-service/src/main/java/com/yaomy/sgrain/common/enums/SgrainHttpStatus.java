@@ -56,7 +56,11 @@ public enum SgrainHttpStatus {
     /**
      * 方法访问频率控制
      */
-    RATE_LIMIT_EXCEPTION(10000, "接口访问过于频繁，请稍后再试！");
+    RATE_LIMIT_EXCEPTION(10000, "接口访问过于频繁，请稍后再试！"),
+    /**
+     * 接口重复提交
+     */
+    REPEAT_SUBMIT_EXCEPTION(20000, "接口不可以重复提交，请稍后再试！");
 
     /**
      * 状态码

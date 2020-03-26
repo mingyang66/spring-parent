@@ -3,8 +3,7 @@ package com.yaomy.sgrain.ratelimit.interceptor;
 import com.google.common.collect.Lists;
 import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
 import com.yaomy.sgrain.common.utils.Md5Utils;
-import com.yaomy.sgrain.common.utils.RequestUtil;
-import com.yaomy.sgrain.common.utils.json.JSONUtils;
+import com.yaomy.sgrain.common.utils.RequestUtils;
 import com.yaomy.sgrain.exception.business.BusinessException;
 import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -58,7 +57,7 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         //lua脚本key值
         List<String> keys = Lists.newArrayList();
         //客户端IP
-        String clientIp = RequestUtil.getClientIp(request);
+        String clientIp = RequestUtils.getClientIp(request);
         //接口url
         String url = request.getRequestURI();
         //拼接key值
@@ -66,7 +65,7 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         //获取限流注解对象
         RateLimit limiter = method.getAnnotation(RateLimit.class);
         if(ArrayUtils.isNotEmpty(limiter.name())){
-            Map<String, Object> paramMap = RequestUtil.getRequestParam(request, invocation);
+            Map<String, Object> paramMap = RequestUtils.getRequestParam(request, invocation);
             for(String name:limiter.name()){
                 key = StringUtils.join(key, SEMICOLON, paramMap.get(name));
             }

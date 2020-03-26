@@ -1,6 +1,6 @@
 package com.yaomy.sgrain.ratelimit.config;
 
-import com.yaomy.sgrain.common.enums.AopOrderEnum;
+import com.yaomy.sgrain.common.enums.SgrainAopOrderEnum;
 import com.yaomy.sgrain.ratelimit.interceptor.RateLimitMethodInterceptor;
 import com.yaomy.sgrain.ratelimit.properties.RateLimitProperties;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +48,7 @@ public class RateLimitAutoConfiguration {
         //设置增强（Advice）
         advisor.setAdvice(new RateLimitMethodInterceptor(redisTemplate, redisLuaScript()));
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.RATE_LIMITER.getOrder());
+        advisor.setOrder(SgrainAopOrderEnum.RATE_LIMITER.getOrder());
 
         return advisor;
     }

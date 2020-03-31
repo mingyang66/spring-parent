@@ -37,7 +37,7 @@ public class RateLimiterController {
         return "SUCCESS";
     }
     @GetMapping("/rate/limit")
-    //@RateLimit(permits = 2, name = {"name","age"}, time = 20, timeUnit = TimeUnit.SECONDS)
+    @RateLimit(permits = 2, name = {"name","age"}, time = 1, timeUnit = TimeUnit.SECONDS)
     @NoRepeatSubmit
     public String rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
         System.out.println(user.getName()+"---"+user.getAge());

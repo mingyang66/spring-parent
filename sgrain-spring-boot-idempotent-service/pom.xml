@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.sgrain</groupId>
-    <artifactId>sgrain-spring-boot-repeatsubmit-service</artifactId>
+    <artifactId>sgrain-spring-boot-idempotent-service</artifactId>
 
     <dependencies>
         <dependency>

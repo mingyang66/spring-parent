@@ -10,7 +10,7 @@
         <module>sgrain-spring-boot-conf-service</module>
         <module>sgrain-spring-boot-network-service</module>
         <module>sgrain-spring-boot-returnvalue-service</module>
-        <module>sgrain-spring-boot-repeatsubmit-service</module>
+        <module>sgrain-spring-boot-idempotent-service</module>
         <module>sgrain-spring-boot-exception-service</module>
         <module>sgrain-spring-boot-redis-service</module>
         <module>sgrain-spring-boot-ratelimit-service</module>

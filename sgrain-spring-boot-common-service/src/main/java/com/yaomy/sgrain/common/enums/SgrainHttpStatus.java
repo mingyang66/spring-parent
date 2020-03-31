@@ -60,7 +60,7 @@ public enum SgrainHttpStatus {
     /**
      * 接口重复提交
      */
-    REPEAT_SUBMIT_EXCEPTION(20000, "接口不可以重复提交，请稍后再试！");
+    IDEMPOTENT_EXCEPTION(20000, "接口不可以重复提交，请稍后再试！");
 
     /**
      * 状态码

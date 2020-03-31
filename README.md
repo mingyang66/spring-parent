@@ -90,17 +90,23 @@ spring.sgrain.rate-limit.enable=true
 @SpringBootApplication(exclude = {RateLimitAutoConfiguration.class})
 ```
 
-##### 6.防止重复提交组件
+##### 6.幂等性组件（防止接口重复提交）
 
 - 配置关闭组件
 
 ```
-spring.sgrain.repeat-submit.enable=true
+spring.sgrain.idempotent.enable=true
 ```
 
 - 注解关闭组件
 
 ```
-@SpringBootApplication(exclude = {RepeatSubmitAutoConfiguration.class})
+@SpringBootApplication(exclude = {IdempotentAutoConfiguration.class})
 ```
 
+- 支持两种验证方式
+
+```
+通过接口/token/generation接口获取token令牌，并且通过验证token的有效性来判断是否重复提交；
+通过令牌和URL组合的方式作为主键创建分布式锁的模式，这种模式适合用户已经登录，存在用户token令牌的模式；
+```

@@ -1,4 +1,4 @@
-package com.yaomy.sgrain.submit.properties;
+package com.yaomy.sgrain.idempotent.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: 姚明洋
  * @create: 2020/03/26
  */
-@ConfigurationProperties(prefix = "spring.sgrain.repeat-submit")
-public class RepeatSubmitProperties {
+@ConfigurationProperties(prefix = "spring.sgrain.idempotent")
+public class IdempotentProperties {
     private boolean enable = true;
 
     public boolean isEnable() {

@@ -1,14 +1,12 @@
 package com.yaomy.sgrain.idempotent.api;
 
 import com.yaomy.sgrain.common.utils.TokenUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**

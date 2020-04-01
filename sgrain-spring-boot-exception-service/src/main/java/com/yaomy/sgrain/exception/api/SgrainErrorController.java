@@ -1,16 +1,12 @@
 package com.yaomy.sgrain.exception.api;
 
 import com.google.common.collect.Maps;
-import org.springframework.boot.autoconfigure.web.ErrorProperties;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -27,21 +23,21 @@ public class SgrainErrorController implements ErrorController {
      * 错误路由
      */
     private static final String PATH = "/error";
-    private final ErrorAttributes errorAttributes;
 
-    public SgrainErrorController(ErrorAttributes errorAttributes){
-        this.errorAttributes = errorAttributes;
-    }
     @Override
     public String getErrorPath() {
         return PATH;
     }
     @RequestMapping(PATH)
-    public ResponseEntity<Map<String, Object>> error(HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>> error(HttpServletRequest request, Throwable ex){
         HttpStatus status = getStatus(request);
         Map<String, Object> result = Maps.newLinkedHashMap();
         result.put("status", status.value());
-        result.put("message", status.getReasonPhrase());
+        if(StringUtils.isNotEmpty(ex.getMessage())){
+            result.put("message", ex.getMessage());
+        } else {
+            result.put("message", status.getReasonPhrase());
+        }
         return ResponseEntity.ok(result);
     }
 

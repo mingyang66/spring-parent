@@ -54,6 +54,10 @@ public enum SgrainHttpStatus {
      */
     PARAM_EXCEPTION(210, "参数异常"),
     /**
+     * 接口不存在
+     */
+    NOT_FOUND_EXCEPTION(404, "接口不存在"),
+    /**
      * 方法访问频率控制
      */
     RATE_LIMIT_EXCEPTION(10000, "接口访问过于频繁，请稍后再试！"),

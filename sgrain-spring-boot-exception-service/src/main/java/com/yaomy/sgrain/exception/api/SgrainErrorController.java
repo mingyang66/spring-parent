@@ -1,6 +1,7 @@
 package com.yaomy.sgrain.exception.api;
 
 import com.google.common.collect.Maps;
+import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -33,10 +34,14 @@ public class SgrainErrorController implements ErrorController {
         HttpStatus status = getStatus(request);
         Map<String, Object> result = Maps.newLinkedHashMap();
         result.put("status", status.value());
-        if(StringUtils.isNotEmpty(ex.getMessage())){
-            result.put("message", ex.getMessage());
+        if(status.value() == SgrainHttpStatus.NOT_FOUND_EXCEPTION.getStatus()){
+            result.put("message", SgrainHttpStatus.NOT_FOUND_EXCEPTION.getMessage());
         } else {
-            result.put("message", status.getReasonPhrase());
+            if(StringUtils.isNotEmpty(ex.getMessage())){
+                result.put("message", ex.getMessage());
+            } else {
+                result.put("message", status.getReasonPhrase());
+            }
         }
         return ResponseEntity.ok(result);
     }

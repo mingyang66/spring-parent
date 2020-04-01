@@ -31,9 +31,9 @@ HELP.md
 ### VS Code ###
 .vscode/
 
-.mvn/
-mvnw
-mvnw.cmd
+#.mvn/
+#mvnw
+#mvnw.cmd
 logs/
 
 out/

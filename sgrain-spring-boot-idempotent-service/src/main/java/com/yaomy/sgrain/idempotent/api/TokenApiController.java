@@ -1,5 +1,6 @@
 package com.yaomy.sgrain.idempotent.api;
 
+import com.yaomy.sgrain.common.utils.TokenUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class TokenApiController {
      */
     @PostMapping("generation")
     public ResponseEntity<String> generationToken(){
-        String token = StringUtils.replace(UUID.randomUUID().toString(), "-", "");
+        String token = TokenUtils.generation();
         redisTemplate.opsForValue().set(token, token, 30, TimeUnit.SECONDS);
         return ResponseEntity.ok(token);
     }

@@ -46,3 +46,5 @@ distributionUrl=file:////Users/xxx/Documents/IDE/apache-maven-wrapper/apache-mav
 ```
 
 测试可以成功的将项目打包
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/maven](https://github.com/mingyang66/spring-parent/tree/master/doc/maven)

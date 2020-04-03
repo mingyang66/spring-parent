@@ -11,9 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Collections;
 
 /**
  * 防止重复提交AOP拦截器
@@ -32,10 +34,12 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
      */
     private RedissonClient redissonClient;
     private RedisTemplate<Object, Object> redisTemplate;
+    private DefaultRedisScript<Long> redisScript;
 
-    public IdempotentMethodInterceptor(RedissonClient redissonClient, RedisTemplate<Object, Object> redisTemplate){
+    public IdempotentMethodInterceptor(RedissonClient redissonClient, RedisTemplate<Object, Object> redisTemplate, DefaultRedisScript<Long> redisScript){
         this.redissonClient = redissonClient;
         this.redisTemplate = redisTemplate;
+        this.redisScript = redisScript;
     }
 
     @Override
@@ -59,7 +63,8 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
         }
         //--------------------TOKEN验证模式-------------------------
         if(idempotent.type().equals(Idempotent.Type.TOKEN)){
-            if(redisTemplate.delete(authentication)){
+            Long data = redisTemplate.execute(redisScript, Collections.singletonList(authentication));
+            if(null != data && data == 1L){
                 return invocation.proceed();
             } else {
                 throw new BusinessException(SgrainHttpStatus.IDEMPOTENT_EXCEPTION);

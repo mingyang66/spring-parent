@@ -11,7 +11,6 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 
@@ -69,8 +68,8 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         //clientIp+url+name 进行md5 hash作为键值
         keys.add(Md5Utils.computeMD5Hash(key));
         //执行lua脚本，将数据存储到redis缓存
-        Object data = redisTemplate.execute(redisScript, keys, limit.permits(), limit.time());
-        if(ObjectUtils.isNotEmpty(data) && NumberUtils.toInt(data.toString()) == 0L){
+        Long data = redisTemplate.execute(redisScript, keys, limit.permits(), limit.time());
+        if(ObjectUtils.isNotEmpty(data) && data == 0L){
             throw new BusinessException(SgrainHttpStatus.RATE_LIMIT_EXCEPTION);
         }
         return invocation.proceed();

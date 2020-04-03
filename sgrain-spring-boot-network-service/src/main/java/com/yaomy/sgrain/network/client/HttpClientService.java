@@ -22,20 +22,17 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * @Description: 发送Http请求Client服务类
- * @Author 姚明洋
- * @Version: 1.0
+ * 发送Http请求Client服务类
  */
-@Component
 @SuppressWarnings("all")
+@Component
 public class HttpClientService {
 
     @Autowired
     @Lazy
     private RestTemplate restTemplate;
     /**
-     * @Description 支持参数为非数组模式POST请求
-     * @Version  1.0
+     * 支持参数为非数组模式POST请求
      */
     public <T> T  post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType){
         StopWatch watch = StopWatch.createStarted();
@@ -46,8 +43,7 @@ public class HttpClientService {
         return entity.getBody();
     }
     /**
-     * @Description 支持参数为非数组模式POST请求
-     * @Version  1.0
+     * 支持参数为非数组模式POST请求
      */
     public <T> T  post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables){
         StopWatch watch = StopWatch.createStarted();
@@ -59,8 +55,7 @@ public class HttpClientService {
 
     }
     /**
-     * @Description 支持参数为非数组模式POST请求
-     * @Version  1.0
+     * 支持参数为非数组模式POST请求
      */
     public<T> T  post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables){
         StopWatch watch = StopWatch.createStarted();
@@ -72,11 +67,7 @@ public class HttpClientService {
 
     }
     /**
-     * -----------------------------GET----------------------------------------------
-     */
-    /**
-     * @Description 支持参数为非数组模式POST请求
-     * @Version  1.0
+     * 支持参数为非数组模式POST请求
      */
     public <T> T  get(String url, Class<T> responseType, Object... uriVariables){
         StopWatch watch = StopWatch.createStarted();
@@ -87,8 +78,7 @@ public class HttpClientService {
         return entity.getBody();
     }
     /**
-     * @Description 支持参数为非数组模式POST请求
-     * @Version  1.0
+     * 支持参数为非数组模式POST请求
      */
     public<T> T  get(String url, Class<T> responseType, Map<String, ?> uriVariables){
         StopWatch watch = StopWatch.createStarted();
@@ -99,14 +89,8 @@ public class HttpClientService {
         return entity.getBody();
     }
 
-    /**
-     *
-     * @param params 参数
-     * @param headers header
-     * @return
-     */
     private HttpEntity getHttpHeaders(Object params, MultiValueMap<String, String> headers){
-        HttpEntity httpEntity = null;
+        HttpEntity httpEntity;
         if(ObjectUtils.isEmpty(headers)){
             httpEntity = new HttpEntity(params);
         } else {
@@ -115,10 +99,7 @@ public class HttpClientService {
         return httpEntity;
     }
     /**
-     * @Description 日志信息
-     * @Author 姚明洋
-     * @Date 2019/8/30 13:06
-     * @Version  1.0
+     * 日志信息
      */
     private <T> void logInfo(String url, HttpMethod httpMethod, Object params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity, long time){
         Object paramObj = params;

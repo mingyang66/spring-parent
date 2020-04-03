@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
- * @program: spring-parent
- * @description: 防止重复提交AOP拦截器
- * @author: 姚明洋
- * @create: 2020/03/26
+ * 防止重复提交AOP拦截器
  */
 public class IdempotentMethodInterceptor implements MethodInterceptor {
     /**
@@ -34,9 +31,9 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
      * Redisson 客户端对象
      */
     private RedissonClient redissonClient;
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
-    public IdempotentMethodInterceptor(RedissonClient redissonClient, RedisTemplate redisTemplate){
+    public IdempotentMethodInterceptor(RedissonClient redissonClient, RedisTemplate<Object, Object> redisTemplate){
         this.redissonClient = redissonClient;
         this.redisTemplate = redisTemplate;
     }

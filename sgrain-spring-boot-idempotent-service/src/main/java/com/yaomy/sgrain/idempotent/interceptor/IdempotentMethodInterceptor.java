@@ -7,6 +7,7 @@ import com.yaomy.sgrain.exception.business.BusinessException;
 import com.yaomy.sgrain.idempotent.annotation.Idempotent;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -64,7 +65,7 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
         //--------------------TOKEN验证模式-------------------------
         if(idempotent.type().equals(Idempotent.Type.TOKEN)){
             Long data = redisTemplate.execute(redisScript, Collections.singletonList(authentication));
-            if(null != data && data == 1L){
+            if(ObjectUtils.isNotEmpty(data) && data == 1L){
                 return invocation.proceed();
             } else {
                 throw new BusinessException(SgrainHttpStatus.IDEMPOTENT_EXCEPTION);

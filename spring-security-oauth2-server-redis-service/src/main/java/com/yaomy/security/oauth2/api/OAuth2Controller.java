@@ -3,10 +3,10 @@ package com.yaomy.security.oauth2.api;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yaomy.sgrain.common.enums.DateFormatEnum;
+import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
 import com.yaomy.sgrain.common.po.BaseResponse;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import com.yaomy.sgrain.common.enums.GrantTypeEnum;
-import com.yaomy.sgrain.common.enums.HttpStatusMsg;
 import com.yaomy.sgrain.conf.properties.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -88,10 +88,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return BaseResponse.createResponseEntity(HttpStatusMsg.OK, result);
+            return BaseResponse.createResponseEntity(SgrainHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION);
+            return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -128,10 +128,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return BaseResponse.createResponseEntity(HttpStatusMsg.OK, result);
+            return BaseResponse.createResponseEntity(SgrainHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION);
+            return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -151,10 +151,10 @@ public class OAuth2Controller {
             map.put("isExpired", accessToken.isExpired());
             //过期时间
             map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-            return BaseResponse.createResponseEntity(HttpStatusMsg.OK, map);
+            return BaseResponse.createResponseEntity(SgrainHttpStatus.OK, map);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(HttpStatusMsg.AUTHENTICATION_EXCEPTION);
+            return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -175,9 +175,9 @@ public class OAuth2Controller {
                     tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
                 }
             }
-            return BaseResponse.createResponseEntity(HttpStatusMsg.OK);
+            return BaseResponse.createResponseEntity(200,"SUCCESS");
         } catch (Exception e){
-            return BaseResponse.createResponseEntity(HttpStatusMsg.LOGOUT_EXCEPTION);
+            return BaseResponse.createResponseEntity(304, "登出异常");
         }
     }
 }

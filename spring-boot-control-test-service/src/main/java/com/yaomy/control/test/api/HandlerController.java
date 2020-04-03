@@ -118,8 +118,7 @@ public class HandlerController {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.put("jarFile", Arrays.asList(resource, resource1));
         params.put("fileName", Arrays.asList("liming", "hello"));
-        String result = httpClientService.postMulti(url, params,null, String.class);
-        System.out.println(result);
+
     }
     @PostMapping(value = "/handler/client")
     public ResponseEntity<String> testClient(String name) {

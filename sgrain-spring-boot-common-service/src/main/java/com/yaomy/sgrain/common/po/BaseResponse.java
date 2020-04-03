@@ -2,7 +2,6 @@ package com.yaomy.sgrain.common.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
-import com.yaomy.sgrain.common.enums.HttpStatusMsg;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
@@ -96,7 +95,7 @@ public class BaseResponse implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static BaseResponse createResponse(HttpStatusMsg httpStatusMsg){
+    public static BaseResponse createResponse(SgrainHttpStatus httpStatusMsg){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());
         baseResponse.setMessage(httpStatusMsg.getMessage());
@@ -107,7 +106,7 @@ public class BaseResponse implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static ResponseEntity<BaseResponse> createResponseEntity(HttpStatusMsg httpStatusMsg){
+    public static ResponseEntity<BaseResponse> createResponseEntity(SgrainHttpStatus httpStatusMsg){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());
         baseResponse.setMessage(httpStatusMsg.getMessage());
@@ -118,7 +117,7 @@ public class BaseResponse implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static BaseResponse createResponse(HttpStatusMsg httpStatusMsg, Object data){
+    public static BaseResponse createResponse(SgrainHttpStatus httpStatusMsg, Object data){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());
         baseResponse.setMessage(httpStatusMsg.getMessage());
@@ -130,7 +129,7 @@ public class BaseResponse implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static ResponseEntity<BaseResponse> createResponseEntity(HttpStatusMsg httpStatusMsg, Object data){
+    public static ResponseEntity<BaseResponse> createResponseEntity(SgrainHttpStatus httpStatusMsg, Object data){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatus(httpStatusMsg.getStatus());
         baseResponse.setMessage(httpStatusMsg.getMessage());

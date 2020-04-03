@@ -2,7 +2,6 @@ package com.yaomy.security.oauth2.handler;
 
 import com.yaomy.sgrain.common.po.BaseResponse;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
-import com.yaomy.sgrain.common.enums.HttpStatusMsg;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ import java.io.IOException;
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage()+","+e.toString()));
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(300, "登录异常，请检查登录信息..."+","+e.toString()));
 
     }
 }

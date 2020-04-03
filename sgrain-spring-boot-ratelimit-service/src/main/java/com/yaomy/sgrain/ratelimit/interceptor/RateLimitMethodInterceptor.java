@@ -9,12 +9,11 @@ import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -22,10 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: spring-parent
- * @description: 接口访问的频率控制
- * @author: 姚明洋
- * @create: 2020/03/23
+ * 接口访问的频率控制
  */
 public class RateLimitMethodInterceptor implements MethodInterceptor {
     /**
@@ -35,13 +31,13 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
     /**
      * Redis客户端
      */
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     /**
      * lua脚本
      */
     private RedisScript<Long> redisScript;
 
-    public RateLimitMethodInterceptor(RedisTemplate redisTemplate, RedisScript<Long> redisScript){
+    public RateLimitMethodInterceptor(RedisTemplate<String, Object> redisTemplate, RedisScript<Long> redisScript){
         this.redisTemplate = redisTemplate;
         this.redisScript = redisScript;
     }
@@ -53,7 +49,7 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
             return invocation.proceed();
         }
         //获取Request请求对象
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = RequestUtils.getRequest();
         //lua脚本key值
         List<String> keys = Lists.newArrayList();
         //客户端IP
@@ -63,20 +59,18 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         //拼接key值
         String key = StringUtils.join(clientIp, SEMICOLON, url);
         //获取限流注解对象
-        RateLimit limiter = method.getAnnotation(RateLimit.class);
-        if(ArrayUtils.isNotEmpty(limiter.name())){
+        RateLimit limit = method.getAnnotation(RateLimit.class);
+        if(ArrayUtils.isNotEmpty(limit.name())){
             Map<String, Object> paramMap = RequestUtils.getRequestParam(request, invocation);
-            for(String name:limiter.name()){
+            for(String name:limit.name()){
                 key = StringUtils.join(key, SEMICOLON, paramMap.get(name));
             }
         }
         //clientIp+url+name 进行md5 hash作为键值
         keys.add(Md5Utils.computeMD5Hash(key));
-        System.out.println(limiter.permits());
-        System.out.println(limiter.name());
         //执行lua脚本，将数据存储到redis缓存
-        long result = NumberUtils.toLong(redisTemplate.execute(redisScript, keys, limiter.permits(), limiter.time()).toString());
-        if(result == 0L){
+        Object data = redisTemplate.execute(redisScript, keys, limit.permits(), limit.time());
+        if(ObjectUtils.isNotEmpty(data) && NumberUtils.toInt(data.toString()) == 0L){
             throw new BusinessException(SgrainHttpStatus.RATE_LIMIT_EXCEPTION);
         }
         return invocation.proceed();

@@ -1,12 +1,12 @@
 package com.yaomy.sgrain.common.utils;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * @Description: 手机号码工具了
  * @Version: 1.0
  */
-@SuppressWarnings("all")
 public class PhoneUtils {
     /**
      * @Description 隐藏手机号码中间四位
@@ -17,6 +17,6 @@ public class PhoneUtils {
             return null;
         }
         //$1 $2 表示正则表达式里面的第一个和第二个，也就是括号里面的内容
-        return StringUtils.replacePattern(phone,"(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        return RegExUtils.replacePattern(phone,"(\\d{3})\\d{4}(\\d{4})", "$1****$2");
     }
 }

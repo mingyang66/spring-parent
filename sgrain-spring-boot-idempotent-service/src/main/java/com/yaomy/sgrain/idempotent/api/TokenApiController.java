@@ -10,24 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @program: spring-parent
- * @description: 自动生成token令牌控制器
- * @author: 姚明洋
- * @create: 2020/03/31
+ * 自动生成token令牌控制器
  */
 @RestController
 @RequestMapping("token")
 public class TokenApiController {
 
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
-    public TokenApiController(RedisTemplate redisTemplate){
+    public TokenApiController(RedisTemplate<Object, Object> redisTemplate){
         this.redisTemplate = redisTemplate;
     }
 
     /**
      * 自动生成token令牌，并将令牌存入缓存，过期时间是30s
-     * @return
      */
     @PostMapping("generation")
     public ResponseEntity<String> generationToken(){

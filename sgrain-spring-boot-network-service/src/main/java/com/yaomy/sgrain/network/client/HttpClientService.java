@@ -72,45 +72,6 @@ public class HttpClientService {
 
     }
     /**
-     * @Description 支持文件上传、多参数、参数为数组模式、参数为非数组模式
-     * @Version  1.0
-     */
-    @Deprecated
-    public <T> T postMulti(String url, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType){
-        StopWatch watch = StopWatch.createStarted();
-        ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
-        return entity.getBody();
-    }
-    /**
-     * @Description 支持文件上传、多参数、参数为数组模式、参数为非数组模式
-     * @Version  1.0
-     */
-    @Deprecated
-    public <T> T  postMulti(String url, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables){
-        StopWatch watch = StopWatch.createStarted();
-        ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
-        return entity.getBody();
-    }
-    /**
-     * @Description 支持文件上传、多参数、参数为数组模式、参数为非数组模式
-     * @Version  1.0
-     */
-    @Deprecated
-    public<T> T  postMulti(String url, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables){
-        StopWatch watch = StopWatch.createStarted();
-        ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
-        return entity.getBody();
-    }
-    /**
      * -----------------------------GET----------------------------------------------
      */
     /**
@@ -154,23 +115,6 @@ public class HttpClientService {
         return httpEntity;
     }
     /**
-     *
-     * @param params 参数
-     * @param headers header
-     * @return
-     */
-    @Deprecated
-    private HttpEntity getHttpHeaders(MultiValueMap<String, Object> params, MultiValueMap<String, String> headers){
-        HttpEntity httpEntity = null;
-        if(ObjectUtils.isEmpty(headers)){
-            httpEntity = new HttpEntity(params);
-        } else {
-            httpEntity = new HttpEntity(params, headers);
-        }
-        return httpEntity;
-    }
-
-    /**
      * @Description 日志信息
      * @Author 姚明洋
      * @Date 2019/8/30 13:06
@@ -198,22 +142,5 @@ public class HttpClientService {
         log = StringUtils.join(log, "返回结果：", JSONUtils.toJSONString(entity.getBody()));
         LoggerUtil.info(HttpClientService.class, log);
     }
-    /**
-     * @Description 日志信息
-     * @Version  1.0
-     */
-    @Deprecated
-    private <T> void logInfo(String url, HttpMethod httpMethod, MultiValueMap<String, Object> params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity, long time){
-        String log = StringUtils.join("\n", "访问URL :", url, "\n", "Method  :", HttpMethod.POST, "\n");
-        if(!ObjectUtils.isEmpty(params)){
-            log = StringUtils.join(log, "请求参数：", JSONUtils.toJSONString(params), "\n");
-        }
-        if(!ObjectUtils.isEmpty(headers)){
-            log = StringUtils.join(log, "Headers：", JSONUtils.toJSONString(headers), "\n");
-        }
-        log = StringUtils.join(log, "耗    时：", time, "毫秒\n");
-        log = StringUtils.join(log, "返回类型：", responseType.getTypeName(), "\n");
-        log = StringUtils.join(log, "返回结果：", JSONUtils.toJSONString(entity.getBody()), "\n");
-        LoggerUtil.info(HttpClientService.class, log);
-    }
+
 }

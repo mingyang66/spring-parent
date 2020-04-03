@@ -1,6 +1,5 @@
 package com.yaomy.security.oauth2.exception;
 
-import com.yaomy.sgrain.common.enums.HttpStatusMsg;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
@@ -21,6 +20,6 @@ public class PasswordException extends OAuth2Exception {
     }
     @Override
     public int getHttpErrorCode() {
-        return HttpStatusMsg.PASSWORD_EXCEPTION.getStatus();
+        return 302;
     }
 }

@@ -4,6 +4,7 @@ import com.yaomy.sgrain.common.po.BaseRequest;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -22,11 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Description: HttpServlet
- * @Date: 2019/5/21 13:16
- * @Version: 1.0
+ * HttpServletRequest请求类
  */
-@SuppressWarnings("all")
 public class RequestUtils {
     /**
      * unknown
@@ -34,9 +32,7 @@ public class RequestUtils {
     private static final String UNKNOWN = "unknown";
     private static final String LOCAL_IP = "127.0.0.1";
     /**
-     * @Description 获取客户单IP地址
-     * @Date 2019/5/21 13:17
-     * @Version  1.0
+     * 获取客户单IP地址
      */
      public static String getClientIp(HttpServletRequest request) {
          String ip = request.getHeader("x-forwarded-for");
@@ -58,10 +54,7 @@ public class RequestUtils {
          return ip;
      }
      /**
-      * @Description 判断请求IP是否是内网IP
-      * @Author 姚明洋
-      * @Date 2019/5/27 13:44
-      * @Version  1.0
+      * 判断请求IP是否是内网IP
       */
     public static boolean isInnerIp(String ip) {
         String reg = "((192\\.168|172\\.([1][6-9]|[2]\\d|3[01]))"
@@ -73,10 +66,7 @@ public class RequestUtils {
     }
 
     /**
-     * @Description 获取服务器端的IP
-     * @Author 姚明洋
-     * @Date 2019/9/2 15:17
-     * @Version  1.0
+     * 获取服务器端的IP
      */
     public static String getServerIp(){
         try{
@@ -88,23 +78,21 @@ public class RequestUtils {
                     InetAddress ip = addresses.nextElement();
                     //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
                     if (ip != null
-                            && ip instanceof Inet4Address
                             && !ip.isLoopbackAddress()
-                            && ip.getHostAddress().indexOf(":")==-1){
-                        System.out.println("本机的IP = " + ip.getHostAddress());
+                            && !ip.getHostAddress().contains(":")){
                         return ip.getHostAddress();
                     }
                 }
             }
         }catch(Exception e){
+            e.printStackTrace();
         }
        return LOCAL_IP;
     }
-
     /**
-     * @Description 获取请求参数
-     * @Version  1.0
+     * 获取请求参数
      */
+    @SuppressWarnings("unchecked")
     public static Map<String, Object> getRequestParam(HttpServletRequest request, MethodInvocation invocation){
         Object[] args = invocation.getArguments();
         Method method = invocation.getMethod();
@@ -122,7 +110,10 @@ public class RequestUtils {
                 }
             } else if((args[i] instanceof BaseRequest)){
                 BaseRequest baseRequest = (BaseRequest) args[i];
-                paramMap.putAll(JSONUtils.toJavaBean(JSONUtils.toJSONString(baseRequest), Map.class));
+                Map<String, Object> map = JSONUtils.toJavaBean(JSONUtils.toJSONString(baseRequest), Map.class);
+                if(!CollectionUtils.isEmpty(map)){
+                    paramMap.putAll(map);
+                }
             } else if(!(args[i] instanceof HttpServletResponse)){
                 paramMap.put(parameters[i].getName(), JSONUtils.toJSONString(args[i]));
             }
@@ -134,15 +125,15 @@ public class RequestUtils {
      * 获取用户当前请求的HttpServletRequest
      */
     public static HttpServletRequest getRequest(){
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request;
+        ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        return attributes.getRequest();
     }
 
     /**
      * 获取当前请求的HttpServletResponse
      */
     public static HttpServletResponse getResponse(){
-        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        return response;
+        ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        return attributes.getResponse();
     }
 }

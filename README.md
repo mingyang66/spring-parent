@@ -18,13 +18,14 @@ mvn versions:revert
 ```
 mvn versions:commit
 ```
-##### 4.项目打包
+##### 4.项目打包(同时处理项目所依赖的包)
 
 ```
 mvn clean install -pl sgrain-spring-boot-starter -am
+```
 或
+```
 ./mvnw clean install -pl sgrain-spring-boot-starter -am
-
 ```
 
 

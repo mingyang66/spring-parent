@@ -2,7 +2,7 @@ package com.yaomy.sgrain.aop.config;
 
 import com.yaomy.sgrain.aop.advice.LogAopMethodInterceptor;
 import com.yaomy.sgrain.aop.properties.LogAopProperties;
-import com.yaomy.sgrain.common.enums.SgrainAopOrderEnum;
+import com.yaomy.sgrain.common.enums.AopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -52,7 +52,7 @@ public class LogAopAutoConfiguration {
         //设置增强（Advice）
         advisor.setAdvice(new LogAopMethodInterceptor(properties));
         //设置增强拦截器执行顺序
-        advisor.setOrder(SgrainAopOrderEnum.LOG_AOP.getOrder());
+        advisor.setOrder(AopOrderEnum.LOG_AOP.getOrder());
         return advisor;
     }
 }

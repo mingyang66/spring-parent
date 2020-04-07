@@ -6,6 +6,7 @@ import com.yaomy.control.test.po.User;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class RedisController {
     @Autowired
+    @Lazy
     private RedisTemplate redisTemplate;
 
     @GetMapping("/redis/test")

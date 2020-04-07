@@ -18,11 +18,11 @@
             <version>2.1.1.RELEASE</version>
         </dependency>
 
-        <dependency>
+      <!--  <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.44.Final</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.msgpack</groupId>
             <artifactId>msgpack-core</artifactId>

@@ -1,6 +1,8 @@
 package com.yaomy.sgrain.idempotent.api;
 
 import com.yaomy.sgrain.common.utils.TokenUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,11 +15,12 @@ import java.util.concurrent.TimeUnit;
  * 自动生成token令牌控制器
  */
 @RestController
-@RequestMapping("token")
+@RequestMapping("/api/token")
 public class TokenApiController {
 
     private RedisTemplate<Object, Object> redisTemplate;
 
+    @Lazy
     public TokenApiController(RedisTemplate<Object, Object> redisTemplate){
         this.redisTemplate = redisTemplate;
     }

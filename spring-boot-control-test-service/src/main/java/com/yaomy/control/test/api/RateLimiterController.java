@@ -5,6 +5,7 @@ import com.yaomy.control.test.po.User;
 import com.yaomy.sgrain.idempotent.annotation.Idempotent;
 import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class RateLimiterController {
     private RateLimiter rateLimiter = RateLimiter.create(2);
     @Autowired
+    @Lazy
     private RedisTemplate redisTemplate;
     @GetMapping("/rate/limiter")
     public String rateLimiter(){

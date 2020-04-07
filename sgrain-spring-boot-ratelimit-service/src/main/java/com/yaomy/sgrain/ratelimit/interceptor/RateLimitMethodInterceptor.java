@@ -69,7 +69,7 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         keys.add(Md5Utils.computeMD5Hash(key));
         //执行lua脚本，将数据存储到redis缓存
         Long data = redisTemplate.execute(redisScript, keys, limit.permits(), limit.time());
-        if(ObjectUtils.isNotEmpty(data) && data == 0L){
+        if(data != null && data == 0L){
             throw new BusinessException(SgrainHttpStatus.RATE_LIMIT_EXCEPTION);
         }
         return invocation.proceed();

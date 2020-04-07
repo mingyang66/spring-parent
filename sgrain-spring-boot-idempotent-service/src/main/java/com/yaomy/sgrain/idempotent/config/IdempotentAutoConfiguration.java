@@ -1,10 +1,11 @@
 package com.yaomy.sgrain.idempotent.config;
 
-import com.yaomy.sgrain.common.enums.SgrainAopOrderEnum;
+import com.yaomy.sgrain.common.enums.AopOrderEnum;
 import com.yaomy.sgrain.idempotent.properties.IdempotentProperties;
 import com.yaomy.sgrain.idempotent.interceptor.IdempotentMethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -25,6 +26,7 @@ import org.springframework.scripting.support.ResourceScriptSource;
  */
 @Configuration
 @EnableConfigurationProperties(IdempotentProperties.class)
+@ConditionalOnClass(value = {RedissonAutoConfiguration.class, RedisTemplate.class, RedissonClient.class})
 @ConditionalOnProperty(prefix = "spring.sgrain.idempotent", name = "enable", havingValue = "true", matchIfMissing = true)
 public class IdempotentAutoConfiguration {
     /**
@@ -36,8 +38,8 @@ public class IdempotentAutoConfiguration {
      * 控制器AOP拦截处理
      */
     @Bean
-    @ConditionalOnClass(value = {IdempotentMethodInterceptor.class, RedissonClient.class, RedisTemplate.class})
-    public DefaultPointcutAdvisor repeatSubmitPointCutAdvice(RedissonClient redissonClient, RedisTemplate redisTemplate) {
+    @ConditionalOnClass(value = {IdempotentMethodInterceptor.class})
+    public DefaultPointcutAdvisor repeatSubmitPointCutAdvice(RedisTemplate redisTemplate, RedissonClient redissonClient) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式
@@ -49,7 +51,7 @@ public class IdempotentAutoConfiguration {
         //设置增强（Advice）
         advisor.setAdvice(new IdempotentMethodInterceptor(redissonClient, redisTemplate, delLuaScript()));
         //设置增强拦截器执行顺序
-        advisor.setOrder(SgrainAopOrderEnum.REPEAT_SUBMIT.getOrder());
+        advisor.setOrder(AopOrderEnum.IDEMPOTENT.getOrder());
 
         return advisor;
     }

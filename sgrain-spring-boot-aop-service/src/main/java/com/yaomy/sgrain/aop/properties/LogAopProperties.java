@@ -13,7 +13,7 @@ public class LogAopProperties {
     /**
      * 组件开关
      */
-    private Boolean enable = Boolean.TRUE;
+    private Boolean enable;
     /**
      * 换行符
      */

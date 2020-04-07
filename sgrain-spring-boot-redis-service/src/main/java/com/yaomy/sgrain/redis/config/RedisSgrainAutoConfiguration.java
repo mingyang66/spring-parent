@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import com.yaomy.sgrain.redis.properties.SgrainRedisProperties;
+import com.yaomy.sgrain.redis.properties.RedisSgrainProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +19,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * Redis配置文件
  */
 @Configuration
-@EnableConfigurationProperties(SgrainRedisProperties.class)
+@EnableConfigurationProperties(RedisSgrainProperties.class)
+@ConditionalOnClass(RedisTemplate.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.redis", name = "enable", havingValue = "true", matchIfMissing = true)
-public class RedisAutoConfiguration {
+public class RedisSgrainAutoConfiguration {
     /**
      * redis序列化方式选择：
      * 1.默认的JdkSerializationRedisSerializer序列化方式，其编码是ISO-8859-1,会出现乱码问题
@@ -61,6 +63,7 @@ public class RedisAutoConfiguration {
 
         //指定要序列化的域、field、get和set，以及修饰符范围，ANY是都有包括private和public
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        //objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         //第一个参数用于验证要反序列化的实际子类型是否对验证器使用的任何条件有效，在反序列化时必须设置，否则报异常
         //第二个参数设置序列化的类型必须为非final类型，只有少数的类型（String、Boolean、Integer、Double）可以从JSON中正确推断
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);

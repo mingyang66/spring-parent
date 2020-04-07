@@ -4,7 +4,7 @@ package com.yaomy.sgrain.common.enums;
 * @Author: 姚明洋
 * @create: 2020/3/23
 */
-public enum SgrainAopOrderEnum {
+public enum AopOrderEnum {
     /**
      * 日志
      */
@@ -16,11 +16,11 @@ public enum SgrainAopOrderEnum {
     /**
      * 接口重复提交拦截器
      */
-    REPEAT_SUBMIT(600);
+    IDEMPOTENT(600);
 
     private int order;
 
-    SgrainAopOrderEnum(int order){
+    AopOrderEnum(int order){
         this.order = order;
     }
 

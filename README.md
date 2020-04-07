@@ -56,6 +56,14 @@ spring.sgrain.log-aop.enable=true
 @SpringBootApplication(exclude = {LogAopAutoConfiguration.class})
 ```
 
+- 配置关闭组件
+
+```
+spring.autoconfigure.exclude=xxx
+```
+
+
+
 ##### 2.RestTemplate网络请求配置组件
 
 - 配置关闭组件
@@ -69,6 +77,14 @@ spring.sgrain.http-client.enable=true
 ```
 @SpringBootApplication(exclude = {HttpClientAutoConfiguration.class})
 ```
+
+- 配置关闭组件
+
+```
+spring.autoconfigure.exclude=xxx
+```
+
+
 
 ##### 3.Redis配置组件
 
@@ -98,6 +114,12 @@ spring.sgrain.return-value.enable=true
 @SpringBootApplication(exclude = {ReturnValueAutoConfiguration.class})
 ```
 
+- 配置关闭组件
+
+```
+spring.autoconfigure.exclude=xxx
+```
+
 ##### 5.限流组件
 
 - 配置关闭组件
@@ -112,6 +134,14 @@ spring.sgrain.rate-limit.enable=true
 @SpringBootApplication(exclude = {RateLimitAutoConfiguration.class})
 ```
 
+- 配置关闭组件
+
+```
+spring.autoconfigure.exclude=xxx
+```
+
+
+
 ##### 6.幂等性组件（防止接口重复提交）
 
 - 配置关闭组件
@@ -124,6 +154,12 @@ spring.sgrain.idempotent.enable=true
 
 ```
 @SpringBootApplication(exclude = {IdempotentAutoConfiguration.class})
+```
+
+- 配置关闭组件
+
+```
+spring.autoconfigure.exclude=xxx
 ```
 
 - 支持两种验证方式

@@ -26,6 +26,8 @@ public class LogAopAutoConfiguration {
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(org.springframework.web.bind.annotation.GetMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
+                                                                            "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
+                                                                            "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
     private LogAopProperties properties;
 
@@ -50,7 +52,7 @@ public class LogAopAutoConfiguration {
         //设置增强（Advice）
         advisor.setAdvice(new LogAopMethodInterceptor(properties));
         //设置增强拦截器执行顺序
-        advisor.setOrder(SgrainAopOrderEnum.CONTROLLER_ADVICE.getOrder());
+        advisor.setOrder(SgrainAopOrderEnum.LOG_AOP.getOrder());
         return advisor;
     }
 }

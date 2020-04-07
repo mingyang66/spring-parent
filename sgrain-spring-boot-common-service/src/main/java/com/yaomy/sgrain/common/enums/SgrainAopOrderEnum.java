@@ -8,7 +8,7 @@ public enum SgrainAopOrderEnum {
     /**
      * 日志
      */
-    CONTROLLER_ADVICE(400),
+    LOG_AOP(400),
     /**
      * 接口流控
      */

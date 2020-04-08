@@ -3,7 +3,6 @@ package com.yaomy.control.aio;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/20 17:46
  * @Version: 1.0
  */

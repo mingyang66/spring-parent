@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/03/06
  */
 public class Test {

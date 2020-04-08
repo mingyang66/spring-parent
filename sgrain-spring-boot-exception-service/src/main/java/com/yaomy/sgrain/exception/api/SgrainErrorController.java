@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description: 自定义异常处理控制器
- * @author: 姚明洋
  * @create: 2020/03/31
  */
 @RestController

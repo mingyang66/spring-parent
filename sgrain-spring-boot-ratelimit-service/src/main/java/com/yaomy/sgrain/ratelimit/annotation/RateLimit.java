@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @program: spring-parent
  * @description: 接口访问频率限制
- * @author: 姚明洋
  * @create: 2020/03/23
  */
 @Documented

@@ -19,7 +19,6 @@ import io.netty.handler.logging.LoggingHandler;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/21 13:50
  * @Version: 1.0
  */

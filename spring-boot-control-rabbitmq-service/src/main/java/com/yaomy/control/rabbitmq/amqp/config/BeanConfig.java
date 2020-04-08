@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/2 17:10
  * @Version: 1.0
  */

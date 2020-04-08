@@ -3,7 +3,6 @@ package com.yaomy.control.netty.messagepack.po;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/21 17:08
  * @Version: 1.0
  */

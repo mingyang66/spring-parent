@@ -5,7 +5,6 @@ import com.yaomy.control.nio.thread.TimeClientHandle;
 /**
  * @Description: NIO CLIENT
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/20 15:34
  * @Version: 1.0
  */

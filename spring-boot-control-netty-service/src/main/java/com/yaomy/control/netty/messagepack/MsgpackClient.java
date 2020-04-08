@@ -17,7 +17,6 @@ import io.netty.handler.codec.LengthFieldPrepender;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/21 14:28
  * @Version: 1.0
  */

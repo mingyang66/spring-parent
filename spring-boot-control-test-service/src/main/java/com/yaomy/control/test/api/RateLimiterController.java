@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @program: spring-parent
  * @description: 限流控制器
- * @author: 姚明洋
  * @create: 2020/03/06
  */
 @RestController

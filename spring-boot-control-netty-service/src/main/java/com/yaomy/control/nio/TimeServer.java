@@ -5,7 +5,6 @@ import com.yaomy.control.nio.thread.MultiplexerTimeServer;
 /**
  * @Description: NIO SERVER
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/20 10:46
  * @Version: 1.0
  */

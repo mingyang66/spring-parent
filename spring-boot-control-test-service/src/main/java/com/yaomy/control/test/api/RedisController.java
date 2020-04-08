@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @program: spring-parent
  * @description: Redis控制器
- * @author: 姚明洋
  * @create: 2020/03/19
  */
 @RestController

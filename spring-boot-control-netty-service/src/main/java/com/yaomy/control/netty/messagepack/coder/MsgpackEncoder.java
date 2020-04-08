@@ -9,7 +9,6 @@ import org.msgpack.jackson.dataformat.MessagePackFactory;
 /**
  * @Description: msgpack编码器
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/21 16:09
  * @Version: 1.0
  */

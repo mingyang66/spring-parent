@@ -15,7 +15,6 @@ import io.netty.handler.codec.string.StringDecoder;
 /**
  * @Description: 客户端Client
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/21 10:30
  * @Version: 1.0
  */

@@ -19,7 +19,6 @@ import org.springframework.scripting.support.ResourceScriptSource;
 /**
  * @program: spring-parent
  * @description: 接口被指定的客户端调用频率限制自动化配置
- * @author: 姚明洋
  * @create: 2020/03/23
  */
 @Configuration

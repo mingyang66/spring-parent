@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @program: spring-parent
  * @description: 流控属性绑定配置文件件类
- * @author: 姚明洋
  * @create: 2020/03/25
  */
 @ConfigurationProperties(prefix = "spring.sgrain.rate-limit")

@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @program: spring-parent
  * @description: 重复提交属性配置类
- * @author: 姚明洋
  * @create: 2020/03/26
  */
 @ConfigurationProperties(prefix = "spring.sgrain.idempotent")

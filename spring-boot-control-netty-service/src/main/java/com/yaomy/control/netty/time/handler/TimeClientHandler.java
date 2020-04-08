@@ -8,7 +8,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 /**
  * @Description: Description
  * @ProjectName: spring-parent
- * @Author: 姚明洋
  * @Date: 2020/1/21 10:48
  * @Version: 1.0
  */

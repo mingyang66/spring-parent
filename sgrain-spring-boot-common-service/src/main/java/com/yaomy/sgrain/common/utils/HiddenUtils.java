@@ -13,7 +13,6 @@ import java.util.Map;
 
 /**
  * @Description: 读取需要隐藏手机号的配置
- * @Author: 姚明洋
  * @Date: 2019/11/13 13:39
  * @Version: 1.0
  */

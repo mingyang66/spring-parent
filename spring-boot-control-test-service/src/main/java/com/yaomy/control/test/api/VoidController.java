@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @program: spring-parent
  * @description: Void返回值类型测试
- * @author: 姚明洋
  * @create: 2020/03/03
  */
 @RestController

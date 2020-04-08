@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.sgrain</groupId>
-    <artifactId>sgrain-spring-boot-common-service</artifactId>
+    <artifactId>sgrain-spring-boot-common</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

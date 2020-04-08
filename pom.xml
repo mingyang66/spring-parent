@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modules>
-        <module>sgrain-spring-boot-common-service</module>
+        <module>sgrain-spring-boot-common</module>
         <module>sgrain-spring-boot-aop-service</module>
         <module>sgrain-spring-boot-logback-service</module>
         <module>sgrain-spring-boot-conf-service</module>

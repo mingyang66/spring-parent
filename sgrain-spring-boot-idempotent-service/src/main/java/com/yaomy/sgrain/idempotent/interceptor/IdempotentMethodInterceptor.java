@@ -1,6 +1,6 @@
 package com.yaomy.sgrain.idempotent.interceptor;
 
-import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
+import com.yaomy.sgrain.common.enums.AppHttpStatus;
 import com.yaomy.sgrain.common.utils.Md5Utils;
 import com.yaomy.sgrain.common.utils.RequestUtils;
 import com.yaomy.sgrain.exception.business.BusinessException;
@@ -60,7 +60,7 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
         //客户端发送的防止接口重复提交header参数
         String authentication = request.getHeader(AUTHENTICATION);
         if(StringUtils.isEmpty(authentication)){
-            throw new BusinessException(SgrainHttpStatus.IDEMPOTENT_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
+            throw new BusinessException(AppHttpStatus.IDEMPOTENT_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
         }
         //--------------------TOKEN验证模式-------------------------
         if(idempotent.type().equals(Idempotent.Type.TOKEN)){
@@ -68,7 +68,7 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
             if(ObjectUtils.isNotEmpty(data) && data == 1L){
                 return invocation.proceed();
             } else {
-                throw new BusinessException(SgrainHttpStatus.IDEMPOTENT_EXCEPTION);
+                throw new BusinessException(AppHttpStatus.IDEMPOTENT_EXCEPTION);
             }
         }
         //--------------------TOKEN_AND_URL验证模式--------------------
@@ -86,6 +86,6 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
                 lock.unlock();
             }
         }
-        throw new BusinessException(SgrainHttpStatus.IDEMPOTENT_EXCEPTION);
+        throw new BusinessException(AppHttpStatus.IDEMPOTENT_EXCEPTION);
     }
 }

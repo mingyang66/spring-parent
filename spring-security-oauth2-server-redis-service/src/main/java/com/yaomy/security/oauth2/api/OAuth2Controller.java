@@ -3,7 +3,7 @@ package com.yaomy.security.oauth2.api;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yaomy.sgrain.common.enums.DateFormatEnum;
-import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
+import com.yaomy.sgrain.common.enums.AppHttpStatus;
 import com.yaomy.sgrain.common.po.BaseResponse;
 import com.yaomy.sgrain.common.utils.json.JSONUtils;
 import com.yaomy.sgrain.common.enums.GrantTypeEnum;
@@ -88,7 +88,7 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return BaseResponse.createResponseEntity(SgrainHttpStatus.OK, result);
+            return BaseResponse.createResponseEntity(AppHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
             return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
@@ -128,7 +128,7 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return BaseResponse.createResponseEntity(SgrainHttpStatus.OK, result);
+            return BaseResponse.createResponseEntity(AppHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
             return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
@@ -151,7 +151,7 @@ public class OAuth2Controller {
             map.put("isExpired", accessToken.isExpired());
             //过期时间
             map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-            return BaseResponse.createResponseEntity(SgrainHttpStatus.OK, map);
+            return BaseResponse.createResponseEntity(AppHttpStatus.OK, map);
         } catch (Exception e){
             e.printStackTrace();
             return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");

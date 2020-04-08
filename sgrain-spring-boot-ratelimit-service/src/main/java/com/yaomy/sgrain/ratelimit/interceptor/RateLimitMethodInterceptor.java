@@ -1,7 +1,7 @@
 package com.yaomy.sgrain.ratelimit.interceptor;
 
 import com.google.common.collect.Lists;
-import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
+import com.yaomy.sgrain.common.enums.AppHttpStatus;
 import com.yaomy.sgrain.common.utils.Md5Utils;
 import com.yaomy.sgrain.common.utils.RequestUtils;
 import com.yaomy.sgrain.exception.business.BusinessException;
@@ -9,7 +9,6 @@ import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -70,7 +69,7 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         //执行lua脚本，将数据存储到redis缓存
         Long data = redisTemplate.execute(redisScript, keys, limit.permits(), limit.time());
         if(data != null && data == 0L){
-            throw new BusinessException(SgrainHttpStatus.RATE_LIMIT_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.RATE_LIMIT_EXCEPTION);
         }
         return invocation.proceed();
     }

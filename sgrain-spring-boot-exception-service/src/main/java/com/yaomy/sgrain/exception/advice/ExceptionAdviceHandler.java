@@ -1,7 +1,7 @@
 package com.yaomy.sgrain.exception.advice;
 
 
-import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
+import com.yaomy.sgrain.common.enums.AppHttpStatus;
 import com.yaomy.sgrain.common.po.BaseResponse;
 import com.yaomy.sgrain.exception.business.BusinessException;
 import com.yaomy.sgrain.logback.utils.LoggerUtil;
@@ -50,7 +50,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.UNKNOW_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.UNKNOW_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -68,7 +68,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.RUNTIME_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -86,7 +86,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -104,7 +104,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -122,7 +122,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.IO_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.IO_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -140,7 +140,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -150,7 +150,7 @@ public final class ExceptionAdviceHandler {
     public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e){
         printErrorMessage(e);
         String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
-        return BaseResponse.createResponse(SgrainHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
     }
     /**
      * 缺少参数
@@ -159,7 +159,7 @@ public final class ExceptionAdviceHandler {
     public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
         printErrorMessage(e);
         String message= StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
-        return BaseResponse.createResponse(SgrainHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
     }
     /**
      * 请求method不匹配
@@ -168,7 +168,7 @@ public final class ExceptionAdviceHandler {
     public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         printErrorMessage(e);
         String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
-        return BaseResponse.createResponse(SgrainHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
     }
     /**
      *
@@ -181,7 +181,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.contains(message, REQUEST_BODY)){
             message = REQUEST_BODY_MESSAGE;
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -194,7 +194,7 @@ public final class ExceptionAdviceHandler {
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = bindingResult.getFieldError();
         String message = StringUtils.join(fieldError.getDefaultMessage());
-        return BaseResponse.createResponse(SgrainHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
     /**
      * 如果代理异常调用方法将会抛出此异常
@@ -212,7 +212,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(SgrainHttpStatus.FAILED.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**

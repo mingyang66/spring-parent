@@ -1,6 +1,6 @@
 package com.yaomy.sgrain.exception.business;
 
-import com.yaomy.sgrain.common.enums.SgrainHttpStatus;
+import com.yaomy.sgrain.common.enums.AppHttpStatus;
 
 /**
  * @Description: 业务异常
@@ -16,7 +16,7 @@ public class BusinessException extends RuntimeException{
      */
     private String errorMessage;
 
-    public BusinessException(SgrainHttpStatus httpStatus){
+    public BusinessException(AppHttpStatus httpStatus){
         this.status = httpStatus.getStatus();
         this.errorMessage = httpStatus.getMessage();
     }

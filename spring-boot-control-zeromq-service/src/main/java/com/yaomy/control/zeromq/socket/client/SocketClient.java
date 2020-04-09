@@ -1,6 +1,8 @@
 package com.yaomy.control.zeromq.socket.client;
 
-import com.yaomy.sgrain.logback.utils.LoggerUtil;
+
+
+import com.sgrain.boot.common.utils.LoggerUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -65,10 +67,10 @@ public class SocketClient {
             reader = new DataInputStream(socket.getInputStream());
         } catch (UnknownHostException e){
             e.printStackTrace();
-            LoggerUtil.error(SocketClient.class, "IP地址不正确："+host);
+            LoggerUtils.error(SocketClient.class, "IP地址不正确："+host);
         } catch (IOException e){
             e.printStackTrace();
-            LoggerUtil.error(SocketClient.class, "IO异常"+e.toString());
+            LoggerUtils.error(SocketClient.class, "IO异常"+e.toString());
         }
     }
 
@@ -95,7 +97,7 @@ public class SocketClient {
             this.reader.close();
             this.socket.close();
         } catch (IOException e){
-            LoggerUtil.error(SocketClient.class, "IO异常"+e.toString());
+            LoggerUtils.error(SocketClient.class, "IO异常"+e.toString());
         }
     }
 }

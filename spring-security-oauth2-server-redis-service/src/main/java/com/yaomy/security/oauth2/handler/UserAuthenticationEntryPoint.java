@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.yaomy.sgrain.common.po.BaseResponse;
-import com.yaomy.sgrain.common.utils.json.JSONUtils;
+import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

@@ -1,2 +1,0 @@
-org.springframework.boot.env.PropertySourceLoader=com.yaomy.sgrain.conf.PropertiesPropertySourceLoader
-org.springframework.boot.env.EnvironmentPostProcessor=com.yaomy.sgrain.conf.ConfEnvironmentPostProcessor

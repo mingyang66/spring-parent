@@ -1,6 +1,7 @@
 package com.yaomy.control.test.zeromq;
 
-import com.yaomy.sgrain.logback.utils.LoggerUtil;
+
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.yaomy.control.zeromq.reqreply.client.RequestClient;
 import com.yaomy.control.zeromq.reqreply.server.ReplyServer;
 import org.zeromq.ZMQ;
@@ -21,7 +22,7 @@ public class ReqRepTest {
         while (true){
             socket.send("ZEROMQ发送请求应答模式消息..."+System.currentTimeMillis());
             byte[] msg = socket.recv();
-            LoggerUtil.info(ReqRepTest.class, "ZEROMQ接收到消息是："+new String(msg));
+            LoggerUtils.info(ReqRepTest.class, "ZEROMQ接收到消息是："+new String(msg));
 
         }
     }

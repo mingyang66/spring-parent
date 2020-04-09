@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.pubsub.client;
 
-import com.yaomy.sgrain.logback.utils.LoggerUtil;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.yaomy.control.zeromq.pubsub.client.task.MoniterMQTask;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -55,7 +55,7 @@ public class ZeroMQClient {
      * @Version  1.0
      */
     public boolean subscribe(byte[] prefix){
-        LoggerUtil.info(ZeroMQClient.class, "订阅TOPIC:"+new String(prefix));
+        LoggerUtils.info(ZeroMQClient.class, "订阅TOPIC:"+new String(prefix));
 
         return socket.subscribe(prefix);
     }
@@ -64,7 +64,7 @@ public class ZeroMQClient {
      * @Version  1.0
      */
     public boolean unsubscribe(byte[] prefix){
-        LoggerUtil.info(ZeroMQClient.class, "取消订阅TOPIC:"+new String(prefix));
+        LoggerUtils.info(ZeroMQClient.class, "取消订阅TOPIC:"+new String(prefix));
         return socket.unsubscribe(prefix);
     }
 

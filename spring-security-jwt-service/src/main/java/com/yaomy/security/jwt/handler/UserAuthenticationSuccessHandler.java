@@ -1,6 +1,6 @@
 package com.yaomy.security.jwt.handler;
 
-import com.yaomy.sgrain.common.utils.json.JSONUtils;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.yaomy.security.jwt.po.AuthUserDetails;
 import com.yaomy.security.jwt.po.ResponseBody;
 import com.yaomy.security.jwt.util.TokenUtil;

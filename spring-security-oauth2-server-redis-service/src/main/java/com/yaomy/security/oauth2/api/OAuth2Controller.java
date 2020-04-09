@@ -2,12 +2,12 @@ package com.yaomy.security.oauth2.api;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.yaomy.sgrain.common.enums.DateFormatEnum;
-import com.yaomy.sgrain.common.enums.AppHttpStatus;
-import com.yaomy.sgrain.common.po.BaseResponse;
-import com.yaomy.sgrain.common.utils.json.JSONUtils;
-import com.yaomy.sgrain.common.enums.GrantTypeEnum;
-import com.yaomy.sgrain.conf.properties.PropertyService;
+import com.sgrain.boot.common.enums.DateFormatEnum;
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.utils.json.JSONUtils;
+import com.sgrain.boot.common.enums.GrantTypeEnum;
+import com.sgrain.boot.web.conf.properties.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.yaomy.control.test.po;
 
-import com.yaomy.sgrain.common.po.BaseRequest;
+import com.sgrain.boot.common.po.BaseRequest;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;

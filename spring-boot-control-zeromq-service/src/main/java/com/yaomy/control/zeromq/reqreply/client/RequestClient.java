@@ -1,6 +1,7 @@
 package com.yaomy.control.zeromq.reqreply.client;
 
-import com.yaomy.sgrain.logback.utils.LoggerUtil;
+
+import com.sgrain.boot.common.utils.LoggerUtils;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -59,7 +60,7 @@ public class RequestClient {
          */
         socket.setReceiveTimeOut(-1);
 
-        LoggerUtil.info(RequestClient.class, "RequestClient连接服务器成功...");
+        LoggerUtils.info(RequestClient.class, "RequestClient连接服务器成功...");
         return socket;
     }
 }

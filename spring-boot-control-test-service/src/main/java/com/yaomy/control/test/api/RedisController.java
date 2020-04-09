@@ -2,9 +2,9 @@ package com.yaomy.control.test.api;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.sgrain.boot.autoconfigure.aop.annotation.RateLimit;
 import com.yaomy.control.test.po.User;
-import com.yaomy.sgrain.common.utils.json.JSONUtils;
-import com.yaomy.sgrain.ratelimit.annotation.RateLimit;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;

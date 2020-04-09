@@ -1,12 +1,13 @@
 package com.yaomy.control.test.api;
 
+import com.sgrain.boot.common.log.UserAction;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.yaomy.control.test.po.User;
-import com.yaomy.sgrain.common.po.BaseResponse;
-import com.yaomy.sgrain.conf.properties.PropertyService;
-import com.yaomy.sgrain.exception.business.BusinessException;
-import com.yaomy.sgrain.logback.po.UserAction;
-import com.yaomy.sgrain.logback.utils.LoggerUtil;
-import com.yaomy.sgrain.network.client.HttpClientService;
+import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.web.conf.properties.PropertyService;
+import com.sgrain.boot.common.exception.BusinessException;
+
+import com.sgrain.boot.web.httpclient.HttpClientService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -42,7 +43,7 @@ public class HandlerController {
     @PostMapping(value = "/handler/test")
     public ResponseEntity<BaseResponse> getName(@RequestBody @Valid User user){
         System.out.println(propertyService.getProperty("test"));
-        LoggerUtil.info(HandlerController.class, "测试。。。");
+        LoggerUtils.info(HandlerController.class, "测试。。。");
         boolean flag = true;
         if(flag){
             throw new BusinessException(100001, "业务异常");
@@ -54,7 +55,7 @@ public class HandlerController {
     public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response, PathVariable path) throws IOException {
         response.setStatus(201);
         response.setContentType("application/json");
-        LoggerUtil.info(HandlerController.class, "测试。。。");
+        LoggerUtils.info(HandlerController.class, "测试。。。");
         //return ResponseEntity.ok(BaseResponse.createResponse(10006, "自定义测试", user));
         response.getOutputStream().print("this is body");
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -91,11 +92,11 @@ public class HandlerController {
     }
     @RequestMapping(value = "/handler/test3")
     public void testNull13(@RequestBody @Valid User user){
-        LoggerUtil.info(HandlerController.class, propertyService.getProperty("sms.code")+"---"+propertyService.getProperty("sms.message"));
+        LoggerUtils.info(HandlerController.class, propertyService.getProperty("sms.code")+"---"+propertyService.getProperty("sms.message"));
         UserAction userAction = new UserAction();
         userAction.setNumber("12222");
         userAction.setUsername("hhhhhhh");
-        LoggerUtil.user(userAction);
+        LoggerUtils.user(userAction);
         System.out.println("----------------deee");
     }
     @RequestMapping(value = "/handler/url")

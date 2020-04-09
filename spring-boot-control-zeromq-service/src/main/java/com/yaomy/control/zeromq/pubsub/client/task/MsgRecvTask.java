@@ -1,6 +1,7 @@
 package com.yaomy.control.zeromq.pubsub.client.task;
 
-import com.yaomy.sgrain.logback.utils.LoggerUtil;
+
+import com.sgrain.boot.common.utils.LoggerUtils;
 import org.zeromq.ZMQ;
 
 /**
@@ -19,9 +20,9 @@ public class MsgRecvTask implements Runnable {
 
     @Override
     public void run() {
-        LoggerUtil.info(MsgRecvTask.class, "启动ZEROMQ接收订阅TOPIC通道消息...");
+        LoggerUtils.info(MsgRecvTask.class, "启动ZEROMQ接收订阅TOPIC通道消息...");
         while (true){
-            LoggerUtil.info(MsgRecvTask.class, "接收到数据："+socket.recvStr());
+            LoggerUtils.info(MsgRecvTask.class, "接收到数据："+socket.recvStr());
         }
     }
 }

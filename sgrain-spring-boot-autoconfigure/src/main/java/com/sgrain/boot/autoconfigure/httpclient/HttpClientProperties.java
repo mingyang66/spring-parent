@@ -10,7 +10,7 @@ public class HttpClientProperties {
     /**
      * 组件开关
      */
-    private Boolean enable = Boolean.TRUE;
+    private Boolean enable;
     /**
      * HttpClientService read timeout (in milliseconds),default:5000
      */

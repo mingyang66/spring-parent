@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.sgrain.idempotent")
 public class IdempotentProperties {
-    private boolean enable = true;
+    private boolean enable;
 
     public boolean isEnable() {
         return enable;

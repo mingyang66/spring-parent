@@ -46,7 +46,6 @@ public class RedisSgrainAutoConfiguration {
     /**
      * 初始化string序列化对象
      */
-    @Bean
     public StringRedisSerializer stringSerializer() {
         return new StringRedisSerializer();
     }
@@ -54,7 +53,6 @@ public class RedisSgrainAutoConfiguration {
     /**
      * 初始化jackson序列化对象
      */
-    @Bean
     public Jackson2JsonRedisSerializer<Object> jacksonSerializer() {
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);

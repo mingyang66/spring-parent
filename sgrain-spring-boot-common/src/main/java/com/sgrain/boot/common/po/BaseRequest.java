@@ -12,17 +12,17 @@ public class BaseRequest implements Serializable {
     /**
      * 系统日志
      */
-    private SystemLog systemLog;
+    private SystemInfo systemInfo;
 
-    public SystemLog getSystemLog() {
-        return systemLog;
+    public SystemInfo getSystemInfo() {
+        return systemInfo;
     }
 
-    public void setSystemLog(SystemLog systemLog) {
-        this.systemLog = systemLog;
+    public void setSystemInfo(SystemInfo systemInfo) {
+        this.systemInfo = systemInfo;
     }
 
-    public static class SystemLog{
+    public static class SystemInfo{
         /**
          * 事务编号
          */

@@ -7,6 +7,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -36,7 +37,7 @@ public class IdempotentAutoConfiguration {
      * 控制器AOP拦截处理
      */
     @Bean
-    @ConditionalOnClass(value = {IdempotentMethodInterceptor.class})
+    @ConditionalOnBean(value = {IdempotentMethodInterceptor.class})
     public DefaultPointcutAdvisor repeatSubmitPointCutAdvice(RedisTemplate redisTemplate, RedissonClient redissonClient) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -56,7 +57,6 @@ public class IdempotentAutoConfiguration {
     /**
      * 加载lua脚本
      */
-    @Bean
     public DefaultRedisScript<Long> delLuaScript(){
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("del.lua")));

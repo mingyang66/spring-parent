@@ -13,7 +13,6 @@ import java.io.Serializable;
  * @Date: 2019/7/1 15:33
  * @Version: 1.0
  */
-@SuppressWarnings("all")
 public class BaseResponse implements Serializable {
     private int status;
     private String message;

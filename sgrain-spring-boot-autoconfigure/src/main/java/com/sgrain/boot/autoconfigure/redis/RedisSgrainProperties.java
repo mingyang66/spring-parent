@@ -12,7 +12,7 @@ public class RedisSgrainProperties {
     /**
      * 组件开关
      */
-    private Boolean enable = Boolean.TRUE;
+    private Boolean enable;
 
     public Boolean getEnable() {
         return enable;

@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.log;
+package com.sgrain.boot.autoconfigure.aop.log;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

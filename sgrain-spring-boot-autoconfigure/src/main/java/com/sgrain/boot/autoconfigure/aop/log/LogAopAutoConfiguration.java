@@ -1,11 +1,10 @@
-package com.sgrain.boot.autoconfigure.log;
+package com.sgrain.boot.autoconfigure.aop.log;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.LogAopMethodInterceptor;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,7 +38,7 @@ public class LogAopAutoConfiguration {
      * @Version  1.0
      */
     @Bean
-    @ConditionalOnBean(LogAopMethodInterceptor.class)
+    @ConditionalOnClass(LogAopMethodInterceptor.class)
     public DefaultPointcutAdvisor logAopPointCutAdvice() {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();

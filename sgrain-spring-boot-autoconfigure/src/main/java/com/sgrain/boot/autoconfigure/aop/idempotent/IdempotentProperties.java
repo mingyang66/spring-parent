@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.idempotent;
+package com.sgrain.boot.autoconfigure.aop.idempotent;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,9 +9,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.sgrain.idempotent")
 public class IdempotentProperties {
-    private boolean enable;
+    private Boolean enable = Boolean.TRUE;
 
-    public boolean isEnable() {
+    public Boolean isEnable() {
         return enable;
     }
 

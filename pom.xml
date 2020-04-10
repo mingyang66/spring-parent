@@ -25,7 +25,7 @@
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
     </modules>
-    <groupId>com.sgrain</groupId>
+    <groupId>com.sgrain.boot</groupId>
     <artifactId>spring-parent</artifactId>
     <version>2.1.1.RELEASE</version>
     <name>spring-parent</name>
@@ -41,6 +41,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

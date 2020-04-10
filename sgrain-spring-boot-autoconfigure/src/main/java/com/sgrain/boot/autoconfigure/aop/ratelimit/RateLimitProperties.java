@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.ratelimit;
+package com.sgrain.boot.autoconfigure.aop.ratelimit;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

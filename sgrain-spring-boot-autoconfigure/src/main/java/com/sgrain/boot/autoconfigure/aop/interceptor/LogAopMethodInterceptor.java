@@ -1,6 +1,6 @@
 package com.sgrain.boot.autoconfigure.aop.interceptor;
 
-import com.sgrain.boot.autoconfigure.log.LogAopProperties;
+import com.sgrain.boot.autoconfigure.aop.log.LogAopProperties;
 import com.sgrain.boot.common.po.BaseRequest;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.ObjectSizeUtil;

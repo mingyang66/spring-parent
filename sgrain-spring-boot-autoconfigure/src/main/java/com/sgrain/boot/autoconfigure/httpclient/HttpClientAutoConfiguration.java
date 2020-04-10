@@ -1,5 +1,6 @@
 package com.sgrain.boot.autoconfigure.httpclient;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,12 @@ import java.io.IOException;
  * @Version: 1.0
  */
 @Configuration
-@EnableConfigurationProperties(HttpClientProperties.class)
+@EnableConfigurationProperties(
+        value = {HttpClientProperties.class}
+)
+@ConditionalOnClass(
+        value = {RestTemplate.class}
+)
 @ConditionalOnProperty(prefix = "spring.sgrain.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration {
     /**

@@ -13,6 +13,10 @@ import java.util.concurrent.TimeUnit;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimit {
     /**
+     * 限流控制开关
+     */
+    boolean enable() default true;
+    /**
      * 单位时间漏铜的阀值，默认10
      */
     long permits() default 10;

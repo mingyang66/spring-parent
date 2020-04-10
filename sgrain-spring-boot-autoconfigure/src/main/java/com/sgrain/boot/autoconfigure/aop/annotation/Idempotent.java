@@ -11,7 +11,6 @@ import java.lang.annotation.*;
 public @interface Idempotent {
     /**
      * 启动幂等性功能
-     * @return
      */
     boolean enable() default true;
 

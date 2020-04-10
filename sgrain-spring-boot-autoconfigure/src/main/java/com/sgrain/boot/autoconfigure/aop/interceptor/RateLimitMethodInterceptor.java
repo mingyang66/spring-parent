@@ -46,6 +46,12 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         if(!method.isAnnotationPresent(RateLimit.class)){
             return invocation.proceed();
         }
+        //获取限流注解对象
+        RateLimit limit = method.getAnnotation(RateLimit.class);
+        //限流功能关闭
+        if(!limit.enable()){
+            return invocation.proceed();
+        }
         //获取Request请求对象
         HttpServletRequest request = RequestUtils.getRequest();
         //lua脚本key值
@@ -56,8 +62,6 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
         String url = request.getRequestURI();
         //拼接key值
         String key = StringUtils.join(clientIp, SEMICOLON, url);
-        //获取限流注解对象
-        RateLimit limit = method.getAnnotation(RateLimit.class);
         if(ArrayUtils.isNotEmpty(limit.name())){
             Map<String, Object> paramMap = RequestUtils.getRequestParam(request, invocation);
             for(String name:limit.name()){

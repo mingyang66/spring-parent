@@ -6,6 +6,7 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.po.BaseResponse;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -27,6 +28,12 @@ import java.lang.reflect.UndeclaredThrowableException;
 @SuppressWarnings("all")
 @RestControllerAdvice
 public final class ExceptionAdviceHandler {
+
+    private Environment environment;
+    /**
+     * Debug调试key
+     */
+    private static final String DEBUG_KEY = "spring.sgrain.log-aop.debug";
     /**
      * @RequestBody请求body缺失异常
      */
@@ -34,13 +41,19 @@ public final class ExceptionAdviceHandler {
     /**
      * @RequestBody请求body缺失message提示
      */
-    public static final String REQUEST_BODY_MESSAGE = "注解@RequestBody标识的请求体缺失";
+    private static final String REQUEST_BODY_MESSAGE = "注解@RequestBody标识的请求体缺失";
+
+    public ExceptionAdviceHandler(Environment environment){
+        this.environment = environment;
+    }
     /**
      * 未知异常
      */
     @ExceptionHandler(value = Exception.class)
     public BaseResponse unKnowExceptionHandler(Exception e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = e.getStackTrace();
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
@@ -50,7 +63,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.UNKNOW_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
@@ -58,7 +71,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = e.getStackTrace();
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
@@ -68,7 +83,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
@@ -76,7 +91,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = e.getStackTrace();
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
@@ -94,7 +111,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = e.getStackTrace();
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
@@ -112,7 +131,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IOException.class)
     public BaseResponse iOExceptionHandler(IOException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = e.getStackTrace();
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
@@ -130,7 +151,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = e.getStackTrace();
         String message = StringUtils.EMPTY;
         if(elements.length > 0){
@@ -148,7 +171,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e){
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
         return BaseResponse.createResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
     }
@@ -157,7 +182,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         String message= StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
         return BaseResponse.createResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
     }
@@ -166,7 +193,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
         return BaseResponse.createResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
     }
@@ -176,7 +205,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e){
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         String message = e.getMessage();
         if(StringUtils.contains(message, REQUEST_BODY)){
             message = REQUEST_BODY_MESSAGE;
@@ -190,7 +221,9 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e){
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = bindingResult.getFieldError();
         String message = StringUtils.join(fieldError.getDefaultMessage());
@@ -203,7 +236,9 @@ public final class ExceptionAdviceHandler {
     public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e) {
         String message = StringUtils.EMPTY;
         Throwable throwable = e.getCause().getCause();
-        printErrorMessage(throwable);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         StackTraceElement[] elements = throwable.getStackTrace();
         if(elements.length > 0){
             StackTraceElement element = elements[0];
@@ -222,17 +257,25 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public BaseResponse undeclaredThrowableException(BusinessException e) {
-        printErrorMessage(e);
+        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
+            debugMsg(e);
+        }
         return BaseResponse.createResponse(e.getStatus(), e.getErrorMessage());
     }
     /**
      * @Description 打印错误日志信息
      * @Version  1.0
      */
-    private void printErrorMessage(Throwable e){
+    private void debugMsg(Throwable e){
         String message = e.toString();
-        for (StackTraceElement element:e.getStackTrace()){
-            message = StringUtils.join(message, "\n", element.toString());
+        StackTraceElement[] elements = e.getStackTrace();
+        for(int i=0;i<elements.length;i++){
+            StackTraceElement element = elements[i];
+            if(i == 0){
+                message = StringUtils.join(element.toString(), " ", message);
+            } else {
+                message = StringUtils.join(message, "\n", element.toString());
+            }
         }
         LoggerUtils.error(ExceptionAdviceHandler.class, message);
     }

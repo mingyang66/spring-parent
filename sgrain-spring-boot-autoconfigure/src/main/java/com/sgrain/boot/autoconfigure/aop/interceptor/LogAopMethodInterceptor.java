@@ -1,25 +1,17 @@
 package com.sgrain.boot.autoconfigure.aop.interceptor;
 
-import com.sgrain.boot.autoconfigure.aop.log.LogAopProperties;
-import com.sgrain.boot.common.po.BaseRequest;
+import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.ObjectSizeUtil;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
+import org.springframework.core.env.Environment;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -28,16 +20,16 @@ import java.util.Map;
  */
 public class LogAopMethodInterceptor implements MethodInterceptor {
 
-    private LogAopProperties properties;
-    public LogAopMethodInterceptor(LogAopProperties properties){
-        this.properties = properties;
+    private Environment environment;
+    public LogAopMethodInterceptor(Environment environment){
+        this.environment = environment;
     }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         HttpServletRequest request = RequestUtils.getRequest();
         //获取请求参数，且该参数获取必须在proceed之前
-        Map<String, Object> paramsMap = getRequestParam(invocation, request);
+        Map<String, Object> paramsMap = RequestUtils.getRequestParam(request, invocation);
         //新建计时器并开始计时
         StopWatch stopWatch = StopWatch.createStarted();
         try{
@@ -67,65 +59,45 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
      * @Version  1.0
      */
     private void logInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime){
-        String log = StringUtils.join(properties.getNameLine(), properties.getMsgController(), invocation.getThis().getClass(), ".", invocation.getMethod().getName(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgAccessUrl(), request.getRequestURL(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgMethod(), request.getMethod(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgParams(), paramsMap, properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgTime() , spentTime, properties.getMillSecond(), properties.getNameLine());
-        if(ObjectUtils.isEmpty(result)){
-            log = StringUtils.join(log, properties.getMsgReturnValue(), result, properties.getNameLine());
-        } else if(result instanceof ResponseEntity){
-            log = StringUtils.join(log, properties.getMsgReturnValue(), JSONUtils.toJSONString(((ResponseEntity)result).getBody()), properties.getNameLine());
+        Map<String, Object> logMap = Maps.newLinkedHashMap();
+        logMap.put("Class：", invocation.getThis().getClass());
+        logMap.put("Request Url：", request.getRequestURL());
+        logMap.put("Request Method：", request.getMethod());
+        logMap.put("Params：", paramsMap);
+        logMap.put("Spend Time：", StringUtils.join(spentTime, "ms"));
+        logMap.put("Data Size：", ObjectSizeUtil.getObjectSizeUnit(result));
+        logMap.put("Response Data：", result);
+        if(LoggerUtils.isDebug()){
+            LoggerUtils.info(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
         } else {
-            log = StringUtils.join(log, properties.getMsgReturnValue(), JSONUtils.toJSONString(result), properties.getNameLine());
+            LoggerUtils.info(invocation.getThis().getClass(), JSONUtils.toJSONString(logMap));
         }
-        log = StringUtils.join(log, properties.getMsgDataSize(), ObjectSizeUtil.getObjectSizeUnit(result), properties.getNameLine());
-        LoggerUtils.info(invocation.getThis().getClass(), log);
     }
     /**
      * @Description 异常日志
      * @Version  1.0
      */
     private void logError(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, long spentTime, Throwable e){
-        String log = StringUtils.join(properties.getNameLine(), properties.getMsgController(), invocation.getThis().getClass(), ".", invocation.getMethod().getName(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgAccessUrl(), request.getRequestURL(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgMethod(), request.getMethod(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgParams(), paramsMap, properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgTime() , spentTime, properties.getMillSecond(), properties.getNameLine());
-        log = StringUtils.join(log, properties.getMsgException() , e.getStackTrace()[0], " ", e, properties.getNameLine());
-        LoggerUtils.error(invocation.getThis().getClass(), log);
+        Map<String, Object> logMap = Maps.newLinkedHashMap();
+        logMap.put("Class: ", invocation.getThis().getClass());
+        logMap.put("Request Url：", request.getRequestURL());
+        logMap.put("Request Method：", request.getMethod());
+        logMap.put("Params：", paramsMap);
+        logMap.put("Spend Time：", StringUtils.join(spentTime, "ms"));
+        StackTraceElement[] elements = e.getStackTrace();
+        String errorMsg;
+        if(elements.length > 0){
+            StackTraceElement element = elements[0];
+            errorMsg = StringUtils.join(element.getClassName(), ".", element.getMethodName(), "的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+        } else {
+            errorMsg = e.toString();
+        }
+        logMap.put("Exception：", errorMsg);
+        if(LoggerUtils.isDebug()){
+            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
+        } else {
+            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONString(logMap));
+        }
 
-    }
-    /**
-     * @Description 获取请求参数
-     * @Version  1.0
-     */
-    private Map<String, Object> getRequestParam(MethodInvocation invocation, HttpServletRequest request){
-        Map<String, Object> paramMap = new LinkedHashMap<>();
-        Object[] args = invocation.getArguments();
-        Method method = invocation.getMethod();
-        Parameter[] parameters = method.getParameters();
-        if(ArrayUtils.isEmpty(parameters)){
-            return null;
-        }
-        for(int i=0; i<parameters.length; i++){
-            if(args[i] instanceof HttpServletRequest){
-                Enumeration<String> params = request.getParameterNames();
-                while (params.hasMoreElements()){
-                    String key = params.nextElement();
-                    paramMap.put(key, request.getParameter(key));
-                }
-            } else if(!(args[i] instanceof HttpServletResponse)){
-                if(args[i] instanceof BaseRequest){
-                    BaseRequest baseRequest = (BaseRequest) args[i];
-                    //将用户信息设置如HttpServletRequest中
-                    request.setAttribute(parameters[i].getName(), baseRequest);
-                    paramMap.put(parameters[i].getName(), JSONUtils.toJSONString(baseRequest));
-                } else {
-                    paramMap.put(parameters[i].getName(), JSONUtils.toJSONString(args[i]));
-                }
-            }
-        }
-        return paramMap;
     }
 }

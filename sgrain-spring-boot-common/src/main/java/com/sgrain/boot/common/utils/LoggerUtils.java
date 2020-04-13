@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
  * @Version: 1.0
  */
 public class LoggerUtils {
+    /**
+     * 当前开发模式
+     */
+    private static boolean debug = false;
 
     public static <T> void info(Class<T> clazz, String msg){
         LoggerFactory.getLogger(clazz).info(msg);
@@ -35,6 +39,13 @@ public class LoggerUtils {
         } catch (JsonProcessingException e){
             error(LoggerUtils.class, e.toString());
         }
+    }
+    public static boolean isDebug(){
+        return debug;
+    }
+
+    public static void setDebug(boolean isDebug){
+        debug = isDebug;
     }
 
 }

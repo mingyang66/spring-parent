@@ -93,13 +93,13 @@ public class RequestUtils {
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getRequestParam(HttpServletRequest request, MethodInvocation invocation){
+        Map<String, Object> paramMap = new LinkedHashMap<>();
         Object[] args = invocation.getArguments();
         Method method = invocation.getMethod();
         Parameter[] parameters = method.getParameters();
         if(ArrayUtils.isEmpty(parameters)){
             return Collections.emptyMap();
         }
-        Map<String, Object> paramMap = new LinkedHashMap<>();
         for(int i=0; i<parameters.length; i++){
             if(args[i] instanceof HttpServletRequest){
                 Enumeration<String> params = request.getParameterNames();
@@ -107,14 +107,15 @@ public class RequestUtils {
                     String key = params.nextElement();
                     paramMap.put(key, request.getParameter(key));
                 }
-            } else if((args[i] instanceof BaseRequest)){
-                BaseRequest baseRequest = (BaseRequest) args[i];
-                Map<String, Object> map = JSONUtils.toJavaBean(JSONUtils.toJSONString(baseRequest), Map.class);
-                if(!CollectionUtils.isEmpty(map)){
-                    paramMap.putAll(map);
-                }
             } else if(!(args[i] instanceof HttpServletResponse)){
-                paramMap.put(parameters[i].getName(), JSONUtils.toJSONString(args[i]));
+                if(args[i] instanceof BaseRequest){
+                    BaseRequest baseRequest = (BaseRequest) args[i];
+                    //将用户信息设置如HttpServletRequest中
+                    request.setAttribute(parameters[i].getName(), baseRequest);
+                    paramMap.put(parameters[i].getName(), baseRequest);
+                } else {
+                    paramMap.put(parameters[i].getName(), args[i]);
+                }
             }
         }
         return paramMap;

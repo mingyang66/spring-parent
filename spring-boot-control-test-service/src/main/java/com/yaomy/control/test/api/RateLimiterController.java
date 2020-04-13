@@ -1,6 +1,7 @@
 package com.yaomy.control.test.api;
 
 
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
 import com.sgrain.boot.autoconfigure.aop.annotation.Idempotent;
 import com.sgrain.boot.autoconfigure.aop.annotation.RateLimit;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -40,10 +42,17 @@ public class RateLimiterController {
     }
     @GetMapping("/rate/limit")
     @RateLimit(permits = 2, name = {"name","age"}, time = 1, timeUnit = TimeUnit.SECONDS)
-    @Idempotent(enable = true, type = Idempotent.Type.TOKEN)
-    public String rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
+    @Idempotent(enable = false, type = Idempotent.Type.TOKEN)
+    public Map<String, Object> rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
         System.out.println(user.getName()+"---"+user.getAge());
         //redisTemplate.opsForValue().set("test666", "888");
-        return "SUCCESS";
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("user", null);
+        map.put("user1", 1);
+        map.put("user2", "23");
+        map.put("user3", "afdssfd");
+        String s = null;
+        s.length();
+        return map;
     }
 }

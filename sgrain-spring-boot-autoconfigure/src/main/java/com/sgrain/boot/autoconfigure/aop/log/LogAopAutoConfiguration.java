@@ -2,14 +2,17 @@ package com.sgrain.boot.autoconfigure.aop.log;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.LogAopMethodInterceptor;
 import com.sgrain.boot.common.enums.AopOrderEnum;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * @Description: 控制器切点配置
@@ -18,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(LogAopProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.log-aop", name = "enable", havingValue = "true", matchIfMissing = true)
-public class LogAopAutoConfiguration {
+public class LogAopAutoConfiguration implements InitializingBean {
 
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -28,10 +31,10 @@ public class LogAopAutoConfiguration {
                                                                             "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
-    private LogAopProperties properties;
+    private Environment environment;
 
-    public LogAopAutoConfiguration(LogAopProperties properties){
-        this.properties = properties;
+    public LogAopAutoConfiguration(Environment environment){
+        this.environment = environment;
     }
     /**
      * @Description 定义接口拦截器切点
@@ -49,9 +52,15 @@ public class LogAopAutoConfiguration {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new LogAopMethodInterceptor(properties));
+        advisor.setAdvice(new LogAopMethodInterceptor(environment));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.LOG_AOP.getOrder());
         return advisor;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Boolean debug = environment.getProperty("spring.sgrain.log-aop.debug", Boolean.class, Boolean.FALSE);
+        LoggerUtils.setDebug(debug);
     }
 }

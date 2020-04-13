@@ -110,8 +110,6 @@ public class RequestUtils {
             } else if(!(args[i] instanceof HttpServletResponse)){
                 if(args[i] instanceof BaseRequest){
                     BaseRequest baseRequest = (BaseRequest) args[i];
-                    //将用户信息设置如HttpServletRequest中
-                    request.setAttribute(parameters[i].getName(), baseRequest);
                     paramMap.put(parameters[i].getName(), baseRequest);
                 } else {
                     paramMap.put(parameters[i].getName(), args[i]);

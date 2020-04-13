@@ -60,13 +60,13 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
      */
     private void logInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime){
         Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Class：", invocation.getThis().getClass());
-        logMap.put("Request Url：", request.getRequestURL());
-        logMap.put("Request Method：", request.getMethod());
-        logMap.put("Params：", paramsMap);
-        logMap.put("Spend Time：", StringUtils.join(spentTime, "ms"));
-        logMap.put("Data Size：", ObjectSizeUtil.getObjectSizeUnit(result));
-        logMap.put("Response Data：", result);
+        logMap.put("Class", invocation.getThis().getClass());
+        logMap.put("Request Url", request.getRequestURL());
+        logMap.put("Request Method", request.getMethod());
+        logMap.put("Params", paramsMap);
+        logMap.put("Spend Time", StringUtils.join(spentTime, "ms"));
+        logMap.put("Data Size", ObjectSizeUtil.getObjectSizeUnit(result));
+        logMap.put("Response Data", result);
         if(LoggerUtils.isDebug()){
             LoggerUtils.info(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
         } else {
@@ -78,12 +78,12 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
      * @Version  1.0
      */
     private void logError(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, long spentTime, Throwable e){
-        Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Class: ", invocation.getThis().getClass());
-        logMap.put("Request Url：", request.getRequestURL());
-        logMap.put("Request Method：", request.getMethod());
-        logMap.put("Params：", paramsMap);
-        logMap.put("Spend Time：", StringUtils.join(spentTime, "ms"));
+        Map<String, Object> errorLogMap = Maps.newLinkedHashMap();
+        errorLogMap.put("Class", invocation.getThis().getClass());
+        errorLogMap.put("Request Url", request.getRequestURL());
+        errorLogMap.put("Request Method", request.getMethod());
+        errorLogMap.put("Params", paramsMap);
+        errorLogMap.put("Spend Time", StringUtils.join(spentTime, "ms"));
         StackTraceElement[] elements = e.getStackTrace();
         String errorMsg;
         if(elements.length > 0){
@@ -92,11 +92,11 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
         } else {
             errorMsg = e.toString();
         }
-        logMap.put("Exception：", errorMsg);
+        errorLogMap.put("Exception", errorMsg);
         if(LoggerUtils.isDebug()){
-            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
+            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(errorLogMap));
         } else {
-            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONString(logMap));
+            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONString(errorLogMap));
         }
 
     }

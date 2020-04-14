@@ -52,7 +52,7 @@ public class LogAopAutoConfiguration implements InitializingBean {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new LogAopMethodInterceptor(environment));
+        advisor.setAdvice(new LogAopMethodInterceptor());
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.LOG_AOP.getOrder());
         return advisor;

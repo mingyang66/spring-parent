@@ -9,7 +9,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.core.env.Environment;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -20,10 +19,6 @@ import java.util.Map;
  */
 public class LogAopMethodInterceptor implements MethodInterceptor {
 
-    private Environment environment;
-    public LogAopMethodInterceptor(Environment environment){
-        this.environment = environment;
-    }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

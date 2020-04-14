@@ -51,7 +51,7 @@ public class RateLimiterController {
         map.put("user1", 1);
         map.put("user2", "23");
         map.put("user3", "afdssfd");
-        String s = null;
+        map.put("hellow", "adsf");
         return map;
     }
 }

@@ -12,17 +12,17 @@ import java.io.Serializable;
  * @Date: 2019/7/1 15:33
  * @Version: 1.0
  */
-public class BaseResponse<T> implements Serializable {
+public class ResponseData<T> implements Serializable {
     private int status;
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    public BaseResponse(){
+    public ResponseData(){
         super();
     }
 
-    private BaseResponse(Builder<T> builder){
+    private ResponseData(Builder<T> builder){
         this.status = builder.status;
         this.message = builder.message;
         this.data = builder.data;
@@ -69,8 +69,8 @@ public class BaseResponse<T> implements Serializable {
             this.data = data;
             return this;
         }
-        public BaseResponse<T> builder(){
-           return new BaseResponse<>(this);
+        public ResponseData<T> builder(){
+           return new ResponseData<>(this);
         }
     }
     /**
@@ -78,7 +78,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static <T> BaseResponse<T> buildResponse(int status, String message){
+    public static <T> ResponseData<T> buildResponse(int status, String message){
         return new Builder<T>()
                 .setStatus(status)
                 .setMessage(message)
@@ -90,7 +90,7 @@ public class BaseResponse<T> implements Serializable {
      * @param data
      * @return
      */
-    public static <T> BaseResponse<T> buildResponse(T data){
+    public static <T> ResponseData<T> buildResponse(T data){
         return new Builder<T>()
                 .setStatus(AppHttpStatus.OK.getStatus())
                 .setMessage(AppHttpStatus.OK.getMessage())
@@ -102,7 +102,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static <T> BaseResponse<T> buildResponse(int status, String message, T data){
+    public static <T> ResponseData<T> buildResponse(int status, String message, T data){
         return new Builder<T>()
                 .setStatus(status)
                 .setMessage(message)
@@ -114,7 +114,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpMsg){
+    public static <T> ResponseData<T> buildResponse(AppHttpStatus appHttpMsg){
         return new Builder<T>()
                 .setStatus(appHttpMsg.getStatus())
                 .setMessage(appHttpMsg.getMessage())
@@ -125,7 +125,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version  1.0
      */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpMsg, T data){
+    public static <T> ResponseData<T> buildResponse(AppHttpStatus appHttpMsg, T data){
         return new Builder<T>()
                 .setStatus(appHttpMsg.getStatus())
                 .setMessage(appHttpMsg.getMessage())

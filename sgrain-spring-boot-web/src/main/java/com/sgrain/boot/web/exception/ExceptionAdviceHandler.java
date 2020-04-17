@@ -3,7 +3,7 @@ package com.sgrain.boot.web.exception;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
@@ -50,7 +50,7 @@ public final class ExceptionAdviceHandler {
      * 未知异常
      */
     @ExceptionHandler(value = Exception.class)
-    public BaseResponse unKnowExceptionHandler(Exception e) {
+    public ResponseData unKnowExceptionHandler(Exception e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -63,14 +63,14 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
      * 运行时异常
      */
     @ExceptionHandler(value = RuntimeException.class)
-    public BaseResponse runtimeExceptionHandler(RuntimeException e) {
+    public ResponseData runtimeExceptionHandler(RuntimeException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -83,14 +83,14 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
      * 空指针异常
      */
     @ExceptionHandler(NullPointerException.class)
-    public BaseResponse nullPointerExceptionHandler(NullPointerException e) {
+    public ResponseData nullPointerExceptionHandler(NullPointerException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -103,14 +103,14 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
     }
 
     /**
      * 类型转换异常
      */
     @ExceptionHandler(ClassCastException.class)
-    public BaseResponse classCastExceptionHandler(ClassCastException e) {
+    public ResponseData classCastExceptionHandler(ClassCastException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -123,14 +123,14 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
     }
 
     /**
      * IO异常
      */
     @ExceptionHandler(IOException.class)
-    public BaseResponse iOExceptionHandler(IOException e) {
+    public ResponseData iOExceptionHandler(IOException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -143,14 +143,14 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.IO_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.IO_EXCEPTION.getStatus(), message);
     }
 
     /**
      * 数组越界异常
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
+    public ResponseData indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -163,48 +163,48 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
     }
 
     /**
      * 参数类型不匹配
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e){
+    public ResponseData requestTypeMismatch(MethodArgumentTypeMismatchException e){
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
         String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
-        return BaseResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
     }
     /**
      * 缺少参数
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
-    public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
+    public ResponseData requestMissingServletRequest(MissingServletRequestParameterException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
         String message= StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
-        return BaseResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
     }
     /**
      * 请求method不匹配
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
+    public ResponseData requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
         String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
-        return BaseResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
     }
     /**
      *
      * 类方法中@RequestBody类型参数数据类型转换异常
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e){
+    public ResponseData httpMessageNotReadableException(HttpMessageNotReadableException e){
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
@@ -212,7 +212,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.contains(message, REQUEST_BODY)){
             message = REQUEST_BODY_MESSAGE;
         }
-        return BaseResponse.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -220,20 +220,20 @@ public final class ExceptionAdviceHandler {
      * 类方法参数异常
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseData methodArgumentNotValidException(MethodArgumentNotValidException e){
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = bindingResult.getFieldError();
         String message = StringUtils.join(fieldError.getDefaultMessage());
-        return BaseResponse.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
     /**
      * 如果代理异常调用方法将会抛出此异常
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
-    public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e) {
+    public ResponseData undeclaredThrowableException(UndeclaredThrowableException e) {
         String message = StringUtils.EMPTY;
         Throwable throwable = e.getCause().getCause();
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
@@ -247,7 +247,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
@@ -256,11 +256,11 @@ public final class ExceptionAdviceHandler {
      * @return
      */
     @ExceptionHandler(BusinessException.class)
-    public BaseResponse undeclaredThrowableException(BusinessException e) {
+    public ResponseData undeclaredThrowableException(BusinessException e) {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
-        return BaseResponse.buildResponse(e.getStatus(), e.getErrorMessage());
+        return ResponseData.buildResponse(e.getStatus(), e.getErrorMessage());
     }
     /**
      * @Description 打印错误日志信息

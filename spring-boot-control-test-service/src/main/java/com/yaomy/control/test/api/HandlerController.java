@@ -3,7 +3,7 @@ package com.yaomy.control.test.api;
 import com.sgrain.boot.common.log.UserAction;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.yaomy.control.test.po.User;
-import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.web.conf.properties.PropertyService;
 import com.sgrain.boot.common.exception.BusinessException;
 
@@ -41,14 +41,14 @@ public class HandlerController {
     private HttpClientService httpClientService;
 
     @PostMapping(value = "/handler/test")
-    public ResponseEntity<BaseResponse> getName(@RequestBody @Valid User user){
+    public ResponseEntity<ResponseData> getName(@RequestBody @Valid User user){
         System.out.println(propertyService.getProperty("test"));
         LoggerUtils.info(HandlerController.class, "测试。。。");
         boolean flag = true;
         if(flag){
             throw new BusinessException(100001, "业务异常");
         }
-        return ResponseEntity.ok(BaseResponse.buildResponse(10006, "自定义测试", user));
+        return ResponseEntity.ok(ResponseData.buildResponse(10006, "自定义测试", user));
     }
 
     @RequestMapping(value = "/handler/${path}/{path1}")
@@ -167,14 +167,13 @@ public class HandlerController {
         return ResponseEntity.ok(name);
     }
     @GetMapping(value = "/handler/client6")
-    public ResponseEntity<String> testClient6(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseData testClient6(HttpServletRequest request, HttpServletResponse response) {
         String name = "";
         for(int i=0; i<1000;i++){
             name = StringUtils.join(name, UUID.randomUUID());
         }
         System.out.println(name.getBytes().length+"--------------------------------------------------------");
-        BaseResponse baseResponse = new BaseResponse.Builder<>().setStatus(1).setData("saf").builder();
-        return ResponseEntity.ok(name);
+        return  new ResponseData.Builder<>().setStatus(1).setMessage("saf").setData("hellowd").builder();
     }
 
 

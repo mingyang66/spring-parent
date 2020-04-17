@@ -1,7 +1,7 @@
 package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
-import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -39,7 +39,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if(RouteUtils.readRoute().contains(request.getRequestURI())){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
-        } else if(null != returnValue && (returnValue instanceof BaseResponse)){
+        } else if(null != returnValue && (returnValue instanceof ResponseData)){
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
             Map<String, Object> resultMap = new LinkedHashMap<>();

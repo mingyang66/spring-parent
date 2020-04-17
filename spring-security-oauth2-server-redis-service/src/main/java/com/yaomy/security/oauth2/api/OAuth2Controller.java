@@ -56,7 +56,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "token")
-    public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
+    public BaseResponse getToken(@RequestParam String username, @RequestParam String password){
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -88,10 +88,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return BaseResponse.createResponseEntity(AppHttpStatus.OK, result);
+            return BaseResponse.buildResponse(AppHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
+            return BaseResponse.buildResponse(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -100,7 +100,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "refresh_token")
-    public ResponseEntity<BaseResponse> refreshToken(@RequestParam String refresh_token){
+    public BaseResponse refreshToken(@RequestParam String refresh_token){
         try {
             ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
             resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -128,10 +128,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return BaseResponse.createResponseEntity(AppHttpStatus.OK, result);
+            return BaseResponse.buildResponse(AppHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
+            return BaseResponse.buildResponse(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -140,7 +140,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "check_token")
-    public ResponseEntity<BaseResponse> checkToken(@RequestParam String access_token){
+    public BaseResponse checkToken(@RequestParam String access_token){
         try {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(access_token);
             OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(access_token);
@@ -151,10 +151,10 @@ public class OAuth2Controller {
             map.put("isExpired", accessToken.isExpired());
             //过期时间
             map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-            return BaseResponse.createResponseEntity(AppHttpStatus.OK, map);
+            return BaseResponse.buildResponse(AppHttpStatus.OK, map);
         } catch (Exception e){
             e.printStackTrace();
-            return BaseResponse.createResponseEntity(300, "登录异常，请检查登录信息...");
+            return BaseResponse.buildResponse(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -163,7 +163,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "logout")
-    public ResponseEntity<BaseResponse> logOut(@RequestParam String access_token){
+    public BaseResponse logOut(@RequestParam String access_token){
         try {
             if(StringUtils.isNotBlank(access_token)){
                 OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
@@ -175,9 +175,9 @@ public class OAuth2Controller {
                     tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
                 }
             }
-            return BaseResponse.createResponseEntity(200,"SUCCESS");
+            return BaseResponse.buildResponse(200,"SUCCESS");
         } catch (Exception e){
-            return BaseResponse.createResponseEntity(304, "登出异常");
+            return BaseResponse.buildResponse(304, "登出异常");
         }
     }
 }

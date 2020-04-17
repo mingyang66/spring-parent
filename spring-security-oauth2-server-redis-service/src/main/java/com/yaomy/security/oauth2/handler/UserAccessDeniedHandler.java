@@ -23,6 +23,6 @@ public class UserAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(301, "访问资源受限"+","+e.toString()));
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.buildResponse(301, "访问资源受限"+","+e.toString()));
     }
 }

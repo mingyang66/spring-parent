@@ -63,7 +63,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
@@ -83,7 +83,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
@@ -103,7 +103,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -123,7 +123,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -143,7 +143,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.IO_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.IO_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -163,7 +163,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -175,7 +175,7 @@ public final class ExceptionAdviceHandler {
             debugMsg(e);
         }
         String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
-        return BaseResponse.createResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
     }
     /**
      * 缺少参数
@@ -186,7 +186,7 @@ public final class ExceptionAdviceHandler {
             debugMsg(e);
         }
         String message= StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
-        return BaseResponse.createResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
     }
     /**
      * 请求method不匹配
@@ -197,7 +197,7 @@ public final class ExceptionAdviceHandler {
             debugMsg(e);
         }
         String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
-        return BaseResponse.createResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
     }
     /**
      *
@@ -212,7 +212,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.contains(message, REQUEST_BODY)){
             message = REQUEST_BODY_MESSAGE;
         }
-        return BaseResponse.createResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -227,7 +227,7 @@ public final class ExceptionAdviceHandler {
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = bindingResult.getFieldError();
         String message = StringUtils.join(fieldError.getDefaultMessage());
-        return BaseResponse.createResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
     /**
      * 如果代理异常调用方法将会抛出此异常
@@ -247,7 +247,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return BaseResponse.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
     }
 
     /**
@@ -260,7 +260,7 @@ public final class ExceptionAdviceHandler {
         if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
             debugMsg(e);
         }
-        return BaseResponse.createResponse(e.getStatus(), e.getErrorMessage());
+        return BaseResponse.buildResponse(e.getStatus(), e.getErrorMessage());
     }
     /**
      * @Description 打印错误日志信息

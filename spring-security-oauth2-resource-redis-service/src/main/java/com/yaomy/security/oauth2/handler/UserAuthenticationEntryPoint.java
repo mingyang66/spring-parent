@@ -20,6 +20,6 @@ import java.io.IOException;
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        //HttpUtils.writeError(BaseResponse.createResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), StringUtils.join(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage(), ",", e.toString())), response);
+        //HttpUtils.writeError(BaseResponse.buildResponse(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getStatus(), StringUtils.join(HttpStatusMsg.AUTHENTICATION_EXCEPTION.getMessage(), ",", e.toString())), response);
     }
 }

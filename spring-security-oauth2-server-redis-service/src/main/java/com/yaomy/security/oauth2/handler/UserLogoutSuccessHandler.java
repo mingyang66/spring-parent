@@ -46,7 +46,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
                 tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
             }
         }
-        HttpUtils.writeSuccess(BaseResponse.createResponse(HttpStatusMsg.OK.getStatus(), "退出成功"), response);
+        HttpUtils.writeSuccess(BaseResponse.buildResponse(HttpStatusMsg.OK.getStatus(), "退出成功"), response);
 
     }
 }

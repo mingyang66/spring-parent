@@ -20,6 +20,6 @@ import java.io.IOException;
 public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-      //  HttpUtils.writeSuccess(BaseResponse.createResponse(200, "SUCESS", authentication), response);
+      //  HttpUtils.writeSuccess(BaseResponse.buildResponse(200, "SUCESS", authentication), response);
     }
 }

@@ -48,7 +48,7 @@ public class HandlerController {
         if(flag){
             throw new BusinessException(100001, "业务异常");
         }
-        return ResponseEntity.ok(BaseResponse.createResponse(10006, "自定义测试", user));
+        return ResponseEntity.ok(BaseResponse.buildResponse(10006, "自定义测试", user));
     }
 
     @RequestMapping(value = "/handler/${path}/{path1}")
@@ -56,7 +56,7 @@ public class HandlerController {
         response.setStatus(201);
         response.setContentType("application/json");
         LoggerUtils.info(HandlerController.class, "测试。。。");
-        //return ResponseEntity.ok(BaseResponse.createResponse(10006, "自定义测试", user));
+        //return ResponseEntity.ok(BaseResponse.buildResponse(10006, "自定义测试", user));
         response.getOutputStream().print("this is body");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("name", "12");
@@ -173,6 +173,7 @@ public class HandlerController {
             name = StringUtils.join(name, UUID.randomUUID());
         }
         System.out.println(name.getBytes().length+"--------------------------------------------------------");
+        BaseResponse baseResponse = new BaseResponse.Builder<>().setStatus(1).setData("saf").builder();
         return ResponseEntity.ok(name);
     }
 

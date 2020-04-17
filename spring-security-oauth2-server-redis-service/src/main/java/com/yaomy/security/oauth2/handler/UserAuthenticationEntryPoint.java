@@ -22,7 +22,7 @@ import java.io.IOException;
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(300, "登录异常，请检查登录信息..."+","+e.toString()));
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.buildResponse(300, "登录异常，请检查登录信息..."+","+e.toString()));
 
     }
 }

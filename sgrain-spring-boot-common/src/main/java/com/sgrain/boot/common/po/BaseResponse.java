@@ -2,7 +2,6 @@ package com.sgrain.boot.common.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sgrain.boot.common.enums.AppHttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
 
@@ -13,127 +12,20 @@ import java.io.Serializable;
  * @Date: 2019/7/1 15:33
  * @Version: 1.0
  */
-public class BaseResponse implements Serializable {
+public class BaseResponse<T> implements Serializable {
     private int status;
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Object data;
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static BaseResponse createResponse(int status, String message){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(status);
-        baseResponse.setMessage(message);
-        return baseResponse;
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static ResponseEntity<BaseResponse> createResponseEntity(int status, String message){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(status);
-        baseResponse.setMessage(message);
-        return ResponseEntity.ok(baseResponse);
+    private T data;
+
+    public BaseResponse(){
+        super();
     }
 
-    /**
-     * 创建响应对象
-     * @param data
-     * @return
-     */
-    public static BaseResponse createResponse(Object data){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(AppHttpStatus.OK.getStatus());
-        baseResponse.setMessage(AppHttpStatus.OK.getMessage());
-        baseResponse.setData(data);
-        return baseResponse;
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static BaseResponse createResponse(int status, String message, Object data){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(status);
-        baseResponse.setMessage(message);
-        baseResponse.setData(data);
-        return baseResponse;
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static ResponseEntity<BaseResponse> createResponseEntity(Object data){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(AppHttpStatus.OK.getStatus());
-        baseResponse.setMessage(AppHttpStatus.OK.getMessage());
-        baseResponse.setData(data);
-        return ResponseEntity.ok(baseResponse);
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static ResponseEntity<BaseResponse> createResponseEntity(int status, String message, Object data){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(status);
-        baseResponse.setMessage(message);
-        baseResponse.setData(data);
-        return ResponseEntity.ok(baseResponse);
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static BaseResponse createResponse(AppHttpStatus httpStatusMsg){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(httpStatusMsg.getStatus());
-        baseResponse.setMessage(httpStatusMsg.getMessage());
-        return baseResponse;
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static ResponseEntity<BaseResponse> createResponseEntity(AppHttpStatus httpStatusMsg){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(httpStatusMsg.getStatus());
-        baseResponse.setMessage(httpStatusMsg.getMessage());
-        return ResponseEntity.ok(baseResponse);
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static BaseResponse createResponse(AppHttpStatus httpStatusMsg, Object data){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(httpStatusMsg.getStatus());
-        baseResponse.setMessage(httpStatusMsg.getMessage());
-        baseResponse.setData(data);
-        return baseResponse;
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version  1.0
-     */
-    public static ResponseEntity<BaseResponse> createResponseEntity(AppHttpStatus httpStatusMsg, Object data){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setStatus(httpStatusMsg.getStatus());
-        baseResponse.setMessage(httpStatusMsg.getMessage());
-        baseResponse.setData(data);
-        return ResponseEntity.ok(baseResponse);
+    private BaseResponse(Builder<T> builder){
+        this.status = builder.status;
+        this.message = builder.message;
+        this.data = builder.data;
     }
 
     public int getStatus() {
@@ -152,11 +44,92 @@ public class BaseResponse implements Serializable {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
+    }
+
+    public static class Builder<T>{
+        private int status;
+        private String message;
+        private T data;
+
+        public Builder<T> setStatus(int status){
+            this.status = status;
+            return this;
+        }
+        public Builder<T> setMessage(String message){
+            this.message = message;
+            return this;
+        }
+        public Builder<T> setData(T data){
+            this.data = data;
+            return this;
+        }
+        public BaseResponse<T> builder(){
+           return new BaseResponse<>(this);
+        }
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(int status, String message){
+        return new Builder<T>()
+                .setStatus(status)
+                .setMessage(message)
+                .builder();
+    }
+
+    /**
+     * 创建响应对象
+     * @param data
+     * @return
+     */
+    public static <T> BaseResponse<T> buildResponse(T data){
+        return new Builder<T>()
+                .setStatus(AppHttpStatus.OK.getStatus())
+                .setMessage(AppHttpStatus.OK.getMessage())
+                .setData(data)
+                .builder();
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(int status, String message, T data){
+        return new Builder<T>()
+                .setStatus(status)
+                .setMessage(message)
+                .setData(data)
+                .builder();
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpMsg){
+        return new Builder<T>()
+                .setStatus(appHttpMsg.getStatus())
+                .setMessage(appHttpMsg.getMessage())
+                .builder();
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version  1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpMsg, T data){
+        return new Builder<T>()
+                .setStatus(appHttpMsg.getStatus())
+                .setMessage(appHttpMsg.getMessage())
+                .setData(data)
+                .builder();
     }
 }

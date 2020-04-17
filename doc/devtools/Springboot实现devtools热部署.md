@@ -31,4 +31,4 @@ As DevTools monitors classpath resources, the only way to trigger a restart is t
 ```
 
 官方文档：https://docs.spring.io/spring-boot/docs/2.1.14.BUILD-SNAPSHOT/reference/html/using-boot-devtools.html
-
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/devtools](https://github.com/mingyang66/spring-parent/tree/master/doc/devtools)

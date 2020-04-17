@@ -5,6 +5,8 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
 import com.sgrain.boot.autoconfigure.aop.annotation.Idempotent;
 import com.sgrain.boot.autoconfigure.aop.annotation.RateLimit;
+import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.yaomy.control.test.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -52,6 +55,8 @@ public class RateLimiterController {
         map.put("user2", "23");
         map.put("user3", "afdssfd");
         map.put("hellow", "adsf");
+        BaseResponse baseResponse = BaseResponse.buildResponse(100, "测试");
+        System.out.println(JSONUtils.toJSONString(baseResponse));
         return map;
     }
 }

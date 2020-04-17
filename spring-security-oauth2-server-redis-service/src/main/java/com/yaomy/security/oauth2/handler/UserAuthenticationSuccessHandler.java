@@ -22,6 +22,6 @@ import java.io.IOException;
 public class UserAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.createResponse(200,"SUCCESS"));
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.buildResponse(200,"SUCCESS"));
     }
 }

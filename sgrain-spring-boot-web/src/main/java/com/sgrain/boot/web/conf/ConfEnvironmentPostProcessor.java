@@ -21,6 +21,7 @@ import java.util.Properties;
  * @Description 自定义配置文件路径加载
  * @Version  1.0
  */
+@Deprecated
 public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
     /**
      * CLASSPATH路径开头

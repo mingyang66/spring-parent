@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
  * @Description: 获取配置文件中配置属性类
  * @Version: 1.0
  */
+@Deprecated
 @Component
 public class PropertyService {
 

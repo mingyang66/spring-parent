@@ -1,5 +1,7 @@
 package com.yaomy.control.test.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class VoidController {
+    @Autowired
+    private Environment environment;
     @PostMapping("void/test1")
     public void test1(){
+        System.out.println(environment.getProperty("test.a"));
+        System.out.println(environment.getProperty("test.b"));
         System.out.println("-----test1----");
     }
 

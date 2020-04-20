@@ -93,6 +93,7 @@ java -jar myproject.jar --spring.config.location=classpath:/default.properties,c
 ```
 
 参考：[https://docs.spring.io/spring-boot/docs/2.1.14.BUILD-SNAPSHOT/reference/html/boot-features-external-config.html](https://docs.spring.io/spring-boot/docs/2.1.14.BUILD-SNAPSHOT/reference/html/boot-features-external-config.html)
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/profiles](https://github.com/mingyang66/spring-parent/tree/master/doc/profiles)
 
 使用逗号分隔符分割配置路径，并反转配置顺序：
 

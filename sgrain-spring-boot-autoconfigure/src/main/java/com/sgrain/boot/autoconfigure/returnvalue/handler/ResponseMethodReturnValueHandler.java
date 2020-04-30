@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description: 控制器返回返回值包装类,处理带@ResponseBody标识的返回值类型
+ * @Description: 控制器返回返回值包装类, 处理带@ResponseBody标识的返回值类型
  * @Version: 1.0
  */
 public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
@@ -37,19 +37,17 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if(RouteUtils.readRoute().contains(request.getRequestURI())){
+        if (RouteUtils.readRoute().contains(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
-        } else if(null != returnValue && (returnValue instanceof ResponseData)){
+        } else if (null != returnValue && (returnValue instanceof ResponseData)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            Map<String, Object> resultMap = new LinkedHashMap<>();
-            resultMap.put("status", AppHttpStatus.OK.getStatus());
-            resultMap.put("message", AppHttpStatus.OK.getMessage());
+            ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.OK);
             //返回值为void类型的data字段不输出
-            if(!returnType.getMethod().getReturnType().equals(Void.TYPE)){
-                resultMap.put("data", returnValue);
+            if (!returnType.getMethod().getReturnType().equals(Void.TYPE)) {
+                responseData.setData(returnValue);
             }
-            proxyObject.handleReturnValue(resultMap, returnType, mavContainer, webRequest);
+            proxyObject.handleReturnValue(responseData, returnType, mavContainer, webRequest);
         }
     }
 

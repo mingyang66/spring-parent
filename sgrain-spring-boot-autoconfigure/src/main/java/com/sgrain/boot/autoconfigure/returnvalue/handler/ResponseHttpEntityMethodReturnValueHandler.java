@@ -25,9 +25,10 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
 
     private HandlerMethodReturnValueHandler proxyObject;
 
-    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject){
+    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject) {
         this.proxyObject = proxyObject;
     }
+
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
         return (HttpEntity.class.isAssignableFrom(returnType.getParameterType()) &&
@@ -39,23 +40,21 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         //获取ResponseEntity封装的真实返回值
-        Object body = (null == returnValue) ? null :((ResponseEntity) returnValue).getBody();
+        Object body = (null == returnValue) ? null : ((ResponseEntity) returnValue).getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if(RouteUtils.readRoute().contains(request.getRequestURI())){
+        if (RouteUtils.readRoute().contains(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
-        } else if(null != body && (body instanceof ResponseData)){
+        } else if (null != body && (body instanceof ResponseData)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            Map<String, Object> resultMap = new LinkedHashMap<>();
-            resultMap.put("status", AppHttpStatus.OK.getStatus());
-            resultMap.put("message", AppHttpStatus.OK.getMessage());
+            ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.OK);
             //获取控制器方法返回值得泛型类型
             Type type = returnType.getMethod().getGenericReturnType();
             //返回值为void类型的data字段不输出
-            if((type instanceof ParameterizedType) && !(((ParameterizedType)type).getActualTypeArguments()[0]).equals(Void.class)){
-                resultMap.put("data", body);
+            if ((type instanceof ParameterizedType) && !(((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class)) {
+                responseData.setData(body);
             }
-            proxyObject.handleReturnValue(ResponseEntity.ok(resultMap), returnType, mavContainer, webRequest);
+            proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
         }
     }
 }

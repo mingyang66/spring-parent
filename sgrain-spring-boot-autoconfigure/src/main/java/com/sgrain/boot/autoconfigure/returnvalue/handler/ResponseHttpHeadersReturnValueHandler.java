@@ -15,9 +15,10 @@ public class ResponseHttpHeadersReturnValueHandler implements HandlerMethodRetur
 
     private HandlerMethodReturnValueHandler proxyObject;
 
-    public ResponseHttpHeadersReturnValueHandler(HandlerMethodReturnValueHandler proxyObject){
+    public ResponseHttpHeadersReturnValueHandler(HandlerMethodReturnValueHandler proxyObject) {
         this.proxyObject = proxyObject;
     }
+
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
         return HttpHeaders.class.isAssignableFrom(returnType.getParameterType());

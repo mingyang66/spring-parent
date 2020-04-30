@@ -18,11 +18,11 @@ public class ResponseData<T> implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    public ResponseData(){
+    public ResponseData() {
         super();
     }
 
-    private ResponseData(Builder<T> builder){
+    private ResponseData(Builder<T> builder) {
         this.status = builder.status;
         this.message = builder.message;
         this.data = builder.data;
@@ -52,33 +52,37 @@ public class ResponseData<T> implements Serializable {
         this.data = data;
     }
 
-    public static class Builder<T>{
+    public static class Builder<T> {
         private int status;
         private String message;
         private T data;
 
-        public Builder<T> setStatus(int status){
+        public Builder<T> setStatus(int status) {
             this.status = status;
             return this;
         }
-        public Builder<T> setMessage(String message){
+
+        public Builder<T> setMessage(String message) {
             this.message = message;
             return this;
         }
-        public Builder<T> setData(T data){
+
+        public Builder<T> setData(T data) {
             this.data = data;
             return this;
         }
-        public ResponseData<T> builder(){
-           return new ResponseData<>(this);
+
+        public ResponseData<T> builder() {
+            return new ResponseData<>(this);
         }
     }
+
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10
-     * @Version  1.0
+     * @Version 1.0
      */
-    public static <T> ResponseData<T> buildResponse(int status, String message){
+    public static <T> ResponseData<T> buildResponse(int status, String message) {
         return new Builder<T>()
                 .setStatus(status)
                 .setMessage(message)
@@ -87,45 +91,49 @@ public class ResponseData<T> implements Serializable {
 
     /**
      * 创建响应对象
+     *
      * @param data
      * @return
      */
-    public static <T> ResponseData<T> buildResponse(T data){
+    public static <T> ResponseData<T> buildResponse(T data) {
         return new Builder<T>()
                 .setStatus(AppHttpStatus.OK.getStatus())
                 .setMessage(AppHttpStatus.OK.getMessage())
                 .setData(data)
                 .builder();
     }
+
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10
-     * @Version  1.0
+     * @Version 1.0
      */
-    public static <T> ResponseData<T> buildResponse(int status, String message, T data){
+    public static <T> ResponseData<T> buildResponse(int status, String message, T data) {
         return new Builder<T>()
                 .setStatus(status)
                 .setMessage(message)
                 .setData(data)
                 .builder();
     }
+
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10
-     * @Version  1.0
+     * @Version 1.0
      */
-    public static <T> ResponseData<T> buildResponse(AppHttpStatus appHttpMsg){
+    public static <T> ResponseData<T> buildResponse(AppHttpStatus appHttpMsg) {
         return new Builder<T>()
                 .setStatus(appHttpMsg.getStatus())
                 .setMessage(appHttpMsg.getMessage())
                 .builder();
     }
+
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10
-     * @Version  1.0
+     * @Version 1.0
      */
-    public static <T> ResponseData<T> buildResponse(AppHttpStatus appHttpMsg, T data){
+    public static <T> ResponseData<T> buildResponse(AppHttpStatus appHttpMsg, T data) {
         return new Builder<T>()
                 .setStatus(appHttpMsg.getStatus())
                 .setMessage(appHttpMsg.getMessage())

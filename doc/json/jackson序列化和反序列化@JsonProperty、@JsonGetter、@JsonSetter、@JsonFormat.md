@@ -142,3 +142,5 @@ public class People {
 ```
 
 > 首先可以将json字符串{"username":"123","age":1,"weight":23}反序列化为People对象，然后可以将People对象序列化为{"username":"123","age":1,"weight":23}
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/json](https://github.com/mingyang66/spring-parent/tree/master/doc/json)

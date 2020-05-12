@@ -21,7 +21,8 @@ public enum AppHttpStatus {
     RATE_LIMIT_EXCEPTION(10000, "接口访问过于频繁，请稍后再试！"),
     IDEMPOTENT_EXCEPTION(20000, "接口不可以重复提交，请稍后再试！"),
     JSON_SERIALIZE_EXCEPTION(30000, "序列化数据异常"),
-    JSON_DESERIALIZE_EXCEPTION(30001, "反序列化数据异常");
+    JSON_DESERIALIZE_EXCEPTION(30001, "反序列化数据异常"),
+    READ_REMOTE_RESOURSE_EXCEPTION(30002, "读取远程服务器资源异常");
 
     /**
      * 状态码

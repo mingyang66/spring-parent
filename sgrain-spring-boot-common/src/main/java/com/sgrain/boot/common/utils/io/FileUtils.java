@@ -1,5 +1,7 @@
 package com.sgrain.boot.common.utils.io;
 
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.CharsetUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.io.filefilter.IOFileFilter;
@@ -19,6 +21,28 @@ import java.util.zip.Checksum;
  */
 @SuppressWarnings("all")
 public class FileUtils {
+    /**
+     *
+     * @param url 服务器文件地址，如http://xxx.xx.xx.xx/a.txt
+     * @return 文件内容
+     */
+    public static String readRemoteFile(String url){
+        return readRemoteFile(url, null);
+    }
+
+    /**
+     * 读取远程服务器上的文件
+     * @param url 服务器文件地址，如http://xxx.xx.xx.xx/a.txt
+     * @param encoding 编码方式，默认UTF8
+     * @return 文件内容
+     */
+    public static String readRemoteFile(String url, String encoding){
+        try {
+            return IOUtils.toString(new URL(url).openStream(), encoding);
+        } catch (Exception e) {
+            throw new BusinessException(AppHttpStatus.READ_REMOTE_RESOURSE_EXCEPTION.getStatus(), StringUtils.join("读取文件：", url, "发生异常", e));
+        }
+    }
     /**
      * 等待NFS传播文件创建，设置超时
      * 此方法重复测试{@link File#exists()}，直到返回true,直到达到以秒为单位的指定最大时间为止

@@ -36,13 +36,13 @@ public class HttpClientController {
     @Autowired
     private HttpClientService httpClientService;
     @GetMapping("responseData")
-    public ResponseData testResponseData(){
+    public String testResponseData(){
         String url = "http://127.0.0.1:8108/questionnaire/get";
         Map<String, Object> paramMap = Maps.newHashMap();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseData responseData = httpClientService.post(url, paramMap, null, ResponseData.class);
-        return responseData;
+        return null;
     }
     @GetMapping("responseData1")
     public ResponseEntity<List<Map<Long, Map<Integer, Integer>>>> getResult(){

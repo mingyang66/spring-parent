@@ -94,7 +94,7 @@ public class HiddenUtils {
                     routeMap.get(type).forEach((fieldName)->{
                         if(objectMap.containsKey(fieldName) && objectMap.get(fieldName) != null){
                             if(HiddenType.PHONE.getType() == NumberUtils.toInt(type.toString())){
-                                objectMap.put(fieldName, PhoneUtils.hidden(objectMap.get(fieldName).toString()));
+                                objectMap.put(fieldName, HiddenFieldUtils.hiddenPhoneNum(objectMap.get(fieldName).toString()));
                             }
                         }
                     });
@@ -105,7 +105,7 @@ public class HiddenUtils {
                     routeMap.get(type).forEach((fieldName)->{
                         if(StringUtils.equals(fieldName, key) && !ObjectUtils.isEmpty(value)){
                             if(HiddenType.PHONE.getType() == NumberUtils.toInt(type.toString())){
-                                pMap.put(fieldName, PhoneUtils.hidden(value.toString()));
+                                pMap.put(fieldName, HiddenFieldUtils.hiddenPhoneNum(value.toString()));
                             }
                         }
                     });

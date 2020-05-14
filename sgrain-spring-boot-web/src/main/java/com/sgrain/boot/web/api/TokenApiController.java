@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.redis.api;
+package com.sgrain.boot.web.api;
 
 import com.sgrain.boot.common.utils.TokenUtils;
 import org.springframework.context.annotation.Lazy;

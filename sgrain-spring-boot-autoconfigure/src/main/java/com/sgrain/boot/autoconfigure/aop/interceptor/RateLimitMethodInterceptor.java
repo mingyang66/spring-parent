@@ -43,9 +43,6 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
-        if(!method.isAnnotationPresent(RateLimit.class)){
-            return invocation.proceed();
-        }
         //获取限流注解对象
         RateLimit limit = method.getAnnotation(RateLimit.class);
         //限流功能关闭

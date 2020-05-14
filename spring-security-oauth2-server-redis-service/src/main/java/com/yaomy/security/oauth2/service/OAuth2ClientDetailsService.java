@@ -1,8 +1,8 @@
 package com.yaomy.security.oauth2.service;
 
 import com.sgrain.boot.common.enums.GrantTypeEnum;
-import com.sgrain.boot.web.conf.properties.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -24,7 +24,7 @@ public class OAuth2ClientDetailsService implements ClientDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private PropertyService propertyService;
+    private Environment propertyService;
     /**
      被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器调用一次，类似于Serclet的inti()方法。
      被@PostConstruct修饰的方法会在构造函数之后，init()方法之前运行。

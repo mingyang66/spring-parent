@@ -17,12 +17,16 @@ public enum AppHttpStatus {
     MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(208, "缺少参数"),
     HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(209, "不支持的method类型"),
     PARAM_EXCEPTION(210, "参数异常"),
-    NOT_FOUND_EXCEPTION(404, "接口不存在"),
+    SYSTEM_EXCEPTION(210, "系统异常"),
+    API_NOT_FOUND_EXCEPTION(404, "接口不存在"),
     RATE_LIMIT_EXCEPTION(10000, "接口访问过于频繁，请稍后再试！"),
     IDEMPOTENT_EXCEPTION(20000, "接口不可以重复提交，请稍后再试！"),
     JSON_SERIALIZE_EXCEPTION(30000, "序列化数据异常"),
     JSON_DESERIALIZE_EXCEPTION(30001, "反序列化数据异常"),
-    READ_REMOTE_RESOURSE_EXCEPTION(30002, "读取远程服务器资源异常");
+    READ_REMOTE_RESOURSE_EXCEPTION(30002, "读取远程服务器资源异常"),
+    READ_REMOTE_RESOURSE_NOT_FOUND_EXCEPTION(30003, "远程服务器资源不存在异常"),
+    DATA_EXCEPTION(30004, "数据异常"),
+    DATA_NOT_FOUND_EXCEPTION(30005, "未找到符合条件的数据异常");
 
     /**
      * 状态码

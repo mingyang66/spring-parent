@@ -10,7 +10,7 @@ public class HttpClientProperties {
     /**
      * 组件开关
      */
-    private Boolean enable;
+    private boolean enable;
     /**
      * HttpClientService read timeout (in milliseconds),default:5000
      */
@@ -36,11 +36,11 @@ public class HttpClientProperties {
         this.connectTimeOut = connectTimeOut;
     }
 
-    public Boolean getEnable() {
+    public boolean isEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 }

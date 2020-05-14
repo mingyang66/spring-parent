@@ -18,7 +18,7 @@ import java.util.Map;
  * @create: 2020/03/31
  */
 @RestController
-public class SgrainErrorController implements ErrorController {
+public class ErrorSgrainController implements ErrorController {
     /**
      * 错误路由
      */
@@ -33,8 +33,8 @@ public class SgrainErrorController implements ErrorController {
         HttpStatus status = getStatus(request);
         Map<String, Object> result = Maps.newLinkedHashMap();
         result.put("status", status.value());
-        if(status.value() == AppHttpStatus.NOT_FOUND_EXCEPTION.getStatus()){
-            result.put("message", AppHttpStatus.NOT_FOUND_EXCEPTION.getMessage());
+        if(status.value() == AppHttpStatus.API_NOT_FOUND_EXCEPTION.getStatus()){
+            result.put("message", AppHttpStatus.API_NOT_FOUND_EXCEPTION.getMessage());
         } else {
             if(StringUtils.isNotEmpty(ex.getMessage())){
                 result.put("message", ex.getMessage());

@@ -1,7 +1,7 @@
 package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.po.BaseResponse;
 import com.sgrain.boot.common.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
@@ -14,8 +14,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @Description: HttpEntity返回值控制
@@ -44,17 +42,17 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (RouteUtils.readRoute().contains(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
-        } else if (null != body && (body instanceof ResponseData)) {
+        } else if (null != body && (body instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.OK);
+            BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
             //获取控制器方法返回值得泛型类型
             Type type = returnType.getMethod().getGenericReturnType();
             //返回值为void类型的data字段不输出
             if ((type instanceof ParameterizedType) && !(((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class)) {
-                responseData.setData(body);
+                baseResponse.setData(body);
             }
-            proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
+            proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
         }
     }
 }

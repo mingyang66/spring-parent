@@ -6,7 +6,6 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -29,11 +28,6 @@ import java.lang.reflect.UndeclaredThrowableException;
 @RestControllerAdvice
 public final class ExceptionAdviceHandler {
 
-    private Environment environment;
-    /**
-     * Debug调试key
-     */
-    private static final String DEBUG_KEY = "spring.sgrain.log-aop.debug";
     /**
      * @RequestBody请求body缺失异常
      */
@@ -43,27 +37,23 @@ public final class ExceptionAdviceHandler {
      */
     private static final String REQUEST_BODY_MESSAGE = "注解@RequestBody标识的请求体缺失";
 
-    public ExceptionAdviceHandler(Environment environment){
-        this.environment = environment;
-    }
     /**
      * 未知异常
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseData unKnowExceptionHandler(Exception e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.UNKNOW_EXCEPTION);
+        printErrorMessage(e);
+        if (LoggerUtils.isDebug()) {
+            StackTraceElement[] elements = e.getStackTrace();
+            String message = StringUtils.EMPTY;
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                responseData.setMessage(message);
+            }
         }
-        StackTraceElement[] elements = e.getStackTrace();
-        String message = StringUtils.EMPTY;
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return responseData;
     }
 
     /**
@@ -71,19 +61,19 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseData runtimeExceptionHandler(RuntimeException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION);;
+        printErrorMessage(e);
+        if(LoggerUtils.isDebug()){
+            StackTraceElement[] elements = e.getStackTrace();
+            String message = StringUtils.EMPTY;
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                responseData.setMessage(message);
+            }
+
         }
-        StackTraceElement[] elements = e.getStackTrace();
-        String message = StringUtils.EMPTY;
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return responseData;
     }
 
     /**
@@ -91,19 +81,18 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     public ResponseData nullPointerExceptionHandler(NullPointerException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
+        printErrorMessage(e);
+        if (LoggerUtils.isDebug()) {
+            StackTraceElement[] elements = e.getStackTrace();
+            String message = StringUtils.EMPTY;
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                responseData.setMessage(message);
+            }
         }
-        StackTraceElement[] elements = e.getStackTrace();
-        String message = StringUtils.EMPTY;
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), message);
+        return responseData;
     }
 
     /**
@@ -111,19 +100,18 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(ClassCastException.class)
     public ResponseData classCastExceptionHandler(ClassCastException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
+        printErrorMessage(e);
+        if (LoggerUtils.isDebug()) {
+            StackTraceElement[] elements = e.getStackTrace();
+            String message = StringUtils.EMPTY;
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                responseData.setMessage(message);
+            }
         }
-        StackTraceElement[] elements = e.getStackTrace();
-        String message = StringUtils.EMPTY;
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), message);
+        return responseData;
     }
 
     /**
@@ -131,19 +119,19 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IOException.class)
     public ResponseData iOExceptionHandler(IOException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.IO_EXCEPTION);
+        printErrorMessage(e);
+        if (LoggerUtils.isDebug()) {
+            StackTraceElement[] elements = e.getStackTrace();
+            String message = StringUtils.EMPTY;
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                responseData.setMessage(message);
+            }
         }
-        StackTraceElement[] elements = e.getStackTrace();
-        String message = StringUtils.EMPTY;
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.IO_EXCEPTION.getStatus(), message);
+
+        return responseData;
     }
 
     /**
@@ -151,133 +139,152 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public ResponseData indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION);
+        printErrorMessage(e);
+        if(LoggerUtils.isDebug()){
+            StackTraceElement[] elements = e.getStackTrace();
+            String message = StringUtils.EMPTY;
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                responseData.setMessage(message);
+            }
         }
-        StackTraceElement[] elements = e.getStackTrace();
-        String message = StringUtils.EMPTY;
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION.getStatus(), message);
+
+        return responseData;
     }
 
     /**
      * 参数类型不匹配
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public ResponseData requestTypeMismatch(MethodArgumentTypeMismatchException e){
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+    public ResponseData requestTypeMismatch(MethodArgumentTypeMismatchException e) {
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION);
+        printErrorMessage(e);
+        if(LoggerUtils.isDebug()){
+            String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
+            responseData.setMessage(message);
         }
-        String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
-        return ResponseData.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION.getStatus(), message);
+        return responseData;
     }
+
     /**
      * 缺少参数
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public ResponseData requestMissingServletRequest(MissingServletRequestParameterException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION);
+        printErrorMessage(e);
+        if(LoggerUtils.isDebug()){
+            String message = StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
+            responseData.setMessage(message);
         }
-        String message= StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
-        return ResponseData.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION.getStatus(), message);
+        return responseData;
     }
+
     /**
      * 请求method不匹配
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResponseData requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
+        printErrorMessage(e);
+        if(LoggerUtils.isDebug()){
+            String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
+            responseData.setMessage(message);
         }
-        String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
-        return ResponseData.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION.getStatus(), message);
-    }
-    /**
-     *
-     * 类方法中@RequestBody类型参数数据类型转换异常
-     */
-    @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseData httpMessageNotReadableException(HttpMessageNotReadableException e){
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
-        }
-        String message = e.getMessage();
-        if(StringUtils.contains(message, REQUEST_BODY)){
-            message = REQUEST_BODY_MESSAGE;
-        }
-        return ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return responseData;
     }
 
     /**
-     *
+     * 类方法中@RequestBody类型参数数据类型转换异常
+     */
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public ResponseData httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION);
+        printErrorMessage(e);
+        String message = e.getMessage();
+        if (StringUtils.contains(message, REQUEST_BODY)) {
+            message = REQUEST_BODY_MESSAGE;
+            responseData.setMessage(message);
+        }
+        return responseData;
+    }
+
+    /**
      * 类方法参数异常
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseData methodArgumentNotValidException(MethodArgumentNotValidException e){
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
-        }
+    public ResponseData methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        printErrorMessage(e);
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = bindingResult.getFieldError();
         String message = StringUtils.join(fieldError.getDefaultMessage());
         return ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
     }
+
     /**
      * 如果代理异常调用方法将会抛出此异常
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
     public ResponseData undeclaredThrowableException(UndeclaredThrowableException e) {
-        String message = StringUtils.EMPTY;
-        Throwable throwable = e.getCause().getCause();
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus());
+        printErrorMessage(e);
+        if(LoggerUtils.isDebug()){
+            String message = StringUtils.EMPTY;
+            Throwable throwable = e.getCause().getCause();
+            StackTraceElement[] elements = throwable.getStackTrace();
+            if (elements.length > 0) {
+                StackTraceElement element = elements[0];
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "的第", element.getLineNumber(), "行发生", throwable.toString(), "异常");
+                responseData.setMessage(message);
+            }
         }
-        StackTraceElement[] elements = throwable.getStackTrace();
-        if(elements.length > 0){
-            StackTraceElement element = elements[0];
-            message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "的第", element.getLineNumber(), "行发生", throwable.toString(), "异常");
-        }
-        if(StringUtils.isBlank(message)){
-            message = e.toString();
-        }
-        return ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus(), message);
+        return responseData;
     }
 
     /**
      * 业务异常处理类
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseData undeclaredThrowableException(BusinessException e) {
-        if(environment.getProperty(DEBUG_KEY, Boolean.class, false)){
-            debugMsg(e);
+        if (LoggerUtils.isDebug()) {
+            printBusinessErrorMessage(e);
         }
         return ResponseData.buildResponse(e.getStatus(), e.getErrorMessage());
     }
+
     /**
      * @Description 打印错误日志信息
-     * @Version  1.0
+     * @Version 1.0
      */
-    private void debugMsg(Throwable e){
-        String message = e.toString();
-        StackTraceElement[] elements = e.getStackTrace();
-        for(int i=0;i<elements.length;i++){
-            StackTraceElement element = elements[i];
-            if(i == 0){
-                message = StringUtils.join(element.toString(), " ", message);
-            } else {
-                message = StringUtils.join(message, "\n", element.toString());
+    private void printErrorMessage(Throwable e) {
+        if(LoggerUtils.isDebug()){
+            String message = e.toString();
+            StackTraceElement[] elements = e.getStackTrace();
+            for (int i = 0; i < elements.length; i++) {
+                StackTraceElement element = elements[i];
+                if (i == 0) {
+                    message = StringUtils.join(element.toString(), " ", message);
+                } else {
+                    message = StringUtils.join(message, "\n", element.toString());
+                }
             }
+            LoggerUtils.error(ExceptionAdviceHandler.class, message);
         }
-        LoggerUtils.error(ExceptionAdviceHandler.class, message);
+    }
+
+    /**
+     * 打印业务错误信息
+     * @param e
+     */
+    private void printBusinessErrorMessage(BusinessException e) {
+        if(LoggerUtils.isDebug()){
+            LoggerUtils.info(ExceptionAdviceHandler.class, StringUtils.join(e, " 【status】", e.getStatus(), ", 【message】", e.getErrorMessage()));
+        }
     }
 }
 

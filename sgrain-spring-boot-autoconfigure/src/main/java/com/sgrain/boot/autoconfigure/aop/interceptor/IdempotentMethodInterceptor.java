@@ -47,10 +47,6 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
-        //判定方法上是否被幂等性注解标注
-        if(!method.isAnnotationPresent(Idempotent.class)){
-            return invocation.proceed();
-        }
         //获取幂等性注解对象
         Idempotent idempotent = method.getAnnotation(Idempotent.class);
         //幂等性未启用

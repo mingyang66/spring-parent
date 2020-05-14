@@ -44,7 +44,7 @@ public class RateLimiterController {
     }
     @GetMapping("/rate/limit")
     @RateLimit(permits = 2, name = {"name","age"}, time = 1, timeUnit = TimeUnit.SECONDS)
-    @Idempotent(enable = false, type = Idempotent.Type.TOKEN)
+    @Idempotent(enable = true, type = Idempotent.Type.TOKEN)
     public Map<String, Object> rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
         System.out.println(user.getName()+"---"+user.getAge());
         //redisTemplate.opsForValue().set("test666", "888");

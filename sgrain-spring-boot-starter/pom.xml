@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sgrain.boot</groupId>
-    <artifactId>sgrain-spring-boot-web-starter</artifactId>
+    <artifactId>sgrain-spring-boot-starter</artifactId>
 
     <dependencies>
         <dependency>

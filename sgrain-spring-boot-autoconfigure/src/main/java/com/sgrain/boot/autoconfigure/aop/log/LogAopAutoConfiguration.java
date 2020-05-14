@@ -7,12 +7,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 /**
  * @Description: 控制器切点配置
@@ -20,7 +20,7 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @EnableConfigurationProperties(LogAopProperties.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.log-aop", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.sgrain.log", name = "enable", havingValue = "true", matchIfMissing = true)
 public class LogAopAutoConfiguration implements InitializingBean {
 
     /**
@@ -31,11 +31,9 @@ public class LogAopAutoConfiguration implements InitializingBean {
                                                                             "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
                                                                             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
-    private Environment environment;
+    @Autowired
+    private LogAopProperties logAopProperties;
 
-    public LogAopAutoConfiguration(Environment environment){
-        this.environment = environment;
-    }
     /**
      * @Description 定义接口拦截器切点
      * @Version  1.0
@@ -60,7 +58,6 @@ public class LogAopAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Boolean debug = environment.getProperty("spring.sgrain.log-aop.debug", Boolean.class, Boolean.FALSE);
-        LoggerUtils.setDebug(debug);
+        LoggerUtils.setDebug(logAopProperties.isDebug());
     }
 }

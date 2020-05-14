@@ -23,7 +23,6 @@ import java.util.List;
  * @Version: 1.0
  */
 @Configuration
-@ConditionalOnClass({ResponseHttpEntityMethodReturnValueHandler.class, ResponseMethodReturnValueHandler.class, ResponseHttpEntityMethodReturnValueHandler.class})
 @EnableConfigurationProperties(ReturnValueProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.return-value", name = "enable", havingValue = "true", matchIfMissing = true)
 public class ReturnValueAutoConfiguration implements InitializingBean {

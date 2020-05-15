@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @program: spring-parent
  * @description: Void返回值类型测试
@@ -29,13 +32,13 @@ public class VoidController {
     }
 
     @PostMapping("void/test3")
-    public ResponseEntity test3(){
+    public ResponseEntity test3(ArrayList<String> list){
         System.out.println("-----test3----");
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("void/test4")
-    public ResponseEntity<Void> test4(){
+    public ResponseEntity<Void> test4(ArrayList<String> list){
         System.out.println("-----test4----");
         return ResponseEntity.ok(null);
     }

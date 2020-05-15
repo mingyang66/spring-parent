@@ -2,6 +2,7 @@ package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -40,12 +41,15 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
             //返回值为void类型的data字段不输出
-            if (!returnType.getMethod().getReturnType().equals(Void.TYPE)) {
+            if (returnType.getMethod().getReturnType().equals(Void.TYPE)) {
+                ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.OK);
+                proxyObject.handleReturnValue(responseData, returnType, mavContainer, webRequest);
+            } else {
+                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
                 baseResponse.setData(returnValue);
+                proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             }
-            proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         }
     }
 

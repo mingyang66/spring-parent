@@ -2,6 +2,7 @@ package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
@@ -12,8 +13,10 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 
 /**
  * @Description: HttpEntity返回值控制
@@ -45,14 +48,20 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         } else if (null != body && (body instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
             //获取控制器方法返回值得泛型类型
             Type type = returnType.getMethod().getGenericReturnType();
-            //返回值为void类型的data字段不输出
-            if ((type instanceof ParameterizedType) && !(((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class)) {
+            /**
+             * 1.如果返回的是ResponseEntity类，无泛型化参数
+             * 2.返回的ResponseEntity带泛型化参数，且参数是void
+             */
+            if ((type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class))) {
+                ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.OK);
+                proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
+            } else {
+                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
                 baseResponse.setData(body);
+                proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }
-            proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
         }
     }
 }

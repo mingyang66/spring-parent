@@ -1,13 +1,12 @@
 package com.yaomy.control.test.api;
 
-import com.sgrain.boot.common.log.UserAction;
-import com.sgrain.boot.common.utils.LoggerUtils;
-import com.yaomy.control.test.po.User;
-import com.sgrain.boot.common.po.ResponseData;
-import com.sgrain.boot.web.conf.properties.PropertyService;
 import com.sgrain.boot.common.exception.BusinessException;
-
+import com.sgrain.boot.common.log.UserAction;
+import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.web.conf.properties.PropertyService;
 import com.sgrain.boot.web.httpclient.HttpClientService;
+import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -15,12 +14,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -41,7 +40,7 @@ public class HandlerController {
     private HttpClientService httpClientService;
 
     @PostMapping(value = "/handler/test")
-    public ResponseEntity<ResponseData> getName(@RequestBody @Valid User user){
+    public ResponseEntity<ResponseData> getName(@RequestBody @Validated User user){
         System.out.println(propertyService.getProperty("test"));
         LoggerUtils.info(HandlerController.class, "测试。。。");
         boolean flag = true;
@@ -52,7 +51,7 @@ public class HandlerController {
     }
 
     @RequestMapping(value = "/handler/${path}/{path1}")
-    public HttpHeaders getName(@RequestBody @Valid User user, HttpServletResponse response, PathVariable path) throws IOException {
+    public HttpHeaders getName(@RequestBody @Validated User user, HttpServletResponse response, PathVariable path) throws IOException {
         response.setStatus(201);
         response.setContentType("application/json");
         LoggerUtils.info(HandlerController.class, "测试。。。");
@@ -64,7 +63,7 @@ public class HandlerController {
         return httpHeaders;
     }
     @PostMapping(value = "/handler/test2")
-    public ResponseEntity<List> testNull1(@RequestBody @Valid User user){
+    public ResponseEntity<List> testNull1(@RequestBody @Validated User user){
         System.out.println("----------------3434334"+propertyService.getProperty("test.a"));
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -91,7 +90,7 @@ public class HandlerController {
         return "OK";
     }
     @RequestMapping(value = "/handler/test3")
-    public void testNull13(@RequestBody @Valid User user){
+    public void testNull13(@RequestBody @Validated User user){
         LoggerUtils.info(HandlerController.class, propertyService.getProperty("sms.code")+"---"+propertyService.getProperty("sms.message"));
         UserAction userAction = new UserAction();
         userAction.setNumber("12222");
@@ -100,7 +99,7 @@ public class HandlerController {
         System.out.println("----------------deee");
     }
     @RequestMapping(value = "/handler/url")
-    public void testUrl(@RequestBody @Valid User user){
+    public void testUrl(@RequestBody @Validated User user){
         String url = "https://peecapi.uufund.com/seal_label/list";
         Map<String, Object> params = new HashMap<>();
         params.put("token", "8b6deca08f174355a0da393fbf182a44");
@@ -112,7 +111,7 @@ public class HandlerController {
         System.out.println(result);
     }
     @RequestMapping(value = "/handler/test4")
-    public void testUrl1(@RequestBody @Valid User user) throws IOException{
+    public void testUrl1(@RequestBody @Validated User user) throws IOException{
         String url = "http://172.30.67.122:9000/handler/upload";
         FileSystemResource resource = new FileSystemResource(new File("D:\\work\\ssr\\pac.txt"));
         FileSystemResource resource1 = new FileSystemResource(new File("D:\\work\\ssr\\gui-config.json"));

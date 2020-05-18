@@ -11,13 +11,13 @@ import com.yaomy.control.test.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -45,7 +45,7 @@ public class RateLimiterController {
     @GetMapping("/rate/limit")
     @RateLimit(permits = 2, name = {"name","age"}, time = 1, timeUnit = TimeUnit.SECONDS)
     @Idempotent(enable = true, type = Idempotent.Type.TOKEN)
-    public Map<String, Object> rateLimiter1(@Valid @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
+    public Map<String, Object> rateLimiter1(@Validated @RequestBody User user, String sgrain, HttpServletRequest request, HttpServletResponse response){
         System.out.println(user.getName()+"---"+user.getAge());
         //redisTemplate.opsForValue().set("test666", "888");
         Map<String, Object> map = Maps.newHashMap();

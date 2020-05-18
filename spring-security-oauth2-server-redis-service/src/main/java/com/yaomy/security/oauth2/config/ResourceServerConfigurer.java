@@ -1,6 +1,5 @@
 package com.yaomy.security.oauth2.config;
 
-import com.sgrain.boot.web.conf.properties.PropertyService;
 import com.yaomy.security.oauth2.handler.UserAccessDeniedHandler;
 import com.yaomy.security.oauth2.handler.UserAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,7 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private TokenStore tokenStore;
-    @Autowired
-    private PropertyService propertyService;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
        /* resources

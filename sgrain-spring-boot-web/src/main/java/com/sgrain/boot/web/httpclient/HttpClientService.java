@@ -13,8 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -43,7 +45,7 @@ public class HttpClientService {
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType);
         watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
+        logInfo(url, HttpMethod.POST, params, entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -56,7 +58,7 @@ public class HttpClientService {
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
         watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
+        logInfo(url, HttpMethod.POST, params, entity, watch.getTime());
         return entity.getBody();
 
     }
@@ -70,7 +72,7 @@ public class HttpClientService {
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
         watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.POST, params, headers, responseType, entity, watch.getTime());
+        logInfo(url, HttpMethod.POST, params, entity, watch.getTime());
         return entity.getBody();
 
     }
@@ -95,20 +97,8 @@ public class HttpClientService {
         ResponseEntity<T> entity = restTemplate.getForEntity(url, responseType, uriVariables);
         watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.GET, Collections.emptyMap(), null, responseType, entity, watch.getTime());
+        logInfo(url, HttpMethod.GET, Collections.emptyMap(), entity, watch.getTime());
         return entity.getBody();
-    }
-
-    /**
-     * @param url          请求url地址
-     * @param paramsMap    参数
-     * @param responseType 响应类型
-     * @param uriVariables url可变参数
-     * @param <T>          返回值类型
-     * @return
-     */
-    public <T> T get(String url, Map<String, Object> paramsMap, Class<T> responseType, Map<String, ?> uriVariables) {
-        return get(joinUrl(url, paramsMap), responseType, uriVariables);
     }
 
     /**
@@ -119,7 +109,47 @@ public class HttpClientService {
         ResponseEntity<T> entity = restTemplate.getForEntity(url, responseType, uriVariables);
         watch.stop();
         //输出请求日志
-        logInfo(url, HttpMethod.GET, Collections.emptyMap(), null, responseType, entity, watch.getTime());
+        logInfo(url, HttpMethod.GET, Collections.emptyMap(), entity, watch.getTime());
+        return entity.getBody();
+    }
+
+    /**
+     * 获取指定类型的返回指
+     *
+     * @param url          请求URL
+     * @param paramsMap    参数，可以为null
+     * @param headers      请求header
+     * @param responseType 响应类型
+     * @param <T>          返回值得实际类型
+     * @return
+     */
+    public <T> T get(String url, Map<String, Object> paramsMap, MultiValueMap<String, String> headers, ParameterizedTypeReference<T> responseType) {
+        StopWatch watch = StopWatch.createStarted();
+        HttpEntity<?> requestEntity = getHttpHeaders(null, headers);
+        ResponseEntity<T> entity = restTemplate.exchange(joinUrl(url, paramsMap), HttpMethod.GET, requestEntity, responseType);
+        watch.stop();
+        //输出请求日志
+        logInfo(url, HttpMethod.GET, paramsMap, entity, watch.getTime());
+        return entity.getBody();
+    }
+
+    /**
+     * 获取指定类型的返回指
+     *
+     * @param url          请求URL
+     * @param paramsMap    参数，可以为null @etc:MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
+     * @param headers      请求header
+     * @param responseType 响应类型
+     * @param <T>          返回值得实际类型
+     * @return
+     */
+    public <T> T post(String url, MultiValueMap<String, Object> paramsMap, MultiValueMap<String, String> headers, ParameterizedTypeReference<T> responseType) {
+        StopWatch watch = StopWatch.createStarted();
+        HttpEntity<?> requestEntity = getHttpHeaders(paramsMap, headers);
+        ResponseEntity<T> entity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType);
+        watch.stop();
+        //输出请求日志
+        logInfo(url, HttpMethod.GET, paramsMap, entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -161,9 +191,9 @@ public class HttpClientService {
     /**
      * 日志信息
      */
-    private <T> void logInfo(String url, HttpMethod httpMethod, Object params, MultiValueMap<String, String> headers, Class<T> responseType, ResponseEntity<T> entity, long time) {
-        Object paramObj = params;
-        if (params instanceof Map) {
+    private <T> void logInfo(String url, HttpMethod httpMethod, Object params, ResponseEntity<T> entity, long time) {
+        Object paramObj = Collections.emptyMap();
+        if (ObjectUtils.isNotEmpty(params) && (params instanceof Map)) {
             String[] urlArray = StringUtils.split(url, "/");
             String routeStr = StringUtils.join(ArrayUtils.subarray(urlArray, 2, urlArray.length), "/");
             String route = StringUtils.prependIfMissing(routeStr, "/");

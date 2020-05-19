@@ -38,3 +38,4 @@ logs/
 
 out/
 .DS_Store
+/**/application-devRedis.properties

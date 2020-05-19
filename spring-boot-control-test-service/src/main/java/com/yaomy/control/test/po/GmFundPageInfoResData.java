@@ -5,12 +5,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-/**
- * @program: task.scheduling
- * @description: 港美基金首页板块信息
- * @author: 姚明洋
- * @create: 2020/05/12
- */
 public class GmFundPageInfoResData {
     //基金首页板块信息
     private Page page = new Page();
@@ -23,11 +17,7 @@ public class GmFundPageInfoResData {
         this.page = page;
     }
 
-    /**
-     * @Description: 基金首页信息
-     * @Author: 姚明洋
-     * @create: 2020/5/12
-     */
+
     public static class Page {
         //页面编号
         private String pageCode;
@@ -51,11 +41,7 @@ public class GmFundPageInfoResData {
         }
     }
 
-    /**
-     * @Description: 板块信息
-     * @Author: 姚明洋
-     * @create: 2020/5/12
-     */
+
     public static class Bk {
         //板块编号
         private String bkCode;
@@ -189,11 +175,7 @@ public class GmFundPageInfoResData {
         }
     }
 
-    /**
-     * @Description: 基金类
-     * @Author: 姚明洋
-     * @create: 2020/5/12
-     */
+
     public static class Fund {
         //基金ISIN编号
         private String isinCode;
@@ -277,11 +259,7 @@ public class GmFundPageInfoResData {
         }
     }
 
-    /**
-     * @Description: 指标类
-     * @Author: 姚明洋
-     * @create: 2020/5/12
-     */
+
     public static class Indicator {
         //是否展示，1-是，0-否
         private Integer isDisplay;
@@ -335,11 +313,7 @@ public class GmFundPageInfoResData {
         }
     }
 
-    /**
-     * @Description: 标签
-     * @Author: 姚明洋
-     * @create: 2020/5/12
-     */
+
     public static class Label {
         //是否展示，1-是，0-否
         private Integer isDisplay;

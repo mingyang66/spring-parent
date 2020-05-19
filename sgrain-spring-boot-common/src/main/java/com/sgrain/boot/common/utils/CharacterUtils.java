@@ -3,7 +3,7 @@ package com.sgrain.boot.common.utils;
 /**
  * @program: spring-parent
  * @description: 特殊字符集工具类
- * @author: 姚明洋
+ * @author:
  * @create: 2020/05/18
  */
 public class CharacterUtils {

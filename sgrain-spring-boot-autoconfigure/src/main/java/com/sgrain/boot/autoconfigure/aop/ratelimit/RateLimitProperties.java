@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.sgrain.rate-limit")
 public class RateLimitProperties {
     /**
-     * 组件开关
+     * 限流组件开关
      */
     private boolean enable;
 

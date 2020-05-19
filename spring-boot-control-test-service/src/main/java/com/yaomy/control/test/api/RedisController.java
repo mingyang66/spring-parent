@@ -28,7 +28,7 @@ public class RedisController {
     private RedisTemplate redisTemplate;
 
     @GetMapping("/redis/test")
-    @RateLimit(name = {"username","password"}, permits = 10, timeUnit = TimeUnit.SECONDS)
+    @RateLimit(permits = 10, timeUnit = TimeUnit.SECONDS)
     public String testRedisson(){
        // redisTemplate.opsForValue().set("test", "测试数据abc123");
 

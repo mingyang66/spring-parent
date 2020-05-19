@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 /**
  * Redis配置文件
  */
-@Configuration(proxyBeanMethods = false)
+@Configuration
 @EnableConfigurationProperties(RedisSgrainProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.redis", name = "enable", havingValue = "true", matchIfMissing = true)
 public class RedisSgrainAutoConfiguration {
@@ -29,12 +27,6 @@ public class RedisSgrainAutoConfiguration {
      * 3.Jackson2JsonRedisSerializer序列化方式，其编码是UTF-8,可以解决乱码问题，但是字符串会有一个双引号
      */
     @Bean
-    @ConditionalOnMissingBean(
-            name = {"redisTemplate"}
-    )
-    @ConditionalOnClass(
-            value = {RedisConnectionFactory.class}
-    )
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);

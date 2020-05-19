@@ -9,10 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.scripting.support.ResourceScriptSource;
+
 
 /**
  * @program: spring-parent
@@ -42,20 +40,10 @@ public class RateLimitAutoConfiguration {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new RateLimitMethodInterceptor(redisTemplate, redisLuaScript()));
+        advisor.setAdvice(new RateLimitMethodInterceptor(redisTemplate));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.RATE_LIMITER.getOrder());
 
         return advisor;
-    }
-
-    /**
-     * 加载lua脚本
-     */
-    public DefaultRedisScript<Long> redisLuaScript(){
-        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
-        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("limit.lua")));
-        redisScript.setResultType(Long.class);
-        return redisScript;
     }
 }

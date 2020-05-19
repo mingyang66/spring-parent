@@ -1,5 +1,7 @@
 package com.sgrain.boot.common.po;
 
+import com.sgrain.boot.common.utils.RequestUtils;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -12,7 +14,7 @@ public class BaseRequest implements Serializable {
     /**
      * 系统日志
      */
-    private SystemInfo systemInfo;
+    private SystemInfo systemInfo = new SystemInfo();
 
     public SystemInfo getSystemInfo() {
         return systemInfo;
@@ -30,11 +32,11 @@ public class BaseRequest implements Serializable {
         /**
          * 客户端IP
          */
-        private String clientIp;
+        private String clientIp = RequestUtils.getClientIp(RequestUtils.getRequest());
         /**
          * 服务端IP
          */
-        private String serverIp;
+        private String serverIp = RequestUtils.getServerIp();
         /**
          * 用户ID
          */
@@ -43,6 +45,14 @@ public class BaseRequest implements Serializable {
          * 平台H5 APP PC
          */
         private String platorm;
+        /**
+         * 包名
+         */
+        private String packageName;
+        /**
+         * 版本号
+         */
+        private String version;
 
         public String getTansactionId() {
             return tansactionId;
@@ -82,6 +92,22 @@ public class BaseRequest implements Serializable {
 
         public void setPlatorm(String platorm) {
             this.platorm = platorm;
+        }
+
+        public String getPackageName() {
+            return packageName;
+        }
+
+        public void setPackageName(String packageName) {
+            this.packageName = packageName;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
         }
     }
 

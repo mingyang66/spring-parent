@@ -1,7 +1,9 @@
 package com.sgrain.boot.web.api;
 
+import com.sgrain.boot.common.utils.CharacterUtils;
 import com.sgrain.boot.common.utils.TokenUtils;
-import org.springframework.context.annotation.Lazy;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +19,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/token")
 public class TokenApiController {
 
-    private RedisTemplate<Object, Object> redisTemplate;
-
-    @Lazy
-    public TokenApiController(RedisTemplate<Object, Object> redisTemplate){
-        this.redisTemplate = redisTemplate;
-    }
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 自动生成token令牌，并将令牌存入缓存，过期时间是30s
@@ -30,7 +28,7 @@ public class TokenApiController {
     @PostMapping("generation")
     public ResponseEntity<String> generationToken(){
         String token = TokenUtils.generation();
-        redisTemplate.opsForValue().set(token, token, 30, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(StringUtils.join("idempotent", CharacterUtils.COLON_EN, token), token, 30, TimeUnit.SECONDS);
         return ResponseEntity.ok(token);
     }
 }

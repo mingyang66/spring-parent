@@ -13,4 +13,10 @@ public class CharacterUtils {
     public static final String AND_AIGN = "&";
     public static final String ENTER = "\n";
     public static final String LINE_FEED = "\n\r";
+    public static final String SEMICOLON_EN = ";";
+    public static final String SEMICOLON_CN = "；";
+    public static final String COLON_EN = ":";
+    public static final String COLON_CN = "：";
+    public static final String LINE_THROUGH_CENTER = "-";
+    public static final String LINE_THROUGH_BOTTOM = "_";
 }

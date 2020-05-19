@@ -16,22 +16,20 @@ public @interface RateLimit {
      * 限流控制开关
      */
     boolean enable() default true;
+
     /**
      * 单位时间漏铜的阀值，默认10
      */
     long permits() default 10;
 
     /**
-     * 参数之中带指定的参数时限制
-     */
-    String[] name() default {};
-
-    /**
      * 时间
      */
     long time() default 1;
+
     /**
      * 单位，默认是秒
      */
     TimeUnit timeUnit() default TimeUnit.SECONDS;
+
 }

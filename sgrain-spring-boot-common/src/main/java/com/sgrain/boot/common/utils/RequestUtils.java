@@ -1,5 +1,7 @@
 package com.sgrain.boot.common.utils;
 
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.po.BaseRequest;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -82,7 +84,7 @@ public class RequestUtils {
                 }
             }
         }catch(Exception e){
-            e.printStackTrace();
+            throw new BusinessException(AppHttpStatus.DATA_NOT_FOUND_EXCEPTION.getStatus(), "获取服务器端IP地址异常，"+e);
         }
        return LOCAL_IP;
     }

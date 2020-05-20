@@ -48,7 +48,7 @@ public class RateLimitMethodInterceptor implements MethodInterceptor {
                                             limit.permits(),
                                             limit.time());
         if (data == 0L) {
-            throw new BusinessException(AppHttpStatus.RATE_LIMIT_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.API_RATE_LIMIT_EXCEPTION);
         }
         return invocation.proceed();
     }

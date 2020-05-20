@@ -42,11 +42,11 @@ public class IdempotentMethodInterceptor implements MethodInterceptor {
         //客户端发送的防止接口重复提交header参数
         String authentication = request.getHeader(AUTHENTICATION);
         if (StringUtils.isEmpty(authentication)) {
-            throw new BusinessException(AppHttpStatus.IDEMPOTENT_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
+            throw new BusinessException(AppHttpStatus.API_IDEMPOTENT_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
         }
         boolean delFlag = redisTemplate.delete(StringUtils.join("idempotent", CharacterUtils.COLON_EN, authentication));
         if (!delFlag) {
-            throw new BusinessException(AppHttpStatus.IDEMPOTENT_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.API_IDEMPOTENT_EXCEPTION);
         }
         return invocation.proceed();
     }

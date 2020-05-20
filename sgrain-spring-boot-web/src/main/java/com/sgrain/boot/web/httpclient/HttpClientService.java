@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -38,6 +37,10 @@ public class HttpClientService {
 
     /**
      * 支持参数为非数组模式POST请求
+     * @param paramsMap    参数，可以为null,
+     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                     服务端接收参数为：application/x-www-form-urlencoded表单类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
+     *
      * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType) {
@@ -51,6 +54,9 @@ public class HttpClientService {
 
     /**
      * 支持参数为非数组模式POST请求
+     * @param paramsMap    参数，可以为null,
+     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                     服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
      * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables) {
@@ -65,6 +71,9 @@ public class HttpClientService {
 
     /**
      * 支持参数为非数组模式POST请求
+     * @param paramsMap    参数，可以为null,
+     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                     服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
      * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables) {
@@ -137,7 +146,9 @@ public class HttpClientService {
      * 获取指定类型的返回指
      *
      * @param url          请求URL
-     * @param paramsMap    参数，可以为null
+     * @param paramsMap    参数，可以为null,
+     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                     服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
      * @param headers      请求header
      * @param responseType 响应类型
      * @param <T>          返回值得实际类型

@@ -24,12 +24,16 @@ import java.util.Map;
  */
 public class LogAopMethodInterceptor implements MethodInterceptor {
 
-
+    /**
+     * 拦截接口日志
+     * @param invocation 接口方法切面连接点
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        HttpServletRequest request = RequestUtils.getRequest();
         //获取请求参数，且该参数获取必须在proceed之前
-        Map<String, Object> paramsMap = RequestUtils.getRequestParam(request, invocation);
+        Map<String, Object> paramsMap = RequestUtils.getRequestParamMap(invocation);
         //新建计时器并开始计时
         StopWatch stopWatch = StopWatch.createStarted();
         try {

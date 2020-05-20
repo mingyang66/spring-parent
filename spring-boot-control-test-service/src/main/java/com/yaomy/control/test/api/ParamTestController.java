@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 
 /**
  * @program: spring-parent
@@ -28,7 +27,7 @@ public class ParamTestController {
         System.out.println(JSONUtils.toJSONPrettyString(user));
     }
     @PostMapping("api/param/test3")
-    public void test3(File file, String name){
+    public void test3(MultipartFile file, String name){
         System.out.println("name:"+name);
     }
 }

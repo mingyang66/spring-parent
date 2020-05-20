@@ -137,6 +137,27 @@ public class RequestUtils {
     }
 
     /**
+     * 获取参数中的系统信息
+     * @param invocation 方法拦截器连接点
+     * @return
+     */
+    public static BaseRequest.SystemInfo getRequestSystemInfo(MethodInvocation invocation) {
+        Parameter[] parameters = invocation.getMethod().getParameters();
+        BaseRequest.SystemInfo systemInfo = new BaseRequest.SystemInfo();
+        if (ArrayUtils.isEmpty(parameters)) {
+            return systemInfo;
+        }
+        Object[] args = invocation.getArguments();
+        for (int i = 0; i < parameters.length; i++) {
+            if (args[i] instanceof BaseRequest) {
+                BaseRequest baseRequest = (BaseRequest) args[i];
+                systemInfo = baseRequest.getSystemInfo();
+                break;
+            }
+        }
+        return systemInfo;
+    }
+    /**
      * 获取用户当前请求的HttpServletRequest
      */
     public static HttpServletRequest getRequest() {

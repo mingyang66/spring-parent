@@ -137,16 +137,15 @@ public class HttpClientService {
      * 获取指定类型的返回指
      *
      * @param url          请求URL
-     * @param paramsMap    参数，可以为null @etc:MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
+     * @param paramsMap    参数，可以为null
      * @param headers      请求header
      * @param responseType 响应类型
      * @param <T>          返回值得实际类型
      * @return
      */
-    public <T> T post(String url, MultiValueMap<String, Object> paramsMap, MultiValueMap<String, String> headers, ParameterizedTypeReference<T> responseType) {
+    public <T> T post(String url, Object paramsMap, MultiValueMap<String, String> headers, ParameterizedTypeReference<T> responseType) {
         StopWatch watch = StopWatch.createStarted();
-        HttpEntity<?> requestEntity = getHttpHeaders(paramsMap, headers);
-        ResponseEntity<T> entity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType);
+        ResponseEntity<T> entity = restTemplate.exchange(url, HttpMethod.POST, getHttpHeaders(paramsMap, headers), responseType);
         watch.stop();
         //输出请求日志
         logInfo(url, HttpMethod.GET, paramsMap, entity, watch.getTime());

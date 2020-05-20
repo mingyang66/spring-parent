@@ -94,7 +94,7 @@ public class HttpClientController {
         String url = "http://192.168.253.3:8108/api/fund/home/getFundCardList";
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("pageCode", "fundWealthIndex");
-        ResponseData<List<GmFundPageInfoResData.Bk>> list = httpClientService.get(url, paramMap, null, new ParameterizedTypeReference<ResponseData<List<GmFundPageInfoResData.Bk>>>() {});
+        ResponseData<List<GmFundPageInfoResData.Bk>> list = httpClientService.post(url, paramMap, null, new ParameterizedTypeReference<ResponseData<List<GmFundPageInfoResData.Bk>>>() {});
         System.out.println(JSONUtils.toJSONString(list));
 
         return list;

@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.hidden;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;

@@ -42,7 +42,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseData unKnowExceptionHandler(Exception e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.UNKNOW_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.EXCEPTION);
         printErrorMessage(e);
         if (LoggerUtils.isDebug()) {
             StackTraceElement[] elements = e.getStackTrace();
@@ -139,7 +139,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public ResponseData indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.INDEX_OUTOF_BOUNDS_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.ARRAY_OUT_OF_BOUNDS_EXCEPTION);
         printErrorMessage(e);
         if(LoggerUtils.isDebug()){
             StackTraceElement[] elements = e.getStackTrace();
@@ -159,7 +159,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseData requestTypeMismatch(MethodArgumentTypeMismatchException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTIION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_METHOD_PARAM_TYPE_EXCEPTIION);
         printErrorMessage(e);
         if(LoggerUtils.isDebug()){
             String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
@@ -173,7 +173,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public ResponseData requestMissingServletRequest(MissingServletRequestParameterException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_PARAM_MISSING_EXCEPTION);
         printErrorMessage(e);
         if(LoggerUtils.isDebug()){
             String message = StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
@@ -187,7 +187,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResponseData requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_METHOD_NOT_SUPPORTED_EXCEPTION);
         printErrorMessage(e);
         if(LoggerUtils.isDebug()){
             String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
@@ -201,7 +201,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseData httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_PARAM_EXCEPTION);
         printErrorMessage(e);
         String message = e.getMessage();
         if (StringUtils.contains(message, REQUEST_BODY)) {
@@ -220,7 +220,7 @@ public final class ExceptionAdviceHandler {
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = bindingResult.getFieldError();
         String message = StringUtils.join(fieldError.getDefaultMessage());
-        return ResponseData.buildResponse(AppHttpStatus.PARAM_EXCEPTION.getStatus(), message);
+        return ResponseData.buildResponse(AppHttpStatus.API_PARAM_EXCEPTION.getStatus(), message);
     }
 
     /**

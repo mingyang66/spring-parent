@@ -1,10 +1,9 @@
 package com.yaomy.control.test.api;
 
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.RateLimiter;
+import com.sgrain.boot.common.enums.DateFormatEnum;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @program: spring-parent
@@ -13,15 +12,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class Test {
     public static void main(String[] args) {
-        RateLimiter rateLimiter = RateLimiter.create(5);
-        List<Runnable> tasks = Lists.newArrayList();
-        for (int i=0; i<10; i++){
-           if(rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)){
-               System.out.println("成功抢到小米10Pro，恭喜恭喜！");
-           } else{
-               System.out.println("sorry,抢光了，下次再来吧");
-           }
-        }
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println(localDateTime);
+        System.out.println(localDateTime.toString());
+        System.out.println(localDateTime.format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat())));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_DATE));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_TIME));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_WEEK_DATE));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_ORDINAL_DATE));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        System.out.println(localDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
 
     }
 }

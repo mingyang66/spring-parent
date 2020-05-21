@@ -80,7 +80,7 @@ public class TimeClientHandle implements Runnable {
                     readBuffer.flip();
                     byte[] bytes = new byte[readBuffer.remaining()];
                     readBuffer.get(bytes);
-                    String body = new String(bytes, CharsetUtils.UTF8);
+                    String body = new String(bytes, CharsetUtils.UTF_8);
                     System.out.println("Now is : "+body);
                     this.stop = true;
                 } else if(readBytes < 0){

@@ -22,7 +22,7 @@ public class RouteUtils {
     public static List<String> list;
     static {
         InputStream inputStream = RouteUtils.class.getClassLoader().getResourceAsStream(filePath);
-        list = IOUtils.readLines(inputStream, CharsetUtils.UTF8);
+        list = IOUtils.readLines(inputStream, CharsetUtils.UTF_8);
     }
     /**
      * 读取路由配置文件
@@ -51,7 +51,7 @@ public class RouteUtils {
         if(ObjectUtils.isEmpty(file) || !file.exists()){
             return;
         }
-        list.addAll(FileUtils.readLines(file, CharsetUtils.UTF8));
+        list.addAll(FileUtils.readLines(file, CharsetUtils.UTF_8));
     }
     /**
      * 删除路由

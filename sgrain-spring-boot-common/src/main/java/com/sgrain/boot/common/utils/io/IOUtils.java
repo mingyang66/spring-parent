@@ -1,5 +1,7 @@
 package com.sgrain.boot.common.utils.io;
 
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.exception.BusinessException;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -404,15 +406,14 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(uri, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
     /**
      * 获取给定URL的内容
      * 示例：
      * URL url = new URL("http://ifeve.com/commons-io/");
-     * String s = org.apache.commons.io.IOUtils.toString(url, CharsetUtils.UTF8);
+     * String s = org.apache.commons.io.IOUtils.toString(url, CharsetUtils.UTF_8);
      * @param url 给定的URL
      * @param encoding URL内容编码名称
      * @return 以字符串形式显示的URL内容
@@ -421,8 +422,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(url, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -436,8 +436,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(input, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -451,8 +450,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(input, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return null;
+           throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -465,8 +463,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(input);
         } catch (IOException e){
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -1022,14 +1019,12 @@ public class IOUtils {
      * @param output 输出流
      * @return true 写入成功，false 写入失败
      */
-    public static boolean write(final byte[] data, final OutputStream output){
+    public static void write(final byte[] data, final OutputStream output){
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1039,14 +1034,12 @@ public class IOUtils {
      * @param encoding 编码方式
      * @return true 写入成功，false 失败
      */
-    public static boolean write(final byte[] data, final Writer output, final String encoding){
+    public static void write(final byte[] data, final Writer output, final String encoding){
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
     /**
      * 将字符数组中的字符写入到输出流中,使用指定的编码
@@ -1055,14 +1048,12 @@ public class IOUtils {
      * @param encoding 编码
      * @return true 写入成功，false 写入失败
      */
-    public static boolean write(final char[] data, final OutputStream output, final String encoding){
+    public static void write(final char[] data, final OutputStream output, final String encoding){
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1071,14 +1062,12 @@ public class IOUtils {
      * @param output 字符输出流
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean write(final char[] data, final Writer output){
+    public static void write(final char[] data, final Writer output){
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1087,14 +1076,12 @@ public class IOUtils {
      * @param output 输出流
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean write(final CharSequence data, final Writer output){
+    public static void write(final CharSequence data, final Writer output){
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1104,14 +1091,12 @@ public class IOUtils {
      * @param encoding 编码
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean write(final CharSequence data, final OutputStream output, final String encoding){
+    public static void write(final CharSequence data, final OutputStream output, final String encoding){
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1120,14 +1105,12 @@ public class IOUtils {
      * @param output 要写入的Writer
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean write(final String data, final Writer output){
+    public static void write(final String data, final Writer output){
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
     /**
      * 从字符串中读取char写入到Writer
@@ -1136,14 +1119,12 @@ public class IOUtils {
      * @param encoding 编码
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean write(final String data, final OutputStream output, final String encoding){
+    public static void write(final String data, final OutputStream output, final String encoding){
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1152,14 +1133,12 @@ public class IOUtils {
      * @param output 输出流
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean writeChunked(final byte[] data, final OutputStream output){
+    public static void writeChunked(final byte[] data, final OutputStream output){
         try {
             org.apache.commons.io.IOUtils.writeChunked(data, output);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1168,14 +1147,12 @@ public class IOUtils {
      * @param output 输出字符流
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean writeChunked(final char[] data, final Writer output){
+    public static void writeChunked(final char[] data, final Writer output){
         try {
             org.apache.commons.io.IOUtils.writeChunked(data, output);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1186,14 +1163,12 @@ public class IOUtils {
      * @param encoding 编码
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean writeLines(final Collection<?> lines, final String lineEnding, final OutputStream output, final String encoding){
+    public static void writeLines(final Collection<?> lines, final String lineEnding, final OutputStream output, final String encoding){
         try {
             org.apache.commons.io.IOUtils.writeLines(lines, lineEnding, output, encoding);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 
     /**
@@ -1203,13 +1178,11 @@ public class IOUtils {
      * @param writer 输出字符流
      * @return  true 写入成功，false 写入失败
      */
-    public static boolean writeLines(final Collection<?> lines, String lineEnding, final Writer writer){
+    public static void writeLines(final Collection<?> lines, String lineEnding, final Writer writer){
         try {
             org.apache.commons.io.IOUtils.writeLines(lines, lineEnding, writer);
         } catch (IOException e){
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
-        return true;
     }
 }

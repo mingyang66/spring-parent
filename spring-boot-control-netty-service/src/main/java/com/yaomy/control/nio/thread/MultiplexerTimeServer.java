@@ -110,7 +110,7 @@ public class MultiplexerTimeServer implements Runnable{
                     byte[] bytes = new byte[readBuffer.remaining()];
                     //将缓冲区中可读的字节数组复制到bytes数组
                     readBuffer.get(bytes);
-                    String body = new String(bytes, CharsetUtils.UTF8);
+                    String body = new String(bytes, CharsetUtils.UTF_8);
                     System.out.println("The time server receive order:"+body);
                     String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
                     doWrite(sc, currentTime);

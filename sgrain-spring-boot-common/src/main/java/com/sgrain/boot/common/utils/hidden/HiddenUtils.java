@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.hidden;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;

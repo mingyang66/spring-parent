@@ -28,11 +28,11 @@ public class FileNameUtils {
      * /foo + bar/c.txt     --&gt;   /foo/bar/c.txt
      * /foo/c.txt + bar     --&gt;   /foo/c.txt/bar (!)
      *
-     * @param basePath 要附加的基路径，始终被视为路径
+     * @param basePath          要附加的基路径，始终被视为路径
      * @param fullFilenameToAdd 要附加到及路径的文件名或者路径
      * @return 连接的路径，如果无效则为空。字符串中的空字节将被删除
      */
-    public static String concat(final String basePath, final String fullFilenameToAdd){
+    public static String concat(final String basePath, final String fullFilenameToAdd) {
         return FilenameUtils.concat(basePath, fullFilenameToAdd);
     }
 
@@ -44,13 +44,13 @@ public class FileNameUtils {
      * child为null，不会包含于任何parent，将返回false
      *
      * @param canonicalParent 视为父级的文件
-     * @param canonicalChild 作为child考虑的文件
+     * @param canonicalChild  作为child考虑的文件
      * @return true parent目录包含child,否则返回false
      */
-    public static boolean directoryContains(final String canonicalParent, final String canonicalChild){
+    public static boolean directoryContains(final String canonicalParent, final String canonicalChild) {
         try {
             return FilenameUtils.directoryContains(canonicalParent, canonicalChild);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -58,52 +58,62 @@ public class FileNameUtils {
 
     /**
      * 使用系统的大小写规则检查两个文件名是否相等
+     *
      * @param filename1 要查询的第一个文件名，可能为null
      * @param filename2 要查询的第二个文件名，可能为null
      * @return 如果文件名相等则为true，null等于null
      */
-    public static boolean equalsOnSystem(final String filename1, final String filename2){
+    public static boolean equalsOnSystem(final String filename1, final String filename2) {
         return equals(filename1, filename2, false, IOCase.SYSTEM);
     }
+
     /**
      * 检查两个文件名在规范化后是否相等
+     *
      * @param filename1 要查询的第一个文件名，可能为null
      * @param filename2 要查询的第二个文件名，可能为null
      * @return 如果文件名相等则为true，null等于null
      */
-    public static boolean equalsNormalized(final String filename1, final String filename2){
+    public static boolean equalsNormalized(final String filename1, final String filename2) {
         return equals(filename1, filename2, true, IOCase.SENSITIVE);
     }
+
     /**
      * 检查两个文件名使用规范化并使用系统大小写规则后是否相等
      * 两个文件名都首先传递给{@link #normalize(String)
+     *
      * @param filename1 要查询的第一个文件名，可能为null
      * @param filename2 要查询的第二个文件名，可能为null
      * @return 如果文件名相等则为true，null等于null
      */
-    public static boolean equalsNormalizedOnSystem(final String filename1, final String filename2){
+    public static boolean equalsNormalizedOnSystem(final String filename1, final String filename2) {
         return equals(filename1, filename2, true, IOCase.SYSTEM);
     }
+
     /**
      * 检查两个文件名是否完全相等，除了比较之外，对文件名不执行任何处理
+     *
      * @param filename1 要查询的第一个文件名，可能为null
      * @param filename2 要查询的第二个文件名，可能为null
      * @return 如果文件名相等则为true，null等于null
      */
-    public static boolean equals(String filename1, String filename2){
+    public static boolean equals(String filename1, String filename2) {
         return equals(filename1, filename2, false, IOCase.SENSITIVE);
     }
+
     /**
      * 检查两个文件名是否相等，可以选择规范化并提供对区分大小写的控制
-     * @param filename1 要查询的第一个文件名，可能为null
-     * @param filename2 要查询的第二个文件名，可能为null
-     * @param normalized 是否规范化文件名
+     *
+     * @param filename1       要查询的第一个文件名，可能为null
+     * @param filename2       要查询的第二个文件名，可能为null
+     * @param normalized      是否规范化文件名
      * @param caseSensitivity 使用什么区分大小写规则，空表示区分大小写
      * @return 如果文件名相等则为true，null等于null
      */
-    public static boolean equals(String filename1, String filename2, final boolean normalized, IOCase caseSensitivity){
+    public static boolean equals(String filename1, String filename2, final boolean normalized, IOCase caseSensitivity) {
         return FilenameUtils.equals(filename1, filename2, normalized, caseSensitivity);
     }
+
     /**
      * 获取文件名称减去完整文件名称中的路径
      * 此方法将处理UNIX和WINDOWS格式的文件，返回最后一个正斜杠或反斜杠后的文本
@@ -113,12 +123,14 @@ public class FileNameUtils {
      * a/b/c     --&gt; c
      * a/b/c/    --&gt; ""
      * 无论代码在那台机器上运行输出结果都是一样的
+     *
      * @param filename 查询的文件名，null返回null
      * @return 文件名
      */
-    public static String getName(final String filename){
+    public static String getName(final String filename) {
         return FilenameUtils.getName(filename);
     }
+
     /**
      * 从完整的文件名中获取基本名称，减去完整路径和扩展名
      * 此方法将处理UNIX和WINDOWS文件，返回最后一个正斜杠或反斜杠之后和最后一个点之前的文本。
@@ -127,12 +139,13 @@ public class FileNameUtils {
      * a.txt     --&gt; a
      * a/b/c     --&gt; c
      * a/b/c/    --&gt; ""
-     *
+     * <p>
      * 无论代码在哪里运行，输出都是相同的
+     *
      * @param filename 要查询的文件名，null返回null
      * @return 文件名，如果不存在则为空串
      */
-    public static String getBaseName(final String filename){
+    public static String getBaseName(final String filename) {
         return FilenameUtils.getBaseName(filename);
     }
 
@@ -145,10 +158,11 @@ public class FileNameUtils {
      * a.txt        --&gt; ""
      * a/b/c        --&gt; a/b/
      * a/b/c/       --&gt; a/b/c/
+     *
      * @param filename 要查询的文件名，null返回null
      * @return 文件路径不包括前缀
      */
-    public static String getPath(final String filename){
+    public static String getPath(final String filename) {
         return FilenameUtils.getPath(filename);
     }
 
@@ -162,12 +176,14 @@ public class FileNameUtils {
      * a/b/c        --&gt; a/b
      * a/b/c/       --&gt; a/b/c
      * 无论代码在那台机器上运行，输出的结果都是相同的，此方法从结果中删除前缀
+     *
      * @param filename 查询的文件名，null返回null
      * @return 文件路径，不包括前缀
      */
-    public static String getPathNoEndSeparator(final String filename){
+    public static String getPathNoEndSeparator(final String filename) {
         return FilenameUtils.getPathNoEndSeparator(filename);
     }
+
     /**
      * 从完整的文件名获取完整的路径，这是prefix+path
      * 此方法将处理Unix或Windows格式的文件。该方法完全基于文本，并返回包含最后一个正斜杠或反斜杠之前的文本。
@@ -184,10 +200,11 @@ public class FileNameUtils {
      * ~user        --&gt; ~user/
      * ~user/       --&gt; ~user/
      * 无论代码在那台机器上运行，输出都是相同的
-     * @param filename  要查询的文件名，null返回null
+     *
+     * @param filename 要查询的文件名，null返回null
      * @return 文件全路径
      */
-    public static String getFullPath(final String filename){
+    public static String getFullPath(final String filename) {
         return FilenameUtils.getFullPath(filename);
     }
 
@@ -207,10 +224,11 @@ public class FileNameUtils {
      * ~user        --&gt; ~user
      * ~user/       --&gt; ~user
      * 无论代码在那台机器上运行，输出都是相同的
+     *
      * @param filename 查询的文件名，null返回null
      * @return 文件全路径不包含最后的目录分隔符
      */
-    public static String getFullPathNoEndSeparator(final String filename){
+    public static String getFullPathNoEndSeparator(final String filename) {
         return FilenameUtils.getFullPathNoEndSeparator(filename);
     }
 
@@ -223,10 +241,11 @@ public class FileNameUtils {
      * a/b.txt/c    --&gt; ""
      * a/b/c        --&gt; ""
      * 无论代码在那台机器上运行，输出都是相同的
+     *
      * @param filename 查询的文件名，null返回null
      * @return 文件的扩展名，如果为null返回null,
      */
-    public static String getExtension(final String filename){
+    public static String getExtension(final String filename) {
         return FilenameUtils.getExtension(filename);
     }
 
@@ -240,7 +259,7 @@ public class FileNameUtils {
      * C:a\b\c.txt         --&gt; "C:"        --&gt; drive relative
      * C:\a\b\c.txt        --&gt; "C:\"       --&gt; absolute
      * \\server\a\b\c.txt  --&gt; "\\server\" --&gt; UNC
-     *
+     * <p>
      * Unix:
      * a/b/c.txt           --&gt; ""          --&gt; relative
      * /a/b/c.txt          --&gt; "/"         --&gt; absolute
@@ -249,10 +268,11 @@ public class FileNameUtils {
      * ~user/a/b/c.txt     --&gt; "~user/"    --&gt; named user
      * ~user               --&gt; "~user/"    --&gt; named user (slash added)
      * 无论代码运行在哪台机器上，输出都将相同。即无论Unix和Windows前缀如何匹配。
+     *
      * @param filename 查询的文件名，null返回null
      * @return 文件的前缀，如果无效返回null,字符串中的空字节将被删除
      */
-    public static String getPrefix(final String filename){
+    public static String getPrefix(final String filename) {
         return FilenameUtils.getPrefix(filename);
     }
 
@@ -267,7 +287,7 @@ public class FileNameUtils {
      * C:\a\b\c.txt        --&gt; "C:\"       --&gt; absolute
      * \\server\a\b\c.txt  --&gt; "\\server\" --&gt; UNC
      * \\\a\b\c.txt        --&gt;  error, length = -1
-     *
+     * <p>
      * Unix:
      * a/b/c.txt           --&gt; ""          --&gt; relative
      * /a/b/c.txt          --&gt; "/"         --&gt; absolute
@@ -278,43 +298,47 @@ public class FileNameUtils {
      * //server/a/b/c.txt  --&gt; "//server/"
      * ///a/b/c.txt        --&gt; error, length = -1
      * 无论代码在哪台机器上运行，输出都是相同的。也就是说，unix和windows前缀都是匹配的。
+     *
      * @param filename 查询的文件名，null返回-1
      * @return 前缀的长度，如果无效或者null返回-1
      */
-    public static int getPrefixLength(final String filename){
+    public static int getPrefixLength(final String filename) {
         return FilenameUtils.getPrefixLength(filename);
     }
 
     /**
      * 检查文件filename的扩展名是否为指定的extension
      * 此方法获取最后一个点号后面的文本作为文件名的扩展名，点后面不可以有分隔符，扩展检查在所有的平台上都区分大消息
-     * @param filename 查询的文件名，null返回false
+     *
+     * @param filename  查询的文件名，null返回false
      * @param extension 要检查的扩展名，null或“”没有扩展名
      * @return true 文件扩展名等于指定扩展，否则：false
      */
-    public static boolean isExtension(final String filename, final String extension){
+    public static boolean isExtension(final String filename, final String extension) {
         return FilenameUtils.isExtension(filename, extension);
     }
 
     /**
      * 检查文件名的扩展名是否是指定的扩展名之一
      * 此方法获取文件名最后一个点号之后的文本部分作为扩展名，最后一个点号之后不可以有分隔符，扩展名检查在所有平台上区分大小写
-     * @param filename 查询的文件名，null返回false
+     *
+     * @param filename   查询的文件名，null返回false
      * @param extensions 要检查的扩展名，null检查没有扩展
      * @return true 文件扩展名包含于指定扩展集合，false 不包含
      */
-    public static boolean isExtension(final String filename, final String[] extensions){
+    public static boolean isExtension(final String filename, final String[] extensions) {
         return FilenameUtils.isExtension(filename, extensions);
     }
 
     /**
      * 检查文件名的扩展名是否是指定的扩展名之一
      * 此方法获取文件名最后一个点号之后的文本部分作为扩展名，最后一个点号之后不可以有分隔符，扩展名检查在所有平台上区分大小写
-     * @param filename 查询的文件名，null返回false
+     *
+     * @param filename   查询的文件名，null返回false
      * @param extensions 要检查的扩展名，null检查没有扩展
      * @return true 文件扩展名包含于指定扩展集合，false 不包含
      */
-    public static boolean isExtension(final String filename, final Collection<String> extensions){
+    public static boolean isExtension(final String filename, final Collection<String> extensions) {
         return FilenameUtils.isExtension(filename, extensions);
     }
 
@@ -347,10 +371,11 @@ public class FileNameUtils {
      * C:\..\bar            --&gt;   null
      * ~/foo/../bar/        --&gt;   ~/bar/
      * ~/../bar             --&gt;   null
+     *
      * @param filename 要规范化的文件名，null返回null
      * @return 规范化文件名，如果无效返回null,字符串中的空字节将被删除
      */
-    public static String normalize(final String filename){
+    public static String normalize(final String filename) {
         return FilenameUtils.normalize(filename);
     }
 
@@ -383,11 +408,12 @@ public class FileNameUtils {
      * C:\..\bar            --&gt;   null
      * ~/foo/../bar/        --&gt;   ~/bar/
      * ~/../bar             --&gt;   null
-     * @param filename 要规范化的文件名，null返回null
+     *
+     * @param filename      要规范化的文件名，null返回null
      * @param unixSeparator true应该使用unix分隔符，false应该使用windows分隔符
      * @return 规范化文件名，如果无效返回null,字符串中的空字节将被删除
      */
-    public static String normalize(final String filename, final boolean unixSeparator){
+    public static String normalize(final String filename, final boolean unixSeparator) {
         return FilenameUtils.normalize(filename, unixSeparator);
     }
 
@@ -420,10 +446,11 @@ public class FileNameUtils {
      * C:\..\bar            --&gt;   null
      * ~/foo/../bar/        --&gt;   ~/bar/
      * ~/../bar             --&gt;   null
+     *
      * @param filename 要规范化的文件名，null返回null
      * @return 规范化文件名，如果无效返回null,字符串中的空字节将被删除
      */
-    public static String normalizeNoEndSeparator(final String filename){
+    public static String normalizeNoEndSeparator(final String filename) {
         return FilenameUtils.normalizeNoEndSeparator(filename);
     }
 
@@ -456,11 +483,12 @@ public class FileNameUtils {
      * C:\..\bar            --&gt;   null
      * ~/foo/../bar/        --&gt;   ~/bar/
      * ~/../bar             --&gt;   null
-     * @param filename 要规范化的文件名，null返回null
+     *
+     * @param filename      要规范化的文件名，null返回null
      * @param unixSeparator true应该使用unix分隔符，false应该使用windows分隔符
      * @return 规范化文件名，如果无效返回null,字符串中的空字节将被删除
      */
-    public static String normalizeNoEndSeparator(final String filename, final boolean unixSeparator){
+    public static String normalizeNoEndSeparator(final String filename, final boolean unixSeparator) {
         return FilenameUtils.normalizeNoEndSeparator(filename, unixSeparator);
     }
 
@@ -473,10 +501,11 @@ public class FileNameUtils {
      * a\b\c      --&gt; a\b\c
      * a.b\c      --&gt; a.b\c
      * 无论代码运行在任何机器上，输出都是相同的
+     *
      * @param filename 查询的文件名，null返回null
      * @return 减去扩展名后的文件名
      */
-    public static String removeExtension(final String filename){
+    public static String removeExtension(final String filename) {
         return FilenameUtils.removeExtension(filename);
     }
 
@@ -491,11 +520,12 @@ public class FileNameUtils {
      * wildcardMatch("c.txt", "*.???")      --&gt; true
      * wildcardMatch("c.txt", "*.????")     --&gt; false
      * 注意序列“*？”在匹配字符串中当前无法正常工作
-     * @param filename 要匹配的文件名
+     *
+     * @param filename        要匹配的文件名
      * @param wildcardMatcher 要匹配的通配符字符串
      * @return true 匹配成功，false 匹配失败
      */
-    public static boolean wildcardMatch(final String filename, final String wildcardMatcher){
+    public static boolean wildcardMatch(final String filename, final String wildcardMatcher) {
         return FilenameUtils.wildcardMatch(filename, wildcardMatcher);
     }
 
@@ -511,23 +541,26 @@ public class FileNameUtils {
      * wildcardMatch("c.txt", "*.???")      --&gt; true
      * wildcardMatch("c.txt", "*.????")     --&gt; false
      * 注意序列“*？”在匹配字符串中当前无法正常工作
-     * @param filename 要匹配的文件名
+     *
+     * @param filename        要匹配的文件名
      * @param wildcardMatcher 要匹配的通配符字符串
      * @return true 匹配成功，false 匹配失败
      */
     public static boolean wildcardMatchOnSystem(final String filename, final String wildcardMatcher) {
         return wildcardMatch(filename, wildcardMatcher, IOCase.SYSTEM);
     }
+
     /**
      * 检查文件名是否与指定的通配符匹配,并且允许控制大小写的敏感度
      * 通配符匹配器使用字符“?”和“*”表示单个或多个（零个或多个）通配符
      * 这与dos/unix命令行中经常出现的情况相同，检查总是区分大小写的
-     * @param filename 要匹配的文件名
+     *
+     * @param filename        要匹配的文件名
      * @param wildcardMatcher 要匹配的通配符字符串
      * @param caseSensitivity 使用什么区分大小写规则，空表示区分大小写
      * @return true 匹配成功，false 匹配失败
      */
-    public static boolean wildcardMatch(final String filename, final String wildcardMatcher, IOCase caseSensitivity){
+    public static boolean wildcardMatch(final String filename, final String wildcardMatcher, IOCase caseSensitivity) {
         return FilenameUtils.wildcardMatch(filename, wildcardMatcher, caseSensitivity);
     }
 }

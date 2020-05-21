@@ -14,6 +14,6 @@ public class TokenUtils {
      * 自动生成用户令牌
      */
     public static String generation(){
-        return StringUtils.replace(UUID.randomUUID().toString(), "-", "");
+        return StringUtils.replace(UUID.randomUUID().toString(), CharacterUtils.LINE_THROUGH_CENTER, "");
     }
 }

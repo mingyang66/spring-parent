@@ -43,7 +43,7 @@ public class SocketStreamServer {
                 byte[] s = socket.recv();
                 byte[] buffer = new byte[s[0]];
                 socket.recv(buffer, 0, s[0], 0);
-                System.out.println("Server端接收到数据："+new String(buffer, CharsetUtils.UTF8));
+                System.out.println("Server端接收到数据："+new String(buffer, CharsetUtils.UTF_8));
                 socket.send("nihaoa".getBytes());
                 System.out.println("----------------end-------------------");
             } catch (UnsupportedEncodingException e){

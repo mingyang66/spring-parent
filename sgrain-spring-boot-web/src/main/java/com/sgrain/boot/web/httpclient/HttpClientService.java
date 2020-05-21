@@ -3,7 +3,7 @@ package com.sgrain.boot.web.httpclient;
 
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.CharacterUtils;
-import com.sgrain.boot.common.utils.HiddenUtils;
+import com.sgrain.boot.common.utils.hidden.HiddenUtils;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.ObjectSizeUtil;
 import com.sgrain.boot.common.utils.json.JSONUtils;

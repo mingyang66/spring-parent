@@ -322,4 +322,4 @@ public class ControllerConfig {
 }
 ```
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-aop-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-aop-service)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/doc/aop](https://github.com/mingyang66/spring-parent/tree/master/doc/aop)

@@ -43,7 +43,7 @@ public class LogAopAutoConfiguration implements InitializingBean {
     public DefaultPointcutAdvisor logAopPointCutAdvice() {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        //设置切点表达式
+        //设置需要拦截的切点-用切点语言表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);
         // 配置增强类advisor, 切面=切点+增强
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();

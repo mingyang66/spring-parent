@@ -5,13 +5,15 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.CharsetUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.zip.Checksum;
 
 /**
@@ -52,8 +54,8 @@ public class FileUtils {
      * @param seconds 最大等待时间，单位：秒
      * @return true 如果文件存在
      */
-    public static boolean waitFor(final File file, final int seconds) {
-        return org.apache.commons.io.FileUtils.waitFor(file, seconds);
+    public static void waitFor(final File file, final int seconds) {
+        org.apache.commons.io.FileUtils.waitFor(file, seconds);
     }
 
     /**
@@ -63,8 +65,8 @@ public class FileUtils {
      * @param data     数据
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean write(final String filePath, final CharSequence data) {
-        return write(filePath, data, false, CharsetUtils.UTF_8);
+    public static void write(final String filePath, final CharSequence data) {
+        write(filePath, data, false, CharsetUtils.UTF_8);
     }
 
     /**
@@ -75,8 +77,8 @@ public class FileUtils {
      * @param encoding 编码
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean write(final String filePath, final CharSequence data, final String encoding) {
-        return write(filePath, data, false, encoding);
+    public static void write(final String filePath, final CharSequence data, final String encoding) {
+        write(filePath, data, false, encoding);
     }
 
     /**
@@ -88,8 +90,8 @@ public class FileUtils {
      * @param encoding 编码
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean write(final String filePath, final CharSequence data, final boolean append, final String encoding) {
-        return write(new File(filePath), data, append, encoding);
+    public static void write(final String filePath, final CharSequence data, final boolean append, final String encoding) {
+        write(new File(filePath), data, append, encoding);
     }
 
     /**
@@ -99,8 +101,8 @@ public class FileUtils {
      * @param data 数据
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean write(final File file, final CharSequence data) {
-        return write(file, data, false, CharsetUtils.UTF_8);
+    public static void write(final File file, final CharSequence data) {
+        write(file, data, false, CharsetUtils.UTF_8);
     }
 
     /**
@@ -111,8 +113,8 @@ public class FileUtils {
      * @param encoding 编码
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean write(final File file, final CharSequence data, final String encoding) {
-        return write(file, data, false, encoding);
+    public static void write(final File file, final CharSequence data, final String encoding) {
+        write(file, data, false, encoding);
     }
 
     /**
@@ -124,14 +126,12 @@ public class FileUtils {
      * @param encoding 编码
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean write(final File file, final CharSequence data, final boolean append, final String encoding) {
+    public static void write(final File file, final CharSequence data, final boolean append, final String encoding) {
         try {
             org.apache.commons.io.FileUtils.write(file, data, encoding, append);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
-        return true;
     }
 
     /**
@@ -141,8 +141,8 @@ public class FileUtils {
      * @param lines    需要写入的数据集合
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLines(final String filePath, final Collection<?> lines) {
-        return writeLines(filePath, lines, false, CharsetUtils.UTF_8);
+    public static void writeLines(final String filePath, final Collection<?> lines) {
+        writeLines(filePath, lines, false, CharsetUtils.UTF_8);
     }
 
     /**
@@ -152,8 +152,8 @@ public class FileUtils {
      * @param lines    需要写入的数据集合
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLines(final String filePath, final Collection<?> lines, final String encoding) {
-        return writeLines(filePath, lines, false, encoding);
+    public static void writeLines(final String filePath, final Collection<?> lines, final String encoding) {
+        writeLines(filePath, lines, false, encoding);
     }
 
     /**
@@ -165,8 +165,8 @@ public class FileUtils {
      * @param encoding 编码格式
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLines(final String filePath, final Collection<?> lines, final boolean append, final String encoding) {
-        return writeLines(new File(filePath), lines, append, encoding);
+    public static void writeLines(final String filePath, final Collection<?> lines, final boolean append, final String encoding) {
+        writeLines(new File(filePath), lines, append, encoding);
     }
 
     /**
@@ -176,8 +176,8 @@ public class FileUtils {
      * @param lines 需要写入的数据集合
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLines(final File file, final Collection<?> lines) {
-        return writeLines(file, lines, false, CharsetUtils.UTF_8);
+    public static void writeLines(final File file, final Collection<?> lines) {
+        writeLines(file, lines, false, CharsetUtils.UTF_8);
     }
 
     /**
@@ -187,8 +187,8 @@ public class FileUtils {
      * @param lines 需要写入的数据集合
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLines(final File file, final Collection<?> lines, final String encoding) {
-        return writeLines(file, lines, false, encoding);
+    public static void writeLines(final File file, final Collection<?> lines, final String encoding) {
+        writeLines(file, lines, false, encoding);
     }
 
     /**
@@ -200,14 +200,38 @@ public class FileUtils {
      * @param encoding 编码格式
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLines(final File file, final Collection<?> lines, final boolean append, final String encoding) {
+    public static void writeLines(final File file, final Collection<?> lines, final boolean append, final String encoding) {
         try {
             org.apache.commons.io.FileUtils.writeLines(file, encoding, lines, append);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
-        return true;
+    }
+
+    /**
+     * 写数据到指定的文件中
+     *
+     * @param filePath   文件路径
+     * @param lines      需要写入的数据集合
+     * @param lineEnding 行结尾字符串,默认null时会自动换行，否则需要加上'\n'
+     * @return 返回true, 如果写入成功，返回false,如果写入失败
+     */
+    public static void writeLinesEnding(final String filePath, final Collection<?> lines, final String lineEnding) {
+        writeLinesEnding(filePath, lines, lineEnding, false, CharsetUtils.UTF_8);
+    }
+
+    /**
+     * 写数据到指定的文件中
+     *
+     * @param filePath   文件路径
+     * @param lines      需要写入的数据集合
+     * @param append     是否累加
+     * @param lineEnding 行结尾字符串,默认null时会自动换行，否则需要加上'\n'
+     * @param encoding   编码格式
+     * @return 返回true, 如果写入成功，返回false,如果写入失败
+     */
+    public static void writeLinesEnding(final String filePath, final Collection<?> lines, final String lineEnding, final boolean append, final String encoding) {
+        writeLinesEnding(new File(filePath), lines, lineEnding, append, encoding);
     }
 
     /**
@@ -218,8 +242,8 @@ public class FileUtils {
      * @param lineEnding 行结尾字符串,默认null时会自动换行，否则需要加上'\n'
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLinesEnding(final String filePath, final Collection<?> lines, final String lineEnding) {
-        return writeLinesEnding(filePath, lines, lineEnding, false, CharsetUtils.UTF_8);
+    public static void writeLinesEnding(final File file, final Collection<?> lines, final String lineEnding) {
+        writeLinesEnding(file, lines, lineEnding, false, CharsetUtils.UTF_8);
     }
 
     /**
@@ -232,41 +256,12 @@ public class FileUtils {
      * @param encoding   编码格式
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLinesEnding(final String filePath, final Collection<?> lines, final String lineEnding, final boolean append, final String encoding) {
-        return writeLinesEnding(new File(filePath), lines, lineEnding, append, encoding);
-    }
-
-    /**
-     * 写数据到指定的文件中
-     *
-     * @param file       文件对象
-     * @param lines      需要写入的数据集合
-     * @param lineEnding 行结尾字符串,默认null时会自动换行，否则需要加上'\n'
-     * @return 返回true, 如果写入成功，返回false,如果写入失败
-     */
-    public static boolean writeLinesEnding(final File file, final Collection<?> lines, final String lineEnding) {
-        return writeLinesEnding(file, lines, lineEnding, false, CharsetUtils.UTF_8);
-    }
-
-    /**
-     * 写数据到指定的文件中
-     *
-     * @param file       文件对象
-     * @param lines      需要写入的数据集合
-     * @param append     是否累加
-     * @param lineEnding 行结尾字符串,默认null时会自动换行，否则需要加上'\n'
-     * @param encoding   编码格式
-     * @return 返回true, 如果写入成功，返回false,如果写入失败
-     */
-    public static boolean writeLinesEnding(final File file, final Collection<?> lines, final String lineEnding, final boolean append, final String encoding) {
+    public static void writeLinesEnding(final File file, final Collection<?> lines, final String lineEnding, final boolean append, final String encoding) {
         try {
             org.apache.commons.io.FileUtils.writeLines(file, encoding, lines, lineEnding, append);
         } catch (IOException e) {
-            e.printStackTrace();
-
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
-        return true;
     }
 
     /**
@@ -276,8 +271,8 @@ public class FileUtils {
      * @param data 字节数组
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeLinesEnding(final File file, final byte[] data) {
-        return writeByteArrayToFile(file, data, false);
+    public static void writeLinesEnding(final File file, final byte[] data) {
+        writeByteArrayToFile(file, data, false);
     }
 
     /**
@@ -288,14 +283,12 @@ public class FileUtils {
      * @param append true添加到文件末尾，false覆盖文件
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeByteArrayToFile(final File file, final byte[] data, final boolean append) {
+    public static void writeByteArrayToFile(final File file, final byte[] data, final boolean append) {
         try {
             org.apache.commons.io.FileUtils.writeByteArrayToFile(file, data, append);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
-        return true;
     }
 
     /**
@@ -307,8 +300,8 @@ public class FileUtils {
      * @param len  写入的字节长度
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeByteArrayToFile(final File file, final byte[] data, final int off, final int len) {
-        return writeByteArrayToFile(file, data, off, len, false);
+    public static void writeByteArrayToFile(final File file, final byte[] data, final int off, final int len) {
+        writeByteArrayToFile(file, data, off, len, false);
     }
 
     /**
@@ -321,14 +314,12 @@ public class FileUtils {
      * @param append true添加到文件末尾，false覆盖文件
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
-    public static boolean writeByteArrayToFile(final File file, final byte[] data, final int off, final int len, final boolean append) {
+    public static void writeByteArrayToFile(final File file, final byte[] data, final int off, final int len, final boolean append) {
         try {
             org.apache.commons.io.FileUtils.writeByteArrayToFile(file, data, off, len, append);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
-        return true;
     }
 
     /**
@@ -373,8 +364,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.readFileToString(file, encoding);
         } catch (IOException e) {
-            e.printStackTrace();
-            return StringUtils.EMPTY;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，" + e);
         }
     }
 
@@ -398,8 +388,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.readFileToByteArray(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            return ArrayUtils.EMPTY_BYTE_ARRAY;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，" + e);
         }
     }
 
@@ -445,8 +434,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.readLines(file, encoding);
         } catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，" + e);
         }
     }
 
@@ -467,12 +455,7 @@ public class FileUtils {
      * @return 文件大小
      */
     public static long sizeOf(final File file) {
-        try {
-            return org.apache.commons.io.FileUtils.sizeOf(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return org.apache.commons.io.FileUtils.sizeOf(file);
     }
 
     /**
@@ -492,12 +475,7 @@ public class FileUtils {
      * @return 文件大小
      */
     public static BigInteger sizeOfAsBigInteger(final File file) {
-        try {
-            return org.apache.commons.io.FileUtils.sizeOfAsBigInteger(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BigInteger.ZERO;
-        }
+        return org.apache.commons.io.FileUtils.sizeOfAsBigInteger(file);
     }
 
     /**
@@ -517,12 +495,7 @@ public class FileUtils {
      * @return 文件大小
      */
     public static long sizeOfDirectory(final File directory) {
-        try {
-            return org.apache.commons.io.FileUtils.sizeOfDirectory(directory);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return org.apache.commons.io.FileUtils.sizeOfDirectory(directory);
     }
 
     /**
@@ -542,12 +515,7 @@ public class FileUtils {
      * @return 文件大小
      */
     public static BigInteger sizeOfDirectoryAsBigInteger(final File directory) {
-        try {
-            return org.apache.commons.io.FileUtils.sizeOfDirectoryAsBigInteger(directory);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BigInteger.ZERO;
-        }
+        return org.apache.commons.io.FileUtils.sizeOfDirectoryAsBigInteger(directory);
     }
 
     /**
@@ -600,12 +568,7 @@ public class FileUtils {
      * @return File文件对象
      */
     public static File toFile(final URL url) {
-        try {
-            return org.apache.commons.io.FileUtils.toFile(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return org.apache.commons.io.FileUtils.toFile(url);
     }
 
     /**
@@ -613,12 +576,8 @@ public class FileUtils {
      * @return File文件对象
      */
     public static File[] toFiles(final URL[] url) {
-        try {
-            return org.apache.commons.io.FileUtils.toFiles(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return org.apache.commons.io.FileUtils.toFiles(url);
+
     }
 
     /**
@@ -628,9 +587,8 @@ public class FileUtils {
     public static URL[] toUrls(final File[] files) {
         try {
             return org.apache.commons.io.FileUtils.toURLs(files);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (IOException e) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常, " + e);
         }
     }
 
@@ -638,14 +596,12 @@ public class FileUtils {
      * @param file 创建文件，如果文件存在则更新时间；如果不存在，创建一个空文件
      * @return true 创建成功，false 创建失败
      */
-    public static boolean touch(final File file) {
+    public static void touch(final File file) {
         try {
             org.apache.commons.io.FileUtils.touch(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        } catch (IOException e) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -664,14 +620,12 @@ public class FileUtils {
      * @param directory
      * @return true 删除成功，false 删除失败
      */
-    public static boolean deleteDirectory(final File directory) {
+    public static void deleteDirectory(final File directory) {
         try {
             org.apache.commons.io.FileUtils.deleteDirectory(directory);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        } catch (IOException e) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "删除资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -680,14 +634,12 @@ public class FileUtils {
      * @param file 文件对象
      * @return true 删除成功，false 删除失败
      */
-    public static boolean forceDelete(final File file) {
+    public static void forceDelete(final File file) {
         try {
             org.apache.commons.io.FileUtils.forceDelete(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        } catch (IOException e) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "删除资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -696,14 +648,12 @@ public class FileUtils {
      * @param file 文件或目录
      * @return true 删除成功，false 删除失败
      */
-    public static boolean forceDeleteOnExit(final File file) {
+    public static void forceDeleteOnExit(final File file) {
         try {
             org.apache.commons.io.FileUtils.forceDeleteOnExit(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        } catch (IOException e) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "删除资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -713,14 +663,12 @@ public class FileUtils {
      * @param directory 要创建的目录，不可以为null
      * @return true 创建成功，false创建失败
      */
-    public static boolean forceMkdir(final File directory) {
+    public static void forceMkdir(final File directory) {
         try {
             org.apache.commons.io.FileUtils.forceMkdir(directory);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "创建目录异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -729,14 +677,12 @@ public class FileUtils {
      * @param file 要创建的父文件，不可以为null
      * @return true 创建成功， false 创建失败
      */
-    public static boolean forceMkdirParent(final File file) {
+    public static void forceMkdirParent(final File file) {
         try {
             org.apache.commons.io.FileUtils.forceMkdirParent(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "创建目录异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -771,8 +717,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.openInputStream(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "打开指定文件的输入流异常, " + e);
         }
     }
 
@@ -786,8 +731,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.openOutputStream(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "打开指定文件的输出流异常, " + e);
         }
     }
 
@@ -802,8 +746,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.openOutputStream(file, append);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "打开指定文件的输出流异常, " + e);
         }
     }
 
@@ -818,8 +761,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.directoryContains(directory, child);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判定父file对象是否包含子file对象异常, " + e);
         }
     }
 
@@ -834,8 +776,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.contentEquals(file1, file2);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个文件内容是否相等异常, " + e);
         }
     }
 
@@ -851,8 +792,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.contentEqualsIgnoreEOL(file1, file2, charsetName);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个文件内容是否相等异常, " + e);
         }
     }
 
@@ -878,24 +818,21 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.checksum(file, checksum);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "校验文件数据异常, " + e);
         }
     }
 
     /**
      * 校验文件数据的正确性,使用CRC32 循环冗余算法校验数据的正确性
      *
-     * @param file     文件对象
-     * @param checksum 校验算法
+     * @param file 文件对象
      * @return Checksum
      */
     public static Long checksumCRC32(final File file) {
         try {
             return org.apache.commons.io.FileUtils.checksumCRC32(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "校验文件数据异常, " + e);
         }
     }
 
@@ -905,14 +842,12 @@ public class FileUtils {
      * @param directory 目录
      * @return true 清空目录成功，false 清空目录失败
      */
-    public static boolean cleanDirectory(final File directory) {
+    public static void cleanDirectory(final File directory) {
         try {
             org.apache.commons.io.FileUtils.cleanDirectory(directory);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "清空目录异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -922,8 +857,8 @@ public class FileUtils {
      * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyDirectory(final File srcDir, final File destDir) {
-        return copyDirectory(srcDir, destDir, true);
+    public static void copyDirectory(final File srcDir, final File destDir) {
+        copyDirectory(srcDir, destDir, true);
     }
 
     /**
@@ -934,8 +869,8 @@ public class FileUtils {
      * @param preserveFileDate true 如果副本的文件日期要保持与源文件相同
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyDirectory(final File srcDir, final File destDir, final boolean preserveFileDate) {
-        return copyDirectory(srcDir, destDir, null, preserveFileDate);
+    public static void copyDirectory(final File srcDir, final File destDir, final boolean preserveFileDate) {
+        copyDirectory(srcDir, destDir, null, preserveFileDate);
     }
 
     /**
@@ -956,8 +891,8 @@ public class FileUtils {
      * @param filter  要应用的筛选器，null意味着复制所有的目录和文件
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyDirectory(final File srcDir, final File destDir, final FileFilter filter) {
-        return copyDirectory(srcDir, destDir, filter, true);
+    public static void copyDirectory(final File srcDir, final File destDir, final FileFilter filter) {
+        copyDirectory(srcDir, destDir, filter, true);
     }
 
     /**
@@ -979,14 +914,12 @@ public class FileUtils {
      * @param preserveFileDate true 如果副本的文件日期要保持与源文件相同
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyDirectory(final File srcDir, final File destDir, final FileFilter filter, final boolean preserveFileDate) {
+    public static void copyDirectory(final File srcDir, final File destDir, final FileFilter filter, final boolean preserveFileDate) {
         try {
             org.apache.commons.io.FileUtils.copyDirectory(srcDir, destDir, filter, true);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -996,14 +929,12 @@ public class FileUtils {
      * @param destDir 新目录，不可以为null；如果目标目录不存在则创建该目录，否则合并目标源
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyDirectoryToDirectory(final File srcDir, final File destDir) {
+    public static void copyDirectoryToDirectory(final File srcDir, final File destDir) {
         try {
             org.apache.commons.io.FileUtils.copyDirectoryToDirectory(srcDir, destDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1014,8 +945,8 @@ public class FileUtils {
      * @param destDir 新目录，不可以为null
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyFileToDirectory(final File srcFile, final File destDir) {
-        return copyFileToDirectory(srcFile, destDir, true);
+    public static void copyFileToDirectory(final File srcFile, final File destDir) {
+        copyFileToDirectory(srcFile, destDir, true);
     }
 
     /**
@@ -1027,14 +958,12 @@ public class FileUtils {
      * @param preserveFileDate true 保留文件最后修改日期，false 不保留
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyFileToDirectory(final File srcFile, final File destDir, final boolean preserveFileDate) {
+    public static void copyFileToDirectory(final File srcFile, final File destDir, final boolean preserveFileDate) {
         try {
             org.apache.commons.io.FileUtils.copyFileToDirectory(srcFile, destDir, preserveFileDate);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1045,14 +974,12 @@ public class FileUtils {
      * @param destDir 新目录，不可以为null
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyToDirectory(final File src, final File destDir) {
+    public static void copyToDirectory(final File src, final File destDir) {
         try {
             org.apache.commons.io.FileUtils.copyToDirectory(src, destDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1062,14 +989,12 @@ public class FileUtils {
      * @param destDir 新目录，不可以为null
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyToDirectory(final Iterable<File> srcs, final File destDir) {
+    public static void copyToDirectory(final Iterable<File> srcs, final File destDir) {
         try {
             org.apache.commons.io.FileUtils.copyToDirectory(srcs, destDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1079,8 +1004,8 @@ public class FileUtils {
      * @param destFile 新的文件，不可以为null
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyFile(final File srcFile, final File destFile) {
-        return copyFile(srcFile, destFile, true);
+    public static void copyFile(final File srcFile, final File destFile) {
+        copyFile(srcFile, destFile, true);
     }
 
     /**
@@ -1091,14 +1016,12 @@ public class FileUtils {
      * @param preserveFileDate true 副本文件的日期保持一样，false 不保持
      * @return true 复制成功， false 复制失败
      */
-    public static boolean copyFile(final File srcFile, final File destFile, final boolean preserveFileDate) {
+    public static void copyFile(final File srcFile, final File destFile, final boolean preserveFileDate) {
         try {
             org.apache.commons.io.FileUtils.copyFile(srcFile, destFile, preserveFileDate);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1112,8 +1035,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.copyFile(input, output);
         } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1124,14 +1046,12 @@ public class FileUtils {
      * @param destination 写入字节的目标文件
      * @return true 复制读取成功，false 复制读取失败
      */
-    public static boolean copyInputStreamToFile(final InputStream source, final File destination) {
+    public static void copyInputStreamToFile(final InputStream source, final File destination) {
         try {
             org.apache.commons.io.FileUtils.copyInputStreamToFile(source, destination);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
 
     }
 
@@ -1142,14 +1062,12 @@ public class FileUtils {
      * @param destination 写入字节的目标文件
      * @return true 复制读取成功，false 复制读取失败
      */
-    public static boolean copyToFile(final InputStream source, final File destination) {
+    public static void copyToFile(final InputStream source, final File destination) {
         try {
             org.apache.commons.io.FileUtils.copyToFile(source, destination);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1159,12 +1077,11 @@ public class FileUtils {
      * @param destination 非目录File对象，写入文件，不可以为null
      * @return
      */
-    public static boolean copyURLToFile(final URL source, final File destination) {
+    public static void copyURLToFile(final URL source, final File destination) {
         try {
-            return copyInputStreamToFile(source.openStream(), destination);
+            copyInputStreamToFile(source.openStream(), destination);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1177,14 +1094,12 @@ public class FileUtils {
      * @param readTimeout       如果没有数据可以读取的超时时间，单位毫秒
      * @return true 复制成功，false 复制失败
      */
-    public static boolean copyURLToFile(final URL source, final File destination, final int connectionTimeout, final int readTimeout) {
+    public static void copyURLToFile(final URL source, final File destination, final int connectionTimeout, final int readTimeout) {
         try {
             org.apache.commons.io.FileUtils.copyURLToFile(source, destination, connectionTimeout, readTimeout);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1264,8 +1179,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.isSymlink(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "确定指定的文件是符号链接而不是实际文件异常, " + e);
         }
     }
 
@@ -1292,7 +1206,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.lineIterator(file, encoding);
         } catch (IOException e) {
-            return null;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取指定文件行的Iterator迭代器异常, " + e);
         }
     }
 
@@ -1362,7 +1276,7 @@ public class FileUtils {
 
     /**
      * 允许对给定目录（及其可选子目录）中与扩展名数组匹配的文件进行迭代。
-     * 此方法基于{@link listfiles（file，string[]，boolean）}，它支持iterable（'foreach'循环）。
+     * 此方法基于listfiles（file，string[]，boolean），它支持iterable（'foreach'循环）。
      *
      * @param directory  要查询的目录
      * @param extensions 扩展名数组，ex. {"java","xml"}，如果此参数为null,则返回所有的文件
@@ -1395,14 +1309,12 @@ public class FileUtils {
      * @param destDir 目标目录
      * @return true 移动成功， false 移动失败
      */
-    public static boolean moveDirectory(final File srcDir, final File destDir) {
+    public static void moveDirectory(final File srcDir, final File destDir) {
         try {
             org.apache.commons.io.FileUtils.moveDirectory(srcDir, destDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "移动目录异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1413,14 +1325,12 @@ public class FileUtils {
      * @param createDestDir true 创建目标目录，false 抛出IOException异常
      * @return true 移动成功，false 创建失败
      */
-    public static boolean moveDirectoryToDirectory(final File src, final File destDir, final boolean createDestDir) {
+    public static void moveDirectoryToDirectory(final File src, final File destDir, final boolean createDestDir) {
         try {
             org.apache.commons.io.FileUtils.moveDirectoryToDirectory(src, destDir, createDestDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "移动目录异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1431,14 +1341,12 @@ public class FileUtils {
      * @param destFile 目标目录
      * @return true 移动成功，false 移动失败
      */
-    public static boolean moveFile(final File srcFile, final File destFile) {
+    public static void moveFile(final File srcFile, final File destFile) {
         try {
             org.apache.commons.io.FileUtils.moveFile(srcFile, destFile);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "移动文件异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1449,14 +1357,12 @@ public class FileUtils {
      * @param createDestDir true 创建目标目录，false 抛出IOException异常
      * @return true 移动成功，false 移动失败
      */
-    public static boolean moveFileToDirectory(final File srcFile, final File destDir, final boolean createDestDir) {
+    public static void moveFileToDirectory(final File srcFile, final File destDir, final boolean createDestDir) {
         try {
             org.apache.commons.io.FileUtils.moveFileToDirectory(srcFile, destDir, createDestDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "移动文件异常, " + e);
         }
-        return true;
     }
 
     /**
@@ -1468,13 +1374,11 @@ public class FileUtils {
      * @param createDestDir true 创建目录，false 抛出IOException异常
      * @return true 移动成功，false 移动失败
      */
-    public static boolean moveToDirectory(final File src, final File destDir, final boolean createDestDir) {
+    public static void moveToDirectory(final File src, final File destDir, final boolean createDestDir) {
         try {
             org.apache.commons.io.FileUtils.moveToDirectory(src, destDir, createDestDir);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "移动文件异常, " + e);
         }
-        return true;
     }
 }

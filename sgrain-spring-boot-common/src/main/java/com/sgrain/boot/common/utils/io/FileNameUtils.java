@@ -1,5 +1,7 @@
 package com.sgrain.boot.common.utils.io;
 
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.exception.BusinessException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 
@@ -51,8 +53,7 @@ public class FileNameUtils {
         try {
             return FilenameUtils.directoryContains(canonicalParent, canonicalChild);
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判断parent目录是否包含child元素异常，" + e);
         }
     }
 

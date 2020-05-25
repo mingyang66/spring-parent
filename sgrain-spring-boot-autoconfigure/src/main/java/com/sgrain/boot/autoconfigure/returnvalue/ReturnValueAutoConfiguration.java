@@ -38,22 +38,22 @@ public class ReturnValueAutoConfiguration implements InitializingBean {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        List<HandlerMethodReturnValueHandler> pList = new ArrayList<>();
-        for (HandlerMethodReturnValueHandler valueHandler: list) {
+        List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
+        list.forEach((valueHandler)->{
             if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
                 ResponseMethodReturnValueHandler proxy = new ResponseMethodReturnValueHandler(valueHandler);
-                pList.add(proxy);
+                handlers.add(proxy);
             } else if(valueHandler instanceof HttpEntityMethodProcessor){
                 ResponseHttpEntityMethodReturnValueHandler proxy = new ResponseHttpEntityMethodReturnValueHandler(valueHandler);
-                pList.add(proxy);
+                handlers.add(proxy);
             } else if(valueHandler instanceof HttpHeadersReturnValueHandler){
                 ResponseHttpHeadersReturnValueHandler proxy = new ResponseHttpHeadersReturnValueHandler(valueHandler);
-                pList.add(proxy);
+                handlers.add(proxy);
             } else {
-                pList.add(valueHandler);
+                handlers.add(valueHandler);
             }
-        }
-        handlerAdapter.setReturnValueHandlers(pList);
+        });
+        handlerAdapter.setReturnValueHandlers(handlers);
 
     }
 }

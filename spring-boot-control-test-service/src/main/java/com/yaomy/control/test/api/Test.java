@@ -1,9 +1,6 @@
 package com.yaomy.control.test.api;
 
-import com.sgrain.boot.common.enums.DateFormatEnum;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @program: spring-parent
@@ -12,17 +9,15 @@ import java.time.format.DateTimeFormatter;
  */
 public class Test {
     public static void main(String[] args) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println(localDateTime);
-        System.out.println(localDateTime.toString());
-        System.out.println(localDateTime.format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat())));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_DATE));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_TIME));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_WEEK_DATE));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_ORDINAL_DATE));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        System.out.println(localDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
-
+        Optional<List<Map<String, Object>>> optional = Optional.ofNullable(Arrays.asList());
+        System.out.println(optional.isPresent());
+        System.out.println(Objects.isNull(null));
+        System.out.println(Objects.compare(1, 3, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return 0;
+            }
+        }));
+        String s = Objects.requireNonNull(null, "空指针异常浏览量");
     }
 }

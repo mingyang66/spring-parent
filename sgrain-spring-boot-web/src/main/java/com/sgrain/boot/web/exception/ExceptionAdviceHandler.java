@@ -61,9 +61,10 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseData runtimeExceptionHandler(RuntimeException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION);;
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION);
+        ;
         printErrorMessage(e);
-        if(LoggerUtils.isDebug()){
+        if (LoggerUtils.isDebug()) {
             StackTraceElement[] elements = e.getStackTrace();
             String message = StringUtils.EMPTY;
             if (elements.length > 0) {
@@ -88,7 +89,7 @@ public final class ExceptionAdviceHandler {
             String message = StringUtils.EMPTY;
             if (elements.length > 0) {
                 StackTraceElement element = elements[0];
-                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
+                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e, "异常");
                 responseData.setMessage(message);
             }
         }
@@ -141,7 +142,7 @@ public final class ExceptionAdviceHandler {
     public ResponseData indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.ARRAY_OUT_OF_BOUNDS_EXCEPTION);
         printErrorMessage(e);
-        if(LoggerUtils.isDebug()){
+        if (LoggerUtils.isDebug()) {
             StackTraceElement[] elements = e.getStackTrace();
             String message = StringUtils.EMPTY;
             if (elements.length > 0) {
@@ -161,7 +162,7 @@ public final class ExceptionAdviceHandler {
     public ResponseData requestTypeMismatch(MethodArgumentTypeMismatchException e) {
         ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_METHOD_PARAM_TYPE_EXCEPTIION);
         printErrorMessage(e);
-        if(LoggerUtils.isDebug()){
+        if (LoggerUtils.isDebug()) {
             String message = StringUtils.join("参数类型不匹配，参数", e.getName(), "类型必须为", e.getRequiredType());
             responseData.setMessage(message);
         }
@@ -175,7 +176,7 @@ public final class ExceptionAdviceHandler {
     public ResponseData requestMissingServletRequest(MissingServletRequestParameterException e) {
         ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_PARAM_MISSING_EXCEPTION);
         printErrorMessage(e);
-        if(LoggerUtils.isDebug()){
+        if (LoggerUtils.isDebug()) {
             String message = StringUtils.join("缺少必要参数，参数名称为", e.getParameterName());
             responseData.setMessage(message);
         }
@@ -189,7 +190,7 @@ public final class ExceptionAdviceHandler {
     public ResponseData requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API_METHOD_NOT_SUPPORTED_EXCEPTION);
         printErrorMessage(e);
-        if(LoggerUtils.isDebug()){
+        if (LoggerUtils.isDebug()) {
             String message = StringUtils.join("不支持", e.getMethod(), "方法，支持", StringUtils.join(e.getSupportedMethods(), ","), "类型");
             responseData.setMessage(message);
         }
@@ -230,7 +231,7 @@ public final class ExceptionAdviceHandler {
     public ResponseData undeclaredThrowableException(UndeclaredThrowableException e) {
         ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.FAILED.getStatus());
         printErrorMessage(e);
-        if(LoggerUtils.isDebug()){
+        if (LoggerUtils.isDebug()) {
             String message = StringUtils.EMPTY;
             Throwable throwable = e.getCause().getCause();
             StackTraceElement[] elements = throwable.getStackTrace();
@@ -251,9 +252,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseData undeclaredThrowableException(BusinessException e) {
-        if (LoggerUtils.isDebug()) {
-            printBusinessErrorMessage(e);
-        }
+        printBusinessErrorMessage(e);
         return ResponseData.buildResponse(e.getStatus(), e.getErrorMessage());
     }
 
@@ -262,29 +261,26 @@ public final class ExceptionAdviceHandler {
      * @Version 1.0
      */
     private void printErrorMessage(Throwable e) {
-        if(LoggerUtils.isDebug()){
-            String message = e.toString();
-            StackTraceElement[] elements = e.getStackTrace();
-            for (int i = 0; i < elements.length; i++) {
-                StackTraceElement element = elements[i];
-                if (i == 0) {
-                    message = StringUtils.join(element.toString(), " ", message);
-                } else {
-                    message = StringUtils.join(message, "\n", element.toString());
-                }
+        String message = e.toString();
+        StackTraceElement[] elements = e.getStackTrace();
+        for (int i = 0; i < elements.length; i++) {
+            StackTraceElement element = elements[i];
+            if (i == 0) {
+                message = StringUtils.join(element.toString(), " ", message);
+            } else {
+                message = StringUtils.join(message, "\n", element.toString());
             }
-            LoggerUtils.error(ExceptionAdviceHandler.class, message);
         }
+        LoggerUtils.error(ExceptionAdviceHandler.class, message);
     }
 
     /**
      * 打印业务错误信息
+     *
      * @param e
      */
     private void printBusinessErrorMessage(BusinessException e) {
-        if(LoggerUtils.isDebug()){
-            LoggerUtils.info(ExceptionAdviceHandler.class, StringUtils.join(e, " 【status】", e.getStatus(), ", 【message】", e.getErrorMessage()));
-        }
+        LoggerUtils.error(ExceptionAdviceHandler.class, StringUtils.join(e, " 【status】", e.getStatus(), ", 【errorMessage】", e.getErrorMessage()));
     }
 }
 

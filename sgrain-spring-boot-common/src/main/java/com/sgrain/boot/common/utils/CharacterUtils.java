@@ -19,4 +19,5 @@ public class CharacterUtils {
     public static final String COLON_CN = "：";
     public static final String LINE_THROUGH_CENTER = "-";
     public static final String LINE_THROUGH_BOTTOM = "_";
+    public static final String PATH_SEPARATOR = "/";
 }

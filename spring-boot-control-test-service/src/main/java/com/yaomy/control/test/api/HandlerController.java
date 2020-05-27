@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @Version  1.0
  */
 @RequestMapping
-@RestController
+@Controller
 public class HandlerController {
     @Autowired
     private PropertyService propertyService;

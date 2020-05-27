@@ -2,6 +2,7 @@ package com.sgrain.boot.autoconfigure.web;
 
 import com.sgrain.boot.common.utils.CharacterUtils;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebAutoConfiguration implements WebMvcConfigurer {
     /**
      * 配置路由规则
+     *
      * @param configurer
      */
     @Override
@@ -35,7 +37,12 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         //设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
         configurer.setUseTrailingSlashMatch(true);
         //给所有的接口统一添加前缀
-        configurer.addPathPrefix("api", c->c.isAnnotationPresent(RestController.class));
+        configurer.addPathPrefix("api", c -> {
+            if (c.isAnnotationPresent(RestController.class) || c.isAnnotationPresent(Controller.class)) {
+                return true;
+            }
+            return false;
+        });
     }
 
 }

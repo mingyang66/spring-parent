@@ -59,7 +59,7 @@ public class IdempotentAutoConfiguration {
     /**
      * 自动生成token令牌，并将令牌存入缓存，过期时间是30s
      */
-    @GetMapping("api/token/generation")
+    @GetMapping("token/generation")
     public ResponseEntity<String> generationToken(){
         String token = TokenUtils.generation();
         redisTemplate.opsForValue().set(StringUtils.join("idempotent", CharacterUtils.COLON_EN, token), token, 30, TimeUnit.SECONDS);

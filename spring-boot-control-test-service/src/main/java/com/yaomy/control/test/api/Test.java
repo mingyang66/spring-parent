@@ -1,5 +1,8 @@
 package com.yaomy.control.test.api;
 
+import com.google.common.collect.Lists;
+import com.sgrain.boot.common.utils.json.JSONUtils;
+
 import java.util.*;
 
 /**
@@ -9,15 +12,7 @@ import java.util.*;
  */
 public class Test {
     public static void main(String[] args) {
-        Optional<List<Map<String, Object>>> optional = Optional.ofNullable(Arrays.asList());
-        System.out.println(optional.isPresent());
-        System.out.println(Objects.isNull(null));
-        System.out.println(Objects.compare(1, 3, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return 0;
-            }
-        }));
-        String s = Objects.requireNonNull(null, "空指针异常浏览量");
+        List<Integer> list = Lists.newArrayList(3,6,2,9,1);
+        System.out.println(JSONUtils.toJSONString(list));
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @program: spring-parent
  * @description: webmvc自动化配置
- * @author: 姚明洋
  * @create: 2020/05/26
  */
 @Configuration

@@ -50,18 +50,6 @@ public class HandlerController {
         return ResponseEntity.ok(ResponseData.buildResponse(10006, "自定义测试", user));
     }
 
-    @RequestMapping(value = "/handler/${path}/{path1}")
-    public HttpHeaders getName(@RequestBody @Validated User user, HttpServletResponse response, PathVariable path) throws IOException {
-        response.setStatus(201);
-        response.setContentType("application/json");
-        LoggerUtils.info(HandlerController.class, "测试。。。");
-        //return ResponseEntity.ok(BaseResponse.buildResponse(10006, "自定义测试", user));
-        response.getOutputStream().print("this is body");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("name", "12");
-        httpHeaders.add("age", "12");
-        return httpHeaders;
-    }
     @PostMapping(value = "/handler/test2")
     public ResponseEntity<List> testNull1(@RequestBody @Validated User user){
         System.out.println("----------------3434334"+propertyService.getProperty("test.a"));

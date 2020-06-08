@@ -1,8 +1,7 @@
 package com.sgrain.boot.common.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sgrain.boot.common.log.UserAction;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -33,12 +32,7 @@ public class LoggerUtils {
     }
 
     public static void user(UserAction userAction){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            LoggerFactory.getLogger(LoggerUtils.class).trace(objectMapper.writeValueAsString(userAction));
-        } catch (JsonProcessingException e){
-            error(LoggerUtils.class, e.toString());
-        }
+        LoggerFactory.getLogger(LoggerUtils.class).trace(JSONUtils.toJSONString(userAction));
     }
     public static boolean isDebug(){
         return debug;

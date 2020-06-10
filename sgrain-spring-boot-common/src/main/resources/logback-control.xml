@@ -5,6 +5,7 @@
     <property name="log.path" value="./logs" />
     <!--日志系统有效期（天）-->
     <property name="log.date" value="30" />
+    <property name="APPMODULEONE" value="module_one" />
     <!--日志输出pattern-->
     <property name="pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-10.10thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n"></property>
     <!--公司日志系统模式-日志输出pattern-->
@@ -41,29 +42,6 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天归档 -->
             <fileNamePattern>${log.path}/info/info.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- 日志存放周期（天） -->
-            <maxHistory>${log.date}</maxHistory>
-        </rollingPolicy>
-    </appender>
-    <!-- TRACE日志文件输出 -->
-    <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="com.sgrain.boot.common.log.EnhanceLevelFilter">
-            <!-- 日志过滤级别 -->
-            <level>TRACE</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <encoder>
-            <!-- 格式化输出 -->
-            <pattern>${patternMsg}</pattern>
-            <!-- 输出编码 -->
-            <charset>utf8</charset>
-        </encoder>
-        <!-- 文件存放路径 -->
-        <file>${log.path}/user/user_action.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 每天归档 -->
-            <fileNamePattern>${log.path}/user/user_action.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
             <maxHistory>${log.date}</maxHistory>
         </rollingPolicy>
@@ -137,6 +115,40 @@
             <maxHistory>7</maxHistory>
         </rollingPolicy>
     </appender>
+
+
+    <!--模块化输出日志start-->
+    <!-- INFO日志文件输出 -->
+    <appender name="moduleName" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 日志过滤级别 -->
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <!-- 格式化输出 -->
+            <pattern>${patternMsg}</pattern>
+            <!-- 输出编码 -->
+            <charset>utf8</charset>
+        </encoder>
+        <!-- 文件存放路径 -->
+        <file>${log.path}/${APPMODULEONE}/${APPMODULEONE}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天归档 -->
+            <fileNamePattern>${log.path}/${APPMODULEONE}/${APPMODULEONE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志存放周期（天） -->
+            <maxHistory>${log.date}</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <!--模块化输出日志end-->
+
+    <!--使用LoggerFactory.getLogger("performanceLogger") 使用这个logger-->
+    <logger name="moduleOne" additivity="false">
+        <!--使用哪一个Appender-->
+        <appender-ref ref="moduleName" />
+    </logger>
+
     <!-- 基础日志输出级别,大于等于level,不过跟filter中的是冲突的，只有一个生效，默认filter优先级更高 -->
     <root level="TRACE">
         <appender-ref ref="CONSOLE"/>
@@ -144,6 +156,5 @@
         <appender-ref ref="WARN"/>
         <appender-ref ref="INFO"/>
         <appender-ref ref="DEBUG"/>
-        <appender-ref ref="TRACE"/>
     </root>
 </configuration>

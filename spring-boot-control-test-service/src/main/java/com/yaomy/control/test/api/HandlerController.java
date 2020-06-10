@@ -4,6 +4,7 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.log.UserAction;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.web.conf.properties.PropertyService;
 import com.sgrain.boot.web.httpclient.HttpClientService;
 import com.yaomy.control.test.po.User;
@@ -53,6 +54,10 @@ public class HandlerController {
     @PostMapping(value = "/handler/test2")
     public ResponseEntity<List> testNull1(@RequestBody @Validated User user){
         System.out.println("----------------3434334"+propertyService.getProperty("test.a"));
+        UserAction userAction = new UserAction();
+        userAction.setNumber("21");
+        userAction.setUsername("name");
+        LoggerUtils.module("user_info1", JSONUtils.toJSONString(userAction));
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         map.put("name", user.getName()+"12");
@@ -83,7 +88,6 @@ public class HandlerController {
         UserAction userAction = new UserAction();
         userAction.setNumber("12222");
         userAction.setUsername("hhhhhhh");
-        LoggerUtils.user(userAction);
         System.out.println("----------------deee");
     }
     @RequestMapping(value = "/handler/url")

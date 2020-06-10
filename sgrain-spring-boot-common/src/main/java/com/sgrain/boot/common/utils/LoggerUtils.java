@@ -1,7 +1,5 @@
 package com.sgrain.boot.common.utils;
 
-import com.sgrain.boot.common.log.UserAction;
-import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -15,30 +13,31 @@ public class LoggerUtils {
      */
     private static boolean debug = false;
 
-    public static <T> void info(Class<T> clazz, String msg){
+    public static <T> void info(Class<T> clazz, String msg) {
         LoggerFactory.getLogger(clazz).info(msg);
     }
 
-    public static <T> void warn(Class<T> clazz, String msg){
+    public static <T> void warn(Class<T> clazz, String msg) {
         LoggerFactory.getLogger(clazz).warn(msg);
     }
 
-    public static <T> void debug(Class<T> clazz, String msg){
+    public static <T> void debug(Class<T> clazz, String msg) {
         LoggerFactory.getLogger(clazz).debug(msg);
     }
 
-    public static <T> void error(Class<T> clazz, String msg){
+    public static <T> void error(Class<T> clazz, String msg) {
         LoggerFactory.getLogger(clazz).error(msg);
     }
 
-    public static void user(UserAction userAction){
-        LoggerFactory.getLogger(LoggerUtils.class).trace(JSONUtils.toJSONString(userAction));
+    public static <T> void module(String moduleName, String msg) {
+        LoggerFactory.getLogger(moduleName).info(msg);
     }
-    public static boolean isDebug(){
+
+    public static boolean isDebug() {
         return debug;
     }
 
-    public static void setDebug(boolean isDebug){
+    public static void setDebug(boolean isDebug) {
         debug = isDebug;
     }
 

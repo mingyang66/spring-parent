@@ -20,4 +20,9 @@ public class CharacterUtils {
     public static final String LINE_THROUGH_CENTER = "-";
     public static final String LINE_THROUGH_BOTTOM = "_";
     public static final String PATH_SEPARATOR = "/";
+    public static final String HASH_SYMBOL = "#";
+    public static final String PERCENT_SIGIN = "%";
+    public static final String POINT_SYMBOL = ".";
+    public static final String ZERO = "0";
+
 }

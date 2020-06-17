@@ -3,7 +3,6 @@ package com.sgrain.boot.common.utils;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.po.BaseRequest;
-import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -13,9 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -129,6 +126,8 @@ public class RequestUtils {
                 paramMap.put(parameter.getName(), ((MultipartFile) args[i]).getOriginalFilename());
             } else if (args[i] instanceof File) {
                 paramMap.put(parameter.getName(), ((File) args[i]).getPath());
+            } else if (args[i] instanceof Throwable) {
+                //参数异常信息，忽略
             } else {
                 paramMap.put(parameter.getName(), args[i]);
             }
@@ -138,6 +137,7 @@ public class RequestUtils {
 
     /**
      * 获取参数中的系统信息
+     *
      * @param invocation 方法拦截器连接点
      * @return
      */
@@ -157,6 +157,7 @@ public class RequestUtils {
         }
         return systemInfo;
     }
+
     /**
      * 获取用户当前请求的HttpServletRequest
      */

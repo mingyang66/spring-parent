@@ -123,4 +123,101 @@ public class DateUtils {
         int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         return weekDays[w];
     }
+
+    /**
+     * 获取指定日期的年份
+     *
+     * @param date
+     * @return
+     */
+    public static long getYear(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
+    }
+
+    /**
+     * 获取指定日期的月份
+     *
+     * @param date
+     * @return
+     */
+    public static long getMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * 获取指定日期的日
+     *
+     * @param date
+     * @return
+     */
+    public static long getDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * 获取指定日期的小时
+     *
+     * @param date
+     * @return
+     */
+    public static long getHour(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
+     * 获取指定日期的分钟
+     *
+     * @param date
+     * @return
+     */
+    public static long getMinute(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MINUTE);
+    }
+
+    /**
+     * 获取指定日期的秒数
+     *
+     * @param date
+     * @return
+     */
+    public static long getSecond(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MINUTE);
+    }
+
+    /**
+     * 获取指定日期是一周中的第几天，从周日开始计算
+     *
+     * @param date
+     * @return
+     */
+    public static long getDayOfWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_WEEK);
+    }
+
+    /**
+     * 获取指定日期是一个月的第几周
+     *
+     * @param date
+     * @return
+     */
+    public static long getWeekOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.WEEK_OF_MONTH);
+    }
+
 }

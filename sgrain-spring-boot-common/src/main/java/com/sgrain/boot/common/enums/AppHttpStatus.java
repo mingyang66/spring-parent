@@ -35,11 +35,13 @@ public enum AppHttpStatus {
 
     DATA_EXCEPTION(32004, "数据异常"),
     DATA_NOT_FOUND_EXCEPTION(32005, "未找到符合条件的数据异常"),
+    DATA_CALCULATION_EXCEPTION(32006, "数据计算异常"),
 
     ENCODING_EXCEPTION(33006, "编码异常"),
     ENCODING_UNSUPPORTED_EXCEPTION(33006, "编码不支持异常"),
 
     DATE_PARSE_EXCEPTION(34001, "日期转换异常");
+
 
     /**
      * 状态码

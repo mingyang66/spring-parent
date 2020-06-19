@@ -73,3 +73,5 @@ spring.rabbitmq.template.mandatory=true
 2. spring.rabbitmq.template.mandatory属性可能会返回三种值null、false、true,
 3. spring.rabbitmq.template.mandatory结果为true、false时会忽略掉spring.rabbitmq.publisher-returns属性的值
 4. spring.rabbitmq.template.mandatory结果为null（即不配置）时结果由spring.rabbitmq.publisher-returns确定
+
+GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/rabbitmq](https://github.com/mingyang66/spring-parent/tree/master/doc/rabbitmq)

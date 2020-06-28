@@ -40,14 +40,14 @@ public class HandlerController {
     @Autowired
     private HttpClientService httpClientService;
 
-    @PostMapping(value = "/handler/test")
-    public ResponseEntity<ResponseData> getName(@RequestBody @Validated User user){
+    @GetMapping(value = "/handler/test")
+    public ResponseEntity<ResponseData> getName(){
         System.out.println(propertyService.getProperty("test"));
         LoggerUtils.info(HandlerController.class, "测试。。。");
-        boolean flag = true;
-        if(flag){
-            throw new BusinessException(100001, "业务异常");
-        }
+        User user = new User();
+        user.setAge(12);
+        LoggerUtils.module("TRACE_NAME_MODULE", JSONUtils.toJSONString(user));
+
         return ResponseEntity.ok(ResponseData.buildResponse(10006, "自定义测试", user));
     }
 
@@ -142,11 +142,6 @@ public class HandlerController {
         for(int i=0;i<n;i++){
             s = StringUtils.join(s, i);
             System.out.println(s);
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception e){
-
-            }
         }
         return s;
     }

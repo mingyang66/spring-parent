@@ -151,7 +151,9 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
     </appender>
     <!--模块化输出日志end-->
 
-    <!--使用LoggerFactory.getLogger("performanceLogger") 使用这个logger-->
+    <!--使用LoggerFactory.getLogger("performanceLogger") 使用这个logger
+    additivity叠加性规则设置
+    -->
     <logger name="moduleOne" additivity="false">
         <!--使用哪一个Appender-->
         <appender-ref ref="moduleName" />

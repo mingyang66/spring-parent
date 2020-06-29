@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @program: spring-parent
@@ -18,6 +17,7 @@ import java.util.List;
 public class VoidController {
     @Autowired
     private Environment environment;
+
     @PostMapping("void/test1")
     public void test1(){
         System.out.println(environment.getProperty("test.a"));

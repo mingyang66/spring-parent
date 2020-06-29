@@ -1,6 +1,8 @@
 package com.sgrain.boot.autoconfigure.web;
 
+import com.sgrain.boot.autoconfigure.web.annotation.Prefix;
 import com.sgrain.boot.common.utils.CharacterUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +47,11 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         //给所有的接口统一添加前缀
         configurer.addPathPrefix(webProperties.getPath().getPrefix(), c -> {
             if (c.isAnnotationPresent(RestController.class) || c.isAnnotationPresent(Controller.class)) {
-                return true;
+                if (BooleanUtils.isTrue(webProperties.getPath().isEnableAllPrefix()) || c.isAnnotationPresent(Prefix.class)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
             return false;
         });

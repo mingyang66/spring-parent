@@ -21,6 +21,10 @@ public class WebProperties {
     }
 
     public static class Path {
+        /**
+         * 是否开启所有接口的前缀
+         */
+        private boolean enableAllPrefix = false;
         //区分大小写
         private boolean caseSensitive = true;
         //是否去除前后空格
@@ -31,6 +35,14 @@ public class WebProperties {
         private boolean useTrailingSlashMatch = true;
         //URL默认添加前缀
         private String prefix = "api";
+
+        public boolean isEnableAllPrefix() {
+            return enableAllPrefix;
+        }
+
+        public void setEnableAllPrefix(boolean enableAllPrefix) {
+            this.enableAllPrefix = enableAllPrefix;
+        }
 
         public boolean isCaseSensitive() {
             return caseSensitive;

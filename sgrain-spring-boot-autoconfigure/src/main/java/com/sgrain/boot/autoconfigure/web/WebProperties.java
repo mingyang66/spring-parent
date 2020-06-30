@@ -10,7 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.sgrain.web")
 public class WebProperties {
+    //API路由配置属性
     private Path path = new Path();
+    //跨域配置
+    private CorsRegister cors = new CorsRegister();
 
     public Path getPath() {
         return path;
@@ -18,6 +21,14 @@ public class WebProperties {
 
     public void setPath(Path path) {
         this.path = path;
+    }
+
+    public CorsRegister getCors() {
+        return cors;
+    }
+
+    public void setCors(CorsRegister cors) {
+        this.cors = cors;
     }
 
     public static class Path {
@@ -82,6 +93,77 @@ public class WebProperties {
 
         public void setPrefix(String prefix) {
             this.prefix = prefix;
+        }
+    }
+
+    /**
+     * 跨域注册配置
+     */
+    public static class CorsRegister {
+        //开启跨域设置，默认false
+        private boolean enable = false;
+        private String[] allowedOrigins;
+        //允许HTTP请求方法
+        private String[] allowedMethods;
+        private String[] allowedHeaders;
+        private boolean allowCredentials = true;
+        private String[] exposedHeaders;
+        private long maxAge = 18000L;
+
+        public boolean isEnable() {
+            return enable;
+        }
+
+        public void setEnable(boolean enable) {
+            this.enable = enable;
+        }
+
+        public String[] getAllowedOrigins() {
+            return allowedOrigins;
+        }
+
+        public void setAllowedOrigins(String[] allowedOrigins) {
+            this.allowedOrigins = allowedOrigins;
+        }
+
+        public String[] getAllowedMethods() {
+            return allowedMethods;
+        }
+
+        public void setAllowedMethods(String[] allowedMethods) {
+            this.allowedMethods = allowedMethods;
+        }
+
+        public String[] getAllowedHeaders() {
+            return allowedHeaders;
+        }
+
+        public void setAllowedHeaders(String[] allowedHeaders) {
+            this.allowedHeaders = allowedHeaders;
+        }
+
+        public boolean isAllowCredentials() {
+            return allowCredentials;
+        }
+
+        public void setAllowCredentials(boolean allowCredentials) {
+            this.allowCredentials = allowCredentials;
+        }
+
+        public String[] getExposedHeaders() {
+            return exposedHeaders;
+        }
+
+        public void setExposedHeaders(String[] exposedHeaders) {
+            this.exposedHeaders = exposedHeaders;
+        }
+
+        public long getMaxAge() {
+            return maxAge;
+        }
+
+        public void setMaxAge(long maxAge) {
+            this.maxAge = maxAge;
         }
     }
 }

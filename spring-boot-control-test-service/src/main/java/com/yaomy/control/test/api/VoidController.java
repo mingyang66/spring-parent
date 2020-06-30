@@ -47,10 +47,10 @@ public class VoidController {
         return ResponseEntity.ok(null);
     }
 
-    @PostMapping("void/test5")
-    public ResponseEntity<String> test5(){
+    @GetMapping("void/test5")
+    public String test5(){
         System.out.println("-----test5------");
-        return ResponseEntity.ok("test5");
+        return "/actuator/health";
     }
 
     @GetMapping("void/test6")

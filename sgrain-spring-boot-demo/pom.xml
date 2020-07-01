@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.control</groupId>
-    <artifactId>spring-boot-control-test-service</artifactId>
+    <artifactId>sgrain-spring-boot-demo</artifactId>
 
     <dependencies>
         <dependency>

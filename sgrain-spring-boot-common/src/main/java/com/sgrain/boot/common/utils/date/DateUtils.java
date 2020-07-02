@@ -220,4 +220,38 @@ public class DateUtils {
         return calendar.get(Calendar.WEEK_OF_MONTH);
     }
 
+    /**
+     * 比较日期大小，firstDate大于等于secondDate 返回true,否则返回false
+     *
+     * @param firstDate  日期字符串
+     * @param secondDate 日期字符串
+     * @param format     日期格式
+     * @return
+     */
+    public static boolean compareTo(String firstDate, String secondDate, String format) {
+        try {
+            Date first = org.apache.commons.lang3.time.DateUtils.parseDate(firstDate, format);
+            Date second = org.apache.commons.lang3.time.DateUtils.parseDate(secondDate, format);
+            if (first.compareTo(second) >= 0) {
+                return true;
+            }
+            return false;
+        } catch (ParseException e) {
+            throw new BusinessException(AppHttpStatus.DATE_PARSE_EXCEPTION.getStatus(), AppHttpStatus.DATE_PARSE_EXCEPTION.getMessage());
+        }
+    }
+
+    /**
+     * 比较日期大小，firstDate大于等于secondDate 返回true,否则返回false
+     *
+     * @param firstDate  日期字符串
+     * @param secondDate 日期字符串
+     * @return
+     */
+    public static boolean compareTo(Date firstDate, Date secondDate) {
+        if (firstDate.compareTo(secondDate) >= 0) {
+            return true;
+        }
+        return false;
+    }
 }

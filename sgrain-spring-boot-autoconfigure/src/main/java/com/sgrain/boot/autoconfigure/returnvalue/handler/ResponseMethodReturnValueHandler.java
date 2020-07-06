@@ -1,5 +1,6 @@
 package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
+import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.po.BaseResponse;
 import com.sgrain.boot.common.po.ResponseData;
@@ -36,7 +37,9 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (RouteUtils.readRoute().contains(request.getRequestURI())) {
+        if (RouteUtils.readRoute().contains(request.getRequestURI())
+                || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
+                || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

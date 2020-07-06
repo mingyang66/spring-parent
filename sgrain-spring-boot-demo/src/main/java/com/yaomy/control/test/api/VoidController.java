@@ -1,5 +1,6 @@
 package com.yaomy.control.test.api;
 
+import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.yaomy.control.test.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * @description: Void返回值类型测试
  * @create: 2020/03/03
  */
-@CrossOrigin("http://www.bubuko.com/")
+@ApiWrapperIgnore
 @RestController
 public class VoidController {
     @Autowired
@@ -40,13 +41,11 @@ public class VoidController {
         System.out.println("-----test3----");
         return ResponseEntity.ok().build();
     }
-
-    @PostMapping("void/test4")
-    public ResponseEntity<Void> test4(ArrayList<String> list){
+    @GetMapping("void/test4")
+    public ResponseEntity<String> test4(){
         System.out.println("-----test4----");
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok("sadfsdf");
     }
-
     @GetMapping("void/test5")
     public String test5(){
         System.out.println("-----test5------");

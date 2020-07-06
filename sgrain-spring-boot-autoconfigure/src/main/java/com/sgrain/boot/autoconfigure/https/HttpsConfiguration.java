@@ -1,14 +1,11 @@
 package com.sgrain.boot.autoconfigure.https;
 
-import com.sgrain.boot.autoconfigure.https.HttpsProperties;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +41,10 @@ public class HttpsConfiguration {
         return tomcat;
     }
 
+    /**
+     * 声明Tomcat连接器
+     * @return
+     */
     @Bean
     public Connector httpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
@@ -51,7 +52,7 @@ public class HttpsConfiguration {
         connector.setScheme("http");
         //Connector监听的http的端口号
         connector.setPort(9001);
-        //是否通过此连接器接收的所有请求上设置安全连接标志
+        //是否使用SSL安全协议发送Cookie,以避免明文被网络拦截
         connector.setSecure(false);
         //监听到http的端口号后转向到的https的端口号
         connector.setRedirectPort(9000);

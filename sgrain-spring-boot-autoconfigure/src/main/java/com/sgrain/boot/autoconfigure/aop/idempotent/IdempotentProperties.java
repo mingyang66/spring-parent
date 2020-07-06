@@ -9,6 +9,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.sgrain.idempotent")
 public class IdempotentProperties {
+    /**
+     * 防止重复提交组件
+     */
     private boolean enable;
 
     public boolean isEnable() {

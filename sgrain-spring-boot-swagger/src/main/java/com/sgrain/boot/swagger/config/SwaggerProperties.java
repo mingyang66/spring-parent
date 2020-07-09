@@ -28,7 +28,7 @@ public class SwaggerProperties {
     /**
      * API描述信息
      */
-    private ApiInfo apiInfo;
+    private ApiInfo apiInfo = new ApiInfo();
 
     public boolean isEnable() {
         return enable;

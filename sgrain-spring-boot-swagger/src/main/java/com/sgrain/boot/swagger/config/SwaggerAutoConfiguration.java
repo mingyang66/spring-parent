@@ -16,6 +16,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @program: spring-parent
  * @description: swagger配置类
@@ -30,8 +32,11 @@ public class SwaggerAutoConfiguration {
     @Autowired
     private SwaggerProperties swaggerProperties;
 
-    @Bean
+    @PostConstruct
     public void register() {
+        if(!swaggerProperties.isEnable()){
+            return;
+        }
         //获取分组
         String[] groups = StringUtils.split(swaggerProperties.getGroup(), CharacterUtils.COMMA_EN);
         String[] groupNames = StringUtils.split(swaggerProperties.getGroupName(), CharacterUtils.COMMA_EN);

@@ -4,11 +4,13 @@ import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * HTTP自动跳转HTTPS自动化配置类
@@ -17,9 +19,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(HttpsProperties.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.https", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.sgrain.https", name = "enable", havingValue = "true", matchIfMissing = false)
 public class HttpsConfiguration {
 
+    @Autowired
+    private Environment environment;
     /**
      * spring boot 2.0
      * @return
@@ -51,11 +55,11 @@ public class HttpsConfiguration {
         //设置请求方案
         connector.setScheme("http");
         //Connector监听的http的端口号
-        connector.setPort(9001);
+        connector.setPort(environment.getProperty("server.http.port", Integer.class, 9001));
         //是否使用SSL安全协议发送Cookie,以避免明文被网络拦截
         connector.setSecure(false);
         //监听到http的端口号后转向到的https的端口号
-        connector.setRedirectPort(9000);
+        connector.setRedirectPort(environment.getProperty("server.port",Integer.class, 9000));
         return connector;
     }
 

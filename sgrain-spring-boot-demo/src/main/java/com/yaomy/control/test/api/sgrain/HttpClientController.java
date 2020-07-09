@@ -1,4 +1,4 @@
-package com.yaomy.control.test.api;
+package com.yaomy.control.test.api.sgrain;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
@@ -9,6 +9,7 @@ import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
 import com.yaomy.control.test.po.GmFundPageInfoResData;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author:
  * @create: 2020/04/23
  */
+@Api(tags = "HttpClient控制器")
 @RestController
 @RequestMapping("network")
 public class HttpClientController {

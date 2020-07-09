@@ -78,7 +78,7 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
         logMap.put("Request Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
         logMap.put("Spend Time", StringUtils.join(spentTime, "ms"));
         logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(result));
-        logMap.put("Response Data", result);
+        logMap.put("Response body", result);
         if (LoggerUtils.isDebug()) {
             LoggerUtils.info(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
         } else {

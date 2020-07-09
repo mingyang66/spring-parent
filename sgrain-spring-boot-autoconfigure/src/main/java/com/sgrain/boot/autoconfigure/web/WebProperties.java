@@ -36,9 +36,9 @@ public class WebProperties {
          * 是否开启所有接口的前缀
          */
         private boolean enableAllPrefix = false;
-        //区分大小写
+        //区分大小写,默认true
         private boolean caseSensitive = true;
-        //是否去除前后空格
+        //是否去除前后空格,默认false
         private boolean trimTokens = false;
         //是否缓存匹配规则,默认null等于true
         private boolean cachePatterns = true;
@@ -46,6 +46,8 @@ public class WebProperties {
         private boolean useTrailingSlashMatch = true;
         //URL默认添加前缀
         private String prefix = "api";
+        //忽略指定的路由
+        private String ignoreControllerUrlPrefix;
 
         public boolean isEnableAllPrefix() {
             return enableAllPrefix;
@@ -93,6 +95,14 @@ public class WebProperties {
 
         public void setPrefix(String prefix) {
             this.prefix = prefix;
+        }
+
+        public String getIgnoreControllerUrlPrefix() {
+            return ignoreControllerUrlPrefix;
+        }
+
+        public void setIgnoreControllerUrlPrefix(String ignoreControllerUrlPrefix) {
+            this.ignoreControllerUrlPrefix = ignoreControllerUrlPrefix;
         }
     }
 

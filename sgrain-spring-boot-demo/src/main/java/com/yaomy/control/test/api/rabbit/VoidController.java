@@ -1,4 +1,4 @@
-package com.yaomy.control.test.api;
+package com.yaomy.control.test.api.rabbit;
 
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.yaomy.control.test.po.User;

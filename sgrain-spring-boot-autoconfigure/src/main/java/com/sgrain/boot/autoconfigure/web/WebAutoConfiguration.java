@@ -4,16 +4,12 @@ import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
 import com.sgrain.boot.common.utils.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.Objects;
 
@@ -49,16 +45,16 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         configurer.setPathMatcher(matcher);
         //设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
         configurer.setUseTrailingSlashMatch(webProperties.getPath().isUseTrailingSlashMatch());
+        //忽略URL前缀的控制器类
+        String[] ignoreUrlPrefixController = StringUtils.split(webProperties.getPath().getIgnoreControllerUrlPrefix(), CharacterUtils.COMMA_EN);
         //给所有的接口统一添加前缀
         configurer.addPathPrefix(webProperties.getPath().getPrefix(), c -> {
-            if (c.isAnnotationPresent(RestController.class) || c.isAnnotationPresent(Controller.class)) {
-                if (BooleanUtils.isTrue(webProperties.getPath().isEnableAllPrefix()) || c.isAnnotationPresent(ApiPrefix.class)) {
-                    return true;
-                } else {
-                    return false;
-                }
+            if (!ArrayUtils.contains(ignoreUrlPrefixController, c.getName())
+                    && (BooleanUtils.isTrue(webProperties.getPath().isEnableAllPrefix()) || c.isAnnotationPresent(ApiPrefix.class))) {
+                return true;
+            } else {
+                return false;
             }
-            return false;
         });
     }
 

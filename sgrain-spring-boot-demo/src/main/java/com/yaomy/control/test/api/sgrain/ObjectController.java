@@ -1,4 +1,4 @@
-package com.yaomy.control.test.api;
+package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Lists;
 import com.sgrain.boot.common.enums.AppHttpStatus;
@@ -6,6 +6,7 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.yaomy.control.test.po.User;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -25,10 +26,11 @@ import java.util.*;
  * @author: 姚明洋
  * @create: 2020/05/22
  */
+@Api(tags = "对象控制器")
 @RestController
 public class ObjectController {
 
-    @GetMapping("api/obj/test1")
+    @GetMapping("obj/test1")
     public void test1(){
         List names = new ArrayList();
 

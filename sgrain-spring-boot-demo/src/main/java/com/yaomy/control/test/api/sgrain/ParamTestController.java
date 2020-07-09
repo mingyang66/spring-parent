@@ -1,4 +1,4 @@
-package com.yaomy.control.test.api;
+package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Lists;
 import com.sgrain.boot.common.utils.json.JSONUtils;

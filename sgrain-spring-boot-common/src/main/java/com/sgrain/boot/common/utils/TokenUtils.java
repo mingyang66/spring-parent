@@ -1,5 +1,6 @@
 package com.sgrain.boot.common.utils;
 
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.constant;
 
 /**
  * @Description: 字符集编码

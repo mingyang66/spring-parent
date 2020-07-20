@@ -4,7 +4,7 @@ package com.sgrain.boot.autoconfigure.aop.interceptor;
 import com.sgrain.boot.autoconfigure.aop.annotation.Idempotent;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.utils.CharacterUtils;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.RequestUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

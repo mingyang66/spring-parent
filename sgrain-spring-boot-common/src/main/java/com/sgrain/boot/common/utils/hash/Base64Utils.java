@@ -1,8 +1,8 @@
-package com.sgrain.boot.common.utils.base64;
+package com.sgrain.boot.common.utils.hash;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.utils.CharsetUtils;
+import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import com.sgrain.boot.common.utils.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 

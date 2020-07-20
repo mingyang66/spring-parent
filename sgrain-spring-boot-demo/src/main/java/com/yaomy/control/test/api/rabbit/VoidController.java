@@ -21,7 +21,7 @@ public class VoidController {
     @Autowired
     private Environment environment;
 
-    @PostMapping("void/test1")
+    @PostMapping(value = {"void/test1", "void/doubl"})
     public User test1(@RequestBody User user){
         System.out.println(environment.getProperty("test.a"));
         System.out.println(environment.getProperty("test.b"));

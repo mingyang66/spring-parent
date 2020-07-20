@@ -3,7 +3,7 @@ package com.sgrain.boot.autoconfigure.aop.interceptor;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.common.utils.ObjectSizeUtil;
+import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInterceptor;

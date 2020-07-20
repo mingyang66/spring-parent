@@ -1,6 +1,6 @@
 package com.yaomy.control.nio.thread;
 
-import com.sgrain.boot.common.utils.CharsetUtils;
+import com.sgrain.boot.common.utils.constant.CharsetUtils;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

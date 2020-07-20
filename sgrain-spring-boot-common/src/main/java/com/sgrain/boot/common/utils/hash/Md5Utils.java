@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.hash;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedInputStream;

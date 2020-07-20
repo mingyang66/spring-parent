@@ -2,7 +2,7 @@ package com.sgrain.boot.autoconfigure.aop.idempotent;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.IdempotentMethodInterceptor;
 import com.sgrain.boot.common.enums.AopOrderEnum;
-import com.sgrain.boot.common.utils.CharacterUtils;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.TokenUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;

@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.calculation;
 
 import com.sgrain.boot.common.utils.io.FileUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;

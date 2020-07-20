@@ -2,7 +2,7 @@ package com.sgrain.boot.common.utils.calculation;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.utils.CharacterUtils;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;

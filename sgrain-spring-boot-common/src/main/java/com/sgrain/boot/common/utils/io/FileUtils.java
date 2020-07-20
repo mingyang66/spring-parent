@@ -2,7 +2,7 @@ package com.sgrain.boot.common.utils.io;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.utils.CharsetUtils;
+import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.lang3.StringUtils;

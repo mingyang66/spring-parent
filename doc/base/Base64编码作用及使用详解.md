@@ -26,7 +26,7 @@ Base64一般用于在HTTP协议下传输二进制数据，由于HTTP协议是文
 ##### 3.自己封装的工具类
 
 ```java
-package com.sgrain.boot.common.utils.base64;
+package com.sgrain.boot.common.utils.hash;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;

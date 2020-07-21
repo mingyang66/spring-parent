@@ -137,4 +137,4 @@ public class ResponseMethodReturnValueConfigurer implements InitializingBean {
 ```
 >spring boot框架已经定义了处理上述两种方式的处理程序，所以要做的就是将加载进入容器的处理程序替换成自定义的程序，这样就可以灵活的控制放回数据的格式；
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-returnvalue-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-returnvalue-service)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/doc/returnvalue](https://github.com/mingyang66/spring-parent/tree/master/doc/returnvalue)

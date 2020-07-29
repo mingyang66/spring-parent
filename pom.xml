@@ -25,6 +25,7 @@
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
         <module>sgrain-spring-boot-swagger</module>
+        <module>sgrain-spring-boot-actuator</module>
     </modules>
     <groupId>com.sgrain.boot</groupId>
     <artifactId>spring-parent</artifactId>

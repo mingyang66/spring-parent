@@ -9,14 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yaomy.control</groupId>
-    <artifactId>sgrain-spring-boot-demo</artifactId>
-
+    <artifactId>sgrain-spring-boot-actuator</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.sgrain.boot</groupId>
-            <artifactId>sgrain-spring-boot-starter</artifactId>
-            <version>2.1.4.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+       <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
     </dependencies>
+
 </project>

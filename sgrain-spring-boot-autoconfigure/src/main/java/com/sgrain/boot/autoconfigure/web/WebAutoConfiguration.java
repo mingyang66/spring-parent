@@ -1,6 +1,7 @@
 package com.sgrain.boot.autoconfigure.web;
 
 import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -49,8 +50,18 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         String[] ignoreUrlPrefixController = StringUtils.split(webProperties.getPath().getIgnoreControllerUrlPrefix(), CharacterUtils.COMMA_EN);
         //给所有的接口统一添加前缀
         configurer.addPathPrefix(webProperties.getPath().getPrefix(), c -> {
-            if (!ArrayUtils.contains(ignoreUrlPrefixController, c.getName())
-                    && (BooleanUtils.isTrue(webProperties.getPath().isEnableAllPrefix()) || c.isAnnotationPresent(ApiPrefix.class))) {
+            /**
+             * 1.注解@ApiPrefix优先级最高
+             * 2.isEnableAllPrefix方法优先级第二
+             */
+            if (c.isAnnotationPresent(ApiPrefix.class)) {
+                if (BooleanUtils.isFalse(c.getAnnotation(ApiPrefix.class).ignore())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            if (!ArrayUtils.contains(ignoreUrlPrefixController, c.getName()) && (BooleanUtils.isTrue(webProperties.getPath().isEnableAllPrefix()))) {
                 return true;
             } else {
                 return false;
@@ -78,41 +89,41 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        if(BooleanUtils.isFalse(webProperties.getCors().isEnable())){
+        if (BooleanUtils.isFalse(webProperties.getCors().isEnable())) {
             return;
         }
         //启用跨域匹配的路径，默认所有请求，示例：/admin或/admin/**
         CorsRegistration registration = registry.addMapping("/**");
         //允许来自所有域名请求
-        if(ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedOrigins())){
+        if (ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedOrigins())) {
             registration.allowedOrigins(webProperties.getCors().getAllowedOrigins());
         } else {
             registration.allowedOrigins("*");
         }
         //设置所允许的HTTP请求方法，*号代表允许所有方法
-        if(ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedMethods())){
+        if (ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedMethods())) {
             registration.allowedMethods(webProperties.getCors().getAllowedMethods());
         } else {
             registration.allowedMethods("OPTIONS", "GET", "PUT", "POST");
         }
         //服务器支持的所有头信息字段，多个字段用逗号分隔；默认支持所有，*号代表所有
-        if(ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedHeaders())){
+        if (ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedHeaders())) {
             registration.allowedHeaders(webProperties.getCors().getAllowedHeaders());
         } else {
             registration.allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept");
         }
         //浏览器是否应该发送凭据，如是否允许发送Cookie，true为允许
-        if(BooleanUtils.isFalse(webProperties.getCors().isAllowCredentials())){
+        if (BooleanUtils.isFalse(webProperties.getCors().isAllowCredentials())) {
             registration.allowCredentials(false);
         } else {
             registration.allowCredentials(true);
         }
         //设置响应HEAD,默认无任何设置，不可以使用*号
-        if(ArrayUtils.isNotEmpty(webProperties.getCors().getExposedHeaders())){
+        if (ArrayUtils.isNotEmpty(webProperties.getCors().getExposedHeaders())) {
             registration.exposedHeaders(webProperties.getCors().getExposedHeaders());
         }
         //设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
-        if(Objects.nonNull(webProperties.getCors().getMaxAge())){
+        if (Objects.nonNull(webProperties.getCors().getMaxAge())) {
             registration.maxAge(webProperties.getCors().getMaxAge());
         }
     }

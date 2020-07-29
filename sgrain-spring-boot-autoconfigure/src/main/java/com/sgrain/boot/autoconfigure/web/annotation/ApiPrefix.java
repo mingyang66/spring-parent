@@ -9,4 +9,9 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiPrefix {
+    /**
+     * 是否忽略前缀，默认false
+     * @return
+     */
+    boolean ignore() default false;
 }

@@ -12,13 +12,18 @@
     <artifactId>sgrain-spring-boot-actuator</artifactId>
     <dependencies>
         <dependency>
+            <groupId>com.sgrain.boot</groupId>
+            <artifactId>sgrain-spring-boot-common</artifactId>
+            <version>2.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-       <!-- <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
+        </dependency>
     </dependencies>
 
 </project>

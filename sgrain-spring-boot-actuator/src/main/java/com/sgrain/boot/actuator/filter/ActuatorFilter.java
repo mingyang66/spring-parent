@@ -1,11 +1,13 @@
 package com.sgrain.boot.actuator.filter;
 
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
+import com.sgrain.boot.common.utils.RequestUtils;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -14,20 +16,15 @@ import java.io.IOException;
  * @author: 姚明洋
  * @create: 2020/07/22
  */
-@Component
-@WebFilter(urlPatterns = {"/**"}, description = "对actuator端点过滤")
-public class ActuatorFilter extends GenericFilterBean {
+public class ActuatorFilter extends OncePerRequestFilter {
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("---------------过滤器----------");
-        chain.doFilter(request, response);
-    }
-
-    /**
-     * 销毁方法
-     */
-    @Override
-    public void destroy() {
-
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("----OncePerRequestFilter----");
+        AntPathMatcher matcher = new AntPathMatcher();
+        System.out.println(request.getRequestURL()+"-------"+ matcher.match("/actuator/**", request.getRequestURI()));
+        /*if(RequestUtils.isInternet(RequestUtils.getClientIp(request)) && !matcher.match("/actuator/**", request.getRequestURI())){
+            filterChain.doFilter(request, response);
+        }*/
+        filterChain.doFilter(request, response);
     }
 }

@@ -5,6 +5,7 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.po.BaseRequest;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,15 +57,25 @@ public class RequestUtils {
     }
 
     /**
-     * 判断请求IP是否是内网IP
+     *
+     * @param ip
+     * @return
      */
-    public static boolean isInnerIp(String ip) {
-        String reg = "((192\\.168|172\\.([1][6-9]|[2]\\d|3[01]))"
-                + "(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){2}|"
-                + "^(\\D)*10(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){3})";
-        Pattern p = Pattern.compile(reg);
-        Matcher matcher = p.matcher(ip);
-        return matcher.find();
+    public static boolean noInternet(String ip){
+        return !isInternet(ip);
+    }
+    /**
+     * 判定是否是内网地址
+     * @param ip
+     * @return
+     */
+    public static boolean isInternet(String ip) {
+        if(StringUtils.isEmpty(ip)){
+            return false;
+        }
+        Pattern reg = Pattern.compile("^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$");
+        Matcher match = reg.matcher(ip);
+        return match.find();
     }
 
     /**

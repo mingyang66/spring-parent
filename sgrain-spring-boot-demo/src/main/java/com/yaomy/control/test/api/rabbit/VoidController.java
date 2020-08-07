@@ -1,5 +1,6 @@
 package com.yaomy.control.test.api.rabbit;
 
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,17 @@ public class VoidController {
         return user;
     }
 
-    @PostMapping("void/test2")
-    public void test2(){
-        System.out.println("-----test2----");
-        throw new NullPointerException();
+    @GetMapping("void/test2")
+    public String test2(){
+        for(int i=0;i<100;i++) {
+            LoggerUtils.module(VoidController.class, "EMIS-VOID", "EMIS" + i + "你好---------VoidController-------哈哈哈---------");
+            LoggerUtils.info(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"info");
+            LoggerUtils.debug(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"debug");
+            LoggerUtils.error(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"error");
+            LoggerUtils.warn(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"warn");
+            LoggerUtils.trace(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"trace");
+        }
+        return "success";
     }
 
     @PostMapping("void/test3")

@@ -1,6 +1,10 @@
 package com.sgrain.boot.actuator.filter;
 
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
+import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,9 +24,11 @@ public class ActuatorFilter extends OncePerRequestFilter {
         System.out.println("----OncePerRequestFilter----");
         AntPathMatcher matcher = new AntPathMatcher();
         System.out.println(request.getRequestURL()+"-------"+ matcher.match("/actuator/**", request.getRequestURI()));
-        /*if(RequestUtils.isInternet(RequestUtils.getClientIp(request)) && !matcher.match("/actuator/**", request.getRequestURI())){
+        if(RequestUtils.isInternet(RequestUtils.getClientIp(request))){
             filterChain.doFilter(request, response);
-        }*/
-        filterChain.doFilter(request, response);
+        } else {
+            response.setHeader("Content-Type", "text/html; charset=UTF-8");
+            response.getWriter().println("非内网用户，拒绝访问");
+        }
     }
 }

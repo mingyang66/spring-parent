@@ -57,21 +57,25 @@ public class RequestUtils {
     }
 
     /**
+     * @param ip
+     * @return
+     */
+    public static boolean noInternet(String ip) {
+        return !isInternet(ip);
+    }
+
+    /**
+     * 判定是否是内网地址
      *
      * @param ip
      * @return
      */
-    public static boolean noInternet(String ip){
-        return !isInternet(ip);
-    }
-    /**
-     * 判定是否是内网地址
-     * @param ip
-     * @return
-     */
     public static boolean isInternet(String ip) {
-        if(StringUtils.isEmpty(ip)){
+        if (StringUtils.isEmpty(ip)) {
             return false;
+        }
+        if (StringUtils.equals("0:0:0:0:0:0:0:1", ip)) {
+            return true;
         }
         Pattern reg = Pattern.compile("^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$");
         Matcher match = reg.matcher(ip);

@@ -7,9 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @program: spring-parent
  * @description: 访问日志级别
- * @author: 姚明洋
  * @create: 2020/08/07
  */
 public class AccessLogLevel {

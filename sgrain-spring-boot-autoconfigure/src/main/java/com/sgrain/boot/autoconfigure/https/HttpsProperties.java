@@ -3,9 +3,7 @@ package com.sgrain.boot.autoconfigure.https;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @program: spring-parent
  * @description: Https属性配置文件
- * @author: 姚明洋
  * @create: 2020/06/28
  */
 @ConfigurationProperties(prefix = "spring.sgrain.https")

@@ -19,9 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.nio.charset.Charset;
 
 /**
- * @program: spring-parent
  * @description: 通过名字和级别设置Appender
- * @author: 姚明洋
  * @create: 2020/08/04
  */
 public class AccessLogRollingFileAppender {

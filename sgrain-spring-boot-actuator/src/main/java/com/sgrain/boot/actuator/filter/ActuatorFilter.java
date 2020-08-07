@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @program: spring-parent
  * @description: actuator监控拦截器
- * @author: 姚明洋
  * @create: 2020/07/22
  */
 public class ActuatorFilter extends OncePerRequestFilter {

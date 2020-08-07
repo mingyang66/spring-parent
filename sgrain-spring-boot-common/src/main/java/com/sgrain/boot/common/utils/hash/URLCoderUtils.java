@@ -10,9 +10,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 /**
- * @program: spring-parent
  * @description: URL编码解码工具类 application/x-www-form-rulencoded MIME字符串之间的转换
- * @author: 姚明洋
  * @create: 2020/07/29
  */
 public class URLCoderUtils {

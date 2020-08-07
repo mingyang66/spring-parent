@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * @program: spring-parent
  * @description: 参数单元测试
- * @author: 姚明洋
  * @create: 2020/05/20
  */
 @RestController

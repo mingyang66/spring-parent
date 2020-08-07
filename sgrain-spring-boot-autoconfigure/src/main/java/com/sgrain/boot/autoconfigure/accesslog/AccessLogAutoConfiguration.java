@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @program: spring-parent
  * @description: LogBack日志组件
- * @author: 姚明洋
  * @create: 2020/08/08
  */
 @Configuration

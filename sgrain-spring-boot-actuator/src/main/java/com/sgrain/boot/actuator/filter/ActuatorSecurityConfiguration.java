@@ -6,9 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/07/30
  */
 @Configuration(proxyBeanMethods = false)

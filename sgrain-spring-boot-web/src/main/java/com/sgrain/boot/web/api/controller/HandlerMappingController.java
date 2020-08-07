@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: spring-parent
  * @description: web应用程序之中映射关系控制器
- * @author: 姚明洋
  * @create: 2020/07/09
  */
 @RequestMapping("handler")

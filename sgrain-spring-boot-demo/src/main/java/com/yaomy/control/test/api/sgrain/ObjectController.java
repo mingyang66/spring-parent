@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: spring-parent
  * @description: 对象测试类
- * @author: 姚明洋
  * @create: 2020/05/22
  */
 @Api(tags = "对象控制器")

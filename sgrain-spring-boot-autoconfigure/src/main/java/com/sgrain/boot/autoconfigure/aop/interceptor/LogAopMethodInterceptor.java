@@ -73,7 +73,7 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
         HttpServletRequest request = RequestUtils.getRequest();
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("Class|Method", StringUtils.join(invocation.getThis().getClass(), ".", invocation.getMethod().getName()));
-        logMap.put("Request Url", request.getRequestURL());
+        logMap.put("Request URL", request.getRequestURL());
         logMap.put("Request Method", request.getMethod());
         logMap.put("Request Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
         logMap.put("Spend Time", StringUtils.join(spentTime, "ms"));
@@ -94,7 +94,7 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
         HttpServletRequest request = RequestUtils.getRequest();
         Map<String, Object> errorLogMap = Maps.newLinkedHashMap();
         errorLogMap.put("Class|Method", StringUtils.join(invocation.getThis().getClass(), ".", invocation.getMethod().getName()));
-        errorLogMap.put("Request Url", request.getRequestURL());
+        errorLogMap.put("Request URL", request.getRequestURL());
         errorLogMap.put("Request Method", request.getMethod());
         errorLogMap.put("Reuqest Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
         errorLogMap.put("Spend Time", StringUtils.join(spentTime, "ms"));

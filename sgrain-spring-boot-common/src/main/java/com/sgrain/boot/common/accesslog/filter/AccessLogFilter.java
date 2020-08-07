@@ -6,9 +6,7 @@ import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.core.spi.FilterReply;
 
 /**
- * @program: spring-parent
  * @description: 日志的过滤级别
- * @author: 姚明洋
  * @create: 2020/08/04
  */
 public class AccessLogFilter {

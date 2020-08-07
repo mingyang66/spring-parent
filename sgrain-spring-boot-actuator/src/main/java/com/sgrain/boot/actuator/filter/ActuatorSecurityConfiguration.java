@@ -9,17 +9,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @description:
  * @create: 2020/07/30
  */
-@Configuration(proxyBeanMethods = false)
+@Configuration
 public class ActuatorSecurityConfiguration extends WebSecurityConfigurerAdapter {
      @Override
      protected void configure(HttpSecurity http) throws Exception {
        //对actuator监控所用的访问全部需要认证
-       http.formLogin()
+     /*  http.formLogin()
                .and()
                    .authorizeRequests()
                    .antMatchers("/actuator/*")
                    .authenticated()
                .and()
-                    .addFilterBefore(new ActuatorFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new ActuatorFilter(), UsernamePasswordAuthenticationFilter.class);*/
+         http.authorizeRequests().anyRequest().permitAll()
+                 .and().csrf().disable();
     }
 }

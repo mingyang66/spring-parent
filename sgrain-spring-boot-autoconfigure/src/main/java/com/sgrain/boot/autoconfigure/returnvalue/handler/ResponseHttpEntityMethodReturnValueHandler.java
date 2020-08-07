@@ -42,7 +42,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         //获取ResponseEntity封装的真实返回值
         Object body = (null == returnValue) ? null : ((ResponseEntity) returnValue).getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (RouteUtils.readRoute().contains(request.getRequestURI())
+        if (RouteUtils.match(request.getRequestURI())
                 || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

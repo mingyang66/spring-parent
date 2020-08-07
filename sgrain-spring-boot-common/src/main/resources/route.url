@@ -1,7 +1,6 @@
-/swagger-resources/configuration/ui
-/swagger-resources/configuration/security
-/swagger-resources
+/swagger-resources/**
 /v2/api-docs
 /swagger-ui.html
 /oauth/token
 /error
+/actuator/**

@@ -37,7 +37,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (RouteUtils.readRoute().contains(request.getRequestURI())
+        if (RouteUtils.match(request.getRequestURI())
                 || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

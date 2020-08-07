@@ -18,5 +18,10 @@
             <artifactId>sgrain-spring-boot-starter</artifactId>
             <version>2.1.4.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.2.4</version>
+        </dependency>
     </dependencies>
 </project>

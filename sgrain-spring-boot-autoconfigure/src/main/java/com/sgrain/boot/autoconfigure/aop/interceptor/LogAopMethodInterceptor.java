@@ -1,22 +1,15 @@
 package com.sgrain.boot.autoconfigure.aop.interceptor;
 
-import com.google.common.collect.Maps;
-import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
+import ch.qos.logback.classic.Level;
+import com.sgrain.boot.autoconfigure.aop.log.event.LogAop;
+import com.sgrain.boot.autoconfigure.aop.log.event.LogApplicationEvent;
 import com.sgrain.boot.common.utils.RequestUtils;
-import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -24,16 +17,22 @@ import java.util.Map;
  */
 public class LogAopMethodInterceptor implements MethodInterceptor {
 
+    private ApplicationEventPublisher publisher;
+
+    public LogAopMethodInterceptor(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
+
     /**
      * 拦截接口日志
+     *
      * @param invocation 接口方法切面连接点
      * @return
      * @throws Throwable
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        //获取请求参数，且该参数获取必须在proceed之前
-        Map<String, Object> paramsMap = RequestUtils.getRequestParamMap(invocation);
+        LogAop logAop = new LogAop(invocation, RequestUtils.getRequest());
         //新建计时器并开始计时
         StopWatch stopWatch = StopWatch.createStarted();
         try {
@@ -41,75 +40,36 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
             Object result = invocation.proceed();
             //暂停计时
             stopWatch.stop();
-            //耗时
-            long spentTime = (stopWatch.getTime() == 0) ? 1 : stopWatch.getTime();
+
             if (ObjectUtils.isNotEmpty(result) && (result instanceof ResponseEntity)) {
                 Object resultBody = ((ResponseEntity) result).getBody();
-                //打印INFO日志
-                logInfo(invocation, paramsMap, resultBody, spentTime);
+                logAop.setResult(resultBody);
             } else {
-                //打印INFO日志
-                logInfo(invocation, paramsMap, result, spentTime);
+                logAop.setResult(result);
             }
+            //日志级别
+            logAop.setLogLevel(Level.INFO.levelStr);
+            //耗时
+            logAop.setSpendTime((stopWatch.getTime() == 0) ? 1 : stopWatch.getTime());
+            //发布事件
+            publisher.publishEvent(new LogApplicationEvent(logAop));
+
             return result;
         } catch (Throwable e) {
             //暂停计时
             if (stopWatch.isStarted() || stopWatch.isSuspended()) {
                 stopWatch.stop();
             }
+            //日志级别
+            logAop.setLogLevel(Level.ERROR.levelStr);
             //耗时
-            long spentTime = (stopWatch.getTime() == 0) ? 1 : stopWatch.getTime();
-            //打印ERROR日志
-            logError(invocation, paramsMap, spentTime, e);
+            logAop.setSpendTime((stopWatch.getTime() == 0) ? 1 : stopWatch.getTime());
+            //异常
+            logAop.setThrowable(e);
+            //发布事件
+            publisher.publishEvent(new LogApplicationEvent(logAop));
+
             throw e;
         }
-    }
-
-    /**
-     * @Description 记录INFO日志
-     * @Version 1.0
-     */
-    private void logInfo(MethodInvocation invocation, Map<String, Object> paramsMap, Object result, long spentTime) {
-        HttpServletRequest request = RequestUtils.getRequest();
-        Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Class|Method", StringUtils.join(invocation.getThis().getClass(), ".", invocation.getMethod().getName()));
-        logMap.put("Request URL", request.getRequestURL());
-        logMap.put("Request Method", request.getMethod());
-        logMap.put("Request Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
-        logMap.put("Spend Time", StringUtils.join(spentTime, "ms"));
-        logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(result));
-        logMap.put("Response body", result);
-        if (LoggerUtils.isDebug()) {
-            LoggerUtils.info(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
-        } else {
-            LoggerUtils.info(invocation.getThis().getClass(), JSONUtils.toJSONString(logMap));
-        }
-    }
-
-    /**
-     * @Description 异常日志
-     * @Version 1.0
-     */
-    private void logError(MethodInvocation invocation, Map<String, Object> paramsMap, long spentTime, Throwable e) {
-        HttpServletRequest request = RequestUtils.getRequest();
-        Map<String, Object> errorLogMap = Maps.newLinkedHashMap();
-        errorLogMap.put("Class|Method", StringUtils.join(invocation.getThis().getClass(), ".", invocation.getMethod().getName()));
-        errorLogMap.put("Request URL", request.getRequestURL());
-        errorLogMap.put("Request Method", request.getMethod());
-        errorLogMap.put("Reuqest Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
-        errorLogMap.put("Spend Time", StringUtils.join(spentTime, "ms"));
-
-        if (e instanceof BusinessException) {
-            BusinessException exception = (BusinessException) e;
-            errorLogMap.put("Exception", StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
-        } else {
-            errorLogMap.put("Exception", StringUtils.join(e.getStackTrace()[0], " ", e));
-        }
-        if (LoggerUtils.isDebug()) {
-            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONPrettyString(errorLogMap));
-        } else {
-            LoggerUtils.error(invocation.getThis().getClass(), JSONUtils.toJSONString(errorLogMap));
-        }
-
     }
 }

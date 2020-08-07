@@ -2,6 +2,7 @@ package com.yaomy.control.test.api.rabbit;
 
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping("void/test46")
-    public String test2(){
-        for(int i=0;i<100;i++){
+    public String test2(@RequestParam String name){
+        for(int i=0;i<1;i++){
             LoggerUtils.module(TestController.class, "EMIS-TEST", "EMIS"+i+"你好-------TestController---------哈哈哈---------");
             LoggerUtils.info(TestController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"info");
             LoggerUtils.debug(TestController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"debug");
@@ -22,7 +23,7 @@ public class TestController {
             LoggerUtils.warn(TestController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"warn");
             LoggerUtils.trace(TestController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"trace");
         }
-        return "success";
+        return "success"+name;
     }
 
 

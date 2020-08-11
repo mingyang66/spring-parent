@@ -20,7 +20,7 @@ public class RouteUtils {
     /**
      * 路由配置文件地址
      */
-    private static final String filePath = "route.url";
+    private static final String filePath = "route.txt";
     public static List<String> list;
     static {
         InputStream inputStream = RouteUtils.class.getClassLoader().getResourceAsStream(filePath);

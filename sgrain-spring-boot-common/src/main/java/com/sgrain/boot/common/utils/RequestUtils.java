@@ -1,7 +1,5 @@
 package com.sgrain.boot.common.utils;
 
-import com.sgrain.boot.common.enums.AppHttpStatus;
-import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.po.BaseRequest;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -31,7 +29,10 @@ public class RequestUtils {
      * unknown
      */
     private static final String UNKNOWN = "unknown";
+    //本地IP
     private static final String LOCAL_IP = "127.0.0.1";
+    //服务器IP
+    private static String SERVER_IP = null;
 
     /**
      * 获取客户单IP地址
@@ -86,25 +87,32 @@ public class RequestUtils {
      * 获取服务器端的IP
      */
     public static String getServerIp() {
+        if (StringUtils.isNotEmpty(SERVER_IP)) {
+            return SERVER_IP;
+        }
         try {
             Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
             while (allNetInterfaces.hasMoreElements()) {
                 NetworkInterface netInterface = allNetInterfaces.nextElement();
-                Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress ip = addresses.nextElement();
-                    //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
-                    if (ip != null
-                            && !ip.isLoopbackAddress()
-                            && !ip.getHostAddress().contains(":")) {
-                        return ip.getHostAddress();
+                String name = netInterface.getName();
+                if (!StringUtils.contains(name, "docker") && !StringUtils.contains(name, "lo")) {
+                    Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        InetAddress ip = addresses.nextElement();
+                        //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
+                        if (ip != null
+                                && !ip.isLoopbackAddress()
+                                && !ip.getHostAddress().contains(":")) {
+                            SERVER_IP = ip.getHostAddress();
+                            break;
+                        }
                     }
                 }
             }
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.DATA_NOT_FOUND_EXCEPTION.getStatus(), "获取服务器端IP地址异常，" + e);
+            SERVER_IP = LOCAL_IP;
         }
-        return LOCAL_IP;
+        return SERVER_IP;
     }
 
     /**
@@ -187,5 +195,9 @@ public class RequestUtils {
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
         return attributes.getResponse();
+    }
+
+    public static void setServerIp(String serverIp) {
+        SERVER_IP = serverIp;
     }
 }

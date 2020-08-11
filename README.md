@@ -127,5 +127,28 @@ spring.sgrain.swagger.api-info.title=Springboot2.3.0 API接口文档
 spring.sgrain.swagger.api-info.description=小米粥是以小米作为主要食材熬制而成的一种独具特色的北方粥点，口味清淡，清香味，具有简单易制，健胃消食的特点。煮粥时一定要先烧开水然后放入洗净后的小米，先煮沸，然后用文火熬，汤粘稠后即可关火。
 #版本号
 spring.sgrain.swagger.api-info.version=V2.1.3.RELEASE
+
+#日志组件
+#启动日志访问组件，默认false
+spring.sgrain.accesslog.enable=true
+#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：DEBUG
+spring.sgrain.accesslog.level=debug
+#通用日志输出格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+spring.sgrain.accesslog.common-pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+#模块日志输出格式，默认：%msg%n
+spring.sgrain.accesslog.module-pattern=%msg%n
+#是否将模块日志输出到控制台，默认false
+spring.sgrain.accesslog.enable-module-consule=true
+#日志文件存放路径，默认是:./logs
+spring.sgrain.accesslog.path=./logs
+#设置要保留的最大存档文件数,默认 7
+spring.sgrain.accesslog.max-history=7
+#是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
+#默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
+spring.sgrain.accesslog.enable-size-and-time-rolling-policy=true
+#最大日志文件大小 KB、MB、GB，默认500MB
+spring.sgrain.accesslog.max-file-size=500MB
+#文件总大小限制 KB、MB、GB，默认5GB
+spring.sgrain.accesslog.total-size-cap=5GB
 ```
 

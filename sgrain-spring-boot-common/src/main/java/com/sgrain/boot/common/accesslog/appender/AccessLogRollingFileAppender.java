@@ -57,6 +57,9 @@ public class AccessLogRollingFileAppender {
         if (accessLog.isEnableSizeAndTimeRollingPolicy() && level.levelInt >= AccessLogLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
+            //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
+            // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
+            policy.setContext(loggerContext);
             /**
              * 归档文件名格式设置
              * 将文件名及路径字符串编译为字符串
@@ -83,9 +86,6 @@ public class AccessLogRollingFileAppender {
             }
             //设置父节点是appender
             policy.setParent(appender);
-            //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
-            // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-            policy.setContext(loggerContext);
             policy.start();
 
             //设置文件归档策略
@@ -93,6 +93,9 @@ public class AccessLogRollingFileAppender {
         } else if(level.levelInt >= AccessLogLevel.getNextLogLevel(accessLog.getLevel()).levelInt){
             //文件归档大小和时间设置
             TimeBasedRollingPolicy policy = new TimeBasedRollingPolicy();
+            //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
+            // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
+            policy.setContext(loggerContext);
             /**
              * 归档文件名格式设置
              * 将文件名及路径字符串编译为字符串
@@ -111,9 +114,6 @@ public class AccessLogRollingFileAppender {
             policy.setMaxHistory(accessLog.getMaxHistory());
             //设置父节点是appender
             policy.setParent(appender);
-            //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
-            // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-            policy.setContext(loggerContext);
 
             policy.start();
 

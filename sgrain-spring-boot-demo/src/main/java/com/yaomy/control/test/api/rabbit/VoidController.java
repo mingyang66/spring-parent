@@ -5,6 +5,8 @@ import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,8 @@ import java.util.UUID;
 public class VoidController {
     @Autowired
     private Environment environment;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping(value = {"void/test1", "void/doubl"})
     public User test1(@RequestBody User user){
@@ -34,10 +38,11 @@ public class VoidController {
         user.setAge(12);
         return user;
     }
-
     @GetMapping("void/test2")
     public String test2(){
-        for(int i=0;i<100;i++) {
+        BoundValueOperations operations = stringRedisTemplate.boundValueOps("test:tt");
+        for(int i=0;i<10;i++) {
+            operations.set("hhhhhhhhhhhhhhhh"+i);
             LoggerUtils.module(VoidController.class, "EMIS-VOID", "EMIS" + i + "你好---------VoidController-------哈哈哈---------");
             LoggerUtils.info(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"info");
             LoggerUtils.debug(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"debug");

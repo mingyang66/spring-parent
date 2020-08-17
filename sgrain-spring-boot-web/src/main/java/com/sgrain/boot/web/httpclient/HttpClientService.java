@@ -217,7 +217,7 @@ public class HttpClientService {
         }
         logMap.put("Spend Time", StringUtils.join(time, "ms"));
         logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(entity.getBody()));
-        logMap.put("Response Data", entity.getBody());
+        logMap.put("Response Body", entity.getBody());
         if (LoggerUtils.isDebug()) {
             LoggerUtils.info(HttpClientService.class, JSONUtils.toJSONPrettyString(logMap));
         } else {

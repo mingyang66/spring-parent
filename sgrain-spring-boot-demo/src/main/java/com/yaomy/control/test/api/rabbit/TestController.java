@@ -1,10 +1,13 @@
 package com.yaomy.control.test.api.rabbit;
 
 import com.sgrain.boot.common.utils.LoggerUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @program: spring-parent
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TestController {
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("void/test46/{name}")
     public String test2(@PathVariable String name){
@@ -27,5 +33,9 @@ public class TestController {
         return "success"+name;
     }
 
-
+    @GetMapping("client")
+    public ResponseEntity<String> client(){
+        String url = "http://127.0.0.1:9000/api/void/test2";
+        return restTemplate.getForEntity(url, String.class);
+    }
 }

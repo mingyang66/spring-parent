@@ -1,5 +1,6 @@
 package com.sgrain.boot.autoconfigure.httpclient;
 
+import com.sgrain.boot.autoconfigure.httpclient.interceptor.HttpClientInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,6 +13,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * @Description: 将RestTemplate加入容器
@@ -50,6 +52,9 @@ public class HttpClientAutoConfiguration {
             }
         };
         restTemplate.setErrorHandler(responseErrorHandler);
+        //添加拦截器
+        restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor()));
+
         return restTemplate;
     }
     /**

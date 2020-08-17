@@ -1,6 +1,7 @@
 package com.sgrain.boot.common.utils;
 
 import com.sgrain.boot.common.po.BaseRequest;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +54,9 @@ public class RequestUtils {
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
+        }
+        if (StringUtils.equalsIgnoreCase("0:0:0:0:0:0:0:1", ip)) {
+            ip = LOCAL_IP;
         }
         return ip;
     }
@@ -122,11 +126,11 @@ public class RequestUtils {
      * @return 参数
      */
     public static Map<String, Object> getRequestParamMap(MethodInvocation invocation) {
+        Object[] args = invocation.getArguments();
         Parameter[] parameters = invocation.getMethod().getParameters();
         if (ArrayUtils.isEmpty(parameters)) {
             return Collections.emptyMap();
         }
-        Object[] args = invocation.getArguments();
         Map<String, Object> paramMap = new LinkedHashMap<>();
         HttpServletRequest request = getRequest();
         for (int i = 0; i < parameters.length; i++) {
@@ -141,8 +145,7 @@ public class RequestUtils {
                     paramMap.put(key, request.getParameter(key));
                 }
                 continue;
-            }
-            if (args[i] instanceof BaseRequest) {
+            } else if (args[i] instanceof BaseRequest) {
                 BaseRequest baseRequest = (BaseRequest) args[i];
                 paramMap.put(parameter.getName(), baseRequest);
             } else if (args[i] instanceof MultipartFile) {
@@ -155,7 +158,7 @@ public class RequestUtils {
                 paramMap.put(parameter.getName(), args[i]);
             }
         }
-        return paramMap;
+        return JSONUtils.toJavaBean(JSONUtils.toJSONString(paramMap), Map.class);
     }
 
     /**

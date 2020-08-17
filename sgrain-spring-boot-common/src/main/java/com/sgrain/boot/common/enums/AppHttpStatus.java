@@ -43,7 +43,9 @@ public enum AppHttpStatus {
     ENCODING_EXCEPTION(33006, "编码异常"),
     ENCODING_UNSUPPORTED_EXCEPTION(33006, "编码不支持异常"),
 
-    DATE_PARSE_EXCEPTION(34001, "日期转换异常");
+    DATE_PARSE_EXCEPTION(34001, "日期转换异常"),
+
+    MAILE_SEND_EXCEPTION(35001, "邮件发送异常");
 
 
     /**

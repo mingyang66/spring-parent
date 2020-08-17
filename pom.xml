@@ -26,6 +26,7 @@
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
+        <module>sgrain-spring-boot-mail</module>
     </modules>
     <groupId>com.sgrain.boot</groupId>
     <artifactId>spring-parent</artifactId>

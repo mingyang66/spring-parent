@@ -9,23 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yaomy.control</groupId>
-    <artifactId>sgrain-spring-boot-demo</artifactId>
-
+    <artifactId>sgrain-spring-boot-mail</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.sgrain.boot</groupId>
-            <artifactId>sgrain-spring-boot-starter</artifactId>
+            <artifactId>sgrain-spring-boot-common</artifactId>
             <version>2.1.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>2.2.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
     </dependencies>
+
 </project>

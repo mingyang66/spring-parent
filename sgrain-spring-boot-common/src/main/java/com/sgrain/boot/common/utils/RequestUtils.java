@@ -1,10 +1,16 @@
 package com.sgrain.boot.common.utils;
 
+import com.google.common.collect.Maps;
 import com.sgrain.boot.common.po.BaseRequest;
+import com.sgrain.boot.common.servlet.RequestWrapper;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
+import com.sgrain.boot.common.utils.constant.CharsetUtils;
+import com.sgrain.boot.common.utils.io.IOUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -125,7 +131,7 @@ public class RequestUtils {
      * @param invocation 方法拦截器连接点
      * @return 参数
      */
-    public static Map<String, Object> getRequestParamMap(MethodInvocation invocation) {
+    public static Map<String, Object> getParameterMap(MethodInvocation invocation) {
         Object[] args = invocation.getArguments();
         Parameter[] parameters = invocation.getMethod().getParameters();
         if (ArrayUtils.isEmpty(parameters)) {
@@ -159,6 +165,77 @@ public class RequestUtils {
             }
         }
         return JSONUtils.toJavaBean(JSONUtils.toJSONString(paramMap), Map.class);
+    }
+
+    /**
+     * 获取请求入参
+     *
+     * @param request
+     * @return
+     */
+    public static Map<String, Object> getParameterMap(HttpServletRequest request) {
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        RequestWrapper requestWrapper = (RequestWrapper) request;
+        Map<String, Object> body = getParameterMap(requestWrapper.getBody());
+        if (!CollectionUtils.isEmpty(body)) {
+            paramMap.putAll(body);
+        }
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String key = names.nextElement();
+            paramMap.put(key, request.getParameter(key));
+        }
+
+        return paramMap;
+    }
+
+    /**
+     * 获取参数对象
+     *
+     * @param params
+     * @return
+     */
+    public static Map<String, Object> getParameterMap(byte[] params) {
+        try {
+            return JSONUtils.toObject(params, Map.class);
+        } catch (Exception e) {
+            return convertParameterToMap(IOUtils.toString(params, CharsetUtils.UTF_8));
+        }
+    }
+
+    /**
+     * 获取返回结果对象
+     *
+     * @param body 返回结果字节数组
+     * @return
+     */
+    public static Object getResponseBody(byte[] body) {
+        try {
+            return JSONUtils.toObject(body, Object.class);
+        } catch (Exception e) {
+            return IOUtils.toString(body, CharsetUtils.UTF_8);
+        }
+    }
+
+    /**
+     * 将参数转换为Map类型
+     *
+     * @param param
+     * @return
+     */
+    public static Map<String, Object> convertParameterToMap(String param) {
+        if (StringUtils.isEmpty(param)) {
+            return Collections.emptyMap();
+        }
+        Map<String, Object> pMap = Maps.newLinkedHashMap();
+        String[] pArray = StringUtils.split(param, CharacterUtils.AND_AIGN);
+        for (int i = 0; i < pArray.length; i++) {
+            String[] array = StringUtils.split(pArray[i], CharacterUtils.EQUAL_SIGN);
+            if (array.length == 2) {
+                pMap.put(array[0], array[1]);
+            }
+        }
+        return pMap;
     }
 
     /**

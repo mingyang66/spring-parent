@@ -1,11 +1,15 @@
 package com.yaomy.control.test.api.rabbit;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @program: spring-parent
@@ -43,10 +47,15 @@ public class HttpController {
         return StringUtils.join(name, pass);
     }
 
-    @ApiWrapperIgnore
     @GetMapping("test5/{name}")
-    public String test5(@PathVariable String name, String pass) {
-        return StringUtils.join(name, pass);
+    public List<Map<String, Object>> test5(@PathVariable String name, @RequestParam String pass) {
+        List<Map<String, Object>> list = Lists.newArrayList();
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("name", "lisiyuan");
+        map.put("age", 12);
+        map.put("weight", null);
+        list.add(map);
+        return list;
     }
 
     @PostMapping("test6")
@@ -63,7 +72,7 @@ public class HttpController {
         return StringUtils.join(user.getName(), user.getAge(), name);
     }
     @PostMapping("test9/{name}")
-    public String test8(@PathVariable String name, @RequestParam String length) {
+    public String test9(@PathVariable String name, @RequestParam(required = true) String length) {
         return StringUtils.join(name, length);
     }
 }

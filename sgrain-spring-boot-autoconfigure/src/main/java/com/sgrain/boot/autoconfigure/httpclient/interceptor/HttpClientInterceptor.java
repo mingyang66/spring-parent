@@ -3,12 +3,11 @@ package com.sgrain.boot.autoconfigure.httpclient.interceptor;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
-import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import com.sgrain.boot.common.utils.date.DateUtils;
-import com.sgrain.boot.common.utils.io.IOUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,9 +16,9 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
 
@@ -65,12 +64,13 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
      * @Version 1.0
      */
     private void traceRequest(HttpRequest request, byte[] body, String tId) {
+        //请求日志记录集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", tId);
         logMap.put("Request Time", DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
         logMap.put("Request URL", StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         logMap.put("Request Method", request.getMethod());
-        logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? getRequestParams(body) : convertParamToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
         if (LoggerUtils.isDebug()) {
             LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(logMap));
         } else {
@@ -84,13 +84,14 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
      */
     private void traceResponse(HttpRequest request, byte[] body, ClientHttpResponse response, long spendTime, String tId) throws IOException {
         //获取响应数据结果
-        Object result = getBody(response.getBody());
+        Object result = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
+        //响应请求信息日志集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", tId);
         logMap.put("Request Time", DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
         logMap.put("Request URL", StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         logMap.put("Request Method", request.getMethod());
-        logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? getRequestParams(body) : convertParamToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
         logMap.put("Spend Time", StringUtils.join(spendTime, "ms"));
         logMap.put("Data Size", ObjectSizeUtil.getObjectSizeUnit(result));
         logMap.put("Response Body", result);
@@ -99,53 +100,6 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         } else {
             LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONString(logMap));
         }
-    }
-
-    /**
-     * 获取返回结果
-     *
-     * @param inputStream 输入流
-     * @return
-     */
-    private Object getBody(InputStream inputStream) throws IOException {
-        try {
-            return JSONUtils.toObject(inputStream, Object.class);
-        } catch (Exception e) {
-            inputStream.reset();
-            return IOUtils.toString(inputStream, CharsetUtils.UTF_8);
-        }
-    }
-
-    /**
-     * 获取参数对象
-     *
-     * @param params
-     * @return
-     */
-    private Object getRequestParams(byte[] params) {
-        try {
-            return JSONUtils.toObject(params, Map.class);
-        } catch (Exception e) {
-            return convertParamToMap(IOUtils.toString(params, CharsetUtils.UTF_8));
-        }
-    }
-
-    /**
-     * 将参数转换为Map类型
-     * @param param
-     * @return
-     */
-    private Object convertParamToMap(String param) {
-        if (StringUtils.isEmpty(param)) {
-            return param;
-        }
-        Map<String, Object> pMap = Maps.newLinkedHashMap();
-        String[] pArray = StringUtils.split(param, CharacterUtils.AND_AIGN);
-        for (int i = 0; i < pArray.length; i++) {
-            String[] array = StringUtils.split(pArray[i], CharacterUtils.EQUAL_SIGN);
-            pMap.put(array[0], array[1]);
-        }
-        return pMap;
     }
 
 }

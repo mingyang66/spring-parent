@@ -3,6 +3,7 @@ package com.yaomy.control.test.api.rabbit;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -86,7 +87,11 @@ public class TestController {
 
         MultiValueMap<String, String> map9 = new LinkedMultiValueMap<>();
         map9.add("length", "lili9");
-        String result9 = httpClientService.post(url9, map9,null, String.class, "li88");
+        Map<String, Object> result9 = httpClientService.post(url9, map9,null, Map.class, "li88");
         System.out.println(result9);
+
+        String url10 = "http://10.10.86.229:8108/api/fund/card/getFundAggregateDetailsPage?isinCode=HK0000323219&pageSize=7";
+        String result10 = httpClientService.get(url10, String.class);
+        System.out.println(JSONUtils.toJSONString(result10));
     }
 }

@@ -29,7 +29,7 @@ public class LogApplicationListener implements ApplicationListener<LogApplicatio
             return;
         }
         LogAop logAop = (LogAop) event.getSource();
-        Map<String, Object> paramsMap = RequestUtils.getRequestParamMap(logAop.getInvocation());
+        Map<String, Object> paramsMap = RequestUtils.getParameterMap(logAop.getRequest());
         if (StringUtils.equalsIgnoreCase(logAop.getLogLevel(), Level.INFO.levelStr)) {
             logInfo(logAop, paramsMap);
         } else if (StringUtils.equalsIgnoreCase(logAop.getLogLevel(), Level.ERROR.levelStr)) {

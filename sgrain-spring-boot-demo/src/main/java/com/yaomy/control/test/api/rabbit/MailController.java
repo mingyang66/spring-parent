@@ -6,6 +6,7 @@ import com.sgrain.boot.mail.model.MailMessage;
 import com.sgrain.boot.mail.model.MimeMailMessage;
 import com.sgrain.boot.mail.utils.MailMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import java.util.Map;
 @RequestMapping("mail")
 public class MailController {
     @Autowired
+    @Lazy
     private JavaMailSender javaMailSender;
 
     @GetMapping(value = {"mail/sendSimpleMail"})

@@ -1,16 +1,9 @@
 package com.sgrain.boot.web.httpclient;
 
 
-import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
-import com.sgrain.boot.common.utils.hidden.HiddenUtils;
-import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
-import com.sgrain.boot.common.utils.json.JSONUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ParameterizedTypeReference;
@@ -21,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -44,11 +36,7 @@ public class HttpClientService {
      * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType) {
-        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.POST, params, entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -60,11 +48,7 @@ public class HttpClientService {
      * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables) {
-        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.POST, params, entity, watch.getTime());
         return entity.getBody();
 
     }
@@ -77,11 +61,7 @@ public class HttpClientService {
      * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables) {
-        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.POST, params, entity, watch.getTime());
         return entity.getBody();
 
     }
@@ -102,11 +82,7 @@ public class HttpClientService {
      * 支持参数为非数组模式POST请求
      */
     public <T> T get(String url, Class<T> responseType, Object... uriVariables) {
-        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.getForEntity(url, responseType, uriVariables);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.GET, Collections.emptyMap(), entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -114,11 +90,7 @@ public class HttpClientService {
      * 支持参数为非数组模式POST请求
      */
     public <T> T get(String url, Class<T> responseType, Map<String, ?> uriVariables) {
-        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.getForEntity(url, responseType, uriVariables);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.GET, Collections.emptyMap(), entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -133,12 +105,8 @@ public class HttpClientService {
      * @return
      */
     public <T> T get(String url, Map<String, Object> paramsMap, MultiValueMap<String, String> headers, ParameterizedTypeReference<T> responseType) {
-        StopWatch watch = StopWatch.createStarted();
         HttpEntity<?> requestEntity = getHttpHeaders(null, headers);
         ResponseEntity<T> entity = restTemplate.exchange(joinUrl(url, paramsMap), HttpMethod.GET, requestEntity, responseType);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.GET, paramsMap, entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -155,11 +123,7 @@ public class HttpClientService {
      * @return
      */
     public <T> T post(String url, Object paramsMap, MultiValueMap<String, String> headers, ParameterizedTypeReference<T> responseType) {
-        StopWatch watch = StopWatch.createStarted();
         ResponseEntity<T> entity = restTemplate.exchange(url, HttpMethod.POST, getHttpHeaders(paramsMap, headers), responseType);
-        watch.stop();
-        //输出请求日志
-        logInfo(url, HttpMethod.GET, paramsMap, entity, watch.getTime());
         return entity.getBody();
     }
 
@@ -198,31 +162,5 @@ public class HttpClientService {
         return url;
     }
 
-    /**
-     * 日志信息
-     */
-    private <T> void logInfo(String url, HttpMethod httpMethod, Object params, ResponseEntity<T> entity, long time) {
-        Object paramObj = Collections.emptyMap();
-        if (ObjectUtils.isNotEmpty(params) && (params instanceof Map)) {
-            String[] urlArray = StringUtils.split(url, "/");
-            String routeStr = StringUtils.join(ArrayUtils.subarray(urlArray, 2, urlArray.length), "/");
-            String route = StringUtils.prependIfMissing(routeStr, "/");
-            paramObj = HiddenUtils.hidden((Map<String, Object>) params, route);
-        }
-        Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Request Url", url);
-        logMap.put("Request Method", httpMethod);
-        if (httpMethod.name().matches(HttpMethod.POST.name())) {
-            logMap.put("Request Params", JSONUtils.toJSONString(paramObj));
-        }
-        logMap.put("Spend Time", StringUtils.join(time, "ms"));
-        logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(entity.getBody()));
-        logMap.put("Response Body", entity.getBody());
-        if (LoggerUtils.isDebug()) {
-            LoggerUtils.info(HttpClientService.class, JSONUtils.toJSONPrettyString(logMap));
-        } else {
-            LoggerUtils.info(HttpClientService.class, JSONUtils.toJSONString(logMap));
-        }
-    }
 
 }

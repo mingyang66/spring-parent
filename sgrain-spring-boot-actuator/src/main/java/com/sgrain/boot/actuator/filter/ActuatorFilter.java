@@ -19,8 +19,8 @@ import java.io.PrintWriter;
 public class ActuatorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        AntPathMatcher matcher = new AntPathMatcher();
-        LoggerUtils.info(ActuatorFilter.class, "访问地址是："+request.getRequestURL()+"，是否允许访问："+ matcher.match("/actuator/**", request.getRequestURI()));
+        //AntPathMatcher matcher = new AntPathMatcher();
+        //LoggerUtils.info(ActuatorFilter.class, "访问地址是："+request.getRequestURL()+"，是否允许访问："+ matcher.match("/actuator/**", request.getRequestURI()));
         if(RequestUtils.isInternet(RequestUtils.getClientIp(request))){
             filterChain.doFilter(request, response);
         } else {

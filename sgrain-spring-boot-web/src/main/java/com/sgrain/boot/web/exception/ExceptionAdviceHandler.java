@@ -42,17 +42,8 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseData unKnowExceptionHandler(Exception e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), e.getMessage());
         printErrorMessage(e);
-        if (LoggerUtils.isDebug()) {
-            StackTraceElement[] elements = e.getStackTrace();
-            String message = StringUtils.EMPTY;
-            if (elements.length > 0) {
-                StackTraceElement element = elements[0];
-                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-                responseData.setMessage(message);
-            }
-        }
         return responseData;
     }
 
@@ -61,19 +52,8 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseData runtimeExceptionHandler(RuntimeException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION);
-        ;
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
         printErrorMessage(e);
-        if (LoggerUtils.isDebug()) {
-            StackTraceElement[] elements = e.getStackTrace();
-            String message = StringUtils.EMPTY;
-            if (elements.length > 0) {
-                StackTraceElement element = elements[0];
-                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-                responseData.setMessage(message);
-            }
-
-        }
         return responseData;
     }
 
@@ -82,17 +62,8 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     public ResponseData nullPointerExceptionHandler(NullPointerException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), e.getMessage());
         printErrorMessage(e);
-        if (LoggerUtils.isDebug()) {
-            StackTraceElement[] elements = e.getStackTrace();
-            String message = StringUtils.EMPTY;
-            if (elements.length > 0) {
-                StackTraceElement element = elements[0];
-                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e, "异常");
-                responseData.setMessage(message);
-            }
-        }
         return responseData;
     }
 
@@ -101,17 +72,8 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(ClassCastException.class)
     public ResponseData classCastExceptionHandler(ClassCastException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), e.getMessage());
         printErrorMessage(e);
-        if (LoggerUtils.isDebug()) {
-            StackTraceElement[] elements = e.getStackTrace();
-            String message = StringUtils.EMPTY;
-            if (elements.length > 0) {
-                StackTraceElement element = elements[0];
-                message = StringUtils.join("类", element.getClassName(), ".", element.getMethodName(), "类的第", element.getLineNumber(), "行发生", e.toString(), "异常");
-                responseData.setMessage(message);
-            }
-        }
         return responseData;
     }
 

@@ -19,6 +19,10 @@ public class HttpClientProperties {
      * HttpClientService connect timeout (in milliseconds),default:10000
      */
     private Integer connectTimeOut = 10000;
+    /**
+     * 开启调用接口拦截器
+     */
+    private boolean enableInterceptor;
 
     public Integer getReadTimeOut() {
         return readTimeOut;
@@ -42,5 +46,13 @@ public class HttpClientProperties {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public boolean isEnableInterceptor() {
+        return enableInterceptor;
+    }
+
+    public void setEnableInterceptor(boolean enableInterceptor) {
+        this.enableInterceptor = enableInterceptor;
     }
 }

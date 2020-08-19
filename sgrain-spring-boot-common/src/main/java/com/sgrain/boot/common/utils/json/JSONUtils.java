@@ -9,9 +9,11 @@ import com.fasterxml.jackson.databind.*;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.exception.BusinessException;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 
@@ -283,6 +285,21 @@ public class JSONUtils {
     }
 
     /**
+     * @param src          输入流对象
+     * @param responseType 返回的数据对象
+     * @param <T>
+     * @return
+     * @Description 从输入流InputStream中读取数据
+     */
+    public static <T> T toObject(InputStream src, Class<T> responseType) {
+        try {
+            return objectMapper.readValue(src, responseType);
+        } catch (Exception e) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "从输入流中读取数据对象异常，" + e);
+        }
+    }
+
+    /**
      * 将字节数组转化为指定的对象
      *
      * @param bytes        字节数组
@@ -290,6 +307,9 @@ public class JSONUtils {
      * @param <T>
      */
     public static <T> T toObject(byte[] bytes, Class<T> responseType) {
+        if (ArrayUtils.isEmpty(bytes)) {
+            return null;
+        }
         try {
             return objectMapper.readValue(bytes, responseType);
         } catch (IOException e) {

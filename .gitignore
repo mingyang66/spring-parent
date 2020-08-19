@@ -38,4 +38,3 @@ logs/
 
 out/
 .DS_Store
-/**/application-mail.properties

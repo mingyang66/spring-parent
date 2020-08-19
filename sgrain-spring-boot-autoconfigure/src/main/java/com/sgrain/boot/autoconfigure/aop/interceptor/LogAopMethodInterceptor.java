@@ -36,7 +36,7 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
         //新建计时器并开始计时
         StopWatch stopWatch = StopWatch.createStarted();
         try {
-            //调用升级的action方法
+            //调用真实的action方法
             Object result = invocation.proceed();
             //暂停计时
             stopWatch.stop();

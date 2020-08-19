@@ -1,21 +1,26 @@
 package com.sgrain.boot.autoconfigure.httpclient.interceptor;
 
 import com.google.common.collect.Maps;
-import com.sgrain.boot.autoconfigure.aop.log.event.LogAop;
-import com.sgrain.boot.common.exception.BusinessException;
+import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.constant.CharsetUtils;
+import com.sgrain.boot.common.utils.date.DateUtils;
+import com.sgrain.boot.common.utils.io.IOUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -24,55 +29,123 @@ import java.util.Map;
  * @create: 2020/08/17
  */
 public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
+
+    private static final String THIRD_PARTY = "Third_Party";
+
+    /**
+     * RestTemplate拦截方法
+     *
+     * @param request
+     * @param body
+     * @param execution
+     * @return
+     * @throws IOException
+     */
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        //生成事物流水号
+        String tId = UUIDUtils.randomUUID();
+        //记录请求日志
+        traceRequest(request, body, tId);
+        //新建计时器并开始计时
+        StopWatch stopWatch = StopWatch.createStarted();
+        //调用接口
         ClientHttpResponse response = execution.execute(request, body);
-        logInfo(request, body);
+        //暂停计时
+        stopWatch.stop();
+        //耗时
+        long spendTime = (stopWatch.getTime() == 0) ? 1 : stopWatch.getTime();
+        //记录响应日志
+        traceResponse(request, body, response, spendTime, tId);
         return response;
     }
+
     /**
-     * @Description 记录INFO日志
+     * @Description 记录请求信息
      * @Version 1.0
      */
-    private void logInfo(HttpRequest request, byte[] body) throws IOException{
+    private void traceRequest(HttpRequest request, byte[] body, String tId) {
         Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Class|Method", null);
-        logMap.put("Request URL", request.getURI());
+        logMap.put("T_ID", tId);
+        logMap.put("Request Time", DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+        logMap.put("Request URL", StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         logMap.put("Request Method", request.getMethod());
-        logMap.put("Request Body", new String(body, CharsetUtils.UTF_8));
-        logMap.put("Request Params", null);
-        logMap.put("Spend Time", null);
-        logMap.put("DataSize", null);
-        logMap.put("Response Body", null);
+        logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? getRequestParams(body) : convertParamToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
         if (LoggerUtils.isDebug()) {
-            //LoggerUtils.info(logAop.getInvocation().getThis().getClass(), JSONUtils.toJSONPrettyString(logMap));
+            LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(logMap));
         } else {
-            //LoggerUtils.info(logAop.getInvocation().getThis().getClass(), JSONUtils.toJSONString(logMap));
+            LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONString(logMap));
         }
     }
 
     /**
-     * @Description 异常日志
+     * @Description 记录响应信息
      * @Version 1.0
      */
-    private void logError(LogAop logAop, Map<String, Object> paramsMap) {
-        Map<String, Object> errorLogMap = Maps.newLinkedHashMap();
-        errorLogMap.put("Class|Method", StringUtils.join(logAop.getInvocation().getThis().getClass(), ".", logAop.getInvocation().getMethod().getName()));
-        errorLogMap.put("Request URL", logAop.getRequest().getRequestURL());
-        errorLogMap.put("Request Method", logAop.getRequest().getMethod());
-        errorLogMap.put("Reuqest Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
-        errorLogMap.put("Spend Time", StringUtils.join(logAop.getSpendTime(), "ms"));
-
-        if (logAop.getThrowable() instanceof BusinessException) {
-            BusinessException exception = (BusinessException) logAop.getThrowable();
-            errorLogMap.put("Exception", StringUtils.join(logAop.getThrowable(), " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
-        } else {
-            errorLogMap.put("Exception", StringUtils.join(logAop.getThrowable().getStackTrace()[0], " ", logAop.getThrowable()));
-        }
+    private void traceResponse(HttpRequest request, byte[] body, ClientHttpResponse response, long spendTime, String tId) throws IOException {
+        //获取响应数据结果
+        Object result = getBody(response.getBody());
+        Map<String, Object> logMap = Maps.newLinkedHashMap();
+        logMap.put("T_ID", tId);
+        logMap.put("Request Time", DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+        logMap.put("Request URL", StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
+        logMap.put("Request Method", request.getMethod());
+        logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? getRequestParams(body) : convertParamToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        logMap.put("Spend Time", StringUtils.join(spendTime, "ms"));
+        logMap.put("Data Size", ObjectSizeUtil.getObjectSizeUnit(result));
+        logMap.put("Response Body", result);
         if (LoggerUtils.isDebug()) {
-            LoggerUtils.error(logAop.getInvocation().getThis().getClass(), JSONUtils.toJSONPrettyString(errorLogMap));
+            LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(logMap));
         } else {
-            LoggerUtils.error(logAop.getInvocation().getThis().getClass(), JSONUtils.toJSONString(errorLogMap));
+            LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONString(logMap));
         }
     }
+
+    /**
+     * 获取返回结果
+     *
+     * @param inputStream 输入流
+     * @return
+     */
+    private Object getBody(InputStream inputStream) throws IOException {
+        try {
+            return JSONUtils.toObject(inputStream, Object.class);
+        } catch (Exception e) {
+            inputStream.reset();
+            return IOUtils.toString(inputStream, CharsetUtils.UTF_8);
+        }
+    }
+
+    /**
+     * 获取参数对象
+     *
+     * @param params
+     * @return
+     */
+    private Object getRequestParams(byte[] params) {
+        try {
+            return JSONUtils.toObject(params, Map.class);
+        } catch (Exception e) {
+            return convertParamToMap(IOUtils.toString(params, CharsetUtils.UTF_8));
+        }
+    }
+
+    /**
+     * 将参数转换为Map类型
+     * @param param
+     * @return
+     */
+    private Object convertParamToMap(String param) {
+        if (StringUtils.isEmpty(param)) {
+            return param;
+        }
+        Map<String, Object> pMap = Maps.newLinkedHashMap();
+        String[] pArray = StringUtils.split(param, CharacterUtils.AND_AIGN);
+        for (int i = 0; i < pArray.length; i++) {
+            String[] array = StringUtils.split(pArray[i], CharacterUtils.EQUAL_SIGN);
+            pMap.put(array[0], array[1]);
+        }
+        return pMap;
+    }
+
 }

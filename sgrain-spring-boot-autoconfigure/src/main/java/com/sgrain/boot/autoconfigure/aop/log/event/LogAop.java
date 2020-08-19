@@ -23,9 +23,6 @@ public class LogAop {
     //异常
     private Throwable throwable;
 
-    public LogAop(){
-
-    }
     public LogAop(MethodInvocation invocation, HttpServletRequest request){
         this.invocation = invocation;
         this.request = request;

@@ -3,7 +3,7 @@ package com.sgrain.boot.autoconfigure.aop.idempotent;
 import com.sgrain.boot.autoconfigure.aop.interceptor.IdempotentMethodInterceptor;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
-import com.sgrain.boot.common.utils.TokenUtils;
+import com.sgrain.boot.common.utils.UUIDUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -61,7 +61,7 @@ public class IdempotentAutoConfiguration {
      */
     @GetMapping("token/generation")
     public ResponseEntity<String> generationToken(){
-        String token = TokenUtils.generation();
+        String token = UUIDUtils.generation();
         redisTemplate.opsForValue().set(StringUtils.join("idempotent", CharacterUtils.COLON_EN, token), token, 30, TimeUnit.SECONDS);
         return ResponseEntity.ok(token);
     }

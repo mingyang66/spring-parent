@@ -24,7 +24,7 @@ public class BaseRequest implements Serializable {
         this.systemInfo = systemInfo;
     }
 
-    public static class SystemInfo{
+    public static class SystemInfo {
         /**
          * 事务编号
          */
@@ -38,9 +38,9 @@ public class BaseRequest implements Serializable {
          */
         private String serverIp = RequestUtils.getServerIp();
         /**
-         * 用户ID
+         * 用户令牌
          */
-        private String accountId;
+        private String token;
         /**
          * 平台H5 APP PC
          */
@@ -78,12 +78,12 @@ public class BaseRequest implements Serializable {
             this.serverIp = serverIp;
         }
 
-        public String getAccountId() {
-            return accountId;
+        public String getToken() {
+            return token;
         }
 
-        public void setAccountId(String accountId) {
-            this.accountId = accountId;
+        public void setToken(String token) {
+            this.token = token;
         }
 
         public String getPlatorm() {

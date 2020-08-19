@@ -1,5 +1,9 @@
 package com.yaomy.control.test.api.rabbit;
 
+import com.google.common.collect.Maps;
+import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
@@ -8,15 +12,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @program: spring-parent
@@ -38,10 +37,15 @@ public class VoidController {
         user.setAge(12);
         return user;
     }
-    @GetMapping("void/test2")
-    public String test2(){
+    @ApiWrapperIgnore
+    @PostMapping(value = "void/test2")
+    public ResponseEntity<Map> test2(@RequestBody User user) throws Exception{
+        if(StringUtils.equalsIgnoreCase(user.getName(), "22")){
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION);
+        }
+
         BoundValueOperations operations = stringRedisTemplate.boundValueOps("test:tt");
-        for(int i=0;i<10;i++) {
+        for(int i=0;i<1;i++) {
             operations.set("hhhhhhhhhhhhhhhh"+i);
             LoggerUtils.module(VoidController.class, "EMIS-VOID", "EMIS" + i + "你好---------VoidController-------哈哈哈---------");
             LoggerUtils.info(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"info");
@@ -50,7 +54,10 @@ public class VoidController {
             LoggerUtils.warn(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"warn");
             LoggerUtils.trace(VoidController.class, "EMIS"+i+"你好----------------哈哈哈---------"+"trace");
         }
-        return "success";
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("a", "b");
+        map.put("b", "c");
+        return ResponseEntity.ok(map);
     }
 
     @PostMapping("void/test3")

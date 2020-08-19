@@ -22,7 +22,7 @@ public class HttpClientProperties {
     /**
      * 开启调用接口拦截器
      */
-    private boolean enableInterceptor;
+    private boolean enableInterceptor = true;
 
     public Integer getReadTimeOut() {
         return readTimeOut;

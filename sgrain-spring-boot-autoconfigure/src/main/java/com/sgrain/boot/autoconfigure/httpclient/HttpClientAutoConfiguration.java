@@ -46,8 +46,10 @@ public class HttpClientAutoConfiguration {
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(factory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
-        //添加拦截器
-        restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor()));
+        if(httpClientProperties.isEnableInterceptor()){
+            //添加拦截器
+            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor()));
+        }
 
         return restTemplate;
     }

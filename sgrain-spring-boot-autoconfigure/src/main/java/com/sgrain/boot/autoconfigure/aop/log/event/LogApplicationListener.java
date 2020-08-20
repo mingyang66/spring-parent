@@ -47,6 +47,7 @@ public class LogApplicationListener implements ApplicationListener<LogApplicatio
         logMap.put("Request URL", logAop.getRequest().getRequestURL());
         logMap.put("Request Method", logAop.getRequest().getMethod());
         logMap.put("Request Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
+        logMap.put("Content-Type", logAop.getRequest().getContentType());
         logMap.put("Spend Time", StringUtils.join(logAop.getSpendTime(), "ms"));
         logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(logAop.getResult()));
         logMap.put("Response Body", logAop.getResult());
@@ -67,6 +68,7 @@ public class LogApplicationListener implements ApplicationListener<LogApplicatio
         errorLogMap.put("Request URL", logAop.getRequest().getRequestURL());
         errorLogMap.put("Request Method", logAop.getRequest().getMethod());
         errorLogMap.put("Reuqest Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
+        errorLogMap.put("Content-Type", logAop.getRequest().getContentType());
         errorLogMap.put("Spend Time", StringUtils.join(logAop.getSpendTime(), "ms"));
 
         if (logAop.getThrowable() instanceof BusinessException) {

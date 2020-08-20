@@ -13,6 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
@@ -21,6 +22,7 @@ import org.springframework.util.StreamUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @program: spring-parent
@@ -64,6 +66,8 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
      * @Version 1.0
      */
     private void traceRequest(HttpRequest request, byte[] body, String tId) {
+        //请求类型
+        MediaType mediaType = request.getHeaders().getContentType();
         //请求日志记录集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", tId);
@@ -71,6 +75,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         logMap.put("Request URL", StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         logMap.put("Request Method", request.getMethod());
         logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        logMap.put("Content-Type", Objects.nonNull(mediaType) ? mediaType.toString() : null);
         if (LoggerUtils.isDebug()) {
             LoggerUtils.module(HttpClientInterceptor.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(logMap));
         } else {
@@ -85,6 +90,8 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
     private void traceResponse(HttpRequest request, byte[] body, ClientHttpResponse response, long spendTime, String tId) throws IOException {
         //获取响应数据结果
         Object result = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
+        //请求类型
+        MediaType mediaType = response.getHeaders().getContentType();
         //响应请求信息日志集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", tId);
@@ -92,6 +99,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         logMap.put("Request URL", StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         logMap.put("Request Method", request.getMethod());
         logMap.put("Request Params", ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        logMap.put("Content-Type", Objects.nonNull(mediaType) ? mediaType.toString(): null);
         logMap.put("Spend Time", StringUtils.join(spendTime, "ms"));
         logMap.put("Data Size", ObjectSizeUtil.getObjectSizeUnit(result));
         logMap.put("Response Body", result);

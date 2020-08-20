@@ -3,6 +3,7 @@ package com.yaomy.control.test.api.rabbit;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,32 +67,24 @@ public class TestController {
         map6.add("name", "lili");
         map6.add("pass", "666");
         String result6 = httpClientService.post(url6, map6,null, String.class);
-        System.out.println(result1);
-        System.out.println(result2);
-        System.out.println(result3);
-        System.out.println(result4);
-        System.out.println(result5);
-        System.out.println(result6);
         Map<String, Object> map7 = new HashMap<>();
         map7.put("name", "lili");
         map7.put("age", 7);
         String result7 = httpClientService.post(url7, map7,null, String.class);
-        System.out.println(result7);
 
         Map<String, Object> map8 = new HashMap<>();
         map8.put("name", "lili8");
         map8.put("age", 8);
         String result8 = httpClientService.post(url8, map8,null, String.class, "li88");
-        System.out.println(result8);
 
         MultiValueMap<String, String> map9 = new LinkedMultiValueMap<>();
         map9.add("length", "lili9");
-        Map<String, Object> result9 = httpClientService.post(url9, map9,null, Map.class, "li88");
-        System.out.println(result9);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("token", UUIDUtils.randomUUID());
+        Map<String, Object> result9 = httpClientService.post(url9, map9,headers, Map.class, "li88");
 
         String url10 = "http://10.10.86.229:8108/api/fund/card/getFundAggregateDetailsPage?isinCode=HK0000323219&pageSize=7";
         String result10 = httpClientService.get(url10, String.class);
-        System.out.println(JSONUtils.toJSONString(result10));
     }
     @PostMapping("client1")
     public void client1(@RequestParam MultipartFile file, @RequestParam String name){

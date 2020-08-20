@@ -3,6 +3,7 @@ package com.yaomy.control.test.api.rabbit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
+import com.sgrain.boot.common.utils.RequestUtils;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,13 @@ public class HttpController {
     @ApiWrapperIgnore
     @GetMapping("test2/{name}")
     public String test2(@PathVariable String name) {
-        return name;
+        return name+ "---"+ RequestUtils.getRequest().getContentType();
     }
 
     @ApiWrapperIgnore
     @GetMapping("test3")
     public String test3(String name, String pass) {
-        return StringUtils.join(name, pass);
+        return StringUtils.join(name, pass, "---", RequestUtils.getRequest().getContentType());
     }
 
     @ApiWrapperIgnore
@@ -44,7 +45,7 @@ public class HttpController {
     public String test4(HttpServletRequest request) {
         String name = request.getParameter("name");
         String pass = request.getParameter("pass");
-        return StringUtils.join(name, pass);
+        return StringUtils.join(name, pass, "---", RequestUtils.getRequest().getContentType());
     }
 
     @GetMapping("test5/{name}")
@@ -60,19 +61,19 @@ public class HttpController {
 
     @PostMapping("test6")
     public String test6(@RequestParam String name, @RequestParam String pass) {
-        return StringUtils.join(name, pass);
+        return StringUtils.join(name, pass, "---", RequestUtils.getRequest().getContentType());
     }
 
     @PostMapping("test7")
     public String test7(@RequestBody User user) {
-        return StringUtils.join(user.getName(), user.getAge());
+        return StringUtils.join(user.getName(), user.getAge(), "---", RequestUtils.getRequest().getContentType());
     }
     @PostMapping("test8/{name}")
     public String test8(@RequestBody User user, @PathVariable String name, HttpServletRequest request) {
-        return StringUtils.join(user.getName(), user.getAge(), name);
+        return StringUtils.join(user.getName(), user.getAge(), name, "---", RequestUtils.getRequest().getContentType());
     }
     @PostMapping("test9/{name}")
-    public String test9(@PathVariable String name, @RequestParam(required = true) String length) {
-        return StringUtils.join(name, length);
+    public String test9(@PathVariable String name, @RequestParam(required = true) String length, @RequestHeader String token) {
+        return StringUtils.join(name, length, "---", RequestUtils.getRequest().getContentType());
     }
 }

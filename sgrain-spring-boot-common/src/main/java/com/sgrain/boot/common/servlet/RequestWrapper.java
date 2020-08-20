@@ -15,7 +15,7 @@ import java.io.*;
  */
 public class RequestWrapper extends HttpServletRequestWrapper {
     //参数字节数组
-    private byte[] body;
+    private byte[] requestBody;
     //Http请求对象
     private HttpServletRequest request;
 
@@ -35,15 +35,15 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         /**
          * 每次调用此方法时将数据流中的数据读取出来，然后再回填到InputStream之中
          * 还有一个问题是下面这段代码网上有很多是写在构造函数中的，通常情况是没有问题的但是如果使用POST方式@ReqeustParam注解接收参数控制器是拿不到参数的；
-         *
+         * 暂时还未想明白放到这里为何读取就可以了（request.getParameter(String name) && getInputStream() && getReader() 这三者的区别研究）
          */
-        if (null == this.body) {
+        if (null == this.requestBody) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             IOUtils.copy(request.getInputStream(), baos);
-            this.body = baos.toByteArray();
+            this.requestBody = baos.toByteArray();
         }
 
-        final ByteArrayInputStream bais = new ByteArrayInputStream(body);
+        final ByteArrayInputStream bais = new ByteArrayInputStream(requestBody);
         return new ServletInputStream() {
 
             @Override
@@ -68,8 +68,8 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         };
     }
 
-    public byte[] getBody() {
-        return body;
+    public byte[] getRequestBody() {
+        return requestBody;
     }
 
     @Override

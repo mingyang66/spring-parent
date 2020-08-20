@@ -10,12 +10,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,5 +92,14 @@ public class TestController {
         String url10 = "http://10.10.86.229:8108/api/fund/card/getFundAggregateDetailsPage?isinCode=HK0000323219&pageSize=7";
         String result10 = httpClientService.get(url10, String.class);
         System.out.println(JSONUtils.toJSONString(result10));
+    }
+    @PostMapping("client1")
+    public void client1(@RequestParam MultipartFile file, @RequestParam String name){
+        System.out.println(file.getOriginalFilename());
+        String url9 = "http://127.0.0.1:9000/api/http/test9/{name}";
+        MultiValueMap<String, String> map9 = new LinkedMultiValueMap<>();
+        map9.add("length", "lili9");
+        Map<String, Object> result9 = httpClientService.post(url9, map9,null, Map.class, "li88");
+        System.out.println(result9);
     }
 }

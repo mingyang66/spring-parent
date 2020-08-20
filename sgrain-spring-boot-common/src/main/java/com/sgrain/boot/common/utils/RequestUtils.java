@@ -176,7 +176,7 @@ public class RequestUtils {
     public static Map<String, Object> getParameterMap(HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         RequestWrapper requestWrapper = (RequestWrapper) request;
-        Map<String, Object> body = getParameterMap(requestWrapper.getBody());
+        Map<String, Object> body = getParameterMap(requestWrapper.getRequestBody());
         if (!CollectionUtils.isEmpty(body)) {
             paramMap.putAll(body);
         }

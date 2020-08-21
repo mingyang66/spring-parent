@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent;
  * @create: 2020/08/07
  */
 public class LogApplicationEvent extends ApplicationEvent {
-    public LogApplicationEvent(LogAop source) {
+    public LogApplicationEvent(Object source) {
         super(source);
     }
 

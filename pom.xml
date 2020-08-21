@@ -30,7 +30,7 @@
     </modules>
     <groupId>com.sgrain.boot</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>2.1.4.RELEASE</version>
+    <version>2.1.5.RELEASE</version>
     <name>spring-parent</name>
     <description>sgrain</description>
 

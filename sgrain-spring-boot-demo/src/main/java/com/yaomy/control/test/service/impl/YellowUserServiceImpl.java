@@ -1,4 +1,4 @@
-package com.yaomy.control.test.serviceImpl;
+package com.yaomy.control.test.service.impl;
 
 import com.yaomy.control.test.service.UserService;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * @create: 2020/06/01
  */
 @Service
-public class BlackUserServiceImpl implements UserService {
+public class YellowUserServiceImpl implements UserService {
     @Override
     public void getUser() {
 

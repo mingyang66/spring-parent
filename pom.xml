@@ -15,6 +15,7 @@
         <module>sgrain-spring-boot-web</module>
         <module>sgrain-spring-boot-starter</module>
         <module>sgrain-spring-boot-swagger</module>
+        <module>sgrain-spring-boot-mail</module>
         <module>sgrain-spring-boot-actuator</module>
         <module>sgrain-spring-boot-admin-server</module>
         <module>sgrain-spring-boot-demo</module>
@@ -26,7 +27,6 @@
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>sgrain-spring-boot-mail</module>
     </modules>
     <groupId>com.sgrain.boot</groupId>
     <artifactId>spring-parent</artifactId>

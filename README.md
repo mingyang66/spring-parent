@@ -4,19 +4,19 @@
 ##### 1 设置新的版本号
 
 ```
-mvn versions:set -DnewVersion=2.1.1.RELEASE
+./mvnw versions:set -DnewVersion=2.1.1.RELEASE
 ```
 
 ##### 2 撤销设置
 
 ```
-mvn versions:revert
+./mvnw versions:revert
 ```
 
 ##### 3 提交设置
 
 ```
-mvn versions:commit
+./mvnw versions:commit
 ```
 ##### 4.项目打包(同时处理项目所依赖的包)
 

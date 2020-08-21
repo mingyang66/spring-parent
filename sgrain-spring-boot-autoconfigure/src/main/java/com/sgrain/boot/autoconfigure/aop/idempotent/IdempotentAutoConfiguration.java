@@ -2,8 +2,8 @@ package com.sgrain.boot.autoconfigure.aop.idempotent;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.IdempotentMethodInterceptor;
 import com.sgrain.boot.common.enums.AopOrderEnum;
-import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
+import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @EnableConfigurationProperties(IdempotentProperties.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.idempotent", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.sgrain.idempotent", name = "enable", havingValue = "true", matchIfMissing = false)
 @RestController
 public class IdempotentAutoConfiguration {
     /**

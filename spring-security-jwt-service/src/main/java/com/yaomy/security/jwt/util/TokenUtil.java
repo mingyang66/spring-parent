@@ -4,16 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import javax.crypto.spec.SecretKeySpec;
-import javax.security.auth.Subject;
-import java.io.InputStream;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Description: Description

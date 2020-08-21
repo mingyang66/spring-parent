@@ -2,7 +2,6 @@ package com.yaomy.control.test.po;
 
 import com.google.common.collect.Lists;
 
-
 import java.util.List;
 
 public class GmFundPageInfoResData {

@@ -2,12 +2,9 @@ package com.sgrain.boot.autoconfigure.aop.log.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import java.util.EventObject;
-
 /**
  * @program: spring-parent
  * @description: 日志事件
- * @author: 姚明洋
  * @create: 2020/08/07
  */
 public class LogApplicationEvent extends ApplicationEvent {

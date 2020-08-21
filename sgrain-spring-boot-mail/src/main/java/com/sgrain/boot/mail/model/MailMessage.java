@@ -5,7 +5,6 @@ import java.util.Date;
 /**
  * @program: spring-parent
  * @description: 简单邮件属性实体类
- * @author: 姚明洋
  * @create: 2020/08/14
  */
 public class MailMessage {

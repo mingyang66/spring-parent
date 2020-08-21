@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @program: spring-parent
  * @description: 日志事件对象
- * @author: 姚明洋
  * @create: 2020/08/07
  */
 public class LogAop {

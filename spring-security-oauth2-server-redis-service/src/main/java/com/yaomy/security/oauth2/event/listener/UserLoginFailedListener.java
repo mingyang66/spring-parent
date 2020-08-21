@@ -2,7 +2,6 @@ package com.yaomy.security.oauth2.event.listener;
 
 import com.yaomy.security.oauth2.event.event.UserLoginFailedEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
 /**

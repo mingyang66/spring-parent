@@ -18,7 +18,6 @@ import java.util.Objects;
 /**
  * @program: spring-parent
  * @description: 邮件发送公用方法
- * @author: 姚明洋
  * @create: 2020/08/14
  */
 public class MailMessageUtils {

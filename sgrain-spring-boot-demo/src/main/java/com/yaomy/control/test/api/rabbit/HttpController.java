@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/08/18
  */
 @RestController

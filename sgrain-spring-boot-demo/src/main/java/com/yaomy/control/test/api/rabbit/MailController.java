@@ -19,7 +19,6 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description: 发送邮件控制器测试类
- * @author: 姚明洋
  * @create: 2020/08/17
  */
 @RestController

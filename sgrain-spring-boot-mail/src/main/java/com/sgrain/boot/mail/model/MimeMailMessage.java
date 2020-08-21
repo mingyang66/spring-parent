@@ -6,7 +6,6 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description: 复杂邮件实体类
- * @author: 姚明洋
  * @create: 2020/08/14
  */
 public class MimeMailMessage extends MailMessage {

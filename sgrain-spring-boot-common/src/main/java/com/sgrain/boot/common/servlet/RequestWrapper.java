@@ -10,7 +10,6 @@ import java.io.*;
 
 /**
  * @Description: 对HttpServletRequest进行重写，用来接收application/json参数数据类型，即@RequestBody注解标注的参数,解决多次读取问题
- * @Author: 姚明洋
  * @create: 2020/8/19
  */
 public class RequestWrapper extends HttpServletRequestWrapper {

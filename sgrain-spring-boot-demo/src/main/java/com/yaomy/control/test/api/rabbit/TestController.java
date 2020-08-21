@@ -1,21 +1,15 @@
 package com.yaomy.control.test.api.rabbit;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
-import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 

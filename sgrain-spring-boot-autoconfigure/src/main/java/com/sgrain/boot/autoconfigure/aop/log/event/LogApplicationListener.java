@@ -18,7 +18,6 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description: 日志监听器
- * @author: 姚明洋
  * @create: 2020/08/07
  */
 @Component

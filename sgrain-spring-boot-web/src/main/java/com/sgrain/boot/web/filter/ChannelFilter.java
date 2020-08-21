@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
 * @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link com.sgrain.boot.common.servlet.RequestWrapper}
-* @Author: 姚明洋
 * @create: 2020/8/19
 */
 @Component

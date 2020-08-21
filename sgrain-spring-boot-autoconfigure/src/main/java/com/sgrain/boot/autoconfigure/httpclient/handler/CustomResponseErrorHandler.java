@@ -8,7 +8,6 @@ import java.io.IOException;
 /**
  * @program: spring-parent
  * @description: 自定义异常处理
- * @author: 姚明洋
  * @create: 2020/08/18
  */
 public class CustomResponseErrorHandler implements ResponseErrorHandler {

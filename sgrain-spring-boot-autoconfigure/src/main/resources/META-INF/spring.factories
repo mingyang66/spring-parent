@@ -5,4 +5,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.redis.RedisSgrainAutoConfiguration,\
   com.sgrain.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration,\
   com.sgrain.boot.autoconfigure.httpclient.HttpClientAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.accesslog.AccessLogAutoConfiguration
+  com.sgrain.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration

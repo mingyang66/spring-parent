@@ -25,6 +25,10 @@ public class AsyncThreadPoolProperties {
      * 线程队列最大线程数,默认：Java虚拟机可用线程数*1000
      */
     private Integer queueCapacity;
+    /**
+     * 自定义线程名前缀，默认：Async-ThreadPool-
+     */
+    private String threadNamePrefix;
 
     public boolean isEnable() {
         return enable;
@@ -56,5 +60,13 @@ public class AsyncThreadPoolProperties {
 
     public void setQueueCapacity(Integer queueCapacity) {
         this.queueCapacity = queueCapacity;
+    }
+
+    public String getThreadNamePrefix() {
+        return threadNamePrefix;
+    }
+
+    public void setThreadNamePrefix(String threadNamePrefix) {
+        this.threadNamePrefix = threadNamePrefix;
     }
 }

@@ -46,7 +46,7 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer {
         //线程队列最大线程数
         taskExecutor.setQueueCapacity(Objects.nonNull(asyncThreadPoolProperties.getMaxPoolSize()) ? asyncThreadPoolProperties.getMaxPoolSize() : processors*1000);
         //线程名称前缀
-        taskExecutor.setThreadNamePrefix("Async-ThreadPool-");
+        taskExecutor.setThreadNamePrefix(StringUtils.isNotEmpty(asyncThreadPoolProperties.getThreadNamePrefix()) ? asyncThreadPoolProperties.getThreadNamePrefix() : "Async-ThreadPool-");
         //初始化
         taskExecutor.initialize();
 

@@ -51,13 +51,8 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
             Object result = invocation.proceed();
             //暂停计时
             stopWatch.stop();
-            if (ObjectUtils.isNotEmpty(result) && (result instanceof ResponseEntity)) {
-                //发布事件
-                publisher.publishEvent(new LogApplicationEvent(traceInfo(invocation, request, paramsMap, ((ResponseEntity) result).getBody(), stopWatch.getTime())));
-            } else {
-                //发布事件
-                publisher.publishEvent(new LogApplicationEvent(traceInfo(invocation, request, paramsMap, result, stopWatch.getTime())));
-            }
+            //发布事件
+            publisher.publishEvent(new LogApplicationEvent(traceInfo(invocation, request, paramsMap, result, stopWatch.getTime())));
             return result;
         } catch (Throwable e) {
             //暂停计时
@@ -76,6 +71,10 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
      * @Version 1.0
      */
     private LogAop traceInfo(MethodInvocation invocation, HttpServletRequest request, Map<String, Object> paramsMap, Object result, long spentTime) {
+        Object resultBody = result;
+        if (ObjectUtils.isNotEmpty(result) && (result instanceof ResponseEntity)) {
+            resultBody = ((ResponseEntity) result).getBody();
+        }
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("Class|Method", StringUtils.join(invocation.getThis().getClass(), CharacterUtils.POINT_SYMBOL, invocation.getMethod().getName()));
         logMap.put("Request URL", request.getRequestURL());
@@ -83,8 +82,8 @@ public class LogAopMethodInterceptor implements MethodInterceptor {
         logMap.put("Request Params", CollectionUtils.isEmpty(paramsMap) ? Collections.emptyMap() : paramsMap);
         logMap.put("Content-Type", request.getContentType());
         logMap.put("Spend Time", StringUtils.join((spentTime == 0) ? 1 : spentTime, "ms"));
-        logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(result));
-        logMap.put("Response Body", result);
+        logMap.put("DataSize", ObjectSizeUtil.getObjectSizeUnit(resultBody));
+        logMap.put("Response Body", resultBody);
         return new LogAop(Level.INFO.levelStr, invocation.getThis().getClass(), logMap);
     }
 

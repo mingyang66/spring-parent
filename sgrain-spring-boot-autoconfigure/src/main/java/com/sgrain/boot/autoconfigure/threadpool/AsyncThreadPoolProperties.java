@@ -29,6 +29,10 @@ public class AsyncThreadPoolProperties {
      * 自定义线程名前缀，默认：Async-ThreadPool-
      */
     private String threadNamePrefix;
+    /**
+     * 线程池中线程最大空闲时间，默认：60，单位：秒
+     */
+    private Integer keepAliveSeconds = 60;
 
     public boolean isEnable() {
         return enable;
@@ -68,5 +72,13 @@ public class AsyncThreadPoolProperties {
 
     public void setThreadNamePrefix(String threadNamePrefix) {
         this.threadNamePrefix = threadNamePrefix;
+    }
+
+    public Integer getKeepAliveSeconds() {
+        return keepAliveSeconds;
+    }
+
+    public void setKeepAliveSeconds(Integer keepAliveSeconds) {
+        this.keepAliveSeconds = keepAliveSeconds;
     }
 }

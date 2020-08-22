@@ -14,6 +14,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @program: spring-parent
@@ -47,6 +48,16 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer {
         taskExecutor.setQueueCapacity(Objects.nonNull(asyncThreadPoolProperties.getMaxPoolSize()) ? asyncThreadPoolProperties.getMaxPoolSize() : processors*1000);
         //线程名称前缀
         taskExecutor.setThreadNamePrefix(StringUtils.isNotEmpty(asyncThreadPoolProperties.getThreadNamePrefix()) ? asyncThreadPoolProperties.getThreadNamePrefix() : "Async-ThreadPool-");
+        //线程池中线程最大空闲时间，默认：60，单位：秒
+        taskExecutor.setKeepAliveSeconds(asyncThreadPoolProperties.getKeepAliveSeconds());
+        /**
+         * 拒绝策略，默认是AbortPolicy
+         * AbortPolicy：丢弃任务并抛出RejectedExecutionException异常
+         * DiscardPolicy：丢弃任务但不抛出异常
+         * DiscardOldestPolicy：丢弃最旧的处理程序，然后重试，如果执行器关闭，这时丢弃任务
+         * CallerRunsPolicy：执行器执行任务失败，则在策略回调方法中执行任务，如果执行器关闭，这时丢弃任务
+         */
+        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
         //初始化
         taskExecutor.initialize();
 

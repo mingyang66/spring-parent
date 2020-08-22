@@ -25,7 +25,6 @@
         <module>spring-security-oauth2-resource-jwt-service</module>
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
-        <module>spring-boot-control-threadpool-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
     </modules>
     <groupId>com.sgrain.boot</groupId>

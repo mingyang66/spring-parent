@@ -1,6 +1,7 @@
 package com.sgrain.boot.common.servlet;
 
 import com.sgrain.boot.common.utils.io.IOUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -9,7 +10,13 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 
 /**
- * @Description: 对HttpServletRequest进行重写，用来接收application/json参数数据类型，即@RequestBody注解标注的参数,解决多次读取问题
+ * @Description: 对HttpServletRequest进行重写，
+ * 1、用来接收application/json参数数据类型，即@RequestBody注解标注的参数,解决多次读取问题
+ * 2、用来解决注解@RequestParam通过POST/PUT/DELETE/PATCH方法传递参数，解决多次读取问题
+ * 首先看一下springboot控制器三个注解：
+ * 1、@PathVariable注解是REST风格url获取参数的方式，只能用在GET请求类型，通过getParameter获取参数
+ * 2、@RequestParam注解支持GET和POST/PUT/DELETE/PATCH方式，Get方式通过getParameter获取参数和post方式通过getInputStream或getReader获取参数
+ * 3、@RequestBody注解支持POST/PUT/DELETE/PATCH，可以通过getInputStream和getReader获取参数
  * @create: 2020/8/19
  */
 public class RequestWrapper extends HttpServletRequestWrapper {
@@ -24,8 +31,6 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * 获取请求参数对象的包装流
-     *
      * @return
      * @throws IOException
      */
@@ -33,8 +38,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     public ServletInputStream getInputStream() throws IOException {
         /**
          * 每次调用此方法时将数据流中的数据读取出来，然后再回填到InputStream之中
-         * 还有一个问题是下面这段代码网上有很多是写在构造函数中的，通常情况是没有问题的但是如果使用POST方式@ReqeustParam注解接收参数控制器是拿不到参数的；
-         * 暂时还未想明白放到这里为何读取就可以了（request.getParameter(String name) && getInputStream() && getReader() 这三者的区别研究）
+         * 解决通过@RequestBody和@RequestParam（POST方式）读取一次后控制器拿不到参数问题
          */
         if (null == this.requestBody) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -7,11 +7,11 @@ import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.enums.GrantTypeEnum;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
-import com.sgrain.boot.web.conf.properties.PropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
@@ -44,7 +44,7 @@ import java.util.Map;
 public class OAuth2Controller {
 
     @Autowired
-    private PropertyService propertyService;
+    private Environment propertyService;
     @Autowired
     @Lazy
     private TokenStore tokenStore;

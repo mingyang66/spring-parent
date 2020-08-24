@@ -3,6 +3,7 @@ package com.sgrain.boot.web.exception;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
+import com.sgrain.boot.common.exception.PrintExceptionInfo;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -223,17 +224,7 @@ public final class ExceptionAdviceHandler {
      * @Version 1.0
      */
     private void printErrorMessage(Throwable e) {
-        String message = e.toString();
-        StackTraceElement[] elements = e.getStackTrace();
-        for (int i = 0; i < elements.length; i++) {
-            StackTraceElement element = elements[i];
-            if (i == 0) {
-                message = StringUtils.join(element.toString(), " ", message);
-            } else {
-                message = StringUtils.join(message, "\n", element.toString());
-            }
-        }
-        LoggerUtils.error(ExceptionAdviceHandler.class, message);
+        LoggerUtils.error(ExceptionAdviceHandler.class, PrintExceptionInfo.printErrorInfo(e));
     }
 
     /**

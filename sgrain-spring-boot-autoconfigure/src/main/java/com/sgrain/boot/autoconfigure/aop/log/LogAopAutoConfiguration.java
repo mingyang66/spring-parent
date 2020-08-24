@@ -1,6 +1,7 @@
 package com.sgrain.boot.autoconfigure.aop.log;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.LogAopMethodInterceptor;
+import com.sgrain.boot.autoconfigure.aop.log.service.AsyncLogAopService;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,7 +35,7 @@ public class LogAopAutoConfiguration implements InitializingBean {
     @Autowired
     private LogAopProperties logAopProperties;
     @Autowired
-    private ApplicationEventPublisher publisher;
+    private AsyncLogAopService asyncLogAopService;
 
     /**
      * @Description 定义接口拦截器切点
@@ -53,7 +53,7 @@ public class LogAopAutoConfiguration implements InitializingBean {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new LogAopMethodInterceptor(publisher));
+        advisor.setAdvice(new LogAopMethodInterceptor(asyncLogAopService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.LOG_AOP.getOrder());
         return advisor;

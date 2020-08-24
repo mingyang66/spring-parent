@@ -3,7 +3,10 @@ package com.yaomy.control.test.api.rabbit;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,8 @@ public class TestController {
     private RestTemplate restTemplate;
     @Autowired
     private HttpClientService httpClientService;
+    @Autowired
+    private AsyncConfigurer asyncConfigurer;
 
     @GetMapping("void/test46/{name}")
     public String test2(@PathVariable String name){
@@ -82,11 +87,16 @@ public class TestController {
     }
     @PostMapping("client1")
     public void client1(@RequestParam MultipartFile file, @RequestParam String name){
-        System.out.println(file.getOriginalFilename());
+
         String url9 = "http://127.0.0.1:9000/api/http/test9/{name}";
         MultiValueMap<String, String> map9 = new LinkedMultiValueMap<>();
         map9.add("length", "lili9");
         Map<String, Object> result9 = httpClientService.post(url9, map9,null, Map.class, "li88");
         System.out.println(result9);
+    }
+    @GetMapping("client2")
+    public String client2(){
+        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor)asyncConfigurer.getAsyncExecutor();
+        return StringUtils.join("CorePoolSize：", taskExecutor.getCorePoolSize()+", 最大线程数："+taskExecutor.getMaxPoolSize()+"，当前线程池大小："+taskExecutor.getPoolSize(), ",当前活跃线程数：", taskExecutor.getActiveCount());
     }
 }

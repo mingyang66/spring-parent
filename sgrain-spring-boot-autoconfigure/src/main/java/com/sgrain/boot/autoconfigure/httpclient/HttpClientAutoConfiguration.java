@@ -2,6 +2,8 @@ package com.sgrain.boot.autoconfigure.httpclient;
 
 import com.sgrain.boot.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.autoconfigure.httpclient.interceptor.HttpClientInterceptor;
+import com.sgrain.boot.autoconfigure.httpclient.service.AsyncLogHttpClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,11 +32,11 @@ public class HttpClientAutoConfiguration {
     /**
      * 读取配置属性服务类
      */
+    @Autowired
     private HttpClientProperties httpClientProperties;
+    @Autowired
+    private AsyncLogHttpClientService asyncLogHttpClientService;
 
-    public HttpClientAutoConfiguration(HttpClientProperties httpClientProperties) {
-        this.httpClientProperties = httpClientProperties;
-    }
 
     /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
@@ -48,7 +50,7 @@ public class HttpClientAutoConfiguration {
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if(httpClientProperties.isEnableInterceptor()){
             //添加拦截器
-            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor()));
+            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor(asyncLogHttpClientService)));
         }
 
         return restTemplate;

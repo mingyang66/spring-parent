@@ -12,7 +12,7 @@ public class CharacterUtils {
     public static final String ASK_SIGN_CN = "？";
     public static final String AND_AIGN = "&";
     public static final String ENTER = "\n";
-    public static final String LINE_FEED = "\n\r";
+    public static final String LINE_BREAK = "\n\r";
     public static final String SEMICOLON_EN = ";";
     public static final String SEMICOLON_CN = "；";
     public static final String COLON_EN = ":";

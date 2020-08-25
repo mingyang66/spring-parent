@@ -53,7 +53,7 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, Comman
         //线程池最大线程数,默认：10000
         taskExecutor.setMaxPoolSize(Objects.nonNull(asyncThreadPoolProperties.getMaxPoolSize()) ? asyncThreadPoolProperties.getMaxPoolSize() : 10000);
         //线程队列最大线程数,默认：20000
-        taskExecutor.setQueueCapacity(Objects.nonNull(asyncThreadPoolProperties.getMaxPoolSize()) ? asyncThreadPoolProperties.getMaxPoolSize() : 20000);
+        taskExecutor.setQueueCapacity(Objects.nonNull(asyncThreadPoolProperties.getQueueCapacity()) ? asyncThreadPoolProperties.getQueueCapacity() : 20000);
         //线程名称前缀
         taskExecutor.setThreadNamePrefix(StringUtils.isNotEmpty(asyncThreadPoolProperties.getThreadNamePrefix()) ? asyncThreadPoolProperties.getThreadNamePrefix() : "Async-ThreadPool-");
         //线程池中线程最大空闲时间，默认：60，单位：秒

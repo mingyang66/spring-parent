@@ -1,5 +1,6 @@
 package com.yaomy.control.test.api.rabbit;
 
+import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolBeanName;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
@@ -37,7 +38,8 @@ public class TestController {
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     @Lazy
-    private ThreadPoolTaskExecutor asyncTaskExecutor;
+    @Qualifier(AsyncThreadPoolBeanName.THREAD_POOL_BEAN_NAME)
+    private ThreadPoolTaskExecutor asyncTaskExecutor11;
 
     @GetMapping("void/test46/{name}")
     public String test2(@PathVariable String name){
@@ -105,7 +107,7 @@ public class TestController {
     @GetMapping("client2")
     public String client2(){
         System.out.println(taskExecutor.getThreadNamePrefix());
-        System.out.println(asyncTaskExecutor.getThreadNamePrefix());
+        System.out.println(asyncTaskExecutor11.getThreadNamePrefix());
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor)asyncConfigurer.getAsyncExecutor();
         return StringUtils.join("CorePoolSize：", taskExecutor.getCorePoolSize()+", 最大线程数："+taskExecutor.getMaxPoolSize()+"，当前线程池大小："+taskExecutor.getPoolSize(), ",当前活跃线程数：", taskExecutor.getActiveCount());
     }

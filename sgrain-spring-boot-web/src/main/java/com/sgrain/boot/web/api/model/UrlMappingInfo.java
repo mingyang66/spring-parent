@@ -1,4 +1,4 @@
-package com.sgrain.boot.web.api.module;
+package com.sgrain.boot.web.api.model;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 

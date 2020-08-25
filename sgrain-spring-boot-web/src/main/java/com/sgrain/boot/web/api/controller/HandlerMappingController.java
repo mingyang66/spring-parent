@@ -1,7 +1,7 @@
 package com.sgrain.boot.web.api.controller;
 
 import com.google.common.collect.Lists;
-import com.sgrain.boot.web.api.module.UrlMappingInfo;
+import com.sgrain.boot.web.api.model.UrlMappingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

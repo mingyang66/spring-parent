@@ -18,11 +18,11 @@ public class AsyncThreadPoolProperties {
      */
     private Integer corePoolSize;
     /**
-     * 线程池最大线程数,默认：40000
+     * 线程池最大线程数,默认：10000
      */
     private Integer maxPoolSize;
     /**
-     * 线程队列最大线程数,默认：80000
+     * 线程队列最大线程数,默认：20000
      */
     private Integer queueCapacity;
     /**

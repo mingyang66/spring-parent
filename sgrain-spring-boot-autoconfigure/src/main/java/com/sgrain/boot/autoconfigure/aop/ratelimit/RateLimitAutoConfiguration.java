@@ -1,10 +1,13 @@
 package com.sgrain.boot.autoconfigure.aop.ratelimit;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.RateLimitMethodInterceptor;
+import com.sgrain.boot.autoconfigure.aop.log.LogAopAutoConfiguration;
 import com.sgrain.boot.common.enums.AopOrderEnum;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 @EnableConfigurationProperties(RateLimitProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.rate-limit", name = "enable", havingValue = "true", matchIfMissing = false)
-public class RateLimitAutoConfiguration {
+public class RateLimitAutoConfiguration implements CommandLineRunner {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -45,5 +48,10 @@ public class RateLimitAutoConfiguration {
         advisor.setOrder(AopOrderEnum.RATE_LIMITER.getOrder());
 
         return advisor;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        LoggerUtils.info(RateLimitAutoConfiguration.class, "自动化配置----限流组件初始化完成...");
     }
 }

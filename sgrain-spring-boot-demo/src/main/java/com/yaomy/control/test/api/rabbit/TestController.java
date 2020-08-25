@@ -5,6 +5,8 @@ import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.web.httpclient.HttpClientService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.LinkedMultiValueMap;
@@ -29,7 +31,13 @@ public class TestController {
     @Autowired
     private HttpClientService httpClientService;
     @Autowired
+    @Lazy
     private AsyncConfigurer asyncConfigurer;
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
+    @Autowired
+    @Lazy
+    private ThreadPoolTaskExecutor asyncTaskExecutor;
 
     @GetMapping("void/test46/{name}")
     public String test2(@PathVariable String name){
@@ -96,6 +104,8 @@ public class TestController {
     }
     @GetMapping("client2")
     public String client2(){
+        System.out.println(taskExecutor.getThreadNamePrefix());
+        System.out.println(asyncTaskExecutor.getThreadNamePrefix());
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor)asyncConfigurer.getAsyncExecutor();
         return StringUtils.join("CorePoolSize：", taskExecutor.getCorePoolSize()+", 最大线程数："+taskExecutor.getMaxPoolSize()+"，当前线程池大小："+taskExecutor.getPoolSize(), ",当前活跃线程数：", taskExecutor.getActiveCount());
     }

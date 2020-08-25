@@ -3,6 +3,9 @@ package com.sgrain.boot.autoconfigure.returnvalue;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseHttpHeadersReturnValueHandler;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseMethodReturnValueHandler;
+import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration;
+import com.sgrain.boot.common.utils.LoggerUtils;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +26,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableConfigurationProperties(ReturnValueProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.return-value", name = "enable", havingValue = "true", matchIfMissing = true)
-public class ReturnValueAutoConfiguration {
+public class ReturnValueAutoConfiguration implements CommandLineRunner {
 
     private RequestMappingHandlerAdapter handlerAdapter;
 
@@ -47,5 +50,10 @@ public class ReturnValueAutoConfiguration {
         }).collect(Collectors.toList());
 
         handlerAdapter.setReturnValueHandlers(handlers);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        LoggerUtils.info(ReturnValueAutoConfiguration.class, "自动化配置----返回值包装组件初始化完成...");
     }
 }

@@ -2,6 +2,7 @@ package com.sgrain.boot.autoconfigure.aop.log;
 
 import com.sgrain.boot.autoconfigure.aop.interceptor.LogAopMethodInterceptor;
 import com.sgrain.boot.autoconfigure.aop.log.service.AsyncLogAopService;
+import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(LogAopProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.log", name = "enable", havingValue = "true", matchIfMissing = true)
-public class LogAopAutoConfiguration implements InitializingBean {
+public class LogAopAutoConfiguration implements CommandLineRunner {
 
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -60,7 +62,8 @@ public class LogAopAutoConfiguration implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void run(String... args) throws Exception {
         LoggerUtils.setDebug(logAopProperties.isDebug());
+        LoggerUtils.info(LogAopAutoConfiguration.class, "自动化配置----用户记录日志组件初始化完成...");
     }
 }

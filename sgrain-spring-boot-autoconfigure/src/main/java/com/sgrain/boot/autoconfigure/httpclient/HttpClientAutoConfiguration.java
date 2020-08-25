@@ -3,7 +3,10 @@ package com.sgrain.boot.autoconfigure.httpclient;
 import com.sgrain.boot.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.autoconfigure.httpclient.interceptor.HttpClientInterceptor;
 import com.sgrain.boot.autoconfigure.httpclient.service.AsyncLogHttpClientService;
+import com.sgrain.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,7 +31,7 @@ import java.util.Collections;
         value = {RestTemplate.class}
 )
 @ConditionalOnProperty(prefix = "spring.sgrain.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
-public class HttpClientAutoConfiguration {
+public class HttpClientAutoConfiguration implements CommandLineRunner {
     /**
      * 读取配置属性服务类
      */
@@ -69,4 +72,8 @@ public class HttpClientAutoConfiguration {
         return factory;
     }
 
+    @Override
+    public void run(String... args) throws Exception {
+        LoggerUtils.info(HttpClientAutoConfiguration.class, "自动化配置----RestTemplate组件初始化完成...");
+    }
 }

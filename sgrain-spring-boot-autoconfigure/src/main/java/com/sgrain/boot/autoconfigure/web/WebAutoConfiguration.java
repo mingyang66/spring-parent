@@ -1,11 +1,14 @@
 package com.sgrain.boot.autoconfigure.web;
 
+import com.sgrain.boot.autoconfigure.redis.RedisSgrainAutoConfiguration;
 import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
@@ -23,7 +26,7 @@ import java.util.Objects;
  */
 @Configuration
 @EnableConfigurationProperties(WebProperties.class)
-public class WebAutoConfiguration implements WebMvcConfigurer {
+public class WebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner {
 
     @Autowired
     private WebProperties webProperties;
@@ -128,5 +131,10 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         if (Objects.nonNull(webProperties.getCors().getMaxAge())) {
             registration.maxAge(webProperties.getCors().getMaxAge());
         }
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        LoggerUtils.info(WebAutoConfiguration.class, "自动化配置----WebMvc配置组件初始化完成...");
     }
 }

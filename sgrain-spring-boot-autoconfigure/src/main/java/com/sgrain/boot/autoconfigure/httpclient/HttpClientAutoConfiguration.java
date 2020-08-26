@@ -3,7 +3,6 @@ package com.sgrain.boot.autoconfigure.httpclient;
 import com.sgrain.boot.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.autoconfigure.httpclient.interceptor.HttpClientInterceptor;
 import com.sgrain.boot.autoconfigure.httpclient.service.AsyncLogHttpClientService;
-import com.sgrain.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

@@ -1,7 +1,6 @@
 package com.sgrain.boot.common.servlet;
 
 import com.sgrain.boot.common.utils.io.IOUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;

@@ -19,8 +19,11 @@ import java.util.List;
 public class ParamTestController {
 
     @PostMapping("api/param/test1")
-    public void test1(@RequestBody User user, People people, @RequestParam String password, String name, HttpServletRequest request, HttpServletResponse response){
+    public String test1(@RequestBody User user, People people, @RequestParam String password, String name, HttpServletRequest request, HttpServletResponse response){
         System.out.println(JSONUtils.toJSONPrettyString(user));
+        String s = null;
+        s.length();
+        return "s";
     }
     @GetMapping("api/param/test2")
     public void test2(User user, People people, @RequestParam String password, String name, HttpServletRequest request, HttpServletResponse response){

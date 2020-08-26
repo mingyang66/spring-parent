@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.aop.log.po;
+package com.sgrain.boot.autoconfigure.aop.apilog.po;
 
 import java.io.Serializable;
 import java.util.Date;

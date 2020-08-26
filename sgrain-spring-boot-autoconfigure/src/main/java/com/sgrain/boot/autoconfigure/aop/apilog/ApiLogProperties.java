@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.aop.log;
+package com.sgrain.boot.autoconfigure.aop.apilog;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description: 拦截器属性配置类
  * @create: 2020/03/19
  */
-@ConfigurationProperties(prefix = "spring.sgrain.log")
-public class LogAopProperties {
+@ConfigurationProperties(prefix = "spring.sgrain.api-log")
+public class ApiLogProperties {
     /**
      * 组件开关
      */

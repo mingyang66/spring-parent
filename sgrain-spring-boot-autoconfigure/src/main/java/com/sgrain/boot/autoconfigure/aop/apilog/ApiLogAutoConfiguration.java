@@ -1,13 +1,13 @@
-package com.sgrain.boot.autoconfigure.aop.log;
+package com.sgrain.boot.autoconfigure.aop.apilog;
 
-import com.sgrain.boot.autoconfigure.aop.advice.LogAopMethodInterceptor;
-import com.sgrain.boot.autoconfigure.aop.log.service.AsyncLogAopService;
+import com.sgrain.boot.autoconfigure.aop.advice.ApiLogMethodInterceptor;
+import com.sgrain.boot.autoconfigure.aop.advice.ApiLogThrowsAdvice;
+import com.sgrain.boot.autoconfigure.aop.apilog.service.AsyncLogAopService;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Configuration;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(LogAopProperties.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.log", name = "enable", havingValue = "true", matchIfMissing = true)
-public class LogAopAutoConfiguration implements CommandLineRunner {
+@EnableConfigurationProperties(ApiLogProperties.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
+public class ApiLogAutoConfiguration implements CommandLineRunner {
 
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -32,18 +32,20 @@ public class LogAopAutoConfiguration implements CommandLineRunner {
             "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
-    @Autowired
-    private LogAopProperties logAopProperties;
-    @Autowired
-    private AsyncLogAopService asyncLogAopService;
+
+    private ApiLogProperties apiLogProperties;
+
+    public ApiLogAutoConfiguration(ApiLogProperties apiLogProperties) {
+        this.apiLogProperties = apiLogProperties;
+    }
 
     /**
      * @Description 定义接口拦截器切点
      * @Version 1.0
      */
     @Bean
-    @ConditionalOnClass(LogAopMethodInterceptor.class)
-    public DefaultPointcutAdvisor logAopPointCutAdvice() {
+    @ConditionalOnClass(ApiLogMethodInterceptor.class)
+    public DefaultPointcutAdvisor logAopPointCutAdvice(AsyncLogAopService asyncLogAopService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -53,15 +55,38 @@ public class LogAopAutoConfiguration implements CommandLineRunner {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new LogAopMethodInterceptor(asyncLogAopService));
+        advisor.setAdvice(new ApiLogMethodInterceptor(asyncLogAopService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.LOG_AOP.getOrder());
         return advisor;
     }
 
+    /**
+     * API异常日志处理增强
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnClass(ApiLogThrowsAdvice.class)
+    public DefaultPointcutAdvisor apiLogThrowsPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+        //声明一个AspectJ切点
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        //设置需要拦截的切点-用切点语言表达式
+        pointcut.setExpression(DEFAULT_POINT_CUT);
+        // 配置增强类advisor, 切面=切点+增强
+        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
+        //设置切点
+        advisor.setPointcut(pointcut);
+        //设置增强（Advice）
+        advisor.setAdvice(new ApiLogThrowsAdvice(asyncLogAopService));
+        //设置增强拦截器执行顺序
+        advisor.setOrder(200);
+        return advisor;
+    }
+
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.setDebug(logAopProperties.isDebug());
-        LoggerUtils.info(LogAopAutoConfiguration.class, "自动化配置----用户记录日志组件初始化完成...");
+        LoggerUtils.setDebug(apiLogProperties.isDebug());
+        LoggerUtils.info(ApiLogAutoConfiguration.class, "【自动化配置】----API日志记录组件[正常|异常]初始化完成...");
     }
 }

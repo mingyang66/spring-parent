@@ -1,8 +1,8 @@
-package com.sgrain.boot.autoconfigure.aop.log.service.impl;
+package com.sgrain.boot.autoconfigure.aop.apilog.service.impl;
 
 import com.google.common.collect.Maps;
-import com.sgrain.boot.autoconfigure.aop.log.po.AsyncLogAop;
-import com.sgrain.boot.autoconfigure.aop.log.service.AsyncLogAopService;
+import com.sgrain.boot.autoconfigure.aop.apilog.po.AsyncLogAop;
+import com.sgrain.boot.autoconfigure.aop.apilog.service.AsyncLogAopService;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
@@ -96,7 +96,6 @@ public class AsyncLogAopServiceImpl implements AsyncLogAopService {
         logMap.put("Request Method", asyncLog.getMethod());
         logMap.put("Reuqest Params", CollectionUtils.isEmpty(asyncLog.getRequestParams()) ? Collections.emptyMap() : asyncLog.getRequestParams());
         logMap.put("Content-Type", asyncLog.getContentType());
-        logMap.put("Spend Time", StringUtils.join((asyncLog.getSpentTime() == 0) ? 1 : asyncLog.getSpentTime(), "ms"));
         logMap.put("Exception", asyncLog.getException());
         if (LoggerUtils.isDebug()) {
             LoggerUtils.error(asyncLog.getClazz(), JSONUtils.toJSONPrettyString(logMap));

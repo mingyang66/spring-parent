@@ -72,6 +72,6 @@ public class SmallGrainRedisAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(SmallGrainRedisAutoConfiguration.class, "自动化配置----Redis组件初始化完成...");
+        LoggerUtils.info(SmallGrainRedisAutoConfiguration.class, "【自动化配置】----Redis组件初始化完成...");
     }
 }

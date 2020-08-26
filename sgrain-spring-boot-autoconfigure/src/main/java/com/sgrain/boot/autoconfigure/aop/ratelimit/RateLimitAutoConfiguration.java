@@ -51,6 +51,6 @@ public class RateLimitAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(RateLimitAutoConfiguration.class, "自动化配置----限流组件初始化完成...");
+        LoggerUtils.info(RateLimitAutoConfiguration.class, "【自动化配置】----限流组件初始化完成...");
     }
 }

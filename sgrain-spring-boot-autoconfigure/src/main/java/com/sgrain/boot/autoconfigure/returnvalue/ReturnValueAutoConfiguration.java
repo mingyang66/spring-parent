@@ -53,6 +53,6 @@ public class ReturnValueAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(ReturnValueAutoConfiguration.class, "自动化配置----返回值包装组件初始化完成...");
+        LoggerUtils.info(ReturnValueAutoConfiguration.class, "【自动化配置】----返回值包装组件初始化完成...");
     }
 }

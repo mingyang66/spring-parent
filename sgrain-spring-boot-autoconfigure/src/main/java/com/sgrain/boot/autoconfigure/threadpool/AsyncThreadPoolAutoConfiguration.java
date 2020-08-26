@@ -110,6 +110,6 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, Comman
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(AsyncThreadPoolAutoConfiguration.class, "自动化配置----异步线程池组件初始化完成...");
+        LoggerUtils.info(AsyncThreadPoolAutoConfiguration.class, "【自动化配置】----异步线程池组件初始化完成...");
     }
 }

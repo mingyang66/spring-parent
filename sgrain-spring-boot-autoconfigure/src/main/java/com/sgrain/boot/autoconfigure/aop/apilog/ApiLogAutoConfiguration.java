@@ -45,7 +45,7 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
      */
     @Bean
     @ConditionalOnClass(ApiLogMethodInterceptor.class)
-    public DefaultPointcutAdvisor logAopPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(AsyncLogAopService asyncLogAopService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -57,7 +57,7 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
         //设置增强（Advice）
         advisor.setAdvice(new ApiLogMethodInterceptor(asyncLogAopService));
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.LOG_AOP.getOrder());
+        advisor.setOrder(AopOrderEnum.API_LOG_NORMAL.getOrder());
         return advisor;
     }
 
@@ -68,7 +68,7 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
      */
     @Bean
     @ConditionalOnClass(ApiLogThrowsAdvice.class)
-    public DefaultPointcutAdvisor apiLogThrowsPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(AsyncLogAopService asyncLogAopService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -80,7 +80,7 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
         //设置增强（Advice）
         advisor.setAdvice(new ApiLogThrowsAdvice(asyncLogAopService));
         //设置增强拦截器执行顺序
-        advisor.setOrder(200);
+        advisor.setOrder(AopOrderEnum.API_LOG_EXCEPTION.getOrder());
         return advisor;
     }
 

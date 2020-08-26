@@ -134,6 +134,6 @@ public class WebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(WebAutoConfiguration.class, "自动化配置----WebMvc配置组件初始化完成...");
+        LoggerUtils.info(WebAutoConfiguration.class, "【自动化配置】----WebMvc配置组件初始化完成...");
     }
 }

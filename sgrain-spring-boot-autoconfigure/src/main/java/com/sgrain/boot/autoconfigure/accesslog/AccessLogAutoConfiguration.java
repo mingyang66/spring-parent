@@ -38,7 +38,7 @@ public class AccessLogAutoConfiguration implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (Objects.nonNull(builder)) {
             LoggerUtils.setBuilder(builder);
-            LoggerUtils.info(AccessLogAutoConfiguration.class, "自动化配置----AccessLog组件初始化完成...");
+            LoggerUtils.info(AccessLogAutoConfiguration.class, "【自动化配置】----logback日志组件初始化完成...");
         }
     }
 }

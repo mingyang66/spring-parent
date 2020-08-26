@@ -54,6 +54,6 @@ public class IdempotentAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(IdempotentAutoConfiguration.class, "自动化配置----防止接口重复提交组件初始化完成...");
+        LoggerUtils.info(IdempotentAutoConfiguration.class, "【自动化配置】----防止接口重复提交组件初始化完成...");
     }
 }

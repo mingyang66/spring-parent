@@ -5,9 +5,13 @@ package com.sgrain.boot.common.enums;
 */
 public enum AopOrderEnum {
     /**
-     * 日志
+     * API异常日志
      */
-    LOG_AOP(400),
+    API_LOG_EXCEPTION(300),
+    /**
+     * API正常日志
+     */
+    API_LOG_NORMAL(400),
     /**
      * 接口流控
      */

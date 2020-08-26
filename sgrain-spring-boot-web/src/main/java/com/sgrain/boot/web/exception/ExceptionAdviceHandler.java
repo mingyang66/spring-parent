@@ -63,7 +63,7 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     public ResponseData nullPointerExceptionHandler(NullPointerException e) {
-        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), e.getMessage());
+        ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
         printErrorMessage(e);
         return responseData;
     }

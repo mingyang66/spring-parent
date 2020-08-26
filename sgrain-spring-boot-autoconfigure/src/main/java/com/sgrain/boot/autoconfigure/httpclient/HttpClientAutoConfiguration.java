@@ -73,6 +73,6 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "自动化配置----RestTemplate组件初始化完成...");
+        LoggerUtils.info(HttpClientAutoConfiguration.class, "【自动化配置】----RestTemplate组件初始化完成...");
     }
 }

@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.aop.interceptor;
+package com.sgrain.boot.autoconfigure.aop.advice;
 
 import com.sgrain.boot.autoconfigure.aop.log.po.AsyncLogAop;
 import com.sgrain.boot.autoconfigure.aop.log.service.AsyncLogAopService;

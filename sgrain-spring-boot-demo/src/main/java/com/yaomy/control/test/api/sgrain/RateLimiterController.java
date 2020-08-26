@@ -3,8 +3,8 @@ package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
-import com.sgrain.boot.autoconfigure.aop.annotation.Idempotent;
-import com.sgrain.boot.autoconfigure.aop.annotation.RateLimit;
+import com.sgrain.boot.autoconfigure.aop.annotation.ApiIdempotent;
+import com.sgrain.boot.autoconfigure.aop.annotation.ApiRateLimit;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.yaomy.control.test.po.User;
@@ -43,10 +43,8 @@ public class RateLimiterController {
         return "SUCCESS";
     }
     @GetMapping("/rate/limit")
-    @RateLimit(permits = 2, time = 30, timeUnit = TimeUnit.SECONDS)
-    @Idempotent
-    public Map<String, Object> rateLimiter1(@Validated @RequestBody User user, String name, HttpServletRequest request, HttpServletResponse response){
-        System.out.println(user.getName()+"---"+user.getAge());
+    @ApiRateLimit(permits = 2, time = 30, timeUnit = TimeUnit.SECONDS)
+    public Map<String, Object> rateLimiter1(){
         //redisTemplate.opsForValue().set("test666", "888");
         Map<String, Object> map = Maps.newHashMap();
         map.put("user", null);
@@ -57,5 +55,11 @@ public class RateLimiterController {
         ResponseData baseResponse = ResponseData.buildResponse(100, "测试");
         System.out.println(JSONUtils.toJSONString(baseResponse));
         return map;
+    }
+
+    @ApiIdempotent
+    @GetMapping("idempotent/test")
+    public String idempotent(){
+        return "success";
     }
 }

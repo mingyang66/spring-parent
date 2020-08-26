@@ -1,26 +1,18 @@
 package com.sgrain.boot.autoconfigure.aop.idempotent;
 
-import com.sgrain.boot.autoconfigure.aop.interceptor.IdempotentMethodInterceptor;
-import com.sgrain.boot.autoconfigure.aop.log.LogAopAutoConfiguration;
+import com.sgrain.boot.autoconfigure.aop.advice.IdempotentMethodBeforeAdvice;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.common.utils.UUIDUtils;
-import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -35,16 +27,14 @@ public class IdempotentAutoConfiguration implements CommandLineRunner {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String REPEAT_SUBMIT_POINT_CUT = StringUtils.join("@annotation(com.sgrain.boot.autoconfigure.aop.annotation.Idempotent)");
+    private static final String REPEAT_SUBMIT_POINT_CUT = StringUtils.join("@annotation(com.sgrain.boot.autoconfigure.aop.annotation.ApiIdempotent)");
 
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     /**
      * 控制器AOP拦截处理
      */
     @Bean
-    public DefaultPointcutAdvisor repeatSubmitPointCutAdvice() {
+    public DefaultPointcutAdvisor repeatSubmitPointCutAdvice(StringRedisTemplate stringRedisTemplate) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式
@@ -54,22 +44,13 @@ public class IdempotentAutoConfiguration implements CommandLineRunner {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new IdempotentMethodInterceptor(redisTemplate));
+        advisor.setAdvice(new IdempotentMethodBeforeAdvice(stringRedisTemplate));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.IDEMPOTENT.getOrder());
 
         return advisor;
     }
 
-    /**
-     * 自动生成token令牌，并将令牌存入缓存，过期时间是30s
-     */
-    @GetMapping("token/generation")
-    public ResponseEntity<String> generationToken() {
-        String token = UUIDUtils.generation();
-        redisTemplate.opsForValue().set(StringUtils.join("idempotent", CharacterUtils.COLON_EN, token), token, 30, TimeUnit.SECONDS);
-        return ResponseEntity.ok(token);
-    }
 
     @Override
     public void run(String... args) throws Exception {

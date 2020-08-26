@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RateLimit {
+public @interface ApiRateLimit {
     /**
      * 限流控制开关
      */

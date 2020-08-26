@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Idempotent {
+public @interface ApiIdempotent {
     /**
      * 启动幂等性功能
      */

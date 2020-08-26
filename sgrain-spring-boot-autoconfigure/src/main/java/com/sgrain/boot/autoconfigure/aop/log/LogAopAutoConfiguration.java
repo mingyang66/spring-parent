@@ -1,14 +1,12 @@
 package com.sgrain.boot.autoconfigure.aop.log;
 
-import com.sgrain.boot.autoconfigure.aop.interceptor.LogAopMethodInterceptor;
+import com.sgrain.boot.autoconfigure.aop.advice.LogAopMethodInterceptor;
 import com.sgrain.boot.autoconfigure.aop.log.service.AsyncLogAopService;
-import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

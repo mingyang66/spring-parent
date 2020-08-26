@@ -18,17 +18,8 @@ public class User extends BaseRequest implements Serializable {
     private String name;
     @DecimalMin(value = "0", message = "年龄不可以小于0")
     private Integer age = 0;
-    private String[] weight;
     private Date date;
-    private List<Map<String, Object>> list;
 
-    public List<Map<String, Object>> getList() {
-        return list;
-    }
-
-    public void setList(List<Map<String, Object>> list) {
-        this.list = list;
-    }
 
     public Date getDate() {
         return date;
@@ -52,13 +43,5 @@ public class User extends BaseRequest implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public String[] getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String[] weight) {
-        this.weight = weight;
     }
 }

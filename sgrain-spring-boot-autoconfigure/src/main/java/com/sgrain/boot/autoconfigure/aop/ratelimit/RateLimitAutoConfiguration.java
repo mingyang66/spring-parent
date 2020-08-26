@@ -1,7 +1,6 @@
 package com.sgrain.boot.autoconfigure.aop.ratelimit;
 
-import com.sgrain.boot.autoconfigure.aop.interceptor.RateLimitMethodInterceptor;
-import com.sgrain.boot.autoconfigure.aop.log.LogAopAutoConfiguration;
+import com.sgrain.boot.autoconfigure.aop.advice.RateLimitMethodBeforeAdvice;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 
 /**
@@ -27,13 +26,13 @@ public class RateLimitAutoConfiguration implements CommandLineRunner {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String RATE_LIMIT_POINT_CUT = StringUtils.join("@annotation(com.sgrain.boot.autoconfigure.aop.annotation.RateLimit)");
+    private static final String RATE_LIMIT_POINT_CUT = StringUtils.join("@annotation(com.sgrain.boot.autoconfigure.aop.annotation.ApiRateLimit)");
 
     /**
      * 控制器AOP拦截处理
      */
     @Bean
-    public DefaultPointcutAdvisor rateLimitPointCutAdvice(RedisTemplate redisTemplate) {
+    public DefaultPointcutAdvisor rateLimitPointCutAdvice(StringRedisTemplate stringRedisTemplate) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式
@@ -43,7 +42,7 @@ public class RateLimitAutoConfiguration implements CommandLineRunner {
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new RateLimitMethodInterceptor(redisTemplate));
+        advisor.setAdvice(new RateLimitMethodBeforeAdvice(stringRedisTemplate));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.RATE_LIMITER.getOrder());
 

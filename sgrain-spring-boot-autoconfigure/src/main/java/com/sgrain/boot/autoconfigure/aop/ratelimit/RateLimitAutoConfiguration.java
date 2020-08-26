@@ -20,7 +20,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @description: 接口被指定的客户端调用频率限制自动化配置
  * @create: 2020/03/23
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(RateLimitProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.rate-limit", name = "enable", havingValue = "true", matchIfMissing = false)
 public class RateLimitAutoConfiguration implements CommandLineRunner {

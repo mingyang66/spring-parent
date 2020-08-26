@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @description: 防止接口重复提交自动化配置
  * @create: 2020/03/23
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(IdempotentProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.idempotent", name = "enable", havingValue = "true", matchIfMissing = false)
 @RestController
@@ -39,6 +39,7 @@ public class IdempotentAutoConfiguration implements CommandLineRunner {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
     /**
      * 控制器AOP拦截处理
      */
@@ -59,11 +60,12 @@ public class IdempotentAutoConfiguration implements CommandLineRunner {
 
         return advisor;
     }
+
     /**
      * 自动生成token令牌，并将令牌存入缓存，过期时间是30s
      */
     @GetMapping("token/generation")
-    public ResponseEntity<String> generationToken(){
+    public ResponseEntity<String> generationToken() {
         String token = UUIDUtils.generation();
         redisTemplate.opsForValue().set(StringUtils.join("idempotent", CharacterUtils.COLON_EN, token), token, 30, TimeUnit.SECONDS);
         return ResponseEntity.ok(token);

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import com.sgrain.boot.autoconfigure.httpclient.HttpClientAutoConfiguration;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,10 +18,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 /**
  * Redis配置文件
  */
-@Configuration
-@EnableConfigurationProperties(RedisSgrainProperties.class)
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(SmallGrainRedisProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.redis", name = "enable", havingValue = "true", matchIfMissing = false)
-public class RedisSgrainAutoConfiguration implements CommandLineRunner {
+public class SmallGrainRedisAutoConfiguration implements CommandLineRunner {
     /**
      * redis序列化方式选择：
      * 1.默认的JdkSerializationRedisSerializer序列化方式，其编码是ISO-8859-1,会出现乱码问题
@@ -73,6 +72,6 @@ public class RedisSgrainAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(RedisSgrainAutoConfiguration.class, "自动化配置----Redis组件初始化完成...");
+        LoggerUtils.info(SmallGrainRedisAutoConfiguration.class, "自动化配置----Redis组件初始化完成...");
     }
 }

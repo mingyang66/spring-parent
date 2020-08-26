@@ -17,15 +17,17 @@ import org.springframework.core.env.Environment;
  * 生成证书命令：
  * keytool -genkey -alias michaelSpica  -storetype PKCS12 -keyalg RSA -keysize 2048  -keystore /Users/yaomingyang/Documents/IDE/workplace/security/keystore.p12 -validity 3650 -dname "CN=localhost, OU=localhost, O=localhost, L=SH, ST=SH, C=CN"
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HttpsProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.https", name = "enable", havingValue = "true", matchIfMissing = false)
 public class HttpsConfiguration {
 
     @Autowired
     private Environment environment;
+
     /**
      * spring boot 2.0
+     *
      * @return
      */
     @Bean
@@ -47,6 +49,7 @@ public class HttpsConfiguration {
 
     /**
      * 声明Tomcat连接器
+     *
      * @return
      */
     @Bean
@@ -59,7 +62,7 @@ public class HttpsConfiguration {
         //是否使用SSL安全协议发送Cookie,以避免明文被网络拦截
         connector.setSecure(false);
         //监听到http的端口号后转向到的https的端口号
-        connector.setRedirectPort(environment.getProperty("server.port",Integer.class, 9000));
+        connector.setRedirectPort(environment.getProperty("server.port", Integer.class, 9000));
         return connector;
     }
 

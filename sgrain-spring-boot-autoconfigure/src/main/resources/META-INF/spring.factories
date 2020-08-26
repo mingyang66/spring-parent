@@ -2,7 +2,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.aop.log.LogAopAutoConfiguration,\
   com.sgrain.boot.autoconfigure.aop.idempotent.IdempotentAutoConfiguration,\
   com.sgrain.boot.autoconfigure.aop.ratelimit.RateLimitAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.redis.RedisSgrainAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.redis.SmallGrainRedisAutoConfiguration,\
   com.sgrain.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration,\
   com.sgrain.boot.autoconfigure.httpclient.HttpClientAutoConfiguration,\
   com.sgrain.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\

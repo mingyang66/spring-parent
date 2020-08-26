@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @Description: 控制器返回值配置处理类
  * @Version: 1.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ReturnValueProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.return-value", name = "enable", havingValue = "true", matchIfMissing = true)
 public class ReturnValueAutoConfiguration implements CommandLineRunner {

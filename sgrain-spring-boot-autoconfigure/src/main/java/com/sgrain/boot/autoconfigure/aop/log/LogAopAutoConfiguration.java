@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description: 控制器切点配置
  * @Version: 1.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(LogAopProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.log", name = "enable", havingValue = "true", matchIfMissing = true)
 public class LogAopAutoConfiguration implements CommandLineRunner {

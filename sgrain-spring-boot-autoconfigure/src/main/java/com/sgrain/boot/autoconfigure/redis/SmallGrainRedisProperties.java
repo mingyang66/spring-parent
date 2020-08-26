@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @create: 2020/03/25
  */
 @ConfigurationProperties(prefix = "spring.sgrain.redis")
-public class RedisSgrainProperties {
+public class SmallGrainRedisProperties {
     /**
      * 组件开关
      */

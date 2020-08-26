@@ -23,7 +23,7 @@ import java.util.Collections;
  * @Description: 将RestTemplate加入容器
  * @Version: 1.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(
         value = {HttpClientProperties.class}
 )
@@ -45,10 +45,10 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
      */
     @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
-        RestTemplate restTemplate = new RestTemplate(factory);
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory) {
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
-        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(factory));
+        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if(httpClientProperties.isEnableInterceptor()){
@@ -63,7 +63,7 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
-    public ClientHttpRequestFactory simpleClientHttpRequestFactory() {
+    public ClientHttpRequestFactory clientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
         factory.setReadTimeout(httpClientProperties.getReadTimeOut());

@@ -1,6 +1,5 @@
 package com.sgrain.boot.autoconfigure.web;
 
-import com.sgrain.boot.autoconfigure.redis.RedisSgrainAutoConfiguration;
 import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
@@ -24,7 +23,7 @@ import java.util.Objects;
  * @description: webmvc自动化配置
  * @create: 2020/05/26
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
 public class WebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner {
 

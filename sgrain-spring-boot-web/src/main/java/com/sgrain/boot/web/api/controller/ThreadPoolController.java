@@ -1,9 +1,12 @@
 package com.sgrain.boot.web.api.controller;
 
 import com.google.common.collect.Maps;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,15 +20,17 @@ import java.util.concurrent.TimeUnit;
  * @description: 线程池监控控制器
  * @create: 2020/08/25
  */
-@RestController
-@RequestMapping("threadPool")
+//@RestController
+//@RequestMapping("threadPool")
+@Component
 public class ThreadPoolController {
 
     @Autowired
     @Lazy
     private ThreadPoolTaskExecutor asyncTaskExecutor;
 
-    @GetMapping("metrics")
+    @Scheduled(cron = "0/10 * * * * ?")
+    //@GetMapping("metrics")
     public Map<String, Object> metrics(){
         ThreadPoolExecutor executor = asyncTaskExecutor.getThreadPoolExecutor();
         Map<String, Object> map = Maps.newLinkedHashMap();
@@ -41,6 +46,7 @@ public class ThreadPoolController {
         map.put("KeepAliveTime（空闲时间）", executor.getKeepAliveTime(TimeUnit.SECONDS));
         map.put("Queue（队列中线程数）", executor.getQueue().size());
         map.put("RemainingCapacity（队列大小）", executor.getQueue().remainingCapacity());
+        System.out.println(JSONUtils.toJSONPrettyString(map));
         return map;
     }
 }

@@ -6,9 +6,10 @@ import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,25 +24,32 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * @program: spring-parent
  * @description: 异步线程池配置 AsyncConfigurer在applicationContext早期初始化，如果需要依赖于其它的bean，尽可能的将它们声明为lazy
+ * @EnableAsync注解的order属性设置为Ordered.LOWEST_PRECEDENCE，是为了AsyncAnnotationBeanPostProcessor的执行顺序在其它后处理器之后，
+ * 这样它就可以向现有的代理中添加代理（拦截器），而不是双重代理
+ * @AutoConfigureBefore(TaskExecutionAutoConfiguration.class)注解是为了让容器中不创建默认的线程池
  * @create: 2020/08/21
  */
 @EnableAsync
-@Configuration
+@Configuration(proxyBeanMethods = false)
+@AutoConfigureBefore(TaskExecutionAutoConfiguration.class)
 @EnableConfigurationProperties(AsyncThreadPoolProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.async-thread-pool", name = "enable", havingValue = "true", matchIfMissing = false)
 public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, CommandLineRunner {
 
-    @Autowired
     private AsyncThreadPoolProperties asyncThreadPoolProperties;
 
+    public AsyncThreadPoolAutoConfiguration(AsyncThreadPoolProperties asyncThreadPoolProperties){
+        this.asyncThreadPoolProperties = asyncThreadPoolProperties;
+    }
     /**
      * 定义线程池
      * 使用{@link java.util.concurrent.LinkedBlockingQueue}(FIFO）队列，是一个用于并发环境下的阻塞队列集合类
-     * ThreadPoolTaskExecutor不是完全被IOC容器管理的bean,可以在方法上加上@Bean注解交给容器管理,这样可以将taskExecutor.initialize()方法调用去掉，容器会自动调用
-     *
+     * ThreadPoolTaskExecutor不是完全被IOC容器管理的bean,可以在方法上加上@Bean注解交给容器管理,这样可以将taskExecutor.initialize()方法调用去掉，容器会自动调用;
+     * 但是如果将@Configuration配置的proxyBeanMethods设置为false,即不使用代理模式，则需要添加上初始化方法
+     * 在其它的Bean中要使用自定义的线程池要加上{@link org.springframework.context.annotation.Lazy}注解
      * @return
      */
-    @Bean(AsyncThreadPoolBeanName.THREAD_POOL_BEAN_NAME)
+    @Bean(ThreadPoolBeanNameUtils.THREAD_POOL_BEAN_NAME)
     @Override
     public Executor getAsyncExecutor() {
         //Java虚拟机可用的处理器数
@@ -72,8 +80,8 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, Comman
          * CallerRunsPolicy：执行器执行任务失败，则在策略回调方法中执行任务，如果执行器关闭，这时丢弃任务
          */
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
-        //初始化
-        //taskExecutor.initialize();
+        //初始化，如果配置类的proxyBeanMethods代理设置为ture,则容器可以自动调用此方法，否则需要手动初始化
+        taskExecutor.initialize();
 
         return taskExecutor;
     }

@@ -26,6 +26,7 @@
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
+        <module>sgrain-spring-boot-quartz</module>
     </modules>
     <groupId>com.sgrain.boot</groupId>
     <artifactId>spring-parent</artifactId>

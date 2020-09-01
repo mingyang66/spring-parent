@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @description:
  * @create: 2020/07/30
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class ActuatorSecurityConfiguration extends WebSecurityConfigurerAdapter {
      @Override
      protected void configure(HttpSecurity http) throws Exception {

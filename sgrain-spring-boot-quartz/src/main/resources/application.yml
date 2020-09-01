@@ -1,0 +1,12 @@
+server:
+  port: 9005
+spring:
+  profiles:
+    active: quartz
+  sgrain:
+    web:
+      path:
+        enable-all-prefix: true
+        ignore-controller-url-prefix: springfox.documentation.swagger.web.ApiResourceController
+    async-thread-pool:
+      enable: true

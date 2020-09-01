@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
-public class WebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner {
+public class WebAutoConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private WebProperties webProperties;
@@ -71,6 +71,7 @@ public class WebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner
                 return false;
             }
         });
+        LoggerUtils.info(WebAutoConfiguration.class, "【自动化配置】----API前缀组件初始化完成...");
     }
 
     /**
@@ -130,10 +131,6 @@ public class WebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner
         if (Objects.nonNull(webProperties.getCors().getMaxAge())) {
             registration.maxAge(webProperties.getCors().getMaxAge());
         }
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(WebAutoConfiguration.class, "【自动化配置】----WebMvc配置组件初始化完成...");
+        LoggerUtils.info(WebAutoConfiguration.class, "【自动化配置】----跨域组件初始化完成...");
     }
 }

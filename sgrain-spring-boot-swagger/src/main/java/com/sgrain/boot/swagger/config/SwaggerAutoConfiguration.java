@@ -1,10 +1,12 @@
 package com.sgrain.boot.swagger.config;
 
+import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -25,7 +27,7 @@ import javax.annotation.PostConstruct;
 @EnableSwagger2WebMvc
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.swagger", name = "enable", havingValue = "true", matchIfMissing = true)
-public class SwaggerAutoConfiguration {
+public class SwaggerAutoConfiguration implements CommandLineRunner {
     @Autowired
     private DefaultListableBeanFactory defaultListableBeanFactory;
     @Autowired
@@ -83,5 +85,10 @@ public class SwaggerAutoConfiguration {
                 //.licenseUrl("http://www,apache.org/licenses/LICENSE-2.0")
                 .version(swaggerProperties.getApiInfo().getVersion())
                 .build();
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        LoggerUtils.info(SwaggerAutoConfiguration.class, "【自动化配置】----Swagger组件初始化完成...");
     }
 }

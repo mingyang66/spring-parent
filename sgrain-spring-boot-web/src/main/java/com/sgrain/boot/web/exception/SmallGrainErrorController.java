@@ -18,7 +18,7 @@ import java.util.Map;
  * @create: 2020/03/31
  */
 @RestController
-public class ErrorSgrainController implements ErrorController {
+public class SmallGrainErrorController implements ErrorController {
     /**
      * 错误路由
      */

@@ -87,6 +87,6 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         LoggerUtils.setDebug(apiLogProperties.isDebug());
-        LoggerUtils.info(ApiLogAutoConfiguration.class, "【自动化配置】----API日志记录组件[正常|异常]初始化完成...");
+        LoggerUtils.info(ApiLogAutoConfiguration.class, "【自动化配置】----API日志记录组件初始化完成...");
     }
 }

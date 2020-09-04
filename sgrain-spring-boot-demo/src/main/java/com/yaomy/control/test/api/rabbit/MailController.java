@@ -1,10 +1,10 @@
 package com.yaomy.control.test.api.rabbit;
 
 import com.google.common.collect.Maps;
+import com.sgrain.boot.common.mail.MailFactoryBean;
+import com.sgrain.boot.common.mail.model.MailMessage;
+import com.sgrain.boot.common.mail.model.MimeMailMessage;
 import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.mail.model.MailMessage;
-import com.sgrain.boot.mail.model.MimeMailMessage;
-import com.sgrain.boot.mail.utils.MailMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -49,7 +49,7 @@ public class MailController {
             //邮件正文
             mailMessage.setText("爸爸妈妈爱你");
 
-            MailMessageUtils.sendSimpleMail(javaMailSender, mailMessage);
+            MailFactoryBean.sendSimpleMail(javaMailSender, mailMessage);
         } catch (Exception e) {
             LoggerUtils.error(VoidController.class, "发送失败" + e.getMessage());
         }
@@ -63,7 +63,7 @@ public class MailController {
     @GetMapping(value = {"mail/sendMimeMail"})
     public String sendMimeMail() {
         try {
-            com.sgrain.boot.mail.model.MimeMailMessage mimeMailMessage = new MimeMailMessage();
+            MimeMailMessage mimeMailMessage = new MimeMailMessage();
             //发件人
             mimeMailMessage.setFrom("1393619868@qq.com");
             //收件人，可以传多个邮件地址
@@ -87,7 +87,7 @@ public class MailController {
             inlinesMap.put("resourceId", new File("/Users/yaomingyang/Downloads/WechatIMG211.jpeg"));
             mimeMailMessage.setInlines(inlinesMap);
 
-            MailMessageUtils.sendMimeMail(javaMailSender, mimeMailMessage);
+            MailFactoryBean.sendMimeMail(javaMailSender, mimeMailMessage);
         } catch (Exception e) {
             LoggerUtils.error(VoidController.class, "发送失败" + e.getMessage());
         }

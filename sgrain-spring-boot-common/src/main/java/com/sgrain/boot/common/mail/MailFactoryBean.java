@@ -1,9 +1,9 @@
-package com.sgrain.boot.mail.utils;
+package com.sgrain.boot.common.mail;
 
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
+import com.sgrain.boot.common.mail.model.MailMessage;
 import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.mail.model.MailMessage;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,7 +20,7 @@ import java.util.Objects;
  * @description: 邮件发送公用方法
  * @create: 2020/08/14
  */
-public class MailMessageUtils {
+public class MailFactoryBean {
     /**
      * 发送简单文本邮件
      *
@@ -50,7 +50,7 @@ public class MailMessageUtils {
 
             javaMailSender.send(simpleMailMessage);//发送
         } catch (Exception e) {
-            LoggerUtils.error(MailMessageUtils.class, "简单邮件发送失败：" + e.getMessage());
+            LoggerUtils.error(MailFactoryBean.class, "简单邮件发送失败：" + e.getMessage());
             throw new BusinessException(AppHttpStatus.MAILE_SEND_EXCEPTION.getStatus(), "简单邮件发送失败，" + e.getMessage());
         }
         return true;
@@ -62,7 +62,7 @@ public class MailMessageUtils {
      * @param message        发送邮件实体信息
      * @return
      */
-    public static boolean sendMimeMail(JavaMailSender javaMailSender, com.sgrain.boot.mail.model.MimeMailMessage message) {
+    public static boolean sendMimeMail(JavaMailSender javaMailSender, com.sgrain.boot.common.mail.model.MimeMailMessage message) {
         try {
             MimeMailMessage mimeMailMessage = new MimeMailMessage(javaMailSender.createMimeMessage());
             MimeMessageHelper helper = new MimeMessageHelper(mimeMailMessage.getMimeMessage(), true);
@@ -98,7 +98,7 @@ public class MailMessageUtils {
             }
             javaMailSender.send(mimeMailMessage.getMimeMessage());
         } catch (Exception e) {
-            LoggerUtils.error(MailMessageUtils.class, "MIME邮件发送失败：" + e.getMessage());
+            LoggerUtils.error(MailFactoryBean.class, "MIME邮件发送失败：" + e.getMessage());
             throw new BusinessException(AppHttpStatus.MAILE_SEND_EXCEPTION.getStatus(), "MIME邮件发送失败，" + e.getMessage());
         }
         return true;

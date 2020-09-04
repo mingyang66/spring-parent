@@ -1,4 +1,4 @@
-package com.sgrain.boot.mail.model;
+package com.sgrain.boot.common.mail.model;
 
 import java.io.File;
 import java.util.Map;

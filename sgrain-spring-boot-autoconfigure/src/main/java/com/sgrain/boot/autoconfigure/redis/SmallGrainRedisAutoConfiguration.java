@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * Redis配置文件
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnClass(RedisTemplate.class)
 @EnableConfigurationProperties(SmallGrainRedisProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.redis", name = "enable", havingValue = "true", matchIfMissing = false)
 public class SmallGrainRedisAutoConfiguration implements CommandLineRunner {

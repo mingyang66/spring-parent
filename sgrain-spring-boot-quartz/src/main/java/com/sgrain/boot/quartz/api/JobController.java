@@ -1,7 +1,6 @@
 package com.sgrain.boot.quartz.api;
 
 import com.sgrain.boot.quartz.model.SgJobDetail;
-import com.sgrain.boot.quartz.model.SgScheduler;
 import com.sgrain.boot.quartz.model.SgTrigger;
 import com.sgrain.boot.quartz.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;

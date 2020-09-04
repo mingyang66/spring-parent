@@ -1,8 +1,5 @@
 package com.sgrain.boot.quartz.model;
 
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-
 import java.io.Serializable;
 
 /**

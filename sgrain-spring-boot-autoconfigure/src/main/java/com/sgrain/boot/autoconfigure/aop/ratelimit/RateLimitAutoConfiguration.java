@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @create: 2020/03/23
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnClass(StringRedisTemplate.class)
 @EnableConfigurationProperties(RateLimitProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.rate-limit", name = "enable", havingValue = "true", matchIfMissing = false)
 public class RateLimitAutoConfiguration implements CommandLineRunner {

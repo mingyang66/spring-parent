@@ -4,6 +4,7 @@ import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2020/08/26
  */
 @RestController
+@ConditionalOnClass(StringRedisTemplate.class)
 @RequestMapping("token")
 public class TokenController {
     @Autowired

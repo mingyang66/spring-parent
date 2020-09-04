@@ -10,6 +10,7 @@ import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
 import com.sgrain.boot.common.utils.date.DateUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -31,6 +32,7 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
      * @Version 1.0
      */
     @Override
+    @Async
     public void traceRequest(AsyncLogHttpClient asyncLogHttpClient) {
         //请求日志记录集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
@@ -52,6 +54,7 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
      * @Version 1.0
      */
     @Override
+    @Async
     public void traceResponse(AsyncLogHttpClient asyncLogHttpClient) {
         //响应请求信息日志集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();

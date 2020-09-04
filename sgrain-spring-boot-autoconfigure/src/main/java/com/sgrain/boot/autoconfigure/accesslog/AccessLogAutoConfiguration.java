@@ -28,7 +28,7 @@ public class AccessLogAutoConfiguration implements CommandLineRunner {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(AccessLogProperties.class)
+    @ConditionalOnMissingBean(AccessLogBuilder.class)
     public AccessLogBuilder defaultAccessLog(AccessLogProperties properties) {
         builder = new AccessLogBuilder(properties);
         return builder;

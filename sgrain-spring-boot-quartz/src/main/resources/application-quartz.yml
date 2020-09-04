@@ -2,10 +2,18 @@
 spring:
   #配置数据源
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sgrain?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: smallgrain
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/sgrain?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: smallgrain
+      #数据库连接池初始化大小
+      initial-size: 1
+      #连接池中最大的活跃连接数
+      max-active: 20
+      #连接池中最小的活跃连接数
+      min-idle: 1
   quartz:
     #持久化到数据库方式
     job-store-type: jdbc
@@ -50,7 +58,8 @@ spring:
             #默认true
             threadsInheritContextClassLoaderOfInitializingThread: true
     jdbc:
-      initialize-schema: always
+      #初始化表结构
+      initialize-schema: never
       #初始化数据库脚本路径，默认使用classpath:org/quartz/impl/jdbcjobstore/tables_@@platform@@.sql路径下的脚本
       schema: classpath:tables_mysql.sql
 

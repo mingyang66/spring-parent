@@ -122,7 +122,7 @@ public class ThreadPoolJob extends QuartzJobBean {
 ##### 4.定义JobDetail和Trigger
 
 ```java
-package com.sgrain.boot.quartz.config;
+package com.sgrain.boot.quartz.factory;
 
 import com.sgrain.boot.quartz.job.ThreadPoolJob;
 import org.quartz.*;

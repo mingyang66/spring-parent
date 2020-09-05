@@ -3,7 +3,7 @@ package com.sgrain.boot.quartz.service.impl;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.quartz.job.ThreadPoolJob;
+import com.sgrain.boot.quartz.job.CronJob;
 import com.sgrain.boot.quartz.model.AddQuartzEntity;
 import com.sgrain.boot.quartz.model.UpdateQuartzEntity;
 import com.sgrain.boot.quartz.service.TaskService;
@@ -35,14 +35,17 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public String scheduleJob(AddQuartzEntity addQuartzEntity) {
         try {
-            JobDetail jobDetail = JobBuilder.newJob(ThreadPoolJob.class)
+            JobDetail jobDetail = JobBuilder.newJob(CronJob.class)
                     .withDescription(addQuartzEntity.getDescription())
                     //任务名称和任务分组 组合成任务唯一标识
                     .withIdentity(JobKey.jobKey(addQuartzEntity.getTaskName(), addQuartzEntity.getTaskGroup()))
-                    //是否持久化,于cron类型调度触发器关联要设置为false才可以级联删除
+                    //无触发器（Trigger）指向时是否需要持久化哦或删除
                     .storeDurably(false)
+                    //指示调度程序在遇到恢复或故障转移情况时是否应重新执行作业
+                    .requestRecovery(false)
                     .build();
-            Trigger trigger = TriggerBuilder.newTrigger()
+
+            TriggerBuilder builder = TriggerBuilder.newTrigger()
                     //作业优先级
                     .withPriority(5)
                     .withDescription(addQuartzEntity.getDescription())
@@ -50,12 +53,13 @@ public class TaskServiceImpl implements TaskService {
                     .withIdentity(TriggerKey.triggerKey(addQuartzEntity.getTaskName(), addQuartzEntity.getTaskGroup()))
                     //设置用于定义触发器的{@link org.quartz.ScheduleBuilder}配置计划 "0/10 * * * * ? "
                     .withSchedule(CronScheduleBuilder.cronSchedule(addQuartzEntity.getCron()))
+                    //触发器参数，传递给调度任务
+                    .usingJobData("url", addQuartzEntity.getTaskParam())
                     //通过从给定的作业中提取出jobKey,设置由生成的触发器触发的作业的标识
                     .forJob(jobDetail)
-                    .startNow()
-                    .build();
+                    .startNow();
             //返回第一次任务执行时间
-            Date date = scheduler.scheduleJob(jobDetail, trigger);
+            Date date = scheduler.scheduleJob(jobDetail, builder.build());
             return DateFormatUtils.format(date, DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat());
         } catch (SchedulerException e) {
             throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "新增Task任务异常" + e.getMessage());
@@ -73,11 +77,14 @@ public class TaskServiceImpl implements TaskService {
             Trigger trigger = TriggerBuilder.newTrigger()
                     //作业优先级
                     .withPriority(5)
+                    //描述
                     .withDescription(updateQuartzEntity.getDescription())
                     //设置触发器名称、触发器分组，组合为触发器唯一标识
                     .withIdentity(TriggerKey.triggerKey(updateQuartzEntity.getTaskName(), updateQuartzEntity.getTaskGroup()))
                     //设置用于定义触发器的{@link org.quartz.ScheduleBuilder}配置计划 "0/10 * * * * ? "
                     .withSchedule(CronScheduleBuilder.cronSchedule(updateQuartzEntity.getCron()))
+                    //触发器参数，传递给调度任务
+                    .usingJobData("url", updateQuartzEntity.getTaskParam())
                     //指定被更新触发器的task任务
                     .forJob(JobKey.jobKey(updateQuartzEntity.getOldTaskName(), updateQuartzEntity.getOldTaskGroup()))
                     .startNow()

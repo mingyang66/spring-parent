@@ -10,3 +10,5 @@ spring:
         ignore-controller-url-prefix: springfox.documentation.swagger.web.ApiResourceController
     async-thread-pool:
       enable: true
+    accesslog:
+      enable: true

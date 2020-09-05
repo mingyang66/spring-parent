@@ -34,7 +34,7 @@ spring:
             #驱动程序代理类
             driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
             #表名前缀，默认：QRTZ_
-            tablePrefix: QUATRZ_
+            tablePrefix: QUARTZ_
             #默认：false，设置JDBCJobStore的JobDataMaps中存储的是字符串类型的key-value,否则为 true
             useProperties: false
             #设置为true以启用集群功能，如果Quartz的多个实例使用同一组数据库表，则必须将此属性设置为true,否则将遇到严重的破话，默认：false

@@ -23,7 +23,10 @@ public class UpdateQuartzEntity implements Serializable {
     private String oldTaskName;
     //任务分组
     private String oldTaskGroup;
-
+    //开始时间
+    private String startDate;
+    //结束时间
+    private String endDate;
 
     public String getDescription() {
         return description;
@@ -79,5 +82,21 @@ public class UpdateQuartzEntity implements Serializable {
 
     public void setOldTaskGroup(String oldTaskGroup) {
         this.oldTaskGroup = oldTaskGroup;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

@@ -5,7 +5,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/sgrain?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      url: jdbc:mysql://172.30.67.122:3306/sgrain?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
       username: root
       password: smallgrain
       #数据库连接池初始化大小
@@ -27,7 +27,7 @@ spring:
             #实例ID，对于集群中工作的所有调度器必须是唯一的，如果值是AUTO则会自动生成，如果希望值来自系统属性则设置为SYS_PROP
             instanceId: AUTO
           jobStore:
-            #job、traggers、calendars持久化实现类，默认：org.quartz.simpl.RAMJobStore
+            #job、traggers、calendars持久化实现类，默认：org.quartz.simpl.RAMJobStore内存存储
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
             #调度程序下次触发时间的毫秒数，默认是60000（60 seconds）
             misfireThreshold: 60000
@@ -52,7 +52,7 @@ spring:
             #可以设置为true以将线程池中的线程创建为守护程序线程。默认：false
             makeThreadsDaemons: false
             #线程池中线程名的前缀,默认：MyScheduler_Worker
-            threadNamePrefix: MyScheduler_Worker
+            threadNamePrefix: SmallGroup_Worker
             #默认true
             threadsInheritGroupOfInitializingThread: true
             #默认true

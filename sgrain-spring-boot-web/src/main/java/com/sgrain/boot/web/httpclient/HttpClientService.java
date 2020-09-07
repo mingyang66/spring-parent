@@ -20,6 +20,7 @@ import java.util.Map;
  * 发送Http请求Client服务类
  */
 @SuppressWarnings("all")
+@Deprecated
 @Component
 public class HttpClientService {
 

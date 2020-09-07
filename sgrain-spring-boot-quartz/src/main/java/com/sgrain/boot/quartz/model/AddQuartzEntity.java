@@ -19,6 +19,10 @@ public class AddQuartzEntity implements Serializable {
     private String cron;
     //作业任务参数
     private String taskParam;
+    //开始时间
+    private String startDate;
+    //结束时间
+    private String endDate;
 
 
     public String getDescription() {
@@ -59,5 +63,21 @@ public class AddQuartzEntity implements Serializable {
 
     public void setTaskParam(String taskParam) {
         this.taskParam = taskParam;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

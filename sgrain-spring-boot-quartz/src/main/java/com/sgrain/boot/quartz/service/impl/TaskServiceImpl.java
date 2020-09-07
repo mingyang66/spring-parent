@@ -3,10 +3,12 @@ package com.sgrain.boot.quartz.service.impl;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.exception.BusinessException;
+import com.sgrain.boot.common.utils.date.DateUtils;
 import com.sgrain.boot.quartz.job.CronJob;
 import com.sgrain.boot.quartz.model.AddQuartzEntity;
 import com.sgrain.boot.quartz.model.UpdateQuartzEntity;
 import com.sgrain.boot.quartz.service.TaskService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -39,25 +41,34 @@ public class TaskServiceImpl implements TaskService {
                     .withDescription(addQuartzEntity.getDescription())
                     //任务名称和任务分组 组合成任务唯一标识
                     .withIdentity(JobKey.jobKey(addQuartzEntity.getTaskName(), addQuartzEntity.getTaskGroup()))
-                    //无触发器（Trigger）指向时是否需要持久化哦或删除
+                    //如果一个job是非持久的，当没有活跃的trigger与之关联的时候，会被自动地从scheduler中删除。也就是说，非持久的job的生命期是由trigger的存在与否决定的；
                     .storeDurably(false)
-                    //指示调度程序在遇到恢复或故障转移情况时是否应重新执行作业
+                    //如果一个job是可恢复的，并且在其执行的时候，scheduler发生硬关闭（hard shutdown)（比如运行的进程崩溃了，或者关机了），则当scheduler重新启动的时候，该job会被重新执行。此时，该job的JobExecutionContext.isRecovering() 返回true。
                     .requestRecovery(false)
                     .build();
 
             TriggerBuilder builder = TriggerBuilder.newTrigger()
+                    //通过从给定的作业中提取出jobKey,设置由生成的触发器触发的作业的标识
+                    .forJob(jobDetail)
                     //作业优先级
                     .withPriority(5)
+                    //描述
                     .withDescription(addQuartzEntity.getDescription())
                     //设置触发器名称、触发器分组，组合为触发器唯一标识
                     .withIdentity(TriggerKey.triggerKey(addQuartzEntity.getTaskName(), addQuartzEntity.getTaskGroup()))
-                    //设置用于定义触发器的{@link org.quartz.ScheduleBuilder}配置计划 "0/10 * * * * ? "
-                    .withSchedule(CronScheduleBuilder.cronSchedule(addQuartzEntity.getCron()))
                     //触发器参数，传递给调度任务
                     .usingJobData("url", addQuartzEntity.getTaskParam())
-                    //通过从给定的作业中提取出jobKey,设置由生成的触发器触发的作业的标识
-                    .forJob(jobDetail)
-                    .startNow();
+                    //设置用于定义触发器的{@link org.quartz.ScheduleBuilder}配置计划 "0/10 * * * * ? "
+                    .withSchedule(CronScheduleBuilder.cronSchedule(addQuartzEntity.getCron()));
+
+            if (StringUtils.isNotEmpty(addQuartzEntity.getStartDate())) {
+                //触发器开始执行时间，默认当前时间
+                builder.startAt(DateUtils.parseDate(addQuartzEntity.getStartDate(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            }
+            if (StringUtils.isNotEmpty(addQuartzEntity.getEndDate())) {
+                //设置触发器执行结束时间，如果null,则触发器结束时间不确定
+                builder.endAt(DateUtils.parseDate(addQuartzEntity.getEndDate(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            }
             //返回第一次任务执行时间
             Date date = scheduler.scheduleJob(jobDetail, builder.build());
             return DateFormatUtils.format(date, DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat());

@@ -13,7 +13,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -25,7 +24,6 @@ import java.util.Map;
  * @description:
  * @create: 2020/08/22
  */
-@Service
 public class AsyncLogAopServiceImpl implements AsyncLogAopService {
     /**
      * 追踪API请求日志

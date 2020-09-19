@@ -11,7 +11,6 @@ import com.sgrain.boot.common.utils.date.DateUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
@@ -20,7 +19,6 @@ import java.util.Map;
  * @description: RestTemplate日志拦服务类
  * @create: 2020/08/24
  */
-@Service
 public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService {
     /**
      * 第三方接口请求module name

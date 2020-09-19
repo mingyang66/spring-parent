@@ -1,7 +1,6 @@
 package com.sgrain.boot.quartz.model;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * @program: spring-parent

@@ -3,6 +3,7 @@ package com.sgrain.boot.autoconfigure.aop.apilog;
 import com.sgrain.boot.autoconfigure.aop.advice.ApiLogMethodInterceptor;
 import com.sgrain.boot.autoconfigure.aop.advice.ApiLogThrowsAdvice;
 import com.sgrain.boot.autoconfigure.aop.apilog.service.AsyncLogAopService;
+import com.sgrain.boot.autoconfigure.aop.apilog.service.impl.AsyncLogAopServiceImpl;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,16 +15,20 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @Description: 控制器切点配置
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
+@Import(value = AsyncLogAopServiceImpl.class)
 @EnableConfigurationProperties(ApiLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
 public class ApiLogAutoConfiguration implements CommandLineRunner {
 
+    public static final String API_LOG_NORMAL_BEAN_NAME = "apiLogNormalPointCutAdvice";
+    public static final String API_LOG_EXCEPTION_BEAN_NAME = "apiLogExceptionPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -43,7 +48,7 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
      * @Description 定义接口拦截器切点
      * @Version 1.0
      */
-    @Bean
+    @Bean(API_LOG_NORMAL_BEAN_NAME)
     @ConditionalOnClass(ApiLogMethodInterceptor.class)
     public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(AsyncLogAopService asyncLogAopService) {
         //声明一个AspectJ切点
@@ -66,7 +71,7 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
      *
      * @return
      */
-    @Bean
+    @Bean(API_LOG_EXCEPTION_BEAN_NAME)
     @ConditionalOnClass(ApiLogThrowsAdvice.class)
     public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(AsyncLogAopService asyncLogAopService) {
         //声明一个AspectJ切点

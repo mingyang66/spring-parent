@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
     @Autowired
     private TaskService taskService;
-
     /**
      * 新增触发器及调度任务
      *

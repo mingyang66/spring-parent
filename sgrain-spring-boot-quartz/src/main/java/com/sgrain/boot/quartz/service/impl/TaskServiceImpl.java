@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void rescheduleJob(UpdateQuartzEntity updateQuartzEntity) {
         try {
-            Trigger trigger = TriggerBuilder.newTrigger()
+            TriggerBuilder builder = TriggerBuilder.newTrigger()
                     //作业优先级
                     .withPriority(5)
                     //描述
@@ -97,11 +97,17 @@ public class TaskServiceImpl implements TaskService {
                     //触发器参数，传递给调度任务
                     .usingJobData("url", updateQuartzEntity.getTaskParam())
                     //指定被更新触发器的task任务
-                    .forJob(JobKey.jobKey(updateQuartzEntity.getOldTaskName(), updateQuartzEntity.getOldTaskGroup()))
-                    .startNow()
-                    .build();
+                    .forJob(JobKey.jobKey(updateQuartzEntity.getOldTaskName(), updateQuartzEntity.getOldTaskGroup()));
+            if (StringUtils.isNotEmpty(updateQuartzEntity.getStartDate())) {
+                //触发器开始执行时间，默认当前时间
+                builder.startAt(DateUtils.parseDate(updateQuartzEntity.getStartDate(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            }
+            if (StringUtils.isNotEmpty(updateQuartzEntity.getEndDate())) {
+                //设置触发器执行结束时间，如果null,则触发器结束时间不确定
+                builder.endAt(DateUtils.parseDate(updateQuartzEntity.getEndDate(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            }
             TriggerKey oldTriggerKey = TriggerKey.triggerKey(updateQuartzEntity.getOldTaskName(), updateQuartzEntity.getOldTaskGroup());
-            scheduler.rescheduleJob(oldTriggerKey, trigger);
+            scheduler.rescheduleJob(oldTriggerKey, builder.build());
         } catch (SchedulerException e) {
             e.printStackTrace();
         }

@@ -3,12 +3,14 @@ package com.sgrain.boot.quartz.listener;
 import org.quartz.JobExecutionContext;
 import org.quartz.Trigger;
 import org.quartz.TriggerListener;
+import org.springframework.stereotype.Component;
 
 /**
  * @program: spring-parent
  * @description: 触发器监听器
  * @create: 2020/09/05
  */
+@Component
 public class MonitorTriggerListener implements TriggerListener {
     @Override
     public String getName() {

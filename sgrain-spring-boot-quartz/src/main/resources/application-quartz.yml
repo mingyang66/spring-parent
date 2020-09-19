@@ -62,4 +62,7 @@ spring:
       initialize-schema: never
       #初始化数据库脚本路径，默认使用classpath:org/quartz/impl/jdbcjobstore/tables_@@platform@@.sql路径下的脚本
       schema: classpath:tables_mysql.sql
-
+    #SchedulerFactoryBean初始化完成后是否马上启动Scheduler,默认为：true
+    auto-startup: true
+    #初始化完成后延迟多久启动scheduler,默认:0s
+    startup-delay: 10s

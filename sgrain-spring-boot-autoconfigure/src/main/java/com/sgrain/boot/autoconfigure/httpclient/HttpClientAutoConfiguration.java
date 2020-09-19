@@ -23,6 +23,7 @@ import java.util.Collections;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
+//@Import(value = AsyncLogHttpClientServiceImpl.class)
 @EnableConfigurationProperties(
         value = {HttpClientProperties.class}
 )

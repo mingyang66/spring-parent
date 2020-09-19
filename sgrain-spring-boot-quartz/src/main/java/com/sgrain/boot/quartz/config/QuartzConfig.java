@@ -6,6 +6,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerListener;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -18,7 +19,8 @@ import org.springframework.context.annotation.Configuration;
  * @author: 姚明洋
  * @create: 2020/09/07
  */
-@Configuration
+@SpringBootConfiguration
+//@Configuration
 public class QuartzConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;

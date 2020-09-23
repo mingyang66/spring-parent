@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.factory.support;
+package com.sgrain.boot.autoconfigure.bean.registry;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

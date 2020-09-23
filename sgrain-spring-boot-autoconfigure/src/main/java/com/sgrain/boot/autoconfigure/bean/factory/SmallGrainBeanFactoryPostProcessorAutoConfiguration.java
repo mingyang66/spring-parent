@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.factory.processor;
+package com.sgrain.boot.autoconfigure.bean.factory;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

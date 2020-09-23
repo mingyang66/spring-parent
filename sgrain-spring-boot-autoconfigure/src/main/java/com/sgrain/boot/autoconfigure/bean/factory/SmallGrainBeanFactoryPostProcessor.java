@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.factory.processor;
+package com.sgrain.boot.autoconfigure.bean.factory;
 
 import com.sgrain.boot.autoconfigure.aop.apilog.ApiLogAutoConfiguration;
 import com.sgrain.boot.autoconfigure.aop.apilog.ApiLogProperties;

@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.factory.support;
+package com.sgrain.boot.autoconfigure.bean.registry;
 
 import com.sgrain.boot.autoconfigure.httpclient.service.impl.AsyncLogHttpClientServiceImpl;
 import org.springframework.beans.BeansException;

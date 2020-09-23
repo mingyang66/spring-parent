@@ -1,3 +1,4 @@
+# Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.aop.apilog.ApiLogAutoConfiguration,\
   com.sgrain.boot.autoconfigure.aop.idempotent.IdempotentAutoConfiguration,\
@@ -7,5 +8,9 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.httpclient.HttpClientAutoConfiguration,\
   com.sgrain.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\
   com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.factory.processor.SmallGrainBeanFactoryPostProcessorAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.factory.support.SmallGrainBeanDefinitionRegistryPostProcessorAutoConfiguration
+  com.sgrain.boot.autoconfigure.bean.factory.SmallGrainBeanFactoryPostProcessorAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.bean.registry.SmallGrainBeanDefinitionRegistryPostProcessorAutoConfiguration
+
+#Initializers
+org.springframework.context.ApplicationContextInitializer=\
+  com.sgrain.boot.autoconfigure.initializers.SmallGrainApplicationContenxtInitializer

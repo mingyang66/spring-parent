@@ -24,6 +24,7 @@ public enum DateFormatEnum {
     MM_DD_EN("MM/dd"),
     MM_DD_HH_MM_EN("MM/dd HH:mm"),
     MM_DD_HH_MM_SS_EN("MM/dd HH:mm:ss"),
+    MM_DD_HHTMM_SS_SSSZ_EN("yyyy-MM-dd’T’HH:mm:ss.SSSZ"),
 
 
     YYYY_MM_CN("yyyy年MM月"),

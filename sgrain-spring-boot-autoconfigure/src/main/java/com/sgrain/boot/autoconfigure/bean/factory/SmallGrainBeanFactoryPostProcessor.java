@@ -21,31 +21,31 @@ public class SmallGrainBeanFactoryPostProcessor implements BeanFactoryPostProces
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         if (beanFactory.containsBeanDefinition(AsyncThreadPoolAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(AsyncThreadPoolAutoConfiguration.class.getName());
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition("spring.sgrain.async-thread-pool-" + AsyncThreadPoolProperties.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.sgrain.async-thread-pool-" + AsyncThreadPoolProperties.class.getName());
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition("spring.sgrain.api-log-" + ApiLogProperties.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.sgrain.api-log-" + ApiLogProperties.class.getName());
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.class.getName());
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(AsyncLogAopServiceImpl.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(AsyncLogAopServiceImpl.class.getName());
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME)) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME);
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.API_LOG_NORMAL_BEAN_NAME)) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.API_LOG_NORMAL_BEAN_NAME);
-            beanDefinition.setRole(2);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }
 }

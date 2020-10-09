@@ -1,17 +1,18 @@
 package com.sgrain.boot.quartz.config;
 
+import com.sgrain.boot.common.po.BaseResponse;
 import com.sgrain.boot.quartz.listener.MonitorTriggerListener;
 import org.quartz.ListenerManager;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerListener;
 import org.springframework.beans.BeansException;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @program: spring-parent
@@ -19,8 +20,12 @@ import org.springframework.context.annotation.Configuration;
  * @author: 姚明洋
  * @create: 2020/09/07
  */
-@SpringBootConfiguration
-//@Configuration
+@Configuration
+@Import(BaseResponse.class)
+//@ConditionalOnBean(BaseResponse.class)
+//@Conditional(SmallGrainCondition.class)
+//@EnableConfigurationProperties(TestProperties.class)
+//@ConditionalOnProperty(prefix = "spring.sgrain.test", name = "enable", havingValue = "true", matchIfMissing = true)
 public class QuartzConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -37,9 +42,12 @@ public class QuartzConfig implements ApplicationContextAware {
         }
         return null;
     }
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+        System.out.println("beanA:"+applicationContext.containsBean("beanA"));
+        System.out.println("beanADefinition:"+applicationContext.containsBeanDefinition("beanA"));
+        System.out.println("beanB:"+applicationContext.containsBean("beanB"));
+        System.out.println("beanBDefinition:"+applicationContext.containsBeanDefinition("beanB"));
     }
 }

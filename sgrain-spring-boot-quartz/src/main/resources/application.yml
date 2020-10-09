@@ -12,3 +12,5 @@ spring:
       enable: true
     accesslog:
       enable: true
+    test:
+      enable: true

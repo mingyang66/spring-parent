@@ -9,7 +9,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\
   com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration,\
   com.sgrain.boot.autoconfigure.bean.factory.SmallGrainBeanFactoryPostProcessorAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.bean.registry.SmallGrainBeanDefinitionRegistryPostProcessorAutoConfiguration
+  com.sgrain.boot.autoconfigure.bean.registry.SmallGrainBeanDefinitionRegistryAutoConfiguration
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\

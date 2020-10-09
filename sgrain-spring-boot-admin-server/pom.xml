@@ -7,8 +7,8 @@
         <groupId>com.sgrain.boot</groupId>
         <version>2.1.7.RELEASE</version>
     </parent>
-    <groupId>com.sgrain.boot.admin.server</groupId>
-    <artifactId>demo</artifactId>
+    <groupId>com.sgrain.boot</groupId>
+    <artifactId>sgrain-spring-boot-admin-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-admin-server</name>
     <description>Demo project for Spring Boot</description>

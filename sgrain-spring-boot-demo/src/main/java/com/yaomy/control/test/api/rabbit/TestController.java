@@ -25,6 +25,7 @@ import java.util.Map;
 public class TestController {
 
     @Autowired
+    @Lazy
     private HttpClientService httpClientService;
     @Autowired
     @Lazy

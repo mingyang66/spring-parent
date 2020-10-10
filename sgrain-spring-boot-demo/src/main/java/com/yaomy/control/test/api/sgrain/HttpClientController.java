@@ -12,6 +12,7 @@ import com.sgrain.boot.web.httpclient.HttpClientService;
 import com.yaomy.control.test.po.GmFundPageInfoResData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -37,6 +38,7 @@ import java.util.Map;
 public class HttpClientController {
 
     @Autowired
+    @Lazy
     private HttpClientService httpClientService;
     @GetMapping("responseData")
     public String testResponseData(){

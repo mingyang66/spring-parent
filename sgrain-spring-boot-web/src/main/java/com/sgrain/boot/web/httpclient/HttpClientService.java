@@ -21,7 +21,6 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 @Deprecated
-@Component
 public class HttpClientService {
 
     @Autowired

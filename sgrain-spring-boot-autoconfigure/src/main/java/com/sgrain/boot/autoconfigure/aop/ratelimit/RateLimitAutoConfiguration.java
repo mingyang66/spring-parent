@@ -6,9 +6,13 @@ import com.sgrain.boot.common.utils.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,20 +25,23 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @create: 2020/03/23
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass(StringRedisTemplate.class)
+@AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(RateLimitProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.rate-limit", name = "enable", havingValue = "true", matchIfMissing = false)
 public class RateLimitAutoConfiguration implements CommandLineRunner {
+    public static final String RATE_LIMIT_POINT_CUT_ADVISOR_NAME = "rateLimitPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
     private static final String RATE_LIMIT_POINT_CUT = StringUtils.join("@annotation(com.sgrain.boot.autoconfigure.aop.annotation.ApiRateLimit)");
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 控制器AOP拦截处理
      */
-    @Bean
-    public DefaultPointcutAdvisor rateLimitPointCutAdvice(StringRedisTemplate stringRedisTemplate) {
+    @Bean(RATE_LIMIT_POINT_CUT_ADVISOR_NAME)
+    public DefaultPointcutAdvisor rateLimitPointCutAdvice() {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置切点表达式

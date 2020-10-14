@@ -3,12 +3,18 @@ package com.sgrain.boot.autoconfigure.bean.factory;
 import com.sgrain.boot.autoconfigure.aop.apilog.ApiLogAutoConfiguration;
 import com.sgrain.boot.autoconfigure.aop.apilog.ApiLogProperties;
 import com.sgrain.boot.autoconfigure.aop.apilog.service.impl.AsyncLogAopServiceImpl;
+import com.sgrain.boot.autoconfigure.aop.ratelimit.RateLimitAutoConfiguration;
 import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration;
 import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * @program: spring-parent
@@ -45,6 +51,38 @@ public class SmallGrainBeanFactoryPostProcessor implements BeanFactoryPostProces
         }
         if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.API_LOG_NORMAL_BEAN_NAME)) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.API_LOG_NORMAL_BEAN_NAME);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(RateLimitAutoConfiguration.RATE_LIMIT_POINT_CUT_ADVISOR_NAME)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RateLimitAutoConfiguration.RATE_LIMIT_POINT_CUT_ADVISOR_NAME);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(RateLimitAutoConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RateLimitAutoConfiguration.class.getName());
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(RedisAutoConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RedisAutoConfiguration.class.getName());
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(StringUtils.join("spring.redis-", RedisProperties.class.getName()))) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(StringUtils.join("spring.redis-", RedisProperties.class.getName()));
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("org.springframework.boot.autoconfigure.data.redis.LettuceConnectionConfiguration")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("org.springframework.boot.autoconfigure.data.redis.LettuceConnectionConfiguration");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("redisConnectionFactory")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("redisConnectionFactory");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("lettuceClientResources")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("lettuceClientResources");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("stringRedisTemplate")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("stringRedisTemplate");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }

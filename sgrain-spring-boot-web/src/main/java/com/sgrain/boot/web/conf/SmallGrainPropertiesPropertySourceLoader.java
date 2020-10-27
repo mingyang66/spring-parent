@@ -7,6 +7,7 @@ package com.sgrain.boot.web.conf;
 
 import org.springframework.boot.env.OriginTrackedMapPropertySource;
 import org.springframework.boot.env.PropertySourceLoader;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
@@ -23,23 +24,32 @@ import java.util.Map;
  * @Date 2019/11/28 19:03
  * @Version  1.0
  */
-@Order(2147483646)
-public class PropertiesPropertySourceLoader implements PropertySourceLoader {
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class SmallGrainPropertiesPropertySourceLoader implements PropertySourceLoader {
 
-    public PropertiesPropertySourceLoader() {
-    }
+    private static final String XML_FILE_EXTENSION = ".xml";
+
     @Override
     public String[] getFileExtensions() {
-        return new String[]{"properties", "xml"};
-    }
-    @Override
-    public List<PropertySource<?>> load(String name, Resource resource) throws IOException {
-        Map<String, ?> properties = this.loadProperties(resource);
-        return properties.isEmpty() ? Collections.emptyList() : Collections.singletonList(new OriginTrackedMapPropertySource(name, properties));
+        return new String[] { "properties", "xml" };
     }
 
+    @Override
+    public List<PropertySource<?>> load(String name, Resource resource) throws IOException {
+        Map<String, ?> properties = loadProperties(resource);
+        if (properties.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return Collections
+                .singletonList(new OriginTrackedMapPropertySource(name, Collections.unmodifiableMap(properties), true));
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private Map<String, ?> loadProperties(Resource resource) throws IOException {
         String filename = resource.getFilename();
-        return (Map)(filename != null && filename.endsWith(".xml") ? PropertiesLoaderUtils.loadProperties(resource) : (new OriginTrackedPropertiesLoader(resource)).load());
+        if (filename != null && filename.endsWith(XML_FILE_EXTENSION)) {
+            return (Map) PropertiesLoaderUtils.loadProperties(resource);
+        }
+        return new SmallGrainOriginTrackedPropertiesLoader(resource).load();
     }
 }

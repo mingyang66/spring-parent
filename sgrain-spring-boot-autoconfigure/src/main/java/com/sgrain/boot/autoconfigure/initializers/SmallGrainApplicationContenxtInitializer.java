@@ -13,7 +13,7 @@ import org.springframework.core.Ordered;
 public class SmallGrainApplicationContenxtInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     @Override
     public int getOrder() {
-        return 0;
+        return Ordered.HIGHEST_PRECEDENCE+1;
     }
 
     @Override

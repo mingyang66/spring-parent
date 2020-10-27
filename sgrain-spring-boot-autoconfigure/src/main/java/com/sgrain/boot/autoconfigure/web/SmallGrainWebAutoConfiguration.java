@@ -24,10 +24,13 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
-public class WebAutoConfiguration implements WebMvcConfigurer {
+public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer {
 
-    @Autowired
     private WebProperties webProperties;
+
+    public SmallGrainWebAutoConfiguration(WebProperties webProperties) {
+        this.webProperties = webProperties;
+    }
 
     /**
      * 配置路由规则
@@ -70,7 +73,7 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
                 return false;
             }
         });
-        LoggerUtils.info(WebAutoConfiguration.class, "【自动化配置】----API前缀组件初始化完成...");
+        LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----API前缀组件初始化完成...");
     }
 
     /**
@@ -130,6 +133,6 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         if (Objects.nonNull(webProperties.getCors().getMaxAge())) {
             registration.maxAge(webProperties.getCors().getMaxAge());
         }
-        LoggerUtils.info(WebAutoConfiguration.class, "【自动化配置】----跨域组件初始化完成...");
+        LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----跨域组件初始化完成...");
     }
 }

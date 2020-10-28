@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/09/30
  */
 @Configuration

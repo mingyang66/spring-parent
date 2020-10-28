@@ -3,7 +3,6 @@ package com.sgrain.boot.quartz.config;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/09/29
  */
 //@ConfigurationProperties(prefix = "spring.sgrain.test")

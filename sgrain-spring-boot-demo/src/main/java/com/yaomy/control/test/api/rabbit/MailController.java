@@ -24,8 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("mail")
 public class MailController {
-    @Autowired
-    @Lazy
+    //@Autowired
     private JavaMailSender javaMailSender;
 
     @GetMapping(value = {"mail/sendSimpleMail"})

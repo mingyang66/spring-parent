@@ -5,9 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HandlerBootStrap {
+public class DemoBootStrap {
     public static void main(String[] args) {
-        SpringApplication.run(HandlerBootStrap.class, args);
+        SpringApplication.run(DemoBootStrap.class, args);
     }
 
 

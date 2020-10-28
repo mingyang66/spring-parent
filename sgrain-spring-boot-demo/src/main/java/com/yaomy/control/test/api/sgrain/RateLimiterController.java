@@ -3,8 +3,6 @@ package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
-import com.sgrain.boot.autoconfigure.aop.annotation.ApiIdempotent;
-import com.sgrain.boot.autoconfigure.aop.annotation.ApiRateLimit;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,6 @@ public class RateLimiterController {
         return "SUCCESS";
     }
     @GetMapping("/rate/limit")
-    @ApiRateLimit(permits = 2, time = 30, timeUnit = TimeUnit.SECONDS)
     public Map<String, Object> rateLimiter1(){
         //redisTemplate.opsForValue().set("test666", "888");
         Map<String, Object> map = Maps.newHashMap();
@@ -52,7 +49,6 @@ public class RateLimiterController {
         return map;
     }
 
-    @ApiIdempotent
     @GetMapping("idempotent/test")
     public String idempotent(){
         return "success";

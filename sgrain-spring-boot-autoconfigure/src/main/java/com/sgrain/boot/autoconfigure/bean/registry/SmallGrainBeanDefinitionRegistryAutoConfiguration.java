@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Import;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/09/16
  */
 @Configuration(proxyBeanMethods = false)

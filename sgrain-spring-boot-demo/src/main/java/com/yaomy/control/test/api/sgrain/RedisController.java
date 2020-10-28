@@ -2,7 +2,6 @@ package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.sgrain.boot.autoconfigure.aop.annotation.ApiRateLimit;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.yaomy.control.test.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -27,7 +25,6 @@ public class RedisController {
     private RedisTemplate redisTemplate;
 
     @GetMapping("/redis/test")
-    @ApiRateLimit(permits = 10, timeUnit = TimeUnit.SECONDS)
     public String testRedisson(){
        // redisTemplate.opsForValue().set("test", "测试数据abc123");
 

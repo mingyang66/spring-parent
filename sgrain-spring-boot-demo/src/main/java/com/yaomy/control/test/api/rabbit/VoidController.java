@@ -1,7 +1,6 @@
 package com.yaomy.control.test.api.rabbit;
 
 import com.google.common.collect.Maps;
-import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.LoggerUtils;
@@ -43,7 +42,6 @@ public class VoidController {
         user.setAge(12);
         return user;
     }
-    @ApiWrapperIgnore
     @PostMapping(value = "void/test2")
     public ResponseEntity<Map> test2(@RequestBody User user) throws Exception{
         if(StringUtils.equalsIgnoreCase(user.getName(), "22")){

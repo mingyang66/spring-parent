@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @program: spring-parent
  * @description: 任务控制器类
- * @author: 姚明洋
  * @create: 2020/09/01
  */
 @RestController

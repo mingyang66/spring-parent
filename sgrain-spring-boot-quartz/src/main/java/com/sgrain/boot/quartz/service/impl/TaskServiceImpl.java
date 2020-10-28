@@ -20,7 +20,6 @@ import java.util.Date;
 /**
  * @program: spring-parent
  * @description: 定时任务业务实现逻辑
- * @author: 姚明洋
  * @create: 2020/09/01
  */
 @Service

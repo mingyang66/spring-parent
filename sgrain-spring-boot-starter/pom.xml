@@ -28,15 +28,5 @@
             <artifactId>sgrain-spring-boot-web</artifactId>
             <version>2.1.8.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>com.sgrain.boot</groupId>
-            <artifactId>sgrain-spring-boot-swagger</artifactId>
-            <version>2.1.8.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sgrain.boot</groupId>
-            <artifactId>sgrain-spring-boot-mail</artifactId>
-            <version>2.1.6.RELEASE</version>
-        </dependency>
     </dependencies>
 </project>

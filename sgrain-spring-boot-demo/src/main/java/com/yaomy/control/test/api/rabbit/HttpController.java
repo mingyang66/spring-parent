@@ -2,7 +2,6 @@ package com.yaomy.control.test.api.rabbit;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
@@ -21,25 +20,21 @@ import java.util.Map;
 @RequestMapping("http")
 public class HttpController {
 
-    @ApiWrapperIgnore
     @GetMapping("test1")
     public String test1() {
         return "success";
     }
 
-    @ApiWrapperIgnore
     @GetMapping("test2/{name}")
     public String test2(@PathVariable String name) {
         return name+ "---"+ RequestUtils.getRequest().getContentType();
     }
 
-    @ApiWrapperIgnore
     @GetMapping("test3")
     public String test3(String name, String pass) {
         return StringUtils.join(name, pass, "---", RequestUtils.getRequest().getContentType());
     }
 
-    @ApiWrapperIgnore
     @GetMapping("test4")
     public String test4(HttpServletRequest request) {
         String name = request.getParameter("name");

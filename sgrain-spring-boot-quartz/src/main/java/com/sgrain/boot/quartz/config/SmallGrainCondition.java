@@ -7,7 +7,6 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
  * @create: 2020/09/30
  */
 public class SmallGrainCondition implements ConfigurationCondition {

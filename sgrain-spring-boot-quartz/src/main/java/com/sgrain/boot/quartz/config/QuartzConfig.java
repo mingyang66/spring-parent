@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Import;
 /**
  * @program: spring-parent
  * @description: quartz相关配置
- * @author: 姚明洋
  * @create: 2020/09/07
  */
 @Configuration

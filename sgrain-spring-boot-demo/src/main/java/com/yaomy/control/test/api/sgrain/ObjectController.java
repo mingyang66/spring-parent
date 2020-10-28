@@ -2,7 +2,6 @@ package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Lists;
 import com.sgrain.boot.common.utils.json.JSONUtils;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @description: 对象测试类
  * @create: 2020/05/22
  */
-@Api(tags = "对象控制器")
 @RestController
 public class ObjectController {
 

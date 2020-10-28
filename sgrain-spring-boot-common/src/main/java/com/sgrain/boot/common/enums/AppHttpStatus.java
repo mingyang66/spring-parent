@@ -13,6 +13,7 @@ public enum AppHttpStatus {
     CLASS_CAST_EXCEPTION(204, "类型转换异常"),
     IO_EXCEPTION(205, "IO异常"),
     SYSTEM_EXCEPTION(210, "系统异常"),
+    NOT_FOUND(404, "Not Found"),
 
 
     API_EXCEPTION(10000, "接口异常"),

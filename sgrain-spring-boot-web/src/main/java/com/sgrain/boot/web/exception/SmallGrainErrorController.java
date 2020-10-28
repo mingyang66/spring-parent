@@ -17,6 +17,7 @@ import java.util.Map;
  * @description: 自定义异常处理控制器
  * @create: 2020/03/31
  */
+@Deprecated
 @RestController
 public class SmallGrainErrorController implements ErrorController {
     /**

@@ -27,6 +27,9 @@ import java.util.Objects;
 public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer {
 
     private WebProperties webProperties;
+    //忽略URL前缀的控制器类
+    private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
+            "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
 
     public SmallGrainWebAutoConfiguration(WebProperties webProperties) {
         this.webProperties = webProperties;
@@ -53,7 +56,7 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer {
         //设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
         configurer.setUseTrailingSlashMatch(webProperties.getPath().isUseTrailingSlashMatch());
         //忽略URL前缀的控制器类
-        String[] ignoreUrlPrefixController = StringUtils.split(webProperties.getPath().getIgnoreControllerUrlPrefix(), CharacterUtils.COMMA_EN);
+        ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, StringUtils.split(webProperties.getPath().getIgnoreControllerUrlPrefix(), CharacterUtils.COMMA_EN));
         //给所有的接口统一添加前缀
         configurer.addPathPrefix(webProperties.getPath().getPrefix(), c -> {
             /**

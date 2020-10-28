@@ -3,6 +3,7 @@ package com.sgrain.boot.autoconfigure.aop.apilog.service.impl;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.autoconfigure.aop.apilog.po.AsyncLogAop;
 import com.sgrain.boot.autoconfigure.aop.apilog.service.AsyncLogAopService;
+import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
@@ -57,14 +58,19 @@ public class AsyncLogAopServiceImpl implements AsyncLogAopService {
     @Override
     public void traceResponse(AsyncLogAop asyncLog) {
         Object resultBody = asyncLog.getResponseBody();
+        String url = asyncLog.getRequestUrl();
         if (ObjectUtils.isNotEmpty(resultBody) && (resultBody instanceof ResponseEntity)) {
-            resultBody = ((ResponseEntity) resultBody).getBody();
+            ResponseEntity entity = ((ResponseEntity) resultBody);
+            resultBody = entity.getBody();
+            if(entity.getStatusCode().value() == AppHttpStatus.NOT_FOUND.getStatus()){
+                url = ((Map)(entity.getBody())).get("path").toString();
+            }
         }
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", asyncLog.gettId());
         logMap.put("Response Time", DateUtils.formatDate(asyncLog.getResponseTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         logMap.put("Class|Method", StringUtils.join(asyncLog.getClazz(), CharacterUtils.POINT_SYMBOL, asyncLog.getMethodName()));
-        logMap.put("Request URL", asyncLog.getRequestUrl());
+        logMap.put("Request URL", url);
         logMap.put("Request Method", asyncLog.getMethod());
         logMap.put("Request Params", CollectionUtils.isEmpty(asyncLog.getRequestParams()) ? Collections.emptyMap() : asyncLog.getRequestParams());
         logMap.put("Content-Type", asyncLog.getContentType());

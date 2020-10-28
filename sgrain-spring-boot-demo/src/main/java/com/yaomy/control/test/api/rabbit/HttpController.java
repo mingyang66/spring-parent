@@ -2,10 +2,17 @@ package com.yaomy.control.test.api.rabbit;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;
+import com.sgrain.boot.web.api.model.UrlMappingInfo;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,10 +26,29 @@ import java.util.Map;
 @RestController
 @RequestMapping("http")
 public class HttpController {
+    @Autowired
+    private RequestMappingHandlerMapping requestMappingHandlerMapping;
+
+    @GetMapping("requestMappingInfo")
+    public List<UrlMappingInfo> requestMappingInfo(){
+        List<UrlMappingInfo> result = Lists.newArrayList();
+        Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
+        map.forEach((info, method)->{
+            UrlMappingInfo urlMappingInfo = new UrlMappingInfo();
+            PatternsRequestCondition patternsRequestCondition = info.getPatternsCondition();
+            urlMappingInfo.setMethod(info.getMethodsCondition().getMethods());
+            urlMappingInfo.setPatterns(patternsRequestCondition.getPatterns());
+            urlMappingInfo.setBean(method.getBean());
+            urlMappingInfo.setDescription(method.toString());
+            result.add(urlMappingInfo);
+        });
+        return result;
+    }
 
     @GetMapping("test1")
     public String test1() {
-        return "success";
+        throw new BusinessException(20000, "asdf");
+        //return "success";
     }
 
     @GetMapping("test2/{name}")

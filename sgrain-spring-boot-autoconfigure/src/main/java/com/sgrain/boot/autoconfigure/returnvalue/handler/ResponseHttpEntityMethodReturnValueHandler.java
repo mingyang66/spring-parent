@@ -5,6 +5,7 @@ import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.po.BaseResponse;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.RouteUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * @Description: HttpEntity返回值控制
@@ -39,10 +41,15 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
+        ResponseEntity entity = (ResponseEntity) returnValue;
         //获取ResponseEntity封装的真实返回值
-        Object body = (null == returnValue) ? null : ((ResponseEntity) returnValue).getBody();
+        Object body = (null == returnValue) ? null : entity.getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (RouteUtils.match(request.getRequestURI())
+        if (entity.getStatusCode().value() == AppHttpStatus.NOT_FOUND.getStatus()) {
+            String path = ((Map) body).get("path").toString();
+            ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NOT_FOUND.getStatus(), StringUtils.join("接口【", path, "】不存在"));
+            proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
+        } else if (RouteUtils.match(request.getRequestURI())
                 || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

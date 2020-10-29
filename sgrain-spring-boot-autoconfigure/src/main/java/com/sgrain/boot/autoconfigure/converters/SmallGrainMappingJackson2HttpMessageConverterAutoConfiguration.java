@@ -1,6 +1,7 @@
 package com.sgrain.boot.autoconfigure.converters;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sgrain.boot.common.utils.LoggerUtils;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 @AutoConfigureAfter(HttpMessageConvertersAutoConfiguration.class)
 @EnableConfigurationProperties(Jackson2MessagesProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.jackson2.converter", name = "enable", havingValue = "true", matchIfMissing = true)
-public class SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration {
+public class SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration implements CommandLineRunner {
     private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     public SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration(MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
@@ -31,5 +32,10 @@ public class SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration {
     @PostConstruct
     public void SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration() {
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        LoggerUtils.info(SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【自动化配置】----响应报文Content-Type编码组件初始化完成...");
     }
 }

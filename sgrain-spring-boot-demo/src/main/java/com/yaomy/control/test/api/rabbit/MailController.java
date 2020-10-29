@@ -5,8 +5,6 @@ import com.sgrain.boot.common.mail.MailFactoryBean;
 import com.sgrain.boot.common.mail.model.MailMessage;
 import com.sgrain.boot.common.mail.model.MimeMailMessage;
 import com.sgrain.boot.common.utils.LoggerUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -6,7 +6,7 @@ import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
@@ -24,9 +24,13 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
-public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer {
+public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner {
 
     private WebProperties webProperties;
+    //自定义路由规则是否已加载
+    private boolean enablePathMatch;
+    //自定义跨域规则是否已加载
+    private boolean enableCors;
     //忽略URL前缀的控制器类
     private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
@@ -76,7 +80,8 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer {
                 return false;
             }
         });
-        LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----API前缀组件初始化完成...");
+        enablePathMatch = true;
+
     }
 
     /**
@@ -136,6 +141,17 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer {
         if (Objects.nonNull(webProperties.getCors().getMaxAge())) {
             registration.maxAge(webProperties.getCors().getMaxAge());
         }
-        LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----跨域组件初始化完成...");
+        enableCors = true;
+
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        if (enablePathMatch) {
+            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----API前缀组件初始化完成...");
+        }
+        if (enableCors) {
+            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----跨域组件初始化完成...");
+        }
     }
 }

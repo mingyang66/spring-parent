@@ -2,7 +2,6 @@ package com.yaomy.control.test.api.rabbit;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.web.api.model.UrlMappingInfo;
 import com.yaomy.control.test.po.User;

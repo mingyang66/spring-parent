@@ -13,8 +13,6 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * @program: spring-parent

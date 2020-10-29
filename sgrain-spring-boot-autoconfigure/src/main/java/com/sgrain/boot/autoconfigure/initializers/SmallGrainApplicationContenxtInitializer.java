@@ -2,8 +2,6 @@ package com.sgrain.boot.autoconfigure.initializers;
 
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.common.utils.constant.CharacterUtils;
-import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import com.sgrain.boot.common.utils.date.DateUtils;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

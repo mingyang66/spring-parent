@@ -5,6 +5,13 @@
 
 package com.sgrain.boot.web.conf;
 
+import org.springframework.boot.origin.Origin;
+import org.springframework.boot.origin.OriginTrackedValue;
+import org.springframework.boot.origin.TextResourceOrigin;
+import org.springframework.boot.origin.TextResourceOrigin.Location;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,13 +19,6 @@ import java.io.LineNumberReader;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.springframework.boot.origin.Origin;
-import org.springframework.boot.origin.OriginTrackedValue;
-import org.springframework.boot.origin.TextResourceOrigin;
-import org.springframework.boot.origin.TextResourceOrigin.Location;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 
 /**
  * Class to load {@code .properties} files into a map of {@code String} ->

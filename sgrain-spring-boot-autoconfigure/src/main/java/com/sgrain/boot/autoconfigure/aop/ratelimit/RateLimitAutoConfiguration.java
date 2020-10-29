@@ -9,8 +9,6 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

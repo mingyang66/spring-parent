@@ -47,8 +47,7 @@ public class HttpController {
 
     @GetMapping("test1")
     public String test1() {
-        throw new BusinessException(20000, "asdf");
-        //return "success";
+        return "测试编码格式";
     }
 
     @GetMapping("test2/{name}")

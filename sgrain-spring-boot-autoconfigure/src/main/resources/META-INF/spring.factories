@@ -11,7 +11,8 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.bean.factory.SmallGrainBeanFactoryPostProcessorAutoConfiguration,\
   com.sgrain.boot.autoconfigure.bean.registry.SmallGrainBeanDefinitionRegistryAutoConfiguration,\
   com.sgrain.boot.autoconfigure.web.SmallGrainWebAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.exception.ExceptionAutoConfiguration
+  com.sgrain.boot.autoconfigure.exception.ExceptionAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.converters.SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\

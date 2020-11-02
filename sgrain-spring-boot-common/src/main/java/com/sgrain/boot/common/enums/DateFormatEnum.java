@@ -1,5 +1,10 @@
 package com.sgrain.boot.common.enums;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
+
 /**
  * @Description: 日期格式
  * @Version: 1.0
@@ -54,5 +59,18 @@ public enum DateFormatEnum {
 
     public String getFormat() {
         return format;
+    }
+
+    /**
+     * 获取所有日期格式
+     * @return
+     */
+    public static String[] getAllFormats(){
+        String[] formats = new String[]{};
+        DateFormatEnum[] formatEnums = DateFormatEnum.values();
+        for(int i=0; i<formatEnums.length; i++){
+            formats = ArrayUtils.add(formats, formatEnums[i].getFormat());
+        }
+        return formats;
     }
 }

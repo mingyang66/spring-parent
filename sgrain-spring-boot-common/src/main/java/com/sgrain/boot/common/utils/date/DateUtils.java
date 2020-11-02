@@ -1,12 +1,17 @@
 package com.sgrain.boot.common.utils.date;
 
+import com.google.common.collect.Lists;
 import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.exception.BusinessException;
+import com.sgrain.boot.common.utils.json.JSONUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: spring-parent
@@ -254,4 +259,36 @@ public class DateUtils {
         }
         return false;
     }
+
+    /**
+     * 判定指定的字符串是否可以转换为日期格式
+     *
+     * @param dateStr
+     * @return
+     */
+    public static boolean tryParse(String dateStr) {
+        try {
+            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, DateFormatEnum.getAllFormats());
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 判定指定的字符串是否可以转换成指定格式的日期
+     *
+     * @param dateStr
+     * @param format
+     * @return
+     */
+    public static boolean tryParse(String dateStr, String format) {
+        try {
+            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, format);
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+
 }

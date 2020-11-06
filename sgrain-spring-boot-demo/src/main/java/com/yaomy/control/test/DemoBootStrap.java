@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoBootStrap {
     public static void main(String[] args) {
-        SpringApplication.run(DemoBootStrap.class, args);
+        SpringApplication application = new SpringApplication(DemoBootStrap.class);
+        application.run(args);
     }
 
 

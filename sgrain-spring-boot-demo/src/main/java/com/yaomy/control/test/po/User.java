@@ -1,11 +1,17 @@
 package com.yaomy.control.test.po;
 
+import com.google.common.collect.Lists;
 import com.sgrain.boot.common.po.BaseRequest;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.core.ResolvableType;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @Description: 测试
@@ -41,5 +47,13 @@ public class User extends BaseRequest implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public static void main(String[] args) {
+        List<String> list = Lists.newArrayList();
+        list.add("12");
+        list.add("12");
+        Bindable<List<String>> bindable = Bindable.listOf(String.class).withExistingValue(list);
+        System.out.println(bindable);
     }
 }

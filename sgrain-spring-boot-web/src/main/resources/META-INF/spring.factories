@@ -1,2 +1,3 @@
-org.springframework.boot.env.PropertySourceLoader=com.sgrain.boot.web.conf.SmallGrainPropertiesPropertySourceLoader
+org.springframework.boot.env.PropertySourceLoader=\
+  com.sgrain.boot.web.conf.SmallGrainPropertiesPropertySourceLoader
 #org.springframework.boot.env.EnvironmentPostProcessor=com.sgrain.boot.web.conf.ConfEnvironmentPostProcessor

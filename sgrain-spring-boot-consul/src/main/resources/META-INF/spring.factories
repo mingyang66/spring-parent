@@ -1,0 +1,3 @@
+# Bootstrap Configuration
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.sgrain.boot.consul.config.SmallGrainConsulConfigBootstrapConfiguration

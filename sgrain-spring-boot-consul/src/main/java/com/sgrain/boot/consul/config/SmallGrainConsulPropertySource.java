@@ -1,27 +1,22 @@
 package com.sgrain.boot.consul.config;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.QueryParams;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
-
 import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.cloud.consul.config.ConsulConfigProperties;
-import org.springframework.cloud.consul.config.ConsulPropertySource;
+import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.util.StringUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.*;
 
 import static org.springframework.cloud.consul.config.ConsulConfigProperties.Format.PROPERTIES;
 import static org.springframework.cloud.consul.config.ConsulConfigProperties.Format.YAML;
@@ -30,7 +25,7 @@ import static org.springframework.util.Base64Utils.decodeFromString;
 /**
  * @author Spencer Gibb
  */
-public class SmallGrainConsulPropertySource extends ConsulPropertySource {
+public class SmallGrainConsulPropertySource extends EnumerablePropertySource<ConsulClient> {
 
     private final Map<String, Object> properties = new LinkedHashMap<>();
 
@@ -42,7 +37,7 @@ public class SmallGrainConsulPropertySource extends ConsulPropertySource {
 
     public SmallGrainConsulPropertySource(String context, ConsulClient source,
                                           ConsulConfigProperties configProperties) {
-        super(context, source, configProperties);
+        super(context, source);
         this.context = context;
         this.configProperties = configProperties;
 

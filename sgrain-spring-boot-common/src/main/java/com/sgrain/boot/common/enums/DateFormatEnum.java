@@ -1,9 +1,6 @@
 package com.sgrain.boot.common.enums;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.List;
 
 /**
  * @Description: 日期格式

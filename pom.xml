@@ -12,7 +12,7 @@
     <modules>
         <module>sgrain-spring-boot-common</module>
         <module>sgrain-spring-boot-autoconfigure</module>
-        <module>sgrain-spring-boot-web</module>
+        <module>sgrain-spring-boot-context</module>
         <module>sgrain-spring-boot-starter</module>
         <module>sgrain-spring-boot-swagger</module>
         <module>sgrain-spring-boot-actuator</module>

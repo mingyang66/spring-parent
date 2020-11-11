@@ -3,7 +3,7 @@ package com.yaomy.control.test.api.rabbit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.RequestUtils;
-import com.sgrain.boot.web.api.model.UrlMappingInfo;
+import com.sgrain.boot.context.api.model.UrlMappingInfo;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,8 @@ public class HttpController {
     }
 
     @GetMapping("test1")
-    public String test1() {
+    public String test1() throws InterruptedException {
+        Thread.sleep(4500);
         return "测试编码格式";
     }
 

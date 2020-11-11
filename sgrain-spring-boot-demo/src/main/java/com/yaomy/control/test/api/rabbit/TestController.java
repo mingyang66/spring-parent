@@ -2,7 +2,7 @@ package com.yaomy.control.test.api.rabbit;
 
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
-import com.sgrain.boot.web.httpclient.HttpClientService;
+import com.sgrain.boot.context.httpclient.HttpClientService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

@@ -3,15 +3,12 @@ package com.yaomy.control.test.po;
 import com.google.common.collect.Lists;
 import com.sgrain.boot.common.po.BaseRequest;
 import org.springframework.boot.context.properties.bind.Bindable;
-import org.springframework.core.ResolvableType;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * @Description: 测试

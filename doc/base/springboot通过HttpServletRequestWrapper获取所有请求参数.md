@@ -100,7 +100,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 ##### 3.回写参数的包装类写好之后接下来就是加入过滤器链之中，如下：
 
 ```java
-package com.sgrain.boot.web.filter;
+package com.sgrain.boot.context.filter;
 
 import com.sgrain.boot.common.servlet.RequestWrapper;
 import org.springframework.stereotype.Component;

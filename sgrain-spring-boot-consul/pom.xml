@@ -14,9 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>com.sgrain.boot</groupId>
-            <artifactId>sgrain-spring-boot-common</artifactId>
+            <artifactId>sgrain-spring-boot-context</artifactId>
             <version>2.2.1.RELEASE</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

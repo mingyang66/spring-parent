@@ -1,19 +1,10 @@
 package com.sgrain.boot.consul.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.cloud.bootstrap.config.PropertySourceLocator;
 import org.springframework.cloud.consul.config.ConsulConfigProperties;
 import org.springframework.core.annotation.Order;
@@ -24,6 +15,8 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.*;
 
 import static org.springframework.cloud.consul.config.ConsulConfigProperties.Format.FILES;
 

@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.httpclient;
+package com.sgrain.boot.consul.httpclient;
 
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.context.httpclient.handler.CustomResponseErrorHandler;
@@ -9,9 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -24,20 +24,17 @@ import java.util.Collections;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-//@Import(value = AsyncLogHttpClientServiceImpl.class)
-@EnableConfigurationProperties(
-        value = {HttpClientProperties.class}
-)
-@ConditionalOnClass(
-        value = {RestTemplate.class}
-)
-@ConditionalOnProperty(prefix = "spring.sgrain.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
-public class HttpClientAutoConfiguration implements CommandLineRunner {
+@EnableConfigurationProperties(HttpClientBalanceProperties.class)
+@ConditionalOnClass(RestTemplate.class)
+@ConditionalOnProperty(prefix = "spring.sgrain.cloud.http-client-balance", name = "enable", havingValue = "true", matchIfMissing = true)
+public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
+
+    public static final String LOAD_BALANCED_BEAN_NAME = "loadBalanced";
     /**
      * 读取配置属性服务类
      */
     @Autowired
-    private HttpClientProperties httpClientProperties;
+    private HttpClientBalanceProperties httpClientProperties;
     @Autowired
     private AsyncLogHttpClientService asyncLogHttpClientService;
 
@@ -45,12 +42,12 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
     /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
      */
-    @Primary
-    @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory) {
-        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+    @LoadBalanced
+    @Bean(LOAD_BALANCED_BEAN_NAME)
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientBalanceHttpRequestFactory) {
+        RestTemplate restTemplate = new RestTemplate(clientBalanceHttpRequestFactory);
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
-        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));
+        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientBalanceHttpRequestFactory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if(httpClientProperties.isEnableInterceptor()){
@@ -65,7 +62,7 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
+    public ClientHttpRequestFactory clientBalanceHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
         factory.setReadTimeout(httpClientProperties.getReadTimeOut());
@@ -76,6 +73,6 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "【自动化配置】----RestTemplate(HttpClient)组件初始化完成...");
+        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【自动化配置】----RestTemplate(HttpClientBalance)组件初始化完成...");
     }
 }

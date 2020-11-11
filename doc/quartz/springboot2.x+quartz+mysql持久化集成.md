@@ -88,7 +88,7 @@ spring:
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.date.DateUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
-import com.sgrain.boot.web.httpclient.HttpClientService;
+import com.sgrain.boot.context.httpclient.HttpClientService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Trigger;
@@ -96,7 +96,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * @program: spring-parent

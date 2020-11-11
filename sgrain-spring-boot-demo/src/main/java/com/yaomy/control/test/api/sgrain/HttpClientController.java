@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.po.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
-import com.sgrain.boot.web.httpclient.HttpClientService;
+import com.sgrain.boot.context.httpclient.HttpClientService;
 import com.yaomy.control.test.po.GmFundPageInfoResData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

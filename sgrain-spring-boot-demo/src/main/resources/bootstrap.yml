@@ -14,3 +14,4 @@ spring:
         data-key: data
       discovery:
         instance-id: api-xxa
+        service-name: ${spring.application.name}

@@ -24,13 +24,8 @@ import java.util.Collections;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-//@Import(value = AsyncLogHttpClientServiceImpl.class)
-@EnableConfigurationProperties(
-        value = {HttpClientProperties.class}
-)
-@ConditionalOnClass(
-        value = {RestTemplate.class}
-)
+@EnableConfigurationProperties(HttpClientProperties.class)
+@ConditionalOnClass(RestTemplate.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration implements CommandLineRunner {
     /**

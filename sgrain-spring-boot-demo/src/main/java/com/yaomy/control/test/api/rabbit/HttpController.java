@@ -46,7 +46,8 @@ public class HttpController {
 
     @GetMapping("test1")
     public String test1() throws InterruptedException {
-        Thread.sleep(4500);
+        System.out.println("---------------test1-------------");
+        Thread.sleep(5100);
         return "测试编码格式";
     }
 

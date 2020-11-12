@@ -15,6 +15,8 @@ public class AsyncLogHttpClient {
     private String requestUrl;
     //请求Method
     private String method;
+    //协议
+    private String protocol;
     //请求类型
     private String contentType;
     //请求参数
@@ -27,6 +29,14 @@ public class AsyncLogHttpClient {
     private long spentTime;
     //响应结果
     private Object responseBody;
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
 
     public String gettId() {
         return tId;

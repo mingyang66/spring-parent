@@ -3,6 +3,7 @@ package com.yaomy.control.test.api.rabbit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.common.utils.RequestUtils;
+import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.context.api.model.UrlMappingInfo;
 import com.yaomy.control.test.po.User;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -45,9 +47,10 @@ public class HttpController {
     }
 
     @GetMapping("test1")
-    public String test1() throws InterruptedException {
+    public String test1(HttpServletRequest request) throws InterruptedException {
+        System.out.println(request.getProtocol());
+        Thread.sleep(5500);
         System.out.println("---------------test1-------------");
-        Thread.sleep(5100);
         return "测试编码格式";
     }
 

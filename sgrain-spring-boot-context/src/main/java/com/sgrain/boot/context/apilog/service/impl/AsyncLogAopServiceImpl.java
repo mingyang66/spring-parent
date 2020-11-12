@@ -1,8 +1,8 @@
-package com.sgrain.boot.autoconfigure.aop.apilog.service.impl;
+package com.sgrain.boot.context.apilog.service.impl;
 
 import com.google.common.collect.Maps;
-import com.sgrain.boot.autoconfigure.aop.apilog.po.AsyncLogAop;
-import com.sgrain.boot.autoconfigure.aop.apilog.service.AsyncLogAopService;
+import com.sgrain.boot.context.apilog.po.AsyncLogAop;
+import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.utils.LoggerUtils;
@@ -39,6 +39,7 @@ public class AsyncLogAopServiceImpl implements AsyncLogAopService {
         logMap.put("Request Time", DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         logMap.put("Class|Method", StringUtils.join(asyncLog.getClazz(), CharacterUtils.POINT_SYMBOL, asyncLog.getMethodName()));
         logMap.put("Request URL", asyncLog.getRequestUrl());
+        logMap.put("Protocol", asyncLog.getProtocol());
         logMap.put("Request Method", asyncLog.getMethod());
         logMap.put("Request Params", CollectionUtils.isEmpty(asyncLog.getRequestParams()) ? Collections.emptyMap() : asyncLog.getRequestParams());
         logMap.put("Content-Type", asyncLog.getContentType());
@@ -72,6 +73,7 @@ public class AsyncLogAopServiceImpl implements AsyncLogAopService {
         logMap.put("Class|Method", StringUtils.join(asyncLog.getClazz(), CharacterUtils.POINT_SYMBOL, asyncLog.getMethodName()));
         logMap.put("Request URL", url);
         logMap.put("Request Method", asyncLog.getMethod());
+        logMap.put("Protocol", asyncLog.getProtocol());
         logMap.put("Request Params", CollectionUtils.isEmpty(asyncLog.getRequestParams()) ? Collections.emptyMap() : asyncLog.getRequestParams());
         logMap.put("Content-Type", asyncLog.getContentType());
         logMap.put("Spend Time", StringUtils.join((asyncLog.getSpentTime() == 0) ? 1 : asyncLog.getSpentTime(), "ms"));
@@ -98,6 +100,7 @@ public class AsyncLogAopServiceImpl implements AsyncLogAopService {
         logMap.put("Class|Method", StringUtils.join(asyncLog.getClazz(), CharacterUtils.POINT_SYMBOL, asyncLog.getMethodName()));
         logMap.put("Request URL", asyncLog.getRequestUrl());
         logMap.put("Request Method", asyncLog.getMethod());
+        logMap.put("Protocol", asyncLog.getProtocol());
         logMap.put("Reuqest Params", CollectionUtils.isEmpty(asyncLog.getRequestParams()) ? Collections.emptyMap() : asyncLog.getRequestParams());
         logMap.put("Content-Type", asyncLog.getContentType());
         logMap.put("Exception", asyncLog.getException());

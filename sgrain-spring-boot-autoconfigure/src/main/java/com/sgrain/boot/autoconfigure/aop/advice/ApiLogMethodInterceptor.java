@@ -1,7 +1,7 @@
 package com.sgrain.boot.autoconfigure.aop.advice;
 
-import com.sgrain.boot.autoconfigure.aop.apilog.po.AsyncLogAop;
-import com.sgrain.boot.autoconfigure.aop.apilog.service.AsyncLogAopService;
+import com.sgrain.boot.context.apilog.po.AsyncLogAop;
+import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -54,6 +54,8 @@ public class ApiLogMethodInterceptor implements MethodInterceptor {
         asyncLog.setRequestUrl(request.getRequestURL().toString());
         //请求方法
         asyncLog.setMethod(request.getMethod());
+        //请求协议
+        asyncLog.setProtocol(request.getProtocol());
         //请求参数
         asyncLog.setRequestParams(RequestUtils.getParameterMap(request));
         //记录接口请求信息

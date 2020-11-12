@@ -56,6 +56,8 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         asyncLogHttpClient.setRequestParams(ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
         //请求类型 ContentType
         asyncLogHttpClient.setContentType(Objects.nonNull(request.getHeaders().getContentType()) ? request.getHeaders().getContentType().toString() : null);
+        //请求协议
+        asyncLogHttpClient.setProtocol(RequestUtils.getRequest().getProtocol());
         //记录请求日志
         asyncLogHttpClientService.traceRequest(asyncLogHttpClient);
 

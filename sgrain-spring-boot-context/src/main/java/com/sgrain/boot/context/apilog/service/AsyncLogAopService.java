@@ -1,6 +1,6 @@
-package com.sgrain.boot.autoconfigure.aop.apilog.service;
+package com.sgrain.boot.context.apilog.service;
 
-import com.sgrain.boot.autoconfigure.aop.apilog.po.AsyncLogAop;
+import com.sgrain.boot.context.apilog.po.AsyncLogAop;
 
 public interface AsyncLogAopService {
     /**

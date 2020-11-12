@@ -2,7 +2,7 @@ package com.sgrain.boot.autoconfigure.bean.factory;
 
 import com.sgrain.boot.autoconfigure.aop.apilog.ApiLogAutoConfiguration;
 import com.sgrain.boot.autoconfigure.aop.apilog.ApiLogProperties;
-import com.sgrain.boot.autoconfigure.aop.apilog.service.impl.AsyncLogAopServiceImpl;
+import com.sgrain.boot.context.apilog.service.impl.AsyncLogAopServiceImpl;
 import com.sgrain.boot.autoconfigure.aop.ratelimit.RateLimitAutoConfiguration;
 import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration;
 import com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolProperties;

@@ -37,6 +37,7 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
         logMap.put("Request Time", DateUtils.formatDate(asyncLogHttpClient.getRequestTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         logMap.put("Request URL", asyncLogHttpClient.getRequestUrl());
         logMap.put("Request Method", asyncLogHttpClient.getMethod());
+        logMap.put("Protocol", asyncLogHttpClient.getProtocol());
         logMap.put("Request Params", asyncLogHttpClient.getRequestParams());
         logMap.put("Content-Type", asyncLogHttpClient.getContentType());
         if (LoggerUtils.isDebug()) {
@@ -59,6 +60,7 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
         logMap.put("Response Time", DateUtils.formatDate(asyncLogHttpClient.getResponseTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         logMap.put("Request URL", asyncLogHttpClient.getRequestUrl());
         logMap.put("Request Method", asyncLogHttpClient.getMethod());
+        logMap.put("Protocol", asyncLogHttpClient.getProtocol());
         logMap.put("Request Params", asyncLogHttpClient.getRequestParams());
         logMap.put("Content-Type", asyncLogHttpClient.getContentType());
         logMap.put("Spend Time", StringUtils.join((asyncLogHttpClient.getSpentTime() == 0) ? 1 : asyncLogHttpClient.getSpentTime(), "ms"));

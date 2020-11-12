@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.aop.apilog.po;
+package com.sgrain.boot.context.apilog.po;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +20,8 @@ public class AsyncLogAop implements Serializable {
     private String requestUrl;
     //请求Method
     private String method;
+    //请求协议
+    private String protocol;
     //请求类型
     private String contentType;
     //请求参数
@@ -34,6 +36,14 @@ public class AsyncLogAop implements Serializable {
     private Object responseBody;
     //异常
     private String exception;
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
 
     public String gettId() {
         return tId;

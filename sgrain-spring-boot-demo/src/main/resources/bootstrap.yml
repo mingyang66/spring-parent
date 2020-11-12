@@ -13,5 +13,5 @@ spring:
         format: properties
         data-key: data
       discovery:
-        instance-id: api-xxa
+        instance-id: SmallGrain
         service-name: ${spring.application.name}

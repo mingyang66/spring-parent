@@ -29,6 +29,7 @@ public class PropertyController {
     public String test(){
 
         Map<String, Object> data = restTemplate.getForObject(StringUtils.join("http://CONSUL-DEMO", "/api/http/test1"), Map.class);
+        //Map<String, Object> data = restTemplate.getForObject(StringUtils.join("http://127.0.0.1:9000", "/api/http/test1"), Map.class);
         System.out.println(JSONUtils.toJSONPrettyString(data));
         return environment.getProperty("test");
     }

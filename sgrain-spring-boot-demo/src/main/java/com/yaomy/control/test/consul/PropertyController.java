@@ -1,7 +1,7 @@
 package com.yaomy.control.test.consul;
 
 import com.sgrain.boot.common.utils.json.JSONUtils;
-import com.sgrain.boot.consul.httpclient.HttpClientBalanceAutoConfiguration;
+import com.sgrain.boot.cloud.httpclient.HttpClientBalanceAutoConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,4 +33,9 @@ public class PropertyController {
         System.out.println(JSONUtils.toJSONPrettyString(data));
         return environment.getProperty("test");
     }
+    @GetMapping("health")
+    public void health(){
+
+    }
+
 }

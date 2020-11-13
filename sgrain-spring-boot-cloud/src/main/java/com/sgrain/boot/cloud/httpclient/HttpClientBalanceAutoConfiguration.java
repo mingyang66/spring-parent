@@ -1,4 +1,4 @@
-package com.sgrain.boot.consul.httpclient;
+package com.sgrain.boot.cloud.httpclient;
 
 import com.sgrain.boot.common.utils.LoggerUtils;
 import com.sgrain.boot.context.httpclient.handler.CustomResponseErrorHandler;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;

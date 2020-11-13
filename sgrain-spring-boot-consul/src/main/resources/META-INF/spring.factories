@@ -1,7 +1,0 @@
-# Bootstrap Configuration
-org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-  com.sgrain.boot.consul.config.SmallGrainConsulConfigBootstrapConfiguration
-
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.sgrain.boot.consul.httpclient.HttpClientBalanceAutoConfiguration

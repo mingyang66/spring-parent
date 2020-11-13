@@ -1,4 +1,4 @@
-package com.sgrain.boot.consul.httpclient;
+package com.sgrain.boot.cloud.httpclient;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -12,13 +12,13 @@ public class HttpClientBalanceProperties {
      */
     private boolean enable;
     /**
-     * HttpClientService read timeout (in milliseconds),default:5000
+     * HttpClientService read timeout (in milliseconds),default:1000
      */
-    private Integer readTimeOut = 5000;
+    private Integer readTimeOut = 1000;
     /**
-     * HttpClientService connect timeout (in milliseconds),default:10000
+     * HttpClientService connect timeout (in milliseconds),default:2000
      */
-    private Integer connectTimeOut = 10000;
+    private Integer connectTimeOut = 2000;
     /**
      * 开启调用接口拦截器
      */

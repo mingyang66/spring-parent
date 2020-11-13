@@ -1,0 +1,11 @@
+# Bootstrap Configuration
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.sgrain.boot.cloud.config.SmallGrainConsulConfigBootstrapConfiguration
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.sgrain.boot.cloud.httpclient.HttpClientBalanceAutoConfiguration
+
+#Initializers
+org.springframework.context.ApplicationContextInitializer=\
+  com.sgrain.boot.cloud.initializer.SmallGrainPropertySourceBootstrapConfiguration

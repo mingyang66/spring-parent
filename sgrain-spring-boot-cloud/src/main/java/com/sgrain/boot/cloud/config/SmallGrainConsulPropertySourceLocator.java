@@ -1,4 +1,4 @@
-package com.sgrain.boot.consul.config;
+package com.sgrain.boot.cloud.config;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;

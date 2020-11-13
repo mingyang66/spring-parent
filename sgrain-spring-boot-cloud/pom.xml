@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sgrain.boot</groupId>
-    <artifactId>sgrain-spring-boot-consul</artifactId>
+    <artifactId>sgrain-spring-boot-cloud</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.sgrain.boot</groupId>

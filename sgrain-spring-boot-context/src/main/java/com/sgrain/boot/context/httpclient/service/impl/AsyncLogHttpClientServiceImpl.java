@@ -34,6 +34,7 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
         //请求日志记录集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", asyncLogHttpClient.gettId());
+        logMap.put("Trace_Type", asyncLogHttpClient.getTraceType());
         logMap.put("Request Time", DateUtils.formatDate(asyncLogHttpClient.getRequestTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         logMap.put("Request URL", asyncLogHttpClient.getRequestUrl());
         logMap.put("Request Method", asyncLogHttpClient.getMethod());
@@ -57,6 +58,7 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
         //响应请求信息日志集合
         Map<String, Object> logMap = Maps.newLinkedHashMap();
         logMap.put("T_ID", asyncLogHttpClient.gettId());
+        logMap.put("Trace_Type", asyncLogHttpClient.getTraceType());
         logMap.put("Response Time", DateUtils.formatDate(asyncLogHttpClient.getResponseTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         logMap.put("Request URL", asyncLogHttpClient.getRequestUrl());
         logMap.put("Request Method", asyncLogHttpClient.getMethod());

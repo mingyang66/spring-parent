@@ -11,6 +11,8 @@ import java.util.Map;
 public class AsyncLogHttpClient {
     //请求唯一编号
     private String tId;
+    //追踪类型，0【正常】1【重试】
+    private int traceType;
     //请求URL
     private String requestUrl;
     //请求Method
@@ -29,6 +31,14 @@ public class AsyncLogHttpClient {
     private long spentTime;
     //响应结果
     private Object responseBody;
+
+    public int getTraceType() {
+        return traceType;
+    }
+
+    public void setTraceType(int traceType) {
+        this.traceType = traceType;
+    }
 
     public String getProtocol() {
         return protocol;

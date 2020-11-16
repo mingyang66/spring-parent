@@ -9,7 +9,6 @@ import com.sgrain.boot.context.httpclient.service.AsyncLogHttpClientService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.core.ResolvableType;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -101,6 +100,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             asyncLogHttpClientResponse.setResponseBody(e.getMessage());
             //记录响应日志
             asyncLogHttpClientService.traceResponse(asyncLogHttpClientResponse);
+
             throw e;
         }
 

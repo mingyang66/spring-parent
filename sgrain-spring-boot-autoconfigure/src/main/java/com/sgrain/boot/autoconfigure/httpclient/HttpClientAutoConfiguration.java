@@ -44,7 +44,7 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
     @Primary
     @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory) {
-        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));
         //设置自定义异常处理

@@ -53,25 +53,28 @@ public class SmallGrainRetryListener implements RetryListener {
         if (context.getRetryCount() == 0) {
             return;
         }
-        LoadBalancedRetryContext retryContext = (LoadBalancedRetryContext) context;
-        AsyncLogHttpClientResponse client = new AsyncLogHttpClientResponse();
-        //唯一标识
-        client.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? "" : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
-        //类型
-        client.setTraceType(retryContext.getRetryCount());
-        //响应时间
-        client.setResponseTime(new Date());
-        //请求URL
-        client.setRequestUrl(retryContext.getRequest().getURI().toString());
-        //响应方法
-        client.setMethod(retryContext.getRequest().getMethod().name());
-        //报文类型
-        client.setContentType(retryContext.getRequest().getHeaders().getContentType() != null ? retryContext.getRequest().getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
-        //协议
-        client.setProtocol(RequestUtils.getRequest().getProtocol());
-        //响应报文
-        client.setResponseBody(StringUtils.join("关闭重试操作，共重试", context.getRetryCount(), "此，", throwable == null ? "" : throwable.getMessage()));
-        asyncLogHttpClientService.traceResponse(client);
+        if(context instanceof LoadBalancedRetryContext){
+            LoadBalancedRetryContext retryContext = (LoadBalancedRetryContext) context;
+            AsyncLogHttpClientResponse client = new AsyncLogHttpClientResponse();
+            //唯一标识
+            client.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? "" : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
+            //类型
+            client.setTraceType(retryContext.getRetryCount());
+            //响应时间
+            client.setResponseTime(new Date());
+            //请求URL
+            client.setRequestUrl(retryContext.getRequest().getURI().toString());
+            //响应方法
+            client.setMethod(retryContext.getRequest().getMethod().name());
+            //报文类型
+            client.setContentType(retryContext.getRequest().getHeaders().getContentType() != null ? retryContext.getRequest().getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
+            //协议
+            client.setProtocol(RequestUtils.getRequest().getProtocol());
+            //响应报文
+            client.setResponseBody(StringUtils.join("关闭重试操作，共重试", context.getRetryCount(), "此，", throwable == null ? "" : throwable.getMessage()));
+            asyncLogHttpClientService.traceResponse(client);
+
+        }
     }
 
     /**
@@ -85,25 +88,28 @@ public class SmallGrainRetryListener implements RetryListener {
      */
     @Override
     public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
-        LoadBalancedRetryContext retryContext = (LoadBalancedRetryContext) context;
-        AsyncLogHttpClientResponse client = new AsyncLogHttpClientResponse();
-        //唯一标识
-        client.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? "" : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
-        //类型
-        client.setTraceType(retryContext.getRetryCount());
-        //响应时间
-        client.setResponseTime(new Date());
-        //请求URL
-        client.setRequestUrl(retryContext.getRequest().getURI().toString());
-        //请求方法
-        client.setMethod(retryContext.getRequest().getMethod().name());
-        //响应报文类型
-        client.setContentType((retryContext.getRequest().getHeaders().getContentType() != null) ? retryContext.getRequest().getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
-        //协议
-        client.setProtocol(RequestUtils.getRequest().getProtocol());
-        //响应报文
-        client.setResponseBody(StringUtils.join("第" + retryContext.getRetryCount() + "此重试，", throwable == null ? null : throwable.getMessage()));
+        if(context instanceof LoadBalancedRetryContext){
+            LoadBalancedRetryContext retryContext = (LoadBalancedRetryContext) context;
+            AsyncLogHttpClientResponse client = new AsyncLogHttpClientResponse();
+            //唯一标识
+            client.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? "" : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
+            //类型
+            client.setTraceType(retryContext.getRetryCount());
+            //响应时间
+            client.setResponseTime(new Date());
+            //请求URL
+            client.setRequestUrl(retryContext.getRequest().getURI().toString());
+            //请求方法
+            client.setMethod(retryContext.getRequest().getMethod().name());
+            //响应报文类型
+            client.setContentType((retryContext.getRequest().getHeaders().getContentType() != null) ? retryContext.getRequest().getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
+            //协议
+            client.setProtocol(RequestUtils.getRequest().getProtocol());
+            //响应报文
+            client.setResponseBody(StringUtils.join("第" + retryContext.getRetryCount() + "此重试，", throwable == null ? null : throwable.getMessage()));
 
-        asyncLogHttpClientService.traceResponse(client);
+            asyncLogHttpClientService.traceResponse(client);
+
+        }
     }
 }

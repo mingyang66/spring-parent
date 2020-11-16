@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -29,7 +30,7 @@ import java.util.Collections;
 @ConditionalOnProperty(prefix = "spring.sgrain.cloud.http-client-balance", name = "enable", havingValue = "true", matchIfMissing = true)
 public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
 
-    public static final String LOAD_BALANCED_BEAN_NAME = "loadBalanced";
+    public static final String LOAD_BALANCED_BEAN_NAME = "loadBalancer";
     /**
      * 读取配置属性服务类
      */
@@ -45,7 +46,7 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
     @LoadBalanced
     @Bean(LOAD_BALANCED_BEAN_NAME)
     public RestTemplate restTemplate(ClientHttpRequestFactory clientBalanceHttpRequestFactory) {
-        RestTemplate restTemplate = new RestTemplate(clientBalanceHttpRequestFactory);
+        RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientBalanceHttpRequestFactory));
         //设置自定义异常处理
@@ -63,8 +64,8 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
      */
     @Bean
     public ClientHttpRequestFactory clientBalanceHttpRequestFactory() {
-        //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        //HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
         factory.setReadTimeout(httpClientProperties.getReadTimeOut());
         //连接超时10秒，默认无限制，单位：毫秒

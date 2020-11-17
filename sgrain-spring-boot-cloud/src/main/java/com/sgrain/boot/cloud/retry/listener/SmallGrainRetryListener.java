@@ -55,6 +55,11 @@ public class SmallGrainRetryListener implements RetryListener {
         }
         if(context instanceof LoadBalancedRetryContext){
             LoadBalancedRetryContext retryContext = (LoadBalancedRetryContext) context;
+            //实例ID
+            String instanceId = retryContext.getServiceInstance().getInstanceId();
+            //服务ID
+            String serviceId = retryContext.getServiceInstance().getServiceId();
+
             AsyncLogHttpClientResponse client = new AsyncLogHttpClientResponse();
             //唯一标识
             client.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? "" : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
@@ -63,7 +68,7 @@ public class SmallGrainRetryListener implements RetryListener {
             //响应时间
             client.setResponseTime(new Date());
             //请求URL
-            client.setRequestUrl(retryContext.getRequest().getURI().toString());
+            client.setRequestUrl(StringUtils.replaceIgnoreCase(retryContext.getRequest().getURI().toString(), serviceId, instanceId));
             //响应方法
             client.setMethod(retryContext.getRequest().getMethod().name());
             //报文类型
@@ -90,6 +95,11 @@ public class SmallGrainRetryListener implements RetryListener {
     public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
         if(context instanceof LoadBalancedRetryContext){
             LoadBalancedRetryContext retryContext = (LoadBalancedRetryContext) context;
+            //实例ID
+            String instanceId = retryContext.getServiceInstance().getInstanceId();
+            //服务ID
+            String serviceId = retryContext.getServiceInstance().getServiceId();
+
             AsyncLogHttpClientResponse client = new AsyncLogHttpClientResponse();
             //唯一标识
             client.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? "" : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
@@ -98,7 +108,7 @@ public class SmallGrainRetryListener implements RetryListener {
             //响应时间
             client.setResponseTime(new Date());
             //请求URL
-            client.setRequestUrl(retryContext.getRequest().getURI().toString());
+            client.setRequestUrl(StringUtils.replaceIgnoreCase(retryContext.getRequest().getURI().toString(), serviceId, instanceId));
             //请求方法
             client.setMethod(retryContext.getRequest().getMethod().name());
             //响应报文类型

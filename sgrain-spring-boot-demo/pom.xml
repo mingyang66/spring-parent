@@ -11,7 +11,7 @@
 
     <groupId>com.yaomy.control</groupId>
     <artifactId>sgrain-spring-boot-demo</artifactId>
-    <version>1.0.0.2</version>
+    <version>1.0.1</version>
     <name>consul-demo</name>
 
     <dependencies>

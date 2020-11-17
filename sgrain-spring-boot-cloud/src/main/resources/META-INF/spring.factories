@@ -1,7 +1,8 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.cloud.httpclient.HttpClientBalanceAutoConfiguration,\
-  com.sgrain.boot.cloud.retry.SmallGrainRibbonLoadBalancedRetryFactory
+  com.sgrain.boot.cloud.retry.SmallGrainRibbonLoadBalancedRetryFactory,\
+  com.sgrain.boot.cloud.serviceregistry.SmallGrainConsulServiceRegistryAutoConfiguration
 
 # Bootstrap Configuration
 org.springframework.cloud.bootstrap.BootstrapConfiguration=\

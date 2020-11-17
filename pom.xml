@@ -11,8 +11,8 @@
     </parent>
     <modules>
         <module>sgrain-spring-boot-common</module>
-        <module>sgrain-spring-boot-autoconfigure</module>
         <module>sgrain-spring-boot-context</module>
+        <module>sgrain-spring-boot-autoconfigure</module>
         <module>sgrain-spring-boot-cloud</module>
         <module>sgrain-spring-boot-starter</module>
         <module>sgrain-spring-boot-demo</module>

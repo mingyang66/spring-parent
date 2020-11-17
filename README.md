@@ -57,21 +57,25 @@ git push origin --tags
 ------
 ### 自研框架-sgrain(小米粒)配置
 ```java
-#设置开启用户请求日志拦截器模式，默认true
-spring.sgrain.log.enable=true
-#设置开启日志debug模式，默认false
-spring.sgrain.log.debug=false
+#设置开启用户请求日志拦截器模式，默认:true
+spring.sgrain.api-log.enable=true
+#设置开启日志debug模式，默认:false
+spring.sgrain.api-log.debug=false
+#是否开启抛出的异常拦截，默认：true
+spring.sgrain.exception.enable=true
+#是否开启json转换器配置,默认：true
+spring.sgrain.jackson2.converter.enable=true
 
-#设置开启返回结果包装，默认true
+#设置开启返回结果包装，默认:true
 spring.sgrain.return-value.enable=true
 #设置https配置开关,默认false
 spring.sgrain.https.enable=false
-#RedisTemplate组件开关，默认true
-spring.sgrain.redis.enable=true
-#限流组件开关，默认true
+#RedisTemplate组件开关，默认:false
+spring.sgrain.redis.enable=false
+#限流组件开关，默认:false
 spring.sgrain.rate-limit.enable=true
-#防止重复提交组件开关，默认true
-spring.sgrain.idempotent.enable=true
+#防止重复提交组件开关，默认:false
+spring.sgrain.idempotent.enable=false
 
 #RestTemplate组件
 #Http RestTemplate组件开关，默认true
@@ -79,21 +83,39 @@ spring.sgrain.http-client.enable=true
 #Http RestTemplate拦截器开关，记录请求响应日志，默认true
 spring.sgrain.http-client.enable-interceptor=true
 #http连接读取超时时间，默认5000毫秒
-spring.sgrain.http-client.read-time-out=50000
+spring.sgrain.http-client.read-time-out=5000
 #http连接连接超时时间，默认10000毫秒
-spring.sgrain.http-client.connect-time-out=100000
+spring.sgrain.http-client.connect-time-out=10000
+
+#RestTemplate组件-Spring Cloud客户端负载均衡
+#Http RestTemplate组件开关，默认true
+spring.sgrain.cloud.http-client-loadbalancer.enable=true
+#Http RestTemplate拦截器开关，记录请求响应日志，默认true
+spring.sgrain.cloud.http-client-loadbalancer.enable-interceptor=true
+#http连接读取超时时间，默认1000毫秒
+spring.sgrain.cloud.http-client-loadbalancer.read-time-out=1000
+#http连接连接超时时间，默认1000毫秒
+spring.sgrain.cloud.http-client-loadbalancer.connect-time-out=1000
 
 #异步线程池
 #异步线程池组件开关，默认false
 spring.sgrain.async-thread-pool.enable=true
 #核心线程数,默认：Java虚拟机可用线程数
 spring.sgrain.async-thread-pool.core-pool-size=4
-#线程池最大线程数,默认：Java虚拟机可用线程数*100
-spring.sgrain.async-thread-pool.max-pool-size=400
-#线程队列最大线程数,默认：Java虚拟机可用线程数*1000
-spring.sgrain.async-thread-pool.queue-capacity=4000
+#线程池最大线程数,默认：10000
+spring.sgrain.async-thread-pool.max-pool-size=10000
+#线程队列最大线程数,默认：20000
+spring.sgrain.async-thread-pool.queue-capacity=20000
 #自定义线程名前缀，默认：Async-ThreadPool-
 spring.sgrain.async-thread-pool.thread-name-prefix=Async-ThreadPool-
+#线程池中线程最大空闲时间，默认：60，单位：秒
+spring.sgrain.async-thread-pool.keep-alive-seconds=60
+#核心线程是否允许超时，默认false
+spring.sgrain.async-thread-pool.allow-core-thread-time-out=false
+#IOC容器关闭时是否阻塞等待剩余的任务执行完成，默认:false（必须设置setAwaitTerminationSeconds）
+spring.sgrain.async-thread-pool.wait-for-tasks-to-complete-on-shutdown=false
+#阻塞IOC容器关闭的时间，默认：10秒（必须设置setWaitForTasksToCompleteOnShutdown）
+spring.sgrain.async-thread-pool.await-termination-seconds=10
 
 ##API路由设置
 #是否开启所有接口的前缀prefix,默认前面添加api
@@ -109,11 +131,11 @@ spring.sgrain.web.path.trim-tokens=false
 #设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
 spring.sgrain.web.path.use-trailing-slash-match=true
 #忽略URL前缀控制器设置,默认空
-spring.sgrain.web.path.ignore-controller-url-prefix=springfox.documentation.swagger.web.ApiResourceController
+spring.sgrain.web.path.ignore-controller-url-prefix=
 
 ##跨域设置
 #开启跨域设置，默认false
-spring.sgrain.web.cors.enable=true
+spring.sgrain.web.cors.enable=false
 #设置允许哪些源来访问,多个源用逗号分开
 spring.sgrain.web.cors.allowed-origins=
 #允许HTTP请求方法
@@ -137,11 +159,11 @@ spring.sgrain.swagger.group-name=小米粒,RabbitMQ测试,框架
 #扫描包，使用逗号隔开；如：com.sgrain.boot,com.sgrain.test
 spring.sgrain.swagger.base-package=com.yaomy.control.test.api.rabbit,com.yaomy.control.test.api.sgrain,com.sgrain.boot
 #标题
-spring.sgrain.swagger.api-info.title=Springboot2.3.2 API接口文档
+spring.sgrain.swagger.api-info.title=Springboot2.3.3 API接口文档
 #描述
 spring.sgrain.swagger.api-info.description=小米粥是以小米作为主要食材熬制而成的一种独具特色的北方粥点，口味清淡，清香味，具有简单易制，健胃消食的特点。煮粥时一定要先烧开水然后放入洗净后的小米，先煮沸，然后用文火熬，汤粘稠后即可关火。
 #版本号
-spring.sgrain.swagger.api-info.version=V2.1.3.RELEASE
+spring.sgrain.swagger.api-info.version=V2.1.6.RELEASE
 
 #日志组件
 #启动日志访问组件，默认false
@@ -179,5 +201,20 @@ spring.sgrain.accesslog.async-max-flush-time=1000
 # 在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃，默认为 false
 spring.sgrain.accesslog.async-never-block=false
 
+
+```
+
+##### consul服务查询、删除接口
+
+- 查询服务接口Get
+
+```java
+http://127.0.0.1:8500/v1/agent/checks
+```
+
+- 删除consul服务接口PUT方法
+
+```
+http://127.0.0.1:8500/v1/agent/service/deregister/instance-id(实例ID)
 ```
 

@@ -71,7 +71,7 @@ public class SmallGrainRetryListener implements RetryListener {
             //协议
             client.setProtocol(RequestUtils.getRequest().getProtocol());
             //响应报文
-            client.setResponseBody(StringUtils.join("关闭重试操作，共重试", context.getRetryCount(), "此，", throwable == null ? "" : throwable.getMessage()));
+            client.setResponseBody(StringUtils.join("关闭重试操作，共重试", context.getRetryCount(), "次，", throwable == null ? "" : throwable.getMessage()));
             asyncLogHttpClientService.traceResponse(client);
 
         }
@@ -106,7 +106,7 @@ public class SmallGrainRetryListener implements RetryListener {
             //协议
             client.setProtocol(RequestUtils.getRequest().getProtocol());
             //响应报文
-            client.setResponseBody(StringUtils.join("第" + retryContext.getRetryCount() + "此重试，", throwable == null ? null : throwable.getMessage()));
+            client.setResponseBody(StringUtils.join("第" + retryContext.getRetryCount() + "次重试，", throwable == null ? null : throwable.getMessage()));
 
             asyncLogHttpClientService.traceResponse(client);
 

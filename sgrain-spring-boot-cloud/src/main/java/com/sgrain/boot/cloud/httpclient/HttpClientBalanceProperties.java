@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 配置元数据文件.
  */
-@ConfigurationProperties(prefix = "spring.sgrain.cloud.http-client-balance")
+@ConfigurationProperties(prefix = "spring.sgrain.cloud.http-client-loadbalancer")
 public class HttpClientBalanceProperties {
     /**
      * 组件开关

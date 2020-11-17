@@ -49,7 +49,7 @@ public class HttpController {
     @GetMapping("test1")
     public String test1(HttpServletRequest request) throws InterruptedException {
         System.out.println(request.getProtocol());
-        Thread.sleep(5500);
+        Thread.sleep(1200);
         System.out.println("---------------test1-------------");
         return "测试编码格式";
     }

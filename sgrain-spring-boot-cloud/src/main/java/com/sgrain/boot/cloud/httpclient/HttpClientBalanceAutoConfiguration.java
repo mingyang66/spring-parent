@@ -27,7 +27,7 @@ import java.util.Collections;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HttpClientBalanceProperties.class)
 @ConditionalOnClass(RestTemplate.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.cloud.http-client-balance", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.sgrain.cloud.http-client-loadbalancer", name = "enable", havingValue = "true", matchIfMissing = true)
 public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
 
     public static final String LOAD_BALANCED_BEAN_NAME = "loadBalancer";
@@ -45,10 +45,10 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
      */
     @LoadBalanced
     @Bean(LOAD_BALANCED_BEAN_NAME)
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientBalanceHttpRequestFactory) {
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
-        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientBalanceHttpRequestFactory));
+        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientLoadBalanceHttpRequestFactory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if(httpClientProperties.isEnableInterceptor()){
@@ -63,7 +63,7 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
-    public ClientHttpRequestFactory clientBalanceHttpRequestFactory() {
+    public ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         //HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒

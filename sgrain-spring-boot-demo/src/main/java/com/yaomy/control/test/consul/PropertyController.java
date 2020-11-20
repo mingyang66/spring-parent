@@ -1,5 +1,6 @@
 package com.yaomy.control.test.consul;
 
+import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
 import com.sgrain.boot.cloud.httpclient.HttpClientBalanceAutoConfiguration;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;

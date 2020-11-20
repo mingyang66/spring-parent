@@ -14,7 +14,8 @@ import java.io.PrintWriter;
  * @description: actuator监控拦截器
  * @create: 2020/07/22
  */
-public class ActuatorFilter extends OncePerRequestFilter {
+public class MonitorIpFilter extends OncePerRequestFilter {
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //AntPathMatcher matcher = new AntPathMatcher();
@@ -28,5 +29,4 @@ public class ActuatorFilter extends OncePerRequestFilter {
             writer.close();
         }
     }
-
 }

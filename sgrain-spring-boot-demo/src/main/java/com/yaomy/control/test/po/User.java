@@ -1,7 +1,7 @@
 package com.yaomy.control.test.po;
 
 import com.google.common.collect.Lists;
-import com.sgrain.boot.common.po.BaseRequest;
+import com.sgrain.boot.common.base.BaseRequest;
 import org.springframework.boot.context.properties.bind.Bindable;
 
 import javax.validation.constraints.DecimalMin;

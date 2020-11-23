@@ -4,6 +4,7 @@ import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.context.apilog.po.AsyncLogAop;
 import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
+import com.sgrain.boot.context.request.RequestService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.ThrowsAdvice;
 
@@ -44,7 +45,7 @@ public class ApiLogThrowsAdvice implements ThrowsAdvice {
         //请求协议
         asyncLog.setProtocol(request.getProtocol());
         //请求参数
-        asyncLog.setRequestParams(RequestUtils.getParameterMap(request));
+        asyncLog.setRequestParams(RequestService.getParameterMap(request));
         if (e instanceof BusinessException) {
             BusinessException exception = (BusinessException) e;
             asyncLog.setException(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));

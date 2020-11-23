@@ -3,7 +3,7 @@ package com.yaomy.control.test.api.sgrain;
 
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

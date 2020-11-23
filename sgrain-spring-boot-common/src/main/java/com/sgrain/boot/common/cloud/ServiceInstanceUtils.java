@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  * @description: 服务实例名集合
  * @create: 2020/11/23
  */
-public class ServiceInstances {
+public class ServiceInstanceUtils {
     /**
      * 获取服务请求URL
      * @param serviceName 服务名

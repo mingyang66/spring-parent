@@ -4,7 +4,7 @@ package com.sgrain.boot.context.exception;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.exception.PrintExceptionInfo;
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.context.httpclient.HttpClientService;
 import com.yaomy.control.test.po.GmFundPageInfoResData;

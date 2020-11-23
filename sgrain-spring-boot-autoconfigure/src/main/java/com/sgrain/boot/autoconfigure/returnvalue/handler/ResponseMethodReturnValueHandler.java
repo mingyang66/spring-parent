@@ -2,8 +2,8 @@ package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.sgrain.boot.common.enums.AppHttpStatus;
-import com.sgrain.boot.common.po.BaseResponse;
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.base.BaseResponse;
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.RouteUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;

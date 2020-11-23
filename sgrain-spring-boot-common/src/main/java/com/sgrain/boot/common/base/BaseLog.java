@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.po;
+package com.sgrain.boot.common.base;
 
 import java.io.Serializable;
 

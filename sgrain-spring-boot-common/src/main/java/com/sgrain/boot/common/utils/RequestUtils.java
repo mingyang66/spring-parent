@@ -1,8 +1,7 @@
 package com.sgrain.boot.common.utils;
 
 import com.google.common.collect.Maps;
-import com.sgrain.boot.common.po.BaseRequest;
-import com.sgrain.boot.common.servlet.RequestWrapper;
+import com.sgrain.boot.common.base.BaseRequest;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import com.sgrain.boot.common.utils.io.IOUtils;
@@ -10,7 +9,6 @@ import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -166,30 +164,6 @@ public class RequestUtils {
             }
         }
         return JSONUtils.toJavaBean(JSONUtils.toJSONString(paramMap), Map.class);
-    }
-
-    /**
-     * 获取请求入参
-     *
-     * @param request
-     * @return
-     */
-    public static Map<String, Object> getParameterMap(HttpServletRequest request) {
-        Map<String, Object> paramMap = new LinkedHashMap<>();
-        if(request instanceof RequestWrapper){
-            RequestWrapper requestWrapper = (RequestWrapper) request;
-            Map<String, Object> body = getParameterMap(requestWrapper.getRequestBody());
-            if (!CollectionUtils.isEmpty(body)) {
-                paramMap.putAll(body);
-            }
-        }
-        Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements()) {
-            String key = names.nextElement();
-            paramMap.put(key, request.getParameter(key));
-        }
-
-        return paramMap;
     }
 
     /**

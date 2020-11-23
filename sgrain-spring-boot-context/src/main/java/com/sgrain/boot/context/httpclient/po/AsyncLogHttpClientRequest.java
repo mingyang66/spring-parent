@@ -1,6 +1,6 @@
 package com.sgrain.boot.context.httpclient.po;
 
-import com.sgrain.boot.common.po.BaseLog;
+import com.sgrain.boot.common.base.BaseLog;
 
 import java.util.Date;
 import java.util.Map;

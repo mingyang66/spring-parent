@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

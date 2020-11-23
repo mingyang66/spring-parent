@@ -1,6 +1,6 @@
 package com.sgrain.boot.quartz.config;
 
-import com.sgrain.boot.common.po.BaseResponse;
+import com.sgrain.boot.common.base.BaseResponse;
 import com.sgrain.boot.quartz.listener.MonitorTriggerListener;
 import org.quartz.ListenerManager;
 import org.quartz.Scheduler;

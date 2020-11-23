@@ -3,7 +3,7 @@ package com.sgrain.boot.common.utils.hidden;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.sgrain.boot.common.po.BaseRequest;
+import com.sgrain.boot.common.base.BaseRequest;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

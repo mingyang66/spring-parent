@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
 import com.sgrain.boot.common.enums.GrantTypeEnum;
-import com.sgrain.boot.common.po.ResponseData;
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;

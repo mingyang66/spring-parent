@@ -1,6 +1,6 @@
 package com.sgrain.boot.context.filter;
 
-import com.sgrain.boot.common.servlet.RequestWrapper;
+import com.sgrain.boot.context.servlet.RequestWrapper;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link com.sgrain.boot.common.servlet.RequestWrapper}
+ * @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link RequestWrapper}
  * @create: 2020/8/19
  */
 @Component

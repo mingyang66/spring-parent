@@ -4,6 +4,7 @@ import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.context.apilog.po.AsyncLogAop;
 import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
+import com.sgrain.boot.context.request.RequestService;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.time.StopWatch;
@@ -57,7 +58,7 @@ public class ApiLogMethodInterceptor implements MethodInterceptor {
         //请求协议
         asyncLog.setProtocol(request.getProtocol());
         //请求参数
-        asyncLog.setRequestParams(RequestUtils.getParameterMap(request));
+        asyncLog.setRequestParams(RequestService.getParameterMap(request));
         //记录接口请求信息
         asyncLogAopService.traceRequest(asyncLog);
 

@@ -36,7 +36,7 @@ public class SmallGrainConsullServiceRegistry extends ConsulServiceRegistry {
         //获取当前服务器的IP地址
         reg.getService().setAddress(RequestUtils.getServerIp());
         //重置服务名
-        reg.getService().setName(StringUtils.join(reg.getService().getName(), CharacterUtils.COLON_EN, environment.getProperty("spring.profiles.active")));
+        reg.getService().setName(StringUtils.join(reg.getService().getName(), CharacterUtils.LINE_THROUGH_CENTER, environment.getProperty("spring.profiles.active")));
 
         super.register(reg);
     }

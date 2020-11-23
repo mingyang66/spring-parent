@@ -27,7 +27,7 @@ public class PropertyController {
 
     @GetMapping("consul/test")
     public String test(){
-        String url = ServiceInstanceUtils.getRequestUrl("consul-demo:dev", "/api/http/test1?name=12231&pass=123");
+        String url = ServiceInstanceUtils.getRequestUrl("consul-demo-dev", "/api/http/test1?name=12231&pass=123");
         Map<String, Object> data = restTemplate.getForObject(url, Map.class);
         //Map<String, Object> data = restTemplate.getForObject(StringUtils.join("http://127.0.0.1:9001", "/api/http/test1"), Map.class);
         System.out.println(JSONUtils.toJSONPrettyString(data));

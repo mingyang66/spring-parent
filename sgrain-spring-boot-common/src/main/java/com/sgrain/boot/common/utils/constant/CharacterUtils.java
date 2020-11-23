@@ -26,5 +26,7 @@ public class CharacterUtils {
     public static final String PERCENT_SIGIN = "%";
     public static final String POINT_SYMBOL = ".";
     public static final String ZERO = "0";
+    public static final String LEFT_BRACE = "{";
+    public static final String RIGHT_BRACE = "}";
 
 }

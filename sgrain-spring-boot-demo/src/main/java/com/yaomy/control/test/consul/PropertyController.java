@@ -1,9 +1,8 @@
 package com.yaomy.control.test.consul;
 
-import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
 import com.sgrain.boot.cloud.httpclient.HttpClientBalanceAutoConfiguration;
+import com.sgrain.boot.common.cloud.ServiceInstances;
 import com.sgrain.boot.common.utils.json.JSONUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.ServiceInstance;
@@ -34,8 +33,8 @@ public class PropertyController {
     @GetMapping("consul/test")
     public String test(){
         List<ServiceInstance> instances = discoveryClient.getInstances("consul-demo");
-
-        Map<String, Object> data = restTemplate.getForObject(StringUtils.join("http://CONSUL-DEMO", "/api/http/test1?name=12231&pass=123"), Map.class);
+        String url = ServiceInstances.getRequestUrl("consul-demo", "/api/http/test1?name=12231&pass=123");
+        Map<String, Object> data = restTemplate.getForObject(url, Map.class);
         //Map<String, Object> data = restTemplate.getForObject(StringUtils.join("http://127.0.0.1:9001", "/api/http/test1"), Map.class);
         System.out.println(JSONUtils.toJSONPrettyString(data));
         return environment.getProperty("test");

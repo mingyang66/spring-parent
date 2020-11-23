@@ -2,7 +2,7 @@ package com.sgrain.boot.autoconfigure.aop.idempotent;
 
 import com.sgrain.boot.autoconfigure.aop.advice.IdempotentMethodBeforeAdvice;
 import com.sgrain.boot.common.enums.AopOrderEnum;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;

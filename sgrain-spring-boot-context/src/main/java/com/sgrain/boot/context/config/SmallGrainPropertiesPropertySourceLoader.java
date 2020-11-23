@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.sgrain.boot.context.conf;
+package com.sgrain.boot.context.config;
 
 import org.springframework.boot.env.OriginTrackedMapPropertySource;
 import org.springframework.boot.env.PropertySourceLoader;

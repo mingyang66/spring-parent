@@ -1,9 +1,9 @@
-package com.sgrain.boot.common.accesslog.appender;
+package com.sgrain.boot.common.utils.log.accesslog.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.sgrain.boot.common.accesslog.po.AccessLog;
+import com.sgrain.boot.common.utils.log.accesslog.po.AccessLog;
 import org.apache.commons.lang3.StringUtils;
 
 /**

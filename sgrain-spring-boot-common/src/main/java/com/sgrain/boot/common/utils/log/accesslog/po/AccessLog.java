@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.accesslog.po;
+package com.sgrain.boot.common.utils.log.accesslog.po;
 
 /**
  * @description: 日志配置属性

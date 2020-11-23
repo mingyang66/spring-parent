@@ -1,4 +1,4 @@
-package com.sgrain.boot.context.conf;
+package com.sgrain.boot.context.config;
 
 
 import org.apache.commons.lang3.ArrayUtils;

@@ -1,6 +1,6 @@
 package com.sgrain.boot.autoconfigure.converters;
 
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

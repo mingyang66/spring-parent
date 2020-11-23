@@ -1,6 +1,6 @@
 package com.sgrain.boot.autoconfigure.bean.factory;
 
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

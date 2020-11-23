@@ -1,6 +1,6 @@
 package com.yaomy.control.test.api.rabbit;
 
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.context.httpclient.HttpClientService;
 import org.apache.commons.lang3.StringUtils;

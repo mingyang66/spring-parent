@@ -1,4 +1,4 @@
-package com.sgrain.boot.context.conf.properties;
+package com.sgrain.boot.context.config.properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;

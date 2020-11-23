@@ -3,7 +3,7 @@ package com.sgrain.boot.common.mail;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.mail.model.MailMessage;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;

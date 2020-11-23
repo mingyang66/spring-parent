@@ -1,14 +1,14 @@
-package com.sgrain.boot.common.accesslog.builder;
+package com.sgrain.boot.common.utils.log.accesslog.builder;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import com.sgrain.boot.common.accesslog.appender.AccessLogAsyncAppender;
-import com.sgrain.boot.common.accesslog.appender.AccessLogConsoleAppender;
-import com.sgrain.boot.common.accesslog.appender.AccessLogRollingFileAppender;
-import com.sgrain.boot.common.accesslog.level.AccessLogLevel;
-import com.sgrain.boot.common.accesslog.po.AccessLog;
+import com.sgrain.boot.common.utils.log.accesslog.appender.AccessLogAsyncAppender;
+import com.sgrain.boot.common.utils.log.accesslog.appender.AccessLogConsoleAppender;
+import com.sgrain.boot.common.utils.log.accesslog.appender.AccessLogRollingFileAppender;
+import com.sgrain.boot.common.utils.log.accesslog.level.AccessLogLevel;
+import com.sgrain.boot.common.utils.log.accesslog.po.AccessLog;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;

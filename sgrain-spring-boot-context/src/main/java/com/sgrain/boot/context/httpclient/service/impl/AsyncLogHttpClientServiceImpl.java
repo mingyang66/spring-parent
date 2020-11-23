@@ -1,6 +1,6 @@
 package com.sgrain.boot.context.httpclient.service.impl;
 
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.json.JSONUtils;
 import com.sgrain.boot.context.httpclient.po.AsyncLogHttpClientRequest;
 import com.sgrain.boot.context.httpclient.po.AsyncLogHttpClientResponse;

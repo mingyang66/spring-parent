@@ -2,7 +2,7 @@ package com.sgrain.boot.autoconfigure.aop.ratelimit;
 
 import com.sgrain.boot.autoconfigure.aop.advice.RateLimitMethodBeforeAdvice;
 import com.sgrain.boot.common.enums.AopOrderEnum;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;

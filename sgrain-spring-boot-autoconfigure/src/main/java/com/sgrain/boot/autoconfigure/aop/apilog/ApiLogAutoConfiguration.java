@@ -3,7 +3,7 @@ package com.sgrain.boot.autoconfigure.aop.apilog;
 import com.sgrain.boot.autoconfigure.aop.advice.ApiLogMethodInterceptor;
 import com.sgrain.boot.autoconfigure.aop.advice.ApiLogThrowsAdvice;
 import com.sgrain.boot.common.enums.AopOrderEnum;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
 import com.sgrain.boot.context.apilog.service.impl.AsyncLogAopServiceImpl;
 import org.apache.commons.lang3.StringUtils;

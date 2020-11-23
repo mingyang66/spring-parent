@@ -5,7 +5,7 @@ import com.sgrain.boot.context.apilog.po.AsyncLogAop;
 import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.enums.DateFormatEnum;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.calculation.ObjectSizeUtil;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.date.DateUtils;

@@ -3,7 +3,7 @@ package com.sgrain.boot.autoconfigure.returnvalue;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseHttpHeadersReturnValueHandler;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseMethodReturnValueHandler;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

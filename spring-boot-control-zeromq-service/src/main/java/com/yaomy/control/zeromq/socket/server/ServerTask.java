@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.socket.server;
 
 
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.yaomy.control.zeromq.socket.client.SocketClient;
 
 import java.io.DataInputStream;

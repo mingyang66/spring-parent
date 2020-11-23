@@ -1,6 +1,6 @@
 package com.sgrain.boot.autoconfigure.accesslog;
 
-import com.sgrain.boot.common.accesslog.po.AccessLog;
+import com.sgrain.boot.common.utils.log.accesslog.po.AccessLog;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

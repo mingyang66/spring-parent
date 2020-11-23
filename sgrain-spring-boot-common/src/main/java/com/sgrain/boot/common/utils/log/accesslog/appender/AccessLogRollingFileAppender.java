@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.accesslog.appender;
+package com.sgrain.boot.common.utils.log.accesslog.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -9,9 +9,9 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
-import com.sgrain.boot.common.accesslog.filter.AccessLogFilter;
-import com.sgrain.boot.common.accesslog.level.AccessLogLevel;
-import com.sgrain.boot.common.accesslog.po.AccessLog;
+import com.sgrain.boot.common.utils.log.accesslog.filter.AccessLogFilter;
+import com.sgrain.boot.common.utils.log.accesslog.level.AccessLogLevel;
+import com.sgrain.boot.common.utils.log.accesslog.po.AccessLog;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import org.apache.commons.lang3.StringUtils;

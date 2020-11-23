@@ -1,7 +1,7 @@
 package com.sgrain.boot.autoconfigure.threadpool;
 
 import com.sgrain.boot.common.exception.PrintExceptionInfo;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

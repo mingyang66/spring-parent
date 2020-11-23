@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.accesslog.level;
+package com.sgrain.boot.common.utils.log.accesslog.level;
 
 import ch.qos.logback.classic.Level;
 import org.apache.commons.lang3.StringUtils;

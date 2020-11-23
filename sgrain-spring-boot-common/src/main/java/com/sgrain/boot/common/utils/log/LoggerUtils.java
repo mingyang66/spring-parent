@@ -1,6 +1,6 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.log;
 
-import com.sgrain.boot.common.accesslog.builder.AccessLogBuilder;
+import com.sgrain.boot.common.utils.log.accesslog.builder.AccessLogBuilder;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;

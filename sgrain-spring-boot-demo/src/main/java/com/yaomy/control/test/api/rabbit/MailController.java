@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.sgrain.boot.common.mail.MailFactoryBean;
 import com.sgrain.boot.common.mail.model.MailMessage;
 import com.sgrain.boot.common.mail.model.MimeMailMessage;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

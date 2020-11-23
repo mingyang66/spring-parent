@@ -131,6 +131,7 @@ public class RequestUtils {
      * @param invocation 方法拦截器连接点
      * @return 参数
      */
+    @Deprecated
     public static Map<String, Object> getParameterMap(MethodInvocation invocation) {
         Object[] args = invocation.getArguments();
         Parameter[] parameters = invocation.getMethod().getParameters();

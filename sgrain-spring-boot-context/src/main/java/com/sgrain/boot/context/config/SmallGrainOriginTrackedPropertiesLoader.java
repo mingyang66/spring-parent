@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.sgrain.boot.context.conf;
+package com.sgrain.boot.context.config;
 
 import org.springframework.boot.origin.Origin;
 import org.springframework.boot.origin.OriginTrackedValue;

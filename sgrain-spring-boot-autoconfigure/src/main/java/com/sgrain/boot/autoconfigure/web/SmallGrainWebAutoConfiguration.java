@@ -1,7 +1,7 @@
 package com.sgrain.boot.autoconfigure.web;
 
 import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;

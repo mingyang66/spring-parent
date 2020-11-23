@@ -1,6 +1,6 @@
 package com.sgrain.boot.cloud.httpclient;
 
-import com.sgrain.boot.common.utils.LoggerUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.context.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.context.httpclient.interceptor.HttpClientInterceptor;
 import com.sgrain.boot.context.httpclient.service.AsyncLogHttpClientService;

@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.accesslog.filter;
+package com.sgrain.boot.common.utils.log.accesslog.filter;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.filter.LevelFilter;

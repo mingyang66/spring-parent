@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @program: spring-parent
  * @description: 异常处理自动化配置PO
- * @author: 姚明洋
  * @create: 2020/10/28
  */
 @ConfigurationProperties(prefix = "spring.sgrain.exception")

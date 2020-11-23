@@ -10,17 +10,23 @@ import org.springframework.cloud.consul.discovery.HeartbeatProperties;
 import org.springframework.cloud.consul.discovery.TtlScheduler;
 import org.springframework.cloud.consul.serviceregistry.ConsulRegistration;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
+import org.springframework.core.env.Environment;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: 姚明洋
+ * @description: 服务注册中心
  * @create: 2020/11/17
  */
 public class SmallGrainConsullServiceRegistry extends ConsulServiceRegistry {
 
-    public SmallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties, TtlScheduler ttlScheduler, HeartbeatProperties heartbeatProperties) {
+    private Environment environment;
+
+    public SmallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
+                                            TtlScheduler ttlScheduler,
+                                            HeartbeatProperties heartbeatProperties,
+                                            Environment environment) {
         super(client, properties, ttlScheduler, heartbeatProperties);
+        this.environment = environment;
     }
 
     @Override
@@ -29,6 +35,8 @@ public class SmallGrainConsullServiceRegistry extends ConsulServiceRegistry {
         reg.getService().setId(StringUtils.join(RequestUtils.getServerIp(), "(", reg.getService().getId(), ")"));
         //获取当前服务器的IP地址
         reg.getService().setAddress(RequestUtils.getServerIp());
+        //重置服务名
+        reg.getService().setName(StringUtils.join(reg.getService().getName(), CharacterUtils.COLON_EN, environment.getProperty("spring.profiles.active")));
 
         super.register(reg);
     }

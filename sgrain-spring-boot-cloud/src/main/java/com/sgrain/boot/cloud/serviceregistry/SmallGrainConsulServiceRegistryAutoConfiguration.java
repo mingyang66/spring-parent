@@ -10,11 +10,11 @@ import org.springframework.cloud.consul.discovery.TtlScheduler;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistryAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: 姚明洋
+ * @description: 服务注册自动化配置类
  * @create: 2020/11/17
  */
 @Configuration(proxyBeanMethods = false)
@@ -22,8 +22,12 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(ConsulServiceRegistryAutoConfiguration.class)
 public class SmallGrainConsulServiceRegistryAutoConfiguration {
 
+
     @Bean
-    public SmallGrainConsullServiceRegistry smallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties, @Autowired(required = false) TtlScheduler ttlScheduler, HeartbeatProperties heartbeatProperties){
-        return new SmallGrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties);
+    public SmallGrainConsullServiceRegistry smallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
+                                                                             @Autowired(required = false) TtlScheduler ttlScheduler,
+                                                                             HeartbeatProperties heartbeatProperties,
+                                                                             Environment environment) {
+        return new SmallGrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties, environment);
     }
 }

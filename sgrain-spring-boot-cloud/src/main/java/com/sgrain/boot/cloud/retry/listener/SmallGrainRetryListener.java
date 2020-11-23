@@ -14,8 +14,7 @@ import java.util.Date;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: 姚明洋
+ * @description: ribbon重试监听器
  * @create: 2020/11/13
  */
 public class SmallGrainRetryListener implements RetryListener {

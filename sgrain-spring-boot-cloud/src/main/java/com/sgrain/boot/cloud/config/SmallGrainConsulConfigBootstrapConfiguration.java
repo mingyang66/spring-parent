@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Primary;
 
 /**
  * @description: consul配置中心配置文件加载自动化配置
- * @author: 姚明洋
  * @create: 2020/11/09
  */
 @Configuration(proxyBeanMethods = false)

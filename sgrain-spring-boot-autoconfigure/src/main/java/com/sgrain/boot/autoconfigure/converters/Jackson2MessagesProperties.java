@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @program: spring-parent
  * @description: jackson转换器配置类
- * @author: 姚明洋
  * @create: 2020/10/28
  */
 @ConfigurationProperties(prefix = "spring.sgrain.jackson2.converter")

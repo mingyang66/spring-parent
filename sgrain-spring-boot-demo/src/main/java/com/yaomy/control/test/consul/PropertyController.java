@@ -18,8 +18,7 @@ import java.util.Map;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: 姚明洋
+ * @description: consul
  * @create: 2020/11/10
  */
 @RestController

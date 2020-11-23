@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @program: spring-parent
  * @description: 异常捕获自动化配置类
- * @author: 姚明洋
  * @create: 2020/10/28
  */
 @Configuration(proxyBeanMethods = false)

@@ -1,4 +1,4 @@
-package com.sgrain.boot.admin.server;
+package com.sgrain.boot.admin.server.security;
 
 import de.codecentric.boot.admin.server.config.AdminServerProperties;
 import io.netty.handler.codec.http.HttpMethod;

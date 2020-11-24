@@ -1,3 +1,4 @@
+/*
 package com.sgrain.boot.actuator.autoconfigure;
 
 import com.sgrain.boot.actuator.filter.MonitorIpFilter;
@@ -6,10 +7,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+*/
 /**
  * @description:
  * @create: 2020/07/30
- */
+ *//*
+
 @Configuration(proxyBeanMethods = false)
 public class SmallGrainWebSecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
     @Override
@@ -23,3 +26,4 @@ public class SmallGrainWebSecurityAutoConfiguration extends WebSecurityConfigure
                 .httpBasic().disable();
     }
 }
+*/

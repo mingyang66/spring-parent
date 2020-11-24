@@ -1,3 +1,6 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.sgrain.boot.actuator.autoconfigure.SmallGrainWebSecurityAutoConfiguration
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.sgrain.boot.actuator.autoconfigure.SmallGrainWebSecurityAutoConfiguration
+
+org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
+  com.sgrain.boot.actuator.autoconfigure.MonitorFilterRegistrationBeanAutoConfiguration

@@ -32,11 +32,9 @@ public class SmallGrainConsullServiceRegistry extends ConsulServiceRegistry {
     @Override
     public void register(ConsulRegistration reg) {
         //服务实例ID
-        reg.getService().setId(StringUtils.join(RequestUtils.getServerIp(), "(", reg.getService().getId(), ")"));
+        reg.getService().setId(UUIDUtils.randomUUID());
         //获取当前服务器的IP地址
         reg.getService().setAddress(RequestUtils.getServerIp());
-        //重置服务名
-        reg.getService().setName(StringUtils.join(reg.getService().getName(), CharacterUtils.LINE_THROUGH_CENTER, environment.getProperty("spring.profiles.active")));
 
         super.register(reg);
     }

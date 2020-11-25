@@ -4,6 +4,7 @@ import com.ecwid.consul.v1.ConsulClient;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.consul.config.ConsulConfigBootstrapConfiguration;
 import org.springframework.cloud.consul.config.ConsulConfigProperties;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Primary;
  * @create: 2020/11/09
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnClass(ConsulConfigBootstrapConfiguration.class)
 @AutoConfigureAfter(ConsulConfigBootstrapConfiguration.class)
 @ConditionalOnProperty(name = "spring.cloud.consul.config.enabled", matchIfMissing = true)
 public class SmallGrainConsulConfigBootstrapConfiguration implements InitializingBean {

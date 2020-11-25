@@ -18,7 +18,7 @@ import org.springframework.retry.backoff.BackOffPolicy;
  * @description:
  * @create: 2020/11/13
  */
-@ConditionalOnClass(name = "org.springframework.retry.support.RetryTemplate")
+@ConditionalOnClass(name = "org.springframework.retry.support.RetryTemplate", value = {RibbonLoadBalancedRetryFactory.class})
 @ConditionalOnMissingBean(value = RibbonLoadBalancedRetryFactory.class)
 @AutoConfigureBefore(RibbonAutoConfiguration.class)
 public class SmallGrainRibbonLoadBalancedRetryFactory extends RibbonLoadBalancedRetryFactory {

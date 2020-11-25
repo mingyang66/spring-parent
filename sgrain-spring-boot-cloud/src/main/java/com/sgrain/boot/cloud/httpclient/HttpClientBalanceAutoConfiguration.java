@@ -4,9 +4,11 @@ import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.context.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.context.httpclient.interceptor.HttpClientInterceptor;
 import com.sgrain.boot.context.httpclient.service.AsyncLogHttpClientService;
+import com.sgrain.boot.context.httpclient.service.impl.AsyncLogHttpClientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -35,16 +37,22 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
      */
     @Autowired
     private HttpClientBalanceProperties httpClientProperties;
-    @Autowired
-    private AsyncLogHttpClientService asyncLogHttpClientService;
 
+    /**
+     * 创建日志异步调用服务
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public AsyncLogHttpClientService asyncLogHttpClientService() {
+        return new AsyncLogHttpClientServiceImpl();
+    }
 
     /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
      */
     @LoadBalanced
     @Bean(LOAD_BALANCED_BEAN_NAME)
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory) {
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory, AsyncLogHttpClientService asyncLogHttpClientService) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientLoadBalanceHttpRequestFactory));

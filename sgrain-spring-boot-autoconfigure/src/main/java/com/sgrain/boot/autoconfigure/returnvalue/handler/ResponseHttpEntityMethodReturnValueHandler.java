@@ -1,5 +1,6 @@
 package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
+import com.sgrain.boot.autoconfigure.returnvalue.ReturnValueProperties;
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.base.BaseResponse;
@@ -26,9 +27,11 @@ import java.util.Map;
 public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
     private HandlerMethodReturnValueHandler proxyObject;
+    private ReturnValueProperties returnValueProperties;
 
-    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject) {
+    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ReturnValueProperties returnValueProperties) {
         this.proxyObject = proxyObject;
+        this.returnValueProperties = returnValueProperties;
     }
 
     @Override
@@ -51,7 +54,8 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
         } else if (RouteUtils.match(request.getRequestURI())
                 || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
-                || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)) {
+                || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
+                || returnValueProperties.getExclude().contains(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

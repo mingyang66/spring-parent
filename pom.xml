@@ -18,7 +18,6 @@
         <module>sgrain-spring-boot-demo</module>
         <module>sgrain-spring-boot-swagger</module>
         <module>sgrain-spring-boot-actuator</module>
-        <module>sgrain-spring-boot-admin-server</module>
         <module>spring-security-jwt-service</module>
         <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>

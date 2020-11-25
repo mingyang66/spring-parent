@@ -2,6 +2,9 @@ package com.sgrain.boot.autoconfigure.returnvalue;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @program: spring-parent
  * @description: 返回值配置文件类
@@ -13,6 +16,10 @@ public class ReturnValueProperties {
      * 组件开关
      */
     private boolean enable;
+    /**
+     * 忽略包装指定URL
+     */
+    private Set<String> exclude = new HashSet<>();
 
     public boolean isEnable() {
         return enable;
@@ -20,5 +27,13 @@ public class ReturnValueProperties {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public Set<String> getExclude() {
+        return exclude;
+    }
+
+    public void setExclude(Set<String> exclude) {
+        this.exclude = exclude;
     }
 }

@@ -1,11 +1,9 @@
 package com.sgrain.boot.autoconfigure.bean.registry;
 
-import com.sgrain.boot.context.httpclient.service.impl.AsyncLogHttpClientServiceImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
  * @program: spring-parent
@@ -23,8 +21,7 @@ public class SmallGrainBeanDefinitionRegistryPostProcessor implements BeanDefini
      */
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        RootBeanDefinition beanDefinition = new RootBeanDefinition(AsyncLogHttpClientServiceImpl.class);
-        registry.registerBeanDefinition(AsyncLogHttpClientServiceImpl.class.getName(), beanDefinition);
+
     }
 
     /**

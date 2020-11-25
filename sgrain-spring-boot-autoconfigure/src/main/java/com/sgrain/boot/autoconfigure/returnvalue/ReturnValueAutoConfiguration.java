@@ -28,19 +28,21 @@ import java.util.stream.Collectors;
 public class ReturnValueAutoConfiguration implements CommandLineRunner {
 
     private RequestMappingHandlerAdapter handlerAdapter;
+    private ReturnValueProperties returnValueProperties;
 
-    public ReturnValueAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter) {
+    public ReturnValueAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter, ReturnValueProperties returnValueProperties) {
         this.handlerAdapter = handlerAdapter;
+        this.returnValueProperties =returnValueProperties;
     }
 
     @Bean
     public void initCustomReturnValue() {
         List<HandlerMethodReturnValueHandler> handlers = handlerAdapter.getReturnValueHandlers().stream().map(valueHandler -> {
             if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
-                return new ResponseMethodReturnValueHandler(valueHandler);
+                return new ResponseMethodReturnValueHandler(valueHandler, returnValueProperties);
             }
             if (valueHandler instanceof HttpEntityMethodProcessor) {
-                return new ResponseHttpEntityMethodReturnValueHandler(valueHandler);
+                return new ResponseHttpEntityMethodReturnValueHandler(valueHandler, returnValueProperties);
             }
             if (valueHandler instanceof HttpHeadersReturnValueHandler) {
                 return new ResponseHttpHeadersReturnValueHandler(valueHandler);

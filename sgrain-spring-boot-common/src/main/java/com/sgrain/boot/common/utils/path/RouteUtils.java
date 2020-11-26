@@ -1,4 +1,4 @@
-package com.sgrain.boot.common.utils;
+package com.sgrain.boot.common.utils.path;
 
 import com.sgrain.boot.common.utils.constant.CharsetUtils;
 import com.sgrain.boot.common.utils.io.FileUtils;
@@ -12,10 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @Description: 读取路由配置文件
+ * @Description: 读取路由配置文件---20201126废弃
  * @Date: 2019/11/13 13:39
  * @Version: 1.0
  */
+@Deprecated
 public class RouteUtils {
     /**
      * 路由配置文件地址

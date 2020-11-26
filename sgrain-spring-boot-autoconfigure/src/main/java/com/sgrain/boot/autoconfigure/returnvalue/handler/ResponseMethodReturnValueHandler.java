@@ -2,10 +2,12 @@ package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.autoconfigure.returnvalue.ReturnValueProperties;
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
-import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.base.BaseResponse;
 import com.sgrain.boot.common.base.ResponseData;
-import com.sgrain.boot.common.utils.RouteUtils;
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.utils.path.PathMatcher;
+import com.sgrain.boot.common.utils.path.PathUrls;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +25,12 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
 
     private HandlerMethodReturnValueHandler proxyObject;
     private ReturnValueProperties returnValueProperties;
+    private PathMatcher pathMatcher;
 
     public ResponseMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ReturnValueProperties returnValueProperties) {
         this.proxyObject = proxyObject;
         this.returnValueProperties = returnValueProperties;
+        this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.defaultExcludeUrl));
     }
 
     @Override
@@ -40,10 +44,9 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (RouteUtils.match(request.getRequestURI())
-                || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
+        if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
-                || returnValueProperties.getExclude().contains(request.getRequestURI())) {
+                || pathMatcher.match(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

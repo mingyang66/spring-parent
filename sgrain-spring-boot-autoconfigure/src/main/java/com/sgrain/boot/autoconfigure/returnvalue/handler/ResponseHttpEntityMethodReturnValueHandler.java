@@ -2,10 +2,12 @@ package com.sgrain.boot.autoconfigure.returnvalue.handler;
 
 import com.sgrain.boot.autoconfigure.returnvalue.ReturnValueProperties;
 import com.sgrain.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
-import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.base.BaseResponse;
 import com.sgrain.boot.common.base.ResponseData;
-import com.sgrain.boot.common.utils.RouteUtils;
+import com.sgrain.boot.common.enums.AppHttpStatus;
+import com.sgrain.boot.common.utils.path.PathMatcher;
+import com.sgrain.boot.common.utils.path.PathUrls;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
@@ -28,10 +30,12 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
 
     private HandlerMethodReturnValueHandler proxyObject;
     private ReturnValueProperties returnValueProperties;
+    private PathMatcher pathMatcher;
 
     public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ReturnValueProperties returnValueProperties) {
         this.proxyObject = proxyObject;
         this.returnValueProperties = returnValueProperties;
+        this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.defaultExcludeUrl));
     }
 
     @Override
@@ -52,10 +56,9 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             String path = ((Map) body).get("path").toString();
             ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NOT_FOUND.getStatus(), StringUtils.join("接口【", path, "】不存在"));
             proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
-        } else if (RouteUtils.match(request.getRequestURI())
-                || returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
+        } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
-                || returnValueProperties.getExclude().contains(request.getRequestURI())) {
+                || pathMatcher.match(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);

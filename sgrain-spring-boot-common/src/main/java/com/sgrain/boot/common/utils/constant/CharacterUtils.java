@@ -28,5 +28,7 @@ public class CharacterUtils {
     public static final String ZERO = "0";
     public static final String LEFT_BRACE = "{";
     public static final String RIGHT_BRACE = "}";
+    public static final String STAR_SINGLE = "*";
+    public static final String STAR_DOUBLE = "**";
 
 }

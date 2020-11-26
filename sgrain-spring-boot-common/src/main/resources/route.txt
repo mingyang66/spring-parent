@@ -1,6 +1,6 @@
-/swagger-resources/**
-/v2/api-docs
-/swagger-ui.html
-/oauth/token
-/error
-/actuator/**
+#/swagger-resources/**
+#/v2/api-docs
+#/swagger-ui.html
+#/oauth/token
+#/error
+#/actuator/**

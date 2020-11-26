@@ -2,6 +2,9 @@ package com.sgrain.boot.autoconfigure.web;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @description: Web配置文件
  * @create: 2020/05/28
@@ -45,7 +48,7 @@ public class WebProperties {
         //URL默认添加前缀
         private String prefix = "api";
         //忽略指定的路由
-        private String ignoreControllerUrlPrefix;
+        private Set<String> exclude = new HashSet<>();
 
         public boolean isEnableAllPrefix() {
             return enableAllPrefix;
@@ -95,12 +98,12 @@ public class WebProperties {
             this.prefix = prefix;
         }
 
-        public String getIgnoreControllerUrlPrefix() {
-            return ignoreControllerUrlPrefix;
+        public Set<String> getExclude() {
+            return exclude;
         }
 
-        public void setIgnoreControllerUrlPrefix(String ignoreControllerUrlPrefix) {
-            this.ignoreControllerUrlPrefix = ignoreControllerUrlPrefix;
+        public void setExclude(Set<String> exclude) {
+            this.exclude = exclude;
         }
     }
 
@@ -110,12 +113,12 @@ public class WebProperties {
     public static class CorsRegister {
         //开启跨域设置，默认false
         private boolean enable = false;
-        private String[] allowedOrigins;
+        private Set<String> allowedOrigins = new HashSet<>();
         //允许HTTP请求方法
-        private String[] allowedMethods;
-        private String[] allowedHeaders;
+        private Set<String> allowedMethods = new HashSet<>();
+        private Set<String> allowedHeaders = new HashSet<>();
         private boolean allowCredentials = true;
-        private String[] exposedHeaders;
+        private Set<String> exposedHeaders = new HashSet<>();
         private long maxAge = 18000L;
 
         public boolean isEnable() {
@@ -126,27 +129,27 @@ public class WebProperties {
             this.enable = enable;
         }
 
-        public String[] getAllowedOrigins() {
+        public Set<String> getAllowedOrigins() {
             return allowedOrigins;
         }
 
-        public void setAllowedOrigins(String[] allowedOrigins) {
+        public void setAllowedOrigins(Set<String> allowedOrigins) {
             this.allowedOrigins = allowedOrigins;
         }
 
-        public String[] getAllowedMethods() {
+        public Set<String> getAllowedMethods() {
             return allowedMethods;
         }
 
-        public void setAllowedMethods(String[] allowedMethods) {
+        public void setAllowedMethods(Set<String> allowedMethods) {
             this.allowedMethods = allowedMethods;
         }
 
-        public String[] getAllowedHeaders() {
+        public Set<String> getAllowedHeaders() {
             return allowedHeaders;
         }
 
-        public void setAllowedHeaders(String[] allowedHeaders) {
+        public void setAllowedHeaders(Set<String> allowedHeaders) {
             this.allowedHeaders = allowedHeaders;
         }
 
@@ -158,11 +161,11 @@ public class WebProperties {
             this.allowCredentials = allowCredentials;
         }
 
-        public String[] getExposedHeaders() {
+        public Set<String> getExposedHeaders() {
             return exposedHeaders;
         }
 
-        public void setExposedHeaders(String[] exposedHeaders) {
+        public void setExposedHeaders(Set<String> exposedHeaders) {
             this.exposedHeaders = exposedHeaders;
         }
 

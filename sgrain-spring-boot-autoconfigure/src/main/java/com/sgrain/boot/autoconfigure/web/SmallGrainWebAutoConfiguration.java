@@ -60,7 +60,7 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, Command
         //设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
         configurer.setUseTrailingSlashMatch(webProperties.getPath().isUseTrailingSlashMatch());
         //忽略URL前缀的控制器类
-        ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, StringUtils.split(webProperties.getPath().getIgnoreControllerUrlPrefix(), CharacterUtils.COMMA_EN));
+        ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, webProperties.getPath().getExclude().toArray(new String[]{}));
         //给所有的接口统一添加前缀
         configurer.addPathPrefix(webProperties.getPath().getPrefix(), c -> {
             /**
@@ -110,20 +110,20 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, Command
         //启用跨域匹配的路径，默认所有请求，示例：/admin或/admin/**
         CorsRegistration registration = registry.addMapping("/**");
         //允许来自所有域名请求
-        if (ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedOrigins())) {
-            registration.allowedOrigins(webProperties.getCors().getAllowedOrigins());
+        if (!webProperties.getCors().getAllowedOrigins().isEmpty()) {
+            registration.allowedOrigins(webProperties.getCors().getAllowedOrigins().toArray(new String[]{}));
         } else {
             registration.allowedOrigins("*");
         }
         //设置所允许的HTTP请求方法，*号代表允许所有方法
-        if (ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedMethods())) {
-            registration.allowedMethods(webProperties.getCors().getAllowedMethods());
+        if (!webProperties.getCors().getAllowedMethods().isEmpty()) {
+            registration.allowedMethods(webProperties.getCors().getAllowedMethods().toArray(new String[]{}));
         } else {
             registration.allowedMethods("OPTIONS", "GET", "PUT", "POST");
         }
         //服务器支持的所有头信息字段，多个字段用逗号分隔；默认支持所有，*号代表所有
-        if (ArrayUtils.isNotEmpty(webProperties.getCors().getAllowedHeaders())) {
-            registration.allowedHeaders(webProperties.getCors().getAllowedHeaders());
+        if (!webProperties.getCors().getAllowedHeaders().isEmpty()) {
+            registration.allowedHeaders(webProperties.getCors().getAllowedHeaders().toArray(new String[]{}));
         } else {
             registration.allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept");
         }
@@ -134,8 +134,8 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, Command
             registration.allowCredentials(true);
         }
         //设置响应HEAD,默认无任何设置，不可以使用*号
-        if (ArrayUtils.isNotEmpty(webProperties.getCors().getExposedHeaders())) {
-            registration.exposedHeaders(webProperties.getCors().getExposedHeaders());
+        if (!webProperties.getCors().getExposedHeaders().isEmpty()) {
+            registration.exposedHeaders(webProperties.getCors().getExposedHeaders().toArray(new String[]{}));
         }
         //设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
         if (Objects.nonNull(webProperties.getCors().getMaxAge())) {

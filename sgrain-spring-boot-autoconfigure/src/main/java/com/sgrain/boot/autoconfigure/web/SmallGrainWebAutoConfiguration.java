@@ -6,6 +6,8 @@ import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +26,7 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
-public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, CommandLineRunner {
+public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
 
     private WebProperties webProperties;
     //自定义路由规则是否已加载
@@ -146,12 +148,18 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, Command
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void destroy() throws Exception {
+            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【销毁--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【销毁--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         if (enablePathMatch) {
-            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----API前缀组件初始化完成...");
+            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【初始化--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
         }
         if (enableCors) {
-            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【自动化配置】----跨域组件初始化完成...");
+            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【初始化--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
         }
     }
 }

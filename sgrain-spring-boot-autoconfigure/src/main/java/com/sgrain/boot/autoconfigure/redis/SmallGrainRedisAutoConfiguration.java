@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,7 +25,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @ConditionalOnClass(RedisTemplate.class)
 @EnableConfigurationProperties(SmallGrainRedisProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.redis", name = "enable", havingValue = "true", matchIfMissing = false)
-public class SmallGrainRedisAutoConfiguration implements CommandLineRunner {
+public class SmallGrainRedisAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * redis序列化方式选择：
      * 1.默认的JdkSerializationRedisSerializer序列化方式，其编码是ISO-8859-1,会出现乱码问题
@@ -73,7 +75,12 @@ public class SmallGrainRedisAutoConfiguration implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(SmallGrainRedisAutoConfiguration.class, "【自动化配置】----Redis组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(SmallGrainRedisAutoConfiguration.class, "【销毁--自动化配置】----Redis组件【SmallGrainRedisAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(SmallGrainRedisAutoConfiguration.class, "【初始化--自动化配置】----Redis组件【SmallGrainRedisAutoConfiguration】");
     }
 }

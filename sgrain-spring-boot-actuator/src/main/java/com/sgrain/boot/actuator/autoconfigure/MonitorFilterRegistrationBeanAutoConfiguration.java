@@ -1,6 +1,9 @@
 package com.sgrain.boot.actuator.autoconfigure;
 
 import com.sgrain.boot.actuator.filter.MonitorIpFilter;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration;
 import org.springframework.boot.actuate.autoconfigure.web.ManagementContextType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -17,7 +20,7 @@ import java.util.Arrays;
  */
 @ManagementContextConfiguration(value = ManagementContextType.CHILD, proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class MonitorFilterRegistrationBeanAutoConfiguration {
+public class MonitorFilterRegistrationBeanAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 监控IP是否是内部IP过滤器
      */
@@ -31,4 +34,13 @@ public class MonitorFilterRegistrationBeanAutoConfiguration {
         return filterRegistrationBean;
     }
 
+    @Override
+    public void destroy() throws Exception {
+        LoggerUtils.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "【销毁--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "【初始化--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
+    }
 }

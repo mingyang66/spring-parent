@@ -1,6 +1,9 @@
 package com.sgrain.boot.autoconfigure.filter;
 
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.context.filter.RequestChannelFilter;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +17,7 @@ import java.util.Arrays;
  * @create: 2020/11/23
  */
 @Configuration(proxyBeanMethods = false)
-public class FilterRegistrationBeanAutoConfiguration {
+public class FilterRegistrationBeanAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 注册HTTP请求拦截器注册BEAN
      *
@@ -28,5 +31,15 @@ public class FilterRegistrationBeanAutoConfiguration {
         filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return filterRegistrationBean;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        LoggerUtils.info(FilterRegistrationBeanAutoConfiguration.class, "【销毁--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(FilterRegistrationBeanAutoConfiguration.class, "【初始化--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
     }
 }

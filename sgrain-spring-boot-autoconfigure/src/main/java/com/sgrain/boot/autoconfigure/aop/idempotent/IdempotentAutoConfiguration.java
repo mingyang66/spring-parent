@@ -6,6 +6,8 @@ import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,7 +25,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @ConditionalOnClass(StringRedisTemplate.class)
 @EnableConfigurationProperties(IdempotentProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.idempotent", name = "enable", havingValue = "true", matchIfMissing = false)
-public class IdempotentAutoConfiguration implements CommandLineRunner {
+public class IdempotentAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -51,9 +53,13 @@ public class IdempotentAutoConfiguration implements CommandLineRunner {
         return advisor;
     }
 
+    @Override
+    public void destroy() throws Exception {
+        LoggerUtils.info(IdempotentAutoConfiguration.class, "【销毁--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
+    }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(IdempotentAutoConfiguration.class, "【自动化配置】----防止接口重复提交组件初始化完成...");
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(IdempotentAutoConfiguration.class, "【初始化--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
     }
 }

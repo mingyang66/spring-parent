@@ -2,6 +2,8 @@ package com.sgrain.boot.autoconfigure.accesslog;
 
 import com.sgrain.boot.common.utils.log.accesslog.builder.AccessLogBuilder;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,7 +20,7 @@ import java.util.Objects;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(AccessLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.accesslog", name = "enable", havingValue = "true", matchIfMissing = false)
-public class AccessLogAutoConfiguration implements CommandLineRunner {
+public class AccessLogAutoConfiguration implements InitializingBean, DisposableBean {
 
     private AccessLogBuilder builder;
 
@@ -28,17 +30,22 @@ public class AccessLogAutoConfiguration implements CommandLineRunner {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(AccessLogBuilder.class)
+    @ConditionalOnMissingBean
     public AccessLogBuilder defaultAccessLog(AccessLogProperties properties) {
         builder = new AccessLogBuilder(properties);
         return builder;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void destroy() throws Exception {
+        LoggerUtils.info(AccessLogAutoConfiguration.class, "【销毁--自动化配置】----logback日志组件【AccessLogAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         if (Objects.nonNull(builder)) {
             LoggerUtils.setBuilder(builder);
-            LoggerUtils.info(AccessLogAutoConfiguration.class, "【自动化配置】----logback日志组件初始化完成...");
+            LoggerUtils.info(AccessLogAutoConfiguration.class, "【初始化--自动化配置】----logback日志组件【AccessLogAutoConfiguration】");
         }
     }
 }

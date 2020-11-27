@@ -6,6 +6,8 @@ import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -26,7 +28,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(RateLimitProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.rate-limit", name = "enable", havingValue = "true", matchIfMissing = false)
-public class RateLimitAutoConfiguration implements CommandLineRunner {
+public class RateLimitAutoConfiguration implements InitializingBean, DisposableBean {
     public static final String RATE_LIMIT_POINT_CUT_ADVISOR_NAME = "rateLimitPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -57,7 +59,12 @@ public class RateLimitAutoConfiguration implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(RateLimitAutoConfiguration.class, "【自动化配置】----限流组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(RateLimitAutoConfiguration.class, "【销毁--自动化配置】----限流组件【RateLimitAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(RateLimitAutoConfiguration.class, "【初始化--自动化配置】----限流组件【RateLimitAutoConfiguration】");
     }
 }

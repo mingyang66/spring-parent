@@ -6,6 +6,8 @@ import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -34,7 +36,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @AutoConfigureBefore(TaskExecutionAutoConfiguration.class)
 @EnableConfigurationProperties(AsyncThreadPoolProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.async-thread-pool", name = "enable", havingValue = "true", matchIfMissing = false)
-public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, CommandLineRunner {
+public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, InitializingBean, DisposableBean {
 
     private AsyncThreadPoolProperties asyncThreadPoolProperties;
 
@@ -109,7 +111,12 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer, Comman
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(AsyncThreadPoolAutoConfiguration.class, "【自动化配置】----异步线程池组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(AsyncThreadPoolAutoConfiguration.class, "【销毁--自动化配置】----异步线程池组件【AsyncThreadPoolAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(AsyncThreadPoolAutoConfiguration.class, "【初始化--自动化配置】----异步线程池组件【AsyncThreadPoolAutoConfiguration】");
     }
 }

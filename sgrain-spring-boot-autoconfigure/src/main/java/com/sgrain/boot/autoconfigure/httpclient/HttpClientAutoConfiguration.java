@@ -5,6 +5,8 @@ import com.sgrain.boot.context.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.context.httpclient.interceptor.HttpClientInterceptor;
 import com.sgrain.boot.context.httpclient.service.AsyncLogHttpClientService;
 import com.sgrain.boot.context.httpclient.service.impl.AsyncLogHttpClientServiceImpl;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -29,7 +31,7 @@ import java.util.Collections;
 @EnableConfigurationProperties(HttpClientProperties.class)
 @ConditionalOnClass(RestTemplate.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
-public class HttpClientAutoConfiguration implements CommandLineRunner {
+public class HttpClientAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 读取配置属性服务类
      */
@@ -79,7 +81,12 @@ public class HttpClientAutoConfiguration implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "【自动化配置】----RestTemplate(HttpClient)组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(HttpClientAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(HttpClientAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
     }
 }

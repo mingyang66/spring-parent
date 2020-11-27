@@ -2,6 +2,7 @@ package com.sgrain.boot.cloud.config;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -20,7 +21,7 @@ import org.springframework.context.annotation.Primary;
 @ConditionalOnClass(ConsulConfigBootstrapConfiguration.class)
 @AutoConfigureAfter(ConsulConfigBootstrapConfiguration.class)
 @ConditionalOnProperty(name = "spring.cloud.consul.config.enabled", matchIfMissing = true)
-public class SmallGrainConsulConfigBootstrapConfiguration implements InitializingBean {
+public class SmallGrainConsulConfigBootstrapConfiguration implements InitializingBean, DisposableBean {
     private ConsulClient consul;
 
     public SmallGrainConsulConfigBootstrapConfiguration(ConsulClient consul) {
@@ -36,6 +37,11 @@ public class SmallGrainConsulConfigBootstrapConfiguration implements Initializin
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(SmallGrainConsulConfigBootstrapConfiguration.class, "【自动化配置】----springcloud config乱码解决组件初始化完成...");
+        LoggerUtils.info(SmallGrainConsulConfigBootstrapConfiguration.class, "【初始化--自动化配置】----SpringCloud配置中心中文乱码组件【SmallGrainConsulConfigBootstrapConfiguration】");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        LoggerUtils.info(SmallGrainConsulConfigBootstrapConfiguration.class, "【销毁--自动化配置】----SpringCloud配置中心中文乱码组件【SmallGrainConsulConfigBootstrapConfiguration】");
     }
 }

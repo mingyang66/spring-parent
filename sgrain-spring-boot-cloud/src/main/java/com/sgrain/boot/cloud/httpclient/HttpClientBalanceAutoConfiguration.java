@@ -5,6 +5,8 @@ import com.sgrain.boot.context.httpclient.handler.CustomResponseErrorHandler;
 import com.sgrain.boot.context.httpclient.interceptor.HttpClientInterceptor;
 import com.sgrain.boot.context.httpclient.service.AsyncLogHttpClientService;
 import com.sgrain.boot.context.httpclient.service.impl.AsyncLogHttpClientServiceImpl;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -29,7 +31,7 @@ import java.util.Collections;
 @EnableConfigurationProperties(HttpClientBalanceProperties.class)
 @ConditionalOnClass(RestTemplate.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.cloud.http-client-loadbalancer", name = "enable", havingValue = "true", matchIfMissing = true)
-public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
+public class HttpClientBalanceAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String LOAD_BALANCED_BEAN_NAME = "loadBalancer";
     /**
@@ -58,7 +60,7 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientLoadBalanceHttpRequestFactory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
-        if(httpClientProperties.isEnableInterceptor()){
+        if (httpClientProperties.isEnableInterceptor()) {
             //添加拦截器
             restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor(asyncLogHttpClientService)));
         }
@@ -81,7 +83,12 @@ public class HttpClientBalanceAutoConfiguration implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【自动化配置】----RestTemplate(HttpClientBalance)组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 }

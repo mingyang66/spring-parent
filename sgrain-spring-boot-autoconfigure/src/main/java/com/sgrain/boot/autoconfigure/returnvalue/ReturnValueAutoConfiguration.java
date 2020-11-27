@@ -4,6 +4,8 @@ import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseHttpEntityMetho
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseHttpHeadersReturnValueHandler;
 import com.sgrain.boot.autoconfigure.returnvalue.handler.ResponseMethodReturnValueHandler;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ReturnValueProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.return-value", name = "enable", havingValue = "true", matchIfMissing = true)
-public class ReturnValueAutoConfiguration implements CommandLineRunner {
+public class ReturnValueAutoConfiguration implements InitializingBean, DisposableBean {
 
     private RequestMappingHandlerAdapter handlerAdapter;
     private ReturnValueProperties returnValueProperties;
@@ -54,7 +56,12 @@ public class ReturnValueAutoConfiguration implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(ReturnValueAutoConfiguration.class, "【自动化配置】----返回值包装组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(ReturnValueAutoConfiguration.class, "【销毁--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(ReturnValueAutoConfiguration.class, "【初始化--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
     }
 }

@@ -1,6 +1,8 @@
 package com.sgrain.boot.autoconfigure.exception;
 
 import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExceptionProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.exception", name = "enable", havingValue = "true", matchIfMissing = true)
-public class ExceptionAutoConfiguration implements CommandLineRunner {
+public class ExceptionAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 异常抛出拦截bean初始化
      *
@@ -26,8 +28,14 @@ public class ExceptionAutoConfiguration implements CommandLineRunner {
         return new ExceptionAdviceHandler();
     }
 
+
     @Override
-    public void run(String... args) throws Exception {
-        LoggerUtils.info(ExceptionAutoConfiguration.class, "【自动化配置】----异常捕获组件初始化完成...");
+    public void destroy() throws Exception {
+        LoggerUtils.info(ExceptionAutoConfiguration.class, "【销毁--自动化配置】----异常捕获组件【ExceptionAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(ExceptionAutoConfiguration.class, "【初始化--自动化配置】----异常捕获组件【ExceptionAutoConfiguration】");
     }
 }

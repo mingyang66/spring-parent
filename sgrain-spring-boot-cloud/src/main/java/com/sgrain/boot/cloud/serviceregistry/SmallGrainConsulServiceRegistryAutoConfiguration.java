@@ -1,6 +1,9 @@
 package com.sgrain.boot.cloud.serviceregistry;
 
 import com.ecwid.consul.v1.ConsulClient;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -20,8 +23,7 @@ import org.springframework.core.env.Environment;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(ConsulServiceRegistryAutoConfiguration.class)
 @AutoConfigureBefore(ConsulServiceRegistryAutoConfiguration.class)
-public class SmallGrainConsulServiceRegistryAutoConfiguration {
-
+public class SmallGrainConsulServiceRegistryAutoConfiguration implements InitializingBean, DisposableBean {
 
     @Bean
     public SmallGrainConsullServiceRegistry smallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
@@ -29,5 +31,15 @@ public class SmallGrainConsulServiceRegistryAutoConfiguration {
                                                                              HeartbeatProperties heartbeatProperties,
                                                                              Environment environment) {
         return new SmallGrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties, environment);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "[销毁--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "[初始化--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
     }
 }

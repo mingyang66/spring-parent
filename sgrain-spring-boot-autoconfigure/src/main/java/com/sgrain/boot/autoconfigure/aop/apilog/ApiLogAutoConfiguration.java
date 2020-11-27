@@ -9,6 +9,8 @@ import com.sgrain.boot.context.apilog.service.impl.AsyncLogAopServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -25,7 +27,7 @@ import org.springframework.context.annotation.Import;
 @Import(value = AsyncLogAopServiceImpl.class)
 @EnableConfigurationProperties(ApiLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
-public class ApiLogAutoConfiguration implements CommandLineRunner {
+public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String API_LOG_NORMAL_BEAN_NAME = "apiLogNormalPointCutAdvice";
     public static final String API_LOG_EXCEPTION_BEAN_NAME = "apiLogExceptionPointCutAdvice";
@@ -90,8 +92,13 @@ public class ApiLogAutoConfiguration implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void destroy() throws Exception {
+        LoggerUtils.info(ApiLogAutoConfiguration.class, "【销毁--自动化配置】----API日志记录组件【ApiLogAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         LoggerUtils.setDebug(apiLogProperties.isDebug());
-        LoggerUtils.info(ApiLogAutoConfiguration.class, "【自动化配置】----API日志记录组件初始化完成...");
+        LoggerUtils.info(ApiLogAutoConfiguration.class, "【初始化--自动化配置】----API日志记录组件【ApiLogAutoConfiguration】");
     }
 }

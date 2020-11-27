@@ -4,6 +4,9 @@ import com.ecwid.consul.v1.ConsulClient;
 import com.sgrain.boot.common.utils.RequestUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
+import org.springframework.cloud.client.serviceregistry.endpoint.ServiceRegistryEndpoint;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.HeartbeatProperties;
 import org.springframework.cloud.consul.discovery.TtlScheduler;
@@ -18,23 +21,20 @@ import org.springframework.core.env.Environment;
  */
 public class SmallGrainConsullServiceRegistry extends ConsulServiceRegistry {
 
-    private Environment environment;
 
     public SmallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
                                             TtlScheduler ttlScheduler,
-                                            HeartbeatProperties heartbeatProperties,
-                                            Environment environment) {
+                                            HeartbeatProperties heartbeatProperties) {
         super(client, properties, ttlScheduler, heartbeatProperties);
-        this.environment = environment;
     }
 
     @Override
     public void register(ConsulRegistration reg) {
         //服务实例ID
-        reg.getService().setId(StringUtils.join(reg.getService().getId(), CharacterUtils.LINE_THROUGH_CENTER, RequestUtils.getServerIp()));
+        reg.getService().setId(StringUtils.join(StringUtils.replace(RequestUtils.getServerIp(), ".", "-"), CharacterUtils.LINE_THROUGH_CENTER, reg.getService().getId()));
         //获取当前服务器的IP地址
         reg.getService().setAddress(RequestUtils.getServerIp());
-
         super.register(reg);
     }
+
 }

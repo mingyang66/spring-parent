@@ -13,7 +13,6 @@ import org.springframework.cloud.consul.discovery.TtlScheduler;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistryAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 /**
  * @program: spring-parent
@@ -28,18 +27,17 @@ public class SmallGrainConsulServiceRegistryAutoConfiguration implements Initial
     @Bean
     public SmallGrainConsullServiceRegistry smallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
                                                                              @Autowired(required = false) TtlScheduler ttlScheduler,
-                                                                             HeartbeatProperties heartbeatProperties,
-                                                                             Environment environment) {
-        return new SmallGrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties, environment);
+                                                                             HeartbeatProperties heartbeatProperties) {
+        return new SmallGrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties);
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "[销毁--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "【销毁--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "[初始化--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "【初始化--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
     }
 }

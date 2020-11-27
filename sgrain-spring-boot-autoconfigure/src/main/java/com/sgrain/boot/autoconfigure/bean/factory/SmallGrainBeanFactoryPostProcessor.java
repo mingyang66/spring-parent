@@ -83,5 +83,9 @@ public class SmallGrainBeanFactoryPostProcessor implements BeanFactoryPostProces
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("stringRedisTemplate");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
+        if (beanFactory.containsBeanDefinition("org.springframework.retry.annotation.RetryConfiguration")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("org.springframework.retry.annotation.RetryConfiguration");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.sgrain.boot.autoconfigure.bean.registry;
 
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -18,6 +19,6 @@ public class SmallGrainImportBeanDefinitionRegistrar implements ImportBeanDefini
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        System.out.println("----------");
+        LoggerUtils.info(SmallGrainImportBeanDefinitionRegistrar.class, "--------ImportBeanDefinitionRegistrar-------");
     }
 }

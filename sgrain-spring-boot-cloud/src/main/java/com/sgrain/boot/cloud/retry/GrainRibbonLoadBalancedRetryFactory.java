@@ -1,6 +1,6 @@
 package com.sgrain.boot.cloud.retry;
 
-import com.sgrain.boot.cloud.retry.listener.SmallGrainRetryListener;
+import com.sgrain.boot.cloud.retry.listener.GrainRetryListener;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.context.httpclient.service.AsyncLogHttpClientService;
 import org.springframework.beans.factory.DisposableBean;
@@ -24,11 +24,11 @@ import org.springframework.retry.backoff.BackOffPolicy;
 @ConditionalOnClass(name = "org.springframework.retry.support.RetryTemplate", value = {RibbonLoadBalancedRetryFactory.class})
 @ConditionalOnMissingBean(value = RibbonLoadBalancedRetryFactory.class)
 @AutoConfigureBefore(RibbonAutoConfiguration.class)
-public class SmallGrainRibbonLoadBalancedRetryFactory extends RibbonLoadBalancedRetryFactory implements InitializingBean, DisposableBean {
+public class GrainRibbonLoadBalancedRetryFactory extends RibbonLoadBalancedRetryFactory implements InitializingBean, DisposableBean {
 
     private AsyncLogHttpClientService asyncLogHttpClientService;
 
-    public SmallGrainRibbonLoadBalancedRetryFactory(SpringClientFactory clientFactory, AsyncLogHttpClientService asyncLogHttpClientService) {
+    public GrainRibbonLoadBalancedRetryFactory(SpringClientFactory clientFactory, AsyncLogHttpClientService asyncLogHttpClientService) {
         super(clientFactory);
         this.asyncLogHttpClientService = asyncLogHttpClientService;
     }
@@ -45,17 +45,17 @@ public class SmallGrainRibbonLoadBalancedRetryFactory extends RibbonLoadBalanced
 
     @Override
     public RetryListener[] createRetryListeners(String service) {
-        RetryListener[] listeners = new RetryListener[]{new SmallGrainRetryListener(asyncLogHttpClientService)};
+        RetryListener[] listeners = new RetryListener[]{new GrainRetryListener(asyncLogHttpClientService)};
         return listeners;
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(SmallGrainRibbonLoadBalancedRetryFactory.class, "【销毁--自动化配置】----Ribbon负载均衡重试工厂组件【SmallGrainRibbonLoadBalancedRetryFactory】");
+        LoggerUtils.info(GrainRibbonLoadBalancedRetryFactory.class, "【销毁--自动化配置】----Ribbon负载均衡重试工厂组件【SmallGrainRibbonLoadBalancedRetryFactory】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(SmallGrainRibbonLoadBalancedRetryFactory.class, "【初始化--自动化配置】----Ribbon负载均衡重试工厂组件【SmallGrainRibbonLoadBalancedRetryFactory】");
+        LoggerUtils.info(GrainRibbonLoadBalancedRetryFactory.class, "【初始化--自动化配置】----Ribbon负载均衡重试工厂组件【SmallGrainRibbonLoadBalancedRetryFactory】");
     }
 }

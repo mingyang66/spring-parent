@@ -1,4 +1,4 @@
-package com.sgrain.boot.cloud.serviceregistry;
+package com.sgrain.boot.cloud.discovery.registry;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
@@ -22,22 +22,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(ConsulServiceRegistryAutoConfiguration.class)
 @AutoConfigureBefore(ConsulServiceRegistryAutoConfiguration.class)
-public class SmallGrainConsulServiceRegistryAutoConfiguration implements InitializingBean, DisposableBean {
+public class GrainConsulServiceRegistryAutoConfiguration implements InitializingBean, DisposableBean {
 
     @Bean
-    public SmallGrainConsullServiceRegistry smallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
-                                                                             @Autowired(required = false) TtlScheduler ttlScheduler,
-                                                                             HeartbeatProperties heartbeatProperties) {
-        return new SmallGrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties);
+    public GrainConsullServiceRegistry smallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
+                                                                        @Autowired(required = false) TtlScheduler ttlScheduler,
+                                                                        HeartbeatProperties heartbeatProperties) {
+        return new GrainConsullServiceRegistry(client, properties, ttlScheduler, heartbeatProperties);
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "【销毁--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+        LoggerUtils.info(GrainConsulServiceRegistryAutoConfiguration.class, "【销毁--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(SmallGrainConsulServiceRegistryAutoConfiguration.class, "【初始化--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+        LoggerUtils.info(GrainConsulServiceRegistryAutoConfiguration.class, "【初始化--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
     }
 }

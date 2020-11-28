@@ -25,7 +25,7 @@ import static org.springframework.util.Base64Utils.decodeFromString;
 /**
  * @author Spencer Gibb
  */
-public class SmallGrainConsulPropertySource extends EnumerablePropertySource<ConsulClient> {
+public class GrainConsulPropertySource extends EnumerablePropertySource<ConsulClient> {
 
     private final Map<String, Object> properties = new LinkedHashMap<>();
 
@@ -35,8 +35,8 @@ public class SmallGrainConsulPropertySource extends EnumerablePropertySource<Con
 
     private Long initialIndex;
 
-    public SmallGrainConsulPropertySource(String context, ConsulClient source,
-                                          ConsulConfigProperties configProperties) {
+    public GrainConsulPropertySource(String context, ConsulClient source,
+                                     ConsulConfigProperties configProperties) {
         super(context, source);
         this.context = context;
         this.configProperties = configProperties;

@@ -19,7 +19,7 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
  * @description: bean注册成功但未实例化之前调用的后置处理器，用来更改BeanDefinition
  * @create: 2020/09/11
  */
-public class SmallGrainBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+public class GrainBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

@@ -29,15 +29,15 @@ import java.util.Map;
  * @author Phillip Webb
  * @author Thiago Hirata
  */
-class SmallGrainOriginTrackedPropertiesLoader {
+class GrainOriginTrackedPropertiesLoader {
 
     private final Resource resource;
 
     /**
-     * Create a new {@link SmallGrainOriginTrackedPropertiesLoader} instance.
+     * Create a new {@link GrainOriginTrackedPropertiesLoader} instance.
      * @param resource the resource of the {@code .properties} data
      */
-    SmallGrainOriginTrackedPropertiesLoader(Resource resource) {
+    GrainOriginTrackedPropertiesLoader(Resource resource) {
         Assert.notNull(resource, "Resource must not be null");
         this.resource = resource;
     }
@@ -60,7 +60,7 @@ class SmallGrainOriginTrackedPropertiesLoader {
      * @throws IOException on read error
      */
     Map<String, OriginTrackedValue> load(boolean expandLists) throws IOException {
-        try (SmallGrainOriginTrackedPropertiesLoader.CharacterReader reader = new SmallGrainOriginTrackedPropertiesLoader.CharacterReader(this.resource)) {
+        try (GrainOriginTrackedPropertiesLoader.CharacterReader reader = new GrainOriginTrackedPropertiesLoader.CharacterReader(this.resource)) {
             Map<String, OriginTrackedValue> result = new LinkedHashMap<>();
             StringBuilder buffer = new StringBuilder();
             while (reader.read()) {
@@ -92,7 +92,7 @@ class SmallGrainOriginTrackedPropertiesLoader {
         }
     }
 
-    private String loadKey(StringBuilder buffer, SmallGrainOriginTrackedPropertiesLoader.CharacterReader reader) throws IOException {
+    private String loadKey(StringBuilder buffer, GrainOriginTrackedPropertiesLoader.CharacterReader reader) throws IOException {
         buffer.setLength(0);
         boolean previousWhitespace = false;
         while (!reader.isEndOfLine()) {
@@ -110,7 +110,7 @@ class SmallGrainOriginTrackedPropertiesLoader {
         return buffer.toString();
     }
 
-    private OriginTrackedValue loadValue(StringBuilder buffer, SmallGrainOriginTrackedPropertiesLoader.CharacterReader reader, boolean splitLists)
+    private OriginTrackedValue loadValue(StringBuilder buffer, GrainOriginTrackedPropertiesLoader.CharacterReader reader, boolean splitLists)
             throws IOException {
         buffer.setLength(0);
         while (reader.isWhiteSpace() && !reader.isEndOfLine()) {

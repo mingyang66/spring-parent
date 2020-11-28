@@ -1,4 +1,4 @@
-package com.sgrain.boot.cloud.serviceregistry;
+package com.sgrain.boot.cloud.discovery.registry;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.sgrain.boot.common.utils.RequestUtils;
@@ -19,22 +19,23 @@ import org.springframework.core.env.Environment;
  * @description: 服务注册中心
  * @create: 2020/11/17
  */
-public class SmallGrainConsullServiceRegistry extends ConsulServiceRegistry {
+public class GrainConsullServiceRegistry extends ConsulServiceRegistry {
 
 
-    public SmallGrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
-                                            TtlScheduler ttlScheduler,
-                                            HeartbeatProperties heartbeatProperties) {
+    public GrainConsullServiceRegistry(ConsulClient client, ConsulDiscoveryProperties properties,
+                                       TtlScheduler ttlScheduler,
+                                       HeartbeatProperties heartbeatProperties) {
         super(client, properties, ttlScheduler, heartbeatProperties);
     }
 
     @Override
     public void register(ConsulRegistration reg) {
-        //服务实例ID
-        reg.getService().setId(StringUtils.join(StringUtils.replace(RequestUtils.getServerIp(), ".", "-"), CharacterUtils.LINE_THROUGH_CENTER, reg.getService().getId()));
-        //获取当前服务器的IP地址
-        reg.getService().setAddress(RequestUtils.getServerIp());
+
         super.register(reg);
     }
 
+    @Override
+    public void deregister(ConsulRegistration reg) {
+        super.deregister(reg);
+    }
 }

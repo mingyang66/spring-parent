@@ -3,7 +3,6 @@ package com.sgrain.boot.autoconfigure.converters;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
@@ -24,10 +23,10 @@ import java.util.Arrays;
 @AutoConfigureAfter(HttpMessageConvertersAutoConfiguration.class)
 @EnableConfigurationProperties(Jackson2MessagesProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.jackson2.converter", name = "enable", havingValue = "true", matchIfMissing = true)
-public class SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration implements InitializingBean, DisposableBean {
+public class GrainMappingJackson2HttpMessageConverterAutoConfiguration implements InitializingBean, DisposableBean {
     private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
-    public SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration(MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
+    public GrainMappingJackson2HttpMessageConverterAutoConfiguration(MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
         this.mappingJackson2HttpMessageConverter = mappingJackson2HttpMessageConverter;
     }
 
@@ -38,11 +37,11 @@ public class SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration impl
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【销毁--自动化配置】----响应报文Content-Type编码组件【SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration】");
+        LoggerUtils.info(GrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【销毁--自动化配置】----响应报文Content-Type编码组件【SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【初始化--自动化配置】----响应报文Content-Type编码组件【SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration】");
+        LoggerUtils.info(GrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【初始化--自动化配置】----响应报文Content-Type编码组件【SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration】");
     }
 }

@@ -25,16 +25,6 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
     @Override
     @Async
     public void traceRequest(AsyncLogHttpClientRequest asyncLogHttpClient) {
-        //请求日志记录集合
-     /*   Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Trace_ID", asyncLogHttpClient.getTraceId());
-        logMap.put("Trace_Type", asyncLogHttpClient.getTraceType());
-        logMap.put("Request Time", DateUtils.formatDate(asyncLogHttpClient.getRequestTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
-        logMap.put("Request URL", asyncLogHttpClient.getRequestUrl());
-        logMap.put("Request Method", asyncLogHttpClient.getMethod());
-        logMap.put("Protocol", asyncLogHttpClient.getProtocol());
-        logMap.put("Request Params", asyncLogHttpClient.getRequestParams());
-        logMap.put("Content-Type", asyncLogHttpClient.getContentType());*/
         if (LoggerUtils.isDebug()) {
             LoggerUtils.module(AsyncLogHttpClientServiceImpl.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(asyncLogHttpClient));
         } else {
@@ -49,19 +39,6 @@ public class AsyncLogHttpClientServiceImpl implements AsyncLogHttpClientService 
     @Override
     @Async
     public void traceResponse(AsyncLogHttpClientResponse asyncLogHttpClient) {
-        //响应请求信息日志集合
-      /*  Map<String, Object> logMap = Maps.newLinkedHashMap();
-        logMap.put("Trace_ID", asyncLogHttpClient.getTraceId());
-        logMap.put("Trace_Type", asyncLogHttpClient.getTraceType());
-        logMap.put("Response Time", DateUtils.formatDate(asyncLogHttpClient.getResponseTime(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
-        logMap.put("Request URL", asyncLogHttpClient.getRequestUrl());
-        logMap.put("Request Method", asyncLogHttpClient.getMethod());
-        logMap.put("Protocol", asyncLogHttpClient.getProtocol());
-        logMap.put("Request Params", asyncLogHttpClient.getRequestParams());
-        logMap.put("Content-Type", asyncLogHttpClient.getContentType());
-        logMap.put("Spend Time", StringUtils.join((asyncLogHttpClient.getSpentTime() == 0) ? 1 : asyncLogHttpClient.getSpentTime(), "ms"));
-        logMap.put("Data Size", ObjectSizeUtil.getObjectSizeUnit(asyncLogHttpClient.getResponseBody()));
-        logMap.put("Response Body", asyncLogHttpClient.getResponseBody());*/
         if (LoggerUtils.isDebug()) {
             LoggerUtils.module(AsyncLogHttpClientServiceImpl.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(asyncLogHttpClient));
         } else {

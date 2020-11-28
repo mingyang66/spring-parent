@@ -24,7 +24,7 @@ import static org.springframework.cloud.consul.config.ConsulConfigProperties.For
  * @author Spencer Gibb
  */
 @Order(-1)
-public class SmallGrainConsulPropertySourceLocator implements PropertySourceLocator {
+public class GrainConsulPropertySourceLocator implements PropertySourceLocator {
 
     private static final Log log = LogFactory.getLog(org.springframework.cloud.consul.config.ConsulPropertySourceLocator.class);
 
@@ -36,8 +36,8 @@ public class SmallGrainConsulPropertySourceLocator implements PropertySourceLoca
 
     private final LinkedHashMap<String, Long> contextIndex = new LinkedHashMap<>();
 
-    public SmallGrainConsulPropertySourceLocator(ConsulClient consul,
-                                                 ConsulConfigProperties properties) {
+    public GrainConsulPropertySourceLocator(ConsulClient consul,
+                                            ConsulConfigProperties properties) {
         this.consul = consul;
         this.properties = properties;
     }
@@ -108,13 +108,13 @@ public class SmallGrainConsulPropertySourceLocator implements PropertySourceLoca
 
             for (String propertySourceContext : this.contexts) {
                 try {
-                    SmallGrainConsulPropertySource propertySource = null;
+                    GrainConsulPropertySource propertySource = null;
                     if (this.properties.getFormat() == FILES) {
                         Response<GetValue> response = this.consul.getKVValue(
                                 propertySourceContext, this.properties.getAclToken());
                         addIndex(propertySourceContext, response.getConsulIndex());
                         if (response.getValue() != null) {
-                            SmallGrainConsulFilesPropertySource filesPropertySource = new SmallGrainConsulFilesPropertySource(
+                            GrainConsulFilesPropertySource filesPropertySource = new GrainConsulFilesPropertySource(
                                     propertySourceContext, this.consul, this.properties);
                             filesPropertySource.init(response.getValue());
                             propertySource = filesPropertySource;
@@ -158,8 +158,8 @@ public class SmallGrainConsulPropertySourceLocator implements PropertySourceLoca
         this.contextIndex.put(propertySourceContext, consulIndex);
     }
 
-    private SmallGrainConsulPropertySource create(String context, Map<String, Long> contextIndex) {
-        SmallGrainConsulPropertySource propertySource = new SmallGrainConsulPropertySource(context,
+    private GrainConsulPropertySource create(String context, Map<String, Long> contextIndex) {
+        GrainConsulPropertySource propertySource = new GrainConsulPropertySource(context,
                 this.consul, this.properties);
         propertySource.init();
         addIndex(context, propertySource.getInitialIndex());

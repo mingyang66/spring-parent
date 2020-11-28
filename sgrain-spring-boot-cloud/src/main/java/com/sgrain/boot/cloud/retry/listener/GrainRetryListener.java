@@ -17,10 +17,10 @@ import java.util.Date;
  * @description: ribbon重试监听器
  * @create: 2020/11/13
  */
-public class SmallGrainRetryListener implements RetryListener {
+public class GrainRetryListener implements RetryListener {
     private AsyncLogHttpClientService asyncLogHttpClientService;
 
-    public SmallGrainRetryListener(AsyncLogHttpClientService asyncLogHttpClientService) {
+    public GrainRetryListener(AsyncLogHttpClientService asyncLogHttpClientService) {
         this.asyncLogHttpClientService = asyncLogHttpClientService;
     }
 

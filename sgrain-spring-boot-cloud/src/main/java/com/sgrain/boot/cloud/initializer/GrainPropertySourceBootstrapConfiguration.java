@@ -14,7 +14,7 @@ import java.util.List;
  * @description: 初始化器，在{@link PropertySourceBootstrapConfiguration} 之前替换掉active配置文件中的占位符
  * @create: 2020/11/13
  */
-public class SmallGrainPropertySourceBootstrapConfiguration implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+public class GrainPropertySourceBootstrapConfiguration implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     private int order = Ordered.HIGHEST_PRECEDENCE + 9;
 
     @Override

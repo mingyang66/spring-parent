@@ -10,10 +10,10 @@ import static org.springframework.cloud.consul.config.ConsulConfigProperties.For
 /**
  * @author Spencer Gibb
  */
-public class SmallGrainConsulFilesPropertySource extends SmallGrainConsulPropertySource {
+public class GrainConsulFilesPropertySource extends GrainConsulPropertySource {
 
-    public SmallGrainConsulFilesPropertySource(String context, ConsulClient source,
-                                     ConsulConfigProperties configProperties) {
+    public GrainConsulFilesPropertySource(String context, ConsulClient source,
+                                          ConsulConfigProperties configProperties) {
         super(context, source, configProperties);
     }
 

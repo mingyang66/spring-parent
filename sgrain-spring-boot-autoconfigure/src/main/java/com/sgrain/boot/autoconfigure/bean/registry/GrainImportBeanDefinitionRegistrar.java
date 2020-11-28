@@ -11,7 +11,7 @@ import org.springframework.core.type.AnnotationMetadata;
  * @description:
  * @create: 2020/09/27
  */
-public class SmallGrainImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
+public class GrainImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator) {
         registerBeanDefinitions(importingClassMetadata, registry);
@@ -19,6 +19,6 @@ public class SmallGrainImportBeanDefinitionRegistrar implements ImportBeanDefini
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        LoggerUtils.info(SmallGrainImportBeanDefinitionRegistrar.class, "--------ImportBeanDefinitionRegistrar-------");
+        LoggerUtils.info(GrainImportBeanDefinitionRegistrar.class, "--------ImportBeanDefinitionRegistrar-------");
     }
 }

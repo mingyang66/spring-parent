@@ -5,10 +5,8 @@ import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
@@ -26,7 +24,7 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
-public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
+public class GrainWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
 
     private WebProperties webProperties;
     //自定义路由规则是否已加载
@@ -37,7 +35,7 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, Initial
     private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
 
-    public SmallGrainWebAutoConfiguration(WebProperties webProperties) {
+    public GrainWebAutoConfiguration(WebProperties webProperties) {
         this.webProperties = webProperties;
     }
 
@@ -149,17 +147,17 @@ public class SmallGrainWebAutoConfiguration implements WebMvcConfigurer, Initial
 
     @Override
     public void destroy() throws Exception {
-            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【销毁--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
-            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【销毁--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【销毁--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【销毁--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         if (enablePathMatch) {
-            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【初始化--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【初始化--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
         }
         if (enableCors) {
-            LoggerUtils.info(SmallGrainWebAutoConfiguration.class, "【初始化--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【初始化--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
         }
     }
 }

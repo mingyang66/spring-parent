@@ -3,18 +3,18 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sgrain.boot.autoconfigure.aop.apilog.ApiLogAutoConfiguration,\
   com.sgrain.boot.autoconfigure.aop.idempotent.IdempotentAutoConfiguration,\
   com.sgrain.boot.autoconfigure.aop.ratelimit.RateLimitAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.redis.SmallGrainRedisAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.redis.GrainRedisAutoConfiguration,\
   com.sgrain.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration,\
   com.sgrain.boot.autoconfigure.httpclient.HttpClientAutoConfiguration,\
   com.sgrain.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\
   com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.bean.factory.SmallGrainBeanFactoryPostProcessorAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.bean.registry.SmallGrainBeanDefinitionRegistryAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.web.SmallGrainWebAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.bean.factory.GrainBeanFactoryPostProcessorAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.bean.registry.GrainBeanDefinitionRegistryAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.web.GrainWebAutoConfiguration,\
   com.sgrain.boot.autoconfigure.exception.ExceptionAutoConfiguration,\
-  com.sgrain.boot.autoconfigure.converters.SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration,\
+  com.sgrain.boot.autoconfigure.converters.GrainMappingJackson2HttpMessageConverterAutoConfiguration,\
   com.sgrain.boot.autoconfigure.filter.FilterRegistrationBeanAutoConfiguration
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.sgrain.boot.autoconfigure.initializers.SmallGrainApplicationContenxtInitializer
+  com.sgrain.boot.autoconfigure.initializers.GrainApplicationContenxtInitializer

@@ -21,27 +21,27 @@ import org.springframework.context.annotation.Primary;
 @ConditionalOnClass(ConsulConfigBootstrapConfiguration.class)
 @AutoConfigureAfter(ConsulConfigBootstrapConfiguration.class)
 @ConditionalOnProperty(name = "spring.cloud.consul.config.enabled", matchIfMissing = true)
-public class SmallGrainConsulConfigBootstrapConfiguration implements InitializingBean, DisposableBean {
+public class GrainConsulConfigBootstrapConfiguration implements InitializingBean, DisposableBean {
     private ConsulClient consul;
 
-    public SmallGrainConsulConfigBootstrapConfiguration(ConsulClient consul) {
+    public GrainConsulConfigBootstrapConfiguration(ConsulClient consul) {
         this.consul = consul;
     }
 
     @Primary
     @Bean("smallGrainConsulPropertySourceLocator")
-    public SmallGrainConsulPropertySourceLocator smallGrainConsulPropertySourceLocator(
+    public GrainConsulPropertySourceLocator smallGrainConsulPropertySourceLocator(
             ConsulConfigProperties consulConfigProperties) {
-        return new SmallGrainConsulPropertySourceLocator(this.consul, consulConfigProperties);
+        return new GrainConsulPropertySourceLocator(this.consul, consulConfigProperties);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(SmallGrainConsulConfigBootstrapConfiguration.class, "【初始化--自动化配置】----SpringCloud配置中心中文乱码组件【SmallGrainConsulConfigBootstrapConfiguration】");
+        LoggerUtils.info(GrainConsulConfigBootstrapConfiguration.class, "【初始化--自动化配置】----SpringCloud配置中心中文乱码组件【SmallGrainConsulConfigBootstrapConfiguration】");
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(SmallGrainConsulConfigBootstrapConfiguration.class, "【销毁--自动化配置】----SpringCloud配置中心中文乱码组件【SmallGrainConsulConfigBootstrapConfiguration】");
+        LoggerUtils.info(GrainConsulConfigBootstrapConfiguration.class, "【销毁--自动化配置】----SpringCloud配置中心中文乱码组件【SmallGrainConsulConfigBootstrapConfiguration】");
     }
 }

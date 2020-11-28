@@ -13,7 +13,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
  * 3.钩子方法postProcessBeanDefinitionRegistry会在postProcessBeanFactory之前执行
  * @create: 2020/09/16
  */
-public class SmallGrainBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+public class GrainBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
     /**
      * 注册bean到IOC容器之中
      * @param registry

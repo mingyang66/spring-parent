@@ -25,7 +25,7 @@ import java.util.Map;
  * @Version  1.0
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class SmallGrainPropertiesPropertySourceLoader implements PropertySourceLoader {
+public class GrainPropertiesPropertySourceLoader implements PropertySourceLoader {
 
     private static final String XML_FILE_EXTENSION = ".xml";
 
@@ -50,6 +50,6 @@ public class SmallGrainPropertiesPropertySourceLoader implements PropertySourceL
         if (filename != null && filename.endsWith(XML_FILE_EXTENSION)) {
             return (Map) PropertiesLoaderUtils.loadProperties(resource);
         }
-        return new SmallGrainOriginTrackedPropertiesLoader(resource).load();
+        return new GrainOriginTrackedPropertiesLoader(resource).load();
     }
 }

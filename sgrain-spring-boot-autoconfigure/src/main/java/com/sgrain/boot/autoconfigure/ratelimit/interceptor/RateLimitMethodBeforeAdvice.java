@@ -1,6 +1,6 @@
-package com.sgrain.boot.autoconfigure.aop.advice;
+package com.sgrain.boot.autoconfigure.ratelimit.interceptor;
 
-import com.sgrain.boot.autoconfigure.aop.annotation.ApiRateLimit;
+import com.sgrain.boot.autoconfigure.ratelimit.annotation.ApiRateLimit;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;

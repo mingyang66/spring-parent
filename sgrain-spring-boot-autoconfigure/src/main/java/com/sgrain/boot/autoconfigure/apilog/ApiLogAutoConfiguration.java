@@ -1,7 +1,7 @@
-package com.sgrain.boot.autoconfigure.aop.apilog;
+package com.sgrain.boot.autoconfigure.apilog;
 
-import com.sgrain.boot.autoconfigure.aop.advice.ApiLogMethodInterceptor;
-import com.sgrain.boot.autoconfigure.aop.advice.ApiLogThrowsAdvice;
+import com.sgrain.boot.autoconfigure.apilog.interceptor.ApiLogMethodInterceptor;
+import com.sgrain.boot.autoconfigure.apilog.interceptor.ApiLogThrowsAdvice;
 import com.sgrain.boot.common.enums.AopOrderEnum;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.context.apilog.service.AsyncLogAopService;
@@ -11,8 +11,8 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,6 @@ import org.springframework.context.annotation.Import;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@Import(value = AsyncLogAopServiceImpl.class)
 @EnableConfigurationProperties(ApiLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.sgrain.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
 public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean {
@@ -46,6 +45,11 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
         this.apiLogProperties = apiLogProperties;
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public AsyncLogAopService asyncLogAopService(){
+        return new AsyncLogAopServiceImpl();
+    }
     /**
      * @Description 定义接口拦截器切点
      * @Version 1.0

@@ -1,8 +1,8 @@
 package com.sgrain.boot.autoconfigure.web;
 
 import com.sgrain.boot.autoconfigure.web.annotation.ApiPrefix;
-import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.DisposableBean;

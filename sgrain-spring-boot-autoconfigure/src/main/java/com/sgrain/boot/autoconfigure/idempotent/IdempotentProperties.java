@@ -1,16 +1,16 @@
-package com.sgrain.boot.autoconfigure.aop.ratelimit;
+package com.sgrain.boot.autoconfigure.idempotent;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @program: spring-parent
- * @description: 流控属性绑定配置文件件类
- * @create: 2020/03/25
+ * @description: 重复提交属性配置类
+ * @create: 2020/03/26
  */
-@ConfigurationProperties(prefix = "spring.sgrain.rate-limit")
-public class RateLimitProperties {
+@ConfigurationProperties(prefix = "spring.sgrain.idempotent")
+public class IdempotentProperties {
     /**
-     * 限流组件开关
+     * 防止重复提交组件
      */
     private boolean enable;
 

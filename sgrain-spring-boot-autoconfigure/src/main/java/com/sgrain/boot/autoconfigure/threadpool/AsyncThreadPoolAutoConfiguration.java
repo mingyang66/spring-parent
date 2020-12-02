@@ -1,14 +1,13 @@
 package com.sgrain.boot.autoconfigure.threadpool;
 
 import com.sgrain.boot.common.exception.PrintExceptionInfo;
-import com.sgrain.boot.common.utils.log.LoggerUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
+import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration;

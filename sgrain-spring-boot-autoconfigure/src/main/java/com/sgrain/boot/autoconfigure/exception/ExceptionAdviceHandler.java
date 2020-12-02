@@ -1,10 +1,10 @@
 package com.sgrain.boot.autoconfigure.exception;
 
 
+import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.enums.AppHttpStatus;
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.exception.PrintExceptionInfo;
-import com.sgrain.boot.common.base.ResponseData;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;

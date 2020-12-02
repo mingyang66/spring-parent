@@ -3,6 +3,10 @@ package com.yaomy.control.test.consul;
 
 import com.sgrain.boot.common.utils.path.PathMatcher;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @program: spring-parent
  * @description:
@@ -10,12 +14,9 @@ import com.sgrain.boot.common.utils.path.PathMatcher;
  */
 public class TestDoubleColon {
     public static void main(String[] args) {
-        PathMatcher pathMatcher = new PathMatcher(new String[]{"", "/", "/a/?", "/a/**"});
-        System.out.println(pathMatcher.match(null));
-        System.out.println(pathMatcher.match(""));
-        System.out.println(pathMatcher.match("/"));
-        System.out.println(pathMatcher.match("/a/a"));
-        System.out.println(pathMatcher.match("/a/ab"));
-        System.out.println(pathMatcher.match("/a/ab/a"));
+        List<String> arrays = Arrays.asList("c", "d", "z", "0", "2", "100", "300", "123", "2", "a", "b", "z", "a");
+        System.out.println(arrays);
+        Collections.sort(arrays);
+        System.out.println(arrays);
     }
 }

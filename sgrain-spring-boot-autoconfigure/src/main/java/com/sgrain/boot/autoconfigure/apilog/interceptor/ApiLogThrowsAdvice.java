@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.aop.advice;
+package com.sgrain.boot.autoconfigure.apilog.interceptor;
 
 import com.sgrain.boot.common.exception.BusinessException;
 import com.sgrain.boot.common.utils.RequestUtils;

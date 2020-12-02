@@ -1,4 +1,4 @@
-package com.sgrain.boot.autoconfigure.aop.annotation;
+package com.sgrain.boot.autoconfigure.idempotent.annotation;
 
 import java.lang.annotation.*;
 /**

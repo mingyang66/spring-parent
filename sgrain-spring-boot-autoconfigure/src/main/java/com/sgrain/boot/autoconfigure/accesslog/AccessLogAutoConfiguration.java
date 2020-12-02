@@ -1,10 +1,9 @@
 package com.sgrain.boot.autoconfigure.accesslog;
 
-import com.sgrain.boot.common.utils.log.accesslog.builder.AccessLogBuilder;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
+import com.sgrain.boot.common.utils.log.accesslog.builder.AccessLogBuilder;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

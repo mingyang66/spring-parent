@@ -75,11 +75,11 @@ public class GrainRedisAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainRedisAutoConfiguration.class, "【销毁--自动化配置】----Redis组件【SmallGrainRedisAutoConfiguration】");
+        LoggerUtils.info(GrainRedisAutoConfiguration.class, "【销毁--自动化配置】----Redis组件【GrainRedisAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainRedisAutoConfiguration.class, "【初始化--自动化配置】----Redis组件【SmallGrainRedisAutoConfiguration】");
+        LoggerUtils.info(GrainRedisAutoConfiguration.class, "【初始化--自动化配置】----Redis组件【GrainRedisAutoConfiguration】");
     }
 }

@@ -51,11 +51,11 @@ public class GrainRibbonLoadBalancedRetryFactory extends RibbonLoadBalancedRetry
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainRibbonLoadBalancedRetryFactory.class, "【销毁--自动化配置】----Ribbon负载均衡重试工厂组件【SmallGrainRibbonLoadBalancedRetryFactory】");
+        LoggerUtils.info(GrainRibbonLoadBalancedRetryFactory.class, "【销毁--自动化配置】----Ribbon负载均衡重试工厂组件【GrainRibbonLoadBalancedRetryFactory】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainRibbonLoadBalancedRetryFactory.class, "【初始化--自动化配置】----Ribbon负载均衡重试工厂组件【SmallGrainRibbonLoadBalancedRetryFactory】");
+        LoggerUtils.info(GrainRibbonLoadBalancedRetryFactory.class, "【初始化--自动化配置】----Ribbon负载均衡重试工厂组件【GrainRibbonLoadBalancedRetryFactory】");
     }
 }

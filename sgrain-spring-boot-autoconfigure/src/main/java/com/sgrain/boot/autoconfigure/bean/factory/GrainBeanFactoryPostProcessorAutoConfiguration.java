@@ -21,11 +21,11 @@ public class GrainBeanFactoryPostProcessorAutoConfiguration implements Initializ
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainBeanFactoryPostProcessorAutoConfiguration.class, "【销毁--自动化配置】----BeanFactoryPostProcessor自定义组件【SmallGrainBeanFactoryPostProcessorAutoConfiguration】");
+        LoggerUtils.info(GrainBeanFactoryPostProcessorAutoConfiguration.class, "【销毁--自动化配置】----BeanFactoryPostProcessor自定义组件【GrainBeanFactoryPostProcessorAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainBeanFactoryPostProcessorAutoConfiguration.class, "【初始化--自动化配置】----BeanFactoryPostProcessor自定义组件【SmallGrainBeanFactoryPostProcessorAutoConfiguration】");
+        LoggerUtils.info(GrainBeanFactoryPostProcessorAutoConfiguration.class, "【初始化--自动化配置】----BeanFactoryPostProcessor自定义组件【GrainBeanFactoryPostProcessorAutoConfiguration】");
     }
 }

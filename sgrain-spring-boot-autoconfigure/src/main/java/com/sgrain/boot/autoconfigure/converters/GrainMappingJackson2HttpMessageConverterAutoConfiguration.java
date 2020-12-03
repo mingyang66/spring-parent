@@ -31,17 +31,17 @@ public class GrainMappingJackson2HttpMessageConverterAutoConfiguration implement
     }
 
     @PostConstruct
-    public void SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration() {
+    public void GrainMappingJackson2HttpMessageConverterAutoConfiguration() {
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【销毁--自动化配置】----响应报文Content-Type编码组件【SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration】");
+        LoggerUtils.info(GrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【销毁--自动化配置】----响应报文Content-Type编码组件【GrainMappingJackson2HttpMessageConverterAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【初始化--自动化配置】----响应报文Content-Type编码组件【SmallGrainMappingJackson2HttpMessageConverterAutoConfiguration】");
+        LoggerUtils.info(GrainMappingJackson2HttpMessageConverterAutoConfiguration.class, "【初始化--自动化配置】----响应报文Content-Type编码组件【GrainMappingJackson2HttpMessageConverterAutoConfiguration】");
     }
 }

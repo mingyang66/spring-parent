@@ -147,17 +147,17 @@ public class GrainWebAutoConfiguration implements WebMvcConfigurer, Initializing
 
     @Override
     public void destroy() throws Exception {
-            LoggerUtils.info(GrainWebAutoConfiguration.class, "【销毁--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
-            LoggerUtils.info(GrainWebAutoConfiguration.class, "【销毁--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【销毁--自动化配置】----API前缀组件【GrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【销毁--自动化配置】----跨域组件【GrainWebAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         if (enablePathMatch) {
-            LoggerUtils.info(GrainWebAutoConfiguration.class, "【初始化--自动化配置】----API前缀组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【初始化--自动化配置】----API前缀组件【GrainWebAutoConfiguration】");
         }
         if (enableCors) {
-            LoggerUtils.info(GrainWebAutoConfiguration.class, "【初始化--自动化配置】----跨域组件【SmallGrainWebAutoConfiguration】");
+            LoggerUtils.info(GrainWebAutoConfiguration.class, "【初始化--自动化配置】----跨域组件【GrainWebAutoConfiguration】");
         }
     }
 }

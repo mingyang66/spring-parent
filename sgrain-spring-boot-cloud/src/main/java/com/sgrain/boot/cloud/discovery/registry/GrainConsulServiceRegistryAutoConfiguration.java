@@ -33,11 +33,11 @@ public class GrainConsulServiceRegistryAutoConfiguration implements Initializing
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainConsulServiceRegistryAutoConfiguration.class, "【销毁--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+        LoggerUtils.info(GrainConsulServiceRegistryAutoConfiguration.class, "【销毁--自动化配置】----服务注册自动化配置组件【GrainConsulServiceRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainConsulServiceRegistryAutoConfiguration.class, "【初始化--自动化配置】----服务注册自动化配置组件【SmallGrainConsulServiceRegistryAutoConfiguration】");
+        LoggerUtils.info(GrainConsulServiceRegistryAutoConfiguration.class, "【初始化--自动化配置】----服务注册自动化配置组件【GrainConsulServiceRegistryAutoConfiguration】");
     }
 }

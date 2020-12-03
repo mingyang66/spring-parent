@@ -27,11 +27,11 @@ public class GrainBeanDefinitionRegistryAutoConfiguration implements Initializin
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainBeanDefinitionRegistryAutoConfiguration.class, "【销毁--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【SmallGrainBeanDefinitionRegistryAutoConfiguration】");
+        LoggerUtils.info(GrainBeanDefinitionRegistryAutoConfiguration.class, "【销毁--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【GrainBeanDefinitionRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainBeanDefinitionRegistryAutoConfiguration.class, "【初始化--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【SmallGrainBeanDefinitionRegistryAutoConfiguration】");
+        LoggerUtils.info(GrainBeanDefinitionRegistryAutoConfiguration.class, "【初始化--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【GrainBeanDefinitionRegistryAutoConfiguration】");
     }
 }

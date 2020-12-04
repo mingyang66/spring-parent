@@ -14,6 +14,7 @@ import org.springframework.cloud.consul.discovery.ConsulDiscoveryClientConfigura
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * @program: spring-parent
@@ -26,6 +27,12 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(ConsulDiscoveryClientConfiguration.class)
 @AutoConfigureAfter({ UtilAutoConfiguration.class, ConsulAutoConfiguration.class })
 public class GrainDiscoveryClientAutoConfiguration {
+
+    private Environment environment;
+
+    public GrainDiscoveryClientAutoConfiguration(Environment environment){
+        this.environment = environment;
+    }
     /**
      * 自定义服务发现配置类
      * @param inetUtils
@@ -36,7 +43,7 @@ public class GrainDiscoveryClientAutoConfiguration {
     public ConsulDiscoveryProperties consulDiscoveryProperties(InetUtils inetUtils) {
         ConsulDiscoveryProperties properties = new ConsulDiscoveryProperties(inetUtils);
         //自定义生成实例ID, 实例名称不可以以数字开头
-        properties.setInstanceId(StringUtils.join("grain", CharacterUtils.LINE_THROUGH_CENTER, UUIDUtils.randomUUID()));
+        properties.setInstanceId(StringUtils.join(environment.getProperty("spring.application.name"), CharacterUtils.LINE_THROUGH_CENTER, properties.getIpAddress(), CharacterUtils.LINE_THROUGH_CENTER, environment.getProperty("server.port")));
         return properties;
     }
 }

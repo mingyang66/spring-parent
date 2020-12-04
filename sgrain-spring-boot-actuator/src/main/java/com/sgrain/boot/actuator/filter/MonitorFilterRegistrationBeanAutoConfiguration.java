@@ -1,6 +1,5 @@
-package com.sgrain.boot.actuator.autoconfigure;
+package com.sgrain.boot.actuator.filter;
 
-import com.sgrain.boot.actuator.filter.MonitorIpFilter;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

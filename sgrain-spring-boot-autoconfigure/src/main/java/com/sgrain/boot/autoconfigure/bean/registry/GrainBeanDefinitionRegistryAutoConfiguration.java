@@ -1,9 +1,11 @@
 package com.sgrain.boot.autoconfigure.bean.registry;
 
+import com.sgrain.boot.autoconfigure.condition.MacOsCondition;
 import com.sgrain.boot.common.utils.log.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Import;
  * @create: 2020/09/16
  */
 @Configuration(proxyBeanMethods = false)
+@Conditional(MacOsCondition.class)
 @Import(GrainImportBeanDefinitionRegistrar.class)
 public class GrainBeanDefinitionRegistryAutoConfiguration implements InitializingBean, DisposableBean {
     /**

@@ -13,6 +13,7 @@ import org.springframework.cloud.client.loadbalancer.ServiceInstanceChooser;
 import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration;
 import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancedRetryFactory;
 import org.springframework.cloud.netflix.ribbon.SpringClientFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.RetryListener;
 import org.springframework.retry.backoff.BackOffPolicy;
 
@@ -21,6 +22,7 @@ import org.springframework.retry.backoff.BackOffPolicy;
  * @description: Ribbon负载均衡重试工厂类
  * @create: 2020/11/13
  */
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(name = "org.springframework.retry.support.RetryTemplate", value = {RibbonLoadBalancedRetryFactory.class})
 @ConditionalOnMissingBean(value = RibbonLoadBalancedRetryFactory.class)
 @AutoConfigureBefore(RibbonAutoConfiguration.class)

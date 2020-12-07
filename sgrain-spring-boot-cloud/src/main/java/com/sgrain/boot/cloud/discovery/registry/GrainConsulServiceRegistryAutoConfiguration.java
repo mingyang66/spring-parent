@@ -6,6 +6,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.HeartbeatProperties;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
  * @create: 2020/11/17
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnBean(HeartbeatProperties.class)
 @ConditionalOnClass(ConsulServiceRegistryAutoConfiguration.class)
 @AutoConfigureBefore(ConsulServiceRegistryAutoConfiguration.class)
 public class GrainConsulServiceRegistryAutoConfiguration implements InitializingBean, DisposableBean {

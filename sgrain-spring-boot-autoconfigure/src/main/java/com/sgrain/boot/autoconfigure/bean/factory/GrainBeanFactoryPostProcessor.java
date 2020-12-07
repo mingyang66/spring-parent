@@ -39,8 +39,8 @@ public class GrainBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-        if (beanFactory.containsBeanDefinition(AsyncLogAopServiceImpl.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(AsyncLogAopServiceImpl.class.getName());
+        if (beanFactory.containsBeanDefinition("asyncLogAopService")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("asyncLogAopService");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME)) {

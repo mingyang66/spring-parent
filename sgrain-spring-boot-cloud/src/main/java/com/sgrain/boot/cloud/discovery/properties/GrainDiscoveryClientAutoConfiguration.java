@@ -1,6 +1,5 @@
 package com.sgrain.boot.cloud.discovery.properties;
 
-import com.sgrain.boot.common.utils.UUIDUtils;
 import com.sgrain.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

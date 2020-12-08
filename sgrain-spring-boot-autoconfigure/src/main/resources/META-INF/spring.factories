@@ -17,4 +17,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.sgrain.boot.autoconfigure.initializers.GrainApplicationContenxtInitializer
+  com.sgrain.boot.autoconfigure.initializers.GrainApplicationContextInitializer

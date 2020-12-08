@@ -37,11 +37,11 @@ public class GrainConsulConfigBootstrapConfiguration implements InitializingBean
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(GrainConsulConfigBootstrapConfiguration.class, "【初始化--自动化配置】----SpringCloud配置中心中文乱码组件【GrainConsulConfigBootstrapConfiguration】");
+        LoggerUtils.info(GrainConsulConfigBootstrapConfiguration.class, "【初始化CLOUD--自动化配置】----SpringCloud配置中心中文乱码组件【GrainConsulConfigBootstrapConfiguration】");
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(GrainConsulConfigBootstrapConfiguration.class, "【销毁--自动化配置】----SpringCloud配置中心中文乱码组件【GrainConsulConfigBootstrapConfiguration】");
+        LoggerUtils.info(GrainConsulConfigBootstrapConfiguration.class, "【销毁CLOUD--自动化配置】----SpringCloud配置中心中文乱码组件【GrainConsulConfigBootstrapConfiguration】");
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -19,13 +20,15 @@ public class GrainPropertySourceBootstrapConfiguration implements ApplicationCon
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        ConfigurableEnvironment env = applicationContext.getEnvironment();
-        List<String> profiles = Arrays.asList(env.getActiveProfiles());
-        List<String> newProfiles = Lists.newArrayList();
-        profiles.forEach(profile -> {
-            newProfiles.add(env.resolvePlaceholders(profile));
-        });
-        env.setActiveProfiles(newProfiles.toArray(new String[]{}));
+        if(applicationContext instanceof AnnotationConfigApplicationContext){
+            ConfigurableEnvironment env = applicationContext.getEnvironment();
+            List<String> profiles = Arrays.asList(env.getActiveProfiles());
+            List<String> newProfiles = Lists.newArrayList();
+            profiles.forEach(profile -> {
+                newProfiles.add(env.resolvePlaceholders(profile));
+            });
+            env.setActiveProfiles(newProfiles.toArray(new String[]{}));
+        }
     }
 
     @Override

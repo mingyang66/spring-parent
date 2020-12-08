@@ -2,6 +2,7 @@ package com.yaomy.control.test.consul;
 
 
 import com.sgrain.boot.common.utils.path.PathMatcher;
+import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
 import java.util.Arrays;
 import java.util.Collections;

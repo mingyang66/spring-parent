@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Primary;
 @AutoConfigureAfter(ConsulConfigBootstrapConfiguration.class)
 @ConditionalOnProperty(name = "spring.cloud.consul.config.enabled", matchIfMissing = true)
 public class GrainConsulConfigBootstrapConfiguration implements InitializingBean, DisposableBean {
+
     private ConsulClient consul;
 
     public GrainConsulConfigBootstrapConfiguration(ConsulClient consul) {
@@ -29,8 +30,8 @@ public class GrainConsulConfigBootstrapConfiguration implements InitializingBean
     }
 
     @Primary
-    @Bean("smallGrainConsulPropertySourceLocator")
-    public GrainConsulPropertySourceLocator smallGrainConsulPropertySourceLocator(
+    @Bean("grainConsulPropertySourceLocator")
+    public GrainConsulPropertySourceLocator grainConsulPropertySourceLocator(
             ConsulConfigProperties consulConfigProperties) {
         return new GrainConsulPropertySourceLocator(this.consul, consulConfigProperties);
     }

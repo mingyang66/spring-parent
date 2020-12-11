@@ -293,11 +293,11 @@ protected void processConfigurationClass(ConfigurationClass configClass, Predica
 		if (!componentScans.isEmpty() &&
 				!this.conditionEvaluator.shouldSkip(sourceClass.getMetadata(), ConfigurationPhase.REGISTER_BEAN)) {
 			for (AnnotationAttributes componentScan : componentScans) {
-        //解析@ComponentScan和@ComponentScans配置包含的类，如basePackages="com.sgrain.boot"
+        //解析@ComponentScan和@ComponentScans配置包含的类，如basePackages="com.emily.boot"
         //那么会在这一步将这个包及其子包下的所有类解析成BeanDefinition，然后注册到IOC容器之中
 				Set<BeanDefinitionHolder> scannedBeanDefinitions =
 						this.componentScanParser.parse(componentScan, sourceClass.getMetadata().getClassName());
-				//通过上一步扫描包com.sgrain.boot下的类，有可能扫描出来的类上也加了@ComponentScan和@ComponentScans注解，所以需要循环遍历一次，进行递归解析，直到类上没有@ComponentScan和@ComponentScans注解为止；
+				//通过上一步扫描包com.emily.boot下的类，有可能扫描出来的类上也加了@ComponentScan和@ComponentScans注解，所以需要循环遍历一次，进行递归解析，直到类上没有@ComponentScan和@ComponentScans注解为止；
 				for (BeanDefinitionHolder holder : scannedBeanDefinitions) {
 					BeanDefinition bdCand = holder.getBeanDefinition().getOriginatingBeanDefinition();
 					if (bdCand == null) {

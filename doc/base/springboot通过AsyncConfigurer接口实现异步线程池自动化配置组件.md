@@ -39,11 +39,11 @@ public interface AsyncConfigurer {
 自动化配置类如下：
 
 ```java
-package com.sgrain.boot.autoconfigure.threadpool;
+package com.emily.boot.autoconfigure.threadpool;
 
-import com.sgrain.boot.common.exception.PrintExceptionInfo;
-import com.sgrain.boot.common.utils.LoggerUtils;
-import com.sgrain.boot.common.utils.constant.CharacterUtils;
+import com.emily.boot.common.exception.PrintExceptionInfo;
+import com.emily.boot.common.utils.LoggerUtils;
+import com.emily.boot.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -68,7 +68,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 @Configuration
 @EnableConfigurationProperties(AsyncThreadPoolProperties.class)
-@ConditionalOnProperty(prefix = "spring.sgrain.async-thread-pool", name = "enable", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.emily.async-thread-pool", name = "enable", havingValue = "true", matchIfMissing = false)
 public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer {
 
     @Autowired
@@ -148,7 +148,7 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer {
 线程池使用到的外部属性配置类如下：
 
 ```java
-package com.sgrain.boot.autoconfigure.threadpool;
+package com.emily.boot.autoconfigure.threadpool;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -157,7 +157,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description: 异步线程池配置文件
  * @create: 2020/08/21
  */
-@ConfigurationProperties(prefix = "spring.sgrain.async-thread-pool")
+@ConfigurationProperties(prefix = "spring.emily.async-thread-pool")
 public class AsyncThreadPoolProperties {
     /**
      * 是否启动异步线程池，默认 false
@@ -276,30 +276,30 @@ properties属性配置示例如下：
 ```java
 #异步线程池
 #异步线程池组件开关，默认false
-spring.sgrain.async-thread-pool.enable=true
+spring.emily.async-thread-pool.enable=true
 #核心线程数,默认：Java虚拟机可用线程数
-spring.sgrain.async-thread-pool.core-pool-size=4
+spring.emily.async-thread-pool.core-pool-size=4
 #线程池最大线程数,默认：40000
-spring.sgrain.async-thread-pool.max-pool-size=40000
+spring.emily.async-thread-pool.max-pool-size=40000
 #线程队列最大线程数,默认：80000
-spring.sgrain.async-thread-pool.queue-capacity=80000
+spring.emily.async-thread-pool.queue-capacity=80000
 #自定义线程名前缀，默认：Async-ThreadPool-
-spring.sgrain.async-thread-pool.thread-name-prefix=Async-ThreadPool-
+spring.emily.async-thread-pool.thread-name-prefix=Async-ThreadPool-
 #线程池中线程最大空闲时间，默认：60，单位：秒
-spring.sgrain.async-thread-pool.keep-alive-seconds=60
+spring.emily.async-thread-pool.keep-alive-seconds=60
 #核心线程是否允许超时，默认false
-spring.sgrain.async-thread-pool.allow-core-thread-time-out=false
+spring.emily.async-thread-pool.allow-core-thread-time-out=false
 #IOC容器关闭时是否阻塞等待剩余的任务执行完成，默认:false（必须设置setAwaitTerminationSeconds）
-spring.sgrain.async-thread-pool.wait-for-tasks-to-complete-on-shutdown=false
+spring.emily.async-thread-pool.wait-for-tasks-to-complete-on-shutdown=false
 #阻塞IOC容器关闭的时间，默认：10秒（必须设置setWaitForTasksToCompleteOnShutdown）
-spring.sgrain.async-thread-pool.await-termination-seconds=10
+spring.emily.async-thread-pool.await-termination-seconds=10
 ```
 
-上面的开发任务都做好之后还需要最后一步，将com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration配置到resources/META-INF目录的spring.factories文件中：
+上面的开发任务都做好之后还需要最后一步，将com.emily.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration配置到resources/META-INF目录的spring.factories文件中：
 
 ```java
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.sgrain.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration
+  com.emily.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration
 ```
 
 看到配置的属性key是EnableAutoConfiguration大概你就可以猜测到是为了启用自动化配置功能；到现在整个异步线程池自动化配置组件已经开发完成了，那如何使用呢？我就不再举例说明了，网上有很多示例，只说几个重点；
@@ -528,4 +528,4 @@ ProxyAsyncConfiguration源码中的AsyncAnnotationBeanPostProcessor是一个Bean
 
 至此，通过@EnableAsync注解启动异步线程池，如何加载默认线程池配置，如何定义AOP切面及拦截器，通过@Async标注异步任务如何确定执行的线程池的原理及源码分析已经完成。
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-autoconfigure](https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-autoconfigure)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-autoconfigure](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-autoconfigure)

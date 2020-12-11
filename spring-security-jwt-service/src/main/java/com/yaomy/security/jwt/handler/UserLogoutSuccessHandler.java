@@ -1,6 +1,6 @@
 package com.yaomy.security.jwt.handler;
 
-import com.sgrain.boot.common.utils.json.JSONUtils;
+import com.emily.boot.common.utils.json.JSONUtils;
 import com.yaomy.security.jwt.po.ResponseBody;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

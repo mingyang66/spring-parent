@@ -62,4 +62,4 @@
 
 上述代码storeDurably我设置为false,这样无论CronScheduleBuilder或者SimpleScheduleBuilder当删除Trigger的时候都会级联删除JobDetails;如果设置为true，则Trigger删除的时候JobDetails任然存在，在数据库表QUARTZ_JOB_DETAILS中的IS_DURABLE字段存储；
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-quartz](https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-quartz)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-quartz](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-quartz)

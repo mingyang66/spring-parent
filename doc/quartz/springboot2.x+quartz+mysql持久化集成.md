@@ -26,7 +26,7 @@ spring:
   #配置数据源
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sgrain?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/emily?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: smallgrain
   quartz:
@@ -38,7 +38,7 @@ spring:
         quartz:
           scheduler:
             #调度任务实例名称，如果是集群则每个实例必须是相同的名字
-            instanceName: SmallGrainScheduler
+            instanceName: SmallEmilyScheduler
             #实例ID，对于集群中工作的所有调度器必须是唯一的，如果值是AUTO则会自动生成，如果希望值来自系统属性则设置为SYS_PROP
             instanceId: AUTO
           jobStore:
@@ -85,10 +85,10 @@ spring:
 ##### 3.定义一个Job任务
 
 ```java
-import com.sgrain.boot.common.enums.DateFormatEnum;
-import com.sgrain.boot.common.utils.date.DateUtils;
-import com.sgrain.boot.common.utils.json.JSONUtils;
-import com.sgrain.boot.context.httpclient.HttpClientService;
+import com.emily.boot.common.enums.DateFormatEnum;
+import com.emily.boot.common.utils.date.DateUtils;
+import com.emily.boot.common.utils.json.JSONUtils;
+import com.emily.boot.context.httpclient.HttpClientService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Trigger;
@@ -121,9 +121,9 @@ public class ThreadPoolJob extends QuartzJobBean {
 ##### 4.定义JobDetail和Trigger
 
 ```java
-package com.sgrain.boot.quartz.factory;
+package com.emily.boot.quartz.factory;
 
-import com.sgrain.boot.quartz.job.ThreadPoolJob;
+import com.emily.boot.quartz.job.ThreadPoolJob;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -229,4 +229,4 @@ JobDataMap实例也可以通过Trigger一起存储，当有一个Job被多个触
 
 Job任务可以通过JobExecutionContext接收到JobDataMap中存储的数据，可以通过getMergedJobDataMap合并的方法获取到存储在JobDetails和Trigger中的数据，也可以分别获取存储在Trigger和JobDetails中的数据。
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-quartz](https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-quartz)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-quartz](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-quartz)

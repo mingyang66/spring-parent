@@ -7,14 +7,14 @@
 ##### 1.springboot初始化器使用非常简单，首先定义一个实现了ApplicationContextInitializer接口的类
 
 ```java
-public class SmallGrainApplicationContenxtInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+public class SmallEmilyApplicationContenxtInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
      @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE;
     }
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        LoggerUtils.info(SmallGrainApplicationContenxtInitializer.class, "Small Grain【小米粒】初始化器开始初始化IOC容器了,容器名为："+applicationContext.getClass().getName());
+        LoggerUtils.info(SmallEmilyApplicationContenxtInitializer.class, "Small Emily【小米粒】初始化器开始初始化IOC容器了,容器名为："+applicationContext.getClass().getName());
     }
 }
 ```
@@ -26,13 +26,13 @@ public class SmallGrainApplicationContenxtInitializer implements ApplicationCont
 ```java
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.sgrain.boot.autoconfigure.initializers.SmallGrainApplicationContenxtInitializer
+  com.emily.boot.autoconfigure.initializers.SmallEmilyApplicationContenxtInitializer
 ```
 
 配置完成后启动项目在控制台上就会输出如下：
 
 ```java
-2020-09-22 18:22:33.222  INFO 59417 --- [           main] SmallGrainApplicationContenxtInitializer : Small Grain【小米粒】初始化器开始初始化IOC容器了：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
+2020-09-22 18:22:33.222  INFO 59417 --- [           main] SmallEmilyApplicationContenxtInitializer : Small Emily【小米粒】初始化器开始初始化IOC容器了：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
 ```
 
 ##### 3.源码解析

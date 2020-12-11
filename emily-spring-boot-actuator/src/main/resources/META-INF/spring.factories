@@ -1,0 +1,2 @@
+org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
+  com.emily.boot.actuator.filter.MonitorFilterRegistrationBeanAutoConfiguration

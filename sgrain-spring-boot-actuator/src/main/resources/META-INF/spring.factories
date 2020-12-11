@@ -1,2 +1,0 @@
-org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
-  com.sgrain.boot.actuator.filter.MonitorFilterRegistrationBeanAutoConfiguration

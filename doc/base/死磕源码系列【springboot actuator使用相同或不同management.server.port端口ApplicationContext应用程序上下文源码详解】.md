@@ -51,7 +51,7 @@ public class MonitorFilterRegistrationBeanAutoConfiguration {
 
 ```java
 org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
-  com.sgrain.boot.actuator.autoconfigure.MonitorFilterRegistrationBeanAutoConfiguration
+  com.emily.boot.actuator.autoconfigure.MonitorFilterRegistrationBeanAutoConfiguration
 ```
 
 > 经过上述简单的三步，一个基于springboot SPI机制的自动化配置组件开发完成，过滤器就可以拦截到端点发送过来的请求；是不是很神奇，脑袋里会有个疑问？这是如何拦截的？怎么做到的？接下来就这些疑问对源码进行分析并进行一一的解答。

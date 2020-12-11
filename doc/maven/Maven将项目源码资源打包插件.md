@@ -31,9 +31,9 @@ mvn clean install
 
 ```
 _remote.repositories
-sgrain-spring-boot-common-service-2.1.1.RELEASE-sources.jar
-sgrain-spring-boot-common-service-2.1.1.RELEASE.jar
-sgrain-spring-boot-common-service-2.1.1.RELEASE.pom
+emily-spring-boot-common-service-2.1.1.RELEASE-sources.jar
+emily-spring-boot-common-service-2.1.1.RELEASE.jar
+emily-spring-boot-common-service-2.1.1.RELEASE.pom
 ```
 
 如上会多一个sources.jar包，这个包就是源码包，包含我们的注解，在查看注解的时候就可以从中央仓库download注解包了。

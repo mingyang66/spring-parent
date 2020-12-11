@@ -1,0 +1,20 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.emily.boot.autoconfigure.apilog.ApiLogAutoConfiguration,\
+  com.emily.boot.autoconfigure.idempotent.IdempotentAutoConfiguration,\
+  com.emily.boot.autoconfigure.redis.EmilyRedisAutoConfiguration,\
+  com.emily.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration,\
+  com.emily.boot.autoconfigure.httpclient.HttpClientAutoConfiguration,\
+  com.emily.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\
+  com.emily.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration,\
+  com.emily.boot.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration,\
+  com.emily.boot.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration,\
+  com.emily.boot.autoconfigure.web.EmilyWebAutoConfiguration,\
+  com.emily.boot.autoconfigure.exception.ExceptionAutoConfiguration,\
+  com.emily.boot.autoconfigure.converters.EmilyMappingJackson2HttpMessageConverterAutoConfiguration,\
+  com.emily.boot.autoconfigure.filter.FilterRegistrationBeanAutoConfiguration,\
+  com.emily.boot.autoconfigure.ratelimit.RateLimitAutoConfiguration
+
+#Initializers
+org.springframework.context.ApplicationContextInitializer=\
+  com.emily.boot.autoconfigure.initializers.EmilyApplicationContextInitializer

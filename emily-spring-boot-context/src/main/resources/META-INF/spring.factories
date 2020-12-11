@@ -1,0 +1,3 @@
+org.springframework.boot.env.PropertySourceLoader=\
+  com.emily.boot.context.config.EmilyPropertiesPropertySourceLoader
+#org.springframework.boot.env.EnvironmentPostProcessor=com.emily.boot.web.conf.ConfEnvironmentPostProcessor

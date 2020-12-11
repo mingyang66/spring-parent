@@ -26,12 +26,12 @@ Base64一般用于在HTTP协议下传输二进制数据，由于HTTP协议是文
 ##### 3.自己封装的工具类
 
 ```java
-package com.sgrain.boot.common.utils.hash;
+package com.emily.boot.common.utils.hash;
 
-import com.sgrain.boot.common.enums.AppHttpStatus;
-import com.sgrain.boot.common.exception.BusinessException;
-import com.sgrain.boot.common.utils.CharsetUtils;
-import com.sgrain.boot.common.utils.io.IOUtils;
+import com.emily.boot.common.enums.AppHttpStatus;
+import com.emily.boot.common.exception.BusinessException;
+import com.emily.boot.common.utils.CharsetUtils;
+import com.emily.boot.common.utils.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;

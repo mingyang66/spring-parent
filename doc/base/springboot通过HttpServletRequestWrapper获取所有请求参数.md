@@ -14,9 +14,9 @@
 ##### 2.通过HttpServletRequestWrapper包装类每次读取参数后再回写参数
 
 ```java
-package com.sgrain.boot.common.servlet;
+package com.emily.boot.common.servlet;
 
-import com.sgrain.boot.common.utils.io.IOUtils;
+import com.emily.boot.common.utils.io.IOUtils;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -100,9 +100,9 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 ##### 3.回写参数的包装类写好之后接下来就是加入过滤器链之中，如下：
 
 ```java
-package com.sgrain.boot.context.filter;
+package com.emily.boot.context.filter;
 
-import com.sgrain.boot.common.servlet.RequestWrapper;
+import com.emily.boot.common.servlet.RequestWrapper;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -111,7 +111,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
-* @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link com.sgrain.boot.common.servlet.RequestWrapper}
+* @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link com.emily.boot.common.servlet.RequestWrapper}
 * @create: 2020/8/19
 */
 @Component
@@ -216,4 +216,4 @@ public class ChannelFilter implements Filter {
     }
 ```
 
-GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-common](https://github.com/mingyang66/spring-parent/tree/master/sgrain-spring-boot-common)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-common](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-common)

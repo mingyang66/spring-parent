@@ -1,8 +1,8 @@
-package com.emily.boot.autoconfigure.returnvalue;
+package com.emily.boot.autoconfigure.response.wrapper;
 
-import com.emily.boot.autoconfigure.returnvalue.handler.ResponseHttpEntityMethodReturnValueHandler;
-import com.emily.boot.autoconfigure.returnvalue.handler.ResponseHttpHeadersReturnValueHandler;
-import com.emily.boot.autoconfigure.returnvalue.handler.ResponseMethodReturnValueHandler;
+import com.emily.boot.autoconfigure.response.handler.ResponseHttpEntityMethodReturnValueHandler;
+import com.emily.boot.autoconfigure.response.handler.ResponseHttpHeadersReturnValueHandler;
+import com.emily.boot.autoconfigure.response.handler.ResponseMethodReturnValueHandler;
 import com.emily.boot.common.utils.log.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(ReturnValueProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.return-value", name = "enable", havingValue = "true", matchIfMissing = true)
-public class ReturnValueAutoConfiguration implements InitializingBean, DisposableBean {
+@EnableConfigurationProperties(ResponseWrapperProperties.class)
+@ConditionalOnProperty(prefix = "spring.emily.response.wrapper", name = "enable", havingValue = "true", matchIfMissing = true)
+public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {
 
     private RequestMappingHandlerAdapter handlerAdapter;
-    private ReturnValueProperties returnValueProperties;
+    private ResponseWrapperProperties returnValueProperties;
 
-    public ReturnValueAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter, ReturnValueProperties returnValueProperties) {
+    public ResponseWrapperAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties returnValueProperties) {
         this.handlerAdapter = handlerAdapter;
         this.returnValueProperties =returnValueProperties;
     }
@@ -56,11 +56,11 @@ public class ReturnValueAutoConfiguration implements InitializingBean, Disposabl
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(ReturnValueAutoConfiguration.class, "【销毁--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
+        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "【销毁--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(ReturnValueAutoConfiguration.class, "【初始化--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
+        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "【初始化--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
     }
 }

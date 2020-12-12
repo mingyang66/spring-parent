@@ -1,24 +1,24 @@
-package com.emily.boot.cloud.httpclient;
+package com.emily.boot.autoconfigure.http;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 配置元数据文件.
  */
-@ConfigurationProperties(prefix = "spring.emily.cloud.http-client-loadbalancer")
-public class HttpClientBalanceProperties {
+@ConfigurationProperties(prefix = "spring.emily.http-client")
+public class HttpClientProperties {
     /**
      * 组件开关
      */
     private boolean enable;
     /**
-     * HttpClientService read timeout (in milliseconds),default:1000
+     * HttpClientService read timeout (in milliseconds),default:5000
      */
-    private Integer readTimeOut = 1000;
+    private Integer readTimeOut = 5000;
     /**
-     * HttpClientService connect timeout (in milliseconds),default:2000
+     * HttpClientService connect timeout (in milliseconds),default:10000
      */
-    private Integer connectTimeOut = 2000;
+    private Integer connectTimeOut = 10000;
     /**
      * 开启调用接口拦截器
      */

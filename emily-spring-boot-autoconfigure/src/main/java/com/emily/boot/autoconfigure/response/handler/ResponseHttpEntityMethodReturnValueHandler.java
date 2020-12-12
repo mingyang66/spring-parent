@@ -1,7 +1,7 @@
-package com.emily.boot.autoconfigure.returnvalue.handler;
+package com.emily.boot.autoconfigure.response.handler;
 
-import com.emily.boot.autoconfigure.returnvalue.ReturnValueProperties;
-import com.emily.boot.autoconfigure.returnvalue.annotation.ApiWrapperIgnore;
+import com.emily.boot.autoconfigure.response.wrapper.ResponseWrapperProperties;
+import com.emily.boot.autoconfigure.response.annotation.ApiWrapperIgnore;
 import com.emily.boot.common.base.BaseResponse;
 import com.emily.boot.common.base.ResponseData;
 import com.emily.boot.common.enums.AppHttpStatus;
@@ -29,10 +29,10 @@ import java.util.Map;
 public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
     private HandlerMethodReturnValueHandler proxyObject;
-    private ReturnValueProperties returnValueProperties;
+    private ResponseWrapperProperties returnValueProperties;
     private PathMatcher pathMatcher;
 
-    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ReturnValueProperties returnValueProperties) {
+    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ResponseWrapperProperties returnValueProperties) {
         this.proxyObject = proxyObject;
         this.returnValueProperties = returnValueProperties;
         this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.defaultExcludeUrl));

@@ -1,5 +1,6 @@
-package com.emily.boot.autoconfigure.httpclient;
+package com.emily.boot.cloud.http.client;
 
+import com.emily.boot.cloud.http.HttpClientBalanceProperties;
 import com.emily.boot.common.utils.log.LoggerUtils;
 import com.emily.boot.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.boot.context.httpclient.interceptor.HttpClientInterceptor;
@@ -12,9 +13,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -27,15 +28,17 @@ import java.util.Collections;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(HttpClientProperties.class)
+@EnableConfigurationProperties(HttpClientBalanceProperties.class)
 @ConditionalOnClass(RestTemplate.class)
-@ConditionalOnProperty(prefix = "spring.emily.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
-public class HttpClientAutoConfiguration implements InitializingBean, DisposableBean {
+@ConditionalOnProperty(prefix = "spring.emily.cloud.http-client-loadbalancer", name = "enable", havingValue = "true", matchIfMissing = true)
+public class HttpClientBalanceAutoConfiguration implements InitializingBean, DisposableBean {
+
+    public static final String LOAD_BALANCED_BEAN_NAME = "loadBalancer";
     /**
      * 读取配置属性服务类
      */
     @Autowired
-    private HttpClientProperties httpClientProperties;
+    private HttpClientBalanceProperties httpClientProperties;
 
     /**
      * 创建日志异步调用服务
@@ -49,12 +52,12 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
     /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
      */
-    @Primary
-    @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory, AsyncLogHttpClientService asyncLogHttpClientService) {
+    @LoadBalanced
+    @Bean(LOAD_BALANCED_BEAN_NAME)
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory, AsyncLogHttpClientService asyncLogHttpClientService) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
-        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));
+        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientLoadBalanceHttpRequestFactory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if (httpClientProperties.isEnableInterceptor()) {
@@ -69,7 +72,7 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
+    public ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         //HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
@@ -81,11 +84,11 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
+        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
+        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 }

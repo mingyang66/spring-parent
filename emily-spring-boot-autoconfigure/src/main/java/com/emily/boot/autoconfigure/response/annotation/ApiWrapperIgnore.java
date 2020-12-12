@@ -1,4 +1,4 @@
-package com.emily.boot.autoconfigure.returnvalue.annotation;
+package com.emily.boot.autoconfigure.response.annotation;
 
 import java.lang.annotation.*;
 

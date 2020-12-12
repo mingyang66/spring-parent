@@ -3,8 +3,8 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.boot.autoconfigure.apilog.ApiLogAutoConfiguration,\
   com.emily.boot.autoconfigure.idempotent.IdempotentAutoConfiguration,\
   com.emily.boot.autoconfigure.redis.EmilyRedisAutoConfiguration,\
-  com.emily.boot.autoconfigure.returnvalue.ReturnValueAutoConfiguration,\
-  com.emily.boot.autoconfigure.httpclient.HttpClientAutoConfiguration,\
+  com.emily.boot.autoconfigure.response.wrapper.ResponseWrapperAutoConfiguration,\
+  com.emily.boot.autoconfigure.http.client.HttpClientAutoConfiguration,\
   com.emily.boot.autoconfigure.accesslog.AccessLogAutoConfiguration,\
   com.emily.boot.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration,\
   com.emily.boot.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration,\

@@ -1,4 +1,4 @@
-package com.emily.boot.autoconfigure.returnvalue;
+package com.emily.boot.autoconfigure.response.wrapper;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,8 +10,8 @@ import java.util.Set;
  * @description: 返回值配置文件类
  * @create: 2020/03/25
  */
-@ConfigurationProperties(prefix = "spring.emily.return-value")
-public class ReturnValueProperties {
+@ConfigurationProperties(prefix = "spring.emily.response.wrapper")
+public class ResponseWrapperProperties {
     /**
      * 组件开关
      */

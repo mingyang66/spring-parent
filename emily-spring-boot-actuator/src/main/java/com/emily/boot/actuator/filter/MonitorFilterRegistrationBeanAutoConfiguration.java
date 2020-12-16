@@ -30,6 +30,8 @@ public class MonitorFilterRegistrationBeanAutoConfiguration implements Initializ
         filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
         filterRegistrationBean.setFilter(new MonitorFilter());
         filterRegistrationBean.setName("monitorIpFilter");
+        // 指示注册过滤器是否已经启用的标记
+        filterRegistrationBean.setEnabled(true);
         return filterRegistrationBean;
     }
 

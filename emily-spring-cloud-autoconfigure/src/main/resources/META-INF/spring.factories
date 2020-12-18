@@ -1,0 +1,15 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.emily.boot.cloud.autoconfigure.http.client.HttpClientBalanceAutoConfiguration,\
+  com.emily.boot.cloud.autoconfigure.retry.EmilyRibbonLoadBalancedRetryFactory,\
+  com.emily.boot.cloud.autoconfigure.discovery.registry.EmilyConsulServiceRegistryAutoConfiguration,\
+  com.emily.boot.cloud.autoconfigure.discovery.properties.EmilyDiscoveryClientAutoConfiguration
+
+# Bootstrap Configuration
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.emily.boot.cloud.autoconfigure.config.EmilyConsulConfigBootstrapConfiguration,\
+  com.emily.boot.cloud.autoconfigure.bean.EmilyBeanFactoryPostProcessorAutoConfiguration
+
+#Initializers
+org.springframework.context.ApplicationContextInitializer=\
+  com.emily.boot.cloud.autoconfigure.initializer.EmilyPropertySourceBootstrapConfiguration

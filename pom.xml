@@ -13,12 +13,13 @@
         <module>emily-spring-boot-common</module>
         <module>emily-spring-boot-context</module>
         <module>emily-spring-boot-autoconfigure</module>
-        <module>emily-spring-boot-cloud</module>
         <module>emily-spring-boot-starter</module>
         <module>emily-spring-boot-swagger</module>
         <module>emily-spring-boot-actuator</module>
         <module>emily-spring-boot-quartz</module>
-        <module>emily-spring-boot-test</module>
+        <module>emily-spring-cloud-autoconfigure</module>
+        <module>emily-spring-cloud-seluth</module>
+        <module>emily-spring-cloud-test</module>
         <module>spring-security-jwt-service</module>
         <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>

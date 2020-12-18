@@ -10,28 +10,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.emily.boot</groupId>
-    <artifactId>emily-spring-boot-starter</artifactId>
-
+    <artifactId>emily-spring-cloud-autoconfigure</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.emily.boot</groupId>
-            <artifactId>emily-spring-boot-autoconfigure</artifactId>
+            <artifactId>emily-spring-boot-context</artifactId>
             <version>2.2.4.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>com.emily.boot</groupId>
-            <artifactId>emily-spring-cloud-autoconfigure</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-config</artifactId>
+            <version>2.2.5.RELEASE</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.emily.boot</groupId>
-            <artifactId>emily-spring-boot-actuator</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+            <version>2.2.5.RELEASE</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.emily.boot</groupId>
-            <artifactId>emily-spring-cloud-seluth</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
+
 </project>

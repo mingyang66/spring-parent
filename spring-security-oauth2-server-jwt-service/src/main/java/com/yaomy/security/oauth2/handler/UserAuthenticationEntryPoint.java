@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.emily.boot.common.utils.json.JSONUtils;
+import com.emily.framework.common.utils.json.JSONUtils;
 import com.yaomy.security.oauth2.po.ResponseBody;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

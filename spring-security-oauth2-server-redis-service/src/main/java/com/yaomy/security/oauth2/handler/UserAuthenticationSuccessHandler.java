@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.emily.boot.common.base.ResponseData;
-import com.emily.boot.common.utils.json.JSONUtils;
+import com.emily.framework.common.base.ResponseData;
+import com.emily.framework.common.utils.json.JSONUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;

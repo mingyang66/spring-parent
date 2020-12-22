@@ -2,11 +2,11 @@ package com.yaomy.security.oauth2.api;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.emily.boot.common.enums.AppHttpStatus;
-import com.emily.boot.common.enums.DateFormatEnum;
-import com.emily.boot.common.enums.GrantTypeEnum;
-import com.emily.boot.common.base.ResponseData;
-import com.emily.boot.common.utils.json.JSONUtils;
+import com.emily.framework.common.enums.AppHttpStatus;
+import com.emily.framework.common.enums.DateFormatEnum;
+import com.emily.framework.common.enums.GrantTypeEnum;
+import com.emily.framework.common.base.ResponseData;
+import com.emily.framework.common.utils.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;

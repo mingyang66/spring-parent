@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
@@ -38,6 +39,8 @@ public class JSONUtils {
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         //忽略，在json字符串中存在但是在java对象中不存在的属性
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //序列化和反序列化java.Time时间对象
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     /**

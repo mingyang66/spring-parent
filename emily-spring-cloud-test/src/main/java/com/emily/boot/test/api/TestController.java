@@ -1,9 +1,7 @@
 package com.emily.boot.test.api;
 
-import com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler;
-import org.apache.commons.lang3.StringUtils;
+import com.emily.framework.common.utils.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @program: spring-parent
@@ -22,9 +21,6 @@ public class TestController {
 
     @Autowired
     private RestTemplate restTemplate;
-    @Autowired
-    @Qualifier("loadBalancer")
-    private RestTemplate restTemplate1;
 
     @GetMapping("test")
     public String test() throws InterruptedException {
@@ -46,5 +42,15 @@ public class TestController {
     public String test4(@RequestParam String name) throws InterruptedException {
         System.out.println(name);
         return "本服务";
+    }
+    @PostMapping("test5")
+    public void test5(@RequestParam Map<String, Object> params){
+        System.out.println(JSONUtils.toJSONPrettyString(params));
+        System.out.println(params);
+    }
+    @GetMapping("test6")
+    public void test6(@RequestParam Map<String, Object> params){
+        System.out.println(JSONUtils.toJSONPrettyString(params));
+        System.out.println(params);
     }
 }

@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Primary;
  * @create: 2020/11/09
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass(ConsulConfigBootstrapConfiguration.class)
 @AutoConfigureAfter(ConsulConfigBootstrapConfiguration.class)
 @ConditionalOnProperty(name = "spring.cloud.consul.config.enabled", matchIfMissing = true)
 public class EmilyConsulConfigBootstrapConfiguration implements InitializingBean, DisposableBean {

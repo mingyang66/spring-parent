@@ -1,3 +1,4 @@
+/*
 package com.emily.framework.cloud.autoconfigure.retry;
 
 import com.emily.framework.cloud.autoconfigure.retry.listener.EmilyRetryListener;
@@ -17,11 +18,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.RetryListener;
 import org.springframework.retry.backoff.BackOffPolicy;
 
+*/
 /**
  * @program: spring-parent
  * @description: Ribbon负载均衡重试工厂类
  * @create: 2020/11/13
- */
+ *//*
+
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(name = "org.springframework.retry.support.RetryTemplate", value = {RibbonLoadBalancedRetryFactory.class})
 @ConditionalOnMissingBean(value = RibbonLoadBalancedRetryFactory.class)
@@ -61,3 +64,4 @@ public class EmilyRibbonLoadBalancedRetryFactory extends RibbonLoadBalancedRetry
         LoggerUtils.info(EmilyRibbonLoadBalancedRetryFactory.class, "【初始化--自动化配置】----Ribbon负载均衡重试工厂组件【EmilyRibbonLoadBalancedRetryFactory】");
     }
 }
+*/

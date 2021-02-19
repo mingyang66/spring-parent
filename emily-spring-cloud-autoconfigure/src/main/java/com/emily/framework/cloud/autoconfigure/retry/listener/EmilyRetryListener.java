@@ -1,3 +1,4 @@
+/*
 package com.emily.framework.cloud.autoconfigure.retry.listener;
 
 import com.emily.framework.common.utils.RequestUtils;
@@ -12,11 +13,13 @@ import org.springframework.retry.RetryListener;
 
 import java.util.Date;
 
+*/
 /**
  * @program: spring-parent
  * @description: ribbon重试监听器
  * @create: 2020/11/13
- */
+ *//*
+
 public class EmilyRetryListener implements RetryListener {
     private AsyncLogHttpClientService asyncLogHttpClientService;
 
@@ -24,7 +27,8 @@ public class EmilyRetryListener implements RetryListener {
         this.asyncLogHttpClientService = asyncLogHttpClientService;
     }
 
-    /**
+    */
+/**
      * 在第一次重试之前调用，
      *
      * @param context
@@ -32,13 +36,15 @@ public class EmilyRetryListener implements RetryListener {
      * @param <T>
      * @param <E>
      * @return
-     */
+     *//*
+
     @Override
     public <T, E extends Throwable> boolean open(RetryContext context, RetryCallback<T, E> callback) {
         return true;
     }
 
-    /**
+    */
+/**
      * 在最后一次尝试后调用（成功或失败），在控件返回到重试调用方之前，允许监听器清除它所持有的任何资源
      *
      * @param context   当前的RetryContext
@@ -46,7 +52,8 @@ public class EmilyRetryListener implements RetryListener {
      * @param throwable 回调引发的最后一个异常
      * @param <T>       返回值
      * @param <E>       抛出的异常
-     */
+     *//*
+
     @Override
     public <T, E extends Throwable> void close(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
         if (context.getRetryCount() == 0) {
@@ -81,7 +88,8 @@ public class EmilyRetryListener implements RetryListener {
         }
     }
 
-    /**
+    */
+/**
      * 每次失败后重试
      *
      * @param context   当前的RetryContext
@@ -89,7 +97,8 @@ public class EmilyRetryListener implements RetryListener {
      * @param throwable 回调引发的最后一个异常
      * @param <T>       返回值
      * @param <E>       抛出的异常
-     */
+     *//*
+
     @Override
     public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
         if(context instanceof LoadBalancedRetryContext){
@@ -122,3 +131,4 @@ public class EmilyRetryListener implements RetryListener {
         }
     }
 }
+*/

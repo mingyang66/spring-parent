@@ -18,6 +18,10 @@ public enum DateFormatEnum {
     YYYY("yyyy"),
     YYYYMM("yyyyMM"),
     YYYYMMDDHHMMSS("yyyyMMddHHmmss"),
+    HHMMSS("HHmmss"),
+    MMSS("mmss"),
+    HHMM("HHmm"),
+    SS("ss"),
 
     YYYY_MM_EN("yyyy/MM"),
     YYYY_MM_DD_EN("yyyy/MM/dd"),

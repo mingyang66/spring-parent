@@ -34,6 +34,10 @@ public enum AppHttpStatus {
     PHONE_VALIDATE_ERROR(200006, "手机验证码错误"),
     IMAGE_CODE_VALIDATE_ERROR(200007, "图形验证码错误"),
 
+    SERVER_LIMITING_EXCEPTION(200008, "服务访问过于频繁，请稍后再试"),
+    SERVER_RETRY_EXCEPTION(200009, "服务不可以重复提交，请稍后再试"),
+    SERVER_IIIEGAL_ACCESS(200010, "非法访问"),
+
     API404_EXCEPTION(404, "远程接口不存在"),
     API500_EXCEPTION(500, "远程接口服务错误");
 

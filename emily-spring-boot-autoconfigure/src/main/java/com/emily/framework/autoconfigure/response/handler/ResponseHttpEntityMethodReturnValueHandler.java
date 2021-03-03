@@ -52,9 +52,9 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         //获取ResponseEntity封装的真实返回值
         Object body = (null == returnValue) ? null : entity.getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (entity.getStatusCode().value() == AppHttpStatus.NOT_FOUND.getStatus()) {
+        if (entity.getStatusCode().value() == AppHttpStatus.API404_EXCEPTION.getStatus()) {
             String path = ((Map) body).get("path").toString();
-            ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.NOT_FOUND.getStatus(), StringUtils.join("接口【", path, "】不存在"));
+            ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.API404_EXCEPTION.getStatus(), StringUtils.join("接口【", path, "】不存在"));
             proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)

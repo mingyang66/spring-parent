@@ -44,7 +44,7 @@ public class GZIPUtils {
             gzip.close();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException(AppHttpStatus.DATA_COMPRESS_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
         return out.toByteArray();
     }
@@ -70,7 +70,7 @@ public class GZIPUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException(AppHttpStatus.DATA_DE_COMPRESS_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
         return out.toByteArray();
     }
@@ -108,7 +108,7 @@ public class GZIPUtils {
             return out.toString(encoding);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException(AppHttpStatus.DATA_DE_COMPRESS_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 }

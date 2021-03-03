@@ -38,7 +38,7 @@ public class URLCoderUtils {
         try {
             return URLDecoder.decode(content, enc);
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.DATA_PARSE_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -66,7 +66,7 @@ public class URLCoderUtils {
         try {
             return URLEncoder.encode(content, enc);
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.DATA_PARSE_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 

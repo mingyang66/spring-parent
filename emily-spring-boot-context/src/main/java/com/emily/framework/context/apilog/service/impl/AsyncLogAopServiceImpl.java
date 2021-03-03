@@ -63,7 +63,7 @@ public class AsyncLogAopServiceImpl implements AsyncLogAopService {
         if (ObjectUtils.isNotEmpty(resultBody) && (resultBody instanceof ResponseEntity)) {
             ResponseEntity entity = ((ResponseEntity) resultBody);
             resultBody = entity.getBody();
-            if(entity.getStatusCode().value() == AppHttpStatus.NOT_FOUND.getStatus()){
+            if(entity.getStatusCode().value() == AppHttpStatus.API404_EXCEPTION.getStatus()){
                 url = ((Map)(entity.getBody())).get("path").toString();
             }
         }

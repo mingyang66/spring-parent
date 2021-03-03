@@ -19,10 +19,10 @@ public class ServiceInstanceUtils {
      */
     public static String getRequestUrl(String serviceName, String apiName) {
         if (StringUtils.isEmpty(serviceName)) {
-            throw new BusinessException(AppHttpStatus.DATA_EXCEPTION.getStatus(), "服务名不可以为空！");
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "服务名不可以为空！");
         }
         if (StringUtils.isEmpty(apiName)) {
-            throw new BusinessException(AppHttpStatus.DATA_EXCEPTION.getStatus(), "API不可以为空！");
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "API不可以为空！");
         }
         if (StringUtils.startsWith(apiName, CharacterUtils.PATH_SEPARATOR)) {
             return StringUtils.join("http://", serviceName, apiName);

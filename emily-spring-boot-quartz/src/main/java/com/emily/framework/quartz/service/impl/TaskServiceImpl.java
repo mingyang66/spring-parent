@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
             Date date = scheduler.scheduleJob(jobDetail, builder.build());
             return DateFormatUtils.format(date, DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat());
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "新增Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "新增Task任务异常" + e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             scheduler.pauseTrigger(TriggerKey.triggerKey(triggerName, triggerGroup));
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "暂停Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "暂停Task任务异常" + e.getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             scheduler.pauseTriggers(GroupMatcher.triggerGroupEquals(triggerGroup));
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "暂停Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "暂停Task任务异常" + e.getMessage());
         }
     }
 
@@ -149,7 +149,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             scheduler.pauseAll();
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "暂停Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "暂停Task任务异常" + e.getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             scheduler.resumeTrigger(TriggerKey.triggerKey(triggerName, triggerGroup));
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "恢复Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "恢复Task任务异常" + e.getMessage());
         }
     }
 
@@ -178,7 +178,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             scheduler.resumeTriggers(GroupMatcher.triggerGroupEquals(triggerGroup));
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "恢复指定分组的Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "恢复指定分组的Task任务异常" + e.getMessage());
         }
     }
 
@@ -190,7 +190,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             scheduler.resumeAll();
         } catch (SchedulerException e) {
-            throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "恢复所有Task任务异常" + e.getMessage());
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "恢复所有Task任务异常" + e.getMessage());
         }
     }
 

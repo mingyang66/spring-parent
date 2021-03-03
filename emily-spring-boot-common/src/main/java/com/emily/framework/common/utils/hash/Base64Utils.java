@@ -51,7 +51,7 @@ public class Base64Utils {
             }
             return Base64.getEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -86,7 +86,7 @@ public class Base64Utils {
             }
             return new String(Base64.getDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -119,7 +119,7 @@ public class Base64Utils {
             }
             return Base64.getUrlEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -152,7 +152,7 @@ public class Base64Utils {
             }
             return new String(Base64.getUrlDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -185,7 +185,7 @@ public class Base64Utils {
             }
             return Base64.getMimeEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -218,7 +218,7 @@ public class Base64Utils {
             }
             return new String(Base64.getMimeDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -237,9 +237,9 @@ public class Base64Utils {
             OutputStream os = Base64.getEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
-            throw new BusinessException(AppHttpStatus.READ_RESOURSE_NOT_FOUND_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -258,7 +258,7 @@ public class Base64Utils {
             InputStream is = Base64.getDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
-            throw new BusinessException(AppHttpStatus.READ_RESOURSE_NOT_FOUND_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
     }
 
@@ -277,9 +277,9 @@ public class Base64Utils {
             OutputStream os = Base64.getUrlEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
-            throw new BusinessException(AppHttpStatus.READ_RESOURSE_NOT_FOUND_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -298,7 +298,7 @@ public class Base64Utils {
             InputStream is = Base64.getUrlDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
-            throw new BusinessException(AppHttpStatus.READ_RESOURSE_NOT_FOUND_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
     }
 
@@ -317,9 +317,9 @@ public class Base64Utils {
             OutputStream os = Base64.getMimeEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
-            throw new BusinessException(AppHttpStatus.READ_RESOURSE_NOT_FOUND_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
-            throw new BusinessException(AppHttpStatus.ENCODING_UNSUPPORTED_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -338,7 +338,7 @@ public class Base64Utils {
             InputStream is = Base64.getMimeDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
-            throw new BusinessException(AppHttpStatus.READ_RESOURSE_NOT_FOUND_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
     }
 }

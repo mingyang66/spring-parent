@@ -28,7 +28,7 @@ public class DateUtils {
             Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
             return DateFormatUtils.format(date, nowFormat);
         } catch (ParseException e) {
-            throw new BusinessException(AppHttpStatus.DATE_PARSE_EXCEPTION.getStatus(), "日期格式转换异常" + e);
+            throw new BusinessException(AppHttpStatus.DATE_TIME_EXCEPTION.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -54,7 +54,7 @@ public class DateUtils {
             Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
             return date;
         } catch (ParseException e) {
-            throw new BusinessException(AppHttpStatus.DATE_PARSE_EXCEPTION.getStatus(), "日期格式转换异常" + e);
+            throw new BusinessException(AppHttpStatus.DATE_TIME_EXCEPTION.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -74,7 +74,7 @@ public class DateUtils {
                 return true;
             }
         } catch (ParseException e) {
-            throw new BusinessException(AppHttpStatus.DATE_PARSE_EXCEPTION.getStatus(), "日期格式转换异常" + e);
+            throw new BusinessException(AppHttpStatus.DATE_TIME_EXCEPTION.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -107,7 +107,7 @@ public class DateUtils {
             int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
             return weekDays[w];
         } catch (ParseException e) {
-            throw new BusinessException(AppHttpStatus.DATE_PARSE_EXCEPTION.getStatus(), "日期格式转换异常" + e);
+            throw new BusinessException(AppHttpStatus.DATE_TIME_EXCEPTION.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -238,7 +238,7 @@ public class DateUtils {
             }
             return false;
         } catch (ParseException e) {
-            throw new BusinessException(AppHttpStatus.DATE_PARSE_EXCEPTION.getStatus(), AppHttpStatus.DATE_PARSE_EXCEPTION.getMessage());
+            throw new BusinessException(AppHttpStatus.DATE_TIME_EXCEPTION.getStatus(), AppHttpStatus.DATE_TIME_EXCEPTION.getMessage());
         }
     }
 

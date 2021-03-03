@@ -42,11 +42,11 @@ public class IdempotentMethodBeforeAdvice implements MethodBeforeAdvice {
         //客户端发送的防止接口重复提交header参数
         String authentication = request.getHeader(AUTHENTICATION);
         if (StringUtils.isEmpty(authentication)) {
-            throw new BusinessException(AppHttpStatus.API_IDEMPOTENT_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
+            throw new BusinessException(AppHttpStatus.API500_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
         }
         boolean delFlag = stringRedisTemplate.delete(StringUtils.join("idempotent", CharacterUtils.COLON_EN, authentication));
         if (!delFlag) {
-            throw new BusinessException(AppHttpStatus.API_IDEMPOTENT_EXCEPTION);
+            throw new BusinessException(AppHttpStatus.API500_EXCEPTION);
         }
     }
 

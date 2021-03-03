@@ -28,7 +28,7 @@ public class NumberUtils {
             }
             return new BigDecimal(number).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.DATA_CALCULATION_EXCEPTION.getStatus(), "数据计算异常");
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "数据计算异常");
         }
     }
 

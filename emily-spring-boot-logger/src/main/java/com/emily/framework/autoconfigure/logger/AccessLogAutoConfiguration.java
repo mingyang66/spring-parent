@@ -1,4 +1,4 @@
-package com.emily.framework.autoconfigure.accesslog;
+package com.emily.framework.autoconfigure.logger;
 
 import com.emily.framework.common.utils.log.LoggerUtils;
 import com.emily.framework.common.utils.log.accesslog.builder.AccessLogBuilder;
@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(AccessLogProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.accesslog", name = "enable", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.emily.accesslog", name = "enable", havingValue = "true", matchIfMissing = true)
 public class AccessLogAutoConfiguration implements InitializingBean, DisposableBean {
 
     private AccessLogBuilder builder;

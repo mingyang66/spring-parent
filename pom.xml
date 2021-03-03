@@ -27,10 +27,11 @@
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
+        <module>emily-spring-boot-logger</module>
     </modules>
     <groupId>com.emily.framework</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>2.2.5.RELEASE</version>
+    <version>2.2.6.RELEASE</version>
     <name>spring-parent</name>
     <description>emily</description>
 
@@ -44,6 +45,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
 

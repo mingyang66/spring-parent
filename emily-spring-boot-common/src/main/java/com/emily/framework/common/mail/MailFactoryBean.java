@@ -1,3 +1,4 @@
+/*
 package com.emily.framework.common.mail;
 
 import com.emily.framework.common.exception.BusinessException;
@@ -15,19 +16,23 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Objects;
 
+*/
 /**
  * @program: spring-parent
  * @description: 邮件发送公用方法
  * @create: 2020/08/14
- */
+ *//*
+
 public class MailFactoryBean {
-    /**
+    */
+/**
      * 发送简单文本邮件
      *
      * @param javaMailSender 邮件发送实体对象
      * @param mailMessage    发送邮件实体信息
      * @return
-     */
+     *//*
+
     public static boolean sendSimpleMail(JavaMailSender javaMailSender, MailMessage mailMessage) {
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
@@ -56,12 +61,14 @@ public class MailFactoryBean {
         return true;
     }
 
-    /**
+    */
+/**
      * 发送MIME类型邮件
      * @param javaMailSender 邮件发送实体对象
      * @param message        发送邮件实体信息
      * @return
-     */
+     *//*
+
     public static boolean sendMimeMail(JavaMailSender javaMailSender, com.emily.framework.common.mail.model.MimeMailMessage message) {
         try {
             MimeMailMessage mimeMailMessage = new MimeMailMessage(javaMailSender.createMimeMessage());
@@ -104,3 +111,4 @@ public class MailFactoryBean {
         return true;
     }
 }
+*/

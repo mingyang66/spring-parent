@@ -1,4 +1,4 @@
-package com.sgrain.boot.consul.api.po;
+package com.emily.boot.test.api.po;
 
 /**
  * @program: consul-demo

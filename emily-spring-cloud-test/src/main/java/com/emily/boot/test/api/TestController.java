@@ -1,12 +1,7 @@
 package com.emily.boot.test.api;
 
-import com.emily.framework.common.utils.json.JSONUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import com.emily.boot.test.api.po.User;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -19,38 +14,39 @@ import java.util.Map;
 @RestController
 public class TestController {
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @GetMapping("test")
-    public String test() throws InterruptedException {
-        Thread.sleep(200000);
+    @GetMapping("test1")
+    public String test1(HttpServletResponse response){
+        response.setContentType("text/html");
         return "success";
     }
     @GetMapping("test2")
-    public String test2() throws InterruptedException {
-        return "本服务";
+    public String test2(String password){
+
+        return "success-"+password;
     }
     @PostMapping("test3")
-    public String test3(@RequestParam String name, HttpServletResponse response) throws InterruptedException {
-        System.out.println(name);
-        response.setHeader("X-Response-Header", "you are Emily");
-        response.setHeader("Location", "http://www.baidu.com/api/ttt");
-        return "本服务";
+    public String test3(@RequestBody User user){
+        return "success"+user.getName();
     }
+
     @PostMapping("test4")
-    public String test4(@RequestParam String name) throws InterruptedException {
-        System.out.println(name);
-        return "本服务";
+    public String test4(@RequestBody User user){
+        throw new RuntimeException("error");
     }
+
     @PostMapping("test5")
-    public void test5(@RequestParam Map<String, Object> params){
-        System.out.println(JSONUtils.toJSONPrettyString(params));
-        System.out.println(params);
+    public String test5(@RequestBody User user){
+        try{
+            Thread.sleep(3000);
+        }catch (Exception e){
+
+        }
+        return "success";
     }
-    @GetMapping("test6")
-    public void test6(@RequestParam Map<String, Object> params){
-        System.out.println(JSONUtils.toJSONPrettyString(params));
+
+    @PostMapping("test6")
+    public Map<String, Object> test6(@RequestParam Map<String, Object> params){
         System.out.println(params);
+        return params;
     }
 }

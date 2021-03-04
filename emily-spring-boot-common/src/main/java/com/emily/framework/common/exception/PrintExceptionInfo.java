@@ -27,7 +27,18 @@ public class PrintExceptionInfo {
         }
         return message;
     }
-
+    /**
+     * 输出所有异常
+     * @param e
+     * @return
+     */
+    public static String printErrorInfo(Throwable[] e) {
+        String message = "";
+        for(int i=0;i<e.length;i++){
+            message = StringUtils.join(message, "\n", printErrorInfo(e[i]));
+        }
+        return message;
+    }
     /**
      * 获取异常堆栈信息并记录到error文件中
      * @param e

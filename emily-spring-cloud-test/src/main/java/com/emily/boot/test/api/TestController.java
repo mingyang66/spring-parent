@@ -44,9 +44,13 @@ public class TestController {
         return "success";
     }
 
-    @PostMapping("test6")
-    public Map<String, Object> test6(@RequestParam Map<String, Object> params){
-        System.out.println(params);
-        return params;
+    @GetMapping("test6")
+    public byte[] test6(){
+        byte[] bytes = new byte[]{1,2};
+        return bytes;
+    }
+    @GetMapping("test7")
+    public byte test7(){
+        return 2;
     }
 }

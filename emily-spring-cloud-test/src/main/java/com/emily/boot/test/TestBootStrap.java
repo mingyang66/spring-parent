@@ -1,9 +1,12 @@
 package com.emily.boot.test;
 
 
+import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.websocket.server.WsSci;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 
@@ -31,4 +34,16 @@ public class TestBootStrap {
         connector.setPort(9088);
         return connector;
     }
+
+/*    @Bean
+    public TomcatContextCustomizer tomcatContextCustomizer() {
+        System.out.println("TOMCATCONTEXTCUSTOMIZER INITILIZED");
+        return new TomcatContextCustomizer() {
+            @Override
+            public void customize(Context context) {
+                context.addServletContainerInitializer(new WsSci(), null);
+            }
+
+        };
+    }*/
 }

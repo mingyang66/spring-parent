@@ -32,6 +32,7 @@ public class AccessLogAutoConfiguration implements InitializingBean, DisposableB
     @ConditionalOnMissingBean
     public AccessLogBuilder defaultAccessLog(AccessLogProperties properties) {
         builder = new AccessLogBuilder(properties);
+        LoggerUtils.setBuilder(builder);
         return builder;
     }
 
@@ -42,9 +43,6 @@ public class AccessLogAutoConfiguration implements InitializingBean, DisposableB
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (Objects.nonNull(builder)) {
-            LoggerUtils.setBuilder(builder);
-            LoggerUtils.info(AccessLogAutoConfiguration.class, "【初始化--自动化配置】----logback日志组件【AccessLogAutoConfiguration】");
-        }
+        LoggerUtils.info(AccessLogAutoConfiguration.class, "【初始化--自动化配置】----logback日志组件【AccessLogAutoConfiguration】");
     }
 }

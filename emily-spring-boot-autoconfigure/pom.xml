@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.emily.framework</groupId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.2.7RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.emily.framework</groupId>
             <artifactId>emily-spring-boot-context</artifactId>
-            <version>2.2.6.RELEASE</version>
+            <version>2.2.7RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

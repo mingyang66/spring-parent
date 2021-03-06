@@ -36,7 +36,8 @@ public enum AppHttpStatus {
 
     SERVER_LIMITING_EXCEPTION(200008, "服务访问过于频繁，请稍后再试"),
     SERVER_RETRY_EXCEPTION(200009, "服务不可以重复提交，请稍后再试"),
-    SERVER_IIIEGAL_ACCESS(200010, "非法访问"),
+    SERVER_ILLEGAL_ACCESS(200010, "非法访问"),
+    SERVER_CIRCUIT_BREAKER(200011, "触发服务降级处理"),
 
     API404_EXCEPTION(404, "远程接口不存在"),
     API500_EXCEPTION(500, "远程接口服务错误");

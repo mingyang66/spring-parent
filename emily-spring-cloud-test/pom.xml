@@ -5,18 +5,26 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.emily.framework</groupId>
-        <version>2.2.7.RELEASE</version>
+        <version>2.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>emily-spring-cloud-test</artifactId>
     <version>1.0.1</version>
     <name>EmilyFramework</name>
+
+    <properties>
+        <start-class>com.emily.boot.test.TestBootStrap</start-class>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.emily.framework</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>2.2.7.RELEASE</version>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,6 +60,23 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--加入下面两项配置-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.emily.boot.test.TestBootStrap</mainClass>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>

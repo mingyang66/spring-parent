@@ -8,14 +8,14 @@ mvn clean package
 docker build -f ./Dockerfile . -t emilyframework:1.0.1
 # 运行构建的镜像
 docker run \
--e JAVA_ACL_TOKEN=03259e78-848c-3ea8-c0f6-524279d52929 \
+-e JAVA_ACL_TOKEN=7e9b1b50-c5b8-d786-c4f2-42c0155a7e1e \
 -e JAVA_LOCAL_IP=172.30.67.122 \
--e JAVA_LOCAL_PORT=802 \
+-e JAVA_LOCAL_PORT=9000 \
 --restart=always \
 --privileged=true \
 -itd --name emilyframework \
--p 80:802 \
--p 443:4432 \
--p 7743:7742 \
+-p 9000:9000 \
+-p 9088:9088 \
+-p 9443:9443 \
 -v /Users/yaomingyang/Documents/logs:/app/logs \
 emilyframework:1.0.1

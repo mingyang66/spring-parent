@@ -1,7 +1,11 @@
 package com.emily.boot.test.api;
 
 import com.emily.boot.test.api.po.User;
+import com.emily.boot.test.api.po.ValidateCodeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +25,12 @@ public class TestController {
         return "success";
     }
 
+    @Autowired
+    private MessageSource messageSource;
+
     @GetMapping("test2")
     public String test2(String password) {
-
-        return "success-" + password;
+        return "success-" + messageSource.getMessage("spring.emily.username", null, LocaleContextHolder.getLocale());
     }
 
     @PostMapping("test3")
@@ -63,12 +69,8 @@ public class TestController {
         return s;
     }
 
-    public static void main(String[] args) {
-        String message = "你好，我是李焕英，哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或";
-        String s = "";
-        for (int i = 0; i < 10000; i++) {
-            s = StringUtils.join(s, message);
-        }
-        System.out.println(s.getBytes().length/1024);
+    @GetMapping("/gateway/createImage")
+    public Map.Entry<String, Object> imageCode() {
+        return ValidateCodeUtils.createImage(6);
     }
 }

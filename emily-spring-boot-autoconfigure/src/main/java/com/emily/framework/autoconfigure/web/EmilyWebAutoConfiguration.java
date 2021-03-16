@@ -87,20 +87,20 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
     /**
      * 跨域设置
      * 在浏览器console控制台测试ajax示例
-     * $.ajax({
-     * url:"http://172.30.67.122:9000/api/void/test1",//发送的路径
-     * type:"POST",//发送的方式
-     * async:false,
-     * data:JSON.stringify({'name':'test','age':23}),//发送的数据
-     * contentType: "application/json", //提交数据类型
-     * dataType:"json",//服务器返回的数据类型
-     * success: function(data) {
-     * console.log(data)
-     * },
-     * error: function (data){
-     * alert("提交失败");
-     * }
-     * });
+     $.ajax({
+     url:"http://172.30.67.122:9000/api/void/test1",//发送的路径
+     type:"POST",//发送的方式
+     async:false,
+     data:JSON.stringify({'name':'test','age':23}),//发送的数据
+     contentType: "application/json", //提交数据类型
+     dataType:"json",//服务器返回的数据类型
+     success: function(data) {
+     console.log(data)
+     },
+     error: function (data){
+     alert("提交失败");
+     }
+     });
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {

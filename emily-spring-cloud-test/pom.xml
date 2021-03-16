@@ -73,7 +73,7 @@
                 </executions>
                 <configuration>
                     <!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.emily.boot.test.TestBootStrap</mainClass>
+                    <!--<mainClass>com.emily.boot.test.TestBootStrap</mainClass>-->
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>

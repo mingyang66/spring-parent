@@ -6,7 +6,7 @@ server:
     # 是否开启http端口号
     enable: true
     # http端口号
-    port: 9088
+    port: 9001
     # 优雅停机
     shutdown: graceful
   ssl:
@@ -24,7 +24,7 @@ server:
     protocol: TLS
 management:
   server:
-    port: 9443
+    port: 9002
     ssl:
       # 是否开启SSL支持，默认：true
       enabled: true

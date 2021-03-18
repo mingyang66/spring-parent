@@ -41,13 +41,13 @@ fi
   docker run \
   -e JAVA_ACL_TOKEN=7e9b1b50-c5b8-d786-c4f2-42c0155a7e1e \
   -e JAVA_LOCAL_IP=${localIp} \
-  -e JAVA_LOCAL_PORT=9088 \
+  -e JAVA_LOCAL_PORT=9001 \
   --restart=always \
   --privileged=true \
   -itd --name emilyframework \
-  -p 9000:9000 \
-  -p 9088:9088 \
-  -p 9443:9443 \
+  -p 9000:443 \
+  -p 9001:80 \
+  -p 9002:7443 \
   -v /Users/yaomingyang/Documents/IDE/workplace-java/logs1:/app/logs \
   emilyframework:${VERSION}
   echo '容器创建成功...'

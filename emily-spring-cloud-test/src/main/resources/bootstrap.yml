@@ -32,7 +32,7 @@ spring:
         # 注册协议为HTTP或HTTPS，默认:http
         scheme: https
         # 注册服务时使用的tag
-        tags: emily=gateway
+        tags: emily=framework
         # 服务名称
         service-name: ${spring.application.name}
         # 实例ID(唯一标识)，默认是：${spring.application.name}:comma,separated,profiles:${server.port}
@@ -48,7 +48,9 @@ spring:
         # actuator监控服务后缀
         management-suffix: management
         # 注册监控服务时的tag
-        management-tags: emily=gateway-management
+        management-tags: emily=framework-management
+        # 注册actuator监控服务端口（默认是：management port）--使用docker时设置
+        management-port: ${JAVA_LOCAL_MANAGEMENT_PORT}
         # 注册健康检查到consul,在服务开发过程中有用
         register-health-check: true
         # 健康检查路径，默认：/actuator/health

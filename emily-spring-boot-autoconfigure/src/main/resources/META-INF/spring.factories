@@ -5,7 +5,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.framework.autoconfigure.redis.EmilyRedisAutoConfiguration,\
   com.emily.framework.autoconfigure.response.wrapper.ResponseWrapperAutoConfiguration,\
   com.emily.framework.autoconfigure.http.client.HttpClientAutoConfiguration,\
-  com.emily.framework.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration,\
   com.emily.framework.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration,\
   com.emily.framework.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration,\
   com.emily.framework.autoconfigure.web.EmilyWebAutoConfiguration,\

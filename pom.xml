@@ -11,14 +11,12 @@
     </parent>
     <modules>
         <module>emily-spring-boot-common</module>
+        <module>emily-spring-boot-logger</module>
         <module>emily-spring-boot-context</module>
         <module>emily-spring-boot-autoconfigure</module>
-        <module>emily-spring-boot-starter</module>
-        <module>emily-spring-boot-swagger</module>
-        <module>emily-spring-boot-actuator</module>
-        <module>emily-spring-boot-quartz</module>
         <module>emily-spring-cloud-autoconfigure</module>
-        <module>emily-spring-cloud-seluth</module>
+        <module>emily-spring-boot-actuator</module>
+        <module>emily-spring-boot-starter</module>
         <module>emily-spring-cloud-test</module>
         <module>spring-security-jwt-service</module>
         <module>spring-security-oauth2-server-redis-service</module>
@@ -27,11 +25,10 @@
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>emily-spring-boot-logger</module>
     </modules>
     <groupId>com.emily.framework</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1</version>
     <name>spring-parent</name>
     <description>emily</description>
 
@@ -56,13 +53,6 @@
     <build>
         <!--<defaultGoal>compile</defaultGoal>-->
         <plugins>
-            <!--<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>-->
             <!--配置生成源码包-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

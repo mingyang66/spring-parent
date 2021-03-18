@@ -4,7 +4,7 @@
 ##### 1 设置新的版本号
 
 ```
-./mvnw versions:set -DnewVersion=2.4.0
+./mvnw versions:set -DnewVersion=2.4.1
 ```
 
 ##### 2 撤销设置

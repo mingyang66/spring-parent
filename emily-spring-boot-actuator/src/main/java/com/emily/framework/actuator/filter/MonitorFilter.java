@@ -23,7 +23,7 @@ public class MonitorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(RequestUtils.isInternet(RequestUtils.getClientIp(request))){
-            LoggerUtils.info(MonitorFilter.class, "健康检查："+request.getRequestURL()+ "--"+ DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            //LoggerUtils.info(MonitorFilter.class, "健康检查："+request.getRequestURL()+ "--"+ DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
             filterChain.doFilter(request, response);
         } else {
             response.setHeader("Content-Type", "text/html; charset=UTF-8");

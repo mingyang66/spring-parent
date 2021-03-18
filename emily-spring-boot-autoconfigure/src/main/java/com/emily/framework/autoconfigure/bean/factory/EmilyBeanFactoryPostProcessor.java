@@ -3,8 +3,6 @@ package com.emily.framework.autoconfigure.bean.factory;
 import com.emily.framework.autoconfigure.apilog.ApiLogAutoConfiguration;
 import com.emily.framework.autoconfigure.apilog.ApiLogProperties;
 import com.emily.framework.autoconfigure.ratelimit.RateLimitAutoConfiguration;
-import com.emily.framework.autoconfigure.threadpool.AsyncThreadPoolAutoConfiguration;
-import com.emily.framework.autoconfigure.threadpool.AsyncThreadPoolProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -22,14 +20,6 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        if (beanFactory.containsBeanDefinition(AsyncThreadPoolAutoConfiguration.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(AsyncThreadPoolAutoConfiguration.class.getName());
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("spring.emily.async-thread-pool-" + AsyncThreadPoolProperties.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.async-thread-pool-" + AsyncThreadPoolProperties.class.getName());
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
         if (beanFactory.containsBeanDefinition("spring.emily.api-log-" + ApiLogProperties.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.api-log-" + ApiLogProperties.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

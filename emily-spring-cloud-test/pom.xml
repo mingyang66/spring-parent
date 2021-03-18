@@ -94,6 +94,22 @@
                     </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!--源代码使用的JDK版本-->
+                    <source>11</source>
+                    <!--需要生成的目标class文件的编译版本-->
+                    <target>11</target>
+                    <!--字符集编码-->
+                    <encoding>UTF-8</encoding>
+                    <!--编译器使用的初始内存-->
+                    <meminitial>128M</meminitial>
+                    <!--编译器使用的最大内存-->
+                    <maxmem>512M</maxmem>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

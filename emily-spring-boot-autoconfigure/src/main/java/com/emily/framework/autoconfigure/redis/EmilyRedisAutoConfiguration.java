@@ -8,8 +8,12 @@ import com.emily.framework.common.utils.log.LoggerUtils;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +21,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Redis配置文件
@@ -26,16 +32,20 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableConfigurationProperties(EmilyRedisProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.redis", name = "enable", havingValue = "true", matchIfMissing = false)
 public class EmilyRedisAutoConfiguration implements InitializingBean, DisposableBean {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
      * redis序列化方式选择：
      * 1.默认的JdkSerializationRedisSerializer序列化方式，其编码是ISO-8859-1,会出现乱码问题
      * 2.StringRedisSerializer序列化方式，其编码是UTF-8,可以解决乱码问题；序列化字符串无双引号
      * 3.Jackson2JsonRedisSerializer序列化方式，其编码是UTF-8,可以解决乱码问题，但是字符串会有一个双引号
      */
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
+    @PostConstruct
+    public void init() {
+        //RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        //redisTemplate.setConnectionFactory(redisConnectionFactory);
         //设置Key序列化要使用的模板，默认是JdkSerializationRedisSerializer
         redisTemplate.setKeySerializer(stringSerializer());
         //设置value序列化要使用的模板，默认是JdkSerializationRedisSerializer
@@ -44,7 +54,6 @@ public class EmilyRedisAutoConfiguration implements InitializingBean, Disposable
         redisTemplate.setHashKeySerializer(stringSerializer());
         //设置此模板要使用的哈希值序列化程序，默认是JdkSerializationRedisSerializer
         redisTemplate.setHashValueSerializer(jacksonSerializer());
-        return redisTemplate;
     }
 
     /**

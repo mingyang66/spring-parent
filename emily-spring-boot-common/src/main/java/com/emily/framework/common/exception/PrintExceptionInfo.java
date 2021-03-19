@@ -14,9 +14,9 @@ public class PrintExceptionInfo {
      * @Description 打印错误日志信息
      * @Version 1.0
      */
-    public static String printErrorInfo(Throwable e) {
-        String message = e.toString();
-        StackTraceElement[] elements = e.getStackTrace();
+    public static String printErrorInfo(Throwable ex) {
+        String message = ex.toString();
+        StackTraceElement[] elements = ex.getStackTrace();
         for (int i = 0; i < elements.length; i++) {
             StackTraceElement element = elements[i];
             if (i == 0) {
@@ -29,24 +29,24 @@ public class PrintExceptionInfo {
     }
     /**
      * 输出所有异常
-     * @param e
+     * @param ex
      * @return
      */
-    public static String printErrorInfo(Throwable[] e) {
+    public static String printErrorInfo(Throwable[] ex) {
         String message = "";
-        for(int i=0;i<e.length;i++){
-            message = StringUtils.join(message, "\n", printErrorInfo(e[i]));
+        for(int i=0;i<ex.length;i++){
+            message = StringUtils.join(message, "\n", printErrorInfo(ex[i]));
         }
         return message;
     }
     /**
      * 获取异常堆栈信息并记录到error文件中
-     * @param e
+     * @param ex
      * @param isRecord 是否记录到error文件
      * @return
      */
-    public static String printErrorInfo(Throwable e, boolean isRecord) {
-        String errorMssg = printErrorInfo(e);
+    public static String printErrorInfo(Throwable ex, boolean isRecord) {
+        String errorMssg = printErrorInfo(ex);
         if (isRecord) {
             LoggerUtils.error(PrintExceptionInfo.class, errorMssg);
         }

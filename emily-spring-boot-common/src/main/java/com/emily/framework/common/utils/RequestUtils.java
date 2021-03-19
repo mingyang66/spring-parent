@@ -1,5 +1,8 @@
 package com.emily.framework.common.utils;
 
+import com.emily.framework.common.enums.AppHttpStatus;
+import com.emily.framework.common.exception.BusinessException;
+import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import com.emily.framework.common.utils.constant.CharsetUtils;
 import com.emily.framework.common.utils.io.IOUtils;
@@ -242,16 +245,24 @@ public class RequestUtils {
      * 获取用户当前请求的HttpServletRequest
      */
     public static HttpServletRequest getRequest() {
-        ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-        return attributes.getRequest();
+        try{
+            ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+            return attributes.getRequest();
+        } catch (Exception ex){
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+        }
     }
 
     /**
      * 获取当前请求的HttpServletResponse
      */
     public static HttpServletResponse getResponse() {
-        ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-        return attributes.getResponse();
+        try{
+            ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+            return attributes.getResponse();
+        } catch (Exception ex){
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+        }
     }
 
     public static void setServerIp(String serverIp) {

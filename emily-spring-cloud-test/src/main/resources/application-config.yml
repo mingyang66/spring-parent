@@ -1,0 +1,4 @@
+spring:
+  emily:
+    redis:
+      enable: true

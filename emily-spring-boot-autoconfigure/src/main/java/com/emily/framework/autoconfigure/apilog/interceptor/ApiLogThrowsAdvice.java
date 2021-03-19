@@ -1,6 +1,7 @@
 package com.emily.framework.autoconfigure.apilog.interceptor;
 
 import com.emily.framework.common.exception.BusinessException;
+import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.common.utils.RequestUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;
 import com.emily.framework.context.apilog.service.AsyncLogAopService;
@@ -50,7 +51,7 @@ public class ApiLogThrowsAdvice implements ThrowsAdvice {
             BusinessException exception = (BusinessException) e;
             asyncLog.setException(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
         } else {
-            asyncLog.setException(StringUtils.join(e.getStackTrace()[0], " ", e));
+            asyncLog.setException(PrintExceptionInfo.printErrorInfo(e));
         }
         //记录异常日志
         asyncLogAopService.traceError(asyncLog);

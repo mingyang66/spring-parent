@@ -15,7 +15,7 @@ public class PrintExceptionInfo {
      * @Version 1.0
      */
     public static String printErrorInfo(Throwable ex) {
-        String message = ex.toString();
+        String message = ex.getMessage();
         StackTraceElement[] elements = ex.getStackTrace();
         for (int i = 0; i < elements.length; i++) {
             StackTraceElement element = elements[i];

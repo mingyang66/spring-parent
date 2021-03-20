@@ -3,7 +3,7 @@ package com.emily.boot.test.api.po;
 /**
  * @program: consul-demo
  * @description:
- * @author: 姚明洋
+ * @author:
  * @create: 2021/01/25
  */
 public class User {

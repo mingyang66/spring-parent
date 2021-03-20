@@ -8,7 +8,7 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
+ * @author:
  * @create: 2021/03/19
  */
 public class ObjectFactory extends BasePooledObjectFactory<User> {

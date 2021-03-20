@@ -140,7 +140,7 @@ public class ExceptionAdviceHandler {
 
     /**
      * @Description 如果代理异常调用方法将会抛出此异常
-     * @Author 姚明洋
+     * @Author
      * @Date 2019/9/2 16:43
      * @Version 1.0
      */
@@ -160,7 +160,7 @@ public class ExceptionAdviceHandler {
     }
     /**
      * @Description 如果代理异常调用方法将会抛出此异常
-     * @Author 姚明洋
+     * @Author
      * @Date 2019/9/2 16:43
      * @Version 1.0
      */

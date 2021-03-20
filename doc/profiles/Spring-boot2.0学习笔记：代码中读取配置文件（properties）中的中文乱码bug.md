@@ -309,7 +309,6 @@ import java.util.Map;
 /**
  * @Description 重写PropertiesPropertySourceLoader类，系统内部的PropertiesPropertySourceLoader类的优先级是2147483647，
  * 设置@Order注解，值是2147483646，优先级比系统自带的高
- * @Author 姚明洋
  * @Date 2019/11/28 19:03
  * @Version  1.0
  */

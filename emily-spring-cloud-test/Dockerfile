@@ -1,5 +1,7 @@
 #定制镜像所需的基础镜像
 FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.9_11
+# 用于执行后面跟着的命令行命令
+RUN echo 'JDK11 Images Download Success'
 #作者
 MAINTAINER Emily
 #工作目录路径

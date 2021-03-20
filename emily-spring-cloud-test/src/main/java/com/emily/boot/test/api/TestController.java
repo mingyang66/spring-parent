@@ -25,13 +25,6 @@ public class TestController {
         return "success";
     }
 
-    @Autowired
-    private MessageSource messageSource;
-
-    @GetMapping("test2")
-    public String test2(String password) {
-        return "success-" + messageSource.getMessage("spring.emily.username", null, LocaleContextHolder.getLocale());
-    }
 
     @PostMapping("test3")
     public String test3(@RequestBody User user) {

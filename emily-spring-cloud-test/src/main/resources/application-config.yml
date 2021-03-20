@@ -1,4 +1,20 @@
 spring:
   emily:
+    # Redis组件
     redis:
+      # 是否开启组件，默认：false
       enable: true
+  # 国际化配置
+  messages:
+    # 国际化配置文件基础名，使用逗号隔开
+    basename: i18n.emily
+    # 是否将消息代码用作默认消息，而不是抛出NoSuchMessageException异常, 默认：false
+    use-code-as-default-message: false
+    # 是否总是应用MessageFormat规则，甚至解析没有参数的消息, 默认：false
+    always-use-message-format: false
+    # 如果找不到特定区域设置的文件，是否返回到系统默认设置，如果关闭此选项，则会回退到默认文件,默认：true
+    fallback-to-system-locale: true
+    # 加载资源包文件缓存持续时间，未设置，则捆绑包永久缓存，未指定单位使用秒
+    cache-duration: PT3600S
+    # 消息包编码
+    encoding: UTF-8

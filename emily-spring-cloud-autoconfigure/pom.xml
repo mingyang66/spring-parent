@@ -20,20 +20,21 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-config</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
             <optional>true</optional>
         </dependency>
         <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.retry</groupId>

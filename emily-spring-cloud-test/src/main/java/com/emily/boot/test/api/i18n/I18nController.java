@@ -19,6 +19,6 @@ public class I18nController {
 
     @GetMapping("/i18n/test")
     public String test2() {
-        return "success-" + messageSource.getMessage("spring.emily.username", null, LocaleContextHolder.getLocale());
+        return "success-" + messageSource.getMessage("spring.emily.username", new String[]{"1","2"}, LocaleContextHolder.getLocale());
     }
 }

@@ -46,7 +46,7 @@ fi
   managementPort=9443
   # 运行构建的镜像 -p hostPort（宿主机端口号）:containerPort(容器端口号)
   # name:容器名称
-  # -d参数指定Docker网络类型，有bridge、overlay，默认：overlay
+  # --net：网络模式，默认：bridge(host、container、none) 注：mac系统无法使用host模式| docker network ls
   docker run \
   -e JAVA_ACL_TOKEN=7e9b1b50-c5b8-d786-c4f2-42c0155a7e1e \
   -e JAVA_LOCAL_IP=${localIp} \
@@ -54,6 +54,7 @@ fi
   -e JAVA_LOCAL_MANAGEMENT_PORT=${managementPort} \
   --restart=always \
   --privileged=true \
+  --net=bridge \
   -itd --name emilyframework \
   -p ${httpPort}:9001 \
   -p ${httpsPort}:9000 \

@@ -52,10 +52,12 @@ fi
   -e JAVA_LOCAL_MANAGEMENT_PORT=${managementPort} \
   --restart=always \
   --privileged=true \
+  # name:容器名称
+  # -d参数指定Docker网络类型，有bridge、overlay，默认：overlay
   -itd --name emilyframework \
   -p ${httpPort}:9001 \
   -p ${httpsPort}:9000 \
   -p ${managementPort}:9443 \
-  -v /Users/yaomingyang/Documents/IDE/workplace-java/logs1:/app/logs \
+  -v /Users/yaomingyang/Documents/IDE/workplace-java/logs/emilyframework:/app/logs \
   emilyframework:${VERSION}
   echo '容器创建成功...'

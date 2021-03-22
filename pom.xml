@@ -33,7 +33,12 @@
     <description>emilyframework</description>
 
     <properties>
+        <!--JDK版本-->
         <java.version>11</java.version>
+        <!--源代码使用的JDK版本-->
+        <maven.compiler.source>11</maven.compiler.source>
+        <!--需要生成的目标class文件的编译版本-->
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -64,22 +69,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <!--源代码使用的JDK版本-->
-                    <source>${java.version}</source>
-                    <!--需要生成的目标class文件的编译版本-->
-                    <target>${java.version}</target>
-                    <!--字符集编码-->
-                    <encoding>UTF-8</encoding>
-                    <!--编译器使用的初始内存-->
-                    <meminitial>128M</meminitial>
-                    <!--编译器使用的最大内存-->
-                    <maxmem>512M</maxmem>
-                </configuration>
             </plugin>
         </plugins>
     </build>

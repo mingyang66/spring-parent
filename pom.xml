@@ -30,7 +30,11 @@
     <artifactId>spring-parent</artifactId>
     <version>2.4.2</version>
     <name>spring-parent</name>
-    <description>emily</description>
+    <description>emilyframework</description>
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -66,9 +70,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <!--源代码使用的JDK版本-->
-                    <source>11</source>
+                    <source>${java.version}</source>
                     <!--需要生成的目标class文件的编译版本-->
-                    <target>11</target>
+                    <target>${java.version}</target>
                     <!--字符集编码-->
                     <encoding>UTF-8</encoding>
                     <!--编译器使用的初始内存-->

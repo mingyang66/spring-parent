@@ -73,6 +73,5 @@ spring:
         max-wait: -1ms
         # 空闲对象逐出器线程的运行间隔时间，为正值时，空闲逐出器线程启动，否则不执行空闲对象逐出
         time-between-eviction-runs: PT0.1S
-
   profiles:
     active: config

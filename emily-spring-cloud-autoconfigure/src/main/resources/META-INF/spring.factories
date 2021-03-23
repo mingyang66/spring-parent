@@ -3,9 +3,9 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.framework.cloud.autoconfigure.http.client.HttpClientBalanceAutoConfiguration
 
 # Bootstrap Configuration
-org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-  com.emily.framework.cloud.autoconfigure.config.EmilyConsulConfigBootstrapConfiguration,\
-  com.emily.framework.cloud.autoconfigure.bean.EmilyBeanFactoryPostProcessorAutoConfiguration
+#org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+ # com.emily.framework.cloud.autoconfigure.config.EmilyConsulConfigBootstrapConfiguration,\
+  #com.emily.framework.cloud.autoconfigure.bean.EmilyBeanFactoryPostProcessorAutoConfiguration
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\

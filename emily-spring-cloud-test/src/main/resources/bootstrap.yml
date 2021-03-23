@@ -7,7 +7,7 @@ spring:
         # 配置中心开关
         enabled: true
         # 前缀，默认：config
-        prefix: @project.name@
+        prefixes: @project.name@
         # 默认上下文，默认：application
         defaultContext:  @project.version@
         # 监视配置中心数据更改监视器配置

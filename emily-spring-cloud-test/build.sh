@@ -30,7 +30,7 @@ fi
   # 端口号占用查询
   # lsof -i tcp:port
   echo '开始打包...'
-  mvn clean package
+  mvn clean package -DskipTests=true
   echo '打包完成...'
   # docker build命令用于使用Dockerfile创建镜像
   # 语法：docker build [OPTIONS] PATH | URL | -
@@ -48,7 +48,7 @@ fi
   # name:容器名称
   # --net：网络模式，默认：bridge(host、container、none) 注：mac系统无法使用host模式| docker network ls
   docker run \
-  -e JAVA_ACL_TOKEN=7e9b1b50-c5b8-d786-c4f2-42c0155a7e1e \
+  -e JAVA_ACL_TOKEN=461ae90d-fc3e-462f-8ce1-a46f542183ec \
   -e JAVA_LOCAL_IP=${localIp} \
   -e JAVA_LOCAL_PORT=${httpPort} \
   -e JAVA_LOCAL_MANAGEMENT_PORT=${managementPort} \

@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -71,8 +72,8 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory() {
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        //HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+        //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
         factory.setReadTimeout(httpClientProperties.getReadTimeOut());
         //连接超时10秒，默认无限制，单位：毫秒

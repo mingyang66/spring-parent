@@ -24,7 +24,7 @@ public class EmilyApplicationContextInitializer implements ApplicationContextIni
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         if(applicationContext instanceof AnnotationConfigServletWebServerApplicationContext){
-            LoggerUtils.info(EmilyApplicationContextInitializer.class, "Small Emily【小米粒】初始化器开始初始化IOC容器了,容器名为：" +
+            LoggerUtils.info(EmilyApplicationContextInitializer.class, "Emily【小米粒】初始化器开始初始化IOC容器了,容器名为：" +
                     applicationContext.getClass().getSimpleName() + "--当前时间是：" + DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
         }
     }

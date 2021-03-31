@@ -32,11 +32,13 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(org.springframework.web.bind.annotation.GetMapping) ",
+    private static final String DEFAULT_POINT_CUT = StringUtils.join( "(@target(org.springframework.stereotype.Controller) ",
+            "or @target(org.springframework.web.bind.annotation.RestController)) ",
+            "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
-            "or @annotation(org.springframework.web.bind.annotation.RequestMapping) ");
+            "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
     private ApiLogProperties apiLogProperties;
 

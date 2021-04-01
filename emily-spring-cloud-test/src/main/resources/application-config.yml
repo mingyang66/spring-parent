@@ -4,6 +4,9 @@ spring:
     redis:
       # 是否开启组件，默认：false
       enable: true
+    feign:
+      http-log:
+        enable: true
   # 国际化配置
   messages:
     # 国际化配置文件基础名，使用逗号隔开
@@ -18,3 +21,67 @@ spring:
     cache-duration: PT3600S
     # 消息包编码
     encoding: UTF-8
+---
+feign:
+  client:
+    default-to-properties: true
+    # 默认配置
+    default-config: default
+    # 默认情况下，外部客户端不编码'/'字符，默认：true
+    decode-slash: true
+    # 配置
+    config:
+      # feign.Request.Options.Options()
+      default:
+        #logger-level: FULL
+        # 请求超时时间，默认：10*1000 毫秒
+        connect-timeout: 1000
+        # 读取超时时间, 默认：60*1000 毫秒
+        read-timeout: 1000
+        # 是否自动处理重定向，默认：true -- 测试该属性无效
+        follow-redirects: true
+  # 参数会在 feign.httpclient.ApacheHttpClient中被覆盖,所以设置httpclient参数是无用的
+  httpclient:
+    # 开启使用Apache HttpClient 默认：true
+    enable: true
+    # 连接超时时间，默认：2000 毫秒---超时时间会被覆盖，这里设置无效
+    connection-timeout: 2000
+    # 连接池中过期连接定时清理的时间间隔，默认：3000 毫秒【org.springframework.cloud.openfeign.clientconfig.HttpClientFeignConfiguration.connectionManager】
+    connection-timer-repeat: 3000
+    # 连接池中存活时间，默认：900
+    time-to-live: 900
+    # 连接池中存活时间单位，默认：seconds
+    time-to-live-unit: seconds
+    # 连接池最大连接数，默认：200
+    max-connections: 200
+    # 连接池最大连接数（单个host），默认：50
+    max-connections-per-route: 50
+    # 禁用SSL验证，默认：false
+    disable-ssl-validation: false
+    # 是否自动处理重定向，默认：true
+    follow-redirects: true
+  circuitbreaker:
+    # 开启circuitbreaker断路器功能，默认：false
+    enabled: true
+  # 请求响应数据压缩
+  compression:
+    # 请求数据
+    request:
+      # 开启请求压缩，默认：false
+      enabled: true
+      # 支持的MIME类型，默认："text/xml", "application/xml", "application/json"
+      mime-types: text/xml, application/xml, application/json
+      # 最小阀值大小，2048
+      min-request-size: 2048
+    # 响应数据
+    response:
+      # 开启响应数据压缩，默认：false
+      enabled: true
+      # 开启默认的gzip decoder，默认：false
+      useGzipDecoder: false
+  autoconfiguration:
+    jackson:
+      enabled: false
+#logging:
+  #level:
+    #com.emily.boot.test.fegin.StoreClient: info

@@ -19,7 +19,15 @@ public enum AopOrderEnum {
     /**
      * 接口重复提交拦截器
      */
-    IDEMPOTENT(600);
+    IDEMPOTENT(600),
+    /**
+     * feign异常日志
+     */
+    FEIGN_LOG_EXCEPTION(700),
+    /**
+     * feign正常日志
+     */
+    FEIGN_LOG_NORMAL(800);
 
     private int order;
 

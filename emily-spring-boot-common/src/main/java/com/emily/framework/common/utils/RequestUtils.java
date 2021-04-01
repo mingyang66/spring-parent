@@ -1,12 +1,12 @@
 package com.emily.framework.common.utils;
 
+import com.emily.framework.common.base.BaseRequest;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import com.emily.framework.common.utils.constant.CharsetUtils;
 import com.emily.framework.common.utils.io.IOUtils;
-import com.emily.framework.common.base.BaseRequest;
 import com.emily.framework.common.utils.json.JSONUtils;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
@@ -22,10 +22,7 @@ import java.io.File;
 import java.lang.reflect.Parameter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -245,10 +242,10 @@ public class RequestUtils {
      * 获取用户当前请求的HttpServletRequest
      */
     public static HttpServletRequest getRequest() {
-        try{
+        try {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getRequest();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
     }
@@ -257,12 +254,23 @@ public class RequestUtils {
      * 获取当前请求的HttpServletResponse
      */
     public static HttpServletResponse getResponse() {
-        try{
+        try {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getResponse();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
+    }
+
+    /**
+     * 获取事物ID
+     */
+    public static String getTraceId() {
+        Object tId = getRequest().getAttribute("T_ID");
+        if (Objects.isNull(tId)) {
+            return UUIDUtils.randomUUID();
+        }
+        return String.valueOf(tId);
     }
 
     public static void setServerIp(String serverIp) {

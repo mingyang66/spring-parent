@@ -20,11 +20,6 @@
         </dependency>
         <dependency>
             <groupId>com.emily.framework</groupId>
-            <artifactId>emily-spring-cloud-autoconfigure</artifactId>
-            <version>2.4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.emily.framework</groupId>
             <artifactId>emily-spring-boot-logger</artifactId>
             <version>2.4.2</version>
         </dependency>

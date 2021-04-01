@@ -1,7 +1,6 @@
 package com.emily.framework.context.apilog.po;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -20,30 +19,14 @@ public class AsyncLogAop implements Serializable {
     private String requestUrl;
     //请求Method
     private String method;
-    //请求协议
-    private String protocol;
-    //请求类型
-    private String contentType;
     //请求参数
     private Map<String, Object> requestParams;
-    //请求时间
-    private Date requestTime;
-    //响应时间
-    private Date responseTime;
+    //触发时间
+    private String triggerTime;
     //耗时
     private long spentTime;
     //响应结果
     private Object responseBody;
-    //异常
-    private String exception;
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
 
     public String gettId() {
         return tId;
@@ -101,13 +84,6 @@ public class AsyncLogAop implements Serializable {
         this.spentTime = spentTime;
     }
 
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
 
     public Object getResponseBody() {
         return responseBody;
@@ -117,27 +93,11 @@ public class AsyncLogAop implements Serializable {
         this.responseBody = responseBody;
     }
 
-    public String getException() {
-        return exception;
+    public String getTriggerTime() {
+        return triggerTime;
     }
 
-    public void setException(String exception) {
-        this.exception = exception;
-    }
-
-    public Date getRequestTime() {
-        return requestTime;
-    }
-
-    public void setRequestTime(Date requestTime) {
-        this.requestTime = requestTime;
-    }
-
-    public Date getResponseTime() {
-        return responseTime;
-    }
-
-    public void setResponseTime(Date responseTime) {
-        this.responseTime = responseTime;
+    public void setTriggerTime(String triggerTime) {
+        this.triggerTime = triggerTime;
     }
 }

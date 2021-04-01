@@ -22,6 +22,9 @@ server:
     key-store-type: PKCS12
     # 要使用的SSL协议
     protocol: TLS
+  tomcat:
+    ## 设置长连接超时时间（前端对应：Keep-Alive）
+    connection-timeout: 2000
 management:
   server:
     port: 9443

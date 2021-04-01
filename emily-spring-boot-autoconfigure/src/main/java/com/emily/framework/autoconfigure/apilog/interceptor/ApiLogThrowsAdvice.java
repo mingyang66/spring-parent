@@ -1,5 +1,6 @@
 package com.emily.framework.autoconfigure.apilog.interceptor;
 
+import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.common.utils.RequestUtils;
@@ -11,7 +12,8 @@ import org.springframework.aop.ThrowsAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -30,31 +32,27 @@ public class ApiLogThrowsAdvice implements ThrowsAdvice {
         //封装异步日志信息
         AsyncLogAop asyncLog = new AsyncLogAop();
         //事务唯一编号
-        asyncLog.settId(String.valueOf(request.getAttribute("T_ID")));
-        //请求时间
-        asyncLog.setResponseTime(new Date());
+        asyncLog.settId(RequestUtils.getTraceId());
+        //时间
+        asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //控制器Class
         asyncLog.setClazz(target.getClass());
         //控制器方法名
         asyncLog.setMethodName(method.getName());
-        //请求数据类型-ContentType
-        asyncLog.setContentType(request.getContentType());
         //请求url
         asyncLog.setRequestUrl(request.getRequestURL().toString());
         //请求方法
         asyncLog.setMethod(request.getMethod());
-        //请求协议
-        asyncLog.setProtocol(request.getProtocol());
         //请求参数
         asyncLog.setRequestParams(RequestService.getParameterMap(request));
         if (e instanceof BusinessException) {
             BusinessException exception = (BusinessException) e;
-            asyncLog.setException(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
+            asyncLog.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
         } else {
-            asyncLog.setException(PrintExceptionInfo.printErrorInfo(e));
+            asyncLog.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
         }
         //记录异常日志
-        asyncLogAopService.traceError(asyncLog);
+        asyncLogAopService.traceResponse(asyncLog);
     }
 
 

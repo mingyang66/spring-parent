@@ -82,6 +82,22 @@ feign:
   autoconfiguration:
     jackson:
       enabled: false
-#logging:
-  #level:
-    #com.emily.boot.test.fegin.StoreClient: info
+---
+spring:
+  cloud:
+    loadbalancer:
+      ribbon:
+        # 关闭ribbon LoadBalancerClient,默认：true
+        enabled: false
+      # RetryableFeignBlockingLoadBalancerClient、FeignBlockingLoadBalancerClient
+      retry:
+        # 设置负载均衡器失败的情况是否应该重试，默认：true
+        enabled: false
+        # 指示是否应该对GET请求以外的操作重试，默认：false
+        retry-on-all-operations: false
+        # 在同一ServiceInstance上重试最大的次数，默认：0
+        max-retries-on-same-service-instance: 2
+        # 在下一个ServiceInstance上执行重试次数，默认：1
+        max-retries-on-next-service-instance: 6
+        # 触发重试的状态码集合
+        retryable-status-codes: 500,400

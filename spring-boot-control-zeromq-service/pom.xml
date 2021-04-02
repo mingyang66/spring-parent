@@ -12,17 +12,15 @@
     <groupId>com.yaomy.control</groupId>
     <artifactId>spring-boot-control-zeromq-service</artifactId>
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1,8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-       <!-- <start-class>com.yaomy.control.zeromq.reqreply.server.ReplyServer</start-class>-->
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.emily.framework</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
             <version>2.4.3</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.zeromq</groupId>
@@ -30,46 +28,4 @@
             <version>0.5.1</version>
         </dependency>
     </dependencies>
-<!--    <build>
-        <finalName>client</finalName>
-        <plugins>
-            <plugin>
-                &lt;!&ndash; 指定项目编译时的java版本和编码方式 &ndash;&gt;
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <target>1.8</target>
-                    <source>1.8</source>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.yaomy.control.zeromq.reqreply.client.RequestClient</mainClass> &lt;!&ndash; 指定入口类路径 &ndash;&gt;
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef> &lt;!&ndash; jar包后缀，生成的jar包形式为：project-1.0-SNAPSHOT-jar-with-dependencies.jar &ndash;&gt;
-                    </descriptorRefs>
-                </configuration>
-                &lt;!&ndash; 添加此项后，可直接使用mvn package | mvn install &ndash;&gt;
-                &lt;!&ndash; 不添加此项，需直接使用mvn package assembly:single &ndash;&gt;
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>-->
 </project>

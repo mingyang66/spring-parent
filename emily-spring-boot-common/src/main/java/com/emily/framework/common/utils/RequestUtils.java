@@ -266,13 +266,17 @@ public class RequestUtils {
      * 获取事物ID
      */
     public static String getTraceId() {
-        Object tId = getRequest().getAttribute("T_ID");
-        if (Objects.isNull(tId)) {
-            tId = UUIDUtils.randomUUID();
-            getRequest().setAttribute("T_ID", tId);
+        try {
+            Object tId = getRequest().getAttribute("T_ID");
+            if (Objects.isNull(tId)) {
+                tId = UUID.randomUUID().toString();
+                getRequest().setAttribute("T_ID", tId);
+                return String.valueOf(tId);
+            }
             return String.valueOf(tId);
+        } catch (Exception e){
+            return UUID.randomUUID().toString();
         }
-        return String.valueOf(tId);
     }
 
     public static void setServerIp(String serverIp) {

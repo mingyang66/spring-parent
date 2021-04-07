@@ -47,7 +47,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //创建拦截日志信息
         AsyncLogHttpClientRequest asyncLogHttpClientRequest = new AsyncLogHttpClientRequest();
         //生成事物流水号
-        asyncLogHttpClientRequest.setTraceId(RequestUtils.getRequest().getAttribute("T_ID") == null ? null : String.valueOf(RequestUtils.getRequest().getAttribute("T_ID")));
+        asyncLogHttpClientRequest.setTraceId(RequestUtils.getTraceId());
         //请求时间
         asyncLogHttpClientRequest.setRequestTime(new Date());
         //请求URL

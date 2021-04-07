@@ -1,4 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.framework.cloud.http.client.HttpClientBalanceAutoConfiguration,\
-  com.emily.framework.cloud.feign.http.HttpLogAutoConfiguration
+  com.emily.framework.cloud.feign.FeignLogAutoConfiguration

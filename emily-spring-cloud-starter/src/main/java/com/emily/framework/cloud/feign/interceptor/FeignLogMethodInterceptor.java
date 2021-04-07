@@ -1,11 +1,10 @@
-package com.emily.framework.cloud.feign.http.interceptor;
+package com.emily.framework.cloud.feign.interceptor;
 
-import com.emily.framework.cloud.feign.http.common.FeignLogUtils;
+import com.emily.framework.cloud.feign.common.FeignLogUtils;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;
 import com.emily.framework.context.apilog.service.AsyncLogAopService;
-import feign.RequestTemplate;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -16,12 +15,11 @@ import java.time.format.DateTimeFormatter;
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Version: 1.0
  */
-public class HttpLogMethodInterceptor implements MethodInterceptor {
+public class FeignLogMethodInterceptor implements MethodInterceptor {
 
     private AsyncLogAopService asyncLogAopService;
-    private RequestTemplate requestTemplate;
 
-    public HttpLogMethodInterceptor(AsyncLogAopService asyncLogAopService) {
+    public FeignLogMethodInterceptor(AsyncLogAopService asyncLogAopService) {
         this.asyncLogAopService = asyncLogAopService;
     }
 

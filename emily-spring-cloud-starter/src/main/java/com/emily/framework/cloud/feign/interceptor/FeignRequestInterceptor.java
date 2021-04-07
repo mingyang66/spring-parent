@@ -1,4 +1,4 @@
-package com.emily.framework.cloud.feign.http.interceptor;
+package com.emily.framework.cloud.feign.interceptor;
 
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;

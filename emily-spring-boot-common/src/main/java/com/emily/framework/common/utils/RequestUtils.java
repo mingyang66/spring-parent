@@ -268,7 +268,9 @@ public class RequestUtils {
     public static String getTraceId() {
         Object tId = getRequest().getAttribute("T_ID");
         if (Objects.isNull(tId)) {
-            return UUIDUtils.randomUUID();
+            tId = UUIDUtils.randomUUID();
+            getRequest().setAttribute("T_ID", tId);
+            return String.valueOf(tId);
         }
         return String.valueOf(tId);
     }

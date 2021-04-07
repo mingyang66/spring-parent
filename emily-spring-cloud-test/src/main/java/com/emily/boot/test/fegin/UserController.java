@@ -26,12 +26,12 @@ public class UserController {
 
     @PostMapping("insertStores")
     public Store insertStores(@Validated @RequestBody Store store){
-        return storeClient.insertStores(store);
+        return storeClient.insertStores(store).getData();
     }
 
     @GetMapping("getStores")
     public Store getStores(Store store){
-        return storeClient.getStores(store);
+        return storeClient.getStores(store).getData();
     }
 
     @GetMapping("getStores1")

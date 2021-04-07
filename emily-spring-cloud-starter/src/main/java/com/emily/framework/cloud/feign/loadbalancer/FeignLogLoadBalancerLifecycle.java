@@ -1,6 +1,6 @@
-package com.emily.framework.cloud.feign.http.loadbalancer;
+package com.emily.framework.cloud.feign.loadbalancer;
 
-import com.emily.framework.cloud.feign.http.common.FeignLogUtils;
+import com.emily.framework.cloud.feign.common.FeignLogUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
@@ -12,7 +12,7 @@ import java.util.Objects;
  * @description: 定义loadbalancer执行前后可以执行的操作，此处用来获取实际的请求地址
  * @create: 2021/04/01
  */
-public class HttpLogLoadBalancerLifecycle implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
+public class FeignLogLoadBalancerLifecycle implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
 
     @Override
     public boolean supports(Class requestContextClass, Class responseClass, Class serverTypeClass) {

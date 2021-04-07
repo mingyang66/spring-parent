@@ -4,9 +4,18 @@ spring:
     redis:
       # 是否开启组件，默认：false
       enable: true
+    # Feign开启自动化配置记录日志
     feign:
       http-log:
+        # 默认：false
         enable: true
+    web:
+      # 跨域配置
+      cors:
+        # 默认：false
+        enable: true
+        # 允许访问的域，默认：*
+        #allowed-origins: 'https://www.jb51.net,https://www.baidu.com'
   # 国际化配置
   messages:
     # 国际化配置文件基础名，使用逗号隔开
@@ -92,7 +101,7 @@ spring:
       # RetryableFeignBlockingLoadBalancerClient、FeignBlockingLoadBalancerClient
       retry:
         # 设置负载均衡器失败的情况是否应该重试，默认：true
-        enabled: false
+        enabled: true
         # 指示是否应该对GET请求以外的操作重试，默认：false
         retry-on-all-operations: false
         # 在同一ServiceInstance上重试最大的次数，默认：0

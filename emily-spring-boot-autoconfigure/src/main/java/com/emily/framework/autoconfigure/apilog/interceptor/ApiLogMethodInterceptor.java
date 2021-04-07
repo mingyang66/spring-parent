@@ -35,8 +35,6 @@ public class ApiLogMethodInterceptor implements MethodInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         //获取HttpServletRequest对象
         HttpServletRequest request = RequestUtils.getRequest();
-        //将请求唯一编号设置为属性T_ID的值
-        request.setAttribute("T_ID", RequestUtils.getTraceId());
         //封装异步日志信息
         AsyncLogAop asyncLog = new AsyncLogAop();
         //事务唯一编号

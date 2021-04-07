@@ -113,7 +113,7 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
         if (!webProperties.getCors().getAllowedOrigins().isEmpty()) {
             registration.allowedOrigins(webProperties.getCors().getAllowedOrigins().toArray(new String[]{}));
         } else {
-            registration.allowedOrigins("*");
+            registration.allowedOriginPatterns("*");
         }
         //设置所允许的HTTP请求方法，*号代表允许所有方法
         if (!webProperties.getCors().getAllowedMethods().isEmpty()) {

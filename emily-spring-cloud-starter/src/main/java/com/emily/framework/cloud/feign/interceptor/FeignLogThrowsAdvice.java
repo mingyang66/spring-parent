@@ -1,6 +1,6 @@
-package com.emily.framework.cloud.feign.http.interceptor;
+package com.emily.framework.cloud.feign.interceptor;
 
-import com.emily.framework.cloud.feign.http.common.FeignLogUtils;
+import com.emily.framework.cloud.feign.common.FeignLogUtils;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
@@ -18,11 +18,11 @@ import java.time.format.DateTimeFormatter;
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Version: 1.0
  */
-public class HttpLogThrowsAdvice implements ThrowsAdvice {
+public class FeignLogThrowsAdvice implements ThrowsAdvice {
 
     private AsyncLogAopService asyncLogAopService;
 
-    public HttpLogThrowsAdvice(AsyncLogAopService asyncLogAopService) {
+    public FeignLogThrowsAdvice(AsyncLogAopService asyncLogAopService) {
         this.asyncLogAopService = asyncLogAopService;
     }
 

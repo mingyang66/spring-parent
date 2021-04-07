@@ -1,4 +1,4 @@
-package com.emily.framework.cloud.feign.http;
+package com.emily.framework.cloud.feign;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @create: 2020/03/19
  */
 @ConfigurationProperties(prefix = "spring.emily.feign.http-log")
-public class HttpLogProperties {
+public class FeignLogProperties {
     /**
      * 组件开关
      */

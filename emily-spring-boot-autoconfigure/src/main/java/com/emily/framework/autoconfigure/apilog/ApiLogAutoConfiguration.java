@@ -12,11 +12,11 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @Description: 控制器切点配置
@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ApiLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
+@Import(AsyncLogAopServiceImpl.class)
 public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String API_LOG_NORMAL_BEAN_NAME = "apiLogNormalPointCutAdvice";
@@ -33,12 +34,12 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join( "(@target(org.springframework.stereotype.Controller) ",
-            "or @target(org.springframework.web.bind.annotation.RestController)) ",
-            "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
-            "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
-            "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
-            "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
-            "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
+                                                                            "or @target(org.springframework.web.bind.annotation.RestController)) ",
+                                                                            "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
+                                                                            "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
+                                                                            "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
+                                                                            "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
+                                                                            "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
     private ApiLogProperties apiLogProperties;
 
@@ -46,11 +47,6 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
         this.apiLogProperties = apiLogProperties;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AsyncLogAopService asyncLogAopService(){
-        return new AsyncLogAopServiceImpl();
-    }
     /**
      * @Description 定义接口拦截器切点
      * @Version 1.0

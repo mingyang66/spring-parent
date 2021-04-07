@@ -1,4 +1,4 @@
-package com.emily.framework.cloud.feign.http.common;
+package com.emily.framework.cloud.feign.common;
 
 import com.emily.framework.common.utils.RequestUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;

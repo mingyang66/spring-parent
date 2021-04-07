@@ -1,5 +1,6 @@
 package com.emily.boot.test.fegin;
 
+import com.emily.framework.common.base.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.data.domain.Page;
@@ -24,10 +25,10 @@ public interface UserClient {
     List<Store> stores();
 
     @RequestMapping(method = RequestMethod.POST, value = "/user/insertStores")
-    Store insertStores(Store store);
+    BaseResponse<Store> insertStores(Store store);
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/getStores")
-    Store getStores(@SpringQueryMap Store store);
+    BaseResponse<Store> getStores(@SpringQueryMap Store store);
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/getStores")
     Store getStoresTest1(@SpringQueryMap Map<String, Object> params);

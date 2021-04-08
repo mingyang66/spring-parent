@@ -4,7 +4,6 @@ import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
 import com.emily.framework.common.utils.json.JSONUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
@@ -20,11 +19,6 @@ import java.util.Map;
  * @create: 2021/03/31
  */
 public class FeignRequestInterceptor implements RequestInterceptor {
-    private AsyncLogAopService asyncLogAopService;
-
-    public FeignRequestInterceptor(AsyncLogAopService asyncLogAopService) {
-        this.asyncLogAopService = asyncLogAopService;
-    }
 
     @Override
     public void apply(RequestTemplate template) {

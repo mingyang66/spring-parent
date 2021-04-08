@@ -89,8 +89,8 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
     }
 
     @Bean
-    public FeignRequestInterceptor feignRequestInterceptor(AsyncLogAopService asyncLogAopService) {
-        return new FeignRequestInterceptor(asyncLogAopService);
+    public FeignRequestInterceptor feignRequestInterceptor() {
+        return new FeignRequestInterceptor();
     }
 
     @Bean

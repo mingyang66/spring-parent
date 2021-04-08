@@ -35,7 +35,7 @@ public class FeignLogMethodInterceptor implements MethodInterceptor {
         // 开始时间
         long start = System.currentTimeMillis();
         //将请求开始时间放入请求上下文
-        RequestUtils.getRequest().setAttribute("startTime", start);
+        RequestUtils.getRequest().setAttribute("start", start);
         //调用真实的action方法
         Object result = invocation.proceed();
         //封装异步日志信息

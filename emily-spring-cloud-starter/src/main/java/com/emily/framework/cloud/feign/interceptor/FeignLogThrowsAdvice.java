@@ -30,7 +30,7 @@ public class FeignLogThrowsAdvice implements ThrowsAdvice {
         //封装异步日志信息
         AsyncLogAop asyncLog = FeignLogUtils.getAsyncLogAop();
         //耗时
-        asyncLog.setSpentTime(System.currentTimeMillis() - Long.valueOf(RequestUtils.getRequest().getAttribute("startTime").toString()));
+        asyncLog.setSpentTime(System.currentTimeMillis() - Long.valueOf(RequestUtils.getRequest().getAttribute("start").toString()));
         //触发时间
         asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         if (e instanceof BusinessException) {

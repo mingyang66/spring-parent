@@ -4,6 +4,7 @@ import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
 import com.emily.framework.common.utils.json.JSONUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;
+import com.google.common.collect.Maps;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
@@ -12,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @program: spring-parent
@@ -39,7 +41,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         //请求方法
         asyncLog.setMethod(template.method());
         //请求参数
-        asyncLog.setRequestParams(transToMap(template.body()));
+        asyncLog.setRequestParams(transToMap(template));
         // 将日志信息放入请求对象
         request.setAttribute("feignLog", asyncLog);
     }
@@ -47,12 +49,14 @@ public class FeignRequestInterceptor implements RequestInterceptor {
     /**
      * 参数转换
      */
-    private Map<String, Object> transToMap(byte[] params) {
-        if (params == null) {
-            return null;
-        }
+    private Map<String, Object> transToMap(RequestTemplate template) {
         try {
-            return JSONUtils.toJavaBean(new String(params, StandardCharsets.UTF_8), Map.class);
+            Map<String, Object> paramsMap = Maps.newHashMap();
+            paramsMap.put("headers", template.headers());
+            if (Objects.nonNull(template.body())) {
+                paramsMap.put("params", JSONUtils.toJavaBean(new String(template.body(), StandardCharsets.UTF_8), Map.class));
+            }
+            return paramsMap;
         } catch (Exception e) {
             return null;
         }

@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(FeignLogProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.feign.http-log", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.emily.feign.http-log", name = "enable", havingValue = "true", matchIfMissing = false)
 @Import(AsyncLogAopServiceImpl.class)
 public class FeignLogAutoConfiguration implements InitializingBean, DisposableBean {
 

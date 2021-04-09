@@ -36,11 +36,11 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join("(@target(org.springframework.cloud.openfeign.FeignClient)) ",
-                                                                                "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
-                                                                                "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
-                                                                                "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
-                                                                                "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
-                                                                                "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
+            "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
 
     /**
@@ -88,11 +88,17 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
         return advisor;
     }
 
+    /**
+     * Feign 请求日志拦截
+     */
     @Bean
     public FeignRequestInterceptor feignRequestInterceptor() {
         return new FeignRequestInterceptor();
     }
 
+    /**
+     * Feign 声明周期管理，主要获取真实URL
+     */
     @Bean
     public FeignLogLoadBalancerLifecycle feignLogLoadBalancerLifecycle() {
         return new FeignLogLoadBalancerLifecycle();

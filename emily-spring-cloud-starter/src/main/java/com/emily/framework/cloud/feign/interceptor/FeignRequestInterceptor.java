@@ -7,6 +7,8 @@ import com.emily.framework.context.apilog.po.AsyncLogAop;
 import com.google.common.collect.Maps;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.springframework.core.Ordered;
+import org.springframework.core.PriorityOrdered;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
@@ -17,10 +19,10 @@ import java.util.Objects;
 
 /**
  * @program: spring-parent
- * @description:
+ * @description: feign请求日志拦截
  * @create: 2021/03/31
  */
-public class FeignRequestInterceptor implements RequestInterceptor {
+public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrdered {
 
     @Override
     public void apply(RequestTemplate template) {
@@ -60,5 +62,10 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
     }
 }

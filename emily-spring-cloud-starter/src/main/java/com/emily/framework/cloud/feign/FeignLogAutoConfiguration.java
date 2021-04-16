@@ -5,7 +5,7 @@ import com.emily.framework.cloud.feign.interceptor.FeignLogThrowsAdvice;
 import com.emily.framework.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.framework.cloud.feign.loadbalancer.FeignLogLoadBalancerLifecycle;
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import com.emily.framework.context.apilog.service.AsyncLogAopService;
 import com.emily.framework.context.apilog.service.impl.AsyncLogAopServiceImpl;
 import org.apache.commons.lang3.StringUtils;

@@ -1,6 +1,6 @@
 package com.emily.framework.autoconfigure.filter;
 
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import com.emily.framework.context.filter.RequestChannelFilter;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

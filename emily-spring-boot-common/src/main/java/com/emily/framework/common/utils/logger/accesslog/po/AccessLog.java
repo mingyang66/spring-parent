@@ -1,4 +1,4 @@
-package com.emily.framework.common.utils.log.accesslog.po;
+package com.emily.framework.common.utils.logger.accesslog.po;
 
 /**
  * @description: 日志配置属性

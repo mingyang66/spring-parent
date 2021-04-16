@@ -1,4 +1,4 @@
-package com.emily.framework.common.utils.log.accesslog.appender;
+package com.emily.framework.common.utils.logger.accesslog.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -11,9 +11,9 @@ import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import com.emily.framework.common.utils.constant.CharsetUtils;
-import com.emily.framework.common.utils.log.accesslog.filter.AccessLogFilter;
-import com.emily.framework.common.utils.log.accesslog.level.AccessLogLevel;
-import com.emily.framework.common.utils.log.accesslog.po.AccessLog;
+import com.emily.framework.common.utils.logger.accesslog.filter.AccessLogFilter;
+import com.emily.framework.common.utils.logger.accesslog.level.AccessLogLevel;
+import com.emily.framework.common.utils.logger.accesslog.po.AccessLog;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.Charset;

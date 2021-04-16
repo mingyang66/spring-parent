@@ -1,7 +1,7 @@
 package com.emily.boot.test.server;
 
 import com.emily.framework.autoconfigure.response.wrapper.ResponseWrapperAutoConfiguration;
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

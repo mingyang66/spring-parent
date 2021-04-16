@@ -2,7 +2,7 @@ package com.yaomy.control.zeromq.socket.client;
 
 
 
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

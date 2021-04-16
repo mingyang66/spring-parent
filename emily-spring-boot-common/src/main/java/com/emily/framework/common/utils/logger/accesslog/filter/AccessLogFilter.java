@@ -1,4 +1,4 @@
-package com.emily.framework.common.utils.log.accesslog.filter;
+package com.emily.framework.common.utils.logger.accesslog.filter;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.filter.LevelFilter;

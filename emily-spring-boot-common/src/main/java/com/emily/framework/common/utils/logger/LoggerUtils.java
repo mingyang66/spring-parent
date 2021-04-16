@@ -1,6 +1,6 @@
-package com.emily.framework.common.utils.log;
+package com.emily.framework.common.utils.logger;
 
-import com.emily.framework.common.utils.log.accesslog.builder.AccessLogBuilder;
+import com.emily.framework.common.utils.logger.accesslog.builder.AccessLogBuilder;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;

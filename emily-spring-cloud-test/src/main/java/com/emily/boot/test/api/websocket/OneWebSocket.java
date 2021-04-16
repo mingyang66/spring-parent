@@ -1,6 +1,6 @@
 package com.emily.boot.test.api.websocket;
 
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;

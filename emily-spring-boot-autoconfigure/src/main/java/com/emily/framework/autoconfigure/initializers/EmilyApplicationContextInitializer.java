@@ -2,7 +2,7 @@ package com.emily.framework.autoconfigure.initializers;
 
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.date.DateUtils;
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

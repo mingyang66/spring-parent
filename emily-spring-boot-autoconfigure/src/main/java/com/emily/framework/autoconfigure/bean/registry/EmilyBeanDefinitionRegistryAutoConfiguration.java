@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.bean.registry;
 
 import com.emily.framework.autoconfigure.condition.MacOsCondition;
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;

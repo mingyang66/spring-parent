@@ -1,4 +1,4 @@
-package com.emily.framework.common.utils.log.accesslog.appender;
+package com.emily.framework.common.utils.logger.accesslog.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -6,8 +6,8 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.framework.common.utils.constant.CharsetUtils;
-import com.emily.framework.common.utils.log.accesslog.filter.AccessLogFilter;
-import com.emily.framework.common.utils.log.accesslog.po.AccessLog;
+import com.emily.framework.common.utils.logger.accesslog.filter.AccessLogFilter;
+import com.emily.framework.common.utils.logger.accesslog.po.AccessLog;
 
 import java.nio.charset.Charset;
 

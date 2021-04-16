@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.reqreply.client;
 
 
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;

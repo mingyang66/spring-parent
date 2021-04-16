@@ -1,7 +1,7 @@
 package com.emily.framework.context.apilog.service.impl;
 
 import com.emily.framework.common.utils.json.JSONUtils;
-import com.emily.framework.common.utils.log.LoggerUtils;
+import com.emily.framework.common.utils.logger.LoggerUtils;
 import com.emily.framework.context.apilog.po.AsyncLogAop;
 import com.emily.framework.context.apilog.service.AsyncLogAopService;
 import org.springframework.scheduling.annotation.Async;

@@ -1,9 +1,9 @@
-package com.emily.framework.common.utils.log.accesslog.appender;
+package com.emily.framework.common.utils.logger.accesslog.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.framework.common.utils.log.accesslog.po.AccessLog;
+import com.emily.framework.common.utils.logger.accesslog.po.AccessLog;
 import org.apache.commons.lang3.StringUtils;
 
 /**

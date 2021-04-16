@@ -2,7 +2,7 @@ package com.emily.framework.autoconfigure.web;
 
 import com.emily.framework.autoconfigure.web.annotation.ApiPrefix;
 import com.emily.framework.common.utils.constant.CharacterUtils;
-import com.emily.framework.common.utils.logger.LoggerUtils;
+import com.emily.framework.context.logger.LoggerUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.DisposableBean;

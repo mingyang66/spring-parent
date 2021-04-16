@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.emily.framework</groupId>
-            <artifactId>emily-spring-boot-context</artifactId>
+            <artifactId>emily-spring-boot-logger</artifactId>
             <version>2.4.4</version>
         </dependency>
         <dependency>

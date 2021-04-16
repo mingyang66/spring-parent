@@ -1,7 +1,6 @@
 package com.emily.framework.common.exception;
 
 import com.emily.framework.common.utils.constant.CharacterUtils;
-import com.emily.framework.common.utils.logger.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -48,7 +47,7 @@ public class PrintExceptionInfo {
     public static String printErrorInfo(Throwable ex, boolean isRecord) {
         String errorMssg = printErrorInfo(ex);
         if (isRecord) {
-            LoggerUtils.error(PrintExceptionInfo.class, errorMssg);
+            //LoggerUtils.error(PrintExceptionInfo.class, errorMssg);
         }
         return errorMssg;
     }

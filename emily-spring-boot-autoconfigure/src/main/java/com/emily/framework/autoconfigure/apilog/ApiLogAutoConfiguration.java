@@ -3,7 +3,7 @@ package com.emily.framework.autoconfigure.apilog;
 import com.emily.framework.autoconfigure.apilog.interceptor.ApiLogMethodInterceptor;
 import com.emily.framework.autoconfigure.apilog.interceptor.ApiLogThrowsAdvice;
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.common.utils.logger.LoggerUtils;
+import com.emily.framework.context.logger.LoggerUtils;
 import com.emily.framework.context.apilog.service.AsyncLogAopService;
 import com.emily.framework.context.apilog.service.impl.AsyncLogAopServiceImpl;
 import org.apache.commons.lang3.StringUtils;

@@ -1,7 +1,7 @@
 package com.emily.framework.context.httpclient.service.impl;
 
 import com.emily.framework.common.utils.json.JSONUtils;
-import com.emily.framework.common.utils.logger.LoggerUtils;
+import com.emily.framework.context.logger.LoggerUtils;
 import com.emily.framework.context.httpclient.po.AsyncLogHttpClientRequest;
 import com.emily.framework.context.httpclient.po.AsyncLogHttpClientResponse;
 import com.emily.framework.context.httpclient.service.AsyncLogHttpClientService;

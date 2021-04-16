@@ -4,10 +4,12 @@ import com.emily.framework.cloud.feign.interceptor.FeignLogMethodInterceptor;
 import com.emily.framework.cloud.feign.interceptor.FeignLogThrowsAdvice;
 import com.emily.framework.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.framework.cloud.feign.loadbalancer.FeignLogLoadBalancerLifecycle;
+import com.emily.framework.cloud.feign.logger.FeignLogger;
 import com.emily.framework.common.enums.AopOrderEnum;
 import com.emily.framework.common.logger.LoggerUtils;
 import com.emily.framework.context.logger.LoggerService;
 import com.emily.framework.context.logger.impl.LoggerServiceImpl;
+import feign.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -19,6 +21,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import java.util.function.Supplier;
 
 /**
  * @Description: 控制器切点配置
@@ -93,7 +97,8 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      */
     @Bean
     public FeignRequestInterceptor feignRequestInterceptor() {
-        return new FeignRequestInterceptor();
+        Supplier<FeignRequestInterceptor> supplier = FeignRequestInterceptor::new;
+        return supplier.get();
     }
 
     /**
@@ -101,7 +106,17 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      */
     @Bean
     public FeignLogLoadBalancerLifecycle feignLogLoadBalancerLifecycle() {
-        return new FeignLogLoadBalancerLifecycle();
+        Supplier<FeignLogLoadBalancerLifecycle> supplier = FeignLogLoadBalancerLifecycle::new;
+        return supplier.get();
+    }
+
+    /**
+     * 自定义日志系统代理feign日志系统
+     */
+    @Bean
+    public Logger logger() {
+        Supplier<Logger> supplier = FeignLogger::new;
+        return supplier.get();
     }
 
     @Override

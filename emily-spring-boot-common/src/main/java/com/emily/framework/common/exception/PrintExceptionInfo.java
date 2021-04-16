@@ -1,6 +1,5 @@
 package com.emily.framework.common.exception;
 
-import com.emily.framework.common.logger.LoggerUtils;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,18 +37,5 @@ public class PrintExceptionInfo {
             message = StringUtils.join(message, "\n", printErrorInfo(ex[i]));
         }
         return message;
-    }
-    /**
-     * 获取异常堆栈信息并记录到error文件中
-     * @param ex
-     * @param isRecord 是否记录到error文件
-     * @return
-     */
-    public static String printErrorInfo(Throwable ex, boolean isRecord) {
-        String errorMssg = printErrorInfo(ex);
-        if (isRecord) {
-            LoggerUtils.error(PrintExceptionInfo.class, errorMssg);
-        }
-        return errorMssg;
     }
 }

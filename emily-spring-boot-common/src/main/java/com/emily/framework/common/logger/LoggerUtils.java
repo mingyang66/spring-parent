@@ -57,11 +57,11 @@ public class LoggerUtils {
         }
     }
 
-    public static <T> void module(Class<T> clazz, String moduleName, String msg) {
+    public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz, moduleName).info(msg);
+            builder.getLogger(clazz, path, fileName).info(msg);
         } else {
-            LoggerFactory.getLogger(moduleName).info(msg);
+            LoggerFactory.getLogger(clazz).info(msg);
         }
     }
 

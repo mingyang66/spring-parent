@@ -5,6 +5,7 @@ import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
+import com.emily.framework.common.logger.LoggerUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -30,7 +31,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public SimpleResponse unKnowExceptionHandler(Exception e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.EXCEPTION);
     }
 
@@ -39,7 +40,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public SimpleResponse runtimeExceptionHandler(RuntimeException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
     }
 
@@ -48,7 +49,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     public SimpleResponse nullPointerExceptionHandler(NullPointerException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
     }
 
@@ -57,7 +58,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(ClassCastException.class)
     public SimpleResponse classCastExceptionHandler(ClassCastException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
     }
 
@@ -66,7 +67,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IOException.class)
     public SimpleResponse iOExceptionHandler(IOException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.IO_EXCEPTION);
     }
 
@@ -76,7 +77,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     public SimpleResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION);
     }
 
@@ -85,7 +86,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public SimpleResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION);
     }
 
@@ -94,7 +95,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public SimpleResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION);
     }
 
@@ -103,7 +104,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public SimpleResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
     }
 
@@ -112,7 +113,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public SimpleResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION);
     }
 
@@ -121,7 +122,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public SimpleResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
     }
 
@@ -130,7 +131,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler({BindException.class})
     public SimpleResponse validModelBindException(BindException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage());
     }
 
@@ -142,7 +143,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
     public SimpleResponse undeclaredThrowableException(UndeclaredThrowableException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION);
     }
 
@@ -151,7 +152,7 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(NumberFormatException.class)
     public SimpleResponse numberFormatException(NumberFormatException e){
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
     }
     /**
@@ -162,10 +163,16 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public SimpleResponse businessThrowableException(BusinessException e) {
-        PrintExceptionInfo.printErrorInfo(e, true);
+        recordErrorInfo(e);
         return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage());
     }
 
-
+    /**
+     * 获取异常堆栈信息并记录到error文件中
+     */
+    public static void recordErrorInfo(Throwable ex) {
+        String errorMsg = PrintExceptionInfo.printErrorInfo(ex);
+        LoggerUtils.error(PrintExceptionInfo.class, errorMsg);
+    }
 }
 

@@ -41,7 +41,7 @@ public class AccessLogBuilder {
      * @return
      */
     public Logger getLogger(Class<?> clazz) {
-        return getLogger(clazz, AccessLog.DEFAULT_MODULE);
+        return getLogger(clazz, null, null);
     }
 
     /**
@@ -50,28 +50,31 @@ public class AccessLogBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    public Logger getLogger(Class<?> cls, String fileName) {
+    public Logger getLogger(Class<?> cls, String path, String fileName) {
         /**
          * 判定是否是默认文件名
          */
-        boolean defaultBool = StringUtils.equals(AccessLog.DEFAULT_MODULE, fileName);
+        boolean defaultBool = StringUtils.isEmpty(path) && StringUtils.isEmpty(fileName);
+        String key;
         if (defaultBool) {
-            fileName = cls.getName();
+            key = cls.getName();
+        } else {
+            key = String.join(CharacterUtils.LINE_THROUGH_CENTER, path, fileName);
         }
-        Logger logger = loggerCache.get(fileName);
+        Logger logger = loggerCache.get(key);
         if (Objects.nonNull(logger)) {
             return logger;
         }
         synchronized (AccessLogBuilder.class) {
-            logger = loggerCache.get(fileName);
+            logger = loggerCache.get(key);
             if (Objects.nonNull(logger)) {
                 return logger;
             }
             if (defaultBool) {
                 logger = builder(cls);
-                loggerCache.put(cls.getName(), logger);
+                loggerCache.put(key, logger);
             } else {
-                logger = builder(cls, fileName);
+                logger = builder(cls, path, fileName);
                 loggerCache.put(fileName, logger);
             }
         }
@@ -89,12 +92,12 @@ public class AccessLogBuilder {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(cls.getName());
         AccessLogRollingFileAppender rollingFileAppender = new AccessLogRollingFileAppender(loggerContext, accessLog);
-        RollingFileAppender appenderError = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.ERROR.levelStr), Level.ERROR);
-        RollingFileAppender appenderWarn = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.WARN.levelStr), Level.WARN);
-        RollingFileAppender appenderInfo = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.INFO.levelStr), Level.INFO);
-        RollingFileAppender appenderDebug = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.DEBUG.levelStr), Level.DEBUG);
-        RollingFileAppender appenderTrace = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.TRACE.levelStr), Level.TRACE);
-        RollingFileAppender appenderAll = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.ALL.levelStr), Level.ALL);
+        RollingFileAppender appenderError = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.ERROR.levelStr), StringUtils.lowerCase(Level.ERROR.levelStr), Level.ERROR);
+        RollingFileAppender appenderWarn = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.WARN.levelStr), StringUtils.lowerCase(Level.WARN.levelStr), Level.WARN);
+        RollingFileAppender appenderInfo = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.INFO.levelStr), StringUtils.lowerCase(Level.INFO.levelStr), Level.INFO);
+        RollingFileAppender appenderDebug = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.DEBUG.levelStr), StringUtils.lowerCase(Level.DEBUG.levelStr), Level.DEBUG);
+        RollingFileAppender appenderTrace = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.TRACE.levelStr), StringUtils.lowerCase(Level.TRACE.levelStr), Level.TRACE);
+        RollingFileAppender appenderAll = rollingFileAppender.getRollingFileApender(cls.getName(), StringUtils.lowerCase(Level.ALL.levelStr), StringUtils.lowerCase(Level.ALL.levelStr), Level.ALL);
         //设置是否向上级打印信息
         logger.setAdditive(false);
         if(accessLog.isEnableAsyncAppender()){
@@ -125,13 +128,19 @@ public class AccessLogBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    private Logger builder(Class<?> cls, String fileName) {
+    private Logger builder(Class<?> cls, String path, String fileName) {
+        if(StringUtils.isNotEmpty(path)){
+            // 去除字符串开头斜杠/
+            path = StringUtils.removeStart(path, CharacterUtils.PATH_SEPARATOR);
+            // 去除字符串末尾斜杠/
+            path = StringUtils.removeEnd(path, CharacterUtils.PATH_SEPARATOR);
+        }
         //logger 属性namge名称
         String name = StringUtils.join(cls.getName(), CharacterUtils.LINE_THROUGH_BOTTOM, fileName);
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         AccessLogRollingFileAppender rollingFileAppender = new AccessLogRollingFileAppender(loggerContext, accessLog);
         //获取Info对应的appender对象
-        RollingFileAppender rollingFileAppenderInfo = rollingFileAppender.getRollingFileApender(name, fileName, Level.INFO);
+        RollingFileAppender rollingFileAppenderInfo = rollingFileAppender.getRollingFileApender(name, path, fileName, Level.INFO);
         Logger logger = loggerContext.getLogger(name);
         /**
          * 设置是否向上级打印信息

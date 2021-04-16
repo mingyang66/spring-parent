@@ -13,11 +13,6 @@ import org.springframework.scheduling.annotation.Async;
  */
 public class LoggerServiceImpl implements LoggerService {
     /**
-     * 第三方接口请求module name
-     */
-    private static final String THIRD_PARTY = "Third_Party";
-
-    /**
      * @Description 记录响应信息
      * @Version 1.0
      */
@@ -25,9 +20,9 @@ public class LoggerServiceImpl implements LoggerService {
     @Async
     public void traceResponse(BaseLogger baseLogger) {
         if (LoggerUtils.isDebug()) {
-            LoggerUtils.module(LoggerServiceImpl.class, THIRD_PARTY, JSONUtils.toJSONPrettyString(baseLogger));
+            LoggerUtils.info(LoggerServiceImpl.class, JSONUtils.toJSONPrettyString(baseLogger));
         } else {
-            LoggerUtils.module(LoggerServiceImpl.class, THIRD_PARTY, JSONUtils.toJSONString(baseLogger));
+            LoggerUtils.info(LoggerServiceImpl.class, JSONUtils.toJSONString(baseLogger));
         }
     }
 }

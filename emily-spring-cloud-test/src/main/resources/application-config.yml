@@ -9,6 +9,8 @@ spring:
       http-log:
         # 默认：false
         enable: true
+        # 开启feign调试模式，默认：false
+        debug: true
     web:
       # 跨域配置
       cors:
@@ -31,22 +33,32 @@ spring:
     # 消息包编码
     encoding: UTF-8
 ---
+# feign相关配置
 feign:
   client:
+    # 配置文件的优先级最高
+    # 指定配置文件加载的顺序(全局上下文->默认上下文->指定FeignClient上下文)，默认：true
+    # 否则按照 默认上下文->指定FeignClient上下文->全局上下文顺序加载
+    # org.springframework.cloud.openfeign.FeignClientFactoryBean.configureFeign
     default-to-properties: true
-    # 默认配置
+    # Feign Clients contextId 默认配置名
     default-config: default
-    # 默认情况下，外部客户端不编码'/'字符，默认：true
+    # 默认情况下，Feign Clients不编码斜杠'/'字符，默认：true
     decode-slash: true
     # 配置
     config:
       # feign.Request.Options.Options()
       default:
-        #logger-level: FULL
+        # 控制日志Level，默认：null即NONE
+        # NONE 没有日志
+        # BASIC 只记录请求方法和URL以及响应状态码和执行时间
+        # HEADERS 记录基本信息以及请求和响应头
+        # FULL 记录请求和响应的头、正文和元数据
+        logger-level: FULL
         # 请求超时时间，默认：10*1000 毫秒
-        connect-timeout: 1000
+        connect-timeout: 10000
         # 读取超时时间, 默认：60*1000 毫秒
-        read-timeout: 1000
+        read-timeout: 60000
         # 是否自动处理重定向，默认：true -- 测试该属性无效
         follow-redirects: true
   # 参数会在 feign.httpclient.ApacheHttpClient中被覆盖,所以设置httpclient参数是无用的
@@ -85,13 +97,17 @@ feign:
     # 响应数据
     response:
       # 开启响应数据压缩，默认：false
-      enabled: true
+      enabled: false
       # 开启默认的gzip decoder，默认：false
       useGzipDecoder: false
+  # Feign org.springframework.data.domain.Page编码和解码
+  # Feign org.springframework.data.domain.Sort编码解码
   autoconfiguration:
     jackson:
+      # 如果为true，则将提供PageJacksonModule、SortJacksonModule用jackson对Page进行编码和解码操作，默认：false
       enabled: false
 ---
+# 基于loadbalancer负载重试机制配置
 spring:
   cloud:
     loadbalancer:
@@ -110,3 +126,4 @@ spring:
         max-retries-on-next-service-instance: 6
         # 触发重试的状态码集合
         retryable-status-codes: 500,400
+

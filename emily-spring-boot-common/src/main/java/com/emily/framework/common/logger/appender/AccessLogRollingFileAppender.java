@@ -40,12 +40,12 @@ public class AccessLogRollingFileAppender {
     /**
      * 获取按照时间归档文件附加器对象
      *
-     * @param name appender属性name
+     * @param name     appender属性name
      * @param fileName 文件名
      * @param level    过滤日志级别
      * @return
      */
-    public RollingFileAppender getRollingFileApender(String name, String fileName, Level level) {
+    public RollingFileAppender getRollingFileApender(String name, String path, String fileName, Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender appender = new RollingFileAppender();
 
@@ -71,17 +71,17 @@ public class AccessLogRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, fileName, CharacterUtils.PATH_SEPARATOR, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
+            String fp = OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, path, CharacterUtils.PATH_SEPARATOR, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //最大日志文件大小 KB,MB,GB
-            if(StringUtils.isNotEmpty(accessLog.getMaxFileSize())){
+            if (StringUtils.isNotEmpty(accessLog.getMaxFileSize())) {
                 policy.setMaxFileSize(FileSize.valueOf(accessLog.getMaxFileSize()));
             }
             //设置要保留的最大存档文件数
             policy.setMaxHistory(accessLog.getMaxHistory());
             //文件总大小限制 KB,MB,G
-            if(StringUtils.isNotEmpty(accessLog.getTotalSizeCap())){
+            if (StringUtils.isNotEmpty(accessLog.getTotalSizeCap())) {
                 policy.setTotalSizeCap(FileSize.valueOf(accessLog.getTotalSizeCap()));
             }
             //设置父节点是appender
@@ -90,7 +90,7 @@ public class AccessLogRollingFileAppender {
 
             //设置文件归档策略
             appender.setRollingPolicy(policy);
-        } else if(level.levelInt >= AccessLogLevel.getNextLogLevel(accessLog.getLevel()).levelInt){
+        } else if (level.levelInt >= AccessLogLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
             //文件归档大小和时间设置
             TimeBasedRollingPolicy policy = new TimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -107,7 +107,7 @@ public class AccessLogRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, fileName, CharacterUtils.PATH_SEPARATOR, fileName, "%d{yyyy-MM-dd}.log"), loggerContext);
+            String fp = OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, path, CharacterUtils.PATH_SEPARATOR, fileName, "%d{yyyy-MM-dd}.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //设置要保留的最大存档文件数
@@ -142,7 +142,7 @@ public class AccessLogRollingFileAppender {
         //appender的name属性
         appender.setName(name);
         //设置文件名
-        appender.setFile(OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, fileName, CharacterUtils.PATH_SEPARATOR, fileName, ".log"), loggerContext));
+        appender.setFile(OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, path, CharacterUtils.PATH_SEPARATOR, fileName, ".log"), loggerContext));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         appender.setAppend(true);
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false

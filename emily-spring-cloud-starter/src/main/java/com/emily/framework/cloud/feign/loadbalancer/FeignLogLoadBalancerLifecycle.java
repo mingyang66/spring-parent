@@ -1,7 +1,7 @@
 package com.emily.framework.cloud.feign.loadbalancer;
 
 import com.emily.framework.cloud.feign.common.FeignLogUtils;
-import com.emily.framework.context.apilog.po.AsyncLogAop;
+import com.emily.framework.common.base.BaseLogger;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
 
@@ -31,9 +31,9 @@ public class FeignLogLoadBalancerLifecycle implements LoadBalancerLifecycle<Requ
     public void onComplete(CompletionContext<ResponseData, ServiceInstance, RequestDataContext> completionContext) {
         if (Objects.nonNull(completionContext.getClientResponse())) {
             //封装异步日志信息
-            AsyncLogAop asyncLog = FeignLogUtils.getAsyncLogAop();
+            BaseLogger baseLogger = FeignLogUtils.getBaseLogger();
             //设置请求URL
-            asyncLog.setRequestUrl(completionContext.getClientResponse().getRequestData().getUrl().toString());
+            baseLogger.setRequestUrl(completionContext.getClientResponse().getRequestData().getUrl().toString());
         }
     }
 }

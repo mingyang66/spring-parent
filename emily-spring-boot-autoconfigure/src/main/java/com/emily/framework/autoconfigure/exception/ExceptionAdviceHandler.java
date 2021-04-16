@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.exception;
 
 
-import com.emily.framework.common.base.ResponseData;
+import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
@@ -29,45 +29,45 @@ public class ExceptionAdviceHandler {
      * 未知异常
      */
     @ExceptionHandler(value = Exception.class)
-    public ResponseData unKnowExceptionHandler(Exception e) {
+    public SimpleResponse unKnowExceptionHandler(Exception e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.EXCEPTION);
     }
 
     /**
      * 运行时异常
      */
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseData runtimeExceptionHandler(RuntimeException e) {
+    public SimpleResponse runtimeExceptionHandler(RuntimeException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
+        return SimpleResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
      * 空指针异常
      */
     @ExceptionHandler(NullPointerException.class)
-    public ResponseData nullPointerExceptionHandler(NullPointerException e) {
+    public SimpleResponse nullPointerExceptionHandler(NullPointerException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
     }
 
     /**
      * 类型转换异常
      */
     @ExceptionHandler(ClassCastException.class)
-    public ResponseData classCastExceptionHandler(ClassCastException e) {
+    public SimpleResponse classCastExceptionHandler(ClassCastException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
     }
 
     /**
      * IO异常
      */
     @ExceptionHandler(IOException.class)
-    public ResponseData iOExceptionHandler(IOException e) {
+    public SimpleResponse iOExceptionHandler(IOException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.IO_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.IO_EXCEPTION);
     }
 
     /**
@@ -75,63 +75,63 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
     @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseData indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
+    public SimpleResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION);
     }
 
     /**
      * 参数类型不匹配
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public ResponseData requestTypeMismatch(MethodArgumentTypeMismatchException e) {
+    public SimpleResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION);
     }
 
     /**
      * 缺少参数
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
-    public ResponseData requestMissingServletRequest(MissingServletRequestParameterException e) {
+    public SimpleResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION);
     }
 
     /**
      * 请求method不匹配
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    public ResponseData requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
+    public SimpleResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
     }
 
     /**
      * 控制器方法中@RequestBody类型参数数据类型转换异常
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseData httpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public SimpleResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION);
     }
 
     /**
      * 控制器方法参数异常
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseData methodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public SimpleResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
     }
 
     /**
      * 控制器方法参数Validate异常
      */
     @ExceptionHandler({BindException.class})
-    public ResponseData validModelBindException(BindException e) {
+    public SimpleResponse validModelBindException(BindException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage());
+        return SimpleResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -141,18 +141,18 @@ public class ExceptionAdviceHandler {
      * @Version 1.0
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
-    public ResponseData undeclaredThrowableException(UndeclaredThrowableException e) {
+    public SimpleResponse undeclaredThrowableException(UndeclaredThrowableException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION);
     }
 
     /**
      * 数字格式异常
      */
     @ExceptionHandler(NumberFormatException.class)
-    public ResponseData numberFormatException(NumberFormatException e){
+    public SimpleResponse numberFormatException(NumberFormatException e){
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
     }
     /**
      * @Description 如果代理异常调用方法将会抛出此异常
@@ -161,9 +161,9 @@ public class ExceptionAdviceHandler {
      * @Version 1.0
      */
     @ExceptionHandler(BusinessException.class)
-    public ResponseData businessThrowableException(BusinessException e) {
+    public SimpleResponse businessThrowableException(BusinessException e) {
         PrintExceptionInfo.printErrorInfo(e, true);
-        return ResponseData.buildResponse(e.getStatus(), e.getErrorMessage());
+        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage());
     }
 
 

@@ -3,7 +3,7 @@ package com.emily.framework.autoconfigure.response.handler;
 import com.emily.framework.autoconfigure.response.annotation.ApiWrapperIgnore;
 import com.emily.framework.autoconfigure.response.wrapper.ResponseWrapperProperties;
 import com.emily.framework.common.base.BaseResponse;
-import com.emily.framework.common.base.ResponseData;
+import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.utils.path.PathMatcher;
 import com.emily.framework.common.utils.path.PathUrls;
@@ -53,7 +53,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         } else {
             //返回值为void类型的data字段不输出
             if (returnType.getMethod().getReturnType().equals(Void.TYPE)) {
-                ResponseData responseData = ResponseData.buildResponse(AppHttpStatus.OK);
+                SimpleResponse responseData = SimpleResponse.buildResponse(AppHttpStatus.OK);
                 proxyObject.handleReturnValue(responseData, returnType, mavContainer, webRequest);
             } else {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);

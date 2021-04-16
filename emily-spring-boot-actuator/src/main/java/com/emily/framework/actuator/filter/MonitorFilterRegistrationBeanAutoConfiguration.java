@@ -1,6 +1,6 @@
 package com.emily.framework.actuator.filter;
 
-import com.emily.framework.context.logger.LoggerUtils;
+import com.emily.framework.common.logger.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration;

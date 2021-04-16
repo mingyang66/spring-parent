@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.api;
 
-import com.emily.framework.common.base.ResponseData;
+import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.enums.GrantTypeEnum;
@@ -55,7 +55,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "token")
-    public ResponseData getToken(@RequestParam String username, @RequestParam String password){
+    public SimpleResponse getToken(@RequestParam String username, @RequestParam String password){
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -87,10 +87,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return ResponseData.buildResponse(AppHttpStatus.OK, result);
+            return SimpleResponse.buildResponse(AppHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseData.buildResponse(300, "登录异常，请检查登录信息...");
+            return SimpleResponse.buildResponse(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -99,7 +99,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "refresh_token")
-    public ResponseData refreshToken(@RequestParam String refresh_token){
+    public SimpleResponse refreshToken(@RequestParam String refresh_token){
         try {
             ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
             resource.setId(propertyService.getProperty("spring.security.oauth.resource.id"));
@@ -127,10 +127,10 @@ public class OAuth2Controller {
             }
             result.put("authorities", list);
 
-            return ResponseData.buildResponse(AppHttpStatus.OK, result);
+            return SimpleResponse.buildResponse(AppHttpStatus.OK, result);
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseData.buildResponse(300, "登录异常，请检查登录信息...");
+            return SimpleResponse.buildResponse(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -139,7 +139,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "check_token")
-    public ResponseData checkToken(@RequestParam String access_token){
+    public SimpleResponse checkToken(@RequestParam String access_token){
         try {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(access_token);
             OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(access_token);
@@ -150,10 +150,10 @@ public class OAuth2Controller {
             map.put("isExpired", accessToken.isExpired());
             //过期时间
             map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-            return ResponseData.buildResponse(AppHttpStatus.OK, map);
+            return SimpleResponse.buildResponse(AppHttpStatus.OK, map);
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseData.buildResponse(300, "登录异常，请检查登录信息...");
+            return SimpleResponse.buildResponse(300, "登录异常，请检查登录信息...");
         }
     }
     /**
@@ -162,7 +162,7 @@ public class OAuth2Controller {
      * @Version  1.0
      */
     @PostMapping(value = "logout")
-    public ResponseData logOut(@RequestParam String access_token){
+    public SimpleResponse logOut(@RequestParam String access_token){
         try {
             if(StringUtils.isNotBlank(access_token)){
                 OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
@@ -174,9 +174,9 @@ public class OAuth2Controller {
                     tokenStore.removeAccessTokenUsingRefreshToken(oAuth2RefreshToken);
                 }
             }
-            return ResponseData.buildResponse(200,"SUCCESS");
+            return SimpleResponse.buildResponse(200,"SUCCESS");
         } catch (Exception e){
-            return ResponseData.buildResponse(304, "登出异常");
+            return SimpleResponse.buildResponse(304, "登出异常");
         }
     }
 }

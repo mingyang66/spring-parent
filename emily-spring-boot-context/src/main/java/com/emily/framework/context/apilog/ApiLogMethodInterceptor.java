@@ -1,9 +1,9 @@
-package com.emily.framework.autoconfigure.apilog.interceptor;
+package com.emily.framework.context.apilog;
 
+import com.emily.framework.common.base.BaseLogger;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
-import com.emily.framework.context.apilog.po.AsyncLogAop;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
+import com.emily.framework.context.logger.LoggerService;
 import com.emily.framework.context.request.RequestService;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -18,10 +18,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class ApiLogMethodInterceptor implements MethodInterceptor {
 
-    private AsyncLogAopService asyncLogAopService;
+    private LoggerService loggerService;
 
-    public ApiLogMethodInterceptor(AsyncLogAopService asyncLogAopService) {
-        this.asyncLogAopService = asyncLogAopService;
+    public ApiLogMethodInterceptor(LoggerService loggerService) {
+        this.loggerService = loggerService;
     }
 
     /**
@@ -36,21 +36,21 @@ public class ApiLogMethodInterceptor implements MethodInterceptor {
         //获取HttpServletRequest对象
         HttpServletRequest request = RequestUtils.getRequest();
         //封装异步日志信息
-        AsyncLogAop asyncLog = new AsyncLogAop();
+        BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
-        asyncLog.settId(RequestUtils.getTraceId());
+        baseLogger.setTraceId(RequestUtils.getTraceId());
         //时间
-        asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //控制器Class
-        asyncLog.setClazz(invocation.getThis().getClass());
+        baseLogger.setClazz(invocation.getThis().getClass());
         //控制器方法名
-        asyncLog.setMethodName(invocation.getMethod().getName());
+        baseLogger.setMethod(invocation.getMethod().getName());
         //请求url
-        asyncLog.setRequestUrl(request.getRequestURL().toString());
+        baseLogger.setRequestUrl(request.getRequestURL().toString());
         //请求方法
-        asyncLog.setMethod(request.getMethod());
+        baseLogger.setMethod(request.getMethod());
         //请求参数
-        asyncLog.setRequestParams(RequestService.getParameterMap(request));
+        baseLogger.setRequestParams(RequestService.getParameterMap(request));
 
         //新建计时器并开始计时
         long start = System.currentTimeMillis();
@@ -58,13 +58,13 @@ public class ApiLogMethodInterceptor implements MethodInterceptor {
         Object result = invocation.proceed();
 
         //耗时
-        asyncLog.setSpentTime(System.currentTimeMillis() - start);
+        baseLogger.setSpentTime(System.currentTimeMillis() - start);
         //响应结果
-        asyncLog.setResponseBody(result);
+        baseLogger.setResponseBody(result);
         //时间
-        asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //异步记录接口响应信息
-        asyncLogAopService.traceResponse(asyncLog);
+        loggerService.traceResponse(baseLogger);
 
         return result;
 

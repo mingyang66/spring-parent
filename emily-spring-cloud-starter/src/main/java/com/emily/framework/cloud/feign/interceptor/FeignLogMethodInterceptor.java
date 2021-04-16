@@ -1,10 +1,10 @@
 package com.emily.framework.cloud.feign.interceptor;
 
 import com.emily.framework.cloud.feign.common.FeignLogUtils;
+import com.emily.framework.common.base.BaseLogger;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
-import com.emily.framework.context.apilog.po.AsyncLogAop;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
+import com.emily.framework.context.logger.LoggerService;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -17,10 +17,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class FeignLogMethodInterceptor implements MethodInterceptor {
 
-    private AsyncLogAopService asyncLogAopService;
+    private LoggerService loggerService;
 
-    public FeignLogMethodInterceptor(AsyncLogAopService asyncLogAopService) {
-        this.asyncLogAopService = asyncLogAopService;
+    public FeignLogMethodInterceptor(LoggerService loggerService) {
+        this.loggerService = loggerService;
     }
 
     /**
@@ -39,15 +39,15 @@ public class FeignLogMethodInterceptor implements MethodInterceptor {
         //调用真实的action方法
         Object result = invocation.proceed();
         //封装异步日志信息
-        AsyncLogAop asyncLog = FeignLogUtils.getAsyncLogAop();
+        BaseLogger baseLogger = FeignLogUtils.getBaseLogger();
         //响应结果
-        asyncLog.setResponseBody(result);
+        baseLogger.setResponseBody(result);
         //耗时
-        asyncLog.setSpentTime(System.currentTimeMillis() - start);
+        baseLogger.setSpentTime(System.currentTimeMillis() - start);
         //触发时间
-        asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //异步记录接口响应信息
-        asyncLogAopService.traceResponse(asyncLog);
+        loggerService.traceResponse(baseLogger);
 
         return result;
 

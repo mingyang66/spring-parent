@@ -1,12 +1,12 @@
 package com.emily.framework.cloud.feign.interceptor;
 
 import com.emily.framework.cloud.feign.common.FeignLogUtils;
+import com.emily.framework.common.base.BaseLogger;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.common.utils.RequestUtils;
-import com.emily.framework.context.apilog.po.AsyncLogAop;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
+import com.emily.framework.context.logger.LoggerService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.ThrowsAdvice;
 
@@ -20,27 +20,27 @@ import java.time.format.DateTimeFormatter;
  */
 public class FeignLogThrowsAdvice implements ThrowsAdvice {
 
-    private AsyncLogAopService asyncLogAopService;
+    private LoggerService loggerService;
 
-    public FeignLogThrowsAdvice(AsyncLogAopService asyncLogAopService) {
-        this.asyncLogAopService = asyncLogAopService;
+    public FeignLogThrowsAdvice(LoggerService loggerService) {
+        this.loggerService = loggerService;
     }
 
     public void afterThrowing(Method method, Object[] args, Object target, Exception e) {
         //封装异步日志信息
-        AsyncLogAop asyncLog = FeignLogUtils.getAsyncLogAop();
+        BaseLogger baseLogger = FeignLogUtils.getBaseLogger();
         //耗时
-        asyncLog.setSpentTime(System.currentTimeMillis() - Long.valueOf(RequestUtils.getRequest().getAttribute("start").toString()));
+        baseLogger.setSpentTime(System.currentTimeMillis() - Long.valueOf(RequestUtils.getRequest().getAttribute("start").toString()));
         //触发时间
-        asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         if (e instanceof BusinessException) {
             BusinessException exception = (BusinessException) e;
-            asyncLog.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
+            baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
         } else {
-            asyncLog.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
+            baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
         }
         //记录异常日志
-        asyncLogAopService.traceResponse(asyncLog);
+        loggerService.traceResponse(baseLogger);
     }
 
 

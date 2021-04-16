@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.emily.framework.common.base.ResponseData;
+import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.utils.json.JSONUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -22,6 +22,6 @@ import java.io.IOException;
 public class UserAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        JSONUtils.writeValue(response.getOutputStream(), ResponseData.buildResponse(200,"SUCCESS"));
+        JSONUtils.writeValue(response.getOutputStream(), SimpleResponse.buildResponse(200,"SUCCESS"));
     }
 }

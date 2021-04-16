@@ -1,14 +1,13 @@
 package com.emily.framework.context.httpclient.interceptor;
 
+import com.emily.framework.common.base.BaseLogger;
+import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
 import com.emily.framework.common.utils.calculation.ObjectSizeUtil;
 import com.emily.framework.common.utils.constant.CharacterUtils;
-import com.emily.framework.context.httpclient.po.AsyncLogHttpClientRequest;
-import com.emily.framework.context.httpclient.po.AsyncLogHttpClientResponse;
-import com.emily.framework.context.httpclient.service.AsyncLogHttpClientService;
+import com.emily.framework.context.logger.LoggerService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -17,7 +16,8 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -27,9 +27,9 @@ import java.util.Objects;
  */
 public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
 
-    private AsyncLogHttpClientService asyncLogHttpClientService;
+    private LoggerService asyncLogHttpClientService;
 
-    public HttpClientInterceptor(AsyncLogHttpClientService asyncLogHttpClientService) {
+    public HttpClientInterceptor(LoggerService asyncLogHttpClientService) {
         this.asyncLogHttpClientService = asyncLogHttpClientService;
     }
 
@@ -45,11 +45,9 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //创建拦截日志信息
-        AsyncLogHttpClientRequest asyncLogHttpClientRequest = new AsyncLogHttpClientRequest();
+        BaseLogger asyncLogHttpClientRequest = new BaseLogger();
         //生成事物流水号
         asyncLogHttpClientRequest.setTraceId(RequestUtils.getTraceId());
-        //请求时间
-        asyncLogHttpClientRequest.setRequestTime(new Date());
         //请求URL
         asyncLogHttpClientRequest.setRequestUrl(StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         //请求方法
@@ -60,46 +58,36 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         asyncLogHttpClientRequest.setContentType(Objects.nonNull(request.getHeaders().getContentType()) ? request.getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
         //请求协议
         asyncLogHttpClientRequest.setProtocol(RequestUtils.getRequest().getProtocol());
-        //记录请求日志
-        asyncLogHttpClientService.traceRequest(asyncLogHttpClientRequest);
+        //开始计时
+        long start = System.currentTimeMillis();
         try {
-            //新建计时器并开始计时
-            StopWatch stopWatch = StopWatch.createStarted();
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
-            //暂停计时
-            stopWatch.stop();
 
             //响应数据
             Object responseBody = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
 
-            AsyncLogHttpClientResponse asyncLogHttpClientResponse = new AsyncLogHttpClientResponse();
-            //设置基础数据
-            asyncLogHttpClientResponse.setBaseLog(asyncLogHttpClientRequest);
             //耗时
-            asyncLogHttpClientResponse.setSpentTime(stopWatch.getTime());
+            asyncLogHttpClientRequest.setSpentTime(System.currentTimeMillis() - start);
             //响应时间
-            asyncLogHttpClientResponse.setResponseTime(new Date());
+            asyncLogHttpClientRequest.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
-            asyncLogHttpClientResponse.setResponseBody(responseBody);
+            asyncLogHttpClientRequest.setResponseBody(responseBody);
             //
-            asyncLogHttpClientResponse.setDataSize(ObjectSizeUtil.getObjectSizeUnit(responseBody));
+            asyncLogHttpClientRequest.setDataSize(ObjectSizeUtil.getObjectSizeUnit(responseBody));
             //记录响应日志
-            asyncLogHttpClientService.traceResponse(asyncLogHttpClientResponse);
+            asyncLogHttpClientService.traceResponse(asyncLogHttpClientRequest);
 
             return response;
         } catch (IOException e) {
-            AsyncLogHttpClientResponse asyncLogHttpClientResponse = new AsyncLogHttpClientResponse();
-            //设置基础数据
-            asyncLogHttpClientResponse.setBaseLog(asyncLogHttpClientRequest);
             //耗时
-            asyncLogHttpClientResponse.setSpentTime(0);
+            asyncLogHttpClientRequest.setSpentTime(System.currentTimeMillis() -start);
             //响应时间
-            asyncLogHttpClientResponse.setResponseTime(new Date());
+            asyncLogHttpClientRequest.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
-            asyncLogHttpClientResponse.setResponseBody(e.getMessage());
+            asyncLogHttpClientRequest.setResponseBody(e.getMessage());
             //记录响应日志
-            asyncLogHttpClientService.traceResponse(asyncLogHttpClientResponse);
+            asyncLogHttpClientService.traceResponse(asyncLogHttpClientRequest);
 
             throw e;
         }

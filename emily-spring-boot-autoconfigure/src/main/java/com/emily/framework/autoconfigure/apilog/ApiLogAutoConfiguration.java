@@ -1,11 +1,11 @@
 package com.emily.framework.autoconfigure.apilog;
 
-import com.emily.framework.autoconfigure.apilog.interceptor.ApiLogMethodInterceptor;
-import com.emily.framework.autoconfigure.apilog.interceptor.ApiLogThrowsAdvice;
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.context.logger.LoggerUtils;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
-import com.emily.framework.context.apilog.service.impl.AsyncLogAopServiceImpl;
+import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.context.apilog.ApiLogMethodInterceptor;
+import com.emily.framework.context.apilog.ApiLogThrowsAdvice;
+import com.emily.framework.context.logger.LoggerService;
+import com.emily.framework.context.logger.impl.LoggerServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Import;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ApiLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
-@Import(AsyncLogAopServiceImpl.class)
+@Import(LoggerServiceImpl.class)
 public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String API_LOG_NORMAL_BEAN_NAME = "apiLogNormalPointCutAdvice";
@@ -53,7 +53,7 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
      */
     @Bean(API_LOG_NORMAL_BEAN_NAME)
     @ConditionalOnClass(ApiLogMethodInterceptor.class)
-    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -63,7 +63,7 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ApiLogMethodInterceptor(asyncLogAopService));
+        advisor.setAdvice(new ApiLogMethodInterceptor(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.API_LOG_NORMAL.getOrder());
         return advisor;
@@ -76,7 +76,7 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
      */
     @Bean(API_LOG_EXCEPTION_BEAN_NAME)
     @ConditionalOnClass(ApiLogThrowsAdvice.class)
-    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -86,7 +86,7 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ApiLogThrowsAdvice(asyncLogAopService));
+        advisor.setAdvice(new ApiLogThrowsAdvice(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.API_LOG_EXCEPTION.getOrder());
         return advisor;

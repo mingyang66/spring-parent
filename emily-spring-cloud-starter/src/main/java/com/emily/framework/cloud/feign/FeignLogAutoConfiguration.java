@@ -5,9 +5,9 @@ import com.emily.framework.cloud.feign.interceptor.FeignLogThrowsAdvice;
 import com.emily.framework.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.framework.cloud.feign.loadbalancer.FeignLogLoadBalancerLifecycle;
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.context.logger.LoggerUtils;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
-import com.emily.framework.context.apilog.service.impl.AsyncLogAopServiceImpl;
+import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.context.logger.LoggerService;
+import com.emily.framework.context.logger.impl.LoggerServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Import;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(FeignLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.feign.http-log", name = "enable", havingValue = "true", matchIfMissing = false)
-@Import(AsyncLogAopServiceImpl.class)
+@Import(LoggerServiceImpl.class)
 public class FeignLogAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String HTTP_LOG_NORMAL_BEAN_NAME = "feignLogNormalPointCutAdvice";
@@ -49,7 +49,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      */
     @Bean(HTTP_LOG_NORMAL_BEAN_NAME)
     @ConditionalOnClass(FeignLogMethodInterceptor.class)
-    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -59,7 +59,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new FeignLogMethodInterceptor(asyncLogAopService));
+        advisor.setAdvice(new FeignLogMethodInterceptor(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.FEIGN_LOG_NORMAL.getOrder());
         return advisor;
@@ -72,7 +72,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      */
     @Bean(HTTP_LOG_EXCEPTION_BEAN_NAME)
     @ConditionalOnClass(FeignLogThrowsAdvice.class)
-    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(AsyncLogAopService asyncLogAopService) {
+    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -82,7 +82,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new FeignLogThrowsAdvice(asyncLogAopService));
+        advisor.setAdvice(new FeignLogThrowsAdvice(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.FEIGN_LOG_EXCEPTION.getOrder());
         return advisor;

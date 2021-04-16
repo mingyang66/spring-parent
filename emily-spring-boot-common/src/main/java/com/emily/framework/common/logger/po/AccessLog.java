@@ -1,4 +1,4 @@
-package com.emily.framework.context.logger.po;
+package com.emily.framework.common.logger.po;
 
 /**
  * @description: 日志配置属性

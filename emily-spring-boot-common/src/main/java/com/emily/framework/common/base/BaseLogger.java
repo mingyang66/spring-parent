@@ -1,17 +1,20 @@
 package com.emily.framework.common.base;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @program: spring-parent
  * @description: 日志基础类
  * @create: 2020/11/14
  */
-public class BaseLog implements Serializable {
+public class BaseLogger implements Serializable {
     //请求唯一编号
     private String traceId;
     //追踪类型，0【正常】1【重试】2【重试异常】
     private int traceType;
+    //类实例
+    private Class clazz;
     //请求URL
     private String requestUrl;
     //请求Method
@@ -20,15 +23,65 @@ public class BaseLog implements Serializable {
     private String protocol;
     //请求类型
     private String contentType;
+    //请求参数
+    private Map<String, Object> requestParams;
+    //触发时间
+    private String triggerTime;
+    //耗时
+    private long spentTime;
+    //响应结果
+    private Object responseBody;
+    //数据大小
+    private String dataSize;
 
-    public void setBaseLog(BaseLog baseLog){
-        this.setTraceId(baseLog.getTraceId());
-        this.setTraceType(baseLog.getTraceType());
-        this.setRequestUrl(baseLog.getRequestUrl());
-        this.setMethod(baseLog.getMethod());
-        this.setProtocol(baseLog.getProtocol());
-        this.setContentType(baseLog.getContentType());
+    public Class getClazz() {
+        return clazz;
     }
+
+    public void setClazz(Class clazz) {
+        this.clazz = clazz;
+    }
+
+    public long getSpentTime() {
+        return spentTime;
+    }
+
+    public void setSpentTime(long spentTime) {
+        this.spentTime = spentTime;
+    }
+
+    public Object getResponseBody() {
+        return responseBody;
+    }
+
+    public void setResponseBody(Object responseBody) {
+        this.responseBody = responseBody;
+    }
+
+    public String getDataSize() {
+        return dataSize;
+    }
+
+    public void setDataSize(String dataSize) {
+        this.dataSize = dataSize;
+    }
+
+    public String getTriggerTime() {
+        return triggerTime;
+    }
+
+    public void setTriggerTime(String triggerTime) {
+        this.triggerTime = triggerTime;
+    }
+
+    public Map<String, Object> getRequestParams() {
+        return requestParams;
+    }
+
+    public void setRequestParams(Map<String, Object> requestParams) {
+        this.requestParams = requestParams;
+    }
+
     public String getTraceId() {
         return traceId;
     }

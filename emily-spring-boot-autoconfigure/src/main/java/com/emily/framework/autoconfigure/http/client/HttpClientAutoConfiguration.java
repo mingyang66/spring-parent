@@ -1,11 +1,11 @@
 package com.emily.framework.autoconfigure.http.client;
 
 import com.emily.framework.autoconfigure.http.HttpClientProperties;
-import com.emily.framework.context.logger.LoggerUtils;
+import com.emily.framework.common.logger.LoggerUtils;
 import com.emily.framework.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.framework.context.httpclient.interceptor.HttpClientInterceptor;
-import com.emily.framework.context.httpclient.service.AsyncLogHttpClientService;
-import com.emily.framework.context.httpclient.service.impl.AsyncLogHttpClientServiceImpl;
+import com.emily.framework.context.logger.LoggerService;
+import com.emily.framework.context.logger.impl.LoggerServiceImpl;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,8 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean
     @ConditionalOnMissingBean
-    public AsyncLogHttpClientService asyncLogHttpClientService() {
-        return new AsyncLogHttpClientServiceImpl();
+    public LoggerService asyncLogHttpClientService() {
+        return new LoggerServiceImpl();
     }
 
     /**
@@ -52,7 +52,7 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      */
     @Primary
     @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory, AsyncLogHttpClientService asyncLogHttpClientService) {
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory, LoggerService asyncLogHttpClientService) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));

@@ -1,11 +1,11 @@
-package com.emily.framework.autoconfigure.apilog.interceptor;
+package com.emily.framework.context.apilog;
 
+import com.emily.framework.common.base.BaseLogger;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.common.utils.RequestUtils;
-import com.emily.framework.context.apilog.po.AsyncLogAop;
-import com.emily.framework.context.apilog.service.AsyncLogAopService;
+import com.emily.framework.context.logger.LoggerService;
 import com.emily.framework.context.request.RequestService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.ThrowsAdvice;
@@ -21,38 +21,38 @@ import java.time.format.DateTimeFormatter;
  */
 public class ApiLogThrowsAdvice implements ThrowsAdvice {
 
-    private AsyncLogAopService asyncLogAopService;
+    private LoggerService loggerService;
 
-    public ApiLogThrowsAdvice(AsyncLogAopService asyncLogAopService) {
-        this.asyncLogAopService = asyncLogAopService;
+    public ApiLogThrowsAdvice(LoggerService loggerService) {
+        this.loggerService = loggerService;
     }
 
     public void afterThrowing(Method method, Object[] args, Object target, Exception e) {
         HttpServletRequest request = RequestUtils.getRequest();
         //封装异步日志信息
-        AsyncLogAop asyncLog = new AsyncLogAop();
+        BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
-        asyncLog.settId(RequestUtils.getTraceId());
+        baseLogger.setTraceId(RequestUtils.getTraceId());
         //时间
-        asyncLog.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //控制器Class
-        asyncLog.setClazz(target.getClass());
+        baseLogger.setClazz(target.getClass());
         //控制器方法名
-        asyncLog.setMethodName(method.getName());
+        baseLogger.setMethod(method.getName());
         //请求url
-        asyncLog.setRequestUrl(request.getRequestURL().toString());
+        baseLogger.setRequestUrl(request.getRequestURL().toString());
         //请求方法
-        asyncLog.setMethod(request.getMethod());
+        baseLogger.setMethod(request.getMethod());
         //请求参数
-        asyncLog.setRequestParams(RequestService.getParameterMap(request));
+        baseLogger.setRequestParams(RequestService.getParameterMap(request));
         if (e instanceof BusinessException) {
             BusinessException exception = (BusinessException) e;
-            asyncLog.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
+            baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
         } else {
-            asyncLog.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
+            baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
         }
         //记录异常日志
-        asyncLogAopService.traceResponse(asyncLog);
+        loggerService.traceResponse(baseLogger);
     }
 
 

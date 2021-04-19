@@ -1,4 +1,4 @@
-package com.emily.framework.autoconfigure.apilog;
+package com.emily.framework.autoconfigure.request;
 
 import com.emily.framework.common.enums.AopOrderEnum;
 import com.emily.framework.common.logger.LoggerUtils;
@@ -12,39 +12,52 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
+
+import java.util.function.Supplier;
 
 /**
  * @Description: 控制器切点配置
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(ApiLogProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.api-log", name = "enable", havingValue = "true", matchIfMissing = true)
-@Import(LoggerServiceImpl.class)
-public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean {
+@EnableConfigurationProperties(RequestLoggerProperties.class)
+@ConditionalOnProperty(prefix = "spring.emily.request.logger", name = "enabled", havingValue = "true", matchIfMissing = true)
+public class RequestLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String API_LOG_NORMAL_BEAN_NAME = "apiLogNormalPointCutAdvice";
     public static final String API_LOG_EXCEPTION_BEAN_NAME = "apiLogExceptionPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String DEFAULT_POINT_CUT = StringUtils.join( "(@target(org.springframework.stereotype.Controller) ",
-                                                                            "or @target(org.springframework.web.bind.annotation.RestController)) ",
-                                                                            "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
-                                                                            "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
-                                                                            "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
-                                                                            "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
-                                                                            "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
+    private static final String DEFAULT_POINT_CUT = StringUtils.join("(@target(org.springframework.stereotype.Controller) ",
+            "or @target(org.springframework.web.bind.annotation.RestController)) ",
+            "and (@annotation(org.springframework.web.bind.annotation.GetMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.PostMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.PutMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
+            "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
-    private ApiLogProperties apiLogProperties;
+    private RequestLoggerProperties apiLogProperties;
 
-    public ApiLogAutoConfiguration(ApiLogProperties apiLogProperties) {
+    public RequestLoggerAutoConfiguration(RequestLoggerProperties apiLogProperties) {
         this.apiLogProperties = apiLogProperties;
+    }
+
+    /**
+     * 日志记录服务
+     */
+    @Primary
+    @Bean
+    @ConditionalOnMissingBean
+    public LoggerService loggerService() {
+        Supplier<LoggerService> supplier = LoggerServiceImpl::new;
+        return supplier.get();
     }
 
     /**
@@ -94,12 +107,12 @@ public class ApiLogAutoConfiguration implements InitializingBean, DisposableBean
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(ApiLogAutoConfiguration.class, "【销毁--自动化配置】----API日志记录组件【ApiLogAutoConfiguration】");
+        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         LoggerUtils.setDebug(apiLogProperties.isDebug());
-        LoggerUtils.info(ApiLogAutoConfiguration.class, "【初始化--自动化配置】----API日志记录组件【ApiLogAutoConfiguration】");
+        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 }

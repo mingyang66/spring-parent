@@ -22,6 +22,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.function.Supplier;
 
 /**
  * @Description: 将RestTemplate加入容器
@@ -41,12 +42,13 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
     private HttpClientBalanceProperties httpClientProperties;
 
     /**
-     * 创建日志异步调用服务
+     * 日志记录服务
      */
     @Bean
     @ConditionalOnMissingBean
-    public LoggerService asyncLogHttpClientService() {
-        return new LoggerServiceImpl();
+    public LoggerService loggerService() {
+        Supplier<LoggerService> supplier = LoggerServiceImpl::new;
+        return supplier.get();
     }
 
     /**
@@ -54,7 +56,7 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
      */
     @LoadBalanced
     @Bean(LOAD_BALANCED_BEAN_NAME)
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory, LoggerService asyncLogHttpClientService) {
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory, LoggerService loggerService) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientLoadBalanceHttpRequestFactory));
@@ -62,7 +64,7 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if (httpClientProperties.isEnableInterceptor()) {
             //添加拦截器
-            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor(asyncLogHttpClientService)));
+            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor(loggerService)));
         }
 
         return restTemplate;

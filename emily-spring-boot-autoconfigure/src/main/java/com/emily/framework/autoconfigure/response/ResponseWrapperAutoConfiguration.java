@@ -1,4 +1,4 @@
-package com.emily.framework.autoconfigure.response.wrapper;
+package com.emily.framework.autoconfigure.response;
 
 import com.emily.framework.autoconfigure.response.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.emily.framework.autoconfigure.response.handler.ResponseHttpHeadersReturnValueHandler;

@@ -1,9 +1,9 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.emily.framework.autoconfigure.apilog.ApiLogAutoConfiguration,\
+  com.emily.framework.autoconfigure.request.RequestLoggerAutoConfiguration,\
   com.emily.framework.autoconfigure.idempotent.IdempotentAutoConfiguration,\
   com.emily.framework.autoconfigure.redis.EmilyRedisAutoConfiguration,\
-  com.emily.framework.autoconfigure.response.wrapper.ResponseWrapperAutoConfiguration,\
+  com.emily.framework.autoconfigure.response.ResponseWrapperAutoConfiguration,\
   com.emily.framework.autoconfigure.http.client.HttpClientAutoConfiguration,\
   com.emily.framework.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration,\
   com.emily.framework.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration,\

@@ -1,4 +1,4 @@
-package com.emily.framework.autoconfigure.response.wrapper;
+package com.emily.framework.autoconfigure.response;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

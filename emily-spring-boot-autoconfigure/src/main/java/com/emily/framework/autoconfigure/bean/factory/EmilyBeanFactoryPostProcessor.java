@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.bean.factory;
 
-import com.emily.framework.autoconfigure.apilog.ApiLogAutoConfiguration;
-import com.emily.framework.autoconfigure.apilog.ApiLogProperties;
+import com.emily.framework.autoconfigure.request.RequestLoggerAutoConfiguration;
+import com.emily.framework.autoconfigure.request.RequestLoggerProperties;
 import com.emily.framework.autoconfigure.ratelimit.RateLimitAutoConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -20,24 +20,24 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        if (beanFactory.containsBeanDefinition("spring.emily.api-log-" + ApiLogProperties.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.api-log-" + ApiLogProperties.class.getName());
+        if (beanFactory.containsBeanDefinition("spring.emily.api-log-" + RequestLoggerProperties.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.api-log-" + RequestLoggerProperties.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-        if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.class.getName());
+        if (beanFactory.containsBeanDefinition(RequestLoggerAutoConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RequestLoggerAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition("asyncLogAopService")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("asyncLogAopService");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-        if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME);
+        if (beanFactory.containsBeanDefinition(RequestLoggerAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RequestLoggerAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-        if (beanFactory.containsBeanDefinition(ApiLogAutoConfiguration.API_LOG_NORMAL_BEAN_NAME)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiLogAutoConfiguration.API_LOG_NORMAL_BEAN_NAME);
+        if (beanFactory.containsBeanDefinition(RequestLoggerAutoConfiguration.API_LOG_NORMAL_BEAN_NAME)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RequestLoggerAutoConfiguration.API_LOG_NORMAL_BEAN_NAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(RateLimitAutoConfiguration.RATE_LIMIT_POINT_CUT_ADVISOR_NAME)) {

@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.response.handler;
 
 import com.emily.framework.autoconfigure.response.annotation.ApiWrapperIgnore;
-import com.emily.framework.autoconfigure.response.wrapper.ResponseWrapperProperties;
+import com.emily.framework.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.framework.common.base.BaseResponse;
 import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.enums.AppHttpStatus;

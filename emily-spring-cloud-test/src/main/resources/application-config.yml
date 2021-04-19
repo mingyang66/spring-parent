@@ -1,5 +1,11 @@
 spring:
   emily:
+    cloud:
+      http-client-loadbalancer:
+        enable: true
+    request:
+      logger:
+        enabled: true
     # Redis组件
     redis:
       # 是否开启组件，默认：false

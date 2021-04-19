@@ -56,11 +56,11 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "【销毁--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
+        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "【销毁--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "【初始化--自动化配置】----返回值包装组件【ReturnValueAutoConfiguration】");
+        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "【初始化--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
     }
 }

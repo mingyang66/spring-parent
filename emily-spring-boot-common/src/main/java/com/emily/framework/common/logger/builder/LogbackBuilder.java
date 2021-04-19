@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @description: 日志类
  * @create: 2020/08/04
  */
-public class AccessLogBuilder {
+public class LogbackBuilder {
     /**
      * Logger对象容器
      */
@@ -30,7 +30,7 @@ public class AccessLogBuilder {
 
     private AccessLog accessLog;
 
-    public AccessLogBuilder(AccessLog accessLog) {
+    public LogbackBuilder(AccessLog accessLog) {
         this.loggerCache = new ConcurrentHashMap<>();
         this.accessLog = accessLog;
     }
@@ -65,7 +65,7 @@ public class AccessLogBuilder {
         if (Objects.nonNull(logger)) {
             return logger;
         }
-        synchronized (AccessLogBuilder.class) {
+        synchronized (LogbackBuilder.class) {
             logger = loggerCache.get(key);
             if (Objects.nonNull(logger)) {
                 return logger;

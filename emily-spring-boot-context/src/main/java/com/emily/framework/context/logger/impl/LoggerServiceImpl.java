@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 
 /**
  * @program: spring-parent
- * @description: RestTemplate日志拦服务类
+ * @description: Logger日志记录服务
  * @create: 2020/08/24
  */
 public class LoggerServiceImpl implements LoggerService {

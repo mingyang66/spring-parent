@@ -1,6 +1,6 @@
 package com.emily.framework.common.logger;
 
-import com.emily.framework.common.logger.builder.AccessLogBuilder;
+import com.emily.framework.common.logger.builder.LogbackBuilder;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ public class LoggerUtils {
      * 当前开发模式
      */
     private static boolean debug = false;
-    private static AccessLogBuilder builder = null;
+    private static LogbackBuilder builder = null;
 
     public static <T> void info(Class<T> clazz, String msg) {
         if (Objects.nonNull(builder)) {
@@ -73,11 +73,11 @@ public class LoggerUtils {
         debug = isDebug;
     }
 
-    public static AccessLogBuilder getBuilder() {
+    public static LogbackBuilder getBuilder() {
         return builder;
     }
 
-    public static void setBuilder(AccessLogBuilder builder) {
+    public static void setBuilder(LogbackBuilder builder) {
         LoggerUtils.builder = builder;
     }
 }

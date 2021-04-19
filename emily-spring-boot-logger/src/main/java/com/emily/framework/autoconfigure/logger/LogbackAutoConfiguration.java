@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.logger;
 
 import com.emily.framework.common.logger.LoggerUtils;
-import com.emily.framework.common.logger.builder.AccessLogBuilder;
+import com.emily.framework.common.logger.builder.LogbackBuilder;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -18,11 +18,11 @@ import org.springframework.core.Ordered;
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@EnableConfigurationProperties(AccessLogProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.accesslog", name = "enable", havingValue = "true", matchIfMissing = true)
-public class AccessLogAutoConfiguration implements InitializingBean, DisposableBean {
+@EnableConfigurationProperties(LogbackProperties.class)
+@ConditionalOnProperty(prefix = "spring.emily.logback", name = "enabled", havingValue = "true", matchIfMissing = true)
+public class LogbackAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private AccessLogBuilder builder;
+    private LogbackBuilder builder;
 
     /**
      * AccessLog对象
@@ -31,19 +31,19 @@ public class AccessLogAutoConfiguration implements InitializingBean, DisposableB
      */
     @Bean
     @ConditionalOnMissingBean
-    public AccessLogBuilder defaultAccessLog(AccessLogProperties properties) {
-        builder = new AccessLogBuilder(properties);
+    public LogbackBuilder defaultAccessLog(LogbackProperties properties) {
+        builder = new LogbackBuilder(properties);
         LoggerUtils.setBuilder(builder);
         return builder;
     }
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(AccessLogAutoConfiguration.class, "【销毁--自动化配置】----logback日志组件【AccessLogAutoConfiguration】");
+        LoggerUtils.info(LogbackAutoConfiguration.class, "【销毁--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(AccessLogAutoConfiguration.class, "【初始化--自动化配置】----logback日志组件【AccessLogAutoConfiguration】");
+        LoggerUtils.info(LogbackAutoConfiguration.class, "【初始化--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
     }
 }

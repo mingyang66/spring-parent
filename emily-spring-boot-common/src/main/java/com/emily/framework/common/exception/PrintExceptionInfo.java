@@ -28,8 +28,6 @@ public class PrintExceptionInfo {
     }
     /**
      * 输出所有异常
-     * @param ex
-     * @return
      */
     public static String printErrorInfo(Throwable[] ex) {
         String message = "";

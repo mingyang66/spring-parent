@@ -11,7 +11,7 @@ import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.framework.common.logger.filter.AccessLogFilter;
 import com.emily.framework.common.logger.level.AccessLogLevel;
-import com.emily.framework.common.logger.po.AccessLog;
+import com.emily.framework.common.logger.properties.AccessLog;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import com.emily.framework.common.utils.constant.CharsetUtils;
 import org.apache.commons.lang3.StringUtils;

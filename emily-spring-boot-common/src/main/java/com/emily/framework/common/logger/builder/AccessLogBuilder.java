@@ -8,7 +8,7 @@ import com.emily.framework.common.logger.appender.AccessLogAsyncAppender;
 import com.emily.framework.common.logger.appender.AccessLogConsoleAppender;
 import com.emily.framework.common.logger.appender.AccessLogRollingFileAppender;
 import com.emily.framework.common.logger.level.AccessLogLevel;
-import com.emily.framework.common.logger.po.AccessLog;
+import com.emily.framework.common.logger.properties.AccessLog;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;

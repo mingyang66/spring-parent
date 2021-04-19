@@ -6,7 +6,7 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.framework.common.logger.filter.AccessLogFilter;
-import com.emily.framework.common.logger.po.AccessLog;
+import com.emily.framework.common.logger.properties.AccessLog;
 import com.emily.framework.common.utils.constant.CharsetUtils;
 
 import java.nio.charset.Charset;

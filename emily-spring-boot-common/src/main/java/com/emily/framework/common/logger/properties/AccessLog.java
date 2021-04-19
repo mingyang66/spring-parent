@@ -1,14 +1,10 @@
-package com.emily.framework.common.logger.po;
+package com.emily.framework.common.logger.properties;
 
 /**
  * @description: 日志配置属性
  * @create: 2020/08/08
  */
 public class AccessLog {
-    /**
-     * 默认模块名称
-     */
-    public static final String DEFAULT_MODULE = "default";
     /**
      * 日志级别，ERROR > WARN > INFO > DEBUG, 默认：DEBUG
      */

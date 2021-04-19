@@ -4,17 +4,20 @@ import com.emily.framework.common.logger.LoggerUtils;
 import com.emily.framework.common.logger.builder.AccessLogBuilder;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 
 /**
  * @description: LogBack日志组件
  * @create: 2020/08/08
  */
 @Configuration(proxyBeanMethods = false)
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(AccessLogProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.accesslog", name = "enable", havingValue = "true", matchIfMissing = true)
 public class AccessLogAutoConfiguration implements InitializingBean, DisposableBean {

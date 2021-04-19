@@ -1,6 +1,6 @@
 package com.emily.framework.cloud.feign.loadbalancer;
 
-import com.emily.framework.cloud.feign.common.FeignLogUtils;
+import com.emily.framework.cloud.feign.common.FeignLoggerUtils;
 import com.emily.framework.common.base.BaseLogger;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
@@ -12,7 +12,7 @@ import java.util.Objects;
  * @description: 定义loadbalancer执行前后可以执行的操作，此处用来获取实际的请求地址
  * @create: 2021/04/01
  */
-public class FeignLogLoadBalancerLifecycle implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
+public class FeignLoggerLoadBalancerLifecycle implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
 
     @Override
     public boolean supports(Class requestContextClass, Class responseClass, Class serverTypeClass) {
@@ -31,7 +31,7 @@ public class FeignLogLoadBalancerLifecycle implements LoadBalancerLifecycle<Requ
     public void onComplete(CompletionContext<ResponseData, ServiceInstance, RequestDataContext> completionContext) {
         if (Objects.nonNull(completionContext.getClientResponse())) {
             //封装异步日志信息
-            BaseLogger baseLogger = FeignLogUtils.getBaseLogger();
+            BaseLogger baseLogger = FeignLoggerUtils.getBaseLogger();
             //设置请求URL
             baseLogger.setRequestUrl(completionContext.getClientResponse().getRequestData().getUrl().toString());
         }

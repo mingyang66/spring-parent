@@ -1,9 +1,9 @@
 package com.emily.framework.cloud.feign;
 
-import com.emily.framework.cloud.feign.interceptor.FeignLogMethodInterceptor;
-import com.emily.framework.cloud.feign.interceptor.FeignLogThrowsAdvice;
+import com.emily.framework.cloud.feign.interceptor.FeignLoggerMethodInterceptor;
+import com.emily.framework.cloud.feign.interceptor.FeignLoggerThrowsAdvice;
 import com.emily.framework.cloud.feign.interceptor.FeignRequestInterceptor;
-import com.emily.framework.cloud.feign.loadbalancer.FeignLogLoadBalancerLifecycle;
+import com.emily.framework.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.framework.cloud.feign.logger.FeignLogger;
 import com.emily.framework.common.enums.AopOrderEnum;
 import com.emily.framework.common.logger.LoggerUtils;
@@ -29,10 +29,10 @@ import java.util.function.Supplier;
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(FeignLogProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.feign.http-log", name = "enable", havingValue = "true", matchIfMissing = false)
+@EnableConfigurationProperties(FeignLoggerProperties.class)
+@ConditionalOnProperty(prefix = "spring.emily.feign.logger", name = "enabled", havingValue = "true", matchIfMissing = false)
 @Import(LoggerServiceImpl.class)
-public class FeignLogAutoConfiguration implements InitializingBean, DisposableBean {
+public class FeignLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String HTTP_LOG_NORMAL_BEAN_NAME = "feignLogNormalPointCutAdvice";
     public static final String HTTP_LOG_EXCEPTION_BEAN_NAME = "feignLogExceptionPointCutAdvice";
@@ -52,7 +52,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      * @Version 1.0
      */
     @Bean(HTTP_LOG_NORMAL_BEAN_NAME)
-    @ConditionalOnClass(FeignLogMethodInterceptor.class)
+    @ConditionalOnClass(FeignLoggerMethodInterceptor.class)
     public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -63,7 +63,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new FeignLogMethodInterceptor(loggerService));
+        advisor.setAdvice(new FeignLoggerMethodInterceptor(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.FEIGN_LOG_NORMAL.getOrder());
         return advisor;
@@ -75,7 +75,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      * @return
      */
     @Bean(HTTP_LOG_EXCEPTION_BEAN_NAME)
-    @ConditionalOnClass(FeignLogThrowsAdvice.class)
+    @ConditionalOnClass(FeignLoggerThrowsAdvice.class)
     public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -86,7 +86,7 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new FeignLogThrowsAdvice(loggerService));
+        advisor.setAdvice(new FeignLoggerThrowsAdvice(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.FEIGN_LOG_EXCEPTION.getOrder());
         return advisor;
@@ -105,8 +105,8 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
      * Feign 声明周期管理，主要获取真实URL
      */
     @Bean
-    public FeignLogLoadBalancerLifecycle feignLogLoadBalancerLifecycle() {
-        Supplier<FeignLogLoadBalancerLifecycle> supplier = FeignLogLoadBalancerLifecycle::new;
+    public FeignLoggerLoadBalancerLifecycle feignLogLoadBalancerLifecycle() {
+        Supplier<FeignLoggerLoadBalancerLifecycle> supplier = FeignLoggerLoadBalancerLifecycle::new;
         return supplier.get();
     }
 
@@ -121,11 +121,11 @@ public class FeignLogAutoConfiguration implements InitializingBean, DisposableBe
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(FeignLogAutoConfiguration.class, "【销毁--自动化配置】----Feign日志记录组件【HttpLogAutoConfiguration】");
+        LoggerUtils.info(FeignLoggerAutoConfiguration.class, "【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(FeignLogAutoConfiguration.class, "【初始化--自动化配置】----Feign日志记录组件【HttpLogAutoConfiguration】");
+        LoggerUtils.info(FeignLoggerAutoConfiguration.class, "【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 }

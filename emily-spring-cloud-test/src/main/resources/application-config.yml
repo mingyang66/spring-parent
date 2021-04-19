@@ -6,9 +6,9 @@ spring:
       enable: true
     # Feign开启自动化配置记录日志
     feign:
-      http-log:
+      logger:
         # 默认：false
-        enable: true
+        enabled: true
         # 开启feign调试模式，默认：false
         debug: true
     web:

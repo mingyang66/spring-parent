@@ -10,7 +10,7 @@ import java.util.Objects;
  * @description: feigin日志记录工具类
  * @create: 2021/04/01
  */
-public class FeignLogUtils {
+public class FeignLoggerUtils {
     /**
      * 获取日志记录对象
      */

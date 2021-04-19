@@ -1,6 +1,6 @@
 package com.emily.framework.cloud.feign.interceptor;
 
-import com.emily.framework.cloud.feign.common.FeignLogUtils;
+import com.emily.framework.cloud.feign.common.FeignLoggerUtils;
 import com.emily.framework.common.base.BaseLogger;
 import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.common.utils.RequestUtils;
@@ -15,11 +15,11 @@ import java.time.format.DateTimeFormatter;
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Version: 1.0
  */
-public class FeignLogMethodInterceptor implements MethodInterceptor {
+public class FeignLoggerMethodInterceptor implements MethodInterceptor {
 
     private LoggerService loggerService;
 
-    public FeignLogMethodInterceptor(LoggerService loggerService) {
+    public FeignLoggerMethodInterceptor(LoggerService loggerService) {
         this.loggerService = loggerService;
     }
 
@@ -39,7 +39,7 @@ public class FeignLogMethodInterceptor implements MethodInterceptor {
         //调用真实的action方法
         Object result = invocation.proceed();
         //封装异步日志信息
-        BaseLogger baseLogger = FeignLogUtils.getBaseLogger();
+        BaseLogger baseLogger = FeignLoggerUtils.getBaseLogger();
         //响应结果
         baseLogger.setResponseBody(result);
         //耗时

@@ -23,17 +23,13 @@ import org.springframework.core.Ordered;
 @ConditionalOnProperty(prefix = "spring.emily.logback", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class LogbackAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private LogbackBuilder builder;
-
     /**
      * AccessLog对象
-     *
-     * @return
      */
     @Bean
     @ConditionalOnMissingBean
-    public LogbackBuilder defaultAccessLog(LogbackProperties properties) {
-        builder = new LogbackBuilder(properties);
+    public LogbackBuilder logbackBuilder(LogbackProperties properties) {
+        LogbackBuilder builder = new LogbackBuilder(properties);
         LoggerUtils.setBuilder(builder);
         return builder;
     }

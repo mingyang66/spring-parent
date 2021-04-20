@@ -1,5 +1,8 @@
 package com.emily.framework.context.filter;
 
+import com.emily.framework.common.enums.AppHttpStatus;
+import com.emily.framework.common.exception.BusinessException;
+import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.context.servlet.RequestWrapper;
 
 import javax.servlet.*;
@@ -12,7 +15,7 @@ import java.io.IOException;
  */
 public class RequestChannelFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
@@ -25,10 +28,10 @@ public class RequestChannelFilter implements Filter {
             } else {
                 chain.doFilter(request, response);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+        } catch (ServletException ex) {
+            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
 
 

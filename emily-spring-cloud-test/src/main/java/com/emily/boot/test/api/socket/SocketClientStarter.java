@@ -17,9 +17,9 @@ public class SocketClientStarter {
     public static void main(String[] args) {
         try {
             Socket sc=new Socket("172.30.67.122",8888);
-            OutputStream Out = sc.getOutputStream();
+            OutputStream out = sc.getOutputStream();
             String now = "我是客户端，当前时间是："+ LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
-            Out.write(now.getBytes());
+            out.write(now.getBytes());
             InputStream is = sc.getInputStream();
             byte[] bytes=new byte[1024];
             int len=is.read(bytes);

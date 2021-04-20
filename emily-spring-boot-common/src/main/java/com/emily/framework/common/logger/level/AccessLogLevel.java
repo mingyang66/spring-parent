@@ -9,9 +9,10 @@ import java.util.List;
 /**
  * @description: 访问日志级别
  * @create: 2020/08/07
+ * @Author Emily
  */
 public class AccessLogLevel {
-    private static final List<String> levelArray = Arrays.asList(Level.ERROR.levelStr, Level.WARN.levelStr, Level.INFO.levelStr, Level.DEBUG.levelStr, Level.TRACE.levelStr, Level.ALL.levelStr);
+    private static final List<String> LOGGER_LEVEL = Arrays.asList(Level.ERROR.levelStr, Level.WARN.levelStr, Level.INFO.levelStr, Level.DEBUG.levelStr, Level.TRACE.levelStr, Level.ALL.levelStr);
     /**
      * 获取配置日志级别
      * ERROR > WARN > INFO > DEBUG > TRACE >ALL
@@ -40,8 +41,8 @@ public class AccessLogLevel {
      */
     public static Level getNextLogLevel(String level) {
         level = StringUtils.upperCase(level);
-        if(levelArray.indexOf(level)+1 < levelArray.size()){
-            level = levelArray.get(levelArray.indexOf(level)+1);
+        if(LOGGER_LEVEL.indexOf(level)+1 < LOGGER_LEVEL.size()){
+            level = LOGGER_LEVEL.get(LOGGER_LEVEL.indexOf(level)+1);
         }
         return getLogLevel(level);
     }

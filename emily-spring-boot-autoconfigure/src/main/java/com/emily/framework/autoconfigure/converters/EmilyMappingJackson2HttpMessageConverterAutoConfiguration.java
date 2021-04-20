@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: springboot框架将字典数据类型转换为json，Content-Type默认由 content-type: application/json 更改为：content-type: application/json;charset=UTF-8
  * @create: 2020/10/28

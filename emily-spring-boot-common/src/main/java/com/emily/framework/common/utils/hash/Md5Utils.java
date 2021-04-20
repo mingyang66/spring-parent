@@ -17,7 +17,7 @@ public class Md5Utils {
     /**
      * @Description: 生成字符串的MD5 hash值
      */
-    public static String computeMD5Hash(String input) {
+    public static String computeMd5Hash(String input) {
         //参数校验
         if (null == input) {
             return null;
@@ -41,7 +41,7 @@ public class Md5Utils {
     /**
      * @Description: 计算文件的 md5 hash值
      */
-    public static String computeMD5Hash(File file) {
+    public static String computeMd5Hash(File file) {
         //摘要输入流
         DigestInputStream din = null;
         try {

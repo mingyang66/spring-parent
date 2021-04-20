@@ -30,7 +30,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
     public ResponseMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ResponseWrapperProperties returnValueProperties) {
         this.proxyObject = proxyObject;
         this.returnValueProperties = returnValueProperties;
-        this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.defaultExcludeUrl));
+        this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.DEFAULT_EXCLUDE_URL));
     }
 
     @Override

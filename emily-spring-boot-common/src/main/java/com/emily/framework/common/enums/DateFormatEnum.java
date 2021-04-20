@@ -51,7 +51,10 @@ public enum DateFormatEnum {
 
     MM_DD_CN("MM月dd日"),
     MM_DD_HH_MM_CN("MM月dd日 HH:mm"),
-    MM_DD_HH_MM_SS_CN("MM月dd日 HH:mm:ss");
+    MM_DD_HH_MM_SS_CN("MM月dd日 HH:mm:ss"),
+
+    YYYY_MM_DD_AHH_MM_SS("yyyy-MM-dd aHH:mm:ss"),
+    YYYY_MM_DD_AHH_MM_SS_SSS("yyyy-MM-dd aHH:mm:ss.SSS");
 
 
     private final String format;

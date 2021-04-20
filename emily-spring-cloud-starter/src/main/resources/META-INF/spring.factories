@@ -3,3 +3,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.framework.cloud.http.client.HttpClientBalanceAutoConfiguration,\
   com.emily.framework.cloud.feign.FeignLoggerAutoConfiguration,\
   com.emily.framework.cloud.bean.EmilyBeanFactoryPostProcessorAutoConfiguration
+
+# Bootstrap Configuration
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.emily.framework.cloud.config.EmilyConsulConfigBootstrapConfiguration

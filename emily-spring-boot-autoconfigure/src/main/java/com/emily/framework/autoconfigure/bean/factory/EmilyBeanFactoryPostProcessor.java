@@ -1,8 +1,11 @@
 package com.emily.framework.autoconfigure.bean.factory;
 
+import com.emily.framework.autoconfigure.http.HttpClientProperties;
+import com.emily.framework.autoconfigure.http.client.HttpClientAutoConfiguration;
 import com.emily.framework.autoconfigure.request.RequestLoggerAutoConfiguration;
 import com.emily.framework.autoconfigure.request.RequestLoggerProperties;
 import com.emily.framework.autoconfigure.ratelimit.RateLimitAutoConfiguration;
+import com.emily.framework.context.logger.impl.LoggerServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -70,8 +73,16 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("stringRedisTemplate");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-        if (beanFactory.containsBeanDefinition("org.springframework.retry.annotation.RetryConfiguration")) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("org.springframework.retry.annotation.RetryConfiguration");
+        if (beanFactory.containsBeanDefinition(HttpClientAutoConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(HttpClientAutoConfiguration.class.getName());
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(String.join("", "spring.emily.http-client-", HttpClientProperties.class.getName()))) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(String.join("", "spring.emily.http-client-", HttpClientProperties.class.getName()));
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("loggerService")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("loggerService");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }

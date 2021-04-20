@@ -7,8 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * @author Emily
  * @program: spring-parent
- * @description:
+ * @description: Bean后置处理器
  * @create: 2020/09/11
  */
 @Configuration(proxyBeanMethods = false)
@@ -20,12 +21,12 @@ public class EmilyBeanFactoryPostProcessorAutoConfiguration implements Initializ
     }
 
     @Override
-    public void destroy() throws Exception {
-        LoggerUtils.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "【销毁CLOUD--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
+    public void destroy() {
+        LoggerUtils.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "【销毁--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "【初始化CLOUD--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
+    public void afterPropertiesSet() {
+        LoggerUtils.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "【初始化--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
     }
 }

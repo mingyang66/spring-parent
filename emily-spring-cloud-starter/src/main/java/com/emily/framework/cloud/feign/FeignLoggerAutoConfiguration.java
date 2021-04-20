@@ -35,8 +35,8 @@ import java.util.function.Supplier;
 @Import(LoggerServiceImpl.class)
 public class FeignLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
-    public static final String HTTP_LOG_NORMAL_BEAN_NAME = "feignLogNormalPointCutAdvice";
-    public static final String HTTP_LOG_EXCEPTION_BEAN_NAME = "feignLogExceptionPointCutAdvice";
+    public static final String FEIGN_LOGGER_NORMAL_BEAN_NAME = "feignLoggerNormalPointCutAdvice";
+    public static final String FEIGN_LOGGER_EXCEPTION_BEAN_NAME = "feignLoggerExceptionPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -52,7 +52,7 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
      * @Description 定义接口拦截器切点
      * @Version 1.0
      */
-    @Bean(HTTP_LOG_NORMAL_BEAN_NAME)
+    @Bean(FEIGN_LOGGER_NORMAL_BEAN_NAME)
     @ConditionalOnClass(FeignLoggerMethodInterceptor.class)
     public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
@@ -75,7 +75,7 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
      *
      * @return
      */
-    @Bean(HTTP_LOG_EXCEPTION_BEAN_NAME)
+    @Bean(FEIGN_LOGGER_EXCEPTION_BEAN_NAME)
     @ConditionalOnClass(FeignLoggerThrowsAdvice.class)
     public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点

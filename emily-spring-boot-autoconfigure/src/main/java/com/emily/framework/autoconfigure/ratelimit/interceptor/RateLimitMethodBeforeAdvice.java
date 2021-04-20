@@ -40,7 +40,7 @@ public class RateLimitMethodBeforeAdvice implements MethodBeforeAdvice {
         //获取Request请求对象
         HttpServletRequest request = RequestUtils.getRequest();
         //url 进行md5 hash作为键值
-        String key = Md5Utils.computeMD5Hash(request.getRequestURL().toString());
+        String key = Md5Utils.computeMd5Hash(request.getRequestURL().toString());
         //执行lua脚本，将数据存储到redis缓存
         long data = stringRedisTemplate.execute(RedisScript.of(new ClassPathResource("META-INF/scripts/rateLimit.lua"), Long.class),
                 Collections.singletonList(StringUtils.join("ratelimt", CharacterUtils.COLON_EN, key)),

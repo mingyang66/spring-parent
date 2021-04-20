@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.function.Supplier;
 
 /**
+ * @author Emily
  * @Description: 将RestTemplate加入容器
  * @Version: 1.0
  */
@@ -83,12 +84,12 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         LoggerUtils.info(HttpClientAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         LoggerUtils.info(HttpClientAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
     }
 }

@@ -12,24 +12,22 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: bean注册成功但未实例化之前调用的后置处理器，用来更改BeanDefinition
  * @create: 2020/09/11
  */
+@SuppressWarnings("all")
 public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        if (beanFactory.containsBeanDefinition("spring.emily.api-log-" + RequestLoggerProperties.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.api-log-" + RequestLoggerProperties.class.getName());
+        if (beanFactory.containsBeanDefinition("spring.emily.request.logger-" + RequestLoggerProperties.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.request.logger-" + RequestLoggerProperties.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(RequestLoggerAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RequestLoggerAutoConfiguration.class.getName());
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("asyncLogAopService")) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("asyncLogAopService");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(RequestLoggerAutoConfiguration.API_LOG_EXCEPTION_BEAN_NAME)) {

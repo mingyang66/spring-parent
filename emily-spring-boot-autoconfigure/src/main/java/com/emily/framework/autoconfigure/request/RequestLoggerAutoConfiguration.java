@@ -11,6 +11,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,7 +23,8 @@ import org.springframework.context.annotation.Primary;
 import java.util.function.Supplier;
 
 /**
- * @Description: 控制器切点配置
+ * @author Emily
+ * @Description: 请求日志拦截AOP切面
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
@@ -30,8 +32,8 @@ import java.util.function.Supplier;
 @ConditionalOnProperty(prefix = "spring.emily.request.logger", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RequestLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
-    public static final String API_LOG_NORMAL_BEAN_NAME = "apiLogNormalPointCutAdvice";
-    public static final String API_LOG_EXCEPTION_BEAN_NAME = "apiLogExceptionPointCutAdvice";
+    public static final String API_LOG_NORMAL_BEAN_NAME = "requestLoggerNormalPointCutAdvice";
+    public static final String API_LOG_EXCEPTION_BEAN_NAME = "requestLoggerExceptionPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -44,10 +46,6 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
             "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
     private RequestLoggerProperties apiLogProperties;
-
-    public RequestLoggerAutoConfiguration(RequestLoggerProperties apiLogProperties) {
-        this.apiLogProperties = apiLogProperties;
-    }
 
     /**
      * 日志记录服务
@@ -106,12 +104,12 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         LoggerUtils.info(RequestLoggerAutoConfiguration.class, "【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         LoggerUtils.setDebug(apiLogProperties.isDebug());
         LoggerUtils.info(RequestLoggerAutoConfiguration.class, "【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }

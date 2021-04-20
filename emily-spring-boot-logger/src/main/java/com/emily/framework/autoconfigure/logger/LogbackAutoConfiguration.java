@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 /**
+ * @author Emily
  * @description: LogBack日志组件
  * @create: 2020/08/08
  */
@@ -38,12 +39,12 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         LoggerUtils.info(LogbackAutoConfiguration.class, "【销毁--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         LoggerUtils.info(LogbackAutoConfiguration.class, "【初始化--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
     }
 }

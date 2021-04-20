@@ -34,10 +34,18 @@ public class RequestUtils {
      * unknown
      */
     private static final String UNKNOWN = "unknown";
-    //本地IP
+    /**
+     * 本地IP
+     */
     private static final String LOCAL_IP = "127.0.0.1";
-    //服务器IP
+    /**
+     * 服务器IP
+     */
     private static String SERVER_IP = null;
+    /**
+     * 是否是内网正则表达式
+     */
+    private static String INTERNET = "^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$";
 
     /**
      * 获取客户单IP地址
@@ -86,7 +94,7 @@ public class RequestUtils {
         if (StringUtils.equals("0:0:0:0:0:0:0:1", ip)) {
             return true;
         }
-        Pattern reg = Pattern.compile("^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$");
+        Pattern reg = Pattern.compile(INTERNET);
         Matcher match = reg.matcher(ip);
         return match.find();
     }
@@ -274,7 +282,7 @@ public class RequestUtils {
                 return String.valueOf(tId);
             }
             return String.valueOf(tId);
-        } catch (Exception e){
+        } catch (Exception e) {
             return UUID.randomUUID().toString();
         }
     }

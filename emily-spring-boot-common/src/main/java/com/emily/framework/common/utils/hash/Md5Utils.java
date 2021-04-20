@@ -15,9 +15,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Md5Utils {
     /**
-    * @Description: 生成字符串的MD5 hash值
-    */
-    public static String computeMD5Hash(String input){
+     * @Description: 生成字符串的MD5 hash值
+     */
+    public static String computeMD5Hash(String input) {
         //参数校验
         if (null == input) {
             return null;
@@ -28,7 +28,7 @@ public class Md5Utils {
             byte[] digest = md.digest();
             BigInteger bi = new BigInteger(1, digest);
             String hashText = bi.toString(16);
-            while(hashText.length() < 32){
+            while (hashText.length() < 32) {
                 hashText = "0" + hashText;
             }
             return hashText;
@@ -37,9 +37,10 @@ public class Md5Utils {
         }
         return null;
     }
+
     /**
-    * @Description: 计算文件的 md5 hash值
-    */
+     * @Description: 计算文件的 md5 hash值
+     */
     public static String computeMD5Hash(File file) {
         //摘要输入流
         DigestInputStream din = null;
@@ -49,9 +50,10 @@ public class Md5Utils {
             din = new DigestInputStream(new BufferedInputStream(new FileInputStream(file)), md5);
 
             byte[] b = new byte[1024];
-            while (din.read(b) != -1);
-            byte[] digest = md5.digest();
-            return DatatypeConverter.printHexBinary(digest);
+            if (din.read(b) != -1) {
+                byte[] digest = md5.digest();
+                return DatatypeConverter.printHexBinary(digest);
+            }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (IOException e) {

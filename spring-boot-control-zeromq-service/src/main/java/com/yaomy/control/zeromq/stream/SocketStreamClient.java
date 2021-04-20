@@ -51,9 +51,9 @@ public class SocketStreamClient {
     }
     public static void main(String[] args) {
         String endpoint = "tcp://127.0.0.1:5004";
-        new Thread(()->{
+        /*new Thread(()->{
             new SocketStreamServer(endpoint).start();
-        }).start();
+        }).start();*/
         new SocketStreamClient(endpoint).build();
 
     }

@@ -3,7 +3,6 @@ package com.yaomy.security.oauth2.api;
 import com.emily.framework.common.base.SimpleResponse;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.enums.DateFormatEnum;
-import com.emily.framework.common.enums.GrantTypeEnum;
 import com.emily.framework.common.utils.json.JSONUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

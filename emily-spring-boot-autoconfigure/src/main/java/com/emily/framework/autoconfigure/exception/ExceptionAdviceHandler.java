@@ -66,7 +66,7 @@ public class ExceptionAdviceHandler {
      * IO异常
      */
     @ExceptionHandler(IOException.class)
-    public SimpleResponse iOExceptionHandler(IOException e) {
+    public SimpleResponse ioExceptionHandler(IOException e) {
         recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.IO_EXCEPTION);
     }

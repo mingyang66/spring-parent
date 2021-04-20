@@ -1,4 +1,4 @@
-package com.emily.framework.common.enums;
+package com.yaomy.security.oauth2.api;
 
 /**
  * @Description: 认证模式枚举类

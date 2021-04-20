@@ -11,7 +11,6 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -46,6 +45,10 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
             "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
     private RequestLoggerProperties apiLogProperties;
+
+    public RequestLoggerAutoConfiguration(RequestLoggerProperties apiLogProperties) {
+        this.apiLogProperties = apiLogProperties;
+    }
 
     /**
      * 日志记录服务

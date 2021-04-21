@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
  * @Author Emily
  * @Version: 1.0
  */
-public class DataSourceAopMethodInterceptor implements MethodInterceptor {
+public class DataSourceMethodInterceptor implements MethodInterceptor {
     /**
      * 换行符
      */

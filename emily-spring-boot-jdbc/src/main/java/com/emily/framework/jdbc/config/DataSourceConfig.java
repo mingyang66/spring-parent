@@ -1,5 +1,6 @@
-package com.emily.framework.jdbc;
+package com.emily.framework.jdbc.config;
 
+import com.emily.framework.jdbc.datasource.MybatisConstant;
 import com.emily.framework.jdbc.datasource.DbType;
 import com.emily.framework.jdbc.datasource.DynamicDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
@@ -25,10 +26,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @Author Emily
  * @Description: 多数据源初始化配置
  * sqlSessionTemplateRef:指定使用哪个SqlSessionTemplate，通常是在Spring Context有多个数据源的时候才使用
  * @MapperScan：在使用java配置文件时，使用此注解来注册Mybatis映射器接口，它是MapperScannerConfigurer和MapperScannerRegistrar的工作原理是一样的
- * @Author Emily
  * @Version: 1.0
  */
 @Configuration

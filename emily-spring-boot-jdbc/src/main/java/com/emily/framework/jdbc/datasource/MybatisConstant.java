@@ -1,4 +1,4 @@
-package com.emily.framework.jdbc;
+package com.emily.framework.jdbc.datasource;
 
 /**
  * @Description: MyBatis 相关常量

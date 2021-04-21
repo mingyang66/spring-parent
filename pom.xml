@@ -25,7 +25,8 @@
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>emily-spring-boot-database</module>
+        <module>emily-spring-boot-jdbc</module>
+        <module>emily-spring-boot-test</module>
     </modules>
     <groupId>com.emily.framework</groupId>
     <artifactId>spring-parent</artifactId>

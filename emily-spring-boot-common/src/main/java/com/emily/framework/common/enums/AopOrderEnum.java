@@ -27,7 +27,11 @@ public enum AopOrderEnum {
     /**
      * feign正常日志
      */
-    FEIGN_LOG_NORMAL(800);
+    FEIGN_LOG_NORMAL(800),
+    /**
+     * 数据源
+     */
+    DATASOURCE_AOP(900);
 
     private int order;
 

@@ -3,7 +3,6 @@ package com.emily.framework.jdbc;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @program: com.eastmoney.emis.utils
  * @description: 数据源配置文件
  * @author: Emily
  * @create: 2020/05/14

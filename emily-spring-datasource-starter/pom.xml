@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>emily-spring-boot-jdbc</artifactId>
+    <artifactId>emily-spring-datasource-starter</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.emily.framework</groupId>

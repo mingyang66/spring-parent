@@ -1,7 +1,7 @@
-package com.emily.framework.jdbc.interceptor;
+package com.emily.framework.datasource.interceptor;
 
-import com.emily.framework.jdbc.annotation.TargetDataSource;
-import com.emily.framework.jdbc.datasource.DataSourceContextHolder;
+import com.emily.framework.datasource.annotation.TargetDataSource;
+import com.emily.framework.datasource.context.DataSourceContextHolder;
 import com.emily.framework.common.logger.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

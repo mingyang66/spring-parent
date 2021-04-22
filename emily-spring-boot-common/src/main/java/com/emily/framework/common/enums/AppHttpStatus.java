@@ -39,6 +39,8 @@ public enum AppHttpStatus {
     SERVER_ILLEGAL_ACCESS(200010, "非法访问"),
     SERVER_CIRCUIT_BREAKER(200011, "触发服务降级处理"),
 
+    DATABASE_EXCEPTION(300000, "数据库异常"),
+
     API404_EXCEPTION(404, "远程接口不存在"),
     API500_EXCEPTION(500, "远程接口服务错误");
 

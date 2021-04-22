@@ -1,4 +1,4 @@
-package com.emily.framework.jdbc.annotation;
+package com.emily.framework.datasource.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

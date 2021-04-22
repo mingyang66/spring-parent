@@ -14,6 +14,7 @@
         <module>emily-spring-boot-logger</module>
         <module>emily-spring-boot-context</module>
         <module>emily-spring-boot-autoconfigure</module>
+        <module>emily-spring-datasource-starter</module>
         <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-actuator</module>
         <module>emily-spring-boot-starter</module>
@@ -25,7 +26,6 @@
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>emily-spring-boot-jdbc</module>
         <module>emily-spring-boot-test</module>
     </modules>
     <groupId>com.emily.framework</groupId>

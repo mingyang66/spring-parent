@@ -1,20 +1,29 @@
-package com.emily.framework.jdbc.config;
+package com.emily.framework.datasource;
 
-import com.emily.framework.jdbc.datasource.MybatisConstant;
-import com.emily.framework.jdbc.datasource.DbType;
-import com.emily.framework.jdbc.datasource.DynamicDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.emily.framework.common.enums.AppHttpStatus;
+import com.emily.framework.common.exception.BusinessException;
+import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.datasource.context.DynamicDataSource;
+import com.emily.framework.datasource.context.MybatisConstant;
+import com.emily.framework.datasource.interceptor.DataSourceMethodInterceptor;
+import com.emily.framework.common.enums.AopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
+import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -26,14 +35,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @Description: 控制器切点配置
  * @Author Emily
- * @Description: 多数据源初始化配置
- * sqlSessionTemplateRef:指定使用哪个SqlSessionTemplate，通常是在Spring Context有多个数据源的时候才使用
- * @MapperScan：在使用java配置文件时，使用此注解来注册Mybatis映射器接口，它是MapperScannerConfigurer和MapperScannerRegistrar的工作原理是一样的
  * @Version: 1.0
  */
 @Configuration
-public class DataSourceConfig {
+@EnableConfigurationProperties(DataSourceProperties.class)
+@ConditionalOnProperty(prefix = "spring.emily.jdbc.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
+public class DataSourceAutoConfiguration implements InitializingBean, DisposableBean {
+
+    public static final String DATA_SOURCE_BEAN_NAME = "dataSourcePointCutAdvice";
+    /**
+     * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
+     */
+    private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(com.emily.framework.jdbc.annotation.TargetDataSource) ");
     /**
      * 配置文件对象
      */
@@ -41,35 +56,45 @@ public class DataSourceConfig {
     private Environment environment;
 
     /**
-     * 默认数据源
+     * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
+     * 切入点表达式：
+     * 第一个*号：表示返回类型，*号表示所有的类型
+     * 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
+     * 第二个*号：表示类名，*号表示所有的类名
+     * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
      */
-    @Bean("defaultDataSource")
-    @Primary
-    @ConfigurationProperties("spring.datasource.druid")
-    public DataSource defaultDataSource(){
-        return DruidDataSourceBuilder.create().build();
-    }
-    /**
-     * 默认数据源
-     */
-    @Bean("secondDataSource")
-    @ConfigurationProperties("second.datasource.druid")
-    public DataSource secondDataSource(){
-        return DruidDataSourceBuilder.create().build();
+    @Bean(DATA_SOURCE_BEAN_NAME)
+    @ConditionalOnClass(value = {DataSourceMethodInterceptor.class})
+    public DefaultPointcutAdvisor defaultPointcutAdvisor() {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        //获取切面表达式
+        pointcut.setExpression(DEFAULT_POINT_CUT);
+        // 配置增强类advisor
+        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
+        advisor.setPointcut(pointcut);
+        advisor.setAdvice(new DataSourceMethodInterceptor());
+        advisor.setOrder(AopOrderEnum.DATASOURCE_AOP.getOrder());
+        return advisor;
     }
     /**
      *  设置多数据源
-     * @param defaultDataSource 默认数据源
      * @return
      */
     @Bean("dynamicDataSource")
-    public DataSource dynamicDataSource(@Qualifier("defaultDataSource") DataSource defaultDataSource){
+    public DataSource dynamicDataSource(DataSourceProperties dataSourceProperties){
         Map<Object, Object> targetDataSources = new HashMap<>(1);
-        targetDataSources.put(DbType.DEFAULT_DATASOURCE, defaultDataSource);
-        targetDataSources.put("second", secondDataSource());
-        return DynamicDataSource.build(defaultDataSource, targetDataSources);
+        Map<String, DruidDataSource> config = dataSourceProperties.getConfig();
+        if(config.isEmpty()){
+            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "数据库配置不存在");
+        }
+        if(!config.containsKey(dataSourceProperties.getDefaultConfig())){
+            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
+        }
+        config.keySet().forEach(key->{
+                targetDataSources.put(key, config.get(key));
+        });
+        return DynamicDataSource.build(dataSourceProperties.getDefaultDataSource(), targetDataSources);
     }
-
     /**
      * 创建SqlSessionFactoryBean
      */
@@ -129,5 +154,15 @@ public class DataSourceConfig {
          * DataSourceTransactionManager:这个类可以在任何环境中使用任何JDBC驱动，
          */
         return new DataSourceTransactionManager(dynamicDataSource);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        LoggerUtils.info(DataSourceAutoConfiguration.class, "【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LoggerUtils.info(DataSourceAutoConfiguration.class, "【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 }

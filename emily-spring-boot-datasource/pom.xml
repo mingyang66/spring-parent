@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

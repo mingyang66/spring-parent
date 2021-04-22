@@ -1,10 +1,10 @@
 package com.emily.framework.datasource.controller;
 
-import com.emily.framework.datasource.mapper.JobMapper;
-import com.emily.framework.datasource.mapper.Node1Mapper;
-import com.emily.framework.datasource.mapper.NodeMapper;
+import com.emily.framework.datasource.mapper.*;
 import com.emily.framework.datasource.po.Job;
 import com.emily.framework.datasource.po.Node;
+import com.emily.framework.datasource.po.QuartzJob;
+import com.emily.framework.datasource.po.SqlServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +26,10 @@ public class DataSourceController {
     private NodeMapper nodeMapper;
     @Autowired
     private Node1Mapper node1Mapper;
+    @Autowired
+    private MysqlMapper mysqlMapper;
+    @Autowired
+    private SqlServerlMapper sqlServerlMapper;
     @GetMapping("getJob")
     public Job getJob(){
         Job job = jobMapper.findJob();
@@ -39,5 +43,15 @@ public class DataSourceController {
     @GetMapping("getNode1")
     public Node getNode1(){
         return node1Mapper.findNode();
+    }
+
+    @GetMapping("getQuartzJob")
+    public QuartzJob getQuartzJob(){
+        return mysqlMapper.findQuartzJob();
+    }
+
+    @GetMapping("findSqlServer")
+    public SqlServer findSqlServer(){
+        return sqlServerlMapper.findSqlServer();
     }
 }

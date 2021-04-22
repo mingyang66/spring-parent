@@ -6,7 +6,6 @@ import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @program: com.eastmoney.emis.utils
  * @description: 字段隐藏工具类
  * @author:
  * @create: 2020/05/14

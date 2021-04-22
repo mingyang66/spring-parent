@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TargetDataSource {
-    String value() default "spring";
+    String value() default "default";
 }
 

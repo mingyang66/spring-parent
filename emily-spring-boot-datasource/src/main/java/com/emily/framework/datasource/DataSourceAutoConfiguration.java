@@ -1,11 +1,11 @@
 package com.emily.framework.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.logger.LoggerUtils;
-import com.emily.framework.datasource.context.DynamicDataSource;
-import com.emily.framework.datasource.context.MybatisConstant;
+import com.emily.framework.datasource.context.DynamicMultipleDataSources;
 import com.emily.framework.datasource.interceptor.DataSourceMethodInterceptor;
 import com.emily.framework.common.enums.AopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -40,15 +41,28 @@ import java.util.Map;
  * @Version: 1.0
  */
 @Configuration
+@AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.jdbc.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.emily.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String DATA_SOURCE_BEAN_NAME = "dataSourcePointCutAdvice";
     /**
+     * Mybatis xml映射文件配置
+     */
+    public static final String MYBATIS_LOCATION_MAPPING = "mybatis.mapper-locations";
+    /**
+     * Mybatis config location
+     */
+    public static final String MYBATIS_CONFIG_LOCATION = "mybatis.config-location";
+    /**
+     * mybatis.type-aliases-package
+     */
+    public static final String MYBATIS_TYPE_ALIASES_PACKAGE = "mybatis.type-aliases-package";
+    /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(com.emily.framework.jdbc.annotation.TargetDataSource) ");
+    private static final String DEFAULT_POINT_CUT = StringUtils.join("@annotation(com.emily.framework.datasource.annotation.TargetDataSource) ");
     /**
      * 配置文件对象
      */
@@ -65,41 +79,44 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean(DATA_SOURCE_BEAN_NAME)
     @ConditionalOnClass(value = {DataSourceMethodInterceptor.class})
-    public DefaultPointcutAdvisor defaultPointcutAdvisor() {
+    public DefaultPointcutAdvisor defaultPointcutAdvisor(DataSourceProperties dataSourceProperties) {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //获取切面表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);
         // 配置增强类advisor
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
-        advisor.setAdvice(new DataSourceMethodInterceptor());
+        advisor.setAdvice(new DataSourceMethodInterceptor(dataSourceProperties));
         advisor.setOrder(AopOrderEnum.DATASOURCE_AOP.getOrder());
         return advisor;
     }
+
     /**
-     *  设置多数据源
+     * 设置多数据源
+     *
      * @return
      */
-    @Bean("dynamicDataSource")
-    public DataSource dynamicDataSource(DataSourceProperties dataSourceProperties){
-        Map<Object, Object> targetDataSources = new HashMap<>(1);
-        Map<String, DruidDataSource> config = dataSourceProperties.getConfig();
-        if(config.isEmpty()){
+    @Bean("dynamicMultipleDataSources")
+    public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
+        Map<String, DruidDataSource> configs = dataSourceProperties.getConfig();
+        if (configs.isEmpty()) {
             throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "数据库配置不存在");
         }
-        if(!config.containsKey(dataSourceProperties.getDefaultConfig())){
+        if (!configs.containsKey(dataSourceProperties.getDefaultConfig())) {
             throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
         }
-        config.keySet().forEach(key->{
-                targetDataSources.put(key, config.get(key));
+        Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
+        configs.keySet().forEach(key -> {
+            targetDataSources.put(key, configs.get(key));
         });
-        return DynamicDataSource.build(dataSourceProperties.getDefaultDataSource(), targetDataSources);
+        return DynamicMultipleDataSources.build(dataSourceProperties.getDefaultDataSource(), targetDataSources);
     }
+
     /**
      * 创建SqlSessionFactoryBean
      */
     @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) throws Exception{
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dynamicMultipleDataSources") DataSource dynamicMultipleDataSources) throws Exception {
 
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         /**
@@ -111,37 +128,38 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
         /**
          * 设置mybatis别名
          */
-        if(environment.containsProperty(MybatisConstant.MYBATIS_TYPPE_ALIASES_PACKAGE) && StringUtils.isNotBlank(environment.getProperty(MybatisConstant.MYBATIS_TYPPE_ALIASES_PACKAGE))){
-            sqlSessionFactoryBean.setTypeAliasesPackage(environment.getProperty(MybatisConstant.MYBATIS_TYPPE_ALIASES_PACKAGE));
+        if (environment.containsProperty(MYBATIS_TYPE_ALIASES_PACKAGE) && StringUtils.isNotBlank(environment.getProperty(MYBATIS_TYPE_ALIASES_PACKAGE))) {
+            sqlSessionFactoryBean.setTypeAliasesPackage(environment.getProperty(MYBATIS_TYPE_ALIASES_PACKAGE));
         }
         /**
          * 设置mybatis配置
          */
-        if(environment.containsProperty(MybatisConstant.MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(environment.getProperty(MybatisConstant.MYBATIS_CONFIG_LOCATION))){
-            sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(environment.getProperty(MybatisConstant.MYBATIS_CONFIG_LOCATION)));
+        if (environment.containsProperty(MYBATIS_CONFIG_LOCATION) && StringUtils.isNotBlank(environment.getProperty(MYBATIS_CONFIG_LOCATION))) {
+            sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(environment.getProperty(MYBATIS_CONFIG_LOCATION)));
         }
         /**
          * 设置sql xml映射文件配置
          */
-        if(environment.containsProperty(MybatisConstant.MYBATIS_LOCATION_MAPPING) && StringUtils.isNotBlank(environment.getProperty(MybatisConstant.MYBATIS_LOCATION_MAPPING))){
+        if (environment.containsProperty(MYBATIS_LOCATION_MAPPING) && StringUtils.isNotBlank(environment.getProperty(MYBATIS_LOCATION_MAPPING))) {
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-            sqlSessionFactoryBean.setMapperLocations(resolver.getResources(environment.getProperty(MybatisConstant.MYBATIS_LOCATION_MAPPING)));
+            sqlSessionFactoryBean.setMapperLocations(resolver.getResources(environment.getProperty(MYBATIS_LOCATION_MAPPING)));
         }
         /**
          * 设置数据源
          */
-        sqlSessionFactoryBean.setDataSource(dynamicDataSource);
+        sqlSessionFactoryBean.setDataSource(dynamicMultipleDataSources);
 
-        return  sqlSessionFactoryBean;
+        return sqlSessionFactoryBean;
     }
 
     /**
      * 生成SqlSessionTemplate对象
+     *
      * @param sqlSessionFactory
      * @return
      */
     @Bean(name = "sqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory){
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
@@ -149,11 +167,11 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
      * PlatformTransactionManager:这是Spring事务基础设施中的核心接口，应用程序可以直接使用它，应用程序可以使用TransactionTemplate或者AOP进行声明式事务划分；
      */
     @Bean
-    public PlatformTransactionManager transactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
+    public PlatformTransactionManager transactionManager(@Qualifier("dynamicMultipleDataSources") DataSource dynamicMultipleDataSources) {
         /**
          * DataSourceTransactionManager:这个类可以在任何环境中使用任何JDBC驱动，
          */
-        return new DataSourceTransactionManager(dynamicDataSource);
+        return new DataSourceTransactionManager(dynamicMultipleDataSources);
     }
 
     @Override

@@ -22,8 +22,13 @@
         </dependency>
         <dependency>
             <groupId>com.emily.framework</groupId>
-            <artifactId>emily-spring-datasource-starter</artifactId>
+            <artifactId>emily-spring-boot-datasource</artifactId>
             <version>2.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>12.2.0.1.0</version>
         </dependency>
     </dependencies>
 

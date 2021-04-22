@@ -11,9 +11,7 @@ import java.util.Random;
 
 /**
  * @description: Description
- * @projectName: com.eastmoney.emis.basic
- * @package: com.eastmoney.emis.basic.modules.validate.utils
- * @Author 唐鑫
+ * @Author Emily
  * @Date: 2020/6/29 11:33
  * @Version: 1.0
  */

@@ -14,7 +14,7 @@
         <module>emily-spring-boot-logger</module>
         <module>emily-spring-boot-context</module>
         <module>emily-spring-boot-autoconfigure</module>
-        <module>emily-spring-datasource-starter</module>
+        <module>emily-spring-boot-datasource</module>
         <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-actuator</module>
         <module>emily-spring-boot-starter</module>

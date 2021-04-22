@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emily.framework.datasource.mapper.Node1Mapper">
+	<resultMap id="nodeMap" type="com.emily.framework.datasource.po.Node">
+		<id column="ID" property="id"/>
+		<result column="EID" property="id"/>
+		<result column="CREATOR" property="creator"/>
+		<result column="MENDER" property="mender"/>
+	</resultMap>
+
+	<select id="findNode" resultMap="nodeMap">
+		SELECT sdn.EID,sdn.CREATOR,MENDER FROM ATCENTER.S_D_NODE sdn WHERE SDN.EID=213000040467087809
+    </select>
+
+
+</mapper>

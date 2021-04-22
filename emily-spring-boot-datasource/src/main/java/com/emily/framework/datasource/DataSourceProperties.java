@@ -14,9 +14,9 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "spring.emily.datasource")
 public class DataSourceProperties {
     /**
-     * 是否开启数据源组件
+     * 是否开启数据源组件, 默认：true
      */
-    private boolean enabled;
+    private boolean enabled = true;
     /**
      * 默认配置
      */

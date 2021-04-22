@@ -50,7 +50,7 @@ tar zxvf apache-zookeeper-3.7.0-bin.tar.gz
 
 ```properties
 #zookeeper数据存放目录修改
-dataDir=/emis/kafka/zookeeper/data
+dataDir=/emily/kafka/zookeeper/data
 #集群配置 server.A=B:C:D 
 # A是一个数字，代表服务器的编号，就是data目录下myid里面的数字
 # B是服务器IP地址
@@ -64,7 +64,7 @@ server.3=xx.xx.xx.xx:2888:3888
 在data文件夹下创建myid文件内部输入服务器标识:
 
 ```shell
-# 在/emis/kafka/zookeeper/data下新建myid文件，并添加服务器标识，是上述A代表的数字
+# 在/emily/kafka/zookeeper/data下新建myid文件，并添加服务器标识，是上述A代表的数字
 vi myid
 ```
 

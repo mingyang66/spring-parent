@@ -1178,7 +1178,7 @@ public class FileUtils {
     public static boolean isSymlink(final File file) {
         try {
             return org.apache.commons.io.FileUtils.isSymlink(file);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "确定指定的文件是符号链接而不是实际文件异常, " + e);
         }
     }

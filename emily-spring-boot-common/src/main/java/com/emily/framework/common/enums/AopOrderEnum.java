@@ -1,8 +1,10 @@
 package com.emily.framework.common.enums;
+
 /**
-* @Description: 定义优先级顺序
-* @create: 2020/3/23
-*/
+ * @author Emily
+ * @Description: 定义优先级顺序
+ * @create: 2020/3/23
+ */
 public enum AopOrderEnum {
     /**
      * API异常日志
@@ -35,7 +37,7 @@ public enum AopOrderEnum {
 
     private int order;
 
-    AopOrderEnum(int order){
+    AopOrderEnum(int order) {
         this.order = order;
     }
 

@@ -1,18 +1,18 @@
 package com.emily.framework.datasource.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.emily.framework.datasource.DataSourceProperties;
+
+import java.lang.annotation.*;
 
 /**
- * @Description: 自定义注解，切换数据源,默认主数据源primary
+ * @Description: 自定义注解，切换数据源,默认数据源为主数据源
  * @Author Emily
  * @Version: 1.0
  */
+@Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TargetDataSource {
-    String value() default "default";
+    String value() default DataSourceProperties.DEFAULT_CONFIG;
 }
 

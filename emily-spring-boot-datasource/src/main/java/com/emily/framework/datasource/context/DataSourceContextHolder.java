@@ -9,27 +9,27 @@ public class DataSourceContextHolder {
     /**
      * 当前线程对应的数据源
      */
-    private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<String> CONTEXT = new ThreadLocal<>();
 
     /**
      * 设置当前线程持有的数据源
      */
-    public static void setDataSource(String dataSource){
-        CONTEXT_HOLDER.set(dataSource);
-    }
-    /**
-     * 获取当前线程持有的数据源
-     */
-    public static String getDataSource(){
-        return CONTEXT_HOLDER.get();
+    public static void setDataSource(String dataSource) {
+        CONTEXT.set(dataSource);
     }
 
     /**
-     *
+     * 获取当前线程持有的数据源
+     */
+    public static String getDataSource() {
+        return CONTEXT.get();
+    }
+
+    /**
      * 删除当前线程持有的数据源
      */
-    public static void clearDataSource(){
-        CONTEXT_HOLDER.remove();
+    public static void clearDataSource() {
+        CONTEXT.remove();
     }
 
 }

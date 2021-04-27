@@ -14,13 +14,17 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "spring.emily.datasource")
 public class DataSourceProperties {
     /**
+     * 默认配置
+     */
+    public static final String DEFAULT_CONFIG = "default";
+    /**
      * 是否开启数据源组件, 默认：true
      */
     private boolean enabled = true;
     /**
      * 默认配置
      */
-    private String defaultConfig = "default";
+    private String defaultConfig = DEFAULT_CONFIG;
     /**
      * 多数据源配置
      */

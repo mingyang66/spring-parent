@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 /**
+ * @author Emily
  * @Description: 控制并统一处理异常类
  * @ExceptionHandler标注的方法优先级问题，它会找到异常的最近继承关系，也就是继承关系最浅的注解方法
  * @Version: 1.0

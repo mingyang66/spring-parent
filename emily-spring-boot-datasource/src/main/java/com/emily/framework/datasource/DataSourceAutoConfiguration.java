@@ -80,9 +80,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
             throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
         }
         Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
-        configs.keySet().forEach(key -> {
-            targetDataSources.put(key, configs.get(key));
-        });
+        configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
         return DynamicMultipleDataSources.build(dataSourceProperties.getDefaultDataSource(), targetDataSources);
     }
 

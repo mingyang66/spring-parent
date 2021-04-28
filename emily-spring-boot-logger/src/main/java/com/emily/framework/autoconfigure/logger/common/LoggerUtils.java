@@ -1,11 +1,12 @@
-package com.emily.framework.common.logger;
+package com.emily.framework.autoconfigure.logger.common;
 
-import com.emily.framework.common.logger.builder.LogbackBuilder;
+import com.emily.framework.autoconfigure.logger.common.builder.LogbackBuilder;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
 /**
+ * @author Emily
  * @Description: 日志工具类 日志级别总共有TARCE < DEBUG < INFO < WARN < ERROR < FATAL，且级别是逐渐提供，
  * 如果日志级别设置为INFO，则意味TRACE和DEBUG级别的日志都看不到。
  * @Version: 1.0

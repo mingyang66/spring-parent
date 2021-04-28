@@ -1,17 +1,18 @@
-package com.emily.framework.common.logger.appender;
+package com.emily.framework.autoconfigure.logger.common.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.core.ConsoleAppender;
-import com.emily.framework.common.logger.filter.AccessLogFilter;
-import com.emily.framework.common.logger.properties.AccessLog;
-import com.emily.framework.common.utils.constant.CharsetUtils;
+import com.emily.framework.autoconfigure.logger.common.filter.AccessLogFilter;
+import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
+ * @author Emily
  * @description: 通过名字和级别设置Appender
  * @create: 2020/08/04
  */
@@ -56,7 +57,7 @@ public class AccessLogConsoleAppender {
         //设置格式
         encoder.setPattern(accessLog.getCommonPattern());
         //设置编码格式
-        encoder.setCharset(Charset.forName(CharsetUtils.UTF_8));
+        encoder.setCharset(Charset.forName(StandardCharsets.UTF_8.name()));
         encoder.start();
 
         //添加过滤器

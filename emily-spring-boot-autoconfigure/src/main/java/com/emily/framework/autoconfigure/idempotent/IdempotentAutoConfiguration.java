@@ -2,7 +2,7 @@ package com.emily.framework.autoconfigure.idempotent;
 
 import com.emily.framework.autoconfigure.idempotent.interceptor.IdempotentMethodBeforeAdvice;
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;

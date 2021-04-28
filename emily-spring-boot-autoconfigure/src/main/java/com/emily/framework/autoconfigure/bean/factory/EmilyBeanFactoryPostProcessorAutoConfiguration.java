@@ -1,6 +1,6 @@
 package com.emily.framework.autoconfigure.bean.factory;
 
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;

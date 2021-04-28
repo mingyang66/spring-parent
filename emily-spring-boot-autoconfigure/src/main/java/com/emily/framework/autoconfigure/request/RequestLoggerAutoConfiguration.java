@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.request;
 
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.context.apilog.ApiLogMethodInterceptor;
 import com.emily.framework.context.apilog.ApiLogThrowsAdvice;
 import com.emily.framework.context.logger.LoggerService;

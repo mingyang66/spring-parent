@@ -4,7 +4,7 @@ import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.datasource.DataSourceProperties;
 import com.emily.framework.datasource.annotation.TargetDataSource;
 import com.emily.framework.datasource.context.DataSourceContextHolder;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;

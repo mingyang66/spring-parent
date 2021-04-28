@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.http.client;
 
 import com.emily.framework.autoconfigure.http.HttpClientProperties;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.framework.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.framework.context.logger.LoggerService;

@@ -1,15 +1,14 @@
-package com.emily.framework.common.logger.level;
+package com.emily.framework.autoconfigure.logger.common.level;
 
 import ch.qos.logback.classic.Level;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
+ * @Author Emily
  * @description: 访问日志级别
  * @create: 2020/08/07
- * @Author Emily
  */
 public class AccessLogLevel {
     private static final List<String> LOGGER_LEVEL = Arrays.asList(Level.ERROR.levelStr, Level.WARN.levelStr, Level.INFO.levelStr, Level.DEBUG.levelStr, Level.TRACE.levelStr, Level.ALL.levelStr);
@@ -19,15 +18,15 @@ public class AccessLogLevel {
      * @return
      */
     public static Level getLogLevel(String level) {
-        if (StringUtils.equalsIgnoreCase(level, Level.ERROR.levelStr)) {
+        if (Level.ERROR.levelStr.equals(level.toUpperCase())) {
             return Level.ERROR;
-        } else if (StringUtils.equalsIgnoreCase(level, Level.WARN.levelStr)) {
+        } else if (Level.WARN.levelStr.equals(level.toUpperCase())) {
             return Level.WARN;
-        } else if (StringUtils.equalsIgnoreCase(level, Level.INFO.levelStr)) {
+        } else if (Level.INFO.levelStr.equals(level.toUpperCase())) {
             return Level.INFO;
-        } else if (StringUtils.equalsIgnoreCase(level, Level.DEBUG.levelStr)) {
+        } else if (Level.DEBUG.levelStr.equals(level.toUpperCase())) {
             return Level.DEBUG;
-        } else if (StringUtils.equalsIgnoreCase(level, Level.TRACE.levelStr)) {
+        } else if (Level.TRACE.levelStr.equals(level.toUpperCase())) {
             return Level.TRACE;
         }else {
             return Level.ALL;
@@ -40,7 +39,7 @@ public class AccessLogLevel {
      * @return
      */
     public static Level getNextLogLevel(String level) {
-        level = StringUtils.upperCase(level);
+        level = level.toUpperCase();
         if(LOGGER_LEVEL.indexOf(level)+1 < LOGGER_LEVEL.size()){
             level = LOGGER_LEVEL.get(LOGGER_LEVEL.indexOf(level)+1);
         }

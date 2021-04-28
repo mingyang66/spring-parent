@@ -1,4 +1,4 @@
-package com.emily.framework.common.logger.appender;
+package com.emily.framework.autoconfigure.logger.common.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -9,16 +9,17 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.framework.common.logger.filter.AccessLogFilter;
-import com.emily.framework.common.logger.level.AccessLogLevel;
-import com.emily.framework.common.logger.properties.AccessLog;
-import com.emily.framework.common.utils.constant.CharacterUtils;
-import com.emily.framework.common.utils.constant.CharsetUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.emily.framework.autoconfigure.logger.common.filter.AccessLogFilter;
+import com.emily.framework.autoconfigure.logger.common.level.AccessLogLevel;
+import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
+import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
+ * @author Emily
  * @description: 通过名字和级别设置Appender
  * @create: 2020/08/04
  */
@@ -71,17 +72,17 @@ public class AccessLogRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, path, CharacterUtils.PATH_SEPARATOR, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
+            String fp = OptionHelper.substVars(String.join(File.separator,accessLog.getPath(),  path, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //最大日志文件大小 KB,MB,GB
-            if (StringUtils.isNotEmpty(accessLog.getMaxFileSize())) {
+            if (!StringUtils.hasText(accessLog.getMaxFileSize())) {
                 policy.setMaxFileSize(FileSize.valueOf(accessLog.getMaxFileSize()));
             }
             //设置要保留的最大存档文件数
             policy.setMaxHistory(accessLog.getMaxHistory());
             //文件总大小限制 KB,MB,G
-            if (StringUtils.isNotEmpty(accessLog.getTotalSizeCap())) {
+            if (!StringUtils.hasText(accessLog.getTotalSizeCap())) {
                 policy.setTotalSizeCap(FileSize.valueOf(accessLog.getTotalSizeCap()));
             }
             //设置父节点是appender
@@ -107,7 +108,7 @@ public class AccessLogRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, path, CharacterUtils.PATH_SEPARATOR, fileName, "%d{yyyy-MM-dd}.log"), loggerContext);
+            String fp = OptionHelper.substVars(String.join("", String.join(File.separator, accessLog.getPath(),  path, fileName), "%d{yyyy-MM-dd}.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //设置要保留的最大存档文件数
@@ -127,13 +128,13 @@ public class AccessLogRollingFileAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         encoder.setContext(loggerContext);
         //设置格式
-        if (StringUtils.equalsIgnoreCase(fileName, level.levelStr)) {
+        if (level.levelStr.equals(fileName.toUpperCase())) {
             encoder.setPattern(accessLog.getCommonPattern());
         } else {
             encoder.setPattern(accessLog.getModulePattern());
         }
         //设置编码格式
-        encoder.setCharset(Charset.forName(CharsetUtils.UTF_8));
+        encoder.setCharset(Charset.forName(StandardCharsets.UTF_8.name()));
         encoder.start();
 
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -142,7 +143,7 @@ public class AccessLogRollingFileAppender {
         //appender的name属性
         appender.setName(name);
         //设置文件名
-        appender.setFile(OptionHelper.substVars(StringUtils.join(accessLog.getPath(), CharacterUtils.PATH_SEPARATOR, path, CharacterUtils.PATH_SEPARATOR, fileName, ".log"), loggerContext));
+        appender.setFile(OptionHelper.substVars(String.join("", String.join(File.separator, accessLog.getPath(), path, fileName), ".log"), loggerContext));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         appender.setAppend(true);
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false

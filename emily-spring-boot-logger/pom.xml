@@ -11,11 +11,4 @@
 
     <artifactId>emily-spring-boot-logger</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.emily.framework</groupId>
-            <artifactId>emily-spring-boot-context</artifactId>
-            <version>2.4.4</version>
-        </dependency>
-    </dependencies>
 </project>

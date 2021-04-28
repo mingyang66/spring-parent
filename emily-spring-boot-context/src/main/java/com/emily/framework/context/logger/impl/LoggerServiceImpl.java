@@ -1,7 +1,7 @@
 package com.emily.framework.context.logger.impl;
 
 import com.emily.framework.common.base.BaseLogger;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.common.utils.json.JSONUtils;
 import com.emily.framework.context.logger.LoggerService;
 import org.springframework.scheduling.annotation.Async;

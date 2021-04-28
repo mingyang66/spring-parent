@@ -1,4 +1,4 @@
-package com.emily.framework.common.logger.properties;
+package com.emily.framework.autoconfigure.logger.common.properties;
 
 /**
  * @description: 日志配置属性

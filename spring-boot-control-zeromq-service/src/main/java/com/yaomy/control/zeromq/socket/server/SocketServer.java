@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.socket.server;
 
 
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.DataInputStream;

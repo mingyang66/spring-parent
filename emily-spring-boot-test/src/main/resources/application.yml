@@ -2,4 +2,12 @@ spring:
   profiles:
     active: database
 mybatis:
+  # 标注待解析的mapper的xml文件位置
   mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+---
+spring:
+  emily:
+    logback:
+      level: trace

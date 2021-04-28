@@ -6,7 +6,7 @@ import com.emily.framework.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.framework.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.framework.cloud.feign.logger.FeignLogger;
 import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.context.logger.LoggerService;
 import com.emily.framework.context.logger.impl.LoggerServiceImpl;
 import feign.Logger;

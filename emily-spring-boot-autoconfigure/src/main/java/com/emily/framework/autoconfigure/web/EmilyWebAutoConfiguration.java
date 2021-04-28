@@ -1,7 +1,7 @@
 package com.emily.framework.autoconfigure.web;
 
 import com.emily.framework.autoconfigure.web.annotation.ApiPrefix;
-import com.emily.framework.common.logger.LoggerUtils;
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;

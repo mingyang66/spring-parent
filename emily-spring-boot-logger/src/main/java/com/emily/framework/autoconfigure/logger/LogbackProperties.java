@@ -1,6 +1,6 @@
 package com.emily.framework.autoconfigure.logger;
 
-import com.emily.framework.common.logger.properties.AccessLog;
+import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

@@ -10,8 +10,8 @@ import java.util.List;
  * @description: 访问日志级别
  * @create: 2020/08/07
  */
-public class AccessLogLevel {
-    private static final List<String> LOGGER_LEVEL = Arrays.asList(Level.ERROR.levelStr, Level.WARN.levelStr, Level.INFO.levelStr, Level.DEBUG.levelStr, Level.TRACE.levelStr, Level.ALL.levelStr);
+public class LogbackLevel {
+    private static final List<String> LOGGER_LEVEL = Arrays.asList(Level.OFF.levelStr, Level.ERROR.levelStr, Level.WARN.levelStr, Level.INFO.levelStr, Level.DEBUG.levelStr, Level.TRACE.levelStr, Level.ALL.levelStr);
     /**
      * 获取配置日志级别
      * ERROR > WARN > INFO > DEBUG > TRACE >ALL

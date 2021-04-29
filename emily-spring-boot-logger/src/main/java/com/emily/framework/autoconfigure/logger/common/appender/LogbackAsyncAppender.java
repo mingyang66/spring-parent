@@ -3,21 +3,21 @@ package com.emily.framework.autoconfigure.logger.common.appender;
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
+import com.emily.framework.autoconfigure.logger.common.properties.Logback;
 
 /**
  * @author Emily
  * @description: 通过名字和级别设置异步Appender
  * @create: 2020/08/04
  */
-public class AccessLogAsyncAppender {
+public class LogbackAsyncAppender {
     /**
      * logger上下文
      */
     private LoggerContext loggerContext;
-    private AccessLog accessLog;
+    private Logback accessLog;
 
-    public AccessLogAsyncAppender(LoggerContext loggerContext, AccessLog accessLog) {
+    public LogbackAsyncAppender(LoggerContext loggerContext, Logback accessLog) {
         this.loggerContext = loggerContext;
         this.accessLog = accessLog;
     }

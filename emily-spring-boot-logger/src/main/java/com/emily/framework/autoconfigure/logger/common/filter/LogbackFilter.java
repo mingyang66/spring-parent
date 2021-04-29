@@ -9,7 +9,7 @@ import ch.qos.logback.core.spi.FilterReply;
  * @description: 日志的过滤级别
  * @create: 2020/08/04
  */
-public class AccessLogFilter {
+public class LogbackFilter {
     /**
      * 过滤器设置
      *

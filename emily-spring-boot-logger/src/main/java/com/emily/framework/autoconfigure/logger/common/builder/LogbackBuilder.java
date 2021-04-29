@@ -4,11 +4,11 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import com.emily.framework.autoconfigure.logger.common.appender.AccessLogAsyncAppender;
-import com.emily.framework.autoconfigure.logger.common.appender.AccessLogConsoleAppender;
-import com.emily.framework.autoconfigure.logger.common.appender.AccessLogRollingFileAppender;
-import com.emily.framework.autoconfigure.logger.common.level.AccessLogLevel;
-import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
+import com.emily.framework.autoconfigure.logger.common.appender.LogbackAsyncAppender;
+import com.emily.framework.autoconfigure.logger.common.appender.LogbackConsoleAppender;
+import com.emily.framework.autoconfigure.logger.common.appender.LogbackRollingFileAppender;
+import com.emily.framework.autoconfigure.logger.common.level.LogbackLevel;
+import com.emily.framework.autoconfigure.logger.common.properties.Logback;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
@@ -29,9 +29,9 @@ public class LogbackBuilder {
      */
     private Map<String, Logger> loggerCache;
 
-    private AccessLog accessLog;
+    private Logback accessLog;
 
-    public LogbackBuilder(AccessLog accessLog) {
+    public LogbackBuilder(Logback accessLog) {
         this.loggerCache = new ConcurrentHashMap<>();
         this.accessLog = accessLog;
     }
@@ -91,7 +91,7 @@ public class LogbackBuilder {
     private Logger builder(Class<?> cls) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(cls.getName());
-        AccessLogRollingFileAppender rollingFileAppender = new AccessLogRollingFileAppender(loggerContext, accessLog);
+        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, accessLog);
         RollingFileAppender appenderError = rollingFileAppender.getRollingFileApender(cls.getName(), Level.ERROR.levelStr.toLowerCase(), Level.ERROR.levelStr.toLowerCase(), Level.ERROR);
         RollingFileAppender appenderWarn = rollingFileAppender.getRollingFileApender(cls.getName(), Level.WARN.levelStr.toLowerCase(), Level.WARN.levelStr.toLowerCase(), Level.WARN);
         RollingFileAppender appenderInfo = rollingFileAppender.getRollingFileApender(cls.getName(), Level.INFO.levelStr.toLowerCase(), Level.INFO.levelStr.toLowerCase(), Level.INFO);
@@ -101,12 +101,12 @@ public class LogbackBuilder {
         //设置是否向上级打印信息
         logger.setAdditive(false);
         if(accessLog.isEnableAsyncAppender()){
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderError));
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderWarn));
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderInfo));
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderDebug));
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderTrace));
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderAll));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderError));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderWarn));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderInfo));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderDebug));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderTrace));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(appenderAll));
         } else {
             logger.addAppender(appenderError);
             logger.addAppender(appenderWarn);
@@ -115,9 +115,9 @@ public class LogbackBuilder {
             logger.addAppender(appenderTrace);
             logger.addAppender(appenderAll);
         }
-        logger.addAppender(new AccessLogConsoleAppender(loggerContext, accessLog).getConsoleAppender(AccessLogLevel.getLogLevel(accessLog.getLevel())));
+        logger.addAppender(new LogbackConsoleAppender(loggerContext, accessLog).getConsoleAppender(LogbackLevel.getLogLevel(accessLog.getLevel())));
 
-        logger.setLevel(AccessLogLevel.getLogLevel(accessLog.getLevel()));
+        logger.setLevel(LogbackLevel.getLogLevel(accessLog.getLevel()));
         return logger;
     }
 
@@ -138,7 +138,7 @@ public class LogbackBuilder {
         //logger 属性name名称
         String name = String.join(".", cls.getName(), path, fileName);
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        AccessLogRollingFileAppender rollingFileAppender = new AccessLogRollingFileAppender(loggerContext, accessLog);
+        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, accessLog);
         //获取Info对应的appender对象
         RollingFileAppender rollingFileAppenderInfo = rollingFileAppender.getRollingFileApender(name, path, fileName, Level.INFO);
         Logger logger = loggerContext.getLogger(name);
@@ -148,15 +148,15 @@ public class LogbackBuilder {
         logger.setAdditive(false);
         //是否开启异步日志
         if(accessLog.isEnableAsyncAppender()){
-            logger.addAppender(new AccessLogAsyncAppender(loggerContext, accessLog).getAsyncAppender(rollingFileAppenderInfo));
+            logger.addAppender(new LogbackAsyncAppender(loggerContext, accessLog).getAsyncAppender(rollingFileAppenderInfo));
         } else {
             logger.addAppender(rollingFileAppenderInfo);
         }
         if(accessLog.isEnableModuleConsule()){
-            logger.addAppender(new AccessLogConsoleAppender(loggerContext, accessLog).getConsoleAppender(AccessLogLevel.getLogLevel(accessLog.getLevel())));
+            logger.addAppender(new LogbackConsoleAppender(loggerContext, accessLog).getConsoleAppender(LogbackLevel.getLogLevel(accessLog.getLevel())));
         }
 
-        logger.setLevel(AccessLogLevel.getLogLevel(accessLog.getLevel()));
+        logger.setLevel(LogbackLevel.getLogLevel(accessLog.getLevel()));
         return logger;
     }
 

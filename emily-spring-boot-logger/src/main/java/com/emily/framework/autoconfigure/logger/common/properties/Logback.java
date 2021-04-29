@@ -1,10 +1,11 @@
 package com.emily.framework.autoconfigure.logger.common.properties;
 
 /**
+ * @author Emily
  * @description: 日志配置属性
  * @create: 2020/08/08
  */
-public class AccessLog {
+public class Logback {
     /**
      * 日志级别，ERROR > WARN > INFO > DEBUG, 默认：DEBUG
      */

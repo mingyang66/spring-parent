@@ -9,9 +9,9 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.framework.autoconfigure.logger.common.filter.AccessLogFilter;
-import com.emily.framework.autoconfigure.logger.common.level.AccessLogLevel;
-import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
+import com.emily.framework.autoconfigure.logger.common.filter.LogbackFilter;
+import com.emily.framework.autoconfigure.logger.common.level.LogbackLevel;
+import com.emily.framework.autoconfigure.logger.common.properties.Logback;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
  * @description: 通过名字和级别设置Appender
  * @create: 2020/08/04
  */
-public class AccessLogRollingFileAppender {
+public class LogbackRollingFileAppender {
     /**
      * logger上下文
      */
@@ -31,9 +31,9 @@ public class AccessLogRollingFileAppender {
     /**
      * 日志属性配置
      */
-    private AccessLog accessLog;
+    private Logback accessLog;
 
-    public AccessLogRollingFileAppender(LoggerContext loggerContext, AccessLog accessLog) {
+    public LogbackRollingFileAppender(LoggerContext loggerContext, Logback accessLog) {
         this.loggerContext = loggerContext;
         this.accessLog = accessLog;
     }
@@ -51,11 +51,11 @@ public class AccessLogRollingFileAppender {
         RollingFileAppender appender = new RollingFileAppender();
 
         //过滤器设置
-        AccessLogFilter levelController = new AccessLogFilter();
+        LogbackFilter levelController = new LogbackFilter();
         LevelFilter levelFilter = levelController.getLevelFilter(level);
         levelFilter.start();
 
-        if (accessLog.isEnableSizeAndTimeRollingPolicy() && level.levelInt >= AccessLogLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
+        if (accessLog.isEnableSizeAndTimeRollingPolicy() && level.levelInt >= LogbackLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -91,7 +91,7 @@ public class AccessLogRollingFileAppender {
 
             //设置文件归档策略
             appender.setRollingPolicy(policy);
-        } else if (level.levelInt >= AccessLogLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
+        } else if (level.levelInt >= LogbackLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
             //文件归档大小和时间设置
             TimeBasedRollingPolicy policy = new TimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

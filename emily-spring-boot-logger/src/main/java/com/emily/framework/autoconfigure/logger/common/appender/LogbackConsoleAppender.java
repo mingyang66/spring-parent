@@ -5,8 +5,8 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.core.ConsoleAppender;
-import com.emily.framework.autoconfigure.logger.common.filter.AccessLogFilter;
-import com.emily.framework.autoconfigure.logger.common.properties.AccessLog;
+import com.emily.framework.autoconfigure.logger.common.filter.LogbackFilter;
+import com.emily.framework.autoconfigure.logger.common.properties.Logback;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -16,14 +16,14 @@ import java.nio.charset.StandardCharsets;
  * @description: 通过名字和级别设置Appender
  * @create: 2020/08/04
  */
-public class AccessLogConsoleAppender {
+public class LogbackConsoleAppender {
     /**
      * logger上下文
      */
     private LoggerContext loggerContext;
-    private AccessLog accessLog;
+    private Logback accessLog;
 
-    public AccessLogConsoleAppender(LoggerContext loggerContext, AccessLog accessLog) {
+    public LogbackConsoleAppender(LoggerContext loggerContext, Logback accessLog) {
         this.loggerContext = loggerContext;
         this.accessLog = accessLog;
     }
@@ -40,7 +40,7 @@ public class AccessLogConsoleAppender {
         ConsoleAppender appender = new ConsoleAppender();
 
         //这里设置级别过滤器
-        AccessLogFilter levelController = new AccessLogFilter();
+        LogbackFilter levelController = new LogbackFilter();
         ThresholdFilter levelFilter = levelController.getThresholdLevelFilter(level);
         levelFilter.start();
 

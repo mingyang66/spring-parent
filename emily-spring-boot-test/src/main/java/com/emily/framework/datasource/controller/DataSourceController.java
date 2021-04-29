@@ -1,5 +1,6 @@
 package com.emily.framework.datasource.controller;
 
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.datasource.mapper.*;
 import com.emily.framework.datasource.po.Job;
 import com.emily.framework.datasource.po.Node;
@@ -32,6 +33,8 @@ public class DataSourceController {
     private SqlServerlMapper sqlServerlMapper;
     @GetMapping("getJob")
     public Job getJob(){
+        LoggerUtils.module(DataSourceController.class, "/a/b/c", "info", "asdfffffffff");
+        LoggerUtils.module(DataSourceController.class, "/a/b/c", "info1", "asdfffffffff");
         Job job = jobMapper.findJob();
         return job;
     }

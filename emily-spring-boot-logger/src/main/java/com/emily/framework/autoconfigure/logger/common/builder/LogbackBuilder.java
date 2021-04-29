@@ -73,11 +73,10 @@ public class LogbackBuilder {
             }
             if (defaultBool) {
                 logger = builder(cls);
-                loggerCache.put(key, logger);
             } else {
                 logger = builder(cls, path, fileName);
-                loggerCache.put(fileName, logger);
             }
+            loggerCache.put(key, logger);
         }
         return logger;
 
@@ -137,7 +136,7 @@ public class LogbackBuilder {
             path = path.endsWith(File.separator) ? path.substring(0, path.length()-1) : path;
         }
         //logger 属性name名称
-        String name = String.join(".", cls.getName(), fileName);
+        String name = String.join(".", cls.getName(), path, fileName);
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         AccessLogRollingFileAppender rollingFileAppender = new AccessLogRollingFileAppender(loggerContext, accessLog);
         //获取Info对应的appender对象

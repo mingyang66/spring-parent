@@ -17,7 +17,7 @@ public class LogbackLevel {
      * ERROR > WARN > INFO > DEBUG > TRACE >ALL
      * @return
      */
-    public static Level getLogLevel(String level) {
+    /*public static Level getLogLevel(String level) {
         if (Level.ERROR.levelStr.equals(level.toUpperCase())) {
             return Level.ERROR;
         } else if (Level.WARN.levelStr.equals(level.toUpperCase())) {
@@ -31,7 +31,7 @@ public class LogbackLevel {
         }else {
             return Level.ALL;
         }
-    }
+    }*/
 
     /**
      * 获取日志下一级别
@@ -43,6 +43,6 @@ public class LogbackLevel {
         if(LOGGER_LEVEL.indexOf(level)+1 < LOGGER_LEVEL.size()){
             level = LOGGER_LEVEL.get(LOGGER_LEVEL.indexOf(level)+1);
         }
-        return getLogLevel(level);
+        return Level.toLevel(level);
     }
 }

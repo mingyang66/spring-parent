@@ -46,7 +46,7 @@ public class LogbackRollingFileAppender {
      * @param level    过滤日志级别
      * @return
      */
-    public RollingFileAppender getRollingFileApender(String name, String path, String fileName, Level level) {
+    public RollingFileAppender getRollingFileAppender(String name, String path, String fileName, Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender appender = new RollingFileAppender();
 

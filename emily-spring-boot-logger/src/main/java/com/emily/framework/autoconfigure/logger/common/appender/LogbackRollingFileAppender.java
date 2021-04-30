@@ -128,7 +128,7 @@ public class LogbackRollingFileAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         encoder.setContext(loggerContext);
         //设置格式
-        if (level.levelStr.equals(fileName.toUpperCase()) && level.levelStr.equals(path.toUpperCase())) {
+        if (level.levelStr.equalsIgnoreCase(fileName) && level.levelStr.equalsIgnoreCase(path)) {
             encoder.setPattern(accessLog.getCommonPattern());
         } else {
             encoder.setPattern(accessLog.getModulePattern());

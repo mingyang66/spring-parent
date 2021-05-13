@@ -39,3 +39,4 @@ logs/
 out/
 .DS_Store
 venv/
+/emily-spring-boot-test/src/main/resources/application-database.yml

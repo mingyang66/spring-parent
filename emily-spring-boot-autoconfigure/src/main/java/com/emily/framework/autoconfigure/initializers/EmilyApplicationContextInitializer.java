@@ -1,19 +1,15 @@
 package com.emily.framework.autoconfigure.initializers;
 
-import com.emily.framework.common.enums.DateFormatEnum;
 import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
-import com.emily.framework.common.utils.date.DateUtils;
-import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
+import com.emily.framework.context.ioc.IOCContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 
-import java.util.Date;
-
 /**
  * @author Emily
  * @program: spring-parent
- * @description: 小米粒框架初始化器
+ * @description: Emily框架初始化器
  * @create: 2020/09/22
  */
 public class EmilyApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
@@ -24,9 +20,8 @@ public class EmilyApplicationContextInitializer implements ApplicationContextIni
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        if(applicationContext instanceof AnnotationConfigServletWebServerApplicationContext){
-            LoggerUtils.info(EmilyApplicationContextInitializer.class, "Emily【小米粒】初始化器开始初始化IOC容器了,容器名为：" +
-                    applicationContext.getClass().getSimpleName() + "--当前时间是：" + DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
-        }
+        // 初始化容器上下文
+        IOCContext.setApplicationContext(applicationContext);
+        LoggerUtils.info(EmilyApplicationContextInitializer.class, "==》Emily框架开始初始化...");
     }
 }

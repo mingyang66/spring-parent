@@ -6,6 +6,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description:
  * 1.提供一个钩子方法postProcessBeanDefinitionRegistry通过代码的方式注册bean到IOC容器

@@ -6,6 +6,8 @@ import com.emily.framework.datasource.po.Job;
 import com.emily.framework.datasource.po.Node;
 import com.emily.framework.datasource.po.QuartzJob;
 import com.emily.framework.datasource.po.SqlServer;
+import com.emily.framework.datasource.service.MysqlService;
+import com.emily.framework.datasource.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,11 @@ public class DataSourceController {
     private MysqlMapper mysqlMapper;
     @Autowired
     private SqlServerlMapper sqlServerlMapper;
+    @Autowired
+    private MysqlService mysqlService;
+    @Autowired
+    private NodeService nodeService;
+
     @GetMapping("getJob")
     public Job getJob(){
         LoggerUtils.module(DataSourceController.class, "/a/b/c", "info", "asdfffffffff");
@@ -40,8 +47,8 @@ public class DataSourceController {
     }
 
     @GetMapping("getNode")
-    public Node getNode(){
-        return nodeMapper.findNode();
+    public void getNode(){
+        nodeService.findNode();
     }
     @GetMapping("getNode1")
     public Node getNode1(){
@@ -49,8 +56,14 @@ public class DataSourceController {
     }
 
     @GetMapping("getQuartzJob")
-    public QuartzJob getQuartzJob(){
-        return mysqlMapper.findQuartzJob();
+    public String getQuartzJob(){
+        return mysqlMapper.findLocks("adsf");
+    }
+
+    @GetMapping("insertMysql")
+    public String insertMysql(){
+        mysqlService.insertMysql();
+        return "success";
     }
 
     @GetMapping("findSqlServer")

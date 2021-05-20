@@ -16,5 +16,16 @@ public interface MysqlMapper {
      * 查询接口
      */
     @TargetDataSource("mysql")
-    QuartzJob findQuartzJob();
+    String findLocks(String lockName);
+
+    /**
+     * 新增接口
+     * @param schedName
+     * @param lockName
+     */
+    @TargetDataSource("mysql")
+    void insertLocks(String schedName, String lockName);
+
+    @TargetDataSource("mysql")
+    void delLocks(String lockName);
 }

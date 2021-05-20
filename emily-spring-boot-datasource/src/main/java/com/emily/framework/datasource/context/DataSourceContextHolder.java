@@ -14,7 +14,7 @@ public class DataSourceContextHolder {
     /**
      * 设置当前线程持有的数据源
      */
-    public static void setDataSource(String dataSource) {
+    public static void changeDataSource(String dataSource) {
         CONTEXT.set(dataSource);
     }
 

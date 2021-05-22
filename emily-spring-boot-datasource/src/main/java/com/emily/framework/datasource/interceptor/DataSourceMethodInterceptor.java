@@ -38,7 +38,7 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
         try {
             LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==》", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========开始执行，切换数据源到【%s】========", dataSource)));
             //切换到指定的数据源
-            DataSourceContextHolder.setDataSource(dataSource);
+            DataSourceContextHolder.setDataSourceLookup(dataSource);
             //调用TargetDataSource标记的切换数据源方法
             Object result = invocation.proceed();
             return result;

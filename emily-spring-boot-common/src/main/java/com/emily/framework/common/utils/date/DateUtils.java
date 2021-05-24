@@ -300,7 +300,7 @@ public class DateUtils {
      * @param format 格式@{@link DateFormatEnum}
      * @return
      */
-    public static Long parseDateToNumber(Date date, String format) {
+    public static Long dateToNum(Date date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -314,7 +314,7 @@ public class DateUtils {
      * @param format 格式@{@link DateFormatEnum}
      * @return
      */
-    public static Long parseLocalDateToNumber(LocalDate date, String format) {
+    public static Long dateToNum(LocalDate date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -328,7 +328,7 @@ public class DateUtils {
      * @param format 格式@{@link DateFormatEnum}
      * @return YYYYMMDD格式
      */
-    public static Long parseLocalDateTimeToNumber(LocalDateTime date, String format) {
+    public static Long dateToNum(LocalDateTime date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -342,7 +342,7 @@ public class DateUtils {
      * @param format 格式@{@link DateFormatEnum}
      * @return
      */
-    public static Date parseNumberToDate(Long date, String format) {
+    public static Date numToDate(Long date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -356,7 +356,7 @@ public class DateUtils {
      * @param format 格式@{@link DateFormatEnum}
      * @return
      */
-    public static LocalDate parseNumberToLocalDate(Long date, String format) {
+    public static LocalDate numToLocalDate(Long date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -370,7 +370,7 @@ public class DateUtils {
      * @param format 格式@{@link DateFormatEnum}
      * @return
      */
-    public static LocalDateTime parseNumberToLocalDateTime(Long date, String format) {
+    public static LocalDateTime numToLocalDateTime(Long date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -385,7 +385,7 @@ public class DateUtils {
      * @param format       目标数字格式
      * @return
      */
-    public static Long parseStrToNumber(String dateStr, String originFormat, String format) {
+    public static Long strToNum(String dateStr, String originFormat, String format) {
         if (Objects.isNull(dateStr)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
@@ -407,7 +407,7 @@ public class DateUtils {
      * @param format       目标数字格式
      * @return
      */
-    public static String parseNumberToStr(Long date, String originFormat, String format) {
+    public static String numToStr(Long date, String originFormat, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }

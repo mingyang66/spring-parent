@@ -6,14 +6,20 @@ import com.emily.framework.common.exception.BusinessException;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 日期工具类
  * @create: 2020/06/16
  */
+@SuppressWarnings("all")
 public class DateUtils {
     /**
      * 字符串日期格式化
@@ -287,4 +293,131 @@ public class DateUtils {
         return true;
     }
 
+    /**
+     * 将日期类型转换为数字类型
+     *
+     * @param date   日期
+     * @param format 格式@{@link DateFormatEnum}
+     * @return
+     */
+    public static Long parseDateToNumber(Date date, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return Long.valueOf(formatDate(date, format));
+    }
+
+    /**
+     * 将日期类型转换为数字类型
+     *
+     * @param date   日期
+     * @param format 格式@{@link DateFormatEnum}
+     * @return
+     */
+    public static Long parseLocalDateToNumber(LocalDate date, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return Long.valueOf(date.format(DateTimeFormatter.ofPattern(format)));
+    }
+
+    /**
+     * 将日期类型转换为数字类型
+     *
+     * @param date   日期
+     * @param format 格式@{@link DateFormatEnum}
+     * @return YYYYMMDD格式
+     */
+    public static Long parseLocalDateTimeToNumber(LocalDateTime date, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return Long.valueOf(date.format(DateTimeFormatter.ofPattern(format)));
+    }
+
+    /**
+     * 将数字类型日期转换类Date类型
+     *
+     * @param date   日期数字
+     * @param format 格式@{@link DateFormatEnum}
+     * @return
+     */
+    public static Date parseNumberToDate(Long date, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return parseDate(String.valueOf(date), format);
+    }
+
+    /**
+     * 将数字类型日期转换类LocalDate类型
+     *
+     * @param date   日期数字
+     * @param format 格式@{@link DateFormatEnum}
+     * @return
+     */
+    public static LocalDate parseNumberToLocalDate(Long date, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return LocalDate.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
+    }
+
+    /**
+     * 将数字类型日期转换类LocalDateTime类型
+     *
+     * @param date   日期数字
+     * @param format 格式@{@link DateFormatEnum}
+     * @return
+     */
+    public static LocalDateTime parseNumberToLocalDateTime(Long date, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return LocalDateTime.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
+    }
+
+    /**
+     * 将字符串日期转换为数字格式
+     *
+     * @param dateStr      字符串日期
+     * @param originFormat 字符串日期原格式
+     * @param format       目标数字格式
+     * @return
+     */
+    public static Long parseStrToNumber(String dateStr, String originFormat, String format) {
+        if (Objects.isNull(dateStr)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (Objects.isNull(originFormat)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "原日期格式参数不可以为空");
+        }
+        if (Objects.isNull(format)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "目标日期格式参数不可以为空");
+        }
+        Date date = parseDate(dateStr, originFormat);
+        return Long.valueOf(DateFormatUtils.format(date, format));
+    }
+
+    /**
+     * 将字符串日期转换为数字格式
+     *
+     * @param date         字符串日期
+     * @param originFormat 字符串日期原格式
+     * @param format       目标数字格式
+     * @return
+     */
+    public static String parseNumberToStr(Long date, String originFormat, String format) {
+        if (Objects.isNull(date)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (Objects.isNull(originFormat)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "原日期格式参数不可以为空");
+        }
+        if (Objects.isNull(format)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "目标日期格式参数不可以为空");
+        }
+        Date dateStr = parseDate(String.valueOf(date), originFormat);
+        return DateFormatUtils.format(dateStr, format);
+    }
 }

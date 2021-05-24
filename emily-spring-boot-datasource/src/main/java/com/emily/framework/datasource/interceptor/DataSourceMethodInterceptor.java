@@ -36,19 +36,19 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
             throw new NullPointerException(String.format("数据源配置【%s】不存在", dataSource));
         }
         try {
-            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==》", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========开始执行，切换数据源到【%s】========", dataSource)));
+            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==>", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========开始执行，切换数据源到【%s】========", dataSource)));
             //切换到指定的数据源
             DataSourceContextHolder.setDataSourceLookup(dataSource);
             //调用TargetDataSource标记的切换数据源方法
             Object result = invocation.proceed();
             return result;
         } catch (Throwable ex) {
-            LoggerUtils.error(invocation.getThis().getClass(), String.format("==》========异常执行，数据源【%s】 ========" + PrintExceptionInfo.printErrorInfo(ex), dataSource));
+            LoggerUtils.error(invocation.getThis().getClass(), String.format("==>========异常执行，数据源【%s】 ========" + PrintExceptionInfo.printErrorInfo(ex), dataSource));
             throw ex;
         } finally {
             //移除当前线程对应的数据源
             DataSourceContextHolder.clearDataSource();
-            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("《==", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========结束执行，清除数据源【%s】========", dataSource)));
+            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("<==", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========结束执行，清除数据源【%s】========", dataSource)));
 
         }
     }

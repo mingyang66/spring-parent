@@ -39,10 +39,10 @@ public class NodeServiceImpl implements NodeService{
         for (int i=0; i<2;i++){
             mysqlMapper.insertLocks("name"+i, "lock"+i);
             String lockName = mysqlMapper.findLocks("lock"+i);
-            System.out.println("==》》查询到的lock名称是："+lockName);
+            System.out.println("==>》查询到的lock名称是："+lockName);
             System.out.println();
             mysqlMapper.delLocks(lockName);
-            System.out.println("==》》删除数据成功==》"+lockName);
+            System.out.println("==>》删除数据成功==>"+lockName);
         }
     }
 }

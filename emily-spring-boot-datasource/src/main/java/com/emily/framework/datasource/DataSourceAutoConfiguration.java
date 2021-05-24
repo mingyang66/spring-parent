@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @Description: 控制器切点配置
@@ -72,11 +73,11 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     @Bean("dynamicMultipleDataSources")
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         Map<String, DruidDataSource> configs = dataSourceProperties.getConfig();
+        if(Objects.isNull(dataSourceProperties.getDefaultConfig())){
+            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
+        }
         if (configs.isEmpty()) {
             throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "数据库配置不存在");
-        }
-        if (!configs.containsKey(dataSourceProperties.getDefaultConfig())) {
-            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
         }
         Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
         configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
@@ -85,11 +86,11 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() {
-        LoggerUtils.info(DataSourceAutoConfiguration.class, "《==【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        LoggerUtils.info(DataSourceAutoConfiguration.class, "<==【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.info(DataSourceAutoConfiguration.class, "==》【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        LoggerUtils.info(DataSourceAutoConfiguration.class, "==>【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 }

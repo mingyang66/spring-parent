@@ -10,7 +10,7 @@ import java.lang.annotation.*;
  * @Version: 1.0
  */
 @Documented
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TargetDataSource {
     String value() default DataSourceProperties.DEFAULT_CONFIG;

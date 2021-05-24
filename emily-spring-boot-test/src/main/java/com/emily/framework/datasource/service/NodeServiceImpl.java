@@ -30,6 +30,7 @@ public class NodeServiceImpl implements NodeService{
         //mysqlMapper.findLocks("TEST2");
         nodeMapper.findNode();
        // insertMysql();
+
     }
 
     @TargetDataSource("mysql")
@@ -44,5 +45,6 @@ public class NodeServiceImpl implements NodeService{
             mysqlMapper.delLocks(lockName);
             System.out.println("==>》删除数据成功==>"+lockName);
         }
+        mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
     }
 }

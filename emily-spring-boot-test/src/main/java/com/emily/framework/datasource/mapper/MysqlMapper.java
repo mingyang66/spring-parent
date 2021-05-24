@@ -11,11 +11,11 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
+@TargetDataSource("mysql")
 public interface MysqlMapper {
     /**
      * 查询接口
      */
-    @TargetDataSource("mysql")
     String findLocks(String lockName);
 
     /**
@@ -23,9 +23,7 @@ public interface MysqlMapper {
      * @param schedName
      * @param lockName
      */
-    @TargetDataSource("mysql")
     void insertLocks(String schedName, String lockName);
 
-    @TargetDataSource("mysql")
     void delLocks(String lockName);
 }

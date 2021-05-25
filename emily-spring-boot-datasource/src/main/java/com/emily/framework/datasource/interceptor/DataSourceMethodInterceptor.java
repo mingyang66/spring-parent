@@ -1,5 +1,7 @@
 package com.emily.framework.datasource.interceptor;
 
+import com.emily.framework.common.enums.AppHttpStatus;
+import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.datasource.DataSourceProperties;
 import com.emily.framework.datasource.annotation.TargetDataSource;
@@ -8,6 +10,7 @@ import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.support.AopUtils;
 
 import java.lang.reflect.Method;
 
@@ -28,15 +31,20 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         //数据源切换开始
-        TargetDataSource targetDataSource = method.getAnnotation(TargetDataSource.class);
+        TargetDataSource targetDataSource;
+        if (method.isAnnotationPresent(TargetDataSource.class)) {
+            targetDataSource = method.getAnnotation(TargetDataSource.class);
+        } else {
+            targetDataSource = method.getDeclaringClass().getAnnotation(TargetDataSource.class);
+        }
         //获取注解标注的数据源
         String dataSource = targetDataSource.value();
         //判断当前的数据源是否已经被加载进入到系统当中去
         if (!dataSourceProperties.getConfig().containsKey(dataSource)) {
-            throw new NullPointerException(String.format("数据源配置【%s】不存在", dataSource));
+            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), String.format("数据源配置【%s】不存在", dataSource));
         }
         try {
-            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==>", method.getDeclaringClass().getName(), ".", method.getName(), String.format("==> ========开始执行，切换数据源到【%s】========", dataSource)));
+            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("==> ========开始执行，切换数据源到【%s】========", dataSource)));
             //切换到指定的数据源
             DataSourceContextHolder.setDataSourceLookup(dataSource);
             //调用TargetDataSource标记的切换数据源方法
@@ -48,7 +56,7 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
         } finally {
             //移除当前线程对应的数据源
             DataSourceContextHolder.clearDataSource();
-            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("<==", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========结束执行，清除数据源【%s】========", dataSource)));
+            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("<== ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========结束执行，清除数据源【%s】========", dataSource)));
 
         }
     }

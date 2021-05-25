@@ -26,9 +26,10 @@ public class NodeServiceImpl implements NodeService{
     @Override
     //@Transactional(rollbackFor = Exception.class)
     public void findNode() {
-        nodeService.insertMysql();
+        mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
+        //nodeService.insertMysql();
         //mysqlMapper.findLocks("TEST2");
-        nodeMapper.findNode();
+        //nodeMapper.findNode();
        // insertMysql();
 
     }

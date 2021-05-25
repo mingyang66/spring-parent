@@ -9,9 +9,9 @@ import java.lang.annotation.*;
  * @Author Emily
  * @Version: 1.0
  */
-@Documented
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface TargetDataSource {
     String value() default DataSourceProperties.DEFAULT_CONFIG;
 }

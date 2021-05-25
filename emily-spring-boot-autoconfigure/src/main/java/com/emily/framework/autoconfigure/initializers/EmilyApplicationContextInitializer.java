@@ -22,6 +22,6 @@ public class EmilyApplicationContextInitializer implements ApplicationContextIni
     public void initialize(ConfigurableApplicationContext applicationContext) {
         // 初始化容器上下文
         IOCContext.setApplicationContext(applicationContext);
-        LoggerUtils.info(EmilyApplicationContextInitializer.class, "==>Emily框架开始初始化...");
+        LoggerUtils.info(EmilyApplicationContextInitializer.class, "==> Emily框架IOC容器上下文开始初始化...");
     }
 }

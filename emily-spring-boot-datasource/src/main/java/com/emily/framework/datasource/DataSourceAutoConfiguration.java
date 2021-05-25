@@ -8,6 +8,7 @@ import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.datasource.context.DynamicMultipleDataSources;
 import com.emily.framework.datasource.interceptor.DataSourceMethodInterceptor;
+import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -41,7 +42,8 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String DEFAULT_POINT_CUT = "@annotation(com.emily.framework.datasource.annotation.TargetDataSource)";
+    private static final String DEFAULT_POINT_CUT = StringUtils.join("@within(com.emily.framework.datasource.annotation.TargetDataSource) ",
+                                                                                "or @annotation(com.emily.framework.datasource.annotation.TargetDataSource)");
 
     /**
      * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
@@ -73,7 +75,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     @Bean("dynamicMultipleDataSources")
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         Map<String, DruidDataSource> configs = dataSourceProperties.getConfig();
-        if(Objects.isNull(dataSourceProperties.getDefaultConfig())){
+        if (Objects.isNull(dataSourceProperties.getDefaultConfig())) {
             throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
         }
         if (configs.isEmpty()) {

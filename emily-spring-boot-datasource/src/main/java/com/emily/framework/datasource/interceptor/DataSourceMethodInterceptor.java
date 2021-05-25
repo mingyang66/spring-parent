@@ -1,16 +1,15 @@
 package com.emily.framework.datasource.interceptor;
 
+import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import com.emily.framework.common.enums.AppHttpStatus;
 import com.emily.framework.common.exception.BusinessException;
 import com.emily.framework.common.exception.PrintExceptionInfo;
 import com.emily.framework.datasource.DataSourceProperties;
 import com.emily.framework.datasource.annotation.TargetDataSource;
 import com.emily.framework.datasource.context.DataSourceContextHolder;
-import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.support.AopUtils;
 
 import java.lang.reflect.Method;
 

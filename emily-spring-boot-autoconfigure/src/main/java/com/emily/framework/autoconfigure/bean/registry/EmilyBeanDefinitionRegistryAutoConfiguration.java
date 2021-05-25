@@ -31,11 +31,11 @@ public class EmilyBeanDefinitionRegistryAutoConfiguration implements Initializin
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "【销毁--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
+        LoggerUtils.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "<== 【销毁--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "【初始化--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
+        LoggerUtils.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "==> 【初始化--自动化配置】----BeanDefinitionRegistryPostProcessor自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
     }
 }

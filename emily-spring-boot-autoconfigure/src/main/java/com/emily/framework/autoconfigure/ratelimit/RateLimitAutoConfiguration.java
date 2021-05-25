@@ -61,11 +61,11 @@ public class RateLimitAutoConfiguration implements InitializingBean, DisposableB
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(RateLimitAutoConfiguration.class, "【销毁--自动化配置】----限流组件【RateLimitAutoConfiguration】");
+        LoggerUtils.info(RateLimitAutoConfiguration.class, "<== 【销毁--自动化配置】----限流组件【RateLimitAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(RateLimitAutoConfiguration.class, "【初始化--自动化配置】----限流组件【RateLimitAutoConfiguration】");
+        LoggerUtils.info(RateLimitAutoConfiguration.class, "==> 【初始化--自动化配置】----限流组件【RateLimitAutoConfiguration】");
     }
 }

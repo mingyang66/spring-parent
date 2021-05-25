@@ -54,11 +54,11 @@ public class IdempotentAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(IdempotentAutoConfiguration.class, "【销毁--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
+        LoggerUtils.info(IdempotentAutoConfiguration.class, "<== 【销毁--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(IdempotentAutoConfiguration.class, "【初始化--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
+        LoggerUtils.info(IdempotentAutoConfiguration.class, "==> 【初始化--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
     }
 }

@@ -90,11 +90,11 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() {
-        LoggerUtils.info(DataSourceAutoConfiguration.class, "<==【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        LoggerUtils.info(DataSourceAutoConfiguration.class, "<== 【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.info(DataSourceAutoConfiguration.class, "==>【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        LoggerUtils.info(DataSourceAutoConfiguration.class, "==> 【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 }

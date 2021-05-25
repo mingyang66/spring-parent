@@ -34,6 +34,7 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
         if (method.isAnnotationPresent(TargetDataSource.class)) {
             targetDataSource = method.getAnnotation(TargetDataSource.class);
         } else {
+            //  method.getDeclaringClass() 返回方法声明所在类或接口的Class对象
             targetDataSource = method.getDeclaringClass().getAnnotation(TargetDataSource.class);
         }
         //获取注解标注的数据源

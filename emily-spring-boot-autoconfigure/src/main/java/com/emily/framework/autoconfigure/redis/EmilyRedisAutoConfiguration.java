@@ -82,11 +82,11 @@ public class EmilyRedisAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(EmilyRedisAutoConfiguration.class, "【销毁--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
+        LoggerUtils.info(EmilyRedisAutoConfiguration.class, "<== 【销毁--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(EmilyRedisAutoConfiguration.class, "【初始化--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
+        LoggerUtils.info(EmilyRedisAutoConfiguration.class, "==> 【初始化--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
     }
 }

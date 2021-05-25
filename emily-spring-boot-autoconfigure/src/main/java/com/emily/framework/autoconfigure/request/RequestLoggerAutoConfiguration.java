@@ -108,12 +108,12 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
 
     @Override
     public void destroy() {
-        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
         LoggerUtils.setDebug(apiLogProperties.isDebug());
-        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 }

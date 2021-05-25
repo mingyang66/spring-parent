@@ -125,7 +125,7 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
         if (!webProperties.getCors().getAllowedHeaders().isEmpty()) {
             registration.allowedHeaders(webProperties.getCors().getAllowedHeaders().toArray(new String[]{}));
         } else {
-            registration.allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept");
+            registration.allowedHeaders("*");
         }
         //浏览器是否应该发送凭据，如是否允许发送Cookie，true为允许
         if (BooleanUtils.isFalse(webProperties.getCors().isAllowCredentials())) {
@@ -147,17 +147,17 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
 
     @Override
     public void destroy() throws Exception {
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+            LoggerUtils.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
+            LoggerUtils.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         if (enablePathMatch) {
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
+            LoggerUtils.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
         }
         if (enableCors) {
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+            LoggerUtils.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
         }
     }
 }

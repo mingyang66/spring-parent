@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-@TargetDataSource("mysql1")
+@TargetDataSource("mysql")
 public interface MysqlMapper {
     /**
      * 查询接口

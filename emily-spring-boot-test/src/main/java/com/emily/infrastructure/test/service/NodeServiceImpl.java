@@ -27,7 +27,7 @@ public class NodeServiceImpl implements NodeService{
     //@Transactional(rollbackFor = Exception.class)
     public void findNode() {
         mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
-        //nodeService.insertMysql();
+        nodeService.insertMysql();
         //mysqlMapper.findLocks("TEST2");
         //nodeMapper.findNode();
        // insertMysql();

@@ -1,2 +1,2 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.emily.framework.datasource.DataSourceAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.emily.infrastructure.datasource.DataSourceAutoConfiguration

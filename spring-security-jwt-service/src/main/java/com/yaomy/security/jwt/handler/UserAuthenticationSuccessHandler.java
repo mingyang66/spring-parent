@@ -1,6 +1,6 @@
 package com.yaomy.security.jwt.handler;
 
-import com.emily.framework.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.yaomy.security.jwt.po.AuthUserDetails;
 import com.yaomy.security.jwt.po.ResponseBody;
 import com.yaomy.security.jwt.util.TokenUtil;

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.emily.framework.autoconfigure.logger.LogbackAutoConfiguration
+  com.emily.infrastructure.autoconfigure.logger.LogbackAutoConfiguration

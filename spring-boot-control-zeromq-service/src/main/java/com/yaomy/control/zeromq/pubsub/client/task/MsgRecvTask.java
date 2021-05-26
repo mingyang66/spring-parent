@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.pubsub.client.task;
 
 
-import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
 import org.zeromq.ZMQ;
 
 /**

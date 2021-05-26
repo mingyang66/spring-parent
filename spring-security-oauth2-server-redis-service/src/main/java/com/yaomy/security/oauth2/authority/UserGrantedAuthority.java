@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.authority;
 
-import com.emily.framework.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.google.common.collect.Maps;
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,8 +1,8 @@
 /*
 package com.emily.boot.test.fegin;
 
-import com.emily.framework.common.enums.AppHttpStatus;
-import com.emily.framework.common.exception.BusinessException;
+import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.exception.BusinessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;

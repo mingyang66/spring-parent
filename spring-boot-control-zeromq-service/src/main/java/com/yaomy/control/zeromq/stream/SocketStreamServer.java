@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.stream;
 
-import com.emily.framework.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.utils.constant.CharsetUtils;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;

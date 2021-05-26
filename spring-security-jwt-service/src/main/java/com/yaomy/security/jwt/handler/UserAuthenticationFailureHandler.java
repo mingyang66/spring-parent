@@ -1,6 +1,6 @@
 package com.yaomy.security.jwt.handler;
 
-import com.emily.framework.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.yaomy.security.jwt.po.ResponseBody;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

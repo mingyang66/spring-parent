@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.emily.infrastructure.datasource.mapper.SqlServerlMapper">
-	<resultMap id="nodeMap" type="com.emily.infrastructure.datasource.po.SqlServer">
+<mapper namespace="com.emily.infrastructure.test.mapper.SqlServerlMapper">
+	<resultMap id="nodeMap" type="com.emily.infrastructure.test.po.SqlServer">
 		<result column="bankcode" property="bankCode"/>
 		<result column="orgid" property="orgId"/>
 	</resultMap>

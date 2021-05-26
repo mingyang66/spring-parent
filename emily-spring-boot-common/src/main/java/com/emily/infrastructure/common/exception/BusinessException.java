@@ -18,11 +18,13 @@ public class BusinessException extends RuntimeException{
     private String errorMessage;
 
     public BusinessException(AppHttpStatus httpStatus){
+        super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
         this.errorMessage = httpStatus.getMessage();
     }
 
     public BusinessException(int status, String errorMessage){
+        super(errorMessage);
         this.status = status;
         this.errorMessage = errorMessage;
     }

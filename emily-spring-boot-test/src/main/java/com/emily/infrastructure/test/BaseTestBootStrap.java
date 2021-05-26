@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource;
+package com.emily.infrastructure.test;
 
 
 import org.springframework.boot.SpringApplication;

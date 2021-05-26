@@ -1,8 +1,8 @@
-package com.emily.infrastructure.datasource.mapper;
+package com.emily.infrastructure.test.mapper;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.datasource.po.Node;
+import com.emily.infrastructure.test.po.SqlServer;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,10 +11,10 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-public interface Node1Mapper {
+public interface SqlServerlMapper {
     /**
      * 查询接口
      */
-    @TargetDataSource("slave")
-    Node findNode();
+    @TargetDataSource("sqlserver")
+    SqlServer findSqlServer();
 }

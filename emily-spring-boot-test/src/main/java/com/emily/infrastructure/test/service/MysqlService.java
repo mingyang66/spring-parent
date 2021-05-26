@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.service;
+package com.emily.infrastructure.test.service;
 
 public interface MysqlService {
     default void insertMysql(){

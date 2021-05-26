@@ -360,6 +360,9 @@ public class DateUtils {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
         }
+        if (String.valueOf(date).length() > 8) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "数字类型日期不可以包含时间");
+        }
         return LocalDate.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
     }
 
@@ -373,6 +376,9 @@ public class DateUtils {
     public static LocalDateTime numToLocalDateTime(Long date, String format) {
         if (Objects.isNull(date)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (String.valueOf(date).length() < 10) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "数字类型日期必须包含时间");
         }
         return LocalDateTime.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
     }

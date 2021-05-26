@@ -1,7 +1,7 @@
-package com.emily.infrastructure.datasource.mapper;
+package com.emily.infrastructure.test.mapper;
 
 
-import com.emily.infrastructure.datasource.po.Job;
+import com.emily.infrastructure.test.po.Job;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

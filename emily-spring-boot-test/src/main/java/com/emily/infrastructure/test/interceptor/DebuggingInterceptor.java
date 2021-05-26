@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.interceptor;
+package com.emily.infrastructure.test.interceptor;
 
 import org.aopalliance.intercept.ConstructorInterceptor;
 import org.aopalliance.intercept.ConstructorInvocation;

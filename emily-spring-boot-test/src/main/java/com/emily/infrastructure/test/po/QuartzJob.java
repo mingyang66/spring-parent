@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.po;
+package com.emily.infrastructure.test.po;
 
 /**
  * @author Emily

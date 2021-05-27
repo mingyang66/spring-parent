@@ -1,6 +1,6 @@
-package com.emily.infrastructure.autoconfigure.logger;
+package com.emily.infrastructure.logback;
 
-import com.emily.infrastructure.autoconfigure.logger.common.properties.Logback;
+import com.emily.infrastructure.logback.common.properties.Logback;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

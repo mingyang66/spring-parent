@@ -1,13 +1,13 @@
-package com.emily.infrastructure.autoconfigure.logger.common.builder;
+package com.emily.infrastructure.logback.common.builder;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import com.emily.infrastructure.autoconfigure.logger.common.appender.LogbackAsyncAppender;
-import com.emily.infrastructure.autoconfigure.logger.common.appender.LogbackConsoleAppender;
-import com.emily.infrastructure.autoconfigure.logger.common.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.autoconfigure.logger.common.properties.Logback;
+import com.emily.infrastructure.logback.common.appender.LogbackAsyncAppender;
+import com.emily.infrastructure.logback.common.appender.LogbackConsoleAppender;
+import com.emily.infrastructure.logback.common.appender.LogbackRollingFileAppender;
+import com.emily.infrastructure.logback.common.properties.Logback;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 

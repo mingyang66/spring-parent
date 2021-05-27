@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.http.client;
 
 import com.emily.infrastructure.cloud.http.HttpClientBalanceProperties;
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.context.logger.LoggerService;

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.ratelimit;
 
 import com.emily.infrastructure.autoconfigure.ratelimit.interceptor.RateLimitMethodBeforeAdvice;
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;

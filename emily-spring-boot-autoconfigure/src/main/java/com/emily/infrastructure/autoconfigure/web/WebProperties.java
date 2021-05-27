@@ -6,14 +6,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * @author Emily
  * @description: Web配置文件
  * @create: 2020/05/28
  */
 @ConfigurationProperties(prefix = "spring.emily.web")
 public class WebProperties {
-    //API路由配置属性
+    /**
+     * API路由配置属性
+     */
     private Path path = new Path();
-    //跨域配置
+    /**
+     * 跨域配置
+     */
     private CorsRegister cors = new CorsRegister();
 
     public Path getPath() {

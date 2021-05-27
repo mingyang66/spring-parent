@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.config;
 
 import com.ecwid.consul.v1.ConsulClient;
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

@@ -1,7 +1,7 @@
-package com.emily.infrastructure.autoconfigure.logger;
+package com.emily.infrastructure.logback;
 
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
-import com.emily.infrastructure.autoconfigure.logger.common.builder.LogbackBuilder;
+import com.emily.infrastructure.logback.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.builder.LogbackBuilder;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;

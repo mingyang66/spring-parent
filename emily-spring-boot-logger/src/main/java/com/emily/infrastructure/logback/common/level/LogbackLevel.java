@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.logger.common.level;
+package com.emily.infrastructure.logback.common.level;
 
 import ch.qos.logback.classic.Level;
 

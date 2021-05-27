@@ -1,6 +1,6 @@
-package com.emily.infrastructure.autoconfigure.logger.common;
+package com.emily.infrastructure.logback.common;
 
-import com.emily.infrastructure.autoconfigure.logger.common.builder.LogbackBuilder;
+import com.emily.infrastructure.logback.common.builder.LogbackBuilder;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;

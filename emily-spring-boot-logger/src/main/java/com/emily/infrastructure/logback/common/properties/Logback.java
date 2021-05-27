@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.logger.common.properties;
+package com.emily.infrastructure.logback.common.properties;
 
 /**
  * @author Emily

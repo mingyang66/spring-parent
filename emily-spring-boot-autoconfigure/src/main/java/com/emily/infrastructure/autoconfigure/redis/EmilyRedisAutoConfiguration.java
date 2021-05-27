@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.redis;
 
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

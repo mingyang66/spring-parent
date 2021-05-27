@@ -2,7 +2,7 @@ package com.yaomy.control.zeromq.socket.client;
 
 
 
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

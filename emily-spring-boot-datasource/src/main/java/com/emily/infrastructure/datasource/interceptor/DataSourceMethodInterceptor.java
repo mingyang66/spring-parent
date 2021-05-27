@@ -1,6 +1,6 @@
 package com.emily.infrastructure.datasource.interceptor;
 
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -44,7 +44,7 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
             throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), String.format("数据源配置【%s】不存在", dataSource));
         }
         try {
-            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("==> ========开始执行，切换数据源到【%s】========", dataSource)));
+            LoggerUtils.info(method.getDeclaringClass(), StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========开始执行，切换数据源到【%s】========", dataSource)));
             //切换到指定的数据源
             DataSourceContextHolder.setDataSourceLookup(dataSource);
             //调用TargetDataSource标记的切换数据源方法

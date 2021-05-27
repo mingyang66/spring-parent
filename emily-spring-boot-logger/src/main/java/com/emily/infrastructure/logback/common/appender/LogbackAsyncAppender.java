@@ -1,9 +1,9 @@
-package com.emily.infrastructure.autoconfigure.logger.common.appender;
+package com.emily.infrastructure.logback.common.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.autoconfigure.logger.common.properties.Logback;
+import com.emily.infrastructure.logback.common.properties.Logback;
 
 /**
  * @author Emily

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.logger.common.appender;
+package com.emily.infrastructure.logback.common.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -9,9 +9,9 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.infrastructure.autoconfigure.logger.common.filter.LogbackFilter;
-import com.emily.infrastructure.autoconfigure.logger.common.level.LogbackLevel;
-import com.emily.infrastructure.autoconfigure.logger.common.properties.Logback;
+import com.emily.infrastructure.logback.common.filter.LogbackFilter;
+import com.emily.infrastructure.logback.common.level.LogbackLevel;
+import com.emily.infrastructure.logback.common.properties.Logback;
 import org.springframework.util.StringUtils;
 
 import java.io.File;

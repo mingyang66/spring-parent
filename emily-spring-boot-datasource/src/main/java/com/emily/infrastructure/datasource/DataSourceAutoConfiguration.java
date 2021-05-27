@@ -5,7 +5,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
-import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.logback.common.LoggerUtils;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
 import org.apache.commons.lang3.StringUtils;

@@ -5,9 +5,14 @@ mybatis:
   # 标注待解析的mapper的xml文件位置
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    # org.apache.ibatis.logging.stdout.StdOutImpl
+    # org.apache.ibatis.logging.slf4j.Slf4jImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 ---
 spring:
   emily:
     logback:
       level: trace
+    response:
+      wrapper:
+        enable: false

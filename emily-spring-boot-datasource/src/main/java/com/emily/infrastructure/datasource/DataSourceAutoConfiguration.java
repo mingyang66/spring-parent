@@ -48,11 +48,12 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     public static final String DATA_SOURCE_NAME = "dynamicMultipleDataSources";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
+     *
      * @target()可以标注在目标类对象上，但是不可以标注在接口上
      * @within()可以标注在目标类对象上、也可以标注在接口上
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join("@within(com.emily.infrastructure.datasource.annotation.TargetDataSource) ",
-                                                                                "or @annotation(com.emily.infrastructure.datasource.annotation.TargetDataSource)");
+            "or @annotation(com.emily.infrastructure.datasource.annotation.TargetDataSource)");
 
     /**
      * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的

@@ -36,15 +36,16 @@ public class NodeServiceImpl implements NodeService{
        // insertMysql();
 
     }
-    //@Transactional(rollbackFor = Exception.class, transactionManager = "xatx")
+
     @TargetDataSource("slave")
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void instertStatus() {
         slaveMapper.insertStatus();
     }
 
-    //@Transactional(rollbackFor = Exception.class, transactionManager = "xatx")
     @TargetDataSource("mysql")
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void insertMysql() {
         for (int i=0; i<2;i++){

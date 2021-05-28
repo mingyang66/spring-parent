@@ -16,8 +16,6 @@ public interface SlaveMapper {
     /**
      * 查询接口
      */
-    @TargetDataSource("slave")
     Long findNode();
-    @TargetDataSource("slave")
     void insertStatus();
 }

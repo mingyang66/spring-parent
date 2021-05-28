@@ -46,7 +46,7 @@ public class DataSourceController {
     }
 
     @GetMapping("getNode")
-    public void getNode(){
+    public void getNode() throws Exception{
         nodeService.findNode();
     }
     @GetMapping("getNode1")

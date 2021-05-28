@@ -5,7 +5,11 @@ import com.emily.infrastructure.test.mapper.MysqlMapper;
 import com.emily.infrastructure.test.mapper.SlaveMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 
 /**
  * @program: spring-parent
@@ -25,10 +29,10 @@ public class NodeServiceImpl implements NodeService{
     private NodeServiceImpl nodeService;
     @Override
     //@Transactional(rollbackFor = Exception.class)
-    public void findNode() {
+    public void findNode() throws Exception {
        // Long eid = slaveMapper.findNode();
         nodeService.insertMysql();
-        nodeService.instertStatus();
+       // nodeService.instertStatus();
         //mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
         //slaveMapper.insertStatus();
         //mysqlMapper.findLocks("TEST2");
@@ -37,17 +41,17 @@ public class NodeServiceImpl implements NodeService{
 
     }
 
-    @TargetDataSource("slave")
-    @Transactional(rollbackFor = Exception.class)
+    @TargetDataSource(value = "slave")
+    @Transactional(rollbackFor = Exception.class, transactionManager = "transactionManager", isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void instertStatus() {
         slaveMapper.insertStatus();
     }
 
-    @TargetDataSource("mysql")
+    @TargetDataSource(value = "mysql")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void insertMysql() {
+    public void insertMysql() throws IOException {
         for (int i=0; i<2;i++){
             mysqlMapper.insertLocks("name"+i, "lock"+i);
             String lockName = mysqlMapper.findLocks("lock"+i);
@@ -57,6 +61,6 @@ public class NodeServiceImpl implements NodeService{
             System.out.println("==>》删除数据成功==>"+lockName);
         }
         mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
-
+        throw new IOException();
     }
 }

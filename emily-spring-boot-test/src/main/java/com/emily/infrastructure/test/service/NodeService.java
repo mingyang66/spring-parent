@@ -1,14 +1,14 @@
 package com.emily.infrastructure.test.service;
 
 public interface NodeService {
-    default void findNode(){
+    default void findNode() throws Exception{
         return;
     }
 
     default void instertStatus(){
         return;
     }
-    default void insertMysql(){
+    default void insertMysql() throws Exception{
         return;
     }
 }

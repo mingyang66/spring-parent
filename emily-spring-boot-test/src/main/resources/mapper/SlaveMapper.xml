@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.emily.infrastructure.test.mapper.NodeMapper">
+<mapper namespace="com.emily.infrastructure.test.mapper.SlaveMapper">
 	<resultMap id="nodeMap" type="com.emily.infrastructure.test.po.Node">
 		<id column="ID" property="id"/>
 		<result column="EID" property="id"/>
@@ -8,9 +8,12 @@
 		<result column="MENDER" property="mender"/>
 	</resultMap>
 
-	<select id="findNode" resultMap="nodeMap">
-		SELECT sdn.EID,sdn.CREATOR,MENDER FROM ATCENTER.S_D_NODE sdn WHERE SDN.EID=232000005503383314
+	<select id="findNode" resultType="java.lang.Long">
+		SELECT EID FROM ATAN.SYNC_TASK_STATUS WHERE SERVERID=-1
     </select>
 
-
+	<insert id="insertStatus">
+		 INSERT INTO ATAN.SYNC_TASK_STATUS(EID,EITIME,EUTIME,SYNCTASKHANDLE,BIZDATE,EXECUTESTATUS,SERVERID,SYNCTASKHANDLENAME)
+ 			VALUES(ATAN.SEQ_EID.NEXTVAL,SYSDATE,SYSDATE,'12',20210523,0,-1,'12')
+	</insert>
 </mapper>

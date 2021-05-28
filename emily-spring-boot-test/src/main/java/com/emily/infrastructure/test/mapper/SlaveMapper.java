@@ -11,10 +11,13 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-public interface NodeMapper {
+@TargetDataSource("slave")
+public interface SlaveMapper {
     /**
      * 查询接口
      */
-    @TargetDataSource("default")
-    Node findNode();
+    @TargetDataSource("slave")
+    Long findNode();
+    @TargetDataSource("slave")
+    void insertStatus();
 }

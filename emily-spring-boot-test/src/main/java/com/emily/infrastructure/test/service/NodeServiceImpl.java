@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.service;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.mapper.MysqlMapper;
-import com.emily.infrastructure.test.mapper.NodeMapper;
+import com.emily.infrastructure.test.mapper.SlaveMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class NodeServiceImpl implements NodeService{
     @Autowired
-    private NodeMapper nodeMapper;
+    private SlaveMapper slaveMapper;
     @Autowired
     private MysqlMapper mysqlMapper;
     @Autowired
@@ -26,16 +26,25 @@ public class NodeServiceImpl implements NodeService{
     @Override
     //@Transactional(rollbackFor = Exception.class)
     public void findNode() {
-        mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
+       // Long eid = slaveMapper.findNode();
         nodeService.insertMysql();
+        nodeService.instertStatus();
+        //mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
+        //slaveMapper.insertStatus();
         //mysqlMapper.findLocks("TEST2");
         //nodeMapper.findNode();
        // insertMysql();
 
     }
+    //@Transactional(rollbackFor = Exception.class, transactionManager = "xatx")
+    @TargetDataSource("slave")
+    @Override
+    public void instertStatus() {
+        slaveMapper.insertStatus();
+    }
 
+    //@Transactional(rollbackFor = Exception.class, transactionManager = "xatx")
     @TargetDataSource("mysql")
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void insertMysql() {
         for (int i=0; i<2;i++){
@@ -47,5 +56,6 @@ public class NodeServiceImpl implements NodeService{
             System.out.println("==>》删除数据成功==>"+lockName);
         }
         mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
+
     }
 }

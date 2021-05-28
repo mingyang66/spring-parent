@@ -25,7 +25,7 @@ public class DataSourceController {
     @Autowired
     private JobMapper jobMapper;
     @Autowired
-    private NodeMapper nodeMapper;
+    private SlaveMapper nodeMapper;
     @Autowired
     private Node1Mapper node1Mapper;
     @Autowired

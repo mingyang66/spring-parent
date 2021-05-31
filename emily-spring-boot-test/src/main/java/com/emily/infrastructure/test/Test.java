@@ -19,9 +19,10 @@ public class Test {
         System.out.println(DateUtils.dateToNum(LocalDate.now(), DateFormatEnum.YYYYMMDD.getFormat()));
         System.out.println(DateUtils.dateToNum(LocalDateTime.now(), DateFormatEnum.YYYYMMDD.getFormat()));
         System.out.println(DateUtils.numToDate(20210523L, DateFormatEnum.YYYYMMDD.getFormat()));
-        System.out.println(DateUtils.numToLocalDate(2021052312L, DateFormatEnum.YYYYMMDDHH.getFormat()));
+        System.out.println(DateUtils.numToLocalDate(20210523L, DateFormatEnum.YYYYMMDD.getFormat()));
         System.out.println(DateUtils.numToLocalDateTime(2021052312L, "yyyyMMddHH"));
         System.out.println(DateUtils.numToStr(202105231212L, DateFormatEnum.YYYYMMDDHH.getFormat(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
         System.out.println(DateUtils.strToNum("2021-05-23", DateFormatEnum.YYYY_MM_DD.getFormat(), DateFormatEnum.YYYYMMDD.getFormat()));
+
     }
 }

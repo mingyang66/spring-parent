@@ -1,16 +1,26 @@
 package com.emily.infrastructure.test.po;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Description: Description
  * @Version: 1.0
  */
-public class Job implements Serializable {
+public class Job1<T> implements Serializable {
     private Long id;
     private Long jobNumber;
     private String jobDesc;
     public String a;
+    private List<T> list;
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
+    }
 
     public String getA() {
         return a;

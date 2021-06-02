@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.logback.common.LoggerUtils;
+import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.builder.LogbackBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +18,16 @@ public class LogbackController {
 
     @GetMapping("debug")
     public String debug(){
-        LoggerUtils.info(LogbackController.class, "info--------");
-        LoggerUtils.debug(LogbackController.class, "debug--------");
-        LoggerUtils.error(LogbackController.class, "error--------");
-        LoggerUtils.warn(LogbackController.class, "warn--------");
-        LoggerUtils.trace(LogbackController.class, "trace--------");
+        LogbackBuilder.getLogger().debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
+        //LoggerUtils.builder.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug");
+        LoggerUtils.warn(LogbackController.class,"shuai2 +++++++++++++++++++++++++++++++++++++warn");
+        LoggerUtils.info(LogbackController.class,"shuai3 +++++++++++++++++++++++++++++++++++++info");
+        LoggerUtils.error(LogbackController.class,"shuai4 +++++++++++++++++++++++++++++++++++++error");
+        LoggerUtils.trace(LogbackController.class,"shuai5 +++++++++++++++++++++++++++++++++++++trace");
+        LoggerUtils.module(LogbackController.class, "test1", "tt0", "ni-----------------" + System.currentTimeMillis());
+        LoggerUtils.module(LogbackController.class, "test1", "tt1", "ni-----------------" + System.currentTimeMillis());
+        LoggerUtils.module(LogbackController.class, "test2", "tt2", "ni-----------------" + System.currentTimeMillis());
+        LoggerUtils.module(LogbackController.class, "test2", "tt3", "ni-----------------" + System.currentTimeMillis());
         return "success";
     }
 }

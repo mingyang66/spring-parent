@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.common.appender;
+package com.emily.infrastructure.logback.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -9,9 +9,9 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.infrastructure.logback.common.filter.LogbackFilter;
-import com.emily.infrastructure.logback.common.level.LogbackLevel;
-import com.emily.infrastructure.logback.common.properties.Logback;
+import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.filter.LogbackFilter;
+import com.emily.infrastructure.logback.level.LogbackLevel;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -31,11 +31,11 @@ public class LogbackRollingFileAppender {
     /**
      * 日志属性配置
      */
-    private Logback accessLog;
+    private LogbackProperties properties;
 
-    public LogbackRollingFileAppender(LoggerContext loggerContext, Logback accessLog) {
+    public LogbackRollingFileAppender(LoggerContext loggerContext, LogbackProperties properties) {
         this.loggerContext = loggerContext;
-        this.accessLog = accessLog;
+        this.properties = properties;
     }
 
     /**
@@ -55,7 +55,7 @@ public class LogbackRollingFileAppender {
         LevelFilter levelFilter = levelController.getLevelFilter(level);
         levelFilter.start();
 
-        if (accessLog.isEnableSizeAndTimeRollingPolicy() && level.levelInt >= LogbackLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
+        if (properties.isEnableSizeAndTimeRollingPolicy() && level.levelInt >= LogbackLevel.getNextLogLevel(properties.getLevel()).levelInt) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -72,18 +72,18 @@ public class LogbackRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(String.join(File.separator,accessLog.getPath(),  path, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
+            String fp = OptionHelper.substVars(String.join(File.separator,properties.getPath(),  path, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //最大日志文件大小 KB,MB,GB
-            if (!StringUtils.hasText(accessLog.getMaxFileSize())) {
-                policy.setMaxFileSize(FileSize.valueOf(accessLog.getMaxFileSize()));
+            if (!StringUtils.hasText(properties.getMaxFileSize())) {
+                policy.setMaxFileSize(FileSize.valueOf(properties.getMaxFileSize()));
             }
             //设置要保留的最大存档文件数
-            policy.setMaxHistory(accessLog.getMaxHistory());
+            policy.setMaxHistory(properties.getMaxHistory());
             //文件总大小限制 KB,MB,G
-            if (!StringUtils.hasText(accessLog.getTotalSizeCap())) {
-                policy.setTotalSizeCap(FileSize.valueOf(accessLog.getTotalSizeCap()));
+            if (!StringUtils.hasText(properties.getTotalSizeCap())) {
+                policy.setTotalSizeCap(FileSize.valueOf(properties.getTotalSizeCap()));
             }
             //设置父节点是appender
             policy.setParent(appender);
@@ -91,7 +91,7 @@ public class LogbackRollingFileAppender {
 
             //设置文件归档策略
             appender.setRollingPolicy(policy);
-        } else if (level.levelInt >= LogbackLevel.getNextLogLevel(accessLog.getLevel()).levelInt) {
+        } else if (level.levelInt >= LogbackLevel.getNextLogLevel(properties.getLevel()).levelInt) {
             //文件归档大小和时间设置
             TimeBasedRollingPolicy policy = new TimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -108,11 +108,11 @@ public class LogbackRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(String.join("", String.join(File.separator, accessLog.getPath(),  path, fileName), "%d{yyyy-MM-dd}.log"), loggerContext);
+            String fp = OptionHelper.substVars(String.join("", String.join(File.separator, properties.getPath(),  path, fileName), "%d{yyyy-MM-dd}.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //设置要保留的最大存档文件数
-            policy.setMaxHistory(accessLog.getMaxHistory());
+            policy.setMaxHistory(properties.getMaxHistory());
             //设置父节点是appender
             policy.setParent(appender);
 
@@ -129,9 +129,9 @@ public class LogbackRollingFileAppender {
         encoder.setContext(loggerContext);
         //设置格式
         if (level.levelStr.equalsIgnoreCase(fileName) && level.levelStr.equalsIgnoreCase(path)) {
-            encoder.setPattern(accessLog.getCommonPattern());
+            encoder.setPattern(properties.getCommonPattern());
         } else {
-            encoder.setPattern(accessLog.getModulePattern());
+            encoder.setPattern(properties.getModulePattern());
         }
         //设置编码格式
         encoder.setCharset(Charset.forName(StandardCharsets.UTF_8.name()));
@@ -141,9 +141,9 @@ public class LogbackRollingFileAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);
         //appender的name属性
-        appender.setName(name);
+        appender.setName("File"+name);
         //设置文件名
-        appender.setFile(OptionHelper.substVars(String.join("", String.join(File.separator, accessLog.getPath(), path, fileName), ".log"), loggerContext));
+        appender.setFile(OptionHelper.substVars(String.join("", String.join(File.separator, properties.getPath(), path, fileName), ".log"), loggerContext));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         appender.setAppend(true);
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false

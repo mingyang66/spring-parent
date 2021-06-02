@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.bean.registry;
 
-import com.emily.infrastructure.logback.common.LoggerUtils;
+import com.emily.infrastructure.logback.utils.LoggerUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;

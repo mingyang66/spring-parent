@@ -1,6 +1,6 @@
 package com.emily.infrastructure.cloud.feign.logger;
 
-import com.emily.infrastructure.logback.common.LoggerUtils;
+import com.emily.infrastructure.logback.utils.LoggerUtils;
 import feign.Logger;
 
 /**

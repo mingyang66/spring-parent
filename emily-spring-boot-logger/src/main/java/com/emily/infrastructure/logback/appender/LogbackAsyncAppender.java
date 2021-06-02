@@ -1,9 +1,9 @@
-package com.emily.infrastructure.logback.common.appender;
+package com.emily.infrastructure.logback.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logback.common.properties.Logback;
+import com.emily.infrastructure.logback.LogbackProperties;
 
 /**
  * @author Emily
@@ -15,11 +15,11 @@ public class LogbackAsyncAppender {
      * logger上下文
      */
     private LoggerContext loggerContext;
-    private Logback accessLog;
+    private LogbackProperties properties;
 
-    public LogbackAsyncAppender(LoggerContext loggerContext, Logback accessLog) {
+    public LogbackAsyncAppender(LoggerContext loggerContext, LogbackProperties properties) {
         this.loggerContext = loggerContext;
-        this.accessLog = accessLog;
+        this.properties = properties;
     }
 
     /**
@@ -38,17 +38,17 @@ public class LogbackAsyncAppender {
         //appender的name属性
         appender.setName(String.join("","ASYNC-",ref.getName()));
         //队列的最大容量，默认为 256
-        appender.setQueueSize(accessLog.getAsyncQueueSize());
+        appender.setQueueSize(properties.getAsyncQueueSize());
         //默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
-        appender.setDiscardingThreshold(accessLog.getAsyncDiscardingThreshold());
+        appender.setDiscardingThreshold(properties.getAsyncDiscardingThreshold());
         //获取调用者的数据相对来说比较昂贵。为了提高性能，默认情况下不会获取调用者的信息。默认情况下，只有像线程名或者 MDC 这种"便宜"的数据会被复制。设置为 true 时，appender 会包含调用者的信息
         appender.setIncludeCallerData(false);
         //根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。当 LoggerContext 被停止时，
         // AsyncAppender stop 方法会等待工作线程指定的时间来完成。使用 maxFlushTime 来指定最大的刷新时间，单位为毫秒。在指定时间内没有被处理完的事件将会被丢弃。
         // 这个属性的值的含义与 Thread.join(long)) 相同
-        appender.setMaxFlushTime(accessLog.getAsyncMaxFlushTime());
+        appender.setMaxFlushTime(properties.getAsyncMaxFlushTime());
         //默认为 false，在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃
-        appender.setNeverBlock(accessLog.isAsyncNeverBlock());
+        appender.setNeverBlock(properties.isAsyncNeverBlock());
         //添加附加的appender,最多只能添加一个
         appender.addAppender(ref);
         appender.start();

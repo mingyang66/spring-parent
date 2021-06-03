@@ -1,7 +1,10 @@
 package com.emily.infrastructure.logback.utils;
 
+import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logback.builder.LogbackBuilder;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  * @author Emily
@@ -14,51 +17,62 @@ public class LoggerUtils {
      * 当前开发模式
      */
     private static boolean debug;
-    private static boolean ENABLE;
+    /**
+     * 开启logback日志组件
+     */
+    private static LogbackBuilder builder;
+
+    public static Logger getLogger() {
+        return builder.getLogger();
+    }
+
+    public static Logger getLogger(String path, String fileName) {
+        return builder.getLogger(path, fileName);
+    }
 
     public static <T> void info(Class<T> clazz, String msg) {
-        if (ENABLE) {
-            LogbackBuilder.getLogger().info(msg);
+        if (Objects.nonNull(builder)) {
+            builder.getLogger().info(msg);
         } else {
             LoggerFactory.getLogger(clazz).info(msg);
         }
     }
 
     public static <T> void warn(Class<T> clazz, String msg) {
-        if (ENABLE) {
-            LogbackBuilder.getLogger().warn(msg);
+        if (Objects.nonNull(builder)) {
+            builder.getLogger().warn(msg);
         } else {
             LoggerFactory.getLogger(clazz).warn(msg);
         }
     }
 
     public static <T> void debug(Class<T> clazz, String msg) {
-        if (ENABLE) {
-            LogbackBuilder.getLogger().debug(msg);
+        if (Objects.nonNull(builder)) {
+            builder.getLogger().debug(msg);
         } else {
             LoggerFactory.getLogger(clazz).debug(msg);
         }
     }
 
     public static <T> void error(Class<T> clazz, String msg) {
-        if (ENABLE) {
-            LogbackBuilder.getLogger().error(msg);
+        if (Objects.nonNull(builder)) {
+            builder.getLogger().error(msg);
         } else {
             LoggerFactory.getLogger(clazz).error(msg);
         }
     }
 
     public static <T> void trace(Class<T> clazz, String msg) {
-        if (ENABLE) {
-            LogbackBuilder.getLogger().trace(msg);
+        if (Objects.nonNull(builder)) {
+            builder.getLogger().trace(msg);
         } else {
             LoggerFactory.getLogger(clazz).trace(msg);
         }
     }
 
     public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
-        if (ENABLE) {
-            LogbackBuilder.getLogger(path, fileName).info(msg);
+        if (Objects.nonNull(builder)) {
+            builder.getLogger(path, fileName).info(msg);
         } else {
             LoggerFactory.getLogger(clazz).info(msg);
         }
@@ -72,7 +86,7 @@ public class LoggerUtils {
         debug = isDebug;
     }
 
-    public static void setBuilder(boolean enable) {
-        LoggerUtils.ENABLE = enable;
+    public static void setBuilder(LogbackBuilder builder) {
+        LoggerUtils.builder = builder;
     }
 }

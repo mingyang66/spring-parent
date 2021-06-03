@@ -31,10 +31,11 @@ public class LogbackBuilder {
      * 日志文件名
      */
     public static final String LOGGER_NAME = "EMILY_LOGGER";
-    private static LogbackProperties properties;
 
-    public static void setAccessLog(LogbackProperties properties) {
-        LogbackBuilder.properties = properties;
+    private LogbackProperties properties;
+
+    public LogbackBuilder(LogbackProperties properties) {
+        this.properties = properties;
     }
 
     /**
@@ -42,7 +43,7 @@ public class LogbackBuilder {
      *
      * @return
      */
-    public static Logger getLogger() {
+    public Logger getLogger() {
         return getLogger(null, null);
     }
 
@@ -52,12 +53,16 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    public static Logger getLogger(String path, String fileName) {
-        String name;
+    public Logger getLogger(String path, String fileName) {
         /**
          * 判定是否是默认文件名
          */
         boolean defaultBool = !StringUtils.hasLength(path) && !StringUtils.hasLength(fileName);
+        /**
+         * logger对象name
+         */
+        String name;
+
         if (defaultBool) {
             name = LOGGER_NAME;
         } else {
@@ -89,7 +94,7 @@ public class LogbackBuilder {
      *
      * @return
      */
-    private static Logger builder(String name) {
+    protected Logger builder(String name) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
         Logger logger = loggerContext.getLogger(name);
@@ -127,15 +132,13 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    private static Logger builder(String name, String path, String fileName) {
+    protected Logger builder(String name, String path, String fileName) {
         if (StringUtils.hasLength(path)) {
             // 去除字符串开头斜杠/
             path = path.startsWith(File.separator) ? path.substring(1) : path;
             // 去除字符串末尾斜杠/
             path = path.endsWith(File.separator) ? path.substring(0, path.length() - 1) : path;
         }
-        //logger 属性name名称
-        //String name = String.join(".", name, path, fileName);
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
         //获取Info对应的appender对象

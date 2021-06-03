@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
 import com.emily.infrastructure.logback.builder.LogbackBuilder;
+import com.emily.infrastructure.logback.utils.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -29,9 +29,10 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean
     public LogbackBuilder logbackBuilder(LogbackProperties properties) {
-        LogbackBuilder.setAccessLog(properties);
-        LoggerUtils.setBuilder(true);
-        return new LogbackBuilder();
+        LogbackBuilder builder = new LogbackBuilder(properties);
+        //开启logback日志组件
+        LoggerUtils.setBuilder(builder);
+        return builder;
     }
 
     @Override

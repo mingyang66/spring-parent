@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.logback.utils.LoggerUtils;
-import com.emily.infrastructure.logback.builder.LogbackBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,8 @@ public class LogbackController {
 
     @GetMapping("debug")
     public String debug(){
-        LogbackBuilder.getLogger().debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
+        LoggerUtils.getLogger().debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
+        LoggerUtils.getLogger("emily", "smile").info("+++++++++++==ttttttttttttt");
         //LoggerUtils.builder.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug");
         LoggerUtils.warn(LogbackController.class,"shuai2 +++++++++++++++++++++++++++++++++++++warn");
         LoggerUtils.info(LogbackController.class,"shuai3 +++++++++++++++++++++++++++++++++++++info");

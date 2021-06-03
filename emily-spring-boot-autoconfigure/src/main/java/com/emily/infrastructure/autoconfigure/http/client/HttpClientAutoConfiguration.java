@@ -1,11 +1,11 @@
 package com.emily.infrastructure.autoconfigure.http.client;
 
 import com.emily.infrastructure.autoconfigure.http.HttpClientProperties;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
 import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
+import com.emily.infrastructure.logback.utils.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

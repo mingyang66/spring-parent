@@ -2,7 +2,6 @@ package com.emily.infrastructure.test.mapper;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.test.po.Node;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

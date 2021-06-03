@@ -2,9 +2,9 @@ package com.emily.infrastructure.autoconfigure.bean.factory;
 
 import com.emily.infrastructure.autoconfigure.http.HttpClientProperties;
 import com.emily.infrastructure.autoconfigure.http.client.HttpClientAutoConfiguration;
+import com.emily.infrastructure.autoconfigure.ratelimit.RateLimitAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties;
-import com.emily.infrastructure.autoconfigure.ratelimit.RateLimitAutoConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;

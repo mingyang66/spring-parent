@@ -11,7 +11,6 @@ import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
-import com.emily.infrastructure.logback.level.LogbackLevel;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -55,7 +54,7 @@ public class LogbackRollingFileAppender {
         LevelFilter levelFilter = levelController.getLevelFilter(level);
         levelFilter.start();
 
-        if (properties.isEnableSizeAndTimeRollingPolicy() && level.levelInt >= LogbackLevel.getNextLogLevel(properties.getLevel()).levelInt) {
+        if (properties.isEnableSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -91,7 +90,7 @@ public class LogbackRollingFileAppender {
 
             //设置文件归档策略
             appender.setRollingPolicy(policy);
-        } else if (level.levelInt >= LogbackLevel.getNextLogLevel(properties.getLevel()).levelInt) {
+        } else {
             //文件归档大小和时间设置
             TimeBasedRollingPolicy policy = new TimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

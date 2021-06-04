@@ -14,9 +14,9 @@ public class LogbackProperties {
      */
     private boolean enabled;
     /**
-     * 日志级别，ERROR > WARN > INFO > DEBUG, 默认：DEBUG
+     * 日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
      */
-    private String level = "DEBUG";
+    private Level level = Level.DEBUG;
     /**
      * 日志文件存放路径，默认是:./logs
      */
@@ -83,11 +83,11 @@ public class LogbackProperties {
         this.enabled = enabled;
     }
 
-    public String getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 
@@ -193,5 +193,18 @@ public class LogbackProperties {
 
     public void setAsyncNeverBlock(boolean asyncNeverBlock) {
         this.asyncNeverBlock = asyncNeverBlock;
+    }
+
+    /**
+     * OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     */
+    public enum Level {
+        OFF("OFF"), ERROR("ERROR"), WARN("WARN"), INFO("INFO"), DEBUG("DEBUG"), TRACE("TRACE"), ALL("ALL");
+
+        public String levelStr;
+
+        Level(String levelStr) {
+            this.levelStr = levelStr;
+        }
     }
 }

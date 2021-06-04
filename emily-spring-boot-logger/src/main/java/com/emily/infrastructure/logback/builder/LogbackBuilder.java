@@ -100,7 +100,7 @@ public class LogbackBuilder {
 
     /**
      * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      *
      * @return
      */
@@ -129,9 +129,9 @@ public class LogbackBuilder {
             logger.addAppender(appenderDebug);
             logger.addAppender(appenderTrace);
         }
-        logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(Level.toLevel(properties.getLevel())));
+        logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(Level.toLevel(properties.getLevel().levelStr)));
 
-        logger.setLevel(Level.toLevel(properties.getLevel()));
+        logger.setLevel(Level.toLevel(properties.getLevel().levelStr));
         return logger;
     }
 
@@ -165,10 +165,10 @@ public class LogbackBuilder {
             logger.addAppender(rollingFileAppenderInfo);
         }
         if (properties.isEnableModuleConsole()) {
-            logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(Level.toLevel(properties.getLevel())));
+            logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(Level.toLevel(properties.getLevel().levelStr)));
         }
 
-        logger.setLevel(Level.toLevel(properties.getLevel()));
+        logger.setLevel(Level.toLevel(properties.getLevel().levelStr));
         return logger;
     }
 

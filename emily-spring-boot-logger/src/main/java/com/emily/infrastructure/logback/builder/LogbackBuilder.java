@@ -30,7 +30,11 @@ public class LogbackBuilder {
     /**
      * 日志文件名
      */
-    public static final String LOGGER_NAME = "EMILY_LOGGER";
+    private static final String LOGGER_NAME = "EMILY_LOGGER";
+    /**
+     * 横线
+     */
+    private static final String CROSS_LINE = "-";
 
     private LogbackProperties properties;
 
@@ -55,37 +59,43 @@ public class LogbackBuilder {
      */
     public Logger getLogger(String path, String fileName) {
         /**
-         * 判定是否是默认文件名
-         */
-        boolean defaultBool = !StringUtils.hasLength(path) && !StringUtils.hasLength(fileName);
-        /**
          * logger对象name
          */
-        String name;
-
-        if (defaultBool) {
-            name = LOGGER_NAME;
+        String loggerName;
+        if (determineDefaultLoggerName(path, fileName)) {
+            loggerName = LOGGER_NAME;
         } else {
-            name = String.join(File.separator, path, fileName);
+            loggerName = String.join(CROSS_LINE, path, fileName);
         }
-        Logger logger = loggerCache.get(name);
+        Logger logger = loggerCache.get(loggerName);
         if (Objects.nonNull(logger)) {
             return logger;
         }
-        synchronized (LogbackBuilder.class) {
-            logger = loggerCache.get(name);
+        synchronized (this) {
+            logger = loggerCache.get(loggerName);
             if (Objects.nonNull(logger)) {
                 return logger;
             }
-            if (defaultBool) {
-                logger = builder(name);
+            if (determineDefaultLoggerName(path, fileName)) {
+                logger = builder(loggerName);
             } else {
-                logger = builder(name, path, fileName);
+                logger = builder(loggerName, path, fileName);
             }
-            loggerCache.put(name, logger);
+            loggerCache.put(loggerName, logger);
         }
         return logger;
 
+    }
+
+    /**
+     * 判定是否是默认Logger对象名称
+     *
+     * @param path     文件路径
+     * @param fileName 文件名
+     * @return 默认logger对象名 true
+     */
+    protected boolean determineDefaultLoggerName(String path, String fileName) {
+        return !(StringUtils.hasLength(path) && StringUtils.hasLength(fileName));
     }
 
     /**
@@ -154,7 +164,7 @@ public class LogbackBuilder {
         } else {
             logger.addAppender(rollingFileAppenderInfo);
         }
-        if (properties.isEnableModuleConsule()) {
+        if (properties.isEnableModuleConsole()) {
             logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(Level.toLevel(properties.getLevel())));
         }
 

@@ -50,7 +50,7 @@ public class LogbackProperties {
     /**
      * 是否将模块日志信息输出到控制台，默认false
      */
-    private boolean enableModuleConsule = false;
+    private boolean enableModuleConsole = false;
     /**
      * 是否启用日志异步记录Appender
      */
@@ -147,12 +147,12 @@ public class LogbackProperties {
         this.modulePattern = modulePattern;
     }
 
-    public boolean isEnableModuleConsule() {
-        return enableModuleConsule;
+    public boolean isEnableModuleConsole() {
+        return enableModuleConsole;
     }
 
-    public void setEnableModuleConsule(boolean enableModuleConsule) {
-        this.enableModuleConsule = enableModuleConsule;
+    public void setEnableModuleConsole(boolean enableModuleConsole) {
+        this.enableModuleConsole = enableModuleConsole;
     }
 
     public boolean isEnableAsyncAppender() {

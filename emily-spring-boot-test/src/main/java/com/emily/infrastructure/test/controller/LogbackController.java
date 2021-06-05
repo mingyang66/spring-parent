@@ -17,6 +17,7 @@ public class LogbackController {
 
     @GetMapping("debug")
     public String debug(){
+        LoggerUtils.getLogger("/11/22/ss/", "test").info("211112122");
         LoggerUtils.getLogger().debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
         LoggerUtils.getLogger("emily", "smile").info("+++++++++++==ttttttttttttt");
         //LoggerUtils.builder.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug");

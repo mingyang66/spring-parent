@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.rolling.RollingFileAppender;
+import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.appender.LogbackConsoleAppender;
@@ -59,13 +60,17 @@ public class LogbackBuilder {
      */
     public Logger getLogger(String path, String fileName) {
         /**
+         * 路径地址标准化
+         */
+        path = PathUtils.normalizePath(path);
+        /**
          * logger对象name
          */
         String loggerName;
         if (determineDefaultLoggerName(path, fileName)) {
             loggerName = LOGGER_NAME;
         } else {
-            loggerName = String.join(CROSS_LINE, path, fileName);
+            loggerName = String.join(File.separator, path, fileName);
         }
         Logger logger = loggerCache.get(loggerName);
         if (Objects.nonNull(logger)) {
@@ -137,7 +142,7 @@ public class LogbackBuilder {
 
     /**
      * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      *
      * @param fileName 日志文件名|模块名称
      * @return
@@ -147,7 +152,7 @@ public class LogbackBuilder {
             // 去除字符串开头斜杠/
             path = path.startsWith(File.separator) ? path.substring(1) : path;
             // 去除字符串末尾斜杠/
-            path = path.endsWith(File.separator) ? path.substring(0, path.length() - 1) : path;
+           // path = path.endsWith(File.separator) ? path.substring(0, path.length() - 1) : path;
         }
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);

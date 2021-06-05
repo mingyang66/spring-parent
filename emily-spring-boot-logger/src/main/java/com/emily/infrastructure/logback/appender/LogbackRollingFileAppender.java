@@ -11,7 +11,7 @@ import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -71,17 +71,17 @@ public class LogbackRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(String.join(File.separator,properties.getPath(),  path, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
+            String fp = OptionHelper.substVars(StringUtils.join(properties.getPath(), path, File.separator, fileName, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //最大日志文件大小 KB,MB,GB
-            if (!StringUtils.hasText(properties.getMaxFileSize())) {
+            if (StringUtils.isNotEmpty(properties.getMaxFileSize())) {
                 policy.setMaxFileSize(FileSize.valueOf(properties.getMaxFileSize()));
             }
             //设置要保留的最大存档文件数
             policy.setMaxHistory(properties.getMaxHistory());
             //文件总大小限制 KB,MB,G
-            if (!StringUtils.hasText(properties.getTotalSizeCap())) {
+            if (StringUtils.isNotEmpty(properties.getTotalSizeCap())) {
                 policy.setTotalSizeCap(FileSize.valueOf(properties.getTotalSizeCap()));
             }
             //设置父节点是appender
@@ -107,7 +107,7 @@ public class LogbackRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(String.join("", String.join(File.separator, properties.getPath(),  path, fileName), "%d{yyyy-MM-dd}.log"), loggerContext);
+            String fp = OptionHelper.substVars(StringUtils.join(properties.getPath(), path, File.separator, fileName, "%d{yyyy-MM-dd}.log"), loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //设置要保留的最大存档文件数
@@ -140,9 +140,9 @@ public class LogbackRollingFileAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);
         //appender的name属性
-        appender.setName("File"+name);
+        appender.setName("File" + name);
         //设置文件名
-        appender.setFile(OptionHelper.substVars(String.join("", String.join(File.separator, properties.getPath(), path, fileName), ".log"), loggerContext));
+        appender.setFile(OptionHelper.substVars(StringUtils.join(properties.getPath(), path, File.separator, fileName, ".log"), loggerContext));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         appender.setAppend(true);
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false

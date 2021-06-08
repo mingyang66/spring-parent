@@ -67,7 +67,7 @@ public class LogbackBuilder {
          * logger对象name
          */
         String loggerName;
-        if (determineDefaultLoggerName(path, fileName)) {
+        if (isDefaultLoggerName(path, fileName)) {
             loggerName = LOGGER_NAME;
         } else {
             loggerName = String.join(File.separator, path, fileName);
@@ -81,7 +81,7 @@ public class LogbackBuilder {
             if (Objects.nonNull(logger)) {
                 return logger;
             }
-            if (determineDefaultLoggerName(path, fileName)) {
+            if (isDefaultLoggerName(path, fileName)) {
                 logger = builder(loggerName);
             } else {
                 logger = builder(loggerName, path, fileName);
@@ -99,7 +99,7 @@ public class LogbackBuilder {
      * @param fileName 文件名
      * @return 默认logger对象名 true
      */
-    protected boolean determineDefaultLoggerName(String path, String fileName) {
+    protected boolean isDefaultLoggerName(String path, String fileName) {
         return !(StringUtils.hasLength(path) && StringUtils.hasLength(fileName));
     }
 

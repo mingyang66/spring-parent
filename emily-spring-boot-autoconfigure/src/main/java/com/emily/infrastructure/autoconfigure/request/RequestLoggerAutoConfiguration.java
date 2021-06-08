@@ -1,8 +1,8 @@
 package com.emily.infrastructure.autoconfigure.request;
 
 import com.emily.infrastructure.common.enums.AopOrderEnum;
-import com.emily.infrastructure.context.apilog.ApiLogMethodInterceptor;
-import com.emily.infrastructure.context.apilog.ApiLogThrowsAdvice;
+import com.emily.infrastructure.autoconfigure.request.interceptor.RequestLoggerMethodInterceptor;
+import com.emily.infrastructure.autoconfigure.request.interceptor.RequestLoggerThrowsAdvice;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
 import com.emily.infrastructure.logback.utils.LoggerUtils;
@@ -66,7 +66,7 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
      * @Version 1.0
      */
     @Bean(API_LOG_NORMAL_BEAN_NAME)
-    @ConditionalOnClass(ApiLogMethodInterceptor.class)
+    @ConditionalOnClass(RequestLoggerMethodInterceptor.class)
     public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -77,7 +77,7 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ApiLogMethodInterceptor(loggerService));
+        advisor.setAdvice(new RequestLoggerMethodInterceptor(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.API_LOG_NORMAL.getOrder());
         return advisor;
@@ -89,7 +89,7 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
      * @return
      */
     @Bean(API_LOG_EXCEPTION_BEAN_NAME)
-    @ConditionalOnClass(ApiLogThrowsAdvice.class)
+    @ConditionalOnClass(RequestLoggerThrowsAdvice.class)
     public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -100,7 +100,7 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ApiLogThrowsAdvice(loggerService));
+        advisor.setAdvice(new RequestLoggerThrowsAdvice(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.API_LOG_EXCEPTION.getOrder());
         return advisor;

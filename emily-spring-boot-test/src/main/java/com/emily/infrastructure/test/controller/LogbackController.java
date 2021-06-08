@@ -1,9 +1,9 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.logback.utils.LoggerUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.emily.infrastructure.test.po.Job;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: spring-parent
@@ -31,5 +31,9 @@ public class LogbackController {
         LoggerUtils.module(LogbackController.class, "test2", "tt2", "ni-----------------" + System.currentTimeMillis());
         LoggerUtils.module(LogbackController.class, "test2", "tt3", "ni-----------------" + System.currentTimeMillis());
         return "success";
+    }
+    @PostMapping("test")
+    public void test(@RequestBody Job job){
+        System.out.println(JSONUtils.toJSONPrettyString(job));
     }
 }

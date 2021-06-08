@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * HTTP自动跳转HTTPS自动化配置类
  * 生成证书命令：
- * keytool -genkey -alias michaelSpica  -storetype PKCS12 -keyalg RSA -keysize 2048  -keystore /Users/yaomingyang/Documents/IDE/workplace/security/keystore.p12 -validity 3650 -dname "CN=localhost, OU=localhost, O=localhost, L=SH, ST=SH, C=CN"
+ * keytool -genkey -alias michaelSpica  -storetype PKCS12 -keyalg RSA -keysize 2048  -keystore /Users/Emily/Documents/IDE/workplace/security/keystore.p12 -validity 3650 -dname "CN=localhost, OU=localhost, O=localhost, L=SH, ST=SH, C=CN"
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ServerProperties.class)

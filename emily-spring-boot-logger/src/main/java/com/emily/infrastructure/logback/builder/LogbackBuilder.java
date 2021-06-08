@@ -122,11 +122,12 @@ public class LogbackBuilder {
         //设置是否向上级打印信息
         logger.setAdditive(false);
         if (properties.isEnableAsyncAppender()) {
-            logger.addAppender(new LogbackAsyncAppender(loggerContext, properties).getAsyncAppender(appenderError));
-            logger.addAppender(new LogbackAsyncAppender(loggerContext, properties).getAsyncAppender(appenderWarn));
-            logger.addAppender(new LogbackAsyncAppender(loggerContext, properties).getAsyncAppender(appenderInfo));
-            logger.addAppender(new LogbackAsyncAppender(loggerContext, properties).getAsyncAppender(appenderDebug));
-            logger.addAppender(new LogbackAsyncAppender(loggerContext, properties).getAsyncAppender(appenderTrace));
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(loggerContext, properties);
+            logger.addAppender(asyncAppender.getAsyncAppender(appenderError));
+            logger.addAppender(asyncAppender.getAsyncAppender(appenderWarn));
+            logger.addAppender(asyncAppender.getAsyncAppender(appenderInfo));
+            logger.addAppender(asyncAppender.getAsyncAppender(appenderDebug));
+            logger.addAppender(asyncAppender.getAsyncAppender(appenderTrace));
         } else {
             logger.addAppender(appenderError);
             logger.addAppender(appenderWarn);

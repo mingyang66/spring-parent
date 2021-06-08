@@ -1,7 +1,7 @@
 package com.emily.infrastructure.context.request;
 
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.context.servlet.RequestWrapper;
+import com.emily.infrastructure.context.servlet.DelegateRequestWrapper;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 请求服务类
  * @create: 2020/11/23
@@ -23,8 +24,8 @@ public class RequestService {
      */
     public static Map<String, Object> getParameterMap(HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
-        if(request instanceof RequestWrapper){
-            RequestWrapper requestWrapper = (RequestWrapper) request;
+        if(request instanceof DelegateRequestWrapper){
+            DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
             Map<String, Object> body = RequestUtils.getParameterMap(requestWrapper.getRequestBody());
             if (!CollectionUtils.isEmpty(body)) {
                 paramMap.putAll(body);

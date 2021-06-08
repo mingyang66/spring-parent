@@ -3,14 +3,15 @@ package com.emily.infrastructure.context.filter;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.context.servlet.RequestWrapper;
+import com.emily.infrastructure.context.servlet.DelegateRequestWrapper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link RequestWrapper}
+ * @author Emily
+ * @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link DelegateRequestWrapper}
  * @create: 2020/8/19
  */
 public class RequestChannelFilter implements Filter {
@@ -23,7 +24,7 @@ public class RequestChannelFilter implements Filter {
         try {
             ServletRequest requestWrapper;
             if (request instanceof HttpServletRequest) {
-                requestWrapper = new RequestWrapper((HttpServletRequest) request);
+                requestWrapper = new DelegateRequestWrapper((HttpServletRequest) request);
                 chain.doFilter(requestWrapper, response);
             } else {
                 chain.doFilter(request, response);

@@ -13,7 +13,7 @@ spring:
   emily:
     logback:
       enabled: true
-      enable-size-and-time-rolling-policy: false
+      enable-size-and-time-rolling-policy: true
       #common-pattern: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n"
       # [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%d %p (%file:%line\\)] : %msg%n
       level: trace

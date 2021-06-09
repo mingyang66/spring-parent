@@ -54,9 +54,9 @@ public class LogbackRollingFileAppender {
         LevelFilter levelFilter = levelController.getLevelFilter(level);
         levelFilter.start();
         //日志文件路径
-        String loggerPath = StringUtils.join(properties.getPath(), path, File.separator, fileName);
+        String loggerPath = StringUtils.join(properties.getPath(), path, File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
         //appenderName
-        String appenderName = StringUtils.join("File", name);
+        String appenderName = StringUtils.join("File_", name);
         if (properties.isEnableSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();

@@ -8,7 +8,6 @@ import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -57,7 +56,7 @@ public class LogbackConsoleAppender {
         //设置格式
         encoder.setPattern(properties.getCommonPattern());
         //设置编码格式
-        encoder.setCharset(Charset.forName(StandardCharsets.UTF_8.name()));
+        encoder.setCharset(StandardCharsets.UTF_8);
         encoder.start();
 
         //添加过滤器

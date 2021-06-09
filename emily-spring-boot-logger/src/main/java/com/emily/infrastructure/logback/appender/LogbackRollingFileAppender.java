@@ -14,7 +14,6 @@ import com.emily.infrastructure.logback.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -136,7 +135,7 @@ public class LogbackRollingFileAppender {
             encoder.setPattern(properties.getModulePattern());
         }
         //设置编码格式
-        encoder.setCharset(Charset.forName(StandardCharsets.UTF_8.name()));
+        encoder.setCharset(StandardCharsets.UTF_8);
         encoder.start();
 
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

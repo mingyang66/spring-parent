@@ -78,9 +78,9 @@ public class LogbackBuilder {
                 return logger;
             }
             if (isDefaultLoggerName(path, fileName)) {
-                logger = builder(loggerName);
+                logger = builder(cls, loggerName);
             } else {
-                logger = builder(loggerName, path, fileName);
+                logger = builder(cls, loggerName, path, fileName);
             }
             loggerCache.put(loggerName, logger);
         }
@@ -105,7 +105,7 @@ public class LogbackBuilder {
      *
      * @return
      */
-    protected Logger builder(String name) {
+    protected Logger builder(Class cls, String name) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(name);
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
@@ -160,7 +160,7 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    protected Logger builder(String name, String path, String fileName) {
+    protected Logger builder(Class cls, String name, String path, String fileName) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(name);
         /**

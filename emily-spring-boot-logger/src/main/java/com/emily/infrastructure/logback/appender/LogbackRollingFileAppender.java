@@ -50,6 +50,7 @@ public class LogbackRollingFileAppender {
 
         //过滤器设置
         LogbackFilter levelController = new LogbackFilter();
+        //获取过滤器
         LevelFilter levelFilter = levelController.getLevelFilter(level);
         levelFilter.start();
         //日志文件路径

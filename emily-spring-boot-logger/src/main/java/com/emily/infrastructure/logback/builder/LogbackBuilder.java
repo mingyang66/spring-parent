@@ -147,9 +147,10 @@ public class LogbackBuilder {
                 logger.addAppender(rollingFileAppender.getRollingFileAppender(name, null, Level.TRACE.levelStr.toLowerCase(), Level.TRACE));
             }
         }
-        logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(Level.toLevel(properties.getLevel().levelStr)));
-
-        logger.setLevel(Level.toLevel(properties.getLevel().levelStr));
+        // 添加控制台appender
+        logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
+        // 设置日志级别
+        logger.setLevel(level);
         return logger;
     }
 
@@ -206,9 +207,10 @@ public class LogbackBuilder {
             }
         }
         if (properties.isEnableModuleConsole()) {
+            // 添加控制台appender
             logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
         }
-
+        // 设置日志级别
         logger.setLevel(level);
         return logger;
     }

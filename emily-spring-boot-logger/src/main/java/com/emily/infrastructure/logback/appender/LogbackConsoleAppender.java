@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.ThresholdFilter;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
@@ -36,7 +37,7 @@ public class LogbackConsoleAppender {
     public ConsoleAppender getConsoleAppender(Level level) {
 
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        ConsoleAppender appender = new ConsoleAppender();
+        ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
 
         //这里设置级别过滤器
         ThresholdFilter levelFilter = LogbackFilter.getThresholdLevelFilter(level);
@@ -46,7 +47,7 @@ public class LogbackConsoleAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);
         //appender的name属性
-        appender.setName("CONSOLE");
+        appender.setName("console");
 
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

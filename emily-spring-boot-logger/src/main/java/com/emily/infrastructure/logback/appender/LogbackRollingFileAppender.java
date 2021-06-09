@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.LevelFilter;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
@@ -46,7 +47,7 @@ public class LogbackRollingFileAppender {
      */
     public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        RollingFileAppender appender = new RollingFileAppender();
+        RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
 
         //获取过滤器
         LevelFilter levelFilter = LogbackFilter.getLevelFilter(level);

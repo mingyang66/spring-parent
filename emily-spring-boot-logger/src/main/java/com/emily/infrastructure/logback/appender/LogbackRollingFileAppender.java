@@ -48,10 +48,8 @@ public class LogbackRollingFileAppender {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender appender = new RollingFileAppender();
 
-        //过滤器设置
-        LogbackFilter levelController = new LogbackFilter();
         //获取过滤器
-        LevelFilter levelFilter = levelController.getLevelFilter(level);
+        LevelFilter levelFilter = LogbackFilter.getLevelFilter(level);
         levelFilter.start();
         //日志文件路径
         String loggerPath = StringUtils.join(properties.getPath(), path, File.separator, level.levelStr.toLowerCase(), File.separator, fileName);

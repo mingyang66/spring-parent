@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description: 拦截器属性配置类
  * @create: 2020/03/19
  */
-@ConfigurationProperties(prefix = "spring.emily.request.logger")
+@ConfigurationProperties(prefix = "spring.emily.request.logback")
 public class RequestLoggerProperties {
     /**
      * 组件开关

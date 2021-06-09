@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(RequestLoggerProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.request.logger", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.emily.request.logback", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RequestLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String API_LOG_NORMAL_BEAN_NAME = "requestLoggerNormalPointCutAdvice";
@@ -44,10 +44,10 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
             "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
-    private RequestLoggerProperties apiLogProperties;
+    private RequestLoggerProperties requestLoggerProperties;
 
-    public RequestLoggerAutoConfiguration(RequestLoggerProperties apiLogProperties) {
-        this.apiLogProperties = apiLogProperties;
+    public RequestLoggerAutoConfiguration(RequestLoggerProperties requestLoggerProperties) {
+        this.requestLoggerProperties = requestLoggerProperties;
     }
 
     /**
@@ -113,7 +113,7 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.setDebug(apiLogProperties.isDebug());
+        LoggerUtils.setDebug(requestLoggerProperties.isDebug());
         LoggerUtils.info(RequestLoggerAutoConfiguration.class, "==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 }

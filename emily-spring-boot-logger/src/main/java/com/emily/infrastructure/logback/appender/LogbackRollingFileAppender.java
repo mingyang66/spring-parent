@@ -39,12 +39,12 @@ public class LogbackRollingFileAppender {
     /**
      * 获取按照时间归档文件附加器对象
      *
-     * @param name     appender属性name
+     * @param appenderName     appender属性name
      * @param fileName 文件名
      * @param level    过滤日志级别
      * @return
      */
-    public RollingFileAppender getRollingFileAppender(String name, String path, String fileName, Level level) {
+    public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender appender = new RollingFileAppender();
 
@@ -55,7 +55,7 @@ public class LogbackRollingFileAppender {
         //日志文件路径
         String loggerPath = StringUtils.join(properties.getPath(), path, File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
         //appenderName
-        String appenderName = StringUtils.join("File_", name);
+        appenderName = StringUtils.join("File_", appenderName);
         if (properties.isEnableSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();

@@ -44,8 +44,8 @@ public class LogbackBuilder {
      *
      * @return
      */
-    public Logger getLogger() {
-        return getLogger(null, null);
+    public Logger getLogger(Class cls) {
+        return getLogger(cls, null, null);
     }
 
     /**
@@ -54,7 +54,7 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    public Logger getLogger(String path, String fileName) {
+    public Logger getLogger(Class cls, String path, String fileName) {
         /**
          * 路径地址标准化
          */

@@ -17,14 +17,14 @@ public class LogbackController {
 
     @GetMapping("debug")
     public String debug(){
-        LoggerUtils.getLogger("66/12/34", "test").error("211112122");
+        LoggerUtils.getLogger(LogbackController.class,"66/12/34", "test").error("211112122");
        // LoggerUtils.getLogger("/11/22/ss/", "test").info("211112122");
-        LoggerUtils.getLogger().debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
-        LoggerUtils.getLogger("emily", "smile").error("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger("emily", "smile").debug("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger("emily", "smile").info("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger("emily", "smile").warn("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger("emily", "smile").trace("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
+        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").error("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").debug("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").info("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").warn("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").trace("+++++++++++==ttttttttttttt");
         //LoggerUtils.builder.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug");
         LoggerUtils.warn(LogbackController.class,"shuai2 +++++++++++++++++++++++++++++++++++++warn");
         LoggerUtils.info(LogbackController.class,"shuai3 +++++++++++++++++++++++++++++++++++++info");

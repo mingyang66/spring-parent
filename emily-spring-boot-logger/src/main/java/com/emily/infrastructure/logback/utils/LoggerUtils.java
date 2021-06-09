@@ -22,17 +22,17 @@ public class LoggerUtils {
      */
     private static LogbackBuilder builder;
 
-    public static Logger getLogger() {
-        return builder.getLogger();
+    public static <T> Logger getLogger(Class<T> clazz) {
+        return builder.getLogger(clazz);
     }
 
-    public static Logger getLogger(String path, String fileName) {
-        return builder.getLogger(path, fileName);
+    public static <T> Logger getLogger(Class<T> clazz, String path, String fileName) {
+        return builder.getLogger(clazz, path, fileName);
     }
 
     public static <T> void info(Class<T> clazz, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger().info(msg);
+            builder.getLogger(clazz).info(msg);
         } else {
             LoggerFactory.getLogger(clazz).info(msg);
         }
@@ -40,7 +40,7 @@ public class LoggerUtils {
 
     public static <T> void warn(Class<T> clazz, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger().warn(msg);
+            builder.getLogger(clazz).warn(msg);
         } else {
             LoggerFactory.getLogger(clazz).warn(msg);
         }
@@ -48,7 +48,7 @@ public class LoggerUtils {
 
     public static <T> void debug(Class<T> clazz, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger().debug(msg);
+            builder.getLogger(clazz).debug(msg);
         } else {
             LoggerFactory.getLogger(clazz).debug(msg);
         }
@@ -56,7 +56,7 @@ public class LoggerUtils {
 
     public static <T> void error(Class<T> clazz, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger().error(msg);
+            builder.getLogger(clazz).error(msg);
         } else {
             LoggerFactory.getLogger(clazz).error(msg);
         }
@@ -64,7 +64,7 @@ public class LoggerUtils {
 
     public static <T> void trace(Class<T> clazz, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger().trace(msg);
+            builder.getLogger(clazz).trace(msg);
         } else {
             LoggerFactory.getLogger(clazz).trace(msg);
         }
@@ -72,7 +72,7 @@ public class LoggerUtils {
 
     public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger(path, fileName).info(msg);
+            builder.getLogger(clazz, path, fileName).info(msg);
         } else {
             LoggerFactory.getLogger(clazz).info(msg);
         }

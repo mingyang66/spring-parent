@@ -32,10 +32,6 @@ public class LogbackBuilder {
      * 日志文件名
      */
     private static final String LOGGER_NAME = "EMILY_LOGGER";
-    /**
-     * 横线
-     */
-    private static final String CROSS_LINE = "-";
 
     private LogbackProperties properties;
 

@@ -6,9 +6,11 @@ import com.emily.infrastructure.common.exception.BusinessException;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -425,5 +427,21 @@ public class DateUtils {
         }
         Date dateStr = parseDate(String.valueOf(date), originFormat);
         return DateFormatUtils.format(dateStr, format);
+    }
+
+    /**
+     * 计算两个日期的时间间隔
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return
+     */
+    public static Duration between(LocalDateTime startDate, LocalDateTime endDate){
+        if(Objects.isNull(startDate)){
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "参数不可以为空");
+        }
+        if(Objects.isNull(startDate)){
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "参数不可以为空");
+        }
+        return Duration.between(startDate, endDate);
     }
 }

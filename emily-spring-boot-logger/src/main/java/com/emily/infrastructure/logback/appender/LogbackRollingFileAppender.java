@@ -10,6 +10,7 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
+import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +56,7 @@ public class LogbackRollingFileAppender {
         //日志文件路径
         String loggerPath = StringUtils.join(properties.getPath(), path, File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
         //appenderName
-        appenderName = StringUtils.join("File_", appenderName);
+        appenderName = StringUtils.join("File_", appenderName, CharacterUtils.LINE_THROUGH_BOTTOM, level.levelStr);
         if (properties.isEnableSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();

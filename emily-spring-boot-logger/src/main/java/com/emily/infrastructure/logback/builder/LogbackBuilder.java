@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Emily
  * @program: spring-parent
- * @description: 日志类
+ * @description: 日志类 logback+slf4j
  * @create: 2020/08/04
  */
 public class LogbackBuilder {

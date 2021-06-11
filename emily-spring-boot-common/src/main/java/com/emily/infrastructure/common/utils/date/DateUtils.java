@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -431,17 +431,150 @@ public class DateUtils {
 
     /**
      * 计算两个日期的时间间隔
+     *
      * @param startDate 开始日期
-     * @param endDate 结束日期
+     * @param endDate   结束日期
      * @return
      */
-    public static Duration between(LocalDateTime startDate, LocalDateTime endDate){
-        if(Objects.isNull(startDate)){
+    public static Duration between(LocalDateTime startDate, LocalDateTime endDate) {
+        if (Objects.isNull(startDate)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "参数不可以为空");
         }
-        if(Objects.isNull(startDate)){
+        if (Objects.isNull(startDate)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "参数不可以为空");
         }
         return Duration.between(startDate, endDate);
     }
+
+    /**
+     * 获取指定日期的月份的第一天
+     *
+     * @param localDate 日期
+     * @return
+     */
+    public static LocalDate firstDayOfMonth(LocalDate localDate) {
+        if (Objects.isNull(localDate)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return localDate.with(TemporalAdjusters.firstDayOfMonth());
+    }
+
+    /**
+     * 获取指定日期的月份的第一天
+     *
+     * @param localDate 日期
+     * @param month     向前推 month>0 向后推<0
+     * @return
+     */
+    public static LocalDate firstDayOfMonth(LocalDate localDate, int month) {
+        if (Objects.isNull(localDate)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (month == 0) {
+            return localDate.with(TemporalAdjusters.firstDayOfMonth());
+        } else if (month < 0) {
+            return localDate.minusMonths(-month).with(TemporalAdjusters.firstDayOfMonth());
+        } else {
+            return localDate.plusMonths(month).with(TemporalAdjusters.firstDayOfMonth());
+        }
+    }
+
+    /**
+     * 获取指定日期的月份的第一天
+     *
+     * @param localDate 日期
+     * @return
+     */
+    public static LocalDate firstDayOfMonth(LocalDateTime localDateTime) {
+        if (Objects.isNull(localDateTime)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
+    }
+
+    /**
+     * 获取指定日期的月份的第一天
+     *
+     * @param localDate 日期
+     * @param month     向前推 month>0 向后推<0
+     * @return
+     */
+    public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
+        if (Objects.isNull(localDateTime)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (month == 0) {
+            return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
+        } else if (month < 0) {
+            return localDateTime.minusMonths(-month).with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
+        } else {
+            return localDateTime.plusMonths(month).with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
+        }
+    }
+    /**
+     * 获取指定日期的月份的最后一天
+     *
+     * @param localDate 日期
+     * @return
+     */
+    public static LocalDate lastDayOfMonth(LocalDate localDate) {
+        if (Objects.isNull(localDate)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return localDate.with(TemporalAdjusters.lastDayOfMonth());
+    }
+
+    /**
+     * 获取指定日期的月份的最后一天
+     *
+     * @param localDate 日期
+     * @param month     向前推 month>0 向后推<0
+     * @return
+     */
+    public static LocalDate lastDayOfMonth(LocalDate localDate, int month) {
+        if (Objects.isNull(localDate)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (month == 0) {
+            return localDate.with(TemporalAdjusters.lastDayOfMonth());
+        } else if (month < 0) {
+            return localDate.minusMonths(-month).with(TemporalAdjusters.lastDayOfMonth());
+        } else {
+            return localDate.plusMonths(month).with(TemporalAdjusters.lastDayOfMonth());
+        }
+    }
+
+    /**
+     * 获取指定日期的月份的最后一天
+     *
+     * @param localDate 日期
+     * @return
+     */
+    public static LocalDate lastDayOfMonth(LocalDateTime localDateTime) {
+        if (Objects.isNull(localDateTime)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
+    }
+
+    /**
+     * 获取指定日期的月份的最后一天
+     *
+     * @param localDate 日期
+     * @param month     向前推 month>0 向后推<0
+     * @return
+     */
+    public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
+        if (Objects.isNull(localDateTime)) {
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "日期参数不可以为空");
+        }
+        if (month == 0) {
+            return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
+        } else if (month < 0) {
+            return localDateTime.minusMonths(-month).with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
+        } else {
+            return localDateTime.plusMonths(month).with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
+        }
+    }
+
 }

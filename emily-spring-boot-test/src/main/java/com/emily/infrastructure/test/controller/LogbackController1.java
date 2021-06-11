@@ -21,6 +21,7 @@ public class LogbackController1 {
         LoggerUtils.warn(LogbackController1.class, "shuai2 +++++++++++++++++++++++++++++++++++++warn");
         LoggerUtils.info(LogbackController1.class, "shuai3 +++++++++++++++++++++++++++++++++++++info");
         LoggerUtils.error(LogbackController1.class, "shuai4 +++++++++++++++++++++++++++++++++++++error");
+        LoggerUtils.trace(LogbackController1.class, "shuai5 +++++++++++++++++++++++++++++++++++++trace");
         /*LoggerUtils.module(LogbackController1.class, "test1", "tt0", "ni-----------------" + System.currentTimeMillis());
         LoggerUtils.module(LogbackController1.class, "test1", "tt1", "ni-----------------" + System.currentTimeMillis());
         LoggerUtils.module(LogbackController1.class, "test2", "tt2", "ni-----------------" + System.currentTimeMillis());

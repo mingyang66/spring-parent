@@ -218,3 +218,13 @@ http://127.0.0.1:8500/v1/agent/checks
 http://127.0.0.1:8500/v1/agent/service/deregister/instance-id(实例ID)
 ```
 
+##### IDEA快捷键
+
+- 查询类的所有方法：
+
+  ```
+  F+command+F12
+  ```
+
+  
+

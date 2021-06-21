@@ -17,23 +17,18 @@ public class LogbackController {
 
     @GetMapping("debug")
     public String debug(){
-        LoggerUtils.getLogger(LogbackController.class,"66/12/34", "test").error("211112122");
-       // LoggerUtils.getLogger("/11/22/ss/", "test").info("211112122");
-        LoggerUtils.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug\"");
-        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").error("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").debug("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").info("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").warn("+++++++++++==ttttttttttttt");
-        LoggerUtils.getLogger(LogbackController.class,"emily", "smile").trace("+++++++++++==ttttttttttttt");
-        //LoggerUtils.builder.getLogger(LogbackController.class).debug("shuai1 +++++++++++++++++++++++++++++++++++++debug");
+        LoggerUtils.getLogger("66/12/34", "test").error("211112122");
+        LoggerUtils.getLogger("emily", "smile").error("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger("emily", "smile").debug("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger("emily", "smile").info("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger("emily", "smile").warn("+++++++++++==ttttttttttttt");
+        LoggerUtils.getLogger("emily", "smile").trace("+++++++++++==ttttttttttttt");
         LoggerUtils.warn(LogbackController.class,"shuai2 +++++++++++++++++++++++++++++++++++++warn");
         LoggerUtils.info(LogbackController.class,"shuai3 +++++++++++++++++++++++++++++++++++++info");
         LoggerUtils.error(LogbackController.class,"shuai4 +++++++++++++++++++++++++++++++++++++error");
         LoggerUtils.trace(LogbackController.class,"shuai5 +++++++++++++++++++++++++++++++++++++trace");
         LoggerUtils.module(LogbackController.class, "test1", "tt0", "ni-----------------" + System.currentTimeMillis());
-        //LoggerUtils.module(LogbackController.class, "test1", "tt1", "ni-----------------" + System.currentTimeMillis());
-        //LoggerUtils.module(LogbackController.class, "test2", "tt2", "ni-----------------" + System.currentTimeMillis());
-        //LoggerUtils.module(LogbackController.class, "test2", "tt3", "ni-----------------" + System.currentTimeMillis());
+
         return "success";
     }
     @PostMapping("test")

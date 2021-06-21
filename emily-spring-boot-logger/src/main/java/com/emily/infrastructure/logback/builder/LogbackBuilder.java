@@ -28,10 +28,6 @@ public class LogbackBuilder {
      * Logger对象容器
      */
     private static final Map<String, Logger> loggerCache = new ConcurrentHashMap<>();
-    /**
-     * 日志文件名
-     */
-    private static final String LOGGER_NAME = "EMILY_LOGGER";
 
     private LogbackProperties properties;
 
@@ -44,8 +40,8 @@ public class LogbackBuilder {
      *
      * @return
      */
-    public Logger getLogger(Class cls) {
-        return getLogger(cls, null, null);
+    public Logger getLogger() {
+        return getLogger(null, null);
     }
 
     /**
@@ -54,7 +50,7 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    public Logger getLogger(Class cls, String path, String fileName) {
+    public Logger getLogger(String path, String fileName) {
         /**
          * 路径地址标准化
          */
@@ -64,7 +60,7 @@ public class LogbackBuilder {
          */
         String loggerName;
         if (isDefaultLoggerName(path, fileName)) {
-            loggerName = LOGGER_NAME;
+            loggerName = Logger.ROOT_LOGGER_NAME;
         } else {
             loggerName = String.join(File.separator, path, fileName);
         }
@@ -78,9 +74,9 @@ public class LogbackBuilder {
                 return logger;
             }
             if (isDefaultLoggerName(path, fileName)) {
-                logger = builder(cls, loggerName);
+                logger = builder(loggerName);
             } else {
-                logger = builder(cls, loggerName, path, fileName);
+                logger = builder(loggerName, path, fileName);
             }
             loggerCache.put(loggerName, logger);
         }
@@ -105,9 +101,9 @@ public class LogbackBuilder {
      *
      * @return
      */
-    protected Logger builder(Class cls, String name) {
+    protected Logger builder(String name) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        Logger logger = loggerContext.getLogger(name);
+        Logger logger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
         //设置是否向上级打印信息
         logger.setAdditive(false);
@@ -161,7 +157,7 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    protected Logger builder(Class cls, String name, String path, String fileName) {
+    protected Logger builder(String name, String path, String fileName) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(name);
         /**

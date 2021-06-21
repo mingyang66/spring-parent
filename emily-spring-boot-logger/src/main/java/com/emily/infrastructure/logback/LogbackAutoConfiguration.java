@@ -30,7 +30,9 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     @ConditionalOnMissingBean
     public LogbackBuilder logbackBuilder(LogbackProperties properties) {
         LogbackBuilder builder = new LogbackBuilder(properties);
-        //开启logback日志组件
+        // 对通用日志进行初始化
+        builder.getLogger();
+        // 开启logback日志组件
         LoggerUtils.setBuilder(builder);
         return builder;
     }

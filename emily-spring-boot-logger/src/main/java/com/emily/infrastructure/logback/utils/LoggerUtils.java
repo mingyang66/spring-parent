@@ -22,57 +22,33 @@ public class LoggerUtils {
      */
     private static LogbackBuilder builder;
 
-    public static <T> Logger getLogger(Class<T> clazz) {
-        return builder.getLogger(clazz);
-    }
-
-    public static <T> Logger getLogger(Class<T> clazz, String path, String fileName) {
-        return builder.getLogger(clazz, path, fileName);
+    public static <T> Logger getLogger(String path, String fileName) {
+        return builder.getLogger(path, fileName);
     }
 
     public static <T> void info(Class<T> clazz, String msg) {
-        if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz).info(msg);
-        } else {
-            LoggerFactory.getLogger(clazz).info(msg);
-        }
+        LoggerFactory.getLogger(clazz).info(msg);
     }
 
     public static <T> void warn(Class<T> clazz, String msg) {
-        if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz).warn(msg);
-        } else {
-            LoggerFactory.getLogger(clazz).warn(msg);
-        }
+        LoggerFactory.getLogger(clazz).warn(msg);
     }
 
     public static <T> void debug(Class<T> clazz, String msg) {
-        if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz).debug(msg);
-        } else {
-            LoggerFactory.getLogger(clazz).debug(msg);
-        }
+        LoggerFactory.getLogger(clazz).debug(msg);
     }
 
     public static <T> void error(Class<T> clazz, String msg) {
-        if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz).error(msg);
-        } else {
-            LoggerFactory.getLogger(clazz).error(msg);
-        }
+        LoggerFactory.getLogger(clazz).error(msg);
     }
 
     public static <T> void trace(Class<T> clazz, String msg) {
-        if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz).trace(msg);
-        } else {
-            LoggerFactory.getLogger(clazz).trace(msg);
-        }
+        LoggerFactory.getLogger(clazz).trace(msg);
     }
 
     public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger(clazz, path, fileName).info(msg);
+            builder.getLogger(path, fileName).info(msg);
         } else {
             LoggerFactory.getLogger(clazz).info(msg);
         }

@@ -41,7 +41,7 @@ public class LogbackBuilder {
      * @return
      */
     public Logger getLogger() {
-        return getLogger(null, null);
+        return getLogger(null, null, null);
     }
 
     /**
@@ -50,7 +50,7 @@ public class LogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    public Logger getLogger(String path, String fileName) {
+    public Logger getLogger(Class cls, String path, String fileName) {
         /**
          * 路径地址标准化
          */
@@ -62,7 +62,7 @@ public class LogbackBuilder {
         if (isDefaultLoggerName(path, fileName)) {
             loggerName = Logger.ROOT_LOGGER_NAME;
         } else {
-            loggerName = String.join(File.separator, path, fileName);
+            loggerName = cls.getName();
         }
         Logger logger = loggerCache.get(loggerName);
         if (Objects.nonNull(logger)) {

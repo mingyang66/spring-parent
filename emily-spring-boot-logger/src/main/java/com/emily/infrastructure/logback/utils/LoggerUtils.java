@@ -22,8 +22,8 @@ public class LoggerUtils {
      */
     private static LogbackBuilder builder;
 
-    public static <T> Logger getLogger(String path, String fileName) {
-        return builder.getLogger(path, fileName);
+    public static <T> Logger getLogger(Class cls, String path, String fileName) {
+        return builder.getLogger(cls, path, fileName);
     }
 
     public static <T> void info(Class<T> clazz, String msg) {
@@ -48,7 +48,7 @@ public class LoggerUtils {
 
     public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
         if (Objects.nonNull(builder)) {
-            builder.getLogger(path, fileName).info(msg);
+            builder.getLogger(clazz, path, fileName).info(msg);
         } else {
             LoggerFactory.getLogger(clazz).info(msg);
         }

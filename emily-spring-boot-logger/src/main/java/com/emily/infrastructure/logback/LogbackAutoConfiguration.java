@@ -1,5 +1,6 @@
 package com.emily.infrastructure.logback;
 
+import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logback.builder.LogbackBuilder;
 import com.emily.infrastructure.logback.utils.LoggerUtils;
 import org.springframework.beans.factory.DisposableBean;
@@ -30,8 +31,8 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     @ConditionalOnMissingBean
     public LogbackBuilder logbackBuilder(LogbackProperties properties) {
         LogbackBuilder builder = new LogbackBuilder(properties);
-        // 对通用日志进行初始化
-        builder.getLogger();
+        // 通用Root日志进行初始化
+        builder.getRootLogger(Logger.ROOT_LOGGER_NAME);
         // 开启logback日志组件
         LoggerUtils.setBuilder(builder);
         return builder;

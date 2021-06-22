@@ -65,7 +65,7 @@ public class LogbackBuilder {
     }
 
     /**
-     * 构建Logger对象
+     * 构建RootLogger对象，需在配置类中主动调用进行初始化
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      * @param appenderName
      * @return

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-parent</artifactId>
-        <groupId>com.emily.framework</groupId>
+        <groupId>com.emily.infrastructure</groupId>
         <version>2.4.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -22,12 +22,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.emily.framework</groupId>
+            <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
             <version>2.4.7</version>
         </dependency>
         <dependency>
-            <groupId>com.emily.framework</groupId>
+            <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-cloud-starter</artifactId>
             <version>2.4.7</version>
         </dependency>

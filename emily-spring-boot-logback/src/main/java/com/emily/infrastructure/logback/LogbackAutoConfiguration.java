@@ -27,12 +27,10 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     /**
      * AccessLog对象
      */
-    @Bean
+    @Bean(initMethod = "initRootLogger")
     @ConditionalOnMissingBean
     public LogbackBuilder logbackBuilder(LogbackProperties properties) {
         LogbackBuilder builder = new LogbackBuilder(properties);
-        // 通用Root日志进行初始化
-        builder.getRootLogger(Logger.ROOT_LOGGER_NAME);
         // 开启logback日志组件
         LoggerUtils.setBuilder(builder);
         return builder;

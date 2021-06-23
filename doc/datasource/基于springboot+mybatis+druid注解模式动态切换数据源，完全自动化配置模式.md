@@ -7,7 +7,7 @@
 ##### 一、创建基于AbstractRoutingDataSource抽象类动态切换数据源的实现类
 
 ```java
-package com.emily.framework.datasource.context;
+package com.emily.infrastructure.datasource.context;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -74,7 +74,7 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
 ##### 二、创建持有当前线程上下文数据源标识类
 
 ```java
-package com.emily.framework.datasource.context;
+package com.emily.infrastructure.datasource.context;
 
 /**
  * @Description: 线程持有数据源上线文
@@ -126,13 +126,13 @@ public @interface TargetDataSource {
 ##### 四、创建一个AOP切面类，根据注解标注的数据源标识动态的切换数据源
 
 ```java
-package com.emily.framework.datasource.interceptor;
+package com.emily.infrastructure.datasource.interceptor;
 
-import com.emily.framework.common.exception.PrintExceptionInfo;
-import com.emily.framework.datasource.DataSourceProperties;
-import com.emily.framework.datasource.annotation.TargetDataSource;
-import com.emily.framework.datasource.context.DataSourceContextHolder;
-import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.datasource.DataSourceProperties;
+import com.emily.infrastructure.datasource.annotation.TargetDataSource;
+import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
+import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -188,7 +188,7 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
 ##### 五、创建一个自动化属性配置类，多个数据源可以按照配置类指定的模式配置
 
 ```java
-package com.emily.framework.datasource;
+package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -254,16 +254,16 @@ public class DataSourceProperties {
 ##### 六、创建一个自动化配置类，IOC容器启动时自动的将属性配置中数据库配置注入到多数据源对象
 
 ```java
-package com.emily.framework.datasource;
+package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.emily.framework.common.enums.AopOrderEnum;
-import com.emily.framework.common.enums.AppHttpStatus;
-import com.emily.framework.common.exception.BusinessException;
-import com.emily.framework.autoconfigure.logger.common.LoggerUtils;
-import com.emily.framework.datasource.context.DynamicMultipleDataSources;
-import com.emily.framework.datasource.interceptor.DataSourceMethodInterceptor;
+import com.emily.infrastructure.common.enums.AopOrderEnum;
+import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
+import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
+import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -296,7 +296,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
-    private static final String DEFAULT_POINT_CUT = "@annotation(com.emily.framework.datasource.annotation.TargetDataSource)";
+    private static final String DEFAULT_POINT_CUT = "@annotation(com.emily.infrastructure.datasource.annotation.TargetDataSource)";
 
     /**
      * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的

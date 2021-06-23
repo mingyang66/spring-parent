@@ -11,7 +11,7 @@
     </parent>
     <modules>
         <module>emily-spring-boot-common</module>
-        <module>emily-spring-boot-logger</module>
+        <module>emily-spring-boot-logback</module>
         <module>emily-spring-boot-context</module>
         <module>emily-spring-boot-autoconfigure</module>
         <module>emily-spring-boot-datasource</module>
@@ -28,7 +28,7 @@
         <module>spring-boot-control-rabbitmq-service</module>
         <module>emily-spring-boot-test</module>
     </modules>
-    <groupId>com.emily.framework</groupId>
+    <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
     <version>2.4.7</version>
     <name>spring-parent</name>

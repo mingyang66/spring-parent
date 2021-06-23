@@ -67,10 +67,9 @@ public class LogbackBuilder {
     /**
      * 构建RootLogger对象，需在配置类中主动调用进行初始化
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
-     * @param appenderName
-     * @return
      */
-    public Logger getRootLogger(String appenderName) {
+    protected void initRootLogger() {
+        String appenderName = Logger.ROOT_LOGGER_NAME;
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
@@ -116,7 +115,6 @@ public class LogbackBuilder {
         logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
         // 设置日志级别
         logger.setLevel(level);
-        return logger;
     }
 
     /**

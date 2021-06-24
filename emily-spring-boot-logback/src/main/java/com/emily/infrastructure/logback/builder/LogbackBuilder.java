@@ -42,6 +42,17 @@ public class LogbackBuilder {
      * @return
      */
     public Logger getLogger(Class cls, String path, String fileName) {
+        return getLogger(cls, path, fileName, false);
+    }
+
+    /**
+     * 获取日志输出对象
+     *
+     * @param fileName 日志文件名|模块名称
+     * @param isModule 是否是模块|分组日志
+     * @return
+     */
+    public Logger getLogger(Class cls, String path, String fileName, boolean isModule) {
         // 日志文件路径
         path = PathUtils.normalizePath(path);
         //logger对象name
@@ -55,7 +66,12 @@ public class LogbackBuilder {
             if (Objects.nonNull(logger)) {
                 return logger;
             }
-            logger = builder(loggerName, path, fileName);
+            if (isModule) {
+                logger = builderModule(loggerName, path, fileName);
+            } else {
+                logger = builder(loggerName, path, fileName);
+
+            }
             loggerCache.put(loggerName, logger);
         }
         return logger;
@@ -176,5 +192,40 @@ public class LogbackBuilder {
         return logger;
     }
 
-
+    /**
+     * 构建Logger对象
+     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     *
+     * @param fileName 日志文件名|模块名称
+     * @return
+     */
+    protected Logger builderModule(String name, String path, String fileName) {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        Logger logger = loggerContext.getLogger(name);
+        /**
+         * 设置是否向上级打印信息
+         */
+        logger.setAdditive(false);
+        // 配置日志级别
+        Level level = Level.toLevel(properties.getLevel().levelStr);
+        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
+        //是否开启异步日志
+        if (properties.isEnableAsyncAppender()) {
+            LogbackAsyncAppender logbackAsyncAppender = new LogbackAsyncAppender(loggerContext, properties);
+            if (level.levelInt <= Level.ERROR_INT) {
+                logger.addAppender(logbackAsyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(name, path, fileName, Level.ERROR, true)));
+            }
+        } else {
+            if (level.levelInt <= Level.ERROR_INT) {
+                logger.addAppender(rollingFileAppender.getRollingFileAppender(name, path, fileName, Level.ERROR, true));
+            }
+        }
+        if (properties.isEnableModuleConsole()) {
+            // 添加控制台appender
+            logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
+        }
+        // 设置日志级别
+        logger.setLevel(level);
+        return logger;
+    }
 }

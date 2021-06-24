@@ -18,6 +18,10 @@ public class LogbackController {
     @GetMapping("debug")
     public String debug(){
         LoggerUtils.getLogger(LogbackController.class, "66/12/34", "test").error("211112122");
+        LoggerUtils.getLogger(LogbackController.class, "66/12/34", "test").debug("211112122");
+        LoggerUtils.getLogger(LogbackController.class, "66/12/34", "test").info("211112122");
+        LoggerUtils.getLogger(LogbackController.class, "66/12/34", "test").warn("211112122");
+        LoggerUtils.getLogger(LogbackController.class, "66/12/34", "test").trace("211112122");
         LoggerUtils.getLogger(LogbackController.class, "emily", "smile").error("+++++++++++==ttttttttttttt");
         LoggerUtils.getLogger(LogbackController.class, "emily", "smile").debug("+++++++++++==ttttttttttttt");
         LoggerUtils.getLogger(LogbackController.class, "emily", "smile").info("+++++++++++==ttttttttttttt");

@@ -59,6 +59,19 @@ public class LogbackRollingFileAppender {
      * @return
      */
     public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level) {
+        return getRollingFileAppender(appenderName, path, fileName, level, false);
+    }
+
+    /**
+     * 获取按照时间归档文件附加器对象
+     *
+     * @param appenderName appender属性name
+     * @param fileName     文件名
+     * @param level        过滤日志级别
+     * @param isModule     是否是模块日志
+     * @return
+     */
+    public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level, boolean isModule) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
         //获取过滤器
@@ -68,6 +81,8 @@ public class LogbackRollingFileAppender {
         String loggerPath;
         if (StringUtils.isEmpty(path) && StringUtils.isEmpty(fileName)) {
             loggerPath = StringUtils.join(properties.getPath(), File.separator, level.levelStr.toLowerCase(), File.separator, level.levelStr.toLowerCase());
+        } else if (isModule) {
+            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(path), File.separator, fileName);
         } else {
             loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(path), File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
         }

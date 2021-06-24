@@ -70,7 +70,6 @@ public class LogbackBuilder {
                 logger = builderModule(loggerName, path, fileName);
             } else {
                 logger = builder(loggerName, path, fileName);
-
             }
             loggerCache.put(loggerName, logger);
         }

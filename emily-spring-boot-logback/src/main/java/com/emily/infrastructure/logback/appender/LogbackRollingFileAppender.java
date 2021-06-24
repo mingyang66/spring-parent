@@ -11,6 +11,7 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -41,20 +42,35 @@ public class LogbackRollingFileAppender {
     /**
      * 获取按照时间归档文件附加器对象
      *
-     * @param appenderName     appender属性name
-     * @param fileName 文件名
-     * @param level    过滤日志级别
+     * @param appenderName
+     * @param level
+     * @return
+     */
+    public RollingFileAppender getRollingFileAppender(String appenderName, Level level) {
+        return getRollingFileAppender(appenderName, null, null, level);
+    }
+
+    /**
+     * 获取按照时间归档文件附加器对象
+     *
+     * @param appenderName appender属性name
+     * @param fileName     文件名
+     * @param level        过滤日志级别
      * @return
      */
     public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
-
         //获取过滤器
         LevelFilter levelFilter = LogbackFilter.getLevelFilter(level);
         levelFilter.start();
         //日志文件路径
-        String loggerPath = StringUtils.join(properties.getPath(), path, File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
+        String loggerPath;
+        if (StringUtils.isEmpty(path) && StringUtils.isEmpty(fileName)) {
+            loggerPath = StringUtils.join(properties.getPath(), File.separator, level.levelStr.toLowerCase(), File.separator, level.levelStr.toLowerCase());
+        } else {
+            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(path), File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
+        }
         //appenderName
         appenderName = StringUtils.join("File_", appenderName, CharacterUtils.LINE_THROUGH_BOTTOM, level.levelStr);
         if (properties.isEnableSizeAndTimeRollingPolicy()) {

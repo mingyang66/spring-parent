@@ -66,11 +66,7 @@ public class LogbackBuilder {
             if (Objects.nonNull(logger)) {
                 return logger;
             }
-            if (isModule) {
-                logger = builderModule(loggerName, path, fileName);
-            } else {
-                logger = builder(loggerName, path, fileName);
-            }
+            logger = builder(loggerName, path, fileName, isModule);
             loggerCache.put(loggerName, logger);
         }
         return logger;
@@ -128,6 +124,20 @@ public class LogbackBuilder {
         logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
         // 设置日志级别
         logger.setLevel(level);
+    }
+
+    /**
+     * 构建Logger对象
+     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     *
+     * @param fileName 日志文件名|模块名称
+     * @return
+     */
+    protected Logger builder(String name, String path, String fileName, boolean isModule) {
+        if (isModule) {
+            return builderModule(name, path, fileName);
+        }
+        return builder(name, path, fileName);
     }
 
     /**

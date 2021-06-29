@@ -18,10 +18,6 @@ public class LogbackProperties {
      */
     private Level level = Level.DEBUG;
     /**
-     * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
-     */
-    private Level moduleLevel = Level.INFO;
-    /**
      * 日志文件存放路径，默认是:./logs
      */
     private String path = "./logs";
@@ -51,6 +47,10 @@ public class LogbackProperties {
      * 模块日志输出格式，默认：%msg%n
      */
     private String modulePattern = "%msg%n";
+    /**
+     * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
+     */
+    private Level moduleLevel = Level.INFO;
     /**
      * 是否将模块日志信息输出到控制台，默认false
      */

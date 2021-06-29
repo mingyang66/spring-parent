@@ -31,7 +31,7 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     public LogbackBuilder logbackBuilder(LogbackProperties properties) {
         LogbackBuilder builder = new LogbackBuilder(properties);
         // 开启logback日志组件
-        LogbackFactory.setBuilder(builder);
+        LogbackFactory.setBuilder(builder, properties);
         return builder;
     }
 

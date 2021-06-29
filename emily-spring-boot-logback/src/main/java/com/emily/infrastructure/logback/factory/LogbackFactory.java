@@ -1,7 +1,10 @@
 package com.emily.infrastructure.logback.factory;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.builder.LogbackBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -19,6 +22,10 @@ public class LogbackFactory {
      * 开启logback日志组件
      */
     private static LogbackBuilder builder;
+    /**
+     * 日志属性配置类
+     */
+    private static LogbackProperties properties;
 
     public static <T> Logger getLogger(Class cls, String path, String fileName) {
         return builder.getLogger(cls, path, fileName);
@@ -44,8 +51,22 @@ public class LogbackFactory {
         LoggerFactory.getLogger(clazz).trace(msg);
     }
 
+    public static <T> Logger module(Class<T> clazz, String path, String fileName) {
+        return builder.getLogger(clazz, path, fileName, true);
+    }
+
     public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
-        builder.getLogger(clazz, path, fileName, true).error(msg);
+        if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.ERROR.levelStr)) {
+            module(clazz, path, fileName).error(msg);
+        } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.WARN.levelStr)) {
+            module(clazz, path, fileName).warn(msg);
+        } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.INFO.levelStr)) {
+            module(clazz, path, fileName).info(msg);
+        } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.DEBUG.levelStr)) {
+            module(clazz, path, fileName).debug(msg);
+        } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.TRACE.levelStr)) {
+            module(clazz, path, fileName).trace(msg);
+        }
     }
 
     public static boolean isDebug() {
@@ -56,7 +77,8 @@ public class LogbackFactory {
         debug = isDebug;
     }
 
-    public static void setBuilder(LogbackBuilder builder) {
+    public static void setBuilder(LogbackBuilder builder, LogbackProperties properties) {
         LogbackFactory.builder = builder;
+        LogbackFactory.properties = properties;
     }
 }

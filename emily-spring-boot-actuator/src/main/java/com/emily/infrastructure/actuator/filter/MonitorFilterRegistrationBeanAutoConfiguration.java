@@ -1,6 +1,6 @@
 package com.emily.infrastructure.actuator.filter;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration;
@@ -37,11 +37,11 @@ public class MonitorFilterRegistrationBeanAutoConfiguration implements Initializ
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "【销毁--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
+        LogbackFactory.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "【销毁--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "【初始化--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
+        LogbackFactory.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "【初始化--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
     }
 }

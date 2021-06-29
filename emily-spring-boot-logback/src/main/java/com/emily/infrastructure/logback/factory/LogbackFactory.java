@@ -1,10 +1,8 @@
-package com.emily.infrastructure.logback.utils;
+package com.emily.infrastructure.logback.factory;
 
 import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logback.builder.LogbackBuilder;
 import org.slf4j.LoggerFactory;
-
-import java.util.Objects;
 
 /**
  * @author Emily
@@ -12,7 +10,7 @@ import java.util.Objects;
  * 如果日志级别设置为INFO，则意味TRACE和DEBUG级别的日志都看不到。
  * @Version: 1.0
  */
-public class LoggerUtils {
+public class LogbackFactory {
     /**
      * 当前开发模式
      */
@@ -59,6 +57,6 @@ public class LoggerUtils {
     }
 
     public static void setBuilder(LogbackBuilder builder) {
-        LoggerUtils.builder = builder;
+        LogbackFactory.builder = builder;
     }
 }

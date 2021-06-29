@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.web;
 
 import com.emily.infrastructure.autoconfigure.web.annotation.ApiPrefix;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.DisposableBean;
@@ -147,17 +147,17 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
 
     @Override
     public void destroy() throws Exception {
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+            LogbackFactory.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
+            LogbackFactory.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         if (enablePathMatch) {
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
+            LogbackFactory.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
         }
         if (enableCors) {
-            LoggerUtils.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+            LogbackFactory.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
         }
     }
 }

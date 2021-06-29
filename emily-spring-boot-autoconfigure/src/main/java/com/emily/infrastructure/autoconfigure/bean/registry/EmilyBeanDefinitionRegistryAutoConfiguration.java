@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.bean.registry;
 
 import com.emily.infrastructure.autoconfigure.condition.MacOsCondition;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
@@ -31,11 +31,11 @@ public class EmilyBeanDefinitionRegistryAutoConfiguration implements Initializin
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "<== 【销毁--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
+        LogbackFactory.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "<== 【销毁--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "==> 【初始化--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
+        LogbackFactory.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "==> 【初始化--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
     }
 }

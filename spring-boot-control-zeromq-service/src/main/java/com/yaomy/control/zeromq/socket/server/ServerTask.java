@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.socket.server;
 
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.yaomy.control.zeromq.socket.client.SocketClient;
 
 import java.io.DataInputStream;
@@ -37,12 +37,12 @@ public class ServerTask implements Runnable{
                 int len = this.reader.readInt();
                 byte[] buffer = new byte[len];
                 this.reader.read(buffer, 0, len);
-                LoggerUtils.info(ServerTask.class, "server端接收到的数据是："+new String(buffer));
+                LogbackFactory.info(ServerTask.class, "server端接收到的数据是："+new String(buffer));
                 //返回服务端接收数据成功标识
                 this.writer.writeBoolean(true);
             }
         } catch (IOException e){
-            LoggerUtils.error(SocketClient.class, "IO异常"+e.toString());
+            LogbackFactory.error(SocketClient.class, "IO异常"+e.toString());
         }
     }
 }

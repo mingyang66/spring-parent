@@ -5,7 +5,7 @@ import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHa
 import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,11 +85,11 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "<== 【销毁--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
+        LogbackFactory.info(HttpClientAutoConfiguration.class, "<== 【销毁--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.info(HttpClientAutoConfiguration.class, "==> 【初始化--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
+        LogbackFactory.info(HttpClientAutoConfiguration.class, "==> 【初始化--自动化配置】----RestTemplate(HttpClient)组件【HttpClientAutoConfiguration】");
     }
 }

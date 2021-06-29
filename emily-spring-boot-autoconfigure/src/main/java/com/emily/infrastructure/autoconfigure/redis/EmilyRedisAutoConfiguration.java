@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.redis;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,11 +82,11 @@ public class EmilyRedisAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(EmilyRedisAutoConfiguration.class, "<== 【销毁--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
+        LogbackFactory.info(EmilyRedisAutoConfiguration.class, "<== 【销毁--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(EmilyRedisAutoConfiguration.class, "==> 【初始化--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
+        LogbackFactory.info(EmilyRedisAutoConfiguration.class, "==> 【初始化--自动化配置】----Redis组件【EmilyRedisAutoConfiguration】");
     }
 }

@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.pubsub.server;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -32,7 +32,7 @@ public class ZeroMQServer {
          */
         socket.bind(endPoint);
 
-        LoggerUtils.info(ZeroMQServer.class, "ZeroMQServer服务端启动成功...");
+        LogbackFactory.info(ZeroMQServer.class, "ZeroMQServer服务端启动成功...");
         while (true) {
             String msg = "Time:给订阅客户端的回复："+System.currentTimeMillis();
             /**

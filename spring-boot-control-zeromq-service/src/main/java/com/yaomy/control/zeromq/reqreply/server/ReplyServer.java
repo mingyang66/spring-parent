@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.reqreply.server;
 
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -60,7 +60,7 @@ public class ReplyServer {
          */
         socket.setReceiveTimeOut(-1);
 
-        LoggerUtils.info(ReplyServer.class, "ReplyServer服务端启动成功...");
+        LogbackFactory.info(ReplyServer.class, "ReplyServer服务端启动成功...");
         while (true) {
             /**
              * 接收消息，如果没有接收到消息会一直阻塞等待，直到超时返回null
@@ -68,7 +68,7 @@ public class ReplyServer {
              */
             byte[] reply = socket.recv();
             // Print the message
-            LoggerUtils.info(ReplyServer.class, "Received: [" + new String(reply, ZMQ.CHARSET) + "]");
+            LogbackFactory.info(ReplyServer.class, "Received: [" + new String(reply, ZMQ.CHARSET) + "]");
             /**
              * 发送消息到指定的标记
              * @param data 消息

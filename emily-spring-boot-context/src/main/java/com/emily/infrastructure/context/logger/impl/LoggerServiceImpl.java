@@ -3,7 +3,7 @@ package com.emily.infrastructure.context.logger.impl;
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.context.logger.LoggerService;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.scheduling.annotation.Async;
 
 /**
@@ -20,10 +20,10 @@ public class LoggerServiceImpl implements LoggerService {
     @Override
     @Async
     public void traceResponse(BaseLogger baseLogger) {
-        if (LoggerUtils.isDebug()) {
-            LoggerUtils.info(LoggerServiceImpl.class, JSONUtils.toJSONPrettyString(baseLogger));
+        if (LogbackFactory.isDebug()) {
+            LogbackFactory.info(LoggerServiceImpl.class, JSONUtils.toJSONPrettyString(baseLogger));
         } else {
-            LoggerUtils.info(LoggerServiceImpl.class, JSONUtils.toJSONString(baseLogger));
+            LogbackFactory.info(LoggerServiceImpl.class, JSONUtils.toJSONString(baseLogger));
         }
     }
 }

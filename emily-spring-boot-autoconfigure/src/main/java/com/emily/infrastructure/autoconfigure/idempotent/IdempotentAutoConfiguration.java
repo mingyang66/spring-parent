@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.idempotent;
 
 import com.emily.infrastructure.autoconfigure.idempotent.interceptor.IdempotentMethodBeforeAdvice;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -54,11 +54,11 @@ public class IdempotentAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(IdempotentAutoConfiguration.class, "<== 【销毁--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
+        LogbackFactory.info(IdempotentAutoConfiguration.class, "<== 【销毁--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(IdempotentAutoConfiguration.class, "==> 【初始化--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
+        LogbackFactory.info(IdempotentAutoConfiguration.class, "==> 【初始化--自动化配置】----防止接口重复提交组件【IdempotentAutoConfiguration】");
     }
 }

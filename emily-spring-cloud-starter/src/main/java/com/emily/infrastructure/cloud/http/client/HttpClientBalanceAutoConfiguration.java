@@ -5,7 +5,7 @@ import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHa
 import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,11 +86,11 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(HttpClientBalanceAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 }

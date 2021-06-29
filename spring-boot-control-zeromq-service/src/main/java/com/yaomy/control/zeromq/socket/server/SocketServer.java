@@ -1,7 +1,7 @@
 package com.yaomy.control.zeromq.socket.server;
 
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.DataInputStream;
@@ -55,7 +55,7 @@ public class SocketServer {
             //server.bind(new InetSocketAddress(port));
             //绑定指定的IP和端口号
             serverSocket.bind(new InetSocketAddress(host, port));
-            LoggerUtils.info(SocketServer.class, "SOCKET SERVER服务器启动成功...");
+            LogbackFactory.info(SocketServer.class, "SOCKET SERVER服务器启动成功...");
             while (true) {
                 //server尝试接收其他Socket的连接请求，server的accept方法是阻塞式的
                 Socket socket = serverSocket.accept();
@@ -81,7 +81,7 @@ public class SocketServer {
             }
 
         } catch (IOException e){
-            LoggerUtils.error(SocketServer.class, "SOCKET SERVER服务器发生IO异常"+e.toString());
+            LogbackFactory.error(SocketServer.class, "SOCKET SERVER服务器发生IO异常"+e.toString());
         }
     }
     /**

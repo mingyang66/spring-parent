@@ -1,6 +1,6 @@
 package com.emily.boot.test.server;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -36,11 +36,11 @@ public class TomcatServerAutoConfiguration implements InitializingBean, Disposab
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(TomcatServerAutoConfiguration.class, "【销毁--自动化配置】----自定义tomcat服务器");
+        LogbackFactory.info(TomcatServerAutoConfiguration.class, "【销毁--自动化配置】----自定义tomcat服务器");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(TomcatServerAutoConfiguration.class, "【初始化--自动化配置】----自定义tomcat服务器");
+        LogbackFactory.info(TomcatServerAutoConfiguration.class, "【初始化--自动化配置】----自定义tomcat服务器");
     }
 }

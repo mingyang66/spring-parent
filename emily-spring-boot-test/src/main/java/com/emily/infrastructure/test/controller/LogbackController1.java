@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.datasource.DataSourceAutoConfiguration;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +21,11 @@ public class LogbackController1 {
     public String debug() {
         LoggerFactory.getLogger(LogbackController.class).info("---------------------&&&&&&&&&&&&&&1111111111111111111111111");
         LoggerFactory.getLogger(DataSourceAutoConfiguration.class).info("---------------------&&&&&&&&&&&&&&1111111111111111111111111");
-        LoggerUtils.debug(LogbackController1.class, "shuai1 +++++++++++++++++++++++++++++++++++++debug");
-        LoggerUtils.warn(LogbackController1.class, "shuai2 +++++++++++++++++++++++++++++++++++++warn");
-        LoggerUtils.info(LogbackController1.class, "shuai3 +++++++++++++++++++++++++++++++++++++info");
-        LoggerUtils.error(LogbackController1.class, "shuai4 +++++++++++++++++++++++++++++++++++++error");
-        LoggerUtils.trace(LogbackController1.class, "shuai5 +++++++++++++++++++++++++++++++++++++trace");
+        LogbackFactory.debug(LogbackController1.class, "shuai1 +++++++++++++++++++++++++++++++++++++debug");
+        LogbackFactory.warn(LogbackController1.class, "shuai2 +++++++++++++++++++++++++++++++++++++warn");
+        LogbackFactory.info(LogbackController1.class, "shuai3 +++++++++++++++++++++++++++++++++++++info");
+        LogbackFactory.error(LogbackController1.class, "shuai4 +++++++++++++++++++++++++++++++++++++error");
+        LogbackFactory.trace(LogbackController1.class, "shuai5 +++++++++++++++++++++++++++++++++++++trace");
         return "success";
     }
 }

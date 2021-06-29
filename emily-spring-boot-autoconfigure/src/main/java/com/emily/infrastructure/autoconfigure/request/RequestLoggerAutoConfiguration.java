@@ -5,7 +5,7 @@ import com.emily.infrastructure.autoconfigure.request.interceptor.RequestLoggerT
 import com.emily.infrastructure.common.enums.AopOrderEnum;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -108,12 +108,12 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
 
     @Override
     public void destroy() {
-        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        LogbackFactory.info(RequestLoggerAutoConfiguration.class, "<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.setDebug(requestLoggerProperties.isDebug());
-        LoggerUtils.info(RequestLoggerAutoConfiguration.class, "==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        LogbackFactory.setDebug(requestLoggerProperties.isDebug());
+        LogbackFactory.info(RequestLoggerAutoConfiguration.class, "==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 }

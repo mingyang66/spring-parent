@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.response;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpHeadersReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseMethodReturnValueHandler;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -56,11 +56,11 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "<== 【销毁--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
+        LogbackFactory.info(ResponseWrapperAutoConfiguration.class, "<== 【销毁--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(ResponseWrapperAutoConfiguration.class, "==> 【初始化--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
+        LogbackFactory.info(ResponseWrapperAutoConfiguration.class, "==> 【初始化--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
     }
 }

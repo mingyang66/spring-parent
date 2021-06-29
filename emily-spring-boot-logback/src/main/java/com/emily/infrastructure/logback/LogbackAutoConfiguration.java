@@ -1,8 +1,7 @@
 package com.emily.infrastructure.logback;
 
-import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logback.builder.LogbackBuilder;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -32,17 +31,17 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
     public LogbackBuilder logbackBuilder(LogbackProperties properties) {
         LogbackBuilder builder = new LogbackBuilder(properties);
         // 开启logback日志组件
-        LoggerUtils.setBuilder(builder);
+        LogbackFactory.setBuilder(builder);
         return builder;
     }
 
     @Override
     public void destroy() {
-        LoggerUtils.info(LogbackAutoConfiguration.class, "<== 【销毁--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
+        LogbackFactory.info(LogbackAutoConfiguration.class, "<== 【销毁--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.info(LogbackAutoConfiguration.class, "==> 【初始化--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
+        LogbackFactory.info(LogbackAutoConfiguration.class, "==> 【初始化--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
     }
 }

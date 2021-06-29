@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.ratelimit;
 
 import com.emily.infrastructure.autoconfigure.ratelimit.interceptor.RateLimitMethodBeforeAdvice;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -61,11 +61,11 @@ public class RateLimitAutoConfiguration implements InitializingBean, DisposableB
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(RateLimitAutoConfiguration.class, "<== 【销毁--自动化配置】----限流组件【RateLimitAutoConfiguration】");
+        LogbackFactory.info(RateLimitAutoConfiguration.class, "<== 【销毁--自动化配置】----限流组件【RateLimitAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(RateLimitAutoConfiguration.class, "==> 【初始化--自动化配置】----限流组件【RateLimitAutoConfiguration】");
+        LogbackFactory.info(RateLimitAutoConfiguration.class, "==> 【初始化--自动化配置】----限流组件【RateLimitAutoConfiguration】");
     }
 }

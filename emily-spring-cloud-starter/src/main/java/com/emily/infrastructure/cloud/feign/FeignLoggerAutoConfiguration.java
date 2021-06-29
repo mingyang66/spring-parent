@@ -8,7 +8,7 @@ import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import feign.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -122,11 +122,11 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(FeignLoggerAutoConfiguration.class, "【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(FeignLoggerAutoConfiguration.class, "【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 }

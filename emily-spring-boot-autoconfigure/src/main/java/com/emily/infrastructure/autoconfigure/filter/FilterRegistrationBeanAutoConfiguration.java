@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.filter;
 
 import com.emily.infrastructure.context.filter.RequestChannelFilter;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -36,11 +36,11 @@ public class FilterRegistrationBeanAutoConfiguration implements InitializingBean
 
     @Override
     public void destroy() {
-        LoggerUtils.info(FilterRegistrationBeanAutoConfiguration.class, "<== 【销毁--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
+        LogbackFactory.info(FilterRegistrationBeanAutoConfiguration.class, "<== 【销毁--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.info(FilterRegistrationBeanAutoConfiguration.class, "==> 【初始化--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
+        LogbackFactory.info(FilterRegistrationBeanAutoConfiguration.class, "==> 【初始化--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
     }
 }

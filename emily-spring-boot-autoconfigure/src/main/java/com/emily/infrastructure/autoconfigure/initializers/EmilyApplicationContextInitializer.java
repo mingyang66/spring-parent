@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.initializers;
 
 import com.emily.infrastructure.context.ioc.IOCContext;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
@@ -22,6 +22,6 @@ public class EmilyApplicationContextInitializer implements ApplicationContextIni
     public void initialize(ConfigurableApplicationContext applicationContext) {
         // 初始化容器上下文
         IOCContext.setApplicationContext(applicationContext);
-        LoggerUtils.info(EmilyApplicationContextInitializer.class, "==> Emily Infrastructure IOC容器上下文开始初始化...");
+        LogbackFactory.info(EmilyApplicationContextInitializer.class, "==> Emily Infrastructure IOC容器上下文开始初始化...");
     }
 }

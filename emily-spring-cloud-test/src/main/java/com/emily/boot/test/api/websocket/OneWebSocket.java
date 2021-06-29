@@ -1,6 +1,6 @@
 package com.emily.boot.test.api.websocket;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -22,7 +22,7 @@ public class OneWebSocket {
     @OnOpen
     public void onOpen(Session session) {
         onlineCount.incrementAndGet(); // 在线数加1
-        LoggerUtils.info(OneWebSocket.class, "有新连接加入："+ session.getId()+"，当前在线人数为：" + onlineCount.get());
+        LogbackFactory.info(OneWebSocket.class, "有新连接加入："+ session.getId()+"，当前在线人数为：" + onlineCount.get());
     }
 
     /**
@@ -31,7 +31,7 @@ public class OneWebSocket {
     @OnClose
     public void onClose(Session session) {
         onlineCount.decrementAndGet(); // 在线数减1
-        LoggerUtils.info(OneWebSocket.class, "有一连接关闭："+session.getId()+"，当前在线人数为：" + onlineCount.get());
+        LogbackFactory.info(OneWebSocket.class, "有一连接关闭："+session.getId()+"，当前在线人数为：" + onlineCount.get());
     }
 
     /**
@@ -41,13 +41,13 @@ public class OneWebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        LoggerUtils.info(OneWebSocket.class, "服务端收到客户端的消息:" + session.getId() + message);
+        LogbackFactory.info(OneWebSocket.class, "服务端收到客户端的消息:" + session.getId() + message);
         this.sendMessage("Hello, " + message, session);
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        LoggerUtils.error(OneWebSocket.class, "发生错误");
+        LogbackFactory.error(OneWebSocket.class, "发生错误");
         error.printStackTrace();
     }
 
@@ -56,10 +56,10 @@ public class OneWebSocket {
      */
     private void sendMessage(String message, Session toSession) {
         try {
-            LoggerUtils.info(OneWebSocket.class, "服务端给客户端["+toSession.getId()+"]发送消息:" + message);
+            LogbackFactory.info(OneWebSocket.class, "服务端给客户端["+toSession.getId()+"]发送消息:" + message);
             toSession.getBasicRemote().sendText(message);
         } catch (Exception e) {
-            LoggerUtils.error(OneWebSocket.class, "服务端发送消息给客户端失败：" + e.getMessage());
+            LogbackFactory.error(OneWebSocket.class, "服务端发送消息给客户端失败：" + e.getMessage());
         }
     }
 }

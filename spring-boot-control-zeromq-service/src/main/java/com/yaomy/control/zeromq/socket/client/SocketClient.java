@@ -2,7 +2,7 @@ package com.yaomy.control.zeromq.socket.client;
 
 
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -67,10 +67,10 @@ public class SocketClient {
             reader = new DataInputStream(socket.getInputStream());
         } catch (UnknownHostException e){
             e.printStackTrace();
-            LoggerUtils.error(SocketClient.class, "IP地址不正确："+host);
+            LogbackFactory.error(SocketClient.class, "IP地址不正确："+host);
         } catch (IOException e){
             e.printStackTrace();
-            LoggerUtils.error(SocketClient.class, "IO异常"+e.toString());
+            LogbackFactory.error(SocketClient.class, "IO异常"+e.toString());
         }
     }
 
@@ -97,7 +97,7 @@ public class SocketClient {
             this.reader.close();
             this.socket.close();
         } catch (IOException e){
-            LoggerUtils.error(SocketClient.class, "IO异常"+e.toString());
+            LogbackFactory.error(SocketClient.class, "IO异常"+e.toString());
         }
     }
 }

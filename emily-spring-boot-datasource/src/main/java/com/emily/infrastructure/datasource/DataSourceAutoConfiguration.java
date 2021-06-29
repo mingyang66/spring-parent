@@ -7,7 +7,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -100,11 +100,11 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() {
-        LoggerUtils.info(DataSourceAutoConfiguration.class, "<== 【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        LogbackFactory.info(DataSourceAutoConfiguration.class, "<== 【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LoggerUtils.info(DataSourceAutoConfiguration.class, "==> 【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        LogbackFactory.info(DataSourceAutoConfiguration.class, "==> 【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 }

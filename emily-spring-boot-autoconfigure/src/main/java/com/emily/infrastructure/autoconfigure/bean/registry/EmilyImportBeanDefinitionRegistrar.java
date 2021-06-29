@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.bean.registry;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -20,6 +20,6 @@ public class EmilyImportBeanDefinitionRegistrar implements ImportBeanDefinitionR
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        LoggerUtils.info(EmilyImportBeanDefinitionRegistrar.class, "--------ImportBeanDefinitionRegistrar-------");
+        LogbackFactory.info(EmilyImportBeanDefinitionRegistrar.class, "--------ImportBeanDefinitionRegistrar-------");
     }
 }

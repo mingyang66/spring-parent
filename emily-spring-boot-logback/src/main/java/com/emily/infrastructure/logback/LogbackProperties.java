@@ -14,9 +14,13 @@ public class LogbackProperties {
      */
     private boolean enabled;
     /**
-     * 日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
+     * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
      */
     private Level level = Level.DEBUG;
+    /**
+     * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
+     */
+    private Level moduleLevel = Level.INFO;
     /**
      * 日志文件存放路径，默认是:./logs
      */
@@ -42,7 +46,7 @@ public class LogbackProperties {
      * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
      * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
      */
-    private String commonPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+    private String commonPattern = "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n";
     /**
      * 模块日志输出格式，默认：%msg%n
      */
@@ -89,6 +93,14 @@ public class LogbackProperties {
 
     public void setLevel(Level level) {
         this.level = level;
+    }
+
+    public Level getModuleLevel() {
+        return moduleLevel;
+    }
+
+    public void setModuleLevel(Level moduleLevel) {
+        this.moduleLevel = moduleLevel;
     }
 
     public String getPath() {

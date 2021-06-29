@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.emily.infrastructure.test.mapper.*;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
@@ -39,8 +39,8 @@ public class DataSourceController {
 
     @GetMapping("getJob")
     public Job getJob(){
-        LoggerUtils.module(DataSourceController.class, "/a/b/c", "info", "asdfffffffff");
-        LoggerUtils.module(DataSourceController.class, "/a/b/c", "info1", "asdfffffffff");
+        LogbackFactory.module(DataSourceController.class, "/a/b/c", "info", "asdfffffffff");
+        LogbackFactory.module(DataSourceController.class, "/a/b/c", "info1", "asdfffffffff");
         Job job = jobMapper.findJob();
         return job;
     }

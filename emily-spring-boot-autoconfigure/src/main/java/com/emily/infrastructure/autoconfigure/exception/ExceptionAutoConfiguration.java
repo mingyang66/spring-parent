@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.exception;
 
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,11 +30,11 @@ public class ExceptionAutoConfiguration implements InitializingBean, DisposableB
 
     @Override
     public void destroy() throws Exception {
-        LoggerUtils.info(ExceptionAutoConfiguration.class, "<== 【销毁--自动化配置】----异常捕获组件【ExceptionAutoConfiguration】");
+        LogbackFactory.info(ExceptionAutoConfiguration.class, "<== 【销毁--自动化配置】----异常捕获组件【ExceptionAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(ExceptionAutoConfiguration.class, "==> 【初始化--自动化配置】----异常捕获组件【ExceptionAutoConfiguration】");
+        LogbackFactory.info(ExceptionAutoConfiguration.class, "==> 【初始化--自动化配置】----异常捕获组件【ExceptionAutoConfiguration】");
     }
 }

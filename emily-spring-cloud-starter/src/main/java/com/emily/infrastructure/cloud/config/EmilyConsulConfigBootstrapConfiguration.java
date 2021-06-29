@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.config;
 
 import com.ecwid.consul.v1.ConsulClient;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -35,6 +35,6 @@ public class EmilyConsulConfigBootstrapConfiguration implements InitializingBean
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LoggerUtils.info(EmilyConsulConfigBootstrapConfiguration.class, "【自动化配置】----SpringCloud config乱码解决组件初始化完成...");
+        LogbackFactory.info(EmilyConsulConfigBootstrapConfiguration.class, "【自动化配置】----SpringCloud config乱码解决组件初始化完成...");
     }
 }

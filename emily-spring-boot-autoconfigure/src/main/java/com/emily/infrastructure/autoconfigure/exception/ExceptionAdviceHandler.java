@@ -6,7 +6,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import com.emily.infrastructure.logback.utils.LoggerUtils;
+import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -178,7 +178,7 @@ public class ExceptionAdviceHandler {
         if(ex instanceof BusinessException){
             errorMsg = StringUtils.join("业务异常，异常码是【", ((BusinessException) ex).getStatus(), "】，异常消息是【",((BusinessException) ex).getErrorMessage(),"】", CharacterUtils.ENTER, errorMsg);
         }
-        LoggerUtils.error(PrintExceptionInfo.class, errorMsg);
+        LogbackFactory.error(PrintExceptionInfo.class, errorMsg);
     }
 }
 

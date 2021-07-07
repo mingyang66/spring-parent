@@ -155,7 +155,7 @@ public class LogbackBuilder {
          */
         logger.setAdditive(false);
         // 配置日志级别
-        Level level = Level.toLevel(properties.getLevel().levelStr);
+        Level level = Level.toLevel(properties.getGroupLevel().levelStr);
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
         //是否开启异步日志
         if (properties.isEnableAsyncAppender()) {
@@ -192,7 +192,7 @@ public class LogbackBuilder {
                 logger.addAppender(rollingFileAppender.getRollingFileAppender(name, path, fileName, Level.TRACE));
             }
         }
-        if (properties.isEnableModuleConsole()) {
+        if (properties.isEnableGroupConsole()) {
             // 添加控制台appender
             logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
         }
@@ -211,9 +211,7 @@ public class LogbackBuilder {
     protected Logger builderModule(String name, String path, String fileName) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger logger = loggerContext.getLogger(name);
-        /**
-         * 设置是否向上级打印信息
-         */
+        // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 模块输出日志级别
         Level moduleLevel = Level.toLevel(properties.getModuleLevel().levelStr);

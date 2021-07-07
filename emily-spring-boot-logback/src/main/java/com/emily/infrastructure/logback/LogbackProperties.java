@@ -44,17 +44,29 @@ public class LogbackProperties {
      */
     private String commonPattern = "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n";
     /**
+     * 是否将模块日志信息输出到控制台，默认false
+     */
+    private boolean enableGroupConsole = false;
+    /**
+     * 模块日志输出格式，默认：%msg%n
+     */
+    private String groupPattern = "%msg%n";
+    /**
+     * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
+     */
+    private Level groupLevel = Level.DEBUG;
+    /**
+     * 是否将模块日志信息输出到控制台，默认false
+     */
+    private boolean enableModuleConsole = false;
+    /**
      * 模块日志输出格式，默认：%msg%n
      */
     private String modulePattern = "%msg%n";
     /**
      * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
      */
-    private Level moduleLevel = Level.INFO;
-    /**
-     * 是否将模块日志信息输出到控制台，默认false
-     */
-    private boolean enableModuleConsole = false;
+    private Level moduleLevel = Level.DEBUG;
     /**
      * 是否启用日志异步记录Appender
      */
@@ -78,6 +90,30 @@ public class LogbackProperties {
      * 在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃，默认为 false
      */
     private boolean asyncNeverBlock;
+
+    public boolean isEnableGroupConsole() {
+        return enableGroupConsole;
+    }
+
+    public void setEnableGroupConsole(boolean enableGroupConsole) {
+        this.enableGroupConsole = enableGroupConsole;
+    }
+
+    public String getGroupPattern() {
+        return groupPattern;
+    }
+
+    public void setGroupPattern(String groupPattern) {
+        this.groupPattern = groupPattern;
+    }
+
+    public Level getGroupLevel() {
+        return groupLevel;
+    }
+
+    public void setGroupLevel(Level groupLevel) {
+        this.groupLevel = groupLevel;
+    }
 
     public boolean isEnabled() {
         return enabled;

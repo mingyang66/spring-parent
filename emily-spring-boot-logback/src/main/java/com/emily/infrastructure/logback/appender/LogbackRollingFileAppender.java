@@ -1,6 +1,5 @@
 package com.emily.infrastructure.logback.appender;
 
-import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.LevelFilter;
@@ -13,6 +12,8 @@ import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.appender.helper.LogbackAppender;
+import com.emily.infrastructure.logback.enumeration.LogbackTypeEnum;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,52 +43,16 @@ public class LogbackRollingFileAppender {
     /**
      * 获取按照时间归档文件附加器对象
      *
-     * @param appenderName
-     * @param level
      * @return
      */
-    public RollingFileAppender getRollingFileAppender(String appenderName, Level level) {
-        return getRollingFileAppender(appenderName, null, null, level);
-    }
-
-    /**
-     * 获取按照时间归档文件附加器对象
-     *
-     * @param appenderName appender属性name
-     * @param fileName     文件名
-     * @param level        过滤日志级别
-     * @return
-     */
-    public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level) {
-        return getRollingFileAppender(appenderName, path, fileName, level, false);
-    }
-
-    /**
-     * 获取按照时间归档文件附加器对象
-     *
-     * @param appenderName appender属性name
-     * @param fileName     文件名
-     * @param level        过滤日志级别
-     * @param isModule     是否是模块日志
-     * @return
-     */
-    public RollingFileAppender getRollingFileAppender(String appenderName, String path, String fileName, Level level, boolean isModule) {
+    public RollingFileAppender getRollingFileAppender(LogbackAppender logbackAppender) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
         //获取过滤器
-        LevelFilter levelFilter = LogbackFilter.getLevelFilter(level);
+        LevelFilter levelFilter = LogbackFilter.getLevelFilter(logbackAppender.getLevel());
         levelFilter.start();
         //日志文件路径
-        String loggerPath;
-        if (StringUtils.isEmpty(path) && StringUtils.isEmpty(fileName)) {
-            loggerPath = StringUtils.join(properties.getPath(), File.separator, level.levelStr.toLowerCase(), File.separator, level.levelStr.toLowerCase());
-        } else if (isModule) {
-            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(path), File.separator, fileName);
-        } else {
-            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(path), File.separator, level.levelStr.toLowerCase(), File.separator, fileName);
-        }
-        //appenderName
-        appenderName = StringUtils.join("File_", appenderName, CharacterUtils.LINE_THROUGH_BOTTOM, level.levelStr);
+        String loggerPath = logbackAppender.getFilePath(properties);
         if (properties.isEnableSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
@@ -161,11 +126,7 @@ public class LogbackRollingFileAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         encoder.setContext(loggerContext);
         //设置格式
-        if (StringUtils.isEmpty(path)) {
-            encoder.setPattern(properties.getCommonPattern());
-        } else {
-            encoder.setPattern(properties.getModulePattern());
-        }
+        encoder.setPattern(logbackAppender.getFilePattern(properties));
         //设置编码格式
         encoder.setCharset(StandardCharsets.UTF_8);
         encoder.start();
@@ -174,7 +135,7 @@ public class LogbackRollingFileAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);
         //appender的name属性
-        appender.setName(appenderName);
+        appender.setName(logbackAppender.getAppenderName());
         //设置文件名
         appender.setFile(OptionHelper.substVars(StringUtils.join(loggerPath, ".log"), loggerContext));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true

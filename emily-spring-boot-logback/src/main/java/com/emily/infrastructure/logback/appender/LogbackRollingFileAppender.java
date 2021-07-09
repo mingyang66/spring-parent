@@ -48,11 +48,13 @@ public class LogbackRollingFileAppender {
     public RollingFileAppender getRollingFileAppender(LogbackAppender logbackAppender) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
+        //日志文件路径
+        String loggerPath = logbackAppender.getFilePath(properties);
+        //设置文件名
+        appender.setFile(OptionHelper.substVars(StringUtils.join(loggerPath, ".log"), loggerContext));
         //获取过滤器
         LevelFilter levelFilter = LogbackFilter.getLevelFilter(logbackAppender.getLevel());
         levelFilter.start();
-        //日志文件路径
-        String loggerPath = logbackAppender.getFilePath(properties);
         if (properties.isEnableSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
@@ -136,8 +138,6 @@ public class LogbackRollingFileAppender {
         appender.setContext(loggerContext);
         //appender的name属性
         appender.setName(logbackAppender.getAppenderName());
-        //设置文件名
-        appender.setFile(OptionHelper.substVars(StringUtils.join(loggerPath, ".log"), loggerContext));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         appender.setAppend(true);
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false

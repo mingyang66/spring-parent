@@ -26,6 +26,7 @@ public class LogbackController1 {
         LogbackFactory.info(LogbackController1.class, "shuai3 +++++++++++++++++++++++++++++++++++++info");
         LogbackFactory.error(LogbackController1.class, "shuai4 +++++++++++++++++++++++++++++++++++++error");
         LogbackFactory.trace(LogbackController1.class, "shuai5 +++++++++++++++++++++++++++++++++++++trace");
+        LoggerFactory.getLogger(LogbackController1.class).info("++=====================info==========");
         return "success";
     }
 }

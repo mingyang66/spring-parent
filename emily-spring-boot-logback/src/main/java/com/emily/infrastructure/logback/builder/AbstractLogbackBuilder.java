@@ -25,52 +25,50 @@ public abstract class AbstractLogbackBuilder {
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      */
     public void builderRoot(LogbackProperties properties) {
-        Logger logger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
+        Logger rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
         // 获取帮助类对象
         LogbackAppender logbackAppender = LogbackAppender.builder(Logger.ROOT_LOGGER_NAME, null, null, LogbackTypeEnum.ROOT);
-        //设置是否向上级打印信息
-        logger.setAdditive(false);
         // 配置日志级别
         Level level = Level.toLevel(properties.getLevel().levelStr);
+        // 设置日志级别
+        rootLogger.setLevel(level);
+        //设置是否向上级打印信息
+        rootLogger.setAdditive(false);
         if (properties.isEnableAsyncAppender()) {
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(loggerContext, properties);
             if (level.levelInt <= Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR))));
+                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR))));
             }
             if (level.levelInt <= Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.WARN))));
+                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.WARN))));
             }
             if (level.levelInt <= Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.INFO))));
+                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.INFO))));
             }
             if (level.levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.DEBUG))));
+                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.DEBUG))));
             }
             if (level.levelInt <= Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE))));
+                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE))));
             }
         } else {
             if (level.levelInt <= Level.ERROR_INT) {
-                logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR)));
+                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR)));
             }
             if (level.levelInt <= Level.WARN_INT) {
-                logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.WARN)));
+                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.WARN)));
             }
             if (level.levelInt <= Level.INFO_INT) {
-                logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.INFO)));
+                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.INFO)));
             }
             if (level.levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.DEBUG)));
+                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.DEBUG)));
             }
             if (level.levelInt <= Level.TRACE_INT) {
-                logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
+                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
             }
         }
-        // 添加控制台appender
-        logger.addAppender(new LogbackConsoleAppender(loggerContext, properties).getConsoleAppender(level));
-        // 设置日志级别
-        logger.setLevel(level);
     }
 
     /**

@@ -18,15 +18,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author: Emily
  * @create: 2021/07/15
  */
-public class RedisUtils {
+public class RedisDbUtils {
     /**
      * 字符串前缀
      */
-    public static final String PREFIX_STRING = "S";
+    private static final String PREFIX_STRING = "S";
     /**
      * RestTemplate对象前缀
      */
-    public static final String PREFIX_REST = "R";
+    private static final String PREFIX_REST = "R";
     /**
      * StringRedisTemplate对象缓存
      */

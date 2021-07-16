@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @program: spring-parent
  * @description: 日志组件抽象类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/07/08
  */
 public abstract class AbstractLogbackBuilder {

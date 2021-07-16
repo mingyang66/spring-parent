@@ -12,7 +12,3 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.infrastructure.autoconfigure.converters.EmilyMappingJackson2HttpMessageConverterAutoConfiguration,\
   com.emily.infrastructure.autoconfigure.filter.FilterRegistrationBeanAutoConfiguration,\
   com.emily.infrastructure.autoconfigure.ratelimit.RateLimitAutoConfiguration
-
-#Initializers
-org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.autoconfigure.initializers.EmilyApplicationContextInitializer

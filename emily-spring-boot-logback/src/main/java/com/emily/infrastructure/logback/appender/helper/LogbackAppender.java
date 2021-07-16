@@ -12,7 +12,7 @@ import java.io.File;
 /**
  * @program: spring-parent
  * @description: 日志滚动帮助类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/07/07
  */
 public class LogbackAppender {

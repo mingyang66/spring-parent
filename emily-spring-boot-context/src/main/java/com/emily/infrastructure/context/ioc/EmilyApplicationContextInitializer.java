@@ -1,6 +1,5 @@
-package com.emily.infrastructure.autoconfigure.initializers;
+package com.emily.infrastructure.context.ioc;
 
-import com.emily.infrastructure.context.ioc.IOCContext;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

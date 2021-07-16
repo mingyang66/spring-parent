@@ -17,6 +17,7 @@
         <module>emily-spring-boot-datasource</module>
         <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-actuator</module>
+        <module>emily-spring-boot-redis</module>
         <module>emily-spring-boot-starter</module>
         <module>emily-spring-cloud-test</module>
         <module>spring-security-jwt-service</module>

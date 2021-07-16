@@ -1,3 +1,4 @@
+
 spring:
   profiles:
     active: database
@@ -8,6 +9,8 @@ mybatis:
     # org.apache.ibatis.logging.stdout.StdOutImpl
     # org.apache.ibatis.logging.slf4j.Slf4jImpl
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+server:
+  port: 8081
 ---
 spring:
   emily:

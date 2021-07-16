@@ -1,3 +1,6 @@
 org.springframework.boot.env.PropertySourceLoader=\
   com.emily.infrastructure.context.config.EmilyPropertiesPropertySourceLoader
-#org.springframework.boot.env.EnvironmentPostProcessor=com.emily.boot.web.conf.ConfEnvironmentPostProcessor
+
+#Initializers
+org.springframework.context.ApplicationContextInitializer=\
+  com.emily.infrastructure.context.ioc.EmilyApplicationContextInitializer

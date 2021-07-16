@@ -8,7 +8,10 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -21,17 +24,17 @@ import org.springframework.context.annotation.Role;
 import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.Duration;
+import java.util.*;
 
 /**
  * @program: spring-parent
@@ -55,19 +58,20 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
 
     @PostConstruct
     public void stringRedisTemplate() {
-        Map<String, RedisConfiguration> configs = createConfiguration(redisDataSourceProperties);
-        configs.forEach((key, config) -> {
-            // 获取标识对应的哨兵配置
-            RedisConfiguration redisConfiguration = configs.get(key);
-            // 获取StringRedisTemplate对象
-            StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConfiguration);
-            // 将StringRedisTemplate对象注入IOC容器bean
-            defaultListableBeanFactory.registerSingleton(RedisDbUtils.getStringRedisTemplateBeanName(key), stringRedisTemplate);
+        Table<String, RedisProperties, RedisConfiguration> table = createConfiguration(redisDataSourceProperties);
+        table.rowKeySet().stream().forEach(key -> {
+            Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
+            dataMap.forEach((properties, redisConfiguration) -> {
+                // 获取StringRedisTemplate对象
+                StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConfiguration, properties);
+                // 将StringRedisTemplate对象注入IOC容器bean
+                defaultListableBeanFactory.registerSingleton(RedisDbUtils.getStringRedisTemplateBeanName(key), stringRedisTemplate);
 
-            // 获取RedisTemplate对象
-            RedisTemplate redisTemplate = createRedisTemplate(redisConfiguration);
-            // 将RedisTemplate对象注入IOC容器
-            defaultListableBeanFactory.registerSingleton(RedisDbUtils.getRedisTemplateBeanName(key), redisTemplate);
+                // 获取RedisTemplate对象
+                RedisTemplate redisTemplate = createRedisTemplate(redisConfiguration, properties);
+                // 将RedisTemplate对象注入IOC容器
+                defaultListableBeanFactory.registerSingleton(RedisDbUtils.getRedisTemplateBeanName(key), redisTemplate);
+            });
         });
     }
 
@@ -77,8 +81,8 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
      * @param redisConfiguration 配置类
      * @return
      */
-    protected StringRedisTemplate createStringRedisTemplate(RedisConfiguration redisConfiguration) {
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(createLettuceConnectionFactory(redisConfiguration));
+    protected StringRedisTemplate createStringRedisTemplate(RedisConfiguration redisConfiguration, RedisProperties properties) {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(createLettuceConnectionFactory(redisConfiguration, properties));
         stringRedisTemplate.setKeySerializer(stringSerializer());
         stringRedisTemplate.setValueSerializer(jacksonSerializer());
         stringRedisTemplate.setHashKeySerializer(stringSerializer());
@@ -94,9 +98,9 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
      * @param redisConfiguration 配置类
      * @return
      */
-    protected RedisTemplate createRedisTemplate(RedisConfiguration redisConfiguration) {
+    protected RedisTemplate createRedisTemplate(RedisConfiguration redisConfiguration, RedisProperties properties) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate();
-        redisTemplate.setConnectionFactory(createLettuceConnectionFactory(redisConfiguration));
+        redisTemplate.setConnectionFactory(createLettuceConnectionFactory(redisConfiguration, properties));
         redisTemplate.setKeySerializer(stringSerializer());
         redisTemplate.setValueSerializer(jacksonSerializer());
         redisTemplate.setHashKeySerializer(stringSerializer());
@@ -113,11 +117,49 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
      * @param redisConfiguration 连接配置
      * @return
      */
-    protected RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration) {
-        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration);
-        // 必须调用，用于对象创建后根据配置创建client连接等
+    protected RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration, RedisProperties properties) {
+        //redis客户端配置
+        LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
+        // 连接池配置
+        builder.poolConfig(getPoolConfig(properties.getLettuce().getPool()));
+        // Redis客户端读取超时时间
+        if (Objects.nonNull(properties.getTimeout())) {
+            builder.commandTimeout(properties.getTimeout());
+        }
+        // 关闭连接池超时时间
+        if (Objects.nonNull(properties.getLettuce().getShutdownTimeout())) {
+            builder.shutdownTimeout(properties.getLettuce().getShutdownTimeout());
+        }
+        LettuceClientConfiguration lettuceClientConfiguration = builder.build();
+
+        //根据配置和客户端配置创建连接
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
         factory.afterPropertiesSet();
+
         return factory;
+    }
+
+    /**
+     * 获取连接池配置
+     *
+     * @param properties
+     * @return
+     */
+    private GenericObjectPoolConfig<?> getPoolConfig(RedisProperties.Pool properties) {
+        GenericObjectPoolConfig<?> config = new GenericObjectPoolConfig<>();
+        if (properties == null) {
+            return config;
+        }
+        config.setMaxTotal(properties.getMaxActive());
+        config.setMaxIdle(properties.getMaxIdle());
+        config.setMinIdle(properties.getMinIdle());
+        if (properties.getTimeBetweenEvictionRuns() != null) {
+            config.setTimeBetweenEvictionRunsMillis(properties.getTimeBetweenEvictionRuns().toMillis());
+        }
+        if (properties.getMaxWait() != null) {
+            config.setMaxWaitMillis(properties.getMaxWait().toMillis());
+        }
+        return config;
     }
 
     /**
@@ -126,14 +168,14 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
      * @param redisDataSourceProperties 配置
      * @return
      */
-    protected Map<String, RedisConfiguration> createConfiguration(RedisDataSourceProperties redisDataSourceProperties) {
-        Map<String, RedisConfiguration> configs = Maps.newHashMap();
+    protected Table<String, RedisProperties, RedisConfiguration> createConfiguration(RedisDataSourceProperties redisDataSourceProperties) {
+        Table<String, RedisProperties, RedisConfiguration> table = HashBasedTable.create();
         Map<String, RedisProperties> redisPropertiesMap = redisDataSourceProperties.getConfig();
         redisPropertiesMap.forEach((key, properties) -> {
             RedisConfiguration redisConfiguration = RedisDbUtils.createRedisConfiguration(properties);
-            configs.put(key, redisConfiguration);
+            table.put(key, properties, redisConfiguration);
         });
-        return configs;
+        return table;
     }
 
     /**

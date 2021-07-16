@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.redis.utils.RedisDbUtils;
+import com.emily.infrastructure.datasource.redis.utils.RedisDbUtils;
 import com.google.common.collect.Maps;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +27,7 @@ public class RedisController {
         dataMap.put("te2", 12);
         dataMap.put("te3", "哈哈");
         RedisDbUtils.getRedisTemplate().opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
+        RedisDbUtils.getRedisTemplate("one").opsForValue().set("one", "adf", 1, TimeUnit.MINUTES);
         return RedisDbUtils.getStringRedisTemplate("default").opsForValue().get("test");
     }
     @GetMapping("get2")
@@ -37,6 +38,7 @@ public class RedisController {
         dataMap.put("te2", 12);
         dataMap.put("te3", "年好吗");
         RedisDbUtils.getRedisTemplate("test").opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
+        RedisDbUtils.getRedisTemplate("one").opsForValue().set("one", dataMap, 1, TimeUnit.MINUTES);
         return RedisDbUtils.getRedisTemplate("test").opsForValue().get("test");
     }
 }

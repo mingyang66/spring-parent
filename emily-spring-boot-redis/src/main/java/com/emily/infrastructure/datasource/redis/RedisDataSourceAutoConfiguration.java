@@ -1,8 +1,8 @@
-package com.emily.infrastructure.redis;
+package com.emily.infrastructure.datasource.redis;
 
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.datasource.redis.utils.RedisDbUtils;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
-import com.emily.infrastructure.redis.utils.RedisDbUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,12 +13,14 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.data.redis.connection.RedisConfiguration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisNode;
-import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,9 +39,10 @@ import java.util.Set;
  * @author: Emily
  * @create: 2021/07/11
  */
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
 @EnableConfigurationProperties(RedisDataSourceProperties.class)
+@ConditionalOnProperty(prefix = "spring.emily.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class RedisDataSourceAutoConfiguration implements InitializingBean, DisposableBean {
 
     private DefaultListableBeanFactory defaultListableBeanFactory;
@@ -52,17 +55,17 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
 
     @PostConstruct
     public void stringRedisTemplate() {
-        Map<String, RedisSentinelConfiguration> configs = createConfiguration(redisDataSourceProperties);
+        Map<String, RedisConfiguration> configs = createConfiguration(redisDataSourceProperties);
         configs.forEach((key, config) -> {
             // 获取标识对应的哨兵配置
-            RedisSentinelConfiguration redisSentinelConfiguration = configs.get(key);
+            RedisConfiguration redisConfiguration = configs.get(key);
             // 获取StringRedisTemplate对象
-            StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisSentinelConfiguration);
+            StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConfiguration);
             // 将StringRedisTemplate对象注入IOC容器bean
             defaultListableBeanFactory.registerSingleton(RedisDbUtils.getStringRedisTemplateBeanName(key), stringRedisTemplate);
 
             // 获取RedisTemplate对象
-            RedisTemplate redisTemplate = createRedisTemplate(redisSentinelConfiguration);
+            RedisTemplate redisTemplate = createRedisTemplate(redisConfiguration);
             // 将RedisTemplate对象注入IOC容器
             defaultListableBeanFactory.registerSingleton(RedisDbUtils.getRedisTemplateBeanName(key), redisTemplate);
         });
@@ -71,14 +74,11 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
     /**
      * 创建 StringRedisTemplate对象
      *
-     * @param redisSentinelConfiguration 哨兵配置类
+     * @param redisConfiguration 配置类
      * @return
      */
-    protected StringRedisTemplate createStringRedisTemplate(RedisSentinelConfiguration redisSentinelConfiguration) {
-        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisSentinelConfiguration);
-        // 必须调用，用于对象创建后根据配置创建client连接等
-        factory.afterPropertiesSet();
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(factory);
+    protected StringRedisTemplate createStringRedisTemplate(RedisConfiguration redisConfiguration) {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(createLettuceConnectionFactory(redisConfiguration));
         stringRedisTemplate.setKeySerializer(stringSerializer());
         stringRedisTemplate.setValueSerializer(jacksonSerializer());
         stringRedisTemplate.setHashKeySerializer(stringSerializer());
@@ -91,56 +91,49 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
     /**
      * 创建 RedisTemplate对象
      *
-     * @param redisSentinelConfiguration 哨兵配置类
+     * @param redisConfiguration 配置类
      * @return
      */
-    protected RedisTemplate createRedisTemplate(RedisSentinelConfiguration redisSentinelConfiguration) {
-        RedisTemplate redisTemplate = new RedisTemplate();
-        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisSentinelConfiguration);
-        // 必须调用，用于对象创建后根据配置创建client连接等
-        factory.afterPropertiesSet();
-        redisTemplate.setConnectionFactory(factory);
+    protected RedisTemplate createRedisTemplate(RedisConfiguration redisConfiguration) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate();
+        redisTemplate.setConnectionFactory(createLettuceConnectionFactory(redisConfiguration));
         redisTemplate.setKeySerializer(stringSerializer());
         redisTemplate.setValueSerializer(jacksonSerializer());
         redisTemplate.setHashKeySerializer(stringSerializer());
         redisTemplate.setHashValueSerializer(jacksonSerializer());
         // bean初始化完成后调用方法，主要检查key-value序列化对象是否初始化，并标注RedisTemplate已经被初始化，否则会报：
-        // template not initialized; call afterPropertiesSet() before using it 异常
+        // "template not initialized; call afterPropertiesSet() before using it" 异常
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
     /**
-     * 配置第一个数据源的——交易中台
+     * 创建连接工厂类
+     *
+     * @param redisConfiguration 连接配置
+     * @return
      */
-    protected Map<String, RedisSentinelConfiguration> createConfiguration(RedisDataSourceProperties redisDataSourceProperties) {
-        Map<String, RedisSentinelConfiguration> configs = Maps.newHashMap();
-        Map<String, RedisProperties> redisPropertiesMap = redisDataSourceProperties.getConfig();
-        redisPropertiesMap.forEach((key, properties) -> {
-            RedisSentinelConfiguration result = new RedisSentinelConfiguration();
-            result.setDatabase(properties.getDatabase());
-            result.setMaster(properties.getSentinel().getMaster());
-            result.setPassword(properties.getPassword());
-            result.setSentinelPassword(properties.getSentinel().getPassword());
-            result.setSentinels(toRedisNodes(properties.getSentinel().getNodes()));
-            configs.put(key, result);
-        });
-        return configs;
+    protected RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration) {
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration);
+        // 必须调用，用于对象创建后根据配置创建client连接等
+        factory.afterPropertiesSet();
+        return factory;
     }
 
     /**
-     * 将List转化为Iterable类型
+     * 创建Redis数据源配置key-value映射
      *
-     * @param nodes
+     * @param redisDataSourceProperties 配置
      * @return
      */
-    protected Iterable<RedisNode> toRedisNodes(List<String> nodes) {
-        Set<RedisNode> setRedisNode = new HashSet<>();
-        nodes.forEach(node -> {
-            String[] nodeInfo = node.split(CharacterUtils.COLON_EN);
-            setRedisNode.add(RedisNode.newRedisNode().listeningAt(nodeInfo[0], Integer.valueOf(nodeInfo[1])).build());
+    protected Map<String, RedisConfiguration> createConfiguration(RedisDataSourceProperties redisDataSourceProperties) {
+        Map<String, RedisConfiguration> configs = Maps.newHashMap();
+        Map<String, RedisProperties> redisPropertiesMap = redisDataSourceProperties.getConfig();
+        redisPropertiesMap.forEach((key, properties) -> {
+            RedisConfiguration redisConfiguration = RedisDbUtils.createRedisConfiguration(properties);
+            configs.put(key, redisConfiguration);
         });
-        return setRedisNode;
+        return configs;
     }
 
     /**

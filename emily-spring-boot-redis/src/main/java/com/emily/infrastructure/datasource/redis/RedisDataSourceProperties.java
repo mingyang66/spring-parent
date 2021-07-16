@@ -1,4 +1,4 @@
-package com.emily.infrastructure.redis;
+package com.emily.infrastructure.datasource.redis;
 
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;

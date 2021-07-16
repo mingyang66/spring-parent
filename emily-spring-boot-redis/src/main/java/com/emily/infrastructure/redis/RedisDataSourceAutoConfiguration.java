@@ -32,7 +32,7 @@ import java.util.Set;
  * @program: spring-parent
  * @description: Redis多数据源配置
  * @author: Emily
- * @create: 2021/07/13
+ * @create: 2021/07/11
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
@@ -51,11 +51,16 @@ public class RedisDataSourceAutoConfiguration {
     public void stringRedisTemplate() {
         Map<String, RedisSentinelConfiguration> configs = createConfiguration(redisDataSourceProperties);
         configs.forEach((key, config) -> {
+            // 获取标识对应的哨兵配置
             RedisSentinelConfiguration redisSentinelConfiguration = configs.get(key);
+            // 获取StringRedisTemplate对象
             StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisSentinelConfiguration);
+            // 将StringRedisTemplate对象注入IOC容器bean
             defaultListableBeanFactory.registerSingleton(RedisDbUtils.getStringRedisTemplateBeanName(key), stringRedisTemplate);
 
+            // 获取RedisTemplate对象
             RedisTemplate redisTemplate = createRedisTemplate(redisSentinelConfiguration);
+            // 将RedisTemplate对象注入IOC容器
             defaultListableBeanFactory.registerSingleton(RedisDbUtils.getRedisTemplateBeanName(key), redisTemplate);
         });
     }

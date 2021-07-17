@@ -59,10 +59,9 @@ public class RedisDbConnectionFactory {
         }
         builder.clientOptions(createClientOptions(properties));
         builder.clientResources(DefaultClientResources.create());
-        LettuceClientConfiguration lettuceClientConfiguration = builder.build();
-
-        //根据配置和客户端配置创建连接
-        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
+        // 根据配置和客户端配置创建连接
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, builder.build());
+        // 创建Redis连接
         factory.afterPropertiesSet();
 
         return factory;
@@ -104,7 +103,6 @@ public class RedisDbConnectionFactory {
         if (connectTimeout != null) {
             builder.socketOptions(SocketOptions.builder().connectTimeout(connectTimeout).build());
         }
-
         return builder.timeoutOptions(TimeoutOptions.enabled()).build();
     }
 

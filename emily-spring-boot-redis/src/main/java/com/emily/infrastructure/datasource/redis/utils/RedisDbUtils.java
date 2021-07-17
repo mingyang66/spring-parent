@@ -234,7 +234,7 @@ public class RedisDbUtils {
         return nodes;
     }
 
-    protected static ConnectionInfo parseUrl(String url) {
+    public static ConnectionInfo parseUrl(String url) {
         try {
             URI uri = new URI(url);
             String scheme = uri.getScheme();
@@ -262,7 +262,7 @@ public class RedisDbUtils {
         }
     }
 
-    static class ConnectionInfo {
+    public static class ConnectionInfo {
 
         private final URI uri;
 
@@ -279,7 +279,7 @@ public class RedisDbUtils {
             this.password = password;
         }
 
-        boolean isUseSsl() {
+        public boolean isUseSsl() {
             return this.useSsl;
         }
 

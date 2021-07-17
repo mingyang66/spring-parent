@@ -1,6 +1,5 @@
 package com.emily.infrastructure.datasource.redis;
 
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.datasource.redis.utils.RedisDbUtils;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -9,8 +8,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.SocketOptions;
+import io.lettuce.core.TimeoutOptions;
+import io.lettuce.core.cluster.ClusterClientOptions;
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
+import io.lettuce.core.resource.DefaultClientResources;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,7 +27,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
@@ -31,14 +34,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @program: spring-parent
- * @description: Redis多数据源配置
+ * @description: Redis多数据源配置，参考源码：LettuceConnectionConfiguration
  * @author: Emily
  * @create: 2021/07/11
  */
@@ -122,14 +127,28 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
         LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
         // 连接池配置
         builder.poolConfig(getPoolConfig(properties.getLettuce().getPool()));
+        if (properties.isSsl()) {
+            builder.useSsl();
+        }
+        if (StringUtils.hasText(properties.getUrl())) {
+            this.customizeConfigurationFromUrl(builder, properties);
+        }
         // Redis客户端读取超时时间
         if (Objects.nonNull(properties.getTimeout())) {
             builder.commandTimeout(properties.getTimeout());
         }
         // 关闭连接池超时时间
-        if (Objects.nonNull(properties.getLettuce().getShutdownTimeout())) {
-            builder.shutdownTimeout(properties.getLettuce().getShutdownTimeout());
+        if (properties.getLettuce() != null) {
+            RedisProperties.Lettuce lettuce = properties.getLettuce();
+            if (lettuce.getShutdownTimeout() != null && !lettuce.getShutdownTimeout().isZero()) {
+                builder.shutdownTimeout(properties.getLettuce().getShutdownTimeout());
+            }
         }
+        if (StringUtils.hasText(properties.getClientName())) {
+            builder.clientName(properties.getClientName());
+        }
+        builder.clientOptions(createClientOptions(properties));
+        builder.clientResources(DefaultClientResources.create());
         LettuceClientConfiguration lettuceClientConfiguration = builder.build();
 
         //根据配置和客户端配置创建连接
@@ -137,6 +156,43 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
         factory.afterPropertiesSet();
 
         return factory;
+    }
+
+    private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder, RedisProperties properties) {
+        RedisDbUtils.ConnectionInfo connectionInfo = RedisDbUtils.parseUrl(properties.getUrl());
+        if (connectionInfo.isUseSsl()) {
+            builder.useSsl();
+        }
+
+    }
+
+    private ClientOptions createClientOptions(RedisProperties properties) {
+        ClientOptions.Builder builder = this.initializeClientOptionsBuilder(properties);
+        Duration connectTimeout = properties.getConnectTimeout();
+        if (connectTimeout != null) {
+            builder.socketOptions(SocketOptions.builder().connectTimeout(connectTimeout).build());
+        }
+
+        return builder.timeoutOptions(TimeoutOptions.enabled()).build();
+    }
+
+    private ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {
+        if (properties.getCluster() != null) {
+            io.lettuce.core.cluster.ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
+            RedisProperties.Lettuce.Cluster.Refresh refreshProperties = properties.getLettuce().getCluster().getRefresh();
+            io.lettuce.core.cluster.ClusterTopologyRefreshOptions.Builder refreshBuilder = ClusterTopologyRefreshOptions.builder().dynamicRefreshSources(refreshProperties.isDynamicRefreshSources());
+            if (refreshProperties.getPeriod() != null) {
+                refreshBuilder.enablePeriodicRefresh(refreshProperties.getPeriod());
+            }
+
+            if (refreshProperties.isAdaptive()) {
+                refreshBuilder.enableAllAdaptiveRefreshTriggers();
+            }
+
+            return builder.topologyRefreshOptions(refreshBuilder.build());
+        } else {
+            return ClientOptions.builder();
+        }
     }
 
     /**

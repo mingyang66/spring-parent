@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.context.logger.LoggerService;
@@ -45,8 +45,8 @@ public class RequestLoggerThrowsAdvice implements ThrowsAdvice {
         baseLogger.setMethod(request.getMethod());
         //请求参数
         baseLogger.setRequestParams(RequestService.getParameterMap(request));
-        if (e instanceof BusinessException) {
-            BusinessException exception = (BusinessException) e;
+        if (e instanceof SystemException) {
+            SystemException exception = (SystemException) e;
             baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
         } else {
             baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(e));

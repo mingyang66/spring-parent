@@ -4,6 +4,7 @@ package com.emily.infrastructure.autoconfigure.exception;
 import com.emily.infrastructure.common.base.SimpleResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.text.MessageFormat;
 
 /**
  * @author Emily
@@ -154,18 +156,31 @@ public class ExceptionAdviceHandler {
      * 数字格式异常
      */
     @ExceptionHandler(NumberFormatException.class)
-    public SimpleResponse numberFormatException(NumberFormatException e){
+    public SimpleResponse numberFormatException(NumberFormatException e) {
         recordErrorInfo(e);
         return SimpleResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
     }
+
     /**
      * @Description 如果代理异常调用方法将会抛出此异常
      * @Author
      * @Date 2019/9/2 16:43
      * @Version 1.0
      */
+    @ExceptionHandler(SystemException.class)
+    public SimpleResponse systemThrowableException(SystemException e) {
+        recordErrorInfo(e);
+        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage());
+    }
+
+    /**
+     * 业务异常
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(BusinessException.class)
-    public SimpleResponse businessThrowableException(BusinessException e) {
+    public SimpleResponse businessThrowableException(SystemException e) {
         recordErrorInfo(e);
         return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage());
     }
@@ -175,8 +190,12 @@ public class ExceptionAdviceHandler {
      */
     public static void recordErrorInfo(Throwable ex) {
         String errorMsg = PrintExceptionInfo.printErrorInfo(ex);
-        if(ex instanceof BusinessException){
-            errorMsg = StringUtils.join("业务异常，异常码是【", ((BusinessException) ex).getStatus(), "】，异常消息是【",((BusinessException) ex).getErrorMessage(),"】", CharacterUtils.ENTER, errorMsg);
+        if (ex instanceof SystemException) {
+            SystemException systemException = (SystemException) ex;
+            errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getErrorMessage(), errorMsg);
+        } else if (ex instanceof BusinessException) {
+            BusinessException businessException = (BusinessException) ex;
+            errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", businessException.getStatus(), businessException.getErrorMessage(), errorMsg);
         }
         LogbackFactory.error(PrintExceptionInfo.class, errorMsg);
     }

@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.idempotent.interceptor;
 
 import com.emily.infrastructure.autoconfigure.idempotent.annotation.ApiIdempotent;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,11 +42,11 @@ public class IdempotentMethodBeforeAdvice implements MethodBeforeAdvice {
         //客户端发送的防止接口重复提交header参数
         String authentication = request.getHeader(AUTHENTICATION);
         if (StringUtils.isEmpty(authentication)) {
-            throw new BusinessException(AppHttpStatus.API500_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
+            throw new SystemException(AppHttpStatus.API500_EXCEPTION.getStatus(), "幂等性验证Header(Authentication)不可为空！");
         }
         boolean delFlag = stringRedisTemplate.delete(StringUtils.join("idempotent", CharacterUtils.COLON_EN, authentication));
         if (!delFlag) {
-            throw new BusinessException(AppHttpStatus.API500_EXCEPTION);
+            throw new SystemException(AppHttpStatus.API500_EXCEPTION);
         }
     }
 

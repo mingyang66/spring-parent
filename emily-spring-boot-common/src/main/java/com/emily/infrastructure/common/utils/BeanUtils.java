@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.google.common.collect.Maps;
 
 import java.beans.BeanInfo;
@@ -46,7 +46,7 @@ public class BeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), "类型转换异常");
+            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), "类型转换异常");
         }
     }
 
@@ -72,7 +72,7 @@ public class BeanUtils {
             }
             return bean;
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), "Map转Bean异常");
+            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), "Map转Bean异常");
         }
     }
 }

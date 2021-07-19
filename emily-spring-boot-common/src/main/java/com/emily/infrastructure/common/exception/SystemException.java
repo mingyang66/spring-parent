@@ -8,7 +8,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  * @Description: 业务异常
  * @Version: 1.0
  */
-public class BusinessException extends RuntimeException{
+public class SystemException extends RuntimeException{
     /**
      * 状态码
      */
@@ -18,13 +18,13 @@ public class BusinessException extends RuntimeException{
      */
     private String errorMessage;
 
-    public BusinessException(AppHttpStatus httpStatus){
+    public SystemException(AppHttpStatus httpStatus){
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
         this.errorMessage = httpStatus.getMessage();
     }
 
-    public BusinessException(int status, String errorMessage){
+    public SystemException(int status, String errorMessage){
         super(errorMessage);
         this.status = status;
         this.errorMessage = errorMessage;

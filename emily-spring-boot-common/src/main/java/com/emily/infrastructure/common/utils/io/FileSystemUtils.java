@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.io;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,7 +23,7 @@ public class FileSystemUtils {
         try {
             return Files.getFileStore(Paths.get(path)).getUsableSpace();
         } catch (IOException e) {
-            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取此抽象路径名指定的分区上可用于此虚拟机的字节数异常，" + e);
+            throw new SystemException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取此抽象路径名指定的分区上可用于此虚拟机的字节数异常，" + e);
         }
     }
 
@@ -37,7 +37,7 @@ public class FileSystemUtils {
         try {
             return Files.getFileStore(Paths.get(path)).getUnallocatedSpace();
         } catch (IOException e) {
-            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取文件系统中未分配存储空间的字节数异常，" + e);
+            throw new SystemException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取文件系统中未分配存储空间的字节数异常，" + e);
         }
     }
 
@@ -51,7 +51,7 @@ public class FileSystemUtils {
         try {
             return Files.getFileStore(Paths.get(path)).getTotalSpace();
         } catch (IOException e) {
-            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取文件系统对应的总的字节数异常，" + e);
+            throw new SystemException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取文件系统对应的总的字节数异常，" + e);
         }
     }
 
@@ -65,7 +65,7 @@ public class FileSystemUtils {
         try {
             return Files.getFileStore(Paths.get(path)).isReadOnly();
         } catch (IOException e) {
-            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判断文件存储是否只读异常，" + e);
+            throw new SystemException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判断文件存储是否只读异常，" + e);
         }
     }
 }

@@ -4,7 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
@@ -88,10 +88,10 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         Map<String, DruidDataSource> configs = dataSourceProperties.getConfig();
         if (Objects.isNull(dataSourceProperties.getDefaultConfig())) {
-            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
+            throw new SystemException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "默认数据库必须配置");
         }
         if (configs.isEmpty()) {
-            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "数据库配置不存在");
+            throw new SystemException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "数据库配置不存在");
         }
         Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
         configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));

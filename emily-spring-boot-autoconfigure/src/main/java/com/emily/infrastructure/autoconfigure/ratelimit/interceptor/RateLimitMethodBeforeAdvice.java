@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.ratelimit.interceptor;
 
 import com.emily.infrastructure.autoconfigure.ratelimit.annotation.ApiRateLimit;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.hash.Md5Utils;
@@ -48,7 +48,7 @@ public class RateLimitMethodBeforeAdvice implements MethodBeforeAdvice {
                 String.valueOf(limit.time())
                 );
         if (data == 0L) {
-            throw new BusinessException(AppHttpStatus.API500_EXCEPTION);
+            throw new SystemException(AppHttpStatus.API500_EXCEPTION);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.redis.utils;
+package com.emily.infrastructure.datasource.redis.factory;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author: Emily
  * @create: 2021/07/11
  */
-public class RedisDbUtils {
+public class RedisDbFactory {
     /**
      * 字符串前缀
      */
@@ -46,6 +46,7 @@ public class RedisDbUtils {
      */
     private static final Map<String, RedisTemplate> restCache = new ConcurrentHashMap<>();
 
+    public static final RedisDbFactory INSTANCE = new RedisDbFactory();
     /**
      * 获取Redis默认字符串模板
      *
@@ -65,7 +66,7 @@ public class RedisDbUtils {
         /**
          * 获取缓存key
          */
-        String key = getStringRedisTemplateBeanName(redisMark);
+        String key = INSTANCE.getStringRedisTemplateBeanName(redisMark);
         if (stringCache.containsKey(key)) {
             return stringCache.get(key);
         }
@@ -96,7 +97,7 @@ public class RedisDbUtils {
         /**
          * 获取缓存key
          */
-        String key = getRedisTemplateBeanName(redisMark);
+        String key = INSTANCE.getRedisTemplateBeanName(redisMark);
         if (restCache.containsKey(key)) {
             return restCache.get(key);
         }
@@ -114,7 +115,7 @@ public class RedisDbUtils {
      * @param redisMark
      * @return
      */
-    public static String getStringRedisTemplateBeanName(String redisMark) {
+    public String getStringRedisTemplateBeanName(String redisMark) {
         if (Objects.isNull(redisMark)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
         }
@@ -127,7 +128,7 @@ public class RedisDbUtils {
      * @param redisMark
      * @return
      */
-    public static String getRedisTemplateBeanName(String redisMark) {
+    public String getRedisTemplateBeanName(String redisMark) {
         if (Objects.isNull(redisMark)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
         }

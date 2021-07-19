@@ -26,6 +26,8 @@ import java.util.Objects;
  * @create: 2021/07/11
  */
 public class RedisDbConnectionFactory {
+    private static final RedisDbConnectionFactory INSTANCE = new RedisDbConnectionFactory();
+
     /**
      * 创建连接工厂类
      *
@@ -36,12 +38,12 @@ public class RedisDbConnectionFactory {
         //redis客户端配置
         LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
         // 连接池配置
-        builder.poolConfig(getPoolConfig(properties.getLettuce().getPool()));
+        builder.poolConfig(INSTANCE.getPoolConfig(properties.getLettuce().getPool()));
         if (properties.isSsl()) {
             builder.useSsl();
         }
         if (StringUtils.hasText(properties.getUrl())) {
-            customizeConfigurationFromUrl(builder, properties);
+            INSTANCE.customizeConfigurationFromUrl(builder, properties);
         }
         // Redis客户端读取超时时间
         if (Objects.nonNull(properties.getTimeout())) {
@@ -57,7 +59,7 @@ public class RedisDbConnectionFactory {
         if (StringUtils.hasText(properties.getClientName())) {
             builder.clientName(properties.getClientName());
         }
-        builder.clientOptions(createClientOptions(properties));
+        builder.clientOptions(INSTANCE.createClientOptions(properties));
         builder.clientResources(DefaultClientResources.create());
         // 根据配置和客户端配置创建连接
         LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, builder.build());
@@ -73,7 +75,7 @@ public class RedisDbConnectionFactory {
      * @param properties
      * @return
      */
-    private static GenericObjectPoolConfig<?> getPoolConfig(RedisProperties.Pool properties) {
+    private GenericObjectPoolConfig<?> getPoolConfig(RedisProperties.Pool properties) {
         GenericObjectPoolConfig<?> config = new GenericObjectPoolConfig<>();
         if (properties == null) {
             return config;
@@ -90,14 +92,14 @@ public class RedisDbConnectionFactory {
         return config;
     }
 
-    private static void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder, RedisProperties properties) {
+    private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder, RedisProperties properties) {
         ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(properties.getUrl());
         if (connectionInfo.isUseSsl()) {
             builder.useSsl();
         }
     }
 
-    private static ClientOptions createClientOptions(RedisProperties properties) {
+    private ClientOptions createClientOptions(RedisProperties properties) {
         ClientOptions.Builder builder = initializeClientOptionsBuilder(properties);
         Duration connectTimeout = properties.getConnectTimeout();
         if (connectTimeout != null) {
@@ -106,7 +108,7 @@ public class RedisDbConnectionFactory {
         return builder.timeoutOptions(TimeoutOptions.enabled()).build();
     }
 
-    private static ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {
+    private ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {
         if (properties.getCluster() != null) {
             io.lettuce.core.cluster.ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
             RedisProperties.Lettuce.Cluster.Refresh refreshProperties = properties.getLettuce().getCluster().getRefresh();

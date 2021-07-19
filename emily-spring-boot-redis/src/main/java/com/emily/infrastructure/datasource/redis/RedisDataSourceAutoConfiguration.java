@@ -2,7 +2,7 @@ package com.emily.infrastructure.datasource.redis;
 
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConfigurationFactory;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionFactory;
-import com.emily.infrastructure.datasource.redis.utils.RedisDbUtils;
+import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -58,12 +58,12 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
                 // 获取StringRedisTemplate对象
                 StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConfiguration, properties);
                 // 将StringRedisTemplate对象注入IOC容器bean
-                defaultListableBeanFactory.registerSingleton(RedisDbUtils.getStringRedisTemplateBeanName(key), stringRedisTemplate);
+                defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getStringRedisTemplateBeanName(key), stringRedisTemplate);
 
                 // 获取RedisTemplate对象
                 RedisTemplate redisTemplate = createRedisTemplate(redisConfiguration, properties);
                 // 将RedisTemplate对象注入IOC容器
-                defaultListableBeanFactory.registerSingleton(RedisDbUtils.getRedisTemplateBeanName(key), redisTemplate);
+                defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getRedisTemplateBeanName(key), redisTemplate);
             });
         });
     }

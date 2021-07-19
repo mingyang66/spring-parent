@@ -17,25 +17,26 @@ import java.util.List;
  */
 public class RedisDbConfigurationFactory {
 
+    private static final RedisDbConfigurationFactory INSTANCE = new RedisDbConfigurationFactory();
     /**
      * 获取Redis配置
      * @param properties
      * @return
      */
     public static RedisConfiguration createRedisConfiguration(RedisProperties properties) {
-        if (getSentinelConfig(properties) != null) {
-            return getSentinelConfig(properties);
+        if (INSTANCE.getSentinelConfig(properties) != null) {
+            return INSTANCE.getSentinelConfig(properties);
         }
-        if (getClusterConfiguration(properties) != null) {
-            return getClusterConfiguration(properties);
+        if (INSTANCE.getClusterConfiguration(properties) != null) {
+            return INSTANCE.getClusterConfiguration(properties);
         }
-        return getStandaloneConfig(properties);
+        return INSTANCE.getStandaloneConfig(properties);
     }
 
     /**
      * 创建单机配置
      */
-    private static final RedisStandaloneConfiguration getStandaloneConfig(RedisProperties properties) {
+    private final RedisStandaloneConfiguration getStandaloneConfig(RedisProperties properties) {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         if (StringUtils.hasText(properties.getUrl())) {
             ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(properties.getUrl());
@@ -57,7 +58,7 @@ public class RedisDbConfigurationFactory {
     /**
      * 创建哨兵配置RedisSentinelConfiguration
      */
-    private static final RedisSentinelConfiguration getSentinelConfig(RedisProperties properties) {
+    private final RedisSentinelConfiguration getSentinelConfig(RedisProperties properties) {
         RedisProperties.Sentinel sentinelProperties = properties.getSentinel();
         if (sentinelProperties != null) {
             RedisSentinelConfiguration config = new RedisSentinelConfiguration();
@@ -85,7 +86,7 @@ public class RedisDbConfigurationFactory {
     /**
      * 创建RedisClusterConfiguration集群配置
      */
-    private static final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties) {
+    private final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties) {
         if (properties.getCluster() == null) {
             return null;
         }
@@ -102,7 +103,7 @@ public class RedisDbConfigurationFactory {
     }
 
 
-    private static List<RedisNode> createSentinels(RedisProperties.Sentinel sentinel) {
+    private List<RedisNode> createSentinels(RedisProperties.Sentinel sentinel) {
         List<RedisNode> nodes = new ArrayList<>();
         for (String node : sentinel.getNodes()) {
             try {

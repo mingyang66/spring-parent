@@ -5,6 +5,7 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgno
 import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.base.SimpleResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;
 import org.apache.commons.lang3.ArrayUtils;
@@ -61,7 +62,9 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
                 || pathMatcher.match(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
-            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+            BaseResponse baseResponse = (BaseResponse)body;
+            baseResponse.setSpentTime(RequestUtils.getSpentTime());
+            proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //获取控制器方法返回值得泛型类型
             Type type = returnType.getMethod().getGenericReturnType();
@@ -70,10 +73,12 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              * 2.返回的ResponseEntity带泛型化参数，且参数是void
              */
             if ((type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class))) {
-                SimpleResponse responseData = SimpleResponse.buildResponse(AppHttpStatus.OK);
-                proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
+                SimpleResponse simpleResponse = SimpleResponse.buildResponse(AppHttpStatus.OK);
+                simpleResponse.setSpentTime(RequestUtils.getSpentTime());
+                proxyObject.handleReturnValue(ResponseEntity.ok(simpleResponse), returnType, mavContainer, webRequest);
             } else {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
+                baseResponse.setSpentTime(RequestUtils.getSpentTime());
                 baseResponse.setData(body);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }

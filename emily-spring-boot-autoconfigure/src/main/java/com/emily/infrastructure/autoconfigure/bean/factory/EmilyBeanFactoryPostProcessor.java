@@ -2,7 +2,6 @@ package com.emily.infrastructure.autoconfigure.bean.factory;
 
 import com.emily.infrastructure.autoconfigure.http.HttpClientProperties;
 import com.emily.infrastructure.autoconfigure.http.client.HttpClientAutoConfiguration;
-import com.emily.infrastructure.autoconfigure.ratelimit.RateLimitAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties;
 import org.apache.commons.lang3.StringUtils;
@@ -40,36 +39,8 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RequestLoggerAutoConfiguration.API_LOG_NORMAL_BEAN_NAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-        if (beanFactory.containsBeanDefinition(RateLimitAutoConfiguration.RATE_LIMIT_POINT_CUT_ADVISOR_NAME)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RateLimitAutoConfiguration.RATE_LIMIT_POINT_CUT_ADVISOR_NAME);
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition(RateLimitAutoConfiguration.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RateLimitAutoConfiguration.class.getName());
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
         if (beanFactory.containsBeanDefinition(RedisAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RedisAutoConfiguration.class.getName());
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition(StringUtils.join("spring.redis-", RedisProperties.class.getName()))) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(StringUtils.join("spring.redis-", RedisProperties.class.getName()));
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("org.springframework.boot.autoconfigure.data.redis.LettuceConnectionConfiguration")) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("org.springframework.boot.autoconfigure.data.redis.LettuceConnectionConfiguration");
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("redisConnectionFactory")) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("redisConnectionFactory");
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("lettuceClientResources")) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("lettuceClientResources");
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("stringRedisTemplate")) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("stringRedisTemplate");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
         if (beanFactory.containsBeanDefinition(HttpClientAutoConfiguration.class.getName())) {
@@ -82,6 +53,30 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
         }
         if (beanFactory.containsBeanDefinition("loggerService")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("loggerService");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("spring.emily.request.logback-com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.request.logback-com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("spring.datasource.druid-com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatPropertie")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.datasource.druid-com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatPropertie");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("org.springframework.aop.support.RegexpMethodPointcutAdvisor")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("org.springframework.aop.support.RegexpMethodPointcutAdvisor");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("spring.datasource.druid-com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.datasource.druid-com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }

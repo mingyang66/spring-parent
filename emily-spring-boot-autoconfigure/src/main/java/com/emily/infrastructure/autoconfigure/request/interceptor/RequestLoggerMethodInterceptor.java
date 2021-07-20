@@ -54,6 +54,8 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
 
         //新建计时器并开始计时
         long start = System.currentTimeMillis();
+        //设置业务请求开始时间
+        request.setAttribute("startTime", start);
         //调用真实的action方法
         Object result = invocation.proceed();
 
@@ -65,7 +67,8 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //异步记录接口响应信息
         loggerService.traceResponse(baseLogger);
-
+        //将接口业务处理耗时记录请求上下文
+        request.setAttribute("spentTime", System.currentTimeMillis() - start);
         return result;
 
     }

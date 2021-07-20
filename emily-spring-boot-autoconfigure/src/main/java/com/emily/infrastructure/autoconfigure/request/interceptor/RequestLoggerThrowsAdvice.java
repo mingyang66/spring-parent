@@ -8,14 +8,17 @@ import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.request.RequestService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.aop.ThrowsAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
+ * @author Emily
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Version: 1.0
  */
@@ -53,6 +56,11 @@ public class RequestLoggerThrowsAdvice implements ThrowsAdvice {
         }
         //记录异常日志
         loggerService.traceResponse(baseLogger);
+        Object startTime = request.getAttribute("startTime");
+        if (Objects.nonNull(startTime)) {
+            // 将接口业务处理耗时记录请求上下文
+            request.setAttribute("spentTime", System.currentTimeMillis() - NumberUtils.toLong(startTime.toString(), System.currentTimeMillis()));
+        }
     }
 
 

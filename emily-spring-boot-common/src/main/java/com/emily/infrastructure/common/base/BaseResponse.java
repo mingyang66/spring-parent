@@ -5,9 +5,9 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import java.io.Serializable;
 
 /**
+ * @author Emily
  * @Description: 控制器返回结果
  * @ProjectName: spring-parent
- * @Package: com.yaomy.security.po.AjaxResponseBody
  * @Date: 2019/7/1 15:33
  * @Version: 1.0
  */
@@ -15,15 +15,28 @@ public class BaseResponse<T> implements Serializable {
     private int status;
     private String message;
     private T data;
+    private long spentTime;
 
     public BaseResponse() {
         super();
     }
 
-    private BaseResponse(Builder<T> builder) {
-        this.status = builder.status;
-        this.message = builder.message;
-        this.data = builder.data;
+    public BaseResponse(int status, String message, T data, long spentTime) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+        this.spentTime = spentTime;
+    }
+
+    public BaseResponse(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
+    public BaseResponse(int status, String message, T data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
     }
 
     public int getStatus() {
@@ -50,30 +63,14 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public static class Builder<T> {
-        private int status;
-        private String message;
-        private T data;
-
-        public Builder<T> setStatus(int status) {
-            this.status = status;
-            return this;
-        }
-
-        public Builder<T> setMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Builder<T> setData(T data) {
-            this.data = data;
-            return this;
-        }
-
-        public BaseResponse<T> builder() {
-            return new BaseResponse<>(this);
-        }
+    public long getSpentTime() {
+        return spentTime;
     }
+
+    public void setSpentTime(long spentTime) {
+        this.spentTime = spentTime;
+    }
+
 
     /**
      * @Description 创建响应对象
@@ -81,10 +78,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message) {
-        return new Builder<T>()
-                .setStatus(status)
-                .setMessage(message)
-                .builder();
+        return new BaseResponse<T>(status, message);
     }
 
     /**
@@ -94,11 +88,7 @@ public class BaseResponse<T> implements Serializable {
      * @return
      */
     public static <T> BaseResponse<T> buildResponse(T data) {
-        return new Builder<T>()
-                .setStatus(AppHttpStatus.OK.getStatus())
-                .setMessage(AppHttpStatus.OK.getMessage())
-                .setData(data)
-                .builder();
+        return new BaseResponse<T>(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data);
     }
 
     /**
@@ -107,11 +97,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message, T data) {
-        return new Builder<T>()
-                .setStatus(status)
-                .setMessage(message)
-                .setData(data)
-                .builder();
+        return new BaseResponse<T>(status, message, data);
     }
 
     /**
@@ -119,11 +105,8 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpMsg) {
-        return new Builder<T>()
-                .setStatus(appHttpMsg.getStatus())
-                .setMessage(appHttpMsg.getMessage())
-                .builder();
+    public static <T> BaseResponse<T> buildResponse(int status, String message, T data, long spentTime) {
+        return new BaseResponse<T>(status, message, data, spentTime);
     }
 
     /**
@@ -131,11 +114,16 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpMsg, T data) {
-        return new Builder<T>()
-                .setStatus(appHttpMsg.getStatus())
-                .setMessage(appHttpMsg.getMessage())
-                .setData(data)
-                .builder();
+    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage());
+    }
+
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version 1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data) {
+        return new BaseResponse<T>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data);
     }
 }

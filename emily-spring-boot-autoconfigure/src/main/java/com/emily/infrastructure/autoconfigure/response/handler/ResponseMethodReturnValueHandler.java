@@ -5,6 +5,7 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgno
 import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.base.SimpleResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;
 import org.apache.commons.lang3.ArrayUtils;
@@ -49,14 +50,18 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
                 || pathMatcher.match(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
-            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+            BaseResponse baseResponse = (BaseResponse)returnValue;
+            baseResponse.setSpentTime(RequestUtils.getSpentTime());
+            proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //返回值为void类型的data字段不输出
             if (returnType.getMethod().getReturnType().equals(Void.TYPE)) {
-                SimpleResponse responseData = SimpleResponse.buildResponse(AppHttpStatus.OK);
-                proxyObject.handleReturnValue(responseData, returnType, mavContainer, webRequest);
+                SimpleResponse simpleResponse = SimpleResponse.buildResponse(AppHttpStatus.OK);
+                simpleResponse.setSpentTime(RequestUtils.getSpentTime());
+                proxyObject.handleReturnValue(simpleResponse, returnType, mavContainer, webRequest);
             } else {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
+                baseResponse.setSpentTime(RequestUtils.getSpentTime());
                 baseResponse.setData(returnValue);
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             }

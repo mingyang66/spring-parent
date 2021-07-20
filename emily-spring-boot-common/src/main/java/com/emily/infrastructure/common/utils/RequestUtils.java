@@ -287,6 +287,17 @@ public class RequestUtils {
         }
     }
 
+    /**
+     * 获取业务请求耗时
+     * @return
+     */
+    public static long getSpentTime(){
+        Object spentTime = RequestUtils.getRequest().getAttribute("spentTime");
+        if(Objects.nonNull(spentTime)){
+            return Long.valueOf(spentTime.toString());
+        }
+        return 0;
+    }
     public static void setServerIp(String serverIp) {
         SERVER_IP = serverIp;
     }

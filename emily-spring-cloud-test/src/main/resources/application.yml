@@ -4,14 +4,14 @@ server:
   shutdown: graceful
   http:
     # 是否开启http端口号
-    enable: true
+    enable: false
     # http端口号
     port: 9001
     # 优雅停机
     shutdown: graceful
   ssl:
     # 是否启用SSL支持
-    enabled: true
+    enabled: false
     # 标识秘钥存储中秘钥的别名
     key-alias: emily
     # 访问秘钥存储的密码
@@ -30,7 +30,7 @@ management:
     port: 9443
     ssl:
       # 是否开启SSL支持，默认：true
-      enabled: true
+      enabled: false
       # 标识秘钥存储中秘钥的别名
       key-alias: emily
       #访问秘钥存储的密码
@@ -41,40 +41,7 @@ management:
       key-store-type: PKCS12
       # 要使用的SSL协议
       protocol: TLS
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 ---
-# Redis 缓存配置
 spring:
-  redis:
-    # 客户端连接类型
-    client-type: lettuce
-    # 服务IP地址
-    host: 172.30.67.122
-    # 端口号
-    port: 6379
-    # 用户名
-    username:
-    # 密码
-    password: admin
-    # 读取超时时间
-    timeout: PT3S
-    # 连接超时时间
-    connect-timeout: PT3S
-    # 基于netty的线程池
-    lettuce:
-      pool:
-        # 连接池最大连接数（使用复值标识没有限制），默认：8
-        max-active: 8
-        # 连接池中的最大空闲连接
-        max-idle: 8
-        # 连接池中的最小空闲连接， 默认：0
-        min-idle: 0
-        # 连接阻塞的最长时间（也就是多长时间之后会抛出异常），默认：-1 无限阻塞
-        max-wait: -1ms
-        # 空闲对象逐出器线程的运行间隔时间，为正值时，空闲逐出器线程启动，否则不执行空闲对象逐出
-        time-between-eviction-runs: PT0.1S
   profiles:
     active: config

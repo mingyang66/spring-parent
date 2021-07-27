@@ -1,6 +1,8 @@
 package com.emily.infrastructure.datasource.redis.factory;
 
 import com.emily.infrastructure.datasource.redis.entity.ConnectionInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.*;
 import org.springframework.util.Assert;
@@ -17,9 +19,12 @@ import java.util.List;
  */
 public class RedisDbConfigurationFactory {
 
+    private static final Logger logger = LoggerFactory.getLogger(RedisDbConfigurationFactory.class);
     private static final RedisDbConfigurationFactory INSTANCE = new RedisDbConfigurationFactory();
+
     /**
      * 获取Redis配置
+     *
      * @param properties
      * @return
      */
@@ -44,14 +49,14 @@ public class RedisDbConfigurationFactory {
             config.setPort(connectionInfo.getPort());
             config.setUsername(connectionInfo.getUsername());
             config.setPassword(RedisPassword.of(connectionInfo.getPassword()));
-        }
-        else {
+        } else {
             config.setHostName(properties.getHost());
             config.setPort(properties.getPort());
             config.setUsername(properties.getUsername());
             config.setPassword(RedisPassword.of(properties.getPassword()));
         }
         config.setDatabase(properties.getDatabase());
+        logger.info("初始化Redis单机连接配置-{}:{}", config.getHostName(), config.getPort());
         return config;
     }
 
@@ -102,16 +107,21 @@ public class RedisDbConfigurationFactory {
         return config;
     }
 
-
+    /**
+     * 哨兵节点配置转换
+     *
+     * @param sentinel 哨兵配置对象
+     * @return
+     */
     private List<RedisNode> createSentinels(RedisProperties.Sentinel sentinel) {
         List<RedisNode> nodes = new ArrayList<>();
         for (String node : sentinel.getNodes()) {
             try {
+                logger.info("初始化Redis哨兵连接配置-{}", node);
                 String[] parts = StringUtils.split(node, ":");
                 Assert.state(parts.length == 2, "Must be defined as 'host:port'");
                 nodes.add(new RedisNode(parts[0], Integer.parseInt(parts[1])));
-            }
-            catch (RuntimeException ex) {
+            } catch (RuntimeException ex) {
                 throw new IllegalStateException("Invalid redis sentinel property '" + node + "'", ex);
             }
         }

@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -40,6 +42,8 @@ import java.util.Map;
 @ConditionalOnProperty(prefix = "spring.emily.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class RedisDataSourceAutoConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(RedisDataSourceAutoConfiguration.class);
 
     private DefaultListableBeanFactory defaultListableBeanFactory;
     private RedisDataSourceProperties redisDataSourceProperties;
@@ -103,6 +107,7 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+
     /**
      * 创建Redis数据源配置key-value映射
      *
@@ -150,11 +155,11 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
 
     @Override
     public void destroy() {
-        LogbackFactory.info(RedisDataSourceAutoConfiguration.class, "<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDataSourceAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDataSourceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogbackFactory.info(RedisDataSourceAutoConfiguration.class, "==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDataSourceAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDataSourceAutoConfiguration】");
     }
 }

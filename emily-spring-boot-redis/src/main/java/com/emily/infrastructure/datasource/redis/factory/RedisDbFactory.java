@@ -74,7 +74,7 @@ public class RedisDbFactory {
      * @return
      */
     public static RedisTemplate getRedisTemplate() {
-        return getStringRedisTemplate(RedisDataSourceProperties.DEFAULT_CONFIG);
+        return getRedisTemplate(RedisDataSourceProperties.DEFAULT_CONFIG);
     }
 
     /**

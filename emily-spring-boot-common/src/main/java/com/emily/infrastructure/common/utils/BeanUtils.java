@@ -1,12 +1,14 @@
 package com.emily.infrastructure.common.utils;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.exception.SystemException;
 import com.google.common.collect.Maps;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
@@ -46,7 +48,34 @@ public class BeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), "类型转换异常");
+            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+        }
+    }
+
+    /**
+     * 反模式类型转换，即所有的属性必须为public修饰
+     *
+     * @param bean
+     * @param <T>
+     * @return
+     */
+    public static <T> Map<String, Object> beanToMapF(T bean) {
+        if (bean == null) {
+            return Collections.emptyMap();
+        }
+        try {
+            Map<String, Object> map = Maps.newHashMap();
+            //反射获取request属性，构造入参
+            Class<?> classRequest = Class.forName(bean.getClass().getName());
+            Field[] fields = classRequest.getDeclaredFields();
+            for (int i = 0; i < fields.length; i++) {
+                String fieldName = fields[i].getName();
+                Object fieldValue = fields[i].get(bean);
+                map.put(fieldName, fieldValue);
+            }
+            return map;
+        } catch (Exception e) {
+            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -72,7 +101,7 @@ public class BeanUtils {
             }
             return bean;
         } catch (Exception e) {
-            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), "Map转Bean异常");
+            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 }

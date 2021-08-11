@@ -1,11 +1,16 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -40,5 +45,14 @@ public class RedisController {
         RedisDbFactory.getRedisTemplate("test").opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
         RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", dataMap, 1, TimeUnit.MINUTES);
         return RedisDbFactory.getRedisTemplate("test").opsForValue().get("test");
+    }
+    @GetMapping("pool")
+    public String pool(){
+        List<RedisClientInfo> list = RedisDbFactory.getRedisTemplate().getClientList();
+        System.out.println(list.size());
+        list.stream().forEach(redisClientInfo -> {
+            System.out.println(JSONUtils.toJSONPrettyString(redisClientInfo));
+        });
+        return "success";
     }
 }

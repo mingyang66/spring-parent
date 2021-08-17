@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 日志基础类
  * @create: 2020/11/14

@@ -3,7 +3,13 @@ package com.emily.infrastructure.test;
 import com.emily.infrastructure.common.utils.bean.BeanUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.test.po.Job;
+import com.emily.infrastructure.test.po.Puser;
 import com.emily.infrastructure.test.po.User;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @program: spring-parent
@@ -12,29 +18,14 @@ import com.emily.infrastructure.test.po.User;
  * @create: 2021/05/17
  */
 public class Test {
-    public static void main(String[] args) {
-        Job job = new Job();
-        job.setA("2332");
-        job.setId(23L);
-        job.setJobNumber(34L);
-        job.setJobDesc("wererw");
+    public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", "namd");
+        map.put("age", "12");
 
 
-        User user = new User();
-        user.setUsername("asdf");
-        user.setPassword("23");
-        user.setJob(job);
 
-        //User user1 = new User();
-        //BeanUtils.copyProperties(user, user1);
-        User user1 = BeanUtils.deepCopy(user);
-        System.out.println(JSONUtils.toJSONPrettyString(user1));
-        user1.getJob().setJobDesc("描述");
-        user1.setPassword("密码");
-        System.out.println(JSONUtils.toJSONPrettyString(user1));
-        System.out.println(JSONUtils.toJSONPrettyString(user));
-
-
+        System.out.println(JSONUtils.toJSONPrettyString(BeanUtils.mapToBeanAntiPattern(map, Puser.class)));
     }
 
 }

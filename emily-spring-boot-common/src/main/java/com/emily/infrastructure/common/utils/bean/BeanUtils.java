@@ -1,7 +1,6 @@
 package com.emily.infrastructure.common.utils.bean;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.exception.SystemException;
 import com.google.common.collect.Maps;
@@ -61,7 +60,7 @@ public class BeanUtils {
      * @param <T>
      * @return
      */
-    public static <T> Map<String, Object> beanToMapF(T bean) {
+    public static <T> Map<String, Object> beanToMapAntiPattern(T bean) {
         if (bean == null) {
             return Collections.emptyMap();
         }
@@ -106,6 +105,31 @@ public class BeanUtils {
             throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
+
+    /**
+     * 将Map数据转换为Bean
+     *
+     * @param type bean
+     * @param map  数据集合
+     * @param <T>  类类型
+     * @return
+     */
+    public static <T> T mapToBeanAntiPattern(Map<String, Object> map, Class<T> type) {
+        try {
+            Field[] fields = type.getDeclaredFields();
+            T beanClass = (T) type.getDeclaredConstructor().newInstance();
+            for (int i = 0; i < fields.length; i++) {
+                Object fieldName = fields[i].getName();
+                if (map.containsKey(fieldName)) {
+                    fields[i].set(beanClass, map.get(fieldName));
+                }
+            }
+            return beanClass;
+        } catch (Exception e) {
+            throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+        }
+    }
+
     /**
      * 深度拷贝
      *

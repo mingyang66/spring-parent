@@ -1,13 +1,13 @@
 package com.emily.infrastructure.test;
 
-import com.emily.infrastructure.common.utils.BeanUtils;
+import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
-import com.google.common.collect.Maps;
+import org.springframework.beans.BeanUtils;
 
-import java.lang.reflect.Field;
-import java.util.Map;
+import java.io.*;
 
 /**
  * @program: spring-parent
@@ -22,33 +22,49 @@ public class Test {
         job.setId(23L);
         job.setJobNumber(34L);
         job.setJobDesc("wererw");
-        Map<String, Object> map = BeanUtils.beanToMapF(job);
-        System.out.println(JSONUtils.toJSONPrettyString(map));
+
 
         User user = new User();
-        user.username = "asdf";
-        user.password="23";
-        Map<String, Object> map1 = BeanUtils.beanToMapF(user);
-        System.out.println(JSONUtils.toJSONPrettyString(map1));
+        user.setUsername("asdf");
+        user.setPassword("23");
+        user.setJob(job);
 
-        System.out.println(JSONUtils.toJSONPrettyString(getInParam(job)));
-        System.out.println(JSONUtils.toJSONPrettyString(getInParam(user)));
+        //User user1 = new User();
+        //BeanUtils.copyProperties(user, user1);
+        User user1 = deepCopy(user);
+        System.out.println(JSONUtils.toJSONPrettyString(user1));
+        user1.getJob().setJobDesc("描述");
+        user1.setPassword("密码");
+        System.out.println(JSONUtils.toJSONPrettyString(user1));
+        System.out.println(JSONUtils.toJSONPrettyString(user));
+
+
     }
 
-    public static  <T> Map<String, Object> getInParam(T t2Request) {
-        Map<String, Object> params = Maps.newHashMap();
+    /**
+     * 深度拷贝
+     *
+     * @param obj 原始对象
+     * @param <T> 对象类型
+     * @return
+     */
+    public static <T> T deepCopy(T obj) {
         try {
-            //反射获取request属性，构造入参
-            Class<?> classRequest = Class.forName(t2Request.getClass().getName());
-            Field[] fields = classRequest.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++) {
-                String fieldName = fields[i].getName();
-                Object fieldValue = fields[i].get(t2Request);
+            // 序列化
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
 
-                params.put(fieldName, fieldValue);
-            }
-        } catch (Exception ex) {
+            oos.writeObject(obj);
+
+            //反序列化
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+
+            return (T) ois.readObject();
+        } catch (NotSerializableException exception) {
+            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "未实现序列化接口");
+        } catch (Exception exception) {
+            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "深度拷贝数据异常");
         }
-        return params;
     }
 }

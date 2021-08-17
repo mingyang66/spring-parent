@@ -1,5 +1,7 @@
 package com.emily.infrastructure.test.po;
 
+import java.io.Serializable;
+
 /**
  * @program: spring-parent
  * @description:
@@ -7,8 +9,17 @@ package com.emily.infrastructure.test.po;
  * @create: 2021/08/08
  */
 public class User {
-    public String username;
-    public String password;
+    private String username;
+    private String password;
+    private Job job;
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
 
     public String getUsername() {
         return username;

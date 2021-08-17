@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.utils;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.exception.SystemException;
 import com.google.common.collect.Maps;
@@ -8,6 +9,7 @@ import com.google.common.collect.Maps;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -102,6 +104,32 @@ public class BeanUtils {
             return bean;
         } catch (Exception e) {
             throw new SystemException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+        }
+    }
+    /**
+     * 深度拷贝
+     *
+     * @param obj 原始对象
+     * @param <T> 对象类型
+     * @return
+     */
+    public static <T> T deepCopy(T obj) {
+        try {
+            // 序列化
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+            oos.writeObject(obj);
+
+            //反序列化
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+
+            return (T) ois.readObject();
+        } catch (NotSerializableException exception) {
+            throw new SystemException(AppHttpStatus.EXCEPTION.getStatus(), "未实现序列化接口");
+        } catch (Exception exception) {
+            throw new SystemException(AppHttpStatus.EXCEPTION.getStatus(), "深度拷贝数据异常");
         }
     }
 }

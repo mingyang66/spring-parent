@@ -1,25 +1,19 @@
 package com.emily.infrastructure.common.utils;
 
-import com.emily.infrastructure.common.base.BaseRequest;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.constant.CharsetUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.google.common.collect.Maps;
-import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.lang.reflect.Parameter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.*;
@@ -28,6 +22,7 @@ import java.util.regex.Pattern;
 
 /**
  * HttpServletRequest请求类
+ * @author Emily
  */
 public class RequestUtils {
     /**
@@ -131,48 +126,6 @@ public class RequestUtils {
         return SERVER_IP;
     }
 
-    /**
-     * 获取请求参数
-     *
-     * @param invocation 方法拦截器连接点
-     * @return 参数
-     */
-    @Deprecated
-    public static Map<String, Object> getParameterMap(MethodInvocation invocation) {
-        Object[] args = invocation.getArguments();
-        Parameter[] parameters = invocation.getMethod().getParameters();
-        if (ArrayUtils.isEmpty(parameters)) {
-            return Collections.emptyMap();
-        }
-        Map<String, Object> paramMap = new LinkedHashMap<>();
-        HttpServletRequest request = getRequest();
-        for (int i = 0; i < parameters.length; i++) {
-            Parameter parameter = parameters[i];
-            if (args[i] instanceof HttpServletResponse) {
-                continue;
-            }
-            if (args[i] instanceof HttpServletRequest) {
-                Enumeration<String> params = request.getParameterNames();
-                while (params.hasMoreElements()) {
-                    String key = params.nextElement();
-                    paramMap.put(key, request.getParameter(key));
-                }
-                continue;
-            } else if (args[i] instanceof BaseRequest) {
-                BaseRequest baseRequest = (BaseRequest) args[i];
-                paramMap.put(parameter.getName(), baseRequest);
-            } else if (args[i] instanceof MultipartFile) {
-                paramMap.put(parameter.getName(), ((MultipartFile) args[i]).getOriginalFilename());
-            } else if (args[i] instanceof File) {
-                paramMap.put(parameter.getName(), ((File) args[i]).getPath());
-            } else if (args[i] instanceof Throwable) {
-                //参数异常信息，忽略
-            } else {
-                paramMap.put(parameter.getName(), args[i]);
-            }
-        }
-        return JSONUtils.toJavaBean(JSONUtils.toJSONString(paramMap), Map.class);
-    }
 
     /**
      * 获取参数对象
@@ -224,26 +177,12 @@ public class RequestUtils {
     }
 
     /**
-     * 获取参数中的系统信息
+     * 是否存在servlet上下文
      *
-     * @param invocation 方法拦截器连接点
      * @return
      */
-    public static BaseRequest.SystemInfo getRequestSystemInfo(MethodInvocation invocation) {
-        Parameter[] parameters = invocation.getMethod().getParameters();
-        BaseRequest.SystemInfo systemInfo = new BaseRequest.SystemInfo();
-        if (ArrayUtils.isEmpty(parameters)) {
-            return systemInfo;
-        }
-        Object[] args = invocation.getArguments();
-        for (int i = 0; i < parameters.length; i++) {
-            if (args[i] instanceof BaseRequest) {
-                BaseRequest baseRequest = (BaseRequest) args[i];
-                systemInfo = baseRequest.getSystemInfo();
-                break;
-            }
-        }
-        return systemInfo;
+    public static boolean isServletContext() {
+        return RequestContextHolder.getRequestAttributes() == null ? false : true;
     }
 
     /**
@@ -289,15 +228,17 @@ public class RequestUtils {
 
     /**
      * 获取业务请求耗时
+     *
      * @return
      */
-    public static long getSpentTime(){
+    public static long getSpentTime() {
         Object spentTime = RequestUtils.getRequest().getAttribute("spentTime");
-        if(Objects.nonNull(spentTime)){
+        if (Objects.nonNull(spentTime)) {
             return Long.valueOf(spentTime.toString());
         }
         return 0;
     }
+
     public static void setServerIp(String serverIp) {
         SERVER_IP = serverIp;
     }

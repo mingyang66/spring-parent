@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils;
+package com.emily.infrastructure.common.utils.font;
 
 import com.github.stuxuhai.jpinyin.ChineseHelper;
 import com.github.stuxuhai.jpinyin.PinyinFormat;

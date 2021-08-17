@@ -9,29 +9,53 @@ import java.util.Map;
  * @create: 2020/11/14
  */
 public class BaseLogger implements Serializable {
-    //请求唯一编号
+    /**
+     * 请求唯一编号
+     */
     private String traceId;
-    //追踪类型，0【正常】1【重试】2【重试异常】
+    /**
+     * 追踪类型，0【正常】1【重试】2【重试异常】
+     */
     private int traceType;
-    //类实例
+    /**
+     * 类实例
+     */
     private Class clazz;
-    //请求URL
+    /**
+     * 请求URL
+     */
     private String requestUrl;
-    //请求Method
+    /**
+     * 请求Method
+     */
     private String method;
-    //协议
+    /**
+     * 协议
+     */
     private String protocol;
-    //请求类型
+    /**
+     * 请求类型
+     */
     private String contentType;
-    //请求参数
+    /**
+     * 请求参数
+     */
     private Map<String, Object> requestParams;
-    //触发时间
+    /**
+     * 触发时间
+     */
     private String triggerTime;
-    //耗时
+    /**
+     * 耗时
+     */
     private long spentTime;
-    //响应结果
+    /**
+     * 响应结果
+     */
     private Object responseBody;
-    //数据大小
+    /**
+     * 数据大小
+     */
     private String dataSize;
 
     public Class getClazz() {

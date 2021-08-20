@@ -1,6 +1,6 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.emily.infrastructure.datasource.redis.RedisDataSourceAutoConfiguration
+  com.emily.infrastructure.datasource.redis.RedisDbAutoConfiguration
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\

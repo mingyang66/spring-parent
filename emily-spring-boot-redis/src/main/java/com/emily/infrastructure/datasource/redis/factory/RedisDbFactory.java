@@ -3,7 +3,7 @@ package com.emily.infrastructure.datasource.redis.factory;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.context.ioc.IOCContext;
-import com.emily.infrastructure.datasource.redis.RedisDataSourceProperties;
+import com.emily.infrastructure.datasource.redis.RedisDbProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -43,7 +43,7 @@ public class RedisDbFactory {
      * @return
      */
     public static StringRedisTemplate getStringRedisTemplate() {
-        return getStringRedisTemplate(RedisDataSourceProperties.DEFAULT_CONFIG);
+        return getStringRedisTemplate(RedisDbProperties.DEFAULT_CONFIG);
     }
 
     /**
@@ -74,7 +74,7 @@ public class RedisDbFactory {
      * @return
      */
     public static RedisTemplate getRedisTemplate() {
-        return getRedisTemplate(RedisDataSourceProperties.DEFAULT_CONFIG);
+        return getRedisTemplate(RedisDbProperties.DEFAULT_CONFIG);
     }
 
     /**

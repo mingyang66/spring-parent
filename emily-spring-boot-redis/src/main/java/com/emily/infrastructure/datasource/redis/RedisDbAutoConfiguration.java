@@ -3,7 +3,6 @@ package com.emily.infrastructure.datasource.redis;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConfigurationFactory;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionFactory;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,24 +37,24 @@ import java.util.Map;
  * @create: 2021/07/11
  */
 @Configuration
-@EnableConfigurationProperties(RedisDataSourceProperties.class)
+@EnableConfigurationProperties(RedisDbProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-public class RedisDataSourceAutoConfiguration implements InitializingBean, DisposableBean {
+public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(RedisDataSourceAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
 
     private DefaultListableBeanFactory defaultListableBeanFactory;
-    private RedisDataSourceProperties redisDataSourceProperties;
+    private RedisDbProperties redisDbProperties;
 
-    public RedisDataSourceAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDataSourceProperties redisDataSourceProperties) {
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
         this.defaultListableBeanFactory = defaultListableBeanFactory;
-        this.redisDataSourceProperties = redisDataSourceProperties;
+        this.redisDbProperties = redisDbProperties;
     }
 
     @PostConstruct
     public void stringRedisTemplate() {
-        Table<String, RedisProperties, RedisConfiguration> table = createConfiguration(redisDataSourceProperties);
+        Table<String, RedisProperties, RedisConfiguration> table = createConfiguration(redisDbProperties);
         table.rowKeySet().stream().forEach(key -> {
             Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
             dataMap.forEach((properties, redisConfiguration) -> {
@@ -111,12 +110,12 @@ public class RedisDataSourceAutoConfiguration implements InitializingBean, Dispo
     /**
      * 创建Redis数据源配置key-value映射
      *
-     * @param redisDataSourceProperties 配置
+     * @param redisDbProperties 配置
      * @return
      */
-    protected Table<String, RedisProperties, RedisConfiguration> createConfiguration(RedisDataSourceProperties redisDataSourceProperties) {
+    protected Table<String, RedisProperties, RedisConfiguration> createConfiguration(RedisDbProperties redisDbProperties) {
         Table<String, RedisProperties, RedisConfiguration> table = HashBasedTable.create();
-        Map<String, RedisProperties> redisPropertiesMap = redisDataSourceProperties.getConfig();
+        Map<String, RedisProperties> redisPropertiesMap = redisDbProperties.getConfig();
         redisPropertiesMap.forEach((key, properties) -> {
             RedisConfiguration redisConfiguration = RedisDbConfigurationFactory.createRedisConfiguration(properties);
             table.put(key, properties, redisConfiguration);

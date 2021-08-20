@@ -13,7 +13,7 @@ import java.util.Map;
  * @create: 2021/07/11
  */
 @ConfigurationProperties(prefix = "spring.emily.redis")
-public class RedisDataSourceProperties {
+public class RedisDbProperties {
     /**
      * 默认配置
      */

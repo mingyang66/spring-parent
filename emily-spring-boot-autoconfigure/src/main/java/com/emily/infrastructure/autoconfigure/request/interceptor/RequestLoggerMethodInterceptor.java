@@ -68,7 +68,7 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
         //异步记录接口响应信息
         loggerService.traceResponse(baseLogger);
         //将接口业务处理耗时记录请求上下文
-        request.setAttribute("spentTime", System.currentTimeMillis() - start);
+        request.setAttribute("time", System.currentTimeMillis() - start);
         return result;
 
     }

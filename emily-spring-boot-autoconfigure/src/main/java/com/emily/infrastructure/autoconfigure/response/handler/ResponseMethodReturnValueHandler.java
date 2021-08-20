@@ -51,7 +51,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse)returnValue;
-            baseResponse.setSpentTime(RequestUtils.getSpentTime());
+            baseResponse.setTime(RequestUtils.getSpentTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //返回值为void类型的data字段不输出
@@ -61,7 +61,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
                 proxyObject.handleReturnValue(simpleResponse, returnType, mavContainer, webRequest);
             } else {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
-                baseResponse.setSpentTime(RequestUtils.getSpentTime());
+                baseResponse.setTime(RequestUtils.getSpentTime());
                 baseResponse.setData(returnValue);
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             }

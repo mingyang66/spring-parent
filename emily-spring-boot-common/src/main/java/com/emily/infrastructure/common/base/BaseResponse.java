@@ -15,17 +15,17 @@ public class BaseResponse<T> implements Serializable {
     private int status;
     private String message;
     private T data;
-    private long spentTime;
+    private long time;
 
     public BaseResponse() {
         super();
     }
 
-    public BaseResponse(int status, String message, T data, long spentTime) {
+    public BaseResponse(int status, String message, T data, long time) {
         this.status = status;
         this.message = message;
         this.data = data;
-        this.spentTime = spentTime;
+        this.time = time;
     }
 
     public BaseResponse(int status, String message) {
@@ -63,14 +63,13 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public long getSpentTime() {
-        return spentTime;
+    public long getTime() {
+        return time;
     }
 
-    public void setSpentTime(long spentTime) {
-        this.spentTime = spentTime;
+    public void setTime(long time) {
+        this.time = time;
     }
-
 
     /**
      * @Description 创建响应对象

@@ -21,7 +21,7 @@ public class Test {
 
 
 
-        System.out.println(JSONUtils.toJSONPrettyString(JavaBeanUtils.mapToBeanAntiPattern(map, Puser.class)));
+        System.out.println(JSONUtils.toJSONPrettyString(JavaBeanUtils.copyToBeanAntiPattern(map, Puser.class)));
     }
 
 }

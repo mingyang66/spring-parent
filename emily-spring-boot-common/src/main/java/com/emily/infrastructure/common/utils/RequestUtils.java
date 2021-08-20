@@ -232,9 +232,9 @@ public class RequestUtils {
      * @return
      */
     public static long getSpentTime() {
-        Object spentTime = RequestUtils.getRequest().getAttribute("spentTime");
-        if (Objects.nonNull(spentTime)) {
-            return Long.valueOf(spentTime.toString());
+        Object time = RequestUtils.getRequest().getAttribute("time");
+        if (Objects.nonNull(time)) {
+            return Long.valueOf(time.toString());
         }
         return 0;
     }

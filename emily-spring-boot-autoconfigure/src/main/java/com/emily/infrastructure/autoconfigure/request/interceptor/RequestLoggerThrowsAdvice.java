@@ -59,7 +59,7 @@ public class RequestLoggerThrowsAdvice implements ThrowsAdvice {
         Object startTime = request.getAttribute("startTime");
         if (Objects.nonNull(startTime)) {
             // 将接口业务处理耗时记录请求上下文
-            request.setAttribute("spentTime", System.currentTimeMillis() - NumberUtils.toLong(startTime.toString(), System.currentTimeMillis()));
+            request.setAttribute("time", System.currentTimeMillis() - NumberUtils.toLong(startTime.toString(), System.currentTimeMillis()));
         }
     }
 

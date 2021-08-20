@@ -21,13 +21,6 @@ public class BaseResponse<T> implements Serializable {
         super();
     }
 
-    public BaseResponse(int status, String message, T data, long time) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
-        this.time = time;
-    }
-
     public BaseResponse(int status, String message) {
         this.status = status;
         this.message = message;
@@ -38,6 +31,15 @@ public class BaseResponse<T> implements Serializable {
         this.message = message;
         this.data = data;
     }
+
+    public BaseResponse(int status, String message, T data, long time) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+        this.time = time;
+    }
+
+
 
     public int getStatus() {
         return status;
@@ -80,15 +82,6 @@ public class BaseResponse<T> implements Serializable {
         return new BaseResponse<T>(status, message);
     }
 
-    /**
-     * 创建响应对象
-     *
-     * @param data
-     * @return
-     */
-    public static <T> BaseResponse<T> buildResponse(T data) {
-        return new BaseResponse<T>(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data);
-    }
 
     /**
      * @Description 创建响应对象
@@ -104,8 +97,16 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(int status, String message, T data, long spentTime) {
-        return new BaseResponse<T>(status, message, data, spentTime);
+    public static <T> BaseResponse<T> buildResponse(int status, String message, T data, long time) {
+        return new BaseResponse<T>(status, message, data, time);
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version 1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data, long time) {
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, time);
     }
 
     /**

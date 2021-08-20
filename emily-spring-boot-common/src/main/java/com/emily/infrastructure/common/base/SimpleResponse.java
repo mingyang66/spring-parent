@@ -14,17 +14,17 @@ import java.io.Serializable;
 public class SimpleResponse<T> implements Serializable {
     private int status;
     private String message;
-    private long spentTime;
+    private long time;
 
     public SimpleResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public SimpleResponse(int status, String message, long spentTime) {
+    public SimpleResponse(int status, String message, long time) {
         this.status = status;
         this.message = message;
-        this.spentTime = spentTime;
+        this.time = time;
     }
 
     public int getStatus() {
@@ -43,12 +43,12 @@ public class SimpleResponse<T> implements Serializable {
         this.message = message;
     }
 
-    public long getSpentTime() {
-        return spentTime;
+    public long getTime() {
+        return time;
     }
 
-    public void setSpentTime(long spentTime) {
-        this.spentTime = spentTime;
+    public void setTime(long time) {
+        this.time = time;
     }
 
     /**

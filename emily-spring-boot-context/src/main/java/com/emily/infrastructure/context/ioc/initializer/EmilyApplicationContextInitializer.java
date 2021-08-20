@@ -1,5 +1,6 @@
-package com.emily.infrastructure.context.ioc;
+package com.emily.infrastructure.context.ioc.initializer;
 
+import com.emily.infrastructure.context.ioc.IOCContext;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

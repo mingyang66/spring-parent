@@ -6,6 +6,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import java.io.IOException;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 自定义异常处理
  * @create: 2020/08/18

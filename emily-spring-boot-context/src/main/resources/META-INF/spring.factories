@@ -3,4 +3,4 @@ org.springframework.boot.env.PropertySourceLoader=\
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.context.ioc.EmilyApplicationContextInitializer
+  com.emily.infrastructure.context.ioc.initializer.EmilyApplicationContextInitializer

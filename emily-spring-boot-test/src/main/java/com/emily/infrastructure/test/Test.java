@@ -1,14 +1,10 @@
 package com.emily.infrastructure.test;
 
-import com.emily.infrastructure.common.utils.bean.BeanUtils;
+import com.emily.infrastructure.common.utils.bean.JavaBeanUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Puser;
-import com.emily.infrastructure.test.po.User;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -25,7 +21,7 @@ public class Test {
 
 
 
-        System.out.println(JSONUtils.toJSONPrettyString(BeanUtils.mapToBeanAntiPattern(map, Puser.class)));
+        System.out.println(JSONUtils.toJSONPrettyString(JavaBeanUtils.mapToBeanAntiPattern(map, Puser.class)));
     }
 
 }

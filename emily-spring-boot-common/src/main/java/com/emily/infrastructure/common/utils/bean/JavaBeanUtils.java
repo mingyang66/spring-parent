@@ -20,7 +20,7 @@ import java.util.Map;
  * @author: Emily
  * @create: 2021/05/28
  */
-public class BeanUtils {
+public class JavaBeanUtils {
     /**
      * 将bean转换为Map
      *
@@ -28,7 +28,7 @@ public class BeanUtils {
      * @param <T>
      * @return
      */
-    public static <T> Map<String, Object> beanToMap(T bean) {
+    public static <T> Map<String, Object> copyToMap(T bean) {
         if (bean == null) {
             return Collections.emptyMap();
         }
@@ -60,7 +60,7 @@ public class BeanUtils {
      * @param <T>
      * @return
      */
-    public static <T> Map<String, Object> beanToMapAntiPattern(T bean) {
+    public static <T> Map<String, Object> copyToMapAntiPattern(T bean) {
         if (bean == null) {
             return Collections.emptyMap();
         }
@@ -88,7 +88,7 @@ public class BeanUtils {
      * @param <T>  类类型
      * @return
      */
-    public static <T> T mapToBean(Map<String, Object> map, Class<T> type) {
+    public static <T> T copyToBean(Map<String, Object> map, Class<T> type) {
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(type);
             T bean = type.getDeclaredConstructor().newInstance();
@@ -114,7 +114,7 @@ public class BeanUtils {
      * @param <T>  类类型
      * @return
      */
-    public static <T> T mapToBeanAntiPattern(Map<String, Object> map, Class<T> type) {
+    public static <T> T copyToBeanAntiPattern(Map<String, Object> map, Class<T> type) {
         try {
             Field[] fields = type.getDeclaredFields();
             T beanClass = (T) type.getDeclaredConstructor().newInstance();

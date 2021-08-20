@@ -1,9 +1,9 @@
-package com.emily.infrastructure.context.filter;
+package com.emily.infrastructure.autoconfigure.request.filter;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.context.servlet.DelegateRequestWrapper;
+import com.emily.infrastructure.autoconfigure.request.servlet.DelegateRequestWrapper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

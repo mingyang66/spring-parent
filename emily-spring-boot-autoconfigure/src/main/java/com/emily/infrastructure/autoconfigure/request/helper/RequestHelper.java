@@ -1,7 +1,7 @@
-package com.emily.infrastructure.context.request;
+package com.emily.infrastructure.autoconfigure.request.helper;
 
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.context.servlet.DelegateRequestWrapper;
+import com.emily.infrastructure.autoconfigure.request.servlet.DelegateRequestWrapper;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @description: 请求服务类
  * @create: 2020/11/23
  */
-public class RequestService {
+public class RequestHelper {
     /**
      * 获取请求入参
      *

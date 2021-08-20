@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.context.logger.LoggerService;
-import com.emily.infrastructure.context.request.RequestService;
+import com.emily.infrastructure.autoconfigure.request.helper.RequestHelper;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -50,7 +50,7 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
         //请求方法
         baseLogger.setMethod(request.getMethod());
         //请求参数
-        baseLogger.setRequestParams(RequestService.getParameterMap(request));
+        baseLogger.setRequestParams(RequestHelper.getParameterMap(request));
 
         //新建计时器并开始计时
         long start = System.currentTimeMillis();

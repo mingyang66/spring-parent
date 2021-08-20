@@ -8,4 +8,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.infrastructure.autoconfigure.web.EmilyWebAutoConfiguration,\
   com.emily.infrastructure.autoconfigure.exception.ExceptionAutoConfiguration,\
   com.emily.infrastructure.autoconfigure.converters.EmilyMappingJackson2HttpMessageConverterAutoConfiguration,\
-  com.emily.infrastructure.autoconfigure.filter.FilterRegistrationBeanAutoConfiguration
+  com.emily.infrastructure.autoconfigure.request.FilterRegistrationBeanAutoConfiguration

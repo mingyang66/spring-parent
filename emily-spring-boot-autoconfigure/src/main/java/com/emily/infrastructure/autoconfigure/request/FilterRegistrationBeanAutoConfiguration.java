@@ -1,6 +1,6 @@
-package com.emily.infrastructure.autoconfigure.filter;
+package com.emily.infrastructure.autoconfigure.request;
 
-import com.emily.infrastructure.context.filter.RequestChannelFilter;
+import com.emily.infrastructure.autoconfigure.request.filter.RequestChannelFilter;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

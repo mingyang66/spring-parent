@@ -65,8 +65,8 @@ public class SimpleResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> SimpleResponse<T> buildResponse(int status, String message, long spentTime) {
-        return new SimpleResponse<T>(status, message, spentTime);
+    public static <T> SimpleResponse<T> buildResponse(int status, String message, long time) {
+        return new SimpleResponse<T>(status, message, time);
     }
 
     /**
@@ -76,5 +76,13 @@ public class SimpleResponse<T> implements Serializable {
      */
     public static <T> SimpleResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
         return new SimpleResponse<T>(appHttpStatus.getStatus(), appHttpStatus.getMessage());
+    }
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version 1.0
+     */
+    public static <T> SimpleResponse<T> buildResponse(AppHttpStatus appHttpStatus, long time) {
+        return new SimpleResponse<T>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), time);
     }
 }

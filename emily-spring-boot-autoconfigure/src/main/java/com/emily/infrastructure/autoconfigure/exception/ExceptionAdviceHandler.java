@@ -6,6 +6,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = Exception.class)
     public SimpleResponse unKnowExceptionHandler(Exception e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -46,7 +47,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public SimpleResponse runtimeExceptionHandler(RuntimeException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
+        return SimpleResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**
@@ -55,7 +56,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NullPointerException.class)
     public SimpleResponse nullPointerExceptionHandler(NullPointerException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -64,7 +65,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(ClassCastException.class)
     public SimpleResponse classCastExceptionHandler(ClassCastException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -73,7 +74,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(IOException.class)
     public SimpleResponse ioExceptionHandler(IOException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.IO_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.IO_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -83,7 +84,7 @@ public class ExceptionAdviceHandler {
     @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     public SimpleResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -92,7 +93,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public SimpleResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -101,7 +102,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public SimpleResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -110,7 +111,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public SimpleResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -119,7 +120,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public SimpleResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -128,7 +129,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public SimpleResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -137,7 +138,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({BindException.class})
     public SimpleResponse validModelBindException(BindException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage());
+        return SimpleResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**
@@ -149,7 +150,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public SimpleResponse undeclaredThrowableException(UndeclaredThrowableException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -158,7 +159,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NumberFormatException.class)
     public SimpleResponse numberFormatException(NumberFormatException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
+        return SimpleResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -170,7 +171,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(SystemException.class)
     public SimpleResponse systemThrowableException(SystemException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage());
+        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage(), RequestUtils.getTime());
     }
 
     /**
@@ -182,7 +183,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(BusinessException.class)
     public SimpleResponse businessThrowableException(SystemException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage());
+        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage(), RequestUtils.getTime());
     }
 
     /**

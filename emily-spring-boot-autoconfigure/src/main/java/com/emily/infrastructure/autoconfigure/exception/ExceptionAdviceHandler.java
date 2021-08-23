@@ -4,12 +4,9 @@ package com.emily.infrastructure.autoconfigure.exception;
 import com.emily.infrastructure.common.base.SimpleResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
-import com.emily.infrastructure.common.exception.SystemException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -168,10 +165,10 @@ public class ExceptionAdviceHandler {
      * @Date 2019/9/2 16:43
      * @Version 1.0
      */
-    @ExceptionHandler(SystemException.class)
-    public SimpleResponse systemThrowableException(SystemException e) {
+    @ExceptionHandler(BusinessException.class)
+    public SimpleResponse systemThrowableException(BusinessException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage(), RequestUtils.getTime());
+        return SimpleResponse.buildResponse(e.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**
@@ -181,9 +178,9 @@ public class ExceptionAdviceHandler {
      * @return
      */
     @ExceptionHandler(BusinessException.class)
-    public SimpleResponse businessThrowableException(SystemException e) {
+    public SimpleResponse businessThrowableException(BusinessException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(e.getStatus(), e.getErrorMessage(), RequestUtils.getTime());
+        return SimpleResponse.buildResponse(e.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**
@@ -191,12 +188,9 @@ public class ExceptionAdviceHandler {
      */
     public static void recordErrorInfo(Throwable ex) {
         String errorMsg = PrintExceptionInfo.printErrorInfo(ex);
-        if (ex instanceof SystemException) {
-            SystemException systemException = (SystemException) ex;
-            errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getErrorMessage(), errorMsg);
-        } else if (ex instanceof BusinessException) {
-            BusinessException businessException = (BusinessException) ex;
-            errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", businessException.getStatus(), businessException.getErrorMessage(), errorMsg);
+        if (ex instanceof BusinessException) {
+            BusinessException systemException = (BusinessException) ex;
+            errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getMessage(), errorMsg);
         }
         LogbackFactory.error(PrintExceptionInfo.class, errorMsg);
     }

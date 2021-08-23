@@ -16,18 +16,18 @@ public class BusinessException extends RuntimeException{
     /**
      * 异常信息
      */
-    private String errorMessage;
+    private String message;
 
     public BusinessException(AppHttpStatus httpStatus){
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
-        this.errorMessage = httpStatus.getMessage();
+        this.message = httpStatus.getMessage();
     }
 
     public BusinessException(int status, String errorMessage){
         super(errorMessage);
         this.status = status;
-        this.errorMessage = errorMessage;
+        this.message = errorMessage;
     }
 
     public int getStatus() {
@@ -38,11 +38,12 @@ public class BusinessException extends RuntimeException{
         this.status = status;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    @Override
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

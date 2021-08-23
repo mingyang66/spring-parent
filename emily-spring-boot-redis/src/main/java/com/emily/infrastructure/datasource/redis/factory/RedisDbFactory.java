@@ -1,7 +1,7 @@
 package com.emily.infrastructure.datasource.redis.factory;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.SystemException;
+import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.context.ioc.IOCContext;
 import com.emily.infrastructure.datasource.redis.RedisDbProperties;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -61,7 +61,7 @@ public class RedisDbFactory {
             return stringCache.get(key);
         }
         if (!IOCContext.containsBean(key)) {
-            throw new SystemException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "Redis数据库标识对应的数据库不存在");
+            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "Redis数据库标识对应的数据库不存在");
         }
         StringRedisTemplate stringRedisTemplate = IOCContext.getBean(key, StringRedisTemplate.class);
         stringCache.put(key, stringRedisTemplate);
@@ -92,7 +92,7 @@ public class RedisDbFactory {
             return restCache.get(key);
         }
         if (!IOCContext.containsBean(key)) {
-            throw new SystemException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "Redis数据库标识对应的数据库不存在");
+            throw new BusinessException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), "Redis数据库标识对应的数据库不存在");
         }
         RedisTemplate redisTemplate = IOCContext.getBean(key, RedisTemplate.class);
         restCache.put(key, redisTemplate);
@@ -107,7 +107,7 @@ public class RedisDbFactory {
      */
     public String getStringRedisTemplateBeanName(String redisMark) {
         if (Objects.isNull(redisMark)) {
-            throw new SystemException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
         }
         return MessageFormat.format("{0}_{1}", PREFIX_STRING, redisMark);
     }
@@ -120,7 +120,7 @@ public class RedisDbFactory {
      */
     public String getRedisTemplateBeanName(String redisMark) {
         if (Objects.isNull(redisMark)) {
-            throw new SystemException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
         }
         return MessageFormat.format("{0}_{1}", PREFIX_REST, redisMark);
     }

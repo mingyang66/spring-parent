@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.request.filter;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.SystemException;
+import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.autoconfigure.request.servlet.DelegateRequestWrapper;
 
@@ -30,9 +30,9 @@ public class RequestChannelFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (IOException ex) {
-            throw new SystemException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         } catch (ServletException ex) {
-            throw new SystemException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
 
 

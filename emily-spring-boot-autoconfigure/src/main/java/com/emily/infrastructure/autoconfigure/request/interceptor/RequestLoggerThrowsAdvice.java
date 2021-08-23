@@ -2,20 +2,18 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.exception.SystemException;
+import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.autoconfigure.request.helper.RequestHelper;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.aop.ThrowsAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 /**
  * @author Emily
@@ -48,9 +46,9 @@ public class RequestLoggerThrowsAdvice implements ThrowsAdvice {
         baseLogger.setMethod(request.getMethod());
         //请求参数
         baseLogger.setRequestParams(RequestHelper.getParameterMap(request));
-        if (e instanceof SystemException) {
-            SystemException exception = (SystemException) e;
-            baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getErrorMessage()));
+        if (e instanceof BusinessException) {
+            BusinessException exception = (BusinessException) e;
+            baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
         } else {
             baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
         }

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.io;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.SystemException;
+import com.emily.infrastructure.common.exception.BusinessException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 
@@ -53,7 +53,7 @@ public class FileNameUtils {
         try {
             return FilenameUtils.directoryContains(canonicalParent, canonicalChild);
         } catch (IOException e) {
-            throw new SystemException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判断parent目录是否包含child元素异常，" + e);
+            throw new BusinessException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判断parent目录是否包含child元素异常，" + e);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.SystemException;
+import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +28,7 @@ public class NumberUtils {
             }
             return new BigDecimal(number).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
         } catch (Exception e) {
-            throw new SystemException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "数据计算异常");
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "数据计算异常");
         }
     }
 

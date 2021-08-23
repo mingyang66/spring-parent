@@ -9,15 +9,11 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.appender.helper.LogbackAppender;
-import com.emily.infrastructure.logback.enumeration.LogbackTypeEnum;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 /**

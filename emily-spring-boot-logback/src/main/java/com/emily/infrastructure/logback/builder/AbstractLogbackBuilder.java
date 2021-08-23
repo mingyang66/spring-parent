@@ -5,7 +5,6 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.appender.LogbackAsyncAppender;
-import com.emily.infrastructure.logback.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logback.appender.helper.LogbackAppender;
 import com.emily.infrastructure.logback.enumeration.LogbackTypeEnum;

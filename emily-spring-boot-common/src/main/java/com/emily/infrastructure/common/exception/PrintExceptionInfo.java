@@ -1,7 +1,6 @@
 package com.emily.infrastructure.common.exception;
 
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.Objects;

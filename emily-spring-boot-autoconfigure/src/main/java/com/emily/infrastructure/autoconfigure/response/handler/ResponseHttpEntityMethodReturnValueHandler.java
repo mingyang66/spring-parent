@@ -3,7 +3,6 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
 import com.emily.infrastructure.common.base.BaseResponse;
-import com.emily.infrastructure.common.base.SimpleResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
@@ -55,7 +54,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (entity.getStatusCode().value() == AppHttpStatus.API404_EXCEPTION.getStatus()) {
             String path = ((Map) body).get("path").toString();
-            SimpleResponse responseData = SimpleResponse.buildResponse(AppHttpStatus.API404_EXCEPTION.getStatus(), StringUtils.join("接口【", path, "】不存在"));
+            BaseResponse responseData = BaseResponse.buildResponse(AppHttpStatus.API404_EXCEPTION.getStatus(), StringUtils.join("接口【", path, "】不存在"));
             proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
@@ -73,9 +72,9 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              * 2.返回的ResponseEntity带泛型化参数，且参数是void
              */
             if ((type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class))) {
-                SimpleResponse simpleResponse = SimpleResponse.buildResponse(AppHttpStatus.OK);
-                simpleResponse.setTime(RequestUtils.getTime());
-                proxyObject.handleReturnValue(ResponseEntity.ok(simpleResponse), returnType, mavContainer, webRequest);
+                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
+                baseResponse.setTime(RequestUtils.getTime());
+                proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, body, RequestUtils.getTime());
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);

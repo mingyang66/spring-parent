@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.exception;
 
 
-import com.emily.infrastructure.common.base.SimpleResponse;
+import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -33,45 +33,45 @@ public class ExceptionAdviceHandler {
      * 未知异常
      */
     @ExceptionHandler(value = Exception.class)
-    public SimpleResponse unKnowExceptionHandler(Exception e) {
+    public BaseResponse unKnowExceptionHandler(Exception e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 运行时异常
      */
     @ExceptionHandler(value = RuntimeException.class)
-    public SimpleResponse runtimeExceptionHandler(RuntimeException e) {
+    public BaseResponse runtimeExceptionHandler(RuntimeException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**
      * 空指针异常
      */
     @ExceptionHandler(NullPointerException.class)
-    public SimpleResponse nullPointerExceptionHandler(NullPointerException e) {
+    public BaseResponse nullPointerExceptionHandler(NullPointerException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 类型转换异常
      */
     @ExceptionHandler(ClassCastException.class)
-    public SimpleResponse classCastExceptionHandler(ClassCastException e) {
+    public BaseResponse classCastExceptionHandler(ClassCastException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * IO异常
      */
     @ExceptionHandler(IOException.class)
-    public SimpleResponse ioExceptionHandler(IOException e) {
+    public BaseResponse ioExceptionHandler(IOException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.IO_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.IO_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -79,63 +79,63 @@ public class ExceptionAdviceHandler {
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
     @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
-    public SimpleResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
+    public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 参数类型不匹配
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public SimpleResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
+    public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 缺少参数
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
-    public SimpleResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
+    public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 请求method不匹配
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    public SimpleResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
+    public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 控制器方法中@RequestBody类型参数数据类型转换异常
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public SimpleResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 控制器方法参数异常
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public SimpleResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 控制器方法参数Validate异常
      */
     @ExceptionHandler({BindException.class})
-    public SimpleResponse validModelBindException(BindException e) {
+    public BaseResponse validModelBindException(BindException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**
@@ -145,30 +145,18 @@ public class ExceptionAdviceHandler {
      * @Version 1.0
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
-    public SimpleResponse undeclaredThrowableException(UndeclaredThrowableException e) {
+    public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
      * 数字格式异常
      */
     @ExceptionHandler(NumberFormatException.class)
-    public SimpleResponse numberFormatException(NumberFormatException e) {
+    public BaseResponse numberFormatException(NumberFormatException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION, RequestUtils.getTime());
-    }
-
-    /**
-     * @Description 如果代理异常调用方法将会抛出此异常
-     * @Author
-     * @Date 2019/9/2 16:43
-     * @Version 1.0
-     */
-    @ExceptionHandler(BusinessException.class)
-    public SimpleResponse systemThrowableException(BusinessException e) {
-        recordErrorInfo(e);
-        return SimpleResponse.buildResponse(e.getStatus(), e.getMessage(), RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION, RequestUtils.getTime());
     }
 
     /**
@@ -178,9 +166,9 @@ public class ExceptionAdviceHandler {
      * @return
      */
     @ExceptionHandler(BusinessException.class)
-    public SimpleResponse businessThrowableException(BusinessException e) {
+    public BaseResponse businessThrowableException(BusinessException e) {
         recordErrorInfo(e);
-        return SimpleResponse.buildResponse(e.getStatus(), e.getMessage(), RequestUtils.getTime());
+        return BaseResponse.buildResponse(e.getStatus(), e.getMessage(), RequestUtils.getTime());
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.emily.infrastructure.test.po;
 
-import java.io.Serializable;
-
 /**
  * @program: spring-parent
  * @description:

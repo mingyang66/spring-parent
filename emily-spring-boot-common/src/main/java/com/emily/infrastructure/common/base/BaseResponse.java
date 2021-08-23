@@ -91,7 +91,14 @@ public class BaseResponse<T> implements Serializable {
     public static <T> BaseResponse<T> buildResponse(int status, String message, T data) {
         return new BaseResponse<T>(status, message, data);
     }
-
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version 1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(int status, String message, long time) {
+        return new BaseResponse<T>(status, message, null, time);
+    }
     /**
      * @Description 创建响应对象
      * @Date 2019/7/18 10:10

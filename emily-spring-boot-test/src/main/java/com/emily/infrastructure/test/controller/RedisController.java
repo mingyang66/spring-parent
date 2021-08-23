@@ -3,8 +3,6 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

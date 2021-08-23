@@ -4,13 +4,11 @@ import com.emily.infrastructure.autoconfigure.http.HttpClientProperties;
 import com.emily.infrastructure.autoconfigure.http.client.HttpClientAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 
 /**
  * @author Emily

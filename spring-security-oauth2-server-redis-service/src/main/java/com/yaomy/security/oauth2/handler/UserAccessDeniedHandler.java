@@ -1,6 +1,6 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.emily.infrastructure.common.base.SimpleResponse;
+import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -23,6 +23,6 @@ public class UserAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        JSONUtils.writeValue(response.getOutputStream(), SimpleResponse.buildResponse(301, "访问资源受限"+","+e.toString()));
+        JSONUtils.writeValue(response.getOutputStream(), BaseResponse.buildResponse(301, "访问资源受限"+","+e.toString()));
     }
 }

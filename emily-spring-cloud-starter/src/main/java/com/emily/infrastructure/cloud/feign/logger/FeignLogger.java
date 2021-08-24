@@ -4,6 +4,7 @@ import com.emily.infrastructure.logback.factory.LogbackFactory;
 import feign.Logger;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 自定义Feign日志
  * @create: 2021/04/10
@@ -18,6 +19,6 @@ public class FeignLogger extends Logger {
      */
     @Override
     protected void log(String configKey, String format, Object... args) {
-        LogbackFactory.module(FeignLogger.class, "/feign/", "feign", String.format(methodTag(configKey) + format, args));
+        LogbackFactory.module("/feign/", "feign", String.format(methodTag(configKey) + format, args));
     }
 }

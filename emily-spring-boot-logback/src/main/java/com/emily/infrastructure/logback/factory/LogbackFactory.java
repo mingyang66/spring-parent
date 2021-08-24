@@ -27,8 +27,8 @@ public class LogbackFactory {
      */
     private static LogbackProperties properties;
 
-    public static <T> Logger getLogger(Class cls, String path, String fileName) {
-        return builder.getLogger(cls, path, fileName);
+    public static <T> Logger getLogger(String path, String fileName) {
+        return builder.getLogger(path, fileName);
     }
 
     public static <T> void info(Class<T> clazz, String msg) {
@@ -51,21 +51,21 @@ public class LogbackFactory {
         LoggerFactory.getLogger(clazz).trace(msg);
     }
 
-    public static <T> Logger module(Class<T> clazz, String path, String fileName) {
-        return builder.getLogger(clazz, path, fileName, true);
+    public static <T> Logger module(String path, String fileName) {
+        return builder.getLogger(path, fileName, true);
     }
 
-    public static <T> void module(Class<T> clazz, String path, String fileName, String msg) {
+    public static <T> void module(String path, String fileName, String msg) {
         if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.ERROR.levelStr)) {
-            module(clazz, path, fileName).error(msg);
+            module(path, fileName).error(msg);
         } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.WARN.levelStr)) {
-            module(clazz, path, fileName).warn(msg);
+            module(path, fileName).warn(msg);
         } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.INFO.levelStr)) {
-            module(clazz, path, fileName).info(msg);
+            module(path, fileName).info(msg);
         } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.DEBUG.levelStr)) {
-            module(clazz, path, fileName).debug(msg);
+            module(path, fileName).debug(msg);
         } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.TRACE.levelStr)) {
-            module(clazz, path, fileName).trace(msg);
+            module(path, fileName).trace(msg);
         }
     }
 

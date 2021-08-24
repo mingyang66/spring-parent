@@ -46,8 +46,8 @@ public class LogbackBuilder extends AbstractLogbackBuilder {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    public Logger getLogger(Class cls, String path, String fileName) {
-        return getLogger(cls, path, fileName, false);
+    public Logger getLogger(String path, String fileName) {
+        return getLogger(path, fileName, false);
     }
 
     /**
@@ -57,11 +57,11 @@ public class LogbackBuilder extends AbstractLogbackBuilder {
      * @param isModule 是否是模块|分组日志
      * @return
      */
-    public Logger getLogger(Class cls, String path, String fileName, boolean isModule) {
+    public Logger getLogger(String path, String fileName, boolean isModule) {
         // 日志文件路径
         path = PathUtils.normalizePath(path);
         //logger对象name
-        String loggerName = StringUtils.join(path.replace(File.separator, CharacterUtils.LINE_THROUGH_BOTTOM), CharacterUtils.LINE_THROUGH_BOTTOM, fileName, cls.getName());
+        String loggerName = StringUtils.join(path.replace(File.separator, CharacterUtils.LINE_THROUGH_BOTTOM), CharacterUtils.LINE_THROUGH_BOTTOM, fileName);
         Logger logger = loggerCache.get(loggerName);
         if (Objects.nonNull(logger)) {
             return logger;

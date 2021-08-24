@@ -39,8 +39,8 @@ public class DataSourceController {
 
     @GetMapping("getJob")
     public Job getJob(){
-        LogbackFactory.module(DataSourceController.class, "/a/b/c", "info", "asdfffffffff");
-        LogbackFactory.module(DataSourceController.class, "/a/b/c", "info1", "asdfffffffff");
+        LogbackFactory.module("/a/b/c", "info", "asdfffffffff");
+        LogbackFactory.module("/a/b/c", "info1", "asdfffffffff");
         Job job = jobMapper.findJob();
         return job;
     }

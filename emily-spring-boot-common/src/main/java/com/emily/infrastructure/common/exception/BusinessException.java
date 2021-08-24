@@ -17,6 +17,10 @@ public class BusinessException extends RuntimeException{
      * 异常信息
      */
     private String message;
+    /**
+     * 是否是错误信息，默认：true
+     */
+    private boolean isError = true;
 
     public BusinessException(AppHttpStatus httpStatus){
         super(httpStatus.getMessage());
@@ -45,5 +49,13 @@ public class BusinessException extends RuntimeException{
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean error) {
+        isError = error;
     }
 }

@@ -62,7 +62,7 @@ public class LogbackProperties {
     /**
      * 模块日志输出格式，默认：%msg%n
      */
-    private String modulePattern = "%msg%n";
+    private String modulePattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %m%n";
     /**
      * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
      */

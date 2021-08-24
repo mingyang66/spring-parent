@@ -56,6 +56,9 @@ public class LogbackFactory {
     }
 
     public static <T> void module(String path, String fileName, String msg) {
+        if(properties == null){
+            return;
+        }
         if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.ERROR.levelStr)) {
             module(path, fileName).error(msg);
         } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.WARN.levelStr)) {

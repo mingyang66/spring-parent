@@ -5,9 +5,9 @@ mybatis:
   # 标注待解析的mapper的xml文件位置
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    # org.apache.ibatis.logging.stdout.StdOutImpl
     # org.apache.ibatis.logging.slf4j.Slf4jImpl
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: com.emily.infrastructure.datasource.log.LogBackImpl
 server:
   port: 8081
 ---
@@ -20,7 +20,7 @@ spring:
       # [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%d %p (%file:%line\\)] : %msg%n
       level: info
       enable-module-console: true
-      module-pattern: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n"
+      module-pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} %m%n"
       module-level: info
       enable-group-console: true
       group-level: info

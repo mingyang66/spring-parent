@@ -46,19 +46,19 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //创建拦截日志信息
-        BaseLogger asyncLogHttpClientRequest = new BaseLogger();
+        BaseLogger baseLogger = new BaseLogger();
         //生成事物流水号
-        asyncLogHttpClientRequest.setTraceId(RequestUtils.getTraceId());
+        baseLogger.setTraceId(RequestUtils.getTraceId());
         //请求URL
-        asyncLogHttpClientRequest.setRequestUrl(StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
+        baseLogger.setRequestUrl(StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
         //请求方法
-        asyncLogHttpClientRequest.setMethod(request.getMethodValue());
+        baseLogger.setMethod(request.getMethodValue());
         //请求参数
-        asyncLogHttpClientRequest.setRequestParams(ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        baseLogger.setRequestParams(ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
         //请求类型 ContentType
-        asyncLogHttpClientRequest.setContentType(Objects.nonNull(request.getHeaders().getContentType()) ? request.getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
+        baseLogger.setContentType(Objects.nonNull(request.getHeaders().getContentType()) ? request.getHeaders().getContentType().toString() : MediaType.APPLICATION_JSON_VALUE);
         //请求协议
-        asyncLogHttpClientRequest.setProtocol(RequestUtils.getRequest().getProtocol());
+        baseLogger.setProtocol(RequestUtils.getRequest().getProtocol());
         //开始计时
         long start = System.currentTimeMillis();
         try {
@@ -69,26 +69,26 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             Object responseBody = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
 
             //耗时
-            asyncLogHttpClientRequest.setSpentTime(System.currentTimeMillis() - start);
+            baseLogger.setSpentTime(System.currentTimeMillis() - start);
             //响应时间
-            asyncLogHttpClientRequest.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
-            asyncLogHttpClientRequest.setResponseBody(responseBody);
+            baseLogger.setResponseBody(responseBody);
             //
-            asyncLogHttpClientRequest.setDataSize(ObjectSizeUtil.getObjectSizeUnit(responseBody));
+            baseLogger.setDataSize(ObjectSizeUtil.getObjectSizeUnit(responseBody));
             //记录响应日志
-            asyncLogHttpClientService.traceResponse(asyncLogHttpClientRequest);
+            asyncLogHttpClientService.traceResponse(baseLogger);
 
             return response;
         } catch (IOException e) {
             //耗时
-            asyncLogHttpClientRequest.setSpentTime(System.currentTimeMillis() -start);
+            baseLogger.setSpentTime(System.currentTimeMillis() -start);
             //响应时间
-            asyncLogHttpClientRequest.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
-            asyncLogHttpClientRequest.setResponseBody(e.getMessage());
+            baseLogger.setResponseBody(e.getMessage());
             //记录响应日志
-            asyncLogHttpClientService.traceResponse(asyncLogHttpClientRequest);
+            asyncLogHttpClientService.traceResponse(baseLogger);
 
             throw e;
         }

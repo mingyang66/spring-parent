@@ -33,6 +33,10 @@ public enum AopOrderEnum {
     /**
      * 数据源
      */
+    MYBATIS_AOP(899),
+    /**
+     * 数据源
+     */
     DATASOURCE_AOP(900);
 
     private int order;

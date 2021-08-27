@@ -58,7 +58,7 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
         Object result = invocation.proceed();
 
         //耗时
-        baseLogger.setSpentTime(RequestUtils.getTime());
+        baseLogger.setTime(RequestUtils.getTime());
         //响应结果
         baseLogger.setResponseBody(result);
         //时间

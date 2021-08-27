@@ -2,6 +2,7 @@ package com.emily.infrastructure.context.httpclient.interceptor;
 
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.calculation.ObjectSizeUtil;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
@@ -64,33 +65,24 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
-
             //响应数据
             Object responseBody = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
-
-            //耗时
-            baseLogger.setSpentTime(System.currentTimeMillis() - start);
-            //响应时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
             baseLogger.setResponseBody(responseBody);
-            //
+            //数据大小
             baseLogger.setDataSize(ObjectSizeUtil.getObjectSizeUnit(responseBody));
-            //记录响应日志
-            asyncLogHttpClientService.traceResponse(baseLogger);
-
             return response;
-        } catch (IOException e) {
+        } catch (IOException ex) {
+            //响应结果
+            baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(ex));
+            throw ex;
+        } finally {
             //耗时
-            baseLogger.setSpentTime(System.currentTimeMillis() -start);
+            baseLogger.setTime(System.currentTimeMillis() -start);
             //响应时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-            //响应结果
-            baseLogger.setResponseBody(e.getMessage());
             //记录响应日志
             asyncLogHttpClientService.traceResponse(baseLogger);
-
-            throw e;
         }
 
     }

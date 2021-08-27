@@ -49,7 +49,7 @@ public class BaseLogger implements Serializable {
     /**
      * 耗时
      */
-    private long spentTime;
+    private long time;
     /**
      * 响应结果
      */
@@ -67,12 +67,12 @@ public class BaseLogger implements Serializable {
         this.clazz = clazz;
     }
 
-    public long getSpentTime() {
-        return spentTime;
+    public long getTime() {
+        return time;
     }
 
-    public void setSpentTime(long spentTime) {
-        this.spentTime = spentTime;
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public Object getResponseBody() {

@@ -31,7 +31,7 @@ public class FeignLoggerThrowsAdvice implements ThrowsAdvice {
         //封装异步日志信息
         BaseLogger baseLogger = FeignLoggerUtils.getBaseLogger();
         //耗时
-        baseLogger.setSpentTime(System.currentTimeMillis() - Long.valueOf(RequestUtils.getRequest().getAttribute("start").toString()));
+        baseLogger.setTime(System.currentTimeMillis() - Long.valueOf(RequestUtils.getRequest().getAttribute("start").toString()));
         //触发时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         if (e instanceof BusinessException) {

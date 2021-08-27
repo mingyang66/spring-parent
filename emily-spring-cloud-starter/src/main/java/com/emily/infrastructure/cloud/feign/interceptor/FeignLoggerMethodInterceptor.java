@@ -44,7 +44,7 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
         //响应结果
         baseLogger.setResponseBody(result);
         //耗时
-        baseLogger.setSpentTime(System.currentTimeMillis() - start);
+        baseLogger.setTime(System.currentTimeMillis() - start);
         //触发时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //异步记录接口响应信息

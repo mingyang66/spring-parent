@@ -3,10 +3,12 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 import com.emily.infrastructure.cloud.feign.common.FeignLoggerUtils;
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.context.logger.LoggerService;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,22 +37,30 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         // 开始时间
         long start = System.currentTimeMillis();
-        //将请求开始时间放入请求上下文
-        RequestUtils.getRequest().setAttribute("start", start);
-        //调用真实的action方法
-        Object result = invocation.proceed();
         //封装异步日志信息
         BaseLogger baseLogger = FeignLoggerUtils.getBaseLogger();
-        //响应结果
-        baseLogger.setResponseBody(result);
-        //耗时
-        baseLogger.setTime(System.currentTimeMillis() - start);
-        //触发时间
-        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-        //异步记录接口响应信息
-        loggerService.traceResponse(baseLogger);
-
-        return result;
+        try {
+            //调用真实的action方法
+            Object result = invocation.proceed();
+            //响应结果
+            baseLogger.setResponseBody(result);
+            return result;
+        } catch (Exception e) {
+            if (e instanceof BusinessException) {
+                BusinessException exception = (BusinessException) e;
+                baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
+            } else {
+                baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(e));
+            }
+            throw e;
+        } finally {
+            //耗时
+            baseLogger.setTime(System.currentTimeMillis() - start);
+            //触发时间
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            //异步记录接口响应信息
+            loggerService.traceResponse(baseLogger);
+        }
 
     }
 

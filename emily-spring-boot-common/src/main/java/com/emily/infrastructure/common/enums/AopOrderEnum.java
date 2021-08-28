@@ -7,25 +7,9 @@ package com.emily.infrastructure.common.enums;
  */
 public enum AopOrderEnum {
     /**
-     * API异常日志
-     */
-    API_LOG_EXCEPTION(300),
-    /**
      * API正常日志
      */
     API_LOG_NORMAL(400),
-    /**
-     * 接口流控
-     */
-    RATE_LIMITER(500),
-    /**
-     * 接口重复提交拦截器
-     */
-    IDEMPOTENT(600),
-    /**
-     * feign异常日志
-     */
-    FEIGN_LOG_EXCEPTION(700),
     /**
      * feign正常日志
      */

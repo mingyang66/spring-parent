@@ -1,7 +1,6 @@
 package com.emily.infrastructure.autoconfigure.request;
 
 import com.emily.infrastructure.autoconfigure.request.interceptor.RequestLoggerMethodInterceptor;
-import com.emily.infrastructure.autoconfigure.request.interceptor.RequestLoggerThrowsAdvice;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
 import com.emily.infrastructure.context.logger.LoggerService;
 import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
@@ -80,29 +79,6 @@ public class RequestLoggerAutoConfiguration implements InitializingBean, Disposa
         advisor.setAdvice(new RequestLoggerMethodInterceptor(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.API_LOG_NORMAL.getOrder());
-        return advisor;
-    }
-
-    /**
-     * API异常日志处理增强
-     *
-     * @return
-     */
-    @Bean(API_LOG_EXCEPTION_BEAN_NAME)
-    @ConditionalOnClass(RequestLoggerThrowsAdvice.class)
-    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
-        //声明一个AspectJ切点
-        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        //设置需要拦截的切点-用切点语言表达式
-        pointcut.setExpression(DEFAULT_POINT_CUT);
-        // 配置增强类advisor, 切面=切点+增强
-        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
-        //设置切点
-        advisor.setPointcut(pointcut);
-        //设置增强（Advice）
-        advisor.setAdvice(new RequestLoggerThrowsAdvice(loggerService));
-        //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.API_LOG_EXCEPTION.getOrder());
         return advisor;
     }
 

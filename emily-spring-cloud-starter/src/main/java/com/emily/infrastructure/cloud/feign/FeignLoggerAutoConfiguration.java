@@ -1,7 +1,6 @@
 package com.emily.infrastructure.cloud.feign;
 
 import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerMethodInterceptor;
-import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerThrowsAdvice;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
@@ -67,29 +66,6 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
         advisor.setAdvice(new FeignLoggerMethodInterceptor(loggerService));
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.FEIGN_LOG_NORMAL.getOrder());
-        return advisor;
-    }
-
-    /**
-     * API异常日志处理增强
-     *
-     * @return
-     */
-    @Bean(FEIGN_LOGGER_EXCEPTION_BEAN_NAME)
-    @ConditionalOnClass(FeignLoggerThrowsAdvice.class)
-    public DefaultPointcutAdvisor apiLogExceptionPointCutAdvice(LoggerService loggerService) {
-        //声明一个AspectJ切点
-        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        //设置需要拦截的切点-用切点语言表达式
-        pointcut.setExpression(DEFAULT_POINT_CUT);
-        // 配置增强类advisor, 切面=切点+增强
-        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
-        //设置切点
-        advisor.setPointcut(pointcut);
-        //设置增强（Advice）
-        advisor.setAdvice(new FeignLoggerThrowsAdvice(loggerService));
-        //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.FEIGN_LOG_EXCEPTION.getOrder());
         return advisor;
     }
 

@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
-            <artifactId>emis-spring-boot-redis</artifactId>
+            <artifactId>emily-spring-boot-redis</artifactId>
             <version>3.9.1</version>
         </dependency>
         <dependency>

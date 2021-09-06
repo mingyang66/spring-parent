@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description: Redis多数据源配置文件
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/07/11
  */
 @ConfigurationProperties(prefix = "spring.emily.redis")

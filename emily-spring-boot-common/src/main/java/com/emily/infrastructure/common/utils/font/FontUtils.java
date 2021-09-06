@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.utils.font;
 
 /**
  * @description: 字体工具类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/07/25
  */
 public class FontUtils {

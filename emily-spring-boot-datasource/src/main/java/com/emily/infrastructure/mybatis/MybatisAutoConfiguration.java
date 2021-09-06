@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(MybatisProperties.class)
-@ConditionalOnProperty(prefix = "spring.emis.mybatis", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.emily.mybatis", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class MybatisAutoConfiguration {
 
     public static final String DATA_SOURCE_BEAN_NAME = "mybatisPointcutAdvisor";

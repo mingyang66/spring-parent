@@ -10,10 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description: Description
  * @Version: 1.0
  */
-@TargetDataSource
+@Mapper
 public interface JobMapper {
     /**
      * 查询接口
      */
+    @TargetDataSource
     Job findJob();
 }

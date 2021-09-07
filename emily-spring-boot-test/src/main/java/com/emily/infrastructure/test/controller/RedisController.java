@@ -5,11 +5,13 @@ import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,9 +23,15 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("redis")
 public class RedisController {
+    @GetMapping("info/{section}")
+    public Properties getInfo(@PathVariable("section") String section) {
+        Properties properties = RedisDbFactory.getStringRedisTemplate().getConnectionFactory().getConnection().info(section);
+        return properties;
+    }
 
     @GetMapping("get1")
-    public String get1(){
+    public String get1() {
+
         RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
         Map<String, Object> dataMap = Maps.newHashMap();
         dataMap.put("te", 12);
@@ -33,8 +41,9 @@ public class RedisController {
         RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", "adf", 1, TimeUnit.MINUTES);
         return RedisDbFactory.getStringRedisTemplate("default").opsForValue().get("test");
     }
+
     @GetMapping("get2")
-    public Object get2(){
+    public Object get2() {
         RedisDbFactory.getRedisTemplate("test").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
         Map<String, Object> dataMap = Maps.newHashMap();
         dataMap.put("te", 12);
@@ -44,8 +53,9 @@ public class RedisController {
         RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", dataMap, 1, TimeUnit.MINUTES);
         return RedisDbFactory.getRedisTemplate("test").opsForValue().get("test");
     }
+
     @GetMapping("pool")
-    public String pool(){
+    public String pool() {
         List<RedisClientInfo> list = RedisDbFactory.getRedisTemplate().getClientList();
         System.out.println(list.size());
         list.stream().forEach(redisClientInfo -> {

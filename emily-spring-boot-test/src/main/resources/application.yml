@@ -7,7 +7,7 @@ mybatis:
   #configuration:
     # org.apache.ibatis.logging.slf4j.Slf4jImpl
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    #log-impl: com.emily.infrastructure.datasource.log.LogBackImpl
+    #log-impl: com.emily.infrastructure.mybatis.log.LogBackImpl
 server:
   port: 8081
 ---

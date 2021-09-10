@@ -38,7 +38,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableConfigurationProperties(RedisDbProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
@@ -80,9 +80,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     protected StringRedisTemplate createStringRedisTemplate(RedisConfiguration redisConfiguration, RedisProperties properties) {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(RedisDbConnectionFactory.createLettuceConnectionFactory(redisConfiguration, properties));
         stringRedisTemplate.setKeySerializer(stringSerializer());
-        stringRedisTemplate.setValueSerializer(jacksonSerializer());
+        stringRedisTemplate.setValueSerializer(stringSerializer());
         stringRedisTemplate.setHashKeySerializer(stringSerializer());
-        stringRedisTemplate.setHashValueSerializer(jacksonSerializer());
+        stringRedisTemplate.setHashValueSerializer(stringSerializer());
         // bean初始化完成后调用方法，对于StringRedisTemplate可忽略，主要检查key-value序列化对象是否初始化，并标注RedisTemplate已经被初始化
         stringRedisTemplate.afterPropertiesSet();
         return stringRedisTemplate;

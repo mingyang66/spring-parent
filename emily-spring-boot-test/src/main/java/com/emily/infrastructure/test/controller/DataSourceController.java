@@ -8,14 +8,16 @@ import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
 import com.emily.infrastructure.test.po.SqlServer;
 import com.emily.infrastructure.test.mapper.MysqlMapper;
+import com.emily.infrastructure.test.mapper.ItemMapper;
 import com.emily.infrastructure.test.service.MysqlService;
-import com.emily.infrastructure.test.service.NodeService;
 import com.emily.infrastructure.test.mapper.SlaveMapper;
+import com.emily.infrastructure.test.service.NodeService;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +56,11 @@ public class DataSourceController {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
 
+    /**
+     * foreach 模式批量插入数据库
+     * @param num
+     * @return
+     */
     @GetMapping("batchSimple/{num}")
     @TargetDataSource("mysql")
     public long batchSimple(@PathVariable Integer num) {
@@ -69,6 +76,11 @@ public class DataSourceController {
         return System.currentTimeMillis() - start;
     }
 
+    /**
+     * batch模式批量插入数据库
+     * @param num
+     * @return
+     */
     @GetMapping("batch/{num}")
     @TargetDataSource("mysql")
     public long getBatch(@PathVariable Integer num) {
@@ -100,6 +112,11 @@ public class DataSourceController {
         return System.currentTimeMillis() - start;
     }
 
+    /**
+     * 逐条插入数据库
+     * @param num
+     * @return
+     */
     @GetMapping("insertItem/{num}")
     @TargetDataSource("mysql")
     public long insertItem(@PathVariable Integer num) {

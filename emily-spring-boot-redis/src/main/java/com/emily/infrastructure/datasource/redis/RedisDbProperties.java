@@ -12,8 +12,12 @@ import java.util.Map;
  * @author: Emily
  * @create: 2021/07/11
  */
-@ConfigurationProperties(prefix = "spring.emily.redis")
+@ConfigurationProperties(prefix = RedisDbProperties.PREFIX)
 public class RedisDbProperties {
+    /**
+     * 属性配置前缀
+     */
+    public static final String PREFIX = "spring.emily.redis";
     /**
      * 默认配置
      */

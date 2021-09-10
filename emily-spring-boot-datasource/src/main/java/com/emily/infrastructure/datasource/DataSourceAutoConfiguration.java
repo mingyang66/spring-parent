@@ -37,7 +37,7 @@ import java.util.Objects;
 @Configuration
 @AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.datasource", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = DataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DataSourceAutoConfiguration implements InitializingBean, DisposableBean {
 

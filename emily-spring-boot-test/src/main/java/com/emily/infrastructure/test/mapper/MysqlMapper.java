@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.mapper;
 
 
-import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,7 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-@TargetDataSource("mysql")
 public interface MysqlMapper {
     /**
      * 查询接口

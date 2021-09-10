@@ -7,8 +7,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: Emily
  * @create: 2020/05/14
  */
-@ConfigurationProperties(prefix = "spring.emily.mybatis")
+@ConfigurationProperties(prefix = MybatisProperties.PREFIX)
 public class MybatisProperties {
+    /**
+     * mybatis前缀
+     */
+    public static final String PREFIX = "spring.emily.mybatis";
     /**
      * 是否开启数据源组件, 默认：true
      */

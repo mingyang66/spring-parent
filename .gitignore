@@ -41,3 +41,6 @@ out/
 venv/
 /emily-spring-boot-test/src/main/resources/application-database.yml
 /emily-spring-cloud-test/src/main/resources/application-redis.yml
+/emily-spring-boot-test/src/main/resources/application-database.properties
+/emily-spring-boot-test/src/main/resources/application-redis.properties
+/emily-spring-boot-test/src/main/resources/application-database.yml.bak

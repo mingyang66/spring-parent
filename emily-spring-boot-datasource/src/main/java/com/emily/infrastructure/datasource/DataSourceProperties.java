@@ -14,8 +14,12 @@ import java.util.Map;
  * @create: 2020/05/14
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@ConfigurationProperties(prefix = "spring.emily.datasource")
+@ConfigurationProperties(prefix = DataSourceProperties.PREFIX)
 public class DataSourceProperties {
+    /**
+     * 前缀
+     */
+    public static final String PREFIX = "spring.emily.datasource";
     /**
      * 默认配置
      */

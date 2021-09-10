@@ -1,13 +1,13 @@
 spring:
   profiles:
-    active: database
+    active: database,redis
 mybatis:
   # 标注待解析的mapper的xml文件位置
   mapper-locations: classpath:mapper/*.xml
-  configuration:
+  #configuration:
     # org.apache.ibatis.logging.slf4j.Slf4jImpl
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    log-impl: com.emily.infrastructure.datasource.log.LogBackImpl
+    #log-impl: com.emily.infrastructure.datasource.log.LogBackImpl
 server:
   port: 8081
 ---

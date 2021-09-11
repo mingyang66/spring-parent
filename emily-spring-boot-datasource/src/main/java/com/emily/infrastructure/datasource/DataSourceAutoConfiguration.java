@@ -10,6 +10,8 @@ import com.emily.infrastructure.datasource.interceptor.DataSourceMethodIntercept
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
@@ -40,6 +42,8 @@ import java.util.Objects;
 @ConditionalOnProperty(prefix = DataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DataSourceAutoConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
 
     public static final String DATA_SOURCE_BEAN_NAME = "dataSourcePointCutAdvice";
     /**
@@ -100,11 +104,11 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() {
-        LogbackFactory.info(DataSourceAutoConfiguration.class, "<== 【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogbackFactory.info(DataSourceAutoConfiguration.class, "==> 【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----数据库多数据源组件【DataSourceAutoConfiguration】");
     }
 }

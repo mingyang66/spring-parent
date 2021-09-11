@@ -19,12 +19,14 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @program: spring-parent
@@ -83,17 +85,18 @@ public class DataSourceController {
      */
     @GetMapping("batch/{num}")
     @TargetDataSource("mysql")
+    @Transactional(rollbackFor = Exception.class)
     public long getBatch(@PathVariable Integer num) {
         long start = System.currentTimeMillis();
         SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try {
-            ItemMapper mysqlMapper = sqlSession.getMapper(ItemMapper.class);
+            ItemMapper itemMapper = sqlSession.getMapper(ItemMapper.class);
             for (int i = 0; i < num; i++) {
                 Item item = new Item();
                 item.setLockName("a" + i);
                 item.setScheName("B" + i);
-                mysqlMapper.insertItem(item.getScheName(), item.getLockName());
+                itemMapper.insertItem(item.getScheName(), item.getLockName());
                 if(i%1000==0){
                     // 手动提交，提交后无法回滚
                     sqlSession.commit();

@@ -30,10 +30,10 @@
         <module>emily-spring-boot-test</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
-    <artifactId>spring-parent</artifactId>
+    <artifactId>emily-infrustructure</artifactId>
     <version>3.9.1</version>
-    <name>spring-parent</name>
-    <description>emilyframework</description>
+    <name>EmilyInfrastructure</name>
+    <description>EmilyInfrastructure基础框架</description>
 
     <properties>
         <!--JDK版本-->

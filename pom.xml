@@ -31,7 +31,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>emily-infrustructure</artifactId>
-    <version>3.9.1</version>
+    <version>3.9.2</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 

@@ -5,13 +5,13 @@
     <parent>
         <artifactId>emily-infrustructure</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>3.9.1</version>
+        <version>3.9.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>emily-spring-boot-test</artifactId>
-    <version>3.9.1</version>
-    <name>EmilyInfrastructure</name>
+    <version>3.9.2</version>
+    <name>EmilyInfrastructure-test</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -20,17 +20,17 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>3.9.1</version>
+            <version>3.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>3.9.1</version>
+            <version>3.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
-            <version>3.9.1</version>
+            <version>3.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>

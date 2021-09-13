@@ -11,7 +11,7 @@
 
     <artifactId>emily-spring-cloud-test</artifactId>
     <version>1.0.1</version>
-    <name>EmilyFramework</name>
+    <name>EmilyInfrastructure</name>
 
     <properties>
         <start-class>com.emily.boot.test.TestBootStrap</start-class>

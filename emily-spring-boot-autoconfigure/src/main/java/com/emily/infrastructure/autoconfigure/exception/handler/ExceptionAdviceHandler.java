@@ -1,11 +1,11 @@
-package com.emily.infrastructure.autoconfigure.exception;
+package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
 import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -13,12 +13,10 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.text.MessageFormat;
 
 /**
@@ -35,7 +33,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = Exception.class)
     public BaseResponse unKnowExceptionHandler(Exception e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION, e.getMessage());
     }
 
     /**
@@ -44,7 +42,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -53,7 +51,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
     }
 
     /**
@@ -62,7 +60,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
     }
 
     /**
@@ -71,17 +69,16 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.IO_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.IO_EXCEPTION);
     }
 
     /**
      * 数组越界异常
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION);
     }
 
     /**
@@ -90,7 +87,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_MISMATCH_EXCEPTION);
     }
 
     /**
@@ -99,7 +96,29 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_MISSING_EXCEPTION);
+    }
+
+
+    /**
+     * 控制器方法中@RequestBody类型参数数据类型转换异常
+     */
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        recordErrorInfo(e);
+        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_TYPE_EXCEPTION);
+    }
+
+    /**
+     * 控制器方法参数Validate异常
+     *
+     * @throws BindException
+     * @throws MethodArgumentNotValidException
+     */
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    public BaseResponse validModelBindException(BindException e) {
+        recordErrorInfo(e);
+        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_EXCEPTION);
     }
 
     /**
@@ -108,46 +127,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, RequestUtils.getTime());
-    }
-
-    /**
-     * 控制器方法中@RequestBody类型参数数据类型转换异常
-     */
-    @ExceptionHandler({HttpMessageNotReadableException.class})
-    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION, RequestUtils.getTime());
-    }
-
-    /**
-     * 控制器方法参数异常
-     */
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION, RequestUtils.getTime());
-    }
-
-    /**
-     * 控制器方法参数Validate异常
-     */
-    @ExceptionHandler({BindException.class})
-    public BaseResponse validModelBindException(BindException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.BIND_EXCEPTION.getStatus(), e.getMessage(), RequestUtils.getTime());
-    }
-
-    /**
-     * @Description 如果代理异常调用方法将会抛出此异常
-     * @Author
-     * @Date 2019/9/2 16:43
-     * @Version 1.0
-     */
-    @ExceptionHandler(UndeclaredThrowableException.class)
-    public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.UNDECLARED_THROWABLE_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.METHOD_SUPPORTED_EXCEPTION);
     }
 
     /**
@@ -156,7 +136,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION, RequestUtils.getTime());
+        return BaseResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
     }
 
     /**
@@ -168,7 +148,19 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(BusinessException.class)
     public BaseResponse businessThrowableException(BusinessException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(e.getStatus(), e.getMessage(), RequestUtils.getTime());
+        return BaseResponse.buildResponse(e.getStatus(), e.getMessage());
+    }
+
+    /**
+     * 自定义异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public Object businessThrowableException(CustomException e) {
+        recordErrorInfo(e);
+        return e.getBean();
     }
 
     /**

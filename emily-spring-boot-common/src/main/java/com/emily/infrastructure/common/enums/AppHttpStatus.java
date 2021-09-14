@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.enums;
 
 /**
+ * @author Emily
  * @Description: 自定义状态码异常枚举类
  * @Version: 1.0
  */
@@ -12,13 +13,11 @@ public enum AppHttpStatus {
     NULL_POINTER_EXCEPTION(100002, "空指针异常"),
     CLASS_CAST_EXCEPTION(100003, "类转换异常"),
     INDEX_OUT_OF_BOUNDS_EXCEPTION(100004, "数组越界异常"),
-    METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION(100005, "参数类型不匹配"),
-    MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(100006, "缺少参数"),
-    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(100007, "请求Method不支持"),
-    HTTP_MESSAGE_NOT_READABLE_EXCEPTION(100008, "控制器方法中@RequestBody类型参数数据类型转换异常"),
-    METHOD_ARGUMENT_NOT_VALID_EXCEPTION(100009,"非法参数"),
-    BIND_EXCEPTION(100010, "控制器方法参数验证异常"),
-    UNDECLARED_THROWABLE_EXCEPTION(100011, "代理异常"),
+    PARAMETER_MISMATCH_EXCEPTION(100005, "参数类型不匹配"),
+    PARAMETER_MISSING_EXCEPTION(100006, "参数缺失"),
+    METHOD_SUPPORTED_EXCEPTION(100007, "请求Method不支持"),
+    PARAMETER_TYPE_EXCEPTION(100008, "非法参数转换"),
+    PARAMETER_EXCEPTION(100010, "非法参数"),
     NUMBER_FORMAT_EXCEPTION(100012, "数字格式异常"),
     JSON_PARSE_EXCEPTION(100013, "json数据格式转换异常"),
     DATE_TIME_EXCEPTION(100014, "日期格式转换异常"),

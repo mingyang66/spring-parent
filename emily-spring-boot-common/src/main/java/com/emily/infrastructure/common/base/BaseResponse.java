@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.base;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.utils.RequestUtils;
 
 import java.io.Serializable;
 
@@ -38,7 +39,6 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
         this.time = time;
     }
-
 
 
     public int getStatus() {
@@ -79,9 +79,8 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message) {
-        return new BaseResponse<T>(status, message);
+        return new BaseResponse<T>(status, message, null, RequestUtils.getTime());
     }
-
 
     /**
      * @Description 创建响应对象
@@ -89,40 +88,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message, T data) {
-        return new BaseResponse<T>(status, message, data);
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> buildResponse(int status, String message, long time) {
-        return new BaseResponse<T>(status, message, null, time);
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> buildResponse(int status, String message, T data, long time) {
-        return new BaseResponse<T>(status, message, data, time);
-    }
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data, long time) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, time);
-    }
-
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage());
+        return new BaseResponse<T>(status, message, data, RequestUtils.getTime());
     }
 
     /**
@@ -131,6 +97,15 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data) {
-        return new BaseResponse<T>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data);
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestUtils.getTime());
+    }
+
+    /**
+     * @Description 创建响应对象
+     * @Date 2019/7/18 10:10
+     * @Version 1.0
+     */
+    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestUtils.getTime());
     }
 }

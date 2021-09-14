@@ -1,6 +1,5 @@
-package com.emily.infrastructure.cloud.http.client;
+package com.emily.infrastructure.cloud.httpclient;
 
-import com.emily.infrastructure.cloud.http.HttpClientBalanceProperties;
 import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.context.logger.LoggerService;
@@ -25,13 +24,14 @@ import java.util.Collections;
 import java.util.function.Supplier;
 
 /**
+ * @author Emily
  * @Description: 将RestTemplate加入容器
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HttpClientBalanceProperties.class)
 @ConditionalOnClass(RestTemplate.class)
-@ConditionalOnProperty(prefix = "spring.emily.cloud.http-client-loadbalancer", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = HttpClientBalanceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HttpClientBalanceAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String LOAD_BALANCED_BEAN_NAME = "loadBalancer";

@@ -1,8 +1,10 @@
 package com.emily.infrastructure.test.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
+import com.emily.infrastructure.test.exception.ApiException;
+import com.emily.infrastructure.test.po.Job;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: spring-parent
@@ -14,9 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/exception")
 public class ExceptionController {
 
-    @GetMapping("null")
+    @GetMapping("test1")
     public void exception(){
         String s = null;
         s.length();
+    }
+
+    @PostMapping("test2")
+    @ApiWrapperIgnore
+    public void customexception(@Validated @RequestBody Job job) throws ApiException {
+        throw new ApiException("12", "自定义", "34");
     }
 }

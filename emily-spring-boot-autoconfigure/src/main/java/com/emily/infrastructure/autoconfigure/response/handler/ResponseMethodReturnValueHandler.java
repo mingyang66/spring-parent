@@ -59,7 +59,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
                 baseResponse.setTime(RequestUtils.getTime());
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, returnValue, RequestUtils.getTime());
+                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, returnValue);
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             }
         }

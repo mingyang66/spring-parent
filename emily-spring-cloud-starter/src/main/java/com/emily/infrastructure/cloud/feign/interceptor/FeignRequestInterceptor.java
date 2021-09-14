@@ -27,8 +27,6 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
 
     @Override
     public void apply(RequestTemplate template) {
-        //获取HttpServletRequest对象
-        HttpServletRequest request = RequestUtils.getRequest();
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
@@ -46,7 +44,9 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求参数
         baseLogger.setRequestParams(transToMap(template));
         // 将日志信息放入请求对象
-        request.setAttribute("feignLog", baseLogger);
+        if(RequestUtils.isServletContext()){
+            RequestUtils.getRequest().setAttribute("feignLog", baseLogger);
+        }
     }
 
     /**

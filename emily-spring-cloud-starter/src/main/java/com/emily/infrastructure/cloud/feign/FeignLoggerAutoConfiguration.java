@@ -30,7 +30,7 @@ import java.util.function.Supplier;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(FeignLoggerProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.feign.logger", name = "enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = FeignLoggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import(LoggerServiceImpl.class)
 public class FeignLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 

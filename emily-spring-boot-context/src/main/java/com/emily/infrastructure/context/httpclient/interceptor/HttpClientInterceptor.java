@@ -29,10 +29,10 @@ import java.util.Objects;
  */
 public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
 
-    private LoggerService asyncLogHttpClientService;
+    private LoggerService loggerService;
 
-    public HttpClientInterceptor(LoggerService asyncLogHttpClientService) {
-        this.asyncLogHttpClientService = asyncLogHttpClientService;
+    public HttpClientInterceptor(LoggerService loggerService) {
+        this.loggerService = loggerService;
     }
 
     /**
@@ -82,7 +82,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //响应时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //记录响应日志
-            asyncLogHttpClientService.traceResponse(baseLogger);
+            loggerService.traceResponse(baseLogger);
         }
 
     }

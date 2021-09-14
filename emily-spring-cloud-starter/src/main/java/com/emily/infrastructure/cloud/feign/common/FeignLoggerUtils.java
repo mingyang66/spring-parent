@@ -15,10 +15,10 @@ public class FeignLoggerUtils {
     /**
      * 获取日志记录对象
      */
-    public static BaseLogger getBaseLogger(){
+    public static BaseLogger getBaseLogger() {
         //封装异步日志信息
         BaseLogger baseLogger;
-        Object feignLog = RequestUtils.getRequest().getAttribute("feignLog");
+        Object feignLog = RequestUtils.isServletContext() ? RequestUtils.getRequest().getAttribute("feignLog") : null;
         if (Objects.isNull(feignLog)) {
             baseLogger = new BaseLogger();
         } else {

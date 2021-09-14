@@ -76,7 +76,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
                 baseResponse.setTime(RequestUtils.getTime());
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, body, RequestUtils.getTime());
+                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, body);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }
         }

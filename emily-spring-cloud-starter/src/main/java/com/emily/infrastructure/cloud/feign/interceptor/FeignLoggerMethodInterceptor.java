@@ -35,10 +35,10 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        // 开始时间
-        long start = System.currentTimeMillis();
         //封装异步日志信息
         BaseLogger baseLogger = FeignLoggerUtils.getBaseLogger();
+        // 开始时间
+        long start = System.currentTimeMillis();
         try {
             //调用真实的action方法
             Object result = invocation.proceed();
@@ -61,7 +61,5 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //异步记录接口响应信息
             loggerService.traceResponse(baseLogger);
         }
-
     }
-
 }

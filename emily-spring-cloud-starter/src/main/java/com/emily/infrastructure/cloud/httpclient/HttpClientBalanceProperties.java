@@ -1,16 +1,21 @@
-package com.emily.infrastructure.cloud.http;
+package com.emily.infrastructure.cloud.httpclient;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 配置元数据文件.
+ * @author Emily
  */
-@ConfigurationProperties(prefix = "spring.emily.cloud.http-client-loadbalancer")
+@ConfigurationProperties(prefix = HttpClientBalanceProperties.PREFIX)
 public class HttpClientBalanceProperties {
+    /**
+     * 属性配置前缀
+     */
+    public static final String PREFIX = "spring.emily.cloud.http-client-loadbalancer";
     /**
      * 组件开关
      */
-    private boolean enable;
+    private boolean enabled;
     /**
      * HttpClientService read timeout (in milliseconds),default:1000
      */
@@ -40,12 +45,12 @@ public class HttpClientBalanceProperties {
         this.connectTimeOut = connectTimeOut;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public boolean isEnableInterceptor() {

@@ -1,5 +1,6 @@
 package com.emily.infrastructure.autoconfigure.exception;
 
+import com.emily.infrastructure.autoconfigure.exception.handler.ExceptionAdviceHandler;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -9,13 +10,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 异常捕获自动化配置类
  * @create: 2020/10/28
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExceptionProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.exception", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = ExceptionProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ExceptionAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 异常抛出拦截bean初始化

@@ -229,15 +229,22 @@ public class RequestUtils {
      */
     public static String getTraceId() {
         try {
-            Object tId = getRequest().getAttribute("T_ID");
-            if (Objects.isNull(tId)) {
-                tId = UUID.randomUUID().toString();
-                getRequest().setAttribute("T_ID", tId);
+            if (isServletContext()) {
+                Object tId = getRequest().getAttribute("tradeId");
+                if (Objects.isNull(tId)) {
+                    String traceId = UUID.randomUUID().toString();
+                    getRequest().setAttribute("tradeId", traceId);
+                    return traceId;
+                }
                 return String.valueOf(tId);
             }
-            return String.valueOf(tId);
-        } catch (Exception e) {
             return UUID.randomUUID().toString();
+        } catch (Exception e) {
+            String traceId = UUID.randomUUID().toString();
+            if (isServletContext()) {
+                getRequest().setAttribute("tradeId", traceId);
+            }
+            return traceId;
         }
     }
 

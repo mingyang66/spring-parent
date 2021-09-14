@@ -12,7 +12,8 @@ import org.springframework.core.Ordered;
  * @description: Emily框架初始化器
  * @create: 2020/09/22
  */
-public class EmilyApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+@SuppressWarnings("all")
+public class IOCApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 1;
@@ -22,6 +23,6 @@ public class EmilyApplicationContextInitializer implements ApplicationContextIni
     public void initialize(ConfigurableApplicationContext applicationContext) {
         // 初始化容器上下文
         IOCContext.setApplicationContext(applicationContext);
-        LogbackFactory.info(EmilyApplicationContextInitializer.class, "==> Emily Infrastructure IOC容器上下文开始初始化...");
+        LogbackFactory.info(IOCApplicationContextInitializer.class, "==> Emily Infrastructure IOC容器上下文开始初始化...");
     }
 }

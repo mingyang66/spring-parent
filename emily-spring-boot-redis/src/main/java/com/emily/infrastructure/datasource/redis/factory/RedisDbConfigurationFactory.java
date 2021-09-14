@@ -20,6 +20,7 @@ import java.util.List;
 public class RedisDbConfigurationFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDbConfigurationFactory.class);
+
     private static final RedisDbConfigurationFactory INSTANCE = new RedisDbConfigurationFactory();
 
     /**

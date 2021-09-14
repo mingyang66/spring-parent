@@ -1,15 +1,12 @@
 package com.emily.infrastructure.cloud.httpclient;
 
-import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHandler;
-import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
-import com.emily.infrastructure.context.logger.LoggerService;
-import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
+import com.emily.infrastructure.cloud.httpclient.handler.CustomResponseErrorHandler;
+import com.emily.infrastructure.cloud.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -21,7 +18,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-import java.util.function.Supplier;
 
 /**
  * @author Emily
@@ -42,21 +38,11 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
     private HttpClientBalanceProperties httpClientProperties;
 
     /**
-     * 日志记录服务
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public LoggerService loggerService() {
-        Supplier<LoggerService> supplier = LoggerServiceImpl::new;
-        return supplier.get();
-    }
-
-    /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
      */
     @LoadBalanced
     @Bean(LOAD_BALANCED_BEAN_NAME)
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory, LoggerService loggerService) {
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientLoadBalanceHttpRequestFactory));
@@ -64,7 +50,7 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
         if (httpClientProperties.isEnableInterceptor()) {
             //添加拦截器
-            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor(loggerService)));
+            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor()));
         }
 
         return restTemplate;

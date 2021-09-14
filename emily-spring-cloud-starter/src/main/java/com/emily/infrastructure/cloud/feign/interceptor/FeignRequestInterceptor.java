@@ -10,7 +10,6 @@ import feign.RequestTemplate;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
-import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -6,10 +6,13 @@ import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.context.logger.LoggerService;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.context.helper.ThreadPoolHelper;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -22,11 +25,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class RequestLoggerMethodInterceptor implements MethodInterceptor {
 
-    private LoggerService loggerService;
-
-    public RequestLoggerMethodInterceptor(LoggerService loggerService) {
-        this.loggerService = loggerService;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(RequestLoggerMethodInterceptor.class);
 
     /**
      * 拦截接口日志
@@ -78,7 +77,7 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
-            loggerService.traceResponse(baseLogger);
+            ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
         }
 
     }

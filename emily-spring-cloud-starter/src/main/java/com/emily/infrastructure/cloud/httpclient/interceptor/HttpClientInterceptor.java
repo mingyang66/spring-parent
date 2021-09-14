@@ -1,4 +1,4 @@
-package com.emily.infrastructure.context.httpclient.interceptor;
+package com.emily.infrastructure.cloud.httpclient.interceptor;
 
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
@@ -6,9 +6,12 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.calculation.ObjectSizeUtil;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import com.emily.infrastructure.context.logger.LoggerService;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.context.helper.ThreadPoolHelper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -29,11 +32,7 @@ import java.util.Objects;
  */
 public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
 
-    private LoggerService loggerService;
-
-    public HttpClientInterceptor(LoggerService loggerService) {
-        this.loggerService = loggerService;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(HttpClientInterceptor.class);
 
     /**
      * RestTemplate拦截方法
@@ -81,8 +80,8 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             baseLogger.setTime(System.currentTimeMillis() -start);
             //响应时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-            //记录响应日志
-            loggerService.traceResponse(baseLogger);
+            //异步线程池记录日志
+            ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
         }
 
     }

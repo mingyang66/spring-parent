@@ -1,4 +1,4 @@
-package com.emily.infrastructure.context.api.controller;
+package com.emily.infrastructure.test.controller;
 
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;

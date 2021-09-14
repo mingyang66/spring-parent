@@ -5,8 +5,6 @@ import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
 import com.emily.infrastructure.common.enums.AopOrderEnum;
-import com.emily.infrastructure.context.logger.LoggerService;
-import com.emily.infrastructure.context.logger.impl.LoggerServiceImpl;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import feign.Logger;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +17,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import java.util.function.Supplier;
 
@@ -31,7 +28,6 @@ import java.util.function.Supplier;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(FeignLoggerProperties.class)
 @ConditionalOnProperty(prefix = FeignLoggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Import(LoggerServiceImpl.class)
 public class FeignLoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
     public static final String FEIGN_LOGGER_NORMAL_BEAN_NAME = "feignLoggerNormalPointCutAdvice";
@@ -53,7 +49,7 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
      */
     @Bean(FEIGN_LOGGER_NORMAL_BEAN_NAME)
     @ConditionalOnClass(FeignLoggerMethodInterceptor.class)
-    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(LoggerService loggerService) {
+    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice() {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -63,7 +59,7 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new FeignLoggerMethodInterceptor(loggerService));
+        advisor.setAdvice(new FeignLoggerMethodInterceptor());
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderEnum.FEIGN_LOG_NORMAL.getOrder());
         return advisor;

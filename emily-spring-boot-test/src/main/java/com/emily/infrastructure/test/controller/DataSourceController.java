@@ -8,17 +8,12 @@ import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
 import com.emily.infrastructure.test.po.SqlServer;
-import com.emily.infrastructure.test.mapper.MysqlMapper;
-import com.emily.infrastructure.test.mapper.ItemMapper;
 import com.emily.infrastructure.test.service.MysqlService;
-import com.emily.infrastructure.test.mapper.SlaveMapper;
 import com.emily.infrastructure.test.service.NodeService;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @program: spring-parent

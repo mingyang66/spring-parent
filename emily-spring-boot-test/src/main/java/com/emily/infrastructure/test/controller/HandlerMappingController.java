@@ -1,6 +1,6 @@
-package com.emily.infrastructure.context.api.controller;
+package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.context.api.model.UrlMappingInfo;
+import com.emily.infrastructure.test.po.UrlMappingInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

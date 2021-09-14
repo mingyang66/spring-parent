@@ -8,6 +8,10 @@
 4. feign httpclient优化调整
 5. 新增SqlSessionFactory帮助类SqlSessionFactoryHelper
 6. 优化属性配置相关代码
+7. 升级mybatis-spring-boot-starter到2.2.0版本
+8. 新增ThreadPoolHelper异步线程池帮助类
+9. HttpClient请求包括cloud httpclient请求拦截器优化
+10. 所有基础库异步记录日志方式更改为通过ThreadPoolTaskExecutor实现
 ------
 2021/09/12
 基础库发布3.9.2

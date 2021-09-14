@@ -5,12 +5,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Role;
 
 /**
+ * @author Emily
  * @description: 拦截器属性配置类
  * @create: 2020/03/19
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@ConfigurationProperties(prefix = "spring.emily.request.logback")
+@ConfigurationProperties(prefix = RequestLoggerProperties.PREFIX)
 public class RequestLoggerProperties {
+    /**
+     * 属性配置前缀
+     */
+    public static final String PREFIX = "spring.emily.request.logback";
     /**
      * 组件开关
      */

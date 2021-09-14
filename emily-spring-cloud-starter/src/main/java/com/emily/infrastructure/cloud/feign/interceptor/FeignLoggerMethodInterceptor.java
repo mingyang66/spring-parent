@@ -5,10 +5,13 @@ import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.context.logger.LoggerService;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.context.helper.ThreadPoolHelper;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,11 +23,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class FeignLoggerMethodInterceptor implements MethodInterceptor {
 
-    private LoggerService loggerService;
-
-    public FeignLoggerMethodInterceptor(LoggerService loggerService) {
-        this.loggerService = loggerService;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(FeignLoggerMethodInterceptor.class);
 
     /**
      * 拦截接口日志
@@ -59,7 +58,7 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
-            loggerService.traceResponse(baseLogger);
+            ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
         }
     }
 }

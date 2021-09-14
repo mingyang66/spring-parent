@@ -1,11 +1,12 @@
 ### 系统更新
 ------
-2021/09/12
+2021/09/19
 基础库发布3.9.3
 1. 异常耗时优化调整
 2. 新增自定义异常返回值模式（还遗留一些校验异常无法处理问题）
 3. feign非servlet上下文请求兼容
 4. feign httpclient优化调整
+5. 新增SqlSessionFactory帮助类SqlSessionFactoryHelper
 ------
 2021/09/12
 基础库发布3.9.2

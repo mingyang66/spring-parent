@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
+import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.emily.infrastructure.test.mapper.*;
 import com.emily.infrastructure.test.po.Item;
@@ -55,9 +56,6 @@ public class DataSourceController {
     @Autowired
     private ItemMapper itemMapper;
 
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
-
     /**
      * foreach 模式批量插入数据库
      * @param num
@@ -88,7 +86,7 @@ public class DataSourceController {
     @Transactional(rollbackFor = Exception.class)
     public long getBatch(@PathVariable Integer num) {
         long start = System.currentTimeMillis();
-        SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory();
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try {
             ItemMapper itemMapper = sqlSession.getMapper(ItemMapper.class);

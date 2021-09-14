@@ -1,16 +1,20 @@
-package com.emily.infrastructure.autoconfigure.http;
+package com.emily.infrastructure.autoconfigure.httpclient;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 配置元数据文件.
  */
-@ConfigurationProperties(prefix = "spring.emily.http-client")
+@ConfigurationProperties(prefix = HttpClientProperties.PREFIX)
 public class HttpClientProperties {
+    /**
+     * 属性配置前缀
+     */
+    public static final String PREFIX = "spring.emily.http-client";
     /**
      * 组件开关
      */
-    private boolean enable;
+    private boolean enabled;
     /**
      * HttpClientService read timeout (in milliseconds),default:5000
      */
@@ -40,12 +44,12 @@ public class HttpClientProperties {
         this.connectTimeOut = connectTimeOut;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public boolean isEnableInterceptor() {

@@ -7,6 +7,7 @@
 3. feign非servlet上下文请求兼容
 4. feign httpclient优化调整
 5. 新增SqlSessionFactory帮助类SqlSessionFactoryHelper
+6. 优化属性配置相关代码
 ------
 2021/09/12
 基础库发布3.9.2

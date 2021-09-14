@@ -13,7 +13,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 public class SqlSessionFactoryHelper {
     /**
      * 获取SqlSessionFactory 工厂bean对象
-     * @return
+     *
+     * @return SqlSessionFactory
      */
     public static SqlSessionFactory getSqlSessionFactory() {
         SqlSessionTemplate sqlSessionTemplate = IOCContext.getBean(SqlSessionTemplate.class);

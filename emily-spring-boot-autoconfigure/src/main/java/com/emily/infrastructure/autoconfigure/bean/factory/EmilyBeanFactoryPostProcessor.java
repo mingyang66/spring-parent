@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.bean.factory;
 
-import com.emily.infrastructure.autoconfigure.http.HttpClientProperties;
-import com.emily.infrastructure.autoconfigure.http.client.HttpClientAutoConfiguration;
+import com.emily.infrastructure.autoconfigure.httpclient.HttpClientProperties;
+import com.emily.infrastructure.autoconfigure.httpclient.HttpClientAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerAutoConfiguration;
 import com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties;
 import org.springframework.beans.BeansException;

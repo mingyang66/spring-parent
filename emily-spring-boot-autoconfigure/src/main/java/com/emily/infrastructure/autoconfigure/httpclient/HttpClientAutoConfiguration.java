@@ -1,6 +1,5 @@
-package com.emily.infrastructure.autoconfigure.http.client;
+package com.emily.infrastructure.autoconfigure.httpclient;
 
-import com.emily.infrastructure.autoconfigure.http.HttpClientProperties;
 import com.emily.infrastructure.context.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.context.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.context.logger.LoggerService;
@@ -32,7 +31,7 @@ import java.util.function.Supplier;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HttpClientProperties.class)
 @ConditionalOnClass(RestTemplate.class)
-@ConditionalOnProperty(prefix = "spring.emily.http-client", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = HttpClientProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration implements InitializingBean, DisposableBean {
     /**
      * 读取配置属性服务类

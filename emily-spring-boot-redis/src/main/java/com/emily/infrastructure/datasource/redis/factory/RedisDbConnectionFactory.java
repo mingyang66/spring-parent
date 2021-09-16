@@ -1,6 +1,8 @@
 package com.emily.infrastructure.datasource.redis.factory;
 
+import com.emily.infrastructure.context.helper.ThreadPoolHelper;
 import com.emily.infrastructure.datasource.redis.entity.ConnectionInfo;
+import com.emily.infrastructure.datasource.redis.thread.RedisDbRunnable;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;
@@ -65,7 +67,8 @@ public class RedisDbConnectionFactory {
         LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, builder.build());
         // 创建Redis连接
         factory.afterPropertiesSet();
-
+        // 将RedisConnectionFactory丢入线程池做监控
+        ThreadPoolHelper.threadPoolTaskExecutor().execute(new RedisDbRunnable(factory));
         return factory;
     }
 

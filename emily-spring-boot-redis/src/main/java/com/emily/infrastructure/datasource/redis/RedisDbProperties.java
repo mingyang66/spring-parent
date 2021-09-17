@@ -3,6 +3,7 @@ package com.emily.infrastructure.datasource.redis;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,10 @@ public class RedisDbProperties {
      * 是否开启数据源组件, 默认：true
      */
     private boolean enabled = true;
+    /**
+     * 监控Redis数据库固定间隔时间
+     */
+    private Duration monitorFireRate = Duration.ofSeconds(30);
     /**
      * 默认配置
      */
@@ -61,5 +66,13 @@ public class RedisDbProperties {
 
     public RedisProperties getDefaultDataSource() {
         return this.config.get(this.getDefaultConfig());
+    }
+
+    public Duration getMonitorFireRate() {
+        return monitorFireRate;
+    }
+
+    public void setMonitorFireRate(Duration monitorFireRate) {
+        this.monitorFireRate = monitorFireRate;
     }
 }

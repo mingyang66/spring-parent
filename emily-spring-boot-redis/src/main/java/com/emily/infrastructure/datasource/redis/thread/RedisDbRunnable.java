@@ -34,10 +34,9 @@ public class RedisDbRunnable implements Runnable {
     public void run() {
         RedisConnection redisConnection = redisConnectionFactory.getConnection();
         RedisDbProperties redisDbProperties = IOCContext.getBean(RedisDbProperties.class);
-        Set<String> keys = redisDbProperties.getConfig().keySet();
         while (true) {
             try {
-                keys.stream().forEach(key -> {
+                redisDbProperties.getConfig().forEach((key, value) -> {
                     Properties properties = redisConnection.info();
                     logger.info(JSONUtils.toJSONPrettyString(properties));
                     logger.info(RedisIndicator.toString(properties));
@@ -46,7 +45,7 @@ public class RedisDbRunnable implements Runnable {
                 logger.error(PrintExceptionInfo.printErrorInfo(exception));
             } finally {
                 try {
-                    Thread.sleep(30000);
+                    Thread.sleep(redisDbProperties.getMonitorFireRate().toMillis());
                 } catch (InterruptedException e) {
                     logger.error("Redis Db休眠中断...");
                 }

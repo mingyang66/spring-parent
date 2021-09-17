@@ -1,0 +1,130 @@
+spring:
+  emily:
+    datasource:
+      config:
+        default:
+          driver-class-name: oracle.jdbc.OracleDriver
+          url: jdbc:oracle:thin:@10.10.81.115:1521:XZTXKH
+          username: zqsmconf
+          password: OLs2ASLs
+          type: com.alibaba.druid.pool.DruidDataSource
+        slave:
+          driver-class-name: oracle.jdbc.OracleDriver
+          url: jdbc:oracle:thin:@10.10.181.48:1521:orcl
+          username: ATAN
+          password: E@mis#!sys
+          type: com.alibaba.druid.pool.DruidDataSource
+        mysql:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/sgrain?characterEncoding=utf-8&rewriteBatchedStatements=true
+          username: root
+          password: smallgrain
+          type: com.alibaba.druid.pool.DruidDataSource
+          # 超时等待时间，默认：-1，单位：毫秒
+          max-wait: 2000
+          # 请求失败以后是否中断，默认：false
+          break-after-acquire-failure: true
+          # 请求失败尝试次数，默认：1 ---只有break-after-acquire-failure为true才有效
+          connection-error-retry-attempts: 3
+        sqlserver:
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          url: jdbc:sqlserver://10.10.81.73:1433;databaseName=run
+          username: sa
+          password: eastmoney123
+          type: com.alibaba.druid.pool.DruidDataSource
+---
+spring:
+ datasource:
+   druid:
+     stat-view-servlet:
+       enabled: true
+       url-pattern: /druid/*
+     web-stat-filter:
+       enabled: true
+       session-stat-enable: true
+       session-stat-max-count: 10000
+       principal-cookie-name: emily
+       principal-session-name: emily
+       profile-enable: true
+     filter:
+       stat:
+         enabled: true
+       wall:
+         enabled: true
+       slf4j:
+         enabled: true
+       config:
+         enabled: true
+     aop-patterns: com.emily.infrastructure.test.*
+---
+spring:
+  emily:
+    redis:
+      enabled: true
+      config:
+        default:
+          # 客户端连接类型
+          client-type: lettuce
+          database: 15
+          password: test12345
+          sentinel:
+            master: mymaster
+            nodes: 10.10.84.156:26380,10.10.84.157:26381,10.10.84.158:26382
+          timeout: 300
+          lettuce:
+            pool:
+              # 最大活跃连接数，-1表示无穷大
+              max-active: 8
+              # 最大空闲连接数
+              max-idle: 8
+              # 最小空闲连接数
+              min-idle: 0
+              # 连接池耗尽最长等待时间，-1无限期阻止
+              max-wait: -1
+        test:
+          # 默认lettuce模式，
+          client-type: lettuce
+          database: 15
+          password: Emis_Qaz123
+          sentinel:
+            master: mymaster
+            nodes: 10.10.181.41:26379,10.10.181.42:26379,10.10.181.43:26379
+          timeout: 300
+          lettuce:
+            pool:
+              # 最大活跃连接数，-1表示无穷大
+              max-active: 8
+              # 最大空闲连接数
+              max-idle: 8
+              # 最小空闲连接数
+              min-idle: 0
+              # 连接池耗尽最长等待时间，-1无限期阻止
+              max-wait: -1
+        one:
+          # 客户端连接类型
+          client-type: lettuce
+          # 服务IP地址
+          host: 127.0.0.1
+          # 端口号
+          port: 6379
+          # 用户名
+          username:
+          # 密码
+          password: admin
+          # 读取超时时间
+          timeout: PT3S
+          # 连接超时时间
+          connect-timeout: PT3S
+          # 基于netty的线程池
+          lettuce:
+            pool:
+              # 连接池最大连接数（使用复值标识没有限制），默认：8
+              max-active: 8
+              # 连接池中的最大空闲连接
+              max-idle: 8
+              # 连接池中的最小空闲连接， 默认：0
+              min-idle: 0
+              # 连接阻塞的最长时间（也就是多长时间之后会抛出异常），默认：-1 无限阻塞
+              max-wait: -1ms
+              # 空闲对象逐出器线程的运行间隔时间，为正值时，空闲逐出器线程启动，否则不执行空闲对象逐出
+              time-between-eviction-runs: PT0.1S

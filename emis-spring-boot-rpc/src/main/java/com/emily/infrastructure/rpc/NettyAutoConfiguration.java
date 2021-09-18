@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 /**
  * @program: spring-parent
  * @description: RPC服务调用配置类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/09/18
  */
 @Configuration

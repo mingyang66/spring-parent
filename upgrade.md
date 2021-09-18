@@ -5,6 +5,8 @@
 1. 新增Redis监控信息
 2. 新增Redis监控间隔时间配置支持
 3. 新增基于netty的RPC服务
+4. 新增@RpcService标注bean为RPC服务注解
+5. 新增RpcProviderRegistry注册表存储RPC服务
 ------
 2021/09/19
 基础库发布3.9.3

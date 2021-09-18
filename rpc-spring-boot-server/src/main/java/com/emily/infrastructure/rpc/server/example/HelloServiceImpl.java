@@ -1,7 +1,9 @@
-package com.emily.infrastructure.rpc.common.service;
+package com.emily.infrastructure.rpc.server.example;
 
+import com.emily.infrastructure.rpc.server.annotation.RpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * @program: spring-parent
@@ -9,6 +11,8 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/09/17
  */
+@Service
+@RpcService
 public class HelloServiceImpl implements HelloService{
     private static final Logger logger = LoggerFactory.getLogger(HelloServiceImpl.class);
     @Override

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.common.service;
+package com.emily.infrastructure.test.service;
 
 /**
  * @program: spring-parent

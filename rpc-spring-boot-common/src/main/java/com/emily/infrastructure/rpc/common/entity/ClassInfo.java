@@ -34,9 +34,7 @@ public class ClassInfo {
      */
     private String protocol = PROTOCOL;
 
-    public ClassInfo() {
-    }
-
+    public ClassInfo(){}
     public ClassInfo(String className, String methodName, Class<?>[] types, Object[] params) {
         this.className = className;
         this.methodName = methodName;

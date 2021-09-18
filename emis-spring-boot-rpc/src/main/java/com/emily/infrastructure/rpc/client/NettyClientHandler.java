@@ -73,17 +73,17 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
-            //lock.lock();
+            lock.lock();
             logger.info(ctx.channel().hashCode() + "");
             logger.info("收到服务端发送的消息 " + msg);
             result = msg;
 
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {
             //唤醒等待的线程
-            //condition.signal();
-           // lock.unlock();
+            condition.signal();
+            lock.unlock();
 
         }
     }
@@ -97,7 +97,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
     @Override
     public Object call() throws Exception {
         try {
-            //lock.lock();
+            lock.lock();
             final String s = JSONUtils.toJSONString(classInfo);
             context.writeAndFlush(s);
             logger.info("发出数据  " + s);
@@ -105,8 +105,8 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {
             //向服务端发送消息后等待channelRead中接收到消息后唤醒
-            //condition.await();
-            //lock.unlock();
+            condition.await();
+            lock.unlock();
         }
         return result;
     }
@@ -120,6 +120,6 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-       logger.error(PrintExceptionInfo.printErrorInfo(cause));
+        logger.error(PrintExceptionInfo.printErrorInfo(cause));
     }
 }

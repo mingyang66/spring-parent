@@ -28,7 +28,9 @@
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
         <module>emily-spring-boot-test</module>
-        <module>emis-spring-boot-rpc</module>
+        <module>rpc-spring-boot-common</module>
+        <module>rpc-spring-boot-server</module>
+        <module>rpc-spring-boot-client</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>emily-infrustructure</artifactId>

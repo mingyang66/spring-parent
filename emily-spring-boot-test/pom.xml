@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
-            <artifactId>emis-spring-boot-rpc</artifactId>
+            <artifactId>rpc-spring-boot-client</artifactId>
             <version>3.9.4</version>
         </dependency>
         <dependency>

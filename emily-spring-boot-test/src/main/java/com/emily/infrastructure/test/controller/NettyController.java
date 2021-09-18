@@ -1,10 +1,8 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.client.NettyClient;
-import com.emily.infrastructure.rpc.client.NettyClientHandler;
-import com.emily.infrastructure.rpc.entity.Result;
-import com.emily.infrastructure.rpc.service.HelloService;
+import com.emily.infrastructure.rpc.common.service.HelloService;
+import com.emily.infrastructure.rpc.common.service.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

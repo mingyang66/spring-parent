@@ -9,19 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.emily.infrastructure</groupId>
-    <artifactId>emily-spring-boot-starter</artifactId>
-
+    <artifactId>emis-spring-boot-rpc</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
-            <artifactId>emily-spring-boot-autoconfigure</artifactId>
+            <artifactId>emily-spring-boot-context</artifactId>
             <version>3.9.4</version>
         </dependency>
         <dependency>
-            <groupId>com.emily.infrastructure</groupId>
-            <artifactId>emily-spring-boot-logback</artifactId>
-            <version>3.9.4</version>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.68.Final</version>
         </dependency>
     </dependencies>
+
+
 </project>

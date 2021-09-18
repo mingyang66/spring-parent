@@ -19,8 +19,8 @@ import java.util.concurrent.Executors;
  * @author: Emily
  * @create: 2021/09/15
  */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class CustomAppConfig implements SchedulingConfigurer {
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {

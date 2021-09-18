@@ -1,16 +1,18 @@
-package com.emily.infrastructure.test;
+package com.emily.boot.test;
 
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author Emily
  */
 @SpringBootApplication
-public class BaseTestBootStrap {
+@EnableFeignClients
+public class CloudBootStrap {
     public static void main(String[] args) {
-        SpringApplication.run(BaseTestBootStrap.class, args);
+        SpringApplication.run(CloudBootStrap.class, args);
     }
 
 }

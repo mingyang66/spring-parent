@@ -25,7 +25,7 @@ public class RedisDbScheduleAutoConfiguration {
 
     private static Logger logger = LoggerFactory.getLogger(RedisDbScheduleAutoConfiguration.class);
 
-    @Scheduled(initialDelay = 1000, fixedDelay = 30000)
+    //@Scheduled(initialDelay = 1000, fixedDelay = 30000)
     public void myTask() {
         System.out.println("------");
     }

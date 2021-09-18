@@ -63,4 +63,9 @@ public class RedisController {
         });
         return "success";
     }
+
+    @GetMapping("get")
+    public String indicator() {
+        return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
+    }
 }

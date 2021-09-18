@@ -34,6 +34,9 @@ public class RedisDbRunnable implements Runnable {
     public void run() {
         RedisConnection redisConnection = redisConnectionFactory.getConnection();
         RedisDbProperties redisDbProperties = IOCContext.getBean(RedisDbProperties.class);
+        if (!redisDbProperties.isMonitorEnabled()) {
+            return;
+        }
         while (true) {
             try {
                 redisDbProperties.getConfig().forEach((key, value) -> {

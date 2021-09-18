@@ -28,10 +28,11 @@
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
         <module>emily-spring-boot-test</module>
+        <module>emis-spring-boot-rpc</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>emily-infrustructure</artifactId>
-    <version>3.9.3</version>
+    <version>3.9.4</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 

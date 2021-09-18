@@ -28,7 +28,11 @@ public class RedisDbProperties {
      */
     private boolean enabled = true;
     /**
-     * 监控Redis数据库固定间隔时间
+     * 是否开启客户端监控
+     */
+    private boolean monitorEnabled = false;
+    /**
+     * 监控Redis数据库固定间隔时间，默认：30s
      */
     private Duration monitorFireRate = Duration.ofSeconds(30);
     /**
@@ -74,5 +78,13 @@ public class RedisDbProperties {
 
     public void setMonitorFireRate(Duration monitorFireRate) {
         this.monitorFireRate = monitorFireRate;
+    }
+
+    public boolean isMonitorEnabled() {
+        return monitorEnabled;
+    }
+
+    public void setMonitorEnabled(boolean monitorEnabled) {
+        this.monitorEnabled = monitorEnabled;
     }
 }

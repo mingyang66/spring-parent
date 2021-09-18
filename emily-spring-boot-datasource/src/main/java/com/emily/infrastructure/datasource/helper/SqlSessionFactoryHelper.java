@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 /**
  * @program: spring-parent
  * @description: SqlSessionFactory工厂帮助类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/09/14
  */
 public class SqlSessionFactoryHelper {

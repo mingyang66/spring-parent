@@ -5,7 +5,7 @@
     <parent>
         <artifactId>emily-infrustructure</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>3.9.3</version>
+        <version>3.9.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,12 +15,12 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-context</artifactId>
-            <version>3.9.3</version>
+            <version>3.9.4</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-actuator</artifactId>
-            <version>3.9.3</version>
+            <version>3.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
-            <version>11.4</version>
+            <version>11.6</version>
         </dependency>
     </dependencies>
 

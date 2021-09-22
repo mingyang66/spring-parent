@@ -19,12 +19,12 @@ public class RpcClient {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClient.class);
 
-    private RpcClientChannelHandler rpcProxyHandler;
+    private RpcClientChannelHandler rpcClientChannelHandler;
     private String host;
     private int port;
 
-    public RpcClient(RpcClientChannelHandler rpcProxyHandler, String host, int port) {
-        this.rpcProxyHandler = rpcProxyHandler;
+    public RpcClient(RpcClientChannelHandler rpcClientChannelHandler, String host, int port) {
+        this.rpcClientChannelHandler = rpcClientChannelHandler;
         this.host = host;
         this.port = port;
     }
@@ -43,7 +43,7 @@ public class RpcClient {
                     //设置客户端通道的实现数 （反射）
                     .channel(NioSocketChannel.class)
                     //加入自己的处理器
-                    .handler(new RpcClientChannelInitializer(rpcProxyHandler));
+                    .handler(new RpcClientChannelInitializer(rpcClientChannelHandler));
             logger.info("客户端连接成功...");
             //连接服务器
             bootstrap.connect(host, port).sync();

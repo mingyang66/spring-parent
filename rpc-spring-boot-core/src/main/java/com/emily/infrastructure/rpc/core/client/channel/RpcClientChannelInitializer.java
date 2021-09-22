@@ -13,10 +13,10 @@ import io.netty.channel.socket.SocketChannel;
  * @create: 2021/09/22
  */
 public class RpcClientChannelInitializer extends ChannelInitializer<SocketChannel> {
-    private RpcClientChannelHandler rpcProxyHandler;
+    private RpcClientChannelHandler rpcClientChannelHandler;
 
-    public RpcClientChannelInitializer(RpcClientChannelHandler rpcProxyHandler) {
-        this.rpcProxyHandler = rpcProxyHandler;
+    public RpcClientChannelInitializer(RpcClientChannelHandler rpcClientChannelHandler) {
+        this.rpcClientChannelHandler = rpcClientChannelHandler;
     }
 
     @Override
@@ -24,6 +24,6 @@ public class RpcClientChannelInitializer extends ChannelInitializer<SocketChanne
         socketChannel.pipeline()
                 .addLast(new MyMessageDecoder())
                 .addLast(new MyMessageEncoder())
-                .addLast(rpcProxyHandler);
+                .addLast(rpcClientChannelHandler);
     }
 }

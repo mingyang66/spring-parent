@@ -2,9 +2,8 @@ package com.emily.infrastructure.rpc.core.client.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.protocol.InvokerProtocol;
+import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     /**
      * 传递数据的类
      */
-    private InvokerProtocol invokerProtocol;
+    private RpcRequest invokerProtocol;
     /**
      * 上下文
      */
@@ -45,7 +44,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     private Condition condition = lock.newCondition();
 
 
-    public void setInvokerProtocol(InvokerProtocol invokerProtocol) {
+    public void setInvokerProtocol(RpcRequest invokerProtocol) {
         this.invokerProtocol = invokerProtocol;
     }
 

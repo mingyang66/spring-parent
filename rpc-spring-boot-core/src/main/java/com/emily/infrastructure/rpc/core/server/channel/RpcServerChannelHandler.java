@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.core.server.channel;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.protocol.InvokerProtocol;
+import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.server.registry.RpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -41,7 +41,7 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        InvokerProtocol invokerProtocol = JSONUtils.toJavaBean((String) msg, InvokerProtocol.class);
+        RpcRequest invokerProtocol = JSONUtils.toJavaBean((String) msg, RpcRequest.class);
         //反射调用实现类的方法
         String className = invokerProtocol.getClassName();
         //从注册表中获取指定名称的实现类

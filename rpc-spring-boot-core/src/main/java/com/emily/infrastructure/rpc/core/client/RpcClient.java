@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.core.client;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.core.client.channel.RpcClientChannelInitializer;
-import com.emily.infrastructure.rpc.core.client.handler.RpcProxyHandler;
+import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -19,11 +19,11 @@ public class RpcClient {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClient.class);
 
-    private RpcProxyHandler rpcProxyHandler;
+    private RpcClientChannelHandler rpcProxyHandler;
     private String host;
     private int port;
 
-    public RpcClient(RpcProxyHandler rpcProxyHandler, String host, int port) {
+    public RpcClient(RpcClientChannelHandler rpcProxyHandler, String host, int port) {
         this.rpcProxyHandler = rpcProxyHandler;
         this.host = host;
         this.port = port;

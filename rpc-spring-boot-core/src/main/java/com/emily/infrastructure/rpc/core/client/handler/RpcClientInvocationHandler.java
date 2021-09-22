@@ -2,7 +2,6 @@ package com.emily.infrastructure.rpc.core.client.handler;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.rpc.core.client.handler.RpcProxyHandler;
 import com.emily.infrastructure.rpc.core.protocol.InvokerProtocol;
 
 import java.lang.reflect.InvocationHandler;
@@ -17,10 +16,10 @@ import java.util.concurrent.Future;
  * @create: 2021/09/22
  */
 public class RpcClientInvocationHandler implements InvocationHandler {
-    private RpcProxyHandler rpcProxyHandler;
+    private RpcClientChannelHandler rpcProxyHandler;
     private String className;
 
-    public RpcClientInvocationHandler(RpcProxyHandler rpcClientHandler, String className) {
+    public RpcClientInvocationHandler(RpcClientChannelHandler rpcClientHandler, String className) {
         this.rpcProxyHandler = rpcClientHandler;
         this.className = className;
     }
@@ -29,7 +28,7 @@ public class RpcClientInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //组装传输类的属性值
         InvokerProtocol invokerProtocol = new InvokerProtocol(className, method.getName(), method.getParameterTypes(), args);
-        rpcProxyHandler.setClassInfo(invokerProtocol);
+        rpcProxyHandler.setInvokerProtocol(invokerProtocol);
         //运行线程，发送数据
         Future future = ThreadPoolHelper.threadPoolTaskExecutor().submit(rpcProxyHandler);
         //返回结果

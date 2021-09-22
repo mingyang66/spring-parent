@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.InvokerProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +20,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcProxyHandler extends ChannelInboundHandlerAdapter implements Callable {
+public class RpcClientChannelHandler extends SimpleChannelInboundHandler implements Callable {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcProxyHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RpcClientChannelHandler.class);
     /**
      * 传递数据的类
      */
@@ -43,7 +44,8 @@ public class RpcProxyHandler extends ChannelInboundHandlerAdapter implements Cal
      */
     private Condition condition = lock.newCondition();
 
-    public void setClassInfo(InvokerProtocol invokerProtocol) {
+
+    public void setInvokerProtocol(InvokerProtocol invokerProtocol) {
         this.invokerProtocol = invokerProtocol;
     }
 
@@ -71,7 +73,7 @@ public class RpcProxyHandler extends ChannelInboundHandlerAdapter implements Cal
      * @throws Exception
      */
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
             lock.lock();
             logger.info(ctx.channel().hashCode() + "");

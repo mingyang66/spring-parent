@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 /**
  * @program: spring-parent
@@ -16,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
  * @author: Emily
  * @create: 2021/09/18
  */
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
 @EnableConfigurationProperties(RpcServerProperties.class)
 @ConditionalOnProperty(prefix = RpcServerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

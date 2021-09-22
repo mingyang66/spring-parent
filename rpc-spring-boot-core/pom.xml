@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rpc-spring-boot-common</artifactId>
+    <artifactId>rpc-spring-boot-core</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>

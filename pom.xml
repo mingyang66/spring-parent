@@ -28,7 +28,7 @@
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
         <module>emily-spring-boot-test</module>
-        <module>rpc-spring-boot-common</module>
+        <module>rpc-spring-boot-core</module>
         <module>rpc-spring-boot-server</module>
         <module>rpc-spring-boot-client</module>
     </modules>

@@ -1,12 +1,12 @@
-package com.emily.infrastructure.rpc.server.registry;
+package com.emily.infrastructure.rpc.core.server.registry;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @program: spring-parent
- * @description: RPC服务注册表
- * @author: 姚明洋
+ * @description: RPC服务注册中心
+ * @author: Emily
  * @create: 2021/09/18
  */
 public class RpcProviderRegistry {
@@ -20,7 +20,7 @@ public class RpcProviderRegistry {
      * @param interfaceName
      * @param bean
      */
-    public static void registerServiceBean(String interfaceName, Object bean){
+    public void registerServiceBean(String interfaceName, Object bean){
         rpcServiceRegistry.put(interfaceName, bean);
     }
 
@@ -28,7 +28,7 @@ public class RpcProviderRegistry {
      * 获取注册表中指定接口对应的bean名称
      * @param interfaceName
      */
-    public static Object getServiceBean(String interfaceName){
+    public Object getServiceBean(String interfaceName){
         return rpcServiceRegistry.get(interfaceName);
     }
 }

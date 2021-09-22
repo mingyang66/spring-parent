@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.client;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.common.entity.ClassInfo;
+import com.emily.infrastructure.rpc.core.entity.ClassInfo;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;

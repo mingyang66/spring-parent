@@ -1,9 +1,9 @@
 package com.emily.infrastructure.rpc.client;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.common.decoder.MyMessageDecoder;
-import com.emily.infrastructure.rpc.common.encoder.MyMessageEncoder;
-import com.emily.infrastructure.rpc.common.entity.ClassInfo;
+import com.emily.infrastructure.rpc.core.decoder.MyMessageDecoder;
+import com.emily.infrastructure.rpc.core.encoder.MyMessageEncoder;
+import com.emily.infrastructure.rpc.core.entity.ClassInfo;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

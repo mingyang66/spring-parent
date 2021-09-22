@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
-            <artifactId>rpc-spring-boot-common</artifactId>
+            <artifactId>rpc-spring-boot-core</artifactId>
             <version>3.9.4</version>
         </dependency>
     </dependencies>

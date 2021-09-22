@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.common.decoder;
+package com.emily.infrastructure.rpc.core.decoder;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

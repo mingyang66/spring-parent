@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.common.entity;
+package com.emily.infrastructure.rpc.core.entity;
 
 
 /**

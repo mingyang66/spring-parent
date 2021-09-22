@@ -1,8 +1,8 @@
-package com.emily.infrastructure.rpc.client;
+package com.emily.infrastructure.rpc.core.client.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.entity.ClassInfo;
+import com.emily.infrastructure.rpc.core.protocol.InvokerProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
@@ -19,13 +19,13 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class NettyClientHandler extends ChannelInboundHandlerAdapter implements Callable {
+public class RpcProxyHandler extends ChannelInboundHandlerAdapter implements Callable {
 
-    private static final Logger logger = LoggerFactory.getLogger(NettyClientHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RpcProxyHandler.class);
     /**
      * 传递数据的类
      */
-    private ClassInfo classInfo;
+    private InvokerProtocol invokerProtocol;
     /**
      * 上下文
      */
@@ -43,8 +43,8 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
      */
     private Condition condition = lock.newCondition();
 
-    public void setClassInfo(ClassInfo classInfo) {
-        this.classInfo = classInfo;
+    public void setClassInfo(InvokerProtocol invokerProtocol) {
+        this.invokerProtocol = invokerProtocol;
     }
 
     /**
@@ -98,7 +98,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
     public Object call() throws Exception {
         try {
             lock.lock();
-            final String s = JSONUtils.toJSONString(classInfo);
+            final String s = JSONUtils.toJSONString(invokerProtocol);
             context.writeAndFlush(s);
             logger.info("发出数据  " + s);
         } catch (Exception e) {

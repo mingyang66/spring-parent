@@ -1,18 +1,15 @@
-package com.emily.infrastructure.rpc.core.server.handler;
+package com.emily.infrastructure.rpc.core.server.channel;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.entity.ClassInfo;
+import com.emily.infrastructure.rpc.core.protocol.InvokerProtocol;
 import com.emily.infrastructure.rpc.core.server.registry.RpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @program: spring-parent
@@ -20,15 +17,15 @@ import java.util.Map;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcServerHandler extends ChannelInboundHandlerAdapter {
+public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcServerHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RpcServerChannelHandler.class);
     /**
      * RPC服务注册中心
      */
     private RpcProviderRegistry registry;
 
-    public RpcServerHandler(RpcProviderRegistry registry){
+    public RpcServerChannelHandler(RpcProviderRegistry registry){
         this.registry = registry;
     }
     /**
@@ -44,23 +41,19 @@ public class RpcServerHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        ClassInfo classInfo = JSONUtils.toJavaBean((String) msg, ClassInfo.class);
-        //确认是rpc调用才往下执行
-        if (!StringUtils.equals(ClassInfo.PROTOCOL, classInfo.getProtocol())) {
-            return;
-        }
+        InvokerProtocol invokerProtocol = JSONUtils.toJavaBean((String) msg, InvokerProtocol.class);
         //反射调用实现类的方法
-        String className = classInfo.getClassName();
+        String className = invokerProtocol.getClassName();
         //从注册表中获取指定名称的实现类
         Class<?> aClass = registry.getServiceBean(className).getClass();
         Object o = aClass.getDeclaredConstructor().newInstance();
-        if (classInfo.getTypes().length > 0) {
-            Method method = aClass.getMethod(classInfo.getMethodName(), classInfo.getTypes());
+        if (invokerProtocol.getTypes().length > 0) {
+            Method method = aClass.getMethod(invokerProtocol.getMethodName(), invokerProtocol.getTypes());
             method.setAccessible(true);
-            Object invoke = method.invoke(o, classInfo.getParams());
+            Object invoke = method.invoke(o, invokerProtocol.getParams());
             ctx.writeAndFlush(JSONUtils.toJSONString(invoke));
         } else {
-            Method method = aClass.getMethod(classInfo.getMethodName());
+            Method method = aClass.getMethod(invokerProtocol.getMethodName());
             method.setAccessible(true);
             Object invoke = method.invoke(o);
             ctx.writeAndFlush(JSONUtils.toJSONString(invoke));

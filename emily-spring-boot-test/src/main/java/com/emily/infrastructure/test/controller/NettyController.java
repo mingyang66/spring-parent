@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.rpc.client.RpcProxy;
+import com.emily.infrastructure.rpc.client.proxy.RpcProxy;
 import com.emily.infrastructure.test.service.HelloService;
 import com.emily.infrastructure.test.service.Result;
 import org.springframework.web.bind.annotation.GetMapping;

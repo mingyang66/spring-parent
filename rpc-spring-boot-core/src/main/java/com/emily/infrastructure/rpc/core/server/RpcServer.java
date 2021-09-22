@@ -72,7 +72,6 @@ public class RpcServer implements ApplicationContextAware {
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
-        } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

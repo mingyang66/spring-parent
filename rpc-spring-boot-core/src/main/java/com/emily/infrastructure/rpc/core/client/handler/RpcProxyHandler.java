@@ -100,7 +100,7 @@ public class RpcProxyHandler extends ChannelInboundHandlerAdapter implements Cal
             lock.lock();
             final String s = JSONUtils.toJSONString(invokerProtocol);
             context.writeAndFlush(s);
-            logger.info("发出数据  " + s);
+            logger.info("RPC请求数据：{}  ", s);
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {

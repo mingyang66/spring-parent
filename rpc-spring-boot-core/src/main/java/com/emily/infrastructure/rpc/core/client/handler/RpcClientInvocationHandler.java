@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.core.client.proxy;
+package com.emily.infrastructure.rpc.core.client.handler;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
@@ -16,11 +16,11 @@ import java.util.concurrent.Future;
  * @author: Emily
  * @create: 2021/09/22
  */
-public class RpcMethodProxy implements InvocationHandler {
+public class RpcClientInvocationHandler implements InvocationHandler {
     private RpcProxyHandler rpcProxyHandler;
     private String className;
 
-    public RpcMethodProxy(RpcProxyHandler rpcClientHandler, String className) {
+    public RpcClientInvocationHandler(RpcProxyHandler rpcClientHandler, String className) {
         this.rpcProxyHandler = rpcClientHandler;
         this.className = className;
     }

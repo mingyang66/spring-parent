@@ -1,16 +1,13 @@
 package com.emily.infrastructure.rpc.core.client;
 
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.core.client.channel.RpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.core.client.handler.RpcProxyHandler;
-import com.emily.infrastructure.rpc.core.client.proxy.RpcMethodProxy;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Proxy;
 
 /**
  * @program: spring-parent
@@ -34,7 +31,6 @@ public class RpcClient {
 
     /**
      * 启动netty客户端
-     *
      */
     public void start() {
         //客户端需要一个事件循环组就可以
@@ -48,15 +44,12 @@ public class RpcClient {
                     .channel(NioSocketChannel.class)
                     //加入自己的处理器
                     .handler(new RpcClientChannelInitializer(rpcProxyHandler));
-            logger.info("客户端 ready is ok..");
+            logger.info("客户端连接成功...");
             //连接服务器
-            final ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
-            //对关闭通道进行监听
-//            channelFuture.channel().closeFuture().sync();
+            bootstrap.connect(host, port).sync();
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-//            group.shutdownGracefully();
+            logger.error(PrintExceptionInfo.printErrorInfo(e));
+            group.shutdownGracefully();
         }
     }
 }

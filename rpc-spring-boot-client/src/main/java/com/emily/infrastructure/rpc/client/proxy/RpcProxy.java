@@ -1,13 +1,8 @@
-package com.emily.infrastructure.rpc.client;
+package com.emily.infrastructure.rpc.client.proxy;
 
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.rpc.core.client.channel.RpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.core.client.handler.RpcProxyHandler;
-import com.emily.infrastructure.rpc.core.client.proxy.RpcMethodProxy;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
+import com.emily.infrastructure.rpc.core.client.handler.RpcClientInvocationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +29,7 @@ public class RpcProxy {
      */
     public static <T> T create(Class<T> target) {
         RpcProxyHandler rpcClientHandler = IOCContext.getBean(RpcProxyHandler.class);
-        RpcMethodProxy handler = new RpcMethodProxy(rpcClientHandler, target.getSimpleName());
+        RpcClientInvocationHandler handler = new RpcClientInvocationHandler(rpcClientHandler, target.getSimpleName());
         // 获取class对象接口实例对象
         Class<?>[] interfaces = target.isInterface() ? new Class<?>[]{target} : target.getInterfaces();
         return (T) Proxy.newProxyInstance(target.getClassLoader(), interfaces, handler);

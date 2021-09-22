@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.bean.registry;
 
-import com.emily.infrastructure.context.condition.MacOsCondition;
+import com.emily.infrastructure.core.condition.MacOsCondition;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

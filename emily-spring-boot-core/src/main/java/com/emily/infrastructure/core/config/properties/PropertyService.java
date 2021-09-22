@@ -1,4 +1,4 @@
-package com.emily.infrastructure.context.config.properties;
+package com.emily.infrastructure.core.config.properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;

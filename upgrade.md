@@ -8,6 +8,7 @@
 4. 新增@RpcService标注bean为RPC服务注解
 5. 新增RpcProviderRegistry注册表存储RPC服务
 6. RPC库的common模块更改为core核心模块，服务端代码优化调整
+7. 将context模块修改为core模块
 ------
 2021/09/19
 基础库发布3.9.3

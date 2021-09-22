@@ -12,7 +12,7 @@
     <modules>
         <module>emily-spring-boot-common</module>
         <module>emily-spring-boot-logback</module>
-        <module>emily-spring-boot-context</module>
+        <module>emily-spring-boot-core</module>
         <module>emily-spring-boot-autoconfigure</module>
         <module>emily-spring-boot-datasource</module>
         <module>emily-spring-cloud-starter</module>
@@ -34,7 +34,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>emily-infrustructure</artifactId>
-    <version>3.9.4</version>
+    <version>3.9.5</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 

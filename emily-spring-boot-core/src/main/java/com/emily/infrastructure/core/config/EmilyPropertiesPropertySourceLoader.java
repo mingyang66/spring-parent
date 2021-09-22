@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.emily.infrastructure.context.config;
+package com.emily.infrastructure.core.config;
 
 import org.springframework.boot.env.OriginTrackedMapPropertySource;
 import org.springframework.boot.env.PropertySourceLoader;

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.datasource.helper;
 
-import com.emily.infrastructure.context.ioc.IOCContext;
+import com.emily.infrastructure.core.ioc.IOCContext;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 

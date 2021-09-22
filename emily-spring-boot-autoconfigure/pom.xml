@@ -5,7 +5,7 @@
     <parent>
         <artifactId>emily-infrustructure</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>3.9.4</version>
+        <version>3.9.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,8 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
-            <artifactId>emily-spring-boot-context</artifactId>
-            <version>3.9.4</version>
+            <artifactId>emily-spring-boot-core</artifactId>
+            <version>3.9.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

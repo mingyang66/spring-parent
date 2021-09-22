@@ -1,8 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.context.helper.ThreadPoolHelper;
-import com.emily.infrastructure.context.ioc.IOCContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.core.ioc.IOCContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

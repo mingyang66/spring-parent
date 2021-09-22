@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.emily.infrastructure.context.config;
+package com.emily.infrastructure.core.config;
 
 import org.springframework.boot.origin.Origin;
 import org.springframework.boot.origin.OriginTrackedValue;

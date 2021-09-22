@@ -1,4 +1,4 @@
-package com.emily.infrastructure.context.config;
+package com.emily.infrastructure.core.config;
 
 
 import org.apache.commons.lang3.ArrayUtils;

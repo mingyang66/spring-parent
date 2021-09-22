@@ -1,6 +1,0 @@
-org.springframework.boot.env.PropertySourceLoader=\
-  com.emily.infrastructure.context.config.EmilyPropertiesPropertySourceLoader
-
-#Initializers
-org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.context.ioc.initializer.IOCApplicationContextInitializer

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.context.ioc;
+package com.emily.infrastructure.core.ioc;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -1,9 +1,14 @@
 package com.emily.infrastructure.rpc.core.client;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.client.channel.RpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
+import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
+import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
@@ -22,6 +27,7 @@ public class RpcClient {
     private RpcClientChannelHandler rpcClientChannelHandler;
     private String host;
     private int port;
+    private Channel channel;
 
     public RpcClient(RpcClientChannelHandler rpcClientChannelHandler, String host, int port) {
         this.rpcClientChannelHandler = rpcClientChannelHandler;
@@ -46,10 +52,25 @@ public class RpcClient {
                     .handler(new RpcClientChannelInitializer(rpcClientChannelHandler));
             logger.info("客户端连接成功...");
             //连接服务器
-            bootstrap.connect(host, port).sync();
+            channel = bootstrap.connect(host, port).sync().channel();
         } catch (InterruptedException e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
             group.shutdownGracefully();
         }
+    }
+
+    /**
+     * 发送请求
+     *
+     * @param request
+     * @throws InterruptedException
+     */
+    public RpcResponse sendRequest(RpcRequest request) throws InterruptedException {
+        synchronized (rpcClientChannelHandler.object) {
+            channel.writeAndFlush(request);
+            rpcClientChannelHandler.object.wait(5000);
+        }
+        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
+        return rpcClientChannelHandler.response;
     }
 }

@@ -36,6 +36,7 @@ public class NettyController {
             if (i == 1000) {
                 break;
             }
+            System.out.println(i);
         }
         return null;
     }

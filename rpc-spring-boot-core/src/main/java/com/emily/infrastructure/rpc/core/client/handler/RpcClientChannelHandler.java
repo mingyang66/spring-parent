@@ -17,72 +17,29 @@ import java.util.concurrent.Callable;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcClientChannelHandler extends ChannelInboundHandlerAdapter implements Callable<RpcResponse> {
+public class RpcClientChannelHandler extends BaseClientHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClientChannelHandler.class);
-    /**
-     * 上下文
-     */
-    private ChannelHandlerContext context;
-    /**
-     * 请求协议数据
-     */
-    private RpcRequest rpcRequest;
-    /**
-     * 服务端返回的结果
-     */
-    private RpcResponse rpcResponse;
-
-
-    /**
-     * 实现channelActive  客户端和服务器连接时,该方法就自动执行
-     * @param ctx
-     * @throws Exception
-     */
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        this.context = ctx;
-    }
 
     /**
      * 实现channelRead 当我们读到服务器数据,该方法自动执行
+     *
      * @param ctx
      * @param msg
      * @throws Exception
      */
     @Override
-    public synchronized void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        try {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        synchronized (this.object) {
+            response = (RpcResponse) msg;
+            this.object.notify();
             logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(msg));
-            rpcResponse = (RpcResponse) msg;
-        } catch (Exception e) {
-            logger.error(PrintExceptionInfo.printErrorInfo(e));
-        } finally {
-            notify();
         }
-    }
-
-    /**
-     * 将客户端的数写到服务器
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public synchronized RpcResponse call() throws Exception {
-        try {
-           // final String s = JSONUtils.toJSONString(rpcRequest);
-            context.writeAndFlush(rpcRequest);
-            logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(rpcRequest));
-        } catch (Exception e) {
-            logger.error(PrintExceptionInfo.printErrorInfo(e));
-        } finally {
-            wait();
-        }
-        return rpcResponse;
     }
 
     /**
      * 异常处理
+     *
      * @param ctx
      * @param cause
      * @throws Exception
@@ -90,9 +47,6 @@ public class RpcClientChannelHandler extends ChannelInboundHandlerAdapter implem
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.error(PrintExceptionInfo.printErrorInfo(cause));
-    }
-
-    public void setRpcRequest(RpcRequest rpcRequest) {
-        this.rpcRequest = rpcRequest;
+        super.exceptionCaught(ctx, cause);
     }
 }

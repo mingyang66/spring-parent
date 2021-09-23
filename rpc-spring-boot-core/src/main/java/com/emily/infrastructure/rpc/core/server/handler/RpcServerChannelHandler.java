@@ -1,8 +1,8 @@
 package com.emily.infrastructure.rpc.core.server.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
+import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import com.emily.infrastructure.rpc.core.server.registry.RpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -42,7 +42,7 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        RpcRequest rpcRequest = JSONUtils.toJavaBean((String) msg, RpcRequest.class);
+        RpcRequest rpcRequest = (RpcRequest) msg;
         //反射调用实现类的方法
         String className = rpcRequest.getClassName();
         //从注册表中获取指定名称的实现类
@@ -51,7 +51,7 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         Method method = aClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getTypes());
         method.setAccessible(true);
         Object invoke = method.invoke(o, rpcRequest.getParams());
-        ctx.writeAndFlush(JSONUtils.toJSONString(invoke));
+        ctx.writeAndFlush(new RpcResponse(rpcRequest.getTraceId(), invoke));
 
     }
 

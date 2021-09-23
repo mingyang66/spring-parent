@@ -24,11 +24,20 @@ public class NettyController {
 
     @GetMapping("rpc")
     public Result rpc() throws InterruptedException {
+        long start = System.currentTimeMillis();
         //连接netty，并获得一个代理对象
         HelloService bean = RpcProxy.create(HelloService.class);
-        bean.str();
-        //测试返回结果为java bean
-        return bean.hello("ffafa");
+        int i = 0;
+        while (true) {
+            bean.str();
+            //测试返回结果为java bean
+            bean.hello("ffafa");
+            i++;
+            if (i == 1000) {
+                break;
+            }
+        }
+        return null;
     }
 
 

@@ -1,7 +1,5 @@
 package com.emily.infrastructure.datasource.redis.entity;
 
-import org.slf4j.LoggerFactory;
-
 import java.text.MessageFormat;
 import java.util.Properties;
 

@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
+import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -33,10 +34,13 @@ public class RpcMethodProxy implements InvocationHandler {
         //运行线程，发送数据
         Future future = ThreadPoolHelper.threadPoolTaskExecutor().submit(rpcClientChannelHandler);
         //返回结果
-        String o1 = (String) future.get();
+        RpcResponse rpcResponse = (RpcResponse) future.get();
         //获取返回类型，并将服务端返回的json数据转化为对应的类型
         Type returnType = method.getAnnotatedReturnType().getType();
-        Object o2 = JSONUtils.toJavaBean(o1, (Class<?>) returnType);
-        return o2;
+        //Object o2 = JSONUtils.toJavaBean(rpcResponse.getData(), (Class<?>) returnType);
+        if (rpcResponse.getData() instanceof String) {
+            return rpcResponse.getData();
+        }
+        return JSONUtils.toJavaBean(JSONUtils.toJSONString(rpcResponse.getData()), (Class<?>) returnType);
     }
 }

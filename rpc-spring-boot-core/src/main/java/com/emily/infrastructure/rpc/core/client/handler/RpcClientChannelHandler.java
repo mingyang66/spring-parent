@@ -3,15 +3,13 @@ package com.emily.infrastructure.rpc.core.client.handler;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
+import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @program: spring-parent
@@ -19,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcClientChannelHandler extends SimpleChannelInboundHandler implements Callable {
+public class RpcClientChannelHandler extends ChannelInboundHandlerAdapter implements Callable<RpcResponse> {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClientChannelHandler.class);
     /**
@@ -33,7 +31,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     /**
      * 服务端返回的结果
      */
-    private Object result;
+    private RpcResponse rpcResponse;
 
 
     /**
@@ -53,10 +51,10 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
      * @throws Exception
      */
     @Override
-    protected synchronized void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public synchronized void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
             logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(msg));
-            result = msg;
+            rpcResponse = (RpcResponse) msg;
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {
@@ -70,17 +68,17 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
      * @throws Exception
      */
     @Override
-    public synchronized Object call() throws Exception {
+    public synchronized RpcResponse call() throws Exception {
         try {
-            final String s = JSONUtils.toJSONString(rpcRequest);
-            context.writeAndFlush(s);
-            logger.info("RPC请求数据：{}  ", s);
+           // final String s = JSONUtils.toJSONString(rpcRequest);
+            context.writeAndFlush(rpcRequest);
+            logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(rpcRequest));
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {
             wait();
         }
-        return result;
+        return rpcResponse;
     }
 
     /**

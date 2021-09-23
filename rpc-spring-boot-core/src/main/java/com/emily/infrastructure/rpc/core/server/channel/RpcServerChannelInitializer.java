@@ -6,6 +6,9 @@ import com.emily.infrastructure.rpc.core.server.handler.RpcServerChannelHandler;
 import com.emily.infrastructure.rpc.core.server.registry.RpcProviderRegistry;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 
 /**
  * @program: spring-parent
@@ -25,8 +28,8 @@ public class RpcServerChannelInitializer extends ChannelInitializer<SocketChanne
     protected void initChannel(SocketChannel ch) throws Exception {
         //给pipeline设置通道处理器
         ch.pipeline()
-                .addLast(new MyMessageDecoder())
-                .addLast(new MyMessageEncoder())
+                .addLast(new ObjectDecoder(1024, ClassResolvers.cacheDisabled(this.getClass().getClassLoader())))
+                .addLast(new ObjectEncoder())
                 .addLast(new RpcServerChannelHandler(registry));
     }
 }

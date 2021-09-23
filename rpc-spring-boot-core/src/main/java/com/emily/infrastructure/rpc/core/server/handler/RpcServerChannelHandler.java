@@ -25,9 +25,10 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
      */
     private RpcProviderRegistry registry;
 
-    public RpcServerChannelHandler(RpcProviderRegistry registry){
+    public RpcServerChannelHandler(RpcProviderRegistry registry) {
         this.registry = registry;
     }
+
     /**
      * 接收客户端传入的值，将值解析为类对象，获取其中的属性，然后反射调用实现类的方法
      *
@@ -47,17 +48,11 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //从注册表中获取指定名称的实现类
         Class<?> aClass = registry.getServiceBean(className).getClass();
         Object o = aClass.getDeclaredConstructor().newInstance();
-        if (rpcRequest.getTypes().length > 0) {
-            Method method = aClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getTypes());
-            method.setAccessible(true);
-            Object invoke = method.invoke(o, rpcRequest.getParams());
-            ctx.writeAndFlush(JSONUtils.toJSONString(invoke));
-        } else {
-            Method method = aClass.getMethod(rpcRequest.getMethodName());
-            method.setAccessible(true);
-            Object invoke = method.invoke(o);
-            ctx.writeAndFlush(JSONUtils.toJSONString(invoke));
-        }
+        Method method = aClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getTypes());
+        method.setAccessible(true);
+        Object invoke = method.invoke(o, rpcRequest.getParams());
+        ctx.writeAndFlush(JSONUtils.toJSONString(invoke));
+
     }
 
     @Override

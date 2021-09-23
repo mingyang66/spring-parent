@@ -23,13 +23,13 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClientChannelHandler.class);
     /**
-     * 传递数据的类
-     */
-    private RpcRequest rpcRequest;
-    /**
      * 上下文
      */
     private ChannelHandlerContext context;
+    /**
+     * 请求协议数据
+     */
+    private RpcRequest rpcRequest;
     /**
      * 服务端返回的结果
      */
@@ -55,7 +55,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     @Override
     protected synchronized void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
-            logger.info("收到服务端发送的消息 " + msg);
+            logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(msg));
             result = msg;
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));

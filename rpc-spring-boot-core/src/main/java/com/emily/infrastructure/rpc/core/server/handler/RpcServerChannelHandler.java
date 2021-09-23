@@ -41,19 +41,19 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        RpcRequest invokerProtocol = JSONUtils.toJavaBean((String) msg, RpcRequest.class);
+        RpcRequest rpcRequest = JSONUtils.toJavaBean((String) msg, RpcRequest.class);
         //反射调用实现类的方法
-        String className = invokerProtocol.getClassName();
+        String className = rpcRequest.getClassName();
         //从注册表中获取指定名称的实现类
         Class<?> aClass = registry.getServiceBean(className).getClass();
         Object o = aClass.getDeclaredConstructor().newInstance();
-        if (invokerProtocol.getTypes().length > 0) {
-            Method method = aClass.getMethod(invokerProtocol.getMethodName(), invokerProtocol.getTypes());
+        if (rpcRequest.getTypes().length > 0) {
+            Method method = aClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getTypes());
             method.setAccessible(true);
-            Object invoke = method.invoke(o, invokerProtocol.getParams());
+            Object invoke = method.invoke(o, rpcRequest.getParams());
             ctx.writeAndFlush(JSONUtils.toJSONString(invoke));
         } else {
-            Method method = aClass.getMethod(invokerProtocol.getMethodName());
+            Method method = aClass.getMethod(rpcRequest.getMethodName());
             method.setAccessible(true);
             Object invoke = method.invoke(o);
             ctx.writeAndFlush(JSONUtils.toJSONString(invoke));

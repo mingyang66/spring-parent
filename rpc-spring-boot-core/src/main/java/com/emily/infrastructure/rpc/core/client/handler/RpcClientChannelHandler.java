@@ -25,7 +25,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     /**
      * 传递数据的类
      */
-    private RpcRequest invokerProtocol;
+    private RpcRequest rpcRequest;
     /**
      * 上下文
      */
@@ -35,10 +35,6 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
      */
     private Object result;
 
-
-    public void setInvokerProtocol(RpcRequest invokerProtocol) {
-        this.invokerProtocol = invokerProtocol;
-    }
 
     /**
      * 实现channelActive  客户端和服务器连接时,该方法就自动执行
@@ -76,7 +72,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     @Override
     public synchronized Object call() throws Exception {
         try {
-            final String s = JSONUtils.toJSONString(invokerProtocol);
+            final String s = JSONUtils.toJSONString(rpcRequest);
             context.writeAndFlush(s);
             logger.info("RPC请求数据：{}  ", s);
         } catch (Exception e) {
@@ -96,5 +92,9 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.error(PrintExceptionInfo.printErrorInfo(cause));
+    }
+
+    public void setRpcRequest(RpcRequest rpcRequest) {
+        this.rpcRequest = rpcRequest;
     }
 }

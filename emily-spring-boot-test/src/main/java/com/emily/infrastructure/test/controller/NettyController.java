@@ -26,6 +26,7 @@ public class NettyController {
     public Result rpc() throws InterruptedException {
         //连接netty，并获得一个代理对象
         HelloService bean = RpcProxy.create(HelloService.class);
+        bean.str();
         //测试返回结果为java bean
         return bean.hello("ffafa");
     }

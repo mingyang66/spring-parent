@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.client.proxy;
 
 import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
-import com.emily.infrastructure.rpc.core.client.handler.RpcClientInvocationHandler;
+import com.emily.infrastructure.rpc.core.client.proxy.RpcMethodProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class RpcProxy {
      */
     public static <T> T create(Class<T> target) {
         RpcClientChannelHandler rpcClientHandler = IOCContext.getBean(RpcClientChannelHandler.class);
-        RpcClientInvocationHandler handler = new RpcClientInvocationHandler(rpcClientHandler, target.getSimpleName());
+        RpcMethodProxy handler = new RpcMethodProxy(rpcClientHandler, target.getSimpleName());
         // 获取class对象接口实例对象
         Class<?>[] interfaces = target.isInterface() ? new Class<?>[]{target} : target.getInterfaces();
         return (T) Proxy.newProxyInstance(target.getClassLoader(), interfaces, handler);

@@ -9,7 +9,13 @@ import java.io.Serializable;
  * @create: 2021/09/22
  */
 public class RpcResponse implements Serializable {
+    /**
+     * 事务唯一标识
+     */
     private String traceId;
+    /**
+     * 返回数据
+     */
     private Object data;
 
     public RpcResponse() {

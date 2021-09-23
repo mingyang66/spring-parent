@@ -1,7 +1,8 @@
-package com.emily.infrastructure.rpc.core.client.handler;
+package com.emily.infrastructure.rpc.core.client.proxy;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 
 import java.lang.reflect.InvocationHandler;
@@ -15,11 +16,11 @@ import java.util.concurrent.Future;
  * @author: Emily
  * @create: 2021/09/22
  */
-public class RpcClientInvocationHandler implements InvocationHandler {
+public class RpcMethodProxy implements InvocationHandler {
     private RpcClientChannelHandler rpcClientChannelHandler;
     private String className;
 
-    public RpcClientInvocationHandler(RpcClientChannelHandler rpcClientChannelHandler, String className) {
+    public RpcMethodProxy(RpcClientChannelHandler rpcClientChannelHandler, String className) {
         this.rpcClientChannelHandler = rpcClientChannelHandler;
         this.className = className;
     }
@@ -27,8 +28,8 @@ public class RpcClientInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //组装传输类的属性值
-        RpcRequest invokerProtocol = new RpcRequest(className, method.getName(), method.getParameterTypes(), args);
-        rpcClientChannelHandler.setInvokerProtocol(invokerProtocol);
+        RpcRequest rpcRequest = new RpcRequest(className, method.getName(), method.getParameterTypes(), args);
+        rpcClientChannelHandler.setRpcRequest(rpcRequest);
         //运行线程，发送数据
         Future future = ThreadPoolHelper.threadPoolTaskExecutor().submit(rpcClientChannelHandler);
         //返回结果

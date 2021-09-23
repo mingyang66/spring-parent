@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @program: spring-parent
  * @description: RPC客户端属性配置类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/09/22
  */
 @ConfigurationProperties(RpcClientProperties.PREFIX)

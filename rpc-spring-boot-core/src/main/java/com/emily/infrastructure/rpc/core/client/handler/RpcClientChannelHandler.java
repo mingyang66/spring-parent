@@ -34,14 +34,6 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
      * 服务端返回的结果
      */
     private Object result;
-    /**
-     * 使用锁将 channelRead和 call 函数同步
-     */
-    private Lock lock = new ReentrantLock();
-    /**
-     * 精准唤醒 call中的等待
-     */
-    private Condition condition = lock.newCondition();
 
 
     public void setInvokerProtocol(RpcRequest invokerProtocol) {
@@ -49,8 +41,7 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
     }
 
     /**
-     * 通道连接时，就将上下文保存下来，因为这样其他函数也可以用
-     *
+     * 实现channelActive  客户端和服务器连接时,该方法就自动执行
      * @param ctx
      * @throws Exception
      */
@@ -59,62 +50,45 @@ public class RpcClientChannelHandler extends SimpleChannelInboundHandler impleme
         this.context = ctx;
     }
 
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("channelInactive 被调用。。。");
-    }
-
     /**
-     * 当服务端返回消息时，将消息复制到类变量中，然后唤醒正在等待结果的线程，返回结果
-     *
+     * 实现channelRead 当我们读到服务器数据,该方法自动执行
      * @param ctx
      * @param msg
      * @throws Exception
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+    protected synchronized void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
-            lock.lock();
-            logger.info(ctx.channel().hashCode() + "");
             logger.info("收到服务端发送的消息 " + msg);
             result = msg;
-
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {
-            //唤醒等待的线程
-            condition.signal();
-            lock.unlock();
-
+            notify();
         }
     }
 
     /**
-     * 这里面发送数据到服务端，等待channelRead方法接收到返回的数据时，将数据返回给服务消费者
-     *
+     * 将客户端的数写到服务器
      * @return
      * @throws Exception
      */
     @Override
-    public Object call() throws Exception {
+    public synchronized Object call() throws Exception {
         try {
-            lock.lock();
             final String s = JSONUtils.toJSONString(invokerProtocol);
             context.writeAndFlush(s);
             logger.info("RPC请求数据：{}  ", s);
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         } finally {
-            //向服务端发送消息后等待channelRead中接收到消息后唤醒
-            condition.await();
-            lock.unlock();
+            wait();
         }
         return result;
     }
 
     /**
      * 异常处理
-     *
      * @param ctx
      * @param cause
      * @throws Exception

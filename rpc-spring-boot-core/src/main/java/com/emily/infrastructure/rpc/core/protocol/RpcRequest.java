@@ -3,13 +3,15 @@ package com.emily.infrastructure.rpc.core.protocol;
 
 import com.emily.infrastructure.common.utils.RequestUtils;
 
+import java.io.Serializable;
+
 /**
  * @program: spring-parent
  * @description: 自定义RPC传输协议
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcRequest {
+public class RpcRequest implements Serializable {
     /**
      * 事务唯一标识
      */

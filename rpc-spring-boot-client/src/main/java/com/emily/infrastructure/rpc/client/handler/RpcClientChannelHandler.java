@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +28,29 @@ public class RpcClientChannelHandler extends BaseClientHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         synchronized (this.object) {
-            response = (RpcResponse) msg;
+            this.response = (RpcResponse) msg;
             this.object.notify();
             logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(msg));
+        }
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent e = (IdleStateEvent) evt;
+            switch (e.state()) {
+                case READER_IDLE:
+                    System.out.println("------------READER_IDLE");
+                    break;
+                case WRITER_IDLE:
+                    System.out.println("------------WRITER_IDLE");
+                    break;
+                case ALL_IDLE:
+                    System.out.println("------------ALL_IDLE");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -42,7 +63,7 @@ public class RpcClientChannelHandler extends BaseClientHandler {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
         logger.error(PrintExceptionInfo.printErrorInfo(cause));
-        super.exceptionCaught(ctx, cause);
     }
 }

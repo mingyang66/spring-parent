@@ -20,12 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * @author Emily
  * @Description: 控制器返回值配置处理类
  * @Version: 1.0
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ResponseWrapperProperties.class)
-@ConditionalOnProperty(prefix = "spring.emily.response.wrapper", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {
 
     private RequestMappingHandlerAdapter handlerAdapter;

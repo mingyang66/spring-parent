@@ -9,6 +9,7 @@ import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.client.handler.RpcClientChannelHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
@@ -50,9 +51,19 @@ public class SocketConn extends Conn<Channel> {
             BaseClientHandler handler = new RpcClientChannelHandler();
             //加入自己的处理器
             BOOTSTRAP.handler(new RpcClientChannelInitializer(handler));
-            logger.info("客户端连接成功...");
             //连接服务器
-            Channel channel = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync().channel();
+            ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
+            channelFuture.addListener(listener->{
+                if(listener.isSuccess()){
+                    logger.info("RPC客户端连接成功...");
+                } else {
+                    logger.info("RPC客户端重连接...");
+                    createConn();
+                }
+            });
+            //获取channel
+            Channel channel = channelFuture.channel();
+            //将handler放入缓存
             ClientResource.handlerMap.put(channel.id().asLongText(), handler);
             this.conn = channel;
             if (canUse()) {

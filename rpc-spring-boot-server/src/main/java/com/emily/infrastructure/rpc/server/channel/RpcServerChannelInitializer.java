@@ -8,6 +8,9 @@ import com.emily.infrastructure.rpc.server.handler.RpcServerChannelHandler;
 import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -27,6 +30,7 @@ public class RpcServerChannelInitializer extends ChannelInitializer<SocketChanne
     protected void initChannel(SocketChannel ch) throws Exception {
         //给pipeline设置通道处理器
         ch.pipeline()
+                .addLast(new IdleStateHandler(0, 0, 10, TimeUnit.SECONDS))
                 .addLast(new RpcEncoder(RpcResponse.class))
                 .addLast(new RpcDecoder(RpcRequest.class))
                 .addLast(new RpcServerChannelHandler(registry));

@@ -51,21 +51,16 @@ public class SocketPool {
      * @param request
      */
     public RpcResponse sendRequest(RpcRequest request) throws InterruptedException {
+        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
         int index = RandomUtils.nextInt(0, channels.size());
         SocketConn conn = channels.get(index);
-        if (!conn.canUse()) {
-           /* channels.remove(index);
-            conn = new SocketConn(host, port);
-            channels.add(conn);*/
-            System.out.println("连接不可用...");
-        }
         BaseClientHandler handler = ClientResource.handlerMap.get(conn.conn.id().asLongText());
-        synchronized (handler.object) {
-            conn.conn.writeAndFlush(request);
-            handler.object.wait(5000);
+        if (handler != null) {
+            synchronized (handler.object) {
+                conn.conn.writeAndFlush(request);
+                handler.object.wait(5000);
+            }
         }
-        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
         return handler.response;
     }
-
 }

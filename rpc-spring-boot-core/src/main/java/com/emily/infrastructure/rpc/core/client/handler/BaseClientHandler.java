@@ -1,13 +1,11 @@
 package com.emily.infrastructure.rpc.core.client.handler;
 
+import com.emily.infrastructure.rpc.core.client.ClientResource;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @program: spring-parent
@@ -25,8 +23,6 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
      */
     public RpcResponse response;
 
-    public static Map<String, BaseClientHandler> handlerMap = new ConcurrentHashMap();
-
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info("客户端信息：{}", ctx.channel().remoteAddress().toString());
@@ -37,6 +33,10 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         logger.info("服务后端连接断开...");
         super.channelInactive(ctx);
+        String id = ctx.channel().id().asLongText();
+        if (ClientResource.handlerMap.containsKey(id)) {
+            ClientResource.handlerMap.remove(id);
+        }
     }
 
 }

@@ -32,6 +32,7 @@ public class RpcMethodProxy implements InvocationHandler {
         RpcResponse response = IOCContext.getBean(RpcClient.class).sendRequest(rpcRequest);
         //获取返回类型，并将服务端返回的json数据转化为对应的类型
         Type returnType = method.getAnnotatedReturnType().getType();
+        System.out.println(response.getData());
         if (response.getData() instanceof String) {
             return response.getData();
         }

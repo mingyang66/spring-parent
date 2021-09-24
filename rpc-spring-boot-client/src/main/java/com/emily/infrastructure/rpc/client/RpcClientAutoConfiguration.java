@@ -22,12 +22,8 @@ import org.springframework.context.annotation.Role;
 public class RpcClientAutoConfiguration {
 
     @Bean(initMethod = "start")
-    public RpcClient rpcClient(RpcClientChannelHandler rpcProxyHandler, RpcClientProperties properties) {
-        return new RpcClient(rpcProxyHandler, properties.getHost(), properties.getPort());
+    public RpcClient rpcClient(RpcClientProperties properties) {
+        return new RpcClient(properties.getHost(), properties.getPort());
     }
 
-    @Bean
-    public RpcClientChannelHandler rpcProxyHandler() {
-        return new RpcClientChannelHandler();
-    }
 }

@@ -57,7 +57,7 @@ public class RpcServer implements ApplicationContextAware {
                     .option(ChannelOption.SO_BACKLOG, 128)
                     //设置一直保持活动连接状态
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .childOption(ChannelOption.TCP_NODELAY, true)
+                    //.childOption(ChannelOption.TCP_NODELAY, true)
                     //设置一个通道测试对象
                     .childHandler(new RpcServerChannelInitializer(registry));
             //启动服务器，并绑定端口并且同步

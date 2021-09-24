@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rpc.core.client.channel;
 
+import com.emily.infrastructure.rpc.core.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.RpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.RpcEncoder;
@@ -15,10 +16,10 @@ import io.netty.channel.socket.SocketChannel;
  * @create: 2021/09/22
  */
 public class RpcClientChannelInitializer extends ChannelInitializer<SocketChannel> {
-    private RpcClientChannelHandler rpcClientChannelHandler;
+    private BaseClientHandler baseClientHandler;
 
-    public RpcClientChannelInitializer(RpcClientChannelHandler rpcClientChannelHandler) {
-        this.rpcClientChannelHandler = rpcClientChannelHandler;
+    public RpcClientChannelInitializer(BaseClientHandler baseClientHandler) {
+        this.baseClientHandler = baseClientHandler;
     }
 
     @Override
@@ -26,6 +27,6 @@ public class RpcClientChannelInitializer extends ChannelInitializer<SocketChanne
         socketChannel.pipeline()
                 .addLast(new RpcEncoder(RpcRequest.class))
                 .addLast(new RpcDecoder(RpcResponse.class))
-                .addLast(rpcClientChannelHandler);
+                .addLast(baseClientHandler);
     }
 }

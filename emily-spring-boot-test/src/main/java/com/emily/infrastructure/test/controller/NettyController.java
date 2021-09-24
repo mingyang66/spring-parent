@@ -29,7 +29,7 @@ public class NettyController {
         HelloService bean = RpcProxy.create(HelloService.class);
         int i = 0;
         while (true) {
-            bean.str();
+            //bean.str();
             //测试返回结果为java bean
             bean.hello("ffafa");
             i++;

@@ -3,6 +3,7 @@ package com.emily.infrastructure.rpc.client.pool;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.rpc.client.RpcClientProperties;
 import com.emily.infrastructure.rpc.client.channel.RpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.client.handler.RpcClientChannelHandler;
@@ -31,12 +32,10 @@ public class SocketConn extends Conn<Channel> {
      */
     private static final Bootstrap BOOTSTRAP = new Bootstrap();
 
-    private String host;
-    private int port;
+    private RpcClientProperties properties;
 
-    public SocketConn(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public SocketConn(RpcClientProperties properties) {
+        this.properties = properties;
     }
 
     static {
@@ -53,7 +52,7 @@ public class SocketConn extends Conn<Channel> {
             BOOTSTRAP.handler(new RpcClientChannelInitializer(handler));
             logger.info("客户端连接成功...");
             //连接服务器
-            Channel channel = BOOTSTRAP.connect(host, port).sync().channel();
+            Channel channel = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync().channel();
             ClientResource.handlerMap.put(channel.id().asLongText(), handler);
             this.conn = channel;
             if (canUse()) {

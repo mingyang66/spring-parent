@@ -31,7 +31,7 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("服务后端连接断开...");
+        logger.info("服务后端连接断开..."+ctx.channel().isActive());
         super.channelInactive(ctx);
         String id = ctx.channel().id().asLongText();
         if (ClientResource.handlerMap.containsKey(id)) {

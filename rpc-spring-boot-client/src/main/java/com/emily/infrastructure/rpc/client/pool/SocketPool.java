@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.rpc.client.RpcClientProperties;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
@@ -25,12 +26,10 @@ public class SocketPool {
      */
     private static final List<SocketConn> channels = Lists.newArrayList();
 
-    private String host;
-    private int port;
+    private RpcClientProperties properties;
 
-    public SocketPool(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public SocketPool(RpcClientProperties properties) {
+        this.properties = properties;
     }
 
     /**
@@ -39,7 +38,7 @@ public class SocketPool {
     public void start() {
         //连接服务器
         for (int i = 0; i < 1; i++) {
-            SocketConn conn = new SocketConn(host, port);
+            SocketConn conn = new SocketConn(properties);
             if (conn.createConn()) {
                 channels.add(conn);
             }

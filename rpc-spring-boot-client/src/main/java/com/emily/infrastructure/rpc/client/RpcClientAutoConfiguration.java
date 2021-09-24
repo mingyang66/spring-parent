@@ -22,7 +22,7 @@ public class RpcClientAutoConfiguration {
 
     @Bean(initMethod = "start")
     public SocketPool rpcClient(RpcClientProperties properties) {
-        return new SocketPool(properties.getHost(), properties.getPort());
+        return new SocketPool(properties);
     }
 
 }

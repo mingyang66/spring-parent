@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.server.example;
 
-import com.emily.infrastructure.rpc.core.server.annotation.RpcService;
+import com.emily.infrastructure.rpc.server.annotation.RpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

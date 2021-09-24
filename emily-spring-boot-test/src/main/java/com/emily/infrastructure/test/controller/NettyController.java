@@ -31,7 +31,7 @@ public class NettyController {
         while (true) {
             bean.str();
             //测试返回结果为java bean
-            //bean.hello("ffafa");
+            bean.hello("ffafa");
             i++;
             if (i == 2000) {
                 break;

@@ -1,9 +1,9 @@
-package com.emily.infrastructure.rpc.core.server;
+package com.emily.infrastructure.rpc.server;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.rpc.core.server.annotation.RpcService;
-import com.emily.infrastructure.rpc.core.server.channel.RpcServerChannelInitializer;
-import com.emily.infrastructure.rpc.core.server.registry.RpcProviderRegistry;
+import com.emily.infrastructure.rpc.server.annotation.RpcService;
+import com.emily.infrastructure.rpc.server.channel.RpcServerChannelInitializer;
+import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.core.server.registry;
+package com.emily.infrastructure.rpc.server.registry;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

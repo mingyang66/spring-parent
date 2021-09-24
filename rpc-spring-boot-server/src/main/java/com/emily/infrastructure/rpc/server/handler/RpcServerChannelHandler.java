@@ -1,9 +1,9 @@
-package com.emily.infrastructure.rpc.core.server.handler;
+package com.emily.infrastructure.rpc.server.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
-import com.emily.infrastructure.rpc.core.server.registry.RpcProviderRegistry;
+import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;

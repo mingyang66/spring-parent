@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.core.server.annotation;
+package com.emily.infrastructure.rpc.server.annotation;
 
 import java.lang.annotation.*;
 

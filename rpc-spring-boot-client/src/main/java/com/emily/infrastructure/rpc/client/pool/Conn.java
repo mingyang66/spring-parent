@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.core.client.pool;
+package com.emily.infrastructure.rpc.client.pool;
 
 /**
  * @program: spring-parent

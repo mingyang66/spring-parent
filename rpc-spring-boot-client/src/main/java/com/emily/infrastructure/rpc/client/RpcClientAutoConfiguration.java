@@ -1,7 +1,6 @@
 package com.emily.infrastructure.rpc.client;
 
-import com.emily.infrastructure.rpc.core.client.RpcClient;
-import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
+import com.emily.infrastructure.rpc.client.pool.SocketPool;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,8 +21,8 @@ import org.springframework.context.annotation.Role;
 public class RpcClientAutoConfiguration {
 
     @Bean(initMethod = "start")
-    public RpcClient rpcClient(RpcClientProperties properties) {
-        return new RpcClient(properties.getHost(), properties.getPort());
+    public SocketPool rpcClient(RpcClientProperties properties) {
+        return new SocketPool(properties.getHost(), properties.getPort());
     }
 
 }

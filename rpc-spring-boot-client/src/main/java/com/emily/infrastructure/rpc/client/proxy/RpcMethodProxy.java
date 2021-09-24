@@ -1,9 +1,8 @@
-package com.emily.infrastructure.rpc.core.client.proxy;
+package com.emily.infrastructure.rpc.client.proxy;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.rpc.core.client.RpcClient;
+import com.emily.infrastructure.rpc.client.pool.SocketPool;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 
@@ -29,7 +28,7 @@ public class RpcMethodProxy implements InvocationHandler {
         //组装传输类的属性值
         RpcRequest rpcRequest = new RpcRequest(className, method.getName(), method.getParameterTypes(), args);
         //运行线程，发送数据
-        RpcResponse response = IOCContext.getBean(RpcClient.class).sendRequest(rpcRequest);
+        RpcResponse response = IOCContext.getBean(SocketPool.class).sendRequest(rpcRequest);
         //获取返回类型，并将服务端返回的json数据转化为对应的类型
         Type returnType = method.getAnnotatedReturnType().getType();
         System.out.println(response.getData());

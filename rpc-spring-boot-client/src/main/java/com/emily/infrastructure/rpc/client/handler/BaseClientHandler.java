@@ -1,6 +1,6 @@
-package com.emily.infrastructure.rpc.core.client.handler;
+package com.emily.infrastructure.rpc.client.handler;
 
-import com.emily.infrastructure.rpc.core.client.ClientResource;
+import com.emily.infrastructure.rpc.client.pool.ClientResource;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

@@ -1,8 +1,7 @@
-package com.emily.infrastructure.rpc.core.client;
+package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.client.handler.BaseClientHandler;
-import com.emily.infrastructure.rpc.core.client.pool.SocketConn;
+import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import com.google.common.collect.Lists;
@@ -18,9 +17,9 @@ import java.util.List;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcClient {
+public class SocketPool {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(SocketPool.class);
     /**
      * 连接容器
      */
@@ -29,7 +28,7 @@ public class RpcClient {
     private String host;
     private int port;
 
-    public RpcClient(String host, int port) {
+    public SocketPool(String host, int port) {
         this.host = host;
         this.port = port;
     }

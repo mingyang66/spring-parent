@@ -1,7 +1,7 @@
-package com.emily.infrastructure.rpc.core.client.channel;
+package com.emily.infrastructure.rpc.client.channel;
 
-import com.emily.infrastructure.rpc.core.client.handler.BaseClientHandler;
-import com.emily.infrastructure.rpc.core.client.handler.RpcClientChannelHandler;
+import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
+import com.emily.infrastructure.rpc.client.handler.RpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.RpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.RpcEncoder;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;

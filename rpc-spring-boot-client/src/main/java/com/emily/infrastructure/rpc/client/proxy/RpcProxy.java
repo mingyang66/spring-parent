@@ -1,6 +1,5 @@
 package com.emily.infrastructure.rpc.client.proxy;
 
-import com.emily.infrastructure.rpc.core.client.proxy.RpcMethodProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

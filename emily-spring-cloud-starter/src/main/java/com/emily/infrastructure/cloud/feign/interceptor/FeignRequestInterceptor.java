@@ -1,5 +1,6 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
+import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.utils.RequestUtils;
@@ -43,9 +44,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求参数
         baseLogger.setRequestParams(transToMap(template));
         // 将日志信息放入请求对象
-        if(RequestUtils.isServletContext()){
-            RequestUtils.getRequest().setAttribute("feignLog", baseLogger);
-        }
+        FeignContextHolder.set(baseLogger);
     }
 
     /**

@@ -16,7 +16,7 @@ import java.util.Map;
  * @description: fegin
  * @create: 2021/03/24
  */
-@FeignClient(value = "stores", url = "http://172.30.67.122:9111")
+@FeignClient(value = "stores", url = "http://172.30.71.95:9111")
 //@FeignClient(name = "consul-demo", contextId = "store", primary = true)
 public interface StoreClient {
 

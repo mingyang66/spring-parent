@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rpc.server.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
@@ -54,6 +55,7 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
                     break;
             }
         }
+        super.userEventTriggered(ctx, evt);
     }
 
     /**
@@ -65,7 +67,7 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("接收到的数据是：{}", msg);
+        logger.info("接收到的数据是：{}", JSONUtils.toJSONString(msg));
         if (msg == null) {
             return;
         }

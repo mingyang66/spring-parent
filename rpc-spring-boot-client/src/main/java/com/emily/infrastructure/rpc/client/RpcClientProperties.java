@@ -26,6 +26,10 @@ public class RpcClientProperties {
      * RPC服务器端口号，默认：9999
      */
     private int port = 9999;
+    /**
+     * 连接池
+     */
+    private Pool pool = new Pool();
 
     public boolean isEnabled() {
         return enabled;
@@ -49,5 +53,65 @@ public class RpcClientProperties {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public Pool getPool() {
+        return pool;
+    }
+
+    public void setPool(Pool pool) {
+        this.pool = pool;
+    }
+
+    public static class Pool {
+        /**
+         * 最大空闲
+         */
+        private int maxIdle = 5;
+        /**
+         * 最大总数
+         */
+        private int maxTotal = 20;
+        /**
+         * 最小空闲
+         */
+        private int minIdle = 2;
+
+        /**
+         * 初始化连接数
+         */
+        private int initialSize = 3;
+
+        public int getMaxIdle() {
+            return maxIdle;
+        }
+
+        public void setMaxIdle(int maxIdle) {
+            this.maxIdle = maxIdle;
+        }
+
+        public int getMaxTotal() {
+            return maxTotal;
+        }
+
+        public void setMaxTotal(int maxTotal) {
+            this.maxTotal = maxTotal;
+        }
+
+        public int getMinIdle() {
+            return minIdle;
+        }
+
+        public void setMinIdle(int minIdle) {
+            this.minIdle = minIdle;
+        }
+
+        public int getInitialSize() {
+            return initialSize;
+        }
+
+        public void setInitialSize(int initialSize) {
+            this.initialSize = initialSize;
+        }
     }
 }

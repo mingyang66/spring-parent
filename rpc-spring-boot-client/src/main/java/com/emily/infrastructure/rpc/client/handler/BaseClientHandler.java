@@ -35,7 +35,7 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
         super.channelInactive(ctx);
         String id = ctx.channel().id().asLongText();
         if (ClientResource.handlerMap.containsKey(id)) {
-            ClientResource.handlerMap.remove(id);
+            //ClientResource.handlerMap.remove(id);
         }
     }
 

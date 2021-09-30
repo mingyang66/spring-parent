@@ -3,10 +3,13 @@ package com.emily.infrastructure.rpc.client.pool;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.client.RpcClientProperties;
 import com.emily.infrastructure.rpc.client.channel.RpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.client.handler.RpcClientChannelHandler;
+import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
+import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -32,6 +35,10 @@ public class SocketConn extends Conn<Channel> {
      * 创建客户端的启动对象 bootstrap ，不是 serverBootStrap
      */
     private static final Bootstrap BOOTSTRAP = new Bootstrap();
+    /**
+     *
+     */
+    private BaseClientHandler handler;
 
     private RpcClientProperties properties;
 
@@ -46,25 +53,26 @@ public class SocketConn extends Conn<Channel> {
         BOOTSTRAP.channel(NioSocketChannel.class);
     }
 
-    public boolean createConn() {
+    @Override
+    public boolean connection() {
         try {
-            BaseClientHandler handler = new RpcClientChannelHandler();
+            handler = new RpcClientChannelHandler();
             //加入自己的处理器
             BOOTSTRAP.handler(new RpcClientChannelInitializer(handler));
             //连接服务器
             ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
-            channelFuture.addListener(listener->{
-                if(listener.isSuccess()){
+            channelFuture.addListener(listener -> {
+                if (listener.isSuccess()) {
                     logger.info("RPC客户端连接成功...");
                 } else {
                     logger.info("RPC客户端重连接...");
-                    createConn();
+                    connection();
                 }
             });
             //获取channel
             Channel channel = channelFuture.channel();
             //将handler放入缓存
-            ClientResource.handlerMap.put(channel.id().asLongText(), handler);
+            //ClientResource.handlerMap.put(channel.id().asLongText(), handler);
             this.conn = channel;
             if (canUse()) {
                 return true;
@@ -74,6 +82,26 @@ public class SocketConn extends Conn<Channel> {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
             throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "创建连接失败");
         }
+    }
+
+    /**
+     * 发送请求
+     *
+     * @param request
+     */
+    @Override
+    public RpcResponse sendRequest(RpcRequest request) {
+        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
+        try {
+            synchronized (handler.object) {
+                this.conn.writeAndFlush(request);
+                handler.object.wait(5000);
+            }
+            return handler.response;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return new RpcResponse("12", "error");
     }
 
     /**

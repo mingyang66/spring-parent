@@ -3,6 +3,7 @@ package com.emily.infrastructure.rpc.client.handler;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/09/17
  */
+@ChannelHandler.Sharable
 public class RpcClientChannelHandler extends BaseClientHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClientChannelHandler.class);
@@ -30,7 +32,7 @@ public class RpcClientChannelHandler extends BaseClientHandler {
         synchronized (this.object) {
             this.response = (RpcResponse) msg;
             this.object.notify();
-            logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(msg));
+            logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(this.response));
         }
     }
 
@@ -52,6 +54,7 @@ public class RpcClientChannelHandler extends BaseClientHandler {
                     break;
             }
         }
+        super.userEventTriggered(ctx, evt);
     }
 
     /**
@@ -66,4 +69,5 @@ public class RpcClientChannelHandler extends BaseClientHandler {
         ctx.close();
         logger.error(PrintExceptionInfo.printErrorInfo(cause));
     }
+
 }

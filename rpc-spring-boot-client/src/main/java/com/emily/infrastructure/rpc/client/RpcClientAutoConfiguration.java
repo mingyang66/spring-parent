@@ -1,8 +1,8 @@
 package com.emily.infrastructure.rpc.client;
 
-import com.emily.infrastructure.rpc.client.pool.SocketConn;
-import com.emily.infrastructure.rpc.client.pool2.factory.RpcPooledObjectFactory;
-import com.emily.infrastructure.rpc.client.pool2.pool.RpcObjectPool;
+import com.emily.infrastructure.rpc.client.pool.RpcSocketConnection;
+import com.emily.infrastructure.rpc.client.pool.RpcPooledObjectFactory;
+import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -33,7 +33,7 @@ public class RpcClientAutoConfiguration {
     protected RpcObjectPool javaObjectPool(RpcClientProperties properties) {
         RpcPooledObjectFactory faceSDKFactory = new RpcPooledObjectFactory(properties);
         //设置对象池的相关参数
-        GenericObjectPoolConfig<SocketConn> poolConfig = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<RpcSocketConnection> poolConfig = new GenericObjectPoolConfig<>();
         poolConfig.setMaxIdle(properties.getPool().getMaxIdle());
         poolConfig.setMaxTotal(properties.getPool().getMaxTotal());
         poolConfig.setMinIdle(properties.getPool().getMinIdle());

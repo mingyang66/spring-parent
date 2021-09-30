@@ -1,6 +1,5 @@
 package com.emily.infrastructure.rpc.client.handler;
 
-import com.emily.infrastructure.rpc.client.pool.ClientResource;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -33,10 +32,6 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         logger.info("服务后端连接断开..."+ctx.channel().isActive());
         super.channelInactive(ctx);
-        String id = ctx.channel().id().asLongText();
-        if (ClientResource.handlerMap.containsKey(id)) {
-            //ClientResource.handlerMap.remove(id);
-        }
     }
 
 }

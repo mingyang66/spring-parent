@@ -1,7 +1,6 @@
-package com.emily.infrastructure.rpc.client.pool2.factory;
+package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.rpc.client.RpcClientProperties;
-import com.emily.infrastructure.rpc.client.pool.SocketConn;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -16,7 +15,7 @@ import java.util.Optional;
  * @author: Emily
  * @create: 2021/09/28
  */
-public class RpcPooledObjectFactory implements PooledObjectFactory<SocketConn> {
+public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConnection> {
 
     private Logger logger = LoggerFactory.getLogger(RpcPooledObjectFactory.class);
 
@@ -33,9 +32,9 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<SocketConn> {
      * @throws Exception
      */
     @Override
-    public PooledObject<SocketConn> makeObject() throws Exception {
+    public PooledObject<RpcSocketConnection> makeObject() throws Exception {
         logger.info("创建对象...");
-        return new DefaultPooledObject<>(new SocketConn(properties));
+        return new DefaultPooledObject<>(new RpcSocketConnection(properties));
     }
 
     /**
@@ -45,10 +44,10 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<SocketConn> {
      * @throws Exception
      */
     @Override
-    public void destroyObject(PooledObject<SocketConn> pooledObject) throws Exception {
+    public void destroyObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
         logger.info("销毁对象...");
-        SocketConn conn = pooledObject.getObject();
-        Optional.ofNullable(conn).ifPresent(SocketConn::close);
+        RpcSocketConnection conn = pooledObject.getObject();
+        Optional.ofNullable(conn).ifPresent(RpcSocketConnection::close);
     }
 
     /**
@@ -58,7 +57,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<SocketConn> {
      * @throws Exception
      */
     @Override
-    public void activateObject(PooledObject<SocketConn> pooledObject) throws Exception {
+    public void activateObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
         logger.info("激活对象...");
         pooledObject.getObject().connection();
     }
@@ -70,9 +69,9 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<SocketConn> {
      * @throws Exception
      */
     @Override
-    public void passivateObject(PooledObject<SocketConn> pooledObject) throws Exception {
+    public void passivateObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
         logger.info("钝化对象...");
-        SocketConn testObject = pooledObject.getObject();
+        RpcSocketConnection testObject = pooledObject.getObject();
     }
 
     /**
@@ -82,7 +81,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<SocketConn> {
      * @return
      */
     @Override
-    public boolean validateObject(PooledObject<SocketConn> pooledObject) {
+    public boolean validateObject(PooledObject<RpcSocketConnection> pooledObject) {
         logger.info("验证对象是否可用...");
         return pooledObject.getObject().canUse();
     }

@@ -24,9 +24,9 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class SocketConn extends Conn<Channel> {
+public class RpcSocketConnection extends RpcConnection<Channel> {
 
-    private static final Logger logger = LoggerFactory.getLogger(SocketConn.class);
+    private static final Logger logger = LoggerFactory.getLogger(RpcSocketConnection.class);
     /**
      * 线程工作组
      */
@@ -42,7 +42,7 @@ public class SocketConn extends Conn<Channel> {
 
     private RpcClientProperties properties;
 
-    public SocketConn(RpcClientProperties properties) {
+    public RpcSocketConnection(RpcClientProperties properties) {
         this.properties = properties;
     }
 
@@ -71,8 +71,6 @@ public class SocketConn extends Conn<Channel> {
             });
             //获取channel
             Channel channel = channelFuture.channel();
-            //将handler放入缓存
-            //ClientResource.handlerMap.put(channel.id().asLongText(), handler);
             this.conn = channel;
             if (canUse()) {
                 return true;
@@ -90,7 +88,7 @@ public class SocketConn extends Conn<Channel> {
      * @param request
      */
     @Override
-    public RpcResponse sendRequest(RpcRequest request) {
+    public RpcResponse call(RpcRequest request) {
         logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
         try {
             synchronized (handler.object) {

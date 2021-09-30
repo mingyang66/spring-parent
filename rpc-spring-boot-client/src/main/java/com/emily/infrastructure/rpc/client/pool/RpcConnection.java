@@ -9,16 +9,18 @@ import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
  * @author: Emily
  * @create: 2021/09/24
  */
-public abstract class Conn<T> {
+public abstract class RpcConnection<T> {
     public T conn;
 
     /**
      * 创建连接
+     * @return
      */
     public abstract boolean connection();
 
     /**
      * 发送请求
+     * @return
      */
-    public abstract RpcResponse sendRequest(RpcRequest request);
+    public abstract RpcResponse call(RpcRequest request);
 }

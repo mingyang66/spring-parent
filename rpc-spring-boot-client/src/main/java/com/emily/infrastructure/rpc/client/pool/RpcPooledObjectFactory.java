@@ -59,7 +59,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
     @Override
     public void activateObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
         logger.info("激活对象...");
-        pooledObject.getObject().connection();
+        pooledObject.getObject().connect();
     }
 
     /**
@@ -83,7 +83,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
     @Override
     public boolean validateObject(PooledObject<RpcSocketConnection> pooledObject) {
         logger.info("验证对象是否可用...");
-        return pooledObject.getObject().canUse();
+        return pooledObject.getObject().isAvailable();
     }
 
 }

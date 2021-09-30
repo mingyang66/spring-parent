@@ -54,7 +54,7 @@ public class RpcSocketConnection extends RpcConnection<Channel> {
     }
 
     @Override
-    public boolean connection() {
+    public boolean connect() {
         try {
             handler = new RpcClientChannelHandler();
             //加入自己的处理器
@@ -66,13 +66,14 @@ public class RpcSocketConnection extends RpcConnection<Channel> {
                     logger.info("RPC客户端连接成功...");
                 } else {
                     logger.info("RPC客户端重连接...");
-                    connection();
+                    connect();
                 }
             });
             //获取channel
             Channel channel = channelFuture.channel();
-            this.conn = channel;
-            if (canUse()) {
+            //将通道赋值给连接对象
+            this.connection = channel;
+            if (this.isAvailable()) {
                 return true;
             }
             return false;
@@ -92,7 +93,7 @@ public class RpcSocketConnection extends RpcConnection<Channel> {
         logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
         try {
             synchronized (handler.object) {
-                this.conn.writeAndFlush(request);
+                this.connection.writeAndFlush(request);
                 handler.object.wait(5000);
             }
             return handler.response;
@@ -107,11 +108,16 @@ public class RpcSocketConnection extends RpcConnection<Channel> {
      *
      * @return
      */
-    public boolean canUse() {
-        return null != this.conn && this.conn.isActive() && this.conn.isWritable();
+    @Override
+    public boolean isAvailable() {
+        return null != this.connection && this.connection.isActive() && this.connection.isWritable();
     }
 
+    /**
+     * 关闭连接通道
+     */
+    @Override
     public void close() {
-        this.conn.close();
+        this.connection.close();
     }
 }

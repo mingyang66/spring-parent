@@ -27,7 +27,8 @@ public class RpcClientChannelInitializer extends ChannelInitializer<SocketChanne
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline()
-                .addLast(new IdleStateHandler(0, 0, 10, TimeUnit.SECONDS))
+                //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
+                .addLast(new IdleStateHandler(20, 0, 0, TimeUnit.SECONDS))
                 .addLast(new RpcEncoder(RpcRequest.class))
                 .addLast(new RpcDecoder(RpcResponse.class))
                 .addLast(baseClientHandler);

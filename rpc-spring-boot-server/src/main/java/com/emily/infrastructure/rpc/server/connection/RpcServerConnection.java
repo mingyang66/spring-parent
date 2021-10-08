@@ -1,9 +1,9 @@
-package com.emily.infrastructure.rpc.server;
+package com.emily.infrastructure.rpc.server.connection;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.server.annotation.RpcService;
 import com.emily.infrastructure.rpc.server.channel.RpcServerChannelInitializer;
-import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
+import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -24,19 +24,19 @@ import java.util.Map;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcServer implements ApplicationContextAware {
+public class RpcServerConnection implements ApplicationContextAware {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(RpcServerConnection.class);
     /**
      * RPC服务注册中心
      */
-    private RpcProviderRegistry registry = new RpcProviderRegistry();
+    private RpcRegistry registry = new RpcRegistry();
     /**
      * 端口号
      */
     private int port;
 
-    public RpcServer(int port) {
+    public RpcServerConnection(int port) {
         this.port = port;
     }
 

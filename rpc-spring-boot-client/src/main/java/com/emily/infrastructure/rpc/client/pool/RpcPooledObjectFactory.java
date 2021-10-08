@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author: Emily
  * @create: 2021/09/28
  */
-public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConnection> {
+public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection> {
 
     private Logger logger = LoggerFactory.getLogger(RpcPooledObjectFactory.class);
 
@@ -32,9 +32,9 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
      * @throws Exception
      */
     @Override
-    public PooledObject<RpcSocketConnection> makeObject() throws Exception {
+    public PooledObject<RpcConnection> makeObject() throws Exception {
         logger.info("创建对象...");
-        return new DefaultPooledObject<>(new RpcSocketConnection(properties));
+        return new DefaultPooledObject<>(new RpcConnection(properties));
     }
 
     /**
@@ -44,10 +44,10 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
      * @throws Exception
      */
     @Override
-    public void destroyObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
+    public void destroyObject(PooledObject<RpcConnection> pooledObject) throws Exception {
         logger.info("销毁对象...");
-        RpcSocketConnection conn = pooledObject.getObject();
-        Optional.ofNullable(conn).ifPresent(RpcSocketConnection::close);
+        RpcConnection conn = pooledObject.getObject();
+        Optional.ofNullable(conn).ifPresent(RpcConnection::close);
     }
 
     /**
@@ -57,7 +57,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
      * @throws Exception
      */
     @Override
-    public void activateObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
+    public void activateObject(PooledObject<RpcConnection> pooledObject) throws Exception {
         logger.info("激活对象...");
         pooledObject.getObject().connect();
     }
@@ -69,9 +69,9 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
      * @throws Exception
      */
     @Override
-    public void passivateObject(PooledObject<RpcSocketConnection> pooledObject) throws Exception {
+    public void passivateObject(PooledObject<RpcConnection> pooledObject) throws Exception {
         logger.info("钝化对象...");
-        RpcSocketConnection testObject = pooledObject.getObject();
+        RpcConnection testObject = pooledObject.getObject();
     }
 
     /**
@@ -81,7 +81,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcSocketConn
      * @return
      */
     @Override
-    public boolean validateObject(PooledObject<RpcSocketConnection> pooledObject) {
+    public boolean validateObject(PooledObject<RpcConnection> pooledObject) {
         logger.info("验证对象是否可用...");
         return pooledObject.getObject().isAvailable();
     }

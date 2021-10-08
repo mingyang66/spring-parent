@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rpc.server;
 
+import com.emily.infrastructure.rpc.server.connection.RpcServerConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -26,8 +27,8 @@ public class RpcServerAutoConfiguration implements InitializingBean, DisposableB
     private static final Logger logger = LoggerFactory.getLogger(RpcServerAutoConfiguration.class);
 
     @Bean(initMethod = "start")
-    public RpcServer rpcServer(RpcServerProperties properties) {
-        return new RpcServer(properties.getPort());
+    public RpcServerConnection rpcServer(RpcServerProperties properties) {
+        return new RpcServerConnection(properties.getPort());
     }
 
 

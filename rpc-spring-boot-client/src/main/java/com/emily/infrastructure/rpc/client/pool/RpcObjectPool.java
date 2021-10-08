@@ -11,16 +11,16 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
  * @author: Emily
  * @create: 2021/09/28
  */
-public class RpcObjectPool extends GenericObjectPool<RpcSocketConnection> {
-    public RpcObjectPool(PooledObjectFactory<RpcSocketConnection> factory) {
+public class RpcObjectPool extends GenericObjectPool<RpcConnection> {
+    public RpcObjectPool(PooledObjectFactory<RpcConnection> factory) {
         super(factory);
     }
 
-    public RpcObjectPool(PooledObjectFactory<RpcSocketConnection> factory, GenericObjectPoolConfig<RpcSocketConnection> config) {
+    public RpcObjectPool(PooledObjectFactory<RpcConnection> factory, GenericObjectPoolConfig<RpcConnection> config) {
         super(factory, config);
     }
 
-    public RpcObjectPool(PooledObjectFactory<RpcSocketConnection> factory, GenericObjectPoolConfig<RpcSocketConnection> config, AbandonedConfig abandonedConfig) {
+    public RpcObjectPool(PooledObjectFactory<RpcConnection> factory, GenericObjectPoolConfig<RpcConnection> config, AbandonedConfig abandonedConfig) {
         super(factory, config, abandonedConfig);
     }
 }

@@ -18,11 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/netty")
 public class NettyController {
 
-    @GetMapping("start")
-    public void start() {
-        //RpcProxy.create("127.0.0.1", 9999);
-    }
-
     @GetMapping("rpc")
     public Object rpc() throws InterruptedException {
         //连接netty，并获得一个代理对象

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.client;
 
-import com.emily.infrastructure.rpc.client.pool.RpcSocketConnection;
+import com.emily.infrastructure.rpc.client.pool.RpcConnection;
 import com.emily.infrastructure.rpc.client.pool.RpcPooledObjectFactory;
 import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -33,7 +33,7 @@ public class RpcClientAutoConfiguration {
     protected RpcObjectPool javaObjectPool(RpcClientProperties properties) {
         RpcPooledObjectFactory faceSDKFactory = new RpcPooledObjectFactory(properties);
         //设置对象池的相关参数
-        GenericObjectPoolConfig<RpcSocketConnection> poolConfig = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<RpcConnection> poolConfig = new GenericObjectPoolConfig<>();
         poolConfig.setMaxIdle(properties.getPool().getMaxIdle());
         poolConfig.setMaxTotal(properties.getPool().getMaxTotal());
         poolConfig.setMinIdle(properties.getPool().getMinIdle());

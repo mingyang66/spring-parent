@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.rpc.client.pool.RpcSocketConnection;
+import com.emily.infrastructure.rpc.client.pool.RpcConnection;
 import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
@@ -73,10 +73,10 @@ public class RpcProxy {
         public RpcResponse call(RpcRequest request) {
             //运行线程，发送数据
             RpcObjectPool pool = IOCContext.getBean(RpcObjectPool.class);
-            RpcSocketConnection connection = null;
+            RpcConnection connection = null;
             try {
                 connection = pool.borrowObject();
-                return connection.call(request);
+                return connection.sendRequest(request);
             } catch (Exception exception) {
                 logger.error(PrintExceptionInfo.printErrorInfo(exception));
                 throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "Rpc调用异常");

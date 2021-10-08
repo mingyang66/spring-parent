@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
-import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
+import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
@@ -24,9 +24,9 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
     /**
      * RPC服务注册中心
      */
-    private RpcProviderRegistry registry;
+    private RpcRegistry registry;
 
-    public RpcServerChannelHandler(RpcProviderRegistry registry) {
+    public RpcServerChannelHandler(RpcRegistry registry) {
         this.registry = registry;
     }
 

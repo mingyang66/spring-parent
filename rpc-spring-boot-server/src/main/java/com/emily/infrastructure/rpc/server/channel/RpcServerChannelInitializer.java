@@ -5,7 +5,7 @@ import com.emily.infrastructure.rpc.core.encoder.RpcEncoder;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
 import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import com.emily.infrastructure.rpc.server.handler.RpcServerChannelHandler;
-import com.emily.infrastructure.rpc.server.registry.RpcProviderRegistry;
+import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 
@@ -17,9 +17,9 @@ import io.netty.channel.socket.SocketChannel;
  */
 public class RpcServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    private RpcProviderRegistry registry;
+    private RpcRegistry registry;
 
-    public RpcServerChannelInitializer(RpcProviderRegistry registry) {
+    public RpcServerChannelInitializer(RpcRegistry registry) {
         this.registry = registry;
     }
 

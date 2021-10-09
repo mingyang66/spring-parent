@@ -7,7 +7,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * @program: spring-parent
- * @description: Rpc编码
+ * @description: Rpc编码器
  * @author: Emily
  * @create: 2021/09/23
  */
@@ -19,8 +19,11 @@ public class RpcEncoder extends MessageToByteEncoder<Object> {
             return;
         }
         byte[] bytes = JSONUtils.toByteArray(object);
+        //写入编码数据长度
         byteBuf.writeInt(bytes.length);
+        //写入编码数据字节流
         byteBuf.writeBytes(bytes);
+        //写入编码数据结束的行尾标识
         byteBuf.writeBytes(new byte[]{'\r', '\n'});
     }
 }

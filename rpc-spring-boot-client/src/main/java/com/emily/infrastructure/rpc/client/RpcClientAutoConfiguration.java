@@ -1,8 +1,8 @@
 package com.emily.infrastructure.rpc.client;
 
 import com.emily.infrastructure.rpc.client.pool.RpcConnection;
-import com.emily.infrastructure.rpc.client.pool.RpcPooledObjectFactory;
 import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
+import com.emily.infrastructure.rpc.client.pool.RpcPooledObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

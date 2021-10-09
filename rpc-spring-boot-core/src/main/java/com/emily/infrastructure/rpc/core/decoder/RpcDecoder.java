@@ -1,8 +1,6 @@
 package com.emily.infrastructure.rpc.core.decoder;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -24,22 +22,17 @@ public class RpcDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
-        // 消息的长度
+        //读取消息长度
         int length = byteBuf.readInt();
-        if(length == 0){
+        if (length == 0) {
             return;
         }
-        //读取数据
+        //初始化存储数据字节数组
         byte[] data = new byte[length];
+        //将字节流中的数据读入到字节数组
         byteBuf.readBytes(data);
 
-        if (clazz == RpcRequest.class) {
-            RpcRequest request = (RpcRequest) JSONUtils.toObject(data, clazz);
-            list.add(request);
-        } else if (clazz == RpcResponse.class) {
-            RpcResponse response = (RpcResponse) JSONUtils.toObject(data, clazz);
-            list.add(response);
-        }
+        list.add(JSONUtils.toObject(data, clazz));
         //重置readerIndex和writerIndex为0
         //byteBuf.discardReadBytes();
         byteBuf.clear();

@@ -14,6 +14,10 @@ public class RpcResponse implements Serializable {
      */
     private String traceId;
     /**
+     * 错误消息
+     */
+    private String errorMsg;
+    /**
      * 返回数据
      */
     private Object data;
@@ -24,6 +28,14 @@ public class RpcResponse implements Serializable {
     public RpcResponse(String traceId, Object data) {
         this.traceId = traceId;
         this.data = data;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 
     public String getTraceId() {

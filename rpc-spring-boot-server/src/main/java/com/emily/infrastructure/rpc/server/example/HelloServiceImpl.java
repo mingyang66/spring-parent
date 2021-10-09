@@ -17,7 +17,7 @@ public class HelloServiceImpl implements HelloService{
     private static final Logger logger = LoggerFactory.getLogger(HelloServiceImpl.class);
     @Override
     public Result hello(String s) {
-        logger.info("收到消费者的请求-----" + s);
+        //logger.info("收到消费者的请求-----" + s);
         Result result=new Result();
         result.setId(1);
         result.setContent("你好,我已经收到了你的消费请求");

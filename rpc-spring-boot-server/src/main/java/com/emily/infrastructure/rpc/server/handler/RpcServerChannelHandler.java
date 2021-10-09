@@ -31,9 +31,15 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        logger.info("Rpc客户端连接成功：{}", ctx.channel().remoteAddress());
+    }
+
+    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
-        logger.info("RPC服务器连接断开：{}-{}", ctx.channel().id(), ctx.channel().isActive());
+        logger.info("RPC服务器连接断开：{}", ctx.channel().remoteAddress());
+        ctx.channel().close();
     }
 
     /**
@@ -49,16 +55,22 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        RpcRequest rpcRequest = (RpcRequest) msg;
-        //反射调用实现类的方法
-        String className = rpcRequest.getClassName();
-        //从注册表中获取指定名称的实现类
-        Class<?> aClass = registry.getServiceBean(className).getClass();
-        Object o = aClass.getDeclaredConstructor().newInstance();
-        Method method = aClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getTypes());
-        method.setAccessible(true);
-        Object invoke = method.invoke(o, rpcRequest.getParams());
-        ctx.writeAndFlush(new RpcResponse(rpcRequest.getTraceId(), invoke));
+        try {
+            RpcRequest request = (RpcRequest) msg;
+            //反射调用实现类的方法
+            String className = request.getClassName();
+            //从注册表中获取指定名称的实现类
+            Object serviceBean = registry.getServiceBean(className);
+            Class<?> aClass = serviceBean.getClass();
+            Object o = aClass.getDeclaredConstructor().newInstance();
+            Method method = aClass.getMethod(request.getMethodName(), request.getTypes());
+            method.setAccessible(true);
+
+            Object invoke = method.invoke(o, request.getParams());
+            ctx.writeAndFlush(new RpcResponse(request.getTraceId(), invoke));
+        } catch (Exception ex){
+            logger.error(PrintExceptionInfo.printErrorInfo(ex));
+        }
 
     }
 

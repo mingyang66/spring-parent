@@ -34,7 +34,10 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
     @Override
     public PooledObject<RpcConnection> makeObject() throws Exception {
         logger.info("创建对象...");
-        return new DefaultPooledObject<>(new RpcConnection(properties));
+        RpcConnection connection = new RpcConnection(properties);
+        //建立Rpc连接
+        connection.connect();
+        return new DefaultPooledObject<>(connection);
     }
 
     /**
@@ -46,8 +49,8 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
     @Override
     public void destroyObject(PooledObject<RpcConnection> pooledObject) throws Exception {
         logger.info("销毁对象...");
-        RpcConnection conn = pooledObject.getObject();
-        Optional.ofNullable(conn).ifPresent(RpcConnection::close);
+        RpcConnection connection = pooledObject.getObject();
+        Optional.ofNullable(connection).ifPresent(RpcConnection::close);
     }
 
     /**
@@ -59,11 +62,14 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
     @Override
     public void activateObject(PooledObject<RpcConnection> pooledObject) throws Exception {
         logger.info("激活对象...");
-        pooledObject.getObject().connect();
+        RpcConnection connection = pooledObject.getObject();
+        if (!connection.isAvailable()) {
+            connection.connect();
+        }
     }
 
     /**
-     * 钝化一个对象，也可以理解为反初始化
+     * 钝化(初始化|归还)一个对象，也可以理解为反初始化
      *
      * @param pooledObject
      * @throws Exception
@@ -71,7 +77,6 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
     @Override
     public void passivateObject(PooledObject<RpcConnection> pooledObject) throws Exception {
         logger.info("钝化对象...");
-        RpcConnection testObject = pooledObject.getObject();
     }
 
     /**
@@ -82,8 +87,15 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
      */
     @Override
     public boolean validateObject(PooledObject<RpcConnection> pooledObject) {
-        logger.info("验证对象是否可用...");
-        return pooledObject.getObject().isAvailable();
+        RpcConnection connection = pooledObject.getObject();
+        if (!connection.isAvailable()) {
+            //连接不可用，关闭连接
+            connection.close();
+            //重新连接
+            connection.connect();
+        }
+        logger.info("验证对象是否可用:{}", connection.isAvailable());
+        return connection.isAvailable();
     }
 
 }

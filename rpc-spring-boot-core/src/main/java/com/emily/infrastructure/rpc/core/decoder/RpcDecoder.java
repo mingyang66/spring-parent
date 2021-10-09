@@ -35,11 +35,11 @@ public class RpcDecoder extends ByteToMessageDecoder {
 
         if (clazz != null) {
             if(clazz == RpcRequest.class){
-                RpcRequest rpcRequest = (RpcRequest) JSONUtils.toObject(data, clazz);
-                list.add(rpcRequest);
+                RpcRequest request = (RpcRequest) JSONUtils.toObject(data, clazz);
+                list.add(request);
             }else if(clazz == RpcResponse.class){
-                RpcResponse rpcResponse = (RpcResponse) JSONUtils.toObject(data, clazz);
-                list.add(rpcResponse);
+                RpcResponse response = (RpcResponse) JSONUtils.toObject(data, clazz);
+                list.add(response);
             }
         }
         //回收已读字节

@@ -24,13 +24,13 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("客户端信息：{}", ctx.channel().remoteAddress().toString());
+        logger.info("客户端信息：{}", ctx.channel().remoteAddress());
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("服务后端连接断开..."+ctx.channel().isActive());
+        logger.info("服务断开连接：{}"+ctx.channel().remoteAddress());
         super.channelInactive(ctx);
     }
 

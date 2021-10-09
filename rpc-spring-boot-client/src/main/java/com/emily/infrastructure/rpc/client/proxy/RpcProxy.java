@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
 
 /**
  * @program: spring-parent
@@ -60,8 +59,8 @@ public class RpcProxy {
             //运行线程，发送数据
             RpcResponse response = call(rpcRequest);
             //获取返回类型，并将服务端返回的json数据转化为对应的类型
-            Type returnType = method.getAnnotatedReturnType().getType();
-            return JSONUtils.toJavaBean(JSONUtils.toJSONString(response.getData()), (Class<?>) returnType);
+            Class<?> returnType = method.getReturnType();
+            return JSONUtils.toJavaBean(JSONUtils.toJSONString(response.getData()), returnType);
         }
 
         /**

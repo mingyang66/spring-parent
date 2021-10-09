@@ -31,7 +31,7 @@ public class RpcClientChannelHandler extends BaseClientHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         synchronized (this.object) {
             this.response = (RpcResponse) msg;
-            this.object.notify();
+            this.object.notifyAll();
             logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(this.response));
         }
     }

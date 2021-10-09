@@ -66,13 +66,13 @@ public class RpcConnection extends AbstractConnection<Channel> {
                     logger.info("RPC客户端连接成功...");
                 } else {
                     logger.info("RPC客户端重连接...");
-                    connect();
                 }
             });
             //获取channel
             Channel channel = channelFuture.channel();
             //将通道赋值给连接对象
             this.setConnection(channel);
+            //判定通道是否可用
             if (this.isAvailable()) {
                 return true;
             }
@@ -98,9 +98,8 @@ public class RpcConnection extends AbstractConnection<Channel> {
             }
             return handler.response;
         } catch (Exception exception) {
-            exception.printStackTrace();
+            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
         }
-        return new RpcResponse("12", "error");
     }
 
     /**

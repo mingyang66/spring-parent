@@ -23,7 +23,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
     }
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
         // 消息的长度
         int length = byteBuf.readInt();
         if(length == 0){
@@ -33,16 +33,15 @@ public class RpcDecoder extends ByteToMessageDecoder {
         byte[] data = new byte[length];
         byteBuf.readBytes(data);
 
-        if (clazz != null) {
-            if(clazz == RpcRequest.class){
-                RpcRequest request = (RpcRequest) JSONUtils.toObject(data, clazz);
-                list.add(request);
-            }else if(clazz == RpcResponse.class){
-                RpcResponse response = (RpcResponse) JSONUtils.toObject(data, clazz);
-                list.add(response);
-            }
+        if (clazz == RpcRequest.class) {
+            RpcRequest request = (RpcRequest) JSONUtils.toObject(data, clazz);
+            list.add(request);
+        } else if (clazz == RpcResponse.class) {
+            RpcResponse response = (RpcResponse) JSONUtils.toObject(data, clazz);
+            list.add(response);
         }
-        //回收已读字节
-        byteBuf.discardReadBytes();
+        //重置readerIndex和writerIndex为0
+        //byteBuf.discardReadBytes();
+        byteBuf.clear();
     }
 }

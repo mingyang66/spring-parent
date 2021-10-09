@@ -30,7 +30,7 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("服务断开连接：{}"+ctx.channel().remoteAddress());
+        logger.info("服务断开连接：{}", ctx.channel().remoteAddress());
         super.channelInactive(ctx);
     }
 

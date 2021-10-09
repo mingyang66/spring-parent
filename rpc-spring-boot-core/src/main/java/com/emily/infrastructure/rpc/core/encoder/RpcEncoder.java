@@ -7,26 +7,20 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * @program: spring-parent
- * @description:
+ * @description: Rpc编码
  * @author: Emily
  * @create: 2021/09/23
  */
 public class RpcEncoder extends MessageToByteEncoder<Object> {
-    private Class<?> clazz;
-
-    public RpcEncoder(Class<?> clazz) {
-        this.clazz = clazz;
-    }
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Object object, ByteBuf byteBuf) throws Exception {
         if (object == null) {
             return;
         }
-        if (clazz != null) {
-            byte[] bytes = JSONUtils.toByteArray(object);
-            byteBuf.writeInt(bytes.length);
-            byteBuf.writeBytes(bytes);
-        }
+        byte[] bytes = JSONUtils.toByteArray(object);
+        byteBuf.writeInt(bytes.length);
+        byteBuf.writeBytes(bytes);
+        byteBuf.writeBytes(new byte[]{'\r', '\n'});
     }
 }

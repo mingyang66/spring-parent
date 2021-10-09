@@ -3,7 +3,7 @@ package com.emily.infrastructure.rpc.server.handler;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
+import com.emily.infrastructure.rpc.core.protocol.RpcBody;
 import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -67,7 +67,7 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             method.setAccessible(true);
 
             Object invoke = method.invoke(o, request.getParams());
-            ctx.writeAndFlush(new RpcResponse(request.getTraceId(), invoke));
+            ctx.writeAndFlush(RpcBody.toBody(request.getTraceId(), invoke));
         } catch (Exception ex){
             logger.error(PrintExceptionInfo.printErrorInfo(ex));
         }

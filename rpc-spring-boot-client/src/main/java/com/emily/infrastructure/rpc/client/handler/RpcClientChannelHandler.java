@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.client.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
+import com.emily.infrastructure.rpc.core.protocol.RpcBody;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -30,7 +30,7 @@ public class RpcClientChannelHandler extends BaseClientHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         synchronized (this.object) {
-            this.response = (RpcResponse) msg;
+            this.response = (RpcBody) msg;
             this.object.notifyAll();
             logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(this.response));
         }

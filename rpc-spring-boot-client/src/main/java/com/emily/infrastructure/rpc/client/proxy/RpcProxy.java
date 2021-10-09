@@ -8,7 +8,7 @@ import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.rpc.client.pool.RpcConnection;
 import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
+import com.emily.infrastructure.rpc.core.protocol.RpcBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,12 +55,12 @@ public class RpcProxy {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) {
             //组装传输类的属性值
-            RpcRequest rpcRequest = new RpcRequest(className, method.getName(), method.getParameterTypes(), args);
+            RpcRequest request = new RpcRequest(className, method.getName(), method.getParameterTypes(), args);
             //运行线程，发送数据
-            RpcResponse response = call(rpcRequest);
+            RpcBody response = call(request);
             //获取返回类型，并将服务端返回的json数据转化为对应的类型
             Class<?> returnType = method.getReturnType();
-            return JSONUtils.toJavaBean(JSONUtils.toJSONString(response.getData()), returnType);
+            return JSONUtils.toObject(response.getData(), returnType);
         }
 
         /**
@@ -69,7 +69,7 @@ public class RpcProxy {
          * @param request
          * @return
          */
-        public RpcResponse call(RpcRequest request) {
+        public RpcBody call(RpcRequest request) {
             //运行线程，发送数据
             RpcObjectPool pool = IOCContext.getBean(RpcObjectPool.class);
             RpcConnection connection = null;

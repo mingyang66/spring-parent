@@ -1,7 +1,7 @@
 package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
+import com.emily.infrastructure.rpc.core.protocol.RpcBody;
 
 /**
  * @program: spring-parent
@@ -28,7 +28,7 @@ public abstract class AbstractConnection<T> {
      * @param request 请求参数
      * @return
      */
-    public abstract RpcResponse sendRequest(RpcRequest request);
+    public abstract RpcBody sendRequest(RpcRequest request);
 
     /**
      * 通道是否可用

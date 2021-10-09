@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.client.handler;
 
-import com.emily.infrastructure.rpc.core.protocol.RpcResponse;
+import com.emily.infrastructure.rpc.core.protocol.RpcBody;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class BaseClientHandler extends ChannelInboundHandlerAdapter {
     /**
      * 服务端返回的结果
      */
-    public RpcResponse response;
+    public RpcBody response;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

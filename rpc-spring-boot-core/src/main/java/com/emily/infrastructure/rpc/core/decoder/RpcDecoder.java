@@ -1,10 +1,13 @@
 package com.emily.infrastructure.rpc.core.decoder;
 
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.rpc.core.entity.message.RBody;
+import com.emily.infrastructure.rpc.core.entity.message.RHead;
+import com.emily.infrastructure.rpc.core.entity.message.RMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -14,14 +17,12 @@ import java.util.List;
  * @create: 2021/09/23
  */
 public class RpcDecoder extends ByteToMessageDecoder {
-    private Class<?> clazz;
-
-    public RpcDecoder(Class<?> clazz) {
-        this.clazz = clazz;
-    }
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
+
+        int keepAlive = byteBuf.readInt();
+
         //读取消息长度
         int length = byteBuf.readInt();
         if (length == 0) {
@@ -32,9 +33,8 @@ public class RpcDecoder extends ByteToMessageDecoder {
         //将字节流中的数据读入到字节数组
         byteBuf.readBytes(data);
 
-        list.add(JSONUtils.toObject(data, clazz));
+        list.add(new RMessage(new RHead(keepAlive), RBody.toBody(data)));
         //重置readerIndex和writerIndex为0
-        //byteBuf.discardReadBytes();
         byteBuf.clear();
     }
 }

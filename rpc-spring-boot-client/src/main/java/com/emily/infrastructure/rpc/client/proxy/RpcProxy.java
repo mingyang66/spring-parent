@@ -7,14 +7,16 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.rpc.client.pool.RpcConnection;
 import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
-import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.RBody;
+import com.emily.infrastructure.rpc.core.entity.message.RMessage;
+import com.emily.infrastructure.rpc.core.entity.protocol.RProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Objects;
 
 /**
  * @program: spring-parent
@@ -55,27 +57,32 @@ public class RpcProxy {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) {
             //组装传输类的属性值
-            RpcRequest request = new RpcRequest(className, method.getName(), method.getParameterTypes(), args);
+            RProtocol protocol = new RProtocol(className, method.getName(), method.getParameterTypes(), args);
             //运行线程，发送数据
-            RpcBody response = call(request);
+            Object response = call(new RMessage(RBody.toBody(protocol)));
             //获取返回类型，并将服务端返回的json数据转化为对应的类型
             Class<?> returnType = method.getReturnType();
-            return JSONUtils.toObject(response.getData(), returnType);
+            //判定返回结果是否为null
+            if (Objects.isNull(response)) {
+                return null;
+            }
+            //将结果返回，并转换为指定的类型
+            return JSONUtils.toJavaBean(response.toString(), returnType);
         }
 
         /**
          * 通过连接池发送
          *
-         * @param request
+         * @param message
          * @return
          */
-        public RpcBody call(RpcRequest request) {
+        public Object call(RMessage message) {
             //运行线程，发送数据
             RpcObjectPool pool = IOCContext.getBean(RpcObjectPool.class);
             RpcConnection connection = null;
             try {
                 connection = pool.borrowObject();
-                return connection.sendRequest(request);
+                return connection.sendRequest(message);
             } catch (Exception exception) {
                 logger.error(PrintExceptionInfo.printErrorInfo(exception));
                 throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "Rpc调用异常");

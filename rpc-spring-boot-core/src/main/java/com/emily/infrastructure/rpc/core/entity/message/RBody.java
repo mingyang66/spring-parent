@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.core.protocol;
+package com.emily.infrastructure.rpc.core.entity.message;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 
@@ -11,11 +11,7 @@ import java.nio.charset.StandardCharsets;
  * @author: Emily
  * @create: 2021/09/22
  */
-public class RpcBody implements Serializable {
-    /**
-     * 事务唯一标识
-     */
-    private byte[] traceId;
+public class RBody implements Serializable {
     /**
      * 消息体长度
      */
@@ -25,21 +21,12 @@ public class RpcBody implements Serializable {
      */
     private byte[] data;
 
-    public RpcBody() {
+    public RBody() {
     }
 
-    public RpcBody(byte[] traceId, byte[] data) {
-        this.traceId = traceId;
+    public RBody(byte[] data) {
         this.data = data;
         this.len = data.length;
-    }
-
-    public byte[] getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(byte[] traceId) {
-        this.traceId = traceId;
     }
 
     public int getLen() {
@@ -58,7 +45,11 @@ public class RpcBody implements Serializable {
         this.data = data;
     }
 
-    public static RpcBody toBody(String tradeId, Object data) {
-        return new RpcBody(tradeId.getBytes(StandardCharsets.UTF_8), JSONUtils.toByteArray(data));
+    public static RBody toBody(Object data) {
+        return new RBody(JSONUtils.toByteArray(data));
+    }
+
+    public static RBody toBody(byte[] data) {
+        return new RBody(data);
     }
 }

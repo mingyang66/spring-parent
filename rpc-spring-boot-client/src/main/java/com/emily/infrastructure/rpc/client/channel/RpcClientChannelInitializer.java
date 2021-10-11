@@ -3,7 +3,7 @@ package com.emily.infrastructure.rpc.client.channel;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.core.decoder.RpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.RpcEncoder;
-import com.emily.infrastructure.rpc.core.protocol.RpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.RTail;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
@@ -31,11 +31,14 @@ public class RpcClientChannelInitializer extends ChannelInitializer<SocketChanne
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         //自定义分隔符
-        ByteBuf delimiter  = Unpooled.copiedBuffer("\r\n".getBytes());
+        ByteBuf delimiter  = Unpooled.copiedBuffer(RTail.TAIL);
+        //分隔符解码器
         pipeline.addFirst(new DelimiterBasedFrameDecoder(8192, delimiter));
+        //自定义编码器
         pipeline.addLast(new RpcEncoder());
-        pipeline.addLast(new RpcDecoder(RpcBody.class));
-        //自定义handler处理程序
+        //自定义解码器
+        pipeline.addLast(new RpcDecoder());
+        //自定义handler处理
         pipeline.addLast(baseClientHandler);
         //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
         pipeline.addLast(new IdleStateHandler(20, 0, 0, TimeUnit.SECONDS));

@@ -8,8 +8,7 @@ import com.emily.infrastructure.rpc.client.RpcClientProperties;
 import com.emily.infrastructure.rpc.client.channel.RpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.client.handler.RpcClientChannelHandler;
-import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.RMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -86,14 +85,14 @@ public class RpcConnection extends AbstractConnection<Channel> {
     /**
      * 发送请求
      *
-     * @param request
+     * @param message
      */
     @Override
-    public RpcBody sendRequest(RpcRequest request) {
-        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(request));
+    public Object sendRequest(RMessage message) {
+        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(message));
         try {
             synchronized (handler.object) {
-                this.getConnection().writeAndFlush(request);
+                this.getConnection().writeAndFlush(message);
                 handler.object.wait(5000);
             }
             return handler.response;

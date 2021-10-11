@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.core.protocol;
+package com.emily.infrastructure.rpc.core.entity.protocol;
 
 
 import com.emily.infrastructure.common.utils.RequestUtils;
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcRequest implements Serializable {
+public class RProtocol implements Serializable {
     /**
      * 事务唯一标识
      */
@@ -34,9 +34,9 @@ public class RpcRequest implements Serializable {
     private Object[] params;
 
 
-    public RpcRequest(){}
+    public RProtocol(){}
 
-    public RpcRequest(String className, String methodName, Class<?>[] types, Object[] params) {
+    public RProtocol(String className, String methodName, Class<?>[] types, Object[] params) {
         this.className = className;
         this.methodName = methodName;
         this.types = types;

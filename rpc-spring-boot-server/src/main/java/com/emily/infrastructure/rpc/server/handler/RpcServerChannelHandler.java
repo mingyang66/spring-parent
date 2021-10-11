@@ -2,8 +2,9 @@ package com.emily.infrastructure.rpc.server.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.protocol.RpcRequest;
-import com.emily.infrastructure.rpc.core.protocol.RpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.RBody;
+import com.emily.infrastructure.rpc.core.entity.message.RMessage;
+import com.emily.infrastructure.rpc.core.entity.protocol.RProtocol;
 import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -55,22 +56,24 @@ public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        try {
-            RpcRequest request = (RpcRequest) msg;
-            //反射调用实现类的方法
-            String className = request.getClassName();
-            //从注册表中获取指定名称的实现类
-            Object serviceBean = registry.getServiceBean(className);
-            Class<?> aClass = serviceBean.getClass();
-            Object o = aClass.getDeclaredConstructor().newInstance();
-            Method method = aClass.getMethod(request.getMethodName(), request.getTypes());
-            method.setAccessible(true);
-
-            Object invoke = method.invoke(o, request.getParams());
-            ctx.writeAndFlush(RpcBody.toBody(request.getTraceId(), invoke));
-        } catch (Exception ex){
-            logger.error(PrintExceptionInfo.printErrorInfo(ex));
-        }
+        RMessage message = (RMessage)msg;
+        RProtocol protocol = JSONUtils.toObject(message.getBody().getData(), RProtocol.class);
+        //反射调用实现类的方法
+        String className = protocol.getClassName();
+        //从注册表中获取指定名称的实现类
+        Object serviceBean = registry.getServiceBean(className);
+        //获取实现类的class实例
+        Class<?> aClass = serviceBean.getClass();
+        //获取实现类的bean对象
+        Object bean = aClass.getDeclaredConstructor().newInstance();
+        //获取实现类的Method对象
+        Method method = aClass.getMethod(protocol.getMethodName(), protocol.getTypes());
+        //设置方法访问权限为true
+        method.setAccessible(true);
+        //调用具体实现方法
+        Object response = method.invoke(bean, protocol.getParams());
+        //返回方法调用结果
+        ctx.writeAndFlush(new RMessage(RBody.toBody(response)));
 
     }
 

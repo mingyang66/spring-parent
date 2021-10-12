@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.autoconfigure.request.helper.RequestHelper;
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -64,8 +64,8 @@ public class RequestLoggerMethodInterceptor implements MethodInterceptor {
         } catch (Exception e) {
             //耗时
             baseLogger.setTime(RequestUtils.getTime());
-            if (e instanceof BusinessException) {
-                BusinessException exception = (BusinessException) e;
+            if (e instanceof BasicException) {
+                BasicException exception = (BasicException) e;
                 baseLogger.setResponseBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
                 baseLogger.setResponseBody(PrintExceptionInfo.printErrorInfo(e));

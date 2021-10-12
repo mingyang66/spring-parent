@@ -4,24 +4,24 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 
 /**
  * @program: spring-parent
- * @description: 业务异常
+ * @description: 调用第三方接口异常
  * @author: Emily
  * @create: 2021/10/12
  */
-public class BusinessException extends BasicException {
-    public BusinessException() {
+public class RemoteInvokeException extends BasicException {
+    public RemoteInvokeException() {
         super(AppHttpStatus.UNKNOWN_EXCEPTION);
     }
 
-    public BusinessException(AppHttpStatus httpStatus) {
+    public RemoteInvokeException(AppHttpStatus httpStatus) {
         super(httpStatus);
     }
 
-    public BusinessException(int status, String errorMessage) {
+    public RemoteInvokeException(int status, String errorMessage) {
         super(status, errorMessage);
     }
 
-    public BusinessException(int status, String errorMessage, boolean error) {
+    public RemoteInvokeException(int status, String errorMessage, boolean error) {
         super(status, errorMessage, error);
     }
 }

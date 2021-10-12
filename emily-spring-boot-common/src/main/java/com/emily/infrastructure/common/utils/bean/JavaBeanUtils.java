@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.bean;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.google.common.collect.Maps;
 
@@ -49,7 +49,7 @@ public class JavaBeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -76,7 +76,7 @@ public class JavaBeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -102,7 +102,7 @@ public class JavaBeanUtils {
             }
             return bean;
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -126,7 +126,7 @@ public class JavaBeanUtils {
             }
             return beanClass;
         } catch (Exception e) {
-            throw new BusinessException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -151,9 +151,9 @@ public class JavaBeanUtils {
 
             return (T) ois.readObject();
         } catch (NotSerializableException exception) {
-            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "未实现序列化接口");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "未实现序列化接口");
         } catch (Exception exception) {
-            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "深度拷贝数据异常");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "深度拷贝数据异常");
         }
     }
 }

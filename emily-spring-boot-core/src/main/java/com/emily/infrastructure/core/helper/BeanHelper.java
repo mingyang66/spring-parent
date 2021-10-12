@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BusinessException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.helper.StringHelper;
 import com.emily.infrastructure.core.ioc.IOCContext;
 
@@ -23,12 +23,12 @@ public class BeanHelper {
      */
     public static <T> T getBean(Class<T> clazz, String suffix) {
         if (!clazz.isInterface()) {
-            throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "必须为接口类型");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "必须为接口类型");
         }
         String beanName = MessageFormat.format("{0}{1}", StringHelper.toLowerFirstCase(clazz.getSimpleName()), suffix);
         if (IOCContext.containsBean(beanName)) {
             return IOCContext.getBean(beanName, clazz);
         }
-        throw new BusinessException(AppHttpStatus.EXCEPTION.getStatus(), "实例对象不存在");
+        throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "实例对象不存在");
     }
 }

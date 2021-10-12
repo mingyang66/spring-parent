@@ -2,6 +2,7 @@ package com.emily.infrastructure.rpc.core.entity.protocol;
 
 
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.core.holder.ContextHolder;
 
 import java.io.Serializable;
 
@@ -41,7 +42,7 @@ public class RProtocol implements Serializable {
         this.methodName = methodName;
         this.types = types;
         this.params = params;
-        this.traceId = RequestUtils.getTraceId();
+        this.traceId = ContextHolder.get().getTraceId();
     }
 
     public String getTraceId() {

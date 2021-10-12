@@ -22,11 +22,11 @@ public class EmilyBeanFactoryPostProcessorAutoConfiguration implements Initializ
 
     @Override
     public void destroy() {
-        LogbackFactory.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "【销毁--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
+        LogbackFactory.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "<== 【销毁--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogbackFactory.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "【初始化--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
+        LogbackFactory.info(EmilyBeanFactoryPostProcessorAutoConfiguration.class, "==> 【初始化--自动化配置】----BeanFactoryPostProcessor自定义组件【EmilyBeanFactoryPostProcessorAutoConfiguration】");
     }
 }

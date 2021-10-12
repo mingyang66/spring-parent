@@ -62,7 +62,7 @@ public class RpcConnection extends AbstractConnection<Channel> {
             ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
             channelFuture.addListener(listener -> {
                 if (listener.isSuccess()) {
-                    logger.info("RPC客户端连接成功...");
+                    logger.info("connect success...");
                 } else {
                     logger.info("RPC客户端重连接...");
                 }

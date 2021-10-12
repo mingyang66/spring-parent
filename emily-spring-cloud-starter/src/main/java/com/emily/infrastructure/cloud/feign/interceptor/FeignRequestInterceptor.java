@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.holder.ContextHolder;
 import com.google.common.collect.Maps;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -27,10 +28,12 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
 
     @Override
     public void apply(RequestTemplate template) {
+        //请求header设置事务ID
+        template.header("traceId", ContextHolder.get().getTraceId());
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
-        baseLogger.setTraceId(RequestUtils.getTraceId());
+        baseLogger.setTraceId(ContextHolder.get().getTraceId());
         //时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //控制器Class
@@ -38,7 +41,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //控制器方法名
         baseLogger.setMethod(template.path());
         //请求url
-        baseLogger.setRequestUrl(String.format("%s%s", template.feignTarget().url(), template.url()));
+        baseLogger.setUrl(String.format("%s%s", template.feignTarget().url(), template.url()));
         //请求方法
         baseLogger.setMethod(template.method());
         //请求参数
@@ -51,16 +54,16 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
      * 参数转换
      */
     private Map<String, Object> transToMap(RequestTemplate template) {
+        Map<String, Object> paramsMap = Maps.newHashMap();
         try {
-            Map<String, Object> paramsMap = Maps.newHashMap();
             paramsMap.put("headers", template.headers());
             if (Objects.nonNull(template.body())) {
                 paramsMap.put("params", JSONUtils.toJavaBean(new String(template.body(), StandardCharsets.UTF_8), Map.class));
             }
-            return paramsMap;
         } catch (Exception e) {
-            return null;
+            // Get请求模式会转换异常，忽略，只取header
         }
+        return paramsMap;
     }
 
     @Override

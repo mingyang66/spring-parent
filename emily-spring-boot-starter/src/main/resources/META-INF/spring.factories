@@ -1,0 +1,10 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.emily.infrastructure.autoconfigure.request.ApiRequestAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.response.ResponseWrapperAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.httpclient.HttpClientAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.web.EmilyWebAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.exception.ExceptionAutoConfiguration,\
+  com.emily.infrastructure.autoconfigure.converters.EmilyMappingJackson2HttpMessageConverterAutoConfiguration

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.cloud.httpclient.interceptor;
+package com.emily.infrastructure.autoconfigure.httpclient.interceptor;
 
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
@@ -19,13 +19,11 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Emily
@@ -48,8 +46,6 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
      */
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        //开始计时
-        long start = System.currentTimeMillis();
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //生成事物流水号
@@ -60,12 +56,17 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         baseLogger.setMethod(request.getMethodValue());
         //请求参数
         baseLogger.setRequestParams(ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        //开始计时
+        long start = System.currentTimeMillis();
         try {
             //调用接口
-            ClientHttpResponse clientHttpResponse = execution.execute(request, body);
+            ClientHttpResponse response = execution.execute(request, body);
             //响应数据
-            baseLogger.setBody(RequestUtils.getResponseBody(StreamUtils.copyToByteArray(clientHttpResponse.getBody())));
-            return clientHttpResponse;
+            Object responseBody = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
+            //响应结果
+            baseLogger.setBody(responseBody);
+
+            return response;
         } catch (IOException ex) {
             //响应结果
             baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
@@ -78,7 +79,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            if (!RequestUtils.isServletContext()) {
+            if(!RequestUtils.isServletContext()){
                 ContextHolder.remove();
             }
         }

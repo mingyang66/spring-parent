@@ -72,11 +72,11 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "<== 【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "==> 【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 }

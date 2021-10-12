@@ -13,13 +13,11 @@
         <module>emily-spring-boot-common</module>
         <module>emily-spring-boot-logback</module>
         <module>emily-spring-boot-core</module>
-        <module>emily-spring-boot-autoconfigure</module>
+        <module>emily-spring-boot-starter</module>
         <module>emily-spring-boot-datasource</module>
         <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-actuator</module>
         <module>emily-spring-boot-redis</module>
-        <module>emily-spring-boot-starter</module>
-        <module>emily-spring-cloud-test</module>
         <module>spring-security-jwt-service</module>
         <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>
@@ -27,10 +25,11 @@
         <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
-        <module>emily-spring-boot-test</module>
         <module>rpc-spring-boot-core</module>
         <module>rpc-spring-boot-server</module>
         <module>rpc-spring-boot-client</module>
+        <module>test-emily-spring-boot</module>
+        <module>test-emily-spring-cloud</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>emily-infrustructure</artifactId>

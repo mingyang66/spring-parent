@@ -94,11 +94,11 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "<== 【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "==> 【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 }

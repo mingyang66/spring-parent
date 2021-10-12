@@ -225,30 +225,6 @@ public class RequestUtils {
     }
 
     /**
-     * 获取事物ID
-     */
-    public static String getTraceId() {
-        try {
-            if (isServletContext()) {
-                Object tId = getRequest().getAttribute("tradeId");
-                if (Objects.isNull(tId)) {
-                    String traceId = UUID.randomUUID().toString();
-                    getRequest().setAttribute("tradeId", traceId);
-                    return traceId;
-                }
-                return String.valueOf(tId);
-            }
-            return UUID.randomUUID().toString();
-        } catch (Exception e) {
-            String traceId = UUID.randomUUID().toString();
-            if (isServletContext()) {
-                getRequest().setAttribute("tradeId", traceId);
-            }
-            return traceId;
-        }
-    }
-
-    /**
      * 开启请求时间记录
      */
     public static void startRequest() {

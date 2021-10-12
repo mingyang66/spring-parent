@@ -1,6 +1,13 @@
 ### 
 ------
 2021/10/10
+基础库发布3.10.1
+1. netty引用统一调整到emily-spring-boot-core模块
+2. demo实例模块名调整
+3. 优化RequestHelper获取参数中header bug
+4. Feign取header及参数bug优化
+------
+2021/10/10
 基础库发布3.10.0
 1. RPC服务端开发
 2. RPC客户端开发

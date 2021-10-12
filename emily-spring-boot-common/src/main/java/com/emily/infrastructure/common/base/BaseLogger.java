@@ -15,29 +15,17 @@ public class BaseLogger implements Serializable {
      */
     private String traceId;
     /**
-     * 追踪类型，0【正常】1【重试】2【重试异常】
-     */
-    private int traceType;
-    /**
      * 类实例
      */
     private Class clazz;
     /**
      * 请求URL
      */
-    private String requestUrl;
+    private String url;
     /**
      * 请求Method
      */
     private String method;
-    /**
-     * 协议
-     */
-    private String protocol;
-    /**
-     * 请求类型
-     */
-    private String contentType;
     /**
      * 请求参数
      */
@@ -53,11 +41,7 @@ public class BaseLogger implements Serializable {
     /**
      * 响应结果
      */
-    private Object responseBody;
-    /**
-     * 数据大小
-     */
-    private String dataSize;
+    private Object body;
 
     public Class getClazz() {
         return clazz;
@@ -73,22 +57,6 @@ public class BaseLogger implements Serializable {
 
     public void setTime(long time) {
         this.time = time;
-    }
-
-    public Object getResponseBody() {
-        return responseBody;
-    }
-
-    public void setResponseBody(Object responseBody) {
-        this.responseBody = responseBody;
-    }
-
-    public String getDataSize() {
-        return dataSize;
-    }
-
-    public void setDataSize(String dataSize) {
-        this.dataSize = dataSize;
     }
 
     public String getTriggerTime() {
@@ -115,22 +83,6 @@ public class BaseLogger implements Serializable {
         this.traceId = traceId;
     }
 
-    public int getTraceType() {
-        return traceType;
-    }
-
-    public void setTraceType(int traceType) {
-        this.traceType = traceType;
-    }
-
-    public String getRequestUrl() {
-        return requestUrl;
-    }
-
-    public void setRequestUrl(String requestUrl) {
-        this.requestUrl = requestUrl;
-    }
-
     public String getMethod() {
         return method;
     }
@@ -139,20 +91,19 @@ public class BaseLogger implements Serializable {
         this.method = method;
     }
 
-    public String getProtocol() {
-        return protocol;
+    public String getUrl() {
+        return url;
     }
 
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getContentType() {
-        return contentType;
+    public Object getBody() {
+        return body;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setBody(Object body) {
+        this.body = body;
     }
-
 }

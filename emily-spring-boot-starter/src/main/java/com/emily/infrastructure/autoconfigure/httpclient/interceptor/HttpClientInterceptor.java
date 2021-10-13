@@ -40,6 +40,8 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
      */
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        //开始计时
+        long start = System.currentTimeMillis();
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //生成事物流水号
@@ -50,8 +52,6 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         baseLogger.setMethod(request.getMethodValue());
         //请求参数
         baseLogger.setRequestParams(RequestHelper.getParameterMap(body));
-        //开始计时
-        long start = System.currentTimeMillis();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);

@@ -42,8 +42,6 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
         BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
         baseLogger.setTraceId(ContextHolder.get().getTraceId());
-        //获取HttpServletRequest对象
-        HttpServletRequest request = RequestUtils.getRequest();
         //时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //控制器Class
@@ -51,7 +49,7 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
         //控制器方法名
         baseLogger.setMethod(invocation.getMethod().getName());
         //请求url
-        baseLogger.setUrl(request.getRequestURL().toString());
+        baseLogger.setUrl(RequestUtils.getRequest().getRequestURL().toString());
         //请求参数
         baseLogger.setRequestParams(RequestHelper.getParameterMap());
         try {
@@ -78,7 +76,7 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
             //移除线程上下文数据
             ContextHolder.remove();
             //设置耗时
-            request.setAttribute(AttributeInfo.TIME, baseLogger.getTime());
+            RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }
 
     }

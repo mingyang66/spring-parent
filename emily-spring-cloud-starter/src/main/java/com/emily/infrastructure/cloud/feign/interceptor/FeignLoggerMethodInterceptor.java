@@ -55,10 +55,6 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
         } finally {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.get();
-            //删除线程上下文中的数据，防止内存溢出
-            if (Objects.nonNull(baseLogger)) {
-                FeignContextHolder.remove();
-            }
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间
@@ -67,6 +63,8 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             baseLogger.setBody(response);
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
+            //删除线程上下文中的数据，防止内存溢出
+            FeignContextHolder.remove();
             //非servlet上下文移除数据
             ContextHolder.removeNoServletContext();
         }

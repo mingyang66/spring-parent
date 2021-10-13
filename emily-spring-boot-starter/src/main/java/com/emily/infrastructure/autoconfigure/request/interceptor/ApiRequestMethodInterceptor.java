@@ -1,11 +1,12 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
-import com.emily.infrastructure.common.base.BaseLogger;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.holder.ContextHolder;
@@ -54,9 +55,9 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
         //请求参数
         baseLogger.setRequestParams(RequestHelper.getParameterMap());
         try {
-            RequestUtils.startRequest();
             //调用真实的action方法
             Object response = invocation.proceed();
+            //设置响应结果
             baseLogger.setBody(response);
             return response;
         } catch (Exception e) {
@@ -69,13 +70,15 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
             throw e;
         } finally {
             //耗时
-            baseLogger.setTime(RequestUtils.getTime());
+            baseLogger.setTime(System.currentTimeMillis() - ContextHolder.get().getStartTime());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //移除线程上下文数据
             ContextHolder.remove();
+            //设置耗时
+            request.setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }
 
     }

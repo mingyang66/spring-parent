@@ -54,6 +54,10 @@ public class ContextHolder {
          * 事务唯一编号
          */
         private String traceId;
+        /**
+         * 开启时间
+         */
+        private Long startTime;
 
 
         public RequestHolder() {
@@ -63,11 +67,26 @@ public class ContextHolder {
             if (Objects.isNull(traceId)) {
                 this.traceId = UUID.randomUUID().toString();
             }
+            this.startTime = System.currentTimeMillis();
         }
 
         public String getTraceId() {
             return traceId;
         }
 
+        public void setTraceId(String traceId) {
+            this.traceId = traceId;
+        }
+
+        public Long getStartTime() {
+            if (Objects.isNull(startTime)) {
+                startTime = System.currentTimeMillis();
+            }
+            return startTime;
+        }
+
+        public void setStartTime(Long startTime) {
+            this.startTime = startTime;
+        }
     }
 }

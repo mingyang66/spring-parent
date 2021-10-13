@@ -1,11 +1,11 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
-import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;

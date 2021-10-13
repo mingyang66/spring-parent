@@ -1,9 +1,9 @@
 package com.yaomy.security.oauth2.api;
 
-import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.entity.BaseResponse;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;

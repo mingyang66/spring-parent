@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.base;
+package com.emily.infrastructure.core.entity;
 
 import java.io.Serializable;
 import java.util.Map;

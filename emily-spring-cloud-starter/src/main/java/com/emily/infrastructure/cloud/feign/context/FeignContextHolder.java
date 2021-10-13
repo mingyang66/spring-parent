@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign.context;
 
 
-import com.emily.infrastructure.common.base.BaseLogger;
+import com.emily.infrastructure.core.entity.BaseLogger;
 
 /**
  * @program: spring-parent

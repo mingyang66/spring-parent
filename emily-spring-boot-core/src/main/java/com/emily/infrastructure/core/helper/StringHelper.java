@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.helper;
+package com.emily.infrastructure.core.helper;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -2,11 +2,11 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
-import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;
+import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.core.helper.RequestHelper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -50,13 +50,12 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse)returnValue;
-            baseResponse.setTime(RequestUtils.getTime());
+            baseResponse.setTime(RequestHelper.getTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //返回值为void类型的data字段不输出
             if (returnType.getMethod().getReturnType().equals(Void.TYPE)) {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
-                baseResponse.setTime(RequestUtils.getTime());
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             } else {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, returnValue);

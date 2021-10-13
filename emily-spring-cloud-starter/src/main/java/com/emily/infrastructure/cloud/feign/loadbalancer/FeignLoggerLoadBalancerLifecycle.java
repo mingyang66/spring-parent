@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign.loadbalancer;
 
 import com.emily.infrastructure.cloud.feign.common.FeignLoggerUtils;
-import com.emily.infrastructure.common.base.BaseLogger;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
 

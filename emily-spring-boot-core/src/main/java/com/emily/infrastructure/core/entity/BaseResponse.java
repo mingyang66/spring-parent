@@ -1,7 +1,7 @@
-package com.emily.infrastructure.common.base;
+package com.emily.infrastructure.core.entity;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.core.helper.RequestHelper;
 
 import java.io.Serializable;
 
@@ -79,7 +79,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message) {
-        return new BaseResponse<T>(status, message, null, RequestUtils.getTime());
+        return new BaseResponse<T>(status, message, null, RequestHelper.getTime());
     }
 
     /**
@@ -88,7 +88,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message, T data) {
-        return new BaseResponse<T>(status, message, data, RequestUtils.getTime());
+        return new BaseResponse<T>(status, message, data, RequestHelper.getTime());
     }
 
     /**
@@ -97,7 +97,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestUtils.getTime());
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestHelper.getTime());
     }
 
     /**
@@ -106,6 +106,6 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestUtils.getTime());
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestHelper.getTime());
     }
 }

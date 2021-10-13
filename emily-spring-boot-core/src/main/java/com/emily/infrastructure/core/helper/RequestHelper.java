@@ -1,5 +1,6 @@
 package com.emily.infrastructure.core.helper;
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.constant.CharsetUtils;
@@ -108,5 +109,20 @@ public class RequestHelper {
             }
         }
         return pMap;
+    }
+
+    /**
+     * 获取耗时字段
+     * @return
+     */
+    public static long getTime() {
+        if (!RequestUtils.isServletContext()) {
+            return 0L;
+        }
+        Object time = RequestUtils.getRequest().getAttribute(AttributeInfo.TIME);
+        if (Objects.nonNull(time)) {
+            return Long.valueOf(String.valueOf(time));
+        }
+        return 0L;
     }
 }

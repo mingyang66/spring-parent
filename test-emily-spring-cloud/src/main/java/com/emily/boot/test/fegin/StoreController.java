@@ -1,6 +1,6 @@
 package com.emily.boot.test.fegin;
 
-import com.emily.infrastructure.common.base.BaseResponse;
+import com.emily.infrastructure.core.entity.BaseResponse;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

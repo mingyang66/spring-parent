@@ -169,32 +169,6 @@ public class RequestUtils {
         }
     }
 
-    /**
-     * 开启请求时间记录
-     */
-    public static void startRequest() {
-        if (!isServletContext()) {
-            return;
-        }
-        //设置业务请求开始时间
-        getRequest().setAttribute("startTime", System.currentTimeMillis());
-    }
-
-    /**
-     * 获取请求开始到当前耗时
-     *
-     * @return
-     */
-    public static long getTime() {
-        if (!isServletContext()) {
-            return 0;
-        }
-        if (getRequest().getAttribute("startTime") == null) {
-            return 0;
-        }
-        return System.currentTimeMillis() - Long.valueOf(getRequest().getAttribute("startTime").toString());
-    }
-
     public static void setServerIp(String serverIp) {
         SERVER_IP = serverIp;
     }

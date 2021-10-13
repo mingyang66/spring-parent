@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.handler;
 
-import com.emily.infrastructure.common.base.BaseResponse;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.entity.BaseResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

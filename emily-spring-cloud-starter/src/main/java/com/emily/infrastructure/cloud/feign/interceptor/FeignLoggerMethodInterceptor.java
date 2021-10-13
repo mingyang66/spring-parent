@@ -1,11 +1,11 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
-import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.holder.ContextHolder;
 import org.aopalliance.intercept.MethodInterceptor;

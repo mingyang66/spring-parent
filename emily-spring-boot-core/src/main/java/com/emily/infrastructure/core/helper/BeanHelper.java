@@ -2,7 +2,6 @@ package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.helper.StringHelper;
 import com.emily.infrastructure.core.ioc.IOCContext;
 
 import java.text.MessageFormat;

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign.common;
 
-import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.core.entity.BaseLogger;
 
 import java.util.Objects;
 

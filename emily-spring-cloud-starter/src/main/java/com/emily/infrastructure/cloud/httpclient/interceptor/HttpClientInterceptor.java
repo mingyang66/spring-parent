@@ -3,30 +3,21 @@ package com.emily.infrastructure.cloud.httpclient.interceptor;
 import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.calculation.ObjectSizeUtil;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.holder.ContextHolder;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Emily
@@ -79,9 +70,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            if (!RequestUtils.isServletContext()) {
-                ContextHolder.remove();
-            }
+            ContextHolder.removeNoServletContext();
         }
 
     }

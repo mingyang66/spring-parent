@@ -2,8 +2,8 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.base.BaseLogger;
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.holder.ContextHolder;
 import com.google.common.collect.Maps;
@@ -29,7 +29,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
     @Override
     public void apply(RequestTemplate template) {
         //请求header设置事务ID
-        template.header("traceId", ContextHolder.get().getTraceId());
+        template.header(HeaderInfo.TRACE_ID, ContextHolder.get().getTraceId());
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号

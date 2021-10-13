@@ -1,6 +1,5 @@
 package com.emily.infrastructure.core.servlet;
 
-import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;

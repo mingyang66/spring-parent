@@ -5,7 +5,6 @@ import com.emily.infrastructure.common.base.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.holder.ContextHolder;
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @author Emily
@@ -57,7 +56,9 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.get();
             //删除线程上下文中的数据，防止内存溢出
-            Optional.ofNullable(baseLogger).ifPresent(logger -> FeignContextHolder.remove());
+            if (Objects.nonNull(baseLogger)) {
+                FeignContextHolder.remove();
+            }
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间
@@ -67,9 +68,7 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            if (!RequestUtils.isServletContext()) {
-                ContextHolder.remove();
-            }
+            ContextHolder.removeNoServletContext();
         }
     }
 

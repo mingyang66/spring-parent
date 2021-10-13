@@ -1,5 +1,6 @@
 package com.emily.infrastructure.core.holder;
 
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 
 import java.util.Objects;
@@ -39,6 +40,15 @@ public class ContextHolder {
         CONTEXT.remove();
     }
 
+    /**
+     * 非容器上下文移除
+     */
+    public static void removeNoServletContext() {
+        if (!RequestUtils.isServletContext()) {
+            CONTEXT.remove();
+        }
+    }
+
     public static class RequestHolder {
         /**
          * 事务唯一编号
@@ -48,7 +58,7 @@ public class ContextHolder {
 
         public RequestHolder() {
             if (RequestUtils.isServletContext()) {
-                this.traceId = RequestUtils.getRequest().getHeader("traceId");
+                this.traceId = RequestUtils.getRequest().getHeader(HeaderInfo.TRACE_ID);
             }
             if (Objects.isNull(traceId)) {
                 this.traceId = UUID.randomUUID().toString();

@@ -1,7 +1,6 @@
 package com.emily.infrastructure.rpc.core.entity.protocol;
 
 
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.core.holder.ContextHolder;
 
 import java.io.Serializable;

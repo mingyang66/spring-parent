@@ -7,6 +7,7 @@ import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.calculation.ObjectSizeUtil;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.holder.ContextHolder;
 import org.apache.commons.lang3.ArrayUtils;
@@ -51,18 +52,18 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //生成事物流水号
         baseLogger.setTraceId(ContextHolder.get().getTraceId());
         //请求URL
-        baseLogger.setUrl(StringUtils.substringBefore(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN));
+        baseLogger.setUrl(request.getURI().toString());
         //请求方法
         baseLogger.setMethod(request.getMethodValue());
         //请求参数
-        baseLogger.setRequestParams(ArrayUtils.isNotEmpty(body) ? RequestUtils.getParameterMap(body) : RequestUtils.convertParameterToMap(StringUtils.substringAfter(request.getURI().toString(), CharacterUtils.ASK_SIGN_EN)));
+        baseLogger.setRequestParams(RequestHelper.getParameterMap(body));
         //开始计时
         long start = System.currentTimeMillis();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
             //响应数据
-            Object responseBody = RequestUtils.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
+            Object responseBody = RequestHelper.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
             //响应结果
             baseLogger.setBody(responseBody);
 

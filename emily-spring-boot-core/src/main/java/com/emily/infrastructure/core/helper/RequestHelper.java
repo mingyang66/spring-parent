@@ -1,8 +1,13 @@
 package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.utils.io.IOUtils;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +42,7 @@ public class RequestHelper {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (request instanceof DelegateRequestWrapper) {
             DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-            Map<String, Object> body = RequestUtils.getParameterMap(requestWrapper.getRequestBody());
+            Map<String, Object> body = getParameterMap(requestWrapper.getRequestBody());
             if (!CollectionUtils.isEmpty(body)) {
                 paramMap.putAll(body);
             }
@@ -54,5 +59,54 @@ public class RequestHelper {
             paramMap.put("headers", headers);
         });
         return paramMap;
+    }
+
+    /**
+     * HttpClient 获取返回结果对象
+     *
+     * @param body 返回结果字节数组
+     * @return
+     */
+    public static Object getResponseBody(byte[] body) {
+        try {
+            return JSONUtils.toObject(body, Object.class);
+        } catch (Exception e) {
+            return IOUtils.toString(body, CharsetUtils.UTF_8);
+        }
+    }
+
+    /**
+     * 获取参数对象
+     *
+     * @param params
+     * @return
+     */
+    public static Map<String, Object> getParameterMap(byte[] params) {
+        try {
+            return JSONUtils.toObject(params, Map.class);
+        } catch (Exception e) {
+            return convertParameterToMap(IOUtils.toString(params, CharsetUtils.UTF_8));
+        }
+    }
+
+    /**
+     * 将参数转换为Map类型
+     *
+     * @param param
+     * @return
+     */
+    private static Map<String, Object> convertParameterToMap(String param) {
+        if (StringUtils.isEmpty(param)) {
+            return Collections.emptyMap();
+        }
+        Map<String, Object> pMap = Maps.newLinkedHashMap();
+        String[] pArray = StringUtils.split(param, CharacterUtils.AND_AIGN);
+        for (int i = 0; i < pArray.length; i++) {
+            String[] array = StringUtils.split(pArray[i], CharacterUtils.EQUAL_SIGN);
+            if (array.length == 2) {
+                pMap.put(array[0], array[1]);
+            }
+        }
+        return pMap;
     }
 }

@@ -6,6 +6,7 @@
 2. demo实例模块名调整
 3. 优化RequestHelper获取参数中header bug
 4. Feign取header及参数bug优化
+5. RequestHelper及RequestUtils中方法调整优化
 ------
 2021/10/10
 基础库发布3.10.0

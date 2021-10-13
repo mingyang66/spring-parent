@@ -141,56 +141,6 @@ public class RequestUtils {
         return SERVER_IP;
     }
 
-
-    /**
-     * 获取参数对象
-     *
-     * @param params
-     * @return
-     */
-    public static Map<String, Object> getParameterMap(byte[] params) {
-        try {
-            return JSONUtils.toObject(params, Map.class);
-        } catch (Exception e) {
-            return convertParameterToMap(IOUtils.toString(params, CharsetUtils.UTF_8));
-        }
-    }
-
-    /**
-     * 获取返回结果对象
-     *
-     * @param body 返回结果字节数组
-     * @return
-     */
-    public static Object getResponseBody(byte[] body) {
-        try {
-            return JSONUtils.toObject(body, Object.class);
-        } catch (Exception e) {
-            return IOUtils.toString(body, CharsetUtils.UTF_8);
-        }
-    }
-
-    /**
-     * 将参数转换为Map类型
-     *
-     * @param param
-     * @return
-     */
-    public static Map<String, Object> convertParameterToMap(String param) {
-        if (StringUtils.isEmpty(param)) {
-            return Collections.emptyMap();
-        }
-        Map<String, Object> pMap = Maps.newLinkedHashMap();
-        String[] pArray = StringUtils.split(param, CharacterUtils.AND_AIGN);
-        for (int i = 0; i < pArray.length; i++) {
-            String[] array = StringUtils.split(pArray[i], CharacterUtils.EQUAL_SIGN);
-            if (array.length == 2) {
-                pMap.put(array[0], array[1]);
-            }
-        }
-        return pMap;
-    }
-
     /**
      * 是否存在servlet上下文
      *

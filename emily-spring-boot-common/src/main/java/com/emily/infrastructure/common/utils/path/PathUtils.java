@@ -3,6 +3,7 @@ package com.emily.infrastructure.common.utils.path;
 import org.springframework.util.StringUtils;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 路径工具类
  * @create: 2020/11/26

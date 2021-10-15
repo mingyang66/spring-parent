@@ -3,12 +3,16 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.holder.ContextHolder;
 import com.google.common.collect.Maps;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
@@ -38,10 +42,8 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //控制器Class
         baseLogger.setClazz(template.feignTarget().type());
-        //控制器方法名
-        baseLogger.setMethod(template.path());
         //请求url
-        baseLogger.setUrl(String.format("%s%s", template.feignTarget().url(), template.url()));
+        baseLogger.setUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterUtils.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterUtils.PATH_SEPARATOR, "")));
         //请求方法
         baseLogger.setMethod(template.method());
         //请求参数

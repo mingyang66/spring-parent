@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.server;
 
-import com.emily.infrastructure.rpc.server.connection.RpcServerConnection;
+import com.emily.infrastructure.rpc.server.connection.IRpcServerConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -20,15 +20,15 @@ import org.springframework.context.annotation.Role;
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
-@EnableConfigurationProperties(RpcServerProperties.class)
-@ConditionalOnProperty(prefix = RpcServerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class RpcServerAutoConfiguration implements InitializingBean, DisposableBean {
+@EnableConfigurationProperties(IRpcServerProperties.class)
+@ConditionalOnProperty(prefix = IRpcServerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class IRpcServerAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcServerAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(IRpcServerAutoConfiguration.class);
 
-    @Bean(initMethod = "start")
-    public RpcServerConnection rpcServer(RpcServerProperties properties) {
-        return new RpcServerConnection(properties.getPort());
+    @Bean
+    public IRpcServerConnection rpcServer(IRpcServerProperties properties) {
+        return new IRpcServerConnection(properties.getPort());
     }
 
 

@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author: Emily
  * @create: 2021/09/18
  */
-public class RpcRegistry {
+public class IRpcRegistry {
     /**
      * rpc服务注册表，会将@RpcService注解标注的bean注册为RPC服务
      */

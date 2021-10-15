@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: Emily
  * @create: 2021/09/22
  */
-@ConfigurationProperties(prefix = RpcServerProperties.PREFIX)
-public class RpcServerProperties {
+@ConfigurationProperties(prefix = IRpcServerProperties.PREFIX)
+public class IRpcServerProperties {
     /**
      * 属性配置前缀
      */

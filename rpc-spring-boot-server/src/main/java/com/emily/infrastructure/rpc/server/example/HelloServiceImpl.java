@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.server.example;
 
-import com.emily.infrastructure.rpc.server.annotation.RpcService;
+import com.emily.infrastructure.rpc.server.annotation.IRpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @create: 2021/09/17
  */
 @Service
-@RpcService
+@IRpcService
 public class HelloServiceImpl implements HelloService{
     private static final Logger logger = LoggerFactory.getLogger(HelloServiceImpl.class);
     @Override

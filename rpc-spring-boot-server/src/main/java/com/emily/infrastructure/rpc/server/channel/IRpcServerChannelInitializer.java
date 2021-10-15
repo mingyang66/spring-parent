@@ -3,8 +3,8 @@ package com.emily.infrastructure.rpc.server.channel;
 import com.emily.infrastructure.rpc.core.decoder.RpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.RpcEncoder;
 import com.emily.infrastructure.rpc.core.entity.message.RTail;
-import com.emily.infrastructure.rpc.server.handler.RpcServerChannelHandler;
-import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
+import com.emily.infrastructure.rpc.server.handler.IRpcServerChannelHandler;
+import com.emily.infrastructure.rpc.server.registry.IRpcRegistry;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
@@ -18,11 +18,11 @@ import io.netty.handler.codec.DelimiterBasedFrameDecoder;
  * @author: Emily
  * @create: 2021/09/22
  */
-public class RpcServerChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class IRpcServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    private RpcRegistry registry;
+    private IRpcRegistry registry;
 
-    public RpcServerChannelInitializer(RpcRegistry registry) {
+    public IRpcServerChannelInitializer(IRpcRegistry registry) {
         this.registry = registry;
     }
 
@@ -38,6 +38,6 @@ public class RpcServerChannelInitializer extends ChannelInitializer<SocketChanne
         //自定义解码器
         pipeline.addLast(new RpcDecoder());
         //自定义处理器
-        pipeline.addLast(new RpcServerChannelHandler(registry));
+        pipeline.addLast(new IRpcServerChannelHandler(registry));
     }
 }

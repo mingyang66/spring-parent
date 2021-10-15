@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.entity.message.RBody;
 import com.emily.infrastructure.rpc.core.entity.message.RMessage;
 import com.emily.infrastructure.rpc.core.entity.protocol.RProtocol;
-import com.emily.infrastructure.rpc.server.registry.RpcRegistry;
+import com.emily.infrastructure.rpc.server.registry.IRpcRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
@@ -19,15 +19,15 @@ import java.lang.reflect.Method;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcServerChannelHandler extends ChannelInboundHandlerAdapter {
+public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcServerChannelHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(IRpcServerChannelHandler.class);
     /**
      * RPC服务注册中心
      */
-    private RpcRegistry registry;
+    private IRpcRegistry registry;
 
-    public RpcServerChannelHandler(RpcRegistry registry) {
+    public IRpcServerChannelHandler(IRpcRegistry registry) {
         this.registry = registry;
     }
 

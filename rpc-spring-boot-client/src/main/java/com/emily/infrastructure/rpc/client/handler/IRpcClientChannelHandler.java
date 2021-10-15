@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.client.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.entity.message.RMessage;
+import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -18,9 +18,9 @@ import java.nio.charset.StandardCharsets;
  * @create: 2021/09/17
  */
 @ChannelHandler.Sharable
-public class RpcClientChannelHandler extends BaseClientHandler {
+public class IRpcClientChannelHandler extends BaseClientHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcClientChannelHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(IRpcClientChannelHandler.class);
 
     /**
      * 实现channelRead 当我们读到服务器数据,该方法自动执行
@@ -33,7 +33,7 @@ public class RpcClientChannelHandler extends BaseClientHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         synchronized (this.object) {
             //将消息对象转换为指定消息体
-            RMessage message = (RMessage)msg;
+            IRMessage message = (IRMessage)msg;
             //将真实的消息体转换为字符串类型
             this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
             this.object.notify();

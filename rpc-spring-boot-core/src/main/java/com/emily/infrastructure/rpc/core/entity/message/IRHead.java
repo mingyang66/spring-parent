@@ -7,17 +7,17 @@ package com.emily.infrastructure.rpc.core.entity.message;
  * @author: Emily
  * @create: 2021/10/09
  */
-public class RHead {
+public class IRHead {
     /**
      * 连接超时时间
      */
     private int keepAlive = 60;
 
-    public RHead() {
+    public IRHead() {
 
     }
 
-    public RHead(int keepAlive) {
+    public IRHead(int keepAlive) {
         this.keepAlive = keepAlive;
     }
 

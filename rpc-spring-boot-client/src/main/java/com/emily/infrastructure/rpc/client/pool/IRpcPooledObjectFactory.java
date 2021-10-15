@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.client.pool;
 
-import com.emily.infrastructure.rpc.client.RpcClientProperties;
+import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -15,13 +15,13 @@ import java.util.Optional;
  * @author: Emily
  * @create: 2021/09/28
  */
-public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection> {
+public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnection> {
 
-    private Logger logger = LoggerFactory.getLogger(RpcPooledObjectFactory.class);
+    private Logger logger = LoggerFactory.getLogger(IRpcPooledObjectFactory.class);
 
-    private RpcClientProperties properties;
+    private IRpcClientProperties properties;
 
-    public RpcPooledObjectFactory(RpcClientProperties properties) {
+    public IRpcPooledObjectFactory(IRpcClientProperties properties) {
         this.properties = properties;
     }
 
@@ -32,9 +32,9 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
      * @throws Exception
      */
     @Override
-    public PooledObject<RpcConnection> makeObject() throws Exception {
+    public PooledObject<IRpcConnection> makeObject() throws Exception {
         logger.info("创建对象...");
-        RpcConnection connection = new RpcConnection(properties);
+        IRpcConnection connection = new IRpcConnection(properties);
         //建立Rpc连接
         connection.connect();
         return new DefaultPooledObject<>(connection);
@@ -47,10 +47,10 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
      * @throws Exception
      */
     @Override
-    public void destroyObject(PooledObject<RpcConnection> pooledObject) throws Exception {
+    public void destroyObject(PooledObject<IRpcConnection> pooledObject) throws Exception {
         logger.info("销毁对象...");
-        RpcConnection connection = pooledObject.getObject();
-        Optional.ofNullable(connection).ifPresent(RpcConnection::close);
+        IRpcConnection connection = pooledObject.getObject();
+        Optional.ofNullable(connection).ifPresent(IRpcConnection::close);
     }
 
     /**
@@ -60,9 +60,9 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
      * @throws Exception
      */
     @Override
-    public void activateObject(PooledObject<RpcConnection> pooledObject) throws Exception {
+    public void activateObject(PooledObject<IRpcConnection> pooledObject) throws Exception {
         logger.info("激活对象...");
-        RpcConnection connection = pooledObject.getObject();
+        IRpcConnection connection = pooledObject.getObject();
         if (!connection.isAvailable()) {
             connection.connect();
         }
@@ -75,7 +75,7 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
      * @throws Exception
      */
     @Override
-    public void passivateObject(PooledObject<RpcConnection> pooledObject) throws Exception {
+    public void passivateObject(PooledObject<IRpcConnection> pooledObject) throws Exception {
         logger.info("钝化对象...");
     }
 
@@ -86,8 +86,8 @@ public class RpcPooledObjectFactory implements PooledObjectFactory<RpcConnection
      * @return
      */
     @Override
-    public boolean validateObject(PooledObject<RpcConnection> pooledObject) {
-        RpcConnection connection = pooledObject.getObject();
+    public boolean validateObject(PooledObject<IRpcConnection> pooledObject) {
+        IRpcConnection connection = pooledObject.getObject();
         if (!connection.isAvailable()) {
             //连接不可用，关闭连接
             connection.close();

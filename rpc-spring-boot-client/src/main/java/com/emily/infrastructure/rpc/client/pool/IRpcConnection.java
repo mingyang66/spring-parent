@@ -4,11 +4,11 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.client.RpcClientProperties;
-import com.emily.infrastructure.rpc.client.channel.RpcClientChannelInitializer;
+import com.emily.infrastructure.rpc.client.IRpcClientProperties;
+import com.emily.infrastructure.rpc.client.channel.IRpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
-import com.emily.infrastructure.rpc.client.handler.RpcClientChannelHandler;
-import com.emily.infrastructure.rpc.core.entity.message.RMessage;
+import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
+import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcConnection extends AbstractConnection<Channel> {
+public class IRpcConnection extends AbstractConnection<Channel> {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcConnection.class);
+    private static final Logger logger = LoggerFactory.getLogger(IRpcConnection.class);
     /**
      * 线程工作组
      */
@@ -39,9 +39,9 @@ public class RpcConnection extends AbstractConnection<Channel> {
      */
     private BaseClientHandler handler;
 
-    private RpcClientProperties properties;
+    private IRpcClientProperties properties;
 
-    public RpcConnection(RpcClientProperties properties) {
+    public IRpcConnection(IRpcClientProperties properties) {
         this.properties = properties;
     }
 
@@ -55,9 +55,9 @@ public class RpcConnection extends AbstractConnection<Channel> {
     @Override
     public boolean connect() {
         try {
-            handler = new RpcClientChannelHandler();
+            handler = new IRpcClientChannelHandler();
             //加入自己的处理器
-            BOOTSTRAP.handler(new RpcClientChannelInitializer(handler));
+            BOOTSTRAP.handler(new IRpcClientChannelInitializer(handler));
             //连接服务器
             ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
             channelFuture.addListener(listener -> {
@@ -88,7 +88,7 @@ public class RpcConnection extends AbstractConnection<Channel> {
      * @param message
      */
     @Override
-    public Object sendRequest(RMessage message) {
+    public Object sendRequest(IRMessage message) {
         logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(message));
         try {
             synchronized (handler.object) {

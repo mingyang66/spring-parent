@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.client.pool;
 
-import com.emily.infrastructure.rpc.core.entity.message.RMessage;
+import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 
 /**
  * @program: spring-parent
@@ -27,7 +27,7 @@ public abstract class AbstractConnection<T> {
      * @param message 请求参数
      * @return
      */
-    public abstract Object sendRequest(RMessage message);
+    public abstract Object sendRequest(IRMessage message);
 
     /**
      * 通道是否可用

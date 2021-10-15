@@ -2,9 +2,9 @@ package com.emily.infrastructure.rpc.server.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.entity.message.RBody;
-import com.emily.infrastructure.rpc.core.entity.message.RMessage;
-import com.emily.infrastructure.rpc.core.entity.protocol.RProtocol;
+import com.emily.infrastructure.rpc.core.entity.message.IRBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
 import com.emily.infrastructure.rpc.server.registry.IRpcRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -56,8 +56,8 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        RMessage message = (RMessage)msg;
-        RProtocol protocol = JSONUtils.toObject(message.getBody().getData(), RProtocol.class);
+        IRMessage message = (IRMessage)msg;
+        IRProtocol protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
         //反射调用实现类的方法
         String className = protocol.getClassName();
         //从注册表中获取指定名称的实现类
@@ -73,7 +73,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //调用具体实现方法
         Object response = method.invoke(bean, protocol.getParams());
         //返回方法调用结果
-        ctx.writeAndFlush(new RMessage(RBody.toBody(response)));
+        ctx.writeAndFlush(new IRMessage(IRBody.toBody(response)));
 
     }
 

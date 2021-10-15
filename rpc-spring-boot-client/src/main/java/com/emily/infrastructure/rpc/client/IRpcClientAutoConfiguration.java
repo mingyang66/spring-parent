@@ -1,8 +1,8 @@
 package com.emily.infrastructure.rpc.client;
 
-import com.emily.infrastructure.rpc.client.pool.RpcConnection;
-import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
-import com.emily.infrastructure.rpc.client.pool.RpcPooledObjectFactory;
+import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
+import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
+import com.emily.infrastructure.rpc.client.pool.IRpcPooledObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,18 +22,18 @@ import javax.annotation.PreDestroy;
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
-@EnableConfigurationProperties(RpcClientProperties.class)
-@ConditionalOnProperty(prefix = RpcClientProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class RpcClientAutoConfiguration {
+@EnableConfigurationProperties(IRpcClientProperties.class)
+@ConditionalOnProperty(prefix = IRpcClientProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class IRpcClientAutoConfiguration {
 
-    private RpcObjectPool pool;
+    private IRpcObjectPool pool;
 
-    @ConditionalOnClass({RpcPooledObjectFactory.class})
+    @ConditionalOnClass({IRpcPooledObjectFactory.class})
     @Bean
-    protected RpcObjectPool javaObjectPool(RpcClientProperties properties) {
-        RpcPooledObjectFactory faceSDKFactory = new RpcPooledObjectFactory(properties);
+    protected IRpcObjectPool javaObjectPool(IRpcClientProperties properties) {
+        IRpcPooledObjectFactory faceSDKFactory = new IRpcPooledObjectFactory(properties);
         //设置对象池的相关参数
-        GenericObjectPoolConfig<RpcConnection> poolConfig = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<IRpcConnection> poolConfig = new GenericObjectPoolConfig<>();
         poolConfig.setMaxIdle(properties.getPool().getMaxIdle());
         poolConfig.setMaxTotal(properties.getPool().getMaxTotal());
         poolConfig.setMinIdle(properties.getPool().getMinIdle());
@@ -46,7 +46,7 @@ public class RpcClientAutoConfiguration {
         poolConfig.setJmxEnabled(false);
 
         //新建一个对象池,传入对象工厂和配置
-        pool = new RpcObjectPool(faceSDKFactory, poolConfig);
+        pool = new IRpcObjectPool(faceSDKFactory, poolConfig);
 
         initPool(properties.getPool().getInitialSize(), properties.getPool().getMaxIdle());
         return pool;

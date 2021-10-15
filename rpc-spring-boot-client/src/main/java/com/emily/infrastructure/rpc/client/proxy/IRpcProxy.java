@@ -5,11 +5,11 @@ import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.rpc.client.pool.RpcConnection;
-import com.emily.infrastructure.rpc.client.pool.RpcObjectPool;
-import com.emily.infrastructure.rpc.core.entity.message.RBody;
-import com.emily.infrastructure.rpc.core.entity.message.RMessage;
-import com.emily.infrastructure.rpc.core.entity.protocol.RProtocol;
+import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
+import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
+import com.emily.infrastructure.rpc.core.entity.message.IRBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +24,9 @@ import java.util.Objects;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RpcProxy {
+public class IRpcProxy {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcProxy.class);
+    private static final Logger logger = LoggerFactory.getLogger(IRpcProxy.class);
 
 
     /**
@@ -57,9 +57,9 @@ public class RpcProxy {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) {
             //组装传输类的属性值
-            RProtocol protocol = new RProtocol(className, method.getName(), method.getParameterTypes(), args);
+            IRProtocol protocol = new IRProtocol(className, method.getName(), method.getParameterTypes(), args);
             //运行线程，发送数据
-            Object response = call(new RMessage(RBody.toBody(protocol)));
+            Object response = call(new IRMessage(IRBody.toBody(protocol)));
             //获取返回类型，并将服务端返回的json数据转化为对应的类型
             Class<?> returnType = method.getReturnType();
             //判定返回结果是否为null
@@ -76,10 +76,10 @@ public class RpcProxy {
          * @param message
          * @return
          */
-        public Object call(RMessage message) {
+        public Object call(IRMessage message) {
             //运行线程，发送数据
-            RpcObjectPool pool = IOCContext.getBean(RpcObjectPool.class);
-            RpcConnection connection = null;
+            IRpcObjectPool pool = IOCContext.getBean(IRpcObjectPool.class);
+            IRpcConnection connection = null;
             try {
                 connection = pool.borrowObject();
                 return connection.sendRequest(message);

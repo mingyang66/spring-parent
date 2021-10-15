@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class RProtocol implements Serializable {
+public class IRProtocol implements Serializable {
     /**
      * 事务唯一标识
      */
@@ -34,9 +34,9 @@ public class RProtocol implements Serializable {
     private Object[] params;
 
 
-    public RProtocol(){}
+    public IRProtocol(){}
 
-    public RProtocol(String className, String methodName, Class<?>[] types, Object[] params) {
+    public IRProtocol(String className, String methodName, Class<?>[] types, Object[] params) {
         this.className = className;
         this.methodName = methodName;
         this.types = types;

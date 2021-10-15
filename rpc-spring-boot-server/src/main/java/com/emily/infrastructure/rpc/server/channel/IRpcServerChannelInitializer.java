@@ -1,8 +1,8 @@
 package com.emily.infrastructure.rpc.server.channel;
 
-import com.emily.infrastructure.rpc.core.decoder.RpcDecoder;
-import com.emily.infrastructure.rpc.core.encoder.RpcEncoder;
-import com.emily.infrastructure.rpc.core.entity.message.RTail;
+import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
+import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
+import com.emily.infrastructure.rpc.core.entity.message.IRTail;
 import com.emily.infrastructure.rpc.server.handler.IRpcServerChannelHandler;
 import com.emily.infrastructure.rpc.server.registry.IRpcRegistry;
 import io.netty.buffer.ByteBuf;
@@ -30,13 +30,13 @@ public class IRpcServerChannelInitializer extends ChannelInitializer<SocketChann
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         //自定义分隔符
-        ByteBuf delimiter = Unpooled.copiedBuffer(RTail.TAIL);
+        ByteBuf delimiter = Unpooled.copiedBuffer(IRTail.TAIL);
         //分隔符解码器
         pipeline.addFirst(new DelimiterBasedFrameDecoder(8192, delimiter));
         //自定义编码器
-        pipeline.addLast(new RpcEncoder());
+        pipeline.addLast(new IRpcEncoder());
         //自定义解码器
-        pipeline.addLast(new RpcDecoder());
+        pipeline.addLast(new IRpcDecoder());
         //自定义处理器
         pipeline.addLast(new IRpcServerChannelHandler(registry));
     }

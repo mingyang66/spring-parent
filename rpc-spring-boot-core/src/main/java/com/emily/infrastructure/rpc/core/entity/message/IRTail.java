@@ -6,7 +6,7 @@ package com.emily.infrastructure.rpc.core.entity.message;
  * @author: Emily
  * @create: 2021/10/09
  */
-public class RTail {
+public class IRTail {
     public static final byte[] TAIL = new byte[]{'\r', '\n'};
     /**
      * 消息尾部长度
@@ -17,7 +17,7 @@ public class RTail {
      */
     private byte[] tail;
 
-    public RTail() {
+    public IRTail() {
         this.tail = TAIL;
         this.len = tail.length;
     }

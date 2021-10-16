@@ -54,7 +54,6 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("接收到的数据是：{}", JSONUtils.toJSONString(msg));
         if (msg == null) {
             return;
         }
@@ -62,9 +61,9 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //消息类型
         int packageType = message.getHead().getPackageType();
         //心跳包
-        if(packageType == 1){
+        if (packageType == 1) {
             String heartBeat = new String(message.getBody().getData(), StandardCharsets.UTF_8);
-            logger.info("接收到心跳包 {}...", heartBeat);
+            logger.info("通道{}的心跳包是 {}...", ctx.channel().remoteAddress(), heartBeat);
             return;
         }
         IRProtocol protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
@@ -85,8 +84,16 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //返回方法调用结果
         ctx.writeAndFlush(new IRMessage(IRBody.toBody(response)));
 
+        logger.info("接收到的数据是：{}", JSONUtils.toJSONString(protocol));
     }
 
+    /**
+     * 服务端时间触发，心跳包
+     *
+     * @param ctx
+     * @param evt
+     * @throws Exception
+     */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {

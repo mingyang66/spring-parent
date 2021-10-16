@@ -13,7 +13,7 @@ public class IRHead {
      */
     private int packageType;
     /**
-     * 连接超时时间
+     * 连接超时时间，秒
      */
     private int keepAlive = 60;
 

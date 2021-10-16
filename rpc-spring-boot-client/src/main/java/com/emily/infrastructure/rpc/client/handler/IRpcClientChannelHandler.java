@@ -39,13 +39,21 @@ public class IRpcClientChannelHandler extends BaseClientHandler {
             this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
             //唤醒等待线程
             this.object.notify();
-            logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(this.response));
+
+            logger.info("RPC响应数据：{}  ", this.response);
         }
     }
 
+    /**
+     * 用户时间触发，心跳
+     *
+     * @param ctx
+     * @param evt
+     * @throws Exception
+     */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        logger.info("连接{}已经超过20秒未与服务端进行读写操作，经发送心跳消息...", ctx.channel().remoteAddress());
+        logger.info("通道{}已经超过20秒未与服务端进行读写操作，发送心跳包...", ctx.channel().remoteAddress());
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent e = (IdleStateEvent) evt;
             switch (e.state()) {

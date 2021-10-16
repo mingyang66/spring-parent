@@ -5,13 +5,15 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.entity.message.IRBody;
 import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
-import com.emily.infrastructure.rpc.server.registry.IRpcRegistry;
+import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @program: spring-parent
@@ -25,9 +27,9 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
     /**
      * RPC服务注册中心
      */
-    private IRpcRegistry registry;
+    private IRpcProviderRegistry registry;
 
-    public IRpcServerChannelHandler(IRpcRegistry registry) {
+    public IRpcServerChannelHandler(IRpcProviderRegistry registry) {
         this.registry = registry;
     }
 
@@ -39,7 +41,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("RPC服务器连接断开：{}", ctx.channel().remoteAddress());
+        logger.info("Rpc服务器连接断开：{}", ctx.channel().remoteAddress());
         ctx.channel().close();
     }
 
@@ -56,7 +58,15 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
-        IRMessage message = (IRMessage)msg;
+        IRMessage message = (IRMessage) msg;
+        //消息类型
+        int packageType = message.getHead().getPackageType();
+        //心跳包
+        if(packageType == 1){
+            String heartBeat = new String(message.getBody().getData(), StandardCharsets.UTF_8);
+            logger.info("接收到心跳包 {}...", heartBeat);
+            return;
+        }
         IRProtocol protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
         //反射调用实现类的方法
         String className = protocol.getClassName();
@@ -75,6 +85,25 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //返回方法调用结果
         ctx.writeAndFlush(new IRMessage(IRBody.toBody(response)));
 
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent e = (IdleStateEvent) evt;
+            switch (e.state()) {
+                case READER_IDLE:
+                case WRITER_IDLE:
+                case ALL_IDLE:
+                    logger.info("客户端已经超过60秒未读写数据，关闭连接{}。", ctx.channel().remoteAddress());
+                    ctx.channel().close();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            super.userEventTriggered(ctx, evt);
+        }
     }
 
     @Override

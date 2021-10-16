@@ -19,7 +19,9 @@ public class IRpcDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
-
+        //包类型
+        int packageType = byteBuf.readInt();
+        //连接超时时间
         int keepAlive = byteBuf.readInt();
 
         //读取消息长度
@@ -32,7 +34,7 @@ public class IRpcDecoder extends ByteToMessageDecoder {
         //将字节流中的数据读入到字节数组
         byteBuf.readBytes(data);
 
-        list.add(new IRMessage(new IRHead(keepAlive), IRBody.toBody(data)));
+        list.add(new IRMessage(new IRHead(packageType, keepAlive), IRBody.toBody(data)));
         //重置readerIndex和writerIndex为0
         byteBuf.clear();
     }

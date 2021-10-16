@@ -3,7 +3,7 @@ package com.emily.infrastructure.rpc.server.connection;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.server.annotation.IRpcService;
 import com.emily.infrastructure.rpc.server.channel.IRpcServerChannelInitializer;
-import com.emily.infrastructure.rpc.server.registry.IRpcRegistry;
+import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -30,7 +30,7 @@ public class IRpcServerConnection implements ApplicationContextAware {
     /**
      * RPC服务注册中心
      */
-    private IRpcRegistry registry = new IRpcRegistry();
+    private IRpcProviderRegistry registry = new IRpcProviderRegistry();
     /**
      * 端口号
      */
@@ -38,7 +38,6 @@ public class IRpcServerConnection implements ApplicationContextAware {
 
     public IRpcServerConnection(Integer port) {
         this.port = port;
-        start();
     }
 
     /**
@@ -76,7 +75,7 @@ public class IRpcServerConnection implements ApplicationContextAware {
                     .childHandler(new IRpcServerChannelInitializer(registry));
             //启动服务器，并绑定端口并且同步
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            logger.info("RPC服务器启动成功，端口号【{}】，开始提供服务...", port);
+            logger.info("Rpc server start success，port is {}，start service...", port);
             //对关闭通道进行监听,监听到通道关闭后，往下执行
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {

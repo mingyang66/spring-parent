@@ -9,6 +9,10 @@ package com.emily.infrastructure.rpc.core.entity.message;
  */
 public class IRHead {
     /**
+     * 包类型，0-正常RPC请求，1-心跳包
+     */
+    private int packageType;
+    /**
      * 连接超时时间
      */
     private int keepAlive = 60;
@@ -17,7 +21,8 @@ public class IRHead {
 
     }
 
-    public IRHead(int keepAlive) {
+    public IRHead(int packageType, int keepAlive) {
+        this.packageType = packageType;
         this.keepAlive = keepAlive;
     }
 
@@ -27,5 +32,13 @@ public class IRHead {
 
     public void setKeepAlive(int keepAlive) {
         this.keepAlive = keepAlive;
+    }
+
+    public int getPackageType() {
+        return packageType;
+    }
+
+    public void setPackageType(int packageType) {
+        this.packageType = packageType;
     }
 }

@@ -7,6 +7,7 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -50,7 +51,9 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
     public void destroyObject(PooledObject<IRpcConnection> pooledObject) throws Exception {
         logger.info("销毁对象...");
         IRpcConnection connection = pooledObject.getObject();
-        Optional.ofNullable(connection).ifPresent(IRpcConnection::close);
+        if(Objects.nonNull(connection)){
+            connection.close();
+        }
     }
 
     /**

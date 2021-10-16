@@ -35,7 +35,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
      */
     private static final Bootstrap BOOTSTRAP = new Bootstrap();
     /**
-     *
+     * 处理器
      */
     private BaseClientHandler handler;
 

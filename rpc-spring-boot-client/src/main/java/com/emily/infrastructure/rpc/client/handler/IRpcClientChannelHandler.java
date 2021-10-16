@@ -2,6 +2,7 @@ package com.emily.infrastructure.rpc.client.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.rpc.core.entity.message.IRBody;
 import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -33,9 +34,10 @@ public class IRpcClientChannelHandler extends BaseClientHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         synchronized (this.object) {
             //将消息对象转换为指定消息体
-            IRMessage message = (IRMessage)msg;
+            IRMessage message = (IRMessage) msg;
             //将真实的消息体转换为字符串类型
             this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
+            //唤醒等待线程
             this.object.notify();
             logger.info("RPC响应数据：{}  ", JSONUtils.toJSONString(this.response));
         }
@@ -43,23 +45,25 @@ public class IRpcClientChannelHandler extends BaseClientHandler {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        logger.info("连接{}已经超过20秒未与服务端进行读写操作，经发送心跳消息...", ctx.channel().remoteAddress());
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent e = (IdleStateEvent) evt;
             switch (e.state()) {
                 case READER_IDLE:
-                    System.out.println("------------READER_IDLE");
-                    break;
                 case WRITER_IDLE:
-                    System.out.println("------------WRITER_IDLE");
-                    break;
                 case ALL_IDLE:
-                    System.out.println("------------ALL_IDLE");
+                    IRMessage message = new IRMessage();
+                    //设置包类型为心跳包
+                    message.getHead().setPackageType(1);
+                    message.setBody(IRBody.toBody("heartBeat".getBytes(StandardCharsets.UTF_8)));
+                    ctx.channel().writeAndFlush(message);
                     break;
                 default:
                     break;
             }
+        } else {
+            super.userEventTriggered(ctx, evt);
         }
-        super.userEventTriggered(ctx, evt);
     }
 
     /**

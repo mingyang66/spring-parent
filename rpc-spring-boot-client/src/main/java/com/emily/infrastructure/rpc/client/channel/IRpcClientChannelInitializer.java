@@ -30,17 +30,15 @@ public class IRpcClientChannelInitializer extends ChannelInitializer<SocketChann
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        //自定义分隔符
-        ByteBuf delimiter  = Unpooled.copiedBuffer(IRTail.TAIL);
+        //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
+        pipeline.addFirst(new IdleStateHandler(0, 0, 20, TimeUnit.SECONDS));
         //分隔符解码器
-        pipeline.addFirst(new DelimiterBasedFrameDecoder(8192, delimiter));
+        pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRTail.TAIL)));
         //自定义编码器
         pipeline.addLast(new IRpcEncoder());
         //自定义解码器
         pipeline.addLast(new IRpcDecoder());
         //自定义handler处理
         pipeline.addLast(baseClientHandler);
-        //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
-        pipeline.addLast(new IdleStateHandler(20, 0, 0, TimeUnit.SECONDS));
     }
 }

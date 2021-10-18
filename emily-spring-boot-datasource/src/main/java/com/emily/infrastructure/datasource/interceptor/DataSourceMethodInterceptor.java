@@ -1,7 +1,7 @@
 package com.emily.infrastructure.datasource.interceptor;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.BaseException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
@@ -33,7 +33,7 @@ public class DataSourceMethodInterceptor implements MethodInterceptor {
         String dataSource = getTargetDataSource(method);
         //判断当前的数据源是否已经被加载进入到系统当中去
         if (!dataSourceProperties.getConfig().containsKey(dataSource)) {
-            throw new BasicException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), String.format("数据源配置【%s】不存在", dataSource));
+            throw new BaseException(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), String.format("数据源配置【%s】不存在", dataSource));
         }
         try {
             LoggerFactory.getLogger(method.getDeclaringClass()).debug(StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========开始执行，切换数据源到【%s】========", dataSource)));

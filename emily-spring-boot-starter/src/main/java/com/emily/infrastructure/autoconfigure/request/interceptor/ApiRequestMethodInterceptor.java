@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.BaseException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -59,8 +58,8 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
             baseLogger.setBody(response);
             return response;
         } catch (Exception e) {
-            if (e instanceof BasicException) {
-                BasicException exception = (BasicException) e;
+            if (e instanceof BaseException) {
+                BaseException exception = (BaseException) e;
                 baseLogger.setBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
                 baseLogger.setBody(PrintExceptionInfo.printErrorInfo(e));

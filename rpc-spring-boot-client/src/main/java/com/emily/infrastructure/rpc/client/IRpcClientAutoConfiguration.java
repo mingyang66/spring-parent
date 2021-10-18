@@ -3,6 +3,7 @@ package com.emily.infrastructure.rpc.client;
 import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
 import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
 import com.emily.infrastructure.rpc.client.pool.IRpcPooledObjectFactory;
+import com.emily.infrastructure.rpc.core.exception.ObjectPoolException;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
 import javax.annotation.PreDestroy;
+import java.time.Duration;
 
 /**
  * @program: spring-parent
@@ -34,20 +36,30 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
 
     private IRpcObjectPool pool;
 
-    @ConditionalOnClass({IRpcPooledObjectFactory.class})
     @Bean
+    @ConditionalOnClass({IRpcPooledObjectFactory.class})
     protected IRpcObjectPool javaObjectPool(IRpcClientProperties properties) {
         IRpcPooledObjectFactory factory = new IRpcPooledObjectFactory(properties);
         //设置对象池的相关参数
         GenericObjectPoolConfig<IRpcConnection> poolConfig = new GenericObjectPoolConfig<>();
+        //最大空闲连接数
         poolConfig.setMaxIdle(properties.getPool().getMaxIdle());
-        poolConfig.setMaxTotal(properties.getPool().getMaxTotal());
+        //最小空闲连接数
         poolConfig.setMinIdle(properties.getPool().getMinIdle());
+        //最大链接数
+        poolConfig.setMaxTotal(properties.getPool().getMaxTotal());
+        //当对象池没有空闲对象时，新的获取对象的请求是否阻塞，true-阻塞(maxWait才生效)
         poolConfig.setBlockWhenExhausted(true);
+        //对象池中无对象时最大等待时间
+        poolConfig.setMaxWait(Duration.ofMillis(100));
+        //向调用者输出"链接"资源时，是否检测有效性，如果无效则从连接池中移除，并继续尝试获取，默认：false
         poolConfig.setTestOnBorrow(true);
+        //向链接池归还链接时，是否检测链接对象的有效性，默认：false
         poolConfig.setTestOnReturn(true);
+        //向调用者输出链接对象时，是否检测它的空闲超时，默认：false
         poolConfig.setTestWhileIdle(true);
-        poolConfig.setTimeBetweenEvictionRunsMillis(1000 * 60 * 30);
+        //空闲链接检测线程，检测周期，单位：毫秒，如果为负值，标识不运行检测线程，默认：-1
+        poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(60*1000));
         //一定要关闭jmx，不然springboot启动会报已经注册了某个jmx的错误
         poolConfig.setJmxEnabled(false);
 
@@ -74,7 +86,7 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
             try {
                 pool.addObject();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new ObjectPoolException();
             }
         }
     }

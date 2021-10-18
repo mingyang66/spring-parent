@@ -65,15 +65,15 @@ public class IRpcClientProperties {
 
     public static class Pool {
         /**
-         * 最大空闲
+         * 最大空闲数
          */
         private int maxIdle = 5;
         /**
-         * 最大总数
+         * 最大链接数
          */
         private int maxTotal = 20;
         /**
-         * 最小空闲
+         * 最小空闲数
          */
         private int minIdle = 2;
 

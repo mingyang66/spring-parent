@@ -41,6 +41,8 @@ public enum AppHttpStatus {
 
     DATABASE_EXCEPTION(300000, "数据库异常"),
 
+    INIT_EXCEPTION(3180000, "初始化异常"),
+
     API404_EXCEPTION(404, "远程接口不存在"),
     API500_EXCEPTION(500, "远程接口服务错误");
 

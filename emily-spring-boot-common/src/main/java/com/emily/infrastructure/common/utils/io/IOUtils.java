@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.io;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.BaseException;
 import org.apache.commons.io.LineIterator;
 
 import java.io.*;
@@ -112,7 +112,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.contentEquals(input1, input2);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个数据流是否相等异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个数据流是否相等异常，"+e);
         }
     }
 
@@ -127,7 +127,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.contentEquals(input1, input2);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个数据流是否相等异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个数据流是否相等异常，"+e);
         }
     }
 
@@ -142,7 +142,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.contentEqualsIgnoreEOL(input1, input2);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个数据流是否相等异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "比较两个数据流是否相等异常，"+e);
         }
     }
 
@@ -157,7 +157,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copy(input, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
     /**
@@ -171,7 +171,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copy(input, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -186,7 +186,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copy(input, output, bufferSize);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -202,7 +202,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.copy(input, output, inputEncoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -220,7 +220,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.copy(input, output, outputEncoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -236,7 +236,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
     /**
@@ -251,7 +251,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -268,7 +268,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output, inputOffset, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -287,7 +287,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output, inputOffset, length, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
 
@@ -303,7 +303,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
     /**
@@ -318,7 +318,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
     /**
@@ -335,7 +335,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output, inputOffset, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
     /**
@@ -352,7 +352,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.copyLarge(input, output, inputOffset, length, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "复制数据异常，"+e);
         }
     }
     /**
@@ -365,7 +365,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(uri, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
     /**
@@ -381,7 +381,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(url, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -395,7 +395,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(input, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -409,7 +409,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(input, encoding);
         } catch (IOException e){
-           throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
+           throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -422,7 +422,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toString(input);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将输入流转换为字符串异常，"+e);
         }
     }
 
@@ -435,7 +435,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(uri);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
 
@@ -448,7 +448,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(url);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
 
@@ -461,7 +461,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(input);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
 
@@ -474,7 +474,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(urlConn);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
 
@@ -488,7 +488,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(input, size);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
     /**
@@ -501,7 +501,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(input, size);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
 
@@ -515,7 +515,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(input, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字节数组异常"+e);
         }
     }
 
@@ -534,7 +534,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toBufferedInputStream(input);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "数据流转换异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "数据流转换异常"+e);
         }
     }
     /**
@@ -553,7 +553,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toBufferedInputStream(input, size);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "数据流转换异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "数据流转换异常"+e);
         }
     }
 
@@ -567,7 +567,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toInputStream(input, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "字符转换为数据流异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "字符转换为数据流异常"+e);
         }
     }
 
@@ -601,7 +601,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toCharArray(is, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字符数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字符数组异常"+e);
         }
     }
 
@@ -615,7 +615,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.toCharArray(input);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字符数组异常"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换为字符数组异常"+e);
         }
     }
 
@@ -660,7 +660,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.lineIterator(input, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取输入流的迭代器异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "获取输入流的迭代器异常，"+e);
         }
     }
 
@@ -675,7 +675,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.read(input, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -691,7 +691,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.read(input, buffer, offset, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -705,7 +705,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.read(input, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -721,7 +721,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.read(input, buffer, offset, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -735,7 +735,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.read(input, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -751,7 +751,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.readFully(input, buffer, offset, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
     /**
@@ -764,7 +764,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.readFully(input, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -780,7 +780,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.readFully(input, buffer, offset, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
     /**
@@ -793,7 +793,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.readFully(input, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -807,7 +807,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.readFully(input, length);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -821,7 +821,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.readFully(input, buffer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -836,7 +836,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.readLines(input, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -850,7 +850,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.readLines(input);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取数据输入流异常，"+e);
         }
     }
 
@@ -863,7 +863,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.resourceToByteArray(name);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，"+e);
         }
     }
 
@@ -878,7 +878,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.resourceToByteArray(name, classLoader);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "读取资源异常，"+e);
         }
     }
     /**
@@ -890,7 +890,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.resourceToURL(name);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
         }
     }
 
@@ -904,7 +904,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.resourceToURL(name, classLoader);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
         }
     }
     /**
@@ -917,7 +917,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.resourceToString(name, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
         }
     }
 
@@ -932,7 +932,7 @@ public class IOUtils {
         try {
             return org.apache.commons.io.IOUtils.resourceToString(name, encoding, classLoader);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "资源转换异常，"+e);
         }
     }
     /**
@@ -945,7 +945,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -960,7 +960,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
     /**
@@ -974,7 +974,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -988,7 +988,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1002,7 +1002,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1017,7 +1017,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1031,7 +1031,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
     /**
@@ -1045,7 +1045,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.write(data, output, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1059,7 +1059,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.writeChunked(data, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1073,7 +1073,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.writeChunked(data, output);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1089,7 +1089,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.writeLines(lines, lineEnding, output, encoding);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 
@@ -1104,7 +1104,7 @@ public class IOUtils {
         try {
             org.apache.commons.io.IOUtils.writeLines(lines, lineEnding, writer);
         } catch (IOException e){
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), "将数据写入输出流异常，"+e);
         }
     }
 }

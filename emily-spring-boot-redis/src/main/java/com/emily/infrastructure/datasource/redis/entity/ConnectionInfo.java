@@ -1,7 +1,7 @@
 package com.emily.infrastructure.datasource.redis.entity;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.BaseException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 
 import java.net.URI;
@@ -55,7 +55,7 @@ public class ConnectionInfo {
             URI uri = new URI(url);
             String scheme = uri.getScheme();
             if (!"redis".equals(scheme) && !"rediss".equals(scheme)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), MessageFormat.format("Redis地址{0}异常", url));
+                throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), MessageFormat.format("Redis地址{0}异常", url));
             }
             boolean useSsl = ("rediss".equals(scheme));
             String username = null;
@@ -72,7 +72,7 @@ public class ConnectionInfo {
             }
             return new ConnectionInfo(uri, useSsl, username, password);
         } catch (URISyntaxException ex) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), MessageFormat.format("Redis地址{0}异常{1}", url, PrintExceptionInfo.printErrorInfo(ex)));
+            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), MessageFormat.format("Redis地址{0}异常{1}", url, PrintExceptionInfo.printErrorInfo(ex)));
         }
     }
 }

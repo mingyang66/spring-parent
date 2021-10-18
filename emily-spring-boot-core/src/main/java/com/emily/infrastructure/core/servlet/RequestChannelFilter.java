@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.servlet;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.BaseException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 
 import javax.servlet.*;
@@ -29,9 +29,9 @@ public class RequestChannelFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (IOException ex) {
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BaseException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         } catch (ServletException ex) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BaseException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
 
 

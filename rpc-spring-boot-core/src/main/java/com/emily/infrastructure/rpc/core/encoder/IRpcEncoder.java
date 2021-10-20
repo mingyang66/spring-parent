@@ -23,7 +23,7 @@ public class IRpcEncoder extends MessageToByteEncoder<IRMessage> {
         //写入head连接超时时间
         byteBuf.writeInt(message.getHead().getKeepAlive());
         //写入事务唯一编号长度
-        byteBuf.writeInt(36);
+        byteBuf.writeInt(message.getHead().getTraceId().length);
         //写入事务唯一标识字节流
         byteBuf.writeBytes(message.getHead().getTraceId());
         //写入编码数据长度

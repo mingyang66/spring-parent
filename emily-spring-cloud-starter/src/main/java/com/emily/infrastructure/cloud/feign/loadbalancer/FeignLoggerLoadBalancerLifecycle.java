@@ -1,6 +1,6 @@
 package com.emily.infrastructure.cloud.feign.loadbalancer;
 
-import com.emily.infrastructure.cloud.feign.common.FeignLoggerUtils;
+import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
@@ -30,9 +30,9 @@ public class FeignLoggerLoadBalancerLifecycle implements LoadBalancerLifecycle<R
 
     @Override
     public void onComplete(CompletionContext<ResponseData, ServiceInstance, RequestDataContext> completionContext) {
-        if (Objects.nonNull(completionContext.getClientResponse())) {
+        if (Objects.nonNull(FeignContextHolder.get())) {
             //封装异步日志信息
-            BaseLogger baseLogger = FeignLoggerUtils.getBaseLogger();
+            BaseLogger baseLogger = FeignContextHolder.get();
             //设置请求URL
             baseLogger.setUrl(completionContext.getClientResponse().getRequestData().getUrl().toString());
         }

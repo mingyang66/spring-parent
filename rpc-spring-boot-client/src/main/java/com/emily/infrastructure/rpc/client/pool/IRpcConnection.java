@@ -5,19 +5,23 @@ import com.emily.infrastructure.common.exception.BaseException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
-import com.emily.infrastructure.rpc.client.channel.IRpcClientChannelInitializer;
 import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
+import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
+import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
 import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import com.emily.infrastructure.rpc.core.entity.message.IRTail;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -72,7 +76,22 @@ public class IRpcConnection extends AbstractConnection<Channel> {
         try {
             handler = new IRpcClientChannelHandler();
             //加入自己的处理器
-            BOOTSTRAP.handler(new IRpcClientChannelInitializer(handler));
+            BOOTSTRAP.handler(new ChannelInitializer<>() {
+                @Override
+                protected void initChannel(Channel ch) throws Exception {
+                    ChannelPipeline pipeline = ch.pipeline();
+                    //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
+                    pipeline.addFirst(new IdleStateHandler(0, 0, 20, TimeUnit.SECONDS));
+                    //分隔符解码器
+                    pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRTail.TAIL)));
+                    //自定义编码器
+                    pipeline.addLast(new IRpcEncoder());
+                    //自定义解码器
+                    pipeline.addLast(new IRpcDecoder());
+                    //自定义handler处理
+                    pipeline.addLast(handler);
+                }
+            });
             //连接服务器
             ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
             channelFuture.addListener(listener -> {

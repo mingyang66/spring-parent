@@ -26,7 +26,7 @@ public class IRpcServerAutoConfiguration implements InitializingBean, Disposable
 
     private static final Logger logger = LoggerFactory.getLogger(IRpcServerAutoConfiguration.class);
 
-    @Bean(initMethod = "start")
+    @Bean(initMethod = "startServer")
     public IRpcServerConnection rpcServer(IRpcServerProperties properties) {
         return new IRpcServerConnection(properties.getPort());
     }

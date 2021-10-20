@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.constant;
 
 /**
- * @program: emily-infrustructure
+ * @program: spring-parent
  * @description: 用户信息常量
  * @author: Emily
  * @create: 2021/10/13

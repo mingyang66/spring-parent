@@ -51,7 +51,7 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
         //当对象池没有空闲对象时，新的获取对象的请求是否阻塞，true-阻塞(maxWait才生效)
         poolConfig.setBlockWhenExhausted(true);
         //对象池中无对象时最大等待时间
-        poolConfig.setMaxWait(Duration.ofMillis(100));
+        poolConfig.setMaxWaitMillis(100);
         //向调用者输出"链接"资源时，是否检测有效性，如果无效则从连接池中移除，并继续尝试获取，默认：false
         poolConfig.setTestOnBorrow(true);
         //向链接池归还链接时，是否检测链接对象的有效性，默认：false
@@ -59,7 +59,7 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
         //向调用者输出链接对象时，是否检测它的空闲超时，默认：false
         poolConfig.setTestWhileIdle(true);
         //空闲链接检测线程，检测周期，单位：毫秒，如果为负值，标识不运行检测线程，默认：-1
-        poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(60*1000));
+        poolConfig.setTimeBetweenEvictionRunsMillis(60*1000);
         //一定要关闭jmx，不然springboot启动会报已经注册了某个jmx的错误
         poolConfig.setJmxEnabled(false);
 

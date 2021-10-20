@@ -1,15 +1,19 @@
 package com.emily.infrastructure.rpc.server.connection;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
+import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
+import com.emily.infrastructure.rpc.core.entity.message.IRTail;
 import com.emily.infrastructure.rpc.server.annotation.IRpcService;
-import com.emily.infrastructure.rpc.server.channel.IRpcServerChannelInitializer;
+import com.emily.infrastructure.rpc.server.handler.IRpcServerChannelHandler;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -17,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -43,8 +48,10 @@ public class IRpcServerConnection implements ApplicationContextAware {
     /**
      * 启动netty服务端
      */
-    public void start() {
+    public void startServer() {
+        //用于处理客户端的连接请求
         EventLoopGroup bossGroup = new NioEventLoopGroup();
+        //用于处理各个客户端的I/O操作
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             //创建服务端的启动对象，并使用链式编程来设置参数
@@ -72,7 +79,22 @@ public class IRpcServerConnection implements ApplicationContextAware {
                      */
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     //设置一个通道测试对象
-                    .childHandler(new IRpcServerChannelInitializer(registry));
+                    .childHandler(new ChannelInitializer<>() {
+                        @Override
+                        protected void initChannel(Channel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+                            //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
+                            pipeline.addFirst(new IdleStateHandler(0, 0, 60, TimeUnit.SECONDS));
+                            //分隔符解码器
+                            pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRTail.TAIL)));
+                            //自定义编码器
+                            pipeline.addLast(new IRpcEncoder());
+                            //自定义解码器
+                            pipeline.addLast(new IRpcDecoder());
+                            //自定义处理器
+                            pipeline.addLast(new IRpcServerChannelHandler(registry));
+                        }
+                    });
             //启动服务器，并绑定端口并且同步
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             logger.info("Rpc server start success，port is {}，start service...", port);

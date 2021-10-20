@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BaseException;
 
 /**
- * @program: emily-infrustructure
+ * @program: spring-parent
  * @description: 对象池异常
  * @author: Emily
  * @create: 2021/10/18

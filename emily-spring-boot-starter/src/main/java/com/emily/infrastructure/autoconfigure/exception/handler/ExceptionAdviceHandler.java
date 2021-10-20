@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BaseException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.entity.BaseResponse;
@@ -145,8 +145,8 @@ public class ExceptionAdviceHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(BaseException.class)
-    public BaseResponse businessThrowableException(BaseException e) {
+    @ExceptionHandler(BasicException.class)
+    public BaseResponse businessThrowableException(BasicException e) {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(e.getStatus(), e.getMessage());
     }
@@ -168,8 +168,8 @@ public class ExceptionAdviceHandler {
      */
     public static void recordErrorInfo(Throwable ex) {
         String errorMsg = PrintExceptionInfo.printErrorInfo(ex);
-        if (ex instanceof BaseException) {
-            BaseException systemException = (BaseException) ex;
+        if (ex instanceof BasicException) {
+            BasicException systemException = (BasicException) ex;
             errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getMessage(), errorMsg);
         }
         LogbackFactory.error(PrintExceptionInfo.class, errorMsg);

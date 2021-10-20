@@ -8,7 +8,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  * @author: Emily
  * @create: 2021/10/12
  */
-public class RemoteInvokeException extends BaseException {
+public class RemoteInvokeException extends BasicException {
     public RemoteInvokeException() {
         super(AppHttpStatus.UNKNOWN_EXCEPTION);
     }

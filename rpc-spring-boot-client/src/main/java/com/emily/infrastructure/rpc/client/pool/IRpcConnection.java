@@ -1,7 +1,7 @@
 package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BaseException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
@@ -112,7 +112,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
             return false;
         } catch (InterruptedException e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
-            throw new BaseException(AppHttpStatus.EXCEPTION.getStatus(), "创建连接失败");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "创建连接失败");
         }
     }
 
@@ -133,7 +133,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
             }
             return handler.response;
         } catch (Exception exception) {
-            throw new BaseException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
         }
     }
 

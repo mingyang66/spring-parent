@@ -8,7 +8,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  * @Description: 业务异常
  * @Version: 1.0
  */
-public class BaseException extends RuntimeException {
+public class BasicException extends RuntimeException {
     /**
      * 状态码
      */
@@ -22,21 +22,21 @@ public class BaseException extends RuntimeException {
      */
     private boolean error = true;
 
-    public BaseException() {
+    public BasicException() {
     }
 
-    public BaseException(AppHttpStatus httpStatus) {
+    public BasicException(AppHttpStatus httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
         this.message = httpStatus.getMessage();
     }
 
-    public BaseException(int status, String errorMessage) {
+    public BasicException(int status, String errorMessage) {
         super(errorMessage);
         this.status = status;
         this.message = errorMessage;
     }
-    public BaseException(int status, String errorMessage, boolean error) {
+    public BasicException(int status, String errorMessage, boolean error) {
         super(errorMessage);
         this.status = status;
         this.message = errorMessage;

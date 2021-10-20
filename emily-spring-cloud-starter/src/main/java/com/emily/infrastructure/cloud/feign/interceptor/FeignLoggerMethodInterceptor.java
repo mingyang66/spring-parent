@@ -2,7 +2,7 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
-import com.emily.infrastructure.common.exception.BaseException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
@@ -44,8 +44,8 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             response = invocation.proceed();
             return response;
         } catch (Exception e) {
-            if (e instanceof BaseException) {
-                BaseException exception = (BaseException) e;
+            if (e instanceof BasicException) {
+                BasicException exception = (BasicException) e;
                 response = StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage());
             } else {
                 response = PrintExceptionInfo.printErrorInfo(e);

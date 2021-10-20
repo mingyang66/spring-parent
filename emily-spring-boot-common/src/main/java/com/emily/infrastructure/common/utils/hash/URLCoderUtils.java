@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.hash;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BaseException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.utils.constant.CharsetUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,7 +38,7 @@ public class URLCoderUtils {
         try {
             return URLDecoder.decode(content, enc);
         } catch (UnsupportedEncodingException e) {
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 
@@ -66,7 +66,7 @@ public class URLCoderUtils {
         try {
             return URLEncoder.encode(content, enc);
         } catch (UnsupportedEncodingException e) {
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 

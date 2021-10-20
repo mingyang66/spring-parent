@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.hidden;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BaseException;
+import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,7 +17,7 @@ public class HiddenFieldUtils {
      */
     public static String hiddenAccountId(String accountId){
         if(StringUtils.isEmpty(accountId)){
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "账号不可以为空");
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "账号不可以为空");
         }
         return RegExUtils.replacePattern(accountId,"(\\d{1})\\d{6}(\\d{1})", "$1******$2");
     }
@@ -27,7 +27,7 @@ public class HiddenFieldUtils {
      */
     public static String hiddenPhoneNum(String phone){
         if(StringUtils.isEmpty(phone)){
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "手机号码不可以为空");
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "手机号码不可以为空");
         }
         //$1 $2 表示正则表达式里面的第一个和第二个，也就是括号里面的内容
         return RegExUtils.replacePattern(phone,"(\\d{3})\\d{4}(\\d{4})", "$1****$2");
@@ -40,10 +40,10 @@ public class HiddenFieldUtils {
      */
     public static String hiddenIdCardNum(String cardNum){
         if(StringUtils.isEmpty(cardNum)){
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "身份证号码不可以为空");
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "身份证号码不可以为空");
         }
         if(cardNum.length() != 15 && cardNum.length() != 18){
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "身份证号码位数必须为15位或者18位");
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "身份证号码位数必须为15位或者18位");
         }
         if(cardNum.length() == 18){
             return RegExUtils.replacePattern(cardNum, "(\\d{4})\\d{10}(\\d{4})", "$1**********$2");

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BaseException;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.utils.constant.CharsetUtils;
 
 import java.io.ByteArrayInputStream;
@@ -44,7 +44,7 @@ public class GZIPUtils {
             gzip.close();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
         return out.toByteArray();
     }
@@ -70,7 +70,7 @@ public class GZIPUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
         return out.toByteArray();
     }
@@ -108,7 +108,7 @@ public class GZIPUtils {
             return out.toString(encoding);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BaseException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION);
         }
     }
 }

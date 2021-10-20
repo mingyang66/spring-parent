@@ -19,10 +19,19 @@ public class IRpcDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
+        IRHead head = new IRHead();
         //包类型
-        int packageType = byteBuf.readInt();
+        head.setPackageType(byteBuf.readInt());
         //连接超时时间
-        int keepAlive = byteBuf.readInt();
+        head.setKeepAlive(byteBuf.readInt());
+        //事务唯一标识长度
+        int traceIdLen = byteBuf.readInt();
+        //初始化存储事务编号数组
+        byte[] traceId = new byte[traceIdLen];
+        //将事务编号读入到数组
+        byteBuf.readBytes(traceId);
+        //事务唯一编号
+        head.setTraceId(traceId);
 
         //读取消息长度
         int length = byteBuf.readInt();
@@ -34,7 +43,7 @@ public class IRpcDecoder extends ByteToMessageDecoder {
         //将字节流中的数据读入到字节数组
         byteBuf.readBytes(data);
 
-        list.add(new IRMessage(new IRHead(packageType, keepAlive), IRBody.toBody(data)));
+        list.add(new IRMessage(head, IRBody.toBody(data)));
         //重置readerIndex和writerIndex为0
         byteBuf.clear();
     }

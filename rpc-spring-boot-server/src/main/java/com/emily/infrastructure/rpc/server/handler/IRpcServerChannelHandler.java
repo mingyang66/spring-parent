@@ -3,6 +3,7 @@ package com.emily.infrastructure.rpc.server.handler;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.entity.message.IRBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRHead;
 import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
@@ -82,7 +83,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //调用具体实现方法
         Object response = method.invoke(bean, protocol.getParams());
         //返回方法调用结果
-        ctx.writeAndFlush(new IRMessage(IRBody.toBody(response)));
+        ctx.writeAndFlush(new IRMessage(new IRHead(message.getHead().getTraceId()), IRBody.toBody(response)));
 
         logger.info("接收到的数据是：{}", JSONUtils.toJSONString(protocol));
     }

@@ -1,6 +1,11 @@
 package com.emily.infrastructure.rpc.core.entity.message;
 
 
+import com.emily.infrastructure.core.holder.ContextHolder;
+
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 /**
  * @program: spring-parent
  * @description: 请求header
@@ -16,9 +21,17 @@ public class IRHead {
      * 连接超时时间，秒
      */
     private int keepAlive = 60;
+    /**
+     * 事务唯一标识, 36位
+     */
+    private byte[] traceId;
 
     public IRHead() {
+        this.traceId = ContextHolder.get().getTraceId().getBytes(StandardCharsets.UTF_8);
+    }
 
+    public IRHead(byte[] traceId) {
+        this.traceId = traceId;
     }
 
     public IRHead(int packageType, int keepAlive) {
@@ -40,5 +53,13 @@ public class IRHead {
 
     public void setPackageType(int packageType) {
         this.packageType = packageType;
+    }
+
+    public byte[] getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(byte[] traceId) {
+        this.traceId = traceId;
     }
 }

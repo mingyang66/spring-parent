@@ -1,7 +1,6 @@
 package com.emily.infrastructure.rpc.core.entity.protocol;
 
 
-import com.emily.infrastructure.core.holder.ContextHolder;
 
 import java.io.Serializable;
 
@@ -12,10 +11,6 @@ import java.io.Serializable;
  * @create: 2021/09/17
  */
 public class IRProtocol implements Serializable {
-    /**
-     * 事务唯一标识
-     */
-    private String traceId;
     /**
      * 类名
      */
@@ -41,16 +36,8 @@ public class IRProtocol implements Serializable {
         this.methodName = methodName;
         this.types = types;
         this.params = params;
-        this.traceId = ContextHolder.get().getTraceId();
     }
 
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
 
     public String getClassName() {
         return className;

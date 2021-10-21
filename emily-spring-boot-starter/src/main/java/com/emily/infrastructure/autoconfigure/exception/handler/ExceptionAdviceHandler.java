@@ -7,6 +7,7 @@ import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -44,7 +45,14 @@ public class ExceptionAdviceHandler {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
     }
-
+    /**
+     * 数据源访问异常，如：BadSqlGrammarException等
+     */
+    @ExceptionHandler(value = NestedRuntimeException.class)
+    public BaseResponse runtimeExceptionHandler(NestedRuntimeException e) {
+        recordErrorInfo(e);
+        return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), "服务开小差了，请稍后");
+    }
     /**
      * 空指针异常
      */

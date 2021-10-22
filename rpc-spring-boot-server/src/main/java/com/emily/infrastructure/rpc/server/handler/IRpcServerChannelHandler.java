@@ -6,6 +6,7 @@ import com.emily.infrastructure.rpc.core.entity.message.IRBody;
 import com.emily.infrastructure.rpc.core.entity.message.IRHead;
 import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
+import com.emily.infrastructure.rpc.server.logger.RecordLogger;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -58,13 +59,16 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         if (msg == null) {
             return;
         }
+        //开始时间
+        long startTime = System.currentTimeMillis();
+        //消息
         IRMessage message = (IRMessage) msg;
         //消息类型
         int packageType = message.getHead().getPackageType();
         //心跳包
         if (packageType == 1) {
             String heartBeat = new String(message.getBody().getData(), StandardCharsets.UTF_8);
-            logger.info("通道{}的心跳包是 {}...", ctx.channel().remoteAddress(), heartBeat);
+            logger.info("通道{}的心跳包是：{}...", ctx.channel().remoteAddress(), heartBeat);
             return;
         }
         IRProtocol protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
@@ -84,8 +88,8 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         Object response = method.invoke(bean, protocol.getParams());
         //返回方法调用结果
         ctx.writeAndFlush(new IRMessage(new IRHead(message.getHead().getTraceId()), IRBody.toBody(response)));
-
-        logger.info("接收到的数据是：{}", JSONUtils.toJSONString(protocol));
+        //记录请求相依日志
+        RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
     }
 
     /**

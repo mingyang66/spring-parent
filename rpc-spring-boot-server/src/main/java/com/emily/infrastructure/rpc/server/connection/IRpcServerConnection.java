@@ -58,7 +58,10 @@ public class IRpcServerConnection implements ApplicationContextAware {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             //设置两个线程组
             serverBootstrap.group(bossGroup, workerGroup)
-                    //使用NioServerSocketChannel 作为服务器的通道实现
+                    /**
+                     * 使用NioServerSocketChannel 作为服务器的通道实现
+                     * 用来处理客户端连接操作
+                     */
                     .channel(NioServerSocketChannel.class)
                     /**
                      * 用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，
@@ -78,7 +81,9 @@ public class IRpcServerConnection implements ApplicationContextAware {
                      * 如果要减少发送次数减少网络交互，就设置为false等累积一定大小后再发送。默认为false。
                      */
                     .childOption(ChannelOption.TCP_NODELAY, true)
-                    //设置一个通道测试对象
+                    /**
+                     * 用来处理用户I/O操作
+                     */
                     .childHandler(new ChannelInitializer<>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {

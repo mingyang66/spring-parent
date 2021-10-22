@@ -43,8 +43,6 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
         baseLogger.setTraceId(ContextHolder.get().getTraceId());
         //时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-        //控制器Class
-        baseLogger.setClazz(invocation.getThis().getClass());
         //控制器方法名
         baseLogger.setMethod(invocation.getMethod().getName());
         //请求url

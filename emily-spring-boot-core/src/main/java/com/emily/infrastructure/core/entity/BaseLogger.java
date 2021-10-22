@@ -1,7 +1,10 @@
 package com.emily.infrastructure.core.entity;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Emily
@@ -14,10 +17,6 @@ public class BaseLogger implements Serializable {
      * 请求唯一编号
      */
     private String traceId;
-    /**
-     * 类实例
-     */
-    private Class clazz;
     /**
      * 请求URL
      */
@@ -43,14 +42,6 @@ public class BaseLogger implements Serializable {
      */
     private Object body;
 
-    public Class getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
-    }
-
     public long getTime() {
         return time;
     }
@@ -73,6 +64,18 @@ public class BaseLogger implements Serializable {
 
     public void setRequestParams(Map<String, Object> requestParams) {
         this.requestParams = requestParams;
+    }
+
+    public void setRequestParams(Object[] params) {
+        if (Objects.isNull(params)) {
+            return;
+        }
+        if (Objects.isNull(requestParams)) {
+            this.requestParams = new HashMap<>();
+        }
+        for (int i = 0; i < params.length; i++) {
+            this.requestParams.put(MessageFormat.format("arg{0}", i), params[i]);
+        }
     }
 
     public String getTraceId() {

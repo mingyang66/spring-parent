@@ -17,9 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
-import javax.annotation.PreDestroy;
-import java.time.Duration;
-
 /**
  * @program: spring-parent
  * @description: RPC客户端代理配置类

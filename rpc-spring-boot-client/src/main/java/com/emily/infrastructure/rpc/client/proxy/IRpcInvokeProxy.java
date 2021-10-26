@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.ioc.IOCContext;
+import com.emily.infrastructure.rpc.client.logger.RecordLogger;
 import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
 import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
 import com.emily.infrastructure.rpc.core.entity.message.IRBody;
@@ -24,9 +25,9 @@ import java.util.Objects;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class IRpcProxy {
+public class IRpcInvokeProxy {
 
-    private static final Logger logger = LoggerFactory.getLogger(IRpcProxy.class);
+    private static final Logger logger = LoggerFactory.getLogger(IRpcInvokeProxy.class);
 
 
     /**
@@ -56,18 +57,26 @@ public class IRpcProxy {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) {
+            //开始时间
+            long startTime = System.currentTimeMillis();
             //组装传输类的属性值
             IRProtocol protocol = new IRProtocol(className, method.getName(), method.getParameterTypes(), args);
-            //运行线程，发送数据
-            Object response = sendMessage(new IRMessage(IRBody.toBody(protocol)));
-            //获取返回类型，并将服务端返回的json数据转化为对应的类型
-            Class<?> returnType = method.getReturnType();
-            //判定返回结果是否为null
-            if (Objects.isNull(response)) {
-                return null;
+            //请求消息
+            IRMessage message = new IRMessage(IRBody.toBody(protocol));
+            //响应结果
+            Object response = null;
+            try {
+                //运行线程，发送数据
+                response = sendMessage(message);
+                //判定返回结果是否为null
+                if (Objects.nonNull(response)) {
+                    response = JSONUtils.toJavaBean(response.toString(), method.getReturnType());
+                }
+                //将结果返回，并转换为指定的类型
+                return response;
+            } finally {
+                RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
             }
-            //将结果返回，并转换为指定的类型
-            return JSONUtils.toJavaBean(response.toString(), returnType);
         }
 
         /**

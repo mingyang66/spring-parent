@@ -4,7 +4,6 @@ package com.emily.infrastructure.rpc.core.entity.message;
 import com.emily.infrastructure.core.holder.ContextHolder;
 
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 /**
  * @program: spring-parent

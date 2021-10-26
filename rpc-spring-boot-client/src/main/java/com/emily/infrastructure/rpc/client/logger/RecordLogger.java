@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rpc.server.logger;
+package com.emily.infrastructure.rpc.client.logger;
 
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -15,9 +15,9 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * @program: spring-parent
- * @description: 日志记录
+ * @description: 记录客户端请求日志
  * @author: Emily
- * @create: 2021/10/21
+ * @create: 2021/10/26
  */
 public class RecordLogger {
 

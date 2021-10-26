@@ -1,7 +1,5 @@
 package com.emily.infrastructure.rpc.client.pool;
 
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
-
 /**
  * @program: spring-parent
  * @description: TCP客户端连接基础类

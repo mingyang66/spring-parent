@@ -28,4 +28,14 @@ public class HelloServiceImpl implements HelloService{
     public String str() {
         return "我是一个字符串。。。";
     }
+
+    @Override
+    public int get(int x, long y, String s) {
+        return Integer.valueOf(String.valueOf(x*y));
+    }
+
+    @Override
+    public double get(Integer x, Long y) {
+        return x*y;
+    }
 }

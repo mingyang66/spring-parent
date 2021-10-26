@@ -28,5 +28,18 @@ public class NettyController {
         return bean.hello("ffafa");
     }
 
+    @GetMapping("rpc1")
+    public double rpc1() throws InterruptedException {
+        //连接netty，并获得一个代理对象
+        HelloService bean = IRpcInvokeProxy.create(HelloService.class);
 
+        return bean.get(7, 23L);
+    }
+    @GetMapping("rpc2")
+    public double rpc2() throws InterruptedException {
+        //连接netty，并获得一个代理对象
+        HelloService bean = IRpcInvokeProxy.create(HelloService.class);
+
+        return bean.get(7, 23L, "asdf");
+    }
 }

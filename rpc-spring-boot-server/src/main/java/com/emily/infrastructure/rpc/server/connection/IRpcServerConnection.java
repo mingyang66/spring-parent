@@ -89,7 +89,7 @@ public class IRpcServerConnection implements ApplicationContextAware {
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
-                            pipeline.addFirst(new IdleStateHandler(0, 0, 60, TimeUnit.SECONDS));
+                            pipeline.addLast(new IdleStateHandler(0, 0, 60, TimeUnit.SECONDS));
                             //分隔符解码器
                             pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRTail.TAIL)));
                             //自定义编码器

@@ -70,7 +70,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //心跳包
             if (packageType == 1) {
                 String heartBeat = new String(message.getBody().getData(), StandardCharsets.UTF_8);
-                logger.info("通道{}的心跳包是：{}...", ctx.channel().remoteAddress(), heartBeat);
+                logger.info("通道{}的心跳包是：{}", ctx.channel().remoteAddress(), heartBeat);
                 return;
             }
             IRProtocol protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);

@@ -69,13 +69,16 @@ public class IRpcClientChannelHandler extends BaseClientHandler {
                     IRMessage message = new IRMessage();
                     //设置包类型为心跳包
                     message.getHead().setPackageType(1);
-                    message.setBody(IRBody.toBody("heartBeat".getBytes(StandardCharsets.UTF_8)));
+                    //设置心跳包内容
+                    message.setBody(IRBody.toBody("heartBeat...".getBytes(StandardCharsets.UTF_8)));
+                    //发送心跳包
                     ctx.channel().writeAndFlush(message);
                     break;
                 default:
                     break;
             }
         } else {
+            //继续传播事件
             super.userEventTriggered(ctx, evt);
         }
     }

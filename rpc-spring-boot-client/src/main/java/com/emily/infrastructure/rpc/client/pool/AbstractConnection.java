@@ -22,14 +22,6 @@ public abstract class AbstractConnection<T> {
     public abstract boolean connect();
 
     /**
-     * 发送请求
-     *
-     * @param message 请求参数
-     * @return
-     */
-    public abstract Object sendRequest(IRMessage message);
-
-    /**
      * 通道是否可用
      *
      * @return

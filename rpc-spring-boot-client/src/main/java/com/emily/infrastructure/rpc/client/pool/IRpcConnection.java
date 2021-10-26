@@ -3,13 +3,10 @@ package com.emily.infrastructure.rpc.client.pool;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
-import com.emily.infrastructure.rpc.client.handler.BaseClientHandler;
 import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import com.emily.infrastructure.rpc.core.entity.message.IRTail;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -43,7 +40,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     /**
      * 处理器
      */
-    private BaseClientHandler handler;
+    private IRpcClientChannelHandler handler;
 
     private IRpcClientProperties properties;
 
@@ -117,27 +114,6 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     }
 
     /**
-     * 发送请求
-     *
-     * @param message
-     */
-    @Override
-    public Object sendRequest(IRMessage message) {
-        logger.info("RPC请求数据：{}  ", JSONUtils.toJSONString(message));
-        try {
-            synchronized (handler.object) {
-                //发送Rpc请求
-                this.getConnection().writeAndFlush(message);
-                //释放当前线程资源，并等待指定超时时间，默认：60S
-                handler.object.wait(message.getHead().getKeepAlive() * 1000);
-            }
-            return handler.response;
-        } catch (Exception exception) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
-        }
-    }
-
-    /**
      * Socket连接是否可用
      *
      * @return
@@ -153,5 +129,9 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     @Override
     public void close() {
         this.getConnection().close();
+    }
+
+    public IRpcClientChannelHandler getHandler() {
+        return handler;
     }
 }

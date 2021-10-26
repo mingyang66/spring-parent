@@ -1,11 +1,15 @@
 package com.emily.infrastructure.rpc.client.handler;
 
+import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.entity.message.IRBody;
 import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
@@ -20,9 +24,34 @@ import java.nio.charset.StandardCharsets;
  * @create: 2021/09/17
  */
 @ChannelHandler.Sharable
-public class IRpcClientChannelHandler extends BaseClientHandler {
+public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(IRpcClientChannelHandler.class);
+
+    public final Object object = new Object();
+    /**
+     * 服务端返回的结果
+     */
+    public Object response;
+    /**
+     * 通道
+     */
+    private Channel channel;
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("客户端信息：{}", ctx.channel().remoteAddress());
+        //初始化通道
+        this.channel = ctx.channel();
+        //继续传播事件
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("服务断开连接：{}", ctx.channel().remoteAddress());
+        super.channelInactive(ctx);
+    }
 
     /**
      * 实现channelRead 当我们读到服务器数据,该方法自动执行
@@ -41,12 +70,29 @@ public class IRpcClientChannelHandler extends BaseClientHandler {
                 this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
                 //唤醒等待线程
                 this.object.notify();
-
-                logger.info("RPC响应数据：{}  ", this.response);
             }
         } finally {
             //手动释放消息，否则会导致内存泄漏
             ReferenceCountUtil.release(msg);
+        }
+    }
+
+    /**
+     * 发送请求
+     *
+     * @param message
+     */
+    public Object send(IRMessage message) {
+        try {
+            synchronized (this.object) {
+                //发送Rpc请求
+                this.channel.writeAndFlush(message);
+                //释放当前线程资源，并等待指定超时时间，默认：60S
+                this.object.wait(message.getHead().getKeepAlive() * 1000);
+            }
+            return this.response;
+        } catch (Exception exception) {
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
         }
     }
 

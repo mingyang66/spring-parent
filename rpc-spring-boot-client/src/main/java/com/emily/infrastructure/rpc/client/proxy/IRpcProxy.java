@@ -59,7 +59,7 @@ public class IRpcProxy {
             //组装传输类的属性值
             IRProtocol protocol = new IRProtocol(className, method.getName(), method.getParameterTypes(), args);
             //运行线程，发送数据
-            Object response = getResponse(new IRMessage(IRBody.toBody(protocol)));
+            Object response = sendMessage(new IRMessage(IRBody.toBody(protocol)));
             //获取返回类型，并将服务端返回的json数据转化为对应的类型
             Class<?> returnType = method.getReturnType();
             //判定返回结果是否为null
@@ -76,13 +76,14 @@ public class IRpcProxy {
          * @param message
          * @return
          */
-        public Object getResponse(IRMessage message) {
+        public Object sendMessage(IRMessage message) {
             //运行线程，发送数据
             IRpcObjectPool pool = IOCContext.getBean(IRpcObjectPool.class);
+            //Channel对象
             IRpcConnection connection = null;
             try {
                 connection = pool.borrowObject();
-                return connection.sendRequest(message);
+                return connection.getHandler().send(message);
             } catch (Exception exception) {
                 logger.error(PrintExceptionInfo.printErrorInfo(exception));
                 throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "Rpc调用异常");

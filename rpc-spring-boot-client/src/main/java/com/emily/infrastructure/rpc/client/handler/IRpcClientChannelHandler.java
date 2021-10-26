@@ -7,6 +7,7 @@ import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,15 +33,20 @@ public class IRpcClientChannelHandler extends BaseClientHandler {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        synchronized (this.object) {
-            //将消息对象转换为指定消息体
-            IRMessage message = (IRMessage) msg;
-            //将真实的消息体转换为字符串类型
-            this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
-            //唤醒等待线程
-            this.object.notify();
+        try {
+            synchronized (this.object) {
+                //将消息对象转换为指定消息体
+                IRMessage message = (IRMessage) msg;
+                //将真实的消息体转换为字符串类型
+                this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
+                //唤醒等待线程
+                this.object.notify();
 
-            logger.info("RPC响应数据：{}  ", this.response);
+                logger.info("RPC响应数据：{}  ", this.response);
+            }
+        } finally {
+            //手动释放消息，否则会导致内存泄漏
+            ReferenceCountUtil.release(msg);
         }
     }
 

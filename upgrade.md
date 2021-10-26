@@ -1,5 +1,8 @@
 ### 
 ------
+基础库发布3.10.5
+1. RPC客户端及服务端InBound时间处理完成后主动添加ReferenceCountUtil.release(msg);释放消息，防止对象内存溢出
+------
 基础库发布3.10.4
 1. RPC客户端及服务端代码整合优化
 2. RPC请求消息头新增traceId事务唯一标识，将协议中的traceId去除掉

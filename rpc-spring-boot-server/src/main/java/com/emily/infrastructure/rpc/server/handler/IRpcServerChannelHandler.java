@@ -86,11 +86,11 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //从注册表中获取指定名称的实现类
             Object serviceBean = registry.getServiceBean(className);
             //获取实现类的class实例
-            Class<?> aClass = serviceBean.getClass();
+            Class<?> clazz = serviceBean.getClass();
             //获取实现类的bean对象
-            Object bean = aClass.getDeclaredConstructor().newInstance();
+            Object bean = clazz.getDeclaredConstructor().newInstance();
             //获取实现类的Method对象
-            Method method = aClass.getMethod(protocol.getMethodName(), protocol.getTypes());
+            Method method = clazz.getMethod(protocol.getMethodName(), protocol.getTypes());
             //设置方法访问权限为true
             method.setAccessible(true);
             //调用具体实现方法

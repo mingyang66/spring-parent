@@ -39,4 +39,9 @@ public class HelloServiceImpl implements HelloService{
     public double get(int x, Long y) {
         return x*y;
     }
+
+    @Override
+    public String getStudent(Student student) {
+        return student.getAge()+"|"+student.getWeight()+"|"+student.getLen()+"|"+student.getDesc();
+    }
 }

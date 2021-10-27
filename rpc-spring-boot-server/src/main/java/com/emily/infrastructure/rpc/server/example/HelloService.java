@@ -5,4 +5,5 @@ public interface HelloService {
     String str();
     int get(int x, long y, String s);
     double get(int x, Long y);
+    String getStudent(Student student);
 }

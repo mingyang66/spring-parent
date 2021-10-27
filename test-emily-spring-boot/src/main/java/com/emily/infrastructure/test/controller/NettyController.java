@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.rpc.client.proxy.IRpcInvokeProxy;
+import com.emily.infrastructure.test.po.Student;
 import com.emily.infrastructure.test.service.HelloService;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,5 +43,16 @@ public class NettyController {
         HelloService bean = IRpcInvokeProxy.create(HelloService.class);
 
         return bean.get(7, 23L, "asdf");
+    }
+    @GetMapping("rpc3")
+    public String rpc3() throws InterruptedException {
+        //连接netty，并获得一个代理对象
+        HelloService bean = IRpcInvokeProxy.create(HelloService.class);
+        Student student = new Student();
+        student.setAge(10);
+        student.setDesc("三号");
+        student.setLen(20);
+        student.setMoney(20);
+        return bean.getStudent(student);
     }
 }

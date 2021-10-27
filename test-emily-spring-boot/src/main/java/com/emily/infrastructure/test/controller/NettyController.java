@@ -32,7 +32,8 @@ public class NettyController {
     public double rpc1() throws InterruptedException {
         //连接netty，并获得一个代理对象
         HelloService bean = IRpcInvokeProxy.create(HelloService.class);
-
+        Integer a = Integer.valueOf(7);
+        Long b = Long.valueOf(23);
         return bean.get(7, 23L);
     }
     @GetMapping("rpc2")

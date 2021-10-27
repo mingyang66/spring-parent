@@ -31,11 +31,12 @@ public class HelloServiceImpl implements HelloService{
 
     @Override
     public int get(int x, long y, String s) {
-        return Integer.valueOf(String.valueOf(x*y));
+        System.out.println("-------");
+        return Integer.valueOf(String.valueOf(x*y*3));
     }
 
     @Override
-    public double get(Integer x, Long y) {
+    public double get(int x, long y) {
         return x*y;
     }
 }

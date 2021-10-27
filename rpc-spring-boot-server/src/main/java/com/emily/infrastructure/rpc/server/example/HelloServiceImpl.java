@@ -36,7 +36,7 @@ public class HelloServiceImpl implements HelloService{
     }
 
     @Override
-    public double get(int x, long y) {
+    public double get(int x, Long y) {
         return x*y;
     }
 }

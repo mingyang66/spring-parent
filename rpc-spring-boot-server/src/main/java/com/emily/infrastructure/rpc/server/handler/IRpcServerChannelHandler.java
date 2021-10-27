@@ -57,14 +57,20 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        //开始时间
+        long startTime = System.currentTimeMillis();
+        //请求消息
+        IRMessage message = null;
+        //请求协议
+        IRProtocol protocol = null;
+        //返回结果
+        Object response = null;
         try {
             if (msg == null) {
                 return;
             }
-            //开始时间
-            long startTime = System.currentTimeMillis();
             //消息
-            IRMessage message = (IRMessage) msg;
+            message = (IRMessage) msg;
             //消息类型
             int packageType = message.getHead().getPackageType();
             //心跳包
@@ -73,7 +79,8 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
                 logger.info("通道{}的心跳包是：{}", ctx.channel().remoteAddress(), heartBeat);
                 return;
             }
-            IRProtocol protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
+            //请求协议
+            protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
             //反射调用实现类的方法
             String className = protocol.getClassName();
             //从注册表中获取指定名称的实现类
@@ -87,14 +94,16 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //设置方法访问权限为true
             method.setAccessible(true);
             //调用具体实现方法
-            Object response = method.invoke(bean, protocol.getParams());
+            response = method.invoke(bean, protocol.getParams());
             //返回方法调用结果
             ctx.writeAndFlush(new IRMessage(new IRHead(message.getHead().getTraceId()), IRBody.toBody(response)));
-            //记录请求相依日志
-            RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
+        } catch (Exception e) {
+            response = PrintExceptionInfo.printErrorInfo(e);
         } finally {
             //手动释放消息，否则会导致内存泄漏
             ReferenceCountUtil.release(msg);
+            //记录请求相依日志
+            RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
         }
     }
 

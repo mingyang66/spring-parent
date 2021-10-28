@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class IRProtocol implements Serializable {
+public class IRpcInvokeProtocol implements Serializable {
     /**
      * 类名
      */
@@ -29,9 +29,9 @@ public class IRProtocol implements Serializable {
     private Object[] params;
 
 
-    public IRProtocol(){}
+    public IRpcInvokeProtocol(){}
 
-    public IRProtocol(String className, String methodName, Class<?>[] types, Object[] params) {
+    public IRpcInvokeProtocol(String className, String methodName, Class<?>[] types, Object[] params) {
         this.className = className;
         this.methodName = methodName;
         this.types = types;

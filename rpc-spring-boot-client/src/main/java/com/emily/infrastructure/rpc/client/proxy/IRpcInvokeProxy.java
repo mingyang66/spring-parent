@@ -8,9 +8,9 @@ import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.rpc.client.logger.RecordLogger;
 import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
 import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
-import com.emily.infrastructure.rpc.core.entity.message.IRBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
-import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.entity.protocol.IRpcInvokeProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,9 +60,9 @@ public class IRpcInvokeProxy {
             //开始时间
             long startTime = System.currentTimeMillis();
             //组装传输类的属性值
-            IRProtocol protocol = new IRProtocol(className, method.getName(), method.getParameterTypes(), args);
+            IRpcInvokeProtocol protocol = new IRpcInvokeProtocol(className, method.getName(), method.getParameterTypes(), args);
             //请求消息
-            IRMessage message = new IRMessage(IRBody.toBody(protocol));
+            IRpcMessage message = new IRpcMessage(IRpcBody.toBody(protocol));
             //响应结果
             Object response = null;
             try {
@@ -85,7 +85,7 @@ public class IRpcInvokeProxy {
          * @param message
          * @return
          */
-        public Object sendMessage(IRMessage message) {
+        public Object sendMessage(IRpcMessage message) {
             //运行线程，发送数据
             IRpcObjectPool pool = IOCContext.getBean(IRpcObjectPool.class);
             //Channel对象

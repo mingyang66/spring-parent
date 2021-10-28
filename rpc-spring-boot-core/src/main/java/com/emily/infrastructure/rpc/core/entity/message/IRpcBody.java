@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author: Emily
  * @create: 2021/09/22
  */
-public class IRBody implements Serializable {
+public class IRpcBody implements Serializable {
     /**
      * 消息体长度
      */
@@ -20,10 +20,10 @@ public class IRBody implements Serializable {
      */
     private byte[] data;
 
-    public IRBody() {
+    public IRpcBody() {
     }
 
-    public IRBody(byte[] data) {
+    public IRpcBody(byte[] data) {
         this.data = data;
         this.len = data.length;
     }
@@ -44,11 +44,11 @@ public class IRBody implements Serializable {
         this.data = data;
     }
 
-    public static IRBody toBody(Object data) {
-        return new IRBody(JSONUtils.toByteArray(data));
+    public static IRpcBody toBody(Object data) {
+        return new IRpcBody(JSONUtils.toByteArray(data));
     }
 
-    public static IRBody toBody(byte[] data) {
-        return new IRBody(data);
+    public static IRpcBody toBody(byte[] data) {
+        return new IRpcBody(data);
     }
 }

@@ -3,8 +3,8 @@ package com.emily.infrastructure.rpc.client.handler;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.rpc.core.entity.message.IRBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -64,7 +64,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
         try {
             synchronized (this.object) {
                 //将消息对象转换为指定消息体
-                IRMessage message = (IRMessage) msg;
+                IRpcMessage message = (IRpcMessage) msg;
                 //将真实的消息体转换为字符串类型
                 this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
                 //唤醒等待线程
@@ -81,7 +81,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
      *
      * @param message
      */
-    public Object send(IRMessage message) {
+    public Object send(IRpcMessage message) {
         try {
             synchronized (this.object) {
                 //发送Rpc请求
@@ -111,11 +111,11 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
                 case READER_IDLE:
                 case WRITER_IDLE:
                 case ALL_IDLE:
-                    IRMessage message = new IRMessage();
+                    IRpcMessage message = new IRpcMessage();
                     //设置包类型为心跳包
                     message.getHead().setPackageType(1);
                     //设置心跳包内容
-                    message.setBody(IRBody.toBody("heartBeat...".getBytes(StandardCharsets.UTF_8)));
+                    message.setBody(IRpcBody.toBody("heartBeat...".getBytes(StandardCharsets.UTF_8)));
                     //发送心跳包
                     ctx.channel().writeAndFlush(message);
                     break;

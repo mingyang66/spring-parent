@@ -2,10 +2,10 @@ package com.emily.infrastructure.rpc.server.handler;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.entity.message.IRBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRHead;
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
-import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcHead;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.entity.protocol.IRpcInvokeProtocol;
 import com.emily.infrastructure.rpc.server.logger.RecordLogger;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
@@ -60,9 +60,9 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //开始时间
         long startTime = System.currentTimeMillis();
         //请求消息
-        IRMessage message = null;
+        IRpcMessage message = null;
         //请求协议
-        IRProtocol protocol = null;
+        IRpcInvokeProtocol protocol = null;
         //返回结果
         Object response = null;
         try {
@@ -70,7 +70,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
                 return;
             }
             //消息
-            message = (IRMessage) msg;
+            message = (IRpcMessage) msg;
             //消息类型
             int packageType = message.getHead().getPackageType();
             //心跳包
@@ -80,7 +80,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
                 return;
             }
             //请求协议
-            protocol = JSONUtils.toObject(message.getBody().getData(), IRProtocol.class);
+            protocol = JSONUtils.toObject(message.getBody().getData(), IRpcInvokeProtocol.class);
             //反射调用实现类的方法
             String className = protocol.getClassName();
             //从注册表中获取指定名称的实现类
@@ -99,7 +99,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //调用具体实现方法
             response = method.invoke(bean, parameters);
             //返回方法调用结果
-            ctx.writeAndFlush(new IRMessage(new IRHead(message.getHead().getTraceId()), IRBody.toBody(response)));
+            ctx.writeAndFlush(new IRpcMessage(new IRpcHead(message.getHead().getTraceId()), IRpcBody.toBody(response)));
         } catch (Exception e) {
             response = PrintExceptionInfo.printErrorInfo(e);
         } finally {

@@ -3,8 +3,8 @@ package com.emily.infrastructure.rpc.server.logger;
 import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.rpc.core.entity.message.IRHead;
-import com.emily.infrastructure.rpc.core.entity.protocol.IRProtocol;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcHead;
+import com.emily.infrastructure.rpc.core.entity.protocol.IRpcInvokeProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class RecordLogger {
      * @param protocol 请求协议
      * @param response 响应结果
      */
-    public static void recordResponse(IRHead head, IRProtocol protocol, Object response, long startTime) {
+    public static void recordResponse(IRpcHead head, IRpcInvokeProtocol protocol, Object response, long startTime) {
         try {
             BaseLogger baseLogger = new BaseLogger();
             baseLogger.setTraceId(new String(head.getTraceId(), StandardCharsets.UTF_8));

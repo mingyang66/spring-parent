@@ -3,7 +3,7 @@ package com.emily.infrastructure.rpc.server.connection;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
-import com.emily.infrastructure.rpc.core.entity.message.IRTail;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcTail;
 import com.emily.infrastructure.rpc.server.annotation.IRpcService;
 import com.emily.infrastructure.rpc.server.handler.IRpcServerChannelHandler;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
@@ -17,10 +17,12 @@ import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,13 +31,21 @@ import java.util.concurrent.TimeUnit;
  * @author: Emily
  * @create: 2021/09/17
  */
-public class IRpcServerConnection implements ApplicationContextAware {
+public class IRpcServerConnection implements ApplicationContextAware, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(IRpcServerConnection.class);
     /**
      * RPC服务注册中心
      */
     private IRpcProviderRegistry registry = new IRpcProviderRegistry();
+    /**
+     * 用于处理客户端的连接请求
+     */
+    private EventLoopGroup bossGroup = new NioEventLoopGroup();
+    /**
+     * 用于处理各个客户端的I/O操作
+     */
+    private EventLoopGroup workerGroup = new NioEventLoopGroup();
     /**
      * 端口号
      */
@@ -49,10 +59,6 @@ public class IRpcServerConnection implements ApplicationContextAware {
      * 启动netty服务端
      */
     public void startServer() {
-        //用于处理客户端的连接请求
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        //用于处理各个客户端的I/O操作
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             //创建服务端的启动对象，并使用链式编程来设置参数
             ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -91,7 +97,7 @@ public class IRpcServerConnection implements ApplicationContextAware {
                             //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
                             pipeline.addLast(new IdleStateHandler(0, 0, 60, TimeUnit.SECONDS));
                             //分隔符解码器
-                            pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRTail.TAIL)));
+                            pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRpcTail.TAIL)));
                             //自定义编码器
                             pipeline.addLast(new IRpcEncoder());
                             //自定义解码器
@@ -106,11 +112,15 @@ public class IRpcServerConnection implements ApplicationContextAware {
             //对关闭通道进行监听,监听到通道关闭后，往下执行
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            logger.error("occur exception when start server: {}",PrintExceptionInfo.printErrorInfo(e));
+            logger.error("occur exception when start server: {}", PrintExceptionInfo.printErrorInfo(e));
         } finally {
             logger.error("shutdown bossGroup and workerGroup");
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
+            if (Objects.nonNull(bossGroup)) {
+                bossGroup.shutdownGracefully();
+            }
+            if (Objects.nonNull(workerGroup)) {
+                workerGroup.shutdownGracefully();
+            }
         }
     }
 
@@ -119,11 +129,25 @@ public class IRpcServerConnection implements ApplicationContextAware {
         Map<String, Object> beanMap = context.getBeansWithAnnotation(IRpcService.class);
         beanMap.forEach((beanName, bean) -> {
             Class<?>[] interfaces = bean.getClass().getInterfaces();
-            String interfaceName = interfaces[0].getSimpleName();
-            logger.info("find rpc service {}", interfaceName);
+            if (interfaces.length > 0) {
+                String interfaceName = interfaces[0].getSimpleName();
+                logger.info("find rpc service {}", interfaceName);
 
-            //将@RpcService标注的bean注入到注册表当中
-            registry.registerServiceBean(interfaceName, bean);
+                //将@RpcService标注的bean注入到注册表当中
+                registry.registerServiceBean(interfaceName, bean);
+            } else {
+                logger.debug("当前service服务{}没有实现接口", beanName);
+            }
         });
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        if (Objects.nonNull(bossGroup)) {
+            bossGroup.shutdownGracefully();
+        }
+        if (Objects.nonNull(workerGroup)) {
+            workerGroup.shutdownGracefully();
+        }
     }
 }

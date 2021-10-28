@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.core.encoder;
 
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -11,10 +11,10 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @author: Emily
  * @create: 2021/09/23
  */
-public class IRpcEncoder extends MessageToByteEncoder<IRMessage> {
+public class IRpcEncoder extends MessageToByteEncoder<IRpcMessage> {
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, IRMessage message, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, IRpcMessage message, ByteBuf byteBuf) throws Exception {
         if (message == null) {
             return;
         }

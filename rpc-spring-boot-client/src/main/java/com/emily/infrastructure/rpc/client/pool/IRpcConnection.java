@@ -7,7 +7,7 @@ import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
-import com.emily.infrastructure.rpc.core.entity.message.IRTail;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcTail;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -80,7 +80,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
                     //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
                     pipeline.addLast(new IdleStateHandler(0, 0, 20, TimeUnit.SECONDS));
                     //分隔符解码器
-                    pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRTail.TAIL)));
+                    pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRpcTail.TAIL)));
                     //自定义编码器
                     pipeline.addLast(new IRpcEncoder());
                     //自定义解码器

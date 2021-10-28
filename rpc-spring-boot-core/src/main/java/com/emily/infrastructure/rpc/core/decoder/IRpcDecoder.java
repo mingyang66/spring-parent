@@ -1,8 +1,8 @@
 package com.emily.infrastructure.rpc.core.decoder;
 
-import com.emily.infrastructure.rpc.core.entity.message.IRBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRHead;
-import com.emily.infrastructure.rpc.core.entity.message.IRMessage;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcHead;
+import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -19,7 +19,7 @@ public class IRpcDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
-        IRHead head = new IRHead();
+        IRpcHead head = new IRpcHead();
         //包类型
         head.setPackageType(byteBuf.readInt());
         //连接超时时间
@@ -43,7 +43,7 @@ public class IRpcDecoder extends ByteToMessageDecoder {
         //将字节流中的数据读入到字节数组
         byteBuf.readBytes(data);
 
-        list.add(new IRMessage(head, IRBody.toBody(data)));
+        list.add(new IRpcMessage(head, IRpcBody.toBody(data)));
         //重置readerIndex和writerIndex为0
         byteBuf.clear();
     }

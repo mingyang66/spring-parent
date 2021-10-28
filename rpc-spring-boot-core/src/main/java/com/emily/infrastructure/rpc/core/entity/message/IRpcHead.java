@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
  * @author: Emily
  * @create: 2021/10/09
  */
-public class IRHead {
+public class IRpcHead {
     /**
      * 包类型，0-正常RPC请求，1-心跳包
      */
@@ -25,15 +25,15 @@ public class IRHead {
      */
     private byte[] traceId;
 
-    public IRHead() {
+    public IRpcHead() {
         this.traceId = ContextHolder.get().getTraceId().getBytes(StandardCharsets.UTF_8);
     }
 
-    public IRHead(byte[] traceId) {
+    public IRpcHead(byte[] traceId) {
         this.traceId = traceId;
     }
 
-    public IRHead(int packageType, int keepAlive) {
+    public IRpcHead(int packageType, int keepAlive) {
         this.packageType = packageType;
         this.keepAlive = keepAlive;
     }

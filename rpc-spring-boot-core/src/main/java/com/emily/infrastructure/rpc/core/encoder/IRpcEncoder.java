@@ -7,7 +7,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * @program: spring-parent
- * @description: Rpc编码器
+ * @description: Rpc编码器 protobuf[https://github.com/protocolbuffers/protobuf/releases]
  * @author: Emily
  * @create: 2021/09/23
  */

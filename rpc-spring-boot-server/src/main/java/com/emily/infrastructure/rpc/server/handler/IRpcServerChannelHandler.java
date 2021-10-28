@@ -88,13 +88,16 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //获取实现类的class实例
             Class<?> clazz = serviceBean.getClass();
             //获取实现类的bean对象
+
             Object bean = clazz.getDeclaredConstructor().newInstance();
             //获取实现类的Method对象
             Method method = clazz.getMethod(protocol.getMethodName(), protocol.getTypes());
             //设置方法访问权限为true
             method.setAccessible(true);
+            //将参数转换为真实数据类型
+            Object[] parameters = getParameters(protocol.getTypes(), protocol.getParams());
             //调用具体实现方法
-            response = method.invoke(bean, protocol.getParams());
+            response = method.invoke(bean, parameters);
             //返回方法调用结果
             ctx.writeAndFlush(new IRMessage(new IRHead(message.getHead().getTraceId()), IRBody.toBody(response)));
         } catch (Exception e) {
@@ -104,6 +107,25 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             ReferenceCountUtil.release(msg);
             //记录请求相依日志
             RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
+        }
+    }
+
+    /**
+     * 将参数转换为真实的数据类型
+     *
+     * @param parameterTypes 参数类型数组
+     * @param parameters     参数数组
+     * @return
+     */
+    private Object[] getParameters(Class<?>[] parameterTypes, Object[] parameters) {
+        if (parameters == null || parameters.length == 0) {
+            return parameters;
+        } else {
+            Object[] newParameters = new Object[parameters.length];
+            for (int i = 0; i < parameters.length; i++) {
+                newParameters[i] = JSONUtils.parseObject(parameters[i], parameterTypes[i]);
+            }
+            return newParameters;
         }
     }
 

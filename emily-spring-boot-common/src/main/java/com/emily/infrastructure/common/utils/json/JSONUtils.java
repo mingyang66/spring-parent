@@ -334,4 +334,19 @@ public class JSONUtils {
         }
 
     }
+
+    /**
+     * 将指定的java对象转换为指定的class对象
+     * @param obj 原始对象
+     * @param responseType 目标class对象
+     * @param <T>
+     * @return
+     */
+    public static <T> T parseObject(Object obj, Class<T> responseType) {
+        try {
+            return JSONUtils.toJavaBean(toJSONString(obj), responseType);
+        } catch (Exception exception) {
+            return responseType.cast(obj);
+        }
+    }
 }

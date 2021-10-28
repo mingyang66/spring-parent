@@ -1,0 +1,17 @@
+syntax = "proto3"; //使用proto3语法，默认使用proto2编译器
+
+option java_package = "com.emily.infrastructure.rpc.core";
+option java_outer_classname = "MessageProto";
+
+message RequestMsg {
+     bytes msgType = 1;
+     string receiveOne = 2;
+     string msg = 3;
+}
+
+message ResponseMsg {
+     bytes msgType = 1;
+     string receiveOne = 2;
+     string msg = 3;
+
+}

@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rpc.server.example;
 
+import com.emily.infrastructure.rpc.core.example.Student;
 import com.emily.infrastructure.rpc.server.annotation.IRpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

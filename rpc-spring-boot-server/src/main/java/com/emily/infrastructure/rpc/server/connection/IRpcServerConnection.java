@@ -102,7 +102,7 @@ public class IRpcServerConnection implements ApplicationContextAware {
                     });
             //启动服务器，并绑定端口并且同步
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            logger.info("Rpc server start success，port is {}，start service...", port);
+            logger.info("Rpc server start success，port is {}", port);
             //对关闭通道进行监听,监听到通道关闭后，往下执行
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {

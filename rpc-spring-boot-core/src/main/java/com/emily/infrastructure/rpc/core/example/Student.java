@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.po;
+package com.emily.infrastructure.rpc.core.example;
 
 /**
  * @program: emily-infrustructure

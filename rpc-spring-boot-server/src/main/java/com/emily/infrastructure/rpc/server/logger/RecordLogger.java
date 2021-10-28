@@ -31,14 +31,18 @@ public class RecordLogger {
      * @param response 响应结果
      */
     public static void recordResponse(IRHead head, IRProtocol protocol, Object response, long startTime) {
-        BaseLogger baseLogger = new BaseLogger();
-        baseLogger.setTraceId(new String(head.getTraceId(), StandardCharsets.UTF_8));
-        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-        baseLogger.setMethod("RPC");
-        baseLogger.setUrl(MessageFormat.format("{0}.{1}", protocol.getClassName(), protocol.getMethodName()));
-        baseLogger.setRequestParams(protocol.getParams());
-        baseLogger.setBody(response);
-        baseLogger.setTime(System.currentTimeMillis() - startTime);
-        logger.info(JSONUtils.toJSONString(baseLogger));
+        try {
+            BaseLogger baseLogger = new BaseLogger();
+            baseLogger.setTraceId(new String(head.getTraceId(), StandardCharsets.UTF_8));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setMethod("RPC");
+            baseLogger.setUrl(MessageFormat.format("{0}.{1}", protocol.getClassName(), protocol.getMethodName()));
+            baseLogger.setRequestParams(protocol.getParams());
+            baseLogger.setBody(response);
+            baseLogger.setTime(System.currentTimeMillis() - startTime);
+            logger.info(JSONUtils.toJSONString(baseLogger));
+        } catch (Exception exception) {
+
+        }
     }
 }

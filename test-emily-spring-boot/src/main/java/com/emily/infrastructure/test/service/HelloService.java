@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.service;
 
-import com.emily.infrastructure.test.po.Student;
+
+import com.emily.infrastructure.rpc.core.example.Student;
 
 public interface HelloService {
     Result hello(String s);

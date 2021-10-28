@@ -106,8 +106,9 @@ public class IRpcServerConnection implements ApplicationContextAware {
             //对关闭通道进行监听,监听到通道关闭后，往下执行
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            logger.error(PrintExceptionInfo.printErrorInfo(e));
+            logger.error("occur exception when start server: {}",PrintExceptionInfo.printErrorInfo(e));
         } finally {
+            logger.error("shutdown bossGroup and workerGroup");
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

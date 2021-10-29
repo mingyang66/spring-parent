@@ -20,8 +20,6 @@ public class IRpcEncoder extends MessageToByteEncoder<IRpcMessage> {
         }
         //写入head包类型
         byteBuf.writeInt(message.getHead().getPackageType());
-        //写入head连接超时时间
-        byteBuf.writeInt(message.getHead().getKeepAlive());
         //写入事务唯一编号长度
         byteBuf.writeInt(message.getHead().getTraceId().length);
         //写入事务唯一标识字节流

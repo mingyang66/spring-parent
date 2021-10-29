@@ -3,6 +3,7 @@ package com.emily.infrastructure.rpc.client.handler;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
 import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
 import io.netty.channel.Channel;
@@ -36,6 +37,12 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
      * 通道
      */
     private Channel channel;
+
+    private IRpcClientProperties properties;
+
+    public IRpcClientChannelHandler(IRpcClientProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -86,8 +93,8 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
             synchronized (this.object) {
                 //发送Rpc请求
                 this.channel.writeAndFlush(message);
-                //释放当前线程资源，并等待指定超时时间，默认：60S
-                this.object.wait(message.getHead().getKeepAlive() * 1000);
+                //释放当前线程资源，并等待指定超时时间，默认：10000ms
+                this.object.wait(properties.getReadTimeOut());
             }
             return this.response;
         } catch (Exception exception) {

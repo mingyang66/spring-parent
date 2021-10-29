@@ -17,10 +17,6 @@ public class IRpcHead {
      */
     private int packageType;
     /**
-     * 连接超时时间，秒
-     */
-    private int keepAlive = 60;
-    /**
      * 事务唯一标识, 36位
      */
     private byte[] traceId;
@@ -33,17 +29,8 @@ public class IRpcHead {
         this.traceId = traceId;
     }
 
-    public IRpcHead(int packageType, int keepAlive) {
+    public IRpcHead(int packageType) {
         this.packageType = packageType;
-        this.keepAlive = keepAlive;
-    }
-
-    public int getKeepAlive() {
-        return keepAlive;
-    }
-
-    public void setKeepAlive(int keepAlive) {
-        this.keepAlive = keepAlive;
     }
 
     public int getPackageType() {

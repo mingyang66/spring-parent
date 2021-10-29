@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>3.10.4</version>
+        <version>3.10.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,12 +24,12 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>3.10.4</version>
+            <version>3.10.5</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-cloud-starter</artifactId>
-            <version>3.10.4</version>
+            <version>3.10.5</version>
          <!--   <exclusions>
                 <exclusion>
                     <artifactId>feign-core</artifactId>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
-            <version>3.10.4</version>
+            <version>3.10.5</version>
         </dependency>
         <dependency>
             <!-- websocket -->

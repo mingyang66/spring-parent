@@ -67,7 +67,7 @@ public class IRpcInvokeProxy {
             Object response = null;
             try {
                 //运行线程，发送数据
-                response = sendMessage(message);
+                response = invokeTargetMethod(message);
                 //判定返回结果是否为null
                 if (Objects.nonNull(response)) {
                     response = JSONUtils.toJavaBean(response.toString(), method.getReturnType());
@@ -85,14 +85,14 @@ public class IRpcInvokeProxy {
          * @param message
          * @return
          */
-        public Object sendMessage(IRpcMessage message) {
+        public Object invokeTargetMethod(IRpcMessage message) {
             //运行线程，发送数据
             IRpcObjectPool pool = IOCContext.getBean(IRpcObjectPool.class);
             //Channel对象
             IRpcConnection connection = null;
             try {
                 connection = pool.borrowObject();
-                return connection.getHandler().send(message);
+                return connection.getClientChannelHandler().send(message);
             } catch (Exception exception) {
                 logger.error(PrintExceptionInfo.printErrorInfo(exception));
                 throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "Rpc调用异常");

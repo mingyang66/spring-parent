@@ -40,7 +40,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     /**
      * 处理器
      */
-    private IRpcClientChannelHandler handler;
+    private IRpcClientChannelHandler clientChannelHandler;
 
     private IRpcClientProperties properties;
 
@@ -71,24 +71,30 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     @Override
     public boolean connect() {
         try {
-            handler = new IRpcClientChannelHandler();
-            //加入自己的处理器
-            BOOTSTRAP.handler(new ChannelInitializer<>() {
-                @Override
-                protected void initChannel(Channel ch) throws Exception {
-                    ChannelPipeline pipeline = ch.pipeline();
-                    //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
-                    pipeline.addLast(new IdleStateHandler(0, 0, 20, TimeUnit.SECONDS));
-                    //分隔符解码器
-                    pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRpcTail.TAIL)));
-                    //自定义编码器
-                    pipeline.addLast(new IRpcEncoder());
-                    //自定义解码器
-                    pipeline.addLast(new IRpcDecoder());
-                    //自定义handler处理
-                    pipeline.addLast(handler);
-                }
-            });
+            clientChannelHandler = new IRpcClientChannelHandler(properties);
+            BOOTSTRAP
+                    /**
+                     * The timeout period of the connection.
+                     * If this time is exceeded or the connection cannot be established, the connection fails.
+                     */
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, properties.getConnectTimeOut())
+                    //加入自己的处理器
+                    .handler(new ChannelInitializer<>() {
+                        @Override
+                        protected void initChannel(Channel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+                            //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
+                            pipeline.addLast(new IdleStateHandler(0, 0, 20, TimeUnit.SECONDS));
+                            //分隔符解码器
+                            pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRpcTail.TAIL)));
+                            //自定义编码器
+                            pipeline.addLast(new IRpcEncoder());
+                            //自定义解码器
+                            pipeline.addLast(new IRpcDecoder());
+                            //自定义handler处理
+                            pipeline.addLast(clientChannelHandler);
+                        }
+                    });
             //连接服务器
             ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
             channelFuture.addListener(listener -> {
@@ -131,7 +137,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
         this.getConnection().close();
     }
 
-    public IRpcClientChannelHandler getHandler() {
-        return handler;
+    public IRpcClientChannelHandler getClientChannelHandler() {
+        return clientChannelHandler;
     }
 }

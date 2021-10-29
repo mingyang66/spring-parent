@@ -22,8 +22,6 @@ public class IRpcDecoder extends ByteToMessageDecoder {
         IRpcHead head = new IRpcHead();
         //包类型
         head.setPackageType(byteBuf.readInt());
-        //连接超时时间
-        head.setKeepAlive(byteBuf.readInt());
         //事务唯一标识长度
         int traceIdLen = byteBuf.readInt();
         //初始化存储事务编号数组

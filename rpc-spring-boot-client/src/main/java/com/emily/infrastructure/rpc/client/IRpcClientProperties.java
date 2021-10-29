@@ -27,6 +27,14 @@ public class IRpcClientProperties {
      */
     private int port = 9999;
     /**
+     * 读取超时时间，单位：毫秒，默认：10000
+     */
+    private int readTimeOut = 10000;
+    /**
+     * 连接超时时间，单位：毫秒，默认：5000
+     */
+    private int connectTimeOut = 5000;
+    /**
      * 连接池
      */
     private Pool pool = new Pool();
@@ -53,6 +61,22 @@ public class IRpcClientProperties {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public int getReadTimeOut() {
+        return readTimeOut;
+    }
+
+    public void setReadTimeOut(int readTimeOut) {
+        this.readTimeOut = readTimeOut;
+    }
+
+    public int getConnectTimeOut() {
+        return connectTimeOut;
+    }
+
+    public void setConnectTimeOut(int connectTimeOut) {
+        this.connectTimeOut = connectTimeOut;
     }
 
     public Pool getPool() {

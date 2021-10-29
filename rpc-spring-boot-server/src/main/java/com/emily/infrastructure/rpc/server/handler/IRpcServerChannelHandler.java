@@ -88,7 +88,6 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //获取实现类的class实例
             Class<?> clazz = serviceBean.getClass();
             //获取实现类的bean对象
-
             Object bean = clazz.getDeclaredConstructor().newInstance();
             //获取实现类的Method对象
             Method method = clazz.getMethod(protocol.getMethodName(), protocol.getTypes());

@@ -4,7 +4,6 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.core.message.IRpcMessage;
 import com.emily.infrastructure.rpc.core.message.IRpcResponse;
 import io.netty.channel.Channel;
@@ -37,10 +36,13 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
      */
     private Channel channel;
 
-    private IRpcClientProperties properties;
+    /**
+     * 读取超时时间，单位：毫秒
+     */
+    private int readTimeOut;
 
-    public IRpcClientChannelHandler(IRpcClientProperties properties) {
-        this.properties = properties;
+    public IRpcClientChannelHandler(int readTimeOut) {
+        this.readTimeOut = readTimeOut;
     }
 
     @Override
@@ -93,7 +95,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
                 //发送Rpc请求
                 this.channel.writeAndFlush(message);
                 //释放当前线程资源，并等待指定超时时间，默认：10000ms
-                this.object.wait(properties.getReadTimeOut());
+                this.object.wait(readTimeOut);
             }
             return this.response;
         } catch (Exception exception) {

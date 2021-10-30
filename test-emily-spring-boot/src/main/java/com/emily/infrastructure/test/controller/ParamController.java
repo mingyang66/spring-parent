@@ -5,7 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @program: emily-infrustructure
+ * @program: spring-parent
  * @description: 参数控制器
  * @author: Emily
  * @create: 2021/10/30
@@ -19,7 +19,7 @@ public class ParamController {
     }
 
     @PostMapping("test1")
-    public String test1(@Validated @RequestBody Job job) {
-        return "afdss-"+job.getJobDesc();
+    public Job test1(@Validated @RequestBody Job job) {
+        return job;
     }
 }

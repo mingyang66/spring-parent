@@ -1,7 +1,7 @@
 package com.emily.infrastructure.rpc.core.example;
 
 /**
- * @program: emily-infrustructure
+ * @program: spring-parent
  * @description:
  * @author: Emily
  * @create: 2021/10/27

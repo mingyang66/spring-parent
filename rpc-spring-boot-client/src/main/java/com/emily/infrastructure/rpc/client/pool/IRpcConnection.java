@@ -71,7 +71,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     @Override
     public boolean connect() {
         try {
-            clientChannelHandler = new IRpcClientChannelHandler(properties);
+            clientChannelHandler = new IRpcClientChannelHandler(properties.getReadTimeOut());
             BOOTSTRAP
                     /**
                      * The timeout period of the connection.

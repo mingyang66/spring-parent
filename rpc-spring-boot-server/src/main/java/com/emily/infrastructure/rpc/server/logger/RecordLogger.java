@@ -24,7 +24,7 @@ public class RecordLogger {
     /**
      * 记录请求响应日志
      *
-     * @param protocol 请求协议
+     * @param request 请求协议
      * @param response 响应结果
      */
     public static void recordResponse(IRpcRequest request, Object response, long startTime) {

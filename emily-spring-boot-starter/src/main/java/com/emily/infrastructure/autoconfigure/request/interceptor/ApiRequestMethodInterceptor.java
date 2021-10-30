@@ -40,30 +40,30 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
-        //事务唯一编号
-        baseLogger.setTraceId(ContextHolder.get().getTraceId());
-        //时间
-        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-        //控制器方法名
-        baseLogger.setMethod(invocation.getMethod().getName());
-        //请求url
-        baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterUtils.ASK_SIGN_EN));
-        //请求参数
-        baseLogger.setRequestParams(RequestHelper.getParameterMap());
         try {
+            //事务唯一编号
+            baseLogger.setTraceId(ContextHolder.get().getTraceId());
+            //时间
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            //控制器方法名
+            baseLogger.setMethod(invocation.getMethod().getName());
+            //请求url
+            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterUtils.ASK_SIGN_EN));
+            //请求参数
+            baseLogger.setRequestParams(RequestHelper.getParameterMap());
             //调用真实的action方法
             Object response = invocation.proceed();
             //设置响应结果
             baseLogger.setBody(response);
             return response;
-        } catch (Exception e) {
-            if (e instanceof BasicException) {
-                BasicException exception = (BasicException) e;
-                baseLogger.setBody(StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
+        } catch (Exception ex) {
+            if (ex instanceof BasicException) {
+                BasicException exception = (BasicException) ex;
+                baseLogger.setBody(StringUtils.join(ex, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
-                baseLogger.setBody(PrintExceptionInfo.printErrorInfo(e));
+                baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
             }
-            throw e;
+            throw ex;
         } finally {
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - ContextHolder.get().getStartTime());

@@ -58,6 +58,9 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        if (msg == null) {
+            return;
+        }
         //开始时间
         long startTime = System.currentTimeMillis();
         //请求协议
@@ -65,9 +68,6 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
         //返回结果
         IRpcResponse rpcResponse = null;
         try {
-            if (msg == null) {
-                return;
-            }
             //请求消息
             IRpcMessage message = (IRpcMessage) msg;
             //消息类型
@@ -98,9 +98,9 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             Object response = method.invoke(bean, parameters);
             //Rpc响应结果
             rpcResponse = IRpcResponse.buildResponse(response);
-        } catch (Exception e) {
+        } catch (Exception ex) {
             //异常结果
-            Object response = PrintExceptionInfo.printErrorInfo(e);
+            Object response = PrintExceptionInfo.printErrorInfo(ex);
             //Rpc响应结果
             rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.ERROR.getStatus(), AppHttpStatus.ERROR.getMessage(), response);
         } finally {
@@ -108,7 +108,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             if(Objects.nonNull(request)){
                 rpcResponse.setTraceId(request.getTraceId());
             }
-            //返回方法调用结果
+            //发送调用方法调用结果
             ctx.writeAndFlush(IRpcMessage.build(JSONUtils.toByteArray(rpcResponse)));
             //手动释放消息，否则会导致内存泄漏
             ReferenceCountUtil.release(msg);

@@ -59,7 +59,7 @@ public class IRpcInvokeProxy {
             //开始时间
             long startTime = System.currentTimeMillis();
             //组装传输类的属性值
-            IRpcRequest request = new IRpcRequest(className, method.getName(), method.getParameterTypes(), args);
+            IRpcRequest request = IRpcRequest.build(className, method.getName(), method.getParameterTypes(), args);
             //响应结果
             IRpcResponse rpcResponse = null;
             try {
@@ -68,6 +68,7 @@ public class IRpcInvokeProxy {
                 //判定返回结果是否为null
                 return JSONUtils.parseObject(rpcResponse.getData(), method.getReturnType());
             } catch (Exception ex) {
+                //异常信息
                 rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.ERROR.getStatus(), AppHttpStatus.ERROR.getMessage(), PrintExceptionInfo.printErrorInfo(ex));
                 throw ex;
             } finally {

@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.exception;
 
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -20,7 +21,11 @@ public class PrintExceptionInfo {
         if (Objects.isNull(ex)) {
             return "";
         }
+        //获取异常说明
         String message = ex.getMessage();
+        //异常说明为空则获取异常类名
+        message = StringUtils.isEmpty(message) ? ex.getClass().getName() : message;
+        //获取异常堆栈信息
         StackTraceElement[] elements = ex.getStackTrace();
         for (int i = 0; i < elements.length; i++) {
             StackTraceElement element = elements[i];

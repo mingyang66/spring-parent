@@ -59,6 +59,12 @@ public class RequestHelper {
             }
             paramMap.put("headers", headers);
         });
+
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String key = names.nextElement();
+            paramMap.put(key, request.getParameter(key));
+        }
         return paramMap;
     }
 

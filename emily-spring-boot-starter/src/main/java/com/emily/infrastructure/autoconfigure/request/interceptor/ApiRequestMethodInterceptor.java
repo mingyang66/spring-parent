@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.enums.DateFormatEnum;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -46,7 +47,7 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
         //控制器方法名
         baseLogger.setMethod(invocation.getMethod().getName());
         //请求url
-        baseLogger.setUrl(RequestUtils.getRequest().getRequestURL().toString());
+        baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterUtils.ASK_SIGN_EN));
         //请求参数
         baseLogger.setRequestParams(RequestHelper.getParameterMap());
         try {

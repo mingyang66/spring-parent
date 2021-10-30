@@ -108,4 +108,15 @@ public class BaseResponse<T> implements Serializable {
     public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
         return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestHelper.getTime());
     }
+
+    /**
+     * 创建响应数据对象
+     *
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T> BaseResponse<T> buildResponse(T data) {
+        return new BaseResponse<>(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data, RequestHelper.getTime());
+    }
 }

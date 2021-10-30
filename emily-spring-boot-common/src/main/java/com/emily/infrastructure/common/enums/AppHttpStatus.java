@@ -7,7 +7,7 @@ package com.emily.infrastructure.common.enums;
  */
 public enum AppHttpStatus {
     OK(0, "SUCCESS"),
-    UNKNOWN_EXCEPTION(-1, "未知异常"),
+    ERROR(-1, "服务器走神了..."),
 
     EXCEPTION(100000, "异常"),
     RUNTIME_EXCEPTION(100001, "运行时异常"),

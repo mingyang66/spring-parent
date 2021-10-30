@@ -10,7 +10,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  */
 public class BusinessException extends BasicException {
     public BusinessException() {
-        super(AppHttpStatus.UNKNOWN_EXCEPTION);
+        super(AppHttpStatus.ERROR);
     }
 
     public BusinessException(AppHttpStatus httpStatus) {

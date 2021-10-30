@@ -3,9 +3,10 @@ package com.emily.infrastructure.rpc.client.handler;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,8 +15,6 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * @program: spring-parent
@@ -32,7 +31,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
     /**
      * 服务端返回的结果
      */
-    public Object response;
+    public IRpcResponse response;
     /**
      * 通道
      */
@@ -73,7 +72,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
                 //将消息对象转换为指定消息体
                 IRpcMessage message = (IRpcMessage) msg;
                 //将真实的消息体转换为字符串类型
-                this.response = new String(message.getBody().getData(), StandardCharsets.UTF_8);
+                this.response = JSONUtils.toObject(message.getBody(), IRpcResponse.class);
                 //唤醒等待线程
                 this.object.notify();
             }
@@ -88,7 +87,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
      *
      * @param message
      */
-    public Object send(IRpcMessage message) {
+    public IRpcResponse send(IRpcMessage message) {
         try {
             synchronized (this.object) {
                 //发送Rpc请求
@@ -120,9 +119,11 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
                 case ALL_IDLE:
                     IRpcMessage message = new IRpcMessage();
                     //设置包类型为心跳包
-                    message.getHead().setPackageType(1);
+                    message.setPackageType((byte) 1);
                     //设置心跳包内容
-                    message.setBody(IRpcBody.toBody("heartBeat...".getBytes(StandardCharsets.UTF_8)));
+                    message.setBody(JSONUtils.toByteArray(IRpcResponse.buildResponse("heartBeat...")));
+                    //消息包长度
+                    message.setLen(message.getBody().length);
                     //发送心跳包
                     ctx.channel().writeAndFlush(message);
                     break;

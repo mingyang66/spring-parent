@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 /**
  * @Description: JSON工具类
@@ -337,12 +338,16 @@ public class JSONUtils {
 
     /**
      * 将指定的java对象转换为指定的class对象
-     * @param obj 原始对象
+     *
+     * @param obj          原始对象
      * @param responseType 目标class对象
      * @param <T>
      * @return
      */
     public static <T> T parseObject(Object obj, Class<T> responseType) {
+        if (Objects.isNull(obj)) {
+            return null;
+        }
         try {
             return JSONUtils.toJavaBean(toJSONString(obj), responseType);
         } catch (Exception exception) {

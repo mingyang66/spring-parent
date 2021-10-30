@@ -1,11 +1,11 @@
 package com.emily.infrastructure.rpc.server.handler;
 
+import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcHead;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
-import com.emily.infrastructure.rpc.core.entity.protocol.IRpcInvokeProtocol;
+import com.emily.infrastructure.rpc.core.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcRequest;
+import com.emily.infrastructure.rpc.core.message.IRpcResponse;
 import com.emily.infrastructure.rpc.server.logger.RecordLogger;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * @program: spring-parent
@@ -59,30 +60,28 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         //开始时间
         long startTime = System.currentTimeMillis();
-        //请求消息
-        IRpcMessage message = null;
         //请求协议
-        IRpcInvokeProtocol protocol = null;
+        IRpcRequest request = null;
         //返回结果
-        Object response = null;
+        IRpcResponse rpcResponse = null;
         try {
             if (msg == null) {
                 return;
             }
-            //消息
-            message = (IRpcMessage) msg;
+            //请求消息
+            IRpcMessage message = (IRpcMessage) msg;
             //消息类型
-            int packageType = message.getHead().getPackageType();
+            byte packageType = message.getPackageType();
             //心跳包
             if (packageType == 1) {
-                String heartBeat = new String(message.getBody().getData(), StandardCharsets.UTF_8);
+                String heartBeat = new String(message.getBody(), StandardCharsets.UTF_8);
                 logger.info("通道{}的心跳包是：{}", ctx.channel().remoteAddress(), heartBeat);
                 return;
             }
             //请求协议
-            protocol = JSONUtils.toObject(message.getBody().getData(), IRpcInvokeProtocol.class);
+            request = JSONUtils.toObject(message.getBody(), IRpcRequest.class);
             //反射调用实现类的方法
-            String className = protocol.getClassName();
+            String className = request.getClassName();
             //从注册表中获取指定名称的实现类
             Object serviceBean = registry.getServiceBean(className);
             //获取实现类的class实例
@@ -90,22 +89,31 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //获取实现类的bean对象
             Object bean = clazz.getDeclaredConstructor().newInstance();
             //获取实现类的Method对象
-            Method method = clazz.getMethod(protocol.getMethodName(), protocol.getTypes());
+            Method method = clazz.getMethod(request.getMethodName(), request.getTypes());
             //设置方法访问权限为true
             method.setAccessible(true);
             //将参数转换为真实数据类型
-            Object[] parameters = getParameters(protocol.getTypes(), protocol.getParams());
+            Object[] parameters = getParameters(request.getTypes(), request.getParams());
             //调用具体实现方法
-            response = method.invoke(bean, parameters);
-            //返回方法调用结果
-            ctx.writeAndFlush(new IRpcMessage(new IRpcHead(message.getHead().getTraceId()), IRpcBody.toBody(response)));
+            Object response = method.invoke(bean, parameters);
+            //Rpc响应结果
+            rpcResponse = IRpcResponse.buildResponse(response);
         } catch (Exception e) {
-            response = PrintExceptionInfo.printErrorInfo(e);
+            //异常结果
+            Object response = PrintExceptionInfo.printErrorInfo(e);
+            //Rpc响应结果
+            rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.ERROR.getStatus(), AppHttpStatus.ERROR.getMessage(), response);
         } finally {
+            //设置请求上下文的事物唯一标识
+            if(Objects.nonNull(request)){
+                rpcResponse.setTraceId(request.getTraceId());
+            }
+            //返回方法调用结果
+            ctx.writeAndFlush(IRpcMessage.build(JSONUtils.toByteArray(rpcResponse)));
             //手动释放消息，否则会导致内存泄漏
             ReferenceCountUtil.release(msg);
             //记录请求相依日志
-            RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
+            RecordLogger.recordResponse(request, rpcResponse, startTime);
         }
     }
 

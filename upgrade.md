@@ -3,6 +3,7 @@
 基础库发布3.11.0
 1. API请求Get方式参数记录
 2. PrintExceptionInfo打印异常堆栈信息时真实的异常类信息不完整优化调整
+3. RPC客户端及服务端发送的消息体结构更改，返回数据增加IRpcResponse响应实体
 -----
 基础库发布3.10.5
 1. RPC客户端及服务端InBound时间处理完成后主动添加ReferenceCountUtil.release(msg);释放消息，防止对象内存溢出

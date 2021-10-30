@@ -8,16 +8,15 @@ import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.rpc.client.logger.RecordLogger;
 import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
 import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
-import com.emily.infrastructure.rpc.core.entity.protocol.IRpcInvokeProtocol;
+import com.emily.infrastructure.rpc.core.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcRequest;
+import com.emily.infrastructure.rpc.core.message.IRpcResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Objects;
 
 /**
  * @program: spring-parent
@@ -60,22 +59,19 @@ public class IRpcInvokeProxy {
             //开始时间
             long startTime = System.currentTimeMillis();
             //组装传输类的属性值
-            IRpcInvokeProtocol protocol = new IRpcInvokeProtocol(className, method.getName(), method.getParameterTypes(), args);
-            //请求消息
-            IRpcMessage message = new IRpcMessage(IRpcBody.toBody(protocol));
+            IRpcRequest request = new IRpcRequest(className, method.getName(), method.getParameterTypes(), args);
             //响应结果
-            Object response = null;
+            IRpcResponse rpcResponse = null;
             try {
                 //运行线程，发送数据
-                response = invokeTargetMethod(message);
+                rpcResponse = invokeTargetMethod(IRpcMessage.build(JSONUtils.toByteArray(request)));
                 //判定返回结果是否为null
-                if (Objects.nonNull(response)) {
-                    response = JSONUtils.toJavaBean(response.toString(), method.getReturnType());
-                }
-                //将结果返回，并转换为指定的类型
-                return response;
+                return JSONUtils.parseObject(rpcResponse.getData(), method.getReturnType());
+            } catch (Exception ex) {
+                rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.ERROR.getStatus(), AppHttpStatus.ERROR.getMessage(), PrintExceptionInfo.printErrorInfo(ex));
+                throw ex;
             } finally {
-                RecordLogger.recordResponse(message.getHead(), protocol, response, startTime);
+                RecordLogger.recordResponse(request, rpcResponse, startTime);
             }
         }
 
@@ -85,7 +81,7 @@ public class IRpcInvokeProxy {
          * @param message
          * @return
          */
-        public Object invokeTargetMethod(IRpcMessage message) {
+        public IRpcResponse invokeTargetMethod(IRpcMessage message) {
             //运行线程，发送数据
             IRpcObjectPool pool = IOCContext.getBean(IRpcObjectPool.class);
             //Channel对象

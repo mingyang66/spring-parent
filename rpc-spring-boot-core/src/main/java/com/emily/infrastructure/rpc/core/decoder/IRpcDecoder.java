@@ -1,8 +1,6 @@
 package com.emily.infrastructure.rpc.core.decoder;
 
-import com.emily.infrastructure.rpc.core.entity.message.IRpcBody;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcHead;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -19,18 +17,8 @@ public class IRpcDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
-        IRpcHead head = new IRpcHead();
-        //包类型
-        head.setPackageType(byteBuf.readInt());
-        //事务唯一标识长度
-        int traceIdLen = byteBuf.readInt();
-        //初始化存储事务编号数组
-        byte[] traceId = new byte[traceIdLen];
-        //将事务编号读入到数组
-        byteBuf.readBytes(traceId);
-        //事务唯一编号
-        head.setTraceId(traceId);
-
+        //包类型，0-正常RPC请求，1-心跳包
+        byte packageType = byteBuf.readByte();
         //读取消息长度
         int length = byteBuf.readInt();
         if (length == 0) {
@@ -40,8 +28,8 @@ public class IRpcDecoder extends ByteToMessageDecoder {
         byte[] data = new byte[length];
         //将字节流中的数据读入到字节数组
         byteBuf.readBytes(data);
-
-        list.add(new IRpcMessage(head, IRpcBody.toBody(data)));
+        //添加消息体
+        list.add(IRpcMessage.build(packageType, data));
         //重置readerIndex和writerIndex为0
         byteBuf.clear();
     }

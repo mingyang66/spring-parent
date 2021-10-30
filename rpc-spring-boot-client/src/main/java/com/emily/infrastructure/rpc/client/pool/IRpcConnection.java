@@ -7,7 +7,7 @@ import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcTail;
+import com.emily.infrastructure.rpc.core.message.IRpcTail;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;

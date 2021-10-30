@@ -3,7 +3,7 @@ package com.emily.infrastructure.rpc.server.connection;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
-import com.emily.infrastructure.rpc.core.entity.message.IRpcTail;
+import com.emily.infrastructure.rpc.core.message.IRpcTail;
 import com.emily.infrastructure.rpc.server.annotation.IRpcService;
 import com.emily.infrastructure.rpc.server.handler.IRpcServerChannelHandler;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;

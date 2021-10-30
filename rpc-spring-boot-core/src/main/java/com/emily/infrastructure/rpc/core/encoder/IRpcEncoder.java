@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rpc.core.encoder;
 
-import com.emily.infrastructure.rpc.core.entity.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcMessage;
+import com.emily.infrastructure.rpc.core.message.IRpcTail;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -18,17 +19,13 @@ public class IRpcEncoder extends MessageToByteEncoder<IRpcMessage> {
         if (message == null) {
             return;
         }
-        //写入head包类型
-        byteBuf.writeInt(message.getHead().getPackageType());
-        //写入事务唯一编号长度
-        byteBuf.writeInt(message.getHead().getTraceId().length);
-        //写入事务唯一标识字节流
-        byteBuf.writeBytes(message.getHead().getTraceId());
-        //写入编码数据长度
-        byteBuf.writeInt(message.getBody().getLen());
+        //写入包类型
+        byteBuf.writeByte(message.getPackageType());
+        //请求|响应体长度
+        byteBuf.writeInt(message.getLen());
         //写入编码数据字节流
-        byteBuf.writeBytes(message.getBody().getData());
+        byteBuf.writeBytes(message.getBody());
         //写入编码数据结束的行尾标识
-        byteBuf.writeBytes(message.getTail().getTail());
+        byteBuf.writeBytes(IRpcTail.TAIL);
     }
 }

@@ -3,6 +3,7 @@ package com.emily.infrastructure.rpc.client.pool;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
@@ -15,6 +16,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,12 +74,11 @@ public class IRpcConnection extends AbstractConnection<Channel> {
     /**
      * 创建连接
      *
-     * @param host 主机地址
-     * @param port 端口号
+     * @param address 主机地址:端口号
      * @return
      */
     @Override
-    public boolean connect(String host, int port) {
+    public boolean connect(String address) {
         try {
             clientChannelHandler = new IRpcClientChannelHandler(properties.getReadTimeOut());
             BOOTSTRAP
@@ -103,8 +104,10 @@ public class IRpcConnection extends AbstractConnection<Channel> {
                             pipeline.addLast(clientChannelHandler);
                         }
                     });
+            //分割Rpc服务器地址
+            String[] addr = StringUtils.split(address, CharacterUtils.COLON_EN);
             //连接服务器
-            ChannelFuture channelFuture = BOOTSTRAP.connect(host, port).sync();
+            ChannelFuture channelFuture = BOOTSTRAP.connect(addr[0], NumberUtils.toInt(addr[1])).sync();
             channelFuture.addListener(listener -> {
                 if (listener.isSuccess()) {
                     logger.info("connect success...");

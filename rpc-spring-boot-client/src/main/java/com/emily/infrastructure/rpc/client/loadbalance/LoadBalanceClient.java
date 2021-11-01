@@ -25,9 +25,10 @@ public class LoadBalanceClient implements ServiceInstanceChooser {
     public IRpcConnection choose(List<String> serviceAddress) {
         //获取服务器地址
         String address = loadBalance.selectServiceAddress(serviceAddress);
+        //创建Rpc连接对象
         IRpcConnection connection = new IRpcConnection(properties);
         //建立Rpc连接
-        connection.connect(address, properties.getPort());
+        connection.connect(address);
         return connection;
     }
 }

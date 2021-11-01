@@ -39,11 +39,11 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
     public PooledObject<IRpcConnection> makeObject() throws Exception {
         logger.info("创建对象...");
         //获取RPC服务器地址
-        String address = loadBalance.selectServiceAddress(properties.getHosts());
+        String address = loadBalance.selectServiceAddress(properties.getAddress());
         //RPC连接对象
         IRpcConnection connection = new IRpcConnection(properties);
         //建立Rpc连接
-        connection.connect(address, properties.getPort());
+        connection.connect(address);
         return new DefaultPooledObject<>(connection);
     }
 
@@ -74,8 +74,9 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
         IRpcConnection connection = pooledObject.getObject();
         if (!connection.isAvailable()) {
             //获取RPC服务器地址
-            String address = loadBalance.selectServiceAddress(properties.getHosts());
-            connection.connect(address, properties.getPort());
+            String address = loadBalance.selectServiceAddress(properties.getAddress());
+            //建立Rpc连接
+            connection.connect(address);
         }
     }
 
@@ -103,9 +104,9 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
             //连接不可用，关闭连接
             connection.close();
             //获取RPC服务器地址
-            String address = loadBalance.selectServiceAddress(properties.getHosts());
+            String address = loadBalance.selectServiceAddress(properties.getAddress());
             //重新连接
-            connection.connect(address, properties.getPort());
+            connection.connect(address);
         }
         logger.info("验证对象是否可用:{}", connection.isAvailable());
         return connection.isAvailable();

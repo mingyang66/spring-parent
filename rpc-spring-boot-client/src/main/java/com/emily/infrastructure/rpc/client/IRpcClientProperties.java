@@ -25,11 +25,7 @@ public class IRpcClientProperties {
     /**
      * RPC服务器host地址列表，默认：127.0.0.1
      */
-    private List<String> hosts = Arrays.asList("127.0.0.1");
-    /**
-     * RPC服务器端口号，默认：9999
-     */
-    private int port = 9999;
+    private List<String> address = Arrays.asList("127.0.0.1:9999");
     /**
      * 读取超时时间，默认：10秒
      */
@@ -55,20 +51,12 @@ public class IRpcClientProperties {
         this.enabled = enabled;
     }
 
-    public List<String> getHosts() {
-        return hosts;
+    public List<String> getAddress() {
+        return address;
     }
 
-    public void setHosts(List<String> hosts) {
-        this.hosts = hosts;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
+    public void setAddress(List<String> address) {
+        this.address = address;
     }
 
     public Duration getReadTimeOut() {
@@ -107,7 +95,7 @@ public class IRpcClientProperties {
         /**
          * 最大空闲数
          */
-        private int maxIdle = 5;
+        private int maxIdle = 8;
         /**
          * 最大链接数
          */
@@ -115,12 +103,12 @@ public class IRpcClientProperties {
         /**
          * 最小空闲数
          */
-        private int minIdle = 2;
+        private int minIdle = Runtime.getRuntime().availableProcessors();
 
         /**
          * 初始化连接数
          */
-        private int initialSize = 3;
+        private int initialSize = Runtime.getRuntime().availableProcessors();
 
         public int getMaxIdle() {
             return maxIdle;

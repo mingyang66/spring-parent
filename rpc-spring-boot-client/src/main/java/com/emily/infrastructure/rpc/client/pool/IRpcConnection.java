@@ -15,6 +15,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,8 +69,15 @@ public class IRpcConnection extends AbstractConnection<Channel> {
                 .option(ChannelOption.TCP_NODELAY, true);
     }
 
+    /**
+     * 创建连接
+     *
+     * @param host 主机地址
+     * @param port 端口号
+     * @return
+     */
     @Override
-    public boolean connect() {
+    public boolean connect(String host, int port) {
         try {
             clientChannelHandler = new IRpcClientChannelHandler(properties.getReadTimeOut());
             BOOTSTRAP
@@ -77,14 +85,14 @@ public class IRpcConnection extends AbstractConnection<Channel> {
                      * The timeout period of the connection.
                      * If this time is exceeded or the connection cannot be established, the connection fails.
                      */
-                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, properties.getConnectTimeOut())
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, NumberUtils.toInt(String.valueOf(properties.getConnectTimeOut().toMillis())))
                     //加入自己的处理器
                     .handler(new ChannelInitializer<>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
-                            pipeline.addLast(new IdleStateHandler(0, 0, 20, TimeUnit.SECONDS));
+                            pipeline.addLast(new IdleStateHandler(0, 0, properties.getIdleTimeOut().getSeconds(), TimeUnit.SECONDS));
                             //分隔符解码器
                             pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRpcTail.TAIL)));
                             //自定义编码器
@@ -96,7 +104,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
                         }
                     });
             //连接服务器
-            ChannelFuture channelFuture = BOOTSTRAP.connect(properties.getHost(), properties.getPort()).sync();
+            ChannelFuture channelFuture = BOOTSTRAP.connect(host, port).sync();
             channelFuture.addListener(listener -> {
                 if (listener.isSuccess()) {
                     logger.info("connect success...");

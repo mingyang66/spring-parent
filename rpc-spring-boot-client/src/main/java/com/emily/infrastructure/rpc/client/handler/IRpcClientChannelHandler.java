@@ -15,6 +15,8 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+
 /**
  * @program: spring-parent
  * @description: 由于需要在 handler 中发送消息给服务端，并且将服务端返回的消息读取后返回给消费者,所以实现了 Callable 接口，这样可以运行有返回值的线程
@@ -39,9 +41,9 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
     /**
      * 读取超时时间，单位：毫秒
      */
-    private int readTimeOut;
+    private Duration readTimeOut;
 
-    public IRpcClientChannelHandler(int readTimeOut) {
+    public IRpcClientChannelHandler(Duration readTimeOut) {
         this.readTimeOut = readTimeOut;
     }
 
@@ -95,7 +97,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
                 //发送Rpc请求
                 this.channel.writeAndFlush(message);
                 //释放当前线程资源，并等待指定超时时间，默认：10000ms
-                this.object.wait(readTimeOut);
+                this.object.wait(readTimeOut.toMillis());
             }
             return this.response;
         } catch (Exception exception) {

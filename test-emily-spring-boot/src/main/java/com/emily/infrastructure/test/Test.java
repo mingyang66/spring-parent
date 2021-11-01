@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.utils.bean.JavaBeanUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.test.po.Puser;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +16,9 @@ import java.util.Map;
  */
 public class Test {
     public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
-        Map<String, Object> map = new HashMap<>();
-        map.put("username", "namd");
-        map.put("age", "12");
-
-
-
-        System.out.println(JSONUtils.toJSONPrettyString(JavaBeanUtils.copyToBeanAntiPattern(map, Puser.class)));
+        Duration duration = Duration.ofMillis(10000);
+        System.out.println(duration.toMillis());
+        System.out.println(duration.toMillisPart());
     }
 
 }

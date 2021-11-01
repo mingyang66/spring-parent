@@ -14,10 +14,11 @@ public abstract class AbstractConnection<T> {
 
     /**
      * 创建连接
-     *
+     * @param host 主机地址
+     * @param port 端口号
      * @return
      */
-    public abstract boolean connect();
+    public abstract boolean connect(String host, int port);
 
     /**
      * 通道是否可用

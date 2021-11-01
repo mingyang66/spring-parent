@@ -36,7 +36,7 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
         logger.info("创建对象...");
         IRpcConnection connection = new IRpcConnection(properties);
         //建立Rpc连接
-        connection.connect();
+        connection.connect(properties.getHost(), properties.getPort());
         return new DefaultPooledObject<>(connection);
     }
 
@@ -50,7 +50,7 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
     public void destroyObject(PooledObject<IRpcConnection> pooledObject) throws Exception {
         logger.info("销毁对象...");
         IRpcConnection connection = pooledObject.getObject();
-        if(Objects.nonNull(connection)){
+        if (Objects.nonNull(connection)) {
             connection.close();
         }
     }
@@ -66,7 +66,7 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
         logger.info("激活对象...");
         IRpcConnection connection = pooledObject.getObject();
         if (!connection.isAvailable()) {
-            connection.connect();
+            connection.connect(properties.getHost(), properties.getPort());
         }
     }
 
@@ -94,7 +94,7 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
             //连接不可用，关闭连接
             connection.close();
             //重新连接
-            connection.connect();
+            connection.connect(properties.getHost(), properties.getPort());
         }
         logger.info("验证对象是否可用:{}", connection.isAvailable());
         return connection.isAvailable();

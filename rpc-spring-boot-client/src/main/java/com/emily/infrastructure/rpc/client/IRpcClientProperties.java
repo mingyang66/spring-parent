@@ -2,6 +2,8 @@ package com.emily.infrastructure.rpc.client;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
+
 /**
  * @program: spring-parent
  * @description: RPC客户端属性配置类
@@ -27,13 +29,17 @@ public class IRpcClientProperties {
      */
     private int port = 9999;
     /**
-     * 读取超时时间，单位：毫秒，默认：10000
+     * 读取超时时间，默认：10秒
      */
-    private int readTimeOut = 10000;
+    private Duration readTimeOut = Duration.ofSeconds(10);
     /**
-     * 连接超时时间，单位：毫秒，默认：5000
+     * 连接超时时间，默认：5秒
      */
-    private int connectTimeOut = 5000;
+    private Duration connectTimeOut = Duration.ofSeconds(5);
+    /**
+     * 超过多长时间未发生读写就发送一次心跳包，默认：30秒
+     */
+    private Duration idleTimeOut = Duration.ofSeconds(30);
     /**
      * 连接池
      */
@@ -63,20 +69,28 @@ public class IRpcClientProperties {
         this.port = port;
     }
 
-    public int getReadTimeOut() {
+    public Duration getReadTimeOut() {
         return readTimeOut;
     }
 
-    public void setReadTimeOut(int readTimeOut) {
+    public void setReadTimeOut(Duration readTimeOut) {
         this.readTimeOut = readTimeOut;
     }
 
-    public int getConnectTimeOut() {
+    public Duration getConnectTimeOut() {
         return connectTimeOut;
     }
 
-    public void setConnectTimeOut(int connectTimeOut) {
+    public void setConnectTimeOut(Duration connectTimeOut) {
         this.connectTimeOut = connectTimeOut;
+    }
+
+    public Duration getIdleTimeOut() {
+        return idleTimeOut;
+    }
+
+    public void setIdleTimeOut(Duration idleTimeOut) {
+        this.idleTimeOut = idleTimeOut;
     }
 
     public Pool getPool() {

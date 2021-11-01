@@ -1,5 +1,8 @@
 package com.emily.infrastructure.rpc.client;
 
+import com.emily.infrastructure.rpc.client.loadbalance.LoadBalance;
+import com.emily.infrastructure.rpc.client.loadbalance.LoadBalanceClient;
+import com.emily.infrastructure.rpc.client.loadbalance.RandomLoadBalance;
 import com.emily.infrastructure.rpc.client.pool.IRpcConnection;
 import com.emily.infrastructure.rpc.client.pool.IRpcObjectPool;
 import com.emily.infrastructure.rpc.client.pool.IRpcPooledObjectFactory;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -35,8 +39,8 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
 
     @Bean
     @ConditionalOnClass({IRpcPooledObjectFactory.class})
-    protected IRpcObjectPool javaObjectPool(IRpcClientProperties properties) {
-        IRpcPooledObjectFactory factory = new IRpcPooledObjectFactory(properties);
+    protected IRpcObjectPool javaObjectPool(IRpcClientProperties properties, LoadBalance loadBalance) {
+        IRpcPooledObjectFactory factory = new IRpcPooledObjectFactory(properties, loadBalance);
         //设置对象池的相关参数
         GenericObjectPoolConfig<IRpcConnection> poolConfig = new GenericObjectPoolConfig<>();
         //最大空闲连接数
@@ -56,7 +60,7 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
         //向调用者输出链接对象时，是否检测它的空闲超时，默认：false
         poolConfig.setTestWhileIdle(true);
         //空闲链接检测线程，检测周期，单位：毫秒，如果为负值，标识不运行检测线程，默认：-1
-        poolConfig.setTimeBetweenEvictionRunsMillis(60*1000);
+        poolConfig.setTimeBetweenEvictionRunsMillis(60 * 1000);
         //一定要关闭jmx，不然springboot启动会报已经注册了某个jmx的错误
         poolConfig.setJmxEnabled(false);
 
@@ -86,6 +90,22 @@ public class IRpcClientAutoConfiguration implements InitializingBean, Disposable
                 throw new ObjectPoolException();
             }
         }
+    }
+
+    /**
+     * 负载均衡策略
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(LoadBalance.class)
+    public LoadBalance loadBalance() {
+        return new RandomLoadBalance();
+    }
+
+    @Bean
+    public LoadBalanceClient loadBalanceClient(LoadBalance loadBalance, IRpcClientProperties properties) {
+        return new LoadBalanceClient(loadBalance, properties);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
+import com.emily.infrastructure.rpc.client.loadbalance.LoadBalance;
+import com.emily.infrastructure.rpc.client.loadbalance.LoadBalanceClient;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -20,9 +22,11 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
     private Logger logger = LoggerFactory.getLogger(IRpcPooledObjectFactory.class);
 
     private IRpcClientProperties properties;
+    private LoadBalance loadBalance;
 
-    public IRpcPooledObjectFactory(IRpcClientProperties properties) {
+    public IRpcPooledObjectFactory(IRpcClientProperties properties, LoadBalance loadBalance) {
         this.properties = properties;
+        this.loadBalance = loadBalance;
     }
 
     /**
@@ -34,9 +38,12 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
     @Override
     public PooledObject<IRpcConnection> makeObject() throws Exception {
         logger.info("创建对象...");
+        //获取RPC服务器地址
+        String address = loadBalance.selectServiceAddress(properties.getHosts());
+        //RPC连接对象
         IRpcConnection connection = new IRpcConnection(properties);
         //建立Rpc连接
-        connection.connect(properties.getHost(), properties.getPort());
+        connection.connect(address, properties.getPort());
         return new DefaultPooledObject<>(connection);
     }
 
@@ -66,7 +73,9 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
         logger.info("激活对象...");
         IRpcConnection connection = pooledObject.getObject();
         if (!connection.isAvailable()) {
-            connection.connect(properties.getHost(), properties.getPort());
+            //获取RPC服务器地址
+            String address = loadBalance.selectServiceAddress(properties.getHosts());
+            connection.connect(address, properties.getPort());
         }
     }
 
@@ -93,8 +102,10 @@ public class IRpcPooledObjectFactory implements PooledObjectFactory<IRpcConnecti
         if (!connection.isAvailable()) {
             //连接不可用，关闭连接
             connection.close();
+            //获取RPC服务器地址
+            String address = loadBalance.selectServiceAddress(properties.getHosts());
             //重新连接
-            connection.connect(properties.getHost(), properties.getPort());
+            connection.connect(address, properties.getPort());
         }
         logger.info("验证对象是否可用:{}", connection.isAvailable());
         return connection.isAvailable();

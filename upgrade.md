@@ -1,5 +1,8 @@
 ### 
 -----
+基础库发布3.11.1
+1. RPC客户端新增LoadBalance负载均衡策略获取客户端连接（RandomLoadBalance）
+-----
 基础库发布3.11.0
 1. API请求Get方式参数记录
 2. PrintExceptionInfo打印异常堆栈信息时真实的异常类信息不完整优化调整

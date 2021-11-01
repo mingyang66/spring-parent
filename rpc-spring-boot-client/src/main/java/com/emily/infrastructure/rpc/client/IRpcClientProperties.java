@@ -3,6 +3,8 @@ package com.emily.infrastructure.rpc.client;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @program: spring-parent
@@ -21,9 +23,9 @@ public class IRpcClientProperties {
      */
     private boolean enabled = true;
     /**
-     * RPC服务器host地址，默认：127.0.0.1
+     * RPC服务器host地址列表，默认：127.0.0.1
      */
-    private String host = "127.0.0.1";
+    private List<String> hosts = Arrays.asList("127.0.0.1");
     /**
      * RPC服务器端口号，默认：9999
      */
@@ -53,12 +55,12 @@ public class IRpcClientProperties {
         this.enabled = enabled;
     }
 
-    public String getHost() {
-        return host;
+    public List<String> getHosts() {
+        return hosts;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setHosts(List<String> hosts) {
+        this.hosts = hosts;
     }
 
     public int getPort() {

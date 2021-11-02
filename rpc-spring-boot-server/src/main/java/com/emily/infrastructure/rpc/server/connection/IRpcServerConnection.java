@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
 import com.emily.infrastructure.rpc.core.encoder.IRpcEncoder;
 import com.emily.infrastructure.rpc.core.message.IRpcTail;
+import com.emily.infrastructure.rpc.server.IRpcServerProperties;
 import com.emily.infrastructure.rpc.server.annotation.IRpcService;
 import com.emily.infrastructure.rpc.server.handler.IRpcServerChannelHandler;
 import com.emily.infrastructure.rpc.server.registry.IRpcProviderRegistry;
@@ -47,12 +48,12 @@ public class IRpcServerConnection implements ApplicationContextAware, Disposable
      */
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
     /**
-     * 端口号
+     * 属性配置
      */
-    private Integer port;
+    private IRpcServerProperties properties;
 
-    public IRpcServerConnection(Integer port) {
-        this.port = port;
+    public IRpcServerConnection(IRpcServerProperties properties) {
+        this.properties = properties;
     }
 
     /**
@@ -95,7 +96,7 @@ public class IRpcServerConnection implements ApplicationContextAware, Disposable
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             //空闲状态处理器，参数说明：读时间空闲时间，0禁用时间|写事件空闲时间，0则禁用|读或写空闲时间，0则禁用
-                            pipeline.addLast(new IdleStateHandler(0, 0, 60, TimeUnit.SECONDS));
+                            pipeline.addLast(new IdleStateHandler(0, 0, properties.getIdleTimeOut().getSeconds(), TimeUnit.SECONDS));
                             //分隔符解码器
                             pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer(IRpcTail.TAIL)));
                             //自定义编码器
@@ -107,8 +108,8 @@ public class IRpcServerConnection implements ApplicationContextAware, Disposable
                         }
                     });
             //启动服务器，并绑定端口并且同步
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            logger.info("Rpc server start success，port is {}", port);
+            ChannelFuture channelFuture = serverBootstrap.bind(properties.getPort()).sync();
+            logger.info("Rpc server start success，port is {}", properties.getPort());
             //对关闭通道进行监听,监听到通道关闭后，往下执行
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {

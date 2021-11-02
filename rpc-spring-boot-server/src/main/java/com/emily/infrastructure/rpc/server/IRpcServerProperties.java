@@ -2,6 +2,8 @@ package com.emily.infrastructure.rpc.server;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
+
 /**
  * @program: spring-parent
  * @description: RPC服务端配置
@@ -22,6 +24,10 @@ public class IRpcServerProperties {
      * 端口号,默认：9999
      */
     private int port = 9999;
+    /**
+     * 超过多长时间未发生读写就发送一次心跳包，默认：30秒
+     */
+    private Duration idleTimeOut = Duration.ofSeconds(30);
 
     public boolean isEnabled() {
         return enabled;
@@ -37,5 +43,13 @@ public class IRpcServerProperties {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public Duration getIdleTimeOut() {
+        return idleTimeOut;
+    }
+
+    public void setIdleTimeOut(Duration idleTimeOut) {
+        this.idleTimeOut = idleTimeOut;
     }
 }

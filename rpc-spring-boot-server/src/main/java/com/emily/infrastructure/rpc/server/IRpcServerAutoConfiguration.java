@@ -28,7 +28,7 @@ public class IRpcServerAutoConfiguration implements InitializingBean, Disposable
 
     @Bean(initMethod = "startServer")
     public IRpcServerConnection rpcServer(IRpcServerProperties properties) {
-        return new IRpcServerConnection(properties.getPort());
+        return new IRpcServerConnection(properties);
     }
 
 

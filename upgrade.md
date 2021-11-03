@@ -4,6 +4,8 @@
 1. RPC客户端新增LoadBalance负载均衡策略获取客户端连接（RandomLoadBalance）
 2. 新增RPC客户端轮询RoundLoadBalance策略
 3. RPC客户端支持配置多个服务器地址
+4. 系统中所有的pom引用依赖修改为通过dependencyManagement管理
+5. 新增IllegalArgumentException非法餐宿异常捕获
 -----
 基础库发布3.11.0
 1. API请求Get方式参数记录

@@ -30,6 +30,9 @@ public class RedisDbConfigurationFactory {
      * @return
      */
     public static RedisConfiguration createRedisConfiguration(RedisProperties properties) {
+
+        Assert.notNull(properties, "RedisProperties must not be null");
+
         if (INSTANCE.getSentinelConfig(properties) != null) {
             return INSTANCE.getSentinelConfig(properties);
         }
@@ -43,6 +46,9 @@ public class RedisDbConfigurationFactory {
      * 创建单机配置
      */
     private final RedisStandaloneConfiguration getStandaloneConfig(RedisProperties properties) {
+
+        Assert.notNull(properties, "RedisProperties must not be null");
+
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         if (StringUtils.hasText(properties.getUrl())) {
             ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(properties.getUrl());
@@ -65,6 +71,9 @@ public class RedisDbConfigurationFactory {
      * 创建哨兵配置RedisSentinelConfiguration
      */
     private final RedisSentinelConfiguration getSentinelConfig(RedisProperties properties) {
+
+        Assert.notNull(properties, "RedisProperties must not be null");
+
         RedisProperties.Sentinel sentinelProperties = properties.getSentinel();
         if (sentinelProperties != null) {
             RedisSentinelConfiguration config = new RedisSentinelConfiguration();
@@ -93,6 +102,9 @@ public class RedisDbConfigurationFactory {
      * 创建RedisClusterConfiguration集群配置
      */
     private final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties) {
+
+        Assert.notNull(properties, "RedisProperties must not be null");
+
         if (properties.getCluster() == null) {
             return null;
         }

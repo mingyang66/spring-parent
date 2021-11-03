@@ -113,7 +113,7 @@ public class RedisDbConnectionFactory {
 
     private ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {
         if (properties.getCluster() != null) {
-            io.lettuce.core.cluster.ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
+            ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
             RedisProperties.Lettuce.Cluster.Refresh refreshProperties = properties.getLettuce().getCluster().getRefresh();
             io.lettuce.core.cluster.ClusterTopologyRefreshOptions.Builder refreshBuilder = ClusterTopologyRefreshOptions.builder().dynamicRefreshSources(refreshProperties.isDynamicRefreshSources());
             if (refreshProperties.getPeriod() != null) {

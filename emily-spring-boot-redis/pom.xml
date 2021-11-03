@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>3.11.0</version>
+        <version>3.11.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,18 +15,16 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-core</artifactId>
-            <version>3.11.0</version>
+            <version>3.11.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
         <!--Lettuce pool 缓存连接池-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-            <version>2.11.1</version>
         </dependency>
     </dependencies>
 </project>

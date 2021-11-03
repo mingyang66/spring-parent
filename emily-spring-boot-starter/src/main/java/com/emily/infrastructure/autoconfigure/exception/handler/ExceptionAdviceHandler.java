@@ -45,6 +45,7 @@ public class ExceptionAdviceHandler {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
     }
+
     /**
      * 数据源访问异常，如：BadSqlGrammarException等
      */
@@ -53,6 +54,7 @@ public class ExceptionAdviceHandler {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), "服务开小差了，请稍后");
     }
+
     /**
      * 空指针异常
      */
@@ -115,6 +117,15 @@ public class ExceptionAdviceHandler {
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_TYPE_EXCEPTION);
+    }
+
+    /**
+     * 非法参数异常
+     */
+    @ExceptionHandler({IllegalArgumentException.class})
+    public BaseResponse httpMessageNotReadableException(IllegalArgumentException e) {
+        recordErrorInfo(e);
+        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_TYPE_EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**

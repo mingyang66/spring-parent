@@ -2,6 +2,7 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.test.exception.ApiException;
 import com.emily.infrastructure.test.po.Job;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +24,11 @@ public class ExceptionController {
     @PostMapping("test2")
     public void customexception(@Validated @RequestBody Job job) throws ApiException {
         throw new ApiException("12", "自定义", "34");
+    }
+
+    @GetMapping("assert1")
+    public void assert1(){
+        String s = null;
+        Assert.notNull(s, "字符串为不可为空");
     }
 }

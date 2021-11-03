@@ -1,4 +1,4 @@
-mvn versions:set -DnewVersion=3.11.0
+mvn versions:set -DnewVersion=3.11.1
 echo '修改版本号'
 mvn versions:commit
 echo '提交修改'

@@ -33,7 +33,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>3.11.0</version>
+    <version>3.11.1</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 
@@ -44,19 +44,120 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
+        <netty>4.1.69.Final</netty>
+        <httpclient>4.5.13</httpclient>
+        <commons-lang3>3.11</commons-lang3>
+        <commons-io>2.7</commons-io>
+        <commons-collections4>4.4</commons-collections4>
+        <guava>30.1.1-jre</guava>
+        <jpinyin>1.1.8</jpinyin>
+        <jaxb-api>2.3.1</jaxb-api>
+        <druid>1.2.6</druid>
+        <mybatis>2.2.0</mybatis>
+        <spring-cloud>3.0.3</spring-cloud>
+        <feign-httpclient>11.6</feign-httpclient>
+        <protobuf>3.19.0</protobuf>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.stuxuhai</groupId>
+                <artifactId>jpinyin</artifactId>
+                <version>${jpinyin}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-consul-config</artifactId>
+                <version>${spring-cloud}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+                <version>${spring-cloud}</version>
+            </dependency>
+            <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>${spring-cloud}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${spring-cloud}</version>
+            </dependency>
+            <!-- 开启feign Apache HttpClient-->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version>${feign-httpclient}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <!--<defaultGoal>compile</defaultGoal>-->

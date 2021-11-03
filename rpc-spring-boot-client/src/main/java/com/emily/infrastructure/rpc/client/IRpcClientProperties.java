@@ -99,16 +99,16 @@ public class IRpcClientProperties {
         /**
          * 最大链接数
          */
-        private int maxTotal = 20;
+        private int maxTotal = 8;
         /**
          * 最小空闲数
          */
-        private int minIdle = Runtime.getRuntime().availableProcessors();
+        private int minIdle = 0;
 
         /**
          * 初始化连接数
          */
-        private int initialSize = Runtime.getRuntime().availableProcessors();
+        private int initialSize = 3;
 
         public int getMaxIdle() {
             return maxIdle;

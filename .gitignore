@@ -39,9 +39,9 @@ logs/
 out/
 .DS_Store
 venv/
-/emily-spring-boot-test/src/main/resources/application-database.yml
-/emily-spring-cloud-test/src/main/resources/application-redis.yml
-/emily-spring-boot-test/src/main/resources/application-database.properties
-/emily-spring-boot-test/src/main/resources/application-redis.properties
-/emily-spring-boot-test/src/main/resources/application-database.yml.bak
+/test-emily-spring-boot/src/main/resources/application-database.yml
+/test-emily-spring-cloud/src/main/resources/application-redis.yml
+/test-emily-spring-boot/src/main/resources/application-database.properties
+/test-emily-spring-boot/src/main/resources/application-redis.properties
+/test-emily-spring-boot/src/main/resources/application-database.yml.bak
 RpcBody.java

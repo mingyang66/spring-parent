@@ -10,24 +10,29 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.resource.DefaultClientResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.data.redis.connection.RedisConfiguration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
@@ -45,40 +50,54 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
 
     private DefaultListableBeanFactory defaultListableBeanFactory;
-    private RedisDbProperties redisDbProperties;
 
-    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory) {
         this.defaultListableBeanFactory = defaultListableBeanFactory;
-        this.redisDbProperties = redisDbProperties;
     }
 
-    @PostConstruct
-    public void stringRedisTemplate() {
+    @Bean(destroyMethod = "shutdown")
+    @ConditionalOnMissingBean(ClientResources.class)
+    DefaultClientResources lettuceClientResources() {
+        return DefaultClientResources.create();
+    }
+
+    /**
+     * 初始化redis相关bean
+     */
+    @Bean
+    public Object initTargetRedis(ClientResources clientResources, RedisDbProperties redisDbProperties) {
+
+        Assert.notNull(clientResources, "ClientResources must not be null");
+        Assert.notNull(clientResources, "RedisDbProperties must not be null");
+
         Table<String, RedisProperties, RedisConfiguration> table = createConfiguration(redisDbProperties);
         table.rowKeySet().stream().forEach(key -> {
             Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
             dataMap.forEach((properties, redisConfiguration) -> {
+                //创建链接工厂类
+                RedisConnectionFactory redisConnectionFactory = RedisDbConnectionFactory.createLettuceConnectionFactory(redisConfiguration, properties, clientResources);
                 // 获取StringRedisTemplate对象
-                StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConfiguration, properties);
+                StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
                 // 将StringRedisTemplate对象注入IOC容器bean
                 defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getStringRedisTemplateBeanName(key), stringRedisTemplate);
 
                 // 获取RedisTemplate对象
-                RedisTemplate redisTemplate = createRedisTemplate(redisConfiguration, properties);
+                RedisTemplate redisTemplate = createRedisTemplate(redisConnectionFactory);
                 // 将RedisTemplate对象注入IOC容器
                 defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getRedisTemplateBeanName(key), redisTemplate);
             });
         });
+        return "8888";
     }
 
     /**
      * 创建 StringRedisTemplate对象
      *
-     * @param redisConfiguration 配置类
+     * @param redisConnectionFactory 链接工厂对象
      * @return
      */
-    protected StringRedisTemplate createStringRedisTemplate(RedisConfiguration redisConfiguration, RedisProperties properties) {
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(RedisDbConnectionFactory.createLettuceConnectionFactory(redisConfiguration, properties));
+    protected StringRedisTemplate createStringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(redisConnectionFactory);
         stringRedisTemplate.setKeySerializer(stringSerializer());
         stringRedisTemplate.setValueSerializer(stringSerializer());
         stringRedisTemplate.setHashKeySerializer(stringSerializer());
@@ -91,12 +110,12 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     /**
      * 创建 RedisTemplate对象
      *
-     * @param redisConfiguration 配置类
+     * @param redisConnectionFactory 链接工厂对象
      * @return
      */
-    protected RedisTemplate createRedisTemplate(RedisConfiguration redisConfiguration, RedisProperties properties) {
+    protected RedisTemplate createRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate();
-        redisTemplate.setConnectionFactory(RedisDbConnectionFactory.createLettuceConnectionFactory(redisConfiguration, properties));
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(stringSerializer());
         redisTemplate.setValueSerializer(jacksonSerializer());
         redisTemplate.setHashKeySerializer(stringSerializer());

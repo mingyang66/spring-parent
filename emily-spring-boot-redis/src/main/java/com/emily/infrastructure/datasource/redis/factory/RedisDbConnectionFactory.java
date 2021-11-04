@@ -8,14 +8,12 @@ import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
-import io.lettuce.core.resource.DefaultClientResources;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import io.lettuce.core.resource.ClientResources;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
@@ -36,16 +34,11 @@ public class RedisDbConnectionFactory {
      * @param redisConfiguration 连接配置
      * @return
      */
-    public static RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration, RedisProperties properties) {
+    public static RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration, RedisProperties properties, ClientResources clientResources) {
         //redis客户端配置
-        LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
-        // 连接池配置
-        builder.poolConfig(INSTANCE.getPoolConfig(properties.getLettuce().getPool()));
+        LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = createBuilder(properties.getLettuce().getPool());
         if (properties.isSsl()) {
             builder.useSsl();
-        }
-        if (StringUtils.hasText(properties.getUrl())) {
-            INSTANCE.customizeConfigurationFromUrl(builder, properties);
         }
         // Redis客户端读取超时时间
         if (Objects.nonNull(properties.getTimeout())) {
@@ -61,8 +54,11 @@ public class RedisDbConnectionFactory {
         if (StringUtils.hasText(properties.getClientName())) {
             builder.clientName(properties.getClientName());
         }
+        if (StringUtils.hasText(properties.getUrl())) {
+            INSTANCE.customizeConfigurationFromUrl(builder, properties);
+        }
         builder.clientOptions(INSTANCE.createClientOptions(properties));
-        builder.clientResources(DefaultClientResources.create());
+        builder.clientResources(clientResources);
         // 根据配置和客户端配置创建连接
         LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, builder.build());
         // 创建Redis连接
@@ -72,28 +68,13 @@ public class RedisDbConnectionFactory {
         return factory;
     }
 
-    /**
-     * 获取连接池配置
-     *
-     * @param properties
-     * @return
-     */
-    private GenericObjectPoolConfig<?> getPoolConfig(RedisProperties.Pool properties) {
-        GenericObjectPoolConfig<?> config = new GenericObjectPoolConfig<>();
-        if (properties == null) {
-            return config;
+    private static LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool pool) {
+        if (pool == null) {
+            return LettuceClientConfiguration.builder();
         }
-        config.setMaxTotal(properties.getMaxActive());
-        config.setMaxIdle(properties.getMaxIdle());
-        config.setMinIdle(properties.getMinIdle());
-        if (properties.getTimeBetweenEvictionRuns() != null) {
-            config.setTimeBetweenEvictionRunsMillis(properties.getTimeBetweenEvictionRuns().toMillis());
-        }
-        if (properties.getMaxWait() != null) {
-            config.setMaxWaitMillis(properties.getMaxWait().toMillis());
-        }
-        return config;
+        return new RedisPoolBuilderFactory().createBuilder(pool);
     }
+
 
     private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder, RedisProperties properties) {
         ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(properties.getUrl());

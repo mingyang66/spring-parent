@@ -2,7 +2,6 @@ package com.emily.infrastructure.rpc.client.pool;
 
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.client.loadbalance.LoadBalance;
-import com.emily.infrastructure.rpc.client.loadbalance.LoadBalanceClient;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;

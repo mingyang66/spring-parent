@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布3.11.2
+1. 新增RedisPoolBuilderFactory工厂类
+2. 对redis多数据源基础组件进行优化调整，使用springboot自动化注入的方式注入ClientResources并在销毁是调用shutdown方法
+-----
 基础库发布3.11.1
 1. RPC客户端新增LoadBalance负载均衡策略获取客户端连接（RandomLoadBalance）
 2. 新增RPC客户端轮询RoundLoadBalance策略

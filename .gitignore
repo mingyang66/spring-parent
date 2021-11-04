@@ -43,5 +43,5 @@ venv/
 /test-emily-spring-cloud/src/main/resources/application-redis.yml
 /test-emily-spring-boot/src/main/resources/application-database.properties
 /test-emily-spring-boot/src/main/resources/application-redis.properties
-/test-emily-spring-boot/src/main/resources/application-database.yml.bak
+/test-emily-spring-boot/src/main/resources/bak/application-database.yml.bak
 RpcBody.java

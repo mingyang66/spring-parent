@@ -28,9 +28,11 @@ import java.util.Objects;
 public class RedisDbConnectionFactory {
 
     private RedisProperties properties;
+    private ClientResources clientResources;
 
-    public RedisDbConnectionFactory(RedisProperties properties) {
+    public RedisDbConnectionFactory(RedisProperties properties, ClientResources clientResources) {
         this.properties = properties;
+        this.clientResources = clientResources;
     }
 
     /**
@@ -39,7 +41,7 @@ public class RedisDbConnectionFactory {
      * @param redisConfiguration 连接配置
      * @return
      */
-    public RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration, ClientResources clientResources) {
+    public RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration) {
         //redis客户端配置
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = createBuilder(properties.getLettuce().getPool());
         if (properties.isSsl()) {

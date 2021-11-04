@@ -83,9 +83,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
             dataMap.forEach((properties, redisConfiguration) -> {
                 //创建自定义连接工厂类
-                RedisDbConnectionFactory connectionFactory = new RedisDbConnectionFactory(properties);
+                RedisDbConnectionFactory connectionFactory = new RedisDbConnectionFactory(properties, clientResources);
                 //创建链接工厂类
-                RedisConnectionFactory redisConnectionFactory = connectionFactory.createLettuceConnectionFactory(redisConfiguration, clientResources);
+                RedisConnectionFactory redisConnectionFactory = connectionFactory.createLettuceConnectionFactory(redisConfiguration);
                 // 获取StringRedisTemplate对象
                 StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
                 // 将StringRedisTemplate对象注入IOC容器bean

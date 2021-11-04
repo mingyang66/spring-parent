@@ -26,7 +26,12 @@ import java.util.Objects;
  * @create: 2021/07/11
  */
 public class RedisDbConnectionFactory {
-    private static final RedisDbConnectionFactory INSTANCE = new RedisDbConnectionFactory();
+
+    private RedisProperties properties;
+
+    public RedisDbConnectionFactory(RedisProperties properties) {
+        this.properties = properties;
+    }
 
     /**
      * 创建连接工厂类
@@ -34,7 +39,7 @@ public class RedisDbConnectionFactory {
      * @param redisConfiguration 连接配置
      * @return
      */
-    public static RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration, RedisProperties properties, ClientResources clientResources) {
+    public RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration, ClientResources clientResources) {
         //redis客户端配置
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = createBuilder(properties.getLettuce().getPool());
         if (properties.isSsl()) {
@@ -55,11 +60,13 @@ public class RedisDbConnectionFactory {
             builder.clientName(properties.getClientName());
         }
         if (StringUtils.hasText(properties.getUrl())) {
-            INSTANCE.customizeConfigurationFromUrl(builder, properties);
+            customizeConfigurationFromUrl(builder);
         }
-        builder.clientOptions(INSTANCE.createClientOptions(properties));
+        // 配置ClientOptions--用于控制客户端行为的客户端选项
+        builder.clientOptions(createClientOptions());
+        // 配置ClientResources
         builder.clientResources(clientResources);
-        // 根据配置和客户端配置创建连接
+        // 创建基础的连接工厂类
         LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, builder.build());
         // 创建Redis连接
         factory.afterPropertiesSet();
@@ -68,7 +75,7 @@ public class RedisDbConnectionFactory {
         return factory;
     }
 
-    private static LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool pool) {
+    private LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool pool) {
         if (pool == null) {
             return LettuceClientConfiguration.builder();
         }
@@ -76,15 +83,20 @@ public class RedisDbConnectionFactory {
     }
 
 
-    private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder, RedisProperties properties) {
+    private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder) {
         ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(properties.getUrl());
         if (connectionInfo.isUseSsl()) {
             builder.useSsl();
         }
     }
 
-    private ClientOptions createClientOptions(RedisProperties properties) {
-        ClientOptions.Builder builder = initializeClientOptionsBuilder(properties);
+    /**
+     * ClientOptions 用于控制客户端行为的客户端选项
+     *
+     * @return
+     */
+    private ClientOptions createClientOptions() {
+        ClientOptions.Builder builder = initializeClientOptionsBuilder();
         Duration connectTimeout = properties.getConnectTimeout();
         if (connectTimeout != null) {
             builder.socketOptions(SocketOptions.builder().connectTimeout(connectTimeout).build());
@@ -92,7 +104,7 @@ public class RedisDbConnectionFactory {
         return builder.timeoutOptions(TimeoutOptions.enabled()).build();
     }
 
-    private ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {
+    private ClientOptions.Builder initializeClientOptionsBuilder() {
         if (properties.getCluster() != null) {
             ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
             RedisProperties.Lettuce.Cluster.Refresh refreshProperties = properties.getLettuce().getCluster().getRefresh();

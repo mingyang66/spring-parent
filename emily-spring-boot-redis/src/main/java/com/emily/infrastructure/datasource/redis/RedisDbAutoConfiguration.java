@@ -55,6 +55,13 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
+    /**
+     * 策略实现类，提供所有基础设施的构建，如环境变量和线程池，以便客户端能够正确使用。
+     * 如果在RedisClient客户端外部创建，则可以在多个客户端实例之间共享，ClientResources的实现类是有状态的，
+     * 在不使用后必须调用shutdown方法
+     *
+     * @return
+     */
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(ClientResources.class)
     DefaultClientResources lettuceClientResources() {
@@ -70,17 +77,19 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         Assert.notNull(clientResources, "ClientResources must not be null");
         Assert.notNull(clientResources, "RedisDbProperties must not be null");
 
+        //创建Redis数据源配置key-value映射
         Table<String, RedisProperties, RedisConfiguration> table = createConfiguration(redisDbProperties);
         table.rowKeySet().stream().forEach(key -> {
             Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
             dataMap.forEach((properties, redisConfiguration) -> {
+                //创建自定义连接工厂类
+                RedisDbConnectionFactory connectionFactory = new RedisDbConnectionFactory(properties);
                 //创建链接工厂类
-                RedisConnectionFactory redisConnectionFactory = RedisDbConnectionFactory.createLettuceConnectionFactory(redisConfiguration, properties, clientResources);
+                RedisConnectionFactory redisConnectionFactory = connectionFactory.createLettuceConnectionFactory(redisConfiguration, clientResources);
                 // 获取StringRedisTemplate对象
                 StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
                 // 将StringRedisTemplate对象注入IOC容器bean
                 defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getStringRedisTemplateBeanName(key), stringRedisTemplate);
-
                 // 获取RedisTemplate对象
                 RedisTemplate redisTemplate = createRedisTemplate(redisConnectionFactory);
                 // 将RedisTemplate对象注入IOC容器

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.service;
+package com.emily.infrastructure.rpc.client.example;
 
 import java.io.Serializable;
 

@@ -1,8 +1,7 @@
-package com.emily.infrastructure.test.controller;
+package com.emily.infrastructure.rpc.client.example;
 
 import com.emily.infrastructure.rpc.client.proxy.IRpcInvokeProxy;
 import com.emily.infrastructure.rpc.core.example.Student;
-import com.emily.infrastructure.test.service.HelloService;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -16,10 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -92,7 +94,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * 初始化redis相关bean
      */
     @Bean
-    public Object initTargetRedis(ClientResources clientResources, RedisDbProperties redisDbProperties) {
+    public Object initTargetRedis(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisDbProperties redisDbProperties) {
 
         Assert.notNull(clientResources, "ClientResources must not be null");
         Assert.notNull(clientResources, "RedisDbProperties must not be null");
@@ -107,7 +109,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 //设置RedisProperties属性对象
                 redisDbConnectionFactory().setProperties(properties);
                 //创建链接工厂类
-                RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory().createLettuceConnectionFactory(redisConfiguration);
+                RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory().getRedisConnectionFactory(builderCustomizers, redisConfiguration);
                 // 获取StringRedisTemplate对象
                 StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
                 // 将StringRedisTemplate对象注入IOC容器bean
@@ -128,6 +130,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * @return
      */
     protected StringRedisTemplate createStringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+
+        Assert.notNull(redisConnectionFactory, "RedisConnectionFactory must not be null");
+
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(redisConnectionFactory);
         stringRedisTemplate.setKeySerializer(stringSerializer());
         stringRedisTemplate.setValueSerializer(stringSerializer());
@@ -145,6 +150,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * @return
      */
     protected RedisTemplate createRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+
+        Assert.notNull(redisConnectionFactory, "RedisConnectionFactory must not be null");
+
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(stringSerializer());
@@ -164,6 +172,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * @return
      */
     protected Table<String, RedisProperties, RedisConfiguration> createConfiguration(RedisDbProperties redisDbProperties) {
+
+        Assert.notNull(redisDbProperties, "RedisDbProperties must not be null");
+
         Table<String, RedisProperties, RedisConfiguration> table = HashBasedTable.create();
         Map<String, RedisProperties> redisPropertiesMap = redisDbProperties.getConfig();
         redisPropertiesMap.forEach((key, properties) -> {

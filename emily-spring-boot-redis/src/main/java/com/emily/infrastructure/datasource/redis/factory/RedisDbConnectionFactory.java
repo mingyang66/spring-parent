@@ -41,12 +41,15 @@ public class RedisDbConnectionFactory {
      * @param redisConfiguration 连接配置
      * @return
      */
-    public RedisConnectionFactory getRedisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, RedisConfiguration redisConfiguration) {
+    public RedisConnectionFactory getRedisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+                                                            RedisConfiguration redisConfiguration) {
 
         Assert.notNull(clientResources, "ClientResources must not be null");
         Assert.notNull(clientResources, "RedisDbProperties must not be null");
 
-        LettuceClientConfiguration lettuceClientConfiguration = getLettuceClientConfiguration(builderCustomizers, clientResources, getProperties().getLettuce().getPool());
+        //获取链接池配置
+        RedisProperties.Pool pool = getProperties().getLettuce().getPool();
+        LettuceClientConfiguration lettuceClientConfiguration = getLettuceClientConfiguration(builderCustomizers, clientResources, pool);
         return createLettuceConnectionFactory(lettuceClientConfiguration, redisConfiguration);
     }
 
@@ -125,20 +128,27 @@ public class RedisDbConnectionFactory {
 
     /**
      * 拓扑刷新
-     * 集群节点增加了关于节点刷新的相关属性配置
-     *
+     * 开启 自适应集群拓扑刷新和周期拓扑刷新
+     * https://github.com/lettuce-io/lettuce-core/wiki/Redis-Cluster#user-content-refreshing-the-cluster-topology-view
      * @return
      */
     private ClientOptions.Builder initializeClientOptionsBuilder() {
         if (getProperties().getCluster() != null) {
             ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
             RedisProperties.Lettuce.Cluster.Refresh refreshProperties = getProperties().getLettuce().getCluster().getRefresh();
-            io.lettuce.core.cluster.ClusterTopologyRefreshOptions.Builder refreshBuilder = ClusterTopologyRefreshOptions.builder().dynamicRefreshSources(refreshProperties.isDynamicRefreshSources());
+            ClusterTopologyRefreshOptions.Builder refreshBuilder = ClusterTopologyRefreshOptions.builder()
+                    .dynamicRefreshSources(refreshProperties.isDynamicRefreshSources());
             if (refreshProperties.getPeriod() != null) {
+                /**
+                 * 开启周期刷新
+                 */
                 refreshBuilder.enablePeriodicRefresh(refreshProperties.getPeriod());
             }
 
             if (refreshProperties.isAdaptive()) {
+                /**
+                 * 开启自适应刷新,自适应刷新不开启,Redis集群变更时将会导致连接异常
+                 */
                 refreshBuilder.enableAllAdaptiveRefreshTriggers();
             }
 

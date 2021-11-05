@@ -14,6 +14,7 @@ import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
@@ -30,9 +31,7 @@ public class RedisDbConnectionFactory {
     private RedisProperties properties;
     private ClientResources clientResources;
 
-    public RedisDbConnectionFactory(RedisProperties properties, ClientResources clientResources) {
-        this.properties = properties;
-        this.clientResources = clientResources;
+    public RedisDbConnectionFactory() {
     }
 
     /**
@@ -42,6 +41,10 @@ public class RedisDbConnectionFactory {
      * @return
      */
     public RedisConnectionFactory createLettuceConnectionFactory(RedisConfiguration redisConfiguration) {
+
+        Assert.notNull(clientResources, "ClientResources must not be null");
+        Assert.notNull(clientResources, "RedisDbProperties must not be null");
+
         //redis客户端配置
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = createBuilder(properties.getLettuce().getPool());
         if (properties.isSsl()) {
@@ -123,5 +126,21 @@ public class RedisDbConnectionFactory {
         } else {
             return ClientOptions.builder();
         }
+    }
+
+    public RedisProperties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(RedisProperties properties) {
+        this.properties = properties;
+    }
+
+    public ClientResources getClientResources() {
+        return clientResources;
+    }
+
+    public void setClientResources(ClientResources clientResources) {
+        this.clientResources = clientResources;
     }
 }

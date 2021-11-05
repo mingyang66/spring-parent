@@ -22,11 +22,11 @@ public class RedisDbFactory {
     /**
      * 字符串前缀
      */
-    private static final String PREFIX_STRING = "S";
+    private static final String PREFIX_STRING = "ST";
     /**
      * RestTemplate对象前缀
      */
-    private static final String PREFIX_REST = "R";
+    private static final String PREFIX_REST = "RT";
     /**
      * StringRedisTemplate对象缓存
      */
@@ -36,7 +36,6 @@ public class RedisDbFactory {
      */
     private static final Map<String, RedisTemplate> restCache = new ConcurrentHashMap<>();
 
-    public static final RedisDbFactory INSTANCE = new RedisDbFactory();
     /**
      * 获取Redis默认字符串模板
      *
@@ -56,7 +55,7 @@ public class RedisDbFactory {
         /**
          * 获取缓存key
          */
-        String key = INSTANCE.getStringRedisTemplateBeanName(redisMark);
+        String key = getStringRedisTemplateBeanName(redisMark);
         if (stringCache.containsKey(key)) {
             return stringCache.get(key);
         }
@@ -87,7 +86,7 @@ public class RedisDbFactory {
         /**
          * 获取缓存key
          */
-        String key = INSTANCE.getRedisTemplateBeanName(redisMark);
+        String key = getRedisTemplateBeanName(redisMark);
         if (restCache.containsKey(key)) {
             return restCache.get(key);
         }
@@ -105,7 +104,7 @@ public class RedisDbFactory {
      * @param redisMark
      * @return
      */
-    public String getStringRedisTemplateBeanName(String redisMark) {
+    public static String getStringRedisTemplateBeanName(String redisMark) {
         if (Objects.isNull(redisMark)) {
             throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
         }
@@ -118,7 +117,7 @@ public class RedisDbFactory {
      * @param redisMark
      * @return
      */
-    public String getRedisTemplateBeanName(String redisMark) {
+    public static String getRedisTemplateBeanName(String redisMark) {
         if (Objects.isNull(redisMark)) {
             throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
         }

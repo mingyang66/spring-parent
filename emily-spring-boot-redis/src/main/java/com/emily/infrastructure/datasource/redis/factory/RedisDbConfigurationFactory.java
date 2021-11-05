@@ -21,25 +21,23 @@ public class RedisDbConfigurationFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDbConfigurationFactory.class);
 
-    private static final RedisDbConfigurationFactory INSTANCE = new RedisDbConfigurationFactory();
-
     /**
      * 获取Redis配置
      *
      * @param properties
      * @return
      */
-    public static RedisConfiguration createRedisConfiguration(RedisProperties properties) {
+    public RedisConfiguration createRedisConfiguration(RedisProperties properties) {
 
         Assert.notNull(properties, "RedisProperties must not be null");
 
-        if (INSTANCE.getSentinelConfig(properties) != null) {
-            return INSTANCE.getSentinelConfig(properties);
+        if (getSentinelConfig(properties) != null) {
+            return getSentinelConfig(properties);
         }
-        if (INSTANCE.getClusterConfiguration(properties) != null) {
-            return INSTANCE.getClusterConfiguration(properties);
+        if (getClusterConfiguration(properties) != null) {
+            return getClusterConfiguration(properties);
         }
-        return INSTANCE.getStandaloneConfig(properties);
+        return getStandaloneConfig(properties);
     }
 
     /**

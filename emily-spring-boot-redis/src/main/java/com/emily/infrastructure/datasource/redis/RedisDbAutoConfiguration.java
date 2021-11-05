@@ -64,8 +64,28 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      */
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(ClientResources.class)
-    DefaultClientResources lettuceClientResources() {
+    public DefaultClientResources clientResources() {
         return DefaultClientResources.create();
+    }
+
+    /**
+     * Redis配置工厂类
+     *
+     * @return
+     */
+    @Bean
+    public RedisDbConfigurationFactory redisDbConfigurationFactory() {
+        return new RedisDbConfigurationFactory();
+    }
+
+    /**
+     * Redis连接工厂类
+     *
+     * @return
+     */
+    @Bean
+    public RedisDbConnectionFactory redisDbConnectionFactory() {
+        return new RedisDbConnectionFactory();
     }
 
     /**
@@ -82,21 +102,23 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         table.rowKeySet().stream().forEach(key -> {
             Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
             dataMap.forEach((properties, redisConfiguration) -> {
-                //创建自定义连接工厂类
-                RedisDbConnectionFactory connectionFactory = new RedisDbConnectionFactory(properties, clientResources);
+                //设置ClientResources客户端资源对象
+                redisDbConnectionFactory().setClientResources(clientResources);
+                //设置RedisProperties属性对象
+                redisDbConnectionFactory().setProperties(properties);
                 //创建链接工厂类
-                RedisConnectionFactory redisConnectionFactory = connectionFactory.createLettuceConnectionFactory(redisConfiguration);
+                RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory().createLettuceConnectionFactory(redisConfiguration);
                 // 获取StringRedisTemplate对象
                 StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
                 // 将StringRedisTemplate对象注入IOC容器bean
-                defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getStringRedisTemplateBeanName(key), stringRedisTemplate);
+                defaultListableBeanFactory.registerSingleton(RedisDbFactory.getStringRedisTemplateBeanName(key), stringRedisTemplate);
                 // 获取RedisTemplate对象
                 RedisTemplate redisTemplate = createRedisTemplate(redisConnectionFactory);
                 // 将RedisTemplate对象注入IOC容器
-                defaultListableBeanFactory.registerSingleton(RedisDbFactory.INSTANCE.getRedisTemplateBeanName(key), redisTemplate);
+                defaultListableBeanFactory.registerSingleton(RedisDbFactory.getRedisTemplateBeanName(key), redisTemplate);
             });
         });
-        return "8888";
+        return "UNSET";
     }
 
     /**
@@ -145,7 +167,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         Table<String, RedisProperties, RedisConfiguration> table = HashBasedTable.create();
         Map<String, RedisProperties> redisPropertiesMap = redisDbProperties.getConfig();
         redisPropertiesMap.forEach((key, properties) -> {
-            RedisConfiguration redisConfiguration = RedisDbConfigurationFactory.createRedisConfiguration(properties);
+            RedisConfiguration redisConfiguration = redisDbConfigurationFactory().createRedisConfiguration(properties);
             table.put(key, properties, redisConfiguration);
         });
         return table;

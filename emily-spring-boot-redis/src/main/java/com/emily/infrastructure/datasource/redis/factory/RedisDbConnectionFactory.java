@@ -32,7 +32,9 @@ public class RedisDbConnectionFactory {
     private RedisProperties properties;
     private ClientResources clientResources;
 
-    public RedisDbConnectionFactory() {
+    public RedisDbConnectionFactory(ClientResources clientResources, RedisProperties properties) {
+        this.clientResources = clientResources;
+        this.properties = properties;
     }
 
     /**
@@ -129,6 +131,7 @@ public class RedisDbConnectionFactory {
      * 拓扑刷新
      * 开启 自适应集群拓扑刷新和周期拓扑刷新
      * https://github.com/lettuce-io/lettuce-core/wiki/Redis-Cluster#user-content-refreshing-the-cluster-topology-view
+     *
      * @return
      */
     private ClientOptions.Builder initializeClientOptionsBuilder() {

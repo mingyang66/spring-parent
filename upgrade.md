@@ -1,5 +1,8 @@
 ### 
 -----
+基础库发布3.11.3
+1. 
+-----
 基础库发布3.11.2
 1. 新增RedisPoolBuilderFactory工厂类
 2. 对redis多数据源基础组件进行优化调整，使用springboot自动化注入的方式注入ClientResources并在销毁是调用shutdown方法

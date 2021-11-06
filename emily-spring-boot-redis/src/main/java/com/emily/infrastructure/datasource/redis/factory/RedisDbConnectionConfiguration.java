@@ -1,55 +1,56 @@
 package com.emily.infrastructure.datasource.redis.factory;
 
-import com.emily.infrastructure.datasource.redis.entity.ConnectionInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.emily.infrastructure.datasource.redis.exception.RedisUrlSyntaxException;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.*;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @program: spring-parent
- * @description: RedisConfiguration工厂配置类
+ * @description: RedisConfiguration工厂配置类  RedisConnectionConfiguration
  * @author: Emily
  * @create: 2021/07/11
  */
-public class RedisDbConfigurationFactory {
+public class RedisDbConnectionConfiguration {
 
-    private static final Logger logger = LoggerFactory.getLogger(RedisDbConfigurationFactory.class);
+    private RedisProperties properties;
+
+    public RedisDbConnectionConfiguration(RedisProperties properties) {
+        this.properties = properties;
+    }
 
     /**
      * 获取Redis配置
      *
-     * @param properties
      * @return
      */
-    public RedisConfiguration createRedisConfiguration(RedisProperties properties) {
+    public RedisConfiguration createRedisConfiguration() {
 
-        Assert.notNull(properties, "RedisProperties must not be null");
-
-        if (getSentinelConfig(properties) != null) {
-            return getSentinelConfig(properties);
+        if (getSentinelConfig() != null) {
+            return getSentinelConfig();
         }
-        if (getClusterConfiguration(properties) != null) {
-            return getClusterConfiguration(properties);
+        if (getClusterConfiguration() != null) {
+            return getClusterConfiguration();
         }
-        return getStandaloneConfig(properties);
+        return getStandaloneConfig();
     }
 
     /**
      * 创建单机配置
      */
-    private final RedisStandaloneConfiguration getStandaloneConfig(RedisProperties properties) {
+    protected final RedisStandaloneConfiguration getStandaloneConfig() {
 
         Assert.notNull(properties, "RedisProperties must not be null");
 
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        if (StringUtils.hasText(properties.getUrl())) {
-            ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(properties.getUrl());
+        if (StringUtils.hasText(this.properties.getUrl())) {
+            ConnectionInfo connectionInfo = parseUrl(properties.getUrl());
             config.setHostName(connectionInfo.getHostName());
             config.setPort(connectionInfo.getPort());
             config.setUsername(connectionInfo.getUsername());
@@ -61,35 +62,28 @@ public class RedisDbConfigurationFactory {
             config.setPassword(RedisPassword.of(properties.getPassword()));
         }
         config.setDatabase(properties.getDatabase());
-        logger.info("初始化Redis单机连接配置-{}:{}", config.getHostName(), config.getPort());
         return config;
     }
 
     /**
      * 创建哨兵配置RedisSentinelConfiguration
      */
-    private final RedisSentinelConfiguration getSentinelConfig(RedisProperties properties) {
+    private final RedisSentinelConfiguration getSentinelConfig() {
 
         Assert.notNull(properties, "RedisProperties must not be null");
 
         RedisProperties.Sentinel sentinelProperties = properties.getSentinel();
         if (sentinelProperties != null) {
             RedisSentinelConfiguration config = new RedisSentinelConfiguration();
-            // Redis服务器名称
             config.master(sentinelProperties.getMaster());
-            // 哨兵sentinel "host:port"节点配置
             config.setSentinels(createSentinels(sentinelProperties));
-            // Redis服务器登录名
             config.setUsername(properties.getUsername());
-            // Redis服务器登录密码
             if (properties.getPassword() != null) {
                 config.setPassword(RedisPassword.of(properties.getPassword()));
             }
-            // 哨兵sentinel进行身份验证的密码
             if (sentinelProperties.getPassword() != null) {
                 config.setSentinelPassword(RedisPassword.of(sentinelProperties.getPassword()));
             }
-            // 连接工厂使用的数据库索引
             config.setDatabase(properties.getDatabase());
             return config;
         }
@@ -99,7 +93,7 @@ public class RedisDbConfigurationFactory {
     /**
      * 创建RedisClusterConfiguration集群配置
      */
-    private final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties) {
+    private final RedisClusterConfiguration getClusterConfiguration() {
 
         Assert.notNull(properties, "RedisProperties must not be null");
 
@@ -128,7 +122,6 @@ public class RedisDbConfigurationFactory {
         List<RedisNode> nodes = new ArrayList<>();
         for (String node : sentinel.getNodes()) {
             try {
-                logger.info("初始化Redis哨兵连接配置-{}", node);
                 String[] parts = StringUtils.split(node, ":");
                 Assert.state(parts.length == 2, "Must be defined as 'host:port'");
                 nodes.add(new RedisNode(parts[0], Integer.parseInt(parts[1])));
@@ -137,5 +130,71 @@ public class RedisDbConfigurationFactory {
             }
         }
         return nodes;
+    }
+
+
+    static ConnectionInfo parseUrl(String url) {
+        try {
+            URI uri = new URI(url);
+            String scheme = uri.getScheme();
+            if (!"redis".equals(scheme) && !"rediss".equals(scheme)) {
+                throw new RedisUrlSyntaxException(url);
+            }
+            boolean useSsl = ("rediss".equals(scheme));
+            String username = null;
+            String password = null;
+            if (uri.getUserInfo() != null) {
+                String candidate = uri.getUserInfo();
+                int index = candidate.indexOf(':');
+                if (index >= 0) {
+                    username = candidate.substring(0, index);
+                    password = candidate.substring(index + 1);
+                } else {
+                    password = candidate;
+                }
+            }
+            return new ConnectionInfo(uri, useSsl, username, password);
+        } catch (URISyntaxException ex) {
+            throw new RedisUrlSyntaxException(url, ex);
+        }
+    }
+
+    static class ConnectionInfo {
+
+        private final URI uri;
+
+        private final boolean useSsl;
+
+        private final String username;
+
+        private final String password;
+
+        ConnectionInfo(URI uri, boolean useSsl, String username, String password) {
+            this.uri = uri;
+            this.useSsl = useSsl;
+            this.username = username;
+            this.password = password;
+        }
+
+        boolean isUseSsl() {
+            return this.useSsl;
+        }
+
+        String getHostName() {
+            return this.uri.getHost();
+        }
+
+        int getPort() {
+            return this.uri.getPort();
+        }
+
+        String getUsername() {
+            return this.username;
+        }
+
+        String getPassword() {
+            return this.password;
+        }
+
     }
 }

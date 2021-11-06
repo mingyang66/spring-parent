@@ -1,7 +1,6 @@
 package com.emily.infrastructure.datasource.redis.factory;
 
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.datasource.redis.entity.ConnectionInfo;
 import com.emily.infrastructure.datasource.redis.thread.RedisDbRunnable;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
@@ -49,20 +48,19 @@ public class RedisDbConnectionFactory {
 
         //获取链接池配置
         RedisProperties.Pool pool = getProperties().getLettuce().getPool();
-        LettuceClientConfiguration lettuceClientConfiguration = getLettuceClientConfiguration(builderCustomizers, clientResources, pool);
+        LettuceClientConfiguration lettuceClientConfiguration = getLettuceClientConfiguration(builderCustomizers, pool);
         return createLettuceConnectionFactory(lettuceClientConfiguration, redisConfiguration);
     }
 
     private LettuceClientConfiguration getLettuceClientConfiguration(
-            ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
-            ClientResources clientResources, RedisProperties.Pool pool) {
+            ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, RedisProperties.Pool pool) {
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = createBuilder(pool);
         applyProperties(builder);
         if (StringUtils.hasText(getProperties().getUrl())) {
             customizeConfigurationFromUrl(builder);
         }
         builder.clientOptions(createClientOptions());
-        builder.clientResources(clientResources);
+        builder.clientResources(getClientResources());
         builderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
         return builder.build();
     }
@@ -106,7 +104,7 @@ public class RedisDbConnectionFactory {
     }
 
     private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder) {
-        ConnectionInfo connectionInfo = ConnectionInfo.parseUrl(getProperties().getUrl());
+        RedisDbConnectionConfiguration.ConnectionInfo connectionInfo = RedisDbConnectionConfiguration.parseUrl(getProperties().getUrl());
         if (connectionInfo.isUseSsl()) {
             builder.useSsl();
         }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.datasource.redis;
 
-import com.emily.infrastructure.datasource.redis.factory.RedisDbConfigurationFactory;
+import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionConfiguration;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionFactory;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -68,16 +68,6 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @ConditionalOnMissingBean(ClientResources.class)
     public DefaultClientResources clientResources() {
         return DefaultClientResources.create();
-    }
-
-    /**
-     * Redis配置工厂类
-     *
-     * @return
-     */
-    @Bean
-    public RedisDbConfigurationFactory redisDbConfigurationFactory() {
-        return new RedisDbConfigurationFactory();
     }
 
     /**
@@ -178,7 +168,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         Table<String, RedisProperties, RedisConfiguration> table = HashBasedTable.create();
         Map<String, RedisProperties> redisPropertiesMap = redisDbProperties.getConfig();
         redisPropertiesMap.forEach((key, properties) -> {
-            RedisConfiguration redisConfiguration = redisDbConfigurationFactory().createRedisConfiguration(properties);
+            RedisDbConnectionConfiguration redisDbConnectionConfiguration = new RedisDbConnectionConfiguration(properties);
+            RedisConfiguration redisConfiguration = redisDbConnectionConfiguration.createRedisConfiguration();
             table.put(key, properties, redisConfiguration);
         });
         return table;

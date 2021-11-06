@@ -19,6 +19,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
@@ -27,6 +28,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.core.Ordered;
 import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -43,10 +45,11 @@ import java.util.Map;
  * @author: Emily
  * @create: 2021/07/11
  */
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE+1)
 @EnableConfigurationProperties(RedisDbProperties.class)
 @ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);

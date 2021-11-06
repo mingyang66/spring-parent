@@ -52,7 +52,7 @@
         <guava>30.1.1-jre</guava>
         <jpinyin>1.1.8</jpinyin>
         <jaxb-api>2.3.1</jaxb-api>
-        <druid>1.2.6</druid>
+        <druid>1.2.8</druid>
         <mybatis>2.2.0</mybatis>
         <spring-cloud>3.0.3</spring-cloud>
         <feign-httpclient>11.6</feign-httpclient>

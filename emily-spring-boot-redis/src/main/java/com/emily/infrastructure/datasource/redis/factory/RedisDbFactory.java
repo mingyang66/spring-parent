@@ -6,6 +6,7 @@ import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.datasource.redis.RedisDbProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -105,9 +106,9 @@ public class RedisDbFactory {
      * @return
      */
     public static String getStringRedisTemplateBeanName(String redisMark) {
-        if (Objects.isNull(redisMark)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
-        }
+
+        Assert.notNull(redisMark, "Redis数据库标识不可为空");
+
         return MessageFormat.format("{0}_{1}", PREFIX_STRING, redisMark);
     }
 
@@ -118,9 +119,9 @@ public class RedisDbFactory {
      * @return
      */
     public static String getRedisTemplateBeanName(String redisMark) {
-        if (Objects.isNull(redisMark)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), "Redis数据库标识不可为空");
-        }
+
+        Assert.notNull(redisMark, "Redis数据库标识不可为空");
+
         return MessageFormat.format("{0}_{1}", PREFIX_REST, redisMark);
     }
 }

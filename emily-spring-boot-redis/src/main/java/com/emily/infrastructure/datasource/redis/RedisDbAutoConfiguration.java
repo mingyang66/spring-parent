@@ -1,5 +1,6 @@
 package com.emily.infrastructure.datasource.redis;
 
+import com.emily.infrastructure.datasource.redis.event.RedisDbEventConsumer;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionConfiguration;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionFactory;
 import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
@@ -10,6 +11,11 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import io.lettuce.core.event.DefaultEventBus;
+import io.lettuce.core.event.DefaultEventPublisherOptions;
+import io.lettuce.core.event.EventBus;
+import io.lettuce.core.metrics.DefaultCommandLatencyCollector;
+import io.lettuce.core.metrics.DefaultCommandLatencyCollectorOptions;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.slf4j.Logger;
@@ -37,6 +43,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.util.Map;
 
 /**
@@ -48,7 +55,7 @@ import java.util.Map;
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
-@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE+1)
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 1)
 @EnableConfigurationProperties(RedisDbProperties.class)
 @ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
@@ -61,17 +68,30 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
+    @Bean(initMethod = "init")
+    public RedisDbEventConsumer redisDbEventConsumer(ClientResources clientResources) {
+        return new RedisDbEventConsumer(clientResources.eventBus());
+    }
+
     /**
      * 策略实现类，提供所有基础设施的构建，如环境变量和线程池，以便客户端能够正确使用。
      * 如果在RedisClient客户端外部创建，则可以在多个客户端实例之间共享，ClientResources的实现类是有状态的，
      * 在不使用后必须调用shutdown方法
-     *
+     * https://blog.csdn.net/zhxdick/article/details/119633581
      * @return
      */
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(ClientResources.class)
     public DefaultClientResources clientResources() {
-        return DefaultClientResources.create();
+        return DefaultClientResources.builder().commandLatencyRecorder(
+                new DefaultCommandLatencyCollector(
+                        //开启 CommandLatency 事件采集，并且配置每次采集后都清空数据
+                        DefaultCommandLatencyCollectorOptions.builder().enable().resetLatenciesAfterEvent(true).build()
+                )
+                ).commandLatencyPublisherOptions(
+                        //每 10s 采集一次命令统计
+                        DefaultEventPublisherOptions.builder().eventEmitInterval(Duration.ofSeconds(10)).build()
+                ).build();
     }
 
     /**

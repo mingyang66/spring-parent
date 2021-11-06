@@ -42,6 +42,7 @@ import java.util.Map;
 /**
  * @program: spring-parent
  * @description: Redis多数据源配置，参考源码：LettuceConnectionConfiguration
+ * {@link org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration}
  * @author: Emily
  * @create: 2021/07/11
  */

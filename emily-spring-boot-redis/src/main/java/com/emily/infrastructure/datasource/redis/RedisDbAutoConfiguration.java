@@ -11,11 +11,6 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import io.lettuce.core.event.DefaultEventBus;
-import io.lettuce.core.event.DefaultEventPublisherOptions;
-import io.lettuce.core.event.EventBus;
-import io.lettuce.core.metrics.DefaultCommandLatencyCollector;
-import io.lettuce.core.metrics.DefaultCommandLatencyCollectorOptions;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.slf4j.Logger;
@@ -43,7 +38,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 
-import java.time.Duration;
 import java.util.Map;
 
 /**

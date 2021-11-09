@@ -83,7 +83,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(ClientResources.class)
     public DefaultClientResources clientResources() {
-        return DefaultClientResources.builder().commandLatencyRecorder(
+        return DefaultClientResources.create();
+       /* return DefaultClientResources.builder()
+                .commandLatencyRecorder(
                 new DefaultCommandLatencyCollector(
                         //开启 CommandLatency 事件采集，并且配置每次采集后都清空数据
                         DefaultCommandLatencyCollectorOptions.builder().enable().resetLatenciesAfterEvent(true).build()
@@ -91,7 +93,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 ).commandLatencyPublisherOptions(
                         //每 10s 采集一次命令统计
                         DefaultEventPublisherOptions.builder().eventEmitInterval(Duration.ofSeconds(10)).build()
-                ).build();
+                ).build();*/
     }
 
     /**

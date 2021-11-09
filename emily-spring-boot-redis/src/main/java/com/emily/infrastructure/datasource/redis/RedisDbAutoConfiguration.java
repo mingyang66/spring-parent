@@ -131,7 +131,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
         Assert.notNull(redisConnectionFactory, "RedisConnectionFactory must not be null");
 
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(redisConnectionFactory);
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
         stringRedisTemplate.setKeySerializer(stringSerializer());
         stringRedisTemplate.setValueSerializer(stringSerializer());
         stringRedisTemplate.setHashKeySerializer(stringSerializer());
@@ -147,7 +148,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * @param redisConnectionFactory 链接工厂对象
      * @return
      */
-    protected RedisTemplate createRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    protected RedisTemplate<Object, Object> createRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
         Assert.notNull(redisConnectionFactory, "RedisConnectionFactory must not be null");
 

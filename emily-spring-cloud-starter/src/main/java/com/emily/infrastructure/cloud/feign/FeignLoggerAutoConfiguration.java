@@ -4,7 +4,7 @@ import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerMethodInterce
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
-import com.emily.infrastructure.common.enums.AopOrderEnum;
+import com.emily.infrastructure.common.enums.AopOrder;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import feign.Logger;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +61,7 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
         //设置增强（Advice）
         advisor.setAdvice(new FeignLoggerMethodInterceptor());
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.FEIGN_LOG_NORMAL.getOrder());
+        advisor.setOrder(AopOrder.FEIGN_LOG_NORMAL.getOrder());
         return advisor;
     }
 

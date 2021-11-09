@@ -2,7 +2,7 @@ package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.emily.infrastructure.common.enums.AopOrderEnum;
+import com.emily.infrastructure.common.enums.AopOrder;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
@@ -77,7 +77,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
         advisor.setAdvice(new DataSourceMethodInterceptor(dataSourceProperties));
-        advisor.setOrder(AopOrderEnum.DATASOURCE_AOP.getOrder());
+        advisor.setOrder(AopOrder.DATASOURCE_AOP.getOrder());
         return advisor;
     }
 

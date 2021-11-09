@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
-import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -57,7 +57,7 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
             baseLogger.setBody(response);
             //异步记录接口响应信息

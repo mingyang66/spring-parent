@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.date;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -272,7 +272,7 @@ public class DateUtils {
      */
     public static boolean tryParse(String dateStr) {
         try {
-            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, DateFormatEnum.getAllFormats());
+            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, DateFormat.getAllFormats());
         } catch (ParseException e) {
             return false;
         }
@@ -299,7 +299,7 @@ public class DateUtils {
      * 将日期类型转换为数字类型
      *
      * @param date   日期
-     * @param format 格式@{@link DateFormatEnum}
+     * @param format 格式@{@link DateFormat}
      * @return
      */
     public static Long dateToNum(Date date, String format) {
@@ -313,7 +313,7 @@ public class DateUtils {
      * 将日期类型转换为数字类型
      *
      * @param date   日期
-     * @param format 格式@{@link DateFormatEnum}
+     * @param format 格式@{@link DateFormat}
      * @return
      */
     public static Long dateToNum(LocalDate date, String format) {
@@ -327,7 +327,7 @@ public class DateUtils {
      * 将日期类型转换为数字类型
      *
      * @param date   日期
-     * @param format 格式@{@link DateFormatEnum}
+     * @param format 格式@{@link DateFormat}
      * @return YYYYMMDD格式
      */
     public static Long dateToNum(LocalDateTime date, String format) {
@@ -341,7 +341,7 @@ public class DateUtils {
      * 将数字类型日期转换类Date类型
      *
      * @param date   日期数字
-     * @param format 格式@{@link DateFormatEnum}
+     * @param format 格式@{@link DateFormat}
      * @return
      */
     public static Date numToDate(Long date, String format) {
@@ -355,7 +355,7 @@ public class DateUtils {
      * 将数字类型日期转换类LocalDate类型
      *
      * @param date   日期数字
-     * @param format 格式@{@link DateFormatEnum}
+     * @param format 格式@{@link DateFormat}
      * @return
      */
     public static LocalDate numToLocalDate(Long date, String format) {
@@ -372,7 +372,7 @@ public class DateUtils {
      * 将数字类型日期转换类LocalDateTime类型
      *
      * @param date   日期数字
-     * @param format 格式@{@link DateFormatEnum}
+     * @param format 格式@{@link DateFormat}
      * @return
      */
     public static LocalDateTime numToLocalDateTime(Long date, String format) {

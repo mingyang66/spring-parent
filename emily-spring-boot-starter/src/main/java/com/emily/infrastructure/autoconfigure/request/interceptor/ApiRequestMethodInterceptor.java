@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
@@ -44,7 +44,7 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
             //事务唯一编号
             baseLogger.setTraceId(ContextHolder.get().getTraceId());
             //时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //控制器方法名
             baseLogger.setMethod(invocation.getMethod().getName());
             //请求url
@@ -68,7 +68,7 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - ContextHolder.get().getStartTime());
             //时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //移除线程上下文数据

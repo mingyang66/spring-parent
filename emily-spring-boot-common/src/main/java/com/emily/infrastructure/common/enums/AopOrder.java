@@ -5,7 +5,7 @@ package com.emily.infrastructure.common.enums;
  * @Description: 定义优先级顺序
  * @create: 2020/3/23
  */
-public enum AopOrderEnum {
+public enum AopOrder {
     /**
      * API正常日志
      */
@@ -25,7 +25,7 @@ public enum AopOrderEnum {
 
     private int order;
 
-    AopOrderEnum(int order) {
+    AopOrder(int order) {
         this.order = order;
     }
 

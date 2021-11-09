@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.request;
 
 import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestMethodInterceptor;
-import com.emily.infrastructure.common.enums.AopOrderEnum;
+import com.emily.infrastructure.common.enums.AopOrder;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -61,7 +61,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
         //设置增强（Advice）
         advisor.setAdvice(new ApiRequestMethodInterceptor());
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderEnum.API_LOG_NORMAL.getOrder());
+        advisor.setOrder(AopOrder.API_LOG_NORMAL.getOrder());
         return advisor;
     }
 

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * @Version: 1.0
  */
 @SuppressWarnings("all")
-public enum DateFormatEnum {
+public enum DateFormat {
     YYYY_MM("yyyy-MM"),
     YYYY_MM_DD("yyyy-MM-dd"),
     YYYY_MM_DD_HH_MM("yyyy-MM-dd HH:mm"),
@@ -61,7 +61,7 @@ public enum DateFormatEnum {
 
 
     private final String format;
-    DateFormatEnum(String format){
+    DateFormat(String format){
         this.format = format;
     }
 
@@ -75,7 +75,7 @@ public enum DateFormatEnum {
      */
     public static String[] getAllFormats(){
         String[] formats = new String[]{};
-        DateFormatEnum[] formatEnums = DateFormatEnum.values();
+        DateFormat[] formatEnums = DateFormat.values();
         for(int i=0; i<formatEnums.length; i++){
             formats = ArrayUtils.add(formats, formatEnums[i].getFormat());
         }

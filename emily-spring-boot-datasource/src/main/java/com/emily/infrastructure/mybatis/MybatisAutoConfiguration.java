@@ -1,6 +1,6 @@
 package com.emily.infrastructure.mybatis;
 
-import com.emily.infrastructure.common.enums.AopOrderEnum;
+import com.emily.infrastructure.common.enums.AopOrder;
 import com.emily.infrastructure.mybatis.interceptor.MybatisMethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -44,7 +44,7 @@ public class MybatisAutoConfiguration {
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
         advisor.setAdvice(new MybatisMethodInterceptor());
-        advisor.setOrder(AopOrderEnum.MYBATIS_AOP.getOrder());
+        advisor.setOrder(AopOrder.MYBATIS_AOP.getOrder());
         return advisor;
     }
 

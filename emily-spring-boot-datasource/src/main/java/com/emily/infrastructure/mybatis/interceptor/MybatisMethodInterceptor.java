@@ -1,6 +1,6 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
-import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
@@ -62,7 +62,7 @@ public class MybatisMethodInterceptor implements MethodInterceptor {
             baseLogger.setRequestParams(requestParam);
             baseLogger.setBody(response);
             baseLogger.setUrl(action);
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatEnum.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
             baseLogger.setTime(System.currentTimeMillis() - start);
             baseLogger.setMethod("DB");
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> {

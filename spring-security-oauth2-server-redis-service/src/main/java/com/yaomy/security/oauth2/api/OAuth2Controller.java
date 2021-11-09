@@ -1,7 +1,7 @@
 package com.yaomy.security.oauth2.api;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.enums.DateFormatEnum;
+import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.google.common.collect.Lists;
@@ -148,7 +148,7 @@ public class OAuth2Controller {
             //是否过期
             map.put("isExpired", accessToken.isExpired());
             //过期时间
-            map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat()));
+            map.put("expiration", DateFormatUtils.format(accessToken.getExpiration(), DateFormat.YYYY_MM_DD_HH_MM_SS.getFormat()));
             return BaseResponse.buildResponse(AppHttpStatus.OK, map);
         } catch (Exception e){
             e.printStackTrace();

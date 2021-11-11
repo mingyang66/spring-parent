@@ -13,7 +13,7 @@ import java.util.UUID;
  */
 public class ContextHolder {
 
-    private static final ThreadLocal<RequestHolder> CONTEXT = new ThreadLocal<>();
+    private static final ThreadLocal<RequestHolder> CONTEXT = new InheritableThreadLocal<>();
 
     /**
      * 设置当前线程持有的数据源

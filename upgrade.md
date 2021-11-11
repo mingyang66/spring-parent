@@ -2,6 +2,8 @@
 -----
 基础库发布3.11.3
 1. 新增Redis数据源指标监控采集能力
+2. ContextHolder上下文持有数据有ThreadLocal更改为InheritableThreadLocal，解决子线程拿不到父线程数据的问题
+3. RestTemplate新增请求header添加traceId事务唯一编号
 -----
 基础库发布3.11.2
 1. 新增RedisPoolBuilderFactory工厂类

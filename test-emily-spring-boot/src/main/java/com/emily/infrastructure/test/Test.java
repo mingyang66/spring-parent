@@ -46,15 +46,4 @@ public class Test {
         });
         System.out.println(future2.get()+"");
     }
-
-    private static Executor executor = TtlExecutors.getTtlExecutor(Executors.newCachedThreadPool());
-    @GetMapping("test")
-    public String get() throws ExecutionException, InterruptedException {
-        System.out.println("-----上下文ID:"+ContextHolder.get().getTraceId());
-        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(TtlWrappers.wrap(()->{
-            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + ContextHolder.get().getTraceId());
-            return ContextHolder.get().getTraceId();
-        }));
-        return future1.get();
-    }
 }

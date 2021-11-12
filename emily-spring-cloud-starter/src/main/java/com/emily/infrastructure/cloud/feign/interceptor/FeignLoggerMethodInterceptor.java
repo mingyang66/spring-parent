@@ -54,6 +54,10 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
         } finally {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.get();
+            //客户端IP
+            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            //服务端IP
+            baseLogger.setServerIp(ContextHolder.get().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间

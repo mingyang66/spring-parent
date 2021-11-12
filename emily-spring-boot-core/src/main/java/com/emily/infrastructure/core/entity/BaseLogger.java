@@ -18,6 +18,14 @@ public class BaseLogger implements Serializable {
      */
     private String traceId;
     /**
+     * 客户端IP
+     */
+    private String clientIp;
+    /**
+     * 服务端IP
+     */
+    private String serverIp;
+    /**
      * 请求URL
      */
     private String url;
@@ -108,5 +116,21 @@ public class BaseLogger implements Serializable {
 
     public void setBody(Object body) {
         this.body = body;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
     }
 }

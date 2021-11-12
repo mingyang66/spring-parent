@@ -69,6 +69,10 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
             }
             throw ex;
         } finally {
+            //客户端IP
+            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            //服务端IP
+            baseLogger.setServerIp(ContextHolder.get().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - ContextHolder.get().getStartTime());
             //时间

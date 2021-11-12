@@ -63,6 +63,10 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
+            //客户端IP
+            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            //服务端IP
+            baseLogger.setServerIp(ContextHolder.get().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //响应时间

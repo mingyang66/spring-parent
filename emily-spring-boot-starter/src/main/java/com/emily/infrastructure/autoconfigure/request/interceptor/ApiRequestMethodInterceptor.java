@@ -41,6 +41,10 @@ public class ApiRequestMethodInterceptor implements MethodInterceptor {
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         try {
+            //客户端IP
+            ContextHolder.get().setClientIp(RequestUtils.getClientIp());
+            //服务端IP
+            ContextHolder.get().setServerIp(RequestUtils.getServerIp());
             //事务唯一编号
             baseLogger.setTraceId(ContextHolder.get().getTraceId());
             //时间

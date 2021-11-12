@@ -33,7 +33,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>3.11.2</version>
+    <version>3.11.3</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 
@@ -57,6 +57,7 @@
         <spring-cloud>3.0.3</spring-cloud>
         <feign-httpclient>11.6</feign-httpclient>
         <protobuf>3.19.0</protobuf>
+        <TTL>2.12.2</TTL>
     </properties>
 
     <dependencies>
@@ -155,6 +156,11 @@
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
                 <version>${protobuf}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${TTL}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

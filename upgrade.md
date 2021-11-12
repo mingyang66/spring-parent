@@ -4,6 +4,7 @@
 1. 新增Redis数据源指标监控采集能力
 2. ContextHolder上下文持有数据有ThreadLocal更改为InheritableThreadLocal，解决子线程拿不到父线程数据的问题
 3. RestTemplate新增请求header添加traceId事务唯一编号
+4. ContextHolder全局属性存储对象由InheritableThreadLocal更改为阿里开源组件TransmittableThreadLocal，支持多数据源父子线程的继承关系
 -----
 基础库发布3.11.2
 1. 新增RedisPoolBuilderFactory工厂类

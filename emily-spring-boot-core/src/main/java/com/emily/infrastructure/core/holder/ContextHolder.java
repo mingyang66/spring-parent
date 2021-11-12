@@ -1,5 +1,6 @@
 package com.emily.infrastructure.core.holder;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
  */
 public class ContextHolder {
 
-    private static final ThreadLocal<RequestHolder> CONTEXT = new InheritableThreadLocal<>();
+    private static final ThreadLocal<RequestHolder> CONTEXT = new TransmittableThreadLocal<>();
 
     /**
      * 设置当前线程持有的数据源
@@ -58,6 +59,14 @@ public class ContextHolder {
          * 开启时间
          */
         private Long startTime;
+        /**
+         * 客户端IP
+         */
+        private String clientIp;
+        /**
+         * 服务端IP
+         */
+        private String serverIp;
 
 
         public RequestHolder() {
@@ -87,6 +96,22 @@ public class ContextHolder {
 
         public void setStartTime(Long startTime) {
             this.startTime = startTime;
+        }
+
+        public String getClientIp() {
+            return clientIp;
+        }
+
+        public void setClientIp(String clientIp) {
+            this.clientIp = clientIp;
+        }
+
+        public String getServerIp() {
+            return serverIp;
+        }
+
+        public void setServerIp(String serverIp) {
+            this.serverIp = serverIp;
         }
     }
 }

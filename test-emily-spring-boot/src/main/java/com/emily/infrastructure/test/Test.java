@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test;
 
-import java.time.Duration;
+import com.alibaba.ttl.TtlRunnable;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,11 +18,11 @@ public class Test {
     public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException, InterruptedException {
         threadLocal.set("主线程1。。。");
         System.out.println("线程1：" + threadLocal.get());
-        executorService.submit(() -> System.out.println("子线程：" + Thread.currentThread().getName() + ":" + threadLocal.get()));
+        executorService.submit(TtlRunnable.get(() -> System.out.println("子线程：" + Thread.currentThread().getName() + ":" + threadLocal.get())));
         Thread.sleep(1000);
         threadLocal.set("主线程2。。。");
         System.out.println("线程2：" + threadLocal.get());
-        executorService.submit(() -> System.out.println("子线程：" + Thread.currentThread().getName() + ":" + threadLocal.get()));
+        executorService.submit(TtlRunnable.get(() -> System.out.println("子线程：" + Thread.currentThread().getName() + ":" + threadLocal.get())));
     }
 
 }

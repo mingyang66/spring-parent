@@ -33,6 +33,7 @@ public class RedisController {
     public String get1() {
 
         RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
+        RedisDbFactory.getStringRedisTemplate().opsForValue().set("test66", "123", 12);
         Map<String, Object> dataMap = Maps.newHashMap();
         dataMap.put("te", 12);
         dataMap.put("te2", 12);

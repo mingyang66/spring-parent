@@ -7,7 +7,7 @@ package com.emily.infrastructure.test.po;
  * @create: 2021/08/08
  */
 public class User {
-    private String username;
+    private String username = "liming";
     private String password;
     private Job job;
 
@@ -33,5 +33,16 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        System.out.println("User:"+username+ " finalize");
+    }
+
+    @Override
+    public String toString() {
+        return this.getUsername();
     }
 }

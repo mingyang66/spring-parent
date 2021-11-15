@@ -31,6 +31,15 @@ public class RedisDbConnectionFactory {
 
     private RedisProperties properties;
     private ClientResources clientResources;
+    /**
+     * 是否开启共享本地连接校验，默认：false
+     * 如果校验失败，则新建连接
+     */
+    private boolean validateConnection = false;
+    /**
+     * 是否开启共享本地物理连接，默认：true
+     */
+    private boolean shareNativeConnection = true;
 
     public RedisDbConnectionFactory(ClientResources clientResources, RedisProperties properties) {
         this.clientResources = clientResources;
@@ -70,6 +79,14 @@ public class RedisDbConnectionFactory {
 
     private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfig, RedisConfiguration redisConfiguration) {
         LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfiguration, clientConfig);
+        //开启LettuceConnection本地共享连接校验，默认：false
+        //如果校验失败，则会将之前连接关闭，创建新的连接
+        factory.setValidateConnection(this.isValidateConnection());
+        //开启多个LettuceConnection链接时共享单个本机链接，默认为：true;
+        //如果设置为false,则每一个LettuceConnection链接操作都要打开和关闭一个socket
+        factory.setShareNativeConnection(this.isShareNativeConnection());
+        //是否系统启动时提前初始化共享本地连接
+        factory.setEagerInitialization(false);
         // 创建Redis连接
         factory.afterPropertiesSet();
         // 将RedisConnectionFactory丢入线程池做监控
@@ -174,5 +191,21 @@ public class RedisDbConnectionFactory {
 
     public void setClientResources(ClientResources clientResources) {
         this.clientResources = clientResources;
+    }
+
+    public boolean isValidateConnection() {
+        return validateConnection;
+    }
+
+    public void setValidateConnection(boolean validateConnection) {
+        this.validateConnection = validateConnection;
+    }
+
+    public boolean isShareNativeConnection() {
+        return shareNativeConnection;
+    }
+
+    public void setShareNativeConnection(boolean shareNativeConnection) {
+        this.shareNativeConnection = shareNativeConnection;
     }
 }

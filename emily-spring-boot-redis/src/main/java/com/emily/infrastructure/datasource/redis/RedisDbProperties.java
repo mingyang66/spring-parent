@@ -40,6 +40,16 @@ public class RedisDbProperties {
      */
     private String defaultConfig = DEFAULT_CONFIG;
     /**
+     * 是否开启共享本地物理连接校验，默认：false
+     * 如果校验失败，则新建连接
+     * 开启后会损耗部分性能，每次获取连接都要校验是否开启及调用ping方法
+     */
+    private boolean validateConnection = false;
+    /**
+     * 是否开启共享本地物理连接，默认：true
+     */
+    private boolean shareNativeConnection = true;
+    /**
      * 多数据源配置
      */
     private Map<String, RedisProperties> config = new HashMap<>();
@@ -86,5 +96,21 @@ public class RedisDbProperties {
 
     public void setMonitorEnabled(boolean monitorEnabled) {
         this.monitorEnabled = monitorEnabled;
+    }
+
+    public boolean isValidateConnection() {
+        return validateConnection;
+    }
+
+    public void setValidateConnection(boolean validateConnection) {
+        this.validateConnection = validateConnection;
+    }
+
+    public boolean isShareNativeConnection() {
+        return shareNativeConnection;
+    }
+
+    public void setShareNativeConnection(boolean shareNativeConnection) {
+        this.shareNativeConnection = shareNativeConnection;
     }
 }

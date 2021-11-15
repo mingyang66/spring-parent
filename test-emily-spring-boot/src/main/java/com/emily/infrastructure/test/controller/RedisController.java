@@ -69,4 +69,24 @@ public class RedisController {
     public String indicator() {
         return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
     }
+
+    @GetMapping("roll")
+    public void roll() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                 /*   try {
+                        Thread.sleep(100);
+                    } catch (Exception e) {
+
+                    }*/
+                    long start = System.currentTimeMillis();
+                    RedisDbFactory.getStringRedisTemplate().opsForValue().set("roll_test", "123");
+                    long time = System.currentTimeMillis() - start;
+                    System.out.println("--------roll----------"+time);
+                }
+            }
+        }).start();
+    }
 }

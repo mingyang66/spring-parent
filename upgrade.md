@@ -3,6 +3,7 @@
 基础库发布3.11.4
 1. ContextHolder全局属性新增clientIp、serverIp
 2. 基础库所有请求日志新增clientIp、serverIp字段
+3. Redis组件新增是否校验连接配置、新增是否共享本地物理连接配置
 -----
 基础库发布3.11.3
 1. 新增Redis数据源指标监控采集能力

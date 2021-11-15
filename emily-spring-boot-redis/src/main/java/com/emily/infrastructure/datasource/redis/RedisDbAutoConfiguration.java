@@ -106,6 +106,10 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             dataMap.forEach((properties, redisConfiguration) -> {
                 //Redis连接工厂类
                 RedisDbConnectionFactory redisDbConnectionFactory = new RedisDbConnectionFactory(clientResources, properties);
+                //是否开启校验共享本地连接，校验失败则重新建立连接
+                redisDbConnectionFactory.setValidateConnection(redisDbProperties.isValidateConnection());
+                //是否开启共享本地物理连接，默认：true
+                redisDbConnectionFactory.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
                 //创建链接工厂类
                 RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory.getRedisConnectionFactory(builderCustomizers, redisConfiguration);
                 // 获取StringRedisTemplate对象

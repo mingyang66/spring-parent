@@ -36,10 +36,6 @@ public class RedisDbProperties {
      */
     private Duration monitorFireRate = Duration.ofSeconds(30);
     /**
-     * 默认配置
-     */
-    private String defaultConfig = DEFAULT_CONFIG;
-    /**
      * 是否开启共享本地物理连接校验，默认：false
      * 如果校验失败，则新建连接
      * 开启后会损耗部分性能，每次获取连接都要校验是否开启及调用ping方法
@@ -49,6 +45,10 @@ public class RedisDbProperties {
      * 是否开启共享本地物理连接，默认：true
      */
     private boolean shareNativeConnection = true;
+    /**
+     * 默认配置
+     */
+    private String defaultConfig = DEFAULT_CONFIG;
     /**
      * 多数据源配置
      */

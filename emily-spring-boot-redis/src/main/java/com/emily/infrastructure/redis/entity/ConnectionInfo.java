@@ -1,6 +1,6 @@
-package com.emily.infrastructure.datasource.redis.entity;
+package com.emily.infrastructure.redis.entity;
 
-import com.emily.infrastructure.datasource.redis.exception.RedisUrlSyntaxException;
+import com.emily.infrastructure.redis.exception.RedisUrlSyntaxException;
 
 import java.net.URI;
 import java.net.URISyntaxException;

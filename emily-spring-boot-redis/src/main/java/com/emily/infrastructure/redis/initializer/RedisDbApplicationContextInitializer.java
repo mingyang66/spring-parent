@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.redis.initializer;
+package com.emily.infrastructure.redis.initializer;
 
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

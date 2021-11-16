@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.redis.event;
+package com.emily.infrastructure.redis.event;
 
 import io.lettuce.core.event.metrics.CommandLatencyEvent;
 import jdk.jfr.Category;

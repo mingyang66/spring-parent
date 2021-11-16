@@ -1,9 +1,9 @@
-package com.emily.infrastructure.datasource.redis;
+package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.datasource.redis.event.RedisDbEventConsumer;
-import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionConfiguration;
-import com.emily.infrastructure.datasource.redis.factory.RedisDbConnectionFactory;
-import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.event.RedisDbEventConsumer;
+import com.emily.infrastructure.redis.factory.RedisDbConnectionConfiguration;
+import com.emily.infrastructure.redis.factory.RedisDbConnectionFactory;
+import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

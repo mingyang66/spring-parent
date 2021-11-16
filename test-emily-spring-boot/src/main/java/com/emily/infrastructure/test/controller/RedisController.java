@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.datasource.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,7 +82,7 @@ public class RedisController {
 
                     }*/
                     long start = System.currentTimeMillis();
-                    RedisDbFactory.getStringRedisTemplate().opsForValue().set("roll_test", "123");
+                    RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("roll_test", "123:"+System.currentTimeMillis());
                     long time = System.currentTimeMillis() - start;
                     System.out.println("--------roll----------"+time);
                 }

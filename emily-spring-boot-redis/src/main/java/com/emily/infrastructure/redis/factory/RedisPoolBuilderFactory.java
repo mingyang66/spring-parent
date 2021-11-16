@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.redis.factory;
+package com.emily.infrastructure.redis.factory;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;

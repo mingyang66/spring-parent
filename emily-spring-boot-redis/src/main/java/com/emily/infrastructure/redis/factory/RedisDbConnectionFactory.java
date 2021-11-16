@@ -1,8 +1,8 @@
-package com.emily.infrastructure.datasource.redis.factory;
+package com.emily.infrastructure.redis.factory;
 
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.datasource.redis.entity.ConnectionInfo;
-import com.emily.infrastructure.datasource.redis.thread.RedisDbRunnable;
+import com.emily.infrastructure.redis.entity.ConnectionInfo;
+import com.emily.infrastructure.redis.thread.RedisDbRunnable;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;

@@ -1,9 +1,9 @@
-package com.emily.infrastructure.datasource.redis.factory;
+package com.emily.infrastructure.redis.factory;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.datasource.redis.RedisDbProperties;
+import com.emily.infrastructure.redis.RedisDbProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;

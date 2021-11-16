@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.redis.exception;
+package com.emily.infrastructure.redis.exception;
 
 /**
  * @program: spring-parent

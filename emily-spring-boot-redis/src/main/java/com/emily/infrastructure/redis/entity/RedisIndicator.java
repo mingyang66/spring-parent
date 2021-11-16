@@ -1,4 +1,4 @@
-package com.emily.infrastructure.datasource.redis.entity;
+package com.emily.infrastructure.redis.entity;
 
 import java.text.MessageFormat;
 import java.util.Properties;

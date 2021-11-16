@@ -1,6 +1,6 @@
-package com.emily.infrastructure.datasource.redis.factory;
+package com.emily.infrastructure.redis.factory;
 
-import com.emily.infrastructure.datasource.redis.entity.ConnectionInfo;
+import com.emily.infrastructure.redis.entity.ConnectionInfo;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.*;
 import org.springframework.util.Assert;

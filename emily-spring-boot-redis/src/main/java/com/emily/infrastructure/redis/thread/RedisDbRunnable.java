@@ -1,10 +1,10 @@
-package com.emily.infrastructure.datasource.redis.thread;
+package com.emily.infrastructure.redis.thread;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.datasource.redis.RedisDbProperties;
-import com.emily.infrastructure.datasource.redis.entity.RedisIndicator;
+import com.emily.infrastructure.redis.RedisDbProperties;
+import com.emily.infrastructure.redis.entity.RedisIndicator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;

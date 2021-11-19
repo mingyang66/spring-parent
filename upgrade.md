@@ -1,5 +1,8 @@
 ### 
 -----
+基础库发布3.11.5
+1. Redis及数据库多数据源中间件新增异常处理类
+-----
 基础库发布3.11.4
 1. ContextHolder全局属性新增clientIp、serverIp
 2. 基础库所有请求日志新增clientIp、serverIp字段

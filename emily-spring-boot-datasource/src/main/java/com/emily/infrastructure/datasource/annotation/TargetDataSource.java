@@ -1,7 +1,6 @@
 package com.emily.infrastructure.datasource.annotation;
 
 import com.emily.infrastructure.datasource.DataSourceProperties;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.lang.annotation.*;
 
@@ -15,7 +14,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Mapper
 public @interface TargetDataSource {
     String value() default DataSourceProperties.DEFAULT_CONFIG;
 }

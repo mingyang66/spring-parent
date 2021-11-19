@@ -165,7 +165,7 @@ public class ExceptionAdviceHandler {
      * @return
      */
     @ExceptionHandler(BasicException.class)
-    public BaseResponse businessThrowableException(BasicException e) {
+    public BaseResponse basicException(BasicException e) {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(e.getStatus(), e.getMessage());
     }
@@ -177,7 +177,7 @@ public class ExceptionAdviceHandler {
      * @return
      */
     @ExceptionHandler(CustomException.class)
-    public Object businessThrowableException(CustomException e) {
+    public Object customException(CustomException e) {
         recordErrorInfo(e);
         return e.getBean();
     }

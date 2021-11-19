@@ -67,7 +67,7 @@ public class RedisController {
 
     @GetMapping("get")
     public String indicator() {
-        return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
+        return RedisDbFactory.getStringRedisTemplate("12").opsForValue().get("test");
     }
 
     @GetMapping("roll")

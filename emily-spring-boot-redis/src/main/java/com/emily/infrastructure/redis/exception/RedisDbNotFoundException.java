@@ -13,6 +13,6 @@ import java.text.MessageFormat;
  */
 public class RedisDbNotFoundException extends BasicException {
     public RedisDbNotFoundException(String redisMark) {
-        super(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), MessageFormat.format("Redis数据库标识[{0}]对应的数据库不存在", redisMark));
+        super(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
     }
 }

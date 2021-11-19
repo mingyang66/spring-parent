@@ -25,13 +25,12 @@ public class NodeServiceImpl implements NodeService{
     private MysqlMapper mysqlMapper;
     @Autowired
     private MysqlService mysqlService;
-    @Autowired
-    private NodeServiceImpl nodeService;
+
     @Override
     //@Transactional(rollbackFor = Exception.class)
     public void findNode() throws Exception {
        // Long eid = slaveMapper.findNode();
-        nodeService.insertMysql();
+        mysqlService.insertMysql();
        // nodeService.instertStatus();
         //mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
         //slaveMapper.insertStatus();

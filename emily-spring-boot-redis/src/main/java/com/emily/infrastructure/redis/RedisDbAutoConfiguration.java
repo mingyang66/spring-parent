@@ -23,6 +23,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.ClientResourcesBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -72,12 +73,17 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * 如果在RedisClient客户端外部创建，则可以在多个客户端实例之间共享，ClientResources的实现类是有状态的，
      * 在不使用后必须调用shutdown方法
      * https://blog.csdn.net/zhxdick/article/details/119633581
+     *
      * @return
      */
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(ClientResources.class)
-    public DefaultClientResources clientResources() {
-        return DefaultClientResources.create();
+    DefaultClientResources lettuceClientResources(ObjectProvider<ClientResourcesBuilderCustomizer> customizers) {
+        DefaultClientResources.Builder builder = DefaultClientResources.builder();
+        customizers.orderedStream().forEach((customizer) -> {
+            customizer.customize(builder);
+        });
+        return builder.build();
        /* return DefaultClientResources.builder()
                 .commandLatencyRecorder(
                 new DefaultCommandLatencyCollector(

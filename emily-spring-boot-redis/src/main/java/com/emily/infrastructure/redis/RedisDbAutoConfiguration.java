@@ -1,7 +1,8 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.redis.event.RedisDbEventConsumer;
-import com.emily.infrastructure.redis.factory.RedisDbConnectionFactory;
+import com.emily.infrastructure.redis.example.RedisDbEventConsumer;
+import com.emily.infrastructure.redis.exception.RedisDbNotFoundException;
+import com.emily.infrastructure.redis.config.RedisDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -37,6 +38,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 
@@ -108,15 +110,18 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
         //创建Redis数据源配置key-value映射
         Map<String, RedisProperties> dataMap = redisDbProperties.getConfig();
+        if (CollectionUtils.isEmpty(dataMap)) {
+            throw new RedisDbNotFoundException("Redis数据库字典配置不存在");
+        }
         dataMap.forEach((key, properties) -> {
             //Redis连接工厂类
-            RedisDbConnectionFactory redisDbConnectionFactory = new RedisDbConnectionFactory(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider);
+            RedisDbLettuceConnectionConfiguration connectionConfiguration = new RedisDbLettuceConnectionConfiguration(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider);
             //是否开启校验共享本地连接，校验失败则重新建立连接
-            redisDbConnectionFactory.setValidateConnection(redisDbProperties.isValidateConnection());
+            connectionConfiguration.setValidateConnection(redisDbProperties.isValidateConnection());
             //是否开启共享本地物理连接，默认：true
-            redisDbConnectionFactory.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
+            connectionConfiguration.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
             //创建链接工厂类
-            RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory.getRedisConnectionFactory(builderCustomizers, clientResources);
+            RedisConnectionFactory redisConnectionFactory = connectionConfiguration.getRedisConnectionFactory(builderCustomizers, clientResources);
             // 获取StringRedisTemplate对象
             StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
             // 将StringRedisTemplate对象注入IOC容器bean

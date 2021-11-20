@@ -1,4 +1,4 @@
-package com.emily.infrastructure.redis.factory;
+package com.emily.infrastructure.redis.config;
 
 import com.emily.infrastructure.redis.exception.RedisUrlSyntaxException;
 import org.springframework.beans.factory.ObjectProvider;
@@ -21,7 +21,7 @@ import java.util.List;
  * @create: 2021/07/11
  */
 public class RedisDbConnectionConfiguration {
-    private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", RedisDbConnectionFactory.class.getClassLoader());
+    private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", RedisDbLettuceConnectionConfiguration.class.getClassLoader());
     private RedisProperties properties;
     private final RedisStandaloneConfiguration standaloneConfiguration;
     private final RedisSentinelConfiguration sentinelConfiguration;

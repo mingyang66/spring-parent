@@ -1,4 +1,4 @@
-package com.emily.infrastructure.redis.event;
+package com.emily.infrastructure.redis.example;
 
 import io.lettuce.core.event.EventBus;
 import org.slf4j.Logger;

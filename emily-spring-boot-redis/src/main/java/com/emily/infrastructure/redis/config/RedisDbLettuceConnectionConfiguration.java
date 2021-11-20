@@ -1,7 +1,7 @@
-package com.emily.infrastructure.redis.factory;
+package com.emily.infrastructure.redis.config;
 
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.redis.thread.RedisDbRunnable;
+import com.emily.infrastructure.redis.example.RedisDbRunnable;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;
@@ -29,7 +29,7 @@ import java.time.Duration;
  * @author: Emily
  * @create: 2021/07/11
  */
-public class RedisDbConnectionFactory extends RedisDbConnectionConfiguration {
+public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConfiguration {
     /**
      * 是否开启共享本地连接校验，默认：false
      * 如果校验失败，则新建连接
@@ -40,7 +40,7 @@ public class RedisDbConnectionFactory extends RedisDbConnectionConfiguration {
      */
     private boolean shareNativeConnection = true;
 
-    public RedisDbConnectionFactory(RedisProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider) {
+    public RedisDbLettuceConnectionConfiguration(RedisProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider) {
         super(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider);
     }
 

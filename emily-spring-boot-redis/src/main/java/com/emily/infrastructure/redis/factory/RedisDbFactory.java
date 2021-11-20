@@ -59,7 +59,7 @@ public class RedisDbFactory {
             return stringCache.get(key);
         }
         if (!IOCContext.containsBean(key)) {
-            throw new RedisDbNotFoundException(redisMark);
+            throw new RedisDbNotFoundException(MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
         }
         StringRedisTemplate stringRedisTemplate = IOCContext.getBean(key, StringRedisTemplate.class);
         stringCache.put(key, stringRedisTemplate);
@@ -90,7 +90,7 @@ public class RedisDbFactory {
             return restCache.get(key);
         }
         if (!IOCContext.containsBean(key)) {
-            throw new RedisDbNotFoundException(redisMark);
+            throw new RedisDbNotFoundException(MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
         }
         RedisTemplate redisTemplate = IOCContext.getBean(key, RedisTemplate.class);
         restCache.put(key, redisTemplate);

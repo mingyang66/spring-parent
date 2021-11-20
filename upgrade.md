@@ -1,13 +1,16 @@
 ### 
 -----
 基础库发布3.11.5
-1. Redis及数据库多数据源中间件新增异常处理类
+1. 
 -----
 基础库发布3.11.4
 1. ContextHolder全局属性新增clientIp、serverIp
 2. 基础库所有请求日志新增clientIp、serverIp字段
 3. Redis组件新增是否校验连接配置、新增是否共享本地物理连接配置
-3. Redis组件包名去掉datasource
+4. Redis组件包名去掉datasource
+5. Redis及数据库多数据源中间件新增异常处理类
+6. Redis多数据源组件更新到2.6.0版本，新增连接池开关，组件代码兼容新代码
+7. springboot升级到最新版本2.6.0
 -----
 基础库发布3.11.3
 1. 新增Redis数据源指标监控采集能力

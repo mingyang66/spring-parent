@@ -1,7 +1,6 @@
 package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.redis.event.RedisDbEventConsumer;
-import com.emily.infrastructure.redis.factory.RedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.factory.RedisDbConnectionFactory;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -9,8 +8,6 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.slf4j.Logger;
@@ -31,8 +28,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
-import org.springframework.data.redis.connection.RedisConfiguration;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -100,33 +99,32 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * 初始化redis相关bean
      */
     @Bean
-    public Object initTargetRedis(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisDbProperties redisDbProperties) {
+    public Object initTargetRedis(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisDbProperties redisDbProperties,
+                                  ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
+                                  ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider) {
 
         Assert.notNull(clientResources, "ClientResources must not be null");
         Assert.notNull(clientResources, "RedisDbProperties must not be null");
 
         //创建Redis数据源配置key-value映射
-        Table<String, RedisProperties, RedisConfiguration> table = createConfiguration(redisDbProperties);
-        table.rowKeySet().stream().forEach(key -> {
-            Map<RedisProperties, RedisConfiguration> dataMap = table.row(key);
-            dataMap.forEach((properties, redisConfiguration) -> {
-                //Redis连接工厂类
-                RedisDbConnectionFactory redisDbConnectionFactory = new RedisDbConnectionFactory(clientResources, properties);
-                //是否开启校验共享本地连接，校验失败则重新建立连接
-                redisDbConnectionFactory.setValidateConnection(redisDbProperties.isValidateConnection());
-                //是否开启共享本地物理连接，默认：true
-                redisDbConnectionFactory.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
-                //创建链接工厂类
-                RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory.getRedisConnectionFactory(builderCustomizers, redisConfiguration);
-                // 获取StringRedisTemplate对象
-                StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
-                // 将StringRedisTemplate对象注入IOC容器bean
-                defaultListableBeanFactory.registerSingleton(RedisDbFactory.getStringRedisTemplateBeanName(key), stringRedisTemplate);
-                // 获取RedisTemplate对象
-                RedisTemplate redisTemplate = createRedisTemplate(redisConnectionFactory);
-                // 将RedisTemplate对象注入IOC容器
-                defaultListableBeanFactory.registerSingleton(RedisDbFactory.getRedisTemplateBeanName(key), redisTemplate);
-            });
+        Map<String, RedisProperties> dataMap = redisDbProperties.getConfig();
+        dataMap.forEach((key, properties) -> {
+            //Redis连接工厂类
+            RedisDbConnectionFactory redisDbConnectionFactory = new RedisDbConnectionFactory(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider);
+            //是否开启校验共享本地连接，校验失败则重新建立连接
+            redisDbConnectionFactory.setValidateConnection(redisDbProperties.isValidateConnection());
+            //是否开启共享本地物理连接，默认：true
+            redisDbConnectionFactory.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
+            //创建链接工厂类
+            RedisConnectionFactory redisConnectionFactory = redisDbConnectionFactory.getRedisConnectionFactory(builderCustomizers, clientResources);
+            // 获取StringRedisTemplate对象
+            StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
+            // 将StringRedisTemplate对象注入IOC容器bean
+            defaultListableBeanFactory.registerSingleton(RedisDbFactory.getStringRedisTemplateBeanName(key), stringRedisTemplate);
+            // 获取RedisTemplate对象
+            RedisTemplate redisTemplate = createRedisTemplate(redisConnectionFactory);
+            // 将RedisTemplate对象注入IOC容器
+            defaultListableBeanFactory.registerSingleton(RedisDbFactory.getRedisTemplateBeanName(key), redisTemplate);
         });
         return "UNSET";
     }
@@ -172,26 +170,6 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         // "template not initialized; call afterPropertiesSet() before using it" 异常
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
-    }
-
-    /**
-     * 创建Redis数据源配置key-value映射
-     *
-     * @param redisDbProperties 配置
-     * @return
-     */
-    protected Table<String, RedisProperties, RedisConfiguration> createConfiguration(RedisDbProperties redisDbProperties) {
-
-        Assert.notNull(redisDbProperties, "RedisDbProperties must not be null");
-
-        Table<String, RedisProperties, RedisConfiguration> table = HashBasedTable.create();
-        Map<String, RedisProperties> redisPropertiesMap = redisDbProperties.getConfig();
-        redisPropertiesMap.forEach((key, properties) -> {
-            RedisDbConnectionConfiguration redisDbConnectionConfiguration = new RedisDbConnectionConfiguration(properties);
-            RedisConfiguration redisConfiguration = redisDbConnectionConfiguration.createRedisConfiguration();
-            table.put(key, properties, redisConfiguration);
-        });
-        return table;
     }
 
     /**

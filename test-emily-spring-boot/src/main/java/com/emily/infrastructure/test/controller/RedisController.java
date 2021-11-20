@@ -39,7 +39,7 @@ public class RedisController {
         dataMap.put("te2", 12);
         dataMap.put("te3", "哈哈");
         RedisDbFactory.getRedisTemplate().opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
-        RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", "adf", 1, TimeUnit.MINUTES);
+        //RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", "adf", 1, TimeUnit.MINUTES);
         return RedisDbFactory.getStringRedisTemplate("default").opsForValue().get("test");
     }
 
@@ -51,7 +51,7 @@ public class RedisController {
         dataMap.put("te2", 12);
         dataMap.put("te3", "年好吗");
         RedisDbFactory.getRedisTemplate("test").opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
-        RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", dataMap, 1, TimeUnit.MINUTES);
+        //RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", dataMap, 1, TimeUnit.MINUTES);
         return RedisDbFactory.getRedisTemplate("test").opsForValue().get("test");
     }
 

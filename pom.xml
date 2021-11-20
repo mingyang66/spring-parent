@@ -44,7 +44,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
-        <netty>4.1.69.Final</netty>
+        <netty>4.1.70.Final</netty>
         <httpclient>4.5.13</httpclient>
         <commons-lang3>3.11</commons-lang3>
         <commons-io>2.7</commons-io>

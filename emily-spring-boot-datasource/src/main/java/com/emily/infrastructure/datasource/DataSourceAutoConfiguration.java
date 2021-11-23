@@ -2,7 +2,7 @@ package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.emily.infrastructure.common.enums.AopOrder;
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
@@ -79,12 +79,12 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
         advisor.setAdvice(methodInterceptorCustomizers.orderedStream().findFirst().get());
-        advisor.setOrder(AopOrder.DB);
+        advisor.setOrder(AopOrderInfo.DATASOURCE);
         return advisor;
     }
 
     @Bean
-    @Order(AopOrder.DB_INTERCEPTOR)
+    @Order(AopOrderInfo.DATASOURCE_INTERCEPTOR)
     public DataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
         DataSourceMethodInterceptor dataSourceMethodInterceptor = new DataSourceMethodInterceptor(dataSourceProperties);
         return dataSourceMethodInterceptor;

@@ -1,11 +1,11 @@
-package com.emily.infrastructure.common.enums;
+package com.emily.infrastructure.common.constant;
 
 /**
  * @author Emily
  * @Description: 定义优先级顺序
  * @create: 2020/3/23
  */
-public class AopOrder {
+public class AopOrderInfo {
     /**
      * API正常日志
      */
@@ -21,10 +21,10 @@ public class AopOrder {
     /**
      * 数据源
      */
-    public static final int DB = 900;
+    public static final int DATASOURCE = 900;
     /**
      * 数据库AOP切面拦截器
      */
-    public static final int DB_INTERCEPTOR = 910;
+    public static final int DATASOURCE_INTERCEPTOR = 910;
 
 }

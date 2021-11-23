@@ -6,6 +6,7 @@ import com.emily.infrastructure.common.enums.AopOrder;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
+import com.emily.infrastructure.datasource.interceptor.MethodInterceptorCustomizer;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -23,6 +25,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -68,16 +71,23 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     @Bean(DATA_SOURCE_BEAN_NAME)
     @ConditionalOnClass(value = {DataSourceMethodInterceptor.class})
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultPointcutAdvisor defaultPointcutAdvisor(DataSourceProperties dataSourceProperties) {
+    public DefaultPointcutAdvisor defaultPointcutAdvisor(ObjectProvider<MethodInterceptorCustomizer> methodInterceptorCustomizers) {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //获取切面表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);
         // 配置增强类advisor
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
-        advisor.setAdvice(new DataSourceMethodInterceptor(dataSourceProperties));
-        advisor.setOrder(AopOrder.DATASOURCE_AOP.getOrder());
+        advisor.setAdvice(methodInterceptorCustomizers.orderedStream().findFirst().get());
+        advisor.setOrder(AopOrder.DB);
         return advisor;
+    }
+
+    @Bean
+    @Order(AopOrder.DB_INTERCEPTOR)
+    public DataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
+        DataSourceMethodInterceptor dataSourceMethodInterceptor = new DataSourceMethodInterceptor(dataSourceProperties);
+        return dataSourceMethodInterceptor;
     }
 
     /**

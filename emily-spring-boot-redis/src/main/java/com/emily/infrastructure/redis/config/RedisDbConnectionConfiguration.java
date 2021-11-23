@@ -22,12 +22,15 @@ import java.util.List;
  */
 public class RedisDbConnectionConfiguration {
     private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", RedisDbLettuceConnectionConfiguration.class.getClassLoader());
-    private RedisProperties properties;
+    private final RedisProperties properties;
     private final RedisStandaloneConfiguration standaloneConfiguration;
     private final RedisSentinelConfiguration sentinelConfiguration;
     private final RedisClusterConfiguration clusterConfiguration;
 
-    public RedisDbConnectionConfiguration(RedisProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider) {
+    public RedisDbConnectionConfiguration(RedisProperties properties,
+                                          ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
+                                          ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
+                                          ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider) {
         this.properties = properties;
         this.standaloneConfiguration = standaloneConfigurationProvider.getIfAvailable();
         this.sentinelConfiguration = sentinelConfigurationProvider.getIfAvailable();

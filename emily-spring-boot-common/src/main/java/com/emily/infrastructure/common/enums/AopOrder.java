@@ -5,31 +5,26 @@ package com.emily.infrastructure.common.enums;
  * @Description: 定义优先级顺序
  * @create: 2020/3/23
  */
-public enum AopOrder {
+public class AopOrder {
     /**
      * API正常日志
      */
-    API_LOG_NORMAL(400),
+    public static final int API_LOG_NORMAL = 400;
     /**
      * feign正常日志
      */
-    FEIGN_LOG_NORMAL(800),
+    public static final int FEIGN_LOG_NORMAL = 800;
     /**
      * 数据源
      */
-    MYBATIS_AOP(899),
+    public static final int MYBATIS_AOP = 899;
     /**
      * 数据源
      */
-    DATASOURCE_AOP(900);
+    public static final int DB = 900;
+    /**
+     * 数据库AOP切面拦截器
+     */
+    public static final int DB_INTERCEPTOR = 910;
 
-    private int order;
-
-    AopOrder(int order) {
-        this.order = order;
-    }
-
-    public int getOrder() {
-        return order;
-    }
 }

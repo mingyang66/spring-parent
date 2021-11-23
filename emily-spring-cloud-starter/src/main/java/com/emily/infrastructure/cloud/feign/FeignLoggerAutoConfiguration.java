@@ -61,7 +61,7 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
         //设置增强（Advice）
         advisor.setAdvice(new FeignLoggerMethodInterceptor());
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrder.FEIGN_LOG_NORMAL.getOrder());
+        advisor.setOrder(AopOrder.FEIGN_LOG_NORMAL);
         return advisor;
     }
 

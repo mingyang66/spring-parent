@@ -18,7 +18,7 @@ import java.text.MessageFormat;
  * @Author Emily
  * @Version: 1.0
  */
-public class DataSourceMethodInterceptor implements MethodInterceptor {
+public class DataSourceMethodInterceptor implements MethodInterceptorCustomizer {
 
     private DataSourceProperties dataSourceProperties;
 

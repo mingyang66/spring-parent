@@ -61,7 +61,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
         //设置增强（Advice）
         advisor.setAdvice(new ApiRequestMethodInterceptor());
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrder.API_LOG_NORMAL.getOrder());
+        advisor.setOrder(AopOrder.API_LOG_NORMAL);
         return advisor;
     }
 

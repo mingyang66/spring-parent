@@ -44,7 +44,7 @@ public class MybatisAutoConfiguration {
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
         advisor.setAdvice(new MybatisMethodInterceptor());
-        advisor.setOrder(AopOrder.MYBATIS_AOP.getOrder());
+        advisor.setOrder(AopOrder.MYBATIS_AOP);
         return advisor;
     }
 

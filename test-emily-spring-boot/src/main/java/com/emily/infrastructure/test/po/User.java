@@ -1,15 +1,18 @@
 package com.emily.infrastructure.test.po;
 
+import org.springframework.core.Ordered;
+
 /**
  * @program: spring-parent
  * @description:
  * @author: Emily
  * @create: 2021/08/08
  */
-public class User {
+public class User implements Ordered {
     private String username = "liming";
     private String password;
     private Job job;
+    private int order;
 
     public Job getJob() {
         return job;
@@ -44,5 +47,10 @@ public class User {
     @Override
     public String toString() {
         return this.getUsername();
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
     }
 }

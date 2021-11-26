@@ -81,7 +81,6 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void afterPropertiesSet() {
-        LogbackFactory.setDebug(requestLoggerProperties.isDebug());
         LogbackFactory.info(ApiRequestAutoConfiguration.class, "==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 }

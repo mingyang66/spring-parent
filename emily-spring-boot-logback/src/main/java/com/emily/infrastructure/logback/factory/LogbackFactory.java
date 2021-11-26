@@ -15,10 +15,6 @@ import org.slf4j.LoggerFactory;
  */
 public class LogbackFactory {
     /**
-     * 当前开发模式
-     */
-    private static boolean debug;
-    /**
      * 开启logback日志组件
      */
     private static LogbackBuilder builder;
@@ -70,14 +66,6 @@ public class LogbackFactory {
         } else if (StringUtils.equals(properties.getModuleLevel().levelStr, Level.TRACE.levelStr)) {
             module(path, fileName).trace(msg);
         }
-    }
-
-    public static boolean isDebug() {
-        return debug;
-    }
-
-    public static void setDebug(boolean isDebug) {
-        debug = isDebug;
     }
 
     public static void setBuilder(LogbackBuilder builder, LogbackProperties properties) {

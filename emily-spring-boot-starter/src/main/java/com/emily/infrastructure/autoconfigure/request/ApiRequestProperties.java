@@ -20,10 +20,6 @@ public class ApiRequestProperties {
      * 组件开关
      */
     private boolean enabled;
-    /**
-     * 是否开启debug模式
-     */
-    private boolean debug;
 
     public boolean isEnabled() {
         return enabled;
@@ -31,13 +27,5 @@ public class ApiRequestProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
     }
 }

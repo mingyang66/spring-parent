@@ -15,7 +15,7 @@ public class ApiRequestProperties {
     /**
      * 属性配置前缀
      */
-    public static final String PREFIX = "spring.emily.request.logback";
+    public static final String PREFIX = "spring.emily.request";
     /**
      * 组件开关
      */

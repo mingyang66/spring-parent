@@ -5,5 +5,5 @@ import org.aopalliance.intercept.MethodInterceptor;
 /**
  * @author Emily
  */
-public interface MethodInterceptorCustomizer extends MethodInterceptor {
+public interface DataSourceCustomizer extends MethodInterceptor {
 }

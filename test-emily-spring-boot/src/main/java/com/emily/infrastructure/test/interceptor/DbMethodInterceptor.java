@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.interceptor;
 
-import com.emily.infrastructure.datasource.interceptor.MethodInterceptorCustomizer;
+import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
  */
 @Component
 @Order(value = 9090)
-public class DbMethodInterceptor implements MethodInterceptorCustomizer {
+public class DbMethodInterceptor implements DataSourceCustomizer {
     @Nullable
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {

@@ -2,6 +2,7 @@
 -----
 基础库发布3.11.5
 1. Redis组件代码优化调整
+2. 数据源及API切面拦截新增拦截器扩展点（基于ObjectProvider）
 -----
 基础库发布3.11.4
 1. ContextHolder全局属性新增clientIp、serverIp

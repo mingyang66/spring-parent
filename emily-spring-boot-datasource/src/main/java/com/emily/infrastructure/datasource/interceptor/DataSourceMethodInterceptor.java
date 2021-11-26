@@ -5,7 +5,6 @@ import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
-import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,7 @@ import java.text.MessageFormat;
  * @Author Emily
  * @Version: 1.0
  */
-public class DataSourceMethodInterceptor implements MethodInterceptorCustomizer {
+public class DataSourceMethodInterceptor implements DataSourceCustomizer {
 
     private DataSourceProperties dataSourceProperties;
 

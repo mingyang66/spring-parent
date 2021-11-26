@@ -1,5 +1,6 @@
 package com.emily.infrastructure.autoconfigure.request;
 
+import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestCustomizer;
 import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestMethodInterceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.logback.factory.LogbackFactory;
@@ -8,11 +9,13 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /**
  * @author Emily
@@ -49,7 +52,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean(API_LOG_NORMAL_BEAN_NAME)
     @ConditionalOnClass(ApiRequestMethodInterceptor.class)
-    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice() {
+    public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -59,10 +62,16 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(new ApiRequestMethodInterceptor());
+        advisor.setAdvice(apiRequestCustomizers.orderedStream().findFirst().get());
         //设置增强拦截器执行顺序
-        advisor.setOrder(AopOrderInfo.API_LOG_NORMAL);
+        advisor.setOrder(AopOrderInfo.REQUEST);
         return advisor;
+    }
+
+    @Bean
+    @Order(AopOrderInfo.REQUEST_INTERCEPTOR)
+    public ApiRequestMethodInterceptor apiRequestMethodInterceptor() {
+        return new ApiRequestMethodInterceptor();
     }
 
     @Override

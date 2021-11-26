@@ -7,9 +7,13 @@ package com.emily.infrastructure.common.constant;
  */
 public class AopOrderInfo {
     /**
-     * API正常日志
+     * API请求切面
      */
-    public static final int API_LOG_NORMAL = 400;
+    public static final int REQUEST = 400;
+    /**
+     * API请求拦截器
+     */
+    public static final int REQUEST_INTERCEPTOR = 410;
     /**
      * feign正常日志
      */
@@ -19,7 +23,7 @@ public class AopOrderInfo {
      */
     public static final int MYBATIS_AOP = 899;
     /**
-     * 数据源
+     * 数据源切面
      */
     public static final int DATASOURCE = 900;
     /**

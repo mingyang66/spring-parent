@@ -6,7 +6,7 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
-import com.emily.infrastructure.datasource.interceptor.MethodInterceptorCustomizer;
+import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
@@ -71,14 +71,14 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     @Bean(DATA_SOURCE_BEAN_NAME)
     @ConditionalOnClass(value = {DataSourceMethodInterceptor.class})
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultPointcutAdvisor defaultPointcutAdvisor(ObjectProvider<MethodInterceptorCustomizer> methodInterceptorCustomizers) {
+    public DefaultPointcutAdvisor defaultPointcutAdvisor(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers) {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //获取切面表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);
         // 配置增强类advisor
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setPointcut(pointcut);
-        advisor.setAdvice(methodInterceptorCustomizers.orderedStream().findFirst().get());
+        advisor.setAdvice(dataSourceCustomizers.orderedStream().findFirst().get());
         advisor.setOrder(AopOrderInfo.DATASOURCE);
         return advisor;
     }
@@ -86,8 +86,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     @Bean
     @Order(AopOrderInfo.DATASOURCE_INTERCEPTOR)
     public DataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
-        DataSourceMethodInterceptor dataSourceMethodInterceptor = new DataSourceMethodInterceptor(dataSourceProperties);
-        return dataSourceMethodInterceptor;
+        return new DataSourceMethodInterceptor(dataSourceProperties);
     }
 
     /**

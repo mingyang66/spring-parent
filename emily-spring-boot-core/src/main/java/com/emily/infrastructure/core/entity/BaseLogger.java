@@ -14,6 +14,10 @@ import java.util.Objects;
  */
 public class BaseLogger implements Serializable {
     /**
+     * 系统编号
+     */
+    private String systemNumber;
+    /**
      * 请求唯一编号
      */
     private String traceId;
@@ -49,6 +53,14 @@ public class BaseLogger implements Serializable {
      * 响应结果
      */
     private Object body;
+
+    public String getSystemNumber() {
+        return systemNumber;
+    }
+
+    public void setSystemNumber(String systemNumber) {
+        this.systemNumber = systemNumber;
+    }
 
     public long getTime() {
         return time;

@@ -1,8 +1,8 @@
 package com.emily.infrastructure.redis;
 
+import com.emily.infrastructure.redis.config.RedisDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.example.RedisDbEventConsumer;
 import com.emily.infrastructure.redis.exception.RedisDbNotFoundException;
-import com.emily.infrastructure.redis.config.RedisDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

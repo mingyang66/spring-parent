@@ -1,13 +1,9 @@
 package com.emily.infrastructure.test.config;
 
-import com.emily.infrastructure.test.config.po.OStudent;
-import com.emily.infrastructure.test.config.po.OTeacher;
 import com.emily.infrastructure.test.config.po.People;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-
-import javax.annotation.Priority;
 
 /**
  * @program: spring-parent

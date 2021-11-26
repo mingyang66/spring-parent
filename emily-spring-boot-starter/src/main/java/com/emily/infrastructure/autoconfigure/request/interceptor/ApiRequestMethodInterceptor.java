@@ -7,10 +7,10 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.context.TraceContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.core.context.TraceContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,10 +40,8 @@ public class ApiRequestMethodInterceptor implements ApiRequestCustomizer {
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         try {
-            //客户端IP
-            TraceContextHolder.get().setClientIp(RequestUtils.getClientIp());
-            //服务端IP
-            TraceContextHolder.get().setServerIp(RequestUtils.getServerIp());
+            //系统编号
+            baseLogger.setSystemNumber(TraceContextHolder.get().getSystemNumber());
             //事务唯一编号
             baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
             //时间

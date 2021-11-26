@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.config;
 
-import com.emily.infrastructure.test.config.po.OStudent;
 import com.emily.infrastructure.test.config.po.People;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Configuration;

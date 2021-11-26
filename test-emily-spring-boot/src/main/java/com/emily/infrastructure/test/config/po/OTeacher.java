@@ -2,9 +2,6 @@ package com.emily.infrastructure.test.config.po;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Priority;
 
 /**
  * @program: spring-parent

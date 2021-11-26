@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.core.holder.ContextHolder;
+import com.emily.infrastructure.core.context.TraceContextHolder;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -58,7 +58,7 @@ public class MybatisMethodInterceptor implements MethodInterceptor {
     public void recordLog(String action, Map<String, Object> requestParam, Object response, long start) {
         try {
             BaseLogger baseLogger = new BaseLogger();
-            baseLogger.setTraceId(ContextHolder.get().getTraceId());
+            baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
             baseLogger.setRequestParams(requestParam);
             baseLogger.setBody(response);
             baseLogger.setUrl(action);

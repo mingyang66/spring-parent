@@ -7,7 +7,7 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.core.holder.ContextHolder;
+import com.emily.infrastructure.core.context.TraceContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
@@ -42,11 +42,11 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //设置事务标识
-        request.getHeaders().set(HeaderInfo.TRACE_ID, ContextHolder.get().getTraceId());
+        request.getHeaders().set(HeaderInfo.TRACE_ID, TraceContextHolder.get().getTraceId());
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //生成事物流水号
-        baseLogger.setTraceId(ContextHolder.get().getTraceId());
+        baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求方法
@@ -70,9 +70,9 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //响应时间
@@ -80,7 +80,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            ContextHolder.removeNoServletContext();
+            TraceContextHolder.removeNoServletContext();
         }
 
     }

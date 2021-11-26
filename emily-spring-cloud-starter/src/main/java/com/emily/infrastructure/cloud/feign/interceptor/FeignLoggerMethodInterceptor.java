@@ -7,7 +7,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.core.holder.ContextHolder;
+import com.emily.infrastructure.core.context.TraceContextHolder;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -55,9 +55,9 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.get();
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间
@@ -69,7 +69,7 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.remove();
             //非servlet上下文移除数据
-            ContextHolder.removeNoServletContext();
+            TraceContextHolder.removeNoServletContext();
         }
     }
 

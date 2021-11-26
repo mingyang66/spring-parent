@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.holder;
+package com.emily.infrastructure.core.context;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.emily.infrastructure.common.constant.HeaderInfo;
@@ -8,11 +8,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * @Description: 线程上下文持有对象
+ * @Description: 全链路追踪上下文
  * @Author: Emily
  * @create: 2021/10/12
  */
-public class ContextHolder {
+public class TraceContextHolder {
 
     private static final ThreadLocal<RequestHolder> CONTEXT = new TransmittableThreadLocal<>();
 
@@ -55,6 +55,14 @@ public class ContextHolder {
          * 事务唯一编号
          */
         private String traceId;
+        /**
+         * 系统编号|标识
+         */
+        private String systemNumber;
+        /**
+         * 语言
+         */
+        private String language;
         /**
          * 开启时间
          */
@@ -112,6 +120,22 @@ public class ContextHolder {
 
         public void setServerIp(String serverIp) {
             this.serverIp = serverIp;
+        }
+
+        public String getSystemNumber() {
+            return systemNumber;
+        }
+
+        public void setSystemNumber(String systemNumber) {
+            this.systemNumber = systemNumber;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String language) {
+            this.language = language;
         }
     }
 }

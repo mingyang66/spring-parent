@@ -85,6 +85,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
 
     @Bean
     @Order(AopOrderInfo.DATASOURCE_INTERCEPTOR)
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
         return new DataSourceMethodInterceptor(dataSourceProperties);
     }

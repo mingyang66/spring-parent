@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.service;
+package com.emily.infrastructure.test.mainTest;
 
 /**
  * @program: spring-parent
@@ -7,7 +7,7 @@ package com.emily.infrastructure.test.service;
  * @create: 2021/05/17
  */
 public class Test1 {
-    public static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    public static final ThreadLocal<String> threadLocal = new InheritableThreadLocal<>();
 
     public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException, InterruptedException {
         threadLocal.set("主线程1。。。");

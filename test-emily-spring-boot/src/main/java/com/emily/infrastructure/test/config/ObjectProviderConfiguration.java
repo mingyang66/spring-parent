@@ -15,7 +15,7 @@ public class ObjectProviderConfiguration {
 
     public ObjectProviderConfiguration(ObjectProvider<People> user) {
         People user1 = user.orderedStream().findFirst().orElse(null);
-        System.out.println(user1.getUsername());
+        //System.out.println(user1.getUsername());
         People user2 = user.getIfAvailable();
     }
 

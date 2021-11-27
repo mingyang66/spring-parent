@@ -21,11 +21,11 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        if (beanFactory.containsBeanDefinition("spring.emily.request.logger-" + ApiRequestProperties.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.request.logger-" + ApiRequestProperties.class.getName());
+        /*if (beanFactory.containsBeanDefinition("spring.emily.request-" + ApiRequestProperties.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.request-" + ApiRequestProperties.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition(ApiRequestAutoConfiguration.class.getName())) {
+        }*/
+    /*    if (beanFactory.containsBeanDefinition(ApiRequestAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiRequestAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
@@ -36,11 +36,11 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
         if (beanFactory.containsBeanDefinition(ApiRequestAutoConfiguration.API_LOG_NORMAL_BEAN_NAME)) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(ApiRequestAutoConfiguration.API_LOG_NORMAL_BEAN_NAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition(RedisAutoConfiguration.class.getName())) {
+        }*/
+      /*  if (beanFactory.containsBeanDefinition(RedisAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RedisAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
+        }*/
         if (beanFactory.containsBeanDefinition(HttpClientAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(HttpClientAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

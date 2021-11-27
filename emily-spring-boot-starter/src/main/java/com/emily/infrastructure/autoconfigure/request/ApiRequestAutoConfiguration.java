@@ -10,11 +10,13 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -22,6 +24,7 @@ import org.springframework.core.annotation.Order;
  * @Description: 请求日志拦截AOP切面
  * @Version: 1.0
  */
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ApiRequestProperties.class)
 @ConditionalOnProperty(prefix = ApiRequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -40,11 +43,6 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
             "or @annotation(org.springframework.web.bind.annotation.DeleteMapping) ",
             "or @annotation(org.springframework.web.bind.annotation.RequestMapping))");
 
-    private ApiRequestProperties requestLoggerProperties;
-
-    public ApiRequestAutoConfiguration(ApiRequestProperties requestLoggerProperties) {
-        this.requestLoggerProperties = requestLoggerProperties;
-    }
 
     /**
      * @Description 定义接口拦截器切点
@@ -52,6 +50,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean(API_LOG_NORMAL_BEAN_NAME)
     @ConditionalOnClass(ApiRequestMethodInterceptor.class)
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -70,6 +69,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
 
     @Bean
     @Order(AopOrderInfo.REQUEST_INTERCEPTOR)
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public ApiRequestMethodInterceptor apiRequestMethodInterceptor() {
         return new ApiRequestMethodInterceptor();
     }

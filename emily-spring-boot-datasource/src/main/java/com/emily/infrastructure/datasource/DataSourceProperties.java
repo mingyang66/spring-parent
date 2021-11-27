@@ -1,9 +1,7 @@
 package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Role;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +11,6 @@ import java.util.Map;
  * @author: Emily
  * @create: 2020/05/14
  */
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @ConfigurationProperties(prefix = DataSourceProperties.PREFIX)
 public class DataSourceProperties {
     /**

@@ -1,14 +1,9 @@
 package com.emily.infrastructure.autoconfigure.bean.factory;
 
-import com.emily.infrastructure.autoconfigure.httpclient.HttpClientAutoConfiguration;
-import com.emily.infrastructure.autoconfigure.httpclient.HttpClientProperties;
-import com.emily.infrastructure.autoconfigure.request.ApiRequestAutoConfiguration;
-import com.emily.infrastructure.autoconfigure.request.ApiRequestProperties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 
 /**
  * @author Emily
@@ -41,22 +36,22 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RedisAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }*/
-        if (beanFactory.containsBeanDefinition(HttpClientAutoConfiguration.class.getName())) {
+   /*     if (beanFactory.containsBeanDefinition(HttpClientAutoConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(HttpClientAutoConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition(String.join("", "spring.emily.http-client-", HttpClientProperties.class.getName()))) {
+        }*/
+        /*if (beanFactory.containsBeanDefinition(String.join("", "spring.emily.http-client-", HttpClientProperties.class.getName()))) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(String.join("", "spring.emily.http-client-", HttpClientProperties.class.getName()));
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("loggerService")) {
+        }*/
+        /*if (beanFactory.containsBeanDefinition("loggerService")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("loggerService");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("spring.emily.request.logback-com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties")) {
+        }*/
+    /*    if (beanFactory.containsBeanDefinition("spring.emily.request.logback-com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.request.logback-com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
+        }*/
         if (beanFactory.containsBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

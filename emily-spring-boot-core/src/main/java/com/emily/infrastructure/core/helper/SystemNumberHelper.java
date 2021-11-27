@@ -1,6 +1,6 @@
 package com.emily.infrastructure.core.helper;
 
-import com.emily.infrastructure.core.context.TraceContextProperties;
+import com.emily.infrastructure.core.context.config.TraceContextProperties;
 import com.emily.infrastructure.core.ioc.IOCContext;
 
 /**

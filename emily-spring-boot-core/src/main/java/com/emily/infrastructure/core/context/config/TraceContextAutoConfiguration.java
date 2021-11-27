@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context;
+package com.emily.infrastructure.core.context.config;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;

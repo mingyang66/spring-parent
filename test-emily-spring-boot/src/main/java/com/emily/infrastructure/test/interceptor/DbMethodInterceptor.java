@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Method;
 
 /**
  * @program: spring-parent
@@ -25,5 +26,10 @@ public class DbMethodInterceptor implements DataSourceCustomizer {
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         System.out.println("自定义数据库拦截器");
         return "asdf";
+    }
+
+    @Override
+    public String getTargetDataSource(Method method) {
+        return null;
     }
 }

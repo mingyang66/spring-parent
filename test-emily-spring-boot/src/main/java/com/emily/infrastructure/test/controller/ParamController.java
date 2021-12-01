@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @create: 2021/10/30
  */
 @RestController
-@RequestMapping("param")
+@RequestMapping("api/param")
 public class ParamController {
     @GetMapping("test")
     public String test() {

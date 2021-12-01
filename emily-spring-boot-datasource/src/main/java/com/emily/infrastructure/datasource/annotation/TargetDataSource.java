@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * @Description: 自定义注解，切换数据源,默认数据源为主数据源
- * @Inherited注解允许标注的注解标注在类上时其子类可以继承注解，如果标注在非类上在继承作用无效
+ * @Inherited 注解允许标注的注解标注在类上时其子类可以继承注解，如果标注在非类上在继承作用无效
  * @Author Emily
  * @Version: 1.0
  */

@@ -7,6 +7,7 @@ import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
@@ -34,20 +35,24 @@ public class DataSourceMethodInterceptor implements DataSourceCustomizer {
         if (!dataSourceProperties.getConfig().containsKey(dataSource)) {
             throw new DataSourceNotFoundException(MessageFormat.format("数据源配置【{0}】不存在", dataSource));
         }
+        Logger logger = LoggerFactory.getLogger(method.getDeclaringClass());
         try {
-            LoggerFactory.getLogger(method.getDeclaringClass()).debug(StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========开始执行，切换数据源到【%s】========", dataSource)));
+            if (logger.isDebugEnabled()) {
+                logger.debug(StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("==> ========开始执行，切换数据源到【%s】========", dataSource)));
+            }
             //切换到指定的数据源
             DataSourceContextHolder.setDataSourceLookup(dataSource);
             //调用TargetDataSource标记的切换数据源方法
-            Object result = invocation.proceed();
-            return result;
+            return invocation.proceed();
         } catch (Throwable ex) {
-            LoggerFactory.getLogger(invocation.getThis().getClass()).error(String.format("==> ========异常执行，数据源【%s】 ========" + PrintExceptionInfo.printErrorInfo(ex), dataSource));
+            LoggerFactory.getLogger(invocation.getThis().getClass()).error(String.format("<== ========异常执行，数据源【%s】 ========" + PrintExceptionInfo.printErrorInfo(ex), dataSource));
             throw ex;
         } finally {
             //移除当前线程对应的数据源
             DataSourceContextHolder.clearDataSource();
-            LoggerFactory.getLogger(method.getDeclaringClass()).debug(StringUtils.join("<== ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("========结束执行，清除数据源【%s】========", dataSource)));
+            if (logger.isDebugEnabled()) {
+                logger.debug(StringUtils.join("<== ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("<== ========结束执行，清除数据源【%s】========", dataSource)));
+            }
         }
     }
 
@@ -57,7 +62,8 @@ public class DataSourceMethodInterceptor implements DataSourceCustomizer {
      * @param method
      * @return
      */
-    protected String getTargetDataSource(Method method) {
+    @Override
+    public String getTargetDataSource(Method method) {
         //数据源切换开始
         TargetDataSource targetDataSource;
         if (method.isAnnotationPresent(TargetDataSource.class)) {

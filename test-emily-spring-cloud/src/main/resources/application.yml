@@ -44,4 +44,7 @@ management:
 ---
 spring:
   profiles:
-    active: config
+    active: config,redis
+  cloud:
+    compatibility-verifier:
+      enabled: false

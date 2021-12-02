@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.0</version>
+        <version>2.6.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modules>
@@ -33,7 +33,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>3.11.5</version>
+    <version>4.0.1</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 
@@ -54,7 +54,7 @@
         <jaxb-api>2.3.1</jaxb-api>
         <druid>1.2.8</druid>
         <mybatis>2.2.0</mybatis>
-        <spring-cloud>3.0.3</spring-cloud>
+        <spring-cloud>3.0.4</spring-cloud>
         <feign-httpclient>11.6</feign-httpclient>
         <protobuf>3.19.0</protobuf>
         <TTL>2.12.2</TTL>

@@ -47,4 +47,4 @@ spring:
     active: config,redis
   cloud:
     compatibility-verifier:
-      enabled: false
+      enabled: true

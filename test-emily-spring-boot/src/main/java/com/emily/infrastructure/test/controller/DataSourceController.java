@@ -145,7 +145,7 @@ public class DataSourceController {
 
     @GetMapping("getQuartzJob")
     public String getQuartzJob() {
-        return mysqlMapper.findLocks("adsf");
+        return mysqlMapper.findLocks("0.47536746927909124");
     }
 
     @GetMapping("insertMysql")

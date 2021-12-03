@@ -9,17 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rpc-spring-boot-client</artifactId>
+    <artifactId>emily-spring-boot-jwt</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
-            <artifactId>rpc-spring-boot-core</artifactId>
+            <artifactId>emily-spring-boot-common</artifactId>
             <version>4.0.2</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.18.2</version>
         </dependency>
     </dependencies>
-
 </project>

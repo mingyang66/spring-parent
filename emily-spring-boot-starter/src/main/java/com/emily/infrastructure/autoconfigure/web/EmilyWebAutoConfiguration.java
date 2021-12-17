@@ -2,9 +2,10 @@ package com.emily.infrastructure.autoconfigure.web;
 
 import com.emily.infrastructure.autoconfigure.web.annotation.ApiPrefix;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Objects;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: webmvc自动化配置
  * @create: 2020/05/26
@@ -25,13 +27,19 @@ import java.util.Objects;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(WebProperties.class)
 public class EmilyWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
-
+    private static final Logger logger = LoggerFactory.getLogger(EmilyWebAutoConfiguration.class);
     private WebProperties webProperties;
-    //自定义路由规则是否已加载
+    /**
+     * 自定义路由规则是否已加载
+     */
     private boolean enablePathMatch;
-    //自定义跨域规则是否已加载
+    /**
+     * 自定义跨域规则是否已加载
+     */
     private boolean enableCors;
-    //忽略URL前缀的控制器类
+    /**
+     * 忽略URL前缀的控制器类
+     */
     private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
 
@@ -87,20 +95,20 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
     /**
      * 跨域设置
      * 在浏览器console控制台测试ajax示例
-     $.ajax({
-     url:"http://172.30.67.122:9000/api/void/test1",//发送的路径
-     type:"POST",//发送的方式
-     async:false,
-     data:JSON.stringify({'name':'test','age':23}),//发送的数据
-     contentType: "application/json", //提交数据类型
-     dataType:"json",//服务器返回的数据类型
-     success: function(data) {
-     console.log(data)
-     },
-     error: function (data){
-     alert("提交失败");
-     }
-     });
+     * $.ajax({
+     * url:"http://172.30.67.122:9000/api/void/test1",//发送的路径
+     * type:"POST",//发送的方式
+     * async:false,
+     * data:JSON.stringify({'name':'test','age':23}),//发送的数据
+     * contentType: "application/json", //提交数据类型
+     * dataType:"json",//服务器返回的数据类型
+     * success: function(data) {
+     * console.log(data)
+     * },
+     * error: function (data){
+     * alert("提交失败");
+     * }
+     * });
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -147,17 +155,17 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
 
     @Override
     public void destroy() throws Exception {
-            LogbackFactory.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
-            LogbackFactory.info(EmilyWebAutoConfiguration.class, "<== 【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         if (enablePathMatch) {
-            LogbackFactory.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
+            logger.info("==> 【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
         }
         if (enableCors) {
-            LogbackFactory.info(EmilyWebAutoConfiguration.class, "==> 【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+            logger.info("==> 【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
         }
     }
 }

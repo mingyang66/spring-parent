@@ -1,6 +1,7 @@
 package com.yaomy.control.zeromq.pubsub.server;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -10,6 +11,7 @@ import org.zeromq.ZMQ;
  * @Version: 1.0
  */
 public class ZeroMQServer {
+    private static final Logger logger = LoggerFactory.getLogger(ZeroMQServer.class);
     private String endPoint;
 
     public ZeroMQServer(String endPoint) {
@@ -32,9 +34,9 @@ public class ZeroMQServer {
          */
         socket.bind(endPoint);
 
-        LogbackFactory.info(ZeroMQServer.class, "ZeroMQServer服务端启动成功...");
+        logger.info("ZeroMQServer服务端启动成功...");
         while (true) {
-            String msg = "Time:给订阅客户端的回复："+System.currentTimeMillis();
+            String msg = "Time:给订阅客户端的回复：" + System.currentTimeMillis();
             /**
              * ZMQ_SNDMORE 指定发送的消息是一个多部分组成消息，接下来是更多的消息；ZMQ消息由一个或者多个组成，ZMQ确保消息的原子性传递，对等方要么接收消息的所有部分，
              * 要么根本不接收任何消息部分，除可用内存外，消息部分的总数不受限制。

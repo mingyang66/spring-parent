@@ -1,7 +1,8 @@
 package com.yaomy.control.zeromq.socket.server;
 
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.DataInputStream;
@@ -16,6 +17,7 @@ import java.net.Socket;
  * @Version: 1.0
  */
 public class SocketServer {
+    private static final Logger logger = LoggerFactory.getLogger(SocketServer.class);
     /**
      * 端口
      */
@@ -48,14 +50,14 @@ public class SocketServer {
     /**
      * 启动SOCKET服务器
      */
-    public void start(){
+    public void start() {
         try {
             ServerSocket serverSocket = new ServerSocket();
             //默认绑定0.0.0.0
             //server.bind(new InetSocketAddress(port));
             //绑定指定的IP和端口号
             serverSocket.bind(new InetSocketAddress(host, port));
-            LogbackFactory.info(SocketServer.class, "SOCKET SERVER服务器启动成功...");
+            logger.info("SOCKET SERVER服务器启动成功...");
             while (true) {
                 //server尝试接收其他Socket的连接请求，server的accept方法是阻塞式的
                 Socket socket = serverSocket.accept();
@@ -80,21 +82,22 @@ public class SocketServer {
                 this.threadPool.execute(new ServerTask(reader, writer));
             }
 
-        } catch (IOException e){
-            LogbackFactory.error(SocketServer.class, "SOCKET SERVER服务器发生IO异常"+e.toString());
+        } catch (IOException e) {
+            logger.error("SOCKET SERVER服务器发生IO异常" + e.toString());
         }
     }
+
     /**
      * 输出流
      */
-    public DataOutputStream getWriter(){
+    public DataOutputStream getWriter() {
         return this.writer;
     }
 
     /**
      * 输入流
      */
-    public DataInputStream getReader(){
+    public DataInputStream getReader() {
         return this.reader;
     }
 

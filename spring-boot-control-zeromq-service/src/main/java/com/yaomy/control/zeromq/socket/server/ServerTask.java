@@ -1,8 +1,8 @@
 package com.yaomy.control.zeromq.socket.server;
 
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
-import com.yaomy.control.zeromq.socket.client.SocketClient;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,7 +12,8 @@ import java.io.IOException;
  * @Description: 服务端接收消息处理线程
  * @Version: 1.0
  */
-public class ServerTask implements Runnable{
+public class ServerTask implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(ServerTask.class);
     /**
      * DataOutputStream允许应用程序将java原始数据类型以可移植的方式写入到输出流中，应用程序可以使用输入流来读取数据
      */
@@ -24,25 +25,25 @@ public class ServerTask implements Runnable{
      */
     private DataInputStream reader;
 
-    public ServerTask(DataInputStream reader, DataOutputStream writer){
+    public ServerTask(DataInputStream reader, DataOutputStream writer) {
         this.reader = reader;
         this.writer = writer;
     }
 
     @Override
     public void run() {
-        try{
-            while (true){
+        try {
+            while (true) {
                 //读取发送数据的长度
                 int len = this.reader.readInt();
                 byte[] buffer = new byte[len];
                 this.reader.read(buffer, 0, len);
-                LogbackFactory.info(ServerTask.class, "server端接收到的数据是："+new String(buffer));
+                logger.info("server端接收到的数据是：" + new String(buffer));
                 //返回服务端接收数据成功标识
                 this.writer.writeBoolean(true);
             }
-        } catch (IOException e){
-            LogbackFactory.error(SocketClient.class, "IO异常"+e.toString());
+        } catch (IOException e) {
+            logger.error("IO异常" + e.toString());
         }
     }
 }

@@ -7,13 +7,12 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.commons.lang3.time.DateUtils;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
 /**
  * @program: spring-parent
- * @description:
+ * @description: https://jwt.io/libraries
  * @author: Emily
  * @create: 2021/12/02
  */

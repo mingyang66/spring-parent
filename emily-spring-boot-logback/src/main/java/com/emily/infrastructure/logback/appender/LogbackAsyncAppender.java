@@ -16,6 +16,9 @@ public class LogbackAsyncAppender {
      * logger上下文
      */
     private LoggerContext loggerContext;
+    /**
+     * 属性配置
+     */
     private LogbackProperties properties;
 
     public LogbackAsyncAppender(LoggerContext loggerContext, LogbackProperties properties) {

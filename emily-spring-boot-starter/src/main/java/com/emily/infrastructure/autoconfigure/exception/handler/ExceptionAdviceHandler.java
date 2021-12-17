@@ -6,7 +6,8 @@ import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -27,6 +28,8 @@ import java.text.MessageFormat;
  */
 @RestControllerAdvice
 public class ExceptionAdviceHandler {
+    private static final Logger logger = LoggerFactory.getLogger(ExceptionAdviceHandler.class);
+
     /**
      * 未知异常
      */
@@ -190,7 +193,7 @@ public class ExceptionAdviceHandler {
             BasicException systemException = (BasicException) ex;
             errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getMessage(), errorMsg);
         }
-        LogbackFactory.error(PrintExceptionInfo.class, errorMsg);
+        logger.error(errorMsg);
     }
 }
 

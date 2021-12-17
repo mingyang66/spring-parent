@@ -3,7 +3,8 @@ package com.emily.infrastructure.autoconfigure.response;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpHeadersReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseMethodReturnValueHandler;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,13 +29,13 @@ import java.util.stream.Collectors;
 @EnableConfigurationProperties(ResponseWrapperProperties.class)
 @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {
-
+    private static final Logger logger = LoggerFactory.getLogger(ResponseWrapperAutoConfiguration.class);
     private RequestMappingHandlerAdapter handlerAdapter;
     private ResponseWrapperProperties returnValueProperties;
 
     public ResponseWrapperAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties returnValueProperties) {
         this.handlerAdapter = handlerAdapter;
-        this.returnValueProperties =returnValueProperties;
+        this.returnValueProperties = returnValueProperties;
     }
 
     @Bean
@@ -57,11 +58,11 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(ResponseWrapperAutoConfiguration.class, "<== 【销毁--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(ResponseWrapperAutoConfiguration.class, "==> 【初始化--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
     }
 }

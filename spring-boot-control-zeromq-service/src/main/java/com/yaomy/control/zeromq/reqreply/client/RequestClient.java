@@ -1,7 +1,8 @@
 package com.yaomy.control.zeromq.reqreply.client;
 
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -12,20 +13,22 @@ import org.zeromq.ZMQ;
  */
 @SuppressWarnings("all")
 public class RequestClient {
+    private static final Logger logger = LoggerFactory.getLogger(RequestClient.class);
     /**
      * 端点
      */
     private String endpoint;
 
-    public RequestClient(String endpoint){
+    public RequestClient(String endpoint) {
         this.endpoint = endpoint;
     }
 
     /**
      * 构建Socket对象
+     *
      * @return
      */
-    public ZMQ.Socket build(){
+    public ZMQ.Socket build() {
         /**
          * ZContext提供一种高级的ZeroMQ上下文管理类，它管理上下文中打开的SOCKET套接字，并在终止上下文之前自动关闭这些SOCKET套接字
          * 它提供一种在SOCKET套接字上设置延时超时的简单方法，并未I/O线程数配置上线文；设置进程的信号（中断）处理。
@@ -60,7 +63,7 @@ public class RequestClient {
          */
         socket.setReceiveTimeOut(-1);
 
-        LogbackFactory.info(RequestClient.class, "RequestClient连接服务器成功...");
+        logger.info("RequestClient连接服务器成功...");
         return socket;
     }
 }

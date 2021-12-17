@@ -2,7 +2,8 @@ package com.emily.infrastructure.cloud.httpclient;
 
 import com.emily.infrastructure.cloud.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.cloud.httpclient.interceptor.HttpClientInterceptor;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import java.util.Collections;
 @ConditionalOnClass(RestTemplate.class)
 @ConditionalOnProperty(prefix = HttpClientBalanceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HttpClientBalanceAutoConfiguration implements InitializingBean, DisposableBean {
-
+    private static final Logger logger = LoggerFactory.getLogger(HttpClientBalanceAutoConfiguration.class);
     public static final String LOAD_BALANCED_BEAN_NAME = "loadBalancer";
     /**
      * 读取配置属性服务类
@@ -72,11 +73,11 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "<== 【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(HttpClientBalanceAutoConfiguration.class, "==> 【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----RestTemplate(HttpClientBalance)组件【HttpClientBalanceAutoConfiguration】");
     }
 }

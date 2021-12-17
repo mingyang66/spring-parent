@@ -1,8 +1,8 @@
 package com.yaomy.control.zeromq.socket.client;
 
 
-
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
  * @Version: 1.0
  */
 public class SocketClient {
+    private static final Logger logger = LoggerFactory.getLogger(SocketClient.class);
     /**
      * 端口
      */
@@ -44,7 +45,7 @@ public class SocketClient {
         build();
     }
 
-    private void build(){
+    private void build() {
         try {
             //与服务端建立连接
             socket = new Socket(host, port);
@@ -65,39 +66,39 @@ public class SocketClient {
             writer = new DataOutputStream(socket.getOutputStream());
             //获取数据输入流对象
             reader = new DataInputStream(socket.getInputStream());
-        } catch (UnknownHostException e){
+        } catch (UnknownHostException e) {
             e.printStackTrace();
-            LogbackFactory.error(SocketClient.class, "IP地址不正确："+host);
-        } catch (IOException e){
+            logger.error("IP地址不正确：" + host);
+        } catch (IOException e) {
             e.printStackTrace();
-            LogbackFactory.error(SocketClient.class, "IO异常"+e.toString());
+            logger.error("IO异常" + e.toString());
         }
     }
 
     /**
      * 输出流
      */
-    public DataOutputStream getWriter(){
+    public DataOutputStream getWriter() {
         return this.writer;
     }
 
     /**
      * 输入流
      */
-    public DataInputStream getReader(){
+    public DataInputStream getReader() {
         return this.reader;
     }
 
     /**
      * 释放资源
      */
-    public void release(){
-        try{
+    public void release() {
+        try {
             this.writer.close();
             this.reader.close();
             this.socket.close();
-        } catch (IOException e){
-            LogbackFactory.error(SocketClient.class, "IO异常"+e.toString());
+        } catch (IOException e) {
+            logger.error("IO异常" + e.toString());
         }
     }
 }

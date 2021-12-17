@@ -1,7 +1,8 @@
 package com.yaomy.control.zeromq.reqreply.server;
 
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -14,19 +15,20 @@ import java.util.concurrent.TimeUnit;
  */
 @SuppressWarnings("all")
 public class ReplyServer {
+    private static final Logger logger = LoggerFactory.getLogger(ReplyServer.class);
     /**
      * 端点
      */
     private String endpoint;
 
-    public ReplyServer(String endpoint){
+    public ReplyServer(String endpoint) {
         this.endpoint = endpoint;
     }
 
     /**
      * 启动服务端
      */
-    public void start(){
+    public void start() {
         /**
          * ZContext提供一种高级的ZeroMQ上下文管理类，它管理上下文中打开的SOCKET套接字，并在终止上下文之前自动关闭这些SOCKET套接字
          * 它提供一种在SOCKET套接字上设置延时超时的简单方法，并未I/O线程数配置上线文；设置进程的信号（中断）处理。
@@ -60,7 +62,7 @@ public class ReplyServer {
          */
         socket.setReceiveTimeOut(-1);
 
-        LogbackFactory.info(ReplyServer.class, "ReplyServer服务端启动成功...");
+        logger.info("ReplyServer服务端启动成功...");
         while (true) {
             /**
              * 接收消息，如果没有接收到消息会一直阻塞等待，直到超时返回null
@@ -68,16 +70,16 @@ public class ReplyServer {
              */
             byte[] reply = socket.recv();
             // Print the message
-            LogbackFactory.info(ReplyServer.class, "Received: [" + new String(reply, ZMQ.CHARSET) + "]");
+            logger.info("Received: [" + new String(reply, ZMQ.CHARSET) + "]");
             /**
              * 发送消息到指定的标记
              * @param data 消息
              * @param flags 发送消息的标记
              */
             socket.send("ZEROMQ SERVER RESPONSE...".getBytes(ZMQ.CHARSET), 0);
-            try{
+            try {
                 TimeUnit.SECONDS.sleep(10);
-            } catch (InterruptedException e){
+            } catch (InterruptedException e) {
 
             }
         }

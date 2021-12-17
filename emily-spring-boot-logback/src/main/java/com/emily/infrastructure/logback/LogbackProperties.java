@@ -7,10 +7,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description: 日志配置属性
  * @create: 2020/08/08
  */
-@ConfigurationProperties(prefix = "spring.emily.logback")
+@ConfigurationProperties(prefix = LogbackProperties.PREFIX)
 public class LogbackProperties {
     /**
-     * 是否开启 AccessLog日志组件
+     * 前缀
+     */
+    public static final String PREFIX = "spring.emily.logback";
+    /**
+     * 是否开启日志组件
      */
     private boolean enabled;
     /**
@@ -42,7 +46,7 @@ public class LogbackProperties {
      * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
      * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
      */
-    private String commonPattern = "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n";
+    private String commonPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\\\)] : %msg%n";
     /**
      * 是否将模块日志信息输出到控制台，默认false
      */
@@ -62,7 +66,7 @@ public class LogbackProperties {
     /**
      * 模块日志输出格式，默认：%msg%n
      */
-    private String modulePattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %m%n";
+    private String modulePattern = "%m%n";
     /**
      * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
      */

@@ -5,7 +5,7 @@ import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import feign.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 @EnableConfigurationProperties(FeignLoggerProperties.class)
 @ConditionalOnProperty(prefix = FeignLoggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class FeignLoggerAutoConfiguration implements InitializingBean, DisposableBean {
-
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(FeignLoggerAutoConfiguration.class);
     public static final String FEIGN_LOGGER_NORMAL_BEAN_NAME = "feignLoggerNormalPointCutAdvice";
     public static final String FEIGN_LOGGER_EXCEPTION_BEAN_NAME = "feignLoggerExceptionPointCutAdvice";
     /**
@@ -94,11 +94,11 @@ public class FeignLoggerAutoConfiguration implements InitializingBean, Disposabl
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "<== 【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(FeignLoggerAutoConfiguration.class, "==> 【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
     }
 }

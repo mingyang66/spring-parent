@@ -3,8 +3,9 @@ package com.emily.infrastructure.autoconfigure.request;
 import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestCustomizer;
 import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestMethodInterceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
@@ -29,9 +30,9 @@ import org.springframework.core.annotation.Order;
 @EnableConfigurationProperties(ApiRequestProperties.class)
 @ConditionalOnProperty(prefix = ApiRequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ApiRequestAutoConfiguration implements InitializingBean, DisposableBean {
+    private static final Logger logger = LoggerFactory.getLogger(ApiRequestAutoConfiguration.class);
 
     public static final String API_LOG_NORMAL_BEAN_NAME = "requestLoggerNormalPointCutAdvice";
-    public static final String API_LOG_EXCEPTION_BEAN_NAME = "requestLoggerExceptionPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      */
@@ -76,11 +77,11 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() {
-        LogbackFactory.info(ApiRequestAutoConfiguration.class, "<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogbackFactory.info(ApiRequestAutoConfiguration.class, "==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
     }
 }

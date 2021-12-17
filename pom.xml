@@ -31,6 +31,7 @@
         <module>test-emily-spring-boot</module>
         <module>test-emily-spring-cloud</module>
         <module>emily-spring-boot-jwt</module>
+        <module>emily-spring-boot-log4j2</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
@@ -65,6 +66,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions><!-- 去掉springboot默认配置 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

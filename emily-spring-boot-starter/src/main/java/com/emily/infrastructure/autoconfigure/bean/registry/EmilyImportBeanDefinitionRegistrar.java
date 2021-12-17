@@ -1,6 +1,7 @@
 package com.emily.infrastructure.autoconfigure.bean.registry;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -13,6 +14,8 @@ import org.springframework.core.type.AnnotationMetadata;
  * @create: 2020/09/27
  */
 public class EmilyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
+    private static final Logger logger = LoggerFactory.getLogger(EmilyImportBeanDefinitionRegistrar.class);
+
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator) {
         registerBeanDefinitions(importingClassMetadata, registry);
@@ -20,6 +23,6 @@ public class EmilyImportBeanDefinitionRegistrar implements ImportBeanDefinitionR
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        LogbackFactory.info(EmilyImportBeanDefinitionRegistrar.class, "--------ImportBeanDefinitionRegistrar-------");
+        logger.info("--------ImportBeanDefinitionRegistrar-------");
     }
 }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.cloud.feign.logger;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import feign.Logger;
 
 /**
@@ -19,6 +19,6 @@ public class FeignLogger extends Logger {
      */
     @Override
     protected void log(String configKey, String format, Object... args) {
-        LogbackFactory.module("/feign/", "feign", String.format(methodTag(configKey) + format, args));
+        LoggerFactory.getModuleLogger("/feign/", "feign").info(String.format(methodTag(configKey) + format, args));
     }
 }

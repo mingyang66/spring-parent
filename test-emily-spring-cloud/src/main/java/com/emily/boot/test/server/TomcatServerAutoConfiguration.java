@@ -1,7 +1,8 @@
 package com.emily.boot.test.server;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.catalina.connector.Connector;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "server.http", name = "enable", havingValue = "true", matchIfMissing = false)
 public class TomcatServerAutoConfiguration implements InitializingBean, DisposableBean {
 
+    private static final Logger logger = LoggerFactory.getLogger(TomcatServerAutoConfiguration.class);
 
     @Bean
     public TomcatServletWebServerFactory servletContainer(ServerProperties serverProperties) {
@@ -36,11 +38,11 @@ public class TomcatServerAutoConfiguration implements InitializingBean, Disposab
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(TomcatServerAutoConfiguration.class, "【销毁--自动化配置】----自定义tomcat服务器");
+        logger.info("【销毁--自动化配置】----自定义tomcat服务器");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(TomcatServerAutoConfiguration.class, "【初始化--自动化配置】----自定义tomcat服务器");
+        logger.info("【初始化--自动化配置】----自定义tomcat服务器");
     }
 }

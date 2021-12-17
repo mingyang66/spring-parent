@@ -1,10 +1,10 @@
-package com.emily.infrastructure.logback.appender.helper;
+package com.emily.infrastructure.logback.helper;
 
 import ch.qos.logback.classic.Level;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.enumeration.LogbackTypeEnum;
+import com.emily.infrastructure.logback.enumeration.LogbackType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -35,7 +35,7 @@ public class LogbackAppender {
     /**
      * 日志类型
      */
-    private LogbackTypeEnum logbackType;
+    private LogbackType logbackType;
 
     public String getAppenderName() {
         return StringUtils.join(this.appenderName, CharacterUtils.LINE_THROUGH_BOTTOM, this.getLevel().levelStr);
@@ -69,11 +69,11 @@ public class LogbackAppender {
         this.level = level;
     }
 
-    public LogbackTypeEnum getLogbackType() {
+    public LogbackType getLogbackType() {
         return logbackType;
     }
 
-    public void setLogbackType(LogbackTypeEnum logbackType) {
+    public void setLogbackType(LogbackType logbackType) {
         this.logbackType = logbackType;
     }
 
@@ -82,7 +82,7 @@ public class LogbackAppender {
         return this;
     }
 
-    public static LogbackAppender builder(String appenderName, String loggerPath, String fileName, LogbackTypeEnum logbackType) {
+    public static LogbackAppender toAppender(String appenderName, String loggerPath, String fileName, LogbackType logbackType) {
         LogbackAppender appender = new LogbackAppender();
         appender.setAppenderName(appenderName);
         appender.setLoggerPath(loggerPath);
@@ -91,7 +91,7 @@ public class LogbackAppender {
         return appender;
     }
 
-    public static LogbackAppender builder(String appenderName, String loggerPath, String fileName, Level level, LogbackTypeEnum logbackType) {
+    public static LogbackAppender toAppender(String appenderName, String loggerPath, String fileName, Level level, LogbackType logbackType) {
         LogbackAppender appender = new LogbackAppender();
         appender.setAppenderName(appenderName);
         appender.setLoggerPath(loggerPath);
@@ -110,9 +110,9 @@ public class LogbackAppender {
     public String getFilePath(LogbackProperties properties) {
         //日志文件路径
         String loggerPath;
-        if (LogbackTypeEnum.GROUP.equals(this.getLogbackType())) {
+        if (LogbackType.GROUP.equals(this.getLogbackType())) {
             loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(this.getLoggerPath()), File.separator, this.getLevel().levelStr.toLowerCase(), File.separator, this.getFileName());
-        } else if (LogbackTypeEnum.MODULE.equals(this.getLogbackType())) {
+        } else if (LogbackType.MODULE.equals(this.getLogbackType())) {
             loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(this.getLoggerPath()), File.separator, this.getFileName());
         } else {
             loggerPath = StringUtils.join(properties.getPath(), File.separator, this.getLevel().levelStr.toLowerCase(), File.separator, this.getLevel().levelStr.toLowerCase());
@@ -127,9 +127,9 @@ public class LogbackAppender {
      * @return
      */
     public String getFilePattern(LogbackProperties properties) {
-        if (LogbackTypeEnum.MODULE.equals(this.getLogbackType())) {
+        if (LogbackType.MODULE.equals(this.getLogbackType())) {
             return properties.getModulePattern();
-        } else if (LogbackTypeEnum.GROUP.equals(this.getLogbackType())) {
+        } else if (LogbackType.GROUP.equals(this.getLogbackType())) {
             return properties.getGroupPattern();
         } else {
             return properties.getCommonPattern();

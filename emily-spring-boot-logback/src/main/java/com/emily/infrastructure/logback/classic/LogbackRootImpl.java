@@ -1,14 +1,12 @@
-package com.emily.infrastructure.logback.builder;
+package com.emily.infrastructure.logback.classic;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logback.appender.helper.LogbackAppender;
-import com.emily.infrastructure.logback.enumeration.LogbackTypeEnum;
-import org.slf4j.LoggerFactory;
+import com.emily.infrastructure.logback.enumeration.LogbackType;
+import com.emily.infrastructure.logback.helper.LogbackAppender;
 
 /**
  * @program: spring-parent
@@ -16,26 +14,30 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/07/08
  */
-public abstract class AbstractLogbackBuilder {
+public class LogbackRootImpl extends AbstractLogback {
 
-    private static LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+    public LogbackRootImpl(LogbackProperties properties) {
+        super(properties);
+    }
+
     /**
      * 构建RootLogger对象，需在配置类中主动调用进行初始化
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      */
-    public void builderRoot(LogbackProperties properties) {
-        Logger rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
-        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties);
+    @Override
+    public Logger getLogger() {
+        Logger rootLogger = this.getLoggerContext().getLogger(Logger.ROOT_LOGGER_NAME);
+        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
         // 获取帮助类对象
-        LogbackAppender logbackAppender = LogbackAppender.builder(Logger.ROOT_LOGGER_NAME, null, null, LogbackTypeEnum.ROOT);
+        LogbackAppender logbackAppender = LogbackAppender.toAppender(Logger.ROOT_LOGGER_NAME, null, null, LogbackType.ROOT);
         // 配置日志级别
-        Level level = Level.toLevel(properties.getLevel().levelStr);
+        Level level = Level.toLevel(this.getProperties().getLevel().levelStr);
         // 设置日志级别
         rootLogger.setLevel(level);
         //设置是否向上级打印信息
         rootLogger.setAdditive(false);
-        if (properties.isEnableAsyncAppender()) {
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(loggerContext, properties);
+        if (this.getProperties().isEnableAsyncAppender()) {
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(this.getLoggerContext(), this.getProperties());
             if (level.levelInt <= Level.ERROR_INT) {
                 rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR))));
             }
@@ -68,23 +70,6 @@ public abstract class AbstractLogbackBuilder {
                 rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
             }
         }
+        return rootLogger;
     }
-
-    /**
-     * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
-     *
-     * @param fileName 日志文件名|模块名称
-     * @return
-     */
-    public abstract Logger builderGroup(String name, String path, String fileName);
-
-    /**
-     * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
-     *
-     * @param fileName 日志文件名|模块名称
-     * @return
-     */
-    public abstract Logger builderModule(String name, String path, String fileName);
 }

@@ -1,6 +1,7 @@
 package com.emily.infrastructure.actuator.filter;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration;
@@ -21,6 +22,9 @@ import java.util.Arrays;
 @ManagementContextConfiguration(value = ManagementContextType.CHILD, proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class MonitorFilterRegistrationBeanAutoConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(MonitorFilterRegistrationBeanAutoConfiguration.class);
+
     /**
      * 监控IP是否是内部IP过滤器
      */
@@ -38,11 +42,11 @@ public class MonitorFilterRegistrationBeanAutoConfiguration implements Initializ
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "<== 【销毁--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(MonitorFilterRegistrationBeanAutoConfiguration.class, "==> 【初始化--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----actuator过滤器注册组件【MonitorFilterRegistrationBeanAutoConfiguration】");
     }
 }

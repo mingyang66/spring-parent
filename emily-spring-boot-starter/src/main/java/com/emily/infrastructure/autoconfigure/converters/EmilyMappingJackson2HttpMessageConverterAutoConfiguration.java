@@ -1,6 +1,7 @@
 package com.emily.infrastructure.autoconfigure.converters;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -25,6 +26,8 @@ import java.util.Arrays;
 @EnableConfigurationProperties(Jackson2MessagesProperties.class)
 @ConditionalOnProperty(prefix = "spring.emily.jackson2.converter", name = "enable", havingValue = "true", matchIfMissing = true)
 public class EmilyMappingJackson2HttpMessageConverterAutoConfiguration implements InitializingBean, DisposableBean {
+    private static final Logger logger = LoggerFactory.getLogger(EmilyMappingJackson2HttpMessageConverterAutoConfiguration.class);
+
     private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     public EmilyMappingJackson2HttpMessageConverterAutoConfiguration(MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
@@ -38,11 +41,11 @@ public class EmilyMappingJackson2HttpMessageConverterAutoConfiguration implement
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(EmilyMappingJackson2HttpMessageConverterAutoConfiguration.class, "<== 【销毁--自动化配置】----响应报文Content-Type编码组件【EmilyMappingJackson2HttpMessageConverterAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----响应报文Content-Type编码组件【EmilyMappingJackson2HttpMessageConverterAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(EmilyMappingJackson2HttpMessageConverterAutoConfiguration.class, "==> 【初始化--自动化配置】----响应报文Content-Type编码组件【EmilyMappingJackson2HttpMessageConverterAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----响应报文Content-Type编码组件【EmilyMappingJackson2HttpMessageConverterAutoConfiguration】");
     }
 }

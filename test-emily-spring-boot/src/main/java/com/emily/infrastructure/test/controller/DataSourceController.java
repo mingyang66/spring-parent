@@ -2,7 +2,6 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
 import com.emily.infrastructure.test.mapper.*;
 import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
@@ -127,8 +126,8 @@ public class DataSourceController {
 
     @GetMapping("getJob")
     public Job getJob() {
-        LogbackFactory.module("/a/b/c", "info", "asdfffffffff");
-        LogbackFactory.module("/a/b/c", "info1", "asdfffffffff");
+        //LoggerFactory.module("/a/b/c", "info", "asdfffffffff");
+        //LoggerFactory.module("/a/b/c", "info1", "asdfffffffff");
         Job job = jobMapper.findJob();
         return job;
     }

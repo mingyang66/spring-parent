@@ -1,7 +1,8 @@
 package com.emily.infrastructure.autoconfigure.bean.registry;
 
 import com.emily.infrastructure.core.condition.MacOsCondition;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,9 @@ import org.springframework.context.annotation.Import;
 @Conditional(MacOsCondition.class)
 @Import(EmilyImportBeanDefinitionRegistrar.class)
 public class EmilyBeanDefinitionRegistryAutoConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmilyBeanDefinitionRegistryAutoConfiguration.class);
+
     /**
      * spring BeanFacory的后置处理器，会在IOC容器执行扫描注册（@ComponentScan和@ComponentScans）、自动化配置加载注册之前执行，提前将bean注入到IOC容器
      *
@@ -31,11 +35,11 @@ public class EmilyBeanDefinitionRegistryAutoConfiguration implements Initializin
 
     @Override
     public void destroy() throws Exception {
-        LogbackFactory.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "<== 【销毁--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LogbackFactory.info(EmilyBeanDefinitionRegistryAutoConfiguration.class, "==> 【初始化--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----自定义组件【EmilyBeanDefinitionRegistryAutoConfiguration】");
     }
 }

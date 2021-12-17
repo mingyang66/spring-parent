@@ -1,7 +1,8 @@
 package com.yaomy.control.zeromq.pubsub.client;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import com.yaomy.control.zeromq.pubsub.client.task.MoniterMQTask;
+import org.slf4j.Logger;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -12,6 +13,7 @@ import org.zeromq.ZMQ;
  */
 @SuppressWarnings("all")
 public class ZeroMQClient {
+    private static final Logger logger = LoggerFactory.getLogger(ZeroMQClient.class);
     /**
      * 通信SOCKET套接字
      */
@@ -21,15 +23,16 @@ public class ZeroMQClient {
      */
     private String endPoint;
 
-    public ZeroMQClient(String endPoint){
+    public ZeroMQClient(String endPoint) {
         this.endPoint = endPoint;
         build();
     }
+
     /**
      * @Description 跟指定端点服务器建立连接，监控事件变化，并接受消息
-     * @Version  1.0
+     * @Version 1.0
      */
-    private void build(){
+    private void build() {
         /**
          * ZContext提供一种高级的ZeroMQ上下文管理类，它管理上下文中打开的SOCKET套接字，并在终止上下文之前自动关闭这些SOCKET套接字
          * 它提供一种在SOCKET套接字上设置延时超时的简单方法，并未I/O线程数配置上线文；设置进程的信号（中断）处理。
@@ -50,26 +53,29 @@ public class ZeroMQClient {
          */
         socket.connect(endPoint);
     }
+
     /**
      * @Description 订阅指定前缀prefix的消息通道
-     * @Version  1.0
+     * @Version 1.0
      */
-    public boolean subscribe(byte[] prefix){
-        LogbackFactory.info(ZeroMQClient.class, "订阅TOPIC:"+new String(prefix));
+    public boolean subscribe(byte[] prefix) {
+        logger.info("订阅TOPIC:" + new String(prefix));
 
         return socket.subscribe(prefix);
     }
+
     /**
      * @Description 取消订阅指定前缀prefix的消息通道
-     * @Version  1.0
+     * @Version 1.0
      */
-    public boolean unsubscribe(byte[] prefix){
-        LogbackFactory.info(ZeroMQClient.class, "取消订阅TOPIC:"+new String(prefix));
+    public boolean unsubscribe(byte[] prefix) {
+        logger.info("取消订阅TOPIC:" + new String(prefix));
         return socket.unsubscribe(prefix);
     }
 
     /**
      * 获取服务端SOCKET对象
+     *
      * @return
      */
     public ZMQ.Socket getSocket() {

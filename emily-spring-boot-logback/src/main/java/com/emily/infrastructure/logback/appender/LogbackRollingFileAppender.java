@@ -10,8 +10,8 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.appender.helper.LogbackAppender;
 import com.emily.infrastructure.logback.filter.LogbackFilter;
+import com.emily.infrastructure.logback.helper.LogbackAppender;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -27,7 +27,7 @@ public class LogbackRollingFileAppender {
      */
     private LoggerContext loggerContext;
     /**
-     * 日志属性配置
+     * 属性配置
      */
     private LogbackProperties properties;
 

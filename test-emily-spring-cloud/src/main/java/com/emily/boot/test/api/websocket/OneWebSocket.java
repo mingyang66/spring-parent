@@ -1,6 +1,7 @@
 package com.emily.boot.test.api.websocket;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -10,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ServerEndpoint(value = "/websocket/connect")
 @Component
 public class OneWebSocket {
-
+    private static final Logger logger = LoggerFactory.getLogger(OneWebSocket.class);
     /**
      * 记录当前在线连接数
      */
@@ -22,7 +23,7 @@ public class OneWebSocket {
     @OnOpen
     public void onOpen(Session session) {
         onlineCount.incrementAndGet(); // 在线数加1
-        LogbackFactory.info(OneWebSocket.class, "有新连接加入："+ session.getId()+"，当前在线人数为：" + onlineCount.get());
+        logger.info("有新连接加入：" + session.getId() + "，当前在线人数为：" + onlineCount.get());
     }
 
     /**
@@ -31,7 +32,7 @@ public class OneWebSocket {
     @OnClose
     public void onClose(Session session) {
         onlineCount.decrementAndGet(); // 在线数减1
-        LogbackFactory.info(OneWebSocket.class, "有一连接关闭："+session.getId()+"，当前在线人数为：" + onlineCount.get());
+        logger.info("有一连接关闭：" + session.getId() + "，当前在线人数为：" + onlineCount.get());
     }
 
     /**
@@ -41,13 +42,13 @@ public class OneWebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        LogbackFactory.info(OneWebSocket.class, "服务端收到客户端的消息:" + session.getId() + message);
+        logger.info("服务端收到客户端的消息:" + session.getId() + message);
         this.sendMessage("Hello, " + message, session);
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        LogbackFactory.error(OneWebSocket.class, "发生错误");
+        logger.error("发生错误");
         error.printStackTrace();
     }
 
@@ -56,10 +57,10 @@ public class OneWebSocket {
      */
     private void sendMessage(String message, Session toSession) {
         try {
-            LogbackFactory.info(OneWebSocket.class, "服务端给客户端["+toSession.getId()+"]发送消息:" + message);
+            logger.info("服务端给客户端[" + toSession.getId() + "]发送消息:" + message);
             toSession.getBasicRemote().sendText(message);
         } catch (Exception e) {
-            LogbackFactory.error(OneWebSocket.class, "服务端发送消息给客户端失败：" + e.getMessage());
+            logger.error("服务端发送消息给客户端失败：" + e.getMessage());
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.emily.infrastructure.core.servlet.filter;
 
 import com.emily.infrastructure.core.servlet.RequestChannelFilter;
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -19,6 +20,8 @@ import java.util.Arrays;
  */
 @Configuration(proxyBeanMethods = false)
 public class FilterRegistrationBeanAutoConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(FilterRegistrationBeanAutoConfiguration.class);
     /**
      * 注册HTTP请求拦截器注册BEAN
      *
@@ -36,11 +39,11 @@ public class FilterRegistrationBeanAutoConfiguration implements InitializingBean
 
     @Override
     public void destroy() {
-        LogbackFactory.info(FilterRegistrationBeanAutoConfiguration.class, "<== 【销毁--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogbackFactory.info(FilterRegistrationBeanAutoConfiguration.class, "==> 【初始化--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----过滤器注册自动化配置组件【FilterRegistrationBeanAutoConfiguration】");
     }
 }

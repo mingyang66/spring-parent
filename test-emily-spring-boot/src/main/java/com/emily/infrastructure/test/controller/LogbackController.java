@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("logback")
 public class LogbackController {
-    private static final Logger logger = LoggerFactory.getGroupLogger("66/12/34", "test");
-
+    //private static final Logger logger = LoggerFactory.getGroupLogger("66/12/34", "test");
     @GetMapping("debug")
     public String debug() {
         LoggerFactory.getGroupLogger("66/12/34", "test").error("211112122");

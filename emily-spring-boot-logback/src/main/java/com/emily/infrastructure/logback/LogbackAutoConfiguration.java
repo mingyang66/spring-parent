@@ -30,8 +30,11 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
      */
     @Bean(initMethod = "init")
     public LogbackContext logbackContext(LogbackProperties properties) {
-        LogbackContext context = new LogbackContext(properties);
-        LoggerFactory.context = context;
+        LogbackContext context = LoggerFactory.context;
+        if (context == null) {
+            context = new LogbackContext(properties);
+            LoggerFactory.context = context;
+        }
         return context;
     }
 

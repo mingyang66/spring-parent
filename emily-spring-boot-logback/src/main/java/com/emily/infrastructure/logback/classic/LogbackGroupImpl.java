@@ -7,7 +7,7 @@ import com.emily.infrastructure.logback.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logback.enumeration.LogbackType;
-import com.emily.infrastructure.logback.helper.LogbackAppender;
+import com.emily.infrastructure.logback.entity.LogbackAppender;
 
 /**
  * @program: spring-parent

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.helper;
+package com.emily.infrastructure.logback.entity;
 
 import ch.qos.logback.classic.Level;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;

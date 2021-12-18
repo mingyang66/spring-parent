@@ -46,7 +46,7 @@ public class LogbackProperties {
      * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
      * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
      */
-    private String commonPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\\\)] : %msg%n";
+    private String commonPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
     /**
      * 是否将模块日志信息输出到控制台，默认false
      */

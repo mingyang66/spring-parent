@@ -34,7 +34,7 @@ public class LogbackModuleImpl extends AbstractLogback {
         // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 模块输出日志级别
-        Level level = Level.toLevel(this.getProperties().getModuleLevel().levelStr);
+        Level level = Level.toLevel(this.getProperties().getModule().getLevel().levelStr);
 
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
         // 获取帮助类对象
@@ -74,7 +74,7 @@ public class LogbackModuleImpl extends AbstractLogback {
                 logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
             }
         }
-        if (this.getProperties().isEnableModuleConsole()) {
+        if (this.getProperties().getModule().isConsole()) {
             // 添加控制台appender
             logger.addAppender(new LogbackConsoleAppender(this.getLoggerContext(), this.getProperties()).getConsoleAppender(level));
         }

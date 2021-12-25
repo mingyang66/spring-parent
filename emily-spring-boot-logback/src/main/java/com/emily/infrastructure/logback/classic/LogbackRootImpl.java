@@ -31,7 +31,7 @@ public class LogbackRootImpl extends AbstractLogback {
         // 获取帮助类对象
         LogbackAppender logbackAppender = LogbackAppender.toAppender(Logger.ROOT_LOGGER_NAME, null, null, LogbackType.ROOT);
         // 配置日志级别
-        Level level = Level.toLevel(this.getProperties().getLevel().levelStr);
+        Level level = Level.toLevel(this.getProperties().getRoot().getLevel().levelStr);
         // 设置日志级别
         rootLogger.setLevel(level);
         //设置是否向上级打印信息

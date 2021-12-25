@@ -36,7 +36,7 @@ public class LogbackGroupImpl extends AbstractLogback {
          */
         logger.setAdditive(false);
         // 配置日志级别
-        Level level = Level.toLevel(this.getProperties().getGroupLevel().levelStr);
+        Level level = Level.toLevel(this.getProperties().getGroup().getLevel().levelStr);
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
         // 获取帮助类对象
         LogbackAppender logbackAppender = LogbackAppender.toAppender(appenderName, path, fileName, LogbackType.GROUP);
@@ -75,7 +75,7 @@ public class LogbackGroupImpl extends AbstractLogback {
                 logger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
             }
         }
-        if (this.getProperties().isEnableGroupConsole()) {
+        if (this.getProperties().getGroup().isConsole()) {
             // 添加控制台appender
             logger.addAppender(new LogbackConsoleAppender(this.getLoggerContext(), this.getProperties()).getConsoleAppender(level));
         }

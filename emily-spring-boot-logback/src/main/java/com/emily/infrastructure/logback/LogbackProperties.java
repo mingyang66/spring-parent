@@ -18,10 +18,6 @@ public class LogbackProperties {
      */
     private boolean enabled;
     /**
-     * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
-     */
-    private Level level = Level.DEBUG;
-    /**
      * 日志文件存放路径，默认是:./logs
      */
     private String path = "./logs";
@@ -42,35 +38,6 @@ public class LogbackProperties {
      * 文件总大小限制 KB、MB、GB，默认5GB
      */
     private String totalSizeCap = "5GB";
-    /**
-     * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
-     * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
-     */
-    private String commonPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
-    /**
-     * 是否将模块日志信息输出到控制台，默认false
-     */
-    private boolean enableGroupConsole = false;
-    /**
-     * 模块日志输出格式，默认：%msg%n
-     */
-    private String groupPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
-    /**
-     * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
-     */
-    private Level groupLevel = Level.DEBUG;
-    /**
-     * 是否将模块日志信息输出到控制台，默认false
-     */
-    private boolean enableModuleConsole = false;
-    /**
-     * 模块日志输出格式，默认：%msg%n
-     */
-    private String modulePattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
-    /**
-     * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
-     */
-    private Level moduleLevel = Level.DEBUG;
     /**
      * 是否启用日志异步记录Appender
      */
@@ -94,30 +61,18 @@ public class LogbackProperties {
      * 在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃，默认为 false
      */
     private boolean asyncNeverBlock;
-
-    public boolean isEnableGroupConsole() {
-        return enableGroupConsole;
-    }
-
-    public void setEnableGroupConsole(boolean enableGroupConsole) {
-        this.enableGroupConsole = enableGroupConsole;
-    }
-
-    public String getGroupPattern() {
-        return groupPattern;
-    }
-
-    public void setGroupPattern(String groupPattern) {
-        this.groupPattern = groupPattern;
-    }
-
-    public Level getGroupLevel() {
-        return groupLevel;
-    }
-
-    public void setGroupLevel(Level groupLevel) {
-        this.groupLevel = groupLevel;
-    }
+    /**
+     * 基础根日志
+     */
+    private Root root = new Root();
+    /**
+     * 分组记录日志
+     */
+    private Group group = new Group();
+    /**
+     * 按模块记录日志
+     */
+    private Module module = new Module();
 
     public boolean isEnabled() {
         return enabled;
@@ -125,22 +80,6 @@ public class LogbackProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public Level getModuleLevel() {
-        return moduleLevel;
-    }
-
-    public void setModuleLevel(Level moduleLevel) {
-        this.moduleLevel = moduleLevel;
     }
 
     public String getPath() {
@@ -183,30 +122,6 @@ public class LogbackProperties {
         this.totalSizeCap = totalSizeCap;
     }
 
-    public String getCommonPattern() {
-        return commonPattern;
-    }
-
-    public void setCommonPattern(String commonPattern) {
-        this.commonPattern = commonPattern;
-    }
-
-    public String getModulePattern() {
-        return modulePattern;
-    }
-
-    public void setModulePattern(String modulePattern) {
-        this.modulePattern = modulePattern;
-    }
-
-    public boolean isEnableModuleConsole() {
-        return enableModuleConsole;
-    }
-
-    public void setEnableModuleConsole(boolean enableModuleConsole) {
-        this.enableModuleConsole = enableModuleConsole;
-    }
-
     public boolean isEnableAsyncAppender() {
         return enableAsyncAppender;
     }
@@ -247,6 +162,30 @@ public class LogbackProperties {
         this.asyncNeverBlock = asyncNeverBlock;
     }
 
+    public Root getRoot() {
+        return root;
+    }
+
+    public void setRoot(Root root) {
+        this.root = root;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
     /**
      * OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      */
@@ -257,6 +196,112 @@ public class LogbackProperties {
 
         Level(String levelStr) {
             this.levelStr = levelStr;
+        }
+    }
+
+    public static class Root {
+        /**
+         * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
+         */
+        private Level level = Level.DEBUG;
+        /**
+         * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
+         * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+         */
+        private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+
+        public Level getLevel() {
+            return level;
+        }
+
+        public void setLevel(Level level) {
+            this.level = level;
+        }
+
+        public String getPattern() {
+            return pattern;
+        }
+
+        public void setPattern(String pattern) {
+            this.pattern = pattern;
+        }
+    }
+
+    public static class Group {
+        /**
+         * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
+         */
+        private Level level = Level.DEBUG;
+        /**
+         * 模块日志输出格式，默认：%msg%n
+         */
+        private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+        /**
+         * 是否将模块日志信息输出到控制台，默认false
+         */
+        private boolean console = false;
+
+        public Level getLevel() {
+            return level;
+        }
+
+        public void setLevel(Level level) {
+            this.level = level;
+        }
+
+        public String getPattern() {
+            return pattern;
+        }
+
+        public void setPattern(String pattern) {
+            this.pattern = pattern;
+        }
+
+        public boolean isConsole() {
+            return console;
+        }
+
+        public void setConsole(boolean console) {
+            this.console = console;
+        }
+    }
+
+    public static class Module {
+        /**
+         * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
+         */
+        private Level level = Level.DEBUG;
+        /**
+         * 模块日志输出格式，默认：%msg%n
+         */
+        private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+        /**
+         * 是否将模块日志信息输出到控制台，默认false
+         */
+        private boolean console = false;
+
+        public Level getLevel() {
+            return level;
+        }
+
+        public void setLevel(Level level) {
+            this.level = level;
+        }
+
+        public String getPattern() {
+            return pattern;
+        }
+
+        public void setPattern(String pattern) {
+            this.pattern = pattern;
+        }
+
+        public boolean isConsole() {
+            return console;
+        }
+
+        public void setConsole(boolean console) {
+            this.console = console;
         }
     }
 }

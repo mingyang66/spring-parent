@@ -128,11 +128,11 @@ public class LogbackAppender {
      */
     public String getFilePattern(LogbackProperties properties) {
         if (LogbackType.MODULE.equals(this.getLogbackType())) {
-            return properties.getModulePattern();
+            return properties.getModule().getPattern();
         } else if (LogbackType.GROUP.equals(this.getLogbackType())) {
-            return properties.getGroupPattern();
+            return properties.getGroup().getPattern();
         } else {
-            return properties.getCommonPattern();
+            return properties.getRoot().getPattern();
         }
     }
 }

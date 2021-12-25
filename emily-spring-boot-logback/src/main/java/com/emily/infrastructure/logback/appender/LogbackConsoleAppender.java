@@ -54,7 +54,7 @@ public class LogbackConsoleAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         encoder.setContext(loggerContext);
         //设置格式
-        encoder.setPattern(properties.getCommonPattern());
+        encoder.setPattern(properties.getRoot().getPattern());
         //设置编码格式
         encoder.setCharset(StandardCharsets.UTF_8);
         encoder.start();

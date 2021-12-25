@@ -51,8 +51,9 @@ public class LogbackContext {
     public <T> Logger getLogger(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
         // 日志文件路径
         path = PathUtils.normalizePath(path);
-        //logger对象name
+        // 获取appenderName
         String appenderName = getAppenderName(clazz, path, fileName);
+        // 获取Logger对象
         Logger logger = CONTEXT.get(appenderName);
         if (Objects.nonNull(logger)) {
             return logger;

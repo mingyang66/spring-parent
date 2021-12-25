@@ -35,7 +35,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>4.0.2</version>
+    <version>4.0.3</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 

@@ -1,8 +1,14 @@
 ### 
 -----
+基础库发布4.0.3
+Bug Fixes
+1. springboot升级到2.6.2
+2. logback日志组件优化调整
+-----
 基础库发布4.0.2
 Bug Fixes
 1. springcloud版本升级到3.1.0
+
 -----
 基础库发布4.0.1
 Bug Fixes

@@ -52,7 +52,7 @@ public class LogbackContext {
         // 日志文件路径
         path = PathUtils.normalizePath(path);
         // 获取appenderName
-        String appenderName = getAppenderName(clazz, path, fileName);
+        String appenderName = getAppenderName(clazz, path, fileName, logbackType);
         // 获取Logger对象
         Logger logger = CONTEXT.get(appenderName);
         if (Objects.nonNull(logger)) {
@@ -97,8 +97,8 @@ public class LogbackContext {
      * @param <T>
      * @return appenderName
      */
-    public <T> String getAppenderName(Class<T> clazz, String path, String fileName) {
-        String prefix = Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}", path, fileName));
+    public <T> String getAppenderName(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
+        String prefix = Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}{2}", path, fileName, logbackType.getType()));
         return MessageFormat.format("{0}.{1}", prefix, clazz.getName());
     }
 

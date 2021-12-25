@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.0.4
+1. 优化logback属性配置，ROOT、Group、Module三种分别定义子类型
+2. 获取logback的appenderName方式加入日志类别
+-----
 基础库发布4.0.3
 Bug Fixes
 1. springboot升级到2.6.2

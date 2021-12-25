@@ -25,7 +25,7 @@ public class LogbackProperties {
      * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
      * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
      */
-    private boolean enableSizeAndTimeRollingPolicy;
+    private boolean sizeAndTimeRollingPolicy;
     /**
      * 设置要保留的最大存档文件数,默认 7
      */
@@ -41,7 +41,7 @@ public class LogbackProperties {
     /**
      * 是否启用日志异步记录Appender
      */
-    private boolean enableAsyncAppender;
+    private boolean asyncAppender;
     /**
      * 队列的最大容量，默认为 256
      */
@@ -90,14 +90,6 @@ public class LogbackProperties {
         this.path = path;
     }
 
-    public boolean isEnableSizeAndTimeRollingPolicy() {
-        return enableSizeAndTimeRollingPolicy;
-    }
-
-    public void setEnableSizeAndTimeRollingPolicy(boolean enableSizeAndTimeRollingPolicy) {
-        this.enableSizeAndTimeRollingPolicy = enableSizeAndTimeRollingPolicy;
-    }
-
     public int getMaxHistory() {
         return maxHistory;
     }
@@ -122,12 +114,20 @@ public class LogbackProperties {
         this.totalSizeCap = totalSizeCap;
     }
 
-    public boolean isEnableAsyncAppender() {
-        return enableAsyncAppender;
+    public boolean isSizeAndTimeRollingPolicy() {
+        return sizeAndTimeRollingPolicy;
     }
 
-    public void setEnableAsyncAppender(boolean enableAsyncAppender) {
-        this.enableAsyncAppender = enableAsyncAppender;
+    public void setSizeAndTimeRollingPolicy(boolean sizeAndTimeRollingPolicy) {
+        this.sizeAndTimeRollingPolicy = sizeAndTimeRollingPolicy;
+    }
+
+    public boolean isAsyncAppender() {
+        return asyncAppender;
+    }
+
+    public void setAsyncAppender(boolean asyncAppender) {
+        this.asyncAppender = asyncAppender;
     }
 
     public int getAsyncQueueSize() {

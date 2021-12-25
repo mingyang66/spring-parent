@@ -51,7 +51,7 @@ public class LogbackRollingFileAppender {
         //获取过滤器
         LevelFilter levelFilter = LogbackFilter.getLevelFilter(logbackAppender.getLevel());
         levelFilter.start();
-        if (properties.isEnableSizeAndTimeRollingPolicy()) {
+        if (properties.isSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

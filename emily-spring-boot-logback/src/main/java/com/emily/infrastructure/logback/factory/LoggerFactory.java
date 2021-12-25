@@ -21,7 +21,7 @@ public class LoggerFactory {
     /**
      * Logger日志上下文
      */
-    public static LogbackContext context;
+    public static LogbackContext CONTEXT;
     /**
      * 容器上下文
      */
@@ -33,25 +33,25 @@ public class LoggerFactory {
 
     public static <T> Logger getGroupLogger(Class<T> clazz, String groupPath, String fileName) {
         validLoggerContext();
-        return context.getLogger(clazz, groupPath, fileName, LogbackType.GROUP);
+        return CONTEXT.getLogger(clazz, groupPath, fileName, LogbackType.GROUP);
     }
 
 
     public static <T> Logger getModuleLogger(Class<T> clazz, String modulePath, String fileName) {
         validLoggerContext();
-        return context.getLogger(clazz, modulePath, fileName, LogbackType.MODULE);
+        return CONTEXT.getLogger(clazz, modulePath, fileName, LogbackType.MODULE);
     }
 
     /**
      * 校验Logger上下文的有效性
      */
     private static void validLoggerContext() {
-        if (context == null) {
+        if (CONTEXT == null) {
             synchronized (lock) {
-                context = new LogbackContext(applicationContext.getBean(LogbackProperties.class));
+                CONTEXT = new LogbackContext(applicationContext.getBean(LogbackProperties.class));
             }
         }
-        if (context == null) {
+        if (CONTEXT == null) {
             throw new UninitializedException();
         }
     }

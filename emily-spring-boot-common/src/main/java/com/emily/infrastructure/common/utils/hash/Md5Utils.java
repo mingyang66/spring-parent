@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * @author Emily
  * @description: md5进行hash计算
  */
 public class Md5Utils {

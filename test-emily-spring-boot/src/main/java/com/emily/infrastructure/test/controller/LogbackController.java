@@ -15,21 +15,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("logback")
 public class LogbackController {
-    //private static final Logger logger = LoggerFactory.getGroupLogger("66/12/34", "test");
+    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class,"66/12/34", "test");
+    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class,"emily", "smile");
     @GetMapping("debug")
     public String debug() {
-        LoggerFactory.getGroupLogger("66/12/34", "test").error("211112122");
-        LoggerFactory.getGroupLogger("66/12/34", "test").debug("211112122");
-        LoggerFactory.getGroupLogger("66/12/34", "test").info("211112122");
-        LoggerFactory.getGroupLogger("66/12/34", "test").warn("211112122");
-        LoggerFactory.getGroupLogger("66/12/34", "test").trace("211112122");
-        LoggerFactory.getGroupLogger("emily", "smile").error("+++++++++++==ttttttttttttt");
-        LoggerFactory.getGroupLogger("emily", "smile").debug("+++++++++++==ttttttttttttt");
-        LoggerFactory.getGroupLogger("emily", "smile").info("+++++++++++==ttttttttttttt");
-        LoggerFactory.getGroupLogger("emily", "smile").warn("+++++++++++==ttttttttttttt");
-        LoggerFactory.getGroupLogger("emily", "smile").trace("+++++++++++==ttttttttttttt");
+        logger.error("211112122error");
+        logger.debug("211112122debug");
+        logger.info("211112122info");
+        logger.warn("211112122warn");
+        logger.trace("211112122+trace");
+        groupLogger.error("+++++++++++==ttttttttttttt");
+        groupLogger.debug("+++++++++++==ttttttttttttt");
+        groupLogger.info("+++++++++++==ttttttttttttt");
+        groupLogger.warn("+++++++++++==ttttttttttttt");
+        groupLogger.trace("+++++++++++==ttttttttttttt");
 
-        LoggerFactory.getModuleLogger("test1", "tt0").error("ni-----------------" + System.currentTimeMillis());
+        LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").error("ni-----------------" + System.currentTimeMillis());
 
         return "success";
     }

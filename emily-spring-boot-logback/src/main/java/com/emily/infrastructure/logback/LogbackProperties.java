@@ -54,7 +54,7 @@ public class LogbackProperties {
     /**
      * 模块日志输出格式，默认：%msg%n
      */
-    private String groupPattern = "%msg%n";
+    private String groupPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
     /**
      * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
      */
@@ -66,7 +66,7 @@ public class LogbackProperties {
     /**
      * 模块日志输出格式，默认：%msg%n
      */
-    private String modulePattern = "%m%n";
+    private String modulePattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
     /**
      * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
      */

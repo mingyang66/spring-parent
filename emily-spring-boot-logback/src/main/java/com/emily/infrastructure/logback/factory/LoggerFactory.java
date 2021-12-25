@@ -31,15 +31,15 @@ public class LoggerFactory {
         return org.slf4j.LoggerFactory.getLogger(clazz);
     }
 
-    public static <T> Logger getGroupLogger(String groupPath, String fileName) {
+    public static <T> Logger getGroupLogger(Class<T> clazz, String groupPath, String fileName) {
         validLoggerContext();
-        return context.getLogger(groupPath, fileName);
+        return context.getLogger(clazz, groupPath, fileName, LogbackType.GROUP);
     }
 
 
-    public static <T> Logger getModuleLogger(String modulePath, String fileName) {
+    public static <T> Logger getModuleLogger(Class<T> clazz, String modulePath, String fileName) {
         validLoggerContext();
-        return context.getLogger(modulePath, fileName, LogbackType.MODULE);
+        return context.getLogger(clazz, modulePath, fileName, LogbackType.MODULE);
     }
 
     /**

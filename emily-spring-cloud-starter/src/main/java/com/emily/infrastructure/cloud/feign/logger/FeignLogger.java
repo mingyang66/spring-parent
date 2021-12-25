@@ -19,6 +19,6 @@ public class FeignLogger extends Logger {
      */
     @Override
     protected void log(String configKey, String format, Object... args) {
-        LoggerFactory.getModuleLogger("/feign/", "feign").info(String.format(methodTag(configKey) + format, args));
+        LoggerFactory.getModuleLogger(FeignLogger.class, "/feign/", "feign").info(String.format(methodTag(configKey) + format, args));
     }
 }

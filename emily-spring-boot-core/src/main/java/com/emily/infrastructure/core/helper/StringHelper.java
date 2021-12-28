@@ -39,13 +39,49 @@ public class StringHelper {
 
     /**
      * 获取首个字符串
+     *
      * @param str
      * @return
      */
-    public static String firstString(String str){
-        if(StringUtils.isEmpty(str)){
+    public static String firstString(String str) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         return String.valueOf(str.charAt(0));
     }
+
+    /**
+     * 截取字符串前缀指定字符数，如果小于等于指定长度，则直接返回，如果大于，则截取指定长度字符
+     *
+     * @param str    字符串
+     * @param length 截取字符串长度
+     * @return
+     */
+    public static String subFirstString(String str, int length) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        if (str.length() <= length) {
+            return str;
+        }
+        return StringUtils.substring(str, 0, length);
+    }
+
+    /**
+     * 截取字符串后半部分指定长度，如果小于等于长度，则直接返回，如果大于，则截取字符串后面指定长度字符
+     *
+     * @param str    字符串
+     * @param length 截取字符串长度
+     * @return
+     */
+    public static String subLastString(String str, int length) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        if (str.length() <= length) {
+            return str;
+        }
+        return StringUtils.substring(str, str.length() - length);
+    }
+
 }

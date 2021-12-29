@@ -26,17 +26,21 @@ public class LogbackRootImpl extends AbstractLogback {
      */
     @Override
     public Logger getLogger() {
-        Logger rootLogger = this.getLoggerContext().getLogger(Logger.ROOT_LOGGER_NAME);
-        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
-        // 获取帮助类对象
-        LogbackAppender logbackAppender = LogbackAppender.toAppender(Logger.ROOT_LOGGER_NAME, null, null, LogbackType.ROOT);
         // 配置日志级别
         Level level = Level.toLevel(this.getProperties().getRoot().getLevel().levelStr);
-        // 设置日志级别
-        rootLogger.setLevel(level);
+        // 获取logger对象
+        Logger rootLogger = this.getLoggerContext().getLogger(Logger.ROOT_LOGGER_NAME);
         //设置是否向上级打印信息
         rootLogger.setAdditive(false);
+        // 设置日志级别
+        rootLogger.setLevel(level);
+
+        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
+        // 获取帮助类对象
+        LogbackAppender logbackAppender = new LogbackAppender(Logger.ROOT_LOGGER_NAME, null, null, LogbackType.ROOT);
+        // 是否开启异步日志
         if (this.getProperties().getAsync().isEnabled()) {
+            //异步appender
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(this.getLoggerContext(), this.getProperties());
             if (level.levelInt <= Level.ERROR_INT) {
                 rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR))));

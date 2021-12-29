@@ -82,24 +82,13 @@ public class LogbackAppender {
         return this;
     }
 
-    public static LogbackAppender toAppender(String appenderName, String loggerPath, String fileName, LogbackType logbackType) {
-        LogbackAppender appender = new LogbackAppender();
-        appender.setAppenderName(appenderName);
-        appender.setLoggerPath(loggerPath);
-        appender.setFileName(fileName);
-        appender.setLogbackType(logbackType);
-        return appender;
+    public LogbackAppender(String appenderName, String loggerPath, String fileName, LogbackType logbackType) {
+        this.appenderName = appenderName;
+        this.loggerPath = loggerPath;
+        this.fileName = fileName;
+        this.logbackType = logbackType;
     }
 
-    public static LogbackAppender toAppender(String appenderName, String loggerPath, String fileName, Level level, LogbackType logbackType) {
-        LogbackAppender appender = new LogbackAppender();
-        appender.setAppenderName(appenderName);
-        appender.setLoggerPath(loggerPath);
-        appender.setFileName(fileName);
-        appender.setLevel(level);
-        appender.setLogbackType(logbackType);
-        return appender;
-    }
 
     /**
      * 获取appender对应文件路径

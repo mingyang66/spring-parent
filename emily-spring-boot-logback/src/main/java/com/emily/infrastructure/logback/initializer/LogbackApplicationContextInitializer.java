@@ -1,6 +1,5 @@
 package com.emily.infrastructure.logback.initializer;
 
-import com.emily.infrastructure.logback.LogbackAutoConfiguration;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.context.ApplicationContextInitializer;

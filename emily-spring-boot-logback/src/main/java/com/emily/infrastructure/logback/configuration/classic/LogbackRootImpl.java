@@ -2,6 +2,7 @@ package com.emily.infrastructure.logback.configuration.classic;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import ch.qos.logback.core.util.StatusPrinter;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
@@ -73,6 +74,10 @@ public class LogbackRootImpl extends AbstractLogback {
             if (level.levelInt <= Level.TRACE_INT) {
                 rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
             }
+        }
+        //是否报告logback内部状态信息
+        if (this.getProperties().isReportState()) {
+            StatusPrinter.print(this.getLoggerContext());
         }
         return rootLogger;
     }

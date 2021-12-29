@@ -7,6 +7,7 @@ Bug Fixes
 3. 优化logback异步属性配置
 4. StringHelper帮助类新增截取字符串前部分指定字符数及后面部分指定字符数
 5. logback属性配置优化调整
+6. 新增logback是否报告logback内部状态信息控制
 -----
 基础库发布4.0.3
 Bug Fixes

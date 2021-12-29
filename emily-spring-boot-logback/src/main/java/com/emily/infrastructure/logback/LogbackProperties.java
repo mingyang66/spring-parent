@@ -14,9 +14,13 @@ public class LogbackProperties {
      */
     public static final String PREFIX = "spring.emily.logback";
     /**
-     * 是否开启日志组件
+     * 是否开启日志组件，默认：false
      */
     private boolean enabled;
+    /**
+     * 是否报告内部状态信息，默认；false
+     */
+    private boolean reportState;
     /**
      * 日志文件存放路径，默认是:./logs
      */
@@ -61,6 +65,14 @@ public class LogbackProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isReportState() {
+        return reportState;
+    }
+
+    public void setReportState(boolean reportState) {
+        this.reportState = reportState;
     }
 
     public String getPath() {

@@ -31,6 +31,7 @@ public class LogbackController {
         groupLogger.trace("+++++++++++==ttttttttttttt");
 
         LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").error("ni-----------------" + System.currentTimeMillis());
+        LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").info("ni-----------------" + System.currentTimeMillis());
 
         return "success";
     }

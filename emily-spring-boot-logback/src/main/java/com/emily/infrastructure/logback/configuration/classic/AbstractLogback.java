@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.classic;
+package com.emily.infrastructure.logback.configuration.classic;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;

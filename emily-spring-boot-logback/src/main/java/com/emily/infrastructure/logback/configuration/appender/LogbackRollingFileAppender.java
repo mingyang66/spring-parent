@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.appender;
+package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
@@ -10,8 +10,8 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.filter.LogbackFilter;
-import com.emily.infrastructure.logback.entity.LogbackAppender;
+import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
+import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;

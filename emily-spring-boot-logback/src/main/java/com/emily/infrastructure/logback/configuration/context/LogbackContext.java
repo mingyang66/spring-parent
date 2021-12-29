@@ -1,13 +1,13 @@
-package com.emily.infrastructure.logback.context;
+package com.emily.infrastructure.logback.configuration.context;
 
 import com.emily.infrastructure.common.utils.hash.Md5Utils;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.classic.Logback;
-import com.emily.infrastructure.logback.classic.LogbackGroupImpl;
-import com.emily.infrastructure.logback.classic.LogbackModuleImpl;
-import com.emily.infrastructure.logback.classic.LogbackRootImpl;
-import com.emily.infrastructure.logback.enumeration.LogbackType;
+import com.emily.infrastructure.logback.configuration.classic.Logback;
+import com.emily.infrastructure.logback.configuration.classic.LogbackGroupImpl;
+import com.emily.infrastructure.logback.configuration.classic.LogbackModuleImpl;
+import com.emily.infrastructure.logback.configuration.classic.LogbackRootImpl;
+import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
@@ -45,7 +45,7 @@ public class LogbackContext {
      * 获取日志输出对象
      *
      * @param fileName    日志文件名|模块名称
-     * @param logbackType 日志类别 {@link com.emily.infrastructure.logback.enumeration.LogbackType}
+     * @param logbackType 日志类别 {@link com.emily.infrastructure.logback.configuration.enumeration.LogbackType}
      * @return
      */
     public <T> Logger getLogger(Class<T> clazz, String path, String fileName, LogbackType logbackType) {

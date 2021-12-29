@@ -1,10 +1,10 @@
-package com.emily.infrastructure.logback.entity;
+package com.emily.infrastructure.logback.configuration.entity;
 
 import ch.qos.logback.classic.Level;
 import com.emily.infrastructure.common.utils.constant.CharacterUtils;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.enumeration.LogbackType;
+import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

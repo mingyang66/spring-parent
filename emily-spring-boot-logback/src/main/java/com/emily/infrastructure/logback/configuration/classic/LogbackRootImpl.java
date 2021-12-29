@@ -1,12 +1,12 @@
-package com.emily.infrastructure.logback.classic;
+package com.emily.infrastructure.logback.configuration.classic;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.appender.LogbackAsyncAppender;
-import com.emily.infrastructure.logback.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logback.enumeration.LogbackType;
-import com.emily.infrastructure.logback.entity.LogbackAppender;
+import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
+import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
+import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
+import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 
 /**
  * @program: spring-parent

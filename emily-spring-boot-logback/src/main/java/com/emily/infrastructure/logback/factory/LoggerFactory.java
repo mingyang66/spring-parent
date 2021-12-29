@@ -1,8 +1,8 @@
 package com.emily.infrastructure.logback.factory;
 
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.context.LogbackContext;
-import com.emily.infrastructure.logback.enumeration.LogbackType;
+import com.emily.infrastructure.logback.configuration.context.LogbackContext;
+import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 import com.emily.infrastructure.logback.exception.UninitializedException;
 import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;

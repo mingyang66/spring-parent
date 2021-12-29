@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.filter;
+package com.emily.infrastructure.logback.configuration.filter;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.filter.LevelFilter;

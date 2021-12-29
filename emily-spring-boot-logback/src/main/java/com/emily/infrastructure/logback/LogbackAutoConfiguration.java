@@ -1,6 +1,6 @@
 package com.emily.infrastructure.logback;
 
-import com.emily.infrastructure.logback.context.LogbackContext;
+import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.enumeration;
+package com.emily.infrastructure.logback.configuration.enumeration;
 
 /**
  * @Description: 日志类型

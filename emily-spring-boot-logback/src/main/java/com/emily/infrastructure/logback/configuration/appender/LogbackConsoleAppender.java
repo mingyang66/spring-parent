@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.appender;
+package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -7,7 +7,7 @@ import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.filter.LogbackFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 
 import java.nio.charset.StandardCharsets;
 

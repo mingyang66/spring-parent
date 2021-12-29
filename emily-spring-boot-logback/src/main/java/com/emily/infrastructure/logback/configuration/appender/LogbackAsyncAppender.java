@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.appender;
+package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;

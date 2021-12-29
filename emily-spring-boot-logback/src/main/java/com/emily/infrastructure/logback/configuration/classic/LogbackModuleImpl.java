@@ -29,7 +29,7 @@ public class LogbackModuleImpl extends AbstractLogback {
      * @return
      */
     @Override
-    public Logger getLogger(String appenderName, String path, String fileName) {
+    public Logger getLogger(String appenderName, String logbackPath, String fileName) {
         // 模块输出日志级别
         Level level = Level.toLevel(this.getProperties().getModule().getLevel().levelStr);
         // 获取Logger对象
@@ -41,7 +41,7 @@ public class LogbackModuleImpl extends AbstractLogback {
 
         LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
         // 获取帮助类对象
-        LogbackAppender logbackAppender = new LogbackAppender(appenderName, path, fileName, LogbackType.MODULE);
+        LogbackAppender logbackAppender = new LogbackAppender(appenderName, logbackPath, fileName, LogbackType.MODULE);
         // 是否开启异步日志
         if (this.getProperties().getAsync().isEnabled()) {
             //异步appender

@@ -23,7 +23,7 @@ public class LogbackAppender {
     /**
      * 日志路径
      */
-    private String loggerPath;
+    private String logbackPath;
     /**
      * 日志文件名
      */
@@ -45,12 +45,12 @@ public class LogbackAppender {
         this.appenderName = appenderName;
     }
 
-    public String getLoggerPath() {
-        return loggerPath;
+    public String getLogbackPath() {
+        return logbackPath;
     }
 
-    public void setLoggerPath(String loggerPath) {
-        this.loggerPath = loggerPath;
+    public void setLogbackPath(String logbackPath) {
+        this.logbackPath = logbackPath;
     }
 
     public String getFileName() {
@@ -82,9 +82,9 @@ public class LogbackAppender {
         return this;
     }
 
-    public LogbackAppender(String appenderName, String loggerPath, String fileName, LogbackType logbackType) {
+    public LogbackAppender(String appenderName, String logbackPath, String fileName, LogbackType logbackType) {
         this.appenderName = appenderName;
-        this.loggerPath = loggerPath;
+        this.logbackPath = logbackPath;
         this.fileName = fileName;
         this.logbackType = logbackType;
     }
@@ -100,9 +100,9 @@ public class LogbackAppender {
         //日志文件路径
         String loggerPath;
         if (LogbackType.GROUP.equals(this.getLogbackType())) {
-            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(this.getLoggerPath()), File.separator, this.getLevel().levelStr.toLowerCase(), File.separator, this.getFileName());
+            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(this.getLogbackPath()), File.separator, this.getLevel().levelStr.toLowerCase(), File.separator, this.getFileName());
         } else if (LogbackType.MODULE.equals(this.getLogbackType())) {
-            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(this.getLoggerPath()), File.separator, this.getFileName());
+            loggerPath = StringUtils.join(properties.getPath(), PathUtils.normalizePath(this.getLogbackPath()), File.separator, this.getFileName());
         } else {
             loggerPath = StringUtils.join(properties.getPath(), File.separator, this.getLevel().levelStr.toLowerCase(), File.separator, this.getLevel().levelStr.toLowerCase());
         }

@@ -34,7 +34,7 @@ public class LogbackConsoleAppender {
      * @param level
      * @return
      */
-    public ConsoleAppender getConsoleAppender(Level level) {
+    public ConsoleAppender getAppender(Level level) {
 
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();

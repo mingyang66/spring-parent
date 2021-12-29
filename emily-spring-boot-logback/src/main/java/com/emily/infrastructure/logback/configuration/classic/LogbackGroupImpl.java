@@ -80,7 +80,7 @@ public class LogbackGroupImpl extends AbstractLogback {
         }
         if (this.getProperties().getGroup().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(new LogbackConsoleAppender(this.getLoggerContext(), this.getProperties()).getConsoleAppender(level));
+            logger.addAppender(new LogbackConsoleAppender(this.getLoggerContext(), this.getProperties()).getAppender(level));
         }
 
         return logger;

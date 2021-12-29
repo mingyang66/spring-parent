@@ -46,20 +46,20 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
-        <netty>4.1.70.Final</netty>
-        <httpclient>4.5.13</httpclient>
-        <commons-lang3>3.11</commons-lang3>
-        <commons-io>2.7</commons-io>
-        <commons-collections4>4.4</commons-collections4>
-        <guava>30.1.1-jre</guava>
-        <jpinyin>1.1.8</jpinyin>
-        <jaxb-api>2.3.1</jaxb-api>
-        <druid>1.2.8</druid>
-        <mybatis>2.2.0</mybatis>
-        <spring-cloud>3.1.0</spring-cloud>
-        <feign-httpclient>11.6</feign-httpclient>
-        <protobuf>3.19.0</protobuf>
-        <TTL>2.12.2</TTL>
+        <httpclient.version>4.5.13</httpclient.version>
+        <commons.lang3.version>3.11</commons.lang3.version>
+        <commons.io.version>2.7</commons.io.version>
+        <commons.collections4.version>4.4</commons.collections4.version>
+        <alibaba.druid.version>1.2.8</alibaba.druid.version>
+        <alibaba.ttl.version>2.12.2</alibaba.ttl.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <jpinyin.version>1.1.8</jpinyin.version>
+        <jaxb.api.version>2.3.1</jaxb.api.version>
+        <mybatis.version>2.2.0</mybatis.version>
+        <spring.cloud.version>3.1.0</spring.cloud.version>
+        <feign.httpclient.version>11.6</feign.httpclient.version>
+        <netty.version>4.1.70.Final</netty.version>
+        <protobuf.version>3.19.0</protobuf.version>
     </properties>
 
     <dependencies>
@@ -84,92 +84,90 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava}</version>
+                <version>${commons.lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${commons-io}</version>
+                <version>${commons.io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
-                <version>${commons-collections4}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.stuxuhai</groupId>
-                <artifactId>jpinyin</artifactId>
-                <version>${jpinyin}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>${jaxb-api}</version>
+                <version>${commons.collections4.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid}</version>
+                <version>${alibaba.druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${alibaba.ttl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.stuxuhai</groupId>
+                <artifactId>jpinyin</artifactId>
+                <version>${jpinyin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis}</version>
+                <version>${mybatis.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>${httpclient}</version>
+                <version>${httpclient.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-consul-config</artifactId>
-                <version>${spring-cloud}</version>
+                <version>${spring.cloud.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-                <version>${spring-cloud}</version>
+                <version>${spring.cloud.version}</version>
             </dependency>
             <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-bootstrap</artifactId>
-                <version>${spring-cloud}</version>
+                <version>${spring.cloud.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${spring-cloud}</version>
+                <version>${spring.cloud.version}</version>
             </dependency>
-            <!-- 开启feign Apache HttpClient-->
             <dependency>
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-httpclient</artifactId>
-                <version>${feign-httpclient}</version>
+                <version>${feign.httpclient.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>${netty}</version>
+                <version>${netty.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>${protobuf}</version>
+                <version>${protobuf.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId>
-                <version>${TTL}</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

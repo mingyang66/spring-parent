@@ -36,7 +36,7 @@ public class LogbackRootImpl extends AbstractLogback {
         rootLogger.setLevel(level);
         //设置是否向上级打印信息
         rootLogger.setAdditive(false);
-        if (this.getProperties().getAsync().isAsyncAppender()) {
+        if (this.getProperties().getAsync().isEnabled()) {
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(this.getLoggerContext(), this.getProperties());
             if (level.levelInt <= Level.ERROR_INT) {
                 rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR))));

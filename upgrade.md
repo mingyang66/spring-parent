@@ -1,10 +1,12 @@
 ### 
 -----
 基础库发布4.0.4
+Bug Fixes
 1. 优化logback属性配置，ROOT、Group、Module三种分别定义子类型
 2. 获取logback的appenderName方式加入日志类别
 3. 优化logback异步属性配置
 4. StringHelper帮助类新增截取字符串前部分指定字符数及后面部分指定字符数
+5. logback属性配置优化调整
 -----
 基础库发布4.0.3
 Bug Fixes

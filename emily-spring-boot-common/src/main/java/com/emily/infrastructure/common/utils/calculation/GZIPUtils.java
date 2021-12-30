@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,7 +22,7 @@ public class GZIPUtils {
      * @return
      */
     public static byte[] compress(String str) {
-        return compress(str, CharsetUtils.UTF_8);
+        return compress(str, CharsetInfo.UTF_8);
     }
 
     /**
@@ -82,7 +82,7 @@ public class GZIPUtils {
      * @return
      */
     public static String decompressToString(byte[] bytes) {
-        return decompressToString(bytes, CharsetUtils.UTF_8);
+        return decompressToString(bytes, CharsetInfo.UTF_8);
     }
 
     /**

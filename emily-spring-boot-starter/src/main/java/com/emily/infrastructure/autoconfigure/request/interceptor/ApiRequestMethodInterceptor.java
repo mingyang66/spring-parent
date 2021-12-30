@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.TraceContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
@@ -49,7 +49,7 @@ public class ApiRequestMethodInterceptor implements ApiRequestCustomizer {
             //控制器方法名
             baseLogger.setMethod(invocation.getMethod().getName());
             //请求url
-            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterUtils.ASK_SIGN_EN));
+            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
             baseLogger.setRequestParams(RequestHelper.getParameterMap());
             //调用真实的action方法

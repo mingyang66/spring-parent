@@ -1,10 +1,11 @@
-package com.emily.infrastructure.common.utils.constant;
+package com.emily.infrastructure.common.constant;
 
 /**
+ * @author Emily
  * @Description: 字符集编码
  * @Version: 1.0
  */
-public class CharsetUtils {
+public class CharsetInfo {
     public static String GBK = "GBK";
     public static String GB2312 = "GB2312";
     public static String GB18030 = "GB18030";

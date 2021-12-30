@@ -8,6 +8,8 @@ Bug Fixes
 4. StringHelper帮助类新增截取字符串前部分指定字符数及后面部分指定字符数
 5. logback属性配置优化调整
 6. 新增logback是否报告logback内部状态信息控制
+7. 新增substringBeforeFirst字符串获取方法
+8. 优化appender相关类代码
 -----
 基础库发布4.0.3
 Bug Fixes

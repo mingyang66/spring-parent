@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.web;
 
 import com.emily.infrastructure.autoconfigure.web.annotation.ApiPrefix;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -60,7 +60,7 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
         //是否去除前后空格,默认false
         matcher.setTrimTokens(webProperties.getPath().isTrimTokens());
         //分隔符
-        matcher.setPathSeparator(CharacterUtils.PATH_SEPARATOR);
+        matcher.setPathSeparator(CharacterInfo.PATH_SEPARATOR);
         //是否缓存匹配规则,默认null等于true
         matcher.setCachePatterns(webProperties.getPath().isCachePatterns());
         //设置路由匹配规则

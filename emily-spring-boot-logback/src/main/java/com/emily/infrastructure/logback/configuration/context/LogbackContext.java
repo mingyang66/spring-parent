@@ -51,7 +51,7 @@ public class LogbackContext {
     public <T> Logger getLogger(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
         // 日志文件路径
         path = PathUtils.normalizePath(path);
-        // 获取appenderName
+        // 获取缓存key
         String appenderName = getAppenderName(clazz, path, fileName, logbackType);
         // 获取Logger对象
         Logger logger = CONTEXT.get(appenderName);
@@ -63,11 +63,12 @@ public class LogbackContext {
             if (Objects.nonNull(logger)) {
                 return logger;
             }
-            logger = builder(appenderName, path, fileName, logbackType);
+            //获取logger日志对象
+            logger = getLogger(appenderName, path, fileName, logbackType);
+            //存入缓存
             CONTEXT.put(appenderName, logger);
         }
         return logger;
-
     }
 
 
@@ -78,7 +79,7 @@ public class LogbackContext {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    protected Logger builder(String appenderName, String path, String fileName, LogbackType logbackType) {
+    protected Logger getLogger(String appenderName, String path, String fileName, LogbackType logbackType) {
         Logback logback;
         if (logbackType.getType().equals(LogbackType.MODULE.getType())) {
             logback = new LogbackModuleImpl(this.properties);
@@ -97,9 +98,18 @@ public class LogbackContext {
      * @param <T>
      * @return appenderName
      */
-    public <T> String getAppenderName(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
-        String prefix = Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}{2}", path, fileName, logbackType.getType()));
+    private <T> String getAppenderName(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
+        String prefix = getPrimaryKey(path, fileName, logbackType);
         return MessageFormat.format("{0}.{1}", prefix, clazz.getName());
     }
 
+    /**
+     * @param path        路径
+     * @param fileName    文件名
+     * @param logbackType 类型
+     * @return
+     */
+    private String getPrimaryKey(String path, String fileName, LogbackType logbackType) {
+        return Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}{2}", path, fileName, logbackType.getType()));
+    }
 }

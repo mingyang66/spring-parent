@@ -2,8 +2,8 @@ package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
@@ -78,7 +78,7 @@ public class RequestHelper {
         try {
             return JSONUtils.toObject(body, Object.class);
         } catch (Exception e) {
-            return IOUtils.toString(body, CharsetUtils.UTF_8);
+            return IOUtils.toString(body, CharsetInfo.UTF_8);
         }
     }
 
@@ -92,7 +92,7 @@ public class RequestHelper {
         try {
             return JSONUtils.toObject(params, Map.class);
         } catch (Exception e) {
-            return convertParameterToMap(IOUtils.toString(params, CharsetUtils.UTF_8));
+            return convertParameterToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
         }
     }
 
@@ -107,9 +107,9 @@ public class RequestHelper {
             return Collections.emptyMap();
         }
         Map<String, Object> pMap = Maps.newLinkedHashMap();
-        String[] pArray = StringUtils.split(param, CharacterUtils.AND_AIGN);
+        String[] pArray = StringUtils.split(param, CharacterInfo.AND_AIGN);
         for (int i = 0; i < pArray.length; i++) {
-            String[] array = StringUtils.split(pArray[i], CharacterUtils.EQUAL_SIGN);
+            String[] array = StringUtils.split(pArray[i], CharacterInfo.EQUAL_SIGN);
             if (array.length == 2) {
                 pMap.put(array[0], array[1]);
             }

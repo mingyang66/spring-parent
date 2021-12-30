@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.utils;
 
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
@@ -15,7 +15,7 @@ public class UUIDUtils {
      * 自动生成用户令牌
      */
     public static String generation(){
-        return StringUtils.replace(randomUuid(), CharacterUtils.LINE_THROUGH_CENTER, "");
+        return StringUtils.replace(randomUuid(), CharacterInfo.LINE_THROUGH_CENTER, "");
     }
 
     /**

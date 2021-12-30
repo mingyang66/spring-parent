@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.helper;
+package com.emily.infrastructure.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,7 +10,7 @@ import java.text.MessageFormat;
  * @author: Emily
  * @create: 2021/08/19
  */
-public class StringHelper {
+public class StrUtils {
     /**
      * 首字母转小写
      *
@@ -82,6 +82,20 @@ public class StringHelper {
             return str;
         }
         return StringUtils.substring(str, str.length() - length);
+    }
+
+    /**
+     * 获取字符串指定分隔符第一部分
+     *
+     * @param str       字符串
+     * @param separator 分隔符
+     * @return
+     */
+    public static String substringBeforeFirst(String str, String separator) {
+        if (StringUtils.isNotEmpty(str) && StringUtils.isNotEmpty(separator)) {
+            return str.split(separator)[0];
+        }
+        return str;
     }
 
 }

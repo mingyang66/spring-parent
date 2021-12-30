@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.httpclient;
 
 
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,14 +148,14 @@ public class HttpClientService {
             StringBuffer sb = new StringBuffer();
             paramsMap.keySet().forEach(key -> {
                 if (sb.length() != 0) {
-                    sb.append(CharacterUtils.AND_AIGN);
+                    sb.append(CharacterInfo.AND_AIGN);
                 }
-                sb.append(StringUtils.join(key, CharacterUtils.EQUAL_SIGN, paramsMap.get(key)));
+                sb.append(StringUtils.join(key, CharacterInfo.EQUAL_SIGN, paramsMap.get(key)));
             });
-            if (url.contains(CharacterUtils.ASK_SIGN_EN)) {
-                url = StringUtils.join(url, CharacterUtils.AND_AIGN, sb.toString());
+            if (url.contains(CharacterInfo.ASK_SIGN_EN)) {
+                url = StringUtils.join(url, CharacterInfo.AND_AIGN, sb.toString());
             } else {
-                url = StringUtils.join(url, CharacterUtils.ASK_SIGN_EN, sb.toString());
+                url = StringUtils.join(url, CharacterInfo.ASK_SIGN_EN, sb.toString());
             }
         }
         return url;

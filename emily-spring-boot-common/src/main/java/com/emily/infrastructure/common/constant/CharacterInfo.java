@@ -1,12 +1,12 @@
-package com.emily.infrastructure.common.utils.constant;
+package com.emily.infrastructure.common.constant;
 
 /**
  * @program: spring-parent
  * @description: 特殊字符集工具类
- * @author:
+ * @author: Emily
  * @create: 2020/05/18
  */
-public class CharacterUtils {
+public class CharacterInfo {
     public static final String EQUAL_SIGN = "=";
     public static final String ASK_SIGN_EN = "?";
     public static final String ASK_SIGN_CN = "？";

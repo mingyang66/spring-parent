@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.utils.hash;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,7 +29,7 @@ public class Base64Utils {
      * @return 编码后的字符串
      */
     public static String encoder(String encoderStr) {
-        return encoder(encoderStr, CharsetUtils.UTF_8);
+        return encoder(encoderStr, CharsetInfo.UTF_8);
     }
 
     /**
@@ -47,7 +47,7 @@ public class Base64Utils {
                 throw new BasicException(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), "编码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             return Base64.getEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
@@ -64,7 +64,7 @@ public class Base64Utils {
      * @return 解码后的字符串
      */
     public static String decoder(String decoderStr) {
-        return decoder(decoderStr, CharsetUtils.UTF_8);
+        return decoder(decoderStr, CharsetInfo.UTF_8);
     }
 
     /**
@@ -82,7 +82,7 @@ public class Base64Utils {
                 throw new BasicException(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), "解码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             return new String(Base64.getDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
@@ -98,7 +98,7 @@ public class Base64Utils {
      * @return 编码后的字符串
      */
     public static String urlEncoder(String encoderStr) {
-        return urlEncoder(encoderStr, CharsetUtils.UTF_8);
+        return urlEncoder(encoderStr, CharsetInfo.UTF_8);
     }
 
     /**
@@ -115,7 +115,7 @@ public class Base64Utils {
                 throw new BasicException(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), "编码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             return Base64.getUrlEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
@@ -131,7 +131,7 @@ public class Base64Utils {
      * @return 解码后的字符串
      */
     public static String urlDecoder(String decoderStr) {
-        return urlDecoder(decoderStr, CharsetUtils.UTF_8);
+        return urlDecoder(decoderStr, CharsetInfo.UTF_8);
     }
 
     /**
@@ -148,7 +148,7 @@ public class Base64Utils {
                 throw new BasicException(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), "解码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             return new String(Base64.getUrlDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
@@ -164,7 +164,7 @@ public class Base64Utils {
      * @return 编码后的字符串
      */
     public static String mineEncoder(String encoderStr) {
-        return mineEncoder(encoderStr, CharsetUtils.UTF_8);
+        return mineEncoder(encoderStr, CharsetInfo.UTF_8);
     }
 
     /**
@@ -181,7 +181,7 @@ public class Base64Utils {
                 throw new BasicException(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), "编码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             return Base64.getMimeEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
@@ -197,7 +197,7 @@ public class Base64Utils {
      * @return 解码后的字符串
      */
     public static String mineDecoder(String decoderStr) {
-        return mineDecoder(decoderStr, CharsetUtils.UTF_8);
+        return mineDecoder(decoderStr, CharsetInfo.UTF_8);
     }
 
     /**
@@ -214,7 +214,7 @@ public class Base64Utils {
                 throw new BasicException(AppHttpStatus.NULL_POINTER_EXCEPTION.getStatus(), "解码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             return new String(Base64.getMimeDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
@@ -232,7 +232,7 @@ public class Base64Utils {
     public static void encoderWrap(String filePath, String encoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             OutputStream os = Base64.getEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
@@ -253,7 +253,7 @@ public class Base64Utils {
     public static String decoderWrap(String filePath, String charset) {
         try {
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             InputStream is = Base64.getDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
@@ -272,7 +272,7 @@ public class Base64Utils {
     public static void urlEncoderWrap(String filePath, String encoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             OutputStream os = Base64.getUrlEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
@@ -293,7 +293,7 @@ public class Base64Utils {
     public static String urlDecoderWrap(String filePath, String charset) {
         try {
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             InputStream is = Base64.getUrlDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
@@ -312,7 +312,7 @@ public class Base64Utils {
     public static void mineEncoderWrap(String filePath, String encoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             OutputStream os = Base64.getMimeEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
@@ -333,7 +333,7 @@ public class Base64Utils {
     public static String mineDecoderWrap(String filePath, String charset) {
         try {
             if (StringUtils.isEmpty(charset)) {
-                charset = CharsetUtils.UTF_8;
+                charset = CharsetInfo.UTF_8;
             }
             InputStream is = Base64.getMimeDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);

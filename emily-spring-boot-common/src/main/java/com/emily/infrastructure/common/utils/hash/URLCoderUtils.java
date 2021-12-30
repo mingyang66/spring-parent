@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.utils.hash;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -21,7 +21,7 @@ public class URLCoderUtils {
      * @return
      */
     public static String decode(String content) {
-        return decode(content, CharsetUtils.UTF_8);
+        return decode(content, CharsetInfo.UTF_8);
     }
 
     /**
@@ -49,7 +49,7 @@ public class URLCoderUtils {
      * @return
      */
     public static String encode(String content) {
-        return encode(content, CharsetUtils.UTF_8);
+        return encode(content, CharsetInfo.UTF_8);
     }
 
     /**

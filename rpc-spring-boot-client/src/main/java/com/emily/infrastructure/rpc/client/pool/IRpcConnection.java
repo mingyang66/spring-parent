@@ -3,7 +3,7 @@ package com.emily.infrastructure.rpc.client.pool;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.rpc.client.IRpcClientProperties;
 import com.emily.infrastructure.rpc.client.handler.IRpcClientChannelHandler;
 import com.emily.infrastructure.rpc.core.decoder.IRpcDecoder;
@@ -105,7 +105,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
                         }
                     });
             //分割Rpc服务器地址
-            String[] addr = StringUtils.split(address, CharacterUtils.COLON_EN);
+            String[] addr = StringUtils.split(address, CharacterInfo.COLON_EN);
             //连接服务器
             ChannelFuture channelFuture = BOOTSTRAP.connect(addr[0], NumberUtils.toInt(addr[1])).sync();
             channelFuture.addListener(listener -> {

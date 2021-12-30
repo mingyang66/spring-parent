@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.exception;
 
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
@@ -32,7 +32,7 @@ public class PrintExceptionInfo {
             if (i == 0) {
                 message = MessageFormat.format("{0}{1}{2}", element.toString(), " ", message);
             } else {
-                message = MessageFormat.format("{0}{1}{2}", message, CharacterUtils.ENTER, element.toString());
+                message = MessageFormat.format("{0}{1}{2}", message, CharacterInfo.ENTER, element.toString());
             }
         }
         return message;
@@ -47,7 +47,7 @@ public class PrintExceptionInfo {
         }
         String message = "";
         for (int i = 0; i < ex.length; i++) {
-            message = MessageFormat.format("{0}{1}{2}", message, CharacterUtils.ENTER, printErrorInfo(ex[i]));
+            message = MessageFormat.format("{0}{1}{2}", message, CharacterInfo.ENTER, printErrorInfo(ex[i]));
         }
         return message;
     }

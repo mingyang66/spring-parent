@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class LogbackController {
     private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class,"66/12/34", "test");
     private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class,"emily", "smile");
+    private static final Logger groupLogger1 = LoggerFactory.getGroupLogger(ParamController.class,"emily", "smile");
     @GetMapping("debug")
     public String debug() {
         logger.error("211112122error");
@@ -29,6 +30,11 @@ public class LogbackController {
         groupLogger.info("+++++++++++==ttttttttttttt");
         groupLogger.warn("+++++++++++==ttttttttttttt");
         groupLogger.trace("+++++++++++==ttttttttttttt");
+        groupLogger1.error("+++++++++++==ttttttttttttt");
+        groupLogger1.debug("+++++++++++==ttttttttttttt");
+        groupLogger1.info("+++++++++++==ttttttttttttt");
+        groupLogger1.warn("+++++++++++==ttttttttttttt");
+        groupLogger1.trace("+++++++++++==ttttttttttttt");
 
         LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").error("ni-----------------" + System.currentTimeMillis());
         LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").info("ni-----------------" + System.currentTimeMillis());

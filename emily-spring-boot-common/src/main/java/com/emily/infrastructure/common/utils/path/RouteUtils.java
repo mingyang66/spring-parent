@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.utils.path;
 
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.utils.io.FileUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import org.springframework.util.AntPathMatcher;
@@ -25,7 +25,7 @@ public class RouteUtils {
     public static List<String> list;
     static {
         InputStream inputStream = RouteUtils.class.getClassLoader().getResourceAsStream(filePath);
-        list = IOUtils.readLines(inputStream, CharsetUtils.UTF_8);
+        list = IOUtils.readLines(inputStream, CharsetInfo.UTF_8);
     }
     /**
      * 读取路由配置文件
@@ -54,7 +54,7 @@ public class RouteUtils {
         if(ObjectUtils.isEmpty(file) || !file.exists()){
             return;
         }
-        list.addAll(FileUtils.readLines(file, CharsetUtils.UTF_8));
+        list.addAll(FileUtils.readLines(file, CharsetInfo.UTF_8));
     }
     /**
      * 删除路由

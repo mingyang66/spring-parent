@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.stream;
 
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -43,7 +43,7 @@ public class SocketStreamServer {
                 byte[] s = socket.recv();
                 byte[] buffer = new byte[s[0]];
                 socket.recv(buffer, 0, s[0], 0);
-                System.out.println("Server端接收到数据："+new String(buffer, CharsetUtils.UTF_8));
+                System.out.println("Server端接收到数据："+new String(buffer, CharsetInfo.UTF_8));
                 socket.send("nihaoa".getBytes());
                 System.out.println("----------------end-------------------");
             } catch (UnsupportedEncodingException e){

@@ -3,7 +3,7 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.TraceContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
@@ -40,7 +40,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //请求url
-        baseLogger.setUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterUtils.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterUtils.PATH_SEPARATOR, "")));
+        baseLogger.setUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
         //请求方法
         baseLogger.setMethod(template.method());
         //请求参数

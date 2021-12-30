@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.utils.io;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.utils.constant.CharsetUtils;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -66,7 +66,7 @@ public class FileUtils {
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
     public static void write(final String filePath, final CharSequence data) {
-        write(filePath, data, false, CharsetUtils.UTF_8);
+        write(filePath, data, false, CharsetInfo.UTF_8);
     }
 
     /**
@@ -102,7 +102,7 @@ public class FileUtils {
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
     public static void write(final File file, final CharSequence data) {
-        write(file, data, false, CharsetUtils.UTF_8);
+        write(file, data, false, CharsetInfo.UTF_8);
     }
 
     /**
@@ -142,7 +142,7 @@ public class FileUtils {
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
     public static void writeLines(final String filePath, final Collection<?> lines) {
-        writeLines(filePath, lines, false, CharsetUtils.UTF_8);
+        writeLines(filePath, lines, false, CharsetInfo.UTF_8);
     }
 
     /**
@@ -177,7 +177,7 @@ public class FileUtils {
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
     public static void writeLines(final File file, final Collection<?> lines) {
-        writeLines(file, lines, false, CharsetUtils.UTF_8);
+        writeLines(file, lines, false, CharsetInfo.UTF_8);
     }
 
     /**
@@ -217,7 +217,7 @@ public class FileUtils {
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
     public static void writeLinesEnding(final String filePath, final Collection<?> lines, final String lineEnding) {
-        writeLinesEnding(filePath, lines, lineEnding, false, CharsetUtils.UTF_8);
+        writeLinesEnding(filePath, lines, lineEnding, false, CharsetInfo.UTF_8);
     }
 
     /**
@@ -243,7 +243,7 @@ public class FileUtils {
      * @return 返回true, 如果写入成功，返回false,如果写入失败
      */
     public static void writeLinesEnding(final File file, final Collection<?> lines, final String lineEnding) {
-        writeLinesEnding(file, lines, lineEnding, false, CharsetUtils.UTF_8);
+        writeLinesEnding(file, lines, lineEnding, false, CharsetInfo.UTF_8);
     }
 
     /**
@@ -329,7 +329,7 @@ public class FileUtils {
      * @return List
      */
     public static String readFileToString(final String filePath) {
-        return readFileToString(filePath, CharsetUtils.UTF_8);
+        return readFileToString(filePath, CharsetInfo.UTF_8);
     }
 
     /**
@@ -350,7 +350,7 @@ public class FileUtils {
      * @return List
      */
     public static String readFileToString(final File file) {
-        return readFileToString(file, CharsetUtils.UTF_8);
+        return readFileToString(file, CharsetInfo.UTF_8);
     }
 
     /**
@@ -399,7 +399,7 @@ public class FileUtils {
      * @return List
      */
     public static List<String> readLines(final String filePath) {
-        return readLines(filePath, CharsetUtils.UTF_8);
+        return readLines(filePath, CharsetInfo.UTF_8);
     }
 
     /**
@@ -420,7 +420,7 @@ public class FileUtils {
      * @return List
      */
     public static List<String> readLines(final File file) {
-        return readLines(file, CharsetUtils.UTF_8);
+        return readLines(file, CharsetInfo.UTF_8);
     }
 
     /**

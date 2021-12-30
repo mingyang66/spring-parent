@@ -21,6 +21,9 @@ public class LogbackConsoleAppender {
      * logger上下文
      */
     private LoggerContext loggerContext;
+    /**
+     * 属性配置
+     */
     private LogbackProperties properties;
 
     public LogbackConsoleAppender(LoggerContext loggerContext, LogbackProperties properties) {
@@ -34,8 +37,7 @@ public class LogbackConsoleAppender {
      * @param level
      * @return
      */
-    public ConsoleAppender getAppender(Level level) {
-
+    public ConsoleAppender<ILoggingEvent> getAppender(Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
 
@@ -45,16 +47,16 @@ public class LogbackConsoleAppender {
 
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(loggerContext);
+        appender.setContext(this.loggerContext);
         //appender的name属性
         appender.setName("console");
 
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        encoder.setContext(loggerContext);
+        encoder.setContext(this.loggerContext);
         //设置格式
-        encoder.setPattern(properties.getRoot().getPattern());
+        encoder.setPattern(this.properties.getRoot().getPattern());
         //设置编码格式
         encoder.setCharset(StandardCharsets.UTF_8);
         encoder.start();

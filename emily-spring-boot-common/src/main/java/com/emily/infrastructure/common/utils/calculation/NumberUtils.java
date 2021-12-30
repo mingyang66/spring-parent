@@ -2,13 +2,14 @@ package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 数据计算工具类
  * @create: 2020/06/16
@@ -44,19 +45,19 @@ public class NumberUtils {
         if (StringUtils.isEmpty(number)) {
             return null;
         }
-        String symbolStr = CharacterUtils.ZERO;
-        if (symbol.length >= 1 && StringUtils.equals(symbol[0], CharacterUtils.HASH_SYMBOL)) {
-            symbolStr = CharacterUtils.HASH_SYMBOL;
+        String symbolStr = CharacterInfo.ZERO;
+        if (symbol.length >= 1 && StringUtils.equals(symbol[0], CharacterInfo.HASH_SYMBOL)) {
+            symbolStr = CharacterInfo.HASH_SYMBOL;
         }
         StringBuffer sb = new StringBuffer();
         sb.append(symbolStr);
         for (int i = 0; i < scale; i++) {
             if (i == 0) {
-                sb.append(CharacterUtils.POINT_SYMBOL);
+                sb.append(CharacterInfo.POINT_SYMBOL);
             }
             sb.append(symbolStr);
         }
-        sb.append(CharacterUtils.PERCENT_SIGIN);
+        sb.append(CharacterInfo.PERCENT_SIGIN);
 
         DecimalFormat format = new DecimalFormat(sb.toString());
         return format.format(Double.valueOf(number));
@@ -74,15 +75,15 @@ public class NumberUtils {
         if (StringUtils.isEmpty(number)) {
             return null;
         }
-        String symbolStr = CharacterUtils.ZERO;
-        if (symbol.length >= 1 && StringUtils.equals(symbol[0], CharacterUtils.HASH_SYMBOL)) {
-            symbolStr = CharacterUtils.HASH_SYMBOL;
+        String symbolStr = CharacterInfo.ZERO;
+        if (symbol.length >= 1 && StringUtils.equals(symbol[0], CharacterInfo.HASH_SYMBOL)) {
+            symbolStr = CharacterInfo.HASH_SYMBOL;
         }
         StringBuffer sb = new StringBuffer();
         sb.append(symbolStr);
         for (int i = 0; i < scale; i++) {
             if (i == 0) {
-                sb.append(CharacterUtils.POINT_SYMBOL);
+                sb.append(CharacterInfo.POINT_SYMBOL);
             }
             sb.append(symbolStr);
         }

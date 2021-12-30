@@ -41,22 +41,22 @@ public class LogbackRollingFileAppender {
      *
      * @return
      */
-    public RollingFileAppender getRollingFileAppender(LogbackAppender logbackAppender) {
+    public RollingFileAppender<ILoggingEvent> getRollingFileAppender(LogbackAppender logbackAppender) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
         //日志文件路径
-        String loggerPath = logbackAppender.getFilePath(properties);
+        String loggerPath = logbackAppender.getFilePath(this.properties);
         //设置文件名
-        appender.setFile(OptionHelper.substVars(StringUtils.join(loggerPath, ".log"), loggerContext));
+        appender.setFile(OptionHelper.substVars(StringUtils.join(loggerPath, ".log"), this.loggerContext));
         //获取过滤器
         LevelFilter levelFilter = LogbackFilter.getLevelFilter(logbackAppender.getLevel());
         levelFilter.start();
-        if (properties.isSizeAndTimeRollingPolicy()) {
+        if (this.properties.isSizeAndTimeRollingPolicy()) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
             // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-            policy.setContext(loggerContext);
+            policy.setContext(this.loggerContext);
             /**
              * 归档文件名格式设置
              * 将文件名及路径字符串编译为字符串
@@ -68,18 +68,18 @@ public class LogbackRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(StringUtils.join(loggerPath, ".%d{yyyy-MM-dd}.%i.log"), loggerContext);
+            String fp = OptionHelper.substVars(StringUtils.join(loggerPath, ".%d{yyyy-MM-dd}.%i.log"), this.loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //最大日志文件大小 KB,MB,GB
-            if (StringUtils.isNotEmpty(properties.getMaxFileSize())) {
-                policy.setMaxFileSize(FileSize.valueOf(properties.getMaxFileSize()));
+            if (StringUtils.isNotEmpty(this.properties.getMaxFileSize())) {
+                policy.setMaxFileSize(FileSize.valueOf(this.properties.getMaxFileSize()));
             }
             //设置要保留的最大存档文件数
-            policy.setMaxHistory(properties.getMaxHistory());
+            policy.setMaxHistory(this.properties.getMaxHistory());
             //文件总大小限制 KB,MB,G
-            if (StringUtils.isNotEmpty(properties.getTotalSizeCap())) {
-                policy.setTotalSizeCap(FileSize.valueOf(properties.getTotalSizeCap()));
+            if (StringUtils.isNotEmpty(this.properties.getTotalSizeCap())) {
+                policy.setTotalSizeCap(FileSize.valueOf(this.properties.getTotalSizeCap()));
             }
             //设置父节点是appender
             policy.setParent(appender);
@@ -92,7 +92,7 @@ public class LogbackRollingFileAppender {
             TimeBasedRollingPolicy policy = new TimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
             // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-            policy.setContext(loggerContext);
+            policy.setContext(this.loggerContext);
             /**
              * 归档文件名格式设置
              * 将文件名及路径字符串编译为字符串
@@ -104,11 +104,11 @@ public class LogbackRollingFileAppender {
              /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
              /info/info.%d 每天轮转
              */
-            String fp = OptionHelper.substVars(StringUtils.join(loggerPath, "%d{yyyy-MM-dd}.log"), loggerContext);
+            String fp = OptionHelper.substVars(StringUtils.join(loggerPath, "%d{yyyy-MM-dd}.log"), this.loggerContext);
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //设置要保留的最大存档文件数
-            policy.setMaxHistory(properties.getMaxHistory());
+            policy.setMaxHistory(this.properties.getMaxHistory());
             //设置父节点是appender
             policy.setParent(appender);
 
@@ -122,16 +122,16 @@ public class LogbackRollingFileAppender {
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        encoder.setContext(loggerContext);
+        encoder.setContext(this.loggerContext);
         //设置格式
-        encoder.setPattern(logbackAppender.getFilePattern(properties));
+        encoder.setPattern(logbackAppender.getFilePattern(this.properties));
         //设置编码格式
         encoder.setCharset(StandardCharsets.UTF_8);
         encoder.start();
 
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(loggerContext);
+        appender.setContext(this.loggerContext);
         //appender的name属性
         appender.setName(logbackAppender.getAppenderName());
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true

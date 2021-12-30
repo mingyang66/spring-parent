@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.configuration.entity;
 
 import ch.qos.logback.classic.Level;
-import com.emily.infrastructure.common.utils.constant.CharacterUtils;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
@@ -38,7 +38,7 @@ public class LogbackAppender {
     private LogbackType logbackType;
 
     public String getAppenderName() {
-        return StringUtils.join(this.appenderName, CharacterUtils.LINE_THROUGH_BOTTOM, this.getLevel().levelStr);
+        return StringUtils.join(this.appenderName, CharacterInfo.LINE_THROUGH_BOTTOM, this.getLevel().levelStr);
     }
 
     public void setAppenderName(String appenderName) {

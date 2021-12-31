@@ -14,6 +14,7 @@ import org.springframework.core.Ordered;
  */
 @SuppressWarnings("all")
 public class LogbackApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+
     private static final Logger logger = LoggerFactory.getLogger(LogbackApplicationContextInitializer.class);
 
     @Override

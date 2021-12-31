@@ -4,7 +4,7 @@ scan:当此属性设置为true时，配置文件如果发生改变，将会被�
 scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟
 debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false
 -->
-<configuration scan="true" scanPeriod="60000" debug="true">
+<configuration scan="true" scanPeriod="60000" debug="false" packagingData="false">
     <!--
     每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改
     -->
@@ -17,6 +17,8 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
     <property name="pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n"></property>
     <!--公司日志系统模式-日志输出pattern-->
     <property name="patternMsg" value="%msg%n"></property>
+    <!-- Recommendation: place status listeners towards the the top of the configuration file -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
     <!-- 控制台输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!--事件的级别等于或高于给定的临界值时输出，否则拒绝-->
@@ -52,7 +54,7 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
         <file>${log.path}/info/info.log</file>
         <!--将immediaterFlush设置为false, 可以获取更高的吞吐量，默认是true,立即刷新到文件-->
         <immediateFlush>true</immediateFlush>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天归档
             http://www.logback.cn/04%E7%AC%AC%E5%9B%9B%E7%AB%A0Appenders.html
             /info/foo.%d 每天归档
@@ -62,9 +64,13 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
             /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
             /info/info.%d 每天轮转
             -->
-            <fileNamePattern>${log.path}/info/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/info/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
             <maxHistory>${log.date}</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件总共大小不可超过指定值-->
+            <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
     <!-- ERROR日志文件输出 -->
@@ -88,11 +94,15 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
         <file>${log.path}/error/error.log</file>
         <!--将immediaterFlush设置为false, 可以获取更高的吞吐量，默认是true,立即刷新到文件-->
         <immediateFlush>true</immediateFlush>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天归档 -->
-            <fileNamePattern>${log.path}/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/error/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
             <maxHistory>${log.date}</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件总共大小不可超过指定值-->
+            <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
     <!-- WARN日志文件输出 -->
@@ -116,11 +126,15 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
         <file>${log.path}/warn/warn.log</file>
         <!--将immediaterFlush设置为false, 可以获取更高的吞吐量，默认是true,立即刷新到文件-->
         <immediateFlush>true</immediateFlush>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天归档 -->
-            <fileNamePattern>${log.path}/warn/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/warn/warn.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
             <maxHistory>${log.date}</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件总共大小不可超过指定值-->
+            <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
     <!-- DEBUG日志文件输出 -->
@@ -144,11 +158,15 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
         <file>${log.path}/debug/debug.log</file>
         <!--将immediaterFlush设置为false, 可以获取更高的吞吐量，默认是true,立即刷新到文件-->
         <immediateFlush>true</immediateFlush>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天归档 -->
-            <fileNamePattern>${log.path}/debug/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/debug/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
             <maxHistory>7</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件总共大小不可超过指定值-->
+            <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
@@ -175,24 +193,31 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
         <file>${log.path}/module/module.log</file>
         <!--将immediaterFlush设置为false, 可以获取更高的吞吐量，默认是true,立即刷新到文件-->
         <immediateFlush>true</immediateFlush>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天归档 -->
-            <fileNamePattern>${log.path}/module/module.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/module/module.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志存放周期（天） -->
             <maxHistory>${log.date}</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件总共大小不可超过指定值-->
+            <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
     <!--模块化输出日志end-->
 
     <!--使用LoggerFactory.getLogger("performanceLogger") 使用这个logger
     additivity叠加性规则设置
+     TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF
     -->
-    <logger name="moduleOne" additivity="false">
+    <logger name="moduleOne" level="INFO" additivity="false">
         <!--使用哪一个Appender-->
         <appender-ref ref="moduleName" />
     </logger>
 
-    <!-- 基础日志输出级别,大于等于level,不过跟filter中的是冲突的，只有一个生效，默认filter优先级更高 -->
+    <!-- 基础日志输出级别,大于等于level,不过跟filter中的是冲突的，只有一个生效，默认filter优先级更高
+    TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF
+    -->
     <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ERROR"/>

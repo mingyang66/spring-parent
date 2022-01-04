@@ -1,5 +1,7 @@
 package com.emily.infrastructure.logback;
 
+import com.emily.infrastructure.logback.configuration.enumeration.LevelType;
+import com.emily.infrastructure.logback.configuration.enumeration.RollingPolicyType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -26,22 +28,9 @@ public class LogbackProperties {
      */
     private String basePath = "./logs";
     /**
-     * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
-     * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
-     */
-    private boolean sizeAndTimeRollingPolicy;
-    /**
      * 设置要保留的最大存档文件数,默认 7
      */
     private int maxHistory = 7;
-    /**
-     * 最大日志文件大小 KB、MB、GB，默认500MB
-     */
-    private String maxFileSize = "500MB";
-    /**
-     * 文件总大小限制 KB、MB、GB，默认5GB
-     */
-    private String totalSizeCap = "5GB";
     /**
      * 基础根日志
      */
@@ -58,6 +47,10 @@ public class LogbackProperties {
      * 异步日志配置
      */
     private Async async = new Async();
+    /**
+     * 文件归档策略
+     */
+    private RollingPolicy rollingPolicy = new RollingPolicy();
 
     public boolean isEnabled() {
         return enabled;
@@ -91,28 +84,12 @@ public class LogbackProperties {
         this.maxHistory = maxHistory;
     }
 
-    public String getMaxFileSize() {
-        return maxFileSize;
+    public RollingPolicy getRollingPolicy() {
+        return rollingPolicy;
     }
 
-    public void setMaxFileSize(String maxFileSize) {
-        this.maxFileSize = maxFileSize;
-    }
-
-    public String getTotalSizeCap() {
-        return totalSizeCap;
-    }
-
-    public void setTotalSizeCap(String totalSizeCap) {
-        this.totalSizeCap = totalSizeCap;
-    }
-
-    public boolean isSizeAndTimeRollingPolicy() {
-        return sizeAndTimeRollingPolicy;
-    }
-
-    public void setSizeAndTimeRollingPolicy(boolean sizeAndTimeRollingPolicy) {
-        this.sizeAndTimeRollingPolicy = sizeAndTimeRollingPolicy;
+    public void setRollingPolicy(RollingPolicy rollingPolicy) {
+        this.rollingPolicy = rollingPolicy;
     }
 
     public Root getRoot() {
@@ -148,23 +125,13 @@ public class LogbackProperties {
     }
 
     /**
-     * OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     * 基础日志
      */
-    public enum Level {
-        OFF("OFF"), ERROR("ERROR"), WARN("WARN"), INFO("INFO"), DEBUG("DEBUG"), TRACE("TRACE"), ALL("ALL");
-
-        public String levelStr;
-
-        Level(String levelStr) {
-            this.levelStr = levelStr;
-        }
-    }
-
     public static class Root {
         /**
          * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
          */
-        private Level level = Level.INFO;
+        private LevelType level = LevelType.INFO;
         /**
          * 基础日志文件路径，相对
          */
@@ -175,11 +142,11 @@ public class LogbackProperties {
          */
         private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
 
-        public Level getLevel() {
+        public LevelType getLevel() {
             return level;
         }
 
-        public void setLevel(Level level) {
+        public void setLevel(LevelType level) {
             this.level = level;
         }
 
@@ -204,7 +171,7 @@ public class LogbackProperties {
         /**
          * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
          */
-        private Level level = Level.INFO;
+        private LevelType level = LevelType.INFO;
         /**
          * 模块日志输出格式，默认：%msg%n
          */
@@ -214,11 +181,11 @@ public class LogbackProperties {
          */
         private boolean console = false;
 
-        public Level getLevel() {
+        public LevelType getLevel() {
             return level;
         }
 
-        public void setLevel(Level level) {
+        public void setLevel(LevelType level) {
             this.level = level;
         }
 
@@ -243,7 +210,7 @@ public class LogbackProperties {
         /**
          * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
          */
-        private Level level = Level.INFO;
+        private LevelType level = LevelType.INFO;
         /**
          * 模块日志输出格式，默认：%msg%n
          */
@@ -253,11 +220,11 @@ public class LogbackProperties {
          */
         private boolean console = false;
 
-        public Level getLevel() {
+        public LevelType getLevel() {
             return level;
         }
 
-        public void setLevel(Level level) {
+        public void setLevel(LevelType level) {
             this.level = level;
         }
 
@@ -341,6 +308,49 @@ public class LogbackProperties {
 
         public void setNeverBlock(boolean neverBlock) {
             this.neverBlock = neverBlock;
+        }
+    }
+
+    /**
+     * 文件归档策略
+     */
+    public static class RollingPolicy {
+        /**
+         * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
+         * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
+         */
+        private RollingPolicyType rollingPolicyType;
+        /**
+         * 最大日志文件大小 KB、MB、GB，默认500MB
+         */
+        private String maxFileSize = "500MB";
+        /**
+         * 文件总大小限制 KB、MB、GB，默认5GB
+         */
+        private String totalSizeCap = "5GB";
+
+        public RollingPolicyType getRollingPolicyType() {
+            return rollingPolicyType;
+        }
+
+        public void setRollingPolicyType(RollingPolicyType rollingPolicyType) {
+            this.rollingPolicyType = rollingPolicyType;
+        }
+
+        public String getMaxFileSize() {
+            return maxFileSize;
+        }
+
+        public void setMaxFileSize(String maxFileSize) {
+            this.maxFileSize = maxFileSize;
+        }
+
+        public String getTotalSizeCap() {
+            return totalSizeCap;
+        }
+
+        public void setTotalSizeCap(String totalSizeCap) {
+            this.totalSizeCap = totalSizeCap;
         }
     }
 }

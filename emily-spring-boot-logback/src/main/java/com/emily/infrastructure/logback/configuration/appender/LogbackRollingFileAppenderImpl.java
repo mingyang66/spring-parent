@@ -14,6 +14,7 @@ import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
+import com.emily.infrastructure.logback.configuration.enumeration.RollingPolicyType;
 import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -59,7 +60,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         //设置文件名
         rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), this.getLoggerContext()));
 
-        if (this.getProperties().isSizeAndTimeRollingPolicy()) {
+        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(this.getProperties().getRollingPolicy().getRollingPolicyType())) {
             //文件归档大小和时间设置
             SizeAndTimeBasedRollingPolicy policy = new SizeAndTimeBasedRollingPolicy();
             //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -80,14 +81,14 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
             //设置文件名模式
             policy.setFileNamePattern(fp);
             //最大日志文件大小 KB,MB,GB
-            if (StringUtils.isNotEmpty(this.getProperties().getMaxFileSize())) {
-                policy.setMaxFileSize(FileSize.valueOf(this.getProperties().getMaxFileSize()));
+            if (StringUtils.isNotEmpty(this.getProperties().getRollingPolicy().getMaxFileSize())) {
+                policy.setMaxFileSize(FileSize.valueOf(this.getProperties().getRollingPolicy().getMaxFileSize()));
             }
             //设置要保留的最大存档文件数
             policy.setMaxHistory(this.getProperties().getMaxHistory());
             //文件总大小限制 KB,MB,G
-            if (StringUtils.isNotEmpty(this.getProperties().getTotalSizeCap())) {
-                policy.setTotalSizeCap(FileSize.valueOf(this.getProperties().getTotalSizeCap()));
+            if (StringUtils.isNotEmpty(this.getProperties().getRollingPolicy().getTotalSizeCap())) {
+                policy.setTotalSizeCap(FileSize.valueOf(this.getProperties().getRollingPolicy().getTotalSizeCap()));
             }
             //设置父节点是appender
             policy.setParent(rollingFileAppender);

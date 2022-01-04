@@ -5,7 +5,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.core.util.StatusPrinter;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
-import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
+import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppenderImpl;
 import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 
@@ -27,58 +27,56 @@ public class LogbackRootImpl extends AbstractLogback {
      */
     @Override
     public Logger getLogger() {
-        // 配置日志级别
-        Level level = Level.toLevel(this.getProperties().getRoot().getLevel().levelStr);
         // 获取logger对象
-        Logger rootLogger = this.getLoggerContext().getLogger(Logger.ROOT_LOGGER_NAME);
+        Logger logger = this.getLoggerContext().getLogger(Logger.ROOT_LOGGER_NAME);
         //设置是否向上级打印信息
-        rootLogger.setAdditive(false);
+        logger.setAdditive(false);
         // 设置日志级别
-        rootLogger.setLevel(level);
-
-        LogbackRollingFileAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), this.getProperties());
+        logger.setLevel(Level.toLevel(this.getProperties().getRoot().getLevel().levelStr));
         // 获取帮助类对象
-        LogbackAppender logbackAppender = new LogbackAppender(Logger.ROOT_LOGGER_NAME, null, null, LogbackType.ROOT);
+        LogbackAppender appender = new LogbackAppender(Logger.ROOT_LOGGER_NAME, this.getProperties().getRoot().getFilePath(), LogbackType.ROOT);
+        // appender对象
+        LogbackRollingFileAppenderImpl rollingFileAppender = new LogbackRollingFileAppenderImpl(this.getLoggerContext(), this.getProperties(), appender);
         // 是否开启异步日志
         if (this.getProperties().getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(this.getLoggerContext(), this.getProperties());
-            if (level.levelInt <= Level.ERROR_INT) {
-                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR))));
+            if (logger.getLevel().levelInt <= Level.ERROR_INT) {
+                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.getAppender(Level.ERROR)));
             }
-            if (level.levelInt <= Level.WARN_INT) {
-                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.WARN))));
+            if (logger.getLevel().levelInt <= Level.WARN_INT) {
+                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.getAppender(Level.WARN)));
             }
-            if (level.levelInt <= Level.INFO_INT) {
-                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.INFO))));
+            if (logger.getLevel().levelInt <= Level.INFO_INT) {
+                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.getAppender(Level.INFO)));
             }
-            if (level.levelInt <= Level.DEBUG_INT) {
-                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.DEBUG))));
+            if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
+                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.getAppender(Level.DEBUG)));
             }
-            if (level.levelInt <= Level.TRACE_INT) {
-                rootLogger.addAppender(asyncAppender.getAsyncAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE))));
+            if (logger.getLevel().levelInt <= Level.TRACE_INT) {
+                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.getAppender(Level.TRACE)));
             }
         } else {
-            if (level.levelInt <= Level.ERROR_INT) {
-                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.ERROR)));
+            if (logger.getLevel().levelInt <= Level.ERROR_INT) {
+                logger.addAppender(rollingFileAppender.getAppender(Level.ERROR));
             }
-            if (level.levelInt <= Level.WARN_INT) {
-                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.WARN)));
+            if (logger.getLevel().levelInt <= Level.WARN_INT) {
+                logger.addAppender(rollingFileAppender.getAppender(Level.WARN));
             }
-            if (level.levelInt <= Level.INFO_INT) {
-                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.INFO)));
+            if (logger.getLevel().levelInt <= Level.INFO_INT) {
+                logger.addAppender(rollingFileAppender.getAppender(Level.INFO));
             }
-            if (level.levelInt <= Level.DEBUG_INT) {
-                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.DEBUG)));
+            if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
+                logger.addAppender(rollingFileAppender.getAppender(Level.DEBUG));
             }
-            if (level.levelInt <= Level.TRACE_INT) {
-                rootLogger.addAppender(rollingFileAppender.getRollingFileAppender(logbackAppender.builder(Level.TRACE)));
+            if (logger.getLevel().levelInt <= Level.TRACE_INT) {
+                logger.addAppender(rollingFileAppender.getAppender(Level.TRACE));
             }
         }
         //是否报告logback内部状态信息
         if (this.getProperties().isReportState()) {
             StatusPrinter.print(this.getLoggerContext());
         }
-        return rootLogger;
+        return logger;
     }
 }

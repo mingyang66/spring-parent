@@ -183,7 +183,7 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
         </filter>
         <encoder>
             <!-- 格式化输出 -->
-            <pattern>${patternMsg}</pattern>
+            <pattern>${pattern}</pattern>
             <!-- 输出编码 -->
             <charset>utf8</charset>
             <!--为了帮助解析日志文件，logback 可以将格式化字符串插入到日志文件的顶部。这个功能默认是关闭-->
@@ -204,6 +204,37 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
             <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
+    <appender name="moduleNameError" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--事件的级别与配置的级别相等，接收指定级别的日志-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 日志过滤级别 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <!-- 格式化输出 -->
+            <pattern>${pattern}</pattern>
+            <!-- 输出编码 -->
+            <charset>utf8</charset>
+            <!--为了帮助解析日志文件，logback 可以将格式化字符串插入到日志文件的顶部。这个功能默认是关闭-->
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <!-- 文件存放路径 -->
+        <file>${log.path}/module/moduleError.log</file>
+        <!--将immediaterFlush设置为false, 可以获取更高的吞吐量，默认是true,立即刷新到文件-->
+        <immediateFlush>true</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 每天归档 -->
+            <fileNamePattern>${log.path}/module/moduleError.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 日志存放周期（天） -->
+            <maxHistory>${log.date}</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件总共大小不可超过指定值-->
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
     <!--模块化输出日志end-->
 
     <!--使用LoggerFactory.getLogger("performanceLogger") 使用这个logger
@@ -213,6 +244,12 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
     <logger name="moduleOne" level="INFO" additivity="false">
         <!--使用哪一个Appender-->
         <appender-ref ref="moduleName" />
+        <appender-ref ref="moduleNameError" />
+    </logger>
+    <logger name="moduleOne66666" level="INFO" additivity="false">
+        <!--使用哪一个Appender-->
+        <appender-ref ref="moduleNameError" />
+        <appender-ref ref="moduleNameError" />
     </logger>
 
     <!-- 基础日志输出级别,大于等于level,不过跟filter中的是冲突的，只有一个生效，默认filter优先级更高

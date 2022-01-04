@@ -1,7 +1,6 @@
 package com.emily.infrastructure.logback.configuration.context;
 
 import com.emily.infrastructure.common.utils.hash.Md5Utils;
-import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.classic.Logback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroupImpl;
@@ -48,25 +47,25 @@ public class LogbackContext {
      * @param logbackType 日志类别 {@link com.emily.infrastructure.logback.configuration.enumeration.LogbackType}
      * @return
      */
-    public <T> Logger getLogger(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
-        // 日志文件路径
-        path = PathUtils.normalizePath(path);
+    public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
+        //获取loggerName
+        String loggerName = getLoggerName(clazz, filePath, fileName, logbackType);
         // 获取缓存key
-        String appenderName = getAppenderName(clazz, path, fileName, logbackType);
+        String appenderName = getAppenderName(filePath, fileName, logbackType);
         // 获取Logger对象
-        Logger logger = CONTEXT.get(appenderName);
+        Logger logger = CONTEXT.get(loggerName);
         if (Objects.nonNull(logger)) {
             return logger;
         }
         synchronized (this) {
-            logger = CONTEXT.get(appenderName);
+            logger = CONTEXT.get(loggerName);
             if (Objects.nonNull(logger)) {
                 return logger;
             }
             //获取logger日志对象
-            logger = getLogger(appenderName, path, fileName, logbackType);
+            logger = getLogger(loggerName, appenderName, filePath, fileName, logbackType);
             //存入缓存
-            CONTEXT.put(appenderName, logger);
+            CONTEXT.put(loggerName, logger);
         }
         return logger;
     }
@@ -79,37 +78,37 @@ public class LogbackContext {
      * @param fileName 日志文件名|模块名称
      * @return
      */
-    protected Logger getLogger(String appenderName, String path, String fileName, LogbackType logbackType) {
+    protected Logger getLogger(String loggerName, String appenderName, String filePath, String fileName, LogbackType logbackType) {
         Logback logback;
         if (logbackType.getType().equals(LogbackType.MODULE.getType())) {
             logback = new LogbackModuleImpl(this.properties);
         } else {
             logback = new LogbackGroupImpl(this.properties);
         }
-        return logback.getLogger(appenderName, path, fileName);
+        return logback.getLogger(loggerName, appenderName, filePath, fileName);
     }
 
     /**
      * 获取appenderName
      *
      * @param clazz    当前类实例
-     * @param path     路径
+     * @param filePath     路径
      * @param fileName 文件名
      * @param <T>
      * @return appenderName
      */
-    private <T> String getAppenderName(Class<T> clazz, String path, String fileName, LogbackType logbackType) {
-        String prefix = getPrimaryKey(path, fileName, logbackType);
+    private <T> String getLoggerName(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
+        String prefix = getAppenderName(filePath, fileName, logbackType);
         return MessageFormat.format("{0}.{1}", prefix, clazz.getName());
     }
 
     /**
-     * @param path        路径
+     * @param filePath        路径
      * @param fileName    文件名
      * @param logbackType 类型
      * @return
      */
-    private String getPrimaryKey(String path, String fileName, LogbackType logbackType) {
-        return Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}{2}", path, fileName, logbackType.getType()));
+    private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
+        return Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}{2}", filePath, fileName, logbackType.getType()));
     }
 }

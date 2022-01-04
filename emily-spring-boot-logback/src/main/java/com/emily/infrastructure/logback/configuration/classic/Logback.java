@@ -26,7 +26,7 @@ public interface Logback {
      * @param fileName
      * @return
      */
-    default Logger getLogger(String appenderName, String path, String fileName) {
+    default Logger getLogger(String loggerName, String appenderName, String path, String fileName) {
         return null;
     }
 }

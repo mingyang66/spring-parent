@@ -25,6 +25,8 @@ public class LogbackFilter {
         levelFilter.setOnMatch(FilterReply.ACCEPT);
         //不符合条件的日志拒绝
         levelFilter.setOnMismatch(FilterReply.DENY);
+        //
+        levelFilter.start();
         return levelFilter;
     }
 
@@ -37,6 +39,7 @@ public class LogbackFilter {
     public static ThresholdFilter getThresholdLevelFilter(Level level) {
         ThresholdFilter filter = new ThresholdFilter();
         filter.setLevel(level.levelStr);
+        filter.start();
         return filter;
     }
 

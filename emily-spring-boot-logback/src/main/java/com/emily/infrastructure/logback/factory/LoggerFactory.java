@@ -31,9 +31,14 @@ public class LoggerFactory {
         return org.slf4j.LoggerFactory.getLogger(clazz);
     }
 
-    public static <T> Logger getGroupLogger(Class<T> clazz, String groupPath, String fileName) {
+    public static <T> Logger getGroupLogger(Class<T> clazz, String path) {
         validLoggerContext();
-        return CONTEXT.getLogger(clazz, groupPath, fileName, LogbackType.GROUP);
+        return CONTEXT.getLogger(clazz, path, null, LogbackType.GROUP);
+    }
+
+    public static <T> Logger getGroupLogger(Class<T> clazz, String path, String fileName) {
+        validLoggerContext();
+        return CONTEXT.getLogger(clazz, path, fileName, LogbackType.GROUP);
     }
 
 
@@ -48,7 +53,12 @@ public class LoggerFactory {
     private static void validLoggerContext() {
         if (CONTEXT == null) {
             synchronized (lock) {
-                CONTEXT = new LogbackContext(applicationContext.getBean(LogbackProperties.class));
+                String[] beanNamesForType = applicationContext.getBeanNamesForType(LogbackProperties.class);
+                if (beanNamesForType.length > 0) {
+                    CONTEXT = new LogbackContext(applicationContext.getBean(LogbackProperties.class));
+                } else {
+                    CONTEXT = new LogbackContext(new LogbackProperties());
+                }
             }
         }
         if (CONTEXT == null) {

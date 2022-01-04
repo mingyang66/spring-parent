@@ -24,7 +24,7 @@ public class LogbackProperties {
     /**
      * 日志文件存放路径，默认是:./logs
      */
-    private String path = "./logs";
+    private String basePath = "./logs";
     /**
      * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
      * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
@@ -75,12 +75,12 @@ public class LogbackProperties {
         this.reportState = reportState;
     }
 
-    public String getPath() {
-        return path;
+    public String getBasePath() {
+        return basePath;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 
     public int getMaxHistory() {
@@ -166,6 +166,10 @@ public class LogbackProperties {
          */
         private Level level = Level.INFO;
         /**
+         * 基础日志文件路径，相对
+         */
+        private String filePath;
+        /**
          * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
          * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
          */
@@ -185,6 +189,14 @@ public class LogbackProperties {
 
         public void setPattern(String pattern) {
             this.pattern = pattern;
+        }
+
+        public String getFilePath() {
+            return filePath;
+        }
+
+        public void setFilePath(String filePath) {
+            this.filePath = filePath;
         }
     }
 

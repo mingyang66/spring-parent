@@ -74,7 +74,7 @@ public class LogbackRootImpl extends AbstractLogback {
             }
         }
         //是否报告logback内部状态信息
-        if (this.getProperties().isReportState()) {
+        if (this.getProperties().isBaseReportState()) {
             StatusPrinter.print(this.getLoggerContext());
         }
         return logger;

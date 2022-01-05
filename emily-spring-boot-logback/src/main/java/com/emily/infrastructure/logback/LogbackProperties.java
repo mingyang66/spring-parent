@@ -20,17 +20,13 @@ public class LogbackProperties {
      */
     private boolean enabled;
     /**
-     * 是否报告内部状态信息，默认；false
-     */
-    private boolean reportState;
-    /**
      * 日志文件存放路径，默认是:./logs
      */
     private String basePath = "./logs";
     /**
-     * 设置要保留的最大存档文件数,默认 7
+     * 是否报告内部状态信息，默认；false
      */
-    private int maxHistory = 7;
+    private boolean baseReportState;
     /**
      * 基础根日志
      */
@@ -60,12 +56,12 @@ public class LogbackProperties {
         this.enabled = enabled;
     }
 
-    public boolean isReportState() {
-        return reportState;
+    public boolean isBaseReportState() {
+        return baseReportState;
     }
 
-    public void setReportState(boolean reportState) {
-        this.reportState = reportState;
+    public void setBaseReportState(boolean baseReportState) {
+        this.baseReportState = baseReportState;
     }
 
     public String getBasePath() {
@@ -74,14 +70,6 @@ public class LogbackProperties {
 
     public void setBasePath(String basePath) {
         this.basePath = basePath;
-    }
-
-    public int getMaxHistory() {
-        return maxHistory;
-    }
-
-    public void setMaxHistory(int maxHistory) {
-        this.maxHistory = maxHistory;
     }
 
     public RollingPolicy getRollingPolicy() {
@@ -321,11 +309,23 @@ public class LogbackProperties {
          */
         private RollingPolicyType rollingPolicyType;
         /**
-         * 最大日志文件大小 KB、MB、GB，默认500MB
+         * 是否在应用程序启动时删除存档，默认：false
+         * 是否在应用启动的时候删除历史日志。
+         * 如果设置为真，将在启动应用程序时执行档案删除。默认情况下，此属性设置为 false。归档日志移除通常在滚动期间执行。
+         * 但是，有些应用程序的存活时间可能不够长，无法触发滚动。因此，对于如此短命的应用程序，删除存档可能永远没有机会执行。
+         * 通过将 cleanHistoryOnStart 设置为 true，将在启动 appender 时执行档案删除。
+         */
+        private boolean cleanHistoryOnStart = false;
+        /**
+         * 设置要保留的最大存档文件数量，以异步方式删除旧文件,默认 7
+         */
+        private int maxHistory = 7;
+        /**
+         * 单个日志文件最大文件大小 KB、MB、GB，默认500MB
          */
         private String maxFileSize = "500MB";
         /**
-         * 文件总大小限制 KB、MB、GB，默认5GB
+         * 控制所有归档文件总大小 KB、MB、GB，默认5GB
          */
         private String totalSizeCap = "5GB";
 
@@ -335,6 +335,22 @@ public class LogbackProperties {
 
         public void setRollingPolicyType(RollingPolicyType rollingPolicyType) {
             this.rollingPolicyType = rollingPolicyType;
+        }
+
+        public boolean isCleanHistoryOnStart() {
+            return cleanHistoryOnStart;
+        }
+
+        public void setCleanHistoryOnStart(boolean cleanHistoryOnStart) {
+            this.cleanHistoryOnStart = cleanHistoryOnStart;
+        }
+
+        public int getMaxHistory() {
+            return maxHistory;
+        }
+
+        public void setMaxHistory(int maxHistory) {
+            this.maxHistory = maxHistory;
         }
 
         public String getMaxFileSize() {

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("logback")
 public class LogbackController {
+    private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
     private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class,"66/12/34", "test");
     private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class,"emily/test/demo");
     private static final Logger groupLogger1 = LoggerFactory.getGroupLogger(ParamController.class,"emily/test/demo");
@@ -22,6 +23,11 @@ public class LogbackController {
     //private static final Logger logger2 = org.slf4j.LoggerFactory.getLogger("moduleOne66666");
     @GetMapping("debug")
     public String debug() {
+        baseLogger.error("--------error");
+        baseLogger.info("--------info");
+        baseLogger.debug("--------debug");
+        baseLogger.warn("--------warn");
+        baseLogger.trace("--------trace");
        /* logger1.info("---------test--");
         logger2.info("---------test2--");
         logger1.error("3444444");

@@ -7,6 +7,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 
 import java.nio.charset.StandardCharsets;
@@ -38,21 +39,12 @@ public class LogbackConsoleAppenderImpl extends AbstractAppender {
         appender.setContext(this.getLoggerContext());
         //appender的name属性
         appender.setName("console");
-
-        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
-        //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
-        // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        encoder.setContext(this.getLoggerContext());
-        //设置格式
-        encoder.setPattern(this.getFilePattern());
-        //设置编码格式
-        encoder.setCharset(StandardCharsets.UTF_8);
-        encoder.start();
-
         //添加过滤器
         appender.addFilter(LogbackFilter.getThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(encoder);
+        appender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(this.getLoggerContext(), this.getFilePattern()));
+        //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
+        appender.setWithJansi(false);
         appender.start();
         return appender;
 

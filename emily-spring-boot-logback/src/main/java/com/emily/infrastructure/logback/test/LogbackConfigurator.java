@@ -7,7 +7,7 @@ import ch.qos.logback.core.spi.ContextAwareBase;
 /**
  * @program: spring-parent
  * @description:
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/12/31
  */
 public class LogbackConfigurator extends ContextAwareBase implements Configurator {

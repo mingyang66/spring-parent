@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.configuration.enumeration;
 /**
 * @Description: 日志级别 OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
-* @Author: 姚明洋
+* @Author: Emily
 * @create: 2022/1/4
 */
 public enum LevelType {

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @program: spring-parent
  * @description: Appender抽象类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2022/01/04
  */
 public abstract class AbstractAppender {

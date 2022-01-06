@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.core.util.StatusPrinter;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppenderImpl;
 import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
@@ -36,7 +37,7 @@ public class LogbackRootImpl extends AbstractLogback {
         // 获取帮助类对象
         LogbackAppender appender = new LogbackAppender(Logger.ROOT_LOGGER_NAME, this.getProperties().getRoot().getFilePath(), LogbackType.ROOT);
         // appender对象
-        LogbackRollingFileAppenderImpl rollingFileAppender = new LogbackRollingFileAppenderImpl(this.getLoggerContext(), this.getProperties(), appender);
+        AbstractAppender rollingFileAppender = new LogbackRollingFileAppenderImpl(this.getLoggerContext(), this.getProperties(), appender);
         // 是否开启异步日志
         if (this.getProperties().getAsync().isEnabled()) {
             //异步appender

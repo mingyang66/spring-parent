@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @program: spring-parent
  * @description: 日志实现抽象类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2021/12/17
  */
 public class AbstractLogback implements Logback {

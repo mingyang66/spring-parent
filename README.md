@@ -55,7 +55,7 @@ git push origin --tags
 其它tag操作参考：[tag操作指南](https://blog.csdn.net/Emily/article/details/78839295?ops_request_misc=%7B%22request%5Fid%22%3A%22158685673019724835840750%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158685673019724835840750&biz_id=0&utm_source=distribute.pc_search_result.none-task-blog-blog_SOOPENSEARCH-1)
 
 ------
-### 自研框架-emily(小米粒)配置
+### 自研框架-emily(艾米莉)配置
 ```java
 #设置开启用户请求日志拦截器模式，默认:true
 spring.emily.api-log.enable=true
@@ -150,57 +150,60 @@ spring.emily.web.cors.exposed-headers=
 spring.emily.web.cors.max-age=1800
 
 
-##swagger配置
-spring.emily.swagger.enable=true
-#分组，使用英文单词，逗号隔开；如：group1,group2,group3
-spring.emily.swagger.group=emily,rabbit,framework
-#分组名称，使用逗号隔开,跟group一一对应；如：groupName1,groupName2,groupName3
-spring.emily.swagger.group-name=小米粒,RabbitMQ测试,框架
-#扫描包，使用逗号隔开；如：com.emily.boot,com.emily.test
-spring.emily.swagger.base-package=com.yaomy.control.test.api.rabbit,com.yaomy.control.test.api.emily,com.emily.boot
-#标题
-spring.emily.swagger.api-info.title=Springboot2.3.3 API接口文档
-#描述
-spring.emily.swagger.api-info.description=小米粥是以小米作为主要食材熬制而成的一种独具特色的北方粥点，口味清淡，清香味，具有简单易制，健胃消食的特点。煮粥时一定要先烧开水然后放入洗净后的小米，先煮沸，然后用文火熬，汤粘稠后即可关火。
-#版本号
-spring.emily.swagger.api-info.version=V2.1.6.RELEASE
-
 #日志组件
 #启动日志访问组件，默认false
-spring.emily.accesslog.enable=true
-#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：DEBUG
-spring.emily.accesslog.level=debug
-#通用日志输出格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
-spring.emily.accesslog.common-pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
-#模块日志输出格式，默认：%msg%n
-spring.emily.accesslog.module-pattern=%msg%n
-#是否将模块日志输出到控制台，默认false
-spring.emily.accesslog.enable-module-consule=false
+spring.emily.logback.enabled=true
 #日志文件存放路径，默认是:./logs
-spring.emily.accesslog.path=./logs
-#设置要保留的最大存档文件数,默认 7
-spring.emily.accesslog.max-history=7
+spring.emily.logback.base-path=./logs
+#是否报告内部状态信息，默认；false
+spring.emily.logback.base-report-state=true
+
 #是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
 #默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
-spring.emily.accesslog.enable-size-and-time-rolling-policy=true
+spring.emily.logback.rolling-policy.rolling-policy-type=time_base
+#设置要保留的最大存档文件数量，以异步方式删除旧文件,默认 7
+spring.emily.logback.rolling-policy.max-history=2
 #最大日志文件大小 KB、MB、GB，默认500MB
-spring.emily.accesslog.max-file-size=500MB
-#文件总大小限制 KB、MB、GB，默认5GB
-spring.emily.accesslog.total-size-cap=5GB
+spring.emily.logback.rolling-policy.max-file-size=500MB
+#控制所有归档文件总大小 KB、MB、GB，默认:0
+spring.emily.logback.rolling-policy.total-size-cap=0
+#设置重启服务后是否清除历史日志文件，默认：false
+spring.emily.logback.rolling-policy.clean-history-on-start=true
+
+#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：DEBUG
+spring.emily.logback.root.level=info
+#通用日志输出格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+spring.emily.logback.root.pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+#基础日志文件路径
+spring.emily.logback.root.file-path=base
+
+#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：DEBUG
+spring.emily.logback.group.level=info
+#模块日志输出格式，默认：%msg%n
+spring.emily.logback.group.pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+#是否将模块日志输出到控制台，默认：false
+spring.emily.logback.group.console=true
+
+#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：DEBUG
+spring.emily.logback.module.level=info
+#模块日志输出格式，默认：%msg%n
+spring.emily.logback.module.pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
+#是否将模块日志输出到控制台，默认：false
+spring.emily.logback.module.console=true
+
 #是否开启异步记录Appender，默认false
-spring.emily.accesslog.enable-async-appender=true
+spring.emily.logback.async.enabled=false
 #队列的最大容量，默认为 256
-spring.emily.accesslog.async-queue-size=256
+spring.emily.logback.async.queue-size=256
 #默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
-spring.emily.accesslog.async-discarding-threshold=0
+spring.emily.logback.async.discarding-threshold=0
 # 根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。
 # 当 LoggerContext 被停止时， AsyncAppender stop 方法会等待工作线程指定的时间来完成。
 # 使用 maxFlushTime 来指定最大的刷新时间，单位为毫秒。在指定时间内没有被处理完的事件将会被丢弃。这个属性的值的含义与 Thread.join(long)) 相同
 # 默认是 1000毫秒
-spring.emily.accesslog.async-max-flush-time=1000
+spring.emily.logback.async.max-flush-time=1000
 # 在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃，默认为 false
-spring.emily.accesslog.async-never-block=false
-
+spring.emily.logback.async.never-block=false
 
 ```
 

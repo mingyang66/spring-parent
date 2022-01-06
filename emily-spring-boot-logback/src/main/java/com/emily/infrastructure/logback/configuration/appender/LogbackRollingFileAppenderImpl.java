@@ -2,14 +2,10 @@ package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
-import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
-import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
@@ -22,10 +18,7 @@ import com.emily.infrastructure.logback.configuration.policy.LogbackRollingPolic
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Emily
@@ -33,8 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create: 2020/08/04
  */
 public class LogbackRollingFileAppenderImpl extends AbstractAppender {
-
-    private static final Map<String, RollingFileAppender> APPENDER = new ConcurrentHashMap<>();
 
     private LogbackAppender appender;
 
@@ -49,13 +40,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
      * @return
      */
     @Override
-    public Appender<ILoggingEvent> getAppender(Level level) {
-        //appender名称重新拼接
-        String appenderName = MessageFormat.format("{0}_{1}", appender.getAppenderName(), level.levelStr.toLowerCase());
-        //如果已经存在，则复用
-        if (APPENDER.containsKey(appenderName)) {
-            return APPENDER.get(appenderName);
-        }
+    protected Appender<ILoggingEvent> getAppender(Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
         //日志文件路径
@@ -75,7 +60,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         rollingFileAppender.setContext(this.getLoggerContext());
         //appender的name属性
-        rollingFileAppender.setName(appenderName);
+        rollingFileAppender.setName(this.getAppenderName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         rollingFileAppender.setAppend(true);
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
@@ -88,9 +73,6 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         rollingFileAppender.setImmediateFlush(true);
         rollingFileAppender.start();
 
-        //生成appender存入缓存
-        APPENDER.put(appenderName, rollingFileAppender);
-
         return rollingFileAppender;
     }
 
@@ -101,7 +83,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
      * @return
      */
     @Override
-    public String getFilePath(Level level) {
+    protected String getFilePath(Level level) {
         //基础相对路径
         String basePath = this.getProperties().getBasePath();
         //文件路径
@@ -129,7 +111,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
      * @return 日志格式
      */
     @Override
-    public String getFilePattern() {
+    protected String getFilePattern() {
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
             return this.getProperties().getRoot().getPattern();
@@ -140,5 +122,16 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         }
         //分模块
         return this.getProperties().getModule().getPattern();
+    }
+
+    /**
+     * 日志级别
+     *
+     * @param level 日志级别
+     * @return
+     */
+    @Override
+    protected String getAppenderName(Level level) {
+        return MessageFormat.format("{0}_{1}", appender.getAppenderName(), level.levelStr.toLowerCase());
     }
 }

@@ -12,26 +12,25 @@ import ch.qos.logback.core.spi.FilterReply;
  */
 public class LogbackFilter {
     /**
-     * 过滤器设置
+     * 日志级别过滤器设置
      *
      * @param level 日志级别
      * @return
      */
     public static LevelFilter getLevelFilter(Level level) {
-        LevelFilter levelFilter = new LevelFilter();
+        LevelFilter filter = new LevelFilter();
         //日志过滤级别
-        levelFilter.setLevel(level);
+        filter.setLevel(level);
         //设置符合条件的日志接受
-        levelFilter.setOnMatch(FilterReply.ACCEPT);
+        filter.setOnMatch(FilterReply.ACCEPT);
         //不符合条件的日志拒绝
-        levelFilter.setOnMismatch(FilterReply.DENY);
-        //
-        levelFilter.start();
-        return levelFilter;
+        filter.setOnMismatch(FilterReply.DENY);
+        filter.start();
+        return filter;
     }
 
     /**
-     * 设置控制台过滤器
+     * 日志阀值过滤器，等于或者高于日志级别
      *
      * @param level 日志级别
      * @return

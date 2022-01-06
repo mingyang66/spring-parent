@@ -25,7 +25,7 @@ public class LoggerFactory {
     /**
      * 容器上下文
      */
-    public static ApplicationContext applicationContext;
+    public static ApplicationContext APPLICATION_CONTEXT;
 
     public static <T> Logger getLogger(Class<T> clazz) {
         return org.slf4j.LoggerFactory.getLogger(clazz);
@@ -53,9 +53,9 @@ public class LoggerFactory {
     private static void validLoggerContext() {
         if (CONTEXT == null) {
             synchronized (lock) {
-                String[] beanNamesForType = applicationContext.getBeanNamesForType(LogbackProperties.class);
+                String[] beanNamesForType = APPLICATION_CONTEXT.getBeanNamesForType(LogbackProperties.class);
                 if (beanNamesForType.length > 0) {
-                    CONTEXT = new LogbackContext(applicationContext.getBean(LogbackProperties.class));
+                    CONTEXT = new LogbackContext(APPLICATION_CONTEXT.getBean(LogbackProperties.class));
                 } else {
                     CONTEXT = new LogbackContext(new LogbackProperties());
                 }

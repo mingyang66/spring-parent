@@ -24,7 +24,7 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        LoggerFactory.applicationContext = applicationContext;
+        LoggerFactory.APPLICATION_CONTEXT = applicationContext;
         logger.info("==> Logback日志组件IOC容器上下文初始化...");
     }
 }

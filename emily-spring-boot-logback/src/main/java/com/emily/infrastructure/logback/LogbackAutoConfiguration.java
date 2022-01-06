@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 /**
+ * @author Emily
  * @description: LogBack日志组件，加载配置文件优先级：https://logback.qos.ch/manual/configuration.html
  * 加载顺序：loback-test.xml->logback.xml->SPI com.qos.logback.classic.spi.Configurator模式->BasicConfigurator打印控制台
- * @author Emily
  * @create: 2020/08/08
  */
 @Configuration(proxyBeanMethods = false)
@@ -28,12 +28,10 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
 
     @Bean(initMethod = "init")
     public LogbackContext logbackContext(LogbackProperties properties) {
-        LogbackContext context = LoggerFactory.CONTEXT;
-        if (context == null) {
-            context = new LogbackContext(properties);
-            LoggerFactory.CONTEXT = context;
+        if (LoggerFactory.CONTEXT == null) {
+            LoggerFactory.CONTEXT = new LogbackContext(properties);
         }
-        return context;
+        return LoggerFactory.CONTEXT;
     }
 
     @Override

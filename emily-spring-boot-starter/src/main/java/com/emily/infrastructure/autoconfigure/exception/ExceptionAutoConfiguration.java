@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.exception;
 
 import com.emily.infrastructure.autoconfigure.exception.handler.ExceptionAdviceHandler;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

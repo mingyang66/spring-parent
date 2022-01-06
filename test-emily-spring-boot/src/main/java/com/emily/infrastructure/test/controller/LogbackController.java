@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.test.po.Job;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.*;

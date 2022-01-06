@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.factory;
+package com.emily.infrastructure.logger;
 
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;

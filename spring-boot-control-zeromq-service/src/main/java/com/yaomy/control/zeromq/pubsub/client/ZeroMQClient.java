@@ -1,6 +1,6 @@
 package com.yaomy.control.zeromq.pubsub.client;
 
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import com.yaomy.control.zeromq.pubsub.client.task.MoniterMQTask;
 import org.slf4j.Logger;
 import org.zeromq.SocketType;

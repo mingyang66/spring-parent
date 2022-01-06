@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.web;
 
 import com.emily.infrastructure.autoconfigure.web.annotation.ApiPrefix;
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;

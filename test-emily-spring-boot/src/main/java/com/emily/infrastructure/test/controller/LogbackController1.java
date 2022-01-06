@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.datasource.DataSourceAutoConfiguration;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

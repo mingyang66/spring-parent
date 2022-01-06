@@ -6,7 +6,7 @@ import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;

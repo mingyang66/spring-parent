@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback;
 
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -26,9 +26,6 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
 
     private static final Logger logger = LoggerFactory.getLogger(LogbackAutoConfiguration.class);
 
-    /**
-     * AccessLog对象
-     */
     @Bean(initMethod = "init")
     public LogbackContext logbackContext(LogbackProperties properties) {
         LogbackContext context = LoggerFactory.CONTEXT;

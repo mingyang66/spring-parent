@@ -2,7 +2,7 @@ package com.emily.infrastructure.cloud.httpclient;
 
 import com.emily.infrastructure.cloud.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.cloud.httpclient.interceptor.HttpClientInterceptor;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

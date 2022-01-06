@@ -1,8 +1,7 @@
 package com.emily.infrastructure.mybatis.log;
 
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.ibatis.logging.Log;
-import org.slf4j.Logger;
 
 /**
  * @Description: 将mybatis sql语句记录到日志文件中实现类，是org.apache.ibatis.logging.stdout.StdOutImpl类的替换

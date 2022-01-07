@@ -338,7 +338,7 @@ public class LogbackProperties {
         /**
          * 日志文件存放路径，默认是:./logs
          */
-        private String filePath = "./logs";
+        private String path = "./logs";
         /**
          * 如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
          */
@@ -364,12 +364,12 @@ public class LogbackProperties {
          */
         private Async async = new Async();
 
-        public String getFilePath() {
-            return filePath;
+        public String getPath() {
+            return path;
         }
 
-        public void setFilePath(String filePath) {
-            this.filePath = filePath;
+        public void setPath(String path) {
+            this.path = path;
         }
 
         public boolean isAppend() {

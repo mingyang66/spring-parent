@@ -85,7 +85,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
     @Override
     protected String getFilePath(Level level) {
         //基础相对路径
-        String basePath = this.getProperties().getAppender().getFilePath();
+        String basePath = this.getProperties().getAppender().getPath();
         //文件路径
         String filePath = PathUtils.normalizePath(appender.getFilePath());
         //日志级别

@@ -6,6 +6,7 @@ Bug Fixes
 2. 化基于大小和时间的策略文件大小的默认值
 3. 增加对logback appender日志控制属性配置
 4. 对属性配置优化将异步、归档策略、基础配置归类到appender下
+5. 升级mysql版本到8.0.27，修复oracle mysql输入验证错误漏洞
 -----
 基础库发布4.0.5
 Bug Fixes

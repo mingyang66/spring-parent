@@ -20,26 +20,6 @@ public class LogbackProperties {
      */
     private boolean enabled;
     /**
-     * 日志文件存放路径，默认是:./logs
-     */
-    private String basePath = "./logs";
-    /**
-     * 如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
-     */
-    private boolean baseAppend = true;
-    /**
-     * 如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
-     */
-    private boolean basePrudent = false;
-    /**
-     * 设置是否将输出流刷新，确保日志信息不丢失，默认：true
-     */
-    private boolean baseImmediateFlush = true;
-    /**
-     * 是否报告内部状态信息，默认；false
-     */
-    private boolean baseReportState;
-    /**
      * 基础根日志
      */
     private Root root = new Root();
@@ -52,13 +32,9 @@ public class LogbackProperties {
      */
     private Module module = new Module();
     /**
-     * 异步日志配置
+     * appender配置
      */
-    private Async async = new Async();
-    /**
-     * 文件归档策略
-     */
-    private RollingPolicy rollingPolicy = new RollingPolicy();
+    private Appender appender = new Appender();
 
     public boolean isEnabled() {
         return enabled;
@@ -68,52 +44,12 @@ public class LogbackProperties {
         this.enabled = enabled;
     }
 
-    public boolean isBaseAppend() {
-        return baseAppend;
+    public Appender getAppender() {
+        return appender;
     }
 
-    public void setBaseAppend(boolean baseAppend) {
-        this.baseAppend = baseAppend;
-    }
-
-    public boolean isBasePrudent() {
-        return basePrudent;
-    }
-
-    public void setBasePrudent(boolean basePrudent) {
-        this.basePrudent = basePrudent;
-    }
-
-    public boolean isBaseImmediateFlush() {
-        return baseImmediateFlush;
-    }
-
-    public void setBaseImmediateFlush(boolean baseImmediateFlush) {
-        this.baseImmediateFlush = baseImmediateFlush;
-    }
-
-    public boolean isBaseReportState() {
-        return baseReportState;
-    }
-
-    public void setBaseReportState(boolean baseReportState) {
-        this.baseReportState = baseReportState;
-    }
-
-    public String getBasePath() {
-        return basePath;
-    }
-
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
-
-    public RollingPolicy getRollingPolicy() {
-        return rollingPolicy;
-    }
-
-    public void setRollingPolicy(RollingPolicy rollingPolicy) {
-        this.rollingPolicy = rollingPolicy;
+    public void setAppender(Appender appender) {
+        this.appender = appender;
     }
 
     public Root getRoot() {
@@ -138,14 +74,6 @@ public class LogbackProperties {
 
     public void setModule(Module module) {
         this.module = module;
-    }
-
-    public Async getAsync() {
-        return async;
-    }
-
-    public void setAsync(Async async) {
-        this.async = async;
     }
 
     /**
@@ -343,7 +271,7 @@ public class LogbackProperties {
          * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
          * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
          */
-        private RollingPolicyType rollingPolicyType;
+        private RollingPolicyType type;
         /**
          * 是否在应用程序启动时删除存档，默认：false
          * 是否在应用启动的时候删除历史日志。
@@ -365,12 +293,12 @@ public class LogbackProperties {
          */
         private String totalSizeCap = "5GB";
 
-        public RollingPolicyType getRollingPolicyType() {
-            return rollingPolicyType;
+        public RollingPolicyType getType() {
+            return type;
         }
 
-        public void setRollingPolicyType(RollingPolicyType rollingPolicyType) {
-            this.rollingPolicyType = rollingPolicyType;
+        public void setType(RollingPolicyType type) {
+            this.type = type;
         }
 
         public boolean isCleanHistoryOnStart() {
@@ -403,6 +331,93 @@ public class LogbackProperties {
 
         public void setTotalSizeCap(String totalSizeCap) {
             this.totalSizeCap = totalSizeCap;
+        }
+    }
+
+    public static class Appender {
+        /**
+         * 日志文件存放路径，默认是:./logs
+         */
+        private String filePath = "./logs";
+        /**
+         * 如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
+         */
+        private boolean append = true;
+        /**
+         * 如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
+         */
+        private boolean prudent = false;
+        /**
+         * 设置是否将输出流刷新，确保日志信息不丢失，默认：true
+         */
+        private boolean immediateFlush = true;
+        /**
+         * 是否报告内部状态信息，默认；false
+         */
+        private boolean reportState;
+        /**
+         * 文件归档策略
+         */
+        private RollingPolicy rollingPolicy = new RollingPolicy();
+        /**
+         * 异步日志配置
+         */
+        private Async async = new Async();
+
+        public String getFilePath() {
+            return filePath;
+        }
+
+        public void setFilePath(String filePath) {
+            this.filePath = filePath;
+        }
+
+        public boolean isAppend() {
+            return append;
+        }
+
+        public void setAppend(boolean append) {
+            this.append = append;
+        }
+
+        public boolean isPrudent() {
+            return prudent;
+        }
+
+        public void setPrudent(boolean prudent) {
+            this.prudent = prudent;
+        }
+
+        public boolean isImmediateFlush() {
+            return immediateFlush;
+        }
+
+        public void setImmediateFlush(boolean immediateFlush) {
+            this.immediateFlush = immediateFlush;
+        }
+
+        public boolean isReportState() {
+            return reportState;
+        }
+
+        public void setReportState(boolean reportState) {
+            this.reportState = reportState;
+        }
+
+        public RollingPolicy getRollingPolicy() {
+            return rollingPolicy;
+        }
+
+        public void setRollingPolicy(RollingPolicy rollingPolicy) {
+            this.rollingPolicy = rollingPolicy;
+        }
+
+        public Async getAsync() {
+            return async;
+        }
+
+        public void setAsync(Async async) {
+            this.async = async;
         }
     }
 }

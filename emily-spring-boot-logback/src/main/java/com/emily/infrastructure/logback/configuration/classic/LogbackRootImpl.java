@@ -39,7 +39,7 @@ public class LogbackRootImpl extends AbstractLogback {
         // appender对象
         AbstractAppender rollingFileAppender = new LogbackRollingFileAppenderImpl(this.getLoggerContext(), this.getProperties(), appender);
         // 是否开启异步日志
-        if (this.getProperties().getAsync().isEnabled()) {
+        if (this.getProperties().getAppender().getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(this.getLoggerContext(), this.getProperties());
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
@@ -75,7 +75,7 @@ public class LogbackRootImpl extends AbstractLogback {
             }
         }
         //是否报告logback内部状态信息
-        if (this.getProperties().isBaseReportState()) {
+        if (this.getProperties().getAppender().isReportState()) {
             StatusPrinter.print(this.getLoggerContext());
         }
         return logger;

@@ -47,7 +47,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         String loggerPath = this.getFilePath(level);
         //日志文件归档策略
         RollingPolicy policy;
-        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(this.getProperties().getRollingPolicy().getRollingPolicyType())) {
+        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(this.getProperties().getAppender().getRollingPolicy().getType())) {
             policy = LogbackRollingPolicy.getSizeAndTimeBasedRollingPolicy(this.getLoggerContext(), this.getProperties(), rollingFileAppender, loggerPath);
         } else {
             policy = LogbackRollingPolicy.getTimeBasedRollingPolicy(this.getLoggerContext(), this.getProperties(), rollingFileAppender, loggerPath);
@@ -62,15 +62,15 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         //appender的name属性
         rollingFileAppender.setName(this.getAppenderName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
-        rollingFileAppender.setAppend(this.getProperties().isBaseAppend());
+        rollingFileAppender.setAppend(this.getProperties().getAppender().isAppend());
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
-        rollingFileAppender.setPrudent(this.getProperties().isBasePrudent());
+        rollingFileAppender.setPrudent(this.getProperties().getAppender().isPrudent());
         //设置过滤器
         rollingFileAppender.addFilter(LogbackFilter.getLevelFilter(level));
         //设置附加器编码
         rollingFileAppender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(this.getLoggerContext(), this.getFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
-        rollingFileAppender.setImmediateFlush(this.getProperties().isBaseImmediateFlush());
+        rollingFileAppender.setImmediateFlush(this.getProperties().getAppender().isImmediateFlush());
         rollingFileAppender.start();
 
         return rollingFileAppender;
@@ -85,7 +85,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
     @Override
     protected String getFilePath(Level level) {
         //基础相对路径
-        String basePath = this.getProperties().getBasePath();
+        String basePath = this.getProperties().getAppender().getFilePath();
         //文件路径
         String filePath = PathUtils.normalizePath(appender.getFilePath());
         //日志级别

@@ -50,11 +50,11 @@ public class LogbackRollingPolicy {
         //设置文件名模式
         policy.setFileNamePattern(fp);
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(properties.getRollingPolicy().getMaxHistory());
+        policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
         //控制所有归档文件总大小 KB、MB、GB，默认:0
-        policy.setTotalSizeCap(FileSize.valueOf(properties.getRollingPolicy().getTotalSizeCap()));
+        policy.setTotalSizeCap(FileSize.valueOf(properties.getAppender().getRollingPolicy().getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(properties.getRollingPolicy().isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(rollingFileAppender);
 
@@ -92,13 +92,13 @@ public class LogbackRollingPolicy {
         //设置文件名模式,如果文件名后缀为.gz or .zip自动压缩
         policy.setFileNamePattern(fp);
         //最大日志文件大小 KB,MB,GB
-        policy.setMaxFileSize(FileSize.valueOf(properties.getRollingPolicy().getMaxFileSize()));
+        policy.setMaxFileSize(FileSize.valueOf(properties.getAppender().getRollingPolicy().getMaxFileSize()));
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(properties.getRollingPolicy().getMaxHistory());
+        policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
         //文件总大小限制 KB,MB,G
-        policy.setTotalSizeCap(FileSize.valueOf(properties.getRollingPolicy().getTotalSizeCap()));
+        policy.setTotalSizeCap(FileSize.valueOf(properties.getAppender().getRollingPolicy().getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(properties.getRollingPolicy().isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(rollingFileAppender);
         policy.start();

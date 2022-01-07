@@ -3,6 +3,8 @@
 基础库发布4.0.6
 Bug Fixes
 1. 新增TTL说明文档及示例demo
+2. 化基于大小和时间的策略文件大小的默认值
+3. 增加对logback appender日志控制属性配置
 -----
 基础库发布4.0.5
 Bug Fixes

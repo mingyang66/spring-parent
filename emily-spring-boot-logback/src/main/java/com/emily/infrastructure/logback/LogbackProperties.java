@@ -24,6 +24,18 @@ public class LogbackProperties {
      */
     private String basePath = "./logs";
     /**
+     * 如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
+     */
+    private boolean baseAppend = true;
+    /**
+     * 如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
+     */
+    private boolean basePrudent = false;
+    /**
+     * 设置是否将输出流刷新，确保日志信息不丢失，默认：true
+     */
+    private boolean baseImmediateFlush = true;
+    /**
      * 是否报告内部状态信息，默认；false
      */
     private boolean baseReportState;
@@ -54,6 +66,30 @@ public class LogbackProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isBaseAppend() {
+        return baseAppend;
+    }
+
+    public void setBaseAppend(boolean baseAppend) {
+        this.baseAppend = baseAppend;
+    }
+
+    public boolean isBasePrudent() {
+        return basePrudent;
+    }
+
+    public void setBasePrudent(boolean basePrudent) {
+        this.basePrudent = basePrudent;
+    }
+
+    public boolean isBaseImmediateFlush() {
+        return baseImmediateFlush;
+    }
+
+    public void setBaseImmediateFlush(boolean baseImmediateFlush) {
+        this.baseImmediateFlush = baseImmediateFlush;
     }
 
     public boolean isBaseReportState() {

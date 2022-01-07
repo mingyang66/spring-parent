@@ -62,15 +62,15 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         //appender的name属性
         rollingFileAppender.setName(this.getAppenderName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
-        rollingFileAppender.setAppend(true);
+        rollingFileAppender.setAppend(this.getProperties().isBaseAppend());
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
-        rollingFileAppender.setPrudent(false);
+        rollingFileAppender.setPrudent(this.getProperties().isBasePrudent());
         //设置过滤器
         rollingFileAppender.addFilter(LogbackFilter.getLevelFilter(level));
         //设置附加器编码
         rollingFileAppender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(this.getLoggerContext(), this.getFilePattern()));
-        //设置是否里面将输出流刷新，确保日志信息不丢失，默认：true
-        rollingFileAppender.setImmediateFlush(true);
+        //设置是否将输出流刷新，确保日志信息不丢失，默认：true
+        rollingFileAppender.setImmediateFlush(this.getProperties().isBaseImmediateFlush());
         rollingFileAppender.start();
 
         return rollingFileAppender;

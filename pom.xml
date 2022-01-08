@@ -22,7 +22,6 @@
         <module>spring-security-oauth2-server-redis-service</module>
         <module>spring-security-oauth2-server-jwt-service</module>
         <module>spring-security-oauth2-resource-jwt-service</module>
-        <module>spring-security-oauth2-resource-redis-service</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
         <module>rpc-spring-boot-core</module>

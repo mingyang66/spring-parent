@@ -9,6 +9,7 @@ Bug Fixes
 5. 升级mysql版本到8.0.27，修复oracle mysql输入验证错误漏洞
 6. 升级protobuf版本到3.19.2，解决潜在漏洞
 7. 删除oauth2相关模块代码，将代码备份到feature_bak分支
+8. logback归档日志文件类LogbackRollingFileAppenderImpl获取归档策略修改为工厂模式
 -----
 基础库发布4.0.5
 Bug Fixes

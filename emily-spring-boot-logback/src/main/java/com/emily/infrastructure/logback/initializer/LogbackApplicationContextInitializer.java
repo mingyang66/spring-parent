@@ -15,8 +15,6 @@ import org.springframework.core.Ordered;
 @SuppressWarnings("all")
 public class LogbackApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
-    private static final Logger logger = LoggerFactory.getLogger(LogbackApplicationContextInitializer.class);
-
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 2;
@@ -25,6 +23,5 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         LoggerFactory.APPLICATION_CONTEXT = applicationContext;
-        logger.info("==> Logback日志组件IOC容器上下文初始化...");
     }
 }

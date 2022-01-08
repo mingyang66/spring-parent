@@ -9,6 +9,7 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.enumeration.RollingPolicyType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
@@ -20,6 +21,26 @@ import java.text.MessageFormat;
  * @create: 2022/01/10
  */
 public class LogbackRollingPolicy {
+
+    private static final LogbackRollingPolicy logbackRollingPolicy = new LogbackRollingPolicy();
+
+    /**
+     * 获取指定归档文件策略类型的归档策略
+     *
+     * @param context             logback上下文
+     * @param properties          日志属性配置
+     * @param rollingFileAppender 归档文件appender
+     * @param loggerPath          日志文件路径
+     * @return
+     */
+    public static RollingPolicy getInstance(Context context, LogbackProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
+        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(properties.getAppender().getRollingPolicy().getType())) {
+            return logbackRollingPolicy.getSizeAndTimeBasedRollingPolicy(context, properties, rollingFileAppender, loggerPath);
+        } else {
+            return logbackRollingPolicy.getTimeBasedRollingPolicy(context, properties, rollingFileAppender, loggerPath);
+        }
+    }
+
     /**
      * 获取基于时间的文件归档策略
      *
@@ -29,7 +50,7 @@ public class LogbackRollingPolicy {
      * @param loggerPath          日志文件路径
      * @return
      */
-    public static RollingPolicy getTimeBasedRollingPolicy(Context context, LogbackProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
+    public RollingPolicy getTimeBasedRollingPolicy(Context context, LogbackProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
         //文件归档大小和时间设置
         TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -71,7 +92,7 @@ public class LogbackRollingPolicy {
      * @param loggerPath          日志文件路径
      * @return
      */
-    public static RollingPolicy getSizeAndTimeBasedRollingPolicy(Context context, LogbackProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
+    public RollingPolicy getSizeAndTimeBasedRollingPolicy(Context context, LogbackProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
         //文件归档大小和时间设置
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> policy = new SizeAndTimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

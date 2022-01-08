@@ -5,14 +5,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import ch.qos.logback.core.rolling.RollingPolicy;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
-import com.emily.infrastructure.logback.configuration.enumeration.RollingPolicyType;
 import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logback.configuration.policy.LogbackRollingPolicy;
 import org.apache.commons.lang3.StringUtils;
@@ -45,17 +43,10 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
         //日志文件路径
         String loggerPath = this.getFilePath(level);
-        //日志文件归档策略
-        RollingPolicy policy;
-        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(this.getProperties().getAppender().getRollingPolicy().getType())) {
-            policy = LogbackRollingPolicy.getSizeAndTimeBasedRollingPolicy(this.getLoggerContext(), this.getProperties(), rollingFileAppender, loggerPath);
-        } else {
-            policy = LogbackRollingPolicy.getTimeBasedRollingPolicy(this.getLoggerContext(), this.getProperties(), rollingFileAppender, loggerPath);
-        }
         //设置文件名
         rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), this.getLoggerContext()));
         //设置日志文件归档策略
-        rollingFileAppender.setRollingPolicy(policy);
+        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.getInstance(this.getLoggerContext(), this.getProperties(), rollingFileAppender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         rollingFileAppender.setContext(this.getLoggerContext());

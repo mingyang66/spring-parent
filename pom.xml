@@ -41,16 +41,16 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
+        <spring.cloud.version>3.1.0</spring.cloud.version>
+        <spring.mybatis.version>2.2.0</spring.mybatis.version>
         <commons.lang3.version>3.11</commons.lang3.version>
         <commons.io.version>2.7</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <alibaba.druid.version>1.2.8</alibaba.druid.version>
         <alibaba.ttl.version>2.12.4</alibaba.ttl.version>
-        <guava.version>30.1.1-jre</guava.version>
+        <google.guava.version>30.1.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>
-        <mybatis.version>2.2.0</mybatis.version>
-        <spring.cloud.version>3.1.0</spring.cloud.version>
         <feign.httpclient.version>11.6</feign.httpclient.version>
         <httpclient.version>4.5.13</httpclient.version>
         <netty.version>4.1.70.Final</netty.version>
@@ -104,7 +104,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <version>${google.guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.stuxuhai</groupId>
@@ -119,7 +119,7 @@
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.version}</version>
+                <version>${spring.mybatis.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -162,7 +162,6 @@
                 <artifactId>protobuf-java</artifactId>
                 <version>${protobuf.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

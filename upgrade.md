@@ -7,6 +7,7 @@ Bug Fixes
 3. 增加对logback appender日志控制属性配置
 4. 对属性配置优化将异步、归档策略、基础配置归类到appender下
 5. 升级mysql版本到8.0.27，修复oracle mysql输入验证错误漏洞
+5. 升级protobuf版本到3.19.2，解决潜在漏洞
 -----
 基础库发布4.0.5
 Bug Fixes

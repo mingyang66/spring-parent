@@ -28,7 +28,7 @@ public class TestController {
 
     @PostMapping("test3")
     public String test3(@RequestBody User user) {
-        return "success" + user.getName();
+        return "success";
     }
 
     @PostMapping("test4")

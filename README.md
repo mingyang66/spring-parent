@@ -1,4 +1,7 @@
 # EmilyInfrustructure基础框架
+
+> Oauth2相关代码请移步到feature_bak分支查看
+
 ### maven父pom和子pom的版本号批量修改
 
 ##### 1 设置新的版本号

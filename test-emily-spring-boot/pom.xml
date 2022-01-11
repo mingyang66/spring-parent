@@ -12,6 +12,9 @@
     <artifactId>test-emily-spring-boot</artifactId>
     <version>4.0.5</version>
     <name>EmilyInfrastructure-test</name>
+    <properties>
+        <start-class>com.emily.infrastructure.test.TestBootStrap</start-class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,7 +67,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>emilyInfrastructure</finalName>
+        <finalName>emilyframework</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

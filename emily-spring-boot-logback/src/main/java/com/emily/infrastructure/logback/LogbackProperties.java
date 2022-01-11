@@ -166,7 +166,7 @@ public class LogbackProperties {
         /**
          * 模块日志输出格式，默认：%msg%n
          */
-        private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+        private String pattern = "%msg%n";
         /**
          * 是否将模块日志信息输出到控制台，默认false
          */

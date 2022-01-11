@@ -26,7 +26,10 @@ public class LogbackGroupImpl extends AbstractLogback {
      * 构建Logger对象
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      *
-     * @param fileName 日志文件名|模块名称
+     * @param loggerName logger属性名
+     * @param appenderName appender属性名
+     * @param filePath 文件路径
+     * @param fileName 文件名
      * @return
      */
     @Override

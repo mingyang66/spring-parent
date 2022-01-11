@@ -4,7 +4,7 @@ import ch.qos.logback.classic.Logger;
 
 /**
  * @program: spring-parent
- * @description:
+ * @description: logback logger实例基础接口
  * @author: Emily
  * @create: 2021/12/12
  */
@@ -21,12 +21,13 @@ public interface Logback {
     /**
      * 获取Logger对象
      *
-     * @param appenderName
-     * @param path
-     * @param fileName
+     * @param loggerName logger属性名
+     * @param appenderName appender属性名
+     * @param filePath 文件路径
+     * @param fileName 文件名
      * @return
      */
-    default Logger getLogger(String loggerName, String appenderName, String path, String fileName) {
+    default Logger getLogger(String loggerName, String appenderName, String filePath, String fileName) {
         return null;
     }
 }

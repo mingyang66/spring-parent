@@ -1,9 +1,9 @@
 package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
+import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;

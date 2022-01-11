@@ -1,6 +1,5 @@
 package com.emily.infrastructure.logback.configuration.context;
 
-import com.emily.infrastructure.common.utils.hash.Md5Utils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.classic.Logback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroupImpl;
@@ -48,10 +47,10 @@ public class LogbackContext {
      * @return
      */
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
-        //获取loggerName
-        String loggerName = getLoggerName(clazz, filePath, fileName, logbackType);
         // 获取缓存key
         String appenderName = getAppenderName(filePath, fileName, logbackType);
+        //获取loggerName
+        String loggerName = getLoggerName(clazz, appenderName);
         // 获取Logger对象
         Logger logger = CONTEXT.get(loggerName);
         if (Objects.nonNull(logger)) {
@@ -91,24 +90,22 @@ public class LogbackContext {
     /**
      * 获取appenderName
      *
-     * @param clazz    当前类实例
-     * @param filePath     路径
-     * @param fileName 文件名
+     * @param clazz        当前类实例
+     * @param appenderName appender属性名
      * @param <T>
      * @return appenderName
      */
-    private <T> String getLoggerName(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
-        String prefix = getAppenderName(filePath, fileName, logbackType);
-        return MessageFormat.format("{0}.{1}", prefix, clazz.getName());
+    private <T> String getLoggerName(Class<T> clazz, String appenderName) {
+        return MessageFormat.format("{0}.{1}", appenderName, clazz.getName());
     }
 
     /**
-     * @param filePath        路径
+     * @param filePath    路径
      * @param fileName    文件名
      * @param logbackType 类型
      * @return
      */
     private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
-        return Md5Utils.computeMd5Hash(MessageFormat.format("{0}{1}{2}", filePath, fileName, logbackType.getType()));
+        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getType()).replace("/", ".");
     }
 }

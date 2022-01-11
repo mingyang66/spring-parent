@@ -10,6 +10,7 @@ Bug Fixes
 6. 升级protobuf版本到3.19.2，解决潜在漏洞
 7. 删除oauth2相关模块代码，将代码备份到feature_bak分支
 8. logback归档日志文件类LogbackRollingFileAppenderImpl获取归档策略修改为工厂模式
+9. logback在整个基础架构中的层级调整，调整logback引用关系
 -----
 基础库发布4.0.5
 Bug Fixes

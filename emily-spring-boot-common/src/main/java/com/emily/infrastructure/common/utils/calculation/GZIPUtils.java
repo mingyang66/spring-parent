@@ -1,8 +1,8 @@
 package com.emily.infrastructure.common.utils.calculation;
 
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.constant.CharsetInfo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

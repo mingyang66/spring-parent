@@ -1,8 +1,8 @@
 package com.emily.infrastructure.common.utils.calculation;
 
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;

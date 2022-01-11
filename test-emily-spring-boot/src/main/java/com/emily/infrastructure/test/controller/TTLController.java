@@ -6,8 +6,6 @@ import com.alibaba.ttl.TtlRunnable;
 import com.alibaba.ttl.TtlWrappers;
 import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.emily.infrastructure.core.context.TraceContextHolder;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -12,11 +12,6 @@
     <artifactId>emily-spring-boot-log4j2</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.emily.infrastructure</groupId>
-            <artifactId>emily-spring-boot-common</artifactId>
-            <version>4.0.5</version>
-        </dependency>
         <!-- 引入log4j2依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

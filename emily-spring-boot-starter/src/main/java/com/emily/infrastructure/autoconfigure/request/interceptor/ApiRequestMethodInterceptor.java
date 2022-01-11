@@ -1,11 +1,11 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.TraceContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;

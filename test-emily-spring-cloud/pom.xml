@@ -18,10 +18,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
             <version>4.0.5</version>

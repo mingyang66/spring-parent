@@ -3,7 +3,6 @@ package com.emily.infrastructure.logger;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
-import com.emily.infrastructure.logback.exception.UninitializedException;
 import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 
@@ -27,24 +26,55 @@ public class LoggerFactory {
      */
     public static ApplicationContext APPLICATION_CONTEXT;
 
+    /**
+     * 获取日志Logger对象
+     *
+     * @param clazz 类实例
+     * @param <T>
+     * @return
+     */
     public static <T> Logger getLogger(Class<T> clazz) {
         return org.slf4j.LoggerFactory.getLogger(clazz);
     }
 
-    public static <T> Logger getGroupLogger(Class<T> clazz, String path) {
-        validLoggerContext();
-        return CONTEXT.getLogger(clazz, path, null, LogbackType.GROUP);
+    /**
+     * 获取分组Logger日志对象
+     *
+     * @param clazz    类实例对象
+     * @param filePath 日志文件路径
+     * @param <T>
+     * @return
+     */
+    public static <T> Logger getGroupLogger(Class<T> clazz, String filePath) {
+        return getGroupLogger(clazz, filePath, null);
     }
 
-    public static <T> Logger getGroupLogger(Class<T> clazz, String path, String fileName) {
+    /**
+     * 获取分组Logger日志对象
+     *
+     * @param clazz    类实例
+     * @param filePath 日志文件对象
+     * @param fileName 文件名
+     * @param <T>
+     * @return
+     */
+    public static <T> Logger getGroupLogger(Class<T> clazz, String filePath, String fileName) {
         validLoggerContext();
-        return CONTEXT.getLogger(clazz, path, fileName, LogbackType.GROUP);
+        return CONTEXT.getLogger(clazz, filePath, fileName, LogbackType.GROUP);
     }
 
-
-    public static <T> Logger getModuleLogger(Class<T> clazz, String modulePath, String fileName) {
+    /**
+     * 获取模块Logger日志对象
+     *
+     * @param clazz    类实例
+     * @param filePath 文件路径
+     * @param fileName 文件名
+     * @param <T>
+     * @return
+     */
+    public static <T> Logger getModuleLogger(Class<T> clazz, String filePath, String fileName) {
         validLoggerContext();
-        return CONTEXT.getLogger(clazz, modulePath, fileName, LogbackType.MODULE);
+        return CONTEXT.getLogger(clazz, filePath, fileName, LogbackType.MODULE);
     }
 
     /**
@@ -62,7 +92,7 @@ public class LoggerFactory {
             }
         }
         if (CONTEXT == null) {
-            throw new UninitializedException();
+            throw new RuntimeException("logback日志组件上下文未初始化");
         }
     }
 }

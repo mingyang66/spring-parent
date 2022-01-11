@@ -6,10 +6,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.infrastructure.common.utils.path.PathUtils;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logback.configuration.entity.LogbackAppender;
+import com.emily.infrastructure.logback.configuration.entity.LogbackUrl;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logback.configuration.policy.LogbackRollingPolicy;
@@ -78,7 +78,7 @@ public class LogbackRollingFileAppenderImpl extends AbstractAppender {
         //基础相对路径
         String basePath = this.getProperties().getAppender().getPath();
         //文件路径
-        String filePath = PathUtils.normalizePath(appender.getFilePath());
+        String filePath = LogbackUrl.normalizePath(appender.getFilePath());
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
         //基础日志

@@ -1,4 +1,4 @@
-./mvnw versions:set -DnewVersion=4.0.5
+./mvnw versions:set -DnewVersion=4.0.6
 echo '修改版本号'
 ./mvnw versions:commit
 echo '提交修改'

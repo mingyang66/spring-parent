@@ -17,6 +17,10 @@ public class MybatisProperties {
      * 是否开启数据源组件, 默认：true
      */
     private boolean enabled = true;
+    /**
+     * 是否还要检查超类或者接口，默认：true
+     */
+    private boolean checkInherited = true;
 
     public boolean isEnabled() {
         return enabled;
@@ -24,5 +28,13 @@ public class MybatisProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isCheckInherited() {
+        return checkInherited;
+    }
+
+    public void setCheckInherited(boolean checkInherited) {
+        this.checkInherited = checkInherited;
     }
 }

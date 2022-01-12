@@ -11,6 +11,7 @@ Bug Fixes
 7. 删除oauth2相关模块代码，将代码备份到feature_bak分支
 8. logback归档日志文件类LogbackRollingFileAppenderImpl获取归档策略修改为工厂模式
 9. logback在整个基础架构中的层级调整，调整logback引用关系
+10. mybatis拦截日志组件重构，支持拦截当前接口的父接口或父类，重构拦截器
 -----
 基础库发布4.0.5
 Bug Fixes

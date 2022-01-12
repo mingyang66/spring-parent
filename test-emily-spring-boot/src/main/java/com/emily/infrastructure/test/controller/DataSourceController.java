@@ -157,4 +157,17 @@ public class DataSourceController {
     public SqlServer findSqlServer() {
         return sqlServerlMapper.findSqlServer();
     }
+
+    @Autowired
+    private ChildMapper childMapper;
+
+    @GetMapping("getParent")
+    public Job getParent(){
+       return childMapper.get();
+    }
+
+    @GetMapping("getChild")
+    public Job getChild(){
+        return childMapper.getJob();
+    }
 }

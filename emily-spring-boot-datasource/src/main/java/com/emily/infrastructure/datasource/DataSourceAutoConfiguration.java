@@ -46,11 +46,6 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
 
-    public static final String DATA_SOURCE_BEAN_NAME = "dataSourcePointCutAdvice";
-    /**
-     * 数据源实例bean名称
-     */
-    public static final String DATA_SOURCE_NAME = "dynamicMultipleDataSources";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
      *
@@ -69,10 +64,10 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
      * 第二个*号：表示类名，*号表示所有的类名
      * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
      */
-    @Bean(DATA_SOURCE_BEAN_NAME)
+    @Bean
     @ConditionalOnClass(value = {DataSourceMethodInterceptor.class})
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultPointcutAdvisor defaultPointcutAdvisor(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers) {
+    public DefaultPointcutAdvisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers) {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //获取切面表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);
@@ -96,7 +91,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
      * {@link DataSourceTransactionManagerAutoConfiguration}
      * {@link MybatisAutoConfiguration}
      */
-    @Bean(DATA_SOURCE_NAME)
+    @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         Map<String, DruidDataSource> configs = dataSourceProperties.getConfig();

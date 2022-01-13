@@ -30,11 +30,12 @@ import org.springframework.core.annotation.Order;
 @EnableConfigurationProperties(ApiRequestProperties.class)
 @ConditionalOnProperty(prefix = ApiRequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ApiRequestAutoConfiguration implements InitializingBean, DisposableBean {
+
     private static final Logger logger = LoggerFactory.getLogger(ApiRequestAutoConfiguration.class);
 
-    public static final String API_LOG_NORMAL_BEAN_NAME = "requestLoggerNormalPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
+     *
      * @target()可以标注在目标类对象上，但是不可以标注在接口上
      * @within()可以标注在目标类对象上、也可以标注在接口上
      * @annotation()可以标注在目标方法上
@@ -52,7 +53,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
      * @Description 定义接口拦截器切点
      * @Version 1.0
      */
-    @Bean(API_LOG_NORMAL_BEAN_NAME)
+    @Bean
     @ConditionalOnClass(ApiRequestMethodInterceptor.class)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DefaultPointcutAdvisor apiLogNormalPointCutAdvice(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {

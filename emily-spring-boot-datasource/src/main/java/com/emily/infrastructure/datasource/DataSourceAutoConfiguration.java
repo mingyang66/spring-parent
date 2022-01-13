@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.DisposableBean;
@@ -67,7 +68,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
     @Bean
     @ConditionalOnClass(value = {DataSourceMethodInterceptor.class})
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultPointcutAdvisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers) {
+    public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers) {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //获取切面表达式
         pointcut.setExpression(DEFAULT_POINT_CUT);

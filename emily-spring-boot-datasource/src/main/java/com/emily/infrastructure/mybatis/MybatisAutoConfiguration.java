@@ -30,7 +30,7 @@ public class MybatisAutoConfiguration {
     public Advisor mybatisLogAdvisor(MybatisProperties properties) {
         MybatisAdvisor advisor = new MybatisAdvisor(new MybatisMethodInterceptor());
         advisor.setPointcut(new AnnotationMatchingPointcut(Mapper.class, properties.isCheckInherited()));
-        advisor.setOrder(AopOrderInfo.MYBATIS_AOP);
+        advisor.setOrder(AopOrderInfo.MYBATIS);
         return advisor;
     }
 

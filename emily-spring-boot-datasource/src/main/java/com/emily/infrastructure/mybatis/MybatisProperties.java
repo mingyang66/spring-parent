@@ -18,9 +18,9 @@ public class MybatisProperties {
      */
     private boolean enabled = true;
     /**
-     * 是否还要检查超类或者接口，默认：true
+     * 是否还要检查超类或者接口，默认：false
      */
-    private boolean checkInherited = true;
+    private boolean checkInherited = false;
 
     public boolean isEnabled() {
         return enabled;

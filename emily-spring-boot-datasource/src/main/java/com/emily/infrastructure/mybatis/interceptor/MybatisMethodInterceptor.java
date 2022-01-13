@@ -51,7 +51,7 @@ public class MybatisMethodInterceptor implements MethodInterceptor {
         }
     }
 
-    public Map<String, Object> getInParam(MethodInvocation invocation) {
+    private Map<String, Object> getInParam(MethodInvocation invocation) {
         Map<String, Object> paramMap = Maps.newHashMap();
         try {
             Parameter[] parameters = invocation.getMethod().getParameters();

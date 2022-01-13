@@ -100,26 +100,6 @@ spring.emily.cloud.http-client-loadbalancer.read-time-out=1000
 #http连接连接超时时间，默认1000毫秒
 spring.emily.cloud.http-client-loadbalancer.connect-time-out=1000
 
-#异步线程池
-#异步线程池组件开关，默认false
-spring.emily.async-thread-pool.enable=true
-#核心线程数,默认：Java虚拟机可用线程数
-spring.emily.async-thread-pool.core-pool-size=4
-#线程池最大线程数,默认：10000
-spring.emily.async-thread-pool.max-pool-size=10000
-#线程队列最大线程数,默认：20000
-spring.emily.async-thread-pool.queue-capacity=20000
-#自定义线程名前缀，默认：Async-ThreadPool-
-spring.emily.async-thread-pool.thread-name-prefix=Async-ThreadPool-
-#线程池中线程最大空闲时间，默认：60，单位：秒
-spring.emily.async-thread-pool.keep-alive-seconds=60
-#核心线程是否允许超时，默认false
-spring.emily.async-thread-pool.allow-core-thread-time-out=false
-#IOC容器关闭时是否阻塞等待剩余的任务执行完成，默认:false（必须设置setAwaitTerminationSeconds）
-spring.emily.async-thread-pool.wait-for-tasks-to-complete-on-shutdown=false
-#阻塞IOC容器关闭的时间，默认：10秒（必须设置setWaitForTasksToCompleteOnShutdown）
-spring.emily.async-thread-pool.await-termination-seconds=10
-
 ##API路由设置
 #是否开启所有接口的前缀prefix,默认前面添加api
 spring.emily.web.path.enable-all-prefix=true
@@ -152,6 +132,10 @@ spring.emily.web.cors.exposed-headers=
 #设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
 spring.emily.web.cors.max-age=1800
 
+#是否开启mybatis拦截组件, 默认：true
+spring.emily.mybatis.enabled=true
+#是否还要检查超类或者接口，默认：false
+spring.emily.mybatis.check-inherited=false
 
 #日志组件
 #启动日志访问组件，默认false

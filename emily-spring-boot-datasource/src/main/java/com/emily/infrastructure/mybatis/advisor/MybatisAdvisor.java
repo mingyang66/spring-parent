@@ -2,19 +2,16 @@ package com.emily.infrastructure.mybatis.advisor;
 
 import com.emily.infrastructure.mybatis.interceptor.MybatisMethodInterceptor;
 import org.aopalliance.aop.Advice;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
-import org.springframework.aop.support.ComposablePointcut;
-import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: 姚明洋
+ * @description: Mybatis切面
+ * @author: Emily
  * @create: 2022/01/12
  */
 public class MybatisAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
@@ -44,6 +41,6 @@ public class MybatisAdvisor extends AbstractPointcutAdvisor implements BeanFacto
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        System.out.println(beanFactory);
+
     }
 }

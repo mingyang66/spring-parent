@@ -19,9 +19,9 @@ public class AopOrderInfo {
      */
     public static final int FEIGN_LOG_NORMAL = 800;
     /**
-     * 数据源
+     * Mybatis日志漆面
      */
-    public static final int MYBATIS_AOP = 899;
+    public static final int MYBATIS = 899;
     /**
      * 数据源切面
      */

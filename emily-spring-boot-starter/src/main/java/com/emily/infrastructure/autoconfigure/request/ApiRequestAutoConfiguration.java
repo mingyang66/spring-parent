@@ -13,7 +13,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +55,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
      * @Version 1.0
      */
     @Bean
-    @ConditionalOnClass(ApiRequestMethodInterceptor.class)
+    @ConditionalOnBean(ApiRequestCustomizer.class)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor apiLogNormalPointCutAdvice(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {
         //声明一个AspectJ切点

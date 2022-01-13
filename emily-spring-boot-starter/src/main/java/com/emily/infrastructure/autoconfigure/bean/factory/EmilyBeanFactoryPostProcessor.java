@@ -1,7 +1,6 @@
 package com.emily.infrastructure.autoconfigure.bean.factory;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
@@ -52,11 +51,11 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.request.logback-com.emily.infrastructure.autoconfigure.request.RequestLoggerProperties");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }*/
-        if (beanFactory.containsBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties")) {
+ /*       if (beanFactory.containsBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.emily.datasource-com.emily.infrastructure.datasource.DataSourceProperties");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-        if (beanFactory.containsBeanDefinition("com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration")) {
+        }*/
+    /*    if (beanFactory.containsBeanDefinition("com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
@@ -71,6 +70,6 @@ public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
         if (beanFactory.containsBeanDefinition("spring.datasource.druid-com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties")) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition("spring.datasource.druid-com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
+        }*/
     }
 }

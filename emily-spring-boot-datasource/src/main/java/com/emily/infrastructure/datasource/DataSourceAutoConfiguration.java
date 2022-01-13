@@ -2,6 +2,8 @@ package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
+import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
@@ -14,10 +16,13 @@ import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -29,6 +34,7 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +49,7 @@ import java.util.Objects;
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnProperty(prefix = DataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-public class DataSourceAutoConfiguration implements InitializingBean, DisposableBean {
+public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
 
@@ -105,6 +111,33 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
         Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
         configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
         return DynamicMultipleDataSources.build(dataSourceProperties.getDefaultDataSource(), targetDataSources);
+    }
+
+    /**
+     * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
+     * @param beanFactory
+     * @throws BeansException
+     */
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        String beanName = MessageFormat.format("{0}-{1}", DataSourceProperties.PREFIX, DataSourceProperties.class.getName());
+        if (beanFactory.containsBeanDefinition(beanName)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+
+        beanName = DruidSpringAopConfiguration.class.getName();
+        if (beanFactory.containsBeanDefinition(beanName)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+
+        beanName = MessageFormat.format("{0}-{1}", "spring.datasource.druid", DruidStatProperties.class.getName());
+        if (beanFactory.containsBeanDefinition(beanName)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+
     }
 
     @Override

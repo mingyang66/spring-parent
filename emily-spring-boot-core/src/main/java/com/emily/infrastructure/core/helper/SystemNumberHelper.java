@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.helper;
 
-import com.emily.infrastructure.core.context.config.TraceContextProperties;
 import com.emily.infrastructure.core.ioc.IOCContext;
+import com.emily.infrastructure.core.trace.TraceContextProperties;
 
 /**
  * @program: spring-parent

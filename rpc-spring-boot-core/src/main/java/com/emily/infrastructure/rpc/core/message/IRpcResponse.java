@@ -1,7 +1,7 @@
 package com.emily.infrastructure.rpc.core.message;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.core.context.TraceContextHolder;
+import com.emily.infrastructure.core.trace.context.TraceContextHolder;
 
 import java.io.Serializable;
 

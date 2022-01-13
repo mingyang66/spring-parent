@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context;
+package com.emily.infrastructure.core.trace.context;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.emily.infrastructure.common.constant.HeaderInfo;

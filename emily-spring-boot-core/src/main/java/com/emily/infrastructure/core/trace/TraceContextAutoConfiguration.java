@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context.config;
+package com.emily.infrastructure.core.trace;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;

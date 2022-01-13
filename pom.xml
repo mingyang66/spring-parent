@@ -42,7 +42,7 @@
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
         <spring.cloud.version>3.1.0</spring.cloud.version>
-        <spring.mybatis.version>2.2.0</spring.mybatis.version>
+        <spring.mybatis.version>2.2.1</spring.mybatis.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.io.version>2.7</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>

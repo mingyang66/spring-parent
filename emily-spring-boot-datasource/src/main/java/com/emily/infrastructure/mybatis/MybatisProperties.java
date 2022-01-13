@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = MybatisProperties.PREFIX)
 public class MybatisProperties {
     /**
-     * mybatis前缀
+     * 前缀
      */
     public static final String PREFIX = "spring.emily.mybatis";
     /**

@@ -35,6 +35,9 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
     public static final String API_LOG_NORMAL_BEAN_NAME = "requestLoggerNormalPointCutAdvice";
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
+     * @target()可以标注在目标类对象上，但是不可以标注在接口上
+     * @within()可以标注在目标类对象上、也可以标注在接口上
+     * @annotation()可以标注在目标方法上
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join("(@target(org.springframework.stereotype.Controller) ",
             "or @target(org.springframework.web.bind.annotation.RestController)) ",

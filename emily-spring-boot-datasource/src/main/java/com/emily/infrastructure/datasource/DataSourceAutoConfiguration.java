@@ -56,6 +56,7 @@ public class DataSourceAutoConfiguration implements InitializingBean, Disposable
      *
      * @target()可以标注在目标类对象上，但是不可以标注在接口上
      * @within()可以标注在目标类对象上、也可以标注在接口上
+     * @annotation()可以标注在目标方法上
      */
     private static final String DEFAULT_POINT_CUT = StringUtils.join("@within(com.emily.infrastructure.datasource.annotation.TargetDataSource) ",
             "or @annotation(com.emily.infrastructure.datasource.annotation.TargetDataSource)");

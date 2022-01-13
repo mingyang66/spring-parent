@@ -18,7 +18,7 @@ public class DataSourceProperties {
      */
     public static final String PREFIX = "spring.emily.datasource";
     /**
-     * 默认配置
+     * 默认数据源配置，默认：default
      */
     public static final String DEFAULT_CONFIG = "default";
     /**
@@ -26,7 +26,7 @@ public class DataSourceProperties {
      */
     private boolean enabled = true;
     /**
-     * 默认配置
+     * 默认数据源配置，默认：default
      */
     private String defaultConfig = DEFAULT_CONFIG;
     /**

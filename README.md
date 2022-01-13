@@ -132,6 +132,21 @@ spring.emily.web.cors.exposed-headers=
 #设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
 spring.emily.web.cors.max-age=1800
 
+#是否开启数据源组件, 默认：true
+spring.emily.datasource.enabled=true
+#默认数据源配置，默认：default
+spring.emily.datasource.default-config=default
+#驱动名称
+spring.emily.datasource.config.default.driver-class-name=oracle.jdbc.OracleDriver
+#配置url
+spring.emily.datasource.config.default.url=jdbc:oracle:thin:@1x.1x.8x.1x:1521:xxx
+#用户名
+spring.emily.datasource.config.default.username=xx
+#用户密码
+spring.emily.datasource.config.default.password=xx
+#数据库连接池类型
+spring.emily.datasource.config.default.db-type=com.alibaba.druid.pool.DruidDataSource
+
 #是否开启mybatis拦截组件, 默认：true
 spring.emily.mybatis.enabled=true
 #是否还要检查超类或者接口，默认：false

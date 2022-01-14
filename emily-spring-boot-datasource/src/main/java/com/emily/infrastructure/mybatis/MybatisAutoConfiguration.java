@@ -2,7 +2,7 @@ package com.emily.infrastructure.mybatis;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.emily.infrastructure.mybatis.advisor.MybatisAdvisor;
+import com.emily.infrastructure.mybatis.advisor.MybatisAnnotationAdvisor;
 import com.emily.infrastructure.mybatis.interceptor.MybatisMethodInterceptor;
 import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor mybatisLogAdvisor(MybatisProperties properties) {
-        MybatisAdvisor advisor = new MybatisAdvisor(new MybatisMethodInterceptor());
+        MybatisAnnotationAdvisor advisor = new MybatisAnnotationAdvisor(new MybatisMethodInterceptor());
         advisor.setPointcut(new AnnotationMatchingPointcut(Mapper.class, properties.isCheckInherited()));
         advisor.setOrder(AopOrderInfo.MYBATIS);
         return advisor;

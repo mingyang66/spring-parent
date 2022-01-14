@@ -14,13 +14,13 @@ import org.springframework.beans.factory.BeanFactoryAware;
  * @author: Emily
  * @create: 2022/01/12
  */
-public class MybatisAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
+public class MybatisAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
     private final Advice advice;
 
     private Pointcut pointcut;
 
-    public MybatisAdvisor(MybatisMethodInterceptor interceptor) {
+    public MybatisAnnotationAdvisor(MybatisMethodInterceptor interceptor) {
         this.advice = interceptor;
         this.pointcut = getPointcut();
     }

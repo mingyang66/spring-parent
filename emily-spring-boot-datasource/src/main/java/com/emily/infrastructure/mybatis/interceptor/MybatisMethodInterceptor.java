@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
+import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.trace.context.TraceContextHolder;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -38,13 +39,15 @@ public class MybatisMethodInterceptor implements MethodInterceptor {
             throw ex;
         } finally {
             BaseLogger baseLogger = new BaseLogger();
+            baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
             baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
+            baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
+            baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
             baseLogger.setRequestParams(getInParam(invocation));
             baseLogger.setBody(response);
             baseLogger.setUrl(invocation.getMethod().getDeclaringClass().getCanonicalName() + "." + invocation.getMethod().getName());
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
             baseLogger.setTime(System.currentTimeMillis() - start);
-            baseLogger.setMethod("DB");
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });

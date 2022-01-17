@@ -1,12 +1,16 @@
 package com.emily.infrastructure.mybatis;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
+import com.emily.infrastructure.core.aop.pointcut.AnnotationMethodPointcut;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.emily.infrastructure.mybatis.advisor.MybatisAnnotationAdvisor;
 import com.emily.infrastructure.mybatis.interceptor.MybatisMethodInterceptor;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
+import org.springframework.aop.Pointcut;
+import org.springframework.aop.support.ComposablePointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
@@ -36,15 +40,25 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
     private static final Logger logger = LoggerFactory.getLogger(MybatisAutoConfiguration.class);
 
     /**
-     * Mybatis请求日志拦截切面
-     *
-     * @return
+     * Mybatis请求日志拦截切面增强类
+     * checkInherited:是否验证父类或接口集成的注解，如果注解用@Inherited标注则自动集成
+     * @return 组合切面增强类
+     * @since 4.0.5
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor mybatisLogAdvisor(MybatisProperties properties) {
-        MybatisAnnotationAdvisor advisor = new MybatisAnnotationAdvisor(new MybatisMethodInterceptor());
-        advisor.setPointcut(new AnnotationMatchingPointcut(Mapper.class, properties.isCheckInherited()));
+        //限定类级别的切点
+        Pointcut cpc = new AnnotationMatchingPointcut(Mapper.class, properties.isCheckClassInherited());
+        //限定方法级别的切点
+        Pointcut mpc = new AnnotationMethodPointcut(Mapper.class, properties.isCheckMethodInherited());
+        //组合切面(并集)，一、ClassFilter只要有一个符合条件就返回true，二、
+        Pointcut pointcut = new ComposablePointcut(cpc).union(mpc);
+        //mybatis日志拦截切面
+        MethodInterceptor interceptor = new MybatisMethodInterceptor();
+        //切面增强类
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(interceptor, pointcut);
+        //切面优先级顺序
         advisor.setOrder(AopOrderInfo.MYBATIS);
         return advisor;
     }

@@ -48,8 +48,6 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
-        //请求方法
-        baseLogger.setMethod(request.getMethodValue());
         //请求参数
         baseLogger.setRequestParams(RequestHelper.getParameterMap(body));
         try {

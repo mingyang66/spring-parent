@@ -34,10 +34,6 @@ public class BaseLogger implements Serializable {
      */
     private String url;
     /**
-     * 请求Method
-     */
-    private String method;
-    /**
      * 请求参数
      */
     private Map<String, Object> requestParams;
@@ -104,14 +100,6 @@ public class BaseLogger implements Serializable {
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
     }
 
     public String getUrl() {

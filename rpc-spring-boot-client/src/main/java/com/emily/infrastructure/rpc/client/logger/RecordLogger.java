@@ -31,7 +31,6 @@ public class RecordLogger {
         BaseLogger baseLogger = new BaseLogger();
         baseLogger.setTraceId(request.getTraceId());
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-        baseLogger.setMethod("RPC");
         baseLogger.setUrl(MessageFormat.format("{0}.{1}", request.getClassName(), request.getMethodName()));
         baseLogger.setRequestParams(request.getParams());
         baseLogger.setBody(response);

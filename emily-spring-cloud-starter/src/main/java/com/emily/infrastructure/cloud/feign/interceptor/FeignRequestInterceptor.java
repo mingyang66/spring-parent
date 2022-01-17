@@ -41,8 +41,6 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //请求url
         baseLogger.setUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
-        //请求方法
-        baseLogger.setMethod(template.method());
         //请求参数
         baseLogger.setRequestParams(transToMap(template));
         // 将日志信息放入请求对象

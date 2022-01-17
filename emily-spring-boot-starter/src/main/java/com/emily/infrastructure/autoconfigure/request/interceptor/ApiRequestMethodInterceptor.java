@@ -46,8 +46,6 @@ public class ApiRequestMethodInterceptor implements ApiRequestCustomizer {
             baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-            //控制器方法名
-            baseLogger.setMethod(invocation.getMethod().getName());
             //请求url
             baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数

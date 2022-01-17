@@ -18,9 +18,13 @@ public class MybatisProperties {
      */
     private boolean enabled = true;
     /**
-     * 是否还要检查超类或者接口，默认：false
+     * 子类是否集成超类或接口上标记的注解，默认：true
      */
-    private boolean checkInherited = false;
+    private boolean checkClassInherited = true;
+    /**
+     * 子类中的方法是否继承父类或接口中继承方法的注解，默认：false
+     */
+    private boolean checkMethodInherited = false;
 
     public boolean isEnabled() {
         return enabled;
@@ -30,11 +34,19 @@ public class MybatisProperties {
         this.enabled = enabled;
     }
 
-    public boolean isCheckInherited() {
-        return checkInherited;
+    public boolean isCheckClassInherited() {
+        return checkClassInherited;
     }
 
-    public void setCheckInherited(boolean checkInherited) {
-        this.checkInherited = checkInherited;
+    public void setCheckClassInherited(boolean checkClassInherited) {
+        this.checkClassInherited = checkClassInherited;
+    }
+
+    public boolean isCheckMethodInherited() {
+        return checkMethodInherited;
+    }
+
+    public void setCheckMethodInherited(boolean checkMethodInherited) {
+        this.checkMethodInherited = checkMethodInherited;
     }
 }

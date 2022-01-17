@@ -1,7 +1,7 @@
-package com.emily.infrastructure.mybatis.advisor;
+package com.emily.infrastructure.core.aop.advisor;
 
-import com.emily.infrastructure.mybatis.interceptor.MybatisMethodInterceptor;
 import org.aopalliance.aop.Advice;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
 import org.springframework.beans.BeansException;
@@ -10,19 +10,19 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @program: spring-parent
- * @description: Mybatis切面
+ * @description: 切面增强类，增强类=切点+切面（拦截器advice）
  * @author: Emily
  * @create: 2022/01/12
  */
-public class MybatisAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
+public class AnnotationPointcutAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
     private final Advice advice;
 
-    private Pointcut pointcut;
+    private final Pointcut pointcut;
 
-    public MybatisAnnotationAdvisor(MybatisMethodInterceptor interceptor) {
+    public AnnotationPointcutAdvisor(MethodInterceptor interceptor, Pointcut pointcut) {
         this.advice = interceptor;
-        this.pointcut = getPointcut();
+        this.pointcut = pointcut;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class MybatisAnnotationAdvisor extends AbstractPointcutAdvisor implements
         return this.advice;
     }
 
-    public void setPointcut(Pointcut pointcut) {
-        this.pointcut = pointcut;
-    }
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-
+        if (this.advice instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) this.advice).setBeanFactory(beanFactory);
+        }
     }
+
 }

@@ -9,6 +9,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
@@ -20,10 +21,10 @@ import java.text.MessageFormat;
  */
 public class DataSourceMethodInterceptor implements DataSourceCustomizer {
 
-    private DataSourceProperties dataSourceProperties;
+    private DataSourceProperties properties;
 
-    public DataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
-        this.dataSourceProperties = dataSourceProperties;
+    public DataSourceMethodInterceptor(DataSourceProperties properties) {
+        this.properties = properties;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class DataSourceMethodInterceptor implements DataSourceCustomizer {
         //获取注解标注的数据源
         String dataSource = getTargetDataSource(method);
         //判断当前的数据源是否已经被加载进入到系统当中去
-        if (!dataSourceProperties.getConfig().containsKey(dataSource)) {
+        if (!properties.getConfig().containsKey(dataSource)) {
             throw new DataSourceNotFoundException(MessageFormat.format("数据源配置【{0}】不存在", dataSource));
         }
         Logger logger = LoggerFactory.getLogger(method.getDeclaringClass());
@@ -59,18 +60,28 @@ public class DataSourceMethodInterceptor implements DataSourceCustomizer {
     /**
      * 获取目标数据源标识
      *
-     * @param method
-     * @return
+     * @param method 注解标注的方法对象
+     * @return 数据源唯一标识
+     * @since(4.0.5)
      */
     @Override
     public String getTargetDataSource(Method method) {
         //数据源切换开始
         TargetDataSource targetDataSource;
         if (method.isAnnotationPresent(TargetDataSource.class)) {
+            //获取当前类的方法上标注的注解对象
             targetDataSource = method.getAnnotation(TargetDataSource.class);
         } else {
-            //  method.getDeclaringClass() 返回方法声明所在类或接口的Class对象
+            //返回方法声明所在类或接口的Class对象
             targetDataSource = method.getDeclaringClass().getAnnotation(TargetDataSource.class);
+        }
+        if (targetDataSource == null && this.properties.isCheckInherited()) {
+            //返回当前类或父类或接口方法上标注的注解对象
+            targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method, TargetDataSource.class);
+        }
+        if (targetDataSource == null && this.properties.isCheckInherited()) {
+            //返回当前类或父类或接口上标注的注解对象
+            targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
         }
         //获取注解标注的数据源
         return targetDataSource.value();

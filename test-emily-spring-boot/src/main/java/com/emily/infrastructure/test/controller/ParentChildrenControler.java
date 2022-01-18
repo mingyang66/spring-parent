@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @program: spring-parent
  * @description: 父子类接口拦截验证
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2022/01/14
  */
 @RestController

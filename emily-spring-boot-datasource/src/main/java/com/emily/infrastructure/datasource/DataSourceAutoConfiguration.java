@@ -5,17 +5,19 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
+import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
 import com.emily.infrastructure.logger.LoggerFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.aspectj.AspectJExpressionPointcut;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.Pointcut;
+import org.springframework.aop.support.ComposablePointcut;
+import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -53,35 +55,28 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
 
-    /**
-     * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
-     *
-     * @target()可以标注在目标类对象上，但是不可以标注在接口上
-     * @within()可以标注在目标类对象上、也可以标注在接口上
-     * @annotation()可以标注在目标方法上
-     */
-    private static final String DEFAULT_POINT_CUT = StringUtils.join("@within(com.emily.infrastructure.datasource.annotation.TargetDataSource) ",
-            "or @annotation(com.emily.infrastructure.datasource.annotation.TargetDataSource)");
 
     /**
-     * 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
-     * 切入点表达式：
-     * 第一个*号：表示返回类型，*号表示所有的类型
-     * 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
-     * 第二个*号：表示类名，*号表示所有的类名
-     * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
+     * 数据源切面增强类，支持@TargetDataSource注解标注在父类、接口、父类或接口的方法上都可以拦截到
+     *
+     * @param dataSourceCustomizers 切面|拦截器
+     * @param properties            属性配置
+     * @return 切面增强类
+     * @since(4.0.6)
      */
     @Bean
     @ConditionalOnBean(DataSourceCustomizer.class)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers) {
-        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        //获取切面表达式
-        pointcut.setExpression(DEFAULT_POINT_CUT);
-        // 配置增强类advisor
-        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
-        advisor.setPointcut(pointcut);
-        advisor.setAdvice(dataSourceCustomizers.orderedStream().findFirst().get());
+    public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers, DataSourceProperties properties) {
+        //限定类级别的切点
+        Pointcut cpc = new AnnotationMatchingPointcut(TargetDataSource.class, properties.isCheckInherited());
+        //限定方法级别的切点
+        Pointcut mpc = new AnnotationMatchingPointcut(null, TargetDataSource.class, properties.isCheckInherited());
+        //组合切面(并集)，即只要有一个切点的条件符合，则就拦截
+        Pointcut pointcut = new ComposablePointcut(cpc).union(mpc);
+        //切面增强类
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(dataSourceCustomizers.orderedStream().findFirst().get(), pointcut);
+        //切面优先级顺序
         advisor.setOrder(AopOrderInfo.DATASOURCE);
         return advisor;
     }
@@ -115,6 +110,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
 
     /**
      * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
+     *
      * @param beanFactory
      * @throws BeansException
      */

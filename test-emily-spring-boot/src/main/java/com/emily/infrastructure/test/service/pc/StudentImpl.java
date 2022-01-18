@@ -3,7 +3,7 @@ package com.emily.infrastructure.test.service.pc;
 /**
  * @program: spring-parent
  * @description: 学生实现类
- * @author: 姚明洋
+ * @author: Emily
  * @create: 2022/01/14
  */
 public class StudentImpl implements Student{

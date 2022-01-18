@@ -42,6 +42,7 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
     /**
      * Mybatis请求日志拦截切面增强类
      * checkInherited:是否验证父类或接口集成的注解，如果注解用@Inherited标注则自动集成
+     *
      * @return 组合切面增强类
      * @since 4.0.5
      */
@@ -49,10 +50,10 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor mybatisLogAdvisor(MybatisProperties properties) {
         //限定类级别的切点
-        Pointcut cpc = new AnnotationMatchingPointcut(Mapper.class, properties.isCheckClassInherited());
+        Pointcut cpc = new AnnotationMatchingPointcut(Mapper.class, properties.isCheckInherited());
         //限定方法级别的切点
-        Pointcut mpc = new AnnotationMethodPointcut(Mapper.class, properties.isCheckMethodInherited());
-        //组合切面(并集)，一、ClassFilter只要有一个符合条件就返回true，二、
+        Pointcut mpc = new AnnotationMatchingPointcut(null, Mapper.class, properties.isCheckInherited());
+        //组合切面(并集)，即只要有一个切点的条件符合，则就拦截
         Pointcut pointcut = new ComposablePointcut(cpc).union(mpc);
         //mybatis日志拦截切面
         MethodInterceptor interceptor = new MybatisMethodInterceptor();

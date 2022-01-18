@@ -30,6 +30,10 @@ public class DataSourceProperties {
      */
     private String defaultConfig = DEFAULT_CONFIG;
     /**
+     * 是否拦截超类或者接口中的方法，默认：true
+     */
+    private boolean checkInherited = true;
+    /**
      * 多数据源配置
      */
     private Map<String, DruidDataSource> config = new HashMap<>();
@@ -48,6 +52,14 @@ public class DataSourceProperties {
 
     public void setDefaultConfig(String defaultConfig) {
         this.defaultConfig = defaultConfig;
+    }
+
+    public boolean isCheckInherited() {
+        return checkInherited;
+    }
+
+    public void setCheckInherited(boolean checkInherited) {
+        this.checkInherited = checkInherited;
     }
 
     public Map<String, DruidDataSource> getConfig() {

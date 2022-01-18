@@ -7,6 +7,8 @@ import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
 import com.emily.infrastructure.test.po.SqlServer;
+import com.emily.infrastructure.test.service.JobService;
+import com.emily.infrastructure.test.service.JobServiceImpl;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.NodeService;
 import com.google.common.collect.Lists;
@@ -48,9 +50,12 @@ public class DataSourceController {
     private NodeService nodeService;
     @Autowired
     private ItemMapper itemMapper;
+    @Autowired
+    private JobService jobService;
 
     /**
      * foreach 模式批量插入数据库
+     *
      * @param num
      * @return
      */
@@ -71,6 +76,7 @@ public class DataSourceController {
 
     /**
      * batch模式批量插入数据库
+     *
      * @param num
      * @return
      */
@@ -88,7 +94,7 @@ public class DataSourceController {
                 item.setLockName("a" + i);
                 item.setScheName("B" + i);
                 itemMapper.insertItem(item.getScheName(), item.getLockName());
-                if(i%1000==0){
+                if (i % 1000 == 0) {
                     // 手动提交，提交后无法回滚
                     sqlSession.commit();
                 }
@@ -108,6 +114,7 @@ public class DataSourceController {
 
     /**
      * 逐条插入数据库
+     *
      * @param num
      * @return
      */
@@ -126,9 +133,13 @@ public class DataSourceController {
 
     @GetMapping("getJob")
     public Job getJob() {
-        //LoggerFactory.module("/a/b/c", "info", "asdfffffffff");
-        //LoggerFactory.module("/a/b/c", "info1", "asdfffffffff");
         Job job = jobMapper.findJob();
+        return job;
+    }
+
+    @GetMapping("findJob")
+    public Job findJob() {
+        Job job = jobService.findJob();
         return job;
     }
 
@@ -162,12 +173,12 @@ public class DataSourceController {
     private ChildMapper childMapper;
 
     @GetMapping("getParent")
-    public Job getParent(){
-       return childMapper.get();
+    public Job getParent() {
+        return childMapper.get();
     }
 
     @GetMapping("getChild")
-    public Job getChild(){
+    public Job getChild() {
         return childMapper.getJob();
     }
 }

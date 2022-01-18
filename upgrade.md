@@ -2,7 +2,7 @@
 -----
 基础库发布4.0.7
 Bug Fixes
-1. 
+1. 优化数据源注解@TargetDataSource注解说明
 -----
 基础库发布4.0.6
 Bug Fixes

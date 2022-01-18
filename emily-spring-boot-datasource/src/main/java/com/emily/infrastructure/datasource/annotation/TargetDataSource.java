@@ -10,6 +10,7 @@ import java.lang.annotation.*;
  * @Inherited 注解允许标注的注解标注在类上时其子类可以继承注解，如果标注在非类上在继承作用无效
  * @Author Emily
  * @Version: 1.0
+ * @since(4.0.6)
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

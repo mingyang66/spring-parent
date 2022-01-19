@@ -29,6 +29,7 @@ public class DataSourceMethodInterceptor implements DataSourceCustomizer {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        //获取方法对象
         Method method = invocation.getMethod();
         //获取注解标注的数据源
         String dataSource = getTargetDataSource(method);

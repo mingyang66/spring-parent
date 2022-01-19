@@ -13,6 +13,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class LogbackAsyncAppender {
     /**
+     * 前缀
+     */
+    public static final String APPENDER_PREFIX = "ASYNC-";
+    /**
      * logger上下文
      */
     private LoggerContext loggerContext;
@@ -40,7 +44,7 @@ public class LogbackAsyncAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(this.getLoggerContext());
         //appender的name属性
-        appender.setName(StringUtils.join("ASYNC-", ref.getName()));
+        appender.setName(StringUtils.join(APPENDER_PREFIX, ref.getName()));
         //队列的最大容量，默认为 256
         appender.setQueueSize(this.getProperties().getAppender().getAsync().getQueueSize());
         //默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0

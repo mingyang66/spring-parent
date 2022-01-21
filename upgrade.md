@@ -4,6 +4,7 @@
 Bug Fixes
 1. 优化数据源注解@TargetDataSource注解说明
 2. 升级springboot到2.6.3版本
+3. netty升级到4.1.73.Final
 -----
 基础库发布4.0.6
 Bug Fixes

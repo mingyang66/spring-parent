@@ -54,7 +54,7 @@
         <jaxb.api.version>2.3.1</jaxb.api.version>
         <feign.httpclient.version>11.6</feign.httpclient.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <netty.version>4.1.70.Final</netty.version>
+        <netty.version>4.1.73.Final</netty.version>
         <protobuf.version>3.19.2</protobuf.version>
     </properties>
 

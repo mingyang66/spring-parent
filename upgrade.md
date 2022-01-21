@@ -3,6 +3,7 @@
 基础库发布4.0.7
 Bug Fixes
 1. 优化数据源注解@TargetDataSource注解说明
+2. 升级springboot到2.6.3版本
 -----
 基础库发布4.0.6
 Bug Fixes

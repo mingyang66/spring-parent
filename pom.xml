@@ -6,25 +6,26 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
+        <version>2.6.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <!--模块聚合-->
     <modules>
         <module>emily-spring-boot-common</module>
         <module>emily-spring-boot-logback</module>
         <module>emily-spring-boot-core</module>
-        <module>emily-spring-boot-starter</module>
-        <module>emily-spring-boot-datasource</module>
-        <module>emily-spring-cloud-starter</module>
-        <module>emily-spring-boot-actuator</module>
         <module>emily-spring-boot-redis</module>
+        <module>emily-spring-boot-datasource</module>
+        <module>emily-spring-boot-actuator</module>
+        <module>emily-spring-boot-jwt</module>
+        <module>emily-spring-boot-log4j2</module>
+        <module>emily-spring-boot-starter</module>
+        <module>emily-spring-cloud-starter</module>
         <module>rpc-spring-boot-core</module>
         <module>rpc-spring-boot-server</module>
         <module>rpc-spring-boot-client</module>
         <module>test-emily-spring-boot</module>
         <module>test-emily-spring-cloud</module>
-        <module>emily-spring-boot-jwt</module>
-        <module>emily-spring-boot-log4j2</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
     </modules>

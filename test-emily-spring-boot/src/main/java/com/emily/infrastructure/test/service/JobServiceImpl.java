@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.service;
 
-import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.mapper.JobMapper;
 import com.emily.infrastructure.test.po.Job;
 import org.springframework.beans.factory.annotation.Autowired;

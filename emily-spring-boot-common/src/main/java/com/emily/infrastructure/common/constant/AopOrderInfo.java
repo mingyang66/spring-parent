@@ -17,7 +17,7 @@ public class AopOrderInfo {
     /**
      * feign正常日志
      */
-    public static final int FEIGN_LOG_NORMAL = 800;
+    public static final int FEIGN = 800;
     /**
      * Mybatis日志漆面
      */

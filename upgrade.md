@@ -5,6 +5,8 @@ Bug Fixes
 1. 优化数据源注解@TargetDataSource注解说明
 2. 升级springboot到2.6.3版本
 3. netty升级到4.1.73.Final
+4. 删除配置类EmilyBeanFactoryPostProcessorAutoConfiguration
+5. Feign拦截日志自动化配置废弃掉AspectJ表达式方式，使用AnnotationMatchingPointcut类实现
 -----
 基础库发布4.0.6
 Bug Fixes

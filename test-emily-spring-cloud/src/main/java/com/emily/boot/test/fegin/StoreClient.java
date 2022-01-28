@@ -5,9 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -20,7 +18,7 @@ import java.util.Map;
 //@FeignClient(name = "consul-demo", contextId = "store", primary = true)
 public interface StoreClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/innerApi/accountNumber/getMainFundAccountBy/{accountCode}")
+    @GetMapping(value = "/innerApi/accountNumber/getMainFundAccountBy/{accountCode}")
     BaseResponse<Object> stores(@PathVariable String accountCode, String password);
 
     @RequestMapping(method = RequestMethod.POST, value = "/insertStores")

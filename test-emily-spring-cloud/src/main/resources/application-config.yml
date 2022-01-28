@@ -1,5 +1,5 @@
 spring:
-  emily:
+  spring:
     logback:
       level: info
     cloud:

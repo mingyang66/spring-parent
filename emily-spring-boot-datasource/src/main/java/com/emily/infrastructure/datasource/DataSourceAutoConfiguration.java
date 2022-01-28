@@ -26,7 +26,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -65,7 +64,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      * @since(4.0.6)
      */
     @Bean
-    @ConditionalOnBean(DataSourceCustomizer.class)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers, DataSourceProperties properties) {
         //限定类级别的切点

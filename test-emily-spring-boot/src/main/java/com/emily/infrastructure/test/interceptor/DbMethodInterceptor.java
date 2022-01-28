@@ -17,9 +17,9 @@ import java.lang.reflect.Method;
  * @author: Emily
  * @create: 2021/11/23
  */
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@Component
-@Order(value = 9090)
+//@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+//@Component
+//@Order(value = 9090)
 public class DbMethodInterceptor implements DataSourceCustomizer {
     @Nullable
     @Override

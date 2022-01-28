@@ -7,6 +7,8 @@ Bug Fixes
 3. netty升级到4.1.73.Final
 4. 删除配置类EmilyBeanFactoryPostProcessorAutoConfiguration
 5. Feign拦截日志自动化配置废弃掉AspectJ表达式方式，使用AnnotationMatchingPointcut类实现
+6. 自动化配置中 @ConditionalOnBean(xx.class)注解使用去除，解决不可加载问题
+
 -----
 基础库发布4.0.6
 Bug Fixes

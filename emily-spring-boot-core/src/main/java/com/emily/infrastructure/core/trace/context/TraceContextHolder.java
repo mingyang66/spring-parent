@@ -44,10 +44,10 @@ public class TraceContextHolder {
     }
 
     /**
-     * 非容器上下文移除
+     * 非容器上下文移除，如果为true,则不移除，否则移除
      */
-    public static void removeNoServletContext() {
-        if (!RequestUtils.isServletContext()) {
+    public static void remove(boolean servletContext) {
+        if (!servletContext) {
             remove();
         }
     }
@@ -77,19 +77,24 @@ public class TraceContextHolder {
          * 服务端IP
          */
         private String serverIp;
+        /**
+         * 是否servlet容器上下文，默认：false
+         */
+        private boolean servletContext;
 
 
         public RequestHolder() {
+            this.startTime = System.currentTimeMillis();
+            this.systemNumber = SystemNumberHelper.getSystemNumber();
             if (RequestUtils.isServletContext()) {
                 this.traceId = RequestUtils.getRequest().getHeader(HeaderInfo.TRACE_ID);
                 this.clientIp = RequestUtils.getClientIp();
                 this.serverIp = RequestUtils.getServerIp();
+                this.servletContext = true;
             }
             if (Objects.isNull(traceId)) {
                 this.traceId = UUID.randomUUID().toString();
             }
-            this.startTime = System.currentTimeMillis();
-            this.systemNumber = SystemNumberHelper.getSystemNumber();
         }
 
         public String getTraceId() {
@@ -101,9 +106,6 @@ public class TraceContextHolder {
         }
 
         public Long getStartTime() {
-            if (Objects.isNull(startTime)) {
-                startTime = System.currentTimeMillis();
-            }
             return startTime;
         }
 
@@ -141,6 +143,14 @@ public class TraceContextHolder {
 
         public void setLanguage(String language) {
             this.language = language;
+        }
+
+        public boolean isServletContext() {
+            return servletContext;
+        }
+
+        public void setServletContext(boolean servletContext) {
+            this.servletContext = servletContext;
         }
     }
 }

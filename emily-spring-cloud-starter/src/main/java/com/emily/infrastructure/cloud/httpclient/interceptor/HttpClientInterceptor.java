@@ -72,7 +72,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            TraceContextHolder.removeNoServletContext();
+            TraceContextHolder.remove(TraceContextHolder.get().isServletContext());
         }
 
     }

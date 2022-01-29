@@ -69,7 +69,7 @@ public class FeignLoggerMethodInterceptor implements MethodInterceptor {
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.remove();
             //非servlet上下文移除数据
-            TraceContextHolder.removeNoServletContext();
+            TraceContextHolder.remove(TraceContextHolder.get().isServletContext());
         }
     }
 

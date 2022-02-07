@@ -15,6 +15,10 @@ import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
  * @create: 2020/08/04
  */
 public class LogbackConsoleAppenderImpl extends AbstractAppender {
+    /**
+     * 控制台appender name
+     */
+    public static final String CONSOLE_NAME = "CONSOLE";
 
     public LogbackConsoleAppenderImpl(LoggerContext loggerContext, LogbackProperties properties) {
         super(loggerContext, properties);
@@ -58,6 +62,6 @@ public class LogbackConsoleAppenderImpl extends AbstractAppender {
 
     @Override
     protected String getAppenderName(Level level) {
-        return "console";
+        return CONSOLE_NAME;
     }
 }

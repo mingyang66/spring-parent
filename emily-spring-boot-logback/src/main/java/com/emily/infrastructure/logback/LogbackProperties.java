@@ -16,9 +16,9 @@ public class LogbackProperties {
      */
     public static final String PREFIX = "spring.emily.logback";
     /**
-     * 是否开启日志组件，默认：false
+     * 是否开启日志组件，默认：true
      */
-    private boolean enabled;
+    private boolean enabled = true;
     /**
      * 基础根日志
      */
@@ -93,6 +93,10 @@ public class LogbackProperties {
          * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
          */
         private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+        /**
+         * 是否将日志信息输出到控制台，默认：true
+         */
+        private boolean console = true;
 
         public LevelType getLevel() {
             return level;
@@ -116,6 +120,14 @@ public class LogbackProperties {
 
         public void setFilePath(String filePath) {
             this.filePath = filePath;
+        }
+
+        public boolean isConsole() {
+            return console;
+        }
+
+        public void setConsole(boolean console) {
+            this.console = console;
         }
     }
 

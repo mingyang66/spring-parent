@@ -1,7 +1,9 @@
 package com.emily.boot.test.controller;
 
+import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -46,4 +48,9 @@ public class LogbackController {
         return "success";
     }
 
+    @GetMapping("get")
+    public String get(){
+        Environment environment = IOCContext.getApplicationContext().getEnvironment();
+        return environment.getProperty("spring.emily.logback.enabled");
+    }
 }

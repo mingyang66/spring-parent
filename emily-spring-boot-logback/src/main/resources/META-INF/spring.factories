@@ -4,3 +4,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
   com.emily.infrastructure.logback.initializer.LogbackApplicationContextInitializer
+
+# Application Listeners
+#org.springframework.context.ApplicationListener=\
+#  com.emily.infrastructure.logback.listener.LogbackApplicationListener

@@ -9,6 +9,7 @@ Bug Fixes
 5. Feign拦截日志自动化配置废弃掉AspectJ表达式方式，使用AnnotationMatchingPointcut类实现
 6. 自动化配置中 @ConditionalOnBean(xx.class)注解使用去除，解决不可加载问题
 7. 全链路日志追踪在多线程池化时会重新创建事务编号问题解决
+8.日志组件新增监听器类LogbackApplicationListener，将日志组件的初始化提前到ApplicationEnvironmentPreparedEvent事件发生时，即程序启动时最先加载日志组件，防止系统日志打印丢失
 
 -----
 基础库发布4.0.6

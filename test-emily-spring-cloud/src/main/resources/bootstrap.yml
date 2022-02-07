@@ -5,7 +5,7 @@ spring:
     consul:
       config:
         # 配置中心开关
-        enabled: false
+        enabled: true
         # 前缀，默认：config
         prefixes: @project.name@
         # 默认上下文，默认：application
@@ -19,7 +19,7 @@ spring:
           # 等待（或阻塞）监视查询的秒数，默认：55秒，需要小于60
           wait-time: 55
         # 配置文件格式
-        format: yaml
+        format: properties
         # consul配置key
         data-key: data
         # 分割符，默认：","

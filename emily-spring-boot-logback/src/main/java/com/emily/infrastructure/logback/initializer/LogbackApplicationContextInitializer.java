@@ -10,19 +10,29 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
 
 /**
- * @author Emily
- * @program: spring-parent
- * @description: Logback日志组件容器上下文初始化
- * @create: 2020/09/22
+ * @Description: Logback日志组件初始化类
+ * @Author: Emily
+ * @create: 2022/2/8
+ * @since 4.0.7
  */
 public class LogbackApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     /**
      * 初始化次数
      */
     private static int INITIAL_TIMES = 0;
+    /**
+     * cloud微服务最大初始化次数
+     */
+    private static int MAX_INITIAL_TIMES = 2;
 
+    /**
+     * 初始化优先级低于org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration类
+     *
+     * @return 优先级
+     */
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 11;
@@ -98,13 +108,26 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
         //是否将模块日志输出到控制台，默认：false
         properties.getModule().setConsole(environment.getProperty("spring.emily.logback.module.console", Boolean.class, properties.getModule().isConsole()));
 
-        //判定微服务是否开启
-        boolean enabledCloud = PropertyUtils.bootstrapEnabled(environment);
-        /**
-         * 1.日志组件开启，微服务未开启
-         * 2.日志组件开启，微服务开启并且第二次初始化
-         */
-        if (properties.isEnabled() && (!enabledCloud || (enabledCloud && ++INITIAL_TIMES == 2))) {
+        //初始化日志组件
+        initContext(environment, properties);
+    }
+
+    /**
+     * 1.日志组件开启，微服务未开启 2.日志组件开启，微服务开启并且第二次初始化
+     */
+    private void initContext(Environment environment, LogbackProperties properties) {
+        // 1.日志组件开启，微服务未开启 2.日志组件开启，微服务开启并且第二次初始化
+        if (!properties.isEnabled()) {
+            return;
+        }
+        //非微服务初始化
+        if (!PropertyUtils.bootstrapEnabled(environment)) {
+            LoggerFactory.CONTEXT = new LogbackContext(properties);
+            LoggerFactory.CONTEXT.init();
+            return;
+        }
+        //微服务初始化
+        if (PropertyUtils.bootstrapEnabled(environment) && ++INITIAL_TIMES == MAX_INITIAL_TIMES) {
             LoggerFactory.CONTEXT = new LogbackContext(properties);
             LoggerFactory.CONTEXT.init();
         }

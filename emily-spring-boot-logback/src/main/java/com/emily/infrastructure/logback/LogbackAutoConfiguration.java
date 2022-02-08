@@ -1,6 +1,5 @@
 package com.emily.infrastructure.logback;
 
-import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
@@ -26,13 +24,6 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
 
     private static final Logger logger = LoggerFactory.getLogger(LogbackAutoConfiguration.class);
 
-    @Bean(initMethod = "init")
-    public LogbackContext logbackContext(LogbackProperties properties) {
-        if (LoggerFactory.CONTEXT == null) {
-            LoggerFactory.CONTEXT = new LogbackContext(properties);
-        }
-        return LoggerFactory.CONTEXT;
-    }
 
     @Override
     public void destroy() {

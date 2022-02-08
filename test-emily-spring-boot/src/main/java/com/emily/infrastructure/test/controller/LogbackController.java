@@ -1,10 +1,12 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.emily.infrastructure.test.po.Job;
 import org.slf4j.Logger;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: spring-parent
@@ -16,11 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("logback")
 public class LogbackController {
     private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
-    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class,"66/12/34", "test");
-    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class,"emily/test/demo");
-    private static final Logger groupLogger1 = LoggerFactory.getGroupLogger(ParamController.class,"emily/test/demo");
-    //private static final Logger logger1 = org.slf4j.LoggerFactory.getLogger("moduleOne");
-    //private static final Logger logger2 = org.slf4j.LoggerFactory.getLogger("moduleOne66666");
+    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class,"group/test", "test");
+    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class,"group/test1/demo");
     @GetMapping("debug")
     public String debug() {
         baseLogger.error("--------error");
@@ -28,10 +27,7 @@ public class LogbackController {
         baseLogger.debug("--------debug");
         baseLogger.warn("--------warn");
         baseLogger.trace("--------trace");
-       /* logger1.info("---------test--");
-        logger2.info("---------test2--");
-        logger1.error("3444444");
-        logger2.error("66666666");*/
+
         logger.error("211112122error");
         logger.debug("211112122debug");
         logger.info("211112122info");
@@ -42,21 +38,16 @@ public class LogbackController {
         groupLogger.info("+++++++++++==ttttttttttttt");
         groupLogger.warn("+++++++++++==ttttttttttttt");
         groupLogger.trace("+++++++++++==ttttttttttttt");
-        groupLogger1.error("+++++++++++==ttttttttttttt");
-        groupLogger1.debug("+++++++++++==ttttttttttttt");
-        groupLogger1.info("+++++++++++==ttttttttttttt");
-        groupLogger1.warn("+++++++++++==ttttttttttttt");
-        groupLogger1.trace("+++++++++++==ttttttttttttt");
 
-        LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").error("ni-----------------" + System.currentTimeMillis());
-        LoggerFactory.getModuleLogger(ParamController.class,"test1", "tt0").info("ni-----------------" + System.currentTimeMillis());
-        LoggerFactory.getModuleLogger(ParamController.class,"test1", "tt0").debug("ni-----------------" + System.currentTimeMillis());
+
+        LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").info("ni-----------------" + System.currentTimeMillis());
 
         return "success";
     }
 
-    @PostMapping("test")
-    public void test(@RequestBody Job job) {
-        System.out.println(JSONUtils.toJSONPrettyString(job));
+    @GetMapping("get")
+    public String get(){
+        Environment environment = IOCContext.getApplicationContext().getEnvironment();
+        return environment.getProperty("spring.emily.logback.enabled");
     }
 }

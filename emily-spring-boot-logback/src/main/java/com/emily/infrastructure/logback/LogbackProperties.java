@@ -87,7 +87,7 @@ public class LogbackProperties {
         /**
          * 基础日志文件路径，相对
          */
-        private String filePath;
+        private String filePath="base";
         /**
          * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
          * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n

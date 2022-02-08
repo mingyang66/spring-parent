@@ -1,10 +1,8 @@
 package com.emily.infrastructure.logger;
 
-import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import com.emily.infrastructure.logback.configuration.enumeration.LogbackType;
 import org.slf4j.Logger;
-import org.springframework.context.ApplicationContext;
 
 /**
  * @author Emily
@@ -14,17 +12,9 @@ import org.springframework.context.ApplicationContext;
  */
 public class LoggerFactory {
     /**
-     * 加锁对象
-     */
-    private static Object lock = new Object();
-    /**
      * Logger日志上下文
      */
     public static LogbackContext CONTEXT;
-    /**
-     * 容器上下文
-     */
-    public static ApplicationContext APPLICATION_CONTEXT;
 
     /**
      * 获取日志Logger对象
@@ -81,16 +71,6 @@ public class LoggerFactory {
      * 校验Logger上下文的有效性
      */
     private static void validLoggerContext() {
-        if (CONTEXT == null) {
-            synchronized (lock) {
-                String[] beanNamesForType = APPLICATION_CONTEXT.getBeanNamesForType(LogbackProperties.class);
-                if (beanNamesForType.length > 0) {
-                    CONTEXT = new LogbackContext(APPLICATION_CONTEXT.getBean(LogbackProperties.class));
-                } else {
-                    CONTEXT = new LogbackContext(new LogbackProperties());
-                }
-            }
-        }
         if (CONTEXT == null) {
             throw new RuntimeException("logback日志组件上下文未初始化");
         }

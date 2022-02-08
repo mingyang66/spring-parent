@@ -8,6 +8,7 @@ import org.springframework.util.ClassUtils;
  * @description: cloud微服务判定
  * @author: Emily
  * @create: 2022/02/08
+ * @since 4.0.7
  */
 public abstract class PropertyUtils {
     public static final String BOOTSTRAP_ENABLED_PROPERTY = "spring.cloud.bootstrap.enabled";

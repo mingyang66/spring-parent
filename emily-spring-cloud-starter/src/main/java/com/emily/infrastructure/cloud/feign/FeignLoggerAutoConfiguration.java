@@ -46,11 +46,11 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor feignAdvisor(FeignLoggerMethodInterceptor feignLoggerMethodInterceptor) {
+    public Advisor feignAdvisor(FeignLoggerMethodInterceptor interceptor) {
         //限定类|方法级别的切点
         Pointcut pointcut = new AnnotationMatchingPointcut(FeignClient.class, RequestMapping.class, true);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(feignLoggerMethodInterceptor, pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(interceptor, pointcut);
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderInfo.FEIGN);
         return advisor;

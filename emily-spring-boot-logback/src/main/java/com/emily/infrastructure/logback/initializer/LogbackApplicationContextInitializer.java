@@ -121,13 +121,13 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
             return;
         }
         //非微服务初始化
-        if (!PropertyUtils.bootstrapEnabled(environment)) {
+        if (!(PropertyUtils.bootstrapEnabled(environment) || PropertyUtils.useLegacyProcessing(environment))) {
             LoggerFactory.CONTEXT = new LogbackContext(properties);
             LoggerFactory.CONTEXT.init();
             return;
         }
         //微服务初始化
-        if (PropertyUtils.bootstrapEnabled(environment) && ++INITIAL_TIMES == MAX_INITIAL_TIMES) {
+        if (++INITIAL_TIMES == MAX_INITIAL_TIMES) {
             LoggerFactory.CONTEXT = new LogbackContext(properties);
             LoggerFactory.CONTEXT.init();
         }

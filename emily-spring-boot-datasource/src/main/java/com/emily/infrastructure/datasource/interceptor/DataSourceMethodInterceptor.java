@@ -1,5 +1,6 @@
 package com.emily.infrastructure.datasource.interceptor;
 
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
@@ -86,5 +87,10 @@ public class DataSourceMethodInterceptor implements DataSourceCustomizer {
         }
         //获取注解标注的数据源
         return targetDataSource.value();
+    }
+
+    @Override
+    public int getOrder() {
+        return AopOrderInfo.DATASOURCE_INTERCEPTOR;
     }
 }

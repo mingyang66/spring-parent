@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.interceptor;
 
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -17,9 +18,8 @@ import java.lang.reflect.Method;
  * @author: Emily
  * @create: 2021/11/23
  */
-//@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-//@Component
-//@Order(value = 9090)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@Component
 public class DbMethodInterceptor implements DataSourceCustomizer {
     @Nullable
     @Override
@@ -31,5 +31,10 @@ public class DbMethodInterceptor implements DataSourceCustomizer {
     @Override
     public String getTargetDataSource(Method method) {
         return null;
+    }
+
+    @Override
+    public int getOrder() {
+        return AopOrderInfo.DATASOURCE_INTERCEPTOR+1;
     }
 }

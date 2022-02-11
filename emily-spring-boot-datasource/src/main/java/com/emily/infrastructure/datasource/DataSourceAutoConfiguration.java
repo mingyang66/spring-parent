@@ -32,7 +32,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
-import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
 import java.text.MessageFormat;
@@ -80,7 +79,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     }
 
     @Bean
-    @Order(AopOrderInfo.DATASOURCE_INTERCEPTOR)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
         return new DataSourceMethodInterceptor(dataSourceProperties);

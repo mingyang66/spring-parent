@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.Nullable;
 
 import java.text.MessageFormat;
 
@@ -98,4 +99,13 @@ public class StrUtils {
         return str;
     }
 
+    /**
+     * 判定字符串是否为空
+     *
+     * @param str 字符串
+     * @return
+     */
+    public static boolean hasLength(@Nullable String str) {
+        return str != null && !str.isEmpty();
+    }
 }

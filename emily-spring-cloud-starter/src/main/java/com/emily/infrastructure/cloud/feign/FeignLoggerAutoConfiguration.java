@@ -1,5 +1,6 @@
 package com.emily.infrastructure.cloud.feign;
 
+import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerCustomizer;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerMethodInterceptor;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
@@ -14,6 +15,7 @@ import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -46,11 +48,11 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor feignAdvisor(FeignLoggerMethodInterceptor interceptor) {
+    public Advisor feignAdvisor(ObjectProvider<FeignLoggerCustomizer> feignLoggerCustomizers) {
         //限定类|方法级别的切点
         Pointcut pointcut = new AnnotationMatchingPointcut(FeignClient.class, RequestMapping.class, true);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(interceptor, pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(feignLoggerCustomizers.orderedStream().findFirst().get(), pointcut);
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderInfo.FEIGN);
         return advisor;

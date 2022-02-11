@@ -14,6 +14,7 @@ Bug Fixes
 10. API请求日志拦截器扩展接口，其实现Ordered接口，AOP切面会根据优先级顺序取优先级最高的拦截器
 11. RestTemplate拦截器接口，新增Ordered实现，AOP切面会取优先级最高
 12. mybatis-spring-boot-starter版本升级到2.2.2
+13. Feign日志拦截器通用接口，新增Ordered接口实现，AOP切面回去优先级最高的
 -----
 基础库发布4.0.6
 Bug Fixes

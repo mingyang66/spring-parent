@@ -18,7 +18,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
-import org.springframework.core.annotation.Order;
 
 /**
  * @author Emily
@@ -55,7 +54,7 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor apiLogNormalPointCutAdvice(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {
+    public Advisor apiAdvisor(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -72,7 +71,6 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
     }
 
     @Bean
-    @Order(AopOrderInfo.REQUEST_INTERCEPTOR)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public ApiRequestMethodInterceptor apiRequestMethodInterceptor() {
         return new ApiRequestMethodInterceptor();

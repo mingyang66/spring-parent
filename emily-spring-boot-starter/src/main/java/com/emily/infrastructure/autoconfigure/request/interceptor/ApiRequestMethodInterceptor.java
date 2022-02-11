@@ -1,5 +1,6 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
@@ -82,4 +83,8 @@ public class ApiRequestMethodInterceptor implements ApiRequestCustomizer {
 
     }
 
+    @Override
+    public int getOrder() {
+        return AopOrderInfo.REQUEST_INTERCEPTOR;
+    }
 }

@@ -1,11 +1,13 @@
 package com.emily.infrastructure.autoconfigure.httpclient;
 
 import com.emily.infrastructure.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
+import com.emily.infrastructure.autoconfigure.httpclient.interceptor.HttpClientCustomizer;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.HttpClientInterceptor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -42,15 +44,15 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      */
     @Primary
     @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory) {
+    public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, ClientHttpRequestFactory clientHttpRequestFactory) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));
         //设置自定义异常处理
         restTemplate.setErrorHandler(new CustomResponseErrorHandler());
-        if (httpClientProperties.isEnableInterceptor()) {
+        if (httpClientProperties.isInterceptor()) {
             //添加拦截器
-            restTemplate.setInterceptors(Collections.singletonList(new HttpClientInterceptor()));
+            restTemplate.setInterceptors(Collections.singletonList(httpClientCustomizers.orderedStream().findFirst().get()));
         }
 
         return restTemplate;
@@ -68,6 +70,11 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
         //连接超时10秒，默认无限制，单位：毫秒
         factory.setConnectTimeout(httpClientProperties.getConnectTimeOut());
         return factory;
+    }
+
+    @Bean
+    public HttpClientInterceptor httpClientInterceptor() {
+        return new HttpClientInterceptor();
     }
 
     @Override

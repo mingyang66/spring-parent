@@ -1,5 +1,6 @@
 package com.emily.infrastructure.autoconfigure.httpclient.interceptor;
 
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 
@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter;
  * @description: RestTemplate拦截器
  * @create: 2020/08/17
  */
-public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
+public class HttpClientInterceptor implements HttpClientCustomizer {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpClientInterceptor.class);
 
@@ -83,4 +83,8 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
 
     }
 
+    @Override
+    public int getOrder() {
+        return AopOrderInfo.HTTP_CLIENT_INTERCEPTOR;
+    }
 }

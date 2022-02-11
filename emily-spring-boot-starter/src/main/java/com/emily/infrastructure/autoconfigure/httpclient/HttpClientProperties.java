@@ -26,7 +26,7 @@ public class HttpClientProperties {
     /**
      * 开启调用接口拦截器
      */
-    private boolean enableInterceptor = true;
+    private boolean interceptor = true;
 
     public Integer getReadTimeOut() {
         return readTimeOut;
@@ -52,11 +52,11 @@ public class HttpClientProperties {
         this.enabled = enabled;
     }
 
-    public boolean isEnableInterceptor() {
-        return enableInterceptor;
+    public boolean isInterceptor() {
+        return interceptor;
     }
 
-    public void setEnableInterceptor(boolean enableInterceptor) {
-        this.enableInterceptor = enableInterceptor;
+    public void setInterceptor(boolean interceptor) {
+        this.interceptor = interceptor;
     }
 }

@@ -12,6 +12,7 @@ Bug Fixes
 8. 日志组件新增初始化类LogbackApplicationContextInitializer类，在项目启动时即初始化日志组件，即程序启动时最先加载日志组件，防止系统日志打印丢失
 9. 多数据源统一拦截器父接口，其实现了Ordered接口，AOP切面会根据优先级顺序启用优先级最高的拦截器  
 10. API请求日志拦截器扩展接口，其实现Ordered接口，AOP切面会根据优先级顺序取优先级最高的拦截器
+11. RestTemplate拦截器接口，新增Ordered实现，AOP切面会取优先级最高
 
 -----
 基础库发布4.0.6

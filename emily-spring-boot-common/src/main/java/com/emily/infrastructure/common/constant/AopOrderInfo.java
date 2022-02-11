@@ -30,5 +30,9 @@ public class AopOrderInfo {
      * 数据库AOP切面拦截器
      */
     public static final int DATASOURCE_INTERCEPTOR = 910;
+    /**
+     * RestTemplate请求拦截器优先级
+     */
+    public static final int HTTP_CLIENT_INTERCEPTOR = 1000;
 
 }

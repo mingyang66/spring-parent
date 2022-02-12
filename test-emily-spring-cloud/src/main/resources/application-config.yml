@@ -1,12 +1,7 @@
 spring:
-  spring:
-    logback:
-      level: info
+  emily:
     cloud:
       http-client-loadbalancer:
-        enable: true
-    request:
-      logger:
         enabled: true
     # Feign开启自动化配置记录日志
     feign:

@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.0.8
+Bug Fixes
+1. 
+-----
 基础库发布4.0.7
 Bug Fixes
 1. 优化数据源注解@TargetDataSource注解说明
@@ -15,6 +19,7 @@ Bug Fixes
 11. RestTemplate拦截器接口，新增Ordered实现，AOP切面会取优先级最高
 12. mybatis-spring-boot-starter版本升级到2.2.2
 13. Feign日志拦截器通用接口，新增Ordered接口实现，AOP切面回去优先级最高的
+14. Mybatis提供扩展点接口
 -----
 基础库发布4.0.6
 Bug Fixes

@@ -1,5 +1,6 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @Author Emily
  * @Version: 1.0
  */
-public class MybatisMethodInterceptor implements MethodInterceptor {
+public class MybatisMethodInterceptor implements MybatisCustomizer {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisMethodInterceptor.class);
 
@@ -68,5 +69,10 @@ public class MybatisMethodInterceptor implements MethodInterceptor {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         }
         return paramMap;
+    }
+
+    @Override
+    public int getOrder() {
+        return AopOrderInfo.MYBATIS_INTERCEPTOR;
     }
 }

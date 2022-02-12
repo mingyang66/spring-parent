@@ -21,7 +21,11 @@ public class AopOrderInfo {
     /**
      * Mybatis日志漆面
      */
-    public static final int MYBATIS = 899;
+    public static final int MYBATIS = 850;
+    /**
+     * MYBATIS拦截器
+     */
+    public static final int MYBATIS_INTERCEPTOR = 852;
     /**
      * 数据源切面
      */

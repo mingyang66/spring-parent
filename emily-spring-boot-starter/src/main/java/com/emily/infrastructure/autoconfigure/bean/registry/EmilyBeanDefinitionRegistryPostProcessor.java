@@ -8,8 +8,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 /**
  * @author Emily
  * @program: spring-parent
- * @description:
- * 1.提供一个钩子方法postProcessBeanDefinitionRegistry通过代码的方式注册bean到IOC容器
+ * @description: 1.提供一个钩子方法postProcessBeanDefinitionRegistry通过代码的方式注册bean到IOC容器
  * 2.提供一个钩子方法postProcessBeanFactory在BeanDefinition注册到IOC容器之后及实例化之前调用的方法，可以用来修改BeanDefinition属性
  * 3.钩子方法postProcessBeanDefinitionRegistry会在postProcessBeanFactory之前执行
  * @create: 2020/09/16
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 public class EmilyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
     /**
      * 注册bean到IOC容器之中
+     *
      * @param registry
      * @throws BeansException
      */
@@ -27,6 +27,7 @@ public class EmilyBeanDefinitionRegistryPostProcessor implements BeanDefinitionR
 
     /**
      * 提供修改bean factory的钩子方法
+     *
      * @param beanFactory 容器工厂
      * @throws BeansException
      */

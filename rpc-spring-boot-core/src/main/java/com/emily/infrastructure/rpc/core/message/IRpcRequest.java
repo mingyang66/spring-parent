@@ -35,7 +35,8 @@ public class IRpcRequest implements Serializable {
     private Object[] params;
 
 
-    public IRpcRequest(){}
+    public IRpcRequest() {
+    }
 
     public String getTraceId() {
         return traceId;
@@ -77,7 +78,7 @@ public class IRpcRequest implements Serializable {
         this.params = params;
     }
 
-    public static IRpcRequest build(String className, String methodName, Class<?>[] types, Object[] params){
+    public static IRpcRequest build(String className, String methodName, Class<?>[] types, Object[] params) {
         IRpcRequest request = new IRpcRequest();
         request.setTraceId(TraceContextHolder.get().getTraceId());
         request.setClassName(className);

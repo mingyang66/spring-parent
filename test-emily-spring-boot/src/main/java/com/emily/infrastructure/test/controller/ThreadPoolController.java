@@ -26,7 +26,7 @@ public class ThreadPoolController {
     private ThreadPoolTaskExecutor asyncTaskExecutor;
 
     @GetMapping("metrics")
-    public Map<String, Object> metrics(){
+    public Map<String, Object> metrics() {
         ThreadPoolExecutor executor = asyncTaskExecutor.getThreadPoolExecutor();
         Map<String, Object> map = Maps.newLinkedHashMap();
         map.put("ThreadNamePrefix（线程名前缀）", asyncTaskExecutor.getThreadNamePrefix());

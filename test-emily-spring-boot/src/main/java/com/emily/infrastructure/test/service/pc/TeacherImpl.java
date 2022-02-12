@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
  * @create: 2022/01/14
  */
 @Service
-public class TeacherImpl extends StudentImpl{
+public class TeacherImpl extends StudentImpl {
 
     @Override
     public String getName() {
         return "大米";
     }
 
-    public String getTeacherName(){
+    public String getTeacherName() {
         return "teacherName";
     }
 }

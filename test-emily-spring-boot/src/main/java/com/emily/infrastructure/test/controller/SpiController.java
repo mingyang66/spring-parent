@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/spi")
 public class SpiController {
-    public String getSpi(){
+    public String getSpi() {
         List<LogbackProperties> list = SpringFactoriesLoader.loadFactories(LogbackProperties.class, null);
         return null;
     }

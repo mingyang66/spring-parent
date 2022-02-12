@@ -27,11 +27,12 @@ public class RabbitDelayConfig {
      * 路由
      */
     public static final String DELAY_TEST_ROUTING_KEY = "delay.test.routing.key";
+
     /**
      * 声明延时队列
      */
     @Bean
-    public Queue delayQueue(){
+    public Queue delayQueue() {
         Map<String, Object> args = Maps.newHashMap();
         /**
          * 定义优先级队列，消息最大优先级为15，优先级范围为0-15，数字越大优先级越高
@@ -51,7 +52,7 @@ public class RabbitDelayConfig {
      * 2.交换器类型是x-delayed-message
      */
     @Bean
-    public CustomExchange delayExchange(){
+    public CustomExchange delayExchange() {
         Map<String, Object> args = new HashMap<>();
         /**
          * 设置自定义交换器路由消息的类型，direct类似direct交换器路由消息的模式，也可以传递topic、fanout,或者其它插件提供的自定义的交换器类型
@@ -65,7 +66,7 @@ public class RabbitDelayConfig {
      * 延迟队列绑定交换器
      */
     @Bean
-    public Binding bindingDelayCustomExchangeQueue(){
+    public Binding bindingDelayCustomExchangeQueue() {
         return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(DELAY_TEST_ROUTING_KEY).noargs();
     }
 }

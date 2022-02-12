@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class MyTask {
 
     @Scheduled(fixedDelay = 1000)
-    public void work(){
-         System.out.println("--定时任务--");
+    public void work() {
+        System.out.println("--定时任务--");
     }
 }

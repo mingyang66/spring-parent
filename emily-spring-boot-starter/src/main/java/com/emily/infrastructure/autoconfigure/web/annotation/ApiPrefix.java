@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 public @interface ApiPrefix {
     /**
      * 是否忽略前缀，默认false
+     *
      * @return
      */
     boolean ignore() default false;

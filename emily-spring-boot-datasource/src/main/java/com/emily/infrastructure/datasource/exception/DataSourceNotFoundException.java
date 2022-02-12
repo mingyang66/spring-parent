@@ -10,7 +10,7 @@ import com.emily.infrastructure.common.exception.BasicException;
  * @create: 2021/11/20
  */
 public class DataSourceNotFoundException extends BasicException {
-    public DataSourceNotFoundException(String desc){
+    public DataSourceNotFoundException(String desc) {
         super(AppHttpStatus.DATABASE_EXCEPTION.getStatus(), desc);
     }
 }

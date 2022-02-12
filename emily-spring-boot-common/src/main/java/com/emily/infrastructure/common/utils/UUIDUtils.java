@@ -14,15 +14,16 @@ public class UUIDUtils {
     /**
      * 自动生成用户令牌
      */
-    public static String generation(){
+    public static String generation() {
         return StringUtils.replace(randomUuid(), CharacterInfo.LINE_THROUGH_CENTER, "");
     }
 
     /**
      * 生成唯一标识
+     *
      * @return
      */
-    public static String randomUuid(){
+    public static String randomUuid() {
         return UUID.randomUUID().toString();
     }
 }

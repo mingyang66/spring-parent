@@ -20,7 +20,7 @@ public class FileHelper {
         }
     }
 
-    public static String getUrl(final Class<?> clazz, String name){
+    public static String getUrl(final Class<?> clazz, String name) {
         ClassLoader classLoader = getClassLoaderOfClass(clazz);
         URL url = classLoader.getResource(name);
         return url.toString();

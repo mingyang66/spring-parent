@@ -61,7 +61,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
                 || pathMatcher.match(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
-            BaseResponse baseResponse = (BaseResponse)body;
+            BaseResponse baseResponse = (BaseResponse) body;
             baseResponse.setTime(RequestHelper.getTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {

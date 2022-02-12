@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 配置元数据文件.
+ *
  * @author Emily
  */
 @ConfigurationProperties(prefix = HttpClientProperties.PREFIX)

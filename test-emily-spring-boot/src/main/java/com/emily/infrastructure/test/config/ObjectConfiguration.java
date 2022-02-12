@@ -19,7 +19,7 @@ public class ObjectConfiguration {
     public People user() {
         People user = new People();
         user.setUsername("老师");
-       // user.setOrder(10);
+        // user.setOrder(10);
         return user;
     }
 

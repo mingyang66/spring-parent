@@ -29,7 +29,8 @@ public class CustomAppConfig implements SchedulingConfigurer {
                     return cronTrigger.nextExecutionTime(triggerContext);
                 });
     }
-    public Executor executor(){
+
+    public Executor executor() {
         return Executors.newScheduledThreadPool(100);
     }
 }

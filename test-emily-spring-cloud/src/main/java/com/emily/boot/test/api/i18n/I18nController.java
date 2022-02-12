@@ -17,9 +17,10 @@ public class I18nController {
 
     @Autowired
     private MessageSource messageSource;
+
     @ApiWrapperIgnore
     @GetMapping("/i18n/test")
     public String test2() {
-        return "success-" + messageSource.getMessage("spring.emily.username", new String[]{"1","2"}, LocaleContextHolder.getLocale());
+        return "success-" + messageSource.getMessage("spring.emily.username", new String[]{"1", "2"}, LocaleContextHolder.getLocale());
     }
 }

@@ -14,6 +14,7 @@ public abstract class AbstractConnection<T> {
 
     /**
      * 创建连接
+     *
      * @param address 主机地址:端口号
      * @return
      */

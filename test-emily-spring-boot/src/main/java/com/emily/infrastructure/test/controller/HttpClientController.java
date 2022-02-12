@@ -20,12 +20,12 @@ public class HttpClientController {
     private RestTemplate restTemplate;
 
     @GetMapping("get")
-    public BaseResponse get(){
+    public BaseResponse get() {
         return restTemplate.getForObject("http://127.0.0.1:8081/api/http/testResponse", BaseResponse.class);
     }
 
     @GetMapping("testResponse")
-    public String testResponse(){
+    public String testResponse() {
         return "你好";
     }
 }

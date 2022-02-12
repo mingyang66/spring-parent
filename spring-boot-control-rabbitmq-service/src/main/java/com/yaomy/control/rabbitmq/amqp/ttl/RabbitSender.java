@@ -32,16 +32,16 @@ public class RabbitSender {
          */
         @Override
         public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-            if(!ack){
+            if (!ack) {
                 //可以进行日志记录、异常处理、补偿处理等
-                System.err.println("异常ack-"+ack+",id-"+correlationData.getId()+",cause:"+cause);
-            }else {
+                System.err.println("异常ack-" + ack + ",id-" + correlationData.getId() + ",cause:" + cause);
+            } else {
                 //更新数据库，可靠性投递机制
-                System.out.println("正常ack-"+ack+",id-"+correlationData.getId());
-                try{
-                System.out.println(new String(correlationData.getReturnedMessage().getBody()));
+                System.out.println("正常ack-" + ack + ",id-" + correlationData.getId());
+                try {
+                    System.out.println(new String(correlationData.getReturnedMessage().getBody()));
 
-                } catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -61,15 +61,15 @@ public class RabbitSender {
          */
         @Override
         public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-            System.err.println("spring_returned_message_correlation:"+message.getMessageProperties().getHeaders().get(PublisherCallbackChannel.RETURNED_MESSAGE_CORRELATION_KEY)
-                                +"return exchange: " + exchange
-                                + ", routingKey: "+ routingKey
-                                + ", replyCode: " + replyCode
-                                + ", replyText: " + replyText
-                                + ",message:" + message);
+            System.err.println("spring_returned_message_correlation:" + message.getMessageProperties().getHeaders().get(PublisherCallbackChannel.RETURNED_MESSAGE_CORRELATION_KEY)
+                    + "return exchange: " + exchange
+                    + ", routingKey: " + routingKey
+                    + ", replyCode: " + replyCode
+                    + ", replyText: " + replyText
+                    + ",message:" + message);
             try {
                 System.out.println(new String(message.getBody()));
-            } catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -102,14 +102,16 @@ public class RabbitSender {
             return message;
         }
     };
+
     /**
      * 发送消息
-     * @param exchange 交换器
-     * @param route 路由键
-     * @param message 消息
+     *
+     * @param exchange   交换器
+     * @param route      路由键
+     * @param message    消息
      * @param properties
      */
-    public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties){
+    public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties) {
         /**
          * 设置生产者消息publish-confirm回调函数
          */
@@ -124,7 +126,7 @@ public class RabbitSender {
         this.rabbitTemplate.setBeforePublishPostProcessors(messagePostProcessor);
 
         try {
-            if(null == properties){
+            if (null == properties) {
                 properties = new MessageProperties();
             }
             /**
@@ -156,7 +158,7 @@ public class RabbitSender {
              * 如果msg是org.springframework.amqp.core.Message对象的实例，则直接返回，否则转化为Message对象
              */
             this.rabbitTemplate.convertAndSend(exchange, routingKey, msg, correlationData);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

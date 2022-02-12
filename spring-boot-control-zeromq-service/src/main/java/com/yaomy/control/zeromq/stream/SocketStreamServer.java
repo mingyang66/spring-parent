@@ -37,16 +37,16 @@ public class SocketStreamServer {
         ZMQ.Socket socket = context.createSocket(SocketType.STREAM);
         //绑定端点
         socket.bind(endpoint);
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("----------------start-------------------");
                 byte[] s = socket.recv();
                 byte[] buffer = new byte[s[0]];
                 socket.recv(buffer, 0, s[0], 0);
-                System.out.println("Server端接收到数据："+new String(buffer, CharsetInfo.UTF_8));
+                System.out.println("Server端接收到数据：" + new String(buffer, CharsetInfo.UTF_8));
                 socket.send("nihaoa".getBytes());
                 System.out.println("----------------end-------------------");
-            } catch (UnsupportedEncodingException e){
+            } catch (UnsupportedEncodingException e) {
 
             }
         }

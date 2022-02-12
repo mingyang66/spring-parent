@@ -10,7 +10,6 @@ import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.trace.context.TraceContextHolder;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
-import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 
@@ -24,9 +23,9 @@ import java.util.Map;
  * @Author Emily
  * @Version: 1.0
  */
-public class MybatisMethodInterceptor implements MybatisCustomizer {
+public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(MybatisMethodInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultMybatisMethodInterceptor.class);
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

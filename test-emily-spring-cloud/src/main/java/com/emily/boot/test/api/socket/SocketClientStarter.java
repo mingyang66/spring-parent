@@ -16,16 +16,16 @@ import java.time.format.DateTimeFormatter;
 public class SocketClientStarter {
     public static void main(String[] args) {
         try {
-            Socket sc=new Socket("172.30.67.122",8888);
+            Socket sc = new Socket("172.30.67.122", 8888);
             OutputStream out = sc.getOutputStream();
-            String now = "我是客户端，当前时间是："+ LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
+            String now = "我是客户端，当前时间是：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
             out.write(now.getBytes());
             InputStream is = sc.getInputStream();
-            byte[] bytes=new byte[1024];
-            int len=is.read(bytes);
-            System.out.println("客户端接收到："+new String(bytes,0,len));
+            byte[] bytes = new byte[1024];
+            int len = is.read(bytes);
+            System.out.println("客户端接收到：" + new String(bytes, 0, len));
             sc.close();
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

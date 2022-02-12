@@ -22,7 +22,7 @@ import java.util.Map;
  * @Description 重写PropertiesPropertySourceLoader类，系统内部的PropertiesPropertySourceLoader类的优先级是2147483647，
  * 设置@Order注解，值是2147483646，优先级比系统自带的高
  * @Date 2019/11/28 19:03
- * @Version  1.0
+ * @Version 1.0
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class EmilyPropertiesPropertySourceLoader implements PropertySourceLoader {
@@ -31,7 +31,7 @@ public class EmilyPropertiesPropertySourceLoader implements PropertySourceLoader
 
     @Override
     public String[] getFileExtensions() {
-        return new String[] { "properties", "xml" };
+        return new String[]{"properties", "xml"};
     }
 
     @Override
@@ -44,7 +44,7 @@ public class EmilyPropertiesPropertySourceLoader implements PropertySourceLoader
                 .singletonList(new OriginTrackedMapPropertySource(name, Collections.unmodifiableMap(properties), true));
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Map<String, ?> loadProperties(Resource resource) throws IOException {
         String filename = resource.getFilename();
         if (filename != null && filename.endsWith(XML_FILE_EXTENSION)) {

@@ -105,7 +105,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.ERROR.getStatus(), AppHttpStatus.ERROR.getMessage(), response);
         } finally {
             //设置请求上下文的事物唯一标识
-            if(Objects.nonNull(request)){
+            if (Objects.nonNull(request)) {
                 rpcResponse.setTraceId(request.getTraceId());
             }
             //发送调用方法调用结果

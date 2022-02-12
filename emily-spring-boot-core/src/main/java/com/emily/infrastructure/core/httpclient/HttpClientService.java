@@ -28,11 +28,12 @@ public class HttpClientService {
 
     /**
      * 支持参数为非数组模式POST请求
-     * @param paramsMap    参数，可以为null,
-     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
-     *                     服务端接收参数为：application/x-www-form-urlencoded表单类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
      *
-     * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+     * @param paramsMap 参数，可以为null,
+     *                  服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                  服务端接收参数为：application/x-www-form-urlencoded表单类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
+     *                  <p>
+     *                  header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType) {
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType);
@@ -41,10 +42,11 @@ public class HttpClientService {
 
     /**
      * 支持参数为非数组模式POST请求
-     * @param paramsMap    参数，可以为null,
-     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
-     *                     服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
-     * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+     *
+     * @param paramsMap 参数，可以为null,
+     *                  服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                  服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
+     *                  header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Object... uriVariables) {
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);
@@ -54,10 +56,11 @@ public class HttpClientService {
 
     /**
      * 支持参数为非数组模式POST请求
-     * @param paramsMap    参数，可以为null,
-     *                     服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
-     *                     服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
-     * header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+     *
+     * @param paramsMap 参数，可以为null,
+     *                  服务端接收参数为：application/json类型（@RequestBody）传递Map<String, Object> paramMap = new HashMap<>();
+     *                  服务端接收参数为：application/x-www-form-urlencoded类型时，传递参数MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>()
+     *                  header头示例：MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
      */
     public <T> T post(String url, Object params, MultiValueMap<String, String> headers, Class<T> responseType, Map<String, ?> uriVariables) {
         ResponseEntity<T> entity = restTemplate.postForEntity(url, getHttpHeaders(params, headers), responseType, uriVariables);

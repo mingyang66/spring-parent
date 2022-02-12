@@ -82,9 +82,9 @@ public class RedisController {
 
                     }*/
                     long start = System.currentTimeMillis();
-                    RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("roll_test", "123:"+System.currentTimeMillis());
+                    RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("roll_test", "123:" + System.currentTimeMillis());
                     long time = System.currentTimeMillis() - start;
-                    System.out.println("--------roll----------"+time);
+                    System.out.println("--------roll----------" + time);
                 }
             }
         }).start();

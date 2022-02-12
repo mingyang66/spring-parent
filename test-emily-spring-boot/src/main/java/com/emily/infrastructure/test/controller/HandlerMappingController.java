@@ -25,10 +25,10 @@ public class HandlerMappingController {
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     @GetMapping("requestMappingInfo")
-    public List<UrlMappingInfo> requestMappingInfo(){
+    public List<UrlMappingInfo> requestMappingInfo() {
         List<UrlMappingInfo> result = Lists.newArrayList();
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
-        map.forEach((info, method)->{
+        map.forEach((info, method) -> {
             UrlMappingInfo urlMappingInfo = new UrlMappingInfo();
             PatternsRequestCondition patternsRequestCondition = info.getPatternsCondition();
             urlMappingInfo.setMethod(info.getMethodsCondition().getMethods());

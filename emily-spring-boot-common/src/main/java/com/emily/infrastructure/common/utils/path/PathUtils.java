@@ -10,9 +10,9 @@ import org.springframework.util.StringUtils;
  */
 public class PathUtils {
     /**
-     * @Description 规范化路径
      * @param path 路径
      * @return
+     * @Description 规范化路径
      */
     public static String normalizePath(String path) {
         if (!StringUtils.hasText(path)) {

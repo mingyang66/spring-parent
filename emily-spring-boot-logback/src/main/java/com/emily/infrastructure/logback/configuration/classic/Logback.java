@@ -21,10 +21,10 @@ public interface Logback {
     /**
      * 获取Logger对象
      *
-     * @param loggerName logger属性名
+     * @param loggerName   logger属性名
      * @param appenderName appender属性名
-     * @param filePath 文件路径
-     * @param fileName 文件名
+     * @param filePath     文件路径
+     * @param fileName     文件名
      * @return
      */
     default Logger getLogger(String loggerName, String appenderName, String filePath, String fileName) {

@@ -19,7 +19,7 @@ import java.util.Properties;
 
 /**
  * @Description 自定义配置文件路径加载
- * @Version  1.0
+ * @Version 1.0
  */
 @Deprecated
 public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
@@ -71,9 +71,10 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
      * 点斜杠
      */
     public static final String BACK_SLASH_SPOT = "./";
+
     /**
      * @Description 加载配置文件方法
-     * @Version  1.0
+     * @Version 1.0
      */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -81,119 +82,124 @@ public class ConfEnvironmentPostProcessor implements EnvironmentPostProcessor {
         File file = getPriorityHighestFile();
         //加载配置application.properties文件
         Properties properties = loadProperties(file);
-        if(null == properties || properties.isEmpty()){
+        if (null == properties || properties.isEmpty()) {
             return;
         }
         //相对位置 优先级第二
         load(environment, properties, getRootPath());
         //绝对路径 优先级最高
-        if(StringUtils.isNotBlank(properties.getProperty(CONFIG_LOCATION_PROPERTY))){
+        if (StringUtils.isNotBlank(properties.getProperty(CONFIG_LOCATION_PROPERTY))) {
             load(environment, properties, properties.getProperty(CONFIG_LOCATION_PROPERTY));
         }
     }
+
     /**
      * @Description 加载配置文件
-     * @Version  1.0
+     * @Version 1.0
      */
-    private void load(ConfigurableEnvironment environment, Properties properties, String rootPath){
-        if(StringUtils.isEmpty(rootPath)){
+    private void load(ConfigurableEnvironment environment, Properties properties, String rootPath) {
+        if (StringUtils.isEmpty(rootPath)) {
             return;
         }
         MutablePropertySources propertySources = environment.getPropertySources();
         File defaultFile = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, DEFAULT_NAMES, FILE_SUFFIX));
-        if(defaultFile.exists()){
+        if (defaultFile.exists()) {
             Properties defaultProperties = loadProperties(defaultFile);
             propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(DEFAULT_NAMES, FILE_SUFFIX), defaultProperties));
-            if(StringUtils.isNotBlank(defaultProperties.getProperty(SPRING_PROFILES_INCLUDE))){
+            if (StringUtils.isNotBlank(defaultProperties.getProperty(SPRING_PROFILES_INCLUDE))) {
                 properties = defaultProperties;
             }
         }
 
         String[] array = StringUtils.split(properties.getProperty(SPRING_PROFILES_INCLUDE), EN_COMMA);
-        if(ArrayUtils.isEmpty(array)){
+        if (ArrayUtils.isEmpty(array)) {
             return;
         }
         //当前环境变量配置
         String profilesActive = properties.getProperty(SPINRG_PROFILES_ACTIVE);
-        if(StringUtils.isNotBlank(profilesActive) && !ArrayUtils.contains(array, properties.getProperty(SPINRG_PROFILES_ACTIVE))){
+        if (StringUtils.isNotBlank(profilesActive) && !ArrayUtils.contains(array, properties.getProperty(SPINRG_PROFILES_ACTIVE))) {
             array = ArrayUtils.add(array, properties.getProperty(SPINRG_PROFILES_ACTIVE));
         }
-        for(String fileName : array){
+        for (String fileName : array) {
             File f = new File(StringUtils.join(rootPath, File.separator, CONFIG_PATH, File.separator, DEFAULT_NAMES, FILE_LINE, fileName, FILE_SUFFIX));
-            if(f.exists()){
+            if (f.exists()) {
                 propertySources.addFirst(new PropertiesPropertySource(StringUtils.join(DEFAULT_NAMES, FILE_LINE, fileName, FILE_SUFFIX), loadProperties(f)));
             }
         }
     }
+
     /**
      * @Description 获取优先级最高的配置文件
-     * @Version  1.0
+     * @Version 1.0
      */
-    private File getPriorityHighestFile(){
+    private File getPriorityHighestFile() {
         File file = null;
         //默认配置文件位置
         String[] locations = StringUtils.split(DEFAULT_SEARCH_LOCATIONS, EN_COMMA);
-        for(String location:locations){
+        for (String location : locations) {
             String url = null;
-            if(StringUtils.equals(location, StringUtils.join(CLASSPATH, BACK_SLASH))){
+            if (StringUtils.equals(location, StringUtils.join(CLASSPATH, BACK_SLASH))) {
                 url = StringUtils.join(location.replace(BACK_SLASH, StringUtils.EMPTY), DEFAULT_NAMES, FILE_SUFFIX);
-            } else if(StringUtils.contains(location, BACK_SLASH_SPOT)){
+            } else if (StringUtils.contains(location, BACK_SLASH_SPOT)) {
                 url = StringUtils.join(location, DEFAULT_NAMES, FILE_SUFFIX);
             } else {
                 url = StringUtils.join(StringUtils.removeFirst(location, BACK_SLASH), DEFAULT_NAMES, FILE_SUFFIX);
             }
             File defaultFile = getResourceFile(url);
-            if(null != defaultFile){
+            if (null != defaultFile) {
                 file = defaultFile;
             }
         }
         return file;
     }
+
     /**
      * @Description 加载文件并返回File对象，如果文件不存在就返回null
-     * @Version  1.0
+     * @Version 1.0
      */
-    private File getResourceFile(String url){
-        if(StringUtils.isBlank(url)){
+    private File getResourceFile(String url) {
+        if (StringUtils.isBlank(url)) {
             return null;
         }
         try {
             File file = ResourceUtils.getFile(url);
             FileSystemResource resource = new FileSystemResource(file);
             //判断file系统相对位置文件是否存在
-            if(resource.exists()){
+            if (resource.exists()) {
                 return file;
             }
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
         }
         return null;
     }
+
     /**
      * @Description 加载配置文件，返回Properties对象，否则返回null
-     * @Version  1.0
+     * @Version 1.0
      */
-    private Properties loadProperties(File file){
-        if(null == file || !file.exists()){
+    private Properties loadProperties(File file) {
+        if (null == file || !file.exists()) {
             return null;
         }
         FileSystemResource resource = new FileSystemResource(file);
         try {
             Properties properties = PropertiesLoaderUtils.loadProperties(resource);
             return properties;
-        } catch (IOException e){
+        } catch (IOException e) {
             return null;
         }
     }
+
     /**
-     * @Description 获取当前项目的根路径,即项目到文件夹名路径
-     * @Version  1.0
+     * @Description 获取当前项目的根路径, 即项目到文件夹名路径
+     * @Version 1.0
      */
     private String getRootPath() {
         try {
             File rootFile = new File("");
             String rootPath = rootFile.getCanonicalPath();
             return StringUtils.substring(rootPath, 0, StringUtils.lastIndexOf(rootPath, File.separator));
-        } catch (IOException e){
+        } catch (IOException e) {
             return null;
         }
     }

@@ -22,7 +22,6 @@ import java.util.Map;
 @Component
 public class RabbitReceiver {
     /**
-     *
      * @param channel 信道
      * @param message 消息
      * @throws Exception
@@ -30,15 +29,14 @@ public class RabbitReceiver {
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
         System.out.println("--------------------------------------");
-        System.out.println("消费端Payload: " + message.getPayload()+"-ID:"+message.getHeaders().getId()+"-messageId:"+message.getHeaders());
-        Long deliveryTag = (Long)message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
+        System.out.println("消费端Payload: " + message.getPayload() + "-ID:" + message.getHeaders().getId() + "-messageId:" + message.getHeaders());
+        Long deliveryTag = (Long) message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
         channel.basicReject(deliveryTag, false);
         //手工ACK,获取deliveryTag
         //channel.basicAck(deliveryTag, false);
     }
 
     /**
-     *
      * @param channel 信道
      * @param message 消息
      * @throws Exception
@@ -46,9 +44,9 @@ public class RabbitReceiver {
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     public void onMessage(Channel channel, org.springframework.amqp.core.Message message) throws Exception {
         System.out.println("--------------------------------------");
-        System.out.println("消费端Payload: " + new String(message.getBody())+"-messageId:"+message.getMessageProperties().getMessageId());
-        message.getMessageProperties().getHeaders().forEach((key, value)->{
-            System.out.println("header=>>"+key+"="+value);
+        System.out.println("消费端Payload: " + new String(message.getBody()) + "-messageId:" + message.getMessageProperties().getMessageId());
+        message.getMessageProperties().getHeaders().forEach((key, value) -> {
+            System.out.println("header=>>" + key + "=" + value);
         });
         Long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手工ACK,获取deliveryTag
@@ -56,20 +54,19 @@ public class RabbitReceiver {
     }
 
     /**
-     *
-     * @param channel 信道
-     * @param body 负载
+     * @param channel        信道
+     * @param body           负载
      * @param amqp_messageId 消息唯一标识
-     * @param headers 消息header
+     * @param headers        消息header
      * @throws Exception
      */
     //获取特定的消息
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     //@RabbitHandler
-    public void handleMessage(Channel channel, @Payload byte[] body, @Header String amqp_messageId,  @Headers Map<String, Object> headers) throws Exception{
-        System.out.println("====消费消息===amqp_messageId:"+amqp_messageId);
-        headers.keySet().forEach((key)->{
-            System.out.println("header=>>"+key+"="+headers.get(key));
+    public void handleMessage(Channel channel, @Payload byte[] body, @Header String amqp_messageId, @Headers Map<String, Object> headers) throws Exception {
+        System.out.println("====消费消息===amqp_messageId:" + amqp_messageId);
+        headers.keySet().forEach((key) -> {
+            System.out.println("header=>>" + key + "=" + headers.get(key));
         });
         System.out.println(new String(body));
         Long deliveryTag = NumberUtils.toLong(headers.get("amqp_deliveryTag").toString());
@@ -80,18 +77,17 @@ public class RabbitReceiver {
     }
 
     /**
-     *
      * @param channel 信道
-     * @param body 负载
+     * @param body    负载
      * @param headers 消息header
      * @throws Exception
      */
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     //@RabbitHandler
-    public void handleMessage(Channel channel, @Payload byte[] body, MessageHeaders headers) throws Exception{
-        System.out.println("====消费消息===amqp_messageId:"+headers);
-        headers.keySet().forEach((key)->{
-            System.out.println("header=>>"+key+"="+headers.get(key));
+    public void handleMessage(Channel channel, @Payload byte[] body, MessageHeaders headers) throws Exception {
+        System.out.println("====消费消息===amqp_messageId:" + headers);
+        headers.keySet().forEach((key) -> {
+            System.out.println("header=>>" + key + "=" + headers.get(key));
         });
         System.out.println(new String(body));
         Long deliveryTag = NumberUtils.toLong(headers.get("amqp_deliveryTag").toString());

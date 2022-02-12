@@ -36,12 +36,14 @@ public class BasicException extends RuntimeException {
         this.status = status;
         this.message = errorMessage;
     }
+
     public BasicException(int status, String errorMessage, boolean error) {
         super(errorMessage);
         this.status = status;
         this.message = errorMessage;
         this.error = error;
     }
+
     public int getStatus() {
         return status;
     }

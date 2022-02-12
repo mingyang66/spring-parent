@@ -14,10 +14,11 @@ import java.util.Map;
 public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
     /**
      * 私有的构造函数
+     *
      * @param defaultTargetDataSource 默认数据源
-     * @param targetDataSources 所有的数据源
+     * @param targetDataSources       所有的数据源
      */
-    private DynamicMultipleDataSources(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources){
+    private DynamicMultipleDataSources(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         /**
          * 如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；
          * 如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源
@@ -45,7 +46,7 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
     /**
      * 构件DynamicDataSource对象静态方法
      */
-    public static DynamicMultipleDataSources build(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources){
+    public static DynamicMultipleDataSources build(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         return new DynamicMultipleDataSources(defaultTargetDataSource, targetDataSources);
     }
 

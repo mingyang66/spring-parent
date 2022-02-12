@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.mybatis.interceptor.MybatisCustomizer;
-import com.emily.infrastructure.mybatis.interceptor.MybatisMethodInterceptor;
+import com.emily.infrastructure.mybatis.interceptor.DefaultMybatisMethodInterceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
@@ -25,17 +25,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
-import java.text.MessageFormat;
-
 /**
  * @Description: 控制器切点配置
  * @Author Emily
  * @Version: 1.0
  */
 @Configuration
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @EnableConfigurationProperties(MybatisProperties.class)
 @ConditionalOnProperty(prefix = MybatisProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisAutoConfiguration.class);
@@ -67,8 +65,8 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public MybatisMethodInterceptor mybatisMethodInterceptor() {
-        return new MybatisMethodInterceptor();
+    public DefaultMybatisMethodInterceptor mybatisMethodInterceptor() {
+        return new DefaultMybatisMethodInterceptor();
     }
 
     /**
@@ -79,9 +77,9 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        String beanName = MessageFormat.format("{0}-{1}", MybatisProperties.PREFIX, MybatisProperties.class.getName());
-        if (beanFactory.containsBeanDefinition(beanName)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+        String[] beanNames = beanFactory.getBeanNamesForType(MybatisProperties.class);
+        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }

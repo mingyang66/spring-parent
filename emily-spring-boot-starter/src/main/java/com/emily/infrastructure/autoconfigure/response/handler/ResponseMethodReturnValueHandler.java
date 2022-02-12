@@ -49,7 +49,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
                 || pathMatcher.match(request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
-            BaseResponse baseResponse = (BaseResponse)returnValue;
+            BaseResponse baseResponse = (BaseResponse) returnValue;
             baseResponse.setTime(RequestHelper.getTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {

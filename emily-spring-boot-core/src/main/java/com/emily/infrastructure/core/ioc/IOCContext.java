@@ -60,13 +60,12 @@ public class IOCContext {
     }
 
     /**
-     * @Desc 实例对象必须是原型模式
      * @param name bean的名称
      * @param args 实例参数
      * @return
+     * @Desc 实例对象必须是原型模式
      * @Bean
-     * @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-     * public Job job(Long id){
+     * @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) public Job job(Long id){
      * Job job = new Job();
      * job.setId(id);
      * return job;

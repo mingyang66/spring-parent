@@ -9,6 +9,7 @@ package com.emily.infrastructure.common.exception;
 public abstract class CustomException extends Exception {
     /**
      * 获取返回的bean对象
+     *
      * @return
      */
     public abstract Object getBean();

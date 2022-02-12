@@ -17,17 +17,18 @@ import org.springframework.web.bind.annotation.*;
 public class ExceptionController {
 
     @GetMapping("test1")
-    public void exception(){
+    public void exception() {
         String s = null;
         s.length();
     }
+
     @PostMapping("test2")
     public void customexception(@Validated @RequestBody Job job) throws ApiException {
         throw new ApiException("12", "自定义", "34");
     }
 
     @GetMapping("assert1")
-    public void assert1(){
+    public void assert1() {
         String s = null;
         Assert.notNull(s, "字符串为不可为空");
     }

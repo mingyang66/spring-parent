@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign;
 
 import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerCustomizer;
-import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerMethodInterceptor;
+import com.emily.infrastructure.cloud.feign.interceptor.DefaultFeignLoggerMethodInterceptor;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
@@ -60,8 +60,8 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public FeignLoggerMethodInterceptor feignLoggerMethodInterceptor() {
-        return new FeignLoggerMethodInterceptor();
+    public DefaultFeignLoggerMethodInterceptor feignLoggerMethodInterceptor() {
+        return new DefaultFeignLoggerMethodInterceptor();
     }
 
     /**

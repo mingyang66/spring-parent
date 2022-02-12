@@ -19,23 +19,23 @@ public class StoreController {
     private StoreClient storeClient;
 
     @GetMapping("stores")
-    BaseResponse<Object> stores(){
+    BaseResponse<Object> stores() {
         return storeClient.stores("10005002", "1234");
     }
 
     @PostMapping("insertStores")
-    public Store insertStores(@Validated @RequestBody Store store){
+    public Store insertStores(@Validated @RequestBody Store store) {
         return storeClient.insertStores(store);
     }
 
     @GetMapping("getStores")
-    public Store getStores(Store store){
+    public Store getStores(Store store) {
         return storeClient.getStores(store);
     }
 
     @GetMapping("getStores1")
     @ResponseBody
-    public Store getStoresTest(Store store){
+    public Store getStoresTest(Store store) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("name", "adfs");
         params.put("weight", "12");

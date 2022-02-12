@@ -2,10 +2,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.infrastructure.core.servlet.filter.FilterRegistrationBeanAutoConfiguration,\
   com.emily.infrastructure.core.trace.TraceContextAutoConfiguration
-
 org.springframework.boot.env.PropertySourceLoader=\
   com.emily.infrastructure.core.config.EmilyPropertiesPropertySourceLoader
-
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
   com.emily.infrastructure.core.ioc.initializer.IOCApplicationContextInitializer

@@ -25,7 +25,7 @@ public class FileController {
         String url = FileHelper.getUrl(FileController.class, "application.yml");
         InputStream inputStream = FileController.class.getClassLoader().getResourceAsStream("application.yml");
         File docxFile = new File("docxTemplate.docx");
-        FileUtils.copyToFile(inputStream,docxFile);
+        FileUtils.copyToFile(inputStream, docxFile);
         return FileUtils.readLines(url);
     }
 }

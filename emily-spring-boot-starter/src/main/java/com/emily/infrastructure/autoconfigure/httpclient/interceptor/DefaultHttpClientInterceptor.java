@@ -26,9 +26,9 @@ import java.time.format.DateTimeFormatter;
  * @description: RestTemplate拦截器
  * @create: 2020/08/17
  */
-public class HttpClientInterceptor implements HttpClientCustomizer {
+public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpClientInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultHttpClientInterceptor.class);
 
     /**
      * RestTemplate拦截方法

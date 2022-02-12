@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class JobServiceImpl implements JobService{
+public class JobServiceImpl implements JobService {
     @Autowired
     private JobMapper jobMapper;
 

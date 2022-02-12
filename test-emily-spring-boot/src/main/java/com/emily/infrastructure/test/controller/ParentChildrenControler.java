@@ -19,7 +19,7 @@ public class ParentChildrenControler {
     private TeacherImpl student;
 
     @GetMapping("test")
-    public void test(){
+    public void test() {
         student.getName();
     }
 }

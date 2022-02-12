@@ -13,7 +13,7 @@ import jdk.jfr.StackTrace;
  * @create: 2021/11/09
  */
 @Deprecated
-@Category({ "Lettuce", "Command Events" })
+@Category({"Lettuce", "Command Events"})
 @Label("Command Latency Trigger")
 @StackTrace(false)
 public class JfrCommandLatencyEvent extends Event {

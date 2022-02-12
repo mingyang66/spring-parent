@@ -17,18 +17,20 @@ public class IRpcProviderRegistry {
 
     /**
      * 将@RpcService注解标注的服务存入注册表
+     *
      * @param interfaceName
      * @param bean
      */
-    public void registerServiceBean(String interfaceName, Object bean){
+    public void registerServiceBean(String interfaceName, Object bean) {
         rpcServiceRegistry.put(interfaceName, bean);
     }
 
     /**
      * 获取注册表中指定接口对应的bean名称
+     *
      * @param interfaceName
      */
-    public Object getServiceBean(String interfaceName){
+    public Object getServiceBean(String interfaceName) {
         return rpcServiceRegistry.get(interfaceName);
     }
 }

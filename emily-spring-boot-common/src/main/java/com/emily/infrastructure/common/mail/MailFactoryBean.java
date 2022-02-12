@@ -21,17 +21,25 @@ import java.util.Objects;
  * @program: spring-parent
  * @description: 邮件发送公用方法
  * @create: 2020/08/14
+ * <p>
+ * 发送简单文本邮件
+ * @param javaMailSender 邮件发送实体对象
+ * @param mailMessage    发送邮件实体信息
+ * @return 发送MIME类型邮件
+ * @param javaMailSender 邮件发送实体对象
+ * @param message        发送邮件实体信息
+ * @return
  *//*
 
 public class MailFactoryBean {
     */
 /**
-     * 发送简单文本邮件
-     *
-     * @param javaMailSender 邮件发送实体对象
-     * @param mailMessage    发送邮件实体信息
-     * @return
-     *//*
+ * 发送简单文本邮件
+ *
+ * @param javaMailSender 邮件发送实体对象
+ * @param mailMessage    发送邮件实体信息
+ * @return
+ *//*
 
     public static boolean sendSimpleMail(JavaMailSender javaMailSender, MailMessage mailMessage) {
         try {
@@ -63,11 +71,11 @@ public class MailFactoryBean {
 
     */
 /**
-     * 发送MIME类型邮件
-     * @param javaMailSender 邮件发送实体对象
-     * @param message        发送邮件实体信息
-     * @return
-     *//*
+ * 发送MIME类型邮件
+ * @param javaMailSender 邮件发送实体对象
+ * @param message        发送邮件实体信息
+ * @return
+ *//*
 
     public static boolean sendMimeMail(JavaMailSender javaMailSender, com.emily.infrastructure.common.mail.model.MimeMailMessage message) {
         try {

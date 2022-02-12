@@ -63,7 +63,8 @@ public enum DateFormat {
 
 
     private final String format;
-    DateFormat(String format){
+
+    DateFormat(String format) {
         this.format = format;
     }
 
@@ -73,12 +74,13 @@ public enum DateFormat {
 
     /**
      * 获取所有日期格式
+     *
      * @return
      */
-    public static String[] getAllFormats(){
+    public static String[] getAllFormats() {
         String[] formats = new String[]{};
         DateFormat[] formatEnums = DateFormat.values();
-        for(int i=0; i<formatEnums.length; i++){
+        for (int i = 0; i < formatEnums.length; i++) {
             formats = ArrayUtils.add(formats, formatEnums[i].getFormat());
         }
         return formats;

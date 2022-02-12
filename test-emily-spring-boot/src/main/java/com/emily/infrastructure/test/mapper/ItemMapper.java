@@ -15,5 +15,6 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
     int inertByBatch(@Param("list") List<Item> list);
+
     int insertItem(@Param("scheName") String scheName, @Param("lockName") String lockName);
 }

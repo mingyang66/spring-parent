@@ -22,6 +22,7 @@ public abstract class AbstractLoadBalance implements LoadBalance {
 
     /**
      * 选择合适的服务地址
+     *
      * @param serviceAddress
      * @return
      */

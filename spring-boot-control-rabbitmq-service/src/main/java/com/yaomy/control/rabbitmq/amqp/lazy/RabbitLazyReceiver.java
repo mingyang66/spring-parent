@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitLazyReceiver {
     /**
-     *
      * @param channel 信道
      * @param message 消息
      * @throws Exception
@@ -23,8 +22,8 @@ public class RabbitLazyReceiver {
     @RabbitListener(queues = RabbitLazyConfig.LAZY_TOPIC_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
         System.out.println("--------------------------------------");
-        System.out.println("消费端Payload: " + message.getPayload()+"-ID:"+message.getHeaders().getId()+"-messageId:"+message.getHeaders());
-        Long deliveryTag = (Long)message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
+        System.out.println("消费端Payload: " + message.getPayload() + "-ID:" + message.getHeaders().getId() + "-messageId:" + message.getHeaders());
+        Long deliveryTag = (Long) message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
         //手工ACK,获取deliveryTag
         channel.basicAck(deliveryTag, false);
     }

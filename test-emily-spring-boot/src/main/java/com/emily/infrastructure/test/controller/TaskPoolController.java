@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskPoolController {
 
     @GetMapping("test")
-    public void test(){
+    public void test() {
         ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> System.out.println("------runing..."));
     }
 
     @GetMapping("test1")
-    public void test1(){
+    public void test1() {
         ThreadPoolTaskScheduler threadPoolTaskScheduler = IOCContext.getBean(ThreadPoolTaskScheduler.class);
         System.out.println(threadPoolTaskScheduler);
     }

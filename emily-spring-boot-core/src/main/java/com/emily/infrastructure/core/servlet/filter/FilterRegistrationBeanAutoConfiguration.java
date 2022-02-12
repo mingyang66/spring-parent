@@ -22,6 +22,7 @@ import java.util.Arrays;
 public class FilterRegistrationBeanAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(FilterRegistrationBeanAutoConfiguration.class);
+
     /**
      * 注册HTTP请求拦截器注册BEAN
      *

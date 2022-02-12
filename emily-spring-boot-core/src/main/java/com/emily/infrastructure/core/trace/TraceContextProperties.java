@@ -2,7 +2,9 @@ package com.emily.infrastructure.core.trace;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**m
+/**
+ * m
+ *
  * @program: spring-parent
  * @description: 链路追踪上下文属性配置
  * @author: Emily

@@ -20,11 +20,11 @@ import java.text.MessageFormat;
  * @Author Emily
  * @Version: 1.0
  */
-public class DataSourceMethodInterceptor implements DataSourceCustomizer {
+public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer {
 
     private DataSourceProperties properties;
 
-    public DataSourceMethodInterceptor(DataSourceProperties properties) {
+    public DefaultDataSourceMethodInterceptor(DataSourceProperties properties) {
         this.properties = properties;
     }
 

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.request;
 
 import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestCustomizer;
-import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestMethodInterceptor;
+import com.emily.infrastructure.autoconfigure.request.interceptor.DefaultApiRequestMethodInterceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -72,8 +72,8 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ApiRequestMethodInterceptor apiRequestMethodInterceptor() {
-        return new ApiRequestMethodInterceptor();
+    public DefaultApiRequestMethodInterceptor apiRequestMethodInterceptor() {
+        return new DefaultApiRequestMethodInterceptor();
     }
 
     @Override

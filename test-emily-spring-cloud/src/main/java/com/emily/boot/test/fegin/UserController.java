@@ -20,23 +20,23 @@ public class UserController {
     private UserClient storeClient;
 
     @GetMapping("stores")
-    public List<Store> stores(){
+    public List<Store> stores() {
         return storeClient.stores();
     }
 
     @PostMapping("insertStores")
-    public Store insertStores(@Validated @RequestBody Store store){
+    public Store insertStores(@Validated @RequestBody Store store) {
         return storeClient.insertStores(store).getData();
     }
 
     @GetMapping("getStores")
-    public Store getStores(Store store){
+    public Store getStores(Store store) {
         return storeClient.getStores(store).getData();
     }
 
     @GetMapping("getStores1")
     @ResponseBody
-    public Store getStoresTest(Store store){
+    public Store getStoresTest(Store store) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("name", "adfs");
         params.put("weight", "12");

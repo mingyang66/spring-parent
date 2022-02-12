@@ -8,7 +8,7 @@ import org.springframework.core.Ordered;
  * @author: Emily
  * @create: 2021/11/20
  */
-public class People implements Ordered{
+public class People implements Ordered {
     private int order;
     private String username;
 

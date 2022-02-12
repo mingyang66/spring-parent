@@ -10,7 +10,7 @@ import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
-import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
+import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
@@ -34,7 +34,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
 import javax.sql.DataSource;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -80,8 +79,8 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
-        return new DataSourceMethodInterceptor(dataSourceProperties);
+    public DefaultDataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
+        return new DefaultDataSourceMethodInterceptor(dataSourceProperties);
     }
 
     /**
@@ -112,21 +111,20 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        String beanName = MessageFormat.format("{0}-{1}", DataSourceProperties.PREFIX, DataSourceProperties.class.getName());
-        if (beanFactory.containsBeanDefinition(beanName)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+        String[] beanNames = beanFactory.getBeanNamesForType(DataSourceProperties.class);
+        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
 
-        beanName = DruidSpringAopConfiguration.class.getName();
-        if (beanFactory.containsBeanDefinition(beanName)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+        if (beanFactory.containsBeanDefinition(DruidSpringAopConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(DruidSpringAopConfiguration.class.getName());
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
 
-        beanName = MessageFormat.format("{0}-{1}", "spring.datasource.druid", DruidStatProperties.class.getName());
-        if (beanFactory.containsBeanDefinition(beanName)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+        beanNames = beanFactory.getBeanNamesForType(DruidStatProperties.class);
+        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
 

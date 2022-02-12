@@ -12,9 +12,10 @@ import com.emily.infrastructure.core.trace.TraceContextProperties;
 public class SystemNumberHelper {
     /**
      * 获取系统编号
+     *
      * @return
      */
-    public static String getSystemNumber(){
+    public static String getSystemNumber() {
         return IOCContext.getBean(TraceContextProperties.class).getSystemNumber();
     }
 }

@@ -14,12 +14,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @IRpcService
-public class HelloServiceImpl implements HelloService{
+public class HelloServiceImpl implements HelloService {
     private static final Logger logger = LoggerFactory.getLogger(HelloServiceImpl.class);
+
     @Override
     public Result hello(String s) {
         //logger.info("收到消费者的请求-----" + s);
-        Result result=new Result();
+        Result result = new Result();
         result.setId(1);
         result.setContent("你好,我已经收到了你的消费请求");
         return result;
@@ -33,16 +34,16 @@ public class HelloServiceImpl implements HelloService{
     @Override
     public int get(int x, long y, String s) {
         System.out.println("-------");
-        return Integer.valueOf(String.valueOf(x*y*3));
+        return Integer.valueOf(String.valueOf(x * y * 3));
     }
 
     @Override
     public double get(int x, Long y) {
-        return x*y;
+        return x * y;
     }
 
     @Override
     public String getStudent(Student student) {
-        return student.getAge()+"|"+student.getWeight()+"|"+student.getLen()+"|"+student.getDesc();
+        return student.getAge() + "|" + student.getWeight() + "|" + student.getLen() + "|" + student.getDesc();
     }
 }

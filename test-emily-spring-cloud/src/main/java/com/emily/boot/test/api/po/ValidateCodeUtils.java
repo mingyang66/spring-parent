@@ -50,9 +50,9 @@ public class ValidateCodeUtils {
      * 生成随机验证码及图片
      *
      * @param size 长度
-     * @return Map<字符   ,       文件流>
+     * @return Map<字符, 文件流>
      */
-    public static Map.Entry<String, Object>  createImage(int size) {
+    public static Map.Entry<String, Object> createImage(int size) {
         StringBuffer sb = new StringBuffer();
         // 1.创建空白图片
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);

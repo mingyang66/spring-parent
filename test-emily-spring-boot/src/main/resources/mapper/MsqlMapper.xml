@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.emily.infrastructure.test.mapper.MysqlMapper">
-	<resultMap id="nodeMap" type="com.emily.infrastructure.test.po.QuartzJob">
-		<result column="JOB_NAME" property="jobName"/>
-		<result column="JOB_GROUP" property="jobGroup"/>
-	</resultMap>
+    <resultMap id="nodeMap" type="com.emily.infrastructure.test.po.QuartzJob">
+        <result column="JOB_NAME" property="jobName"/>
+        <result column="JOB_GROUP" property="jobGroup"/>
+    </resultMap>
 
-	<select id="findLocks" resultType="java.lang.String">
+    <select id="findLocks" resultType="java.lang.String">
 		SELECT qjd.LOCK_NAME FROM QUARTZ_LOCKS qjd WHERE qjd.LOCK_NAME=#{lockName}
     </select>
-	<insert id="insertLocks">
+    <insert id="insertLocks">
 		INSERT INTO QUARTZ_LOCKS VALUES(#{schedName}, #{lockName})
 	</insert>
-	<delete id="delLocks">
+    <delete id="delLocks">
 		DELETE FROM QUARTZ_LOCKS ql WHERE ql.LOCK_NAME=#{lockName}
 	</delete>
 </mapper>

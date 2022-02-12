@@ -91,7 +91,7 @@ public class PathMatcher {
             for (String pattern : patterns) {
                 if ("*".equals(pattern)) {
                     matchesAll = true;
-                } else if(StringUtils.isNotEmpty(pattern)){
+                } else if (StringUtils.isNotEmpty(pattern)) {
                     paths.add(pattern);
                 }
             }

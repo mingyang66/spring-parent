@@ -18,7 +18,7 @@ import java.io.IOException;
  * @create: 2021/05/13
  */
 @Service
-public class NodeServiceImpl implements NodeService{
+public class NodeServiceImpl implements NodeService {
     @Autowired
     private SlaveMapper slaveMapper;
     @Autowired
@@ -29,14 +29,14 @@ public class NodeServiceImpl implements NodeService{
     @Override
     //@Transactional(rollbackFor = Exception.class)
     public void findNode() throws Exception {
-       // Long eid = slaveMapper.findNode();
+        // Long eid = slaveMapper.findNode();
         mysqlService.insertMysql();
-       // nodeService.instertStatus();
+        // nodeService.instertStatus();
         //mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
         //slaveMapper.insertStatus();
         //mysqlMapper.findLocks("TEST2");
         //nodeMapper.findNode();
-       // insertMysql();
+        // insertMysql();
 
     }
 
@@ -51,15 +51,15 @@ public class NodeServiceImpl implements NodeService{
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void insertMysql() throws IOException {
-        for (int i=0; i<2;i++){
-            mysqlMapper.insertLocks("name"+i, "lock"+i);
-            String lockName = mysqlMapper.findLocks("lock"+i);
-            System.out.println("==>》查询到的lock名称是："+lockName);
+        for (int i = 0; i < 2; i++) {
+            mysqlMapper.insertLocks("name" + i, "lock" + i);
+            String lockName = mysqlMapper.findLocks("lock" + i);
+            System.out.println("==>》查询到的lock名称是：" + lockName);
             System.out.println();
             mysqlMapper.delLocks(lockName);
-            System.out.println("==>》删除数据成功==>"+lockName);
+            System.out.println("==>》删除数据成功==>" + lockName);
         }
-        mysqlMapper.insertLocks(System.currentTimeMillis()+"", Math.random()+"");
+        mysqlMapper.insertLocks(System.currentTimeMillis() + "", Math.random() + "");
         throw new IOException();
     }
 }

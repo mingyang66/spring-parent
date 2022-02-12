@@ -12,7 +12,7 @@ import org.springframework.core.annotation.Order;
 //@Component
 //@Priority(100)
 @Order(value = 1000)
-public class OTeacher extends People implements Ordered{
+public class OTeacher extends People implements Ordered {
     private String desc;
 
     public String getDesc() {

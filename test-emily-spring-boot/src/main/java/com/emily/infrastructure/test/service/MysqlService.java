@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.service;
 
 public interface MysqlService {
-    default void insertMysql(){
+    default void insertMysql() {
         return;
     }
 }

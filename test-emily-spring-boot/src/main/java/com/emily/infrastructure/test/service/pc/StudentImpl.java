@@ -6,7 +6,7 @@ package com.emily.infrastructure.test.service.pc;
  * @author: Emily
  * @create: 2022/01/14
  */
-public class StudentImpl implements Student{
+public class StudentImpl implements Student {
 
 
     @Override

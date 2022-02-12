@@ -1,6 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.infrastructure.logback.LogbackAutoConfiguration
-
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
   com.emily.infrastructure.logback.initializer.LogbackApplicationContextInitializer

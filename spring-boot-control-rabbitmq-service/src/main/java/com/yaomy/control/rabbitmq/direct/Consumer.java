@@ -63,12 +63,12 @@ public class Consumer {
          * consumerTag：与消费者相关的消费者标签
          * delivery:发送过来的消息
          */
-        DeliverCallback deliverCallback = (consumerTag, delivery)->{
+        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
-            System.out.println("消费者优先级为9的消费者标识："+consumerTag);
+            System.out.println("消费者优先级为9的消费者标识：" + consumerTag);
             try {
                 TimeUnit.SECONDS.sleep(1);
-            } catch (Exception e){
+            } catch (Exception e) {
 
             }
         };
@@ -87,7 +87,7 @@ public class Consumer {
          * @return 服务端生成的消费者标识
          */
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
-            System.out.println("消费者优先级为9的消费者标识："+consumerTag);
+            System.out.println("消费者优先级为9的消费者标识：" + consumerTag);
         });
     }
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * org.apache.ibatis.reflection.ParamNameResolver#getNamedParams(java.lang.Object[])
+ *
  * @author Emily
  * @Description: Description
  * @Version: 1.0
@@ -20,6 +21,7 @@ public interface MysqlMapper {
 
     /**
      * 新增接口
+     *
      * @param schedName
      * @param lockName
      */

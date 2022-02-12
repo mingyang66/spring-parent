@@ -34,8 +34,8 @@ public class SocketStreamClient {
         ZMQ.Socket socket = context.createSocket(SocketType.STREAM);
         //连接指定端点
         socket.connect(endpoint);
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("----------------start-------------------");
                 byte[] c = "你好".getBytes();
                 byte d = (byte) c.length;
@@ -44,11 +44,12 @@ public class SocketStreamClient {
                 String s = socket.recvStr();
                 System.out.println(s);
                 System.out.println("----------------end-------------------");
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
     }
+
     public static void main(String[] args) {
         String endpoint = "tcp://127.0.0.1:5004";
         /*new Thread(()->{

@@ -11,7 +11,7 @@ import com.emily.infrastructure.common.exception.BasicException;
  */
 public class ObjectPoolException extends BasicException {
 
-    public ObjectPoolException(){
+    public ObjectPoolException() {
         super(AppHttpStatus.INIT_EXCEPTION.getStatus(), "对象池初始化异常");
     }
 }

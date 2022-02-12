@@ -15,7 +15,8 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class WindowsCondition implements Condition {
     /**
      * 匹配操作系统类型
-     * @param context 条件上线文
+     *
+     * @param context  条件上线文
      * @param metadata 类或者方法的元数据
      * @return true 符合条件，false 不符合条件
      */

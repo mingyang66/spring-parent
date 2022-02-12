@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2021/11/09
  */
 @Deprecated
-@Category({ "Lettuce", "Command Events" })
+@Category({"Lettuce", "Command Events"})
 @Label("Command Latency")
 @StackTrace(false)
 public class JfrCommandLatency extends Event {

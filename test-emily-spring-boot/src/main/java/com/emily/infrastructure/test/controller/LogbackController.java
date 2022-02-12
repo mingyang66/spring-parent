@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("logback")
 public class LogbackController {
     private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
-    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class,"group/test", "test");
-    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class,"group/test1/demo");
+    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test", "test");
+    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test1/demo");
+
     @GetMapping("debug")
     public String debug() {
         baseLogger.error("--------error");
@@ -40,13 +41,13 @@ public class LogbackController {
         groupLogger.trace("+++++++++++==ttttttttttttt");
 
 
-        LoggerFactory.getModuleLogger(LogbackController.class,"test1", "tt0").info("ni-----------------" + System.currentTimeMillis());
+        LoggerFactory.getModuleLogger(LogbackController.class, "test1", "tt0").info("ni-----------------" + System.currentTimeMillis());
 
         return "success";
     }
 
     @GetMapping("get")
-    public String get(){
+    public String get() {
         Environment environment = IOCContext.getApplicationContext().getEnvironment();
         return environment.getProperty("spring.emily.logback.enabled");
     }

@@ -35,7 +35,7 @@ public class CaffeineController {
     @GetMapping("getCache")
     public void getCache() throws InterruptedException {
         caffeine.put("test", "测试");
-        while (true){
+        while (true) {
             System.out.println(caffeine.getIfPresent("test"));
             Thread.sleep(1000);
         }

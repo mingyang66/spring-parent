@@ -20,11 +20,12 @@ public class RabbitConfig {
     public static final String TTL_DELAY_EXCHANGE = "ttl.dlx.exchange";
     public static final String TTL_DELAY_ROUTING_KEY = "ttl.dlrk.routingkey";
     public static final String TTL_DELAY_QUEUE = "ttl_dlk_queue";
+
     /**
      * 声明队列
      */
     @Bean
-    public Queue topicQueue(){
+    public Queue topicQueue() {
         Map<String, Object> args = Maps.newHashMap();
         /**
          * 设置消息发送到队列之后多久被丢弃，单位：毫秒
@@ -57,26 +58,28 @@ public class RabbitConfig {
      * 声明Topic类型交换器
      */
     @Bean
-    public TopicExchange topicExchange(){
+    public TopicExchange topicExchange() {
         TopicExchange exchange = new TopicExchange(TTL_TOPIC_EXCHANGE);
         return exchange;
     }
 
     /**
      * Topic交换器和队列通过bindingKey绑定
+     *
      * @return
      */
     @Bean
-    public Binding bindingTopicExchangeQueue(){
+    public Binding bindingTopicExchangeQueue() {
         return BindingBuilder.bind(topicQueue()).to(topicExchange()).with(TTL_TOPIC_ROUTING_KEY);
     }
 
     //============================延迟队列及交换器定义=================================
+
     /**
      * 定义延迟队列
      */
     @Bean
-    public Queue ttlQueue(){
+    public Queue ttlQueue() {
         return QueueBuilder.durable(TTL_DELAY_QUEUE).build();
     }
 
@@ -84,7 +87,7 @@ public class RabbitConfig {
      * 定义延迟交换器
      */
     @Bean
-    public TopicExchange ttlExchange(){
+    public TopicExchange ttlExchange() {
         TopicExchange exchange = new TopicExchange(TTL_DELAY_EXCHANGE);
         return exchange;
     }
@@ -93,7 +96,7 @@ public class RabbitConfig {
      * 延迟队列交换器绑定
      */
     @Bean
-    public Binding bindingTtlDirectExchangeQueue(){
+    public Binding bindingTtlDirectExchangeQueue() {
         return BindingBuilder.bind(ttlQueue()).to(ttlExchange()).with(TTL_DELAY_ROUTING_KEY);
     }
 }

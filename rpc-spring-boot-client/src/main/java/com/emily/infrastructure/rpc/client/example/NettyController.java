@@ -36,6 +36,7 @@ public class NettyController {
         Long b = Long.valueOf(23);
         return bean.get(7, 23L);
     }
+
     @GetMapping("rpc2")
     public double rpc2() throws InterruptedException {
         //连接netty，并获得一个代理对象
@@ -43,6 +44,7 @@ public class NettyController {
 
         return bean.get(7, 23L, "asdf");
     }
+
     @GetMapping("rpc3")
     public String rpc3() throws InterruptedException {
         //连接netty，并获得一个代理对象

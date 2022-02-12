@@ -17,6 +17,6 @@ public class LogbackConfigurator extends ContextAwareBase implements Configurato
     @Override
     public void configure(LoggerContext lc) {
         //String s = System.getProperty("user.dir");
-       // System.out.println(s);
+        // System.out.println(s);
     }
 }

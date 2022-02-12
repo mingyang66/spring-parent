@@ -16,5 +16,6 @@ public interface SlaveMapper {
      * 查询接口
      */
     Long findNode();
+
     void insertStatus();
 }

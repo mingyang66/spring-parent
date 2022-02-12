@@ -28,13 +28,13 @@ public class Send {
     /**
      * 路由
      */
-    public static final String ROUTING_KEY  = "test.routing.key";
+    public static final String ROUTING_KEY = "test.routing.key";
     /**
      * BindingKey
      */
-    public static final String BINDING_KEY  = "*.routing.key";
+    public static final String BINDING_KEY = "*.routing.key";
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         /**
          * {@link Connection}的工厂类
          */
@@ -62,7 +62,7 @@ public class Send {
         /**
          * 创建新的代理连接
          */
-        try(Connection connection = factory.newConnection()){
+        try (Connection connection = factory.newConnection()) {
             /**
              * 使用内部分配的通道号创建一个新的频道
              */
@@ -70,7 +70,7 @@ public class Send {
             connection.addBlockedListener(new BlockedListener() {
                 @Override
                 public void handleBlocked(String reason) throws IOException {
-                    System.out.println("Blocked:"+reason);
+                    System.out.println("Blocked:" + reason);
                 }
 
                 @Override
@@ -138,9 +138,9 @@ public class Send {
             /**
              * mandatory：如果为true,则消息回退，通过basic.return方法退回给发送者
              */
-            channel.addReturnListener((returnMessage)-> {
+            channel.addReturnListener((returnMessage) -> {
                 try {
-                    System.out.println("退回的消息是："+returnMessage.getExchange()+","+returnMessage.getRoutingKey()+","+returnMessage.getReplyCode()+","+returnMessage.getReplyText()+","+new String(returnMessage.getBody(), "UTF-8"));
+                    System.out.println("退回的消息是：" + returnMessage.getExchange() + "," + returnMessage.getRoutingKey() + "," + returnMessage.getReplyCode() + "," + returnMessage.getReplyText() + "," + new String(returnMessage.getBody(), "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -151,7 +151,7 @@ public class Send {
              * routingKey：用于绑定的路由key
              */
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, BINDING_KEY);
-           // channel.queueBind("some.queue.name", "some.exchange.name", "some-routing-key");
+            // channel.queueBind("some.queue.name", "some.exchange.name", "some-routing-key");
             String message = "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！";
             /*for(int i=0;i<10;i++){
                 message = StringUtils.join(message, "Hello World,我们现在做的是测试RabbitMQ消息中间件，这中间我们可能会遇到很多的问题，不怕，一个一个的解决！");
@@ -167,8 +167,8 @@ public class Send {
                 @Override
                 public void handleAck(long deliveryTag, boolean multiple) throws IOException {
                     String body = outstandingConfirms.get(deliveryTag);
-                    System.out.println("发布的消息已经被ack,序列号是："+deliveryTag+",multiple:"+multiple+",message:"+message);
-                    if(multiple){
+                    System.out.println("发布的消息已经被ack,序列号是：" + deliveryTag + ",multiple:" + multiple + ",message:" + message);
+                    if (multiple) {
                         ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(deliveryTag, true);
                         confirmed.clear();
                     } else {
@@ -179,8 +179,8 @@ public class Send {
                 @Override
                 public void handleNack(long deliveryTag, boolean multiple) throws IOException {
                     String body = outstandingConfirms.get(deliveryTag);
-                    System.out.println("发布的消息已经被nack-ed,序列号是："+deliveryTag+",multiple:"+multiple+",message:"+message);
-                    if(multiple){
+                    System.out.println("发布的消息已经被nack-ed,序列号是：" + deliveryTag + ",multiple:" + multiple + ",message:" + message);
+                    if (multiple) {
                         ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(deliveryTag, true);
                         confirmed.clear();
                     } else {
@@ -200,7 +200,7 @@ public class Send {
                 /**
                  * 发布确认序号和消息映射关系
                  */
-                outstandingConfirms.put(channel.getNextPublishSeqNo(), priority+":"+message);
+                outstandingConfirms.put(channel.getNextPublishSeqNo(), priority + ":" + message);
                 /**
                  * 发布消息
                  * 发布到不存在的交换器将导致信道级协议异常，该协议关闭信道，
@@ -209,8 +209,8 @@ public class Send {
                  * props: 消息的其它属性，如：路由头等
                  * body: 消息体
                  */
-                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority+":"+message).getBytes());
-                System.out.println(" [x] Sent '" + priority+":"+message + "'");
+                channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (priority + ":" + message).getBytes());
+                System.out.println(" [x] Sent '" + priority + ":" + message + "'");
                 TimeUnit.MILLISECONDS.sleep(100);
                 /*if(i++ == 10){
                     break;
@@ -218,7 +218,7 @@ public class Send {
                 /**
                  * 等待自上次调用以来发布的所有消息都被代理确认，注意，在非publisher confirm信道上调用将会抛出IllegalStateException异常
                  */
-               // channel.waitForConfirms();
+                // channel.waitForConfirms();
             }
         }
     }

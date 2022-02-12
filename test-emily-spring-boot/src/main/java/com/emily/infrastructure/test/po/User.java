@@ -41,7 +41,7 @@ public class User implements Ordered {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        System.out.println("User:"+username+ " finalize");
+        System.out.println("User:" + username + " finalize");
     }
 
     @Override

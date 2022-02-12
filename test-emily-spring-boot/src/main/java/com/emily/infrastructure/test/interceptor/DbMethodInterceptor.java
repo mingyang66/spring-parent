@@ -34,6 +34,6 @@ public class DbMethodInterceptor implements DataSourceCustomizer {
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.DATASOURCE_INTERCEPTOR+1;
+        return AopOrderInfo.DATASOURCE_INTERCEPTOR + 1;
     }
 }

@@ -15,6 +15,7 @@ public class CustomResponseErrorHandler implements ResponseErrorHandler {
     /**
      * 判定响应是否有任何错误
      * true :返回的响应有错误，false无错误
+     *
      * @param response
      * @return
      * @throws IOException

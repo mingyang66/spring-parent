@@ -11,6 +11,7 @@ import java.util.List;
 public interface ServiceInstanceChooser {
     /**
      * 选择可用服务连接对象
+     *
      * @param serviceAddress 服务器地址
      * @return
      */

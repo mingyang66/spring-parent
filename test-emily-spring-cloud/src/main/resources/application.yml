@@ -44,7 +44,7 @@ management:
 ---
 spring:
   profiles:
-    active: redis
+    active: redis,database
   cloud:
     compatibility-verifier:
       enabled: true

@@ -9,10 +9,13 @@ import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +31,7 @@ import org.springframework.context.annotation.Role;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ApiRequestProperties.class)
 @ConditionalOnProperty(prefix = ApiRequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class ApiRequestAutoConfiguration implements InitializingBean, DisposableBean {
+public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ApiRequestAutoConfiguration.class);
 
@@ -74,6 +77,11 @@ public class ApiRequestAutoConfiguration implements InitializingBean, Disposable
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DefaultApiRequestMethodInterceptor apiRequestMethodInterceptor() {
         return new DefaultApiRequestMethodInterceptor();
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+        System.out.println("---");
     }
 
     @Override

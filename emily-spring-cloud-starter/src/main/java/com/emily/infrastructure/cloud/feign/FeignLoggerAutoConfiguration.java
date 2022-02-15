@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign;
 
-import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerCustomizer;
 import com.emily.infrastructure.cloud.feign.interceptor.DefaultFeignLoggerMethodInterceptor;
+import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerCustomizer;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
@@ -21,6 +21,8 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration;
+import org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -95,6 +97,22 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         if (beanFactory.containsBeanDefinition(RetryConfiguration.class.getName())) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(RetryConfiguration.class.getName());
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(CommonsConfigAutoConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(CommonsConfigAutoConfiguration.class.getName());
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition(LoadBalancerDefaultMappingsProviderAutoConfiguration.class.getName())) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(LoadBalancerDefaultMappingsProviderAutoConfiguration.class.getName());
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("loadBalancerClientsDefaultsMappingsProvider")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("loadBalancerClientsDefaultsMappingsProvider");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+        if (beanFactory.containsBeanDefinition("defaultsBindHandlerAdvisor")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("defaultsBindHandlerAdvisor");
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }

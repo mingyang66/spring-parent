@@ -1,8 +1,8 @@
 package com.emily.infrastructure.autoconfigure.httpclient;
 
 import com.emily.infrastructure.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
-import com.emily.infrastructure.autoconfigure.httpclient.interceptor.HttpClientCustomizer;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.DefaultHttpClientInterceptor;
+import com.emily.infrastructure.autoconfigure.httpclient.interceptor.HttpClientCustomizer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;

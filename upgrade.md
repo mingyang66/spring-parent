@@ -3,6 +3,7 @@
 基础库发布4.0.8
 Bug Fixes
 1. 扩展点默认拦截器命名前加Default
+2. 优化Feign扩展点
 -----
 基础库发布4.0.7
 Bug Fixes

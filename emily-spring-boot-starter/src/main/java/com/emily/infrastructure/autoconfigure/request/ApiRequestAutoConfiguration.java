@@ -81,7 +81,6 @@ public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, In
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
-        System.out.println("---");
     }
 
     @Override

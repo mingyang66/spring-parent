@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,19 +31,15 @@ import java.util.Collections;
 @ConditionalOnClass(RestTemplate.class)
 @ConditionalOnProperty(prefix = HttpClientProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration implements InitializingBean, DisposableBean {
+
     private static final Logger logger = LoggerFactory.getLogger(HttpClientAutoConfiguration.class);
-    /**
-     * 读取配置属性服务类
-     */
-    @Autowired
-    private HttpClientProperties httpClientProperties;
 
     /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
      */
     @Primary
     @Bean
-    public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, ClientHttpRequestFactory clientHttpRequestFactory) {
+    public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, ClientHttpRequestFactory clientHttpRequestFactory, HttpClientProperties httpClientProperties) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory));
@@ -62,7 +57,7 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
+    public ClientHttpRequestFactory clientHttpRequestFactory(HttpClientProperties httpClientProperties) {
         //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒

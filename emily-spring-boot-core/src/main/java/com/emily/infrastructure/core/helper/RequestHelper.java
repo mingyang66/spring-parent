@@ -22,7 +22,7 @@ import java.util.*;
  */
 public class RequestHelper {
     /**
-     * 获取请求入参
+     * 获取请求入参,给API请求控制器获取入参
      *
      * @return
      */
@@ -39,7 +39,7 @@ public class RequestHelper {
      * @param request
      * @return
      */
-    public static Map<String, Object> getParameterMap(HttpServletRequest request) {
+    private static Map<String, Object> getParameterMap(HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (request instanceof DelegateRequestWrapper) {
             DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
@@ -83,7 +83,7 @@ public class RequestHelper {
     }
 
     /**
-     * 获取参数对象
+     * HttpClient 获取参数对象
      *
      * @param params
      * @return

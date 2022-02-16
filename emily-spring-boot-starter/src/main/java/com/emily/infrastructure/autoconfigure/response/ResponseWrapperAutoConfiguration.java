@@ -27,25 +27,19 @@ import java.util.stream.Collectors;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ResponseWrapperProperties.class)
-@ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {
-    private static final Logger logger = LoggerFactory.getLogger(ResponseWrapperAutoConfiguration.class);
-    private RequestMappingHandlerAdapter handlerAdapter;
-    private ResponseWrapperProperties returnValueProperties;
 
-    public ResponseWrapperAutoConfiguration(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties returnValueProperties) {
-        this.handlerAdapter = handlerAdapter;
-        this.returnValueProperties = returnValueProperties;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(ResponseWrapperAutoConfiguration.class);
 
     @Bean
-    public void initCustomReturnValue() {
+    public Object initResponseWrapper(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties properties) {
         List<HandlerMethodReturnValueHandler> handlers = handlerAdapter.getReturnValueHandlers().stream().map(valueHandler -> {
             if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
-                return new ResponseMethodReturnValueHandler(valueHandler, returnValueProperties);
+                return new ResponseMethodReturnValueHandler(valueHandler, properties);
             }
             if (valueHandler instanceof HttpEntityMethodProcessor) {
-                return new ResponseHttpEntityMethodReturnValueHandler(valueHandler, returnValueProperties);
+                return new ResponseHttpEntityMethodReturnValueHandler(valueHandler, properties);
             }
             if (valueHandler instanceof HttpHeadersReturnValueHandler) {
                 return new ResponseHttpHeadersReturnValueHandler(valueHandler);
@@ -54,6 +48,7 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
         }).collect(Collectors.toList());
 
         handlerAdapter.setReturnValueHandlers(handlers);
+        return "UNSET";
     }
 
     @Override

@@ -18,20 +18,20 @@ public class ResponseWrapperProperties {
      */
     public static final String PREFIX = "spring.emily.response.wrapper";
     /**
-     * 组件开关
+     * 组件开关，默认：true
      */
-    private boolean enable;
+    private boolean enabled = true;
     /**
      * 忽略包装指定URL
      */
     private Set<String> exclude = new HashSet<>();
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Set<String> getExclude() {

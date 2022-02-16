@@ -5,7 +5,6 @@ import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.trace.context.TraceContextHolder;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -14,6 +13,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Parameter;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -39,18 +39,20 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             throw ex;
         } finally {
             BaseLogger baseLogger = new BaseLogger();
-            baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
+            baseLogger.setSystemNumber(TraceContextHolder.get().getSystemNumber());
             baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
             baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
             baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
             baseLogger.setRequestParams(getInParam(invocation));
             baseLogger.setBody(response);
-            baseLogger.setUrl(invocation.getMethod().getDeclaringClass().getCanonicalName() + "." + invocation.getMethod().getName());
+            baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
             baseLogger.setTime(System.currentTimeMillis() - start);
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });
+            //非servlet上下文移除数据
+            TraceContextHolder.remove(TraceContextHolder.get().isServletContext());
         }
     }
 

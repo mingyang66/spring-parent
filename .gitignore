@@ -40,8 +40,9 @@ out/
 .DS_Store
 venv/
 /test-emily-spring-boot/src/main/resources/application-database.yml
-/test-emily-spring-cloud/src/main/resources/application-redis.yml
 /test-emily-spring-boot/src/main/resources/application-database.properties
 /test-emily-spring-boot/src/main/resources/application-redis.properties
 /test-emily-spring-boot/src/main/resources/bak/application-database.yml.bak
 RpcBody.java
+/test-emily-spring-cloud/src/main/resources/application-database.properties
+/test-emily-spring-cloud/src/main/resources/application-redis.properties

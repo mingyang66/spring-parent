@@ -61,6 +61,7 @@ git push origin --tags
 #### 数据库多数据源组件
 
 - 扩展点提供DataSourceCustomizer接口，AOP会根据拦截器的优先级判定使用优先级最高的拦截器
+- @TargetDataSource注解切换不同的数据源
 - 属性配置示例
 
 ```properties

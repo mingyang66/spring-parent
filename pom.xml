@@ -24,10 +24,10 @@
         <module>rpc-spring-boot-core</module>
         <module>rpc-spring-boot-server</module>
         <module>rpc-spring-boot-client</module>
-        <module>test-emily-spring-boot</module>
-        <module>test-emily-spring-cloud</module>
         <module>spring-boot-control-zeromq-service</module>
         <module>spring-boot-control-rabbitmq-service</module>
+        <module>demo-emily-spring-cloud</module>
+        <module>demo-emily-spring-boot</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>

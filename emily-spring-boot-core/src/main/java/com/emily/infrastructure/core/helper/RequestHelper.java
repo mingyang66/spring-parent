@@ -3,15 +3,20 @@ package com.emily.infrastructure.core.helper;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
+import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 /**
@@ -19,16 +24,20 @@ import java.util.*;
  * @program: spring-parent
  * @description: 请求服务类
  * @create: 2020/11/23
+ * @since 4.0.7
  */
 public class RequestHelper {
+
+    private static final Logger logger = LoggerFactory.getLogger(RequestHelper.class);
+
     /**
      * 获取请求入参,给API请求控制器获取入参
      *
      * @return
      */
-    public static Map<String, Object> getParameterMap() {
+    public static Map<String, Object> getApiParamsMap() {
         if (RequestUtils.isServletContext()) {
-            return getParameterMap(RequestUtils.getRequest());
+            return getParamsMap(RequestUtils.getRequest());
         }
         return Collections.emptyMap();
     }
@@ -39,11 +48,11 @@ public class RequestHelper {
      * @param request
      * @return
      */
-    private static Map<String, Object> getParameterMap(HttpServletRequest request) {
+    private static Map<String, Object> getParamsMap(HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (request instanceof DelegateRequestWrapper) {
             DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-            Map<String, Object> body = getParameterMap(requestWrapper.getRequestBody());
+            Map<String, Object> body = getHttpClientParamsMap(requestWrapper.getRequestBody());
             if (!CollectionUtils.isEmpty(body)) {
                 paramMap.putAll(body);
             }
@@ -74,7 +83,7 @@ public class RequestHelper {
      * @param body 返回结果字节数组
      * @return
      */
-    public static Object getResponseBody(byte[] body) {
+    public static Object getHttpClientResponseBody(byte[] body) {
         try {
             return JSONUtils.toObject(body, Object.class);
         } catch (Exception e) {
@@ -88,7 +97,7 @@ public class RequestHelper {
      * @param params
      * @return
      */
-    public static Map<String, Object> getParameterMap(byte[] params) {
+    public static Map<String, Object> getHttpClientParamsMap(byte[] params) {
         try {
             return JSONUtils.toObject(params, Map.class);
         } catch (Exception e) {
@@ -117,6 +126,24 @@ public class RequestHelper {
         return pMap;
     }
 
+    /**
+     * 获取方法参数
+     */
+    public static Map<String, Object> getMethodParams(MethodInvocation invocation) {
+        try {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            Parameter[] parameters = invocation.getMethod().getParameters();
+            Object[] obj = invocation.getArguments();
+            for (int i = 0; i < parameters.length; i++) {
+                String name = parameters[i].getName();
+                Object value = obj[i];
+                paramMap.put(name, value);
+            }
+        } catch (Exception e) {
+            logger.error(PrintExceptionInfo.printErrorInfo(e));
+        }
+        return Collections.emptyMap();
+    }
     /**
      * 获取耗时字段
      *

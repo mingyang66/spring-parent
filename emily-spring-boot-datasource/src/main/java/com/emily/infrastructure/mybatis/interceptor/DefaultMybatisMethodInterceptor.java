@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
+import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.core.trace.context.TraceContextHolder;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -16,6 +17,7 @@ import java.lang.reflect.Parameter;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -43,7 +45,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
             baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
             baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
-            baseLogger.setRequestParams(getInParam(invocation));
+            baseLogger.setRequestParams(RequestHelper.getMethodParams(invocation));
             baseLogger.setBody(response);
             baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
@@ -54,22 +56,6 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             //非servlet上下文移除数据
             TraceContextHolder.remove(TraceContextHolder.get().isServletContext());
         }
-    }
-
-    private Map<String, Object> getInParam(MethodInvocation invocation) {
-        Map<String, Object> paramMap = Maps.newHashMap();
-        try {
-            Parameter[] parameters = invocation.getMethod().getParameters();
-            Object[] obj = invocation.getArguments();
-            for (int i = 0; i < parameters.length; i++) {
-                String name = parameters[i].getName();
-                Object value = obj[i];
-                paramMap.put(name, value);
-            }
-        } catch (Exception e) {
-            logger.error(PrintExceptionInfo.printErrorInfo(e));
-        }
-        return paramMap;
     }
 
     @Override

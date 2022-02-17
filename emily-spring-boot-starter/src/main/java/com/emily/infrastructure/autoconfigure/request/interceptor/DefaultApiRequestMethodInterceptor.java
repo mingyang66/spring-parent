@@ -50,7 +50,7 @@ public class DefaultApiRequestMethodInterceptor implements ApiRequestCustomizer 
             //请求url
             baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
-            baseLogger.setRequestParams(RequestHelper.getParameterMap());
+            baseLogger.setRequestParams(RequestHelper.getApiParamsMap());
             //调用真实的action方法
             Object response = invocation.proceed();
             //设置响应结果

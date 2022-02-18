@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.trace.context;
+package com.emily.infrastructure.core.context.holder;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.emily.infrastructure.common.constant.HeaderInfo;
@@ -13,7 +13,7 @@ import java.util.UUID;
  * @Author: Emily
  * @create: 2021/10/12
  */
-public class TraceContextHolder {
+public class ContextHolder {
 
     private static final ThreadLocal<RequestHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.trace;
+package com.emily.infrastructure.core.context;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,8 +10,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: Emily
  * @create: 2021/11/27
  */
-@ConfigurationProperties(prefix = TraceContextProperties.PREFIX)
-public class TraceContextProperties {
+@ConfigurationProperties(prefix = ContextProperties.PREFIX)
+public class ContextProperties {
     /**
      * 前缀
      */

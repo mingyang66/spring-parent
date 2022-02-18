@@ -5,6 +5,10 @@ Bug Fixes
 1. 扩展点默认拦截器命名前加Default
 2. 优化Feign扩展点
 3. Mybatis方法请求参数优化调整，提取到公共获取参数类RequestHelper中；
+4. com.emily.infrastructure.core.config.properties.PropertyService,com.emily.infrastructure.core.config.ConfEnvironmentPostProcessor,
+com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emily.infrastructure.core.config.EmilyPropertiesPropertySourceLoader
+四个类删除；
+5. 上下文配置类名称变更，TraceContextHolder名称变更为ContextHolder;
 -----
 基础库发布4.0.7
 Bug Fixes

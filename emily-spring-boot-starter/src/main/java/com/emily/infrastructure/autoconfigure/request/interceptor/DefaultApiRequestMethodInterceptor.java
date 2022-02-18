@@ -11,7 +11,7 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.core.trace.context.TraceContextHolder;
+import com.emily.infrastructure.core.context.holder.ContextHolder;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -42,9 +42,9 @@ public class DefaultApiRequestMethodInterceptor implements ApiRequestCustomizer 
         BaseLogger baseLogger = new BaseLogger();
         try {
             //系统编号
-            baseLogger.setSystemNumber(TraceContextHolder.get().getSystemNumber());
+            baseLogger.setSystemNumber(ContextHolder.get().getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
+            baseLogger.setTraceId(ContextHolder.get().getTraceId());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
@@ -66,17 +66,17 @@ public class DefaultApiRequestMethodInterceptor implements ApiRequestCustomizer 
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
+            baseLogger.setClientIp(ContextHolder.get().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
+            baseLogger.setServerIp(ContextHolder.get().getServerIp());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - TraceContextHolder.get().getStartTime());
+            baseLogger.setTime(System.currentTimeMillis() - ContextHolder.get().getStartTime());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //移除线程上下文数据
-            TraceContextHolder.remove();
+            ContextHolder.remove();
             //设置耗时
             RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }

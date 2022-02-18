@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.core.ioc.IOCContext;
-import com.emily.infrastructure.core.trace.TraceContextProperties;
+import com.emily.infrastructure.core.context.ContextProperties;
 
 /**
  * @program: spring-parent
@@ -16,6 +16,6 @@ public class SystemNumberHelper {
      * @return
      */
     public static String getSystemNumber() {
-        return IOCContext.getBean(TraceContextProperties.class).getSystemNumber();
+        return IOCContext.getBean(ContextProperties.class).getSystemNumber();
     }
 }

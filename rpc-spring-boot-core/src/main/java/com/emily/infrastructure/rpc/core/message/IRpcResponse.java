@@ -1,7 +1,7 @@
 package com.emily.infrastructure.rpc.core.message;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.core.trace.context.TraceContextHolder;
+import com.emily.infrastructure.core.context.holder.ContextHolder;
 
 import java.io.Serializable;
 
@@ -68,7 +68,7 @@ public class IRpcResponse<T> implements Serializable {
 
     public static <T> IRpcResponse<T> buildResponse(int status, String message, T data) {
         IRpcResponse response = new IRpcResponse<>();
-        response.setTraceId(TraceContextHolder.get().getTraceId());
+        response.setTraceId(ContextHolder.get().getTraceId());
         response.setStatus(status);
         response.setMessage(message);
         response.setData(data);

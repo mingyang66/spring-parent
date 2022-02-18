@@ -7,7 +7,7 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.emily.infrastructure.core.trace.context.TraceContextHolder;
+import com.emily.infrastructure.core.context.holder.ContextHolder;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
@@ -37,10 +37,10 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             throw ex;
         } finally {
             BaseLogger baseLogger = new BaseLogger();
-            baseLogger.setSystemNumber(TraceContextHolder.get().getSystemNumber());
-            baseLogger.setTraceId(TraceContextHolder.get().getTraceId());
-            baseLogger.setClientIp(TraceContextHolder.get().getClientIp());
-            baseLogger.setServerIp(TraceContextHolder.get().getServerIp());
+            baseLogger.setSystemNumber(ContextHolder.get().getSystemNumber());
+            baseLogger.setTraceId(ContextHolder.get().getTraceId());
+            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setServerIp(ContextHolder.get().getServerIp());
             baseLogger.setRequestParams(RequestHelper.getMethodParams(invocation));
             baseLogger.setBody(response);
             baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
@@ -50,7 +50,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });
             //非servlet上下文移除数据
-            TraceContextHolder.remove(TraceContextHolder.get().isServletContext());
+            ContextHolder.remove(ContextHolder.get().isServletContext());
         }
     }
 

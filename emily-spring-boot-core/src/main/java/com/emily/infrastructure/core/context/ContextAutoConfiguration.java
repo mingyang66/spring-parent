@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.trace;
+package com.emily.infrastructure.core.context;
 
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
@@ -21,14 +21,14 @@ import org.springframework.core.Ordered;
  * @author: Emily
  * @create: 2021/11/27
  */
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@EnableConfigurationProperties(TraceContextProperties.class)
-@ConditionalOnProperty(prefix = TraceContextProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class TraceContextAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
+@EnableConfigurationProperties(ContextProperties.class)
+@ConditionalOnProperty(prefix = ContextProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class ContextAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(TraceContextAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContextAutoConfiguration.class);
 
     /**
      * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
@@ -47,11 +47,11 @@ public class TraceContextAutoConfiguration implements BeanFactoryPostProcessor, 
 
     @Override
     public void destroy() {
-        logger.info("<== 【销毁--自动化配置】----全链路日志追踪组件【TraceContextAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----全链路日志追踪组件【ContextAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("==> 【初始化--自动化配置】----全链路日志追踪组件【TraceContextAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----全链路日志追踪组件【ContextAutoConfiguration】");
     }
 }

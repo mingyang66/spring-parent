@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.helper;
 
-import com.emily.infrastructure.core.ioc.IOCContext;
 import com.emily.infrastructure.core.context.ContextProperties;
+import com.emily.infrastructure.core.context.ioc.IOCContext;
 
 /**
  * @program: spring-parent

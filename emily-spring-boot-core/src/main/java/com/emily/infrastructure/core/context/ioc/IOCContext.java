@@ -1,7 +1,10 @@
-package com.emily.infrastructure.core.ioc;
+package com.emily.infrastructure.core.context.ioc;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.Ordered;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
@@ -12,14 +15,9 @@ import java.util.Map;
  * @create: 2021/5/13
  */
 @SuppressWarnings("all")
-public class IOCContext {
+public class IOCContext implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
     private static ApplicationContext CONTEXT;
-
-
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        CONTEXT = applicationContext;
-    }
 
     public static ApplicationContext getApplicationContext() {
         return CONTEXT;
@@ -134,5 +132,15 @@ public class IOCContext {
      */
     public static boolean isTypeMatch(String name, Class<?> typeToMatch) {
         return CONTEXT.isTypeMatch(name, typeToMatch);
+    }
+
+    @Override
+    public void initialize(ConfigurableApplicationContext applicationContext) {
+        CONTEXT = applicationContext;
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE + 1;
     }
 }

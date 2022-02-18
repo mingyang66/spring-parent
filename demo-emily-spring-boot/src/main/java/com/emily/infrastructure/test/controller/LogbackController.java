@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.core.env.Environment;

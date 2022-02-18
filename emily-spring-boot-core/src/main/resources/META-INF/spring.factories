@@ -5,4 +5,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.core.ioc.initializer.IOCApplicationContextInitializer
+  com.emily.infrastructure.core.context.ioc.IOCContext

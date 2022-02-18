@@ -1,6 +1,6 @@
 package com.emily.infrastructure.core.helper;
 
-import com.emily.infrastructure.core.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IOCContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**

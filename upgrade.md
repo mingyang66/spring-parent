@@ -9,6 +9,7 @@ Bug Fixes
 com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emily.infrastructure.core.config.EmilyPropertiesPropertySourceLoader
 四个类删除；
 5. 上下文配置类名称变更，TraceContextHolder名称变更为ContextHolder;
+6. IOCContext类优化实现ApplicationContextInitializer初始化接口，删除自定义初始化类，调整IOCContext类包路径
 -----
 基础库发布4.0.7
 Bug Fixes

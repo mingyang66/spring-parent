@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis.factory;
 
-import com.emily.infrastructure.core.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.exception.RedisDbNotFoundException;
 import org.springframework.data.redis.core.RedisTemplate;

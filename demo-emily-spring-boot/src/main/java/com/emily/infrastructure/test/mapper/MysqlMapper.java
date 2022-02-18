@@ -25,8 +25,8 @@ public interface MysqlMapper {
      * @param schedName
      * @param lockName
      */
-    @TargetDataSource("mysql")
+    @TargetDataSource(value = "mysql")
     void insertLocks(String schedName, String lockName);
-
+    @TargetDataSource("mysql")
     void delLocks(String lockName);
 }

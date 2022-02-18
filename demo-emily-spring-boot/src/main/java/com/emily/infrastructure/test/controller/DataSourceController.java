@@ -36,8 +36,6 @@ public class DataSourceController {
     @Autowired
     private JobMapper jobMapper;
     @Autowired
-    private SlaveMapper nodeMapper;
-    @Autowired
     private Node1Mapper node1Mapper;
     @Autowired
     private MysqlMapper mysqlMapper;

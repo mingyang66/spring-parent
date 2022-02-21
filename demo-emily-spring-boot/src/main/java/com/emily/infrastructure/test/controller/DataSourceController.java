@@ -178,4 +178,9 @@ public class DataSourceController {
     public Job getChild() {
         return childMapper.getJob();
     }
+
+    @GetMapping("getOracle")
+    public String getOracle(){
+        return nodeService.getOracle();
+    }
 }

@@ -12,4 +12,6 @@ public interface NodeService {
     default void insertMysql() throws Exception {
         return;
     }
+
+    String getOracle();
 }

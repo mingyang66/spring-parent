@@ -10,6 +10,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 四个类删除；
 5. 上下文配置类名称变更，TraceContextHolder名称变更为ContextHolder;
 6. IOCContext类优化实现ApplicationContextInitializer初始化接口，删除自定义初始化类，调整IOCContext类包路径
+7. druid多数据源属性配置原理分析，添加多数据源守护线程
 -----
 基础库发布4.0.7
 Bug Fixes

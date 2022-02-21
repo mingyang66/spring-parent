@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.service;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.mapper.MysqlMapper;
-import com.emily.infrastructure.test.mapper.SlaveMapper;
+import com.emily.infrastructure.test.mapper.OracleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @Service
 public class NodeServiceImpl implements NodeService {
     @Autowired
-    private SlaveMapper slaveMapper;
+    private OracleMapper oracleMapper;
     @Autowired
     private MysqlMapper mysqlMapper;
     @Autowired
@@ -40,12 +40,6 @@ public class NodeServiceImpl implements NodeService {
 
     }
 
-    @TargetDataSource(value = "slave")
-    @Transactional(rollbackFor = Exception.class, transactionManager = "transactionManager", isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-    @Override
-    public void instertStatus() {
-        slaveMapper.insertStatus();
-    }
 
     @TargetDataSource(value = "mysql")
     @Transactional(rollbackFor = Exception.class)
@@ -61,5 +55,10 @@ public class NodeServiceImpl implements NodeService {
         }
         mysqlMapper.insertLocks(System.currentTimeMillis() + "", Math.random() + "");
         throw new IOException();
+    }
+
+    @Override
+    public String getOracle() {
+        return oracleMapper.getOracle();
     }
 }

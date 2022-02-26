@@ -1,6 +1,9 @@
 package com.emily.infrastructure.test;
 
+import com.emily.infrastructure.common.utils.json.JSONUtils;
+
 import java.net.URL;
+import java.util.Arrays;
 
 
 /**
@@ -11,18 +14,17 @@ import java.net.URL;
  */
 public class FileHelper {
 
-    public static ClassLoader getClassLoaderOfClass(final Class<?> clazz) {
-        ClassLoader cl = clazz.getClassLoader();
-        if (cl == null) {
-            return ClassLoader.getSystemClassLoader();
-        } else {
-            return cl;
-        }
-    }
+    public static void main(String[] args) {
+        String[] con = new String[]{"1", "2", "3", "4", "5"};
+        System.out.println(JSONUtils.toJSONString(con));
+        System.arraycopy(con, 2, con, 0, 3);
+        System.out.println(JSONUtils.toJSONString(con));
+        Arrays.fill(con, 3, 5, null);
+        System.out.println(JSONUtils.toJSONString(con));
+        con = Arrays.copyOf(con, 8);
+        System.out.println(JSONUtils.toJSONString(con));
+        con = Arrays.copyOf(con, 3);
+        System.out.println(JSONUtils.toJSONString(con));
 
-    public static String getUrl(final Class<?> clazz, String name) {
-        ClassLoader classLoader = getClassLoaderOfClass(clazz);
-        URL url = classLoader.getResource(name);
-        return url.toString();
     }
 }

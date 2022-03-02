@@ -92,7 +92,7 @@ public class StrUtils {
      * @param separator 分隔符
      * @return
      */
-    public static String substringBeforeFirst(String str, String separator) {
+    public static String subStringBeforeFirst(String str, String separator) {
         if (StringUtils.isNotEmpty(str) && StringUtils.isNotEmpty(separator)) {
             return str.split(separator)[0];
         }
@@ -108,4 +108,36 @@ public class StrUtils {
     public static boolean hasLength(@Nullable String str) {
         return str != null && !str.isEmpty();
     }
+
+    /**
+     * 替换字符串中指定索引字符为指定字符，包含开始结束索引
+     *
+     * @param str 原字符串
+     * @param start 替换开始位置
+     * @param end 替换结束位置
+     * @param replaceChar 替换的字符
+     * @return
+     */
+    public static String replaceChar(String str, int start, int end, String replaceChar) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        if (start < 0) {
+            start = 0;
+        }
+        if (end < start) {
+            end = start;
+        }
+        if (str.length() < end) {
+            end = str.length();
+        }
+        //前半部分字符串
+        String startStr = StringUtils.substring(str, 0, start);
+        //中间字符串
+        String middleStr = StringUtils.rightPad("", end - start + 1, replaceChar);
+        //后半部分字符串
+        String endStr = StringUtils.substring(str, end + 1);
+        return MessageFormat.format("{0}{1}{2}", startStr, middleStr, endStr);
+    }
+
 }

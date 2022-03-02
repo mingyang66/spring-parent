@@ -12,6 +12,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 6. IOCContext类优化实现ApplicationContextInitializer初始化接口，删除自定义初始化类，调整IOCContext类包路径
 7. druid多数据源属性配置原理分析，添加多数据源守护线程
 8. 升级springboot到2.6.4版本
+9. 新增com.emily.infrastructure.common.utils.StrUtils.replaceChar字符串工具方法
 -----
 基础库发布4.0.7
 Bug Fixes

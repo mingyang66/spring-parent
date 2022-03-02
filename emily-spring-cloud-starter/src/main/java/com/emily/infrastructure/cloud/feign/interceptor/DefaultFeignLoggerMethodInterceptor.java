@@ -69,7 +69,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.remove();
             //非servlet上下文移除数据
-            ContextHolder.remove(ContextHolder.get().isServletContext());
+            ContextHolder.remove();
         }
     }
 

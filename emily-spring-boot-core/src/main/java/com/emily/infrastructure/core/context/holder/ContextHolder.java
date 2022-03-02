@@ -40,15 +40,8 @@ public class ContextHolder {
      * 删除当前线程持有的数据源
      */
     public static void remove() {
-        CONTEXT.remove();
-    }
-
-    /**
-     * 非容器上下文移除，如果为true,则不移除，否则移除
-     */
-    public static void remove(boolean servletContext) {
-        if (!servletContext) {
-            remove();
+        if (!CONTEXT.get().isServletContext()) {
+            CONTEXT.remove();
         }
     }
 

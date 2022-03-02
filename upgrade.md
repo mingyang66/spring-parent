@@ -13,6 +13,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 7. druid多数据源属性配置原理分析，添加多数据源守护线程
 8. 升级springboot到2.6.4版本
 9. 新增com.emily.infrastructure.common.utils.StrUtils.replaceChar字符串工具方法
+10. 优化ContextHolder移除当前线程持有的变量方法
 -----
 基础库发布4.0.7
 Bug Fixes

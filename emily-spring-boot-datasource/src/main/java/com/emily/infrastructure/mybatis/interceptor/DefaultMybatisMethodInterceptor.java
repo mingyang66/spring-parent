@@ -50,7 +50,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });
             //非servlet上下文移除数据
-            ContextHolder.remove(ContextHolder.get().isServletContext());
+            ContextHolder.remove();
         }
     }
 

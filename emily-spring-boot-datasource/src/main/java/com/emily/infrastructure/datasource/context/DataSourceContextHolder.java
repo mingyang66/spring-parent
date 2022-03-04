@@ -14,21 +14,21 @@ public class DataSourceContextHolder {
     /**
      * 设置当前线程持有的数据源
      */
-    public static void setDataSourceLookup(String dataSource) {
+    public static void set(String dataSource) {
         CONTEXT.set(dataSource);
     }
 
     /**
      * 获取当前线程持有的数据源
      */
-    public static String determineCurrentLookupKey() {
+    public static String get() {
         return CONTEXT.get();
     }
 
     /**
      * 删除当前线程持有的数据源
      */
-    public static void clearDataSource() {
+    public static void remove() {
         CONTEXT.remove();
     }
 

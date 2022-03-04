@@ -2,11 +2,13 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
-import com.emily.infrastructure.test.mapper.*;
+import com.emily.infrastructure.test.mapper.ChildMapper;
+import com.emily.infrastructure.test.mapper.ItemMapper;
+import com.emily.infrastructure.test.mapper.JobMapper;
+import com.emily.infrastructure.test.mapper.Node1Mapper;
 import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
-import com.emily.infrastructure.test.po.SqlServer;
 import com.emily.infrastructure.test.service.JobService;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.NodeService;
@@ -37,10 +39,6 @@ public class DataSourceController {
     private JobMapper jobMapper;
     @Autowired
     private Node1Mapper node1Mapper;
-    @Autowired
-    private MysqlMapper mysqlMapper;
-    @Autowired
-    private SqlServerlMapper sqlServerlMapper;
     @Autowired
     private MysqlService mysqlService;
     @Autowired
@@ -150,16 +148,6 @@ public class DataSourceController {
         return node1Mapper.findNode();
     }
 
-    @GetMapping("getQuartzJob")
-    public String getQuartzJob() {
-        return mysqlMapper.findLocks("0.47536746927909124");
-    }
-
-    @GetMapping("findSqlServer")
-    public SqlServer findSqlServer() {
-        return sqlServerlMapper.findSqlServer();
-    }
-
     @Autowired
     private ChildMapper childMapper;
 
@@ -178,9 +166,19 @@ public class DataSourceController {
         return nodeService.getOracle();
     }
 
+    @GetMapping("getMysql")
+    public String getMysql(){
+        return nodeService.getMysql();
+    }
+
     @GetMapping("insertMysql")
     public String insertMysql() {
         mysqlService.insertMysql();
         return "success";
+    }
+
+    @GetMapping("getTwoDb")
+    public String getTwoDb(){
+        return nodeService.getTwoDb();
     }
 }

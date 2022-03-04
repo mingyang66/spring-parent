@@ -19,8 +19,11 @@ import java.text.MessageFormat;
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Author Emily
  * @Version: 1.0
+ * @since 4.0.8
  */
 public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer {
+
+    private static final Logger logger = LoggerFactory.getLogger(DefaultDataSourceMethodInterceptor.class);
 
     private DataSourceProperties properties;
 
@@ -28,34 +31,48 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
         this.properties = properties;
     }
 
+    /**
+     * 拦截器执行前置方法
+     *
+     * @param method
+     * @return 调用数据的数据标识
+     */
     @Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-        //获取方法对象
-        Method method = invocation.getMethod();
+    public String before(Method method) {
         //获取注解标注的数据源
-        String dataSource = getTargetDataSource(method);
+        String dataSource = this.getTargetDataSource(method);
         //判断当前的数据源是否已经被加载进入到系统当中去
         if (!properties.getConfig().containsKey(dataSource)) {
             throw new DataSourceNotFoundException(MessageFormat.format("数据源配置【{0}】不存在", dataSource));
         }
-        Logger logger = LoggerFactory.getLogger(method.getDeclaringClass());
+        //切换到指定的数据源
+        DataSourceContextHolder.set(dataSource);
+        return dataSource;
+    }
+
+    /**
+     * 调用数据库操作完成后执行，移除当前线程值变量
+     *
+     * @param method
+     */
+    @Override
+    public void after(Method method) {
+        //移除当前线程对应的数据源
+        DataSourceContextHolder.remove();
+    }
+
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+        Method method = invocation.getMethod();
         try {
-            if (logger.isDebugEnabled()) {
-                logger.debug(StringUtils.join("==> ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("==> ========开始执行，切换数据源到【%s】========", dataSource)));
-            }
-            //切换到指定的数据源
-            DataSourceContextHolder.setDataSourceLookup(dataSource);
+            this.before(method);
             //调用TargetDataSource标记的切换数据源方法
             return invocation.proceed();
         } catch (Throwable ex) {
-            LoggerFactory.getLogger(invocation.getThis().getClass()).error(String.format("<== ========异常执行，数据源【%s】 ========" + PrintExceptionInfo.printErrorInfo(ex), dataSource));
+            logger.error(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
-            //移除当前线程对应的数据源
-            DataSourceContextHolder.clearDataSource();
-            if (logger.isDebugEnabled()) {
-                logger.debug(StringUtils.join("<== ", method.getDeclaringClass().getName(), ".", method.getName(), String.format("<== ========结束执行，清除数据源【%s】========", dataSource)));
-            }
+            this.after(method);
         }
     }
 

@@ -14,4 +14,6 @@ public interface NodeService {
     }
 
     String getOracle();
+    String getMysql();
+    String getTwoDb();
 }

@@ -30,4 +30,10 @@ public interface MysqlMapper {
 
     @TargetDataSource("mysql")
     void delLocks(String lockName);
+
+    /**
+     * 查询接口
+     */
+    @TargetDataSource("mysql")
+    String getMysql();
 }

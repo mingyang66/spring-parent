@@ -11,7 +11,9 @@ import org.slf4j.Logger;
  * @CreateDate :  Created in 2022/2/19 3:53 下午
  */
 public class DataSourceDaemonThread extends Thread {
+
     private static final Logger logger = LoggerFactory.getLogger(DataSourceDaemonThread.class);
+
     private DataSourceProperties properties;
 
     public DataSourceDaemonThread(String name, DataSourceProperties properties) {
@@ -28,7 +30,7 @@ public class DataSourceDaemonThread extends Thread {
                 logger.info("activeCount:{}",source.getActiveCount());
             });
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000*60);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

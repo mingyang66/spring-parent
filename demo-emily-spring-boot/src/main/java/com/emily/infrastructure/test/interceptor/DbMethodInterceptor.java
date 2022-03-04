@@ -20,6 +20,16 @@ import java.lang.reflect.Method;
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Component
 public class DbMethodInterceptor implements DataSourceCustomizer {
+    @Override
+    public String before(Method method) {
+        return null;
+    }
+
+    @Override
+    public void after(Method method) {
+
+    }
+
     @Nullable
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {

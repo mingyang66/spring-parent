@@ -15,4 +15,8 @@
     <delete id="delLocks">
 		DELETE FROM QUARTZ_LOCKS ql WHERE ql.LOCK_NAME=#{lockName}
 	</delete>
+
+    <select id="getMysql" resultType="java.lang.String">
+		SELECT 'mysql' FROM DUAL
+    </select>
 </mapper>

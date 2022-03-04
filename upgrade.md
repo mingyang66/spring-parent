@@ -14,6 +14,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 8. 升级springboot到2.6.4版本
 9. 新增com.emily.infrastructure.common.utils.StrUtils.replaceChar字符串工具方法
 10. 优化ContextHolder移除当前线程持有的变量方法
+11. 优化数据库中间件，新增扩展点before、after方法
 -----
 基础库发布4.0.7
 Bug Fixes

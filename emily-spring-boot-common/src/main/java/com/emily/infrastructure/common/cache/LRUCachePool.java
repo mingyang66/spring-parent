@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.cache;
+package com.emily.infrastructure.common.cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

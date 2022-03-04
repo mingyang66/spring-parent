@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
  * @Description: 控制器切点配置
  * @Author Emily
  * @Version: 1.0

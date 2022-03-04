@@ -155,12 +155,6 @@ public class DataSourceController {
         return mysqlMapper.findLocks("0.47536746927909124");
     }
 
-    @GetMapping("insertMysql")
-    public String insertMysql() {
-        mysqlService.insertMysql();
-        return "success";
-    }
-
     @GetMapping("findSqlServer")
     public SqlServer findSqlServer() {
         return sqlServerlMapper.findSqlServer();
@@ -182,5 +176,11 @@ public class DataSourceController {
     @GetMapping("getOracle")
     public String getOracle(){
         return nodeService.getOracle();
+    }
+
+    @GetMapping("insertMysql")
+    public String insertMysql() {
+        mysqlService.insertMysql();
+        return "success";
     }
 }

@@ -10,10 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-@TargetDataSource("oracle")
 public interface OracleMapper {
     /**
      * 查询接口
      */
+    @TargetDataSource("oracle")
     String getOracle();
 }

@@ -58,10 +58,18 @@ git push origin --tags
 其它tag操作参考：[tag操作指南](https://blog.csdn.net/Emily/article/details/78839295?ops_request_misc=%7B%22request%5Fid%22%3A%22158685673019724835840750%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158685673019724835840750&biz_id=0&utm_source=distribute.pc_search_result.none-task-blog-blog_SOOPENSEARCH-1)
 
 ------
-#### 数据库多数据源组件
+#### 动态数据库多数据源组件
 
-- 扩展点提供DataSourceCustomizer接口，AOP会根据拦截器的优先级判定使用优先级最高的拦截器
-- @TargetDataSource注解切换不同的数据源
+##### 特性：
+
+- 支持指定默认数据源，如未标记使用哪个数据源则使用默认数据源；
+- 支持根据标识的不同配置、切换不同的数据源；
+- 支持扩展点能力，提供DataSourceCustomizer接口，AOP会根据拦截器的优先级判定使用优先级最高的拦截器；
+- 提供@TargetDataSource注解切换不同的数据源；
+- 可以通过配置更改默认数据源的标识；
+- 支持从类、方法上读取切换不同数据源注解，方法上的注解标识优先级最高；
+- 支持从父类、父接口及其方法上继承注解；
+- druid数据库连接池支持的所有属性配置都支持；
 - 属性配置示例
 
 ```properties
@@ -70,23 +78,69 @@ spring.emily.datasource.enabled=true
 #是否拦截超类或者接口中的方法，默认：true
 spring.emily.datasource.check-inherited=true
 #默认数据源配置，默认：default
-spring.emily.datasource.default-config=default
-#驱动名称
-spring.emily.datasource.config.default.driver-class-name=oracle.jdbc.OracleDriver
-#配置url
-spring.emily.datasource.config.default.url=jdbc:oracle:thin:@xx.xx.xx.xx:1521:qw
-#用户名
-spring.emily.datasource.config.default.username=root
+spring.emily.datasource.default-config=mysql
+#这一项可配可不配，如果不配置druid会根据url自动识别dbType，然后选择相应的driverClassName
+spring.emily.datasource.config.mysql.driver-class-name=com.mysql.cj.jdbc.Driver
+#连接数据库的url，不同数据库不一样
+spring.emily.datasource.config.mysql.url=jdbc:mysql://127.0.0.1:3306/sgrain?characterEncoding=utf-8&rewriteBatchedStatements=true
+#连接数据库的用户名
+spring.emily.datasource.config.mysql.username=root
 #用户密码
-spring.emily.datasource.config.default.password=123456
+spring.emily.datasource.config.mysql.password=smallgrain
 #数据库连接池类型
-spring.emily.datasource.config.default.db-type=com.alibaba.druid.pool.DruidDataSource
+spring.emily.datasource.config.mysql.db-type=com.alibaba.druid.pool.DruidDataSource
 
-spring.emily.datasource.config.slave.driver-class-name=oracle.jdbc.OracleDriver
-spring.emily.datasource.config.slave.url=jdbc:oracle:thin:@x.x.x.x:we
-spring.emily.datasource.config.slave.username=root
-spring.emily.datasource.config.slave.password=123
-spring.emily.datasource.config.slave.db-type=com.alibaba.druid.pool.DruidDataSource
+#初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时，默认：0
+spring.emily.datasource.config.mysql.initial-size=2
+#最小连接池数，默认：0
+spring.emily.datasource.config.mysql.min-idle=2
+#最大连接数，默认：8
+spring.emily.datasource.config.mysql.max-active=8
+#获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁，默认：-1（推荐内网800ms,外网1200ms,因为tcp建立连接重试一般需要1s）
+spring.emily.datasource.config.mysql.max-wait=-1
+
+#mysql默认使用ping模式,可以通过设置系统属性System.getProperties().setProperty("druid.mysql.usePingMethod", "false")更改为sql模式
+#用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。默认：缺省
+# mysql默认：SELECT 1  oracle默认：SELECT 'x' FROM DUAL
+spring.emily.datasource.config.mysql.validation-query=SELECT 1
+#单位：秒，检测连接是否有效的超时时间。底层调用jdbc Statement对象的void setQueryTimeout(int seconds)方法，默认：-1
+spring.emily.datasource.config.mysql.validation-query-timeout=-1
+#申请连接时执行validationQuery检测连接是否有效，这个配置会降低性能。默认：false (如果test-on-borrow为true,那么test-while-idle无效)
+spring.emily.datasource.config.mysql.test-on-borrow=false
+#建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。默认：true
+spring.emily.datasource.config.mysql.test-while-idle=true
+#归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。默认：false
+spring.emily.datasource.config.mysql.test-on-return=false
+
+#是否对空闲连接进行保活，默认：false
+spring.emily.datasource.config.mysql.keep-alive=true
+#触发心跳的间隔时间（Destory线程检测连接的间隔时间），默认：60*1000 一分钟
+spring.emily.datasource.config.mysql.time-between-eviction-runs-millis=60000
+#连接保持空闲而不被驱逐的最小时间（保活心跳只会对存活时间超过这个值的连接进行），默认：1000L * 60L * 30L
+spring.emily.datasource.config.mysql.min-evictable-idle-time-millis=1800000
+#连接保持空闲最长时间（连接有任何操作，计时器重置，否则被驱逐），默认：1000L * 60L * 60L * 7
+spring.emily.datasource.config.mysql.max-evictable-idle-time-millis=25200000
+#保活检查间隔时间，默认：60*1000*2毫秒，要求大于等于2分钟（要大于min-evictable-idle-time-millis）
+spring.emily.datasource.config.mysql.keep-alive-between-time-millis=120000
+
+#https://github.com/alibaba/druid/wiki/%E8%BF%9E%E6%8E%A5%E6%B3%84%E6%BC%8F%E7%9B%91%E6%B5%8B
+#连接池泄漏监测，当程序存在缺陷时，申请的连接忘记关闭，这时就存在连接泄漏了，开启后对性能有影响，建议生产关闭，默认：false
+spring.emily.datasource.config.mysql.remove-abandoned=true
+#默认：300*1000
+spring.emily.datasource.config.mysql.remove-abandoned-timeout-millis=300000
+#回收连接时打印日志，默认：false
+spring.emily.datasource.config.mysql.log-abandoned=true
+
+#物理超时时间，默认：-1
+spring.emily.datasource.config.mysql.phy-timeout-millis=-1
+#物理最大连接数，默认：-1（不建议配置）
+spring.emily.datasource.config.mysql.phy-max-use-count=-1
+
+#是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。默认：false
+spring.emily.datasource.config.mysql.pool-prepared-statements=true
+#要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100，默认：10
+#默认：10，如果不设置此属性大于0，则PS缓存默认关闭
+spring.emily.datasource.config.mysql.max-pool-prepared-statement-per-connection-size=10
 ```
 
 #### Mybatis埋点组件

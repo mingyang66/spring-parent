@@ -1,6 +1,5 @@
 package com.emily.infrastructure.datasource.thread;
 
-import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ public class DataSourceDaemonThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            properties.getAllDataSource().values().stream().forEach(source -> {
+            properties.getMergeDataSource().values().stream().forEach(source -> {
                // logger.info(JSONUtils.toJSONString(source.getPoolingConnectionInfo()));
                 //logger.info("activeCount:{}", source.getActiveCount());
             });

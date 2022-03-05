@@ -94,7 +94,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
-        Map<String, DataSource> configs = dataSourceProperties.getAllDataSource();
+        Map<String, DataSource> configs = dataSourceProperties.getMergeDataSource();
         if (Objects.isNull(dataSourceProperties.getDefaultDataSource())) {
             throw new DataSourceNotFoundException("默认数据库必须配置");
         }

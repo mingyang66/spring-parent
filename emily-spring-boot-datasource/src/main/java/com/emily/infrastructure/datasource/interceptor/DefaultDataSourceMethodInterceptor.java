@@ -7,7 +7,6 @@ import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -42,7 +41,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
         //获取注解标注的数据源
         String dataSource = this.getTargetDataSource(method);
         //判断当前的数据源是否已经被加载进入到系统当中去
-        if (!properties.getAllDataSource().containsKey(dataSource)) {
+        if (!properties.getMergeDataSource().containsKey(dataSource)) {
             throw new DataSourceNotFoundException(MessageFormat.format("数据源配置【{0}】不存在", dataSource));
         }
         //切换到指定的数据源

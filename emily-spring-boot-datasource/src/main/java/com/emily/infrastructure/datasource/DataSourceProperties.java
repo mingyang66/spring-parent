@@ -1,7 +1,6 @@
 package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -41,11 +40,11 @@ public class DataSourceProperties {
      */
     private boolean checkInherited = true;
     /**
-     * Druid多数据源配置
+     * Druid数据库连接池多数据源配置
      */
     private Map<String, DruidDataSource> druid = new HashMap<>();
     /**
-     * Hikari默认多数据源配置
+     * Hikari数据库连接池多数据源配置
      */
     private Map<String, HikariDataSource> hikari = new HashMap<>();
 
@@ -94,7 +93,7 @@ public class DataSourceProperties {
      *
      * @return
      */
-    public Map<String, DataSource> getAllDataSource() {
+    public Map<String, DataSource> getMergeDataSource() {
         if (ALL_DATASOURCE.isEmpty()) {
             ALL_DATASOURCE.putAll(this.getDruid());
             ALL_DATASOURCE.putAll(this.getHikari());

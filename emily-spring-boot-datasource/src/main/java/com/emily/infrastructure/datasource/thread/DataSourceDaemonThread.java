@@ -25,12 +25,12 @@ public class DataSourceDaemonThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            properties.getConfig().values().stream().forEach(source -> {
-                logger.info(JSONUtils.toJSONString(source.getPoolingConnectionInfo()));
-                logger.info("activeCount:{}",source.getActiveCount());
+            properties.getAllDataSource().values().stream().forEach(source -> {
+               // logger.info(JSONUtils.toJSONString(source.getPoolingConnectionInfo()));
+                //logger.info("activeCount:{}", source.getActiveCount());
             });
             try {
-                Thread.sleep(1000*60);
+                Thread.sleep(1000 * 60);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

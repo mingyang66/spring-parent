@@ -1,6 +1,5 @@
 package com.emily.infrastructure.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
@@ -95,8 +94,8 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
-        Map<String, DruidDataSource> configs = dataSourceProperties.getConfig();
-        if (Objects.isNull(dataSourceProperties.getDefaultConfig())) {
+        Map<String, DataSource> configs = dataSourceProperties.getAllDataSource();
+        if (Objects.isNull(dataSourceProperties.getDefaultDataSource())) {
             throw new DataSourceNotFoundException("默认数据库必须配置");
         }
         if (configs.isEmpty()) {
@@ -104,7 +103,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
         }
         Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
         configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
-        return DynamicMultipleDataSources.build(dataSourceProperties.getDefaultDataSource(), targetDataSources);
+        return DynamicMultipleDataSources.build(configs.get(dataSourceProperties.getDefaultDataSource()), targetDataSources);
     }
 
     /**

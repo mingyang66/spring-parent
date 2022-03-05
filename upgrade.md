@@ -16,6 +16,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 10. 优化ContextHolder移除当前线程持有的变量方法
 11. 优化数据库中间件，新增扩展点before、after方法
 12. 新增LRUCache类
+13. 动态数据库多数据源中间件支持Hikari数据库连接池，无需任何代码层面调整就可以自动切换使用不同的数据库连接池
 -----
 基础库发布4.0.7
 Bug Fixes

@@ -1,8 +1,11 @@
 package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.google.common.collect.Maps;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +23,11 @@ public class DataSourceProperties {
     /**
      * 默认数据源配置，默认：default
      */
-    public static final String DEFAULT_CONFIG = "default";
+    public static final String DEFAULT_DATASOURCE = "default";
+    /**
+     * 数据库连接池集合，包含druid+hikari
+     */
+    public static final Map<String, DataSource> ALL_DATASOURCE = new HashMap<>();
     /**
      * 是否开启数据源组件, 默认：true
      */
@@ -28,15 +35,19 @@ public class DataSourceProperties {
     /**
      * 默认数据源配置，默认：default
      */
-    private String defaultConfig = DEFAULT_CONFIG;
+    private String defaultDataSource = DEFAULT_DATASOURCE;
     /**
      * 是否拦截超类或者接口中的方法，默认：true
      */
     private boolean checkInherited = true;
     /**
-     * 多数据源配置
+     * Druid多数据源配置
      */
-    private Map<String, DruidDataSource> config = new HashMap<>();
+    private Map<String, DruidDataSource> druid = new HashMap<>();
+    /**
+     * Hikari默认多数据源配置
+     */
+    private Map<String, HikariDataSource> hikari = new HashMap<>();
 
     public boolean isEnabled() {
         return enabled;
@@ -46,12 +57,12 @@ public class DataSourceProperties {
         this.enabled = enabled;
     }
 
-    public String getDefaultConfig() {
-        return defaultConfig;
+    public String getDefaultDataSource() {
+        return defaultDataSource;
     }
 
-    public void setDefaultConfig(String defaultConfig) {
-        this.defaultConfig = defaultConfig;
+    public void setDefaultDataSource(String defaultDataSource) {
+        this.defaultDataSource = defaultDataSource;
     }
 
     public boolean isCheckInherited() {
@@ -62,15 +73,32 @@ public class DataSourceProperties {
         this.checkInherited = checkInherited;
     }
 
-    public Map<String, DruidDataSource> getConfig() {
-        return config;
+    public Map<String, DruidDataSource> getDruid() {
+        return druid;
     }
 
-    public void setConfig(Map<String, DruidDataSource> config) {
-        this.config = config;
+    public void setDruid(Map<String, DruidDataSource> druid) {
+        this.druid = druid;
     }
 
-    public DruidDataSource getDefaultDataSource() {
-        return this.config.get(this.getDefaultConfig());
+    public Map<String, HikariDataSource> getHikari() {
+        return hikari;
+    }
+
+    public void setHikari(Map<String, HikariDataSource> hikari) {
+        this.hikari = hikari;
+    }
+
+    /**
+     * 获取合并后的数据源配置
+     *
+     * @return
+     */
+    public Map<String, DataSource> getAllDataSource() {
+        if (ALL_DATASOURCE.isEmpty()) {
+            ALL_DATASOURCE.putAll(this.getDruid());
+            ALL_DATASOURCE.putAll(this.getHikari());
+        }
+        return ALL_DATASOURCE;
     }
 }

@@ -17,6 +17,6 @@
 	</delete>
 
     <select id="getMysql" resultType="java.lang.String">
-		SELECT 'mysql' FROM DUAL
+		SELECT qjd.LOCK_NAME FROM QUARTZ_LOCKS qjd where qjd.LOCK_NAME='0.47536746927909124'
     </select>
 </mapper>

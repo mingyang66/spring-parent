@@ -49,16 +49,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
         return dataSource;
     }
 
-    /**
-     * 调用数据库操作完成后执行，移除当前线程值变量
-     *
-     * @param method
-     */
-    @Override
-    public void after(Method method) {
-        //移除当前线程对应的数据源
-        DataSourceContextHolder.remove();
-    }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -73,6 +63,17 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
         } finally {
             this.after(method);
         }
+    }
+
+    /**
+     * 调用数据库操作完成后执行，移除当前线程值变量
+     *
+     * @param method
+     */
+    @Override
+    public void after(Method method) {
+        //移除当前线程对应的数据源
+        DataSourceContextHolder.remove();
     }
 
     /**

@@ -26,6 +26,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -40,15 +41,16 @@ import java.util.Objects;
 
 /**
  * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
+ *
  * @Description: 控制器切点配置
  * @Author Emily
  * @since 4.0.8
  */
 @Configuration
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnProperty(prefix = DataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
@@ -64,6 +66,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnMissingBean
     public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers, DataSourceProperties properties) {
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(TargetDataSource.class, properties.isCheckInherited());
@@ -82,7 +85,8 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultDataSourceMethodInterceptor dataSourceMethodInterceptor(DataSourceProperties dataSourceProperties) {
+    @ConditionalOnMissingBean
+    public DataSourceCustomizer dataSourceCustomizer(DataSourceProperties dataSourceProperties) {
         return new DefaultDataSourceMethodInterceptor(dataSourceProperties);
     }
 
@@ -93,6 +97,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnMissingBean
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         Map<String, DataSource> configs = dataSourceProperties.getMergeDataSource();
         if (Objects.isNull(dataSourceProperties.getDefaultDataSource())) {

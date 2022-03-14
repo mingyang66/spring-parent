@@ -42,7 +42,7 @@ public class FileUtils {
         try {
             return IOUtils.toString(new URL(url).openStream(), encoding);
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT_EXCEPTION.getStatus(), StringUtils.join("读取文件：", url, "发生异常", e));
+            throw new BasicException(AppHttpStatus.ILLEGAL_PARAMETER.getStatus(), StringUtils.join("读取文件：", url, "发生异常", e));
         }
     }
 

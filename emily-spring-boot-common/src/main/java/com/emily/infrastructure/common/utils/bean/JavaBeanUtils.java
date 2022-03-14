@@ -49,7 +49,7 @@ public class JavaBeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.ILLEGAL_CLASS_CONVERT.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -76,7 +76,7 @@ public class JavaBeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.ILLEGAL_CLASS_CONVERT.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -102,7 +102,7 @@ public class JavaBeanUtils {
             }
             return bean;
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.ILLEGAL_CLASS_CONVERT.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 
@@ -126,7 +126,7 @@ public class JavaBeanUtils {
             }
             return beanClass;
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.CLASS_CAST_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(e));
+            throw new BasicException(AppHttpStatus.ILLEGAL_CLASS_CONVERT.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
     }
 

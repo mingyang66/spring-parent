@@ -8,5 +8,5 @@ import org.springframework.core.Ordered;
  * @Author: Emily
  * @create: 2021/11/25
  */
-public interface ApiRequestCustomizer extends MethodInterceptor, Ordered {
+public interface RequestCustomizer extends MethodInterceptor, Ordered {
 }

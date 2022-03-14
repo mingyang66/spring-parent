@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.request;
 
-import com.emily.infrastructure.autoconfigure.request.interceptor.ApiRequestCustomizer;
-import com.emily.infrastructure.autoconfigure.request.interceptor.DefaultApiRequestMethodInterceptor;
+import com.emily.infrastructure.autoconfigure.request.interceptor.DefaultRequestMethodInterceptor;
+import com.emily.infrastructure.autoconfigure.request.interceptor.RequestCustomizer;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -30,11 +30,11 @@ import org.springframework.context.annotation.Role;
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(ApiRequestProperties.class)
-@ConditionalOnProperty(prefix = ApiRequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
+@EnableConfigurationProperties(RequestProperties.class)
+@ConditionalOnProperty(prefix = RequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class RequestAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiRequestAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestAutoConfiguration.class);
 
     /**
      * 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
@@ -58,7 +58,7 @@ public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor apiAdvisor(ObjectProvider<ApiRequestCustomizer> apiRequestCustomizers) {
+    public Advisor apiAdvisor(ObjectProvider<RequestCustomizer> requestCustomizers) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -68,7 +68,7 @@ public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, In
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(apiRequestCustomizers.orderedStream().findFirst().get());
+        advisor.setAdvice(requestCustomizers.orderedStream().findFirst().get());
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderInfo.REQUEST);
         return advisor;
@@ -77,8 +77,8 @@ public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean
-    public ApiRequestCustomizer apiRequestCustomizer() {
-        return new DefaultApiRequestMethodInterceptor();
+    public RequestCustomizer requestCustomizer() {
+        return new DefaultRequestMethodInterceptor();
     }
 
     @Override

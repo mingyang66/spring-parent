@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description: 拦截器属性配置类
  * @create: 2020/03/19
  */
-@ConfigurationProperties(prefix = ApiRequestProperties.PREFIX)
-public class ApiRequestProperties {
+@ConfigurationProperties(prefix = RequestProperties.PREFIX)
+public class RequestProperties {
     /**
      * 属性配置前缀
      */

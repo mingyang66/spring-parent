@@ -3,19 +3,18 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.exception.CustomException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
-import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.beans.TypeMismatchException;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -28,13 +27,14 @@ import java.text.MessageFormat;
  */
 @RestControllerAdvice
 public class ExceptionAdviceHandler {
+
     private static final Logger logger = LoggerFactory.getLogger(ExceptionAdviceHandler.class);
 
     /**
      * 未知异常
      */
     @ExceptionHandler(value = Exception.class)
-    public BaseResponse unKnowExceptionHandler(Exception e) {
+    public BaseResponse exceptionHandler(Exception e) {
         recordErrorInfo(e);
         return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION, e.getMessage());
     }
@@ -49,21 +49,12 @@ public class ExceptionAdviceHandler {
     }
 
     /**
-     * 数据源访问异常，如：BadSqlGrammarException等
-     */
-    /*@ExceptionHandler(value = NestedRuntimeException.class)
-    public BaseResponse runtimeExceptionHandler(NestedRuntimeException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), "服务开小差了，请稍后");
-    }*/
-
-    /**
      * 空指针异常
      */
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER);
     }
 
     /**
@@ -72,7 +63,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.CLASS_CAST_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_CLASS_CONVERT);
     }
 
     /**
@@ -88,67 +79,49 @@ public class ExceptionAdviceHandler {
      * 数组越界异常
      */
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    public BaseResponse indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException e) {
+    public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.INDEX_OUT_OF_BOUNDS_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_INDEX);
     }
 
     /**
-     * 参数类型不匹配
+     * API-参数类型不匹配
      */
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public BaseResponse requestTypeMismatch(MethodArgumentTypeMismatchException e) {
+    @ExceptionHandler({TypeMismatchException.class})
+    public BaseResponse requestTypeMismatch(TypeMismatchException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_MISMATCH_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.MISMATCH_PARAMETER);
     }
 
     /**
-     * 缺少参数
+     * API-缺少参数
      */
-    @ExceptionHandler({MissingServletRequestParameterException.class})
-    public BaseResponse requestMissingServletRequest(MissingServletRequestParameterException e) {
+    @ExceptionHandler(MissingRequestValueException.class)
+    public BaseResponse requestMissingServletRequest(MissingRequestValueException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_MISSING_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.MISSING_PARAMETER);
     }
 
 
     /**
-     * 控制器方法中@RequestBody类型参数数据类型转换异常
-     */
-    @ExceptionHandler({HttpMessageNotReadableException.class})
-    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_TYPE_EXCEPTION);
-    }
-
-    /**
-     * 非法参数异常
-     */
-    @ExceptionHandler({IllegalArgumentException.class})
-    public BaseResponse httpMessageNotReadableException(IllegalArgumentException e) {
-        recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_TYPE_EXCEPTION.getStatus(), e.getMessage());
-    }
-
-    /**
-     * 控制器方法参数Validate异常
+     * API-控制器方法参数Validate异常
      *
      * @throws BindException
      * @throws MethodArgumentNotValidException
      */
-    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({BindException.class, IllegalArgumentException.class, HttpMessageConversionException.class})
     public BaseResponse validModelBindException(BindException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.PARAMETER_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_PARAMETER);
     }
 
     /**
-     * 请求method不匹配
+     * API-请求method不匹配
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    public BaseResponse requestMissingServletRequest(HttpRequestMethodNotSupportedException e) {
+    public BaseResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.METHOD_SUPPORTED_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_METHOD);
     }
 
     /**
@@ -157,7 +130,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e) {
         recordErrorInfo(e);
-        return BaseResponse.buildResponse(AppHttpStatus.NUMBER_FORMAT_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_NUMBER_FORMAT);
     }
 
     /**
@@ -172,17 +145,6 @@ public class ExceptionAdviceHandler {
         return BaseResponse.buildResponse(e.getStatus(), e.getMessage());
     }
 
-    /**
-     * 自定义异常
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(CustomException.class)
-    public Object customException(CustomException e) {
-        recordErrorInfo(e);
-        return e.getBean();
-    }
 
     /**
      * 获取异常堆栈信息并记录到error文件中

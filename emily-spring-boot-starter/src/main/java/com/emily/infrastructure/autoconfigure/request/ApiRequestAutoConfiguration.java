@@ -16,6 +16,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -75,7 +76,8 @@ public class ApiRequestAutoConfiguration implements BeanFactoryPostProcessor, In
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultApiRequestMethodInterceptor apiRequestMethodInterceptor() {
+    @ConditionalOnMissingBean
+    public ApiRequestCustomizer apiRequestCustomizer() {
         return new DefaultApiRequestMethodInterceptor();
     }
 

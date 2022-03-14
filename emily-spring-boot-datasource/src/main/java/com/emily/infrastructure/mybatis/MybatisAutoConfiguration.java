@@ -2,6 +2,7 @@ package com.emily.infrastructure.mybatis;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
+import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.mybatis.interceptor.DefaultMybatisMethodInterceptor;
 import com.emily.infrastructure.mybatis.interceptor.MybatisCustomizer;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -65,7 +67,8 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultMybatisMethodInterceptor mybatisMethodInterceptor() {
+    @ConditionalOnMissingBean
+    public MybatisCustomizer mybatisCustomizer() {
         return new DefaultMybatisMethodInterceptor();
     }
 

@@ -66,7 +66,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    @ConditionalOnMissingBean
     public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers, DataSourceProperties properties) {
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(TargetDataSource.class, properties.isCheckInherited());

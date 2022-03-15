@@ -71,9 +71,15 @@ public class ContextHolder {
          */
         private String serverIp;
         /**
-         * 是否servlet容器上下文，默认：false
+         * (逻辑)是否servlet容器上下文，默认：false
          */
         private boolean servletContext;
+        /**
+         * 当前请求所处的阶段(目前主要为控制器参数异常时日志记录判定)
+         * REQUEST_MAPPING-RequestMappingHandlerMapping校验转发阶段
+         * REQUEST_AOP-Request请求AOP拦截阶段
+         */
+        private Stage stage;
 
 
         public RequestHolder() {
@@ -88,6 +94,7 @@ public class ContextHolder {
             if (Objects.isNull(traceId)) {
                 this.traceId = UUID.randomUUID().toString();
             }
+            this.stage = Stage.MAPPING;
         }
 
         public String getTraceId() {
@@ -145,5 +152,31 @@ public class ContextHolder {
         public void setServletContext(boolean servletContext) {
             this.servletContext = servletContext;
         }
+
+        public Stage getStage() {
+            return stage;
+        }
+
+        public void setStage(Stage stage) {
+            this.stage = stage;
+        }
+    }
+
+    /**
+     * API请求阶段
+     */
+    public enum Stage {
+        //RequestMappingHandlerMapping校验转发阶段
+        MAPPING,
+        //Request请求AOP拦截阶段
+        REQUEST,
+        //Feign请求阶段
+        FEIGN,
+        //RestTemplate请求阶段
+        HTTP,
+        //Mybatis日志记录
+        MYBATIS,
+        //其它阶段
+        OTHER;
     }
 }

@@ -38,6 +38,8 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        //设置当前请求阶段标识
+        ContextHolder.get().setStage(ContextHolder.Stage.REQUEST);
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         try {

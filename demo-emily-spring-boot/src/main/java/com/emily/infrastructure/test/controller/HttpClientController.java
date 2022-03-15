@@ -2,6 +2,7 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.core.entity.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,8 @@ public class HttpClientController {
     }
 
     @GetMapping("testResponse")
-    public String testResponse() {
-        return "你好";
+    public String testResponse() throws IllegalArgumentException {
+        throw new IllegalArgumentException("测试");
+        //return "你好";
     }
 }

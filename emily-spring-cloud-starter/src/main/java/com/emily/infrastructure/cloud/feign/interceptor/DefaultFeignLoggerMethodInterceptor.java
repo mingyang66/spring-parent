@@ -35,6 +35,8 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        //设置当前请求阶段标识
+        ContextHolder.get().setStage(ContextHolder.Stage.FEIGN);
         // 开始时间
         long start = System.currentTimeMillis();
         // 响应结果

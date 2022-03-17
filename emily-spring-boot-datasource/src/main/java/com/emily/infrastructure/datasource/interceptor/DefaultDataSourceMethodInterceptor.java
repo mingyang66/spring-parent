@@ -38,19 +38,36 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
      */
     @Override
     public String before(Method method) {
+        //数据源切换开始
+        TargetDataSource targetDataSource;
+        if (method.isAnnotationPresent(TargetDataSource.class)) {
+            //获取当前类的方法上标注的注解对象
+            targetDataSource = method.getAnnotation(TargetDataSource.class);
+        } else {
+            //返回方法声明所在类或接口的Class对象
+            targetDataSource = method.getDeclaringClass().getAnnotation(TargetDataSource.class);
+        }
+        if (targetDataSource == null && this.properties.isCheckInherited()) {
+            //返回当前类或父类或接口方法上标注的注解对象
+            targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method, TargetDataSource.class);
+        }
+        if (targetDataSource == null && this.properties.isCheckInherited()) {
+            //返回当前类或父类或接口上标注的注解对象
+            targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
+        }
         //获取注解标注的数据源
-        String dataSource = this.getTargetDataSource(method);
+        String dataSource = targetDataSource.value();
         //判断当前的数据源是否已经被加载进入到系统当中去
         if (!properties.getMergeDataSource().containsKey(dataSource)) {
             throw new DataSourceNotFoundException(MessageFormat.format("数据源配置【{0}】不存在", dataSource));
         }
-        //切换到指定的数据源
-        DataSourceContextHolder.set(dataSource);
+
         return dataSource;
     }
 
     /**
      * 数据库连接池拦截方法
+     *
      * @param invocation
      * @return
      * @throws Throwable
@@ -59,7 +76,10 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         try {
-            this.before(method);
+            //获取数据源标识
+            String dataSource = this.before(method);
+            //切换到指定的数据源
+            DataSourceContextHolder.set(dataSource);
             //调用TargetDataSource标记的切换数据源方法
             return invocation.proceed();
         } catch (Throwable ex) {
@@ -79,36 +99,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
     public void after(Method method) {
         //移除当前线程对应的数据源
         DataSourceContextHolder.remove();
-    }
-
-    /**
-     * 获取目标数据源标识
-     *
-     * @param method 注解标注的方法对象
-     * @return 数据源唯一标识
-     * @since(4.0.5)
-     */
-    @Override
-    public String getTargetDataSource(Method method) {
-        //数据源切换开始
-        TargetDataSource targetDataSource;
-        if (method.isAnnotationPresent(TargetDataSource.class)) {
-            //获取当前类的方法上标注的注解对象
-            targetDataSource = method.getAnnotation(TargetDataSource.class);
-        } else {
-            //返回方法声明所在类或接口的Class对象
-            targetDataSource = method.getDeclaringClass().getAnnotation(TargetDataSource.class);
-        }
-        if (targetDataSource == null && this.properties.isCheckInherited()) {
-            //返回当前类或父类或接口方法上标注的注解对象
-            targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method, TargetDataSource.class);
-        }
-        if (targetDataSource == null && this.properties.isCheckInherited()) {
-            //返回当前类或父类或接口上标注的注解对象
-            targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
-        }
-        //获取注解标注的数据源
-        return targetDataSource.value();
     }
 
     @Override

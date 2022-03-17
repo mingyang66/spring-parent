@@ -28,13 +28,4 @@ public interface DataSourceCustomizer extends MethodInterceptor, Ordered {
      * @since 4.0.8
      */
     void after(Method method);
-
-    /**
-     * 获取目标数据源标识
-     *
-     * @param method 注解标注的方法对象
-     * @return 数据源唯一标识
-     * @since(4.0.5)
-     */
-    String getTargetDataSource(Method method);
 }

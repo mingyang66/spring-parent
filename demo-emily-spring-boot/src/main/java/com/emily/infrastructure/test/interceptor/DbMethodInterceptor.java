@@ -37,10 +37,6 @@ public class DbMethodInterceptor implements DataSourceCustomizer {
         return "asdf";
     }
 
-    @Override
-    public String getTargetDataSource(Method method) {
-        return null;
-    }
 
     @Override
     public int getOrder() {

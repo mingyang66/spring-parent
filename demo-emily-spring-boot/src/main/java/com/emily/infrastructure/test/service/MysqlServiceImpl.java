@@ -24,4 +24,9 @@ public class MysqlServiceImpl implements MysqlService {
         //mysqlMapper.delLocks(lockName);
         //System.out.println("==>》删除数据成功==>" + lockName);
     }
+
+    @Override
+    public String getMysql() {
+        return mysqlMapper.getMysql();
+    }
 }

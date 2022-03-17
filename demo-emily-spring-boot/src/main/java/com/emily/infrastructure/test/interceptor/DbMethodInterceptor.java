@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  * @create: 2021/11/23
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@Component
+//@Component
 public class DbMethodInterceptor implements DataSourceCustomizer {
     @Override
     public String before(Method method) {

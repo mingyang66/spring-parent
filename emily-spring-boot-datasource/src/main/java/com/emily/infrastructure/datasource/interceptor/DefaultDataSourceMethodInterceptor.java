@@ -49,7 +49,12 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
         return dataSource;
     }
 
-
+    /**
+     * 数据库连接池拦截方法
+     * @param invocation
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();

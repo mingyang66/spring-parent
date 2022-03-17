@@ -96,7 +96,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    @ConditionalOnMissingBean
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         Map<String, DataSource> configs = dataSourceProperties.getMergeDataSource();
         if (Objects.isNull(dataSourceProperties.getDefaultDataSource())) {

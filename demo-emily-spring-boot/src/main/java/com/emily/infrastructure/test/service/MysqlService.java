@@ -4,4 +4,5 @@ public interface MysqlService {
     default void insertMysql() {
         return;
     }
+    String getMysql();
 }

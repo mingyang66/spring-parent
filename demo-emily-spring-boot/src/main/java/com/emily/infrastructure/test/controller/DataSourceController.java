@@ -176,9 +176,4 @@ public class DataSourceController {
         mysqlService.insertMysql();
         return "success";
     }
-
-    @GetMapping("getTwoDb")
-    public String getTwoDb(){
-        return nodeService.getTwoDb();
-    }
 }

@@ -3,7 +3,6 @@ package com.emily.infrastructure.test.service;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.mapper.MysqlMapper;
 import com.emily.infrastructure.test.mapper.OracleMapper;
-import com.emily.infrastructure.test.mapper.TwoDbMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +21,6 @@ public class NodeServiceImpl implements NodeService {
     private OracleMapper oracleMapper;
     @Autowired
     private MysqlMapper mysqlMapper;
-    @Autowired
-    private TwoDbMapper twoDbMapper;
     @Autowired
     private MysqlService mysqlService;
 
@@ -68,8 +65,4 @@ public class NodeServiceImpl implements NodeService {
         return mysqlMapper.getMysql();
     }
 
-    @Override
-    public String getTwoDb() {
-        return twoDbMapper.getTwoDb();
-    }
 }

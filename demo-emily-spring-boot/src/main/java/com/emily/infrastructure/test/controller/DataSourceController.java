@@ -2,16 +2,14 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
-import com.emily.infrastructure.test.mapper.ChildMapper;
 import com.emily.infrastructure.test.mapper.ItemMapper;
 import com.emily.infrastructure.test.mapper.JobMapper;
 import com.emily.infrastructure.test.mapper.Node1Mapper;
 import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
-import com.emily.infrastructure.test.service.JobService;
+import com.emily.infrastructure.test.service.OracleService;
 import com.emily.infrastructure.test.service.MysqlService;
-import com.emily.infrastructure.test.service.NodeService;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -40,13 +38,11 @@ public class DataSourceController {
     @Autowired
     private Node1Mapper node1Mapper;
     @Autowired
-    private MysqlService mysqlService;
-    @Autowired
-    private NodeService nodeService;
-    @Autowired
     private ItemMapper itemMapper;
     @Autowired
-    private JobService jobService;
+    private OracleService oracleService;
+    @Autowired
+    private MysqlService mysqlService;
 
     /**
      * foreach 模式批量插入数据库
@@ -132,48 +128,21 @@ public class DataSourceController {
         return job;
     }
 
-    @GetMapping("findJob")
-    public Job findJob() {
-        Job job = jobService.findJob();
-        return job;
-    }
-
-    @GetMapping("getNode")
-    public void getNode() throws Exception {
-        nodeService.findNode();
-    }
 
     @GetMapping("getNode1")
     public Node getNode1() {
         return node1Mapper.findNode();
     }
 
-    @Autowired
-    private ChildMapper childMapper;
-
-    @GetMapping("getParent")
-    public Job getParent() {
-        return childMapper.get();
-    }
-
-    @GetMapping("getChild")
-    public Job getChild() {
-        return childMapper.getJob();
-    }
 
     @GetMapping("getOracle")
     public String getOracle(){
-        return nodeService.getOracle();
+        return oracleService.getOracle();
     }
 
     @GetMapping("getMysql")
     public String getMysql(){
-        return nodeService.getMysql();
+        return mysqlService.getMysql();
     }
 
-    @GetMapping("insertMysql")
-    public String insertMysql() {
-        mysqlService.insertMysql();
-        return "success";
-    }
 }

@@ -16,16 +16,6 @@ public class MysqlServiceImpl implements MysqlService {
     private MysqlMapper mysqlMapper;
 
     @Override
-    public void insertMysql() {
-        int i = 0;
-       // mysqlMapper.insertLocks("name" + i, "lock" + i);
-        String lockName = mysqlMapper.findLocks("lock" + i);
-        System.out.println("==>》查询到的lock名称是：" + lockName);
-        //mysqlMapper.delLocks(lockName);
-        //System.out.println("==>》删除数据成功==>" + lockName);
-    }
-
-    @Override
     public String getMysql() {
         return mysqlMapper.getMysql();
     }

@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.service;
 
-import com.emily.infrastructure.test.mapper.JobMapper;
-import com.emily.infrastructure.test.po.Job;
+import com.emily.infrastructure.test.mapper.OracleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,12 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class JobServiceImpl implements JobService {
+public class OracleServiceImpl implements OracleService {
     @Autowired
-    private JobMapper jobMapper;
+    private OracleMapper oracleMapper;
 
     @Override
-    public Job findJob() {
-        return jobMapper.findJob();
+    public String getOracle() {
+        return oracleMapper.getOracle();
     }
 }

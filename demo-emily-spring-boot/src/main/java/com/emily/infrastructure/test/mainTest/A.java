@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.test.service.JobService;
-import com.emily.infrastructure.test.service.JobServiceImpl;
+import com.emily.infrastructure.test.service.OracleService;
+import com.emily.infrastructure.test.service.OracleServiceImpl;
 
 import java.lang.reflect.Method;
 
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
  */
 public class A {
     public static void main(String[] args) throws NoSuchMethodException {
-        JobService jobService = new JobServiceImpl();
+        OracleService jobService = new OracleServiceImpl();
         Method method = jobService.getClass().getMethod("findJob");
         System.out.println(method.isAnnotationPresent(TargetDataSource.class));
     }

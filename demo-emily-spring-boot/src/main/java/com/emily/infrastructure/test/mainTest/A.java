@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.service.OracleService;
-import com.emily.infrastructure.test.service.OracleServiceImpl;
+import com.emily.infrastructure.test.service.impl.OracleServiceImpl;
 
 import java.lang.reflect.Method;
 

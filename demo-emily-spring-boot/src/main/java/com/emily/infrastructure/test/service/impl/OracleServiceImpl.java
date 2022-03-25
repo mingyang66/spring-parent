@@ -1,8 +1,9 @@
 package com.emily.infrastructure.test.service.impl;
 
+import com.emily.infrastructure.test.mapper.MyOracleMapper;
 import com.emily.infrastructure.test.mapper.OracleMapper;
+import com.emily.infrastructure.test.service.context.MapperContext;
 import com.emily.infrastructure.test.service.OracleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,14 +12,18 @@ import org.springframework.stereotype.Service;
  * @author: Emily
  * @create: 2022/01/17
  */
-
 @Service
 public class OracleServiceImpl implements OracleService {
-    @Autowired
-    private OracleMapper oracleMapper;
 
     @Override
     public String getOracle() {
-        return oracleMapper.getOracle();
+        return MapperContext.getBean(OracleMapper.class).getOracle();
+    }
+
+    @Override
+    public String getTarget(String param) {
+        OracleMapper oracleMapper = MapperContext.getBean(param, OracleMapper.class, MyOracleMapper.class);
+        System.out.println(oracleMapper.getDemo());
+        return MapperContext.getBean(param, OracleMapper.class, MyOracleMapper.class).getOracle();
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.lang.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
@@ -132,6 +133,30 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      */
     public static boolean isTypeMatch(String name, Class<?> typeToMatch) {
         return CONTEXT.isTypeMatch(name, typeToMatch);
+    }
+
+    /**
+     * 获取指定类的所有类实例对象
+     *
+     * @param type 类class对象
+     * @param <T>  类
+     * @return 返回实例对象的集合
+     */
+    public static <T> Map<String, T> getBeansOfType(@Nullable Class<T> type) {
+        return CONTEXT.getBeansOfType(type);
+    }
+
+    /**
+     * 获取指定类的所有类实例对象
+     *
+     * @param type                 类class对象
+     * @param includeNonSingletons 是否包含非单例对象
+     * @param allowEagerInit       是否允许初始化lazy延迟加载初始化类和FactoryBean定义初始化类
+     * @param <T>                  类
+     * @return 返回实例对象的集合
+     */
+    public static <T> Map<String, T> getBeansOfType(@Nullable Class<T> type, boolean includeNonSingletons, boolean allowEagerInit) {
+        return CONTEXT.getBeansOfType(type, includeNonSingletons, allowEagerInit);
     }
 
     @Override

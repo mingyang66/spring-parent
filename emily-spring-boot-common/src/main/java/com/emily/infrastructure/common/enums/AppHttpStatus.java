@@ -22,6 +22,7 @@ public enum AppHttpStatus {
     JSON_PARSE_EXCEPTION(100013, "json数据格式转换异常"),
     DATE_TIME_EXCEPTION(100014, "日期格式转换异常"),
     IO_EXCEPTION(100016, "网络请求异常"),
+    NOT_FOUND(100017, "不存在"),
 
     AUTH_EXCEPTION(200000, "身份认证失败"),
     AUTH_EXPIRE(200001, "身份认证过期"),

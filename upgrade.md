@@ -6,6 +6,7 @@ Bug Fixes
 2. 控制器请求在url转换阶段所报的异常记录到日志平台；
 3. 数据库多数据源组件去除getDataSource方法，优化默认拦截器，支持两种扩展点方案；
 4. transmittable-thread-local版本升级到2.12.6
+5. IOCContext新增getBeansOfType方法支持获取一个类的所有实例对象
 -----
 基础库发布4.0.8
 Bug Fixes

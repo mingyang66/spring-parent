@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
 import com.emily.infrastructure.test.mapper.ItemMapper;
@@ -8,8 +9,8 @@ import com.emily.infrastructure.test.mapper.Node1Mapper;
 import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.Node;
-import com.emily.infrastructure.test.service.OracleService;
 import com.emily.infrastructure.test.service.MysqlService;
+import com.emily.infrastructure.test.service.OracleService;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -143,6 +144,11 @@ public class DataSourceController {
     @GetMapping("getMysql")
     public String getMysql(){
         return mysqlService.getMysql();
+    }
+
+    @GetMapping("getTarget")
+    public String getTarget(){
+        return oracleService.getTarget(RequestUtils.getRequest().getParameter("param"));
     }
 
 }

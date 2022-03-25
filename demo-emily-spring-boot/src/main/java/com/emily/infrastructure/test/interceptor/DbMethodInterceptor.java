@@ -5,7 +5,6 @@ import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Role;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

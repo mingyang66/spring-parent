@@ -22,8 +22,6 @@ public class OracleServiceImpl implements OracleService {
 
     @Override
     public String getTarget(String param) {
-        OracleMapper oracleMapper = MapperContext.getBean(param, OracleMapper.class, MyOracleMapper.class);
-        System.out.println(oracleMapper.getDemo());
         return MapperContext.getBean(param, OracleMapper.class, MyOracleMapper.class).getOracle();
     }
 }

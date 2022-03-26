@@ -5,14 +5,12 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
-import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -56,13 +54,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
         }
         //获取注解标注的数据源
-        String dataSource = targetDataSource.value();
-        //判断当前的数据源是否已经被加载进入到系统当中去
-        if (!properties.getMergeDataSource().containsKey(dataSource)) {
-            throw new DataSourceNotFoundException(MessageFormat.format("数据源配置【{0}】不存在", dataSource));
-        }
-
-        return dataSource;
+        return targetDataSource.value();
     }
 
     /**

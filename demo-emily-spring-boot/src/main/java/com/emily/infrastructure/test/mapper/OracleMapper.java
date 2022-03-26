@@ -14,7 +14,7 @@ public interface OracleMapper{
     /**
      * 查询接口
      */
-    @TargetDataSource("oracle")
+    @TargetDataSource("oracle1")
     String getOracle();
 
     @TargetDataSource("oracle")

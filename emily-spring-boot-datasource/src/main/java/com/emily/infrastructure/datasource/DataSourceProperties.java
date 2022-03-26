@@ -40,6 +40,10 @@ public class DataSourceProperties {
      */
     private boolean checkInherited = true;
     /**
+     * 是否对默认数据源执行宽松回退，即：当目标数据源找不到时回退到默认数据源，默认：true
+     */
+    private boolean lenientFallback = true;
+    /**
      * Druid数据库连接池多数据源配置
      */
     private Map<String, DruidDataSource> druid = new HashMap<>();
@@ -70,6 +74,14 @@ public class DataSourceProperties {
 
     public void setCheckInherited(boolean checkInherited) {
         this.checkInherited = checkInherited;
+    }
+
+    public boolean isLenientFallback() {
+        return lenientFallback;
+    }
+
+    public void setLenientFallback(boolean lenientFallback) {
+        this.lenientFallback = lenientFallback;
     }
 
     public Map<String, DruidDataSource> getDruid() {

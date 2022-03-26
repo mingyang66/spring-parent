@@ -56,7 +56,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
         }
         //获取注解标注的数据源
-        return changeDataSource(targetDataSource.value());
+        return this.changeDataSource(targetDataSource.value());
     }
 
     /**

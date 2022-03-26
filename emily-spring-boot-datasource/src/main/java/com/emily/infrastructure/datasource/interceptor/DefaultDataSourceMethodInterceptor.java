@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -54,7 +56,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
         }
         //获取注解标注的数据源
-        return targetDataSource.value();
+        return changeDataSource(targetDataSource.value());
     }
 
     /**

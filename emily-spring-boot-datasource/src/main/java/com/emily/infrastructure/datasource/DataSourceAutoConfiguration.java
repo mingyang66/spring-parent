@@ -97,10 +97,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         //获取所有配置的数据源
         Map<Object, Object> targetDataSources = Collections.unmodifiableMap(dataSourceProperties.getMergeDataSource());
-        //声明目标数据源集合
-        //Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
-        //所有目标数据源
-        //configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
         //默认数据源
         Object defaultTargetDataSource = targetDataSources.get(dataSourceProperties.getDefaultDataSource());
         //动态切换多数据源对象

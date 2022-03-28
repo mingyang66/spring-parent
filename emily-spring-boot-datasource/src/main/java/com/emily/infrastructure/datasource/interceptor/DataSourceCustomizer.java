@@ -19,7 +19,7 @@ public interface DataSourceCustomizer extends MethodInterceptor, Ordered {
      * @return 目标数据源标识
      * @since 4.0.9
      */
-    default String changeDataSource(String dataSource) {
+    default String resolveSpecifiedLookupKey(String dataSource) {
         return dataSource;
     }
 

@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -96,13 +96,13 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         //获取所有配置的数据源
-        Map<String, DataSource> configs = dataSourceProperties.getMergeDataSource();
+        Map<Object, Object> targetDataSources = Collections.unmodifiableMap(dataSourceProperties.getMergeDataSource());
         //声明目标数据源集合
-        Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
+        //Map<Object, Object> targetDataSources = new HashMap<>(configs.size());
         //所有目标数据源
-        configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
+        //configs.keySet().forEach(key -> targetDataSources.put(key, configs.get(key)));
         //默认数据源
-        DataSource defaultTargetDataSource = configs.get(dataSourceProperties.getDefaultDataSource());
+        Object defaultTargetDataSource = targetDataSources.get(dataSourceProperties.getDefaultDataSource());
         //动态切换多数据源对象
         DynamicMultipleDataSources dynamicMultipleDataSources = new DynamicMultipleDataSources();
         //如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源

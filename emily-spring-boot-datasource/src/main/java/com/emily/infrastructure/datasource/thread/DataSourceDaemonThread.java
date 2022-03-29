@@ -24,7 +24,7 @@ public class DataSourceDaemonThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            properties.getMergeDataSource().values().stream().forEach(source -> {
+            properties.getTargetDataSources().values().stream().forEach(source -> {
                // logger.info(JSONUtils.toJSONString(source.getPoolingConnectionInfo()));
                 //logger.info("activeCount:{}", source.getActiveCount());
             });

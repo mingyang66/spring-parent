@@ -22,7 +22,7 @@ public class DataSourceProperties {
     /**
      * 默认数据源配置，默认：default
      */
-    public static final String DEFAULT_DATASOURCE = "default";
+    public static final String DEFAULT_CONFIG = "default";
     /**
      * 是否开启数据源组件, 默认：true
      */
@@ -30,7 +30,7 @@ public class DataSourceProperties {
     /**
      * 默认数据源配置，默认：default
      */
-    private String defaultDataSource = DEFAULT_DATASOURCE;
+    private String defaultConfig = DEFAULT_CONFIG;
     /**
      * 是否拦截超类或者接口中的方法，默认：true
      */
@@ -56,12 +56,12 @@ public class DataSourceProperties {
         this.enabled = enabled;
     }
 
-    public String getDefaultDataSource() {
-        return defaultDataSource;
+    public String getDefaultConfig() {
+        return defaultConfig;
     }
 
-    public void setDefaultDataSource(String defaultDataSource) {
-        this.defaultDataSource = defaultDataSource;
+    public void setDefaultConfig(String defaultConfig) {
+        this.defaultConfig = defaultConfig;
     }
 
     public boolean isCheckInherited() {
@@ -94,6 +94,15 @@ public class DataSourceProperties {
 
     public void setHikari(Map<String, HikariDataSource> hikari) {
         this.hikari = hikari;
+    }
+
+    /**
+     * 获取默认数据源
+     *
+     * @return
+     */
+    public Object getDefaultTargetDataSource() {
+        return this.getTargetDataSources().get(this.getDefaultConfig());
     }
 
     /**

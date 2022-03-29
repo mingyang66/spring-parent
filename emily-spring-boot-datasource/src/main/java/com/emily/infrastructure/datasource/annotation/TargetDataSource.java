@@ -22,6 +22,6 @@ public @interface TargetDataSource {
      *
      * @return 要切换的数据库标识
      */
-    String value() default DataSourceProperties.DEFAULT_DATASOURCE;
+    String value() default DataSourceProperties.DEFAULT_CONFIG;
 }
 

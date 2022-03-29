@@ -7,6 +7,7 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
+import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
 import com.emily.infrastructure.datasource.thread.DataSourceDaemonThread;
@@ -35,6 +36,7 @@ import org.springframework.context.annotation.Role;
 
 import javax.sql.DataSource;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
@@ -94,16 +96,15 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
-        //获取所有配置的数据源
-        Map<Object, Object> targetDataSources = dataSourceProperties.getTargetDataSources();
-        //默认数据源
-        Object defaultTargetDataSource = targetDataSources.get(dataSourceProperties.getDefaultDataSource());
+        if (Objects.isNull(dataSourceProperties.getDefaultTargetDataSource())) {
+            throw new DataSourceNotFoundException("默认数据库必须配置");
+        }
         //动态切换多数据源对象
         DynamicMultipleDataSources dynamicMultipleDataSources = new DynamicMultipleDataSources();
         //如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源
-        dynamicMultipleDataSources.setDefaultTargetDataSource(defaultTargetDataSource);
+        dynamicMultipleDataSources.setDefaultTargetDataSource(dataSourceProperties.getDefaultTargetDataSource());
         //指定目标数据源的Map集合映射，使用查找键（Look Up Key）作为Key,这个Map集合的映射Value可以是javax.sql.DataSource或者是数据源（data source）字符串；集合的Key可以为任何数据类型，当前类会通过泛型的方式来实现查找，
-        dynamicMultipleDataSources.setTargetDataSources(targetDataSources);
+        dynamicMultipleDataSources.setTargetDataSources(dataSourceProperties.getTargetDataSources());
         //是否对默认数据源执行宽松回退，即：当目标数据源找不到时回退到默认数据源，默认：true
         dynamicMultipleDataSources.setLenientFallback(dataSourceProperties.isLenientFallback());
         //设置DataSourceLookup为解析数据源的字符串，默认是使用JndiDataSourceLookup；允许直接指定应用程序服务器数据源的JNDI名称；

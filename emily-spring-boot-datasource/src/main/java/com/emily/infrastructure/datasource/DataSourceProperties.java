@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,10 +23,6 @@ public class DataSourceProperties {
      * 默认数据源配置，默认：default
      */
     public static final String DEFAULT_DATASOURCE = "default";
-    /**
-     * 数据库连接池集合，包含druid+hikari
-     */
-    public static final Map<Object, Object> ALL_DATASOURCE = new HashMap<>();
     /**
      * 是否开启数据源组件, 默认：true
      */
@@ -100,15 +97,14 @@ public class DataSourceProperties {
     }
 
     /**
-     * 获取合并后的数据源配置
+     * 获取合并后的目标数据源配置
      *
      * @return
      */
-    public Map<Object, Object> getMergeDataSource() {
-        if (ALL_DATASOURCE.isEmpty()) {
-            ALL_DATASOURCE.putAll(this.getDruid());
-            ALL_DATASOURCE.putAll(this.getHikari());
-        }
-        return ALL_DATASOURCE;
+    public Map<Object, Object> getTargetDataSources() {
+        Map<Object, Object> dsMap = new HashMap<>();
+        dsMap.putAll(this.getDruid());
+        dsMap.putAll(this.getHikari());
+        return Collections.unmodifiableMap(dsMap);
     }
 }

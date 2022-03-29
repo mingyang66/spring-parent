@@ -34,7 +34,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
 import javax.sql.DataSource;
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -96,7 +95,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
         //获取所有配置的数据源
-        Map<Object, Object> targetDataSources = Collections.unmodifiableMap(dataSourceProperties.getMergeDataSource());
+        Map<Object, Object> targetDataSources = dataSourceProperties.getTargetDataSources();
         //默认数据源
         Object defaultTargetDataSource = targetDataSources.get(dataSourceProperties.getDefaultDataSource());
         //动态切换多数据源对象

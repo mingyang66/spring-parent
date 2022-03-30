@@ -139,11 +139,13 @@ public class RequestHelper {
                 Object value = obj[i];
                 paramMap.put(name, value);
             }
+            return paramMap;
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         }
         return Collections.emptyMap();
     }
+
     /**
      * 获取耗时字段
      *

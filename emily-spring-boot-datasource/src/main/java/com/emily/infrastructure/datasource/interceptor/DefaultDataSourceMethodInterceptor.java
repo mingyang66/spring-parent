@@ -71,7 +71,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             //获取数据源标识
             String dataSource = this.before(method);
             //解析查数据源标识为真实的查找键
-            String lookupKey = this.resolveSpecifiedLookupKey(dataSource);
+            String lookupKey = this.resolveSpecifiedLookupKey(invocation, dataSource);
             //切换到指定的数据源
             DataSourceContextHolder.set(lookupKey);
             //调用TargetDataSource标记的切换数据源方法

@@ -33,6 +33,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -96,9 +97,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
-        if (Objects.isNull(dataSourceProperties.getDefaultTargetDataSource())) {
-            throw new DataSourceNotFoundException("默认数据库必须配置");
-        }
+        Assert.notNull(dataSourceProperties.getDefaultTargetDataSource(), "默认数据库必须配置");
         //动态切换多数据源对象
         DynamicMultipleDataSources dynamicMultipleDataSources = new DynamicMultipleDataSources();
         //如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源

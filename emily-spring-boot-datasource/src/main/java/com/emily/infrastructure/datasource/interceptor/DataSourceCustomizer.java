@@ -1,6 +1,7 @@
 package com.emily.infrastructure.datasource.interceptor;
 
 import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.Ordered;
 
 import java.lang.reflect.Method;
@@ -19,7 +20,7 @@ public interface DataSourceCustomizer extends MethodInterceptor, Ordered {
      * @return 目标数据源标识
      * @since 4.0.9
      */
-    default String resolveSpecifiedLookupKey(String dataSource) {
+    default String resolveSpecifiedLookupKey(MethodInvocation invocation, String dataSource) {
         return dataSource;
     }
 

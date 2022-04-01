@@ -2,7 +2,7 @@
 -----
 基础库发布4.0.10
 Bug Fixes
-1. 
+1. springboot升级到2.6.6
 -----
 基础库发布4.0.9
 Bug Fixes

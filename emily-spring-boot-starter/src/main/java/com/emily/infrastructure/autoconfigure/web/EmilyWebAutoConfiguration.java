@@ -8,8 +8,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -24,7 +24,7 @@ import java.util.Objects;
  * @description: webmvc自动化配置
  * @create: 2020/05/26
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableConfigurationProperties(WebProperties.class)
 public class EmilyWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
     private static final Logger logger = LoggerFactory.getLogger(EmilyWebAutoConfiguration.class);

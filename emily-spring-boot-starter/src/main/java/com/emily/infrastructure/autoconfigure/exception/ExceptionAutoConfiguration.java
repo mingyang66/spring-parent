@@ -5,10 +5,10 @@ import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Emily
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @description: 异常捕获自动化配置类
  * @create: 2020/10/28
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableConfigurationProperties(ExceptionProperties.class)
 @ConditionalOnProperty(prefix = ExceptionProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ExceptionAutoConfiguration implements InitializingBean, DisposableBean {

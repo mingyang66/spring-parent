@@ -5,9 +5,9 @@ import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
  * @description:
  * @create: 2020/09/16
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @Conditional(MacOsCondition.class)
 @Import(EmilyImportBeanDefinitionRegistrar.class)
 public class EmilyBeanDefinitionRegistryAutoConfiguration implements InitializingBean, DisposableBean {

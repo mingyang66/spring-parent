@@ -7,10 +7,11 @@ import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor;
 import org.springframework.web.servlet.mvc.method.annotation.HttpHeadersReturnValueHandler;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  * @Description: 控制器返回值配置处理类
  * @Version: 1.0
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration(after = WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties(ResponseWrapperProperties.class)
 @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {

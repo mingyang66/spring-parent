@@ -4,8 +4,8 @@ import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Emily
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @description:
  * @create: 2020/09/11
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class EmilyBeanFactoryPostProcessorAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(EmilyBeanFactoryPostProcessorAutoConfiguration.class);

@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -26,9 +26,9 @@ import java.util.Collections;
  * @Description: 将RestTemplate加入容器
  * @Version: 1.0
  */
-@Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(HttpClientProperties.class)
+@AutoConfiguration
 @ConditionalOnClass(RestTemplate.class)
+@EnableConfigurationProperties(HttpClientProperties.class)
 @ConditionalOnProperty(prefix = HttpClientProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration implements InitializingBean, DisposableBean {
 

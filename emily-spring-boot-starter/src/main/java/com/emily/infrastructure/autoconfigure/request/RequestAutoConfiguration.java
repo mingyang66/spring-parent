@@ -16,11 +16,11 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
 /**
@@ -28,8 +28,8 @@ import org.springframework.context.annotation.Role;
  * @Description: 请求日志拦截AOP切面
  * @Version: 1.0
  */
+@AutoConfiguration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(RequestProperties.class)
 @ConditionalOnProperty(prefix = RequestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RequestAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {

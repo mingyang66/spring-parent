@@ -18,7 +18,6 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
@@ -51,20 +50,9 @@ public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConf
      */
     public LettuceConnectionFactory getRedisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources) {
 
-        Assert.notNull(clientResources, "ClientResources must not be null");
-        Assert.notNull(clientResources, "RedisDbProperties must not be null");
-
-        LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientResources, this.getProperties().getLettuce().getPool());
-        return this.createLettuceConnectionFactory(clientConfig);
-    }
-
-    private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfiguration) {
-        LettuceConnectionFactory factory;
-        if (this.getSentinelConfig() != null) {
-            factory = new LettuceConnectionFactory(this.getSentinelConfig(), clientConfiguration);
-        } else {
-            factory = this.getClusterConfiguration() != null ? new LettuceConnectionFactory(this.getClusterConfiguration(), clientConfiguration) : new LettuceConnectionFactory(this.getStandaloneConfig(), clientConfiguration);
-        }
+        LettuceClientConfiguration clientConfig = getLettuceClientConfiguration(builderCustomizers, clientResources,
+                getProperties().getLettuce().getPool());
+        LettuceConnectionFactory factory = createLettuceConnectionFactory(clientConfig);
         return initLettuceConnectionFactory(factory);
     }
 
@@ -84,98 +72,89 @@ public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConf
         return factory;
     }
 
-    private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisProperties.Pool pool) {
-        LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = this.createBuilder(pool);
-        this.applyProperties(builder);
-        if (StringUtils.hasText(this.getProperties().getUrl())) {
+    private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfiguration) {
+        if (getSentinelConfig() != null) {
+            return new LettuceConnectionFactory(getSentinelConfig(), clientConfiguration);
+        }
+        if (getClusterConfiguration() != null) {
+            return new LettuceConnectionFactory(getClusterConfiguration(), clientConfiguration);
+        }
+        return new LettuceConnectionFactory(getStandaloneConfig(), clientConfiguration);
+    }
+
+    private LettuceClientConfiguration getLettuceClientConfiguration(
+            ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+            ClientResources clientResources, RedisProperties.Pool pool) {
+        LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = createBuilder(pool);
+        applyProperties(builder);
+        if (StringUtils.hasText(getProperties().getUrl())) {
             customizeConfigurationFromUrl(builder);
         }
-        builder.clientOptions(this.createClientOptions());
+        builder.clientOptions(createClientOptions());
         builder.clientResources(clientResources);
         builderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
         return builder.build();
     }
 
     private LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool pool) {
-        return this.isPoolEnabled(pool) ? (new PoolBuilderFactory()).createBuilder(pool) : LettuceClientConfiguration.builder();
+        if (isPoolEnabled(pool)) {
+            return new PoolBuilderFactory().createBuilder(pool);
+        }
+        return LettuceClientConfiguration.builder();
     }
 
     private LettuceClientConfiguration.LettuceClientConfigurationBuilder applyProperties(
             LettuceClientConfiguration.LettuceClientConfigurationBuilder builder) {
-        if (this.getProperties().isSsl()) {
+        if (getProperties().isSsl()) {
             builder.useSsl();
         }
-        // Redis客户端读取超时时间
-        if (this.getProperties().getTimeout() != null) {
-            builder.commandTimeout(this.getProperties().getTimeout());
+        if (getProperties().getTimeout() != null) {
+            builder.commandTimeout(getProperties().getTimeout());
         }
-        // 关闭连接池超时时间
-        if (this.getProperties().getLettuce() != null) {
-            RedisProperties.Lettuce lettuce = this.getProperties().getLettuce();
+        if (getProperties().getLettuce() != null) {
+            RedisProperties.Lettuce lettuce = getProperties().getLettuce();
             if (lettuce.getShutdownTimeout() != null && !lettuce.getShutdownTimeout().isZero()) {
-                builder.shutdownTimeout(this.getProperties().getLettuce().getShutdownTimeout());
+                builder.shutdownTimeout(getProperties().getLettuce().getShutdownTimeout());
             }
         }
-        if (StringUtils.hasText(this.getProperties().getClientName())) {
-            builder.clientName(this.getProperties().getClientName());
+        if (StringUtils.hasText(getProperties().getClientName())) {
+            builder.clientName(getProperties().getClientName());
         }
         return builder;
     }
 
-    private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder) {
-        ConnectionInfo connectionInfo = this.parseUrl(this.getProperties().getUrl());
-        if (connectionInfo.isUseSsl()) {
-            builder.useSsl();
-        }
-    }
-
-    /**
-     * ClientOptions 用于控制客户端行为的客户端选项
-     *
-     * @return
-     */
     private ClientOptions createClientOptions() {
-        ClientOptions.Builder builder = this.initializeClientOptionsBuilder();
-        Duration connectTimeout = this.getProperties().getConnectTimeout();
+        ClientOptions.Builder builder = initializeClientOptionsBuilder();
+        Duration connectTimeout = getProperties().getConnectTimeout();
         if (connectTimeout != null) {
             builder.socketOptions(SocketOptions.builder().connectTimeout(connectTimeout).build());
         }
         return builder.timeoutOptions(TimeoutOptions.enabled()).build();
     }
 
-    /**
-     * 拓扑刷新
-     * 开启 自适应集群拓扑刷新和周期拓扑刷新
-     * https://github.com/lettuce-io/lettuce-core/wiki/Redis-Cluster#user-content-refreshing-the-cluster-topology-view
-     *
-     * @return
-     */
     private ClientOptions.Builder initializeClientOptionsBuilder() {
-        if (this.getProperties().getCluster() != null) {
+        if (getProperties().getCluster() != null) {
             ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
-            RedisProperties.Lettuce.Cluster.Refresh refreshProperties = this.getProperties().getLettuce().getCluster().getRefresh();
+            RedisProperties.Lettuce.Cluster.Refresh refreshProperties = getProperties().getLettuce().getCluster().getRefresh();
             ClusterTopologyRefreshOptions.Builder refreshBuilder = ClusterTopologyRefreshOptions.builder()
                     .dynamicRefreshSources(refreshProperties.isDynamicRefreshSources());
             if (refreshProperties.getPeriod() != null) {
-                /**
-                 * 开启周期刷新
-                 */
                 refreshBuilder.enablePeriodicRefresh(refreshProperties.getPeriod());
             }
-
             if (refreshProperties.isAdaptive()) {
-                /**
-                 * 开启自适应刷新,自适应刷新不开启,Redis集群变更时将会导致连接异常
-                 */
                 refreshBuilder.enableAllAdaptiveRefreshTriggers();
             }
-
             return builder.topologyRefreshOptions(refreshBuilder.build());
-        } else {
-            return ClientOptions.builder();
         }
+        return ClientOptions.builder();
     }
 
+    private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder) {
+        ConnectionInfo connectionInfo = parseUrl(getProperties().getUrl());
+        if (connectionInfo.isUseSsl()) {
+            builder.useSsl();
+        }
+    }
 
     public boolean isValidateConnection() {
         return validateConnection;
@@ -194,28 +173,28 @@ public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConf
     }
 
 
+    /**
+     * Inner class to allow optional commons-pool2 dependency.
+     */
     private static class PoolBuilderFactory {
-        private PoolBuilderFactory() {
-        }
 
         LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool properties) {
-            return LettucePoolingClientConfiguration.builder().poolConfig(this.getPoolConfig(properties));
+            return LettucePoolingClientConfiguration.builder().poolConfig(getPoolConfig(properties));
         }
 
         private GenericObjectPoolConfig<?> getPoolConfig(RedisProperties.Pool properties) {
-            GenericObjectPoolConfig<?> config = new GenericObjectPoolConfig();
+            GenericObjectPoolConfig<?> config = new GenericObjectPoolConfig<>();
             config.setMaxTotal(properties.getMaxActive());
             config.setMaxIdle(properties.getMaxIdle());
             config.setMinIdle(properties.getMinIdle());
             if (properties.getTimeBetweenEvictionRuns() != null) {
                 config.setTimeBetweenEvictionRuns(properties.getTimeBetweenEvictionRuns());
             }
-
             if (properties.getMaxWait() != null) {
                 config.setMaxWait(properties.getMaxWait());
             }
-
             return config;
         }
+
     }
 }

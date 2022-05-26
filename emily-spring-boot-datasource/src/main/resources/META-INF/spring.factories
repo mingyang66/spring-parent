@@ -1,4 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.emily.infrastructure.datasource.DataSourceAutoConfiguration,\
-  com.emily.infrastructure.mybatis.MybatisAutoConfiguration

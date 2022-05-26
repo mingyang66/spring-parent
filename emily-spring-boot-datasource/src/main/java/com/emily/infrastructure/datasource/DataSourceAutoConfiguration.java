@@ -7,7 +7,6 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
-import com.emily.infrastructure.datasource.exception.DataSourceNotFoundException;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
 import com.emily.infrastructure.datasource.thread.DataSourceDaemonThread;
@@ -25,19 +24,16 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
@@ -46,9 +42,8 @@ import java.util.Objects;
  * @Author Emily
  * @since 4.0.8
  */
-@Configuration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
+@AutoConfiguration(before = DruidDataSourceAutoConfigure.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnProperty(prefix = DataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
@@ -83,8 +78,8 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     }
 
     @Bean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSourceCustomizer dataSourceCustomizer(DataSourceProperties dataSourceProperties) {
         return new DefaultDataSourceMethodInterceptor(dataSourceProperties);
     }

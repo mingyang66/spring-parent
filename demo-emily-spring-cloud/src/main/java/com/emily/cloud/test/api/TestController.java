@@ -3,10 +3,8 @@ package com.emily.cloud.test.api;
 import com.emily.cloud.test.api.po.User;
 import com.emily.cloud.test.api.po.ValidateCodeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -17,6 +15,7 @@ import java.util.Map;
  * @create: 2020/12/16
  */
 @RestController
+@RequestMapping("api/test")
 public class TestController {
 
     @GetMapping("test1")
@@ -24,7 +23,10 @@ public class TestController {
         response.setContentType("text/html");
         return "success";
     }
-
+    @PostMapping("test2")
+    public String test2(@Validated @RequestBody User user) {
+        return "success-" + user.getName();
+    }
 
     @PostMapping("test3")
     public String test3(@RequestBody User user) {

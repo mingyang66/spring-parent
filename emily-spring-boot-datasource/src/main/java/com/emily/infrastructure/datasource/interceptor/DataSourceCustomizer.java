@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 public interface DataSourceCustomizer extends MethodInterceptor, Ordered {
     /**
      * 获取要切换的目标数据源标识
-     *
+     * @param invocation 方法反射对象
      * @param dataSource 原数据库标识
      * @return 目标数据源标识
      * @since 4.0.9

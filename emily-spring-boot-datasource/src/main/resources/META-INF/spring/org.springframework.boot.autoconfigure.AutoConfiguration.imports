@@ -1,0 +1,2 @@
+com.emily.infrastructure.datasource.DataSourceAutoConfiguration
+com.emily.infrastructure.mybatis.MybatisAutoConfiguration

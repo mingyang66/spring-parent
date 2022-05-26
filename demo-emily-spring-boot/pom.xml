@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>test-emily-spring-boot</artifactId>
+    <artifactId>demo-emily-spring-boot</artifactId>
     <version>4.0.10</version>
-    <name>EmilyInfrastructure-test</name>
+    <name>demo-emily-spring-boot</name>
     <properties>
         <start-class>com.emily.infrastructure.test.TestBootStrap</start-class>
     </properties>

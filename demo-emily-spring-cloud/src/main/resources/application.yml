@@ -44,7 +44,7 @@ management:
 ---
 spring:
   profiles:
-    active: redis,database
+    active: redis,mybatis,mysql,oracle
   cloud:
     compatibility-verifier:
       enabled: true

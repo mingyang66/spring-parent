@@ -5,6 +5,7 @@ Bug Fixes
 1. springboot升级到2.6.6
 2. springboot升级到2.7.0
 3. 数据库多数据源组件AutoConfiguration配置方式由spring.factories更改为最新META-INF/spring/{全限定名}.imports模式
+4. 优化rabbitmq模块及移动文档及依赖
 -----
 基础库发布4.0.9
 Bug Fixes

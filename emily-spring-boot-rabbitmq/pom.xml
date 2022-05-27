@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yaomy.control</groupId>
-    <artifactId>spring-boot-control-rabbitmq-service</artifactId>
+    <artifactId>emily-spring-boot-rabbitmq</artifactId>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
         <dependency>

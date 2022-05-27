@@ -21,11 +21,10 @@
         <module>emily-spring-boot-log4j2</module>
         <module>emily-spring-boot-starter</module>
         <module>emily-spring-cloud-starter</module>
+        <module>emily-spring-boot-rabbitmq</module>
         <module>rpc-spring-boot-core</module>
         <module>rpc-spring-boot-server</module>
         <module>rpc-spring-boot-client</module>
-        <module>spring-boot-control-zeromq-service</module>
-        <module>spring-boot-control-rabbitmq-service</module>
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
     </modules>
@@ -42,7 +41,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
-        <spring.cloud.version>3.1.0</spring.cloud.version>
+        <spring.cloud.version>3.1.2</spring.cloud.version>
+        <spring.consul.version>3.1.0</spring.consul.version>
         <spring.mybatis.version>2.2.2</spring.mybatis.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.io.version>2.7</commons.io.version>
@@ -121,12 +121,12 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-consul-config</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring.consul.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring.consul.version}</version>
             </dependency>
             <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
             <dependency>

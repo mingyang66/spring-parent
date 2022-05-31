@@ -46,6 +46,10 @@ public class LRUCachePool<K, V> {
         this.cache.put(key, value);
     }
 
+    public boolean containsKey(K key) {
+        return this.cache.containsKey(key);
+    }
+
     public int getSize() {
         return this.cache.size();
     }

@@ -85,10 +85,10 @@ public class ContextHolder {
         public RequestHolder() {
             this.startTime = System.currentTimeMillis();
             this.systemNumber = SystemNumberHelper.getSystemNumber();
+            this.clientIp = RequestUtils.getClientIp();
+            this.serverIp = RequestUtils.getServerIp();
             if (RequestUtils.isServletContext()) {
                 this.traceId = RequestUtils.getRequest().getHeader(HeaderInfo.TRACE_ID);
-                this.clientIp = RequestUtils.getClientIp();
-                this.serverIp = RequestUtils.getServerIp();
                 this.servletContext = true;
             }
             if (Objects.isNull(traceId)) {

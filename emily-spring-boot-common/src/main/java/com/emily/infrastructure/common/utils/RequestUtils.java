@@ -45,7 +45,7 @@ public class RequestUtils {
         if (isServletContext()) {
             return getClientIp(getRequest());
         }
-        return "";
+        return LOCAL_IP;
     }
 
     /**

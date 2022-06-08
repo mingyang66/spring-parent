@@ -9,9 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yaomy.control</groupId>
+    <groupId>com.emily.infrastructure</groupId>
     <artifactId>emily-spring-boot-rabbitmq</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>com.emily.infrastructure</groupId>
+            <artifactId>emily-spring-boot-core</artifactId>
+            <version>4.0.10</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>

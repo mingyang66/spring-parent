@@ -684,7 +684,7 @@ public class RabbitDelaySender {
 package com.yaomy.control.rabbitmq.amqp.delay;
 
 import com.rabbitmq.client.Channel;
-import com.yaomy.control.rabbitmq.amqp.delay.config.RabbitDelayConfig;
+import RabbitDelayConfig;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;

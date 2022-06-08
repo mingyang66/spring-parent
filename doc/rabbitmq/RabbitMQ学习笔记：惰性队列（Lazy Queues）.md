@@ -265,7 +265,7 @@ public class RabbitLazySender {
 package com.yaomy.control.rabbitmq.amqp.lazy;
 
 import com.rabbitmq.client.Channel;
-import com.yaomy.control.rabbitmq.amqp.lazy.config.RabbitLazyConfig;
+import RabbitLazyConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.Message;

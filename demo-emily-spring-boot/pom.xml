@@ -32,6 +32,11 @@
             <version>4.0.10</version>
         </dependency>
         <dependency>
+            <groupId>com.emily.infrastructure</groupId>
+            <artifactId>emily-spring-boot-rabbitmq</artifactId>
+            <version>4.0.10</version>
+        </dependency>
+        <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>21.5.0.0</version>

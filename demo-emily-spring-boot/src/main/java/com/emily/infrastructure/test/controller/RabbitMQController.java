@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 
 /**
@@ -34,10 +32,15 @@ public class RabbitMQController {
         Binding binding1 = BindingBuilder.bind(queue1).to(exchange1).with("emily.#");
         RabbitMqFactory.declare("emily", queue1, exchange1, binding1);
 
-        RabbitMessagingTemplate template = RabbitMqFactory.getRabbitMessagingTemplate("test");
+        RabbitMessagingTemplate template = RabbitMqFactory.getRabbitMessagingTemplate();
         RabbitMessagingTemplate template1 = RabbitMqFactory.getRabbitMessagingTemplate("emily");
-        template.convertAndSend("exchange","topic.test",new Message("nihao".getBytes(Charset.defaultCharset())));
-        template.convertAndSend("exchange","topic.emily",new Message("nihao".getBytes(Charset.defaultCharset())));
-        template1.convertAndSend("exchange_emily","emily.23",new Message("nihao".getBytes(Charset.defaultCharset())));
+        //template.convertAndSend("exchange","topic.test",new Message("nihao".getBytes(Charset.defaultCharset())));
+        //template.convertAndSend("exchange","topic.emily",new Message("nihao".getBytes(Charset.defaultCharset())));
+        template1.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
+
+        RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
+        RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
+        rabbitTemplate.convertAndSend("exchange", "topic.test", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 }

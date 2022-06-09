@@ -6,6 +6,7 @@ import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -52,6 +53,9 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
         if (targetDataSource == null && this.properties.isCheckInherited()) {
             //返回当前类或父类或接口上标注的注解对象
             targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
+        }
+        if (StringUtils.isEmpty(targetDataSource.value())) {
+            return properties.getDefaultConfig();
         }
         //获取注解标注的数据源
         return targetDataSource.value();

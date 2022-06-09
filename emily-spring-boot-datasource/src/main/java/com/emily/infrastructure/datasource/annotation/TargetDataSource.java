@@ -1,6 +1,5 @@
 package com.emily.infrastructure.datasource.annotation;
 
-import com.emily.infrastructure.datasource.DataSourceProperties;
 
 import java.lang.annotation.*;
 
@@ -22,6 +21,6 @@ public @interface TargetDataSource {
      *
      * @return 要切换的数据库标识
      */
-    String value() default DataSourceProperties.DEFAULT_CONFIG;
+    String value() default "";
 }
 

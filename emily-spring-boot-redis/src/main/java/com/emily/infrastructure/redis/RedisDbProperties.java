@@ -20,10 +20,6 @@ public class RedisDbProperties {
      */
     public static final String PREFIX = "spring.emily.redis";
     /**
-     * 默认配置
-     */
-    public static final String DEFAULT_CONFIG = "default";
-    /**
      * 是否开启数据源组件, 默认：true
      */
     private boolean enabled = true;
@@ -48,7 +44,7 @@ public class RedisDbProperties {
     /**
      * 默认配置
      */
-    private String defaultConfig = DEFAULT_CONFIG;
+    private String defaultConfig = "default";
     /**
      * 多数据源配置
      */

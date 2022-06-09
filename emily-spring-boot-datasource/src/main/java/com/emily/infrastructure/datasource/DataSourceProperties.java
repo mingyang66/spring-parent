@@ -20,17 +20,13 @@ public class DataSourceProperties {
      */
     public static final String PREFIX = "spring.emily.datasource";
     /**
-     * 默认数据源配置，默认：default
-     */
-    public static final String DEFAULT_CONFIG = "default";
-    /**
      * 是否开启数据源组件, 默认：true
      */
     private boolean enabled = true;
     /**
      * 默认数据源配置，默认：default
      */
-    private String defaultConfig = DEFAULT_CONFIG;
+    private String defaultConfig = "default";
     /**
      * 是否拦截超类或者接口中的方法，默认：true
      */

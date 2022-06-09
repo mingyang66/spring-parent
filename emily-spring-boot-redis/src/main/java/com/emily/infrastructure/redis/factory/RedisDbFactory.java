@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -41,7 +42,7 @@ public class RedisDbFactory {
      * @return
      */
     public static StringRedisTemplate getStringRedisTemplate() {
-        return getStringRedisTemplate(RedisDbProperties.DEFAULT_CONFIG);
+        return getStringRedisTemplate(null);
     }
 
     /**
@@ -51,6 +52,9 @@ public class RedisDbFactory {
      * @return
      */
     public static StringRedisTemplate getStringRedisTemplate(String redisMark) {
+        if (Objects.isNull(redisMark)) {
+            redisMark = IOCContext.getBean(RedisDbProperties.class).getDefaultConfig();
+        }
         /**
          * 获取缓存key
          */
@@ -72,7 +76,7 @@ public class RedisDbFactory {
      * @return
      */
     public static RedisTemplate getRedisTemplate() {
-        return getRedisTemplate(RedisDbProperties.DEFAULT_CONFIG);
+        return getRedisTemplate(null);
     }
 
     /**
@@ -82,6 +86,9 @@ public class RedisDbFactory {
      * @return
      */
     public static RedisTemplate getRedisTemplate(String redisMark) {
+        if (Objects.isNull(redisMark)) {
+            redisMark = IOCContext.getBean(RedisDbProperties.class).getDefaultConfig();
+        }
         /**
          * 获取缓存key
          */

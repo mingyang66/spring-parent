@@ -8,6 +8,9 @@ Bug Fixes
 4. 优化rabbitmq模块及移动文档及依赖
 5. 优化LRU缓存
 6. ContextHolder涉及clientIp和serverIp优化调整
+7. 动态数据库多数据源组件默认数据库优化（原先默认数据库标识如果不更改无问题，如果更改还采用默认标识模式，则会出现切换异常）
+8. Redis多数据源组件默认数据库优化调整。
+9. 新增RabbitMQ消息中间件多配置SDK。
 -----
 基础库发布4.0.9
 Bug Fixes

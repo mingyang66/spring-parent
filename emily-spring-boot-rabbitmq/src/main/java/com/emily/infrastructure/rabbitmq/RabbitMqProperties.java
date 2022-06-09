@@ -22,6 +22,10 @@ public class RabbitMqProperties {
      */
     private boolean enabled = true;
     /**
+     * 默认配置
+     */
+    private String defaultConfig = "default";
+    /**
      * RabbitMq属性配置
      */
     private Map<String, RabbitProperties> config = new HashMap<>();
@@ -32,6 +36,14 @@ public class RabbitMqProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getDefaultConfig() {
+        return defaultConfig;
+    }
+
+    public void setDefaultConfig(String defaultConfig) {
+        this.defaultConfig = defaultConfig;
     }
 
     public Map<String, RabbitProperties> getConfig() {

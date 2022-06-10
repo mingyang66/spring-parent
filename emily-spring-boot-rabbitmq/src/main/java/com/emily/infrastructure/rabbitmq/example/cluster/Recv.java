@@ -16,7 +16,7 @@ public class Recv {
     /**
      * 队列名称
      */
-    private static final String QUEUE_NAME = "test_queue";
+    private static final String QUEUE_NAME = "topic.test.queue";
 
     public static void main(String[] args) throws Exception {
         /**

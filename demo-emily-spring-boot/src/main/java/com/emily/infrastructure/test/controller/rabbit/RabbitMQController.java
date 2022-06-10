@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.controller;
+package com.emily.infrastructure.test.controller.rabbit;
 
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
 import org.springframework.amqp.core.*;
@@ -18,7 +18,6 @@ import java.nio.charset.Charset;
 @RestController
 @RequestMapping("api/rabbit")
 public class RabbitMQController {
-
 
     @GetMapping("test")
     public void test() {
@@ -42,5 +41,6 @@ public class RabbitMQController {
         RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
         rabbitTemplate.convertAndSend("exchange", "topic.test", new Message("nihao".getBytes(Charset.defaultCharset())));
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
+
     }
 }

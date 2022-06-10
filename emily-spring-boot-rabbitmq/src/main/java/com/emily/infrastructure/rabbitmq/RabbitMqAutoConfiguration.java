@@ -62,8 +62,9 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             RabbitProperties properties = entry.getValue();
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = factoryCreator.rabbitConnectionFactoryBeanConfigurer(properties, resourceLoader, credentialsProvider, credentialsRefreshService);
             CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer = factoryCreator.rabbitConnectionFactoryConfigurer(properties, connectionNameStrategy);
-            CachingConnectionFactory connectionFactory = factoryCreator.rabbitConnectionFactory(rabbitConnectionFactoryBeanConfigurer, rabbitConnectionFactoryConfigurer, connectionFactoryCustomizers);
             RabbitTemplateConfigurer configurer = templateConfiguration.rabbitTemplateConfigurer(properties, messageConverter, retryTemplateCustomizers);
+
+            CachingConnectionFactory connectionFactory = factoryCreator.rabbitConnectionFactory(rabbitConnectionFactoryBeanConfigurer, rabbitConnectionFactoryConfigurer, connectionFactoryCustomizers);
 
             RabbitTemplate rabbitTemplate = templateConfiguration.rabbitTemplate(configurer, connectionFactory);
             defaultListableBeanFactory.registerSingleton(key, rabbitTemplate);
@@ -88,7 +89,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
     }
 
     @Bean
-    public RabbitMqMessagingTemplateConfiguration messagingTemplateConfiguration(){
+    public RabbitMqMessagingTemplateConfiguration messagingTemplateConfiguration() {
         return new RabbitMqMessagingTemplateConfiguration();
     }
 

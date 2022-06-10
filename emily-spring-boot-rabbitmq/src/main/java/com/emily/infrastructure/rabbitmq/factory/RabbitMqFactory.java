@@ -3,10 +3,13 @@ package com.emily.infrastructure.rabbitmq.factory;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
 import com.emily.infrastructure.rabbitmq.common.RabbitMqConstant;
+import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.Connection;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
@@ -133,5 +136,28 @@ public class RabbitMqFactory {
         amqpAdmin.declareExchange(exchange);
         amqpAdmin.declareQueue(queue);
         amqpAdmin.declareBinding(binding);
+    }
+
+    /**
+     * 获取RabbitMQ消息中间件通道
+     *
+     * @param transactional true-支持事务，false-不支持事务
+     * @return
+     */
+    public static Channel getChannel(boolean transactional) {
+        return getChannel(null, transactional);
+    }
+
+    /**
+     * 获取RabbitMQ消息中间件通道
+     *
+     * @param key           中间件配置标识
+     * @param transactional true-支持事务，false-不支持事务
+     * @return
+     */
+    public static Channel getChannel(String key, boolean transactional) {
+        ConnectionFactory connectionFactory = getRabbitTemplate(key).getConnectionFactory();
+        Connection connection = connectionFactory.createConnection();
+        return connection.createChannel(transactional);
     }
 }

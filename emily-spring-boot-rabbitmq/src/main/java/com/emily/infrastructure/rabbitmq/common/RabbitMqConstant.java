@@ -14,4 +14,8 @@ public class RabbitMqConstant {
      * RabbitMessagingTemplate bean名称
      */
     public static final String RABBIT_MESSAGING_TEMPLATE = "RabbitMessagingTemplate";
+    /**
+     * ConnectionFactory bean名称
+     */
+    public static final String CONNECTION_FACTORY = "ConnectionFactory";
 }

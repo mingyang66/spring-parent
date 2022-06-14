@@ -1,6 +1,7 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * @author Emily
@@ -175,7 +177,10 @@ public class ExceptionAdviceHandler {
      * @param errorMsg
      */
     private static void recordErrorLogger(HttpServletRequest request, String errorMsg) {
-        if (!ContextHolder.get().getStage().equals(ContextHolder.Stage.MAPPING)) {
+        if(Objects.isNull(request)){
+            return;
+        }
+        if(Objects.nonNull(request.getAttribute(AttributeInfo.STAGE))){
             return;
         }
         try {
@@ -202,9 +207,6 @@ public class ExceptionAdviceHandler {
             logger.info(JSONUtils.toJSONString(baseLogger));
         } catch (Exception exception) {
             logger.error(MessageFormat.format("记录错误日志异常：{0}", PrintExceptionInfo.printErrorInfo(exception)));
-        } finally {
-            //移除线程上下文对应的变量
-            ContextHolder.remove();
         }
     }
 }

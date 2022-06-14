@@ -74,13 +74,6 @@ public class ContextHolder {
          * (逻辑)是否servlet容器上下文，默认：false
          */
         private boolean servletContext;
-        /**
-         * 当前请求所处的阶段(目前主要为控制器参数异常时日志记录判定)
-         * REQUEST_MAPPING-RequestMappingHandlerMapping校验转发阶段
-         * REQUEST_AOP-Request请求AOP拦截阶段
-         */
-        private Stage stage;
-
 
         public RequestHolder() {
             this.startTime = System.currentTimeMillis();
@@ -94,7 +87,6 @@ public class ContextHolder {
             if (Objects.isNull(traceId)) {
                 this.traceId = UUID.randomUUID().toString();
             }
-            this.stage = Stage.MAPPING;
         }
 
         public String getTraceId() {
@@ -151,14 +143,6 @@ public class ContextHolder {
 
         public void setServletContext(boolean servletContext) {
             this.servletContext = servletContext;
-        }
-
-        public Stage getStage() {
-            return stage;
-        }
-
-        public void setStage(Stage stage) {
-            this.stage = stage;
         }
     }
 

@@ -11,4 +11,8 @@ public class AttributeInfo {
      * 耗时字段
      */
     public static final String TIME = "time";
+    /**
+     * 阶段标识
+     */
+    public static final String STAGE = "stage";
 }

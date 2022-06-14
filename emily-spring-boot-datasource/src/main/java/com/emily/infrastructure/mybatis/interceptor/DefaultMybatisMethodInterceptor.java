@@ -27,8 +27,6 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        //设置当前请求阶段标识
-        ContextHolder.get().setStage(ContextHolder.Stage.MYBATIS);
         //开始时间
         long start = System.currentTimeMillis();
 

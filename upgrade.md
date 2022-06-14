@@ -1,6 +1,6 @@
 ### 
 -----
-基础库发布4.0.10
+基础库发布4.1.0
 Bug Fixes
 1. springboot升级到2.6.6
 2. springboot升级到2.7.0
@@ -12,6 +12,8 @@ Bug Fixes
 8. Redis多数据源组件默认数据库优化调整。
 9. 新增RabbitMQ消息中间件多配置SDK。
 10. druid-spring-boot-starter升级到1.2.9
+11. 阶段标识优化解决重复记录日志问题
+12. 优化动态数据源命名
 -----
 基础库发布4.0.9
 Bug Fixes

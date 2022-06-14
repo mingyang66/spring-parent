@@ -6,7 +6,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfigurat
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
+import com.emily.infrastructure.datasource.context.DynamicRoutingDataSource;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
 import com.emily.infrastructure.datasource.thread.DataSourceDaemonThread;
@@ -80,8 +80,8 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DataSourceCustomizer dataSourceCustomizer(DataSourceProperties dataSourceProperties) {
-        return new DefaultDataSourceMethodInterceptor(dataSourceProperties);
+    public DataSourceCustomizer dataSourceCustomizer(DataSourceProperties properties) {
+        return new DefaultDataSourceMethodInterceptor(properties);
     }
 
     /**
@@ -91,21 +91,21 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DataSource dynamicMultipleDataSources(DataSourceProperties dataSourceProperties) {
-        Assert.notNull(dataSourceProperties.getDefaultTargetDataSource(), "默认数据库必须配置");
+    public DataSource dynamicRoutingDataSource(DataSourceProperties properties) {
+        Assert.notNull(properties.getDefaultTargetDataSource(), "默认数据库必须配置");
         //动态切换多数据源对象
-        DynamicMultipleDataSources dynamicMultipleDataSources = new DynamicMultipleDataSources();
+        DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         //如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源
-        dynamicMultipleDataSources.setDefaultTargetDataSource(dataSourceProperties.getDefaultTargetDataSource());
+        dynamicRoutingDataSource.setDefaultTargetDataSource(properties.getDefaultTargetDataSource());
         //指定目标数据源的Map集合映射，使用查找键（Look Up Key）作为Key,这个Map集合的映射Value可以是javax.sql.DataSource或者是数据源（data source）字符串；集合的Key可以为任何数据类型，当前类会通过泛型的方式来实现查找，
-        dynamicMultipleDataSources.setTargetDataSources(dataSourceProperties.getTargetDataSources());
+        dynamicRoutingDataSource.setTargetDataSources(properties.getTargetDataSources());
         //是否对默认数据源执行宽松回退，即：当目标数据源找不到时回退到默认数据源，默认：true
-        dynamicMultipleDataSources.setLenientFallback(dataSourceProperties.isLenientFallback());
+        dynamicRoutingDataSource.setLenientFallback(properties.isLenientFallback());
         //设置DataSourceLookup为解析数据源的字符串，默认是使用JndiDataSourceLookup；允许直接指定应用程序服务器数据源的JNDI名称；
-        dynamicMultipleDataSources.setDataSourceLookup(null);
+        dynamicRoutingDataSource.setDataSourceLookup(null);
         //将设置的默认数据源、目标数据源解析为真实的数据源对象赋值给resolvedDefaultDataSource变量和resolvedDataSources变量
-        dynamicMultipleDataSources.afterPropertiesSet();
-        return dynamicMultipleDataSources;
+        dynamicRoutingDataSource.afterPropertiesSet();
+        return dynamicRoutingDataSource;
     }
 
     /**

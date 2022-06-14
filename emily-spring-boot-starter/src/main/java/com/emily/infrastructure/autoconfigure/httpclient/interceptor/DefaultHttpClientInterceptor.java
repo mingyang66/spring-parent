@@ -41,8 +41,6 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
      */
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        //设置当前请求阶段标识
-        ContextHolder.get().setStage(ContextHolder.Stage.HTTP);
         //设置事务标识
         request.getHeaders().set(HeaderInfo.TRACE_ID, ContextHolder.get().getTraceId());
         //创建拦截日志信息

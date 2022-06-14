@@ -8,8 +8,11 @@ import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -74,8 +77,21 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
 
             RabbitMessagingTemplate rabbitMessagingTemplate = messagingTemplateConfiguration.rabbitMessagingTemplate(rabbitTemplate);
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
+
+            SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = firstListenerFactory(properties, connectionFactory);
+            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, "SimpleRabbitListenerContainerFactory"), simpleRabbitListenerContainerFactory);
+
         }
         return "UNSET";
+    }
+
+    public SimpleRabbitListenerContainerFactory firstListenerFactory(RabbitProperties properties, ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactoryConfigurer configurer = new SimpleRabbitListenerContainerFactoryConfigurer(properties);
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        //设置手动ack
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        configurer.configure(factory, connectionFactory);
+        return factory;
     }
 
     @Bean

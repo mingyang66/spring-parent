@@ -17,6 +17,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -38,8 +39,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        HttpServletRequest request = RequestUtils.getRequest();
         //设置当前请求阶段标识
-        ContextHolder.get().setStage(ContextHolder.Stage.REQUEST);
+        request.setAttribute(AttributeInfo.STAGE, ContextHolder.Stage.REQUEST);
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         try {
@@ -50,7 +52,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
-            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
+            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(request.getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
             baseLogger.setRequestParams(RequestHelper.getApiParamsMap());
             //调用真实的action方法
@@ -80,7 +82,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //移除线程上下文数据
             ContextHolder.remove();
             //设置耗时
-            RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getTime());
+            request.setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }
 
     }

@@ -6,11 +6,12 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.TypeMismatchException;
@@ -29,6 +30,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Emily
@@ -65,7 +67,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_PROXY);
     }
 
     /**
@@ -196,15 +198,15 @@ public class ExceptionAdviceHandler {
         try {
             BaseLogger baseLogger = new BaseLogger();
             //系统编号
-            baseLogger.setSystemNumber(ContextHolder.get().getSystemNumber());
+            baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(ContextHolder.get().getTraceId());
+            baseLogger.setTraceId(UUID.randomUUID().toString());
             //请求URL
             baseLogger.setUrl(request.getRequestURI());
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setClientIp(RequestUtils.getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setServerIp(RequestUtils.getServerIp());
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求参数

@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.1.1
+Bug Fixes
+1. ApplicationStatus异常状态码枚举优化调整，并更改使用异常的相关类
+-----
 基础库发布4.1.0
 Bug Fixes
 1. springboot升级到2.6.6

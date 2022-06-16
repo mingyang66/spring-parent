@@ -101,7 +101,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
             }
             return this.response;
         } catch (Exception exception) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
+            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
         }
     }
 

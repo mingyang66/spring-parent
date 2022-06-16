@@ -41,7 +41,7 @@ public class MapperContext {
         //获取实例对象对应的所有bean集合
         Map<String, T> beanMaps = IOCContext.getBeansOfType(originClass);
         if (!beanMaps.containsKey(beanName)) {
-            throw new BusinessException(AppHttpStatus.NOT_FOUND.getStatus(), MessageFormat.format("实例对象{0}不存在", beanName));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ACCESS.getStatus(), MessageFormat.format("实例对象{0}不存在", beanName));
         }
         //todo 符合条件
         if (StringUtils.isEmpty(param) || isOracle(param)) {
@@ -49,7 +49,7 @@ public class MapperContext {
         }
         beanName = StrUtils.toLowerFirstCase(targetClass.getSimpleName());
         if (!beanMaps.containsKey(beanName)) {
-            throw new BusinessException(AppHttpStatus.NOT_FOUND.getStatus(), MessageFormat.format("实例对象{0}不存在", beanName));
+            throw new BusinessException(AppHttpStatus.ILLEGAL_ACCESS.getStatus(), MessageFormat.format("实例对象{0}不存在", beanName));
         }
         return beanMaps.get(beanName);
     }

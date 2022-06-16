@@ -53,7 +53,7 @@ public class FileNameUtils {
         try {
             return FilenameUtils.directoryContains(canonicalParent, canonicalChild);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), "判断parent目录是否包含child元素异常，" + e);
+            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "判断parent目录是否包含child元素异常，" + e);
         }
     }
 

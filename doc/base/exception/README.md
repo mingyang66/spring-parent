@@ -157,7 +157,7 @@ public final class ExceptionAdviceHandler {
         if(StringUtils.isBlank(message)){
             message = e.toString();
         }
-        return BaseResponse.createResponse(HttpStatus.IO_EXCEPTION.getStatus(), message);
+        return BaseResponse.createResponse(HttpStatus.NETWORK_EXCEPTION.getStatus(), message);
     }
 
     /**

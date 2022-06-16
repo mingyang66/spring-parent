@@ -153,7 +153,7 @@ public class RequestUtils {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getRequest();
         } catch (Exception ex) {
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
     }
 
@@ -165,7 +165,7 @@ public class RequestUtils {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getResponse();
         } catch (Exception ex) {
-            throw new BasicException(AppHttpStatus.IO_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
     }
 

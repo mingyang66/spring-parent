@@ -44,7 +44,7 @@ public class GZIPUtils {
             gzip.close();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BasicException(AppHttpStatus.ILLEGAL_PARAMETER);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
         }
         return out.toByteArray();
     }
@@ -70,7 +70,7 @@ public class GZIPUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BasicException(AppHttpStatus.ILLEGAL_PARAMETER);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
         }
         return out.toByteArray();
     }
@@ -108,7 +108,7 @@ public class GZIPUtils {
             return out.toString(encoding);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BasicException(AppHttpStatus.ILLEGAL_PARAMETER);
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
         }
     }
 }

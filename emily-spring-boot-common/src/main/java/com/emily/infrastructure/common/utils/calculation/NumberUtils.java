@@ -29,7 +29,7 @@ public class NumberUtils {
             }
             return new BigDecimal(number).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_PARAMETER.getStatus(), "数据计算异常");
+            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "数据计算异常");
         }
     }
 

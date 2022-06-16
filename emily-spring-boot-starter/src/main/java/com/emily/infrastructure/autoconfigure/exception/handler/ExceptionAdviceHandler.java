@@ -46,7 +46,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION, e.getMessage());
+        return BaseResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -55,7 +55,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.RUNTIME_EXCEPTION.getStatus(), e.getMessage());
+        return BaseResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -64,7 +64,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.NULL_POINTER);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
     }
 
     /**
@@ -73,7 +73,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_CLASS_CONVERT);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
     }
 
     /**
@@ -82,7 +82,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.IO_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_INDEX);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
     }
 
     /**
@@ -100,7 +100,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(TypeMismatchException.class)
     public BaseResponse requestTypeMismatch(TypeMismatchException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.MISMATCH_PARAMETER);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -109,7 +109,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(MissingRequestValueException.class)
     public BaseResponse requestMissingServletRequest(MissingRequestValueException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.MISSING_PARAMETER);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
     }
 
 
@@ -122,7 +122,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler({BindException.class, IllegalArgumentException.class, HttpMessageConversionException.class})
     public BaseResponse validModelBindException(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_PARAMETER);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_NUMBER_FORMAT);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
     }
 
     /**

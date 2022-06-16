@@ -2,7 +2,6 @@ package com.emily.infrastructure.redis.factory;
 
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.redis.RedisDbProperties;
-import com.emily.infrastructure.redis.exception.RedisDbNotFoundException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
@@ -63,7 +62,7 @@ public class RedisDbFactory {
             return stringCache.get(key);
         }
         if (!IOCContext.containsBean(key)) {
-            throw new RedisDbNotFoundException(MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
+            throw new IllegalArgumentException(MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
         }
         StringRedisTemplate stringRedisTemplate = IOCContext.getBean(key, StringRedisTemplate.class);
         stringCache.put(key, stringRedisTemplate);
@@ -97,7 +96,7 @@ public class RedisDbFactory {
             return restCache.get(key);
         }
         if (!IOCContext.containsBean(key)) {
-            throw new RedisDbNotFoundException(MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
+            throw new IllegalArgumentException(MessageFormat.format("Redis数据库标识【{0}】对应的数据库不存在", redisMark));
         }
         RedisTemplate redisTemplate = IOCContext.getBean(key, RedisTemplate.class);
         restCache.put(key, redisTemplate);

@@ -3,7 +3,6 @@ package com.emily.infrastructure.redis;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.redis.config.RedisDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.example.RedisDbEventConsumer;
-import com.emily.infrastructure.redis.exception.RedisDbNotFoundException;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -106,7 +105,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         //创建Redis数据源配置key-value映射
         Map<String, RedisProperties> dataMap = redisDbProperties.getConfig();
         if (CollectionUtils.isEmpty(dataMap)) {
-            throw new RedisDbNotFoundException("Redis数据库字典配置不存在");
+            throw new IllegalArgumentException("Redis数据库字典配置不存在");
         }
         dataMap.forEach((key, properties) -> {
             //Redis连接工厂类

@@ -126,7 +126,7 @@ public class IRpcConnection extends AbstractConnection<Channel> {
             return false;
         } catch (InterruptedException e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "创建连接失败");
+            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "创建连接失败");
         }
     }
 

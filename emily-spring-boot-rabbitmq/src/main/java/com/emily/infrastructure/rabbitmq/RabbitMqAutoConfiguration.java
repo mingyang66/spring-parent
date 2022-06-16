@@ -21,10 +21,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.amqp.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
 
@@ -36,6 +38,7 @@ import java.util.Map;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/2 4:58 下午
  */
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @AutoConfiguration(before = RabbitAutoConfiguration.class)
 @EnableConfigurationProperties(RabbitMqProperties.class)
 @ConditionalOnProperty(prefix = RabbitMqProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -81,6 +84,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = firstListenerFactory(properties, connectionFactory);
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, "SimpleRabbitListenerContainerFactory"), simpleRabbitListenerContainerFactory);
 
+            //defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, "RabbitMqListenerConfigurer"), new RabbitMqListenerConfigurer(key, simpleRabbitListenerContainerFactory));
         }
         return "UNSET";
     }
@@ -89,7 +93,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
         SimpleRabbitListenerContainerFactoryConfigurer configurer = new SimpleRabbitListenerContainerFactoryConfigurer(properties);
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         //设置手动ack
-        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         configurer.configure(factory, connectionFactory);
         return factory;
     }

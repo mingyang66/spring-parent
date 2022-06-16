@@ -7,12 +7,12 @@ package com.emily.infrastructure.common.enums;
  */
 public enum AppHttpStatus {
     OK(0, "SUCCESS"),
-    NETWORK_EXCEPTION(100000, "网络异常，请稍后再试"),
-    ILLEGAL_METHOD(100001, "非法请求方法"),
+    EXCEPTION(100000, "网络异常，请稍后再试"),
+    ILLEGAL_METHOD(100001, "非法方法请求"),
     ILLEGAL_ARGUMENT(100002, "非法参数"),
     ILLEGAL_DATA(100003, "非法数据"),
     ILLEGAL_ACCESS(100004, "非法访问"),
-    ILLEGAL_DB(100005, "非法数据库操作");
+    ILLEGAL_PROXY(100005, "非法代理");
 
     /**
      * 状态码

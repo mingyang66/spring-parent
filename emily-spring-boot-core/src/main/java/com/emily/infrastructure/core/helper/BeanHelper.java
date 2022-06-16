@@ -23,12 +23,12 @@ public class BeanHelper {
      */
     public static <T> T getBean(Class<T> clazz, String suffix) {
         if (!clazz.isInterface()) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "必须为接口类型");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "必须为接口类型");
         }
         String beanName = MessageFormat.format("{0}{1}", StrUtils.toLowerFirstCase(clazz.getSimpleName()), suffix);
         if (IOCContext.containsBean(beanName)) {
             return IOCContext.getBean(beanName, clazz);
         }
-        throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "实例对象不存在");
+        throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "实例对象不存在");
     }
 }

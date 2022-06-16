@@ -130,7 +130,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.write(file, data, encoding, append);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "写入数据异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
     }
 
@@ -204,7 +204,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.writeLines(file, encoding, lines, append);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "写入数据异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
     }
 
@@ -260,7 +260,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.writeLines(file, encoding, lines, lineEnding, append);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "写入数据异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
     }
 
@@ -287,7 +287,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.writeByteArrayToFile(file, data, append);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "写入数据异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
     }
 
@@ -318,7 +318,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.writeByteArrayToFile(file, data, off, len, append);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "写入数据异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "写入数据异常，" + e);
         }
     }
 
@@ -364,7 +364,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.readFileToString(file, encoding);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "读取资源异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "读取资源异常，" + e);
         }
     }
 
@@ -388,7 +388,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.readFileToByteArray(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "读取资源异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "读取资源异常，" + e);
         }
     }
 
@@ -434,7 +434,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.readLines(file, encoding);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "读取资源异常，" + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "读取资源异常，" + e);
         }
     }
 
@@ -588,7 +588,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.toURLs(files);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "资源转换异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "资源转换异常, " + e);
         }
     }
 
@@ -600,7 +600,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.touch(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "资源转换异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "资源转换异常, " + e);
         }
     }
 
@@ -624,7 +624,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.deleteDirectory(directory);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "删除资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "删除资源异常, " + e);
         }
     }
 
@@ -638,7 +638,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.forceDelete(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "删除资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "删除资源异常, " + e);
         }
     }
 
@@ -652,7 +652,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.forceDeleteOnExit(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "删除资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "删除资源异常, " + e);
         }
     }
 
@@ -667,7 +667,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.forceMkdir(directory);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "创建目录异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "创建目录异常, " + e);
         }
     }
 
@@ -681,7 +681,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.forceMkdirParent(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "创建目录异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "创建目录异常, " + e);
         }
     }
 
@@ -717,7 +717,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.openInputStream(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "打开指定文件的输入流异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "打开指定文件的输入流异常, " + e);
         }
     }
 
@@ -731,7 +731,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.openOutputStream(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "打开指定文件的输出流异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "打开指定文件的输出流异常, " + e);
         }
     }
 
@@ -746,7 +746,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.openOutputStream(file, append);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "打开指定文件的输出流异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "打开指定文件的输出流异常, " + e);
         }
     }
 
@@ -761,7 +761,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.directoryContains(directory, child);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "判定父file对象是否包含子file对象异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "判定父file对象是否包含子file对象异常, " + e);
         }
     }
 
@@ -776,7 +776,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.contentEquals(file1, file2);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "比较两个文件内容是否相等异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "比较两个文件内容是否相等异常, " + e);
         }
     }
 
@@ -792,7 +792,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.contentEqualsIgnoreEOL(file1, file2, charsetName);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "比较两个文件内容是否相等异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "比较两个文件内容是否相等异常, " + e);
         }
     }
 
@@ -818,7 +818,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.checksum(file, checksum);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "校验文件数据异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "校验文件数据异常, " + e);
         }
     }
 
@@ -832,7 +832,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.checksumCRC32(file);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "校验文件数据异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "校验文件数据异常, " + e);
         }
     }
 
@@ -846,7 +846,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.cleanDirectory(directory);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "清空目录异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "清空目录异常, " + e);
         }
     }
 
@@ -918,7 +918,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyDirectory(srcDir, destDir, filter, true);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -933,7 +933,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyDirectoryToDirectory(srcDir, destDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -962,7 +962,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyFileToDirectory(srcFile, destDir, preserveFileDate);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -978,7 +978,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyToDirectory(src, destDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -993,7 +993,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyToDirectory(srcs, destDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1020,7 +1020,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyFile(srcFile, destFile, preserveFileDate);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1035,7 +1035,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.copyFile(input, output);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1050,7 +1050,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyInputStreamToFile(source, destination);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
 
     }
@@ -1066,7 +1066,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyToFile(source, destination);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1081,7 +1081,7 @@ public class FileUtils {
         try {
             copyInputStreamToFile(source.openStream(), destination);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1098,7 +1098,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyURLToFile(source, destination, connectionTimeout, readTimeout);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "复制资源异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "复制资源异常, " + e);
         }
     }
 
@@ -1179,7 +1179,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.isSymlink(file);
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "确定指定的文件是符号链接而不是实际文件异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "确定指定的文件是符号链接而不是实际文件异常, " + e);
         }
     }
 
@@ -1206,7 +1206,7 @@ public class FileUtils {
         try {
             return org.apache.commons.io.FileUtils.lineIterator(file, encoding);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "获取指定文件行的Iterator迭代器异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "获取指定文件行的Iterator迭代器异常, " + e);
         }
     }
 
@@ -1313,7 +1313,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.moveDirectory(srcDir, destDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "移动目录异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "移动目录异常, " + e);
         }
     }
 
@@ -1329,7 +1329,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.moveDirectoryToDirectory(src, destDir, createDestDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "移动目录异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "移动目录异常, " + e);
         }
     }
 
@@ -1345,7 +1345,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.moveFile(srcFile, destFile);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "移动文件异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "移动文件异常, " + e);
         }
     }
 
@@ -1361,7 +1361,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.moveFileToDirectory(srcFile, destDir, createDestDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "移动文件异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "移动文件异常, " + e);
         }
     }
 
@@ -1378,7 +1378,7 @@ public class FileUtils {
         try {
             org.apache.commons.io.FileUtils.moveToDirectory(src, destDir, createDestDir);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "移动文件异常, " + e);
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "移动文件异常, " + e);
         }
     }
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,7 +47,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), e.getMessage());
+        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -55,7 +56,16 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), e.getMessage());
+        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), e.getMessage());
+    }
+
+    /**
+     * 非法代理
+     */
+    @ExceptionHandler(UndeclaredThrowableException.class)
+    public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION);
     }
 
     /**
@@ -82,7 +92,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION);
+        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION);
     }
 
     /**
@@ -177,10 +187,10 @@ public class ExceptionAdviceHandler {
      * @param errorMsg
      */
     private static void recordErrorLogger(HttpServletRequest request, String errorMsg) {
-        if(Objects.isNull(request)){
+        if (Objects.isNull(request)) {
             return;
         }
-        if(Objects.nonNull(request.getAttribute(AttributeInfo.STAGE))){
+        if (Objects.nonNull(request.getAttribute(AttributeInfo.STAGE))) {
             return;
         }
         try {

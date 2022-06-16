@@ -11,6 +11,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -52,9 +53,9 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         //获取ResponseEntity封装的真实返回值
         Object body = (null == returnValue) ? null : entity.getBody();
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (entity.getStatusCode().value() == AppHttpStatus.ILLEGAL_ACCESS.getStatus()) {
+        if (entity.getStatusCode().value() == HttpStatus.NOT_FOUND.value()) {
             String path = ((Map) body).get("path").toString();
-            BaseResponse responseData = BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS.getStatus(), StringUtils.join("接口【", path, "】不存在"));
+            BaseResponse responseData = BaseResponse.buildResponse(HttpStatus.NOT_FOUND.value(), StringUtils.join("接口【", path, "】不存在"));
             proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)

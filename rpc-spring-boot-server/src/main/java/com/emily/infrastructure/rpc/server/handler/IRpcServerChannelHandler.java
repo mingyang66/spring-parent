@@ -102,7 +102,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //异常结果
             Object response = PrintExceptionInfo.printErrorInfo(ex);
             //Rpc响应结果
-            rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), AppHttpStatus.NETWORK_EXCEPTION.getMessage(), response);
+            rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), AppHttpStatus.EXCEPTION.getMessage(), response);
         } finally {
             //设置请求上下文的事物唯一标识
             if (Objects.nonNull(request)) {

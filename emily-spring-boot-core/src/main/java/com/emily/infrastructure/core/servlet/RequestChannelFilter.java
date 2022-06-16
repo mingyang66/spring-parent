@@ -29,9 +29,9 @@ public class RequestChannelFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (IOException ex) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         } catch (ServletException ex) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
 
 

@@ -151,9 +151,9 @@ public class JavaBeanUtils {
 
             return (T) ois.readObject();
         } catch (NotSerializableException exception) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "未实现序列化接口");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "未实现序列化接口");
         } catch (Exception exception) {
-            throw new BasicException(AppHttpStatus.NETWORK_EXCEPTION.getStatus(), "深度拷贝数据异常");
+            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "深度拷贝数据异常");
         }
     }
 }

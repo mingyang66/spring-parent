@@ -3,7 +3,7 @@ package com.emily.infrastructure.test.service.impl;
 import com.emily.infrastructure.test.mapper.MyOracleMapper;
 import com.emily.infrastructure.test.mapper.OracleMapper;
 import com.emily.infrastructure.test.service.OracleService;
-import com.emily.infrastructure.test.service.context.MapperContext;
+import com.emily.infrastructure.test.service.context.MapperFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,13 +15,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class OracleServiceImpl implements OracleService {
 
+    private MapperFactory<OracleMapper> factory = MapperFactory.newInstance(OracleMapper.class, MyOracleMapper.class);
+
     @Override
     public String getOracle() {
-        return MapperContext.getBean(OracleMapper.class).getOracle();
+        return factory.getMapper().getOracle();
     }
 
     @Override
     public String getTarget(String param) {
-        return MapperContext.getBean(param, OracleMapper.class, MyOracleMapper.class).getOracle();
+        OracleMapper oracleMapper =factory.getMapper(param);
+        return oracleMapper.getOracle();
     }
 }

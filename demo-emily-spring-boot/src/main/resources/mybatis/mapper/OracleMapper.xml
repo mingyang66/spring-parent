@@ -4,8 +4,4 @@
     <select id="getOracle" resultType="java.lang.String">
 		SELECT 'oracle' FROM DUAL
     </select>
-
-    <select id="getDemo" resultType="java.lang.String">
-		SELECT 'demo' FROM DUAL
-    </select>
 </mapper>

@@ -13,6 +13,9 @@ import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
+import org.apache.ibatis.binding.BindingException;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -60,6 +63,7 @@ public class ExceptionAdviceHandler {
         recordErrorMsg(e, request);
         return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), e.getMessage());
     }
+
 
     /**
      * 非法代理
@@ -167,6 +171,23 @@ public class ExceptionAdviceHandler {
         return BaseResponse.buildResponse(e.getStatus(), e.getMessage());
     }
 
+    /**
+     * Mybatis数据库异常
+     */
+    @ExceptionHandler(value = BindingException.class)
+    public BaseResponse bindingExceptionHandler(BindingException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+    }
+
+    /**
+     * Mybatis数据库异常
+     */
+    @ExceptionHandler(value = MyBatisSystemException.class)
+    public BaseResponse myBatisSystemExceptionHandler(MyBatisSystemException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+    }
 
     /**
      * 获取异常堆栈信息并记录到error文件中

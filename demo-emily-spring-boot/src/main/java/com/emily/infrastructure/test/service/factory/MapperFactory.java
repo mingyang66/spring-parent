@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.service.context;
+package com.emily.infrastructure.test.service.factory;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
@@ -6,7 +6,6 @@ import com.emily.infrastructure.common.utils.StrUtils;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.MessageFormat;
 import java.util.Map;
 
 /**
@@ -15,8 +14,17 @@ import java.util.Map;
  * @CreateDate :  Created in 2022/3/24 4:23 下午
  */
 public class MapperFactory<T> {
+    /**
+     * 判定条件参数
+     */
     private String param;
+    /**
+     * 默认Oracle Mapper对象
+     */
     private Class<T> defaultClass;
+    /**
+     * Mysql Mapper对象
+     */
     private Class<? extends T> targetClass;
 
     public MapperFactory(Class<T> defaultClass, Class<? extends T> targetClass) {
@@ -84,7 +92,6 @@ public class MapperFactory<T> {
         if (!beanMaps.containsKey(beanName)) {
             throw new BusinessException(AppHttpStatus.ILLEGAL_ACCESS);
         }
-
         //todo 符合条件
         if (StringUtils.isEmpty(param) || isOracle(param)) {
             return beanMaps.get(beanName);

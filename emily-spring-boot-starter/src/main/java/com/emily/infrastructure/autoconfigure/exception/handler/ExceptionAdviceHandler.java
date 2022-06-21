@@ -14,7 +14,6 @@ import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.ibatis.binding.BindingException;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.springframework.beans.TypeMismatchException;

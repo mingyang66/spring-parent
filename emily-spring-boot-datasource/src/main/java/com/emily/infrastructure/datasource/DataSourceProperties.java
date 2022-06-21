@@ -3,6 +3,7 @@ package com.emily.infrastructure.datasource;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,11 +39,11 @@ public class DataSourceProperties {
     /**
      * Druid数据库连接池多数据源配置
      */
-    private Map<String, DruidDataSource> druid = new HashMap<>();
+    private Map<String, DruidDataSource> druid;
     /**
      * Hikari数据库连接池多数据源配置
      */
-    private Map<String, HikariDataSource> hikari = new HashMap<>();
+    private Map<String, HikariDataSource> hikari;
 
     public boolean isEnabled() {
         return enabled;
@@ -108,8 +109,12 @@ public class DataSourceProperties {
      */
     public Map<Object, Object> getTargetDataSources() {
         Map<Object, Object> dsMap = new HashMap<>();
-        dsMap.putAll(this.getDruid());
-        dsMap.putAll(this.getHikari());
+        if (!CollectionUtils.isEmpty(this.getDruid())) {
+            dsMap.putAll(this.getDruid());
+        }
+        if (!CollectionUtils.isEmpty(this.getHikari())) {
+            dsMap.putAll(this.getHikari());
+        }
         return Collections.unmodifiableMap(dsMap);
     }
 }

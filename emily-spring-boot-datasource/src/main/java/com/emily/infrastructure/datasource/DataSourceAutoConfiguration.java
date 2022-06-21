@@ -31,9 +31,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
-import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 /**
  * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
@@ -92,11 +92,12 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DataSource dynamicRoutingDataSource(DataSourceProperties properties) {
-        Assert.notNull(properties.getDefaultTargetDataSource(), "默认数据库必须配置");
+        //获取默认数据库配置
+        Object defaultTargetDataSource = Objects.requireNonNull(properties.getDefaultTargetDataSource(), "默认数据库必须配置");
         //动态切换多数据源对象
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         //如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源
-        dynamicRoutingDataSource.setDefaultTargetDataSource(properties.getDefaultTargetDataSource());
+        dynamicRoutingDataSource.setDefaultTargetDataSource(defaultTargetDataSource);
         //指定目标数据源的Map集合映射，使用查找键（Look Up Key）作为Key,这个Map集合的映射Value可以是javax.sql.DataSource或者是数据源（data source）字符串；集合的Key可以为任何数据类型，当前类会通过泛型的方式来实现查找，
         dynamicRoutingDataSource.setTargetDataSources(properties.getTargetDataSources());
         //是否对默认数据源执行宽松回退，即：当目标数据源找不到时回退到默认数据源，默认：true

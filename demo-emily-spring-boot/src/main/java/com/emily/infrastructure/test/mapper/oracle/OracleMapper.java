@@ -1,8 +1,7 @@
-package com.emily.infrastructure.test.mapper;
+package com.emily.infrastructure.test.mapper.oracle;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.test.po.Node;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,10 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-public interface Node1Mapper {
+public interface OracleMapper{
     /**
      * 查询接口
      */
-    @TargetDataSource("slave")
-    Node findNode();
+    @TargetDataSource("oracle")
+    String getOracle();
 }

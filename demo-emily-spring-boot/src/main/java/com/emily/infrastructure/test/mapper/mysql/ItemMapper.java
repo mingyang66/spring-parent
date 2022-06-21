@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.mapper;
+package com.emily.infrastructure.test.mapper.mysql;
 
 import com.emily.infrastructure.test.po.Item;
 import org.apache.ibatis.annotations.Mapper;

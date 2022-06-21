@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.service.impl;
 
-import com.emily.infrastructure.test.mapper.MyOracleMapper;
-import com.emily.infrastructure.test.mapper.OracleMapper;
+import com.emily.infrastructure.test.mapper.mysql.MyOracleMapper;
+import com.emily.infrastructure.test.mapper.oracle.OracleMapper;
 import com.emily.infrastructure.test.service.OracleService;
 import com.emily.infrastructure.test.service.context.MapperFactory;
 import org.springframework.stereotype.Service;

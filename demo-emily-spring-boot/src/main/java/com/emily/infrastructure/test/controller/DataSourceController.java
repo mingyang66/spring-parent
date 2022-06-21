@@ -3,12 +3,10 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
-import com.emily.infrastructure.test.mapper.ItemMapper;
-import com.emily.infrastructure.test.mapper.JobMapper;
-import com.emily.infrastructure.test.mapper.Node1Mapper;
+import com.emily.infrastructure.test.mapper.mysql.ItemMapper;
+import com.emily.infrastructure.test.mapper.mysql.JobMapper;
 import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
-import com.emily.infrastructure.test.po.Node;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.OracleService;
 import com.google.common.collect.Lists;
@@ -36,8 +34,6 @@ public class DataSourceController {
 
     @Autowired
     private JobMapper jobMapper;
-    @Autowired
-    private Node1Mapper node1Mapper;
     @Autowired
     private ItemMapper itemMapper;
     @Autowired
@@ -129,11 +125,6 @@ public class DataSourceController {
         return job;
     }
 
-
-    @GetMapping("getNode1")
-    public Node getNode1() {
-        return node1Mapper.findNode();
-    }
 
 
     @GetMapping("getOracle")

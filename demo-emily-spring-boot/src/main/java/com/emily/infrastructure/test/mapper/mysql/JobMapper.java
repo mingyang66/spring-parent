@@ -1,7 +1,8 @@
-package com.emily.infrastructure.test.mapper;
+package com.emily.infrastructure.test.mapper.mysql;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
+import com.emily.infrastructure.test.po.Job;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,11 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description: Description
  * @Version: 1.0
  */
+@TargetDataSource
 @Mapper
-public interface OracleMapper{
+public interface JobMapper {
     /**
      * 查询接口
      */
-    @TargetDataSource("oracle")
-    String getOracle();
+    Job findJob();
 }

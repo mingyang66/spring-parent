@@ -44,6 +44,10 @@ public class DataSourceProperties {
      * Hikari数据库连接池多数据源配置
      */
     private Map<String, HikariDataSource> hikari;
+    /**
+     * JNDI数据源
+     */
+    private Map<String, String> jndi;
 
     public boolean isEnabled() {
         return enabled;
@@ -93,6 +97,14 @@ public class DataSourceProperties {
         this.hikari = hikari;
     }
 
+    public Map<String, String> getJndi() {
+        return jndi;
+    }
+
+    public void setJndi(Map<String, String> jndi) {
+        this.jndi = jndi;
+    }
+
     /**
      * 获取默认数据源
      *
@@ -114,6 +126,9 @@ public class DataSourceProperties {
         }
         if (!CollectionUtils.isEmpty(this.getHikari())) {
             dsMap.putAll(this.getHikari());
+        }
+        if (!CollectionUtils.isEmpty(this.getJndi())) {
+            dsMap.putAll(this.getJndi());
         }
         return Collections.unmodifiableMap(dsMap);
     }

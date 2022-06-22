@@ -4,11 +4,9 @@ server:
   shutdown: graceful
   http:
     # 是否开启http端口号
-    enable: true
+    enabled: true
     # http端口号
     port: 9001
-    # 优雅停机
-    shutdown: graceful
   ssl:
     # 是否启用SSL支持
     enabled: true

@@ -1,8 +1,9 @@
-package com.emily.cloud.test.server;
+package com.emily.infrastructure.autoconfigure.server;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * @author Emily
  * @description: http属性配置文件
  * @create: 2020/06/28
  */
@@ -11,12 +12,12 @@ public class ServerProperties {
     /**
      * 是否开启http服务
      */
-    private boolean enable;
-
+    private boolean enabled;
     /**
      * 端口号
      */
-    private int port;
+    private int port = 8080;
+
 
     public int getPort() {
         return port;
@@ -26,11 +27,11 @@ public class ServerProperties {
         this.port = port;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

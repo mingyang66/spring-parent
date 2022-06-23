@@ -39,7 +39,7 @@ fi
   # .代表本次执行的上下文路径
   docker build -f ./Dockerfile . -t emilyframework:${VERSION}
   echo '镜像构建完成...'
-  localIp=$(/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
+  localIp=$(/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v 172.30.75.61|grep -v inet6|awk '{print $2}'|tr -d "addr:")
   echo '本机Ip地址是：'${localIp}
   httpPort=9001
   httpsPort=9000
@@ -48,7 +48,7 @@ fi
   # name:容器名称
   # --net：网络模式，默认：bridge(host、container、none) 注：mac系统无法使用host模式| docker network ls
   docker run \
-  -e JAVA_ACL_TOKEN=461ae90d-fc3e-462f-8ce1-a46f542183ec \
+  -e JAVA_ACL_TOKEN=bf29f405-0da0-b315-6e6e-7d1ea8a818e3 \
   -e JAVA_LOCAL_IP=${localIp} \
   -e JAVA_LOCAL_PORT=${httpPort} \
   -e JAVA_LOCAL_MANAGEMENT_PORT=${managementPort} \

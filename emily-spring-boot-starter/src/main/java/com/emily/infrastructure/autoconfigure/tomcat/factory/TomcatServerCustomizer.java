@@ -6,7 +6,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 
 /**
- * @Description :
+ * @Description : 自定义策略接口，会在tomcat启动之后回调，会被WebServerFactoryCustomizerBeanPostProcessor类回调
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/22 1:37 下午
  */

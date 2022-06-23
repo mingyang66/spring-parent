@@ -1,6 +1,6 @@
-package com.emily.infrastructure.autoconfigure.server.factory;
+package com.emily.infrastructure.autoconfigure.tomcat.factory;
 
-import com.emily.infrastructure.autoconfigure.server.ServerProperties;
+import com.emily.infrastructure.autoconfigure.tomcat.TomcatProperties;
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -18,9 +18,9 @@ public class TomcatServerCustomizer implements WebServerFactoryCustomizer<Tomcat
     /**
      * 属性配置
      */
-    private ServerProperties properties;
+    private TomcatProperties properties;
 
-    public TomcatServerCustomizer(ServerProperties properties) {
+    public TomcatServerCustomizer(TomcatProperties properties) {
         this.properties = properties;
     }
 

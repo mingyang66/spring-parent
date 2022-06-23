@@ -1,6 +1,6 @@
-package com.emily.infrastructure.autoconfigure.server;
+package com.emily.infrastructure.autoconfigure.tomcat;
 
-import com.emily.infrastructure.autoconfigure.server.factory.TomcatServerCustomizer;
+import com.emily.infrastructure.autoconfigure.tomcat.factory.TomcatServerCustomizer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -18,14 +18,14 @@ import org.springframework.context.annotation.Bean;
  * @author Emily
  */
 @AutoConfiguration
-@EnableConfigurationProperties(ServerProperties.class)
+@EnableConfigurationProperties(TomcatProperties.class)
 @ConditionalOnProperty(prefix = "server.http", name = "enabled", havingValue = "true", matchIfMissing = false)
-public class TomcatServerAutoConfiguration implements InitializingBean, DisposableBean {
+public class TomcatAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(TomcatServerAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(TomcatAutoConfiguration.class);
 
     @Bean
-    public TomcatServerCustomizer tomcatServerCustomizer(ServerProperties properties) {
+    public TomcatServerCustomizer tomcatServerCustomizer(TomcatProperties properties) {
         return new TomcatServerCustomizer(properties);
     }
 

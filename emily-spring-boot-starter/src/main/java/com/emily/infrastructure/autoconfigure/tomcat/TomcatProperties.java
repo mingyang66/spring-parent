@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.server;
+package com.emily.infrastructure.autoconfigure.tomcat;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @create: 2020/06/28
  */
 @ConfigurationProperties(prefix = "server.http")
-public class ServerProperties {
+public class TomcatProperties {
     /**
      * 是否开启http服务
      */

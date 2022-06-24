@@ -45,7 +45,7 @@
         <spring.consul.version>3.1.1</spring.consul.version>
         <spring.mybatis.version>2.2.2</spring.mybatis.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
-        <commons.io.version>2.7</commons.io.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <alibaba.druid.version>1.2.11</alibaba.druid.version>
         <alibaba.ttl.version>2.13.0</alibaba.ttl.version>
@@ -156,24 +156,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <!--<defaultGoal>compile</defaultGoal>-->
-        <plugins>
-            <!--配置生成源码包-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

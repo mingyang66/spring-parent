@@ -50,11 +50,7 @@ public class FileNameUtils {
      * @return true parent目录包含child,否则返回false
      */
     public static boolean directoryContains(final String canonicalParent, final String canonicalChild) {
-        try {
-            return FilenameUtils.directoryContains(canonicalParent, canonicalChild);
-        } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "判断parent目录是否包含child元素异常，" + e);
-        }
+        return FilenameUtils.directoryContains(canonicalParent, canonicalChild);
     }
 
     /**

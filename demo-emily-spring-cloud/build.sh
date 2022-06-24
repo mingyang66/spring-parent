@@ -39,7 +39,7 @@ fi
   # .代表本次执行的上下文路径
   docker build -f ./Dockerfile . -t emilyframework:${VERSION}
   echo '镜像构建完成...'
-  localIp=$(/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v 172.30.75.61|grep -v inet6|awk '{print $2}'|tr -d "addr:")
+  localIp=$(/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v 172.30.75|grep -v inet6|awk '{print $2}'|tr -d "addr:")
   echo '本机Ip地址是：'${localIp}
   httpPort=9001
   httpsPort=9000

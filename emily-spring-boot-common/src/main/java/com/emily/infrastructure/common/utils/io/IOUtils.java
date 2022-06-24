@@ -1,8 +1,10 @@
 package com.emily.infrastructure.common.utils.io;
 
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.URI;
@@ -15,11 +17,39 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * @author Emily
  * @Description: 通用IO流操作实用程序, 共87个工具方法
  * @Version: 1.0
  */
-@SuppressWarnings("all")
 public class IOUtils {
+    /**
+     * 读取springboot resource下文件，
+     *
+     * @param path classpath:a/b.txt或a/b.txt
+     * @return
+     */
+    public static String toStr(String path) {
+        return toStr(path, CharsetInfo.UTF_8);
+    }
+
+    /**
+     * 读取springboot resource下文件，
+     *
+     * @param path classpath:a/b.txt或a/b.txt
+     * @return
+     */
+    public static String toStr(String path, String encoding) {
+        try {
+            if (StringUtils.isEmpty(encoding)) {
+                encoding = CharsetInfo.UTF_8;
+            }
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+            return org.apache.commons.io.IOUtils.toString(is.readAllBytes(), encoding);
+        } catch (IOException exception) {
+            throw new IllegalArgumentException(AppHttpStatus.ILLEGAL_ACCESS.getMessage());
+        }
+    }
+
     /**
      * 返回BufferedReader，如果给定的reader是BufferedReader，则直接返回，否则创建一个新的BufferedReader返回
      *
@@ -429,11 +459,7 @@ public class IOUtils {
      * @return 请求的字符串
      */
     public static String toString(final byte[] input, final String encoding) {
-        try {
-            return org.apache.commons.io.IOUtils.toString(input, encoding);
-        } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "将输入流转换为字符串异常，" + e);
-        }
+        return org.apache.commons.io.IOUtils.toString(input, encoding);
     }
 
     /**
@@ -615,11 +641,7 @@ public class IOUtils {
      * @return 输入流
      */
     public static InputStream toInputStream(final CharSequence input, final String encoding) {
-        try {
-            return org.apache.commons.io.IOUtils.toInputStream(input, encoding);
-        } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "字符转换为数据流异常" + e);
-        }
+        return org.apache.commons.io.IOUtils.toInputStream(input, encoding);
     }
 
     /**
@@ -714,11 +736,7 @@ public class IOUtils {
      * @return LineIterator，永远不会为null
      */
     public static LineIterator lineIterator(final InputStream input, final String encoding) {
-        try {
-            return org.apache.commons.io.IOUtils.lineIterator(input, encoding);
-        } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "获取输入流的迭代器异常，" + e);
-        }
+        return org.apache.commons.io.IOUtils.lineIterator(input, encoding);
     }
 
     /**

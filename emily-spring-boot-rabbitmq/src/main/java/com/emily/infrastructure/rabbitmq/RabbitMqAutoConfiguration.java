@@ -106,7 +106,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             }
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
 
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, "RabbitMqListenerConfigurer"), new RabbitMqListenerConfigurer(key, rabbitListenerContainerFactory));
+            //defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, "RabbitMqListenerConfigurer"), new RabbitMqListenerConfigurer(key, rabbitListenerContainerFactory));
         }
         return "UNSET";
     }

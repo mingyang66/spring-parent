@@ -1,11 +1,8 @@
 package com.emily.infrastructure.common.utils.io;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 
-import java.io.IOException;
 import java.util.Collection;
 
 /**

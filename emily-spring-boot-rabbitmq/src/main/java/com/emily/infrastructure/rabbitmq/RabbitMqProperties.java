@@ -3,7 +3,6 @@ package com.emily.infrastructure.rabbitmq;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,7 +27,7 @@ public class RabbitMqProperties {
     /**
      * RabbitMq属性配置
      */
-    private Map<String, RabbitProperties> config = new HashMap<>();
+    private Map<String, RabbitProperties> config;
 
     public boolean isEnabled() {
         return enabled;

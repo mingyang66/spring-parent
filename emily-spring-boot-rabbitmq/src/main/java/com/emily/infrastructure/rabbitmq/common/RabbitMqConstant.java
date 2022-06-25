@@ -18,4 +18,8 @@ public class RabbitMqConstant {
      * ConnectionFactory bean名称
      */
     public static final String CONNECTION_FACTORY = "ConnectionFactory";
+    /**
+     *
+     */
+    public static final String LISTENER_CONTAINER_FACTORY = "RabbitListenerContainerFactory";
 }

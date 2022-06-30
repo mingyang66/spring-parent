@@ -8,6 +8,7 @@ Bug Fixes
 4. 数据库多数据源组件获取数据库属性配置优化调整
 5. 新增tomcat开启http端口组件
 6. RabbitMQ消息中间件组件支持同时连接同一个MQ集群中不同的Virtual-Host;
+7. TTL升级到2.13.1，添加@Contract注解，精细化控制输入的null值warning;
 -----
 基础库发布4.1.0
 Bug Fixes

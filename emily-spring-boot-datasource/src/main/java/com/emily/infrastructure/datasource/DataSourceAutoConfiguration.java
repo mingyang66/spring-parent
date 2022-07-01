@@ -49,8 +49,6 @@ import java.util.Objects;
 public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfiguration.class);
-
-
     /**
      * 数据源切面增强类，支持@TargetDataSource注解标注在父类、接口、父类或接口的方法上都可以拦截到
      *

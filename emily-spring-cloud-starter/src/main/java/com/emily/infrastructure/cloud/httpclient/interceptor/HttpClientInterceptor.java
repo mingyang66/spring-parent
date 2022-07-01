@@ -49,7 +49,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求参数
-        baseLogger.setRequestParams(RequestHelper.getHttpClientParamsMap(body));
+        baseLogger.setRequestParams(RequestHelper.getHttpClientArgs(body));
         try {
             //调用接口
             ClientHttpResponse clientHttpResponse = execution.execute(request, body);

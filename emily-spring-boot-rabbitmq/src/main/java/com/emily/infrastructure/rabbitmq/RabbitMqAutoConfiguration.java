@@ -4,7 +4,6 @@ import com.emily.infrastructure.rabbitmq.amqp.RabbitMqConnectionFactoryCreator;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqMessagingTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.common.RabbitMqConstant;
-import com.emily.infrastructure.rabbitmq.listener.RabbitMqListenerConfigurer;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
 import org.slf4j.Logger;

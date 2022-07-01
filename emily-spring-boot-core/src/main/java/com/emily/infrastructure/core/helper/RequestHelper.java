@@ -29,15 +29,16 @@ import java.util.*;
 public class RequestHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestHelper.class);
+    private static final String PLACE_HOLDER = "--隐藏--";
 
     /**
      * 获取请求入参,给API请求控制器获取入参
      *
      * @return
      */
-    public static Map<String, Object> getApiParamsMap() {
+    public static Map<String, Object> getApiArgs() {
         if (RequestUtils.isServletContext()) {
-            return getParamsMap(RequestUtils.getRequest());
+            return getArgs(RequestUtils.getRequest());
         }
         return Collections.emptyMap();
     }
@@ -48,11 +49,11 @@ public class RequestHelper {
      * @param request
      * @return
      */
-    private static Map<String, Object> getParamsMap(HttpServletRequest request) {
+    private static Map<String, Object> getArgs(HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (request instanceof DelegateRequestWrapper) {
             DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-            Map<String, Object> body = getHttpClientParamsMap(requestWrapper.getRequestBody());
+            Map<String, Object> body = getHttpClientArgs(requestWrapper.getRequestBody());
             if (!CollectionUtils.isEmpty(body)) {
                 paramMap.putAll(body);
             }
@@ -97,11 +98,11 @@ public class RequestHelper {
      * @param params
      * @return
      */
-    public static Map<String, Object> getHttpClientParamsMap(byte[] params) {
+    public static Map<String, Object> getHttpClientArgs(byte[] params) {
         try {
             return JSONUtils.toObject(params, Map.class);
         } catch (Exception e) {
-            return convertParameterToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
+            return strToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
         }
     }
 
@@ -111,7 +112,7 @@ public class RequestHelper {
      * @param param
      * @return
      */
-    private static Map<String, Object> convertParameterToMap(String param) {
+    private static Map<String, Object> strToMap(String param) {
         if (StringUtils.isEmpty(param)) {
             return Collections.emptyMap();
         }
@@ -129,15 +130,18 @@ public class RequestHelper {
     /**
      * 获取方法参数
      */
-    public static Map<String, Object> getMethodParams(MethodInvocation invocation) {
+    public static Map<String, Object> getMethodArgs(MethodInvocation invocation, String... field) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
             Parameter[] parameters = invocation.getMethod().getParameters();
             Object[] obj = invocation.getArguments();
             for (int i = 0; i < parameters.length; i++) {
                 String name = parameters[i].getName();
-                Object value = obj[i];
-                paramMap.put(name, value);
+                if (Arrays.asList(field).contains(name)) {
+                    paramMap.put(name, PLACE_HOLDER);
+                } else {
+                    paramMap.put(name, obj[i]);
+                }
             }
             return paramMap;
         } catch (Exception e) {

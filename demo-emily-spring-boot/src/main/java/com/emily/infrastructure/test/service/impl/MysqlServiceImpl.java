@@ -18,6 +18,6 @@ public class MysqlServiceImpl implements MysqlService {
 
     @Override
     public String getMysql() {
-        return mysqlMapper.getMysql();
+        return mysqlMapper.getMysql("123123");
     }
 }

@@ -35,5 +35,5 @@ public interface MysqlMapper {
      * 查询接口
      */
     @TargetDataSource
-    String getMysql();
+    String getMysql(String password);
 }

@@ -54,7 +54,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //请求url
             baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(request.getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
-            baseLogger.setRequestParams(RequestHelper.getApiParamsMap());
+            baseLogger.setRequestParams(RequestHelper.getApiArgs());
             //调用真实的action方法
             Object response = invocation.proceed();
             //设置响应结果

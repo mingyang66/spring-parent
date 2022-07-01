@@ -50,7 +50,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求参数
-        baseLogger.setRequestParams(RequestHelper.getHttpClientParamsMap(body));
+        baseLogger.setRequestParams(RequestHelper.getHttpClientArgs(body));
         //开始计时
         long start = System.currentTimeMillis();
         try {

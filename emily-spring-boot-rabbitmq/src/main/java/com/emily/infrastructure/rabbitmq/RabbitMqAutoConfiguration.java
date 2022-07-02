@@ -25,12 +25,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.amqp.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
 import org.springframework.core.io.ResourceLoader;
 
 import java.text.MessageFormat;
@@ -42,7 +40,6 @@ import java.util.Objects;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/2 4:58 下午
  */
-@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @AutoConfiguration(before = RabbitAutoConfiguration.class)
 @EnableConfigurationProperties(RabbitMqProperties.class)
 @ConditionalOnProperty(prefix = RabbitMqProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

@@ -9,7 +9,6 @@ import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DynamicRoutingDataSource;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
-import com.emily.infrastructure.datasource.thread.DataSourceDaemonThread;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
@@ -70,8 +69,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(dataSourceCustomizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
         advisor.setOrder(AopOrderInfo.DATASOURCE);
-        //数据源守护线程
-        createDataSourceDaemonThread(properties);
         return advisor;
     }
 
@@ -132,17 +129,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
 
-    }
-
-    /**
-     * 创建守护线程
-     *
-     * @param properties
-     */
-    private void createDataSourceDaemonThread(DataSourceProperties properties) {
-        //数据源守护线程
-        Thread thread = new DataSourceDaemonThread("dataSource", properties);
-        thread.start();
     }
 
     @Override

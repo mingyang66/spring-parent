@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.1.2
+Bug Fixes
+1. 全局异常捕获组件抛出异常时添加状态码，即添加@ResponseBody、@ResponseStatus注解标注
+-----
 基础库发布4.1.1
 Bug Fixes
 1. ApplicationStatus异常状态码枚举优化调整，并更改使用异常的相关类

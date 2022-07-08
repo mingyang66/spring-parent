@@ -5,12 +5,15 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +31,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 未知异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -37,6 +42,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 运行时异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -46,6 +53,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 业务异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(BasicException.class)
     public BaseResponse basicException(BasicException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -55,6 +64,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 非法代理
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UndeclaredThrowableException.class)
     public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -64,6 +75,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 空指针异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -73,6 +86,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 类型转换异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -82,6 +97,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * IO异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -91,6 +108,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 数组越界异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -100,6 +119,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * API-参数类型不匹配
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(TypeMismatchException.class)
     public BaseResponse requestTypeMismatch(TypeMismatchException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -109,6 +130,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * API-缺少参数
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(MissingRequestValueException.class)
     public BaseResponse requestMissingServletRequest(MissingRequestValueException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -122,6 +145,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * @throws BindException
      * @throws MethodArgumentNotValidException
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({BindException.class, IllegalArgumentException.class, HttpMessageConversionException.class})
     public BaseResponse validModelBindException(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -131,6 +156,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * API-请求method不匹配
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public BaseResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -140,6 +167,8 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 数字格式异常
      */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e, HttpServletRequest request) {
         recordErrorMsg(e, request);

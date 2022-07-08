@@ -5,7 +5,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 /**
  * @Description :
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/6/8 4:24 下午
  */
 public class RabbitMqMessagingTemplateConfiguration {

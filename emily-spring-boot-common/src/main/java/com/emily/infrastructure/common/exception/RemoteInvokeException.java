@@ -10,7 +10,7 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  */
 public class RemoteInvokeException extends BasicException {
     public RemoteInvokeException() {
-        super(AppHttpStatus.EXCEPTION);
+        super(AppHttpStatus.ILLEGAL_ACCESS);
     }
 
     public RemoteInvokeException(AppHttpStatus httpStatus) {

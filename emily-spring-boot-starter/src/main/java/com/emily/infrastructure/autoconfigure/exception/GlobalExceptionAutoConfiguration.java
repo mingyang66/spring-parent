@@ -1,14 +1,18 @@
 package com.emily.infrastructure.autoconfigure.exception;
 
-import com.emily.infrastructure.autoconfigure.exception.handler.ExceptionAdviceHandler;
+import com.emily.infrastructure.autoconfigure.exception.handler.DefaultGlobalExceptionHandler;
+import com.emily.infrastructure.autoconfigure.exception.handler.GlobalExceptionCustomizer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
 
 /**
  * @author Emily
@@ -17,10 +21,11 @@ import org.springframework.context.annotation.Bean;
  * @create: 2020/10/28
  */
 @AutoConfiguration
-@EnableConfigurationProperties(ExceptionProperties.class)
-@ConditionalOnProperty(prefix = ExceptionProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class ExceptionAutoConfiguration implements InitializingBean, DisposableBean {
-    private static final Logger logger = LoggerFactory.getLogger(ExceptionAutoConfiguration.class);
+@EnableConfigurationProperties(GlobalExceptionProperties.class)
+@ConditionalOnProperty(prefix = GlobalExceptionProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class GlobalExceptionAutoConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionAutoConfiguration.class);
 
     /**
      * 异常抛出拦截bean初始化
@@ -28,8 +33,10 @@ public class ExceptionAutoConfiguration implements InitializingBean, DisposableB
      * @return
      */
     @Bean
-    public ExceptionAdviceHandler exceptionAdviceHandler() {
-        return new ExceptionAdviceHandler();
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnMissingBean(GlobalExceptionCustomizer.class)
+    public DefaultGlobalExceptionHandler defaultGlobalExceptionHandler() {
+        return new DefaultGlobalExceptionHandler();
     }
 
 

@@ -6,7 +6,6 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * @author Emily
@@ -28,9 +27,7 @@ public class RequestChannelFilter implements Filter {
             } else {
                 chain.doFilter(request, response);
             }
-        } catch (IOException ex) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
-        } catch (ServletException ex) {
+        } catch (Exception ex) {
             throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
 

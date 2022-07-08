@@ -30,7 +30,7 @@
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
 
@@ -48,7 +48,7 @@
         <commons.io.version>2.11.0</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <alibaba.druid.version>1.2.11</alibaba.druid.version>
-        <alibaba.ttl.version>2.13.1</alibaba.ttl.version>
+        <alibaba.ttl.version>2.13.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>

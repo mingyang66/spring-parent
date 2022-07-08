@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description: 异常处理自动化配置PO
  * @create: 2020/10/28
  */
-@ConfigurationProperties(prefix = ExceptionProperties.PREFIX)
-public class ExceptionProperties {
+@ConfigurationProperties(prefix = GlobalExceptionProperties.PREFIX)
+public class GlobalExceptionProperties {
     /**
      * 配置前缀
      */

@@ -10,6 +10,8 @@ Bug Fixes
 6. RabbitMQ消息中间件组件支持同时连接同一个MQ集群中不同的Virtual-Host;
 7. TTL升级到2.13.1，添加@Contract注解，精细化控制输入的null值warning;
 8. springboot升级到2.7.1
+9. TTL升级到2.13.2版本；
+10. 全局异常捕获组件重新定义，抽离出GlobalExceptionCustomizer父接口，并定义默认实现DefaultGlobalExceptionHandler，从而可以支持自定义扩展异常处理，完全自定义异常处理；
 -----
 基础库发布4.1.0
 Bug Fixes

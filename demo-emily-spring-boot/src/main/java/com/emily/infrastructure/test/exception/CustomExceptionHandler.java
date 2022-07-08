@@ -19,13 +19,13 @@ import javax.servlet.http.HttpServletRequest;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/7/8 1:26 下午
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     /**
      * 数据库异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(BadSqlGrammarException.class)
     public BaseResponse bad1SqlGrammarException(BadSqlGrammarException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -35,7 +35,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
      * Mybatis数据库异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = MyBatisSystemException.class)
     public BaseResponse myBatisSystemExceptionHandler(MyBatisSystemException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -45,7 +45,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
      * Mybatis数据库异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = BindingException.class)
     public BaseResponse bindingExceptionHandler(BindingException e, HttpServletRequest request) {
         recordErrorMsg(e, request);

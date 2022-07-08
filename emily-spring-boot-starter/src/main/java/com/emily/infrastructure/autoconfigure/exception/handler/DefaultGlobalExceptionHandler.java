@@ -32,7 +32,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 未知异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -43,7 +43,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 运行时异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -54,7 +54,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 业务异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(BasicException.class)
     public BaseResponse basicException(BasicException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -65,7 +65,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 非法代理
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(UndeclaredThrowableException.class)
     public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -76,7 +76,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 空指针异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -87,7 +87,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 类型转换异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -98,7 +98,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * IO异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -109,7 +109,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 数组越界异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -120,7 +120,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * API-参数类型不匹配
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(TypeMismatchException.class)
     public BaseResponse requestTypeMismatch(TypeMismatchException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -131,7 +131,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * API-缺少参数
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MissingRequestValueException.class)
     public BaseResponse requestMissingServletRequest(MissingRequestValueException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -146,7 +146,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * @throws MethodArgumentNotValidException
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({BindException.class, IllegalArgumentException.class, HttpMessageConversionException.class})
     public BaseResponse validModelBindException(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
@@ -168,7 +168,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 数字格式异常
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e, HttpServletRequest request) {
         recordErrorMsg(e, request);

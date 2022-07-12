@@ -1,8 +1,12 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.test.po.Job;
+import com.emily.infrastructure.test.po.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @program: spring-parent
@@ -21,5 +25,17 @@ public class ParamController {
     @PostMapping("test1")
     public Job test1(@Validated @RequestBody Job job) {
         return job;
+    }
+
+    @PostMapping("postList")
+    public int postList(@RequestBody List<User> list) {
+        System.out.println(JSONUtils.toJSONPrettyString(list));
+        return 0;
+    }
+
+    @PostMapping("postArray")
+    public int postList(@RequestBody User[] list) {
+        System.out.println(JSONUtils.toJSONPrettyString(list));
+        return 0;
     }
 }

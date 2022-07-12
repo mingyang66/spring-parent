@@ -3,6 +3,24 @@
 基础库发布4.1.2
 Bug Fixes
 1. 全局异常捕获组件抛出异常时添加状态码，即添加@ResponseBody、@ResponseStatus注解标注
+2. 对请求参数日志记录为数组类型的做兼容，如下：
+
+```java
+    @PostMapping("postList")
+    public int postList(@RequestBody List<User> list) {
+        System.out.println(JSONUtils.toJSONPrettyString(list));
+        return 0;
+    }
+
+    @PostMapping("postArray")
+    public int postList(@RequestBody User[] list) {
+        System.out.println(JSONUtils.toJSONPrettyString(list));
+        return 0;
+    }
+```
+
+
+
 -----
 基础库发布4.1.1
 Bug Fixes

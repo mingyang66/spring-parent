@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,12 @@ import java.util.*;
 public class RequestHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestHelper.class);
+
     private static final String PLACE_HOLDER = "--隐藏--";
+
+    private static final String PARAMS = "params";
+
+    private static final String HEADERS = "headers";
 
     /**
      * 获取请求入参,给API请求控制器获取入参
@@ -67,7 +73,7 @@ public class RequestHelper {
                 String value = request.getHeader(name);
                 headers.put(name, value);
             }
-            paramMap.put("headers", headers);
+            paramMap.put(HEADERS, headers);
         });
 
         Enumeration<String> names = request.getParameterNames();
@@ -124,7 +130,24 @@ public class RequestHelper {
                 pMap.put(array[0], array[1]);
             }
         }
+        if (pMap.size() == 0) {
+            pMap.put(PARAMS, toObject(param));
+        }
         return pMap;
+    }
+
+    /**
+     * 将参数转为对象
+     *
+     * @param param
+     * @return
+     */
+    private static Object toObject(String param) {
+        Assert.notNull(param, "参数不可为空");
+        if (param.startsWith(CharacterInfo.LEFT_SQ)) {
+            return JSONUtils.toJavaBean(param, List.class);
+        }
+        return param;
     }
 
     /**

@@ -31,12 +31,6 @@ public class RequestHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestHelper.class);
 
-    private static final String PLACE_HOLDER = "--隐藏--";
-
-    private static final String PARAMS = "params";
-
-    private static final String HEADERS = "headers";
-
     /**
      * 获取请求入参,给API请求控制器获取入参
      *
@@ -73,7 +67,7 @@ public class RequestHelper {
                 String value = request.getHeader(name);
                 headers.put(name, value);
             }
-            paramMap.put(HEADERS, headers);
+            paramMap.put(AttributeInfo.HEADERS, headers);
         });
 
         Enumeration<String> names = request.getParameterNames();
@@ -131,7 +125,7 @@ public class RequestHelper {
             }
         }
         if (pMap.size() == 0) {
-            pMap.put(PARAMS, toObject(param));
+            pMap.put(AttributeInfo.PARAMS, toObject(param));
         }
         return pMap;
     }
@@ -161,7 +155,7 @@ public class RequestHelper {
             for (int i = 0; i < parameters.length; i++) {
                 String name = parameters[i].getName();
                 if (Arrays.asList(field).contains(name)) {
-                    paramMap.put(name, PLACE_HOLDER);
+                    paramMap.put(name, AttributeInfo.PLACE_HOLDER);
                 } else {
                     paramMap.put(name, obj[i]);
                 }

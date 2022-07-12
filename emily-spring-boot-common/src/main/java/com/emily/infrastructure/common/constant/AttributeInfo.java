@@ -15,4 +15,10 @@ public class AttributeInfo {
      * 阶段标识
      */
     public static final String STAGE = "stage";
+
+    public static final String PLACE_HOLDER = "--隐藏--";
+
+    public static final String PARAMS = "params";
+
+    public static final String HEADERS = "headers";
 }

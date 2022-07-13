@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
@@ -17,6 +18,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
@@ -149,11 +151,12 @@ public class RequestHelper {
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation, String... field) {
         try {
+            Method method = invocation.getMethod();
             Map<String, Object> paramMap = Maps.newHashMap();
-            Parameter[] parameters = invocation.getMethod().getParameters();
+            List<String> list = ParamNameUtils.getParamNames(method);
             Object[] obj = invocation.getArguments();
-            for (int i = 0; i < parameters.length; i++) {
-                String name = parameters[i].getName();
+            for (int i = 0; i < list.size(); i++) {
+                String name = list.get(i);
                 if (Arrays.asList(field).contains(name)) {
                     paramMap.put(name, AttributeInfo.PLACE_HOLDER);
                 } else {

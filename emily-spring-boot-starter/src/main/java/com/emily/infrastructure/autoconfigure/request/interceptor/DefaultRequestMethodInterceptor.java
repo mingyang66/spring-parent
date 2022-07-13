@@ -46,9 +46,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         BaseLogger baseLogger = new BaseLogger();
         try {
             //系统编号
-            baseLogger.setSystemNumber(ContextHolder.get().getSystemNumber());
+            baseLogger.setSystemNumber(ContextHolder.peek().getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(ContextHolder.get().getTraceId());
+            baseLogger.setTraceId(ContextHolder.peek().getTraceId());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
@@ -70,11 +70,11 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - ContextHolder.get().getStartTime());
+            baseLogger.setTime(System.currentTimeMillis() - ContextHolder.peek().getStartTime());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息

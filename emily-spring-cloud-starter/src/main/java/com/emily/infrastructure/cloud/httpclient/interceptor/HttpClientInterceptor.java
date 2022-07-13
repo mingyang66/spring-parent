@@ -45,7 +45,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //生成事物流水号
-        baseLogger.setTraceId(ContextHolder.get().getTraceId());
+        baseLogger.setTraceId(ContextHolder.peek().getTraceId());
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求参数
@@ -62,9 +62,9 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //响应时间

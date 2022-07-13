@@ -39,10 +39,10 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
-            baseLogger.setSystemNumber(ContextHolder.get().getSystemNumber());
-            baseLogger.setTraceId(ContextHolder.get().getTraceId());
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setSystemNumber(ContextHolder.peek().getSystemNumber());
+            baseLogger.setTraceId(ContextHolder.peek().getTraceId());
+            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
+            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
             baseLogger.setRequestParams(RequestHelper.getMethodArgs(invocation));
             baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));

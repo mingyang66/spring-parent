@@ -24,10 +24,10 @@ public class TTLController {
 
     @GetMapping("test")
     public String get() throws ExecutionException, InterruptedException {
-        System.out.println("-----上下文ID:" + ContextHolder.get().getTraceId());
+        System.out.println("-----上下文ID:" + ContextHolder.peek().getTraceId());
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(TtlWrappers.wrapSupplier(() -> {
-            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + ContextHolder.get().getTraceId());
-            return ContextHolder.get().getTraceId();
+            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + ContextHolder.peek().getTraceId());
+            return ContextHolder.peek().getTraceId();
         }));
         return future1.get();
     }

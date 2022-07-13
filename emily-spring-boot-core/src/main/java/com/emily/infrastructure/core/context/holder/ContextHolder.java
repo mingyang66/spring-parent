@@ -32,7 +32,7 @@ public class ContextHolder {
     /**
      * 获取当前线程持有的数据源
      */
-    public static RequestHolder get() {
+    public static RequestHolder peek() {
         return CONTEXT.get();
     }
 

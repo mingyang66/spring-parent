@@ -55,9 +55,9 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.get();
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.get().getClientIp());
+            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.get().getServerIp());
+            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间

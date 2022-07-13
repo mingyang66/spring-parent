@@ -19,7 +19,8 @@ Bug Fixes
     }
 ```
 3. 新增获取实际参数名工具类ParamNameUtils；
-4. 优化DataSourceContextHolder类中set-bind,remove-unbind
+4. 优化DataSourceContextHolder类中set-bind,remove-unbind;
+5. 优化ContextHolder类中set-bind,reomve-unbind;
 
 
 -----

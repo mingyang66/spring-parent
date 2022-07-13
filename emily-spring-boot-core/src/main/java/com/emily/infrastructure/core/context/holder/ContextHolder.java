@@ -25,7 +25,7 @@ public class ContextHolder {
     /**
      * 设置当前线程持有的数据源
      */
-    public static void set(RequestHolder requestHolder) {
+    public static void bind(RequestHolder requestHolder) {
         CONTEXT.set(requestHolder);
     }
 
@@ -39,7 +39,7 @@ public class ContextHolder {
     /**
      * 删除当前线程持有的数据源
      */
-    public static void remove() {
+    public static void unbind() {
         if (!CONTEXT.get().isServletContext()) {
             CONTEXT.remove();
         }

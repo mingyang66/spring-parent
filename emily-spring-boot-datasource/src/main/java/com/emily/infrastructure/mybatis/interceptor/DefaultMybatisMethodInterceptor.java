@@ -48,7 +48,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
             baseLogger.setTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
-            ContextHolder.remove();
+            ContextHolder.unbind();
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });

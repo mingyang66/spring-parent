@@ -16,7 +16,7 @@ public class DataSourceContextHolder {
     /**
      * 设置当前线程持有的数据源
      */
-    public static void set(String dataSource) {
+    public static void bind(String dataSource) {
         CONTEXT.set(dataSource);
     }
 
@@ -30,7 +30,7 @@ public class DataSourceContextHolder {
     /**
      * 删除当前线程持有的数据源
      */
-    public static void remove() {
+    public static void unbind() {
         CONTEXT.remove();
     }
 

@@ -77,7 +77,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             //解析查数据源标识为真实的查找键
             String lookupKey = this.resolveSpecifiedLookupKey(invocation, dataSource);
             //切换到指定的数据源
-            DataSourceContextHolder.set(lookupKey);
+            DataSourceContextHolder.bind(lookupKey);
             //调用TargetDataSource标记的切换数据源方法
             return invocation.proceed();
         } catch (Throwable ex) {
@@ -96,7 +96,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
     @Override
     public void after(Method method) {
         //移除当前线程对应的数据源
-        DataSourceContextHolder.remove();
+        DataSourceContextHolder.unbind();
     }
 
     @Override

@@ -104,32 +104,4 @@ public class DataSourceProperties {
     public void setJndi(Map<String, String> jndi) {
         this.jndi = jndi;
     }
-
-    /**
-     * 获取默认数据源
-     *
-     * @return
-     */
-    public Object getDefaultTargetDataSource() {
-        return this.getTargetDataSources().get(this.getDefaultConfig());
-    }
-
-    /**
-     * 获取合并后的目标数据源配置
-     *
-     * @return
-     */
-    public Map<Object, Object> getTargetDataSources() {
-        Map<Object, Object> dsMap = new HashMap<>();
-        if (!CollectionUtils.isEmpty(this.getDruid())) {
-            dsMap.putAll(this.getDruid());
-        }
-        if (!CollectionUtils.isEmpty(this.getHikari())) {
-            dsMap.putAll(this.getHikari());
-        }
-        if (!CollectionUtils.isEmpty(this.getJndi())) {
-            dsMap.putAll(this.getJndi());
-        }
-        return Collections.unmodifiableMap(dsMap);
-    }
 }

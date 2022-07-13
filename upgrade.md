@@ -23,6 +23,7 @@ Bug Fixes
 5. 优化ContextHolder类中set-bind,reomve-unbind，get-peek;
 6. 修改DataSourceContextHolder的get方法名为peek;
 7. 优化隐藏参数方法RequestHelper.getMethodArgs
+8. 新增DataSourceHelper帮助类，优化属性配置类，保持单一职责原理；
 -----
 基础库发布4.1.1
 Bug Fixes

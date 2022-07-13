@@ -23,7 +23,7 @@ public class DataSourceContextHolder {
     /**
      * 获取当前线程持有的数据源
      */
-    public static String get() {
+    public static String peek() {
         return CONTEXT.get();
     }
 

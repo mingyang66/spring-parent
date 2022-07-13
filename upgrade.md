@@ -21,7 +21,7 @@ Bug Fixes
 3. 新增获取实际参数名工具类ParamNameUtils；
 4. 优化DataSourceContextHolder类中set-bind,remove-unbind;
 5. 优化ContextHolder类中set-bind,reomve-unbind;
-
+6. 修改DataSourceContextHolder的get方法名为peek;
 
 -----
 基础库发布4.1.1

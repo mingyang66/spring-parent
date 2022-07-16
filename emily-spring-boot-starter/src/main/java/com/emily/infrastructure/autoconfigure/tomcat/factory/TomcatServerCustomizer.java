@@ -12,10 +12,6 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
  */
 public class TomcatServerCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
     /**
-     * 协议
-     */
-    private static final String SCHEME = "http";
-    /**
      * 属性配置
      */
     private TomcatProperties properties;
@@ -28,7 +24,8 @@ public class TomcatServerCustomizer implements WebServerFactoryCustomizer<Tomcat
     public void customize(TomcatServletWebServerFactory factory) {
         Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
         connector.setPort(properties.getPort());
-        connector.setScheme(SCHEME);
+        //non-SSL to SSL（暂时不生效）
+        connector.setRedirectPort(8081);
         factory.addAdditionalTomcatConnectors(connector);
     }
 }

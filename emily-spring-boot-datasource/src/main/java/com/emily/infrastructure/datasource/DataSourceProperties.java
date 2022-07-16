@@ -3,10 +3,7 @@ package com.emily.infrastructure.datasource;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

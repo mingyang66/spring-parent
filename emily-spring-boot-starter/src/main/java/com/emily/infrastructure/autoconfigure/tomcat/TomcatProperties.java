@@ -18,7 +18,6 @@ public class TomcatProperties {
      */
     private int port = 8080;
 
-
     public int getPort() {
         return port;
     }

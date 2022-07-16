@@ -126,20 +126,24 @@ public class DataSourceController {
     }
 
 
-
     @GetMapping("getOracle")
-    public String getOracle(){
+    public String getOracle() {
         return oracleService.getOracle();
     }
 
     @GetMapping("getMysql")
-    public String getMysql(){
+    public String getMysql() {
         return mysqlService.getMysql();
     }
 
     @GetMapping("getTarget")
-    public String getTarget(){
+    public String getTarget() {
         return oracleService.getTarget(RequestUtils.getRequest().getParameter("param"));
+    }
+
+    @GetMapping("insertMysql")
+    public void insertMysql() {
+        mysqlService.insertMysql();
     }
 
 }

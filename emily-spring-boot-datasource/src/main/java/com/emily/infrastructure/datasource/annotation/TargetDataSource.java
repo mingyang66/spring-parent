@@ -1,6 +1,8 @@
 package com.emily.infrastructure.datasource.annotation;
 
 
+import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.*;
 
 /**
@@ -21,6 +23,15 @@ public @interface TargetDataSource {
      *
      * @return 要切换的数据库标识
      */
+    @AliasFor("name")
     String value() default "";
+
+    /**
+     * 指定要切换的数据库标识，默认是：default
+     *
+     * @return 要切换的数据库标识
+     */
+    @AliasFor("value")
+    String name() default "";
 }
 

@@ -175,5 +175,16 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
     }
 
+    /**
+     * 非法计算异常
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(ArithmeticException.class)
+    public BaseResponse arithmeticException(ArithmeticException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
+    }
+
 }
 

@@ -13,5 +13,5 @@ public interface MysqlService {
     /**
      * 插入数据
      */
-    void insertMysql();
+    void insertMysql() throws Exception;
 }

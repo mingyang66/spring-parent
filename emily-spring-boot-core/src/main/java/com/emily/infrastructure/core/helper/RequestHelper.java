@@ -146,7 +146,7 @@ public class RequestHelper {
     }
 
     /**
-     * 获取方法参数
+     * 获取方法参数，支持指定字段脱敏处理
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation, String... field) {
         try {

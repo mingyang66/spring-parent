@@ -142,7 +142,7 @@ public class DataSourceController {
     }
 
     @GetMapping("insertMysql")
-    public void insertMysql() {
+    public void insertMysql() throws Exception {
         mysqlService.insertMysql();
     }
 

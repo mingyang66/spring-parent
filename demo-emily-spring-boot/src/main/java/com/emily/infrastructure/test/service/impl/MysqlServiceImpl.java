@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.service.impl;
 
-import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.datasource.annotation.TargetTransactional;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.service.MysqlService;
@@ -24,12 +23,12 @@ public class MysqlServiceImpl implements MysqlService {
     }
 
     @Override
-    @TargetTransactional(value = "mysql", readOnly = false, rollbackFor = BusinessException.class)
-    public void insertMysql() {
+    @TargetTransactional(value = "mysql", readOnly = false)
+    public void insertMysql() throws Exception {
         for (int i = 0; i < 1000; i++) {
             mysqlMapper.insertLocks("schedName" + i, "lockName" + i);
             if (i == 100) {
-                int s = i / 0;
+                throw new Exception("受检查异常");
             }
         }
 

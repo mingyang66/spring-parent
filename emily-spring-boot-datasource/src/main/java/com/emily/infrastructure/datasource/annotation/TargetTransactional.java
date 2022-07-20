@@ -18,7 +18,7 @@ import java.lang.annotation.*;
  * 场景三：私有方法上添加@Transactional注解不生效
  * 场景四：@Transactional未设置rollbackFor=Exception.class属性，即：@Transactional注解默认只处理运行时异常，也就是只有抛出运行时异常才会触发事务回滚，否则不会回滚；
  * 场景五：父线程抛异常，事务回滚；子线程不抛异常，因为子线程是独立存在，和父线程不在同一个事务，所以子线程的修改并不会被回滚；父线程不抛出异常，子线程抛出异常，由于子线程异常不会
- *        被外部线程捕获，所以父线程不抛异常，事务回滚不生效；
+ * 被外部线程捕获，所以父线程不抛异常，事务回滚不生效；
  * 参考资料：https://mp.weixin.qq.com/s/r388pF8-c6sPVyVGjLBjqg
  * 核心代码：TransactionInterceptor
  * @Author :  Emily
@@ -38,6 +38,9 @@ public @interface TargetTransactional {
     @AliasFor(annotation = TargetDataSource.class, value = "value")
     String value() default "";
 
+    /**
+     * 事务管理器，默认根据value指定的数据源获取事务管理器
+     */
     @AliasFor(annotation = Transactional.class, value = "transactionManager")
     String transactionManager() default "";
 
@@ -63,7 +66,7 @@ public @interface TargetTransactional {
     @AliasFor(annotation = Transactional.class, value = "isolation")
     Isolation isolation() default Isolation.DEFAULT;
 
-    @AliasFor(annotation = TargetDataSource.class, value = "timeout")
+    @AliasFor(annotation = Transactional.class, value = "timeout")
     int timeout() default TransactionDefinition.TIMEOUT_DEFAULT;
 
     @AliasFor(annotation = Transactional.class, value = "timeoutString")
@@ -76,7 +79,9 @@ public @interface TargetTransactional {
     boolean readOnly() default false;
 
     /**
-     * @return
+     * 默认指定0或者多个异常类，这些类必须是Throwable的子类，指定哪些类可以触发事务回滚；
+     * 默认情况事务只会捕获RuntimeException和Error异常时触发回滚机制（非受检异常）；
+     * 如果未指定受检异常（业务异常）则不会触发回滚机制
      */
     @AliasFor(annotation = Transactional.class, value = "rollbackFor")
     Class<? extends Throwable>[] rollbackFor() default {};

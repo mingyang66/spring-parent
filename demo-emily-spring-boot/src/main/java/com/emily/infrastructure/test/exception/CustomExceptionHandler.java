@@ -5,6 +5,8 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import org.apache.ibatis.binding.BindingException;
 import org.mybatis.spring.MyBatisSystemException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.TransientDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -32,6 +34,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
         recordErrorMsg(e, request);
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
     }
+
     /**
      * Mybatis数据库异常
      */
@@ -42,6 +45,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
         recordErrorMsg(e, request);
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
     }
+
     /**
      * Mybatis数据库异常
      */
@@ -61,6 +65,28 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(TransientDataAccessException.class)
     public BaseResponse transientDataAccessException(TransientDataAccessException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+    }
+
+    /**
+     * 重复键值异常
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(DuplicateKeyException.class)
+    public BaseResponse duplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+    }
+
+    /**
+     * 数据库非法访问
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(DataAccessException.class)
+    public BaseResponse dataAccessException(DataAccessException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
     }

@@ -26,6 +26,7 @@ Bug Fixes
 8. 新增DataSourceHelper帮助类，优化属性配置类，保持单一职责原理；
 9. 新增ArithmeticException非法计算异常捕获；
 10. 新增事务包装注解@TargetTransactional；
+11. 新增脱敏注解@Sensitive支持；
 -----
 基础库发布4.1.1
 Bug Fixes

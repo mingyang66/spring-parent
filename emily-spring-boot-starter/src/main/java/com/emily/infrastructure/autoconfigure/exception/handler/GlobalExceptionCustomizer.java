@@ -70,7 +70,7 @@ public class GlobalExceptionCustomizer {
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求参数
-            baseLogger.setRequestParams(RequestHelper.getApiArgs());
+            baseLogger.setRequestParams(RequestHelper.getApiArgs(null));
             //响应体
             baseLogger.setBody(errorMsg);
             //耗时(未处理任何逻辑)

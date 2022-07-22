@@ -4,20 +4,20 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -37,9 +37,9 @@ public class RequestHelper {
      *
      * @return
      */
-    public static Map<String, Object> getApiArgs() {
+    public static Map<String, Object> getApiArgs(MethodInvocation invocation) {
         if (RequestUtils.isServletContext()) {
-            return getArgs(RequestUtils.getRequest());
+            return getArgs(invocation, RequestUtils.getRequest());
         }
         return Collections.emptyMap();
     }
@@ -50,16 +50,16 @@ public class RequestHelper {
      * @param request
      * @return
      */
-    private static Map<String, Object> getArgs(HttpServletRequest request) {
+    private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
-        if (request instanceof DelegateRequestWrapper) {
+    /*    if (request instanceof DelegateRequestWrapper) {
             DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
             Map<String, Object> body = getHttpClientArgs(requestWrapper.getRequestBody());
             if (!CollectionUtils.isEmpty(body)) {
                 paramMap.putAll(body);
             }
-        }
-
+        }*/
+        paramMap.putAll(getMethodArgs(invocation));
         Enumeration<String> headerNames = request.getHeaderNames();
         Optional.ofNullable(headerNames).ifPresent(headerName -> {
             Map<String, Object> headers = Maps.newHashMap();
@@ -156,10 +156,14 @@ public class RequestHelper {
             Object[] obj = invocation.getArguments();
             for (int i = 0; i < list.size(); i++) {
                 String name = list.get(i);
+                Object value = obj[i];
+                if (isFinal(value)) {
+                    continue;
+                }
                 if (Arrays.asList(field).contains(name)) {
                     paramMap.put(name, AttributeInfo.PLACE_HOLDER);
                 } else {
-                    paramMap.put(name, obj[i]);
+                    paramMap.put(name, SensitiveUtils.getSensitive(value));
                 }
             }
             return paramMap;
@@ -167,6 +171,24 @@ public class RequestHelper {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         }
         return Collections.emptyMap();
+    }
+
+    /**
+     * 是否继续下一步
+     * @param value 对象值
+     * @return
+     */
+    private static boolean isFinal(Object value) {
+        if (Objects.isNull(value)) {
+            return false;
+        } else if (value instanceof HttpServletRequest) {
+            return true;
+        } else if (value instanceof HttpServletResponse) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**

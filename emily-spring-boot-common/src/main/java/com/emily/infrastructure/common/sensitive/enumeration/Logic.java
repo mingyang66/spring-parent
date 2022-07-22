@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.sensitive.strategy;
+package com.emily.infrastructure.common.sensitive.enumeration;
 
 import java.util.function.Function;
 
@@ -12,7 +12,7 @@ import java.util.function.Function;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/7/19 5:25 下午
  */
-public enum SensitiveStrategy {
+public enum Logic {
     /**
      * 默认
      */
@@ -33,7 +33,7 @@ public enum SensitiveStrategy {
 
     private final Function<String, String> desensitizer;
 
-    SensitiveStrategy(Function<String, String> desensitizer) {
+    Logic(Function<String, String> desensitizer) {
         this.desensitizer = desensitizer;
     }
 

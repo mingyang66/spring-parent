@@ -1,7 +1,8 @@
 package com.emily.infrastructure.common.sensitive.annotation;
 
+import com.emily.infrastructure.common.sensitive.enumeration.Logic;
+import com.emily.infrastructure.common.sensitive.enumeration.Strategy;
 import com.emily.infrastructure.common.sensitive.serializer.SensitiveJsonSerializer;
-import com.emily.infrastructure.common.sensitive.strategy.SensitiveStrategy;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -21,7 +22,12 @@ import java.lang.annotation.Target;
 @JsonSerialize(using = SensitiveJsonSerializer.class)
 public @interface Sensitive {
     /**
-     * 脱敏策略
+     * 脱敏处理策略
      */
-    SensitiveStrategy strategy() default SensitiveStrategy.DEFAULT;
+    Strategy strategy() default Strategy.LOGGER;
+
+    /**
+     * 脱敏处理逻辑
+     */
+    Logic logic() default Logic.DEFAULT;
 }

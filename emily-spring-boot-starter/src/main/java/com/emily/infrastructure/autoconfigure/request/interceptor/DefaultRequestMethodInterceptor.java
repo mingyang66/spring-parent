@@ -6,6 +6,7 @@ import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ContextHolder;
@@ -54,11 +55,11 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //请求url
             baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(request.getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
-            baseLogger.setRequestParams(RequestHelper.getApiArgs());
+            baseLogger.setRequestParams(RequestHelper.getApiArgs(invocation));
             //调用真实的action方法
             Object response = invocation.proceed();
             //设置响应结果
-            baseLogger.setBody(response);
+            baseLogger.setBody(SensitiveUtils.getSensitive(response));
             return response;
         } catch (Exception ex) {
             if (ex instanceof BasicException) {

@@ -53,7 +53,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             throw e;
         } finally {
             //封装异步日志信息
-            BaseLogger baseLogger = FeignContextHolder.get();
+            BaseLogger baseLogger = FeignContextHolder.peek();
             //客户端IP
             baseLogger.setClientIp(ContextHolder.peek().getClientIp());
             //服务端IP
@@ -67,7 +67,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //删除线程上下文中的数据，防止内存溢出
-            FeignContextHolder.remove();
+            FeignContextHolder.unbind();
             //非servlet上下文移除数据
             ContextHolder.unbind();
         }

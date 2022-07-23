@@ -44,7 +44,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求参数
         baseLogger.setRequestParams(transToMap(template));
         // 将日志信息放入请求对象
-        FeignContextHolder.set(baseLogger);
+        FeignContextHolder.bind(baseLogger);
     }
 
     /**

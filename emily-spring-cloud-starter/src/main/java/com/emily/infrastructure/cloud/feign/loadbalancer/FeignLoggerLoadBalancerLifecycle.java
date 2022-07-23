@@ -29,12 +29,12 @@ public class FeignLoggerLoadBalancerLifecycle implements LoadBalancerLifecycle<R
     }
 
     @Override
-    public void onComplete(CompletionContext<ResponseData, ServiceInstance, RequestDataContext> completionContext) {
-        if (Objects.nonNull(FeignContextHolder.get())) {
+    public void onComplete(CompletionContext<ResponseData, ServiceInstance, RequestDataContext> context) {
+        if (Objects.nonNull(FeignContextHolder.peek())) {
             //封装异步日志信息
-            BaseLogger baseLogger = FeignContextHolder.get();
+            BaseLogger baseLogger = FeignContextHolder.peek();
             //设置请求URL
-            baseLogger.setUrl(completionContext.getClientResponse().getRequestData().getUrl().toString());
+            baseLogger.setUrl(context.getClientResponse().getRequestData().getUrl().toString());
         }
     }
 }

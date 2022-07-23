@@ -27,6 +27,8 @@ Bug Fixes
 9. 新增ArithmeticException非法计算异常捕获；
 10. 新增事务包装注解@TargetTransactional；
 11. 新增脱敏注解@Sensitive支持；
+12. springboot升级到2.7.2;
+13. 优化Feign调用日志记录及上下文；
 -----
 基础库发布4.1.1
 Bug Fixes

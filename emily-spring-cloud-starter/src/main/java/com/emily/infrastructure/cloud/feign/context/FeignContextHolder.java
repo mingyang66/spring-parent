@@ -2,6 +2,7 @@ package com.emily.infrastructure.cloud.feign.context;
 
 
 import com.emily.infrastructure.core.entity.BaseLogger;
+import org.springframework.core.NamedThreadLocal;
 
 /**
  * @program: spring-parent
@@ -10,26 +11,26 @@ import com.emily.infrastructure.core.entity.BaseLogger;
  * @create: 2021/09/27
  */
 public class FeignContextHolder {
-    private static final ThreadLocal<BaseLogger> CONTEXT = new ThreadLocal<>();
+    private static final ThreadLocal<BaseLogger> CONTEXT = new NamedThreadLocal<>("Feign Logger Context");
 
     /**
      * 设置当前线程持有的数据源
      */
-    public static void set(BaseLogger baseLogger) {
+    public static void bind(BaseLogger baseLogger) {
         CONTEXT.set(baseLogger);
     }
 
     /**
      * 获取当前线程持有的数据源
      */
-    public static BaseLogger get() {
+    public static BaseLogger peek() {
         return CONTEXT.get();
     }
 
     /**
      * 删除当前线程持有的数据源
      */
-    public static void remove() {
+    public static void unbind() {
         CONTEXT.remove();
     }
 

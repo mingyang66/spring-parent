@@ -1,5 +1,7 @@
 package com.emily.infrastructure.core.entity;
 
+import com.emily.infrastructure.common.enums.AppHttpStatus;
+
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -34,6 +36,14 @@ public class BaseLogger implements Serializable {
      */
     private String url;
     /**
+     * 状态码
+     */
+    private int status;
+    /**
+     * 描述
+     */
+    private String message;
+    /**
      * 请求参数
      */
     private Map<String, Object> requestParams;
@@ -49,6 +59,11 @@ public class BaseLogger implements Serializable {
      * 响应结果
      */
     private Object body;
+
+    public BaseLogger() {
+        this.status = AppHttpStatus.OK.getStatus();
+        this.message = AppHttpStatus.OK.getMessage();
+    }
 
     public String getSystemNumber() {
         return systemNumber;
@@ -132,5 +147,21 @@ public class BaseLogger implements Serializable {
 
     public void setServerIp(String serverIp) {
         this.serverIp = serverIp;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

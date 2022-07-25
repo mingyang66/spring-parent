@@ -29,6 +29,7 @@ Bug Fixes
 11. 新增脱敏注解@Sensitive支持；
 12. springboot升级到2.7.2;
 13. 优化Feign调用日志记录及上下文；
+14. 接口拦截器新增对404 Not Fund 接口异常处理；
 -----
 基础库发布4.1.1
 Bug Fixes

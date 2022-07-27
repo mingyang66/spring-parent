@@ -38,4 +38,9 @@ public class ParamController {
         System.out.println(JSONUtils.toJSONPrettyString(list));
         return 0;
     }
+
+    @GetMapping("rest/{code}/{name}")
+    public String restTest(@PathVariable("code") String code, @PathVariable("name") String name) {
+        return "s";
+    }
 }

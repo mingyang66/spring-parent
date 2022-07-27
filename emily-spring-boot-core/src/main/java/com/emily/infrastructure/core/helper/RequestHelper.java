@@ -14,6 +14,7 @@ import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
@@ -175,6 +176,7 @@ public class RequestHelper {
 
     /**
      * 是否继续下一步
+     *
      * @param value 对象值
      * @return
      */
@@ -184,6 +186,8 @@ public class RequestHelper {
         } else if (value instanceof HttpServletRequest) {
             return true;
         } else if (value instanceof HttpServletResponse) {
+            return true;
+        } else if (value instanceof InputStreamSource) {
             return true;
         } else {
             return false;

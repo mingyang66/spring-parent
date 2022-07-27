@@ -27,7 +27,9 @@ import java.util.Objects;
 @AutoConfiguration
 @EnableConfigurationProperties(WebProperties.class)
 public class EmilyWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
+
     private static final Logger logger = LoggerFactory.getLogger(EmilyWebAutoConfiguration.class);
+
     private WebProperties webProperties;
     /**
      * 自定义路由规则是否已加载

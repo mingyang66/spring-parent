@@ -188,7 +188,7 @@ public class SensitiveUtils {
                 String name = field.getName();
                 Object value = field.get(entity);
                 if (Objects.isNull(value)) {
-                    dataMap.put(name, value);
+                    dataMap.put(name, null);
                     continue;
                 }
                 if (field.isAnnotationPresent(Sensitive.class)) {

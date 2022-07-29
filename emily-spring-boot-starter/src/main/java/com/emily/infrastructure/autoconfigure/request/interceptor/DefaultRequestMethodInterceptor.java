@@ -79,7 +79,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 BasicException exception = (BasicException) ex;
                 baseLogger.setStatus(exception.getStatus());
                 baseLogger.setMessage(exception.getMessage());
-                baseLogger.setBody(StringUtils.join(ex, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
+                baseLogger.setBody(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
                 baseLogger.setStatus(AppHttpStatus.EXCEPTION.getStatus());
                 baseLogger.setMessage(AppHttpStatus.EXCEPTION.getMessage());

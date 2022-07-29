@@ -19,4 +19,8 @@
     <select id="getMysql" resultType="java.lang.String">
 		SELECT 'MYSQL' FROM DUAL
     </select>
+
+    <insert id="insertMysql" parameterType="">
+		INSERT INTO QUARTZ_LOCKS VALUES(#{schedName}, #{lockName})
+	</insert>
 </mapper>

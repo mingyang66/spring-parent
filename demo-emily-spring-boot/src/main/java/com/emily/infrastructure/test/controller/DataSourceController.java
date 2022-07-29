@@ -136,14 +136,15 @@ public class DataSourceController {
         return mysqlService.getMysql();
     }
 
+    @GetMapping("insertMysql")
+    public void insertMysqlBatch() throws Exception {
+        mysqlService.insertMysql();
+    }
+
     @GetMapping("getTarget")
     public String getTarget() {
         return oracleService.getTarget(RequestUtils.getRequest().getParameter("param"));
     }
 
-    @GetMapping("insertMysql")
-    public void insertMysql() throws Exception {
-        mysqlService.insertMysql();
-    }
 
 }

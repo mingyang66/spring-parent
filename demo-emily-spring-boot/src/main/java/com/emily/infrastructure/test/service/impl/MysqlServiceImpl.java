@@ -19,18 +19,11 @@ public class MysqlServiceImpl implements MysqlService {
 
     @Override
     public String getMysql() {
-        return mysqlMapper.getMysql("123123");
+        return mysqlMapper.getMysql();
     }
 
     @Override
-    @TargetTransactional(value = "mysql", readOnly = false)
-    public void insertMysql() throws Exception {
-        for (int i = 0; i < 1000; i++) {
-            mysqlMapper.insertLocks("schedName" + i, "lockName" + i);
-            if (i == 100) {
-                throw new Exception("受检查异常");
-            }
-        }
-
+    public void insertMysql(){
+        mysqlMapper.insertMysql("18321160687", "23");
     }
 }

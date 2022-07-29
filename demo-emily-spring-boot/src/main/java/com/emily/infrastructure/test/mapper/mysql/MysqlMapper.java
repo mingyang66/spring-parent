@@ -19,14 +19,6 @@ public interface MysqlMapper {
     @TargetDataSource("mysql")
     String findLocks(String lockName1);
 
-    /**
-     * 新增接口
-     *
-     * @param schedName
-     * @param lockName
-     */
-    @TargetDataSource(value = "mysql")
-    void insertLocks(String schedName, String lockName);
 
     @TargetDataSource("mysql")
     void delLocks(String lockName);
@@ -34,6 +26,12 @@ public interface MysqlMapper {
     /**
      * 查询接口
      */
-    @TargetDataSource
-    String getMysql(String password);
+    @TargetDataSource("mysql")
+    String getMysql();
+
+    /**
+     * 新增接口
+     */
+    @TargetDataSource(value = "mysql")
+    void insertMysql(String schedName, String lockName);
 }

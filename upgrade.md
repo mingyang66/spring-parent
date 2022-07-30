@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.1.3
+Bug Fixes
+1. 
+-----
 基础库发布4.1.2
 Bug Fixes
 1. 全局异常捕获组件抛出异常时添加状态码，即添加@ResponseBody、@ResponseStatus注解标注
@@ -30,6 +34,7 @@ Bug Fixes
 12. springboot升级到2.7.2;
 13. 优化Feign调用日志记录及上下文；
 14. 接口拦截器新增对404 Not Fund 接口异常处理；
+15. RequestHelper新增Object转Map方法；
 -----
 基础库发布4.1.1
 Bug Fixes

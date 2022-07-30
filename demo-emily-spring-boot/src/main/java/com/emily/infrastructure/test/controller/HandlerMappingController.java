@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @author Emily
  * @description: web应用程序之中映射关系控制器
  * @create: 2020/07/09
  */
@@ -31,8 +32,9 @@ public class HandlerMappingController {
         map.forEach((info, method) -> {
             UrlMappingInfo urlMappingInfo = new UrlMappingInfo();
             PatternsRequestCondition patternsRequestCondition = info.getPatternsCondition();
+            urlMappingInfo.setPatterns(info.getPathPatternsCondition().getPatternValues());
+            urlMappingInfo.getPatterns();
             urlMappingInfo.setMethod(info.getMethodsCondition().getMethods());
-            urlMappingInfo.setPatterns(patternsRequestCondition.getPatterns());
             urlMappingInfo.setBean(method.getBean());
             urlMappingInfo.setDescription(method.toString());
             result.add(urlMappingInfo);

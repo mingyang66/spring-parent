@@ -9,9 +9,6 @@
     <select id="findLocks" resultType="java.lang.String">
 		SELECT qjd.LOCK_NAME FROM QUARTZ_LOCKS qjd WHERE qjd.LOCK_NAME=#{lockName}
     </select>
-    <insert id="insertLocks">
-		INSERT INTO QUARTZ_LOCKS VALUES(#{schedName}, #{lockName})
-	</insert>
     <delete id="delLocks">
 		DELETE FROM QUARTZ_LOCKS ql WHERE ql.LOCK_NAME=#{lockName}
 	</delete>
@@ -20,7 +17,7 @@
 		SELECT 'MYSQL' FROM DUAL
     </select>
 
-    <insert id="insertMysql" parameterType="">
+    <insert id="insertMysql">
 		INSERT INTO QUARTZ_LOCKS VALUES(#{schedName}, #{lockName})
 	</insert>
 </mapper>

@@ -9,6 +9,7 @@ import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +49,18 @@ public class RequestHelper {
     }
 
     /**
+     * 获取请求入参,给API请求控制器获取入参
+     *
+     * @return
+     */
+    public static Map<String, Object> getApiArgs(HttpServletRequest request) {
+        if (RequestUtils.isServletContext()) {
+            return getArgs(null, request);
+        }
+        return Collections.emptyMap();
+    }
+
+    /**
      * 获取请求入参
      *
      * @param request
@@ -54,14 +68,17 @@ public class RequestHelper {
      */
     private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
-    /*    if (request instanceof DelegateRequestWrapper) {
-            DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-            Map<String, Object> body = getHttpClientArgs(requestWrapper.getRequestBody());
-            if (!CollectionUtils.isEmpty(body)) {
-                paramMap.putAll(body);
+        if (Objects.isNull(invocation)) {
+            if (request instanceof DelegateRequestWrapper) {
+                DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
+                Map<String, Object> body = getHttpClientArgs(requestWrapper.getRequestBody());
+                if (!CollectionUtils.isEmpty(body)) {
+                    paramMap.putAll(body);
+                }
             }
-        }*/
-        paramMap.putAll(getMethodArgs(invocation));
+        } else {
+            paramMap.putAll(getMethodArgs(invocation));
+        }
         Enumeration<String> headerNames = request.getHeaderNames();
         Optional.ofNullable(headerNames).ifPresent(headerName -> {
             Map<String, Object> headers = Maps.newHashMap();

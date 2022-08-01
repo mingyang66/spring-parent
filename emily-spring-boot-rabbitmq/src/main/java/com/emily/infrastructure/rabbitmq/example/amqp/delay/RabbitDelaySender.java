@@ -130,7 +130,7 @@ public class RabbitDelaySender {
             /**
              * 设置消息唯一标识
              */
-            properties.setMessageId(UUIDUtils.generation());
+            properties.setMessageId(UUIDUtils.randomSimpleUUID());
             /**
              * 创建消息包装对象
              */

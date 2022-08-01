@@ -21,8 +21,8 @@ import org.springframework.core.io.ResourceLoader;
 public class RabbitMqConnectionFactoryCreator {
 
     public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(RabbitProperties properties,
-                                                                                ResourceLoader resourceLoader, ObjectProvider<CredentialsProvider> credentialsProvider,
-                                                                                ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
+                                                                                       ResourceLoader resourceLoader, ObjectProvider<CredentialsProvider> credentialsProvider,
+                                                                                       ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
         RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader,
                 properties);
         configurer.setCredentialsProvider(credentialsProvider.getIfUnique());
@@ -31,7 +31,7 @@ public class RabbitMqConnectionFactoryCreator {
     }
 
     public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitProperties rabbitProperties,
-                                                                         ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
+                                                                                ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
         CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(rabbitProperties);
         configurer.setConnectionNameStrategy(connectionNameStrategy.getIfUnique());
         return configurer;

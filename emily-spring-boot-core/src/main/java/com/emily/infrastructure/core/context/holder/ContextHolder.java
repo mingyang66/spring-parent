@@ -3,10 +3,10 @@ package com.emily.infrastructure.core.context.holder;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Description: 全链路追踪上下文
@@ -85,7 +85,7 @@ public class ContextHolder {
                 this.servletContext = true;
             }
             if (Objects.isNull(traceId)) {
-                this.traceId = UUID.randomUUID().toString();
+                this.traceId = UUIDUtils.generation();
             }
         }
 

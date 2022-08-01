@@ -11,9 +11,9 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 public class LRUTest {
     public static void main(String[] args) {
         LRUCachePool<String, Integer> pool = new LRUCachePool<>(8);
-        for (int i=0;i<12;i++){
-            pool.put("key"+i, i);
-            if(i==5){
+        for (int i = 0; i < 12; i++) {
+            pool.put("key" + i, i);
+            if (i == 5) {
                 pool.get("key2");
             }
             System.out.println(JSONUtils.toJSONString(pool.getAll()));

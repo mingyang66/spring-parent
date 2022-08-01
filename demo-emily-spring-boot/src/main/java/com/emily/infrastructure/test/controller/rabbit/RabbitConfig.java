@@ -13,11 +13,11 @@ public class RabbitConfig {
 
     @RabbitListener(queues = "topic.test.queue", containerFactory = "testRabbitListenerContainerFactory")
     public void handler(String message) {
-        System.out.println("TEST-"+message);
+        System.out.println("TEST-" + message);
     }
 
     @RabbitListener(queues = "topic.emily.queue", containerFactory = "emilyRabbitListenerContainerFactory")
     public void handlerEmily(String message) {
-        System.out.println("EMILY-"+message);
+        System.out.println("EMILY-" + message);
     }
 }

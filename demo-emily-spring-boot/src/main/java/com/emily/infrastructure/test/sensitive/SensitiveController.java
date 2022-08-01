@@ -35,10 +35,10 @@ public class SensitiveController {
         user.setAddress("浙江省杭州市温州市....");
         user.setIdCard("43333333333343343S");
         user.setB((byte) 1);
-        user.setS((short)2);
+        user.setS((short) 2);
         user.setL(12);
         user.setAge(23);
-        user.setC((char)24);
+        user.setC((char) 24);
         user.setDd(23);
         user.setFl(26);
         return user;
@@ -53,10 +53,10 @@ public class SensitiveController {
         user.setAddress("浙江省杭州市温州市....");
         user.setIdCard("43333333333343343S");
         user.setB((byte) 1);
-        user.setS((short)2);
+        user.setS((short) 2);
         user.setL(12);
         user.setAge(23);
-        user.setC((char)24);
+        user.setC((char) 24);
         user.setDd(23);
         user.setFl(26);
         return user;

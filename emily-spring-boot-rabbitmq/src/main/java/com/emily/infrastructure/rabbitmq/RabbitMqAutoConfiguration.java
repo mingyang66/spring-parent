@@ -124,6 +124,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
 
     /**
      * 相关类RabbitAnnotationDrivenConfiguration
+     *
      * @param connectionFactory
      * @param directContainerCustomizer
      * @return

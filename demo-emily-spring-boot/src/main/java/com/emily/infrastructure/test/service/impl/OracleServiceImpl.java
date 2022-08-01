@@ -24,7 +24,7 @@ public class OracleServiceImpl implements OracleService {
 
     @Override
     public String getTarget(String param) {
-        OracleMapper oracleMapper =factory.getMapper(param);
+        OracleMapper oracleMapper = factory.getMapper(param);
         return oracleMapper.getOracle();
     }
 }

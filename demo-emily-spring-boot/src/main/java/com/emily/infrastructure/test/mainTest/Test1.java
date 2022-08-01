@@ -4,8 +4,6 @@ import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;
 
 import java.util.Map;
 

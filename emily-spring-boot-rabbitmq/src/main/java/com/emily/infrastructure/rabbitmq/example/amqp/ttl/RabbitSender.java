@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rabbitmq.example.amqp.ttl;
 
+import com.emily.infrastructure.common.utils.UUIDUtils;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -7,8 +8,6 @@ import org.springframework.amqp.rabbit.connection.PublisherCallbackChannel;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 /**
  * @Description: RabbitMQ生产者
@@ -132,7 +131,7 @@ public class RabbitSender {
             /**
              * 设置消息唯一标识
              */
-            properties.setMessageId(UUID.randomUUID().toString());
+            properties.setMessageId(UUIDUtils.generation());
             /**
              * 创建消息包装对象
              */

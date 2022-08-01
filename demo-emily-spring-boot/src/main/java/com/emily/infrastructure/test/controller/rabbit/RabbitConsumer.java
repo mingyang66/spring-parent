@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RabbitConsumer {
 
-    public static Object init()  {
+    public static Object init() {
         Channel channel = RabbitMqFactory.getChannel(false);
         Consumer consumer = new DefaultConsumer(channel) {
             @Override

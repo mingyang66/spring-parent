@@ -43,15 +43,17 @@ public class RabbitMQController {
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
 
     }
+
     @GetMapping("send")
-    public void send(){
+    public void send() {
         RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
         rabbitTemplate.convertAndSend("exchange", "topic.test", new Message("nihao".getBytes(Charset.defaultCharset())));
         RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
+
     @GetMapping("send1")
-    public void send1(){
+    public void send1() {
         RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }

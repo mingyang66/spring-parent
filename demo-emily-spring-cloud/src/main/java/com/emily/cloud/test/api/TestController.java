@@ -25,6 +25,7 @@ public class TestController {
         response.setContentType("text/html");
         return "success";
     }
+
     @PostMapping("test2")
     public String test2(@Validated @RequestBody User user) {
         return "success-" + user.getName();

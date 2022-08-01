@@ -194,7 +194,7 @@ public class SensitiveUtils {
                 if (field.isAnnotationPresent(Sensitive.class)) {
                     if (isFinal(value)) {
                         Sensitive sensitive = field.getAnnotation(Sensitive.class);
-                        if(value instanceof String){
+                        if (value instanceof String) {
                             dataMap.put(name, sensitive.logic().desensitizer().apply((String) value));
                         } else {
                             dataMap.put(name, value);

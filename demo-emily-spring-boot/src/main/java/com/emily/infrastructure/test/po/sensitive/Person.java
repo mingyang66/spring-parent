@@ -24,7 +24,7 @@ public class Person {
     /**
      * 电话号码
      */
-    @Sensitive(strategy = Strategy.ENTITY,logic = Logic.PHONE)
+    @Sensitive(strategy = Strategy.ENTITY, logic = Logic.PHONE)
     private String phoneNumber;
     /**
      * 身份证号码

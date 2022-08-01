@@ -47,8 +47,7 @@ public class RedisDbConnectionConfiguration {
             config.setPort(connectionInfo.getPort());
             config.setUsername(connectionInfo.getUsername());
             config.setPassword(RedisPassword.of(connectionInfo.getPassword()));
-        }
-        else {
+        } else {
             config.setHostName(this.properties.getHost());
             config.setPort(this.properties.getPort());
             config.setUsername(this.properties.getUsername());
@@ -83,6 +82,7 @@ public class RedisDbConnectionConfiguration {
 
     /**
      * Create a {@link RedisClusterConfiguration} if necessary.
+     *
      * @return {@literal null} if no cluster settings are set.
      */
     protected final RedisClusterConfiguration getClusterConfiguration() {
@@ -120,8 +120,7 @@ public class RedisDbConnectionConfiguration {
                 String[] parts = StringUtils.split(node, ":");
                 Assert.state(parts.length == 2, "Must be defined as 'host:port'");
                 nodes.add(new RedisNode(parts[0], Integer.parseInt(parts[1])));
-            }
-            catch (RuntimeException ex) {
+            } catch (RuntimeException ex) {
                 throw new IllegalStateException("Invalid redis sentinel property '" + node + "'", ex);
             }
         }
@@ -144,14 +143,12 @@ public class RedisDbConnectionConfiguration {
                 if (index >= 0) {
                     username = candidate.substring(0, index);
                     password = candidate.substring(index + 1);
-                }
-                else {
+                } else {
                     password = candidate;
                 }
             }
             return new ConnectionInfo(uri, useSsl, username, password);
-        }
-        catch (URISyntaxException ex) {
+        } catch (URISyntaxException ex) {
             throw new RedisUrlSyntaxException(url, ex);
         }
     }

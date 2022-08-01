@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version: 1.0
  */
 @Mapper
-public interface OracleMapper{
+public interface OracleMapper {
     /**
      * 查询接口
      */

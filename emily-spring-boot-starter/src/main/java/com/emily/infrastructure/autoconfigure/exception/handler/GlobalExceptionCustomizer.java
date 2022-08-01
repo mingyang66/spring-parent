@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -17,7 +18,6 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Description :  异常处理基础类
@@ -60,7 +60,7 @@ public class GlobalExceptionCustomizer {
             //系统编号
             baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(UUID.randomUUID().toString());
+            baseLogger.setTraceId(UUIDUtils.generation());
             //请求URL
             baseLogger.setUrl(request.getRequestURI());
             //客户端IP

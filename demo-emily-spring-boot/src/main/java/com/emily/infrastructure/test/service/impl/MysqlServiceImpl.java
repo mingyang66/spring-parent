@@ -22,7 +22,7 @@ public class MysqlServiceImpl implements MysqlService {
     }
 
     @Override
-    public void insertMysql(){
+    public void insertMysql() {
         mysqlMapper.insertMysql("18321160687", "23");
     }
 }

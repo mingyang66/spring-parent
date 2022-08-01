@@ -2,7 +2,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.emily.infrastructure.core.servlet.filter.FilterRegistrationBeanAutoConfiguration,\
   com.emily.infrastructure.core.context.ContextAutoConfiguration
-
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
   com.emily.infrastructure.core.context.ioc.IOCContext

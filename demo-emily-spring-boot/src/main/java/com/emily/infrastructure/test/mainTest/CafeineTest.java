@@ -14,12 +14,13 @@ public class CafeineTest {
     private static final Cache<String, Boolean> CACHE = Caffeine.newBuilder()
             .expireAfterWrite(60, TimeUnit.SECONDS)
             .build();
+
     public static void main(String[] args) {
-      for(int i=0;i<10001;i++){
-          CACHE.put(i+"", Boolean.TRUE);
-      }
-        System.out.println(CACHE.getIfPresent(1+""));
-        System.out.println(CACHE.getIfPresent(1000+""));
-        System.out.println(CACHE.getIfPresent(10000+""));
+        for (int i = 0; i < 10001; i++) {
+            CACHE.put(i + "", Boolean.TRUE);
+        }
+        System.out.println(CACHE.getIfPresent(1 + ""));
+        System.out.println(CACHE.getIfPresent(1000 + ""));
+        System.out.println(CACHE.getIfPresent(10000 + ""));
     }
 }

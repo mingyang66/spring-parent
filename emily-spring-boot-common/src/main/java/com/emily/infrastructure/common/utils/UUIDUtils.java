@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.UUID;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 自动生成token工具类
  * @create: 2020/04/01
@@ -15,7 +16,7 @@ public class UUIDUtils {
      * 自动生成用户令牌
      */
     public static String generation() {
-        return StringUtils.replace(randomUuid(), CharacterInfo.LINE_THROUGH_CENTER, "");
+        return StringUtils.replace(randomUUID(), CharacterInfo.LINE_THROUGH_CENTER, "");
     }
 
     /**
@@ -23,7 +24,7 @@ public class UUIDUtils {
      *
      * @return
      */
-    public static String randomUuid() {
+    public static String randomUUID() {
         return UUID.randomUUID().toString();
     }
 }

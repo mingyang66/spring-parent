@@ -207,7 +207,7 @@ public class RequestHelper {
      * @param <T>
      * @return
      */
-    public static <T> Map<String, Object> getObjectMap(T t, String... field) {
+    public static <T> Map<String, Object> objectToMap(T t, String... field) {
         if (Objects.isNull(t)) {
             return Collections.emptyMap();
         }

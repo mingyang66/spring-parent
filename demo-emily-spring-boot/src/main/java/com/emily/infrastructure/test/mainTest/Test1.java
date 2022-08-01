@@ -49,7 +49,7 @@ public class Test1 {
         job.setId(1234L);
         user.setJob(job);
 
-        Map<String, Object> paramMap = RequestHelper.getObjectMap(user, "username");
+        Map<String, Object> paramMap = RequestHelper.objectToMap(user, "username");
         System.out.println(JSONUtils.toJSONPrettyString(paramMap));
         //Converter.
         //ConversionService

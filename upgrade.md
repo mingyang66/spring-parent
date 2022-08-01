@@ -2,7 +2,7 @@
 -----
 基础库发布4.1.3
 Bug Fixes
-1. 
+1. RequestHelper.getObjectMap方法名重命名为objectToMap；
 -----
 基础库发布4.1.2
 Bug Fixes

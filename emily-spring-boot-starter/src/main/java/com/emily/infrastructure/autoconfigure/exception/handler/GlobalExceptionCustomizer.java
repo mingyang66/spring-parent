@@ -60,7 +60,7 @@ public class GlobalExceptionCustomizer {
             //系统编号
             baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(UUIDUtils.generation());
+            baseLogger.setTraceId(UUIDUtils.randomSimpleUUID());
             //请求URL
             baseLogger.setUrl(request.getRequestURI());
             //客户端IP

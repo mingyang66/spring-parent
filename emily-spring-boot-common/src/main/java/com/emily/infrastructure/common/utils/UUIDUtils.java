@@ -13,9 +13,9 @@ import java.util.UUID;
  */
 public class UUIDUtils {
     /**
-     * 自动生成用户令牌
+     * 生成简洁版UUID，即：删除横杠的UUID
      */
-    public static String generation() {
+    public static String randomSimpleUUID() {
         return StringUtils.replace(randomUUID(), CharacterInfo.LINE_THROUGH_CENTER, "");
     }
 

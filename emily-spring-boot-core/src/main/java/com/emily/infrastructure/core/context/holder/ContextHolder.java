@@ -85,7 +85,7 @@ public class ContextHolder {
                 this.servletContext = true;
             }
             if (Objects.isNull(traceId)) {
-                this.traceId = UUIDUtils.generation();
+                this.traceId = UUIDUtils.randomSimpleUUID();
             }
         }
 

@@ -44,7 +44,7 @@ public class StrUtils {
      * @param str
      * @return
      */
-    public static String firstString(String str) {
+    public static String subStrFirst(String str) {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
@@ -58,7 +58,7 @@ public class StrUtils {
      * @param length 截取字符串长度
      * @return
      */
-    public static String subFirstString(String str, int length) {
+    public static String subStrPrefix(String str, int length) {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
@@ -75,7 +75,7 @@ public class StrUtils {
      * @param length 截取字符串长度
      * @return
      */
-    public static String subLastString(String str, int length) {
+    public static String subStrSuffix(String str, int length) {
         if (StringUtils.isEmpty(str)) {
             return str;
         }

@@ -3,6 +3,8 @@ package com.emily.cloud.test.api;
 import com.emily.cloud.test.api.po.User;
 import com.emily.cloud.test.api.po.ValidateCodeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,5 +69,10 @@ public class TestController {
     @GetMapping("/gateway/createImage")
     public Map.Entry<String, Object> imageCode() {
         return ValidateCodeUtils.createImage(6);
+    }
+
+    @GetMapping("status")
+    public ResponseEntity<String> status() {
+        return new ResponseEntity<>("abce", HttpStatus.BAD_GATEWAY);
     }
 }

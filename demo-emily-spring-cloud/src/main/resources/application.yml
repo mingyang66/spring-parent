@@ -4,12 +4,12 @@ server:
   shutdown: graceful
   http:
     # 是否开启http端口号
-    enabled: true
+    enabled: false
     # http端口号
     port: 9001
   ssl:
     # 是否启用SSL支持
-    enabled: true
+    enabled: false
     # 标识秘钥存储中秘钥的别名
     key-alias: emily
     # 访问秘钥存储的密码
@@ -28,7 +28,7 @@ management:
     port: 9443
     ssl:
       # 是否开启SSL支持，默认：true
-      enabled: true
+      enabled: false
       # 标识秘钥存储中秘钥的别名
       key-alias: emily
       #访问秘钥存储的密码
@@ -42,7 +42,7 @@ management:
 ---
 spring:
   profiles:
-    active: redis,mybatis,mysql,oracle
+    active: redis,mybatis,mysql
   cloud:
     compatibility-verifier:
       enabled: true

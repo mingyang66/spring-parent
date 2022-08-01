@@ -30,7 +30,7 @@ spring:
         # 将服务注册到consul中，默认：true
         register: true
         # 注册协议为HTTP或HTTPS，默认:http
-        scheme: https
+        scheme: http
         # 注册服务时使用的tag
         tags: emily=framework
         # 服务名称

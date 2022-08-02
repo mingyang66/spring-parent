@@ -6,6 +6,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * @author Emily
  * @Description: 汉字转拼音
  * @Version: 1.0
  */

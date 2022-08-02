@@ -2,6 +2,9 @@ package com.emily.infrastructure.rpc.server.example;
 
 import com.emily.infrastructure.rpc.core.example.Student;
 
+/**
+ * @author Emily
+ */
 public interface HelloService {
     Result hello(String s);
 

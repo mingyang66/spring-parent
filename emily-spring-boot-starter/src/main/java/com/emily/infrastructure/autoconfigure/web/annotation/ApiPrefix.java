@@ -4,6 +4,8 @@ import java.lang.annotation.*;
 
 /**
  * API前缀注解，添加上该注解则自动加上指定前缀
+ *
+ * @author Emily
  */
 @Documented
 @Target({ElementType.TYPE})

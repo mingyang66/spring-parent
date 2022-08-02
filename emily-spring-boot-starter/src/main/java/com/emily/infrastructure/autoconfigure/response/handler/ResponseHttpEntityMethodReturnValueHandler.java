@@ -24,6 +24,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
+ * @author Emily
  * @Description: HttpEntity返回值控制
  * @Version: 1.0
  */
@@ -72,7 +73,8 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              * 1.如果返回的是ResponseEntity类，无泛型化参数
              * 2.返回的ResponseEntity带泛型化参数，且参数是void
              */
-            if ((type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class))) {
+            boolean flag = (type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class));
+            if (flag) {
                 BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {

@@ -8,6 +8,9 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * @author Emily
+ */
 @ServerEndpoint(value = "/websocket/connect")
 @Component
 public class OneWebSocket {

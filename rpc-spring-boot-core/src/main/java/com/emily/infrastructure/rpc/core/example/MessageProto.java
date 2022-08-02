@@ -3,6 +3,9 @@
 
 package com.emily.infrastructure.rpc.core.example;
 
+/**
+ * @author Emily
+ */
 public final class MessageProto {
     private MessageProto() {
     }
@@ -319,8 +322,12 @@ public final class MessageProto {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1) {
+                return true;
+            }
+            if (isInitialized == 0) {
+                return false;
+            }
 
             if (!hasMsgType()) {
                 memoizedIsInitialized = 0;
@@ -356,7 +363,9 @@ public final class MessageProto {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1) {
+                return size;
+            }
 
             size = 0;
             if (((bitField0_ & 0x00000001) != 0)) {
@@ -384,22 +393,36 @@ public final class MessageProto {
             }
             MessageProto.RequestMsg other = (MessageProto.RequestMsg) obj;
 
-            if (hasMsgType() != other.hasMsgType()) return false;
+            if (hasMsgType() != other.hasMsgType()) {
+                return false;
+            }
             if (hasMsgType()) {
                 if (!getMsgType()
-                        .equals(other.getMsgType())) return false;
+                        .equals(other.getMsgType())) {
+                    return false;
+                }
             }
-            if (hasReceiveOne() != other.hasReceiveOne()) return false;
+            if (hasReceiveOne() != other.hasReceiveOne()) {
+                return false;
+            }
             if (hasReceiveOne()) {
                 if (!getReceiveOne()
-                        .equals(other.getReceiveOne())) return false;
+                        .equals(other.getReceiveOne())) {
+                    return false;
+                }
             }
-            if (hasMsg() != other.hasMsg()) return false;
+            if (hasMsg() != other.hasMsg()) {
+                return false;
+            }
             if (hasMsg()) {
                 if (!getMsg()
-                        .equals(other.getMsg())) return false;
+                        .equals(other.getMsg())) {
+                    return false;
+                }
             }
-            if (!unknownFields.equals(other.unknownFields)) return false;
+            if (!unknownFields.equals(other.unknownFields)) {
+                return false;
+            }
             return true;
         }
 
@@ -785,6 +808,7 @@ public final class MessageProto {
              *
              * @return Whether the receiveOne field is set.
              */
+            @Override
             public boolean hasReceiveOne() {
                 return ((bitField0_ & 0x00000002) != 0);
             }
@@ -794,6 +818,7 @@ public final class MessageProto {
              *
              * @return The receiveOne.
              */
+            @Override
             public java.lang.String getReceiveOne() {
                 java.lang.Object ref = receiveOne_;
                 if (!(ref instanceof java.lang.String)) {
@@ -814,6 +839,7 @@ public final class MessageProto {
              *
              * @return The bytes for receiveOne.
              */
+            @Override
             public com.google.protobuf.ByteString
             getReceiveOneBytes() {
                 java.lang.Object ref = receiveOne_;
@@ -881,6 +907,7 @@ public final class MessageProto {
              *
              * @return Whether the msg field is set.
              */
+            @Override
             public boolean hasMsg() {
                 return ((bitField0_ & 0x00000004) != 0);
             }
@@ -910,6 +937,7 @@ public final class MessageProto {
              *
              * @return The bytes for msg.
              */
+            @Override
             public com.google.protobuf.ByteString
             getMsgBytes() {
                 java.lang.Object ref = msg_;
@@ -1682,7 +1710,9 @@ public final class MessageProto {
             }
 
             public Builder mergeFrom(MessageProto.ResponseMsg other) {
-                if (other == MessageProto.ResponseMsg.getDefaultInstance()) return this;
+                if (other == MessageProto.ResponseMsg.getDefaultInstance()) {
+                    return this;
+                }
                 if (other.hasMsgType()) {
                     setMsgType(other.getMsgType());
                 }

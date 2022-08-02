@@ -12,6 +12,8 @@ import java.util.zip.GZIPOutputStream;
 
 /**
  * GZIP压缩及解压缩工具类
+ *
+ * @author Emily
  */
 public class GZIPUtils {
 

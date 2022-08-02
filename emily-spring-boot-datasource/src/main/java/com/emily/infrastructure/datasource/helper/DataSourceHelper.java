@@ -29,7 +29,7 @@ public class DataSourceHelper {
      * @return
      */
     public static Map<Object, Object> getTargetDataSources(DataSourceProperties properties) {
-        Map<Object, Object> dsMap = new HashMap<>();
+        Map<Object, Object> dsMap = new HashMap();
         if (!CollectionUtils.isEmpty(properties.getDruid())) {
             dsMap.putAll(properties.getDruid());
         }

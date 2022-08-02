@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
+ * @author Emily
  * @Description: Description
  * @Version: 1.0
  */

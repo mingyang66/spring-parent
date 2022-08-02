@@ -35,7 +35,7 @@ public class SensitiveTest {
         //System.out.println(SensitiveUtils.getSensitive(123));
         // System.out.println(SensitiveUtils.getSensitive("23"));
         System.out.println(SensitiveUtils.getSensitive(Arrays.asList(null, "", 1, 2, 3, 4, 5)));
-        Map<String, Object> dMap = new HashMap<>();
+        Map<String, Object> dMap = new HashMap();
         dMap.put("a", 23);
         dMap.put("b", "23233");
         System.out.println(SensitiveUtils.getSensitive(dMap));

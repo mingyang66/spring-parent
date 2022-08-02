@@ -18,6 +18,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * @author Emily
  * @Description: 控制器返回返回值包装类, 处理带@ResponseBody标识的返回值类型
  * @Version: 1.0
  */

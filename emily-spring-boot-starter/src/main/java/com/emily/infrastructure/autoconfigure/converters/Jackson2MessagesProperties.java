@@ -3,6 +3,7 @@ package com.emily.infrastructure.autoconfigure.converters;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: jackson转换器配置类
  * @create: 2020/10/28

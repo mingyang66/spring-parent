@@ -16,6 +16,7 @@ import java.util.Base64;
  * 什么是可打印字符？在ASCII码中规定，0-31、127这33个字符属于控制字符，32-126这95个字符属于可打印字符，也就是说网络传输只能传输这95个字符，
  * 不在这个范围内的字符无法传输。那么该怎么才能传输其它字符呢？其中一种方式就是使用Base64
  *
+ * @author Emily
  * @program: spring-parent
  * @description: base64编码工具类
  * @create: 2020/05/21

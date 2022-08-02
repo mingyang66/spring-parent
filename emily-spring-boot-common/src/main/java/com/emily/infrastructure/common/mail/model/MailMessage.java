@@ -3,6 +3,7 @@ package com.emily.infrastructure.common.mail.model;
 import java.util.Date;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 简单邮件属性实体类
  * @create: 2020/08/14

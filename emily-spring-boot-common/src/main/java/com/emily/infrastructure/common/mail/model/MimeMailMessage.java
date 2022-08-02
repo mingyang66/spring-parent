@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 /**
+ * @author Emily
  * @program: spring-parent
  * @description: 复杂邮件实体类
  * @create: 2020/08/14

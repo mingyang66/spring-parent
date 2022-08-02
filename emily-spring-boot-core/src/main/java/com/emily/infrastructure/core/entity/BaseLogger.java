@@ -102,7 +102,7 @@ public class BaseLogger implements Serializable {
             return;
         }
         if (Objects.isNull(requestParams)) {
-            this.requestParams = new HashMap<>();
+            this.requestParams = new HashMap();
         }
         for (int i = 0; i < params.length; i++) {
             this.requestParams.put(MessageFormat.format("arg{0}", i), params[i]);

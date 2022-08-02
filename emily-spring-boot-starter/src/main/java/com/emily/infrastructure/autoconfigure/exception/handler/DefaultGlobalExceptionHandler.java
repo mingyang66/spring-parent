@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.UnknownContentTypeException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -186,5 +188,26 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
     }
 
+    /**
+     * 非法访问
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(UnknownContentTypeException.class)
+    public BaseResponse unknownContentTypeException(UnknownContentTypeException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+    }
+
+    /**
+     * 非法访问
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(ResourceAccessException.class)
+    public BaseResponse resourceAccessException(ResourceAccessException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+    }
 }
 

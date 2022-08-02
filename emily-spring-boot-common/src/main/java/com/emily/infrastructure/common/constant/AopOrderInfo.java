@@ -35,9 +35,13 @@ public class AopOrderInfo {
      */
     public static final int DATASOURCE_INTERCEPTOR = 910;
     /**
+     * RestTemplate请求超时设置拦截器
+     */
+    public static final int HTTP_CLIENT = 1000;
+    /**
      * RestTemplate请求拦截器优先级
      */
-    public static final int HTTP_CLIENT_INTERCEPTOR = 1000;
+    public static final int HTTP_CLIENT_INTERCEPTOR = 1100;
     /**
      * Feign日志拦截器优先级顺序
      */

@@ -349,6 +349,89 @@ spring.emily.http-client.read-time-out=1000
 spring.emily.http-client.connect-time-out=1000
 ```
 
+- 提供@TargetHttpTimeout注解设置单个Http请求超时时间，示例程序如下：
+
+```java
+@RequestMapping("api/http")
+@RestController
+public class HttpClientController {
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @GetMapping("get1")
+    public BaseResponse get1(HttpServletRequest request) {
+        String timeout = request.getParameter("timeout");
+        BaseResponse<String> result;
+        try {
+            HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
+            result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
+        } finally {
+            HttpContextHolder.unbind();
+        }
+        return result;
+    }
+
+    @GetMapping("get2")
+    @TargetHttpTimeout(readTimeout = 2000)
+    public BaseResponse get2(HttpServletRequest request) {
+        String timeout = request.getParameter("timeout");
+        BaseResponse<String> result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
+
+        return result;
+    }
+
+
+    @GetMapping("testResponse")
+    public String testResponse(HttpServletRequest request) throws IllegalArgumentException {
+        String timeout = request.getParameter("timeout");
+        try {
+            Thread.sleep(NumberUtils.toLong(timeout, 0));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "你好";
+    }
+
+    @Autowired
+    private TestTimeout testTimeout;
+
+    @PostConstruct
+    public void init() {
+        //获取环境变量，初始化服务器端IP
+        ScheduledExecutorService service = TtlExecutors.getTtlScheduledExecutorService(Executors.newScheduledThreadPool(2));
+        service.scheduleAtFixedRate(() -> {
+            try {
+                testTimeout.loadStr();
+            } catch (Exception e) {
+            }
+
+        }, 5, 5, TimeUnit.SECONDS);
+    }
+
+
+}
+
+```
+
+TestTimeout类代码：
+
+```java
+@Service
+public class TestTimeout {
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @TargetHttpTimeout(readTimeout = 4000)
+    public String loadStr() {
+        BaseResponse<String> result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=3000", BaseResponse.class);
+        System.out.println(result.getData());
+        return result.getData();
+    }
+}
+```
+
+
+
 #### Feign组件
 
 - 扩展点FeignLoggerCustomizer，AOP根据拦截器的优先级判定使用优先级最高者

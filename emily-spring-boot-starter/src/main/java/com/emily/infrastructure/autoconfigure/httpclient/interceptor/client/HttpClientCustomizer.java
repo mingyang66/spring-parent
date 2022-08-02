@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.httpclient.interceptor;
+package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 
 import org.springframework.core.Ordered;
 import org.springframework.http.client.ClientHttpRequestInterceptor;

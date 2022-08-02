@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.httpclient.interceptor;
+package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;

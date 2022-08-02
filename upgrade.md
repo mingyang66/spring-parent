@@ -4,6 +4,8 @@
 Bug Fixes
 1. RequestHelper.getObjectMap方法名重命名为objectToMap；
 2. 事务流水号统一为UUIDUtils工具类生成；
+3. 新增全局异常捕获UnknownContentTypeException、ResourceAccessException；
+4. 新增@TargetHttpTimeout注解及其支持的相关拦截器切面控制设置单个RestTemplate请求超时时间；
 -----
 基础库发布4.1.2
 Bug Fixes

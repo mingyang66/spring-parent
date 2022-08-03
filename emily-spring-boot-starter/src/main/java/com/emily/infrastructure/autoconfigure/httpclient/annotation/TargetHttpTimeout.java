@@ -7,6 +7,7 @@ import java.lang.annotation.*;
  * http单个请求超时时间设置
  *
  * @author Emily
+ * @since 4.1.3
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

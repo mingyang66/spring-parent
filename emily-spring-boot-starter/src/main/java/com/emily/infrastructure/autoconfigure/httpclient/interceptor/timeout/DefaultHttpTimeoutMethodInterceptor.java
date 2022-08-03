@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
  * @Description :  Http请求超时设置拦截器，即方法上标注@TargetHttpTimeout注解才会生效
  * @Author :  Emily
  * @CreateDate :  Created in 2022/8/2 5:59 下午
+ * @since 4.1.3
  */
 public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomizer {
     /**

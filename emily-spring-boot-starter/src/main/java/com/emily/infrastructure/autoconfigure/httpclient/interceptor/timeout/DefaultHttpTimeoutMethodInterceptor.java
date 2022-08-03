@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/8/2 5:59 下午
  */
-public class HttpTimeoutMethodInterceptor implements MethodInterceptor {
+public class DefaultHttpTimeoutMethodInterceptor implements MethodInterceptor {
     /**
      * 拦截器前置方法
      *

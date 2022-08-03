@@ -5,7 +5,7 @@ import com.emily.infrastructure.autoconfigure.httpclient.factory.HttpContextFact
 import com.emily.infrastructure.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.DefaultHttpClientInterceptor;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.HttpClientCustomizer;
-import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.HttpTimeoutMethodInterceptor;
+import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.DefaultHttpTimeoutMethodInterceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -115,7 +115,7 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
         //组合切面(并集)，即只要有一个切点的条件符合，则就拦截
         Pointcut pointcut = new ComposablePointcut(mpc);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(new HttpTimeoutMethodInterceptor(), pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(new DefaultHttpTimeoutMethodInterceptor(), pointcut);
         //切面优先级顺序
         advisor.setOrder(AopOrderInfo.HTTP_CLIENT_INTERCEPTOR);
         return advisor;

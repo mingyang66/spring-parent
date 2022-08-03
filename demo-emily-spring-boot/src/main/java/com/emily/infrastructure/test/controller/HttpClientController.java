@@ -37,7 +37,7 @@ public class HttpClientController {
         BaseResponse<String> result;
         try {
             HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
-            result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
+            result = restTemplate.getForObject("https://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
         } finally {
             HttpContextHolder.unbind();
         }
@@ -45,10 +45,10 @@ public class HttpClientController {
     }
 
     @GetMapping("get2")
-    @TargetHttpTimeout(readTimeout = 2000)
+    @TargetHttpTimeout(readTimeout = 2000, connectTimeout = -1)
     public BaseResponse get2(HttpServletRequest request) {
         String timeout = request.getParameter("timeout");
-        BaseResponse<String> result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
+        BaseResponse<String> result = restTemplate.getForObject("https://127.0.0.1:8080/api/http/testResponse?timeout=1000", BaseResponse.class);
 
         return result;
     }

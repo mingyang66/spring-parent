@@ -18,7 +18,7 @@
 
 ```java
     @GetMapping("xxx")
-    public ResponseData<List<GmFundPageInfoResData.Bk>> test6(){
+    public ResponseData<List<xx.Bk>> test6(){
         String url = "http://192.xx.xx.3:xx/api/xx/home/xx";
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("xx", "xx");

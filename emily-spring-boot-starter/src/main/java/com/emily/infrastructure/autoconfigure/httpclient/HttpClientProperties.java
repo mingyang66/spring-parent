@@ -29,6 +29,10 @@ public class HttpClientProperties {
      * 开启调用接口拦截器
      */
     private boolean interceptor = true;
+    /**
+     * 是否开启SSL
+     */
+    private boolean ssl = true;
 
     public Integer getReadTimeOut() {
         return readTimeOut;
@@ -60,5 +64,13 @@ public class HttpClientProperties {
 
     public void setInterceptor(boolean interceptor) {
         this.interceptor = interceptor;
+    }
+
+    public boolean isSsl() {
+        return ssl;
+    }
+
+    public void setSsl(boolean ssl) {
+        this.ssl = ssl;
     }
 }

@@ -9,6 +9,12 @@ import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.Htt
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -30,6 +36,10 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.SSLContext;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
 /**
@@ -68,15 +78,24 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory(HttpClientProperties httpClientProperties) {
+    public ClientHttpRequestFactory clientHttpRequestFactory(HttpClientProperties properties) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
-        factory.setReadTimeout(httpClientProperties.getReadTimeOut());
+        factory.setReadTimeout(properties.getReadTimeOut());
         //连接超时10秒，默认无限制，单位：毫秒
-        factory.setConnectTimeout(httpClientProperties.getConnectTimeOut());
+        factory.setConnectTimeout(properties.getConnectTimeOut());
         //设置HTTP进程执行状态工厂类
         factory.setHttpContextFactory(new HttpContextFactory());
+        //开启HTTPS请求支持
+        if (properties.isSsl()) {
+            TrustStrategy acceptingTrustStrategy = (x509Certificates, authType) -> true;
+            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+            SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+
+            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(connectionSocketFactory).build();
+            factory.setHttpClient(httpClient);
+        }
         return factory;
     }
 
@@ -87,7 +106,6 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
 
     /**
      * RestTemplate请求超时切面（单个请求）
-     *
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

@@ -18,7 +18,7 @@ public class TestTimeout {
 
     @TargetHttpTimeout(readTimeout = 4000)
     public String loadStr() {
-        BaseResponse<String> result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=3000", BaseResponse.class);
+        BaseResponse<String> result = restTemplate.getForObject("https://127.0.0.1:8080/api/http/testResponse?timeout=3000", BaseResponse.class);
         System.out.println(result.getData());
         return result.getData();
     }

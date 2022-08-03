@@ -30,7 +30,7 @@ public class HttpClientProperties {
      */
     private boolean interceptor = true;
     /**
-     * 是否开启SSL
+     * 是否开启SSL，默认：true
      */
     private boolean ssl = true;
 

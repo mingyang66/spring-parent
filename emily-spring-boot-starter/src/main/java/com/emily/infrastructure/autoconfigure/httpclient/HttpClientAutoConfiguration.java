@@ -6,13 +6,13 @@ import com.emily.infrastructure.autoconfigure.httpclient.handler.CustomResponseE
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.DefaultHttpClientInterceptor;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.HttpClientCustomizer;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.DefaultHttpTimeoutMethodInterceptor;
+import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.HttpTimeoutCustomizer;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
@@ -26,6 +26,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -60,6 +61,7 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      */
     @Primary
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, ClientHttpRequestFactory clientHttpRequestFactory, HttpClientProperties httpClientProperties) {
         RestTemplate restTemplate = new RestTemplate();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
@@ -78,6 +80,7 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      * 定义HTTP请求工厂方法,设置超市时间
      */
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public ClientHttpRequestFactory clientHttpRequestFactory(HttpClientProperties properties) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
@@ -92,14 +95,14 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
             TrustStrategy acceptingTrustStrategy = (x509Certificates, authType) -> true;
             SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
             SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
-
-            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(connectionSocketFactory).build();
-            factory.setHttpClient(httpClient);
+            factory.setHttpClient(HttpClients.custom().setSSLSocketFactory(connectionSocketFactory).build());
         }
         return factory;
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnMissingBean
     public DefaultHttpClientInterceptor httpClientInterceptor() {
         return new DefaultHttpClientInterceptor();
     }
@@ -109,16 +112,23 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor httpTimeoutPointCutAdvice() {
+    public Advisor httpTimeoutPointCutAdvice(ObjectProvider<HttpTimeoutCustomizer> httpTimeoutCustomizers) {
         //限定方法级别的切点
         Pointcut mpc = new AnnotationMatchingPointcut(null, TargetHttpTimeout.class, false);
         //组合切面(并集)，即只要有一个切点的条件符合，则就拦截
         Pointcut pointcut = new ComposablePointcut(mpc);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(new DefaultHttpTimeoutMethodInterceptor(), pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(httpTimeoutCustomizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
-        advisor.setOrder(AopOrderInfo.HTTP_CLIENT_INTERCEPTOR);
+        advisor.setOrder(AopOrderInfo.HTTP_CLIENT);
         return advisor;
+    }
+
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnMissingBean
+    public HttpTimeoutCustomizer httpTimeoutCustomizer() {
+        return new DefaultHttpTimeoutMethodInterceptor();
     }
 
     @Override

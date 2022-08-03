@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout;
 
 import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.autoconfigure.httpclient.context.HttpContextHolder;
-import org.aopalliance.intercept.MethodInterceptor;
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.http.client.config.RequestConfig;
 
@@ -15,12 +15,13 @@ import java.lang.reflect.Method;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/8/2 5:59 下午
  */
-public class DefaultHttpTimeoutMethodInterceptor implements MethodInterceptor {
+public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomizer {
     /**
      * 拦截器前置方法
      *
      * @param invocation
      */
+    @Override
     public void before(MethodInvocation invocation) {
         Method method = invocation.getMethod();
         if (!method.isAnnotationPresent(TargetHttpTimeout.class)) {
@@ -48,7 +49,20 @@ public class DefaultHttpTimeoutMethodInterceptor implements MethodInterceptor {
             this.before(invocation);
             return invocation.proceed();
         } finally {
-            HttpContextHolder.unbind();
+            this.after();
         }
+    }
+
+    /**
+     * 拦截器后置处理方法
+     */
+    @Override
+    public void after() {
+        HttpContextHolder.unbind();
+    }
+
+    @Override
+    public int getOrder() {
+        return AopOrderInfo.HTTP_CLIENT;
     }
 }

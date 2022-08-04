@@ -15,7 +15,7 @@ feign.client.config.custom.read-timeout=2000
 feign.client.config.custom.connect-timeout=3000
 ```
 
-> contextId默认情况下是default，即：全局超时时间配置，如果需要自定义客户端超时时间需配置与default平行级别的配置，如：custom （配置自定义超时前提是必须配置默认配置）
+> contextId默认情况下是default，即：全局超时时间配置，如果需要自定义客户端超时时间需配置与default平行级别的配置，如：custom 
 
 ##### FeignClient默认使用全局配置：
 

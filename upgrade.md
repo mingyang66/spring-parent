@@ -7,6 +7,8 @@ Bug Fixes
 3. 新增全局异常捕获UnknownContentTypeException、ResourceAccessException；
 4. 新增@TargetHttpTimeout注解及其支持的相关拦截器切面控制设置单个RestTemplate请求超时时间；
 5. RestTemplate基础组件优化调整；
+6. FeignClient设置全局和单个超时时间示例代码开发；
+7. 删除无用的feign-httpclient依赖引用；
 -----
 基础库发布4.1.2
 Bug Fixes

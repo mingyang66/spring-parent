@@ -7,7 +7,7 @@
 ##### 1 设置新的版本号
 
 ```
-./mvnw versions:set -DnewVersion=2.4.1
+./mvnw versions:set -DnewVersion=4.1.3
 ```
 
 ##### 2 撤销设置
@@ -63,13 +63,14 @@ git push origin --tags
 ##### 特性：
 
 - 支持指定默认数据源，如未标记使用哪个数据源则使用默认数据源；
-- 支持根据标识的不同配置、切换不同的数据源；
+- 支持动态切换不同的数据源；
 - 支持扩展点能力，提供DataSourceCustomizer接口，AOP会根据拦截器的优先级判定使用优先级最高的拦截器；
 - 提供@TargetDataSource注解切换不同的数据源；
 - 可以通过配置更改默认数据源的标识；
 - 支持从类、方法上读取切换不同数据源注解，方法上的注解标识优先级最高；
 - 支持从父类、父接口及其方法上继承注解；
 - druid数据库连接池支持的所有属性配置都支持；
+- 支持宽松回退，即如果连接数据源事变，则回退到默认数据源；
 - 属性配置示例
 
 ```properties
@@ -349,7 +350,7 @@ spring.emily.http-client.read-time-out=1000
 spring.emily.http-client.connect-time-out=1000
 ```
 
-- 提供@TargetHttpTimeout注解设置单个Http请求超时时间，示例程序如下：
+- 提供@TargetHttpTimeout注解设置单个Http请求读取、连接超时时间，示例程序如下：
 
 ```java
 @RequestMapping("api/http")
@@ -441,6 +442,51 @@ public class TestTimeout {
 ```properties
 spring.emily.feign.logger.enabled=true
 ```
+
+- 支持全局设置超时时间及单个FeignClient设置超时时间
+
+```properties
+# Feign Clients contextId 默认配置名
+feign.client.default-config=default
+# 读取超时时间, 默认：60*1000 毫秒
+feign.client.config.default.read-timeout=5000
+# 请求超时时间，默认：10*1000 毫秒
+feign.client.config.default.connect-timeout=10000
+# 自定义读取超时时间
+feign.client.config.custom.read-timeout=2000
+# 自定义连接超时时间
+feign.client.config.custom.connect-timeout=3000
+```
+
+- 默认全局超时FeignClient使用示例：
+
+```java
+@FeignClient(value = "connect", url = "http://127.0.0.1:9000/api/feign")
+public interface DefaultFeignHandler {
+    /**
+     * 默认超时请求
+     */
+    @GetMapping("connect")
+    BaseResponse<String> getConnect(@RequestParam("timeout") int timeout);
+}
+```
+
+
+
+- 自定义超时时间使用示例：
+
+```java
+@FeignClient(value = "custom", url = "http://127.0.0.1:9000/api/feign", contextId = "custom")
+public interface CustomFeignHandler {
+    /**
+     * 自定义超时请求
+     */
+    @GetMapping("custom")
+    BaseResponse<String> getCustom(@RequestParam("timeout")  int timeout);
+}
+```
+
+
 
 #### API路由设置组件
 

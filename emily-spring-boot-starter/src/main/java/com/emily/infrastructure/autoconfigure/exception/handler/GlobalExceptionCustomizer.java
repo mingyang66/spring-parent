@@ -1,6 +1,7 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -56,11 +57,14 @@ public class GlobalExceptionCustomizer {
             return;
         }
         try {
+            //事务流水号
+            String traceId = request.getHeader(HeaderInfo.TRACE_ID) == null ? UUIDUtils.randomSimpleUUID() : request.getHeader(HeaderInfo.TRACE_ID);
+
             BaseLogger baseLogger = new BaseLogger();
             //系统编号
             baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(UUIDUtils.randomSimpleUUID());
+            baseLogger.setTraceId(traceId);
             //请求URL
             baseLogger.setUrl(request.getRequestURI());
             //客户端IP

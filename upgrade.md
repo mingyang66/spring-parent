@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.1.4
+Bug Fixes
+1. 解决请求入参为非法参数是事务流水号跟上游服务不一致问题；
+-----
 基础库发布4.1.3
 Bug Fixes
 1. RequestHelper.getObjectMap方法名重命名为objectToMap；

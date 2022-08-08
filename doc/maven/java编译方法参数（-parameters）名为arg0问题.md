@@ -1,5 +1,9 @@
 ### java编译方法参数（-parameters）名为arg0问题
 
+> javac编译代码参数-parameters用于生成元数据以用于方法参数的反射，通过此参数可以获取方法的真实参数名，否则获取到的就是arg0、arg1；在用开发工具和打包工具时的设置还一样，下面是常见的几种场景介绍。
+
+
+
 ##### 一、idea设置编译时获取方法参数名方案
 
 Preferences->Build,Execution,Deployment->Compiler->Java Compiler

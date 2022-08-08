@@ -53,11 +53,18 @@
         <jpinyin.version>1.1.8</jpinyin.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>
         <feign.httpclient.version>11.6</feign.httpclient.version>
-        <httpclient.version>4.5.13</httpclient.version>
         <netty.version>4.1.75.Final</netty.version>
         <protobuf.version>3.19.2</protobuf.version>
     </properties>
-
+    <url>https://github.com/mingyang66/spring-parent</url>
+    <developers>
+        <developer>
+            <name>Emily</name>
+            <email>1393619868@qq.com</email>
+            <organization>个人基础设施项目建设</organization>
+            <organizationUrl>https://github.com/mingyang66/spring-parent</organizationUrl>
+        </developer>
+    </developers>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

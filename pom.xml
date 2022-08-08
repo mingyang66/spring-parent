@@ -44,16 +44,13 @@
         <spring.cloud.version>3.1.3</spring.cloud.version>
         <spring.consul.version>3.1.1</spring.consul.version>
         <spring.mybatis.version>2.2.2</spring.mybatis.version>
-        <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <alibaba.druid.version>1.2.11</alibaba.druid.version>
         <alibaba.ttl.version>2.13.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
-        <jaxb.api.version>2.3.1</jaxb.api.version>
         <feign.httpclient.version>11.6</feign.httpclient.version>
-        <netty.version>4.1.75.Final</netty.version>
         <protobuf.version>3.19.2</protobuf.version>
     </properties>
     <url>https://github.com/mingyang66/spring-parent</url>
@@ -75,11 +72,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons.lang3.version}</version>
-            </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
@@ -111,11 +103,6 @@
                 <version>${jpinyin.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>${jaxb.api.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring.mybatis.version}</version>
@@ -145,11 +132,6 @@
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-httpclient</artifactId>
                 <version>${feign.httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>

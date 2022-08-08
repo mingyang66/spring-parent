@@ -78,7 +78,7 @@ public class HttpClientController {
             } catch (Exception e) {
             }
 
-        }, 5, 50000, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);
     }
 
 

@@ -45,6 +45,8 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
         request.getHeaders().set(HeaderInfo.TRACE_ID, ContextHolder.peek().getTraceId());
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
+        //系统编号
+        baseLogger.setSystemNumber(ContextHolder.peek().getSystemNumber());
         //生成事物流水号
         baseLogger.setTraceId(ContextHolder.peek().getTraceId());
         //请求URL

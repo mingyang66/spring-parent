@@ -1,3 +1,4 @@
+/*
 package com.emily.infrastructure.test.controller.rabbit;
 
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
 
+*/
 /**
  * @Description :  消息中间件
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/6 11:38 上午
- */
+ *//*
+
 @RestController
 @RequestMapping("api/rabbit")
 public class RabbitMQController {
@@ -58,3 +61,4 @@ public class RabbitMQController {
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 }
+*/

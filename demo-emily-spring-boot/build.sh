@@ -42,7 +42,7 @@ fi
   localIp=$(/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
   echo '本机Ip地址是：'${localIp}
   httpPort=9001
-  httpsPort=9000
+  httpsPort=8080
   managementPort=9443
   # 运行构建的镜像 -p hostPort（宿主机端口号）:containerPort(容器端口号)
   # name:容器名称
@@ -53,7 +53,7 @@ fi
   --net=bridge \
   -itd --name emilyframework \
   -p ${httpPort}:9001 \
-  -p ${httpsPort}:9000 \
+  -p ${httpsPort}:8080 \
   -p ${managementPort}:9443 \
   -v /Users/yaomingyang/Documents/IDE/workplace-java/logs/emilyframework:/app/logs \
   emilyframework:${VERSION}

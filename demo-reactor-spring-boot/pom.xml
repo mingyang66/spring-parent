@@ -9,17 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rpc-spring-boot-client</artifactId>
+    <artifactId>demo-reactor-spring-boot</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>com.emily.infrastructure</groupId>
-            <artifactId>rpc-spring-boot-core</artifactId>
-            <version>4.1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.4.21</version>
         </dependency>
     </dependencies>
-
 </project>

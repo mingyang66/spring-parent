@@ -1,4 +1,4 @@
-./mvnw versions:set -DnewVersion=4.1.2
+./mvnw versions:set -DnewVersion=4.1.3
 echo '修改版本号'
 ./mvnw versions:commit
 echo '提交修改'
@@ -14,3 +14,5 @@ echo '#########emily-spring-boot-redis打包完成...'
 echo '#########rpc-spring-boot-server打包完成...'
 ./mvnw clean install -pl rpc-spring-boot-client -am
 echo '#########rpc-spring-boot-client打包完成...'
+./mvnw clean install -pl emily-spring-boot-rabbitmq -am
+echo '#########emily-spring-boot-rabbitmq打包完成...'

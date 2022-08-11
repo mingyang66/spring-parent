@@ -7,6 +7,7 @@ Bug Fixes
 3. 修改commons-lang3依赖版本为跟spring-boot-starter-parent依赖；
 4. 修改netty-all依赖版本为跟spring-boot-starter-parent依赖；
 5. 修改jaxb-api依赖版本为跟spring-boot-starter-parent依赖；
+
 -----
 基础库发布4.1.3
 Bug Fixes
@@ -17,6 +18,7 @@ Bug Fixes
 5. RestTemplate基础组件优化调整；
 6. FeignClient设置全局和单个超时时间示例代码开发；
 7. 删除无用的feign-httpclient依赖引用；
+
 -----
 基础库发布4.1.2
 Bug Fixes
@@ -49,6 +51,7 @@ Bug Fixes
 13. 优化Feign调用日志记录及上下文；
 14. 接口拦截器新增对404 Not Fund 接口异常处理；
 15. RequestHelper新增Object转Map方法；
+
 -----
 基础库发布4.1.1
 Bug Fixes
@@ -62,6 +65,7 @@ Bug Fixes
 8. springboot升级到2.7.1
 9. TTL升级到2.13.2版本；
 10. 全局异常捕获组件重新定义，抽离出GlobalExceptionCustomizer父接口，并定义默认实现DefaultGlobalExceptionHandler，从而可以支持自定义扩展异常处理，完全自定义异常处理；
+
 -----
 基础库发布4.1.0
 Bug Fixes
@@ -77,6 +81,7 @@ Bug Fixes
 10. druid-spring-boot-starter升级到1.2.9
 11. 阶段标识优化解决重复记录日志问题
 12. 优化动态数据源命名
+
 -----
 基础库发布4.0.9
 Bug Fixes
@@ -88,6 +93,7 @@ Bug Fixes
 6. 动态数据库多数据源组件新增resolveSpecifiedLookupKey方法，优化初始化动态切换实例对象；
 7. 动态数据库多数据源组件新增resolveSpecifiedLookupKey方法根据不同的条件切换数据源；
 8. 动态多数据源属性配置优化调整，新增默认数据源配置判定
+
 -----
 基础库发布4.0.8
 Bug Fixes
@@ -106,6 +112,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 11. 优化数据库中间件，新增扩展点before、after方法
 12. 新增LRUCache类
 13. 动态数据库多数据源中间件支持Hikari数据库连接池，无需任何代码层面调整就可以自动切换使用不同的数据库连接池
+
 -----
 基础库发布4.0.7
 Bug Fixes
@@ -123,6 +130,7 @@ Bug Fixes
 12. mybatis-spring-boot-starter版本升级到2.2.2
 13. Feign日志拦截器通用接口，新增Ordered接口实现，AOP切面回去优先级最高的
 14. Mybatis提供扩展点接口
+
 -----
 基础库发布4.0.6
 Bug Fixes
@@ -139,6 +147,7 @@ Bug Fixes
 11. mybatis-spring-boot-starter版本升级
 12. AOP切面拦截新增切面增强类、方法切点类、mybatis日志拦截优化重构
 13. 多数据源组件改造为最新切面类型，支持向上搜索方法、类、接口上的注解
+
 -----
 基础库发布4.0.5
 Bug Fixes
@@ -147,6 +156,7 @@ Bug Fixes
 3. logback日志组件文件归档策略类型调整优化为指定枚举类型
 4. 新增日志文件归档策略类、日志编码格式类
 5. 依赖组件升级
+
 -----
 基础库发布4.0.4
 Bug Fixes
@@ -158,11 +168,13 @@ Bug Fixes
 6. 新增logback是否报告logback内部状态信息控制
 7. 新增substringBeforeFirst字符串获取方法
 8. 优化appender相关类代码
+
 -----
 基础库发布4.0.3
 Bug Fixes
 1. springboot升级到2.6.2
 2. logback日志组件优化调整
+
 -----
 基础库发布4.0.2
 Bug Fixes
@@ -174,6 +186,7 @@ Bug Fixes
 1. 多数据源组件优化调整
 2. SPI示例编写
 3. 升级springboot版本2.6.1及springcloud版本3.0.4
+
 -----
 基础库发布3.11.5
 1. Redis组件代码优化调整
@@ -181,6 +194,7 @@ Bug Fixes
 3. 新增全链路追踪属性配置类
 4. 新增系统编号帮助类
 5. 新增系统编号、语言等全局属性
+
 -----
 基础库发布3.11.4
 1. ContextHolder全局属性新增clientIp、serverIp
@@ -190,12 +204,14 @@ Bug Fixes
 5. Redis及数据库多数据源中间件新增异常处理类
 6. Redis多数据源组件更新到2.6.0版本，新增连接池开关，组件代码兼容新代码
 7. springboot升级到最新版本2.6.0
+
 -----
 基础库发布3.11.3
 1. 新增Redis数据源指标监控采集能力
 2. ContextHolder上下文持有数据有ThreadLocal更改为InheritableThreadLocal，解决子线程拿不到父线程数据的问题
 3. RestTemplate新增请求header添加traceId事务唯一编号
 4. ContextHolder全局属性存储对象由InheritableThreadLocal更改为阿里开源组件TransmittableThreadLocal，支持多数据源父子线程的继承关系
+
 -----
 基础库发布3.11.2
 1. 新增RedisPoolBuilderFactory工厂类
@@ -203,6 +219,7 @@ Bug Fixes
 3. 优化redis多数据源组件工厂类构造方法
 4. 新增Redis集群拓扑刷新支持
 5. Redis多数据源组件加载优先级调整
+
 -----
 基础库发布3.11.1
 1. RPC客户端新增LoadBalance负载均衡策略获取客户端连接（RandomLoadBalance）
@@ -210,12 +227,14 @@ Bug Fixes
 3. RPC客户端支持配置多个服务器地址
 4. 系统中所有的pom引用依赖修改为通过dependencyManagement管理
 5. 新增IllegalArgumentException非法餐宿异常捕获
+
 -----
 基础库发布3.11.0
 1. API请求Get方式参数记录
 2. PrintExceptionInfo打印异常堆栈信息时真实的异常类信息不完整优化调整
 3. RPC客户端及服务端发送的消息体结构更改，返回数据增加IRpcResponse响应实体
 4. RPC客户端超时时间属性配置优化，连接方法优化为传递host及port参数
+
 -----
 基础库发布3.10.5
 1. RPC客户端及服务端InBound时间处理完成后主动添加ReferenceCountUtil.release(msg);释放消息，防止对象内存溢出
@@ -224,16 +243,19 @@ Bug Fixes
 4. RPC服务端接口调用发生异常日志调整
 5. JSONUtils工具类新增parseObject方法可以将Object对象转换为目标对象
 6. RPC客户端新增读取超时、连接超时时间属性，并优化相关代码，去掉IRpcHead头中的keepAlive字段
+
 -------
 基础库发布3.10.4
 1. RPC客户端及服务端代码整合优化
 2. RPC请求消息头新增traceId事务唯一标识，将协议中的traceId去除掉
 3. RPC服务端代码优化，记录请求响应日志
 4. 升级spring-boot版本到2.5.6
+
 ------
 基础库发布3.10.3
 1. Feign基于微服务获取真实url优化
 2. 删除FeignCommonUtils工具类
+
 ------
 2021/10/17
 基础库发布3.10.2
@@ -244,6 +266,7 @@ Bug Fixes
 5. RPC服务端新增超时时间（读取请求header中的keepAlive）
 6. RPC新增ObjectPoolException异常
 7. 优化对象连接池
+
 ------
 2021/10/10
 基础库发布3.10.1
@@ -252,6 +275,7 @@ Bug Fixes
 3. 优化RequestHelper获取参数中header bug
 4. Feign取header及参数bug优化
 5. RequestHelper及RequestUtils中方法调整优化
+
 ------
 2021/10/10
 基础库发布3.10.0
@@ -259,10 +283,12 @@ Bug Fixes
 2. RPC客户端开发
 3. 升级spring-boot到2.5.5版本
 4. 定义BasicException将BusinessException定义为其子类
+
 ------
 2021/10/1
 基础库发布3.9.5
 1. Feign调用接口解决参数丢失问题
+
 ------
 2021/09/19
 基础库发布3.9.4
@@ -273,6 +299,7 @@ Bug Fixes
 5. 新增RpcProviderRegistry注册表存储RPC服务
 6. RPC库的common模块更改为core核心模块，服务端代码优化调整
 7. 将context模块修改为core模块
+
 ------
 2021/09/19
 基础库发布3.9.3
@@ -286,15 +313,18 @@ Bug Fixes
 8. 新增ThreadPoolHelper异步线程池帮助类
 9. HttpClient请求包括cloud httpclient请求拦截器优化
 10. 所有基础库异步记录日志方式更改为通过ThreadPoolTaskExecutor实现
+
 ------
 2021/09/12
 基础库发布3.9.2
 1. Redis多数据源组件序列化hash类型优化调整
 2. 优化多数据源组件及新增批处理示例
+
 ------
 2021/09/05
 基础库发布3.9.1
 1. 多数据源注解@TargetDataSource支持复合注解@Mapper
+
 ------
 2021/06/02
 基础库发布2.4.8版本
@@ -302,6 +332,7 @@ Bug Fixes
 2. 日志组件级别调整更改为枚举类型，可以自动提示有哪些级别，并新增off和all两个关闭日志及打开所有级别日志
 3. 日志组件调整为可以打印出指定级别的日志
 4. 日志组件根据不同的日志级别打印出指定级别以上的日志文件，低级别创建文件夹
+
 ------
 2021/05/25
 

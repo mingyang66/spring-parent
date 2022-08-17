@@ -40,7 +40,6 @@ out/
 .DS_Store
 venv/
 /demo-emily-spring-boot/src/main/resources/application-database.yml
-/demo-emily-spring-boot/src/main/resources/application-redis.properties
 /demo-emily-spring-boot/src/main/resources/application-oracle.properties
 /demo-emily-spring-boot/src/main/resources/bak/application-database.yml.bak
 /demo-emily-spring-cloud/src/main/resources/application-redis.properties

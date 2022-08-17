@@ -1,13 +1,13 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
+import org.checkerframework.checker.units.qual.K;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2021/07/14
  */
 @RestController
-@RequestMapping("redis")
+@RequestMapping("api/redis")
 public class RedisController {
     @GetMapping("info/{section}")
     public Properties getInfo(@PathVariable("section") String section) {
@@ -88,5 +88,12 @@ public class RedisController {
                 }
             }
         }).start();
+    }
+
+    @GetMapping("hash")
+    public void hash(@RequestParam("code") String code){
+        String key = SystemNumberHelper.getSystemNumber()+":"+code;
+        StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
+        stringRedisTemplate.opsForHash().put(key, "accountCode"+code, code);
     }
 }

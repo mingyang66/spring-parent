@@ -1,6 +1,7 @@
 package com.emily.infrastructure.core.entity;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.i18n.LanguageCache;
 import com.emily.infrastructure.core.helper.RequestHelper;
 
 import java.io.Serializable;
@@ -24,19 +25,16 @@ public class BaseResponse<T> implements Serializable {
 
     public BaseResponse(int status, String message) {
         this.status = status;
-        this.message = message;
+        this.message = LanguageCache.peek(message);
     }
 
     public BaseResponse(int status, String message, T data) {
-        this.status = status;
-        this.message = message;
+        this(status, message);
         this.data = data;
     }
 
     public BaseResponse(int status, String message, T data, long time) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
+        this(status, message, data);
         this.time = time;
     }
 

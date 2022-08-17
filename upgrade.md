@@ -313,6 +313,9 @@ Bug Fixes
 8. 新增ThreadPoolHelper异步线程池帮助类
 9. HttpClient请求包括cloud httpclient请求拦截器优化
 10. 所有基础库异步记录日志方式更改为通过ThreadPoolTaskExecutor实现
+11. 新增支持多语言的枚举类LanguageType；
+12. 新增多语言支持缓存类LanguageCache;
+13. HeaderInfo类中新增language常量；
 
 ------
 2021/09/12

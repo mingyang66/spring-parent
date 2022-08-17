@@ -2,6 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception;
 
 import com.emily.infrastructure.autoconfigure.exception.handler.DefaultGlobalExceptionHandler;
 import com.emily.infrastructure.autoconfigure.exception.handler.GlobalExceptionCustomizer;
+import com.emily.infrastructure.common.i18n.LanguageCache;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -13,6 +14,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author Emily
@@ -27,6 +30,18 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionAutoConfiguration.class);
 
+    /**
+     * 初始化异常多语言
+     */
+    @PostConstruct
+    public void init(){
+        LanguageCache.bindEn("网络异常，请稍后再试", "Network exception, please try again later");
+        LanguageCache.bindEn("非法方法请求", "Illegal method request");
+        LanguageCache.bindEn("非法参数", "Illegal parameter");
+        LanguageCache.bindEn("非法数据", "invalid data");
+        LanguageCache.bindEn("非法访问", "Illegal access");
+        LanguageCache.bindEn("非法代理", "Illegal agency");
+    }
     /**
      * 异常抛出拦截bean初始化
      *

@@ -11,4 +11,8 @@ public class HeaderInfo {
      * 事务唯一编号
      */
     public static final String TRACE_ID = "traceId";
+    /**
+     * 多语言头
+     */
+    public static final String LANGUAGE = "language";
 }

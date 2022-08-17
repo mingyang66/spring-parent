@@ -7,6 +7,9 @@ Bug Fixes
 3. 修改commons-lang3依赖版本为跟spring-boot-starter-parent依赖；
 4. 修改netty-all依赖版本为跟spring-boot-starter-parent依赖；
 5. 修改jaxb-api依赖版本为跟spring-boot-starter-parent依赖；
+6. 新增支持多语言的枚举类LanguageType；
+7. 新增多语言支持缓存类LanguageCache;
+8. HeaderInfo类中新增language常量；
 
 -----
 基础库发布4.1.3
@@ -313,9 +316,7 @@ Bug Fixes
 8. 新增ThreadPoolHelper异步线程池帮助类
 9. HttpClient请求包括cloud httpclient请求拦截器优化
 10. 所有基础库异步记录日志方式更改为通过ThreadPoolTaskExecutor实现
-11. 新增支持多语言的枚举类LanguageType；
-12. 新增多语言支持缓存类LanguageCache;
-13. HeaderInfo类中新增language常量；
+
 
 ------
 2021/09/12

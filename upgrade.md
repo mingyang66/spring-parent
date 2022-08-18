@@ -10,6 +10,7 @@ Bug Fixes
 6. 新增支持多语言的枚举类LanguageType；
 7. 新增多语言支持缓存类LanguageCache;
 8. HeaderInfo类中新增language常量；
+9. 新增获取Redis key的帮助方法com.emily.infrastructure.redis.helper.RedisDbHelper.getKey；
 
 -----
 基础库发布4.1.3

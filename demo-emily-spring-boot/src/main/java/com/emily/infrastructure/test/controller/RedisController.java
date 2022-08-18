@@ -3,8 +3,8 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.helper.RedisDbHelper;
 import com.google.common.collect.Maps;
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.web.bind.annotation.*;
@@ -91,9 +91,16 @@ public class RedisController {
     }
 
     @GetMapping("hash")
-    public void hash(@RequestParam("code") String code){
-        String key = SystemNumberHelper.getSystemNumber()+":"+code;
+    public void hash(@RequestParam("code") String code) {
+        String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), code);
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
-        stringRedisTemplate.opsForHash().put(key, "accountCode"+code, code);
+        stringRedisTemplate.opsForHash().put(key, "accountCode" + code, code);
+    }
+
+    @GetMapping("lock")
+    public Boolean lock(@RequestParam("code") String code) {
+        String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "123");
+        StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
+        return stringRedisTemplate.opsForValue().setIfAbsent(key, code, 10, TimeUnit.SECONDS);
     }
 }

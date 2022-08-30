@@ -74,7 +74,7 @@ public class HttpClientController {
         ScheduledExecutorService service = TtlExecutors.getTtlScheduledExecutorService(Executors.newScheduledThreadPool(2));
         service.scheduleAtFixedRate(() -> {
             try {
-                testTimeout.loadStr();
+               // testTimeout.loadStr();
             } catch (Exception e) {
             }
 

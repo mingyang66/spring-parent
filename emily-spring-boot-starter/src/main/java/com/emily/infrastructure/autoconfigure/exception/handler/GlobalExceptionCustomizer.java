@@ -8,6 +8,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.core.context.holder.ContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
@@ -83,6 +84,9 @@ public class GlobalExceptionCustomizer {
             logger.info(JSONUtils.toJSONString(baseLogger));
         } catch (Exception exception) {
             logger.error(MessageFormat.format("记录错误日志异常：{0}", PrintExceptionInfo.printErrorInfo(exception)));
+        } finally {
+            //由于获取参数中会初始化上下文，清除防止OOM
+            ContextHolder.unbind(true);
         }
     }
 }

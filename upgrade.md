@@ -13,6 +13,7 @@ Bug Fixes
 9. 新增获取Redis key的帮助方法com.emily.infrastructure.redis.helper.RedisDbHelper.getKey；
 10. springboot升级到2.7.3版本；
 11. transmittable-thread-local版本升级2.14.0；
+12. 对ContextHolder.unbind解除全局上下文绑定关系优化，解决OOM异常问题；
 
 -----
 基础库发布4.1.3

@@ -37,6 +37,15 @@ public class ContextHolder {
     }
 
     /**
+     * 是否移除上下文
+     */
+    public static void unbind(boolean flag) {
+        if (flag) {
+            CONTEXT.remove();
+        }
+    }
+
+    /**
      * 删除当前线程持有的数据源
      */
     public static void unbind() {

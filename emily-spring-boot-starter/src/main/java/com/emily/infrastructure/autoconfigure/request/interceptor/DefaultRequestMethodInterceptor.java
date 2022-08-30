@@ -98,7 +98,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //移除线程上下文数据
-            ContextHolder.unbind();
+            ContextHolder.unbind(true);
             //设置耗时
             request.setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }

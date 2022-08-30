@@ -48,7 +48,6 @@ fi
   # name:容器名称
   # --net：网络模式，默认：bridge(host、container、none) 注：mac系统无法使用host模式| docker network ls
   docker run \
-  --restart=always \
   --privileged=true \
   --net=bridge \
   -itd --name emilyframework \
@@ -56,5 +55,7 @@ fi
   -p ${httpsPort}:8080 \
   -p ${managementPort}:9443 \
   -v /Users/yaomingyang/Documents/IDE/workplace-java/logs/emilyframework:/app/logs \
+  -e SW_AGENT_NAME=demo-emily-spring-boot \
+  -e SW_AGENT_COLLECTOR_BACKEND_SERVICES=172.30.71.95:11800 \
   emilyframework:${VERSION}
   echo '容器创建成功...'

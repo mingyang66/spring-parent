@@ -50,6 +50,7 @@ import java.util.Collections;
  */
 @AutoConfiguration
 @ConditionalOnClass(RestTemplate.class)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @EnableConfigurationProperties(HttpClientProperties.class)
 @ConditionalOnProperty(prefix = HttpClientProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HttpClientAutoConfiguration implements InitializingBean, DisposableBean {

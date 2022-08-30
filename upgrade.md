@@ -3,6 +3,7 @@
 基础库发布4.1.5
 Bug Fixes
 1. 日志记录支持header中传递appType、appVersion；
+2. 优化阶段标识及ContextHolder类；
 
 -----
 基础库发布4.1.4

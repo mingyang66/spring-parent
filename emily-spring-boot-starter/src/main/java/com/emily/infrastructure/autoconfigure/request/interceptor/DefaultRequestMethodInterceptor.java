@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -45,9 +44,6 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        HttpServletRequest request = RequestUtils.getRequest();
-        //设置当前请求阶段标识
-        request.setAttribute(AttributeInfo.STAGE, ContextHolder.Stage.REQUEST);
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         try {
@@ -58,7 +54,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
-            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(request.getRequestURL()), CharacterInfo.ASK_SIGN_EN));
+            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
             baseLogger.setRequestParams(RequestHelper.getApiArgs(invocation));
             //调用真实的action方法
@@ -77,12 +73,18 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;
+                //响应码
                 baseLogger.setStatus(exception.getStatus());
+                //响应描述
                 baseLogger.setMessage(exception.getMessage());
+                //异常响应体
                 baseLogger.setBody(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
+                //响应码
                 baseLogger.setStatus(AppHttpStatus.EXCEPTION.getStatus());
+                //响应描述
                 baseLogger.setMessage(AppHttpStatus.EXCEPTION.getMessage());
+                //异常响应体
                 baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
             }
             throw ex;
@@ -104,7 +106,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //移除线程上下文数据
             ContextHolder.unbind(true);
             //设置耗时
-            request.setAttribute(AttributeInfo.TIME, baseLogger.getTime());
+            RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }
 
     }

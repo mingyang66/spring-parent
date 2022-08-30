@@ -1,11 +1,13 @@
 package com.emily.infrastructure.core.context.holder;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -93,19 +95,26 @@ public class ContextHolder {
         private boolean servletContext;
 
         public RequestHolder() {
+            //servlet请求开始时间
             this.startTime = System.currentTimeMillis();
+            //系统编号
             this.systemNumber = SystemNumberHelper.getSystemNumber();
+            //客户端IP
             this.clientIp = RequestUtils.getClientIp();
+            //服务端IP
             this.serverIp = RequestUtils.getServerIp();
+            //判定是否是servlet请求上下文
             if (RequestUtils.isServletContext()) {
-                this.traceId = RequestUtils.getRequest().getHeader(HeaderInfo.TRACE_ID);
-                this.appType = RequestUtils.getRequest().getHeader(HeaderInfo.APP_TYPE);
-                this.appVersion = RequestUtils.getRequest().getHeader(HeaderInfo.APP_VERSION);
+                HttpServletRequest request = RequestUtils.getRequest();
+                this.traceId = request.getHeader(HeaderInfo.TRACE_ID);
+                this.appType = request.getHeader(HeaderInfo.APP_TYPE);
+                this.appVersion = request.getHeader(HeaderInfo.APP_VERSION);
                 this.servletContext = true;
+                //设置当前请求阶段标识
+                request.setAttribute(AttributeInfo.STAGE, Stage.REQUEST);
             }
-            if (Objects.isNull(traceId)) {
-                this.traceId = UUIDUtils.randomSimpleUUID();
-            }
+            //事务流水号
+            this.traceId = (traceId == null) ? UUIDUtils.randomSimpleUUID() : traceId;
         }
 
         public String getAppType() {

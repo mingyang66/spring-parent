@@ -15,4 +15,12 @@ public class HeaderInfo {
      * 多语言头
      */
     public static final String LANGUAGE = "language";
+    /**
+     * 包类型
+     */
+    public static final String APP_TYPE = "appType";
+    /**
+     * 包版本
+     */
+    public static final String APP_VERSION = "appVersion";
 }

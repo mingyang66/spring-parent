@@ -80,6 +80,14 @@ public class ContextHolder {
          */
         private String serverIp;
         /**
+         * 版本类型，com.emily.android
+         */
+        private String appType;
+        /**
+         * 版本号，4.1.4
+         */
+        private String appVersion;
+        /**
          * (逻辑)是否servlet容器上下文，默认：false
          */
         private boolean servletContext;
@@ -91,11 +99,29 @@ public class ContextHolder {
             this.serverIp = RequestUtils.getServerIp();
             if (RequestUtils.isServletContext()) {
                 this.traceId = RequestUtils.getRequest().getHeader(HeaderInfo.TRACE_ID);
+                this.appType = RequestUtils.getRequest().getHeader(HeaderInfo.APP_TYPE);
+                this.appVersion = RequestUtils.getRequest().getHeader(HeaderInfo.APP_VERSION);
                 this.servletContext = true;
             }
             if (Objects.isNull(traceId)) {
                 this.traceId = UUIDUtils.randomSimpleUUID();
             }
+        }
+
+        public String getAppType() {
+            return appType;
+        }
+
+        public void setAppType(String appType) {
+            this.appType = appType;
+        }
+
+        public String getAppVersion() {
+            return appVersion;
+        }
+
+        public void setAppVersion(String appVersion) {
+            this.appVersion = appVersion;
         }
 
         public String getTraceId() {

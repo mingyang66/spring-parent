@@ -32,6 +32,14 @@ public class BaseLogger implements Serializable {
      */
     private String serverIp;
     /**
+     * 版本类型，com.emily.android
+     */
+    private String appType;
+    /**
+     * 版本号，4.1.4
+     */
+    private String appVersion;
+    /**
      * 请求URL
      */
     private String url;
@@ -63,6 +71,22 @@ public class BaseLogger implements Serializable {
     public BaseLogger() {
         this.status = AppHttpStatus.OK.getStatus();
         this.message = AppHttpStatus.OK.getMessage();
+    }
+
+    public String getAppType() {
+        return appType;
+    }
+
+    public void setAppType(String appType) {
+        this.appType = appType;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
     }
 
     public String getSystemNumber() {

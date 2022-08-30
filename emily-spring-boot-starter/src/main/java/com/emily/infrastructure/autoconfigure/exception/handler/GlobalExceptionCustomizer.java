@@ -72,6 +72,10 @@ public class GlobalExceptionCustomizer {
             baseLogger.setClientIp(RequestUtils.getClientIp());
             //服务端IP
             baseLogger.setServerIp(RequestUtils.getServerIp());
+            //版本类型
+            baseLogger.setAppType(ContextHolder.peek().getAppType());
+            //版本号
+            baseLogger.setAppVersion(ContextHolder.peek().getAppVersion());
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求参数

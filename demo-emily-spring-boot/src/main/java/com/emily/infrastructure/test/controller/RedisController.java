@@ -5,7 +5,7 @@ import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.emily.infrastructure.redis.helper.RedisDbHelper;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.RandomUtils;
+import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
@@ -106,28 +106,36 @@ public class RedisController {
         return stringRedisTemplate.opsForValue().setIfAbsent(key, code, 10, TimeUnit.SECONDS);
     }
 
-    @GetMapping("bloom")
-    public Long bloom(@RequestParam("accountCode") Long accountCode) {
-        String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
+    @GetMapping("setBit")
+    public Long setBit(@RequestParam("accountCode") Long accountCode, @RequestParam("date") String date, @RequestParam("offset") Long offset) {
+        String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
-        Boolean flag = stringRedisTemplate.opsForValue().setBit(key, RandomUtils.nextInt(), true);
+        Boolean flag = stringRedisTemplate.opsForValue().setBit(key, offset, true);
         System.out.println(flag);
         return stringRedisTemplate.execute((RedisCallback<Long>) connection -> connection.bitCount(key.getBytes()));
     }
 
-    @GetMapping("bloomStartEnd")
-    public Long bloomStartEnd(@RequestParam("accountCode") Long accountCode, @RequestParam("end") Long end) {
-        String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
+    @GetMapping("getBit")
+    public Boolean getBit(@RequestParam("accountCode") Long accountCode, @RequestParam("date") String date, @RequestParam("offset") Long offset) {
+        String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
-        return stringRedisTemplate.execute((RedisCallback<Long>) connection -> connection.bitCount(key.getBytes(), 0, end));
+        return stringRedisTemplate.execute((RedisCallback<Boolean>) connection -> connection.getBit(key.getBytes(), offset));
     }
 
     @GetMapping("batch")
-    public void batchBit(@RequestParam("accountCode") Long accountCode){
+    public void batchBit(@RequestParam("accountCode") Long accountCode) {
         String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         for (int i = 0; i < 10000; i++) {
-            stringRedisTemplate.opsForValue().setBit(key, i, true);
+           // stringRedisTemplate.opsForValue().bitField(key, new BitFieldSubCommands(sd));
         }
+    }
+
+    public static void main(String[] args) {
+        String voiceCerfUrl = null;
+        String mobileNo = null;
+        String verCode = null;
+        String url = String.format("%s/AEPOBService/ob?phone=%s&verifyCode=%s", voiceCerfUrl, mobileNo, verCode);
+        System.out.println(url);
     }
 }

@@ -110,7 +110,7 @@ public class IRpcServerConnection implements ApplicationContextAware, Disposable
             //启动服务器，并绑定端口并且同步
             ChannelFuture channelFuture = serverBootstrap.bind(properties.getPort()).sync();
             logger.info("Rpc server start success，port is {}", properties.getPort());
-            //对关闭通道进行监听,监听到通道关闭后，往下执行
+            //监听NioServerSocketChannel的关闭事件并同步阻塞程序
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             logger.error("occur exception when start server: {}", PrintExceptionInfo.printErrorInfo(e));

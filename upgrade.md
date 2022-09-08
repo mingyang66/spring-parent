@@ -5,6 +5,7 @@ Bug Fixes
 1. 日志记录支持header中传递appType、appVersion；
 2. 优化阶段标识及ContextHolder类；
 3. DelegateRequestWrapper类引入IOUtils类优化；
+4. protobuf版本升级到3.21.5；
 
 -----
 基础库发布4.1.4

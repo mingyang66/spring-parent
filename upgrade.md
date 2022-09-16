@@ -6,6 +6,8 @@ Bug Fixes
 2. 优化阶段标识及ContextHolder类；
 3. DelegateRequestWrapper类引入IOUtils类优化；
 4. protobuf版本升级到3.21.5；
+5. Druid 1.2.12版本发布，连接池默认指定socketTimeout，增强SQL Parser；
+连接池DruidDataSource支持新的配置connectTimeout和socketTimeout，分别都是10秒。这个默认值会减少因为网络丢包时导致的连接池无法创建链接
 
 -----
 基础库发布4.1.4

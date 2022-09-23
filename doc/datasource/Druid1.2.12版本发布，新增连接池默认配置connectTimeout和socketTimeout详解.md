@@ -15,7 +15,7 @@
 9. SQL Parser增强对DB2的支持 [#4838](https://github.com/alibaba/druid/pull/4838)
 10. SQL Parser增强对Oracle的支持
 
-##### 连接池connectTimeout默认配置
+##### 连接池connectTimeout配置
 
 在源码com.alibaba.druid.pool.DruidAbstractDataSource#createPhysicalConnection()方法中新增了如下代码：
 
@@ -34,7 +34,7 @@
 
 > 对mysql、oracle、postgresql数据库驱动配置连接超时时间，在连接的时候生效，默认值：10000ms
 
-##### 连接池socket-timeout默认配置
+##### 连接池socket-timeout配置
 
 在数据库出现宕机或网络宜昌市，jdbc的socket超时是必须的，由于TCP/IP结构，socket没有办法检测到网络错误，因此应用程序也不能检测到与数据库之间的连接是否已经断开。如果没有socket超时，应用程序会一直等待数据库返回结果。为了避免死连接，socket必须设置超时时间，通过设置超时时间，可以防止出现网络错误时一直等待的情况并缩短故障时间。
 
@@ -98,6 +98,43 @@
     }
 ```
 
+##### 连接池query-timeout、transaction-query-timeout配置
 
+- query-timeout：设置JDBC驱动执行Statement语句的秒数，如果超过限制，则会抛出SQLTimeoutException，默认：0 单位：秒 无限制
+- transaction-query-timeout：设置JDBC驱动执行N个Statement语句的秒数（事务模式），如果超过限制，则会抛出SQLTimeoutException，默认：0 单位：秒 无限制
+
+具体实现代码在com.alibaba.druid.pool.DruidAbstractDataSource#initStatement中如下：
+
+```java
+    void initStatement(DruidPooledConnection conn, Statement stmt) throws SQLException {
+        boolean transaction = !conn.getConnectionHolder().underlyingAutoCommit;
+
+        int queryTimeout = transaction ? getTransactionQueryTimeout() : getQueryTimeout();
+
+        if (queryTimeout > 0) {
+            stmt.setQueryTimeout(queryTimeout);
+        }
+    }
+
+    public int getTransactionQueryTimeout() {
+        if (transactionQueryTimeout <= 0) {
+            return queryTimeout;
+        }
+
+        return transactionQueryTimeout;
+    }
+
+    public int getQueryTimeout() {
+        return queryTimeout;
+    }
+```
+
+##### 总结
+
+看了上面的几个时间设置估计会有点懵逼，这么多时间怎么区分，先看一下从网上找到的图：
+
+![超时时间区分](https://img-blog.csdnimg.cn/2420764cb95846f6ba01a06eeac11fb4.png)
+
+> 高级别的timeout依赖于低级别的timeout，只有当低级别的timeout无误时，高级别的timeout才能确保正常；如：当socket timeout出问题时，高级别statement timeout和transaction timeout都将失效。statement timeout无法处理网络连接失败时的超时，它能做的仅仅是限制statement的操作时间，网络连接失败时的timeout必须交由JDBC来处理，JDBC的socket timeout会受到操作系统socket timeout设置的影响。
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

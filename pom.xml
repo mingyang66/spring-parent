@@ -47,7 +47,7 @@
         <commons.io.version>2.11.0</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <alibaba.druid.version>1.2.13</alibaba.druid.version>
-        <alibaba.ttl.version>2.14.0</alibaba.ttl.version>
+        <alibaba.ttl.version>2.14.1</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <feign.httpclient.version>11.6</feign.httpclient.version>

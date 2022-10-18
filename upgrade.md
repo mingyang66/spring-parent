@@ -9,7 +9,8 @@ Bug Fixes
 5. Druid 1.2.12版本发布，连接池DruidDataSource支持新的配置connectTimeout和socketTimeout，分别都是10秒。这个默认值会减少因为网络丢包时导致的连接池无法创建链接;
 6. spirngboot升级到2.7.4版本；
 7. Druid 1.2.13版本发布，修复1.2.12版本引入connectTimeout、socketTimeout导致的BUG;
-5. TTL升级到2.14.1版本；
+8. TTL升级到2.14.1版本；
+9. 全局异常捕获BindException异常展示具体的异常信息；
 
 -----
 基础库发布4.1.4

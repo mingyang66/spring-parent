@@ -6,8 +6,9 @@ import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -21,6 +22,7 @@ import org.springframework.web.client.UnknownContentTypeException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Objects;
 
 /**
  * @author Emily
@@ -149,9 +151,22 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler({BindException.class, IllegalArgumentException.class, HttpMessageConversionException.class})
-    public BaseResponse validModelBindException(Exception e, HttpServletRequest request) {
+    @ExceptionHandler({BindException.class})
+    public BaseResponse validModelBindException(BindException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
+        BindingResult bindingResult = e.getBindingResult();
+        if (Objects.isNull(bindingResult) || Objects.isNull(bindingResult.getFieldError())) {
+            return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
+        }
+        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), bindingResult.getFieldError().getDefaultMessage());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        System.out.println(e.getMessage());
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
     }
 

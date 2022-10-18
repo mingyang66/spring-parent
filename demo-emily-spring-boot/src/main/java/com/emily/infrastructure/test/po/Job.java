@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.po;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -9,6 +10,7 @@ import java.io.Serializable;
  * @Version: 1.0
  */
 public class Job implements Serializable {
+    @NotNull
     private Long id;
     private Long jobNumber;
     @NotEmpty(message = "描述不可以为空")

@@ -2,7 +2,9 @@
 -----
 基础库发布4.1.6
 Bug Fixes
-1. 
+1. springboot升级到2.7.5；
+2. mysql依赖包引用修改；
+
 -----
 基础库发布4.1.5
 Bug Fixes

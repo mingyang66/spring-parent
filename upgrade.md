@@ -1,5 +1,9 @@
 ### 
 -----
+基础库发布4.1.6
+Bug Fixes
+1. 
+-----
 基础库发布4.1.5
 Bug Fixes
 1. 日志记录支持header中传递appType、appVersion；
@@ -12,6 +16,8 @@ Bug Fixes
 8. TTL升级到2.14.1版本；
 9. 全局异常捕获BindException异常展示具体的异常信息；
 10. commons-collections4包依赖引用删除；
+11. Druid 1.2.14版本升级；
+12. TTL升级到2.14.2版本；
 
 -----
 基础库发布4.1.4

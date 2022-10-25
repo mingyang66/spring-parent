@@ -15,7 +15,7 @@ import java.util.Objects;
  * @Author: Emily
  * @create: 2021/10/12
  */
-public class ContextHolder {
+public class ThreadContextHolder {
 
     private static final ThreadLocal<RequestHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override

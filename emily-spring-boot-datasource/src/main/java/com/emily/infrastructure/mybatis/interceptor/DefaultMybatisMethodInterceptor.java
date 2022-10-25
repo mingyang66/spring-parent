@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
@@ -39,16 +39,16 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
-            baseLogger.setSystemNumber(ContextHolder.peek().getSystemNumber());
-            baseLogger.setTraceId(ContextHolder.peek().getTraceId());
-            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
-            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
+            baseLogger.setSystemNumber(ThreadContextHolder.peek().getSystemNumber());
+            baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
+            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
+            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
             baseLogger.setRequestParams(RequestHelper.getMethodArgs(invocation));
             baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
             baseLogger.setTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
-            ContextHolder.unbind();
+            ThreadContextHolder.unbind();
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });

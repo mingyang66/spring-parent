@@ -3,7 +3,7 @@ package com.emily.infrastructure.cloud.httpclient.interceptor;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
@@ -45,7 +45,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //生成事物流水号
-        baseLogger.setTraceId(ContextHolder.peek().getTraceId());
+        baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求参数
@@ -62,9 +62,9 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //响应时间
@@ -72,7 +72,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            ContextHolder.unbind();
+            ThreadContextHolder.unbind();
         }
 
     }

@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.google.common.collect.Maps;
 import feign.RequestInterceptor;
@@ -32,11 +32,11 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
     @Override
     public void apply(RequestTemplate template) {
         //请求header设置事务ID
-        template.header(HeaderInfo.TRACE_ID, ContextHolder.peek().getTraceId());
+        template.header(HeaderInfo.TRACE_ID, ThreadContextHolder.peek().getTraceId());
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
-        baseLogger.setTraceId(ContextHolder.peek().getTraceId());
+        baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
         //时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //请求url

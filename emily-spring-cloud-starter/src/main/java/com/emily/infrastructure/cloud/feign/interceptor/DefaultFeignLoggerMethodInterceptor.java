@@ -6,7 +6,7 @@ import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -55,13 +55,13 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.peek();
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
             //版本类型
-            baseLogger.setAppType(ContextHolder.peek().getAppType());
+            baseLogger.setAppType(ThreadContextHolder.peek().getAppType());
             //版本号
-            baseLogger.setAppVersion(ContextHolder.peek().getAppVersion());
+            baseLogger.setAppVersion(ThreadContextHolder.peek().getAppVersion());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间
@@ -73,7 +73,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据
-            ContextHolder.unbind();
+            ThreadContextHolder.unbind();
         }
     }
 

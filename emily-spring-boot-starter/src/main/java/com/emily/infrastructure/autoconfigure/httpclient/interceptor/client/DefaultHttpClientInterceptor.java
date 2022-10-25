@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
@@ -42,13 +42,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //设置事务标识
-        request.getHeaders().set(HeaderInfo.TRACE_ID, ContextHolder.peek().getTraceId());
+        request.getHeaders().set(HeaderInfo.TRACE_ID, ThreadContextHolder.peek().getTraceId());
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //系统编号
-        baseLogger.setSystemNumber(ContextHolder.peek().getSystemNumber());
+        baseLogger.setSystemNumber(ThreadContextHolder.peek().getSystemNumber());
         //生成事物流水号
-        baseLogger.setTraceId(ContextHolder.peek().getTraceId());
+        baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求参数
@@ -70,13 +70,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
             //版本类型
-            baseLogger.setAppType(ContextHolder.peek().getAppType());
+            baseLogger.setAppType(ThreadContextHolder.peek().getAppType());
             //版本号
-            baseLogger.setAppVersion(ContextHolder.peek().getAppVersion());
+            baseLogger.setAppVersion(ThreadContextHolder.peek().getAppVersion());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //响应时间
@@ -84,7 +84,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据
-            ContextHolder.unbind();
+            ThreadContextHolder.unbind();
         }
 
     }

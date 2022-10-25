@@ -4,6 +4,7 @@
 Bug Fixes
 1. springboot升级到2.7.5；
 2. mysql依赖包引用修改；
+3. ContextHolder更名为ThreadContextHolder；
 
 -----
 基础库发布4.1.5

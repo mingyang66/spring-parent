@@ -10,7 +10,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
@@ -48,9 +48,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         BaseLogger baseLogger = new BaseLogger();
         try {
             //系统编号
-            baseLogger.setSystemNumber(ContextHolder.peek().getSystemNumber());
+            baseLogger.setSystemNumber(ThreadContextHolder.peek().getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(ContextHolder.peek().getTraceId());
+            baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
@@ -90,21 +90,21 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
             //版本类型
-            baseLogger.setAppType(ContextHolder.peek().getAppType());
+            baseLogger.setAppType(ThreadContextHolder.peek().getAppType());
             //版本号
-            baseLogger.setAppVersion(ContextHolder.peek().getAppVersion());
+            baseLogger.setAppVersion(ThreadContextHolder.peek().getAppVersion());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - ContextHolder.peek().getStartTime());
+            baseLogger.setTime(System.currentTimeMillis() - ThreadContextHolder.peek().getStartTime());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //移除线程上下文数据
-            ContextHolder.unbind(true);
+            ThreadContextHolder.unbind(true);
             //设置耗时
             RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getTime());
         }

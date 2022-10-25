@@ -1,7 +1,7 @@
 package com.emily.infrastructure.rpc.core.message;
 
 
-import com.emily.infrastructure.core.context.holder.ContextHolder;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 
 import java.io.Serializable;
 
@@ -80,7 +80,7 @@ public class IRpcRequest implements Serializable {
 
     public static IRpcRequest build(String className, String methodName, Class<?>[] types, Object[] params) {
         IRpcRequest request = new IRpcRequest();
-        request.setTraceId(ContextHolder.peek().getTraceId());
+        request.setTraceId(ThreadContextHolder.peek().getTraceId());
         request.setClassName(className);
         request.setMethodName(methodName);
         request.setTypes(types);

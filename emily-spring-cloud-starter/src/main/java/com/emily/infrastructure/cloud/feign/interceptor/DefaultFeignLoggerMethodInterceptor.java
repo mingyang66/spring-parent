@@ -53,15 +53,15 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             throw e;
         } finally {
             //封装异步日志信息
-            BaseLogger baseLogger = FeignContextHolder.peek();
+            BaseLogger baseLogger = FeignContextHolder.current();
             //客户端IP
-            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
             //版本类型
-            baseLogger.setAppType(ThreadContextHolder.peek().getAppType());
+            baseLogger.setAppType(ThreadContextHolder.current().getAppType());
             //版本号
-            baseLogger.setAppVersion(ThreadContextHolder.peek().getAppVersion());
+            baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //触发时间

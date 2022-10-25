@@ -42,13 +42,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //设置事务标识
-        request.getHeaders().set(HeaderInfo.TRACE_ID, ThreadContextHolder.peek().getTraceId());
+        request.getHeaders().set(HeaderInfo.TRACE_ID, ThreadContextHolder.current().getTraceId());
         //创建拦截日志信息
         BaseLogger baseLogger = new BaseLogger();
         //系统编号
-        baseLogger.setSystemNumber(ThreadContextHolder.peek().getSystemNumber());
+        baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
         //生成事物流水号
-        baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
+        baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
         //请求URL
         baseLogger.setUrl(request.getURI().toString());
         //请求参数
@@ -70,13 +70,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
             //版本类型
-            baseLogger.setAppType(ThreadContextHolder.peek().getAppType());
+            baseLogger.setAppType(ThreadContextHolder.current().getAppType());
             //版本号
-            baseLogger.setAppVersion(ThreadContextHolder.peek().getAppVersion());
+            baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
             //耗时
             baseLogger.setTime(System.currentTimeMillis() - start);
             //响应时间

@@ -80,7 +80,7 @@ public class IRpcRequest implements Serializable {
 
     public static IRpcRequest build(String className, String methodName, Class<?>[] types, Object[] params) {
         IRpcRequest request = new IRpcRequest();
-        request.setTraceId(ThreadContextHolder.peek().getTraceId());
+        request.setTraceId(ThreadContextHolder.current().getTraceId());
         request.setClassName(className);
         request.setMethodName(methodName);
         request.setTypes(types);

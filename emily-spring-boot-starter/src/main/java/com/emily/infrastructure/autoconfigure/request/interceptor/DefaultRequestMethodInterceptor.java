@@ -48,9 +48,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         BaseLogger baseLogger = new BaseLogger();
         try {
             //系统编号
-            baseLogger.setSystemNumber(ThreadContextHolder.peek().getSystemNumber());
+            baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
             //事务唯一编号
-            baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
+            baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
@@ -90,15 +90,15 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ThreadContextHolder.peek().getClientIp());
+            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
             //服务端IP
-            baseLogger.setServerIp(ThreadContextHolder.peek().getServerIp());
+            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
             //版本类型
-            baseLogger.setAppType(ThreadContextHolder.peek().getAppType());
+            baseLogger.setAppType(ThreadContextHolder.current().getAppType());
             //版本号
-            baseLogger.setAppVersion(ThreadContextHolder.peek().getAppVersion());
+            baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - ThreadContextHolder.peek().getStartTime());
+            baseLogger.setTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息

@@ -68,7 +68,7 @@ public class IRpcResponse<T> implements Serializable {
 
     public static <T> IRpcResponse<T> buildResponse(int status, String message, T data) {
         IRpcResponse response = new IRpcResponse<>();
-        response.setTraceId(ThreadContextHolder.peek().getTraceId());
+        response.setTraceId(ThreadContextHolder.current().getTraceId());
         response.setStatus(status);
         response.setMessage(message);
         response.setData(data);

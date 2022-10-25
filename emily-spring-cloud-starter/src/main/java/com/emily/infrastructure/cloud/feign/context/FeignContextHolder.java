@@ -23,7 +23,7 @@ public class FeignContextHolder {
     /**
      * 获取当前线程持有的数据源
      */
-    public static BaseLogger peek() {
+    public static BaseLogger current() {
         return CONTEXT.get();
     }
 

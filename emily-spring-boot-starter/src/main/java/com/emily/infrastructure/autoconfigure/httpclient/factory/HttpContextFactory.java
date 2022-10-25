@@ -19,7 +19,7 @@ import java.util.function.BiFunction;
 public class HttpContextFactory implements BiFunction<HttpMethod, URI, HttpContext> {
     @Override
     public HttpContext apply(HttpMethod httpMethod, URI uri) {
-        RequestConfig requestConfig = HttpContextHolder.peek();
+        RequestConfig requestConfig = HttpContextHolder.current();
         if (Objects.nonNull(requestConfig)) {
             HttpContext context = HttpClientContext.create();
             context.setAttribute(HttpClientContext.REQUEST_CONFIG, requestConfig);

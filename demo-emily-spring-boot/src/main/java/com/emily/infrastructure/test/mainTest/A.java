@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  * @program: spring-parent
@@ -10,6 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class A {
     public static void main(String[] args) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
+        ZonedDateTime zbj = ZonedDateTime.now();
+        ZonedDateTime zny = ZonedDateTime.now(ZoneId.of("America/New_York"));
+        System.out.println(zbj);
+        System.out.println(zny);
     }
 }

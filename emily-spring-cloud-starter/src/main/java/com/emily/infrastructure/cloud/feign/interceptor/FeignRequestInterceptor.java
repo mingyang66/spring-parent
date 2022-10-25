@@ -32,11 +32,11 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
     @Override
     public void apply(RequestTemplate template) {
         //请求header设置事务ID
-        template.header(HeaderInfo.TRACE_ID, ThreadContextHolder.peek().getTraceId());
+        template.header(HeaderInfo.TRACE_ID, ThreadContextHolder.current().getTraceId());
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         //事务唯一编号
-        baseLogger.setTraceId(ThreadContextHolder.peek().getTraceId());
+        baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
         //时间
         baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
         //请求url

@@ -17,7 +17,7 @@ public class HttpContextHolder {
         threadLocal.set(requestConfig);
     }
 
-    public static RequestConfig peek() {
+    public static RequestConfig current() {
         return threadLocal.get();
     }
 

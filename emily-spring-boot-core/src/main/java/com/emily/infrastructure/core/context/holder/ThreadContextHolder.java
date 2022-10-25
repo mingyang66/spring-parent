@@ -17,24 +17,24 @@ import java.util.Objects;
  */
 public class ThreadContextHolder {
 
-    private static final ThreadLocal<RequestHolder> CONTEXT = new TransmittableThreadLocal<>() {
+    private static final ThreadLocal<ContextHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override
-        protected RequestHolder initialValue() {
-            return new RequestHolder();
+        protected ContextHolder initialValue() {
+            return new ContextHolder();
         }
     };
 
     /**
      * 设置当前线程持有的数据源
      */
-    public static void bind(RequestHolder requestHolder) {
-        CONTEXT.set(requestHolder);
+    public static void bind(ContextHolder ContextHolder) {
+        CONTEXT.set(ContextHolder);
     }
 
     /**
      * 获取当前线程持有的数据源
      */
-    public static RequestHolder peek() {
+    public static ContextHolder current() {
         return CONTEXT.get();
     }
 
@@ -56,7 +56,7 @@ public class ThreadContextHolder {
         }
     }
 
-    public static class RequestHolder {
+    public static class ContextHolder {
         /**
          * 事务唯一编号
          */
@@ -94,7 +94,7 @@ public class ThreadContextHolder {
          */
         private boolean servletContext;
 
-        public RequestHolder() {
+        public ContextHolder() {
             //servlet请求开始时间
             this.startTime = System.currentTimeMillis();
             //系统编号

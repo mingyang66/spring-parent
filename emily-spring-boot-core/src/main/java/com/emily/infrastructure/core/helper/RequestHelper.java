@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
@@ -21,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -176,6 +178,7 @@ public class RequestHelper {
             Method method = invocation.getMethod();
             Map<String, Object> paramMap = Maps.newHashMap();
             List<String> list = ParamNameUtils.getParamNames(method);
+            Annotation[][] annotations = method.getParameterAnnotations();
             Object[] obj = invocation.getArguments();
             for (int i = 0; i < list.size(); i++) {
                 String name = list.get(i);
@@ -185,6 +188,22 @@ public class RequestHelper {
                 }
                 if (Arrays.asList(field).contains(name)) {
                     paramMap.put(name, AttributeInfo.PLACE_HOLDER);
+                } else if (value instanceof String) {
+                    // 控制器方法参数为字符串并且标记了注解
+                    //是否已添加参数
+                    boolean flag = true;
+                    for (int j = 0; j < annotations[i].length; j++) {
+                        Annotation annotation = annotations[i][j];
+                        if (annotation instanceof JsonIgnore) {
+                            JsonIgnore jsonIgnore = (JsonIgnore) annotation;
+                            paramMap.put(name, SensitiveUtils.sensitiveField(jsonIgnore, (String) value));
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        paramMap.put(name, value);
+                    }
                 } else {
                     paramMap.put(name, SensitiveUtils.getSensitive(value));
                 }

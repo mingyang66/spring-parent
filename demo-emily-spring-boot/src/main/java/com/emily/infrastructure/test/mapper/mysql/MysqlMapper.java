@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.mapper.mysql;
 
 
+import com.emily.infrastructure.common.sensitive.JsonIgnore;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
-import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;

@@ -2,7 +2,6 @@ package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -135,7 +134,7 @@ public class SensitiveUtils {
      * @param entity 需要脱敏的实体类对象
      * @return
      */
-    public static Object getSensitive(Object entity) {
+    public static Object sensitive(Object entity) {
         if (isFinal(entity)) {
             return entity;
         }

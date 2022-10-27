@@ -34,7 +34,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         BaseLogger baseLogger = new BaseLogger();
         try {
             Object response = invocation.proceed();
-            baseLogger.setBody(SensitiveUtils.getSensitive(response));
+            baseLogger.setBody(SensitiveUtils.sensitive(response));
             return response;
         } catch (Throwable ex) {
             baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));

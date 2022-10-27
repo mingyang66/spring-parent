@@ -4,8 +4,8 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.sensitive.JsonIgnore;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
-import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
@@ -205,7 +205,7 @@ public class RequestHelper {
                         paramMap.put(name, value);
                     }
                 } else {
-                    paramMap.put(name, SensitiveUtils.getSensitive(value));
+                    paramMap.put(name, SensitiveUtils.sensitive(value));
                 }
             }
             return paramMap;

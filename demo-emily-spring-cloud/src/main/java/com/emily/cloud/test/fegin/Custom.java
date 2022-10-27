@@ -1,7 +1,7 @@
 package com.emily.cloud.test.fegin;
 
+import com.emily.infrastructure.common.sensitive.JsonIgnore;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
-import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 
 /**
  * @Description :

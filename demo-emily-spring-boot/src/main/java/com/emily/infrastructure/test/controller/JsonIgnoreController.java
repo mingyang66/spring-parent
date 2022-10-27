@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.common.sensitive.JsonIgnore;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
-import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
@@ -77,12 +77,13 @@ public class JsonIgnoreController {
     public String test4(String name, @JsonIgnore @RequestParam("phone") String phone, @JsonIgnore(SensitiveType.USERNAME) @RequestParam String username) {
         return phone + "-" + username;
     }
+
     @Autowired
     private MysqlMapper mysqlMapper;
 
 
     @GetMapping("testMapper")
-    public MapperIgnore testMapper(){
+    public MapperIgnore testMapper() {
         PubResponse response = new PubResponse();
         response.password = "32433";
         response.username = "条消息";

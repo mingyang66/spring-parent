@@ -1,7 +1,11 @@
 package com.emily.infrastructure.test.mapper.mysql;
 
 
+import com.emily.infrastructure.common.sensitive.SensitiveType;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
+import com.emily.infrastructure.test.po.json.PubResponse;
+import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -34,4 +38,7 @@ public interface MysqlMapper {
      */
     @TargetDataSource(value = "mysql")
     void insertMysql(String schedName, String lockName);
+
+    @TargetDataSource(value = "mysql")
+    MapperIgnore getMapperIgnore(PubResponse response, @JsonIgnore String username, @JsonIgnore(type = SensitiveType.EMAIL) String email);
 }

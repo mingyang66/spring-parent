@@ -3,6 +3,7 @@ package com.emily.infrastructure.mybatis.interceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
@@ -33,7 +34,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         BaseLogger baseLogger = new BaseLogger();
         try {
             Object response = invocation.proceed();
-            baseLogger.setBody(response);
+            baseLogger.setBody(SensitiveUtils.getSensitive(response));
             return response;
         } catch (Throwable ex) {
             baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));

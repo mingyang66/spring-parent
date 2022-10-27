@@ -3,10 +3,13 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.emily.infrastructure.test.po.json.PubRequest;
 import com.emily.infrastructure.test.po.json.PubResponse;
+import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,5 +76,25 @@ public class JsonIgnoreController {
     @GetMapping("test4")
     public String test4(String name, @JsonIgnore @RequestParam("phone") String phone, @JsonIgnore(type = SensitiveType.USERNAME) @RequestParam String username) {
         return phone + "-" + username;
+    }
+    @Autowired
+    private MysqlMapper mysqlMapper;
+
+
+    @GetMapping("testMapper")
+    public MapperIgnore testMapper(){
+        PubResponse response = new PubResponse();
+        response.password = "32433";
+        response.username = "条消息";
+        response.email = "1393619859@qq.com";
+        response.idCard = "321455188625645686";
+        response.bankCard = "325648956125656666";
+        response.phone = "18254452658";
+        response.mobile = "1234567";
+        PubResponse.Job job = new PubResponse.Job();
+        job.email = "1393619859@qq.com";
+        job.work = "呵呵哈哈哈";
+        response.job = job;
+        return mysqlMapper.getMapperIgnore(response, "江南七怪", "mingyangsky@foxmail.com");
     }
 }

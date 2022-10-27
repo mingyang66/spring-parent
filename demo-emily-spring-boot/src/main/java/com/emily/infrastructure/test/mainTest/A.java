@@ -1,13 +1,9 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.test.po.sensitive.Person;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,19 +15,7 @@ import java.util.Objects;
  */
 public class A {
     public static void main(String[] args) {
-        String s = JSONUtils.toJSONString("1");
-        System.out.println(toObj(null));
-        System.out.println(toObj(""));
-        System.out.println(toObj(" "));
-        System.out.println(toObj("12"));
-        Map d = Maps.newHashMap();
-        d.put("a", "b");
-        System.out.println(toObj(d, "a"));
-        List list = Lists.newArrayList("12", "12");
-        System.out.println(toObj(list));
-        Person p = new Person();
-        p.setUsername("郭靖");
-        System.out.println(toObj(p));
+
     }
 
     private static Object toObj(Object o, String... field) {

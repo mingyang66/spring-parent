@@ -1,6 +1,7 @@
 package com.emily.infrastructure.core.entity;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.google.common.collect.Maps;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -54,7 +55,7 @@ public class BaseLogger implements Serializable {
     /**
      * 请求参数
      */
-    private Map<String, Object> requestParams;
+    private Map<String, Object> requestParams = Maps.newHashMap();
     /**
      * 触发时间
      */

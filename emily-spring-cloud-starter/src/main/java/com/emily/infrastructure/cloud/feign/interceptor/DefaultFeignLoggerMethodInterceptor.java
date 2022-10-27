@@ -2,6 +2,7 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -59,13 +60,8 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
         } finally {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.current();
-            Map<String, Object> requestParams = baseLogger.getRequestParams();
-            if (Objects.isNull(requestParams)) {
-                requestParams = Maps.newHashMap();
-            }
-            requestParams.put("params", RequestHelper.getMethodArgs(invocation));
-
-            baseLogger.setRequestParams(requestParams);
+            //请求参数
+            baseLogger.getRequestParams().put(AttributeInfo.PARAMS, RequestHelper.getMethodArgs(invocation));
             //客户端IP
             baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
             //服务端IP

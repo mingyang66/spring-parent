@@ -1,6 +1,7 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
@@ -42,25 +43,9 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求url
         baseLogger.setUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
         //请求参数
-        baseLogger.setRequestParams(transToMap(template));
+        baseLogger.getRequestParams().put(AttributeInfo.HEADERS, template.headers());
         // 将日志信息放入请求对象
         FeignContextHolder.bind(baseLogger);
-    }
-
-    /**
-     * 参数转换
-     */
-    private Map<String, Object> transToMap(RequestTemplate template) {
-        Map<String, Object> paramsMap = Maps.newHashMap();
-        try {
-            paramsMap.put("headers", template.headers());
-            /*if (Objects.nonNull(template.body())) {
-                paramsMap.put("params", JSONUtils.toJavaBean(new String(template.body(), StandardCharsets.UTF_8), Map.class));
-            }*/
-        } catch (Exception e) {
-            // Get请求模式会转换异常，忽略，只取header
-        }
-        return paramsMap;
     }
 
     @Override

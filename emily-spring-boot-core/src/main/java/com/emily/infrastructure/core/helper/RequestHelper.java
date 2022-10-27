@@ -229,6 +229,7 @@ public class RequestHelper {
         } else if (value instanceof HttpServletResponse) {
             return true;
         } else if (value instanceof InputStreamSource) {
+            //MultipartFile是InputStreamSource的实现类
             return true;
         } else {
             return false;

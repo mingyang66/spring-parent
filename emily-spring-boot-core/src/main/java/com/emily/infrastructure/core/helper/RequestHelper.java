@@ -95,7 +95,9 @@ public class RequestHelper {
         Enumeration<String> names = request.getParameterNames();
         while (names.hasMoreElements()) {
             String key = names.nextElement();
-            paramMap.put(key, request.getParameter(key));
+            if (!paramMap.containsKey(key)) {
+                paramMap.put(key, request.getParameter(key));
+            }
         }
         return paramMap;
     }

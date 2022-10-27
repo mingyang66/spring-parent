@@ -74,7 +74,7 @@ public class JsonIgnoreController {
     }
 
     @GetMapping("test4")
-    public String test4(String name, @JsonIgnore @RequestParam("phone") String phone, @JsonIgnore(type = SensitiveType.USERNAME) @RequestParam String username) {
+    public String test4(String name, @JsonIgnore @RequestParam("phone") String phone, @JsonIgnore(SensitiveType.USERNAME) @RequestParam String username) {
         return phone + "-" + username;
     }
     @Autowired

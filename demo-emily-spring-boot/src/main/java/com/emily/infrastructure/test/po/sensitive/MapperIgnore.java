@@ -9,7 +9,7 @@ import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
  * @CreateDate :  Created in 2022/10/27 2:51 下午
  */
 public class MapperIgnore {
-    @JsonIgnore(type = SensitiveType.USERNAME)
+    @JsonIgnore(SensitiveType.USERNAME)
     private String id;
 
     private String total;

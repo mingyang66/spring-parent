@@ -256,21 +256,21 @@ public class SensitiveUtils {
      * @return
      */
     public static String sensitiveField(JsonIgnore ignore, String fieldValue) {
-        if (!ignore.value() || StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
+        if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
             return fieldValue;
         }
 
-        if (SensitiveType.MOBILE_PHONE.equals(ignore.type())) {
+        if (SensitiveType.MOBILE_PHONE.equals(ignore.value())) {
             return mobilePhone(fieldValue);
-        } else if (SensitiveType.FIXED_PHONE.equals(ignore.type())) {
+        } else if (SensitiveType.FIXED_PHONE.equals(ignore.value())) {
             return fixedPhone(fieldValue);
-        } else if (SensitiveType.ID_CARD.equals(ignore.type())) {
+        } else if (SensitiveType.ID_CARD.equals(ignore.value())) {
             return idCardNum(fieldValue);
-        } else if (SensitiveType.BANK_CARD.equals(ignore.type())) {
+        } else if (SensitiveType.BANK_CARD.equals(ignore.value())) {
             return bankCard(fieldValue);
-        } else if (SensitiveType.EMAIL.equals(ignore.type())) {
+        } else if (SensitiveType.EMAIL.equals(ignore.value())) {
             return email(fieldValue);
-        } else if (SensitiveType.USERNAME.equals(ignore.type())) {
+        } else if (SensitiveType.USERNAME.equals(ignore.value())) {
             return chineseName(fieldValue);
         } else {
             return AttributeInfo.PLACE_HOLDER;

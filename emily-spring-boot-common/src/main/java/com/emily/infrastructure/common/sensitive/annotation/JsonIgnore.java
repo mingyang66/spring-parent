@@ -15,7 +15,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsonIgnore {
-    boolean value() default true;
-
-    SensitiveType type() default SensitiveType.DEFAULT;
+    SensitiveType value() default SensitiveType.DEFAULT;
 }

@@ -11,19 +11,19 @@ import java.util.Map;
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
 public class JsonRequest {
-    @JsonIgnore(type = SensitiveType.USERNAME)
+    @JsonIgnore(SensitiveType.USERNAME)
     private String username;
     @JsonIgnore
     private String password;
-    @JsonIgnore(type = SensitiveType.EMAIL)
+    @JsonIgnore(SensitiveType.EMAIL)
     private String email;
-    @JsonIgnore(type = SensitiveType.ID_CARD)
+    @JsonIgnore(SensitiveType.ID_CARD)
     private String idCard;
-    @JsonIgnore(type = SensitiveType.BANK_CARD)
+    @JsonIgnore(SensitiveType.BANK_CARD)
     private String bankCard;
-    @JsonIgnore(type = SensitiveType.MOBILE_PHONE)
+    @JsonIgnore(SensitiveType.MOBILE_PHONE)
     private String phone;
-    @JsonIgnore(type = SensitiveType.FIXED_PHONE)
+    @JsonIgnore(SensitiveType.FIXED_PHONE)
     private String mobile;
     private Job job;
     private Map<String, Object> work;
@@ -101,9 +101,9 @@ public class JsonRequest {
     }
 
     public static class Job {
-        @JsonIgnore(type = SensitiveType.DEFAULT)
+        @JsonIgnore(SensitiveType.DEFAULT)
         private String work;
-        @JsonIgnore(type = SensitiveType.EMAIL)
+        @JsonIgnore(SensitiveType.EMAIL)
         private String email;
 
         public String getWork() {

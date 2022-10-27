@@ -40,5 +40,5 @@ public interface MysqlMapper {
     void insertMysql(String schedName, String lockName);
 
     @TargetDataSource(value = "mysql")
-    MapperIgnore getMapperIgnore(PubResponse response, @JsonIgnore String username, @JsonIgnore(type = SensitiveType.EMAIL) String email);
+    MapperIgnore getMapperIgnore(PubResponse response, @JsonIgnore String username, @JsonIgnore(SensitiveType.EMAIL) String email);
 }

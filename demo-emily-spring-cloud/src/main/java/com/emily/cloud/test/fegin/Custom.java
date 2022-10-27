@@ -11,7 +11,7 @@ import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 public class Custom {
     @JsonIgnore
     private String username;
-    @JsonIgnore(type = SensitiveType.EMAIL)
+    @JsonIgnore(SensitiveType.EMAIL)
     private String email;
 
     public String getUsername() {

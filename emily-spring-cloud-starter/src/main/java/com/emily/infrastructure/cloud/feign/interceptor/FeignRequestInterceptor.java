@@ -54,9 +54,9 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         Map<String, Object> paramsMap = Maps.newHashMap();
         try {
             paramsMap.put("headers", template.headers());
-            if (Objects.nonNull(template.body())) {
+            /*if (Objects.nonNull(template.body())) {
                 paramsMap.put("params", JSONUtils.toJavaBean(new String(template.body(), StandardCharsets.UTF_8), Map.class));
-            }
+            }*/
         } catch (Exception e) {
             // Get请求模式会转换异常，忽略，只取header
         }

@@ -1,13 +1,14 @@
 package com.emily.cloud.test.fegin.controller;
 
+import com.emily.cloud.test.fegin.Custom;
 import com.emily.cloud.test.fegin.handler.CustomFeignHandler;
 import com.emily.cloud.test.fegin.handler.DefaultFeignHandler;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,9 +32,12 @@ public class FeignCustomController {
     }
 
     @GetMapping("getCustom")
-    public BaseResponse<String> getCustom(HttpServletRequest request) {
+    public BaseResponse<Custom> getCustom(HttpServletRequest request) {
         int timeout = NumberUtils.toInt(request.getParameter("timeout"), 0);
-        return customFeignHandler.getCustom(timeout);
+        Custom custom = new Custom();
+        custom.setEmail("laobai@foxmail.com");
+        custom.setUsername("化峥");
+        return customFeignHandler.getCustom(custom);
     }
 
 
@@ -43,9 +47,11 @@ public class FeignCustomController {
         return "默认";
     }
 
-    @GetMapping("custom")
-    public String custom(int timeout) throws InterruptedException {
-        Thread.sleep(timeout);
-        return "自定义";
+    @PostMapping("custom")
+    public Custom custom(@RequestBody Custom custom1) throws InterruptedException {
+        Custom custom = new Custom();
+        custom.setUsername("柯镇恶");
+        custom.setEmail("kezhene@foxmail.com");
+        return custom;
     }
 }

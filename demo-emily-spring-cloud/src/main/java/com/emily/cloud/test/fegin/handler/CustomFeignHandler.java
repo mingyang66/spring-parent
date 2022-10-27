@@ -1,8 +1,12 @@
 package com.emily.cloud.test.fegin.handler;
 
+import com.emily.cloud.test.fegin.Custom;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -15,6 +19,6 @@ public interface CustomFeignHandler {
     /**
      * 自定义超时请求
      */
-    @GetMapping("custom")
-    BaseResponse<String> getCustom(@RequestParam("timeout") int timeout);
+    @PostMapping("custom")
+    BaseResponse<Custom> getCustom(Custom custom);
 }

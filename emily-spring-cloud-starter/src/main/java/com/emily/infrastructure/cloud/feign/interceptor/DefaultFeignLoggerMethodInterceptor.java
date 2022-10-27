@@ -5,17 +5,22 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
+import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
+import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Emily
@@ -54,6 +59,13 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
         } finally {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.current();
+            Map<String, Object> requestParams = baseLogger.getRequestParams();
+            if (Objects.isNull(requestParams)) {
+                requestParams = Maps.newHashMap();
+            }
+            requestParams.put("params", RequestHelper.getMethodArgs(invocation));
+
+            baseLogger.setRequestParams(requestParams);
             //客户端IP
             baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
             //服务端IP
@@ -67,7 +79,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
-            baseLogger.setBody(response);
+            baseLogger.setBody(SensitiveUtils.getSensitive(response));
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //删除线程上下文中的数据，防止内存溢出

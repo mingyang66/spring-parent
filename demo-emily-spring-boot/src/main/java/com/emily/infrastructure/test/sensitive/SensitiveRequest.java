@@ -1,8 +1,6 @@
 package com.emily.infrastructure.test.sensitive;
 
-import com.emily.infrastructure.common.sensitive.annotation.Sensitive;
-import com.emily.infrastructure.common.sensitive.enumeration.Logic;
-import com.emily.infrastructure.common.sensitive.enumeration.Strategy;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -13,15 +11,14 @@ import java.util.Map;
  * @CreateDate :  Created in 2022/7/20 2:43 下午
  */
 public class SensitiveRequest {
-    @Sensitive(strategy = Strategy.ENTITY, logic = Logic.ID_CARD)
     private String username;
-    @Sensitive
+    @JsonIgnore
     private String password;
-    @Sensitive
+    @JsonIgnore
     private String idCard;
-    @Sensitive
+    @JsonIgnore
     private List<Map<String, Object>> list;
-    @Sensitive
+    @JsonIgnore
     private Map<String, Object> data;
     private StrategyPo strategy;
 

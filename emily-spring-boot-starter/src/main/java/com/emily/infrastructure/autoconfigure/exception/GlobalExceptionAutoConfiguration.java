@@ -34,7 +34,7 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
      * 初始化异常多语言
      */
     @PostConstruct
-    public void init(){
+    public void init() {
         LanguageCache.bindEn("网络异常，请稍后再试", "Network exception, please try again later");
         LanguageCache.bindEn("非法方法请求", "Illegal method request");
         LanguageCache.bindEn("非法参数", "Illegal parameter");
@@ -42,6 +42,7 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
         LanguageCache.bindEn("非法访问", "Illegal access");
         LanguageCache.bindEn("非法代理", "Illegal agency");
     }
+
     /**
      * 异常抛出拦截bean初始化
      *

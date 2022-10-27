@@ -16,5 +16,5 @@ public interface CustomFeignHandler {
      * 自定义超时请求
      */
     @GetMapping("custom")
-    BaseResponse<String> getCustom(@RequestParam("timeout")  int timeout);
+    BaseResponse<String> getCustom(@RequestParam("timeout") int timeout);
 }

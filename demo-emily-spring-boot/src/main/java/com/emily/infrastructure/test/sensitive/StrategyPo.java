@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.sensitive;
 
-import com.emily.infrastructure.common.sensitive.annotation.Sensitive;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 
 /**
  * @Description :  策略
@@ -8,11 +8,11 @@ import com.emily.infrastructure.common.sensitive.annotation.Sensitive;
  * @CreateDate :  Created in 2022/7/20 5:12 下午
  */
 public class StrategyPo {
-    @Sensitive
+    @JsonIgnore
     private String name;
-    @Sensitive
+    @JsonIgnore
     private int age;
-    @Sensitive
+    @JsonIgnore
     private String address;
 
     public String getName() {

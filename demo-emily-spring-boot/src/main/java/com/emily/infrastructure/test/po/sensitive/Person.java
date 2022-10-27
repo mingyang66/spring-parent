@@ -1,8 +1,6 @@
 package com.emily.infrastructure.test.po.sensitive;
 
-import com.emily.infrastructure.common.sensitive.annotation.Sensitive;
-import com.emily.infrastructure.common.sensitive.enumeration.Logic;
-import com.emily.infrastructure.common.sensitive.enumeration.Strategy;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 
 /**
  * @Description :  脱敏测试类
@@ -10,12 +8,12 @@ import com.emily.infrastructure.common.sensitive.enumeration.Strategy;
  * @CreateDate :  Created in 2022/7/19 5:34 下午
  */
 public class Person {
-    @Sensitive(strategy = Strategy.ENTITY)
     private String username;
     /**
      * 真实姓名
      */
-    @Sensitive
+    @JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private String realName;
     /**
      * 地址
@@ -24,12 +22,11 @@ public class Person {
     /**
      * 电话号码
      */
-    @Sensitive(strategy = Strategy.ENTITY, logic = Logic.PHONE)
     private String phoneNumber;
     /**
      * 身份证号码
      */
-    @Sensitive
+    @JsonIgnore
     private String idCard;
     private int age;
     private byte b;

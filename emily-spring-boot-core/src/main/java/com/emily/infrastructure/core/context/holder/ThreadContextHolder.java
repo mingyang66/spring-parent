@@ -8,7 +8,6 @@ import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 /**
  * @Description: 全链路追踪上下文

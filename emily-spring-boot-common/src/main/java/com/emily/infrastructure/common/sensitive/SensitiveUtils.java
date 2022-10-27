@@ -1,7 +1,8 @@
 package com.emily.infrastructure.common.sensitive;
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.sensitive.annotation.Sensitive;
+import com.emily.infrastructure.common.sensitive.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -191,11 +192,11 @@ public class SensitiveUtils {
                     dataMap.put(name, null);
                     continue;
                 }
-                if (field.isAnnotationPresent(Sensitive.class)) {
+                if (field.isAnnotationPresent(JsonIgnore.class)) {
                     if (isFinal(value)) {
-                        Sensitive sensitive = field.getAnnotation(Sensitive.class);
+                        JsonIgnore ignore = field.getAnnotation(JsonIgnore.class);
                         if (value instanceof String) {
-                            dataMap.put(name, sensitive.logic().desensitizer().apply((String) value));
+                            dataMap.put(name, sensitiveField(ignore, (String) value));
                         } else {
                             dataMap.put(name, value);
                         }
@@ -245,5 +246,34 @@ public class SensitiveUtils {
             return false;
         }
 
+    }
+
+    /**
+     * 脱敏字段
+     *
+     * @param ignore
+     * @param fieldValue 字段值
+     * @return
+     */
+    public static String sensitiveField(JsonIgnore ignore, String fieldValue) {
+        if (!ignore.value() || StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
+            return fieldValue;
+        }
+
+        if (SensitiveType.MOBILE_PHONE.equals(ignore.type())) {
+            return mobilePhone(fieldValue);
+        } else if (SensitiveType.FIXED_PHONE.equals(ignore.type())) {
+            return fixedPhone(fieldValue);
+        } else if (SensitiveType.ID_CARD.equals(ignore.type())) {
+            return idCardNum(fieldValue);
+        } else if (SensitiveType.BANK_CARD.equals(ignore.type())) {
+            return bankCard(fieldValue);
+        } else if (SensitiveType.EMAIL.equals(ignore.type())) {
+            return email(fieldValue);
+        } else if (SensitiveType.USERNAME.equals(ignore.type())) {
+            return chineseName(fieldValue);
+        } else {
+            return AttributeInfo.PLACE_HOLDER;
+        }
     }
 }

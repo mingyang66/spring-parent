@@ -5,7 +5,6 @@ import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.emily.infrastructure.redis.helper.RedisDbHelper;
 import com.google.common.collect.Maps;
-import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
@@ -127,7 +126,7 @@ public class RedisController {
         String key = RedisDbHelper.getKey(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         for (int i = 0; i < 10000; i++) {
-           // stringRedisTemplate.opsForValue().bitField(key, new BitFieldSubCommands(sd));
+            // stringRedisTemplate.opsForValue().bitField(key, new BitFieldSubCommands(sd));
         }
     }
 

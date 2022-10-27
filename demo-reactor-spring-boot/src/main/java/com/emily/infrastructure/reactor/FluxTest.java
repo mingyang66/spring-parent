@@ -15,6 +15,6 @@ public class FluxTest {
         //Flux.just(1,2,3,4,5,6).subscribe(a-> System.out.println(a));
         //Mono.just(1).subscribe(t-> System.out.println(t),(throwable)-> System.out.println("error"), ()-> System.out.println("Completed"));
         //Flux.range(1,6).map(i -> i*i).subscribe(i-> System.out.println(i));
-        Flux.just("flux", "mono").flatMap(s->Flux.fromArray(s.split("\\s*"))).delayElements(Duration.ofMillis(100)).doOnNext(s-> System.out.println(s));
+        Flux.just("flux", "mono").flatMap(s -> Flux.fromArray(s.split("\\s*"))).delayElements(Duration.ofMillis(100)).doOnNext(s -> System.out.println(s));
     }
 }

@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,27 +69,16 @@ public class RequestHelper {
      */
     private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
+        // 获取请求头
+        paramMap.put(AttributeInfo.HEADERS, getHeaders(request));
         if (Objects.isNull(invocation)) {
             if (request instanceof DelegateRequestWrapper) {
                 DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-                Map<String, Object> body = getHttpClientArgs(requestWrapper.getRequestBody());
-                if (!CollectionUtils.isEmpty(body)) {
-                    paramMap.putAll(body);
-                }
+                paramMap.put(AttributeInfo.PARAMS, getHttpClientArgs(requestWrapper.getRequestBody()));
             }
         } else {
-            paramMap.putAll(getMethodArgs(invocation));
+            paramMap.put(AttributeInfo.PARAMS, getMethodArgs(invocation));
         }
-        Enumeration<String> headerNames = request.getHeaderNames();
-        Optional.ofNullable(headerNames).ifPresent(headerName -> {
-            Map<String, Object> headers = Maps.newHashMap();
-            while (headerNames.hasMoreElements()) {
-                String name = headerNames.nextElement();
-                String value = request.getHeader(name);
-                headers.put(name, value);
-            }
-            paramMap.put(AttributeInfo.HEADERS, headers);
-        });
 
         Enumeration<String> names = request.getParameterNames();
         while (names.hasMoreElements()) {
@@ -100,6 +88,25 @@ public class RequestHelper {
             }
         }
         return paramMap;
+    }
+
+    /**
+     * 获取请求头
+     *
+     * @param request
+     * @return
+     */
+    public static Map<String, Object> getHeaders(HttpServletRequest request) {
+        Map<String, Object> headers = new LinkedHashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        Optional.ofNullable(headerNames).ifPresent(headerName -> {
+            while (headerNames.hasMoreElements()) {
+                String name = headerNames.nextElement();
+                String value = request.getHeader(name);
+                headers.put(name, value);
+            }
+        });
+        return headers;
     }
 
     /**

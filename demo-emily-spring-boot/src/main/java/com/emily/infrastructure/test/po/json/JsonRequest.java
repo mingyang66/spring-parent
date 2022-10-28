@@ -3,6 +3,7 @@ package com.emily.infrastructure.test.po.json;
 import com.emily.infrastructure.common.sensitive.JsonIgnore;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Map;
 
 /**
@@ -11,6 +12,7 @@ import java.util.Map;
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
 public class JsonRequest {
+    @NotEmpty
     @JsonIgnore(SensitiveType.USERNAME)
     private String username;
     @JsonIgnore

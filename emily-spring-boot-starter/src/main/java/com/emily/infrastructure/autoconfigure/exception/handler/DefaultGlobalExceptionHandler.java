@@ -137,7 +137,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MissingRequestValueException.class)
-    public BaseResponse requestMissingServletRequest(MissingRequestValueException e, HttpServletRequest request) {
+    public BaseResponse missingRequestValueException(MissingRequestValueException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
     }
@@ -152,7 +152,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({BindException.class})
-    public BaseResponse validModelBindException(BindException e, HttpServletRequest request) {
+    public BaseResponse bindException(BindException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
         BindingResult bindingResult = e.getBindingResult();
         if (Objects.isNull(bindingResult) || Objects.isNull(bindingResult.getFieldError())) {
@@ -166,7 +166,6 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        System.out.println(e.getMessage());
         return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
     }
 

@@ -5,20 +5,25 @@ import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
+import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -41,7 +46,7 @@ public class GlobalExceptionCustomizer {
         }
         logger.error(errorMsg);
         //记录错误日志
-        recordErrorLogger(request, errorMsg);
+        recordErrorLogger(request, ex, errorMsg);
     }
 
     /**
@@ -50,7 +55,7 @@ public class GlobalExceptionCustomizer {
      * @param request
      * @param errorMsg
      */
-    private static void recordErrorLogger(HttpServletRequest request, String errorMsg) {
+    private static void recordErrorLogger(HttpServletRequest request, Throwable ex, String errorMsg) {
         if (Objects.isNull(request)) {
             return;
         }
@@ -63,7 +68,7 @@ public class GlobalExceptionCustomizer {
 
             BaseLogger baseLogger = new BaseLogger();
             //系统编号
-            baseLogger.setSystemNumber(SystemNumberHelper.getSystemNumber());
+            baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
             //事务唯一编号
             baseLogger.setTraceId(traceId);
             //请求URL
@@ -79,7 +84,18 @@ public class GlobalExceptionCustomizer {
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求参数
-            baseLogger.setRequestParams(RequestHelper.getApiArgs(request));
+            if (ex instanceof BindException) {
+                BindingResult bindingResult = ((BindException) ex).getBindingResult();
+                if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
+                    Map<String, Object> paramMap = Maps.newHashMap();
+                    paramMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
+                    paramMap.put(AttributeInfo.PARAMS, SensitiveUtils.sensitive(bindingResult.getTarget()));
+                    baseLogger.setRequestParams(paramMap);
+                }
+            }
+            if (CollectionUtils.isEmpty(baseLogger.getRequestParams())) {
+                baseLogger.setRequestParams(RequestHelper.getApiArgs(request));
+            }
             //响应体
             baseLogger.setBody(errorMsg);
             //耗时(未处理任何逻辑)

@@ -21,9 +21,9 @@ public class PubRequest {
     public String idCard;
     @JsonIgnore(SensitiveType.BANK_CARD)
     public String bankCard;
-    @JsonIgnore(SensitiveType.MOBILE_PHONE)
+    @JsonIgnore(SensitiveType.PHONE)
     public String phone;
-    @JsonIgnore(SensitiveType.FIXED_PHONE)
+    @JsonIgnore(SensitiveType.PHONE)
     public String mobile;
     public Job job;
     public Map<String, Object> work;

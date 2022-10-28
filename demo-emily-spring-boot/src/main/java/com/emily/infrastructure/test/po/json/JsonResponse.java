@@ -21,9 +21,9 @@ public class JsonResponse {
     private String idCard;
     @JsonIgnore(SensitiveType.BANK_CARD)
     private String bankCard;
-    @JsonIgnore(SensitiveType.MOBILE_PHONE)
+    @JsonIgnore(SensitiveType.PHONE)
     private String phone;
-    @JsonIgnore(SensitiveType.FIXED_PHONE)
+    @JsonIgnore(SensitiveType.PHONE)
     private String mobile;
     private JsonRequest.Job job;
     private Map<String, Object> work;

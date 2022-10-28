@@ -68,16 +68,15 @@ public class RequestHelper {
      * @return
      */
     private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
+        //请求参数
         Map<String, Object> paramMap = new LinkedHashMap<>();
-        // 获取请求头
-        paramMap.put(AttributeInfo.HEADERS, getHeaders(request));
         if (Objects.isNull(invocation)) {
             if (request instanceof DelegateRequestWrapper) {
                 DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-                paramMap.put(AttributeInfo.PARAMS, getHttpClientArgs(requestWrapper.getRequestBody()));
+                paramMap.putAll(getHttpClientArgs(requestWrapper.getRequestBody()));
             }
         } else {
-            paramMap.put(AttributeInfo.PARAMS, getMethodArgs(invocation));
+            paramMap.putAll(getMethodArgs(invocation));
         }
 
         Enumeration<String> names = request.getParameterNames();
@@ -87,7 +86,13 @@ public class RequestHelper {
                 paramMap.put(key, request.getParameter(key));
             }
         }
-        return paramMap;
+        // 请求参数&请求头
+        Map<String, Object> dataMap = new LinkedHashMap<>();
+        // 获取请求头
+        dataMap.put(AttributeInfo.HEADERS, getHeaders(request));
+        // 参数
+        dataMap.put(AttributeInfo.PARAMS, paramMap);
+        return dataMap;
     }
 
     /**

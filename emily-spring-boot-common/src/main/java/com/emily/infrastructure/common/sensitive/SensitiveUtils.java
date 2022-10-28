@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -62,6 +64,19 @@ public class SensitiveUtils {
             return "";
         }
         return StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*");
+    }
+
+    /**
+     * 字符串中间隐藏，分四份，中间两份隐藏
+     *
+     * @param middle
+     * @return
+     */
+    public static String middle(final String middle) {
+        int length = new BigDecimal(middle.length()).divide(new BigDecimal(4), 0, RoundingMode.DOWN).intValue();
+        String leftPad = StringUtils.substring(middle, 0, length);
+        String rightPad = StringUtils.substring(middle, middle.length() - length);
+        return StringUtils.rightPad(leftPad, middle.length() - 2 * length + length, "*").concat(rightPad);
     }
 
     /**
@@ -259,14 +274,12 @@ public class SensitiveUtils {
             return fieldValue;
         }
 
-        if (SensitiveType.MOBILE_PHONE.equals(ignore.value())) {
-            return mobilePhone(fieldValue);
-        } else if (SensitiveType.FIXED_PHONE.equals(ignore.value())) {
-            return fixedPhone(fieldValue);
+        if (SensitiveType.PHONE.equals(ignore.value())) {
+            return middle(fieldValue);
         } else if (SensitiveType.ID_CARD.equals(ignore.value())) {
-            return idCardNum(fieldValue);
+            return middle(fieldValue);
         } else if (SensitiveType.BANK_CARD.equals(ignore.value())) {
-            return bankCard(fieldValue);
+            return middle(fieldValue);
         } else if (SensitiveType.EMAIL.equals(ignore.value())) {
             return email(fieldValue);
         } else if (SensitiveType.USERNAME.equals(ignore.value())) {

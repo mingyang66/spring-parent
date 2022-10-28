@@ -8,9 +8,7 @@ package com.emily.infrastructure.common.sensitive;
 public enum SensitiveType {
     DEFAULT,
     // 手机号
-    MOBILE_PHONE,
-    // 固定电话
-    FIXED_PHONE,
+    PHONE,
     // 银行卡号
     BANK_CARD,
     // 身份证号

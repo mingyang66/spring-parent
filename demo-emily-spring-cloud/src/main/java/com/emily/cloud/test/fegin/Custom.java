@@ -1,6 +1,6 @@
 package com.emily.cloud.test.fegin;
 
-import com.emily.infrastructure.common.sensitive.JsonIgnore;
+import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 /**
@@ -9,9 +9,9 @@ import com.emily.infrastructure.common.sensitive.SensitiveType;
  * @CreateDate :  Created in 2022/10/27 3:29 下午
  */
 public class Custom {
-    @JsonIgnore
+    @JsonSensitive
     private String username;
-    @JsonIgnore(SensitiveType.EMAIL)
+    @JsonSensitive(SensitiveType.EMAIL)
     private String email;
 
     public String getUsername() {

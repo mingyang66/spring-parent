@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.po.json;
 
-import com.emily.infrastructure.common.sensitive.JsonIgnore;
+import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import java.util.Map;
@@ -11,28 +11,28 @@ import java.util.Map;
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
 public class PubRequest {
-    @JsonIgnore(SensitiveType.USERNAME)
+    @JsonSensitive(SensitiveType.USERNAME)
     public String username;
-    @JsonIgnore
+    @JsonSensitive
     public String password;
-    @JsonIgnore(SensitiveType.EMAIL)
+    @JsonSensitive(SensitiveType.EMAIL)
     public String email;
-    @JsonIgnore(SensitiveType.ID_CARD)
+    @JsonSensitive(SensitiveType.ID_CARD)
     public String idCard;
-    @JsonIgnore(SensitiveType.BANK_CARD)
+    @JsonSensitive(SensitiveType.BANK_CARD)
     public String bankCard;
-    @JsonIgnore(SensitiveType.PHONE)
+    @JsonSensitive(SensitiveType.PHONE)
     public String phone;
-    @JsonIgnore(SensitiveType.PHONE)
+    @JsonSensitive(SensitiveType.PHONE)
     public String mobile;
     public Job job;
     public Map<String, Object> work;
 
 
     public static class Job {
-        @JsonIgnore(SensitiveType.DEFAULT)
+        @JsonSensitive(SensitiveType.DEFAULT)
         public String work;
-        @JsonIgnore(SensitiveType.EMAIL)
+        @JsonSensitive(SensitiveType.EMAIL)
         public String email;
 
     }

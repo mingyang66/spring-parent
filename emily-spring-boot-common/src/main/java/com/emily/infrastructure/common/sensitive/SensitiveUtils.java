@@ -206,11 +206,11 @@ public class SensitiveUtils {
                     dataMap.put(name, null);
                     continue;
                 }
-                if (field.isAnnotationPresent(JsonIgnore.class)) {
+                if (field.isAnnotationPresent(JsonSensitive.class)) {
                     if (isFinal(value)) {
-                        JsonIgnore ignore = field.getAnnotation(JsonIgnore.class);
+                        JsonSensitive sensitive = field.getAnnotation(JsonSensitive.class);
                         if (value instanceof String) {
-                            dataMap.put(name, sensitiveField(ignore, (String) value));
+                            dataMap.put(name, sensitiveField(sensitive, (String) value));
                         } else {
                             dataMap.put(name, value);
                         }
@@ -269,7 +269,7 @@ public class SensitiveUtils {
      * @param fieldValue 字段值
      * @return
      */
-    public static String sensitiveField(JsonIgnore ignore, String fieldValue) {
+    public static String sensitiveField(JsonSensitive ignore, String fieldValue) {
         if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
             return fieldValue;
         }

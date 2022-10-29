@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.po.json;
 
-import com.emily.infrastructure.common.sensitive.JsonIgnore;
+import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,19 +13,19 @@ import java.util.Map;
  */
 public class JsonRequest {
     @NotEmpty
-    @JsonIgnore(SensitiveType.USERNAME)
+    @JsonSensitive(SensitiveType.USERNAME)
     private String username;
-    @JsonIgnore
+    @JsonSensitive
     private String password;
-    @JsonIgnore(SensitiveType.EMAIL)
+    @JsonSensitive(SensitiveType.EMAIL)
     private String email;
-    @JsonIgnore(SensitiveType.ID_CARD)
+    @JsonSensitive(SensitiveType.ID_CARD)
     private String idCard;
-    @JsonIgnore(SensitiveType.BANK_CARD)
+    @JsonSensitive(SensitiveType.BANK_CARD)
     private String bankCard;
-    @JsonIgnore(SensitiveType.PHONE)
+    @JsonSensitive(SensitiveType.PHONE)
     private String phone;
-    @JsonIgnore(SensitiveType.PHONE)
+    @JsonSensitive(SensitiveType.PHONE)
     private String mobile;
     private Job job;
     private Map<String, Object> work;
@@ -103,9 +103,9 @@ public class JsonRequest {
     }
 
     public static class Job {
-        @JsonIgnore(SensitiveType.DEFAULT)
+        @JsonSensitive(SensitiveType.DEFAULT)
         private String work;
-        @JsonIgnore(SensitiveType.EMAIL)
+        @JsonSensitive(SensitiveType.EMAIL)
         private String email;
 
         public String getWork() {

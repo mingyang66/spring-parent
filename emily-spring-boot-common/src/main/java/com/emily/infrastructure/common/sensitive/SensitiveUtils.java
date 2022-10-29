@@ -265,24 +265,24 @@ public class SensitiveUtils {
     /**
      * 脱敏字段
      *
-     * @param ignore
+     * @param sensitive
      * @param fieldValue 字段值
      * @return
      */
-    public static String sensitiveField(JsonSensitive ignore, String fieldValue) {
+    public static String sensitiveField(JsonSensitive sensitive, String fieldValue) {
         if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
             return fieldValue;
         }
 
-        if (SensitiveType.PHONE.equals(ignore.value())) {
+        if (SensitiveType.PHONE.equals(sensitive.value())) {
             return middle(fieldValue);
-        } else if (SensitiveType.ID_CARD.equals(ignore.value())) {
+        } else if (SensitiveType.ID_CARD.equals(sensitive.value())) {
             return middle(fieldValue);
-        } else if (SensitiveType.BANK_CARD.equals(ignore.value())) {
+        } else if (SensitiveType.BANK_CARD.equals(sensitive.value())) {
             return middle(fieldValue);
-        } else if (SensitiveType.EMAIL.equals(ignore.value())) {
+        } else if (SensitiveType.EMAIL.equals(sensitive.value())) {
             return email(fieldValue);
-        } else if (SensitiveType.USERNAME.equals(ignore.value())) {
+        } else if (SensitiveType.USERNAME.equals(sensitive.value())) {
             return chineseName(fieldValue);
         } else {
             return AttributeInfo.PLACE_HOLDER;

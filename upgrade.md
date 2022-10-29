@@ -6,7 +6,7 @@ Bug Fixes
 2. mysql依赖包引用修改；
 3. ContextHolder更名为ThreadContextHolder；
 4. 线程上线文相关类的peek方法重命名为current;
-5. API、Mapper、Feign支持@JsonIgnore脱敏注解；
+5. API、Mapper、Feign支持@JsonSensitive脱敏注解；
 
 -----
 基础库发布4.1.5

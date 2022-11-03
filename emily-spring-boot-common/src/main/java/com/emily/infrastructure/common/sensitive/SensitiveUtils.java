@@ -153,9 +153,9 @@ public class SensitiveUtils {
         if (isFinal(entity)) {
             return entity;
         }
-        if (entity instanceof List) {
+        if (entity instanceof Collection) {
             List list = new ArrayList();
-            ((List) entity).stream().forEach(en -> {
+            ((Collection) entity).stream().forEach(en -> {
                 if (isFinal(en)) {
                     list.add(en);
                 } else {
@@ -215,9 +215,9 @@ public class SensitiveUtils {
                             dataMap.put(name, value);
                         }
                     }
-                } else if (value instanceof List) {
+                } else if (value instanceof Collection) {
                     List list = new ArrayList();
-                    ((List) value).stream().forEach(en -> {
+                    ((Collection) value).stream().forEach(en -> {
                         if (isFinal(en)) {
                             list.add(en);
                         } else {

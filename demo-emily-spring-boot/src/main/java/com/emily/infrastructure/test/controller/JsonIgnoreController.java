@@ -9,6 +9,8 @@ import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.emily.infrastructure.test.po.json.PubRequest;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +34,10 @@ public class JsonIgnoreController {
         response.setBankCard("325648956125656666");
         response.setPhone("18254452658");
         response.setMobile("1234567");
-        JsonRequest.Job job = new JsonRequest.Job();
+        JsonResponse.Job job = new JsonResponse.Job();
         job.setEmail("1393619859@qq.com");
         job.setWork("你好");
+        response.setList(Sets.newHashSet(job));
         response.setJob(job);
         return response;
     }
@@ -66,7 +69,7 @@ public class JsonIgnoreController {
         response.setBankCard("325648956125656666");
         response.setPhone("18254452658");
         response.setMobile("1234567");
-        JsonRequest.Job job = new JsonRequest.Job();
+        JsonResponse.Job job = new JsonResponse.Job();
         job.setEmail("1393619859@qq.com");
         job.setWork("你好");
         response.setJob(job);

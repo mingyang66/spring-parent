@@ -3,7 +3,9 @@ package com.emily.infrastructure.test.po.json;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Description :
@@ -25,8 +27,17 @@ public class JsonResponse {
     private String phone;
     @JsonSensitive(SensitiveType.PHONE)
     private String mobile;
-    private JsonRequest.Job job;
+    private Job job;
+    private Set<Job> list;
     private Map<String, Object> work;
+
+    public Set<Job> getList() {
+        return list;
+    }
+
+    public void setList(Set<Job> list) {
+        this.list = list;
+    }
 
     public Map<String, Object> getWork() {
         return work;
@@ -36,11 +47,11 @@ public class JsonResponse {
         this.work = work;
     }
 
-    public JsonRequest.Job getJob() {
+    public Job getJob() {
         return job;
     }
 
-    public void setJob(JsonRequest.Job job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 

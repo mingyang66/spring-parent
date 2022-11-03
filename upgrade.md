@@ -7,6 +7,7 @@ Bug Fixes
 3. ContextHolder更名为ThreadContextHolder；
 4. 线程上线文相关类的peek方法重命名为current;
 5. API、Mapper、Feign支持@JsonSensitive脱敏注解；
+6. 脱敏工具类值支持数组集合由List更改为Collection;
 
 -----
 基础库发布4.1.5

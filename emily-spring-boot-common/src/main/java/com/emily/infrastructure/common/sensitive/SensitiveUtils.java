@@ -215,6 +215,26 @@ public class SensitiveUtils {
                             dataMap.put(name, value);
                         }
                     }
+                } else if (value instanceof List) {
+                    List list = new ArrayList();
+                    ((List) value).stream().forEach(en -> {
+                        if (isFinal(en)) {
+                            list.add(en);
+                        } else {
+                            list.add(doSetField(en));
+                        }
+                    });
+                    dataMap.put(name, list);
+                } else if (value instanceof Map) {
+                    Map dMap = new HashMap();
+                    ((Map) value).forEach((k, v) -> {
+                        if (isFinal(v)) {
+                            dMap.put(k, v);
+                        } else {
+                            dMap.put(k, doSetField(v));
+                        }
+                    });
+                    dataMap.put(name, dMap);
                 } else {
                     if (isFinal(value)) {
                         dataMap.put(name, value);

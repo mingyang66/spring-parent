@@ -9,7 +9,6 @@ import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.emily.infrastructure.test.po.json.PubRequest;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +27,7 @@ import java.util.Map;
 public class JsonIgnoreController {
 
     @PostMapping("test")
-    public JsonResponse test(@Validated @RequestBody Map<String, List<JsonRequest>> request) {
+    public JsonResponse test(@Validated @RequestBody List<JsonRequest[]>[] request) {
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
         response.setUsername("条消息");

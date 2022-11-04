@@ -1,7 +1,6 @@
 package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -159,6 +158,12 @@ public class SensitiveUtils {
             ((Collection) entity).stream().forEach(en -> {
                 if (isFinal(en)) {
                     list.add(en);
+                } else if (en instanceof Map) {
+                    list.add(sensitive(en));
+                } else if (en instanceof Collection) {
+                    list.add(sensitive(en));
+                } else if (en.getClass().isArray()) {
+                    list.add(sensitive(en));
                 } else {
                     list.add(doSetField(en));
                 }
@@ -169,13 +174,35 @@ public class SensitiveUtils {
             ((Map) entity).forEach((k, v) -> {
                 if (isFinal(v)) {
                     dMap.put(k, v);
+                } else if (v instanceof Collection) {
+                    dMap.put(k, sensitive(v));
+                } else if (v instanceof Map) {
+                    dMap.put(k, sensitive(v));
+                } else if (v.getClass().isArray()) {
+                    dMap.put(k, sensitive(v));
                 } else {
                     dMap.put(k, doSetField(v));
                 }
             });
             return dMap;
         } else if (entity.getClass().isArray()) {
-            return toArray(entity);
+            Object[] v = (Object[]) entity;
+            Object[] t = new Object[v.length];
+            for (int i = 0; i < t.length; i++) {
+                Object o = v[i];
+                if (isFinal(o)) {
+                    t[i] = o;
+                } else if (o instanceof Collection) {
+                    t[i] = sensitive(o);
+                } else if (o instanceof Map) {
+                    t[i] = sensitive(o);
+                } else if (o.getClass().isArray()) {
+                    t[i] = sensitive(o);
+                } else {
+                    t[i] = doSetField(o);
+                }
+            }
+            return t;
         }
 
         return doSetField(entity);
@@ -224,7 +251,7 @@ public class SensitiveUtils {
                         if (isFinal(en)) {
                             list.add(en);
                         } else {
-                            list.add(doSetField(en));
+                            list.add(sensitive(en));
                         }
                     });
                     dataMap.put(name, list);
@@ -234,17 +261,17 @@ public class SensitiveUtils {
                         if (isFinal(v)) {
                             dMap.put(k, v);
                         } else {
-                            dMap.put(k, doSetField(v));
+                            dMap.put(k, sensitive(v));
                         }
                     });
                     dataMap.put(name, dMap);
                 } else if (value.getClass().isArray()) {
-                    dataMap.put(name, toArray(value));
+                    dataMap.put(name, sensitive(value));
                 } else {
                     if (isFinal(value)) {
                         dataMap.put(name, value);
                     } else {
-                        dataMap.put(name, doSetField(value));
+                        dataMap.put(name, sensitive(value));
                     }
                 }
             }
@@ -252,29 +279,6 @@ public class SensitiveUtils {
             logger.error(PrintExceptionInfo.printErrorInfo(ex));
         }
         return dataMap;
-    }
-
-    /**
-     * 数组对象转换为数组
-     *
-     * @param value
-     * @return
-     */
-    private static Object[] toArray(Object value) {
-        if (!value.getClass().isArray()) {
-            throw new IllegalArgumentException(AppHttpStatus.ILLEGAL_ARGUMENT.getMessage());
-        }
-        Object[] values = (Object[]) value;
-        Object[] tValues = new Object[values.length];
-        for (int i = 0; i < tValues.length; i++) {
-            Object v = values[i];
-            if (isFinal(v)) {
-                tValues[i] = v;
-            } else {
-                tValues[i] = doSetField(v);
-            }
-        }
-        return tValues;
     }
 
     /**
@@ -303,6 +307,8 @@ public class SensitiveUtils {
         } else if (value instanceof Boolean) {
             return true;
         } else if (value instanceof Character) {
+            return true;
+        } else if (value instanceof BigDecimal) {
             return true;
         } else {
             return false;

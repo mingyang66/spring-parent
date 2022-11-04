@@ -9,6 +9,23 @@ Bug Fixes
 5. API、Mapper、Feign支持@JsonSensitive脱敏注解；
 6. 脱敏工具类值支持数组集合由List更改为Collection;
 7. 脱敏工具类支持数组类型，如：Object[];
+8. 脱敏工具类支持BigDecimal类型转换，上一版本不支持；
+9. 脱敏工具类支持各种复杂的类型转换，实例如下（Persion为实体类型）：
+
+- List<Persion>
+- List<Persion[]>
+- List<Map<String, Persion>>
+- List<Map<String, Persion[]>>
+- List<Map<String, List<Persion>>>
+- List<Map<String, List<Persion[]>>>
+- Map<String, Persion>
+- Map<String, List<Persion>>
+- Map<String, List<Persion[]>>
+- Map<String,Map<String, Persion>>
+- Set集合相关组合
+- 支持所有Collection、Map、数组各种变体类型
+- 其中Persion实体类内部支持以上各种复杂集合组合类型；
+
 
 -----
 基础库发布4.1.5

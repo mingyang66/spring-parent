@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -27,8 +28,35 @@ public class JsonRequest {
     private String phone;
     @JsonSensitive(SensitiveType.PHONE)
     private String mobile;
+    private int zs;
+    private char c = 1;
+    private BigDecimal d = new BigDecimal(4);
     private Job job;
     private Map<String, Object> work;
+
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
+
+    public int getZs() {
+        return zs;
+    }
+
+    public void setZs(int zs) {
+        this.zs = zs;
+    }
+
+    public BigDecimal getD() {
+        return d;
+    }
+
+    public void setD(BigDecimal d) {
+        this.d = d;
+    }
 
     public Map<String, Object> getWork() {
         return work;

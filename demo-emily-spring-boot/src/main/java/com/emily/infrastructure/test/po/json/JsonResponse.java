@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.po.json;
 
+import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.JsonSerialize;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
@@ -32,7 +33,16 @@ public class JsonResponse {
     private Job job;
     private Job[] jobs;
     private Set<Job> list;
+    private DateFormat dateFormat;
     private Map<String, Object> work;
+
+    public DateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(DateFormat dateFormat) {
+        this.dateFormat = dateFormat;
+    }
 
     public Job[] getJobs() {
         return jobs;

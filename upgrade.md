@@ -27,6 +27,7 @@ Bug Fixes
 - 其中Persion实体类内部支持以上各种复杂集合组合类型；
 10. 新增注解@JsonSerialize，只能标注在实体类上，只有标注了此注解脱敏注解@JsonSensitive才会生效，默认只脱敏实体类一层，如需脱敏嵌套层则将include属性设置为true;
 使用示例如下：
+11. 脱敏工具类中将实体类中的枚举类型标记为最终类型，减少冗余处理逻辑；
 
 > ```java
 > @JsonSerialize(include = false)

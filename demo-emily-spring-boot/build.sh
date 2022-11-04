@@ -56,6 +56,6 @@ fi
   -p ${managementPort}:9443 \
   -v /Users/yaomingyang/Documents/IDE/workplace-java/logs/emilyframework:/app/logs \
   -e SW_AGENT_NAME=demo-emily-spring-boot \
-  -e SW_AGENT_COLLECTOR_BACKEND_SERVICES=172.30.71.95:11800 \
+  -e SW_AGENT_COLLECTOR_BACKEND_SERVICES=127.0.0.1:11800 \
   emilyframework:${VERSION}
   echo '容器创建成功...'

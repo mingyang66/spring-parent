@@ -347,7 +347,7 @@ public class SensitiveUtils {
             return true;
         } else if (value instanceof Character) {
             return true;
-        } else if (value instanceof BigDecimal) {
+        } else if (value instanceof Number) {
             return true;
         } else if (value.getClass().isEnum()) {
             return true;

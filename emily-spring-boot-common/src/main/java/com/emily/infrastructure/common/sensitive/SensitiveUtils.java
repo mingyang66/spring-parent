@@ -150,6 +150,16 @@ public class SensitiveUtils {
      * @return
      */
     public static Object sensitive(Object entity) {
+        return sensitive(entity, null);
+    }
+
+    /**
+     * 获取实体类对象脱敏后的对象
+     *
+     * @param entity 需要脱敏的实体类对象
+     * @return
+     */
+    private static Object sensitive(Object entity, Boolean include) {
         if (isFinal(entity)) {
             return entity;
         }
@@ -159,13 +169,13 @@ public class SensitiveUtils {
                 if (isFinal(en)) {
                     list.add(en);
                 } else if (en instanceof Map) {
-                    list.add(sensitive(en));
+                    list.add(sensitive(en, include));
                 } else if (en instanceof Collection) {
-                    list.add(sensitive(en));
+                    list.add(sensitive(en, include));
                 } else if (en.getClass().isArray()) {
-                    list.add(sensitive(en));
+                    list.add(sensitive(en, include));
                 } else {
-                    list.add(doSetField(en));
+                    list.add(doSetField(en, include));
                 }
             });
             return list;
@@ -175,13 +185,13 @@ public class SensitiveUtils {
                 if (isFinal(v)) {
                     dMap.put(k, v);
                 } else if (v instanceof Collection) {
-                    dMap.put(k, sensitive(v));
+                    dMap.put(k, sensitive(v, include));
                 } else if (v instanceof Map) {
-                    dMap.put(k, sensitive(v));
+                    dMap.put(k, sensitive(v, include));
                 } else if (v.getClass().isArray()) {
-                    dMap.put(k, sensitive(v));
+                    dMap.put(k, sensitive(v, include));
                 } else {
-                    dMap.put(k, doSetField(v));
+                    dMap.put(k, doSetField(v, include));
                 }
             });
             return dMap;
@@ -193,19 +203,24 @@ public class SensitiveUtils {
                 if (isFinal(o)) {
                     t[i] = o;
                 } else if (o instanceof Collection) {
-                    t[i] = sensitive(o);
+                    t[i] = sensitive(o, include);
                 } else if (o instanceof Map) {
-                    t[i] = sensitive(o);
+                    t[i] = sensitive(o, include);
                 } else if (o.getClass().isArray()) {
-                    t[i] = sensitive(o);
+                    t[i] = sensitive(o, include);
                 } else {
-                    t[i] = doSetField(o);
+                    t[i] = doSetField(o, include);
                 }
             }
             return t;
         }
-
-        return doSetField(entity);
+        if (entity.getClass().isAnnotationPresent(JsonSerialize.class)) {
+            return doSetField(entity, entity.getClass().getAnnotation(JsonSerialize.class).include());
+        } else if (isInclude(include)) {
+            return doSetField(entity, Boolean.TRUE);
+        } else {
+            return entity;
+        }
     }
 
     /**
@@ -214,7 +229,7 @@ public class SensitiveUtils {
      * @param entity 需要脱敏的实体类对象
      * @return
      */
-    private static Map<String, Object> doSetField(Object entity) {
+    private static Map<String, Object> doSetField(Object entity, Boolean include) {
         Map<String, Object> dataMap = Maps.newHashMap();
         try {
             Field[] fields = entity.getClass().getDeclaredFields();
@@ -250,8 +265,10 @@ public class SensitiveUtils {
                     ((Collection) value).stream().forEach(en -> {
                         if (isFinal(en)) {
                             list.add(en);
+                        } else if (isInclude(include)) {
+                            list.add(sensitive(en, Boolean.TRUE));
                         } else {
-                            list.add(sensitive(en));
+                            list.add(en);
                         }
                     });
                     dataMap.put(name, list);
@@ -260,18 +277,26 @@ public class SensitiveUtils {
                     ((Map) value).forEach((k, v) -> {
                         if (isFinal(v)) {
                             dMap.put(k, v);
+                        } else if (isInclude(include)) {
+                            dMap.put(k, sensitive(v, Boolean.TRUE));
                         } else {
-                            dMap.put(k, sensitive(v));
+                            dMap.put(k, v);
                         }
                     });
                     dataMap.put(name, dMap);
                 } else if (value.getClass().isArray()) {
-                    dataMap.put(name, sensitive(value));
+                    if (isInclude(include)) {
+                        dataMap.put(name, sensitive(value, Boolean.TRUE));
+                    } else {
+                        dataMap.put(name, value);
+                    }
                 } else {
                     if (isFinal(value)) {
                         dataMap.put(name, value);
+                    } else if (isInclude(include)) {
+                        dataMap.put(name, sensitive(value, Boolean.TRUE));
                     } else {
-                        dataMap.put(name, sensitive(value));
+                        dataMap.put(name, value);
                     }
                 }
             }
@@ -279,6 +304,19 @@ public class SensitiveUtils {
             logger.error(PrintExceptionInfo.printErrorInfo(ex));
         }
         return dataMap;
+    }
+
+    /**
+     * 判定是否包含
+     *
+     * @param include
+     * @return
+     */
+    private static boolean isInclude(Boolean include) {
+        if (Objects.nonNull(include) && include) {
+            return true;
+        }
+        return false;
     }
 
     /**

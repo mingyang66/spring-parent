@@ -25,11 +25,23 @@ Bug Fixes
 - Set集合相关组合
 - 支持所有Collection、Map、数组各种变体类型
 - 其中Persion实体类内部支持以上各种复杂集合组合类型；
+10. 新增注解@JsonSerialize，只能标注在实体类上，只有标注了此注解脱敏注解@JsonSensitive才会生效，默认只脱敏实体类一层，如需脱敏嵌套层则将include属性设置为true;
+使用示例如下：
+
+> ```java
+> @JsonSerialize(include = false)
+> public class JsonResponse {
+>     @JsonSensitive(SensitiveType.USERNAME)
+>     private String username;
+> ```
+
+
 
 
 -----
 基础库发布4.1.5
 Bug Fixes
+
 1. 日志记录支持header中传递appType、appVersion；
 2. 优化阶段标识及ContextHolder类；
 3. DelegateRequestWrapper类引入IOUtils类优化；

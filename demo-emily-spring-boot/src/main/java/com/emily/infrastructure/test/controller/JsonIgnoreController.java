@@ -9,6 +9,7 @@ import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.emily.infrastructure.test.po.json.PubRequest;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class JsonIgnoreController {
 
     @PostMapping("test")
+    @JsonSerialize
     public JsonResponse test(@Validated @RequestBody List<JsonRequest[]>[] request) {
         JsonResponse response = new JsonResponse();
         response.setPassword("123");

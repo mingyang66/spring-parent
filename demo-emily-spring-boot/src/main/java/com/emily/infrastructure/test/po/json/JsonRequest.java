@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.po.json;
 
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
+import com.emily.infrastructure.common.sensitive.JsonSerialize;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +13,7 @@ import java.util.Map;
  * @Author :  姚明洋
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
+@JsonSerialize(include = false)
 public class JsonRequest {
     @NotEmpty
     @JsonSensitive(SensitiveType.USERNAME)

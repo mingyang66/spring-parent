@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 /**
  * @Description :
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 2:51 下午
  */
 public class MapperIgnore {

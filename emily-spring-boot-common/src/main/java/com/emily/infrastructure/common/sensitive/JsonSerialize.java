@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * @Description :  Json脱敏标记，必须指定此标记，否则脱敏无效
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/4 11:23 上午
  */
 @Target({ElementType.TYPE})

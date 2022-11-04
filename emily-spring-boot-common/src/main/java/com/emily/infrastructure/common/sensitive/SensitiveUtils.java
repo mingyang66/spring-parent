@@ -156,7 +156,8 @@ public class SensitiveUtils {
     /**
      * 获取实体类对象脱敏后的对象
      *
-     * @param entity 需要脱敏的实体类对象
+     * @param entity  需要脱敏的实体类对象
+     * @param include 是否脱敏嵌套类，默认：null
      * @return
      */
     private static Object sensitive(Object entity, Boolean include) {

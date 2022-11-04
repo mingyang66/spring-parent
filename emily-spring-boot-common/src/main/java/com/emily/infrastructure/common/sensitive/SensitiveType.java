@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.sensitive;
 
 /**
  * @Description :  脱敏类型
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:03 上午
  */
 public enum SensitiveType {

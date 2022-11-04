@@ -28,8 +28,17 @@ public class JsonResponse {
     @JsonSensitive(SensitiveType.PHONE)
     private String mobile;
     private Job job;
+    private Job[] jobs;
     private Set<Job> list;
     private Map<String, Object> work;
+
+    public Job[] getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Job[] jobs) {
+        this.jobs = jobs;
+    }
 
     public Set<Job> getList() {
         return list;

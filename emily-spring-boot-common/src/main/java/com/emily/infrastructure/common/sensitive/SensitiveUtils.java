@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
+import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -173,6 +174,8 @@ public class SensitiveUtils {
                 }
             });
             return dMap;
+        } else if (entity.getClass().isArray()) {
+            return toArray(entity);
         }
 
         return doSetField(entity);
@@ -235,6 +238,8 @@ public class SensitiveUtils {
                         }
                     });
                     dataMap.put(name, dMap);
+                } else if (value.getClass().isArray()) {
+                    dataMap.put(name, toArray(value));
                 } else {
                     if (isFinal(value)) {
                         dataMap.put(name, value);
@@ -247,6 +252,29 @@ public class SensitiveUtils {
             logger.error(PrintExceptionInfo.printErrorInfo(ex));
         }
         return dataMap;
+    }
+
+    /**
+     * 数组对象转换为数组
+     *
+     * @param value
+     * @return
+     */
+    private static Object[] toArray(Object value) {
+        if (!value.getClass().isArray()) {
+            throw new IllegalArgumentException(AppHttpStatus.ILLEGAL_ARGUMENT.getMessage());
+        }
+        Object[] values = (Object[]) value;
+        Object[] tValues = new Object[values.length];
+        for (int i = 0; i < tValues.length; i++) {
+            Object v = values[i];
+            if (isFinal(v)) {
+                tValues[i] = v;
+            } else {
+                tValues[i] = doSetField(v);
+            }
+        }
+        return tValues;
     }
 
     /**

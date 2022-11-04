@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Description :
  * @Author :  姚明洋
@@ -25,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class JsonIgnoreController {
 
     @PostMapping("test")
-    public JsonResponse test(@Validated @RequestBody JsonRequest request) {
+    public JsonResponse test(@Validated @RequestBody Map<String, List<JsonRequest>> request) {
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
         response.setUsername("条消息");
@@ -37,6 +40,7 @@ public class JsonIgnoreController {
         JsonResponse.Job job = new JsonResponse.Job();
         job.setEmail("1393619859@qq.com");
         job.setWork("你好");
+        response.setJobs(new JsonResponse.Job[]{job, job});
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
         return response;

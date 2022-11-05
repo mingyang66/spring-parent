@@ -145,11 +145,37 @@ public class SensitiveUtils {
 
     /**
      * 获取实体类对象脱敏后的对象
-     *
-     * @param entity 需要脱敏的实体类对象
+     * @Description 使用示例：
+     * <pre>
+     * @JsonSerialize(include = false)
+     * public class JsonRequest {
+     *     @NotEmpty
+     *     @JsonSensitive(SensitiveType.USERNAME)
+     *     private String username;
+     *     @JsonSensitive
+     *     private String password;
+     *     @JsonSensitive(SensitiveType.EMAIL)
+     *     private String email;
+     *     @JsonSensitive(SensitiveType.ID_CARD)
+     *     private String idCard;
+     *     @JsonSensitive(SensitiveType.BANK_CARD)
+     *     private String bankCard;
+     *     @JsonSensitive(SensitiveType.PHONE)
+     *     private String phone;
+     *     @JsonSensitive(SensitiveType.PHONE)
+     *     private String mobile;
+     * </pre>
+     * 支持如下模式：
+     * Map<String, JsonRequest></>
+     * List<JsonRequest></>
+     * JsonRequest[]
+     * Map<String, Map<String, JsonRequest></>></>
+     * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
+     * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @return
      */
     public static Object sensitive(Object entity) {
+
         return sensitive(entity, null);
     }
 

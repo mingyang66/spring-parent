@@ -13,5 +13,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsonSensitive {
+    /**
+     * 脱敏类型，见枚举类型{@link SensitiveType}
+     * @return
+     */
     SensitiveType value() default SensitiveType.DEFAULT;
 }

@@ -208,7 +208,7 @@ public class SensitiveUtils {
         } else if (entity.getClass().isArray()) {
             Object[] v = (Object[]) entity;
             Object[] t = new Object[v.length];
-            for (int i = 0; i < t.length; i++) {
+            for (int i = 0; i < v.length; i++) {
                 t[i] = doGetEntity(v[i], include);
             }
             return t;

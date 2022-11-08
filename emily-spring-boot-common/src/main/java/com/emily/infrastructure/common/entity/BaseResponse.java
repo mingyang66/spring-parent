@@ -2,6 +2,7 @@ package com.emily.infrastructure.common.entity;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.i18n.LanguageCache;
+import com.emily.infrastructure.common.utils.RequestUtils;
 
 import java.io.Serializable;
 
@@ -76,7 +77,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message) {
-        return new BaseResponse<T>(status, message, null, 0);
+        return new BaseResponse<T>(status, message, null, RequestUtils.getSpentTime());
     }
 
     /**
@@ -85,7 +86,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(int status, String message, T data) {
-        return new BaseResponse<T>(status, message, data, 0);
+        return new BaseResponse<T>(status, message, data, RequestUtils.getSpentTime());
     }
 
     /**
@@ -94,7 +95,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, 0);
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestUtils.getSpentTime());
     }
 
     /**
@@ -103,7 +104,7 @@ public class BaseResponse<T> implements Serializable {
      * @Version 1.0
      */
     public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, 0);
+        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestUtils.getSpentTime());
     }
 
     /**
@@ -114,6 +115,6 @@ public class BaseResponse<T> implements Serializable {
      * @return
      */
     public static <T> BaseResponse<T> buildResponse(T data) {
-        return new BaseResponse<>(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data, 0);
+        return new BaseResponse<>(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data, RequestUtils.getSpentTime());
     }
 }

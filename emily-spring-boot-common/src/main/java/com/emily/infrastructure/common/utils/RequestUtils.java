@@ -1,5 +1,6 @@
 package com.emily.infrastructure.common.utils;
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -171,5 +173,21 @@ public class RequestUtils {
 
     public static void setServerIp(String serverIp) {
         SERVER_IP = serverIp;
+    }
+
+    /**
+     * 获取耗时字段
+     *
+     * @return
+     */
+    public static long getSpentTime() {
+        if (!RequestUtils.isServletContext()) {
+            return 0L;
+        }
+        Object time = RequestUtils.getRequest().getAttribute(AttributeInfo.TIME);
+        if (Objects.nonNull(time)) {
+            return Long.valueOf(String.valueOf(time));
+        }
+        return 0L;
     }
 }

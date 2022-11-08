@@ -99,7 +99,7 @@ public class GlobalExceptionCustomizer {
             //响应体
             baseLogger.setBody(errorMsg);
             //耗时(未处理任何逻辑)
-            baseLogger.setTime(0L);
+            baseLogger.setSpentTime(0L);
             //记录日志到文件
             logger.info(JSONUtils.toJSONString(baseLogger));
         } catch (Exception exception) {

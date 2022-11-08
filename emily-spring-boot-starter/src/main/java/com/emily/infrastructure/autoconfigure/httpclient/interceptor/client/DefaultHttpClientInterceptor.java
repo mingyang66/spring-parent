@@ -78,7 +78,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             //版本号
             baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - start);
+            baseLogger.setSpentTime(System.currentTimeMillis() - start);
             //响应时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步线程池记录日志

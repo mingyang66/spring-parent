@@ -63,7 +63,7 @@ public class BaseLogger implements Serializable {
     /**
      * 耗时
      */
-    private long time;
+    private long spentTime;
     /**
      * 响应结果
      */
@@ -98,12 +98,12 @@ public class BaseLogger implements Serializable {
         this.systemNumber = systemNumber;
     }
 
-    public long getTime() {
-        return time;
+    public long getSpentTime() {
+        return spentTime;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setSpentTime(long spentTime) {
+        this.spentTime = spentTime;
     }
 
     public String getTriggerTime() {

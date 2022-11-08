@@ -64,7 +64,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) body;
-            baseResponse.setTime(RequestHelper.getTime());
+            baseResponse.setSpentTime(RequestHelper.getTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //获取控制器方法返回值得泛型类型

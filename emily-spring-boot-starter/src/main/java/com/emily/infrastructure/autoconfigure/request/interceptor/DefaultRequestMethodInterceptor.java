@@ -98,7 +98,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //版本号
             baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime());
+            baseLogger.setSpentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime());
             //时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
@@ -106,7 +106,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //移除线程上下文数据
             ThreadContextHolder.unbind(true);
             //设置耗时
-            RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getTime());
+            RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getSpentTime());
         }
 
     }

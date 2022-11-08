@@ -34,7 +34,7 @@ public class RecordLogger {
         baseLogger.setUrl(MessageFormat.format("{0}.{1}", request.getClassName(), request.getMethodName()));
         baseLogger.setRequestParams(request.getParams());
         baseLogger.setBody(response);
-        baseLogger.setTime(System.currentTimeMillis() - startTime);
+        baseLogger.setSpentTime(System.currentTimeMillis() - startTime);
         logger.info(JSONUtils.toJSONString(baseLogger));
     }
 }

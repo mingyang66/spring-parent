@@ -253,7 +253,7 @@ public class SensitiveUtils {
         response.setStatus(baseResponse.getStatus());
         response.setMessage(baseResponse.getMessage());
         response.setData(sensitive(baseResponse.getData(), include));
-        response.setTime(baseResponse.getTime());
+        response.setSpentTime(baseResponse.getSpentTime());
         return response;
     }
 

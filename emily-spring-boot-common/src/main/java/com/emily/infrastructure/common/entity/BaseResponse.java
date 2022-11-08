@@ -16,7 +16,7 @@ public class BaseResponse<T> implements Serializable {
     private int status;
     private String message;
     private T data;
-    private long time;
+    private long spentTime;
 
     public BaseResponse() {
         super();
@@ -32,9 +32,9 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public BaseResponse(int status, String message, T data, long time) {
+    public BaseResponse(int status, String message, T data, long spentTime) {
         this(status, message, data);
-        this.time = time;
+        this.spentTime = spentTime;
     }
 
 
@@ -62,12 +62,12 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public long getTime() {
-        return time;
+    public long getSpentTime() {
+        return spentTime;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setSpentTime(long spentTime) {
+        this.spentTime = spentTime;
     }
 
     /**

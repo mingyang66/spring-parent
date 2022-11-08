@@ -66,7 +66,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
             //服务端IP
             baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
             //耗时
-            baseLogger.setTime(System.currentTimeMillis() - start);
+            baseLogger.setSpentTime(System.currentTimeMillis() - start);
             //响应时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步线程池记录日志

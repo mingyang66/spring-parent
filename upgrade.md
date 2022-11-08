@@ -1,5 +1,11 @@
 ### 
 -----
+基础库发布4.1.7
+Bug Fixes
+1. 新增JsonFlexField注解，脱敏复杂数据类型；
+2. 解决实体类外层包装是BaseResponse无法脱敏问题；
+
+-----
 基础库发布4.1.6
 Bug Fixes
 1. springboot升级到2.7.5；

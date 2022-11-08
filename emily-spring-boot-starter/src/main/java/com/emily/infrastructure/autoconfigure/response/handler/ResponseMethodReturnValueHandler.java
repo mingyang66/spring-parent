@@ -5,7 +5,7 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgno
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.MethodParameter;

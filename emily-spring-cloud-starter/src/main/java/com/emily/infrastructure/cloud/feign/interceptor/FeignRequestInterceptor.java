@@ -6,7 +6,7 @@ import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
-import com.emily.infrastructure.core.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLogger;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.apache.commons.lang3.RegExUtils;

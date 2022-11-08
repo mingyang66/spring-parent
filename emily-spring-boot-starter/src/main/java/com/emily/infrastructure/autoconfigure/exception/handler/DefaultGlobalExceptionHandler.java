@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponse;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

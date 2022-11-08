@@ -2,7 +2,7 @@ package com.emily.infrastructure.rpc.client.logger;
 
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLogger;
 import com.emily.infrastructure.rpc.core.message.IRpcRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

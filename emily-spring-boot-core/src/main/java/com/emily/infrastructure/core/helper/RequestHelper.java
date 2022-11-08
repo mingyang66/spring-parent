@@ -210,7 +210,7 @@ public class RequestHelper {
                         Annotation annotation = annotations[i][j];
                         if (annotation instanceof JsonSensitive) {
                             JsonSensitive sensitive = (JsonSensitive) annotation;
-                            paramMap.put(name, SensitiveUtils.sensitiveField(sensitive, (String) value));
+                            paramMap.put(name, SensitiveUtils.sensitiveField(sensitive.value(), (String) value));
                             flag = false;
                             break;
                         }

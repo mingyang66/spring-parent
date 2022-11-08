@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.exception;
 
 import com.emily.infrastructure.autoconfigure.exception.handler.DefaultGlobalExceptionHandler;
 import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponse;
 import org.apache.ibatis.binding.BindingException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.dao.DataAccessException;

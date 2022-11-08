@@ -3,7 +3,7 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.common.enums.DateFormat;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;
@@ -11,13 +11,13 @@ import com.emily.infrastructure.test.po.json.PubRequest;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description :
@@ -30,7 +30,7 @@ public class JsonIgnoreController {
 
     @PostMapping("test")
     @JsonSerialize
-    public JsonResponse test(@Validated @RequestBody List<JsonRequest[]>[] request) {
+    public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
         response.setUsername("条消息");
@@ -46,7 +46,7 @@ public class JsonIgnoreController {
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
         response.setDateFormat(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS);
-        return response;
+        return Lists.newArrayList(BaseResponse.buildResponse(response));
     }
 
     @PostMapping("test1")

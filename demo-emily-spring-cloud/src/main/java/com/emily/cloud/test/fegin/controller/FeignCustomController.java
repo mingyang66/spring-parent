@@ -3,7 +3,7 @@ package com.emily.cloud.test.fegin.controller;
 import com.emily.cloud.test.fegin.Custom;
 import com.emily.cloud.test.fegin.handler.CustomFeignHandler;
 import com.emily.cloud.test.fegin.handler.DefaultFeignHandler;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponse;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.entity;
+package com.emily.infrastructure.common.entity;
 
 import com.emily.infrastructure.common.enums.AppHttpStatus;
 import com.google.common.collect.Maps;

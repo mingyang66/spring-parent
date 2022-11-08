@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.po.json;
 
+import com.emily.infrastructure.common.sensitive.JsonFlexField;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.JsonSerialize;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
@@ -13,8 +14,14 @@ import java.util.Map;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSerialize(include = false)
+@JsonSerialize(include = true)
 public class JsonRequest {
+    @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    private String fieldKey;
+    private String fieldValue;
+    @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue1")
+    private String fieldKey1;
+    private String fieldValue1;
     @NotEmpty
     @JsonSensitive(SensitiveType.USERNAME)
     private String username;
@@ -35,6 +42,38 @@ public class JsonRequest {
     private BigDecimal d = new BigDecimal(4);
     private Job job;
     private Map<String, Object> work;
+
+    public String getFieldKey1() {
+        return fieldKey1;
+    }
+
+    public void setFieldKey1(String fieldKey1) {
+        this.fieldKey1 = fieldKey1;
+    }
+
+    public String getFieldValue1() {
+        return fieldValue1;
+    }
+
+    public void setFieldValue1(String fieldValue1) {
+        this.fieldValue1 = fieldValue1;
+    }
+
+    public String getFieldKey() {
+        return fieldKey;
+    }
+
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+    }
+
+    public String getFieldValue() {
+        return fieldValue;
+    }
+
+    public void setFieldValue(String fieldValue) {
+        this.fieldValue = fieldValue;
+    }
 
     public char getC() {
         return c;
@@ -137,6 +176,25 @@ public class JsonRequest {
         private String work;
         @JsonSensitive(SensitiveType.EMAIL)
         private String email;
+        @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+        private String fieldKey;
+        private String fieldValue;
+
+        public String getFieldKey() {
+            return fieldKey;
+        }
+
+        public void setFieldKey(String fieldKey) {
+            this.fieldKey = fieldKey;
+        }
+
+        public String getFieldValue() {
+            return fieldValue;
+        }
+
+        public void setFieldValue(String fieldValue) {
+            this.fieldValue = fieldValue;
+        }
 
         public String getWork() {
             return work;

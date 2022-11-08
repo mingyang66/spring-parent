@@ -14,7 +14,7 @@ import java.util.Set;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSerialize(include = false)
+@JsonSerialize(include = true)
 public class JsonResponse {
     @JsonSensitive(SensitiveType.USERNAME)
     private String username;

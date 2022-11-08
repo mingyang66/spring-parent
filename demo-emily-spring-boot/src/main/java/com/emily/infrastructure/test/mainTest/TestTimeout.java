@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

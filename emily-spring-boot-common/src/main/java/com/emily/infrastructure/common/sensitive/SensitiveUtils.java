@@ -194,11 +194,11 @@ public class SensitiveUtils {
             return entity;
         }
         if (entity instanceof Collection) {
-            List list = new ArrayList();
+            Collection coll = new ArrayList();
             ((Collection) entity).stream().forEach(en -> {
-                list.add(doGetEntity(en, include));
+                coll.add(doGetEntity(en, include));
             });
-            return list;
+            return coll;
         } else if (entity instanceof Map) {
             Map dMap = new HashMap();
             ((Map) entity).forEach((k, v) -> {
@@ -319,11 +319,11 @@ public class SensitiveUtils {
                     }
                     fieldMap.put(name, value);
                 } else if (value instanceof Collection) {
-                    List list = new ArrayList();
+                    Collection coll = new ArrayList();
                     ((Collection) value).stream().forEach(en -> {
-                        list.add(doGetField(en, include));
+                        coll.add(doGetField(en, include));
                     });
-                    fieldMap.put(name, list);
+                    fieldMap.put(name, coll);
                 } else if (value instanceof Map) {
                     Map dMap = new HashMap();
                     ((Map) value).forEach((k, v) -> {

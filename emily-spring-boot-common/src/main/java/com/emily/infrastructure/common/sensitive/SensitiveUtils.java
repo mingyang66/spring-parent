@@ -405,6 +405,7 @@ public class SensitiveUtils {
                         continue;
                     }
                     SensitiveType type;
+                    //如果A>B（等价于A-1>=B），则展示默认值
                     if (i >= j.types().length) {
                         type = SensitiveType.DEFAULT;
                     } else {

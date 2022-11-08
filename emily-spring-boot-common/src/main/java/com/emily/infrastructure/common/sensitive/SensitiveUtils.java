@@ -200,7 +200,7 @@ public class SensitiveUtils {
             });
             return coll;
         } else if (entity instanceof Map) {
-            Map dMap = new HashMap();
+            Map dMap = Maps.newHashMap();
             ((Map) entity).forEach((k, v) -> {
                 dMap.put(k, doGetEntity(v, include));
             });
@@ -325,7 +325,7 @@ public class SensitiveUtils {
                     });
                     fieldMap.put(name, coll);
                 } else if (value instanceof Map) {
-                    Map dMap = new HashMap();
+                    Map dMap = Maps.newHashMap();
                     ((Map) value).forEach((k, v) -> {
                         dMap.put(k, doGetField(v, include));
                     });

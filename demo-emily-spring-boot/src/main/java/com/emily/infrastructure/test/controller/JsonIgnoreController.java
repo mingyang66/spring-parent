@@ -46,6 +46,10 @@ public class JsonIgnoreController {
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
         response.setDateFormat(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS);
+        String[] arr = new  String[2];
+        arr[0] = "test1";
+        arr[1] = "test2";
+        response.setArr(arr);
         return Lists.newArrayList(BaseResponse.buildResponse(response));
     }
 

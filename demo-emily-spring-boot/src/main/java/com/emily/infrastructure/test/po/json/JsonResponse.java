@@ -32,9 +32,18 @@ public class JsonResponse {
     private String mobile;
     private Job job;
     private Job[] jobs;
+    private String[] arr;
     private Set<Job> list;
     private DateFormat dateFormat;
     private Map<String, Object> work;
+
+    public String[] getArr() {
+        return arr;
+    }
+
+    public void setArr(String[] arr) {
+        this.arr = arr;
+    }
 
     public DateFormat getDateFormat() {
         return dateFormat;

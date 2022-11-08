@@ -196,63 +196,49 @@ public class SensitiveUtils {
         if (entity instanceof Collection) {
             List list = new ArrayList();
             ((Collection) entity).stream().forEach(en -> {
-                if (isFinal(en)) {
-                    list.add(en);
-                } else if (en instanceof Map) {
-                    list.add(sensitive(en, include));
-                } else if (en instanceof Collection) {
-                    list.add(sensitive(en, include));
-                } else if (en.getClass().isArray()) {
-                    list.add(sensitive(en, include));
-                } else if (en instanceof BaseResponse) {
-                    list.add(doGetBaseResponse(en, include));
-                } else {
-                    list.add(doGetField(en, include));
-                }
+                list.add(doGetEntity(en, include));
             });
             return list;
         } else if (entity instanceof Map) {
             Map dMap = new HashMap();
             ((Map) entity).forEach((k, v) -> {
-                if (isFinal(v)) {
-                    dMap.put(k, v);
-                } else if (v instanceof Collection) {
-                    dMap.put(k, sensitive(v, include));
-                } else if (v instanceof Map) {
-                    dMap.put(k, sensitive(v, include));
-                } else if (v.getClass().isArray()) {
-                    dMap.put(k, sensitive(v, include));
-                } else if (v instanceof BaseResponse) {
-                    dMap.put(k, doGetBaseResponse(v, include));
-                } else {
-                    dMap.put(k, doGetField(v, include));
-                }
+                dMap.put(k, doGetEntity(v, include));
             });
             return dMap;
         } else if (entity.getClass().isArray()) {
             Object[] v = (Object[]) entity;
             Object[] t = new Object[v.length];
             for (int i = 0; i < t.length; i++) {
-                Object o = v[i];
-                if (isFinal(o)) {
-                    t[i] = o;
-                } else if (o instanceof Collection) {
-                    t[i] = sensitive(o, include);
-                } else if (o instanceof Map) {
-                    t[i] = sensitive(o, include);
-                } else if (o.getClass().isArray()) {
-                    t[i] = sensitive(o, include);
-                } else if (o instanceof BaseResponse) {
-                    t[i] = doGetBaseResponse(o, include);
-                } else {
-                    t[i] = doGetField(o, include);
-                }
+                t[i] = doGetEntity(v[i], include);
             }
             return t;
         } else if (entity instanceof BaseResponse) {
             return doGetBaseResponse(entity, include);
         }
-        return doGetField(entity, include);
+        return doGetEntityResponse(entity, include);
+    }
+
+    /**
+     * 获取实体类的最终对象值
+     *
+     * @param entity  实体类
+     * @param include 是否解析内部嵌套类
+     * @return
+     */
+    private static Object doGetEntity(Object entity, Boolean include) {
+        if (isFinal(entity)) {
+            return entity;
+        } else if (entity instanceof Collection) {
+            return sensitive(entity, include);
+        } else if (entity instanceof Map) {
+            return sensitive(entity, include);
+        } else if (entity.getClass().isArray()) {
+            return sensitive(entity, include);
+        } else if (entity instanceof BaseResponse) {
+            return doGetBaseResponse(entity, include);
+        } else {
+            return doGetEntityResponse(entity, include);
+        }
     }
 
     /**
@@ -279,7 +265,7 @@ public class SensitiveUtils {
      * @param include 是否解析嵌套类并脱敏
      * @return
      */
-    private static Object doGetField(final Object entity, Boolean include) {
+    private static Object doGetEntityResponse(final Object entity, Boolean include) {
         if (entity.getClass().isAnnotationPresent(JsonSerialize.class)) {
             return doSetField(entity, entity.getClass().getAnnotation(JsonSerialize.class).include());
         } else if (isInclude(include)) {
@@ -302,14 +288,7 @@ public class SensitiveUtils {
             Map<String, JsonFlexField> flexFieldMap = null;
             Field[] fields = entity.getClass().getDeclaredFields();
             for (Field field : fields) {
-                int modifiers = field.getModifiers();
-                if (Modifier.isFinal(modifiers)
-                        || Modifier.isStatic(modifiers)
-                        || Modifier.isTransient(modifiers)
-                        || Modifier.isVolatile(modifiers)
-                        || Modifier.isNative(modifiers)
-                        || Modifier.isSynchronized(modifiers)
-                        || Modifier.isStrict(modifiers)) {
+                if (isModifierFinal(field)) {
                     continue;
                 }
                 field.setAccessible(true);
@@ -324,7 +303,7 @@ public class SensitiveUtils {
                     if (isFinal(value)) {
                         JsonSensitive sensitive = field.getAnnotation(JsonSensitive.class);
                         if (value instanceof String) {
-                            fieldMap.put(name, sensitiveField(sensitive.value(), (String) value));
+                            fieldMap.put(name, doGetSensitiveField(sensitive.value(), (String) value));
                         } else {
                             fieldMap.put(name, value);
                         }
@@ -342,49 +321,69 @@ public class SensitiveUtils {
                 } else if (value instanceof Collection) {
                     List list = new ArrayList();
                     ((Collection) value).stream().forEach(en -> {
-                        if (isFinal(en)) {
-                            list.add(en);
-                        } else if (isInclude(include)) {
-                            list.add(sensitive(en, Boolean.TRUE));
-                        } else {
-                            list.add(en);
-                        }
+                        list.add(doGetField(en, include));
                     });
                     fieldMap.put(name, list);
                 } else if (value instanceof Map) {
                     Map dMap = new HashMap();
                     ((Map) value).forEach((k, v) -> {
-                        if (isFinal(v)) {
-                            dMap.put(k, v);
-                        } else if (isInclude(include)) {
-                            dMap.put(k, sensitive(v, Boolean.TRUE));
-                        } else {
-                            dMap.put(k, v);
-                        }
+                        dMap.put(k, doGetField(v, include));
                     });
                     fieldMap.put(name, dMap);
                 } else if (value.getClass().isArray()) {
-                    if (isInclude(include)) {
-                        fieldMap.put(name, sensitive(value, Boolean.TRUE));
-                    } else {
-                        fieldMap.put(name, value);
+                    Object[] v = (Object[]) value;
+                    Object[] t = new Object[v.length];
+                    for (int i = 0; i < v.length; i++) {
+                        t[i] = doGetField(v[i], include);
                     }
+                    fieldMap.put(name, t);
                 } else {
-                    if (isFinal(value)) {
-                        fieldMap.put(name, value);
-                    } else if (isInclude(include)) {
-                        fieldMap.put(name, sensitive(value, Boolean.TRUE));
-                    } else {
-                        fieldMap.put(name, value);
-                    }
+                    fieldMap.put(name, doGetField(value, include));
                 }
             }
             // 灵活复杂数据类型脱敏
-            fieldMap.putAll(sensitiveFlexField(fieldMap, flexFieldMap));
+            fieldMap.putAll(doGetFlexField(fieldMap, flexFieldMap));
         } catch (Exception ex) {
             logger.error(PrintExceptionInfo.printErrorInfo(ex));
         }
         return fieldMap;
+    }
+
+    /**
+     * 指定的修饰符是否序列化
+     *
+     * @param field 字段反射类型
+     * @return
+     */
+    private static boolean isModifierFinal(Field field) {
+        int modifiers = field.getModifiers();
+        if (Modifier.isFinal(modifiers)
+                || Modifier.isStatic(modifiers)
+                || Modifier.isTransient(modifiers)
+                || Modifier.isVolatile(modifiers)
+                || Modifier.isNative(modifiers)
+                || Modifier.isSynchronized(modifiers)
+                || Modifier.isStrict(modifiers)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取最终的字段值
+     *
+     * @param f       字段值对象
+     * @param include 是否解析嵌套实体类
+     * @return
+     */
+    private static Object doGetField(Object f, Boolean include) {
+        if (isFinal(f)) {
+            return f;
+        } else if (isInclude(include)) {
+            return sensitive(f, Boolean.TRUE);
+        } else {
+            return f;
+        }
     }
 
     /**
@@ -394,7 +393,7 @@ public class SensitiveUtils {
      * @param flexFieldMap 复杂类型字段集合
      * @return
      */
-    private static Map<String, Object> sensitiveFlexField(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
+    private static Map<String, Object> doGetFlexField(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
         if (CollectionUtils.isEmpty(flexFieldMap)) {
             return Collections.emptyMap();
         }
@@ -413,7 +412,7 @@ public class SensitiveUtils {
                         //获取值字段值
                         Object fv = fieldMap.get(j.fieldValue());
                         if (Objects.nonNull(fv)) {
-                            dataMap.put(j.fieldValue(), sensitiveField(type, (String) fv));
+                            dataMap.put(j.fieldValue(), doGetSensitiveField(type, (String) fv));
                         }
                     }
                 }
@@ -479,7 +478,7 @@ public class SensitiveUtils {
      * @param fieldValue 字段值
      * @return
      */
-    public static String sensitiveField(SensitiveType type, String fieldValue) {
+    public static String doGetSensitiveField(SensitiveType type, String fieldValue) {
         if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
             return fieldValue;
         }

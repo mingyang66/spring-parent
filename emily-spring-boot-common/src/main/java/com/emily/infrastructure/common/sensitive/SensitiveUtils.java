@@ -178,7 +178,6 @@ public class SensitiveUtils {
      * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
      */
     public static Object sensitive(final Object entity) {
-
         return sensitive(entity, null);
     }
 
@@ -225,7 +224,7 @@ public class SensitiveUtils {
      * @param include 是否解析内部嵌套类
      * @return
      */
-    private static Object doGetEntity(Object entity, Boolean include) {
+    private static Object doGetEntity(final Object entity, final Boolean include) {
         if (isFinal(entity)) {
             return entity;
         } else if (entity instanceof Collection) {
@@ -248,7 +247,7 @@ public class SensitiveUtils {
      * @param include 是否解析内部实体类
      * @return
      */
-    private static Object doGetBaseResponse(final Object entity, Boolean include) {
+    private static Object doGetBaseResponse(final Object entity, final Boolean include) {
         BaseResponse baseResponse = ((BaseResponse) entity);
         BaseResponse response = new BaseResponse();
         response.setStatus(baseResponse.getStatus());
@@ -265,7 +264,7 @@ public class SensitiveUtils {
      * @param include 是否解析嵌套类并脱敏
      * @return
      */
-    private static Object doGetEntityResponse(final Object entity, Boolean include) {
+    private static Object doGetEntityResponse(final Object entity, final Boolean include) {
         if (entity.getClass().isAnnotationPresent(JsonSerialize.class)) {
             return doSetField(entity, entity.getClass().getAnnotation(JsonSerialize.class).include());
         } else if (isInclude(include)) {
@@ -355,7 +354,7 @@ public class SensitiveUtils {
      * @param field 字段反射类型
      * @return
      */
-    private static boolean isModifierFinal(Field field) {
+    private static boolean isModifierFinal(final Field field) {
         int modifiers = field.getModifiers();
         if (Modifier.isFinal(modifiers)
                 || Modifier.isStatic(modifiers)
@@ -376,7 +375,7 @@ public class SensitiveUtils {
      * @param include 是否解析嵌套实体类
      * @return
      */
-    private static Object doGetField(Object f, Boolean include) {
+    private static Object doGetField(final Object f, final Boolean include) {
         if (isFinal(f)) {
             return f;
         } else if (isInclude(include)) {
@@ -427,7 +426,7 @@ public class SensitiveUtils {
      * @param include
      * @return
      */
-    private static boolean isInclude(Boolean include) {
+    private static boolean isInclude(final Boolean include) {
         if (Objects.nonNull(include) && include) {
             return true;
         }
@@ -440,7 +439,7 @@ public class SensitiveUtils {
      * @param value 值对象
      * @return
      */
-    private static boolean isFinal(Object value) {
+    private static boolean isFinal(final Object value) {
         if (Objects.isNull(value)) {
             return true;
         } else if (value instanceof String) {

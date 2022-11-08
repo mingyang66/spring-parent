@@ -401,18 +401,19 @@ public class SensitiveUtils {
             Object v = fieldMap.get(n);
             if ((v instanceof String)) {
                 for (int i = 0; i < j.fieldNames().length; i++) {
-                    if (StringUtils.equals(j.fieldNames()[i], (String) v)) {
-                        SensitiveType type;
-                        if (i >= j.types().length) {
-                            type = SensitiveType.DEFAULT;
-                        } else {
-                            type = j.types()[i];
-                        }
-                        //获取值字段值
-                        Object fv = fieldMap.get(j.fieldValue());
-                        if (Objects.nonNull(fv)) {
-                            dataMap.put(j.fieldValue(), doGetSensitiveField(type, (String) fv));
-                        }
+                    if (!StringUtils.equals(j.fieldNames()[i], (String) v)) {
+                        continue;
+                    }
+                    SensitiveType type;
+                    if (i >= j.types().length) {
+                        type = SensitiveType.DEFAULT;
+                    } else {
+                        type = j.types()[i];
+                    }
+                    //获取值字段值
+                    Object fv = fieldMap.get(j.fieldValue());
+                    if (Objects.nonNull(fv)) {
+                        dataMap.put(j.fieldValue(), doGetSensitiveField(type, (String) fv));
                     }
                 }
             }

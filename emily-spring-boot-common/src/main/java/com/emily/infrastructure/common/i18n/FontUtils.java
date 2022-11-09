@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils.font;
+package com.emily.infrastructure.common.i18n;
 
 /**
  * @description: 字体工具类

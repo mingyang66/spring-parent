@@ -3,7 +3,6 @@ package com.emily.infrastructure.common.i18n;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.enums.LanguageType;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.font.PinYinUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 

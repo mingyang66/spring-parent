@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.google.common.collect.Maps;
 
 import java.io.Serializable;
@@ -70,8 +70,8 @@ public class BaseLogger implements Serializable {
     private Object body;
 
     public BaseLogger() {
-        this.status = AppHttpStatus.OK.getStatus();
-        this.message = AppHttpStatus.OK.getMessage();
+        this.status = HttpStatusType.OK.getStatus();
+        this.message = HttpStatusType.OK.getMessage();
     }
 
     public String getAppType() {

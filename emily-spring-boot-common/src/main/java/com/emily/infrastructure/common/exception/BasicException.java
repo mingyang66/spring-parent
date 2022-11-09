@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.exception;
 
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.i18n.LanguageCache;
 
 /**
@@ -26,7 +26,7 @@ public class BasicException extends RuntimeException {
     public BasicException() {
     }
 
-    public BasicException(AppHttpStatus httpStatus) {
+    public BasicException(HttpStatusType httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
         this.message = LanguageCache.peek(httpStatus.getMessage());

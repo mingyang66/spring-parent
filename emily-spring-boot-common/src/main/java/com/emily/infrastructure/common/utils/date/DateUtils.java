@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.date;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -36,7 +36,7 @@ public class DateUtils {
             Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
             return DateFormatUtils.format(date, nowFormat);
         } catch (ParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -62,7 +62,7 @@ public class DateUtils {
             Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
             return date;
         } catch (ParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -82,7 +82,7 @@ public class DateUtils {
                 return true;
             }
         } catch (ParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -115,7 +115,7 @@ public class DateUtils {
             int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
             return weekDays[w];
         } catch (ParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "日期格式转换异常" + e);
         }
     }
 
@@ -246,7 +246,7 @@ public class DateUtils {
             }
             return false;
         } catch (ParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), AppHttpStatus.ILLEGAL_DATA.getMessage());
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), HttpStatusType.ILLEGAL_DATA.getMessage());
         }
     }
 
@@ -272,7 +272,7 @@ public class DateUtils {
      */
     public static boolean tryParse(String dateStr) {
         try {
-            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, DateFormat.getAllFormats());
+            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, DateFormatType.getAllFormats());
         } catch (ParseException e) {
             return false;
         }
@@ -299,12 +299,12 @@ public class DateUtils {
      * 将日期类型转换为数字类型
      *
      * @param date   日期
-     * @param format 格式@{@link DateFormat}
+     * @param format 格式@{@link DateFormatType}
      * @return
      */
     public static Long dateToNum(Date date, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return Long.valueOf(formatDate(date, format));
     }
@@ -313,12 +313,12 @@ public class DateUtils {
      * 将日期类型转换为数字类型
      *
      * @param date   日期
-     * @param format 格式@{@link DateFormat}
+     * @param format 格式@{@link DateFormatType}
      * @return
      */
     public static Long dateToNum(LocalDate date, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return Long.valueOf(date.format(DateTimeFormatter.ofPattern(format)));
     }
@@ -327,12 +327,12 @@ public class DateUtils {
      * 将日期类型转换为数字类型
      *
      * @param date   日期
-     * @param format 格式@{@link DateFormat}
+     * @param format 格式@{@link DateFormatType}
      * @return YYYYMMDD格式
      */
     public static Long dateToNum(LocalDateTime date, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return Long.valueOf(date.format(DateTimeFormatter.ofPattern(format)));
     }
@@ -341,12 +341,12 @@ public class DateUtils {
      * 将数字类型日期转换类Date类型
      *
      * @param date   日期数字
-     * @param format 格式@{@link DateFormat}
+     * @param format 格式@{@link DateFormatType}
      * @return
      */
     public static Date numToDate(Long date, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return parseDate(String.valueOf(date), format);
     }
@@ -355,15 +355,15 @@ public class DateUtils {
      * 将数字类型日期转换类LocalDate类型
      *
      * @param date   日期数字
-     * @param format 格式@{@link DateFormat}
+     * @param format 格式@{@link DateFormatType}
      * @return
      */
     public static LocalDate numToLocalDate(Long date, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (String.valueOf(date).length() > 8) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "数字类型日期不可以包含时间");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "数字类型日期不可以包含时间");
         }
         return LocalDate.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
     }
@@ -372,15 +372,15 @@ public class DateUtils {
      * 将数字类型日期转换类LocalDateTime类型
      *
      * @param date   日期数字
-     * @param format 格式@{@link DateFormat}
+     * @param format 格式@{@link DateFormatType}
      * @return
      */
     public static LocalDateTime numToLocalDateTime(Long date, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (String.valueOf(date).length() < 10) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "数字类型日期必须包含时间");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "数字类型日期必须包含时间");
         }
         return LocalDateTime.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
     }
@@ -395,13 +395,13 @@ public class DateUtils {
      */
     public static Long strToNum(String dateStr, String originFormat, String format) {
         if (Objects.isNull(dateStr)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (Objects.isNull(originFormat)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "原日期格式参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "原日期格式参数不可以为空");
         }
         if (Objects.isNull(format)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "目标日期格式参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "目标日期格式参数不可以为空");
         }
         Date date = parseDate(dateStr, originFormat);
         return Long.valueOf(DateFormatUtils.format(date, format));
@@ -417,13 +417,13 @@ public class DateUtils {
      */
     public static String numToStr(Long date, String originFormat, String format) {
         if (Objects.isNull(date)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (Objects.isNull(originFormat)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "原日期格式参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "原日期格式参数不可以为空");
         }
         if (Objects.isNull(format)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "目标日期格式参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "目标日期格式参数不可以为空");
         }
         Date dateStr = parseDate(String.valueOf(date), originFormat);
         return DateFormatUtils.format(dateStr, format);
@@ -438,10 +438,10 @@ public class DateUtils {
      */
     public static Duration between(LocalDateTime startDate, LocalDateTime endDate) {
         if (Objects.isNull(startDate)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "参数不可以为空");
         }
         if (Objects.isNull(startDate)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "参数不可以为空");
         }
         return Duration.between(startDate, endDate);
     }
@@ -454,7 +454,7 @@ public class DateUtils {
      */
     public static LocalDate firstDayOfMonth(LocalDate localDate) {
         if (Objects.isNull(localDate)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return localDate.with(TemporalAdjusters.firstDayOfMonth());
     }
@@ -468,7 +468,7 @@ public class DateUtils {
      */
     public static LocalDate firstDayOfMonth(LocalDate localDate, int month) {
         if (Objects.isNull(localDate)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (month == 0) {
             return localDate.with(TemporalAdjusters.firstDayOfMonth());
@@ -487,7 +487,7 @@ public class DateUtils {
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime) {
         if (Objects.isNull(localDateTime)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
     }
@@ -501,7 +501,7 @@ public class DateUtils {
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
         if (Objects.isNull(localDateTime)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
@@ -520,7 +520,7 @@ public class DateUtils {
      */
     public static LocalDate lastDayOfMonth(LocalDate localDate) {
         if (Objects.isNull(localDate)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return localDate.with(TemporalAdjusters.lastDayOfMonth());
     }
@@ -534,7 +534,7 @@ public class DateUtils {
      */
     public static LocalDate lastDayOfMonth(LocalDate localDate, int month) {
         if (Objects.isNull(localDate)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (month == 0) {
             return localDate.with(TemporalAdjusters.lastDayOfMonth());
@@ -553,7 +553,7 @@ public class DateUtils {
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime) {
         if (Objects.isNull(localDateTime)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
     }
@@ -567,7 +567,7 @@ public class DateUtils {
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
         if (Objects.isNull(localDateTime)) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "日期参数不可以为空");
         }
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();

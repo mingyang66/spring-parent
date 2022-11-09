@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.hash;
 
 import com.emily.infrastructure.common.constant.CharsetInfo;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -45,14 +45,14 @@ public class Base64Utils {
     public static String encoder(String encoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(encoderStr)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "编码字符串不可以为空");
+                throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "编码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = CharsetInfo.UTF_8;
             }
             return Base64.getEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -80,14 +80,14 @@ public class Base64Utils {
     public static String decoder(String decoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(decoderStr)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "解码字符串不可以为空");
+                throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "解码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = CharsetInfo.UTF_8;
             }
             return new String(Base64.getDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -113,14 +113,14 @@ public class Base64Utils {
     public static String urlEncoder(String encoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(encoderStr)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "编码字符串不可以为空");
+                throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "编码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = CharsetInfo.UTF_8;
             }
             return Base64.getUrlEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -146,14 +146,14 @@ public class Base64Utils {
     public static String urlDecoder(String decoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(decoderStr)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "解码字符串不可以为空");
+                throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "解码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = CharsetInfo.UTF_8;
             }
             return new String(Base64.getUrlDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -179,14 +179,14 @@ public class Base64Utils {
     public static String mineEncoder(String encoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(encoderStr)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "编码字符串不可以为空");
+                throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "编码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = CharsetInfo.UTF_8;
             }
             return Base64.getMimeEncoder().encodeToString(encoderStr.getBytes(charset));
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -212,14 +212,14 @@ public class Base64Utils {
     public static String mineDecoder(String decoderStr, String charset) {
         try {
             if (StringUtils.isEmpty(decoderStr)) {
-                throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "解码字符串不可以为空");
+                throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "解码字符串不可以为空");
             }
             if (StringUtils.isEmpty(charset)) {
                 charset = CharsetInfo.UTF_8;
             }
             return new String(Base64.getMimeDecoder().decode(decoderStr), charset);
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -238,9 +238,9 @@ public class Base64Utils {
             OutputStream os = Base64.getEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -259,7 +259,7 @@ public class Base64Utils {
             InputStream is = Base64.getDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
     }
 
@@ -278,9 +278,9 @@ public class Base64Utils {
             OutputStream os = Base64.getUrlEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -299,7 +299,7 @@ public class Base64Utils {
             InputStream is = Base64.getUrlDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
     }
 
@@ -318,9 +318,9 @@ public class Base64Utils {
             OutputStream os = Base64.getMimeEncoder().wrap(new FileOutputStream(new File(filePath)));
             IOUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT);
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -339,7 +339,7 @@ public class Base64Utils {
             InputStream is = Base64.getMimeDecoder().wrap(new FileInputStream(new File(filePath)));
             return IOUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
     }
 }

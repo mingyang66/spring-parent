@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.client.proxy;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -69,7 +69,7 @@ public class IRpcInvokeProxy {
                 return JSONUtils.parseObject(rpcResponse.getData(), method.getReturnType());
             } catch (Exception ex) {
                 //异常信息
-                rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), AppHttpStatus.EXCEPTION.getMessage(), PrintExceptionInfo.printErrorInfo(ex));
+                rpcResponse = IRpcResponse.buildResponse(HttpStatusType.EXCEPTION.getStatus(), HttpStatusType.EXCEPTION.getMessage(), PrintExceptionInfo.printErrorInfo(ex));
                 throw ex;
             } finally {
                 RecordLogger.recordResponse(request, rpcResponse, startTime);
@@ -92,7 +92,7 @@ public class IRpcInvokeProxy {
                 return connection.getClientChannelHandler().send(message);
             } catch (Exception exception) {
                 logger.error(PrintExceptionInfo.printErrorInfo(exception));
-                throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "Rpc调用异常");
+                throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "Rpc调用异常");
             } finally {
                 if (connection != null) {
                     pool.returnObject(connection);

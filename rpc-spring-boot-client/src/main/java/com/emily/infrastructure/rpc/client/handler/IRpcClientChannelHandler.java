@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.client.handler;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -101,7 +101,7 @@ public class IRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
             }
             return this.response;
         } catch (Exception exception) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(exception));
         }
     }
 

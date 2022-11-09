@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.exception;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 
 /**
  * @program: spring-parent
@@ -10,10 +10,10 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  */
 public class BusinessException extends BasicException {
     public BusinessException() {
-        super(AppHttpStatus.EXCEPTION);
+        super(HttpStatusType.EXCEPTION);
     }
 
-    public BusinessException(AppHttpStatus httpStatus) {
+    public BusinessException(HttpStatusType httpStatus) {
         super(httpStatus);
     }
 

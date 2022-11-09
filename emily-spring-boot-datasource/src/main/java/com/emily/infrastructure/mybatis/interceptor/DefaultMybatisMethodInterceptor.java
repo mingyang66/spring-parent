@@ -1,7 +1,7 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
@@ -46,7 +46,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
             baseLogger.setRequestParams(RequestHelper.getMethodArgs(invocation));
             baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
             baseLogger.setSpentTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();

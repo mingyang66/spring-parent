@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.i18n.LanguageCache;
 import com.emily.infrastructure.common.utils.RequestUtils;
 
@@ -94,7 +94,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus, T data) {
+    public static <T> BaseResponse<T> buildResponse(HttpStatusType appHttpStatus, T data) {
         return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestUtils.getSpentTime());
     }
 
@@ -103,7 +103,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(AppHttpStatus appHttpStatus) {
+    public static <T> BaseResponse<T> buildResponse(HttpStatusType appHttpStatus) {
         return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestUtils.getSpentTime());
     }
 
@@ -115,6 +115,6 @@ public class BaseResponse<T> implements Serializable {
      * @return
      */
     public static <T> BaseResponse<T> buildResponse(T data) {
-        return new BaseResponse<>(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data, RequestUtils.getSpentTime());
+        return new BaseResponse<>(HttpStatusType.OK.getStatus(), HttpStatusType.OK.getMessage(), data, RequestUtils.getSpentTime());
     }
 }

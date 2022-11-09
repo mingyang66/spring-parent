@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -155,7 +155,7 @@ public class RequestUtils {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getRequest();
         } catch (Exception ex) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
     }
 
@@ -167,7 +167,7 @@ public class RequestUtils {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getResponse();
         } catch (Exception ex) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
         }
     }
 

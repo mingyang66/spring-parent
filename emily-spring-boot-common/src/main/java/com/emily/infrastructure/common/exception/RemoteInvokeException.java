@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.exception;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 
 /**
  * @program: spring-parent
@@ -10,10 +10,10 @@ import com.emily.infrastructure.common.enums.AppHttpStatus;
  */
 public class RemoteInvokeException extends BasicException {
     public RemoteInvokeException() {
-        super(AppHttpStatus.ILLEGAL_ACCESS);
+        super(HttpStatusType.ILLEGAL_ACCESS);
     }
 
-    public RemoteInvokeException(AppHttpStatus httpStatus) {
+    public RemoteInvokeException(HttpStatusType httpStatus) {
         super(httpStatus);
     }
 

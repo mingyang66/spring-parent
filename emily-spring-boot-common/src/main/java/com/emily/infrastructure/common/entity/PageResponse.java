@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.data;
+package com.emily.infrastructure.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

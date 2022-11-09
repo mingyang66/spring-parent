@@ -2,12 +2,11 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.core.helper.RequestHelper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
@@ -76,10 +75,10 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              */
             boolean flag = (type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class));
             if (flag) {
-                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK);
+                BaseResponse baseResponse = BaseResponse.buildResponse(HttpStatusType.OK);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.buildResponse(AppHttpStatus.OK, body);
+                BaseResponse baseResponse = BaseResponse.buildResponse(HttpStatusType.OK, body);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }
         }

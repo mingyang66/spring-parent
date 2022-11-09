@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.core.message;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 
 import java.io.Serializable;
@@ -63,7 +63,7 @@ public class IRpcResponse<T> implements Serializable {
 
 
     public static <T> IRpcResponse<T> buildResponse(T data) {
-        return buildResponse(AppHttpStatus.OK.getStatus(), AppHttpStatus.OK.getMessage(), data);
+        return buildResponse(HttpStatusType.OK.getStatus(), HttpStatusType.OK.getMessage(), data);
     }
 
     public static <T> IRpcResponse<T> buildResponse(int status, String message, T data) {

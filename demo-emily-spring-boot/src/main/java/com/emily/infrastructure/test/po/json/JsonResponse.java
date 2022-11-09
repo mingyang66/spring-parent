@@ -1,11 +1,10 @@
 package com.emily.infrastructure.test.po.json;
 
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.JsonSerialize;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,7 +33,7 @@ public class JsonResponse {
     private Job[] jobs;
     private String[] arr;
     private Set<Job> list;
-    private DateFormat dateFormat;
+    private DateFormatType dateFormat;
     private Map<String, Object> work;
 
     public String[] getArr() {
@@ -45,11 +44,11 @@ public class JsonResponse {
         this.arr = arr;
     }
 
-    public DateFormat getDateFormat() {
+    public DateFormatType getDateFormat() {
         return dateFormat;
     }
 
-    public void setDateFormat(DateFormat dateFormat) {
+    public void setDateFormat(DateFormatType dateFormat) {
         this.dateFormat = dateFormat;
     }
 

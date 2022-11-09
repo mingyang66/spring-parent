@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.common.entity.BaseResponse;
@@ -45,7 +45,7 @@ public class JsonIgnoreController {
         response.setJobs(new JsonResponse.Job[]{job, job});
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
-        response.setDateFormat(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS);
+        response.setDateFormat(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS);
         String[] arr = new  String[2];
         arr[0] = "test1";
         arr[1] = "test2";

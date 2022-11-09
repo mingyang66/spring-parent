@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.server.logger;
 
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.common.entity.BaseLogger;
 import com.emily.infrastructure.rpc.core.message.IRpcRequest;
@@ -31,7 +31,7 @@ public class RecordLogger {
         try {
             BaseLogger baseLogger = new BaseLogger();
             baseLogger.setTraceId(request.getTraceId());
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             baseLogger.setUrl(MessageFormat.format("{0}.{1}", request.getClassName(), request.getMethodName()));
             baseLogger.setRequestParams(request.getParams());
             baseLogger.setBody(response);

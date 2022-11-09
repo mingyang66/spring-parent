@@ -7,6 +7,7 @@ Bug Fixes
 3. 实体类中字段是数组类型脱敏处理增强优化；
 4. 脱敏实现类方法优化调整；
 5. 耗时字段由time更改为spentTime;
+6. AppHttpStatus、DateFormat枚举类重命名；
 
 -----
 基础库发布4.1.6

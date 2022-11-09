@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.service.factory;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.common.utils.StrUtils;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
@@ -90,7 +90,7 @@ public class MapperFactory<T> {
         //获取实例对象对应的所有bean集合
         Map<String, T> beanMaps = IOCContext.getBeansOfType(defaultClass);
         if (!beanMaps.containsKey(beanName)) {
-            throw new BusinessException(AppHttpStatus.ILLEGAL_ACCESS);
+            throw new BusinessException(HttpStatusType.ILLEGAL_ACCESS);
         }
         //todo 符合条件
         if (StringUtils.isEmpty(param) || isOracle(param)) {
@@ -98,7 +98,7 @@ public class MapperFactory<T> {
         }
         beanName = StrUtils.toLowerFirstCase(targetClass.getSimpleName());
         if (!beanMaps.containsKey(beanName)) {
-            throw new BusinessException(AppHttpStatus.ILLEGAL_ACCESS);
+            throw new BusinessException(HttpStatusType.ILLEGAL_ACCESS);
         }
         return beanMaps.get(beanName);
     }

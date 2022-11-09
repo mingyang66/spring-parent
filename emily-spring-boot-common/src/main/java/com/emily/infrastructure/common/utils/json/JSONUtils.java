@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.json;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -35,7 +35,7 @@ public class JSONUtils {
         //取消默认转换timestamps
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DateFormat.YYYY_MM_DD_HH_MM_SS.getFormat()));
+        objectMapper.setDateFormat(new SimpleDateFormat(DateFormatType.YYYY_MM_DD_HH_MM_SS.getFormat()));
         //忽略空Bean转json的错误
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         //忽略，在json字符串中存在但是在java对象中不存在的属性
@@ -72,7 +72,7 @@ public class JSONUtils {
             objectMapper.setSerializationInclusion(include);
             return objectMapper.writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON序列化处理异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON序列化处理异常，" + e);
         }
     }
 
@@ -104,7 +104,7 @@ public class JSONUtils {
             objectMapper.setSerializationInclusion(include);
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON序列化处理异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON序列化处理异常，" + e);
         }
     }
 
@@ -116,11 +116,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(file, responseType);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (JsonParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -132,11 +132,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(jsonString, responseType);
         } catch (JsonParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -164,11 +164,11 @@ public class JSONUtils {
             JavaType javaType = javaType(parametrized, parameterClasses);
             return objectMapper.readValue(jsonString, javaType);
         } catch (JsonParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -190,11 +190,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(jsonString, javaType);
         } catch (JsonParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -212,11 +212,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(jsonString, typeReference);
         } catch (JsonParseException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -247,11 +247,11 @@ public class JSONUtils {
         try {
             objectMapper.writeValue(file, o);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (JsonGenerationException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -263,11 +263,11 @@ public class JSONUtils {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, o);
         } catch (JsonMappingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
         } catch (JsonGenerationException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "JSON字符串转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON字符串转换异常，" + e);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
         }
     }
 
@@ -284,7 +284,7 @@ public class JSONUtils {
         try {
             return objectMapper.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "对象转换为字节数组异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "对象转换为字节数组异常，" + e);
         }
     }
 
@@ -299,7 +299,7 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(src, responseType);
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.EXCEPTION.getStatus(), "从输入流中读取数据对象异常，" + e);
+            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "从输入流中读取数据对象异常，" + e);
         }
     }
 
@@ -317,7 +317,7 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(bytes, responseType);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "数据转换为对象异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "数据转换为对象异常，" + e);
         }
     }
 
@@ -331,7 +331,7 @@ public class JSONUtils {
         try {
             objectMapper.writeValue(outputStream, value);
         } catch (IOException e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_DATA.getStatus(), "转换异常，" + e);
+            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "转换异常，" + e);
         }
 
     }

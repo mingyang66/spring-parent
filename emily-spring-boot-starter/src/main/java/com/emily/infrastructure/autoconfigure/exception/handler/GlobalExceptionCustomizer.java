@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
@@ -82,7 +82,7 @@ public class GlobalExceptionCustomizer {
             //版本号
             baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
             //触发时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求参数
             if (ex instanceof BindException) {
                 BindingResult bindingResult = ((BindException) ex).getBindingResult();

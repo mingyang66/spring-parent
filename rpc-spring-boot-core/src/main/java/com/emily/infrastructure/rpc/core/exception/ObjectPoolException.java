@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.core.exception;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 
 /**
@@ -12,6 +12,6 @@ import com.emily.infrastructure.common.exception.BasicException;
 public class ObjectPoolException extends BasicException {
 
     public ObjectPoolException() {
-        super(AppHttpStatus.ILLEGAL_DATA.getStatus(), "对象池初始化异常");
+        super(HttpStatusType.ILLEGAL_DATA.getStatus(), "对象池初始化异常");
     }
 }

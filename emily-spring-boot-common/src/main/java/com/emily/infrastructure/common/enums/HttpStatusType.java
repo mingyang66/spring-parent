@@ -5,7 +5,7 @@ package com.emily.infrastructure.common.enums;
  * @Description: 自定义状态码异常枚举类
  * @Version: 1.0
  */
-public enum AppHttpStatus {
+public enum HttpStatusType {
     OK(0, "SUCCESS"),
     EXCEPTION(100000, "网络异常，请稍后再试"),
     ILLEGAL_METHOD(100001, "非法方法请求"),
@@ -23,7 +23,7 @@ public enum AppHttpStatus {
      */
     private String message;
 
-    AppHttpStatus(int status, String message) {
+    HttpStatusType(int status, String message) {
         this.status = status;
         this.message = message;
     }

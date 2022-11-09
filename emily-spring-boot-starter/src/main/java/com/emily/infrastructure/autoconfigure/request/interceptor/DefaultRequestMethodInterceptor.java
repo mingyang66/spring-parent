@@ -3,8 +3,8 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
@@ -52,7 +52,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //事务唯一编号
             baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
             //时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //请求url
             baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
             //请求参数
@@ -81,9 +81,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 baseLogger.setBody(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
                 //响应码
-                baseLogger.setStatus(AppHttpStatus.EXCEPTION.getStatus());
+                baseLogger.setStatus(HttpStatusType.EXCEPTION.getStatus());
                 //响应描述
-                baseLogger.setMessage(AppHttpStatus.EXCEPTION.getMessage());
+                baseLogger.setMessage(HttpStatusType.EXCEPTION.getMessage());
                 //异常响应体
                 baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
             }
@@ -100,7 +100,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //耗时
             baseLogger.setSpentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime());
             //时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //移除线程上下文数据

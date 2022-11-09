@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.common.enums.DateFormat;
+import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
@@ -80,7 +80,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             //耗时
             baseLogger.setSpentTime(System.currentTimeMillis() - start);
             //响应时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步线程池记录日志
             ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //非servlet上下文移除数据

@@ -1,11 +1,12 @@
 package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 /**
@@ -27,9 +28,9 @@ public class NumberUtils {
             if (scale < 0) {
                 scale = 0;
             }
-            return new BigDecimal(number).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+            return new BigDecimal(number).setScale(scale, RoundingMode.HALF_UP).toString();
         } catch (Exception e) {
-            throw new BasicException(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), "数据计算异常");
+            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "数据计算异常");
         }
     }
 

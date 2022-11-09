@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import org.springframework.beans.TypeMismatchException;
@@ -40,7 +40,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), e.getMessage());
+        return BaseResponse.buildResponse(HttpStatusType.EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -51,7 +51,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), e.getMessage());
+        return BaseResponse.buildResponse(HttpStatusType.EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -73,7 +73,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_PROXY);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_PROXY);
     }
 
     /**
@@ -84,7 +84,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -95,7 +95,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -106,7 +106,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.EXCEPTION);
+        return BaseResponse.buildResponse(HttpStatusType.EXCEPTION);
     }
 
     /**
@@ -117,7 +117,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -128,7 +128,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(TypeMismatchException.class)
     public BaseResponse requestTypeMismatch(TypeMismatchException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -139,7 +139,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(MissingRequestValueException.class)
     public BaseResponse missingRequestValueException(MissingRequestValueException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
 
@@ -156,9 +156,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         recordErrorMsg(e, request);
         BindingResult bindingResult = e.getBindingResult();
         if (Objects.isNull(bindingResult) || Objects.isNull(bindingResult.getFieldError())) {
-            return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
+            return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
         }
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT.getStatus(), bindingResult.getFieldError().getDefaultMessage());
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), bindingResult.getFieldError().getDefaultMessage());
     }
 
     @ResponseBody
@@ -166,7 +166,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ARGUMENT);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -177,7 +177,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public BaseResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_METHOD);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_METHOD);
     }
 
     /**
@@ -188,7 +188,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -199,7 +199,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ArithmeticException.class)
     public BaseResponse arithmeticException(ArithmeticException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_DATA);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -210,7 +210,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(UnknownContentTypeException.class)
     public BaseResponse unknownContentTypeException(UnknownContentTypeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 
     /**
@@ -221,7 +221,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ResourceAccessException.class)
     public BaseResponse resourceAccessException(ResourceAccessException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 }
 

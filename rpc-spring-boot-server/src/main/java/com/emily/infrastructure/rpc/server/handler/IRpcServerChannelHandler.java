@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rpc.server.handler;
 
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.rpc.core.message.IRpcMessage;
@@ -102,7 +102,7 @@ public class IRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
             //异常结果
             Object response = PrintExceptionInfo.printErrorInfo(ex);
             //Rpc响应结果
-            rpcResponse = IRpcResponse.buildResponse(AppHttpStatus.EXCEPTION.getStatus(), AppHttpStatus.EXCEPTION.getMessage(), response);
+            rpcResponse = IRpcResponse.buildResponse(HttpStatusType.EXCEPTION.getStatus(), HttpStatusType.EXCEPTION.getMessage(), response);
         } finally {
             //设置请求上下文的事物唯一标识
             if (Objects.nonNull(request)) {

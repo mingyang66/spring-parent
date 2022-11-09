@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.exception;
 
 import com.emily.infrastructure.autoconfigure.exception.handler.DefaultGlobalExceptionHandler;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import org.apache.ibatis.binding.BindingException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -32,7 +32,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ExceptionHandler(BadSqlGrammarException.class)
     public BaseResponse bad1SqlGrammarException(BadSqlGrammarException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 
     /**
@@ -43,7 +43,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = MyBatisSystemException.class)
     public BaseResponse myBatisSystemExceptionHandler(MyBatisSystemException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 
     /**
@@ -54,7 +54,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = BindingException.class)
     public BaseResponse bindingExceptionHandler(BindingException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 
 
@@ -66,7 +66,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ExceptionHandler(TransientDataAccessException.class)
     public BaseResponse transientDataAccessException(TransientDataAccessException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 
     /**
@@ -77,7 +77,7 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public BaseResponse duplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 
     /**
@@ -88,6 +88,6 @@ public class CustomExceptionHandler extends DefaultGlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public BaseResponse dataAccessException(DataAccessException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return BaseResponse.buildResponse(AppHttpStatus.ILLEGAL_ACCESS);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ACCESS);
     }
 }

@@ -106,7 +106,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //移除线程上下文数据
             ThreadContextHolder.unbind(true);
             //设置耗时
-            RequestUtils.getRequest().setAttribute(AttributeInfo.TIME, baseLogger.getSpentTime());
+            RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, baseLogger.getSpentTime());
         }
 
     }

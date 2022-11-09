@@ -184,7 +184,7 @@ public class RequestUtils {
         if (!RequestUtils.isServletContext()) {
             return 0L;
         }
-        Object time = RequestUtils.getRequest().getAttribute(AttributeInfo.TIME);
+        Object time = RequestUtils.getRequest().getAttribute(AttributeInfo.SPENT_TIME);
         if (Objects.nonNull(time)) {
             return Long.valueOf(String.valueOf(time));
         }

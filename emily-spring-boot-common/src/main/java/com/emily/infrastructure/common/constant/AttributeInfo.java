@@ -10,7 +10,7 @@ public class AttributeInfo {
     /**
      * 耗时字段
      */
-    public static final String TIME = "time";
+    public static final String SPENT_TIME = "spentTime";
     /**
      * 阶段标识
      */

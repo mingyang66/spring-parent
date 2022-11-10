@@ -9,10 +9,7 @@ import com.rabbitmq.client.impl.CredentialsRefreshService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.rabbit.config.BaseRabbitListenerContainerFactory;
-import org.springframework.amqp.rabbit.config.ContainerCustomizer;
-import org.springframework.amqp.rabbit.config.DirectRabbitListenerContainerFactory;
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.config.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy;
@@ -46,6 +43,9 @@ import java.util.Objects;
 public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBean, BeanFactoryAware {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqAutoConfiguration.class);
+
+    private final ObjectProvider<MessageConverter> messageConverter;
+
     /**
      * RabbitAnnotationDrivenConfiguration类中初始化
      */
@@ -53,9 +53,10 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
 
     private DirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer;
 
-
-    public RabbitMqAutoConfiguration(SimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurer,
-                                     DirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer) {
+    RabbitMqAutoConfiguration(ObjectProvider<MessageConverter> messageConverter,
+                              SimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurer,
+                              DirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer) {
+        this.messageConverter = messageConverter;
         this.simpleRabbitListenerContainerFactoryConfigurer = simpleRabbitListenerContainerFactoryConfigurer;
         this.directRabbitListenerContainerFactoryConfigurer = directRabbitListenerContainerFactoryConfigurer;
     }
@@ -71,7 +72,6 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
                                   ObjectProvider<CredentialsProvider> credentialsProvider,
                                   ObjectProvider<CredentialsRefreshService> credentialsRefreshService,
                                   ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,
-                                  ObjectProvider<MessageConverter> messageConverter,
                                   ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers,
                                   ObjectProvider<ContainerCustomizer<SimpleMessageListenerContainer>> simpleContainerCustomizer,
                                   ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) throws Exception {
@@ -94,47 +94,34 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             RabbitMessagingTemplate rabbitMessagingTemplate = messagingTemplateConfiguration.rabbitMessagingTemplate(rabbitTemplate);
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
 
-            BaseRabbitListenerContainerFactory rabbitListenerContainerFactory;
-            if (properties.getListener().getType().equals(RabbitProperties.ContainerType.SIMPLE)) {
-                rabbitListenerContainerFactory = simpleRabbitListenerContainerFactory(connectionFactory, simpleContainerCustomizer);
-            } else {
-                rabbitListenerContainerFactory = directRabbitListenerContainerFactory(connectionFactory, directContainerCustomizer);
-            }
+            BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = getRabbitListenerContainerFactory(connectionFactory, properties, simpleContainerCustomizer, directContainerCustomizer);
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
-
-            //defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, "RabbitMqListenerConfigurer"), new RabbitMqListenerConfigurer(key, rabbitListenerContainerFactory));
         }
         return "UNSET";
     }
 
     /**
-     * 相关类RabbitAnnotationDrivenConfiguration
-     *
+     * 参考：org.springframework.boot.autoconfigure.amqp.RabbitAnnotationDrivenConfiguration
      * @param connectionFactory
+     * @param properties
      * @param simpleContainerCustomizer
-     * @return
-     */
-    SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(ConnectionFactory connectionFactory,
-                                                                              ObjectProvider<ContainerCustomizer<SimpleMessageListenerContainer>> simpleContainerCustomizer) {
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        simpleRabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
-        simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
-        return factory;
-    }
-
-    /**
-     * 相关类RabbitAnnotationDrivenConfiguration
-     *
-     * @param connectionFactory
      * @param directContainerCustomizer
      * @return
      */
-    DirectRabbitListenerContainerFactory directRabbitListenerContainerFactory(ConnectionFactory connectionFactory,
-                                                                              ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) {
-        DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
-        this.directRabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
-        directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
-        return factory;
+    protected AbstractRabbitListenerContainerFactory getRabbitListenerContainerFactory(ConnectionFactory connectionFactory, RabbitProperties properties,
+                                                                                       ObjectProvider<ContainerCustomizer<SimpleMessageListenerContainer>> simpleContainerCustomizer,
+                                                                                       ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) {
+        if (RabbitProperties.ContainerType.DIRECT.equals(properties.getListener().getType())) {
+            DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
+            this.directRabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
+            directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
+            return factory;
+        } else {
+            SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+            this.simpleRabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
+            simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
+            return factory;
+        }
     }
 
     @Bean

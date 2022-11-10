@@ -1,4 +1,3 @@
-/*
 package com.emily.infrastructure.test.controller.rabbit;
 
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
@@ -7,12 +6,11 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-*/
 /**
  * @author Emily
  * @Description: RabbitMQ消息消费者
  * @Version: 1.0
- *//*
+ */
 
 
 public class RabbitConsumer {
@@ -41,4 +39,3 @@ public class RabbitConsumer {
         return "unset";
     }
 }
-*/

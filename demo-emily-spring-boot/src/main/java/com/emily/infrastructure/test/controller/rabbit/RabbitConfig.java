@@ -1,15 +1,13 @@
-/*
 package com.emily.infrastructure.test.controller.rabbit;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 
-*/
 /**
  * @Description :
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/10 4:48 下午
- *//*
+ */
 
 @AutoConfiguration
 public class RabbitConfig {
@@ -24,4 +22,3 @@ public class RabbitConfig {
         System.out.println("EMILY-" + message);
     }
 }
-*/

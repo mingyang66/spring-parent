@@ -7,14 +7,11 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy;
 import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.amqp.CachingConnectionFactoryConfigurer;
-import org.springframework.boot.autoconfigure.amqp.ConnectionFactoryCustomizer;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionFactoryBeanConfigurer;
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
+import org.springframework.boot.autoconfigure.amqp.*;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * @Description :  Rabbit工厂创建器
+ * @Description :  Rabbit工厂创建器 参考：{@link RabbitAutoConfiguration}
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/6 9:54 上午
  */

@@ -3,7 +3,7 @@ package com.emily.infrastructure.rabbitmq;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqConnectionFactoryCreator;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqMessagingTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqTemplateConfiguration;
-import com.emily.infrastructure.rabbitmq.common.RabbitMqConstant;
+import com.emily.infrastructure.rabbitmq.common.RabbitMqInfo;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
 import org.slf4j.Logger;
@@ -89,13 +89,13 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             defaultListableBeanFactory.registerSingleton(key, rabbitTemplate);
 
             AmqpAdmin amqpAdmin = templateConfiguration.amqpAdmin(connectionFactory);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.AMQP_ADMIN), amqpAdmin);
+            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN), amqpAdmin);
 
             RabbitMessagingTemplate rabbitMessagingTemplate = messagingTemplateConfiguration.rabbitMessagingTemplate(rabbitTemplate);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
+            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
 
             BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = getRabbitListenerContainerFactory(connectionFactory, properties, simpleContainerCustomizer, directContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqConstant.LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
+            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
         }
         return "UNSET";
     }

@@ -5,7 +5,7 @@ package com.emily.infrastructure.rabbitmq.common;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/8 10:47 上午
  */
-public class RabbitMqConstant {
+public class RabbitMqInfo {
     /**
      * 动态初始化队里、交换机、路由绑定bean名称后缀
      */

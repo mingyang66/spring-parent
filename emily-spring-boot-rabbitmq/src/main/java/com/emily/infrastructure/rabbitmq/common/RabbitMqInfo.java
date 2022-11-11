@@ -21,5 +21,5 @@ public class RabbitMqInfo {
     /**
      *
      */
-    public static final String LISTENER_CONTAINER_FACTORY = "RabbitListenerContainerFactory";
+    public static final String RABBIT_LISTENER_CONTAINER_FACTORY = "RabbitListenerContainerFactory";
 }

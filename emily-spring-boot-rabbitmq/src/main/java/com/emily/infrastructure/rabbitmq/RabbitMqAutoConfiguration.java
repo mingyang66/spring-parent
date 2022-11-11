@@ -95,7 +95,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
 
             BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = getRabbitListenerContainerFactory(connectionFactory, properties, simpleContainerCustomizer, directContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
+            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
         }
         return "UNSET";
     }
@@ -113,11 +113,17 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
                                                                                        ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) {
         if (RabbitProperties.ContainerType.DIRECT.equals(properties.getListener().getType())) {
             DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
+            factory.setConnectionFactory(connectionFactory);
+            factory.setAcknowledgeMode(properties.getListener().getDirect().getAcknowledgeMode());
+            factory.setPrefetchCount(properties.getListener().getDirect().getPrefetch());
             this.directRabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
             directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
             return factory;
         } else {
             SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+            factory.setConnectionFactory(connectionFactory);
+            factory.setAcknowledgeMode(properties.getListener().getSimple().getAcknowledgeMode());
+            factory.setPrefetchCount(properties.getListener().getSimple().getPrefetch());
             this.simpleRabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
             simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
             return factory;

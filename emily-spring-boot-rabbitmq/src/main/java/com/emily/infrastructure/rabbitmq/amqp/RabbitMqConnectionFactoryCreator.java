@@ -16,8 +16,15 @@ import org.springframework.core.io.ResourceLoader;
  * @CreateDate :  Created in 2022/6/6 9:54 上午
  */
 public class RabbitMqConnectionFactoryCreator {
-
-    public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(RabbitProperties properties,
+    /**
+     * 创建RabbitConnectionFactoryBeanConfigurer对象
+     * @param properties
+     * @param resourceLoader
+     * @param credentialsProvider
+     * @param credentialsRefreshService
+     * @return
+     */
+    public RabbitConnectionFactoryBeanConfigurer createRabbitConnectionFactoryBeanConfigurer(RabbitProperties properties,
                                                                                        ResourceLoader resourceLoader, ObjectProvider<CredentialsProvider> credentialsProvider,
                                                                                        ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
         RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader,
@@ -34,7 +41,7 @@ public class RabbitMqConnectionFactoryCreator {
         return configurer;
     }
 
-    public CachingConnectionFactory rabbitConnectionFactory(
+    public CachingConnectionFactory createRabbitConnectionFactory(
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer,
             CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer,
             ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers) throws Exception {

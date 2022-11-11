@@ -1,7 +1,11 @@
 package com.emily.infrastructure.test.controller.rabbit;
 
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+
+import java.io.IOException;
 
 /**
  * @Description :
@@ -13,12 +17,20 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 public class RabbitConfig {
 
     @RabbitListener(queues = "topic.test.queue", containerFactory = "testRabbitListenerContainerFactory")
-    public void handler(String message) {
-        System.out.println("TEST-" + message);
+    public void handler(Channel channel, Message message) throws IOException {
+        try {
+            System.out.println("TEST-" + new String(message.getBody()));
+        } finally {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        }
     }
 
     @RabbitListener(queues = "topic.emily.queue", containerFactory = "emilyRabbitListenerContainerFactory")
-    public void handlerEmily(String message) {
-        System.out.println("EMILY-" + message);
+    public void handlerEmily(Channel channel, Message message) throws IOException {
+        try {
+            System.out.println("EMILY-" + new String(message.getBody()));
+        } finally {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        }
     }
 }

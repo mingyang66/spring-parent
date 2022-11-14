@@ -26,7 +26,6 @@
         <module>rpc-spring-boot-client</module>
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
-        <module>demo-reactor-spring-boot</module>
     </modules>
     <groupId>com.emily.infrastructure</groupId>
     <artifactId>spring-parent</artifactId>

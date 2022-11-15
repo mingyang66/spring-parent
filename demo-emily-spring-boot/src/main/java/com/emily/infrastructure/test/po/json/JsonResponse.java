@@ -15,6 +15,8 @@ import java.util.Set;
  */
 @JsonSerialize(include = true)
 public class JsonResponse {
+    private int a;
+    private byte[] b;
     @JsonSensitive(SensitiveType.USERNAME)
     private String username;
     @JsonSensitive
@@ -35,6 +37,22 @@ public class JsonResponse {
     private Set<Job> list;
     private DateFormatType dateFormat;
     private Map<String, Object> work;
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public byte[] getB() {
+        return b;
+    }
+
+    public void setB(byte[] b) {
+        this.b = b;
+    }
 
     public String[] getArr() {
         return arr;

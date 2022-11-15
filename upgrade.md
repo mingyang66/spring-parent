@@ -8,6 +8,7 @@ Bug Fixes
 4. 脱敏实现类方法优化调整；
 5. 耗时字段由time更改为spentTime;
 6. AppHttpStatus、DateFormat枚举类重命名；
+7. 脱敏工具类对数组类型是8中基本类型做兼容；
 
 -----
 基础库发布4.1.6

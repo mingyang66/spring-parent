@@ -205,12 +205,16 @@ public class SensitiveUtils {
             });
             return dMap;
         } else if (entity.getClass().isArray()) {
-            Object[] v = (Object[]) entity;
-            Object[] t = new Object[v.length];
-            for (int i = 0; i < v.length; i++) {
-                t[i] = doGetEntity(v[i], include);
+            if (entity.getClass().getComponentType().isPrimitive()) {
+                return entity;
+            } else {
+                Object[] v = (Object[]) entity;
+                Object[] t = new Object[v.length];
+                for (int i = 0; i < v.length; i++) {
+                    t[i] = doGetEntity(v[i], include);
+                }
+                return t;
             }
-            return t;
         } else if (entity instanceof BaseResponse) {
             return doGetBaseResponse(entity, include);
         }
@@ -330,12 +334,16 @@ public class SensitiveUtils {
                     });
                     fieldMap.put(name, dMap);
                 } else if (value.getClass().isArray()) {
-                    Object[] v = (Object[]) value;
-                    Object[] t = new Object[v.length];
-                    for (int i = 0; i < v.length; i++) {
-                        t[i] = doGetField(v[i], include);
+                    if (value.getClass().getComponentType().isPrimitive()) {
+                        fieldMap.put(name, value);
+                    } else {
+                        Object[] v = (Object[]) value;
+                        Object[] t = new Object[v.length];
+                        for (int i = 0; i < v.length; i++) {
+                            t[i] = doGetField(v[i], include);
+                        }
+                        fieldMap.put(name, t);
                     }
-                    fieldMap.put(name, t);
                 } else {
                     fieldMap.put(name, doGetField(value, include));
                 }

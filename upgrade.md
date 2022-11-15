@@ -11,6 +11,7 @@ Bug Fixes
 7. 脱敏工具类对数组类型是8中基本类型做兼容；
 8. 全局异常捕获新增IllegalArgumentException、ValidationException两个异常类；
 9. 脱敏注解重命名为JsonSimField、JsonSensitive;
+
 -----
 基础库发布4.1.6
 Bug Fixes

@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.po.json;
 
 import com.emily.infrastructure.common.enums.DateFormatType;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
-import com.emily.infrastructure.common.sensitive.JsonSerialize;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import java.util.Map;
@@ -13,23 +13,23 @@ import java.util.Set;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSerialize(include = true)
+@JsonSensitive(include = true)
 public class JsonResponse {
     private int a;
     private byte[] b;
-    @JsonSensitive(SensitiveType.USERNAME)
+    @JsonSimField(SensitiveType.USERNAME)
     private String username;
-    @JsonSensitive
+    @JsonSimField
     private String password;
-    @JsonSensitive(SensitiveType.EMAIL)
+    @JsonSimField(SensitiveType.EMAIL)
     private String email;
-    @JsonSensitive(SensitiveType.ID_CARD)
+    @JsonSimField(SensitiveType.ID_CARD)
     private String idCard;
-    @JsonSensitive(SensitiveType.BANK_CARD)
+    @JsonSimField(SensitiveType.BANK_CARD)
     private String bankCard;
-    @JsonSensitive(SensitiveType.PHONE)
+    @JsonSimField(SensitiveType.PHONE)
     private String phone;
-    @JsonSensitive(SensitiveType.PHONE)
+    @JsonSimField(SensitiveType.PHONE)
     private String mobile;
     private Job job;
     private Job[] jobs;
@@ -159,9 +159,9 @@ public class JsonResponse {
     }
 
     public static class Job {
-        @JsonSensitive(SensitiveType.DEFAULT)
+        @JsonSimField(SensitiveType.DEFAULT)
         private String work;
-        @JsonSensitive(SensitiveType.EMAIL)
+        @JsonSimField(SensitiveType.EMAIL)
         private String email;
 
         public String getWork() {

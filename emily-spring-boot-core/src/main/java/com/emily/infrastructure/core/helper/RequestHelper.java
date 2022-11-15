@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.sensitive.JsonSensitive;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
@@ -208,8 +208,8 @@ public class RequestHelper {
                     boolean flag = true;
                     for (int j = 0; j < annotations[i].length; j++) {
                         Annotation annotation = annotations[i][j];
-                        if (annotation instanceof JsonSensitive) {
-                            JsonSensitive sensitive = (JsonSensitive) annotation;
+                        if (annotation instanceof JsonSimField) {
+                            JsonSimField sensitive = (JsonSimField) annotation;
                             paramMap.put(name, SensitiveUtils.doGetSensitiveField(sensitive.value(), (String) value));
                             flag = false;
                             break;

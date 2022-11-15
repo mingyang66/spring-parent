@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.po.json;
 
 import com.emily.infrastructure.common.sensitive.JsonFlexField;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
-import com.emily.infrastructure.common.sensitive.JsonSerialize;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSerialize(include = true)
+@JsonSensitive(include = true)
 public class JsonRequest {
     @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String fieldKey;
@@ -23,19 +23,19 @@ public class JsonRequest {
     private String fieldKey1;
     private String fieldValue1;
     @NotEmpty
-    @JsonSensitive(SensitiveType.USERNAME)
+    @JsonSimField(SensitiveType.USERNAME)
     private String username;
-    @JsonSensitive
+    @JsonSimField
     private String password;
-    @JsonSensitive(SensitiveType.EMAIL)
+    @JsonSimField(SensitiveType.EMAIL)
     private String email;
-    @JsonSensitive(SensitiveType.ID_CARD)
+    @JsonSimField(SensitiveType.ID_CARD)
     private String idCard;
-    @JsonSensitive(SensitiveType.BANK_CARD)
+    @JsonSimField(SensitiveType.BANK_CARD)
     private String bankCard;
-    @JsonSensitive(SensitiveType.PHONE)
+    @JsonSimField(SensitiveType.PHONE)
     private String phone;
-    @JsonSensitive(SensitiveType.PHONE)
+    @JsonSimField(SensitiveType.PHONE)
     private String mobile;
     private int zs;
     private char c = 1;
@@ -172,9 +172,9 @@ public class JsonRequest {
     }
 
     public static class Job {
-        @JsonSensitive(SensitiveType.DEFAULT)
+        @JsonSimField(SensitiveType.DEFAULT)
         private String work;
-        @JsonSensitive(SensitiveType.EMAIL)
+        @JsonSimField(SensitiveType.EMAIL)
         private String email;
         @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
         private String fieldKey;

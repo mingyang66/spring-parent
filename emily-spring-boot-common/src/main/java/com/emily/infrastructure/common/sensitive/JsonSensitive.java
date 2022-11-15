@@ -6,16 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description :  自定义jackson注解，标注在属性上
+ * @Description :  Json脱敏标记，必须指定此标记，否则脱敏无效
  * @Author :  Emily
- * @CreateDate :  Created in 2022/7/19 5:22 下午
+ * @CreateDate :  Created in 2022/11/4 11:23 上午
  */
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsonSensitive {
     /**
-     * 脱敏类型，见枚举类型{@link SensitiveType}
+     * 序列化脱敏是否包含嵌套内部类
+     *
      * @return
      */
-    SensitiveType value() default SensitiveType.DEFAULT;
+    boolean include() default false;
 }

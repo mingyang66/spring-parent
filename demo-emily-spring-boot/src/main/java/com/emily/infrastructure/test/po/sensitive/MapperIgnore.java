@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.po.sensitive;
 
-import com.emily.infrastructure.common.sensitive.JsonSensitive;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 /**
@@ -9,11 +9,11 @@ import com.emily.infrastructure.common.sensitive.SensitiveType;
  * @CreateDate :  Created in 2022/10/27 2:51 下午
  */
 public class MapperIgnore {
-    @JsonSensitive(SensitiveType.USERNAME)
+    @JsonSimField(SensitiveType.USERNAME)
     private String id;
 
     private String total;
-    @JsonSensitive
+    @JsonSimField
     private String entity_id;
     private String percentage;
 

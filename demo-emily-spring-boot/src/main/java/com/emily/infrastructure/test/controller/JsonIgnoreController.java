@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.enums.DateFormatType;
-import com.emily.infrastructure.common.sensitive.JsonSensitive;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
@@ -88,7 +88,7 @@ public class JsonIgnoreController {
     }
 
     @GetMapping("test4")
-    public String test4(String name, @JsonSensitive @RequestParam("phone") String phone, @JsonSensitive(SensitiveType.USERNAME) @RequestParam String username) {
+    public String test4(String name, @JsonSimField @RequestParam("phone") String phone, @JsonSimField(SensitiveType.USERNAME) @RequestParam String username) {
         return phone + "-" + username;
     }
 

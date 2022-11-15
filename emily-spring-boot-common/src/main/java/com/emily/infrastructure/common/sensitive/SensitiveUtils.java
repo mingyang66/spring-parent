@@ -269,8 +269,8 @@ public class SensitiveUtils {
      * @return
      */
     private static Object doGetEntityResponse(final Object entity, final Boolean include) {
-        if (entity.getClass().isAnnotationPresent(JsonSerialize.class)) {
-            return doSetField(entity, entity.getClass().getAnnotation(JsonSerialize.class).include());
+        if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+            return doSetField(entity, entity.getClass().getAnnotation(JsonSensitive.class).include());
         } else if (isInclude(include)) {
             return doSetField(entity, Boolean.TRUE);
         } else {
@@ -302,9 +302,9 @@ public class SensitiveUtils {
                     continue;
                 }
                 //普通字段脱敏
-                if (field.isAnnotationPresent(JsonSensitive.class)) {
+                if (field.isAnnotationPresent(JsonSimField.class)) {
                     if (isFinal(value)) {
-                        JsonSensitive sensitive = field.getAnnotation(JsonSensitive.class);
+                        JsonSimField sensitive = field.getAnnotation(JsonSimField.class);
                         if (value instanceof String) {
                             fieldMap.put(name, doGetSensitiveField(sensitive.value(), (String) value));
                         } else {

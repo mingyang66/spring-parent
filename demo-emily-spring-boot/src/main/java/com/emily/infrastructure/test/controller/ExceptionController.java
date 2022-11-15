@@ -17,8 +17,7 @@ public class ExceptionController {
 
     @GetMapping("test1")
     public void exception() {
-        String s = null;
-        s.length();
+        throw new IllegalArgumentException("非法参数测试");
     }
 
     @GetMapping("assert1")

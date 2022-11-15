@@ -1,3 +1,4 @@
+/*
 package com.emily.infrastructure.test.controller.rabbit;
 
 import com.rabbitmq.client.Channel;
@@ -7,11 +8,13 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 import java.io.IOException;
 
+*/
 /**
  * @Description :
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/10 4:48 下午
- */
+ *//*
+
 
 @AutoConfiguration
 public class RabbitConfig {
@@ -34,3 +37,4 @@ public class RabbitConfig {
         }
     }
 }
+*/

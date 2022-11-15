@@ -1,14 +1,13 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
+import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.entity.BaseResponse;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -20,9 +19,10 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.UnknownContentTypeException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.Objects;
 
 /**
  * @author Emily
@@ -132,7 +132,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     }
 
     /**
-     * API-缺少参数
+     * API-缺少参数，如Get请求@RequestParam注解
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -154,17 +154,45 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler({BindException.class})
     public BaseResponse bindException(BindException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        BindingResult bindingResult = e.getBindingResult();
-        if (Objects.isNull(bindingResult) || Objects.isNull(bindingResult.getFieldError())) {
-            return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
-        }
-        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), bindingResult.getFieldError().getDefaultMessage());
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
+    }
+
+    /**
+     * Get请求参数校验，如@NotEmpty、@NotNull等等
+     *
+     * @param e
+     * @param request
+     * @return
+     * @throws ConstraintViolationException,ValidationException
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(ValidationException.class)
+    public BaseResponse validationException(ValidationException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
+    }
+
+    /**
+     * 非法参数异常捕获
+     *
+     * @param e
+     * @param request
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public BaseResponse validationException(IllegalArgumentException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
         return BaseResponse.buildResponse(HttpStatusType.ILLEGAL_ARGUMENT);
     }

@@ -6,6 +6,9 @@ import com.emily.infrastructure.test.po.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -14,6 +17,7 @@ import java.util.List;
  * @author: Emily
  * @create: 2021/10/30
  */
+@Validated
 @RestController
 @RequestMapping("api/param")
 public class ParamController {
@@ -40,7 +44,17 @@ public class ParamController {
     }
 
     @GetMapping("rest/{code}/{name}")
-    public String restTest(@PathVariable("code") String code, @PathVariable("name") String name) {
+    public String restTest(@PathVariable("code") String code, @PathVariable("name") @NotNull String name) {
         return "s";
+    }
+
+    @GetMapping("getParam")
+    public String getParam(@NotEmpty(message = "用户名不可为空") String username){
+        return username;
+    }
+
+    @GetMapping("getBody")
+    public String getParam(@Validated Job job){
+        return "sdf";
     }
 }

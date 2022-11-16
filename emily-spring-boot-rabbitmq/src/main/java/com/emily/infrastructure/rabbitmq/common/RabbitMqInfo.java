@@ -17,7 +17,7 @@ public class RabbitMqInfo {
     /**
      * ConnectionFactory bean名称
      */
-    public static final String CONNECTION_FACTORY = "ConnectionFactory";
+    public static final String RABBIT_CONNECTION_FACTORY = "RabbitConnectionFactory";
     /**
      *
      */

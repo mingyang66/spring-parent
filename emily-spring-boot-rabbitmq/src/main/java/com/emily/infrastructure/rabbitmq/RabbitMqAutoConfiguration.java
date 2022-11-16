@@ -92,6 +92,11 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = connectionFactoryCreator.createRabbitConnectionFactoryBeanConfigurer(properties, resourceLoader, credentialsProvider, credentialsRefreshService);
             //创建CachingConnectionFactory对象
             CachingConnectionFactory connectionFactory = connectionFactoryCreator.createRabbitConnectionFactory(rabbitConnectionFactoryBeanConfigurer, rabbitConnectionFactoryConfigurer, connectionFactoryCustomizers);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_CONNECTION_FACTORY), connectionFactory);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_CONNECTION_FACTORY), connectionFactory);
+            }
 
             //创建RabbitTemplate对象
             RabbitTemplate rabbitTemplate = templateConfiguration.createRabbitTemplate(configurer, connectionFactory);
@@ -119,7 +124,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = getRabbitListenerContainerFactory(connectionFactory, properties, simpleContainerCustomizer, directContainerCustomizer);
             //默认Rabbit容器工厂类BeanName命名规则是simpleRabbitListenerContainerFactory或directRabbitListenerContainerFactory
             if (StringUtils.equals(defaultConfig, key)) {
-                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", properties.getListener().getType().toString().toLowerCase(), RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
             } else {
                 //非默认RabbitMQ容器工厂类BeanName命名规则是 标识+RabbitListenerContainerFactory
                 defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);

@@ -1,9 +1,11 @@
 package com.emily.infrastructure.rabbitmq.factory;
 
+import com.emily.infrastructure.common.utils.StrUtils;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
 import com.emily.infrastructure.rabbitmq.common.RabbitMqInfo;
 import com.rabbitmq.client.Channel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
@@ -36,13 +38,16 @@ public class RabbitMqFactory {
      * @return
      */
     public static RabbitTemplate getRabbitTemplate(String key) {
-        if (Objects.isNull(key)) {
-            key = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
+        String beanName;
+        if (Objects.isNull(key) || StringUtils.equals(key, IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig())) {
+            beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE);
+        } else {
+            beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE);
         }
-        if (!IOCContext.containsBean(key)) {
+        if (!IOCContext.containsBean(beanName)) {
             throw new IllegalArgumentException(MessageFormat.format("RabbitMQ消息中间件标识{0}不存在", key));
         }
-        return IOCContext.getBean(key, RabbitTemplate.class);
+        return IOCContext.getBean(beanName, RabbitTemplate.class);
     }
 
     /**

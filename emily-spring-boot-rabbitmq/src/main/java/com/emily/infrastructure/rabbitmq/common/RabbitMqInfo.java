@@ -22,4 +22,8 @@ public class RabbitMqInfo {
      *
      */
     public static final String RABBIT_LISTENER_CONTAINER_FACTORY = "RabbitListenerContainerFactory";
+    /**
+     * RabbitTemplate Bean名称后缀
+     */
+    public static final String RABBIT_TEMPLATE = "RabbitTemplate";
 }

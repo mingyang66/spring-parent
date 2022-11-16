@@ -1,11 +1,13 @@
 package com.emily.infrastructure.rabbitmq;
 
+import com.emily.infrastructure.common.utils.StrUtils;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqConnectionFactoryCreator;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqMessagingTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.amqp.RabbitMqTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.common.RabbitMqInfo;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -18,8 +20,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.DirectMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.*;
@@ -76,6 +79,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
                                   ObjectProvider<ContainerCustomizer<SimpleMessageListenerContainer>> simpleContainerCustomizer,
                                   ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) throws Exception {
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMq连接配置不存在");
+        String defaultConfig = rabbitMqProperties.getDefaultConfig();
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RabbitProperties properties = entry.getValue();
@@ -91,23 +95,42 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
 
             //创建RabbitTemplate对象
             RabbitTemplate rabbitTemplate = templateConfiguration.createRabbitTemplate(configurer, connectionFactory);
-            defaultListableBeanFactory.registerSingleton(key, rabbitTemplate);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE), rabbitTemplate);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE), rabbitTemplate);
+            }
 
             //创建AmqpAdmin对象
             AmqpAdmin amqpAdmin = templateConfiguration.createAmqpAdmin(connectionFactory);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN), amqpAdmin);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.AMQP_ADMIN), amqpAdmin);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN), amqpAdmin);
+            }
 
             RabbitMessagingTemplate rabbitMessagingTemplate = messagingTemplateConfiguration.rabbitMessagingTemplate(rabbitTemplate);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE), rabbitMessagingTemplate);
+            }
 
             BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = getRabbitListenerContainerFactory(connectionFactory, properties, simpleContainerCustomizer, directContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
+            //默认Rabbit容器工厂类BeanName命名规则是simpleRabbitListenerContainerFactory或directRabbitListenerContainerFactory
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", properties.getListener().getType().toString().toLowerCase(), RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
+            } else {
+                //非默认RabbitMQ容器工厂类BeanName命名规则是 标识+RabbitListenerContainerFactory
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
+            }
         }
         return "UNSET";
     }
 
     /**
      * 参考：org.springframework.boot.autoconfigure.amqp.RabbitAnnotationDrivenConfiguration
+     *
      * @param connectionFactory
      * @param properties
      * @param simpleContainerCustomizer

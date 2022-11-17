@@ -171,14 +171,14 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             //RabbitMQ监听器工厂配置类
             AbstractRabbitListenerContainerFactoryConfigurer rabbitListenerContainerFactoryConfigurer;
             if (properties.getListener().getType().equals(RabbitProperties.ContainerType.DIRECT)) {
-                rabbitListenerContainerFactoryConfigurer = rabbitMqAnnotationDrivenConfiguration.directRabbitListenerContainerFactoryConfigurer(properties);
+                rabbitListenerContainerFactoryConfigurer = rabbitMqAnnotationDrivenConfiguration.createDirectRabbitListenerContainerFactoryConfigurer(properties);
                 if (StringUtils.equals(defaultConfig, key)) {
                     defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), rabbitListenerContainerFactoryConfigurer);
                 } else {
                     defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), rabbitListenerContainerFactoryConfigurer);
                 }
             } else {
-                rabbitListenerContainerFactoryConfigurer = rabbitMqAnnotationDrivenConfiguration.simpleRabbitListenerContainerFactoryConfigurer(properties);
+                rabbitListenerContainerFactoryConfigurer = rabbitMqAnnotationDrivenConfiguration.createSimpleRabbitListenerContainerFactoryConfigurer(properties);
                 if (StringUtils.equals(defaultConfig, key)) {
                     defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), rabbitListenerContainerFactoryConfigurer);
                 } else {

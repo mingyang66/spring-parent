@@ -23,7 +23,7 @@ public class RabbitMqProperties {
     /**
      * 默认配置
      */
-    private String defaultConfig = "default";
+    private String defaultConfig;
     /**
      * RabbitMq属性配置
      */

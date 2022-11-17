@@ -19,16 +19,24 @@ import java.util.stream.Collectors;
  * @CreateDate :  Created in 2022/6/6 10:08 上午
  */
 public class RabbitMqTemplateConfiguration {
+
+    private final ObjectProvider<MessageConverter> messageConverter;
+
+    private final ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers;
+
+    public RabbitMqTemplateConfiguration(ObjectProvider<MessageConverter> messageConverter,
+                                         ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers) {
+        this.messageConverter = messageConverter;
+        this.retryTemplateCustomizers = retryTemplateCustomizers;
+    }
+
     /**
      * 创建RabbitTemplateConfigurer配置类
+     *
      * @param properties
-     * @param messageConverter
-     * @param retryTemplateCustomizers
      * @return
      */
-    public RabbitTemplateConfigurer createRabbitTemplateConfigurer(RabbitProperties properties,
-                                                             ObjectProvider<MessageConverter> messageConverter,
-                                                             ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers) {
+    public RabbitTemplateConfigurer createRabbitTemplateConfigurer(RabbitProperties properties) {
         RabbitTemplateConfigurer configurer = new RabbitTemplateConfigurer(properties);
         configurer.setMessageConverter(messageConverter.getIfUnique());
         configurer
@@ -38,6 +46,7 @@ public class RabbitMqTemplateConfiguration {
 
     /**
      * 创建RabbitTemplate
+     *
      * @param configurer
      * @param connectionFactory
      * @return
@@ -50,6 +59,7 @@ public class RabbitMqTemplateConfiguration {
 
     /**
      * 创建AmqpAdmin对象
+     *
      * @param connectionFactory
      * @return
      */

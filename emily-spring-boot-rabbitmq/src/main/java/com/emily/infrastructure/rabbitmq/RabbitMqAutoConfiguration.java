@@ -212,17 +212,11 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
                                                                                        ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) {
         if (RabbitProperties.ContainerType.DIRECT.equals(properties.getListener().getType())) {
             DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
-            factory.setConnectionFactory(connectionFactory);
-            factory.setAcknowledgeMode(properties.getListener().getDirect().getAcknowledgeMode());
-            factory.setPrefetchCount(properties.getListener().getDirect().getPrefetch());
             rabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
             directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
             return factory;
         } else {
             SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-            factory.setConnectionFactory(connectionFactory);
-            factory.setAcknowledgeMode(properties.getListener().getSimple().getAcknowledgeMode());
-            factory.setPrefetchCount(properties.getListener().getSimple().getPrefetch());
             rabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);
             simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
             return factory;

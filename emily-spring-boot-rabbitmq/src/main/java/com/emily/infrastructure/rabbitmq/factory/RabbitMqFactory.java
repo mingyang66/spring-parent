@@ -38,8 +38,9 @@ public class RabbitMqFactory {
      * @return
      */
     public static RabbitTemplate getRabbitTemplate(String key) {
+        String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
         String beanName;
-        if (Objects.isNull(key) || StringUtils.equals(key, IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig())) {
+        if (StringUtils.isNotEmpty(key) && StringUtils.equals(key, defaultConfig)) {
             beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE);
         } else {
             beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE);
@@ -78,11 +79,13 @@ public class RabbitMqFactory {
      * @return
      */
     public static AmqpAdmin getAmqpAdmin(String key) {
-        if (Objects.isNull(key)) {
-            key = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
+        String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
+        String beanName;
+        if (StringUtils.isNotEmpty(key) && StringUtils.equals(key, defaultConfig)) {
+            beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.AMQP_ADMIN);
+        } else {
+            beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN);
         }
-        //AmqpAdmin实例bean名称
-        String beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN);
         if (!IOCContext.containsBean(beanName)) {
             throw new IllegalArgumentException(MessageFormat.format("RabbitMQ消息中间件标识{0}不存在", key));
         }
@@ -103,11 +106,13 @@ public class RabbitMqFactory {
      * @return
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate(String key) {
-        if (Objects.isNull(key)) {
-            key = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
+        String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
+        String beanName;
+        if (StringUtils.isNotEmpty(key) && StringUtils.equals(key, defaultConfig)) {
+            beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
+        } else {
+            beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
         }
-        //AmqpAdmin实例bean名称
-        String beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
         if (!IOCContext.containsBean(beanName)) {
             throw new IllegalArgumentException(MessageFormat.format("RabbitMQ消息中间件标识{0}不存在", key));
         }
@@ -165,4 +170,5 @@ public class RabbitMqFactory {
         Connection connection = connectionFactory.createConnection();
         return connection.createChannel(transactional);
     }
+
 }

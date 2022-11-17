@@ -80,32 +80,46 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
                                   ObjectProvider<ContainerCustomizer<SimpleMessageListenerContainer>> simpleContainerCustomizer,
                                   ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) throws Exception {
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMQ连接配置不存在");
-        String defaultConfig = rabbitMqProperties.getDefaultConfig();
-        if(StringUtils.isNotEmpty(defaultConfig)){
-            Assert.isTrue(dataMap.keySet().contains(defaultConfig), "RabbitMQ默认配置标识不存在");
-        }
+        String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ必须指定默认标识");
+        Assert.isTrue(dataMap.keySet().contains(defaultConfig), "RabbitMQ默认配置标识不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RabbitProperties properties = entry.getValue();
 
+            //创建连接工厂配置类
             CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer = connectionFactoryCreator.rabbitConnectionFactoryConfigurer(properties, connectionNameStrategy);
-            //创建RabbitTemplate配置类
-            RabbitTemplateConfigurer configurer = templateConfiguration.createRabbitTemplateConfigurer(properties, messageConverter, retryTemplateCustomizers);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), rabbitConnectionFactoryConfigurer);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), rabbitConnectionFactoryConfigurer);
+            }
 
             //创建RabbitConnectionFactoryBeanConfigurer对象
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = connectionFactoryCreator.createRabbitConnectionFactoryBeanConfigurer(properties, resourceLoader, credentialsProvider, credentialsRefreshService);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), rabbitConnectionFactoryBeanConfigurer);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), rabbitConnectionFactoryBeanConfigurer);
+            }
+
             //创建CachingConnectionFactory对象
             CachingConnectionFactory connectionFactory = connectionFactoryCreator.createRabbitConnectionFactory(rabbitConnectionFactoryBeanConfigurer, rabbitConnectionFactoryConfigurer, connectionFactoryCustomizers);
-            if (StringUtils.isNotEmpty(defaultConfig)) {
-                if (StringUtils.equals(defaultConfig, key)) {
-                    defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_CONNECTION_FACTORY), connectionFactory);
-                } else {
-                    defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_CONNECTION_FACTORY), connectionFactory);
-                }
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_CONNECTION_FACTORY), connectionFactory);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_CONNECTION_FACTORY), connectionFactory);
+            }
+
+            //创建RabbitTemplate配置类
+            RabbitTemplateConfigurer rabbitTemplateConfigurer = templateConfiguration.createRabbitTemplateConfigurer(properties, messageConverter, retryTemplateCustomizers);
+            if (StringUtils.equals(defaultConfig, key)) {
+                defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE_CONFIGURER), rabbitTemplateConfigurer);
+            } else {
+                defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE_CONFIGURER), rabbitTemplateConfigurer);
             }
 
             //创建RabbitTemplate对象
-            RabbitTemplate rabbitTemplate = templateConfiguration.createRabbitTemplate(configurer, connectionFactory);
+            RabbitTemplate rabbitTemplate = templateConfiguration.createRabbitTemplate(rabbitTemplateConfigurer, connectionFactory);
             if (StringUtils.equals(defaultConfig, key)) {
                 defaultListableBeanFactory.registerSingleton(StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE), rabbitTemplate);
             } else {

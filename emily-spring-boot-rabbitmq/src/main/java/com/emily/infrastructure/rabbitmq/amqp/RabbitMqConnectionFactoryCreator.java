@@ -16,17 +16,36 @@ import org.springframework.core.io.ResourceLoader;
  * @CreateDate :  Created in 2022/6/6 9:54 上午
  */
 public class RabbitMqConnectionFactoryCreator {
+
+    private ResourceLoader resourceLoader;
+
+    private ObjectProvider<CredentialsProvider> credentialsProvider;
+
+    private ObjectProvider<CredentialsRefreshService> credentialsRefreshService;
+
+    private ObjectProvider<ConnectionNameStrategy> connectionNameStrategy;
+
+    private ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers;
+
+    public RabbitMqConnectionFactoryCreator(ResourceLoader resourceLoader,
+                                            ObjectProvider<CredentialsProvider> credentialsProvider,
+                                            ObjectProvider<CredentialsRefreshService> credentialsRefreshService,
+                                            ObjectProvider<ConnectionNameStrategy> connectionNameStrategy,
+                                            ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers) {
+        this.resourceLoader = resourceLoader;
+        this.credentialsProvider = credentialsProvider;
+        this.credentialsRefreshService = credentialsRefreshService;
+        this.connectionNameStrategy = connectionNameStrategy;
+        this.connectionFactoryCustomizers = connectionFactoryCustomizers;
+    }
+
     /**
      * 创建RabbitConnectionFactoryBeanConfigurer对象
+     *
      * @param properties
-     * @param resourceLoader
-     * @param credentialsProvider
-     * @param credentialsRefreshService
      * @return
      */
-    public RabbitConnectionFactoryBeanConfigurer createRabbitConnectionFactoryBeanConfigurer(RabbitProperties properties,
-                                                                                       ResourceLoader resourceLoader, ObjectProvider<CredentialsProvider> credentialsProvider,
-                                                                                       ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
+    public RabbitConnectionFactoryBeanConfigurer createRabbitConnectionFactoryBeanConfigurer(RabbitProperties properties) {
         RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader,
                 properties);
         configurer.setCredentialsProvider(credentialsProvider.getIfUnique());
@@ -34,8 +53,7 @@ public class RabbitMqConnectionFactoryCreator {
         return configurer;
     }
 
-    public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitProperties rabbitProperties,
-                                                                                ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
+    public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitProperties rabbitProperties) {
         CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(rabbitProperties);
         configurer.setConnectionNameStrategy(connectionNameStrategy.getIfUnique());
         return configurer;
@@ -43,8 +61,7 @@ public class RabbitMqConnectionFactoryCreator {
 
     public CachingConnectionFactory createRabbitConnectionFactory(
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer,
-            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer,
-            ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers) throws Exception {
+            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer) throws Exception {
 
         RabbitConnectionFactoryBean connectionFactoryBean = new RabbitConnectionFactoryBean();
         rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);

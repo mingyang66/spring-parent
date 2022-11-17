@@ -11,6 +11,9 @@ Bug Fixes
 7. 脱敏工具类对数组类型是8中基本类型做兼容；
 8. 全局异常捕获新增IllegalArgumentException、ValidationException两个异常类；
 9. 脱敏注解重命名为JsonSimField、JsonSensitive;
+10. RabbitMQ消息中间件支持默认连接容器，可以不用配置containerFactory;
+11. RabbitMQ消息中间件SDK支持多个集群地址配置；
+12. RabbitMQ消息中间件将不同的bean注入到容器之中优化；
 
 -----
 基础库发布4.1.6

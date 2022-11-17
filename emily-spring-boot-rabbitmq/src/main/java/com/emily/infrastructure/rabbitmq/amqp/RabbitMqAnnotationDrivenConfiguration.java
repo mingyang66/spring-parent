@@ -29,7 +29,7 @@ public class RabbitMqAnnotationDrivenConfiguration {
         this.retryTemplateCustomizers = retryTemplateCustomizers;
     }
 
-    public SimpleRabbitMqListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurer(RabbitProperties properties) {
+    public SimpleRabbitMqListenerContainerFactoryConfigurer createSimpleRabbitListenerContainerFactoryConfigurer(RabbitProperties properties) {
         SimpleRabbitMqListenerContainerFactoryConfigurer configurer = new SimpleRabbitMqListenerContainerFactoryConfigurer(properties);
         configurer.setMessageConverter(this.messageConverter.getIfUnique());
         configurer.setMessageRecoverer(this.messageRecoverer.getIfUnique());
@@ -38,7 +38,7 @@ public class RabbitMqAnnotationDrivenConfiguration {
         return configurer;
     }
 
-    public DirectRabbitMqListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer(RabbitProperties properties) {
+    public DirectRabbitMqListenerContainerFactoryConfigurer createDirectRabbitListenerContainerFactoryConfigurer(RabbitProperties properties) {
         DirectRabbitMqListenerContainerFactoryConfigurer configurer = new DirectRabbitMqListenerContainerFactoryConfigurer(properties);
         configurer.setMessageConverter(this.messageConverter.getIfUnique());
         configurer.setMessageRecoverer(this.messageRecoverer.getIfUnique());

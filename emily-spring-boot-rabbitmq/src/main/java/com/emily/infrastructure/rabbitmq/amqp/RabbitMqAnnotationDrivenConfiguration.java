@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  * @Description : 配置RabbitMQ  注解驱动端点
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/17 10:27 上午
  */
 public class RabbitMqAnnotationDrivenConfiguration {

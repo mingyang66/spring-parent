@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @Description : RabbitMQ监听器工厂配置类 Simple模式
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/17 10:34 上午
  */
 public class SimpleRabbitMqListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<SimpleRabbitListenerContainerFactory> {

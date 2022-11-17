@@ -26,4 +26,16 @@ public class RabbitMqInfo {
      * RabbitTemplate Bean名称后缀
      */
     public static final String RABBIT_TEMPLATE = "RabbitTemplate";
+    /**
+     * Rabbit连接工厂Bean配置类
+     */
+    public static final String RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER = "RabbitConnectionFactoryBeanConfigurer";
+    /**
+     * Rabbit连接工厂配置类
+     */
+    public static final String RABBIT_CONNECTION_FACTORY_CONFIGURER = "RabbitConnectionFactoryConfigurer";
+    /**
+     * RabbitTemplate配置类
+     */
+    public static final String RABBIT_TEMPLATE_CONFIGURER = "RabbitTemplateConfigurer";
 }

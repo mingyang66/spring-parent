@@ -40,7 +40,7 @@ public class RabbitMqFactory {
     public static RabbitTemplate getRabbitTemplate(String key) {
         String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
         String beanName;
-        if (StringUtils.isNotEmpty(key) && StringUtils.equals(key, defaultConfig)) {
+        if (StringUtils.isEmpty(key) || StringUtils.equals(key, defaultConfig)) {
             beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE);
         } else {
             beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE);
@@ -108,7 +108,7 @@ public class RabbitMqFactory {
     public static RabbitMessagingTemplate getRabbitMessagingTemplate(String key) {
         String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
         String beanName;
-        if (StringUtils.isNotEmpty(key) && StringUtils.equals(key, defaultConfig)) {
+        if (StringUtils.isEmpty(key) || StringUtils.equals(key, defaultConfig)) {
             beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
         } else {
             beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);

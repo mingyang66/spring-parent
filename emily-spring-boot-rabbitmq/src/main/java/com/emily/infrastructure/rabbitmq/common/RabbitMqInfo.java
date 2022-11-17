@@ -38,4 +38,12 @@ public class RabbitMqInfo {
      * RabbitTemplate配置类
      */
     public static final String RABBIT_TEMPLATE_CONFIGURER = "RabbitTemplateConfigurer";
+    /**
+     * RabbitMQ监听器工厂配置类，SIMPLE
+     */
+    public static final String SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "SimpleRabbitListenerContainerFactoryConfigurer";
+    /**
+     * RabbitMQ监听器工厂配置类，DIRECT
+     */
+    public static final String DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "DirectRabbitListenerContainerFactoryConfigurer";
 }

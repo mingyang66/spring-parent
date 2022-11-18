@@ -1,11 +1,9 @@
 package com.emily.infrastructure.rabbitmq.factory;
 
-import com.emily.infrastructure.common.utils.StrUtils;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
 import com.emily.infrastructure.rabbitmq.common.RabbitMqInfo;
 import com.rabbitmq.client.Channel;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
@@ -14,6 +12,7 @@ import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -28,7 +27,7 @@ public class RabbitMqFactory {
      * 获取RabbitTemplate对象
      */
     public static RabbitTemplate getRabbitTemplate() {
-        return getRabbitTemplate(null);
+        return getRabbitTemplate(IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig());
     }
 
     /**
@@ -38,13 +37,8 @@ public class RabbitMqFactory {
      * @return
      */
     public static RabbitTemplate getRabbitTemplate(String key) {
-        String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
-        String beanName;
-        if (StringUtils.isEmpty(key) || StringUtils.equals(key, defaultConfig)) {
-            beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_TEMPLATE);
-        } else {
-            beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE);
-        }
+        Assert.hasText(key, "RabbitMQ标识不可为空");
+        String beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_TEMPLATE);
         if (!IOCContext.containsBean(beanName)) {
             throw new IllegalArgumentException(MessageFormat.format("RabbitMQ消息中间件标识{0}不存在", key));
         }
@@ -62,7 +56,7 @@ public class RabbitMqFactory {
      * amqpAdmin.declareBinding(binding);
      */
     public static AmqpAdmin getAmqpAdmin() {
-        return getAmqpAdmin(null);
+        return getAmqpAdmin(IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig());
     }
 
     /**
@@ -79,13 +73,8 @@ public class RabbitMqFactory {
      * @return
      */
     public static AmqpAdmin getAmqpAdmin(String key) {
-        String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
-        String beanName;
-        if (StringUtils.isNotEmpty(key) && StringUtils.equals(key, defaultConfig)) {
-            beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.AMQP_ADMIN);
-        } else {
-            beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN);
-        }
+        Assert.hasText(key, "RabbitMQ标识不可为空");
+        String beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.AMQP_ADMIN);
         if (!IOCContext.containsBean(beanName)) {
             throw new IllegalArgumentException(MessageFormat.format("RabbitMQ消息中间件标识{0}不存在", key));
         }
@@ -96,7 +85,7 @@ public class RabbitMqFactory {
      * 获取RabbitMessagingTemplate实例对象
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate() {
-        return getRabbitMessagingTemplate(null);
+        return getRabbitMessagingTemplate(IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig());
     }
 
     /**
@@ -106,13 +95,8 @@ public class RabbitMqFactory {
      * @return
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate(String key) {
-        String defaultConfig = IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig();
-        String beanName;
-        if (StringUtils.isEmpty(key) || StringUtils.equals(key, defaultConfig)) {
-            beanName = StrUtils.toLowerFirstCase(RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
-        } else {
-            beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
-        }
+        Assert.hasText(key, "RabbitMQ标识不可为空");
+        String beanName = MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_MESSAGING_TEMPLATE);
         if (!IOCContext.containsBean(beanName)) {
             throw new IllegalArgumentException(MessageFormat.format("RabbitMQ消息中间件标识{0}不存在", key));
         }

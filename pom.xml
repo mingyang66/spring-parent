@@ -41,7 +41,7 @@
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
         <spring.cloud.version>3.1.3</spring.cloud.version>
-        <spring.consul.version>3.1.1</spring.consul.version>
+        <spring.consul.version>3.1.2</spring.consul.version>
         <spring.mybatis.version>2.2.2</spring.mybatis.version>
         <commons.io.version>2.11.0</commons.io.version>
         <alibaba.druid.version>1.2.14</alibaba.druid.version>

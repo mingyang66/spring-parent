@@ -15,7 +15,7 @@ public class ThreadPoolHelper {
      *
      * @return ThreadPoolTaskExecutor
      */
-    public static ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+    public static ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor() {
         try {
             return IOCContext.getBean(ThreadPoolTaskExecutor.class);
         } catch (Exception exception) {

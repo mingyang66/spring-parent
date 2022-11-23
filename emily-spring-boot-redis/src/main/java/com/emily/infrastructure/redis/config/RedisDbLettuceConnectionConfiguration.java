@@ -68,7 +68,7 @@ public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConf
         // 创建Redis连接
         factory.afterPropertiesSet();
         // 将RedisConnectionFactory丢入线程池做监控
-        ThreadPoolHelper.threadPoolTaskExecutor().execute(new RedisDbRunnable(factory));
+        ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(new RedisDbRunnable(factory));
         return factory;
     }
 

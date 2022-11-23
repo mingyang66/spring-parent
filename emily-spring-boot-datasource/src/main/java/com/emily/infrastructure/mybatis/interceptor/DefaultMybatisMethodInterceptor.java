@@ -50,7 +50,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             baseLogger.setSpentTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
-            ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> {
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {
                 logger.info(JSONUtils.toJSONString(baseLogger));
             });
         }

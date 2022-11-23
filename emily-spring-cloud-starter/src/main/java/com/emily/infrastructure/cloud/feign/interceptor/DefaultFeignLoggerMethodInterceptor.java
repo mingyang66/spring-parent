@@ -74,7 +74,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //响应结果
             baseLogger.setBody(SensitiveUtils.sensitive(response));
             //异步记录接口响应信息
-            ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据

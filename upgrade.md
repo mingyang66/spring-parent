@@ -14,6 +14,7 @@ Bug Fixes
 10. RabbitMQ消息中间件支持默认连接容器，可以不用配置containerFactory;
 11. RabbitMQ消息中间件SDK支持多个集群地址配置；
 12. RabbitMQ消息中间件将不同的bean注入到容器之中优化；
+13. Druid升级到1.2.15；
 
 -----
 基础库发布4.1.6

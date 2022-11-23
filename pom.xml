@@ -44,7 +44,7 @@
         <spring.consul.version>3.1.2</spring.consul.version>
         <spring.mybatis.version>2.2.2</spring.mybatis.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <alibaba.druid.version>1.2.14</alibaba.druid.version>
+        <alibaba.druid.version>1.2.15</alibaba.druid.version>
         <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>

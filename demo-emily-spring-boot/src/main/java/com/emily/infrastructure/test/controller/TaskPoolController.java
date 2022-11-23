@@ -17,7 +17,7 @@ public class TaskPoolController {
 
     @GetMapping("test")
     public void test() {
-        ThreadPoolHelper.threadPoolTaskExecutor().submit(() -> System.out.println("------runing..."));
+        ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> System.out.println("------runing..."));
     }
 
     @GetMapping("test1")

@@ -15,6 +15,7 @@ Bug Fixes
 11. RabbitMQ消息中间件SDK支持多个集群地址配置；
 12. RabbitMQ消息中间件将不同的bean注入到容器之中优化；
 13. Druid升级到1.2.15；
+14. springboot版本升级到2.7.6；
 
 -----
 基础库发布4.1.6

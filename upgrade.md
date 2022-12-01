@@ -16,6 +16,7 @@ Bug Fixes
 12. RabbitMQ消息中间件将不同的bean注入到容器之中优化；
 13. Druid升级到1.2.15；
 14. springboot版本升级到2.7.6；
+15. 解决ThreadContextHolder header如果为空串时导致不可以生成事物流水号问题；
 
 -----
 基础库发布4.1.6

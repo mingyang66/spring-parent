@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description :  自定义jackson注解，标注在属性上
+ * @Description :  自定义jackson注解，标注在属性上，字段必须是字符串类型
  * @Author :  Emily
  * @CreateDate :  Created in 2022/7/19 5:22 下午
  */

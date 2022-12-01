@@ -6,6 +6,7 @@ import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -113,7 +114,7 @@ public class ThreadContextHolder {
                 request.setAttribute(AttributeInfo.STAGE, Stage.REQUEST);
             }
             //事务流水号
-            this.traceId = (traceId == null) ? UUIDUtils.randomSimpleUUID() : traceId;
+            this.traceId = StringUtils.isEmpty(traceId) ? UUIDUtils.randomSimpleUUID() : traceId;
         }
 
         public String getAppType() {

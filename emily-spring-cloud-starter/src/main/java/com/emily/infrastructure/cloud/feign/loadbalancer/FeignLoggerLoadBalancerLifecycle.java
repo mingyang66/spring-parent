@@ -34,7 +34,9 @@ public class FeignLoggerLoadBalancerLifecycle implements LoadBalancerLifecycle<R
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.current();
             //设置请求URL
-            baseLogger.setUrl(context.getClientResponse().getRequestData().getUrl().toString());
+            if (Objects.nonNull(context.getClientResponse())) {
+                baseLogger.setUrl(context.getClientResponse().getRequestData().getUrl().toString());
+            }
         }
     }
 }

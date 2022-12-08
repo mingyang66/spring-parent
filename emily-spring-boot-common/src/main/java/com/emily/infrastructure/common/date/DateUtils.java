@@ -584,8 +584,8 @@ public class DateUtils {
      *
      * @return
      */
-    public static Duration getLastTimeOfDay() {
-        return getLastTimeOfDay(LocalDateTime.now());
+    public static Duration getRemainOfDay() {
+        return getRemainOfDay(LocalDateTime.now());
     }
 
     /**
@@ -594,7 +594,7 @@ public class DateUtils {
      * @param currentTime 指定日期
      * @return
      */
-    public static Duration getLastTimeOfDay(LocalDateTime currentTime) {
+    public static Duration getRemainOfDay(LocalDateTime currentTime) {
         Assert.notNull(currentTime, "日期不可为空");
         LocalDateTime lastTime = currentTime.plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         return Duration.between(currentTime, lastTime);

@@ -1,9 +1,10 @@
-package com.emily.infrastructure.common.utils.date;
+package com.emily.infrastructure.common.date;
 
-import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.enums.DateFormatType;
+import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.util.Assert;
 
 import java.text.ParseException;
 import java.time.Duration;
@@ -576,6 +577,27 @@ public class DateUtils {
         } else {
             return localDateTime.plusMonths(month).with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
         }
+    }
+
+    /**
+     * 获取今天剩余的时间
+     *
+     * @return
+     */
+    public static Duration getLastTimeOfDay() {
+        return getLastTimeOfDay(LocalDateTime.now());
+    }
+
+    /**
+     * 计算指定时间所在天剩余的时间
+     *
+     * @param currentTime 指定日期
+     * @return
+     */
+    public static Duration getLastTimeOfDay(LocalDateTime currentTime) {
+        Assert.notNull(currentTime, "日期不可为空");
+        LocalDateTime lastTime = currentTime.plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        return Duration.between(currentTime, lastTime);
     }
 
 }

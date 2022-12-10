@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.date;
+package com.emily.infrastructure.common.time;
 
 import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.enums.HttpStatusType;

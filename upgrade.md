@@ -1,5 +1,10 @@
 ### 
 -----
+基础库发布4.1.8
+Bug Fixes
+1. DateUtils工具类新增getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
+
+-----
 基础库发布4.1.7
 Bug Fixes
 1. 新增JsonFlexField注解，脱敏复杂数据类型；

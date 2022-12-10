@@ -582,8 +582,8 @@ public class DateUtils {
      *
      * @return
      */
-    public static Duration getRemainOfDay() {
-        return getRemainOfDay(LocalDateTime.now());
+    public static Duration getRemainTimeOfDay() {
+        return getRemainTimeOfDay(LocalDateTime.now());
     }
 
     /**
@@ -592,7 +592,7 @@ public class DateUtils {
      * @param currentTime 指定日期
      * @return
      */
-    public static Duration getRemainOfDay(LocalDateTime currentTime) {
+    public static Duration getRemainTimeOfDay(LocalDateTime currentTime) {
         if (Objects.isNull(currentTime)) {
             throw new IllegalArgumentException("日期不可为空");
         }

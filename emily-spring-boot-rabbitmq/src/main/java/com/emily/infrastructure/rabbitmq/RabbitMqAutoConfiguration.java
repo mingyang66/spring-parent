@@ -23,12 +23,14 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.io.ResourceLoader;
 
 import java.text.MessageFormat;
@@ -40,6 +42,7 @@ import java.util.Objects;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/6/2 4:58 下午
  */
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration(before = RabbitAutoConfiguration.class)
 @EnableConfigurationProperties(RabbitMqProperties.class)
 @ConditionalOnProperty(prefix = RabbitMqProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -168,21 +171,25 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public RabbitMqAnnotationDrivenConfiguration rabbitMqAnnotationDrivenConfiguration() {
         return new RabbitMqAnnotationDrivenConfiguration(messageConverter, messageRecoverer, retryTemplateCustomizers);
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public RabbitMqConnectionFactoryCreator connectionFactoryCreator() {
         return new RabbitMqConnectionFactoryCreator(resourceLoader, credentialsProvider, credentialsRefreshService, connectionNameStrategy, connectionFactoryCustomizers);
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public RabbitMqTemplateConfiguration templateConfiguration() {
         return new RabbitMqTemplateConfiguration(messageConverter, retryTemplateCustomizers);
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public RabbitMqMessagingTemplateConfiguration messagingTemplateConfiguration() {
         return new RabbitMqMessagingTemplateConfiguration();
     }

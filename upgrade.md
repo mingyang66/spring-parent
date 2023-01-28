@@ -3,7 +3,7 @@
 基础库发布4.1.8
 Bug Fixes
 1. DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
-2. springboot升级到2.7.7；
+2. springboot升级到2.7.8；
 
 -----
 基础库发布4.1.7

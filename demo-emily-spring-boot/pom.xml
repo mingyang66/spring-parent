@@ -5,12 +5,12 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>4.1.7</version>
+        <version>4.1.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>demo-emily-spring-boot</artifactId>
-    <version>4.1.7</version>
+    <version>4.1.8</version>
     <name>demo-emily-spring-boot</name>
     <!--    <properties>
             <start-class>com.emily.infrastructure.test.TestBootStrap</start-class>
@@ -19,22 +19,22 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>4.1.7</version>
+            <version>4.1.8</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>4.1.7</version>
+            <version>4.1.8</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
-            <version>4.1.7</version>
+            <version>4.1.8</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-rabbitmq</artifactId>
-            <version>4.1.7</version>
+            <version>4.1.8</version>
         </dependency>
         <dependency>
             <groupId>com.lmax</groupId>
@@ -61,6 +61,16 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

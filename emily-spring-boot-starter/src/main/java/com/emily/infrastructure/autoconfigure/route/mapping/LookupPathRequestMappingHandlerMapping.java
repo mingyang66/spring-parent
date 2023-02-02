@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.handler.mapping;
+package com.emily.infrastructure.autoconfigure.route.mapping;
 
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 

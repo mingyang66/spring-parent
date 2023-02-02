@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.handler.mapping;
+package com.emily.infrastructure.autoconfigure.route.mapping;
 
 /**
  * @Description :  自定义路由解析

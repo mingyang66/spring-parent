@@ -1,12 +1,15 @@
-package com.emily.infrastructure.autoconfigure.handler;
+package com.emily.infrastructure.autoconfigure.route;
 
-import com.emily.infrastructure.autoconfigure.handler.mapping.LookupPathRequestMappingHandlerMapping;
-import com.emily.infrastructure.autoconfigure.handler.mapping.LookupPathCustomizer;
+import com.emily.infrastructure.autoconfigure.route.mapping.LookupPathCustomizer;
+import com.emily.infrastructure.autoconfigure.route.mapping.LookupPathRequestMappingHandlerMapping;
+import com.emily.infrastructure.logger.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Role;
@@ -26,13 +29,14 @@ import org.springframework.web.servlet.resource.ResourceUrlProvider;
 @AutoConfiguration
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 9)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@EnableConfigurationProperties(RequestMappingProperties.class)
-@ConditionalOnProperty(prefix = RequestMappingProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class RequestMappingAutoConfiguration extends DelegatingWebMvcConfiguration {
+@ConditionalOnProperty(prefix = LookupPathProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class RouteWebMvcAutoConfiguration extends DelegatingWebMvcConfiguration implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(RouteWebMvcAutoConfiguration.class);
 
     private LookupPathCustomizer requestMappingCustomizer;
 
-    public RequestMappingAutoConfiguration(LookupPathCustomizer requestMappingCustomizer) {
+    public RouteWebMvcAutoConfiguration(LookupPathCustomizer requestMappingCustomizer) {
         this.requestMappingCustomizer = requestMappingCustomizer;
     }
 
@@ -61,4 +65,15 @@ public class RequestMappingAutoConfiguration extends DelegatingWebMvcConfigurati
     protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
         return new LookupPathRequestMappingHandlerMapping(requestMappingCustomizer);
     }
+
+    @Override
+    public void destroy() {
+        logger.info("<== 【销毁--自动化配置】----路由自定义组件【RequestMappingAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        logger.info("==> 【初始化--自动化配置】----路由自定义组件【RequestMappingAutoConfiguration】");
+    }
 }
+

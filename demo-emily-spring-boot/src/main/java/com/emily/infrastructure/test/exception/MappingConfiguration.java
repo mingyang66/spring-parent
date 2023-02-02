@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.exception;
 
-import com.emily.infrastructure.autoconfigure.handler.LookupPathAutoConfiguration;
-import com.emily.infrastructure.autoconfigure.handler.mapping.LookupPathCustomizer;
+import com.emily.infrastructure.autoconfigure.route.LookupPathAutoConfiguration;
+import com.emily.infrastructure.autoconfigure.route.mapping.LookupPathCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 

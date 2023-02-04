@@ -6,6 +6,8 @@ Bug Fixes
 2. springboot升级到2.7.8；
 3. 新增重新定义RequestMappingHandlerMapping路由映射组件，支持用户自定义扩展路由到指定的控制器；
 4. 优化全局过滤器自动化配置类；
+5. 添加控制器路由重定向组件；
+6. mybatis-spring-boot-starter升级到2.3.0；
 
 -----
 基础库发布4.1.7

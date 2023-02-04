@@ -1,8 +1,11 @@
 package com.emily.infrastructure.autoconfigure.route.mapping;
 
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 /**
  * @Description : 自定义RequestMappingHandlerMapping
@@ -30,6 +33,17 @@ public class LookupPathRequestMappingHandlerMapping extends RequestMappingHandle
     @Override
     protected String initLookupPath(HttpServletRequest request) {
         String lookupPath = super.initLookupPath(request);
+        request.setAttribute(RequestDispatcher.FORWARD_REQUEST_URI, request.getRequestURI());
         return this.requestMappingCustomizer == null ? lookupPath : this.requestMappingCustomizer.resolveSpecifiedLookupPath(lookupPath);
+    }
+
+    @Override
+    protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
+        RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
+        if (info != null) {
+            // 请求API路由添加前缀
+            return RequestMappingInfo.paths().build().combine(info);
+        }
+        return null;
     }
 }

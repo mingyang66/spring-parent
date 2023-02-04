@@ -10,7 +10,7 @@ import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IOUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
-import com.emily.infrastructure.core.servlet.DelegateRequestWrapper;
+import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;

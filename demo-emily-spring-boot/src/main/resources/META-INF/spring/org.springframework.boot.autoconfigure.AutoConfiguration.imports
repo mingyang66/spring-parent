@@ -1,1 +1,2 @@
 com.emily.infrastructure.test.exception.MappingConfiguration
+com.emily.infrastructure.test.controller.route.RouteAutoConfiguration

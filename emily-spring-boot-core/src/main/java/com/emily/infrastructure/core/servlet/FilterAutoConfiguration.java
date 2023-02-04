@@ -1,12 +1,15 @@
 package com.emily.infrastructure.core.servlet;
 
 import com.emily.infrastructure.core.servlet.filter.RequestChannelFilter;
+import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
+import com.emily.infrastructure.core.servlet.filter.RoutingRedirectFilter;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -45,6 +48,36 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
         filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return filterRegistrationBean;
+    }
+
+    /**
+     * 路由重定向过滤器
+     *
+     * @return
+     */
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnProperty(prefix = FilterProperties.PREFIX, name = "route-switch", havingValue = "true", matchIfMissing = false)
+    public FilterRegistrationBean routeRegistrationBean(RoutingRedirectCustomizer routingRedirectCustomizer) {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new RoutingRedirectFilter(routingRedirectCustomizer));
+        registration.addUrlPatterns("/*");
+        registration.setName("UrlFilter");
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+        return registration;
+    }
+
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = FilterProperties.PREFIX, name = "route-switch", havingValue = "true", matchIfMissing = false)
+    public RoutingRedirectCustomizer routingRedirectCustomizer() {
+        return new RoutingRedirectCustomizer() {
+            @Override
+            public String resolveSpecifiedLookupPath(String lookupPath) {
+                return lookupPath;
+            }
+        };
     }
 
     @Override

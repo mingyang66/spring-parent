@@ -46,7 +46,7 @@ public class LogbackController {
         return "success";
     }
 
-    @GetMapping("get")
+    @GetMapping("debug1")
     public String get() {
         Environment environment = IOCContext.getApplicationContext().getEnvironment();
         return environment.getProperty("spring.emily.logback.enabled");

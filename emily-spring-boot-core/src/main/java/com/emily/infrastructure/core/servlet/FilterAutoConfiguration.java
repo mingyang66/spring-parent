@@ -37,6 +37,7 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    @ConditionalOnProperty(prefix = FilterProperties.PREFIX, name = "global-switch", havingValue = "true", matchIfMissing = true)
     public FilterRegistrationBean<RequestChannelFilter> filterRegistrationBean() {
         FilterRegistrationBean<RequestChannelFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setName("requestChannelFilter");

@@ -17,6 +17,10 @@ public class FilterProperties {
      * 是否开启过滤器组件, 默认：true
      */
     private boolean enabled = true;
+    /**
+     * 是否开启全局请求过滤器，默认：true
+     */
+    private boolean globalSwitch = true;
 
     public boolean isEnabled() {
         return enabled;
@@ -24,5 +28,13 @@ public class FilterProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isGlobalSwitch() {
+        return globalSwitch;
+    }
+
+    public void setGlobalSwitch(boolean globalSwitch) {
+        this.globalSwitch = globalSwitch;
     }
 }

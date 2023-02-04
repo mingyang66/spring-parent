@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadFactory;
 
 /**
  * @Description :  主方法
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/22 10:33 上午
  */
 public class LoggerEventDisruptor {

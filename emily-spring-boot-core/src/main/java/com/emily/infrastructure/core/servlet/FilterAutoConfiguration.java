@@ -7,6 +7,8 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
@@ -22,6 +24,8 @@ import java.util.Arrays;
  */
 @AutoConfiguration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@EnableConfigurationProperties(FilterProperties.class)
+@ConditionalOnProperty(prefix = FilterProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class FilterAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(FilterAutoConfiguration.class);

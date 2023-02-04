@@ -4,7 +4,7 @@ import com.lmax.disruptor.EventFactory;
 
 /**
  * @Description :  事件工厂
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/22 10:23 上午
  */
 public class LoggerEventFactory implements EventFactory<LoggerEvent> {

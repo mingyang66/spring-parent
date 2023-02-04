@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Role;
 
 /**
  * @Description :  自定义方法初始化配置类
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2023/2/2 2:22 下午
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

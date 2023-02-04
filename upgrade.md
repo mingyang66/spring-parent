@@ -5,6 +5,7 @@ Bug Fixes
 1. DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
 2. springboot升级到2.7.8；
 3. 新增重新定义RequestMappingHandlerMapping路由映射组件，支持用户自定义扩展路由到指定的控制器；
+4. 优化全局过滤器自动化配置类；
 
 -----
 基础库发布4.1.7

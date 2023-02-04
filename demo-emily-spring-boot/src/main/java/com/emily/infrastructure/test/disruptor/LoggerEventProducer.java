@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 /**
  * @Description :  生产者
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/22 10:30 上午
  */
 public class LoggerEventProducer {

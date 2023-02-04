@@ -4,7 +4,7 @@ import com.lmax.disruptor.EventHandler;
 
 /**
  * @Description :  事件监听类
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2022/11/22 10:26 上午
  */
 public class LoggerEventHandler implements EventHandler<LoggerEvent> {

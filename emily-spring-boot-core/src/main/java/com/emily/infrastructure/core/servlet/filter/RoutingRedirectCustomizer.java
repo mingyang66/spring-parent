@@ -1,5 +1,7 @@
 package com.emily.infrastructure.core.servlet.filter;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Description :  路由重定向URL获取实现类
  * @Author :  Emily
@@ -7,22 +9,22 @@ package com.emily.infrastructure.core.servlet.filter;
  */
 public interface RoutingRedirectCustomizer {
     /**
-     * 是否包含指定的路由key
+     * 是否进行路由重定向
      *
-     * @param lookupPath 原始key
+     * @param request
      * @return
      */
-    default boolean containsLookupPath(String lookupPath) {
+    default boolean isRouteRedirect(HttpServletRequest request) {
         return false;
     }
 
     /**
      * 获取请求路由
      *
-     * @param lookupPath 原始请求路由
+     * @param request
      * @return
      */
-    default String resolveSpecifiedLookupPath(String lookupPath) {
-        return lookupPath;
+    default String resolveSpecifiedLookupPath(HttpServletRequest request) {
+        return request.getRequestURI();
     }
 }

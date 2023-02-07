@@ -1,6 +1,8 @@
 package com.emily.infrastructure.core.servlet.filter;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -20,10 +22,14 @@ public class RoutingRedirectFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String lookupPath = ((HttpServletRequest) request).getRequestURI();
-        if (this.routingRedirectCustomizer.containsLookupPath(lookupPath)) {
-            String newUrl = this.routingRedirectCustomizer.resolveSpecifiedLookupPath(lookupPath);
-            request.getRequestDispatcher(newUrl).forward(request, response);
+        HttpServletRequest req = ((HttpServletRequest) request);
+        if (this.routingRedirectCustomizer.isRouteRedirect(req)) {
+            String newUrl = this.routingRedirectCustomizer.resolveSpecifiedLookupPath(req);
+            if (StringUtils.equals(newUrl, req.getRequestURI())) {
+                chain.doFilter(request, response);
+            } else {
+                request.getRequestDispatcher(newUrl).forward(request, response);
+            }
         } else {
             chain.doFilter(request, response);
         }

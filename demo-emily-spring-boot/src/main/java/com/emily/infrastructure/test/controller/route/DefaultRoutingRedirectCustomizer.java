@@ -2,6 +2,8 @@ package com.emily.infrastructure.test.controller.route;
 
 import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Description :  默认路由跳转实现
  * @Author :  Emily
@@ -9,15 +11,12 @@ import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
  */
 public class DefaultRoutingRedirectCustomizer implements RoutingRedirectCustomizer {
     @Override
-    public boolean containsLookupPath(String lookupPath) {
-        if (RouteMap.CACHE.containsKey(lookupPath)) {
-            return true;
-        }
+    public boolean isRouteRedirect(HttpServletRequest request) {
         return false;
     }
 
     @Override
-    public String resolveSpecifiedLookupPath(String lookupPath) {
-        return RouteMap.CACHE.get(lookupPath);
+    public String resolveSpecifiedLookupPath(HttpServletRequest request) {
+        return request.getRequestURI();
     }
 }

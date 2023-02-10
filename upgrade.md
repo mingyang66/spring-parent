@@ -1,5 +1,11 @@
 ### 
 -----
+基础库发布4.1.9
+Bug Fixes
+1. 
+
+
+-----
 基础库发布4.1.8
 Bug Fixes
 1. DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;

@@ -9,7 +9,9 @@
     </resultMap>
 
     <select id="findJob" resultMap="jobMap">
-		SELECT ID,job_group,JOB_DESC FROM ZQSMCONF.xxl_job_qrtz_trigger_info WHERE ID=213000019805096805
+        SELECT ID, job_group, JOB_DESC
+        FROM ZQSMCONF.xxl_job_qrtz_trigger_info
+        WHERE ID = 213000019805096805
     </select>
 
 

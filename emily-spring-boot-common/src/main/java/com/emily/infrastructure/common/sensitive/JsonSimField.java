@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 public @interface JsonSimField {
     /**
      * 脱敏类型，见枚举类型{@link SensitiveType}
+     *
      * @return
      */
     SensitiveType value() default SensitiveType.DEFAULT;

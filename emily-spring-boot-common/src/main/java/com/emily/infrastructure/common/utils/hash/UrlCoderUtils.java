@@ -14,7 +14,7 @@ import java.net.URLEncoder;
  * @description: URL编码解码工具类 application/x-www-form-rulencoded MIME字符串之间的转换
  * @create: 2020/07/29
  */
-public class URLCoderUtils {
+public class UrlCoderUtils {
     /**
      * URL数据编码，默认UTF8
      *

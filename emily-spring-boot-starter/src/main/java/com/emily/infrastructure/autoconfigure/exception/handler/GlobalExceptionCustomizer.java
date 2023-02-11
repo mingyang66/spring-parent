@@ -2,6 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.common.entity.BaseLogger;
 import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -10,7 +11,6 @@ import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
-import com.emily.infrastructure.common.entity.BaseLogger;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;

@@ -10,11 +10,17 @@ import java.util.Map;
  * @create: 2020/08/14
  */
 public class MimeMailMessage extends MailMessage {
-    //附件
+    /**
+     * 附件
+     */
     private File[] attachments;
-    //正文inline元素，key为ID关联正文规则如cid:myId
+    /**
+     * 正文inline元素，key为ID关联正文规则如cid:myId
+     */
     private Map<String, File> inlines;
-    //是否是HTML
+    /**
+     * 是否是HTML
+     */
     private boolean html;
 
     public File[] getAttachments() {

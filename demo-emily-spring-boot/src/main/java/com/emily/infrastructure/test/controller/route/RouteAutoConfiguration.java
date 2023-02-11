@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 public class RouteAutoConfiguration {
 
     @Bean
-    public DefaultRoutingRedirectCustomizer defaultRoutingRedirectCustomizer(){
+    public DefaultRoutingRedirectCustomizer defaultRoutingRedirectCustomizer() {
         return new DefaultRoutingRedirectCustomizer();
     }
 }

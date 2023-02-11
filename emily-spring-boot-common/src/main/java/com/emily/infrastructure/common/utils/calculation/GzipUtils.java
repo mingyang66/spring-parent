@@ -15,7 +15,7 @@ import java.util.zip.GZIPOutputStream;
  *
  * @author Emily
  */
-public class GZIPUtils {
+public class GzipUtils {
 
     /**
      * 字符串压缩为GZIP字节数组

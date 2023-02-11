@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 public class MappingConfiguration {
 
     @Bean
-    public LookupPathCustomizer lookupPathCustomizer(){
+    public LookupPathCustomizer lookupPathCustomizer() {
         return new LookupPathCustomizer() {
             @Override
             public String resolveSpecifiedLookupPath(String lookupPath) {

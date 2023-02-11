@@ -9,12 +9,12 @@ import java.lang.annotation.Target;
  * @Description :  自定义jackson注解，标注在属性上，实例如下：
  * @JsonSensitive(include = true)
  * public class JsonRequest {
- *     @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
- *     private String fieldKey;
- *     private String fieldValue;
- *     @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue1")
- *     private String fieldKey1;
- *     }
+ * @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+ * private String fieldKey;
+ * private String fieldValue;
+ * @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue1")
+ * private String fieldKey1;
+ * }
  * @Author :  Emily
  * @CreateDate :  Created in 2022/7/19 5:22 下午
  */

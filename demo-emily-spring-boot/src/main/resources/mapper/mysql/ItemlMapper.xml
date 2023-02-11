@@ -9,6 +9,7 @@
         </foreach>
     </insert>
     <insert id="insertItem" parameterType="java.lang.String">
-		insert into item values(#{scheName},#{lockName})
-	</insert>
+        insert into item
+        values (#{scheName}, #{lockName})
+    </insert>
 </mapper>

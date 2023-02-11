@@ -1,9 +1,9 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.enums.DateFormatType;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
-import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;
@@ -46,7 +46,7 @@ public class JsonIgnoreController {
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
         response.setDateFormat(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS);
-        String[] arr = new  String[2];
+        String[] arr = new String[2];
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);

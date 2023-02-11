@@ -21,7 +21,7 @@ import java.util.List;
  * @Description: 通用IO流操作实用程序, 共87个工具方法
  * @Version: 1.0
  */
-public class IOUtils {
+public class IoUtils {
     /**
      * 读取springboot resource下文件，
      *

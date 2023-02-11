@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -127,7 +126,7 @@ public class BaseLogger implements Serializable {
             return;
         }
         if (Objects.isNull(requestParams)) {
-            this.requestParams = new HashMap();
+            this.requestParams = Maps.newHashMap();
         }
         for (int i = 0; i < params.length; i++) {
             this.requestParams.put(MessageFormat.format("arg{0}", i), params[i]);

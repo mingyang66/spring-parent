@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.po.json;
 
 import com.emily.infrastructure.common.sensitive.JsonFlexField;
-import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,10 +16,10 @@ import java.util.Map;
  */
 @JsonSensitive(include = true)
 public class JsonRequest {
-    @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String fieldKey;
     private String fieldValue;
-    @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue1")
+    @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue1")
     private String fieldKey1;
     private String fieldValue1;
     @NotEmpty
@@ -176,7 +176,7 @@ public class JsonRequest {
         private String work;
         @JsonSimField(SensitiveType.EMAIL)
         private String email;
-        @JsonFlexField(fieldNames = {"email","phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+        @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
         private String fieldKey;
         private String fieldValue;
 

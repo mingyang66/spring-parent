@@ -10,6 +10,6 @@ import com.lmax.disruptor.EventHandler;
 public class LoggerEventHandler implements EventHandler<LoggerEvent> {
     @Override
     public void onEvent(LoggerEvent testEvent, long l, boolean b) throws Exception {
-        System.out.println("消费者："+testEvent.getValue());
+        System.out.println("消费者：" + testEvent.getValue());
     }
 }

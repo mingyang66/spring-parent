@@ -8,7 +8,7 @@ import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
-import com.emily.infrastructure.common.utils.io.IOUtils;
+import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -124,7 +124,7 @@ public class RequestHelper {
         try {
             return JSONUtils.toObject(body, Object.class);
         } catch (Exception e) {
-            return IOUtils.toString(body, CharsetInfo.UTF_8);
+            return IoUtils.toString(body, CharsetInfo.UTF_8);
         }
     }
 
@@ -138,7 +138,7 @@ public class RequestHelper {
         try {
             return JSONUtils.toObject(params, Map.class);
         } catch (Exception e) {
-            return strToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
+            return strToMap(IoUtils.toString(params, CharsetInfo.UTF_8));
         }
     }
 

@@ -6,7 +6,6 @@ import com.emily.infrastructure.test.po.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -49,12 +48,12 @@ public class ParamController {
     }
 
     @GetMapping("getParam")
-    public String getParam(@NotEmpty(message = "用户名不可为空") String username){
+    public String getParam(@NotEmpty(message = "用户名不可为空") String username) {
         return username;
     }
 
     @GetMapping("getBody")
-    public String getParam(@Validated Job job){
+    public String getParam(@Validated Job job) {
         return "sdf";
     }
 }

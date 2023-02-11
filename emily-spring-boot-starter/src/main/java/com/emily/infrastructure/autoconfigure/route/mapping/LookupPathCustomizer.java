@@ -8,10 +8,11 @@ package com.emily.infrastructure.autoconfigure.route.mapping;
 public interface LookupPathCustomizer {
     /**
      * 解析指定的路由key
+     *
      * @param lookupPath 原始路由key
      * @return
      */
-    default String resolveSpecifiedLookupPath(String lookupPath){
+    default String resolveSpecifiedLookupPath(String lookupPath) {
         return lookupPath;
     }
 }

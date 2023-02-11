@@ -9,21 +9,37 @@ import java.util.Date;
  * @create: 2020/08/14
  */
 public class MailMessage {
-    //发件人
+    /**
+     * 发件人
+     */
     private String from;
-    //快速回复人
+    /**
+     * 快速回复人
+     */
     private String replyTo;
-    //收件人
+    /**
+     * 收件人
+     */
     private String[] to;
-    //抄送
+    /**
+     * 抄送
+     */
     private String[] cc;
-    //密送
+    /**
+     * 密送
+     */
     private String[] bcc;
-    //发送时间
+    /**
+     * 发送时间
+     */
     private Date sentDate;
-    //发送主题
+    /**
+     * 发送主题
+     */
     private String subject;
-    //发送正文
+    /**
+     * 发送正文
+     */
     private String text;
 
     public String getFrom() {

@@ -28,7 +28,7 @@ public class MysqlServiceImplTest {
     }
 
     @Test
-    public void getMysql(){
+    public void getMysql() {
         System.out.println("--in--");
         Assert.assertEquals("a", 5, 5);
     }

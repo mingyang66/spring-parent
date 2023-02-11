@@ -3,7 +3,7 @@ package com.emily.infrastructure.common.utils.hash;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.utils.io.IOUtils;
+import com.emily.infrastructure.common.utils.io.IoUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -236,7 +236,7 @@ public class Base64Utils {
                 charset = CharsetInfo.UTF_8;
             }
             OutputStream os = Base64.getEncoder().wrap(new FileOutputStream(new File(filePath)));
-            IOUtils.write(encoderStr.getBytes(charset), os);
+            IoUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
             throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
@@ -257,7 +257,7 @@ public class Base64Utils {
                 charset = CharsetInfo.UTF_8;
             }
             InputStream is = Base64.getDecoder().wrap(new FileInputStream(new File(filePath)));
-            return IOUtils.toString(is, charset);
+            return IoUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
             throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
@@ -276,7 +276,7 @@ public class Base64Utils {
                 charset = CharsetInfo.UTF_8;
             }
             OutputStream os = Base64.getUrlEncoder().wrap(new FileOutputStream(new File(filePath)));
-            IOUtils.write(encoderStr.getBytes(charset), os);
+            IoUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
             throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
@@ -297,7 +297,7 @@ public class Base64Utils {
                 charset = CharsetInfo.UTF_8;
             }
             InputStream is = Base64.getUrlDecoder().wrap(new FileInputStream(new File(filePath)));
-            return IOUtils.toString(is, charset);
+            return IoUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
             throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }
@@ -316,7 +316,7 @@ public class Base64Utils {
                 charset = CharsetInfo.UTF_8;
             }
             OutputStream os = Base64.getMimeEncoder().wrap(new FileOutputStream(new File(filePath)));
-            IOUtils.write(encoderStr.getBytes(charset), os);
+            IoUtils.write(encoderStr.getBytes(charset), os);
         } catch (FileNotFoundException e) {
             throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         } catch (UnsupportedEncodingException e) {
@@ -337,7 +337,7 @@ public class Base64Utils {
                 charset = CharsetInfo.UTF_8;
             }
             InputStream is = Base64.getMimeDecoder().wrap(new FileInputStream(new File(filePath)));
-            return IOUtils.toString(is, charset);
+            return IoUtils.toString(is, charset);
         } catch (FileNotFoundException e) {
             throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), StringUtils.join("指定路径", filePath, "的文件不存在," + e));
         }

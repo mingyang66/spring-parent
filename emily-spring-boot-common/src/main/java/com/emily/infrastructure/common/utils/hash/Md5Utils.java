@@ -38,7 +38,7 @@ public class Md5Utils {
             BigInteger bi = new BigInteger(1, digest);
             String hashText = bi.toString(16);
             while (hashText.length() < 32) {
-                hashText = "0" + hashText;
+                hashText = StringUtils.join("0", hashText);
             }
             return hashText;
         } catch (Exception e) {

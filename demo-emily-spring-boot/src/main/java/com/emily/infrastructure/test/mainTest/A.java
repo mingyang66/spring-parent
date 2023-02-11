@@ -21,7 +21,7 @@ public class A {
     public static void main(String[] args) {
         JsonResponse response = new JsonResponse();
         response.setA(1);
-        response.setB(new byte[]{1,2});
+        response.setB(new byte[]{1, 2});
         response.setPassword("123");
         response.setUsername("条消息");
         response.setEmail("1393619859@qq.com");
@@ -36,13 +36,13 @@ public class A {
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
         response.setDateFormat(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS);
-        String[] arr = new  String[2];
+        String[] arr = new String[2];
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);
         int a = 1;
         SensitiveUtils.sensitive(a);
-        byte[] b= new byte[]{3,4};
+        byte[] b = new byte[]{3, 4};
         SensitiveUtils.sensitive(b);
         SensitiveUtils.sensitive(response);
     }

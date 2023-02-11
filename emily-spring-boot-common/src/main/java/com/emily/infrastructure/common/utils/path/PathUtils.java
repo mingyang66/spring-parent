@@ -1,5 +1,6 @@
 package com.emily.infrastructure.common.utils.path;
 
+import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.springframework.util.StringUtils;
 
 /**
@@ -19,10 +20,10 @@ public class PathUtils {
             return path;
         }
         String normalizedPath = path;
-        if (!normalizedPath.startsWith("/")) {
-            normalizedPath = "/" + normalizedPath;
+        if (!normalizedPath.startsWith(CharacterInfo.PATH_SEPARATOR)) {
+            normalizedPath = CharacterInfo.PATH_SEPARATOR + normalizedPath;
         }
-        if (normalizedPath.endsWith("/")) {
+        if (normalizedPath.endsWith(CharacterInfo.PATH_SEPARATOR)) {
             normalizedPath = normalizedPath.substring(0, normalizedPath.length() - 1);
         }
         return normalizedPath;

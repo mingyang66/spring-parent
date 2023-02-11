@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.utils.path;
 
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.utils.io.FileUtils;
-import com.emily.infrastructure.common.utils.io.IOUtils;
+import com.emily.infrastructure.common.utils.io.IoUtils;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ObjectUtils;
 
@@ -27,7 +27,7 @@ public class RouteUtils {
 
     static {
         InputStream inputStream = RouteUtils.class.getClassLoader().getResourceAsStream(filePath);
-        list = IOUtils.readLines(inputStream, CharsetInfo.UTF_8);
+        list = IoUtils.readLines(inputStream, CharsetInfo.UTF_8);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.disruptor;
 
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
@@ -24,6 +23,7 @@ public class LoggerEventDisruptor {
     static {
 
     }
+
     public static void main(String[] args) {
 
         //参数准备工作

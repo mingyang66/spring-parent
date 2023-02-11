@@ -1,6 +1,6 @@
 package com.emily.cloud.test.controller;
 
-import com.emily.infrastructure.common.utils.io.IOUtils;
+import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +50,6 @@ public class LogbackController {
     @GetMapping("get")
     public String get(HttpServletRequest request) {
         String file = request.getParameter("name");
-        return IOUtils.toStr(file);
+        return IoUtils.toStr(file);
     }
 }

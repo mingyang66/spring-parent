@@ -152,22 +152,22 @@ public class SensitiveUtils {
      * @return
      * @Description 使用示例：
      * <pre>
-     * @JsonSerialize(include = false)
+     * @JsonSensitive(include = false)
      * public class JsonRequest {
      *     @NotEmpty
-     *     @JsonSensitive(SensitiveType.USERNAME)
+     *     @JsonSimField(SensitiveType.USERNAME)
      *     private String username;
-     *     @JsonSensitive
+     *     @JsonSimField
      *     private String password;
-     *     @JsonSensitive(SensitiveType.EMAIL)
+     *     @JsonSimField(SensitiveType.EMAIL)
      *     private String email;
-     *     @JsonSensitive(SensitiveType.ID_CARD)
+     *     @JsonSimField(SensitiveType.ID_CARD)
      *     private String idCard;
-     *     @JsonSensitive(SensitiveType.BANK_CARD)
+     *     @JsonSimField(SensitiveType.BANK_CARD)
      *     private String bankCard;
-     *     @JsonSensitive(SensitiveType.PHONE)
+     *     @JsonSimField(SensitiveType.PHONE)
      *     private String phone;
-     *     @JsonSensitive(SensitiveType.PHONE)
+     *     @JsonSimField(SensitiveType.PHONE)
      *     private String mobile;
      * </pre>
      * 支持如下模式：

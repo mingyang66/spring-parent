@@ -37,11 +37,6 @@
             <version>4.1.8</version>
         </dependency>
         <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
-            <version>3.4.4</version>
-        </dependency>
-        <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>21.5.0.0</version>
@@ -74,7 +69,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>emilyframework</finalName>
+        <finalName>demo</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

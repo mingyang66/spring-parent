@@ -48,7 +48,6 @@
         <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
-        <feign.httpclient.version>11.6</feign.httpclient.version>
         <protobuf.version>3.21.7</protobuf.version>
     </properties>
     <url>https://github.com/mingyang66/spring-parent</url>
@@ -119,11 +118,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
                 <version>${spring.cloud.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-httpclient</artifactId>
-                <version>${feign.httpclient.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>

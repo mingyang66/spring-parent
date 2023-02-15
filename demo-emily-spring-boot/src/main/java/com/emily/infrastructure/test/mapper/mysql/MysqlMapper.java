@@ -4,9 +4,12 @@ package com.emily.infrastructure.test.mapper.mysql;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
+import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * org.apache.ibatis.reflection.ParamNameResolver#getNamedParams(java.lang.Object[])
@@ -31,7 +34,7 @@ public interface MysqlMapper {
      * 查询接口
      */
     @TargetDataSource("mysql")
-    String getMysql();
+    List<World> getMysql();
 
     /**
      * 新增接口

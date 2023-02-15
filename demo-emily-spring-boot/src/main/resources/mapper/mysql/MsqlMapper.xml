@@ -17,14 +17,13 @@
         WHERE ql.LOCK_NAME = #{lockName}
     </delete>
 
-    <select id="getMysql" resultType="java.lang.String">
-        SELECT 'MYSQL'
-        FROM DUAL
+    <select id="getMysql" resultType="com.emily.infrastructure.test.po.World">
+        SELECT * FROM world w
     </select>
 
     <insert id="insertMysql">
-        INSERT INTO QUARTZ_LOCKS
-        VALUES (#{schedName}, #{lockName})
+        INSERT INTO world
+        VALUES (#{schedName}, #{lockName}, now(), now())
     </insert>
 
     <select id="getMapperIgnore" resultType="com.emily.infrastructure.test.po.sensitive.MapperIgnore">

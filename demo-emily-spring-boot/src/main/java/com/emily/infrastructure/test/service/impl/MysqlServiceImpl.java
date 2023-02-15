@@ -1,9 +1,12 @@
 package com.emily.infrastructure.test.service.impl;
 
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
+import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.service.MysqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @program: spring-parent
@@ -17,7 +20,7 @@ public class MysqlServiceImpl implements MysqlService {
     private MysqlMapper mysqlMapper;
 
     @Override
-    public String getMysql() {
+    public List<World> getMysql() {
         return mysqlMapper.getMysql();
     }
 

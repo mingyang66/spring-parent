@@ -7,6 +7,7 @@ import com.emily.infrastructure.test.mapper.mysql.ItemMapper;
 import com.emily.infrastructure.test.mapper.mysql.JobMapper;
 import com.emily.infrastructure.test.po.Item;
 import com.emily.infrastructure.test.po.Job;
+import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.OracleService;
 import com.google.common.collect.Lists;
@@ -132,7 +133,7 @@ public class DataSourceController {
     }
 
     @GetMapping("getMysql")
-    public String getMysql() {
+    public List<World> getMysql() {
         return mysqlService.getMysql();
     }
 

@@ -17,6 +17,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.core.io.InputStreamSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,7 +74,7 @@ public class RequestHelper {
         if (Objects.isNull(invocation)) {
             if (request instanceof DelegateRequestWrapper) {
                 DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
-                paramMap.putAll(getHttpClientArgs(requestWrapper.getRequestBody()));
+                paramMap.putAll(byteArgToMap(requestWrapper.getRequestBody()));
             }
         } else {
             paramMap.putAll(getMethodArgs(invocation));
@@ -129,12 +130,25 @@ public class RequestHelper {
     }
 
     /**
-     * HttpClient 获取参数对象
+     * HttpClient 获取参数对象及请求header
      *
      * @param params
      * @return
      */
-    public static Map<String, Object> getHttpClientArgs(byte[] params) {
+    public static Map<String, Object> getHttpClientArgs(HttpHeaders headers, byte[] params) {
+        Map<String, Object> dataMap = Maps.newLinkedHashMap();
+        dataMap.put(AttributeInfo.HEADERS, headers);
+        dataMap.put(AttributeInfo.PARAMS, byteArgToMap(params));
+        return dataMap;
+    }
+
+    /**
+     * 将byte[]转换为Map对象
+     *
+     * @param params
+     * @return
+     */
+    private static Map<String, Object> byteArgToMap(byte[] params) {
         try {
             return JSONUtils.toObject(params, Map.class);
         } catch (Exception e) {

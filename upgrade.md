@@ -6,6 +6,7 @@ Bug Fixes
 2. 删除RPC相关三个模块及依赖引用；
 3. 删除log4j多余模块；
 4. Java日期对象及JDBC日期对象相互转换组件验证及新增文档；
+5. RestTemplate请求记录请求header，优化RequestHelper帮助类；
 
 -----
 基础库发布4.1.8

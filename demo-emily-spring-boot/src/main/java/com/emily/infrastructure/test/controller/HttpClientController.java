@@ -5,9 +5,14 @@ import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTi
 import com.emily.infrastructure.autoconfigure.httpclient.context.HttpContextHolder;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.test.mainTest.TestTimeout;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +60,7 @@ public class HttpClientController {
     }
 
 
-    @GetMapping("testResponse")
+    @RequestMapping("testResponse")
     public String testResponse(HttpServletRequest request) throws IllegalArgumentException {
         String timeout = request.getParameter("timeout");
         try {
@@ -63,6 +69,20 @@ public class HttpClientController {
             e.printStackTrace();
         }
         return "你好";
+    }
+
+    @GetMapping("testHeader")
+    public String testHeader() {
+        String url = "http://127.0.0.1:8080/api/http/testResponse";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("username", "田晓霞");
+        headers.set("password", "平凡的世界");
+
+        Map<String, String> body = Maps.newHashMap();
+        body.put("param1", "value1");
+        body.put("param2", "value2");
+        ResponseEntity<BaseResponse> response = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(body, headers), BaseResponse.class);
+        return response.getBody().getMessage();
     }
 
     @Autowired

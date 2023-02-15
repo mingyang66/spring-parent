@@ -7,7 +7,7 @@
 ##### 1 设置新的版本号
 
 ```
-./mvnw versions:set -DnewVersion=4.1.3
+./mvnw versions:set -DnewVersion=4.1.9
 ```
 
 ##### 2 撤销设置
@@ -58,7 +58,7 @@ git push origin --tags
 其它tag操作参考：[tag操作指南](https://blog.csdn.net/Emily/article/details/78839295?ops_request_misc=%7B%22request%5Fid%22%3A%22158685673019724835840750%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158685673019724835840750&biz_id=0&utm_source=distribute.pc_search_result.none-task-blog-blog_SOOPENSEARCH-1)
 
 ------
-#### 动态数据库多数据源组件
+#### 一、动态数据库多数据源组件
 
 ##### 特性：
 
@@ -204,7 +204,7 @@ spring.emily.datasource.druid.mysql.password-callback-class-name=com.alibaba.dru
 
 ```
 
-#### Mybatis埋点组件
+#### 二、Mybatis埋点组件
 
 - 扩展点MybatisCustomizer，AOP根据拦截器的优先级判定使用优先级最高的拦截器
 - 属性配置：
@@ -218,7 +218,7 @@ spring.emily.mybatis.check-class-inherited=true
 
 
 
-#### Redis多数据源组件
+#### 三、Redis多数据源组件
 
 - 属性配置
 
@@ -264,7 +264,7 @@ spring.emily.redis.config.test.lettuce.pool.min-idle=0
 spring.emily.redis.config.test.lettuce.pool.max-wait=-1
 ```
 
-#### logback日志组件
+#### 四、logback日志组件
 
 - 属性配置
 
@@ -334,7 +334,7 @@ spring.emily.logback.module.pattern=%msg%n
 spring.emily.logback.module.console=true
 ```
 
-#### RestTemplate请求组件
+#### 五、RestTemplate请求组件
 
 - 扩展点HttpClientCustomizer，AOP根据拦截器的优先级判定使用优先级最高者
 - 属性配置
@@ -433,7 +433,7 @@ public class TestTimeout {
 
 
 
-#### Feign组件
+#### 六、Feign组件
 
 - 扩展点FeignLoggerCustomizer，AOP根据拦截器的优先级判定使用优先级最高者
 
@@ -488,7 +488,7 @@ public interface CustomFeignHandler {
 
 
 
-#### API路由设置组件
+#### 七、API路由设置组件
 
 ```properties
 #是否开启所有接口的前缀prefix,默认前面添加api
@@ -507,7 +507,7 @@ spring.emily.web.path.use-trailing-slash-match=true
 spring.emily.web.path.exclude=
 ```
 
-#### API跨域组件
+#### 八、API跨域组件
 
 ```properties
 #开启跨域设置，默认false
@@ -526,9 +526,15 @@ spring.emily.web.cors.exposed-headers=
 spring.emily.web.cors.max-age=1800
 ```
 
-```
+#### 九、全局过滤器及灰度发布路由重定向组件
 
-
+```properties
+# 过滤器总开关，默认：true
+spring.emily.filter.enabled=true
+# 全局过滤器开关（解决读取请求参数后控制器拿不到参数问题），默认：true  
+spring.emily.filter.global-switch=true
+# 控制路由重定向开关，默认：false
+spring.emily.filter.route-switch=false
 ```
 
 consul服务查询、删除接口

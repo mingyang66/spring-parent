@@ -8,6 +8,7 @@ Bug Fixes
 4. Java日期对象及JDBC日期对象相互转换组件验证及新增文档；
 5. RestTemplate请求记录请求header，优化RequestHelper帮助类；
 6. druid升级到1.2.16，小版本修复一些已知问题；
+7. springboot升级到2.7.9版本；
 
 -----
 基础库发布4.1.8

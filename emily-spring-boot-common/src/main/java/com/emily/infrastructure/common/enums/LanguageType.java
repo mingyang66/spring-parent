@@ -30,22 +30,26 @@ public enum LanguageType {
 
     public static LanguageType getByCode(String code) {
         if (StringUtils.isEmpty(code)) {
-            code = LanguageType.ZH.getCode().toLowerCase();
+            return ZH;
         }
-        LanguageType languageType = LanguageType.ZH;
-        switch (code) {
-            case "zh":
-                languageType = LanguageType.ZH;
-                break;
-            case "ft":
-                languageType = LanguageType.FT;
-                break;
-            case "en":
-                languageType = LanguageType.EN;
-                break;
-            default:
-                break;
+        for (LanguageType languageType : LanguageType.values()) {
+            if (languageType.code.equals(code)) {
+                return languageType;
+            }
         }
-        return languageType;
+        throw new IllegalArgumentException("非法语言类型");
     }
+
+    public static LanguageType getByType(String type) {
+        if (StringUtils.isEmpty(type)) {
+            return ZH;
+        }
+        for (LanguageType languageType : LanguageType.values()) {
+            if (languageType.toString().equals(type)) {
+                return languageType;
+            }
+        }
+        throw new IllegalArgumentException("非法语言类型");
+    }
+
 }

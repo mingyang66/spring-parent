@@ -60,15 +60,24 @@ public class HttpClientBalanceAutoConfiguration implements InitializingBean, Dis
     /**
      * 定义HTTP请求工厂方法,设置超市时间
      */
+
     @Bean
     public ClientHttpRequestFactory clientLoadBalanceHttpRequestFactory() {
         //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
-        factory.setReadTimeout(httpClientProperties.getReadTimeOut());
+        factory.setReadTimeout(getReadTimeOut());
         //连接超时10秒，默认无限制，单位：毫秒
-        factory.setConnectTimeout(httpClientProperties.getConnectTimeOut());
+        factory.setConnectTimeout(getConnectTimeOut());
         return factory;
+    }
+
+    private int getConnectTimeOut() {
+        return httpClientProperties.getConnectTimeOut();
+    }
+
+    private int getReadTimeOut() {
+        return httpClientProperties.getReadTimeOut();
     }
 
     @Override

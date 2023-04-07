@@ -208,39 +208,44 @@ public class RequestHelper {
             List<String> list = ParamNameUtils.getParamNames(method);
             Annotation[][] annotations = method.getParameterAnnotations();
             Object[] obj = invocation.getArguments();
-            for (int i = 0; i < list.size(); i++) {
-                String name = list.get(i);
-                Object value = obj[i];
-                if (isFinal(value)) {
-                    continue;
-                }
-                if (Arrays.asList(field).contains(name)) {
-                    paramMap.put(name, AttributeInfo.PLACE_HOLDER);
-                } else if (value instanceof String) {
-                    // 控制器方法参数为字符串并且标记了注解
-                    //是否已添加参数
-                    boolean flag = true;
-                    for (int j = 0; j < annotations[i].length; j++) {
-                        Annotation annotation = annotations[i][j];
-                        if (annotation instanceof JsonSimField) {
-                            JsonSimField sensitive = (JsonSimField) annotation;
-                            paramMap.put(name, SensitiveUtils.doGetSensitiveField(sensitive.value(), (String) value));
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        paramMap.put(name, value);
-                    }
-                } else {
-                    paramMap.put(name, SensitiveUtils.sensitive(value));
-                }
-            }
+            paramMap = setParamMap(list,obj,field,paramMap,annotations);
             return paramMap;
         } catch (Exception e) {
             logger.error(PrintExceptionInfo.printErrorInfo(e));
         }
         return Collections.emptyMap();
+    }
+
+    private static Map<String, Object> setParamMap(List<String> list, Object[] obj, String[] field, Map<String, Object> paramMap, Annotation[][] annotations) {
+        for (int i = 0; i < list.size(); i++) {
+            String name = list.get(i);
+            Object value = obj[i];
+            if (isFinal(value)) {
+                continue;
+            }
+            if (Arrays.asList(field).contains(name)) {
+                paramMap.put(name, AttributeInfo.PLACE_HOLDER);
+            } else if (value instanceof String) {
+                // 控制器方法参数为字符串并且标记了注解
+                //是否已添加参数
+                boolean flag = true;
+                for (int j = 0; j < annotations[i].length; j++) {
+                    Annotation annotation = annotations[i][j];
+                    if (annotation instanceof JsonSimField) {
+                        JsonSimField sensitive = (JsonSimField) annotation;
+                        paramMap.put(name, SensitiveUtils.doGetSensitiveField(sensitive.value(), (String) value));
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    paramMap.put(name, value);
+                }
+            } else {
+                paramMap.put(name, SensitiveUtils.sensitive(value));
+            }
+        }
+        return paramMap;
     }
 
     /**

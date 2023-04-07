@@ -19,10 +19,13 @@ public class ThreadPoolHelper {
         try {
             return IOCContext.getBean(ThreadPoolTaskExecutor.class);
         } catch (Exception exception) {
+            int poolSize = 8;
+            int maxPoolSize = 64;
+            int queueCapacity = 10000;
             ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-            threadPoolTaskExecutor.setCorePoolSize(8);
-            threadPoolTaskExecutor.setMaxPoolSize(64);
-            threadPoolTaskExecutor.setQueueCapacity(10000);
+            threadPoolTaskExecutor.setCorePoolSize(poolSize);
+            threadPoolTaskExecutor.setMaxPoolSize(maxPoolSize);
+            threadPoolTaskExecutor.setQueueCapacity(queueCapacity);
             threadPoolTaskExecutor.initialize();
             return threadPoolTaskExecutor;
         }

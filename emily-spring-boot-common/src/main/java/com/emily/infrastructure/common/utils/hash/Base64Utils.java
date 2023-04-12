@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.hash;
 
 import com.emily.infrastructure.common.constant.CharsetInfo;
-import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.type.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.utils.io.IoUtils;
 import org.apache.commons.lang3.StringUtils;

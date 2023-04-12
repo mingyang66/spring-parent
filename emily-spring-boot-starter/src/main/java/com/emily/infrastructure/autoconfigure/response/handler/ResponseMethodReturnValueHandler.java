@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.type.HttpStatusType;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;

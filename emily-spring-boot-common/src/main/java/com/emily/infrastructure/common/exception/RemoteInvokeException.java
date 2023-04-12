@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.exception;
 
-import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.type.HttpStatusType;
 
 /**
  * @program: spring-parent

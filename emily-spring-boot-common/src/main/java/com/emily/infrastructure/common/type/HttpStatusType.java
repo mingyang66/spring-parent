@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.enums;
+package com.emily.infrastructure.common.type;
 
 /**
  * @author Emily

@@ -2,7 +2,7 @@ package com.emily.infrastructure.common.exception;
 
 
 import com.emily.infrastructure.common.enums.HttpStatusType;
-import com.emily.infrastructure.common.i18n.LanguageCache;
+import com.emily.infrastructure.common.i18n.LanguageMap;
 
 /**
  * @author Emily
@@ -29,13 +29,13 @@ public class BasicException extends RuntimeException {
     public BasicException(HttpStatusType httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
-        this.message = LanguageCache.peek(httpStatus.getMessage());
+        this.message = LanguageMap.peek(httpStatus.getMessage());
     }
 
     public BasicException(int status, String message) {
         super(message);
         this.status = status;
-        this.message = LanguageCache.peek(message);
+        this.message = LanguageMap.peek(message);
     }
 
     public BasicException(int status, String errorMessage, boolean error) {
@@ -57,7 +57,7 @@ public class BasicException extends RuntimeException {
     }
 
     public void setMessage(String message) {
-        this.message = LanguageCache.peek(message);
+        this.message = LanguageMap.peek(message);
     }
 
     public boolean isError() {

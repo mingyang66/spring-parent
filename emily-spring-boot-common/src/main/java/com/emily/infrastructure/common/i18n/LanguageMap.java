@@ -14,7 +14,7 @@ import java.util.Objects;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/8/9 7:38 下午
  */
-public class LanguageCache {
+public class LanguageMap {
     /**
      * 简体-繁体
      */

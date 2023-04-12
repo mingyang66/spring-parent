@@ -10,6 +10,7 @@ Bug Fixes
 6. druid升级到1.2.16，小版本修复一些已知问题；
 7. springboot升级到2.7.10版本；
 8. 新增NumberInfo数字常量类；
+9. 重命名LanguageCache为LanguageMap;
 
 -----
 基础库发布4.1.8

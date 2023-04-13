@@ -29,13 +29,13 @@ public class BasicException extends RuntimeException {
     public BasicException(HttpStatusType httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
-        this.message = LanguageMap.peek(httpStatus.getMessage());
+        this.message = LanguageMap.acquire(httpStatus.getMessage());
     }
 
     public BasicException(int status, String message) {
         super(message);
         this.status = status;
-        this.message = LanguageMap.peek(message);
+        this.message = LanguageMap.acquire(message);
     }
 
     public BasicException(int status, String errorMessage, boolean error) {
@@ -57,7 +57,7 @@ public class BasicException extends RuntimeException {
     }
 
     public void setMessage(String message) {
-        this.message = LanguageMap.peek(message);
+        this.message = LanguageMap.acquire(message);
     }
 
     public boolean isError() {

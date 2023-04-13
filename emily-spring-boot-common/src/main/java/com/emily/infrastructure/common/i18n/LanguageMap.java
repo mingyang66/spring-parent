@@ -1,6 +1,7 @@
 package com.emily.infrastructure.common.i18n;
 
 import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.common.constant.NumberInfo;
 import com.emily.infrastructure.common.type.LanguageType;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.google.common.collect.Maps;
@@ -61,30 +62,30 @@ public class LanguageMap {
     /**
      * 获取简体中文对应的语言
      */
-    public static String peek(String simple) {
+    public static String acquire(String simple) {
         String language = LanguageType.ZH.getCode();
         if (RequestUtils.isServletContext()) {
             language = RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE);
         }
-        return peek(simple, language);
+        return acquire(simple, language);
     }
 
     /**
      * 获取简体中文对应的语言
      */
-    public static String peek(String simple, String language) {
+    public static String acquire(String simple, String language) {
         LanguageType languageType = LanguageType.getByCode(language);
-        return peek(simple, languageType);
+        return acquire(simple, languageType);
     }
 
     /**
      * 获取简体中文对应的语言
      */
-    public static String peek(String simple, LanguageType languageType) {
+    public static String acquire(String simple, LanguageType languageType) {
         if (Objects.isNull(languageType) || StringUtils.isEmpty(simple)) {
             return simple;
         }
-        if (StringUtils.length(simple) > 100) {
+        if (StringUtils.length(simple) > NumberInfo.N100 * NumberInfo.N2) {
             return simple;
         }
         if (languageType.equals(LanguageType.FT)) {

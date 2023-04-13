@@ -25,7 +25,7 @@ public class BaseResponse<T> implements Serializable {
 
     public BaseResponse(int status, String message) {
         this.status = status;
-        this.message = LanguageMap.peek(message);
+        this.message = LanguageMap.acquire(message);
     }
 
     public BaseResponse(int status, String message, T data) {

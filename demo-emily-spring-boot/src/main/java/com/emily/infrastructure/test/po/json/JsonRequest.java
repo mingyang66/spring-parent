@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.po.json;
 
 import com.emily.infrastructure.common.sensitive.JsonFlexField;
-import com.emily.infrastructure.common.sensitive.JsonSerializer;
+import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSerializer(include = true)
+@JsonSensitive(include = true)
 public class JsonRequest {
     @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String fieldKey;

@@ -269,8 +269,8 @@ public class SensitiveUtils {
      * @return
      */
     private static Object doGetEntityResponse(final Object entity, final Boolean include) {
-        if (entity.getClass().isAnnotationPresent(JsonSerializer.class)) {
-            return doSetField(entity, entity.getClass().getAnnotation(JsonSerializer.class).include());
+        if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+            return doSetField(entity, entity.getClass().getAnnotation(JsonSensitive.class).include());
         } else if (isInclude(include)) {
             return doSetField(entity, Boolean.TRUE);
         } else {

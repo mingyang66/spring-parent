@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.time.DateFormatType;
+import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;

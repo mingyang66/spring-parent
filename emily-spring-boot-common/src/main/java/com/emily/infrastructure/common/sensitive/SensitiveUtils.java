@@ -304,9 +304,9 @@ public class SensitiveUtils {
                 //普通字段脱敏
                 if (field.isAnnotationPresent(JsonSimField.class)) {
                     if (isFinal(value)) {
-                        JsonSimField sensitive = field.getAnnotation(JsonSimField.class);
+                        JsonSimField jsonSimField = field.getAnnotation(JsonSimField.class);
                         if (value instanceof String) {
-                            fieldMap.put(name, doGetSensitiveField(sensitive.value(), (String) value));
+                            fieldMap.put(name, doGetSensitiveField(jsonSimField.value(), (String) value));
                         } else {
                             fieldMap.put(name, value);
                         }

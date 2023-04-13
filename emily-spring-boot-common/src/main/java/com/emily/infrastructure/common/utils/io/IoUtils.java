@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.io;
 
 import com.emily.infrastructure.common.constant.CharsetInfo;
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;

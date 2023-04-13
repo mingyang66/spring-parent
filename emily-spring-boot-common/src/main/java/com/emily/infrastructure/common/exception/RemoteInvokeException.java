@@ -1,7 +1,5 @@
 package com.emily.infrastructure.common.exception;
 
-import com.emily.infrastructure.common.type.HttpStatusType;
-
 /**
  * @program: spring-parent
  * @description: 调用第三方接口异常

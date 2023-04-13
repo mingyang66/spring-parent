@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;

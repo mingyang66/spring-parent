@@ -2,7 +2,6 @@ package com.emily.infrastructure.common.i18n;
 
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.constant.NumberInfo;
-import com.emily.infrastructure.common.type.LanguageType;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;

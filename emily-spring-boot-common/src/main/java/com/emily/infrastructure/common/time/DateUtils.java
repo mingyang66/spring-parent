@@ -1,7 +1,6 @@
 package com.emily.infrastructure.common.time;
 
-import com.emily.infrastructure.common.type.DateFormatType;
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;

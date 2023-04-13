@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.i18n.LanguageMap;
 import com.emily.infrastructure.common.utils.RequestUtils;
 

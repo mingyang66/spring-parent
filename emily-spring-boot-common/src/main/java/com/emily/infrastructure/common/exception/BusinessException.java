@@ -1,7 +1,5 @@
 package com.emily.infrastructure.common.exception;
 
-import com.emily.infrastructure.common.type.HttpStatusType;
-
 /**
  * @program: spring-parent
  * @description: 业务异常

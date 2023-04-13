@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.type;
+package com.emily.infrastructure.common.exception;
 
 /**
  * @author Emily

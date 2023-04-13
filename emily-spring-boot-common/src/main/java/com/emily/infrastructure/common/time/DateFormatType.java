@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.type;
+package com.emily.infrastructure.common.time;
 
 import org.apache.commons.lang3.ArrayUtils;
 

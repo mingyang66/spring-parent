@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.json;
 
-import com.emily.infrastructure.common.type.DateFormatType;
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.time.DateFormatType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;

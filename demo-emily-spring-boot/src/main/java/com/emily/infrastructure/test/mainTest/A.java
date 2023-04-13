@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.mainTest;
 
-import com.emily.infrastructure.common.type.DateFormatType;
+import com.emily.infrastructure.common.time.DateFormatType;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.test.po.json.JsonResponse;

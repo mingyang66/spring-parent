@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.utils.bean;
 
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.google.common.collect.Maps;

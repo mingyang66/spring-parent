@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.type.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import org.apache.commons.lang3.StringUtils;

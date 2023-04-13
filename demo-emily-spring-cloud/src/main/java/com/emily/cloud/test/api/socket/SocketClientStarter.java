@@ -1,6 +1,6 @@
 package com.emily.cloud.test.api.socket;
 
-import com.emily.infrastructure.common.type.DateFormatType;
+import com.emily.infrastructure.common.time.DateFormatType;
 
 import java.io.InputStream;
 import java.io.OutputStream;

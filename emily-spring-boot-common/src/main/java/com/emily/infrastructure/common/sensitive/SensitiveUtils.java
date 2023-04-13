@@ -444,10 +444,10 @@ public class SensitiveUtils {
     }
 
     /**
-     * 判定值对象是否是无需再继续进行解析
+     * 判断是否是无需解析的值对象
      *
      * @param value 值对象
-     * @return
+     * @return 是-true 否-false
      */
     private static boolean isFinal(final Object value) {
         if (Objects.isNull(value)) {

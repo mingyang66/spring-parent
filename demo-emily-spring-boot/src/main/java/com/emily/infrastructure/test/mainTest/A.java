@@ -41,10 +41,10 @@ public class A {
         arr[1] = "test2";
         response.setArr(arr);
         int a = 1;
-        SensitiveUtils.sensitive(a);
+        SensitiveUtils.acquire(a);
         byte[] b = new byte[]{3, 4};
-        SensitiveUtils.sensitive(b);
-        SensitiveUtils.sensitive(response);
+        SensitiveUtils.acquire(b);
+        SensitiveUtils.acquire(response);
     }
 
     private static Object toObj(Object o, String... field) {

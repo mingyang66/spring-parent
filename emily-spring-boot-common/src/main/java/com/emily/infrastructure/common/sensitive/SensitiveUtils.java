@@ -3,6 +3,7 @@ package com.emily.infrastructure.common.sensitive;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -177,8 +177,8 @@ public class SensitiveUtils {
      * Map<String, Map<String, JsonRequest></>></>
      * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
      */
-    public static Object sensitive(final Object entity) {
-        return sensitive(entity, null);
+    public static Object acquire(final Object entity) {
+        return acquire(entity, null);
     }
 
     /**
@@ -188,8 +188,8 @@ public class SensitiveUtils {
      * @param include 是否脱敏嵌套类，默认：null
      * @return
      */
-    private static Object sensitive(final Object entity, final Boolean include) {
-        if (isFinal(entity)) {
+    private static Object acquire(final Object entity, final Boolean include) {
+        if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
@@ -229,14 +229,14 @@ public class SensitiveUtils {
      * @return
      */
     private static Object doGetEntity(final Object entity, final Boolean include) {
-        if (isFinal(entity)) {
+        if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         } else if (entity instanceof Collection) {
-            return sensitive(entity, include);
+            return acquire(entity, include);
         } else if (entity instanceof Map) {
-            return sensitive(entity, include);
+            return acquire(entity, include);
         } else if (entity.getClass().isArray()) {
-            return sensitive(entity, include);
+            return acquire(entity, include);
         } else if (entity instanceof BaseResponse) {
             return doGetBaseResponse(entity, include);
         } else {
@@ -256,7 +256,7 @@ public class SensitiveUtils {
         BaseResponse response = new BaseResponse();
         response.setStatus(baseResponse.getStatus());
         response.setMessage(baseResponse.getMessage());
-        response.setData(sensitive(baseResponse.getData(), include));
+        response.setData(acquire(baseResponse.getData(), include));
         response.setSpentTime(baseResponse.getSpentTime());
         return response;
     }
@@ -291,7 +291,7 @@ public class SensitiveUtils {
             Map<String, JsonFlexField> flexFieldMap = null;
             Field[] fields = entity.getClass().getDeclaredFields();
             for (Field field : fields) {
-                if (isModifierFinal(field)) {
+                if (JavaBeanUtils.isModifierFinal(field)) {
                     continue;
                 }
                 field.setAccessible(true);
@@ -303,7 +303,7 @@ public class SensitiveUtils {
                 }
                 //普通字段脱敏
                 if (field.isAnnotationPresent(JsonSimField.class)) {
-                    if (isFinal(value)) {
+                    if (JavaBeanUtils.isFinal(value)) {
                         JsonSimField jsonSimField = field.getAnnotation(JsonSimField.class);
                         if (value instanceof String) {
                             fieldMap.put(name, doGetSensitiveField(jsonSimField.value(), (String) value));
@@ -357,26 +357,6 @@ public class SensitiveUtils {
     }
 
     /**
-     * 指定的修饰符是否序列化
-     *
-     * @param field 字段反射类型
-     * @return
-     */
-    private static boolean isModifierFinal(final Field field) {
-        int modifiers = field.getModifiers();
-        if (Modifier.isFinal(modifiers)
-                || Modifier.isStatic(modifiers)
-                || Modifier.isTransient(modifiers)
-                || Modifier.isVolatile(modifiers)
-                || Modifier.isNative(modifiers)
-                || Modifier.isSynchronized(modifiers)
-                || Modifier.isStrict(modifiers)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 获取最终的字段值
      *
      * @param f       字段值对象
@@ -384,10 +364,10 @@ public class SensitiveUtils {
      * @return
      */
     private static Object doGetField(final Object f, final Boolean include) {
-        if (isFinal(f)) {
+        if (JavaBeanUtils.isFinal(f)) {
             return f;
         } else if (isInclude(include)) {
-            return sensitive(f, Boolean.TRUE);
+            return acquire(f, Boolean.TRUE);
         } else {
             return f;
         }
@@ -441,43 +421,6 @@ public class SensitiveUtils {
             return true;
         }
         return false;
-    }
-
-    /**
-     * 判断是否是无需解析的值对象
-     *
-     * @param value 值对象
-     * @return 是-true 否-false
-     */
-    private static boolean isFinal(final Object value) {
-        if (Objects.isNull(value)) {
-            return true;
-        } else if (value instanceof String) {
-            return true;
-        } else if (value instanceof Integer) {
-            return true;
-        } else if (value instanceof Short) {
-            return true;
-        } else if (value instanceof Long) {
-            return true;
-        } else if (value instanceof Double) {
-            return true;
-        } else if (value instanceof Float) {
-            return true;
-        } else if (value instanceof Byte) {
-            return true;
-        } else if (value instanceof Boolean) {
-            return true;
-        } else if (value instanceof Character) {
-            return true;
-        } else if (value instanceof Number) {
-            return true;
-        } else if (value.getClass().isEnum()) {
-            return true;
-        } else {
-            return false;
-        }
-
     }
 
     /**

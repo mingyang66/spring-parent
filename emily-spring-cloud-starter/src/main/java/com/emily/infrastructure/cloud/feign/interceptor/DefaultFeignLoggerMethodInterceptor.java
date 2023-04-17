@@ -72,7 +72,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //触发时间
             baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //响应结果
-            baseLogger.setBody(SensitiveUtils.sensitive(response));
+            baseLogger.setBody(SensitiveUtils.acquire(response));
             //异步记录接口响应信息
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
             //删除线程上下文中的数据，防止内存溢出

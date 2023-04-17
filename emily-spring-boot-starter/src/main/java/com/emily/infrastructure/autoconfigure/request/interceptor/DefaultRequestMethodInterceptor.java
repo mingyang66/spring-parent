@@ -64,10 +64,10 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 //404 Not Fund
                 handleNotFund(response, baseLogger);
                 //设置响应结果
-                baseLogger.setBody(SensitiveUtils.sensitive(responseBody));
+                baseLogger.setBody(SensitiveUtils.acquire(responseBody));
             } else {
                 //设置响应结果
-                baseLogger.setBody(SensitiveUtils.sensitive(response));
+                baseLogger.setBody(SensitiveUtils.acquire(response));
             }
             return response;
         } catch (Exception ex) {

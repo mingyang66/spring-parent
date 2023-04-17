@@ -7,7 +7,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.bean.ParamNameUtils;
+import com.emily.infrastructure.common.object.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.common.utils.json.JSONUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
@@ -233,7 +233,7 @@ public class RequestHelper {
                         paramMap.put(name, value);
                     }
                 } else {
-                    paramMap.put(name, SensitiveUtils.sensitive(value));
+                    paramMap.put(name, SensitiveUtils.acquire(value));
                 }
             }
             return paramMap;

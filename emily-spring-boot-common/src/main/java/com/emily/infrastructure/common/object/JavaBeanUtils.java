@@ -1,7 +1,7 @@
-package com.emily.infrastructure.common.utils.bean;
+package com.emily.infrastructure.common.object;
 
-import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.google.common.collect.Maps;
 
@@ -11,8 +11,10 @@ import java.beans.PropertyDescriptor;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @program: spring-parent
@@ -155,5 +157,61 @@ public class JavaBeanUtils {
         } catch (Exception exception) {
             throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "深度拷贝数据异常");
         }
+    }
+
+    /**
+     * 判断是否是无需解析的值对象
+     *
+     * @param value 值对象
+     * @return 是-true 否-false
+     */
+    public static boolean isFinal(final Object value) {
+        if (Objects.isNull(value)) {
+            return true;
+        } else if (value instanceof String) {
+            return true;
+        } else if (value instanceof Integer) {
+            return true;
+        } else if (value instanceof Short) {
+            return true;
+        } else if (value instanceof Long) {
+            return true;
+        } else if (value instanceof Double) {
+            return true;
+        } else if (value instanceof Float) {
+            return true;
+        } else if (value instanceof Byte) {
+            return true;
+        } else if (value instanceof Boolean) {
+            return true;
+        } else if (value instanceof Character) {
+            return true;
+        } else if (value instanceof Number) {
+            return true;
+        } else if (value.getClass().isEnum()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 指定的修饰符是否序列化
+     *
+     * @param field 字段反射类型
+     * @return
+     */
+    public static boolean isModifierFinal(final Field field) {
+        int modifiers = field.getModifiers();
+        if (Modifier.isFinal(modifiers)
+                || Modifier.isStatic(modifiers)
+                || Modifier.isTransient(modifiers)
+                || Modifier.isVolatile(modifiers)
+                || Modifier.isNative(modifiers)
+                || Modifier.isSynchronized(modifiers)
+                || Modifier.isStrict(modifiers)) {
+            return true;
+        }
+        return false;
     }
 }

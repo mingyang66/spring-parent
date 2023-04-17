@@ -89,7 +89,7 @@ public class GlobalExceptionCustomizer {
                 if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
                     Map<String, Object> paramMap = Maps.newHashMap();
                     paramMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
-                    paramMap.put(AttributeInfo.PARAMS, SensitiveUtils.sensitive(bindingResult.getTarget()));
+                    paramMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquire(bindingResult.getTarget()));
                     baseLogger.setRequestParams(paramMap);
                 }
             }

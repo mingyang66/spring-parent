@@ -1,8 +1,6 @@
 package com.emily.infrastructure.test.mapper.mysql;
 
 
-import com.emily.infrastructure.common.sensitive.JsonSimField;
-import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.po.json.PubResponse;
@@ -43,5 +41,5 @@ public interface MysqlMapper {
     void insertMysql(String schedName, String lockName);
 
     @TargetDataSource(value = "mysql")
-    MapperIgnore getMapperIgnore(PubResponse response, @JsonSimField String username, @JsonSimField(SensitiveType.EMAIL) String email);
+    MapperIgnore getMapperIgnore(PubResponse response, String username, String email);
 }

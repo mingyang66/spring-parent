@@ -88,7 +88,7 @@ public class JsonIgnoreController {
     }
 
     @GetMapping("test4")
-    public String test4(String name, @JsonSimField @RequestParam("phone") String phone, @JsonSimField(SensitiveType.USERNAME) @RequestParam String username) {
+    public String test4(String name, @RequestParam("phone") String phone, @RequestParam String username) {
         return phone + "-" + username;
     }
 

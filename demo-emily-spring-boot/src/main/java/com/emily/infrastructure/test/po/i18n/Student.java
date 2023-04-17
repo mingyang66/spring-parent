@@ -1,14 +1,18 @@
-package com.emily.infrastructure.common.i18n;
+package com.emily.infrastructure.test.po.i18n;
+
+import com.emily.infrastructure.common.i18n.ApiI18n;
+import com.emily.infrastructure.common.i18n.ApiI18nProperty;
 
 /**
- * @Description :  多语言
+ * @Description :  学生
  * @Author :  Emily
- * @CreateDate :  Created in 2023/4/17 10:17 AM
+ * @CreateDate :  Created in 2023/4/17 3:34 PM
  */
 @ApiI18n
-public class I18nStudent {
+public class Student {
     @ApiI18nProperty
     private String name;
+    @ApiI18nProperty
     private int age;
 
     public String getName() {

@@ -304,8 +304,8 @@ public class SensitiveUtils {
                 //普通字段脱敏
                 if (field.isAnnotationPresent(JsonSimField.class)) {
                     if (JavaBeanUtils.isFinal(value)) {
-                        JsonSimField jsonSimField = field.getAnnotation(JsonSimField.class);
                         if (value instanceof String) {
+                            JsonSimField jsonSimField = field.getAnnotation(JsonSimField.class);
                             fieldMap.put(name, acqurieSensitiveField(jsonSimField.value(), (String) value));
                         } else {
                             fieldMap.put(name, value);
@@ -313,11 +313,11 @@ public class SensitiveUtils {
                     }
                     // 复杂类型字段脱敏
                 } else if (field.isAnnotationPresent(JsonFlexField.class)) {
-                    JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
                     if (flexFieldMap == null) {
                         flexFieldMap = Maps.newHashMap();
                     }
                     if ((value instanceof String)) {
+                        JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
                         flexFieldMap.put(name, jsonFlexField);
                     }
                     fieldMap.put(name, value);

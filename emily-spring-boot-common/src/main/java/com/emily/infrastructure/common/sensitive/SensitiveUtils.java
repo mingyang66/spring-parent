@@ -306,7 +306,7 @@ public class SensitiveUtils {
                     if (JavaBeanUtils.isFinal(value)) {
                         JsonSimField jsonSimField = field.getAnnotation(JsonSimField.class);
                         if (value instanceof String) {
-                            fieldMap.put(name, doGetSensitiveField(jsonSimField.value(), (String) value));
+                            fieldMap.put(name, acqurieSensitiveField(jsonSimField.value(), (String) value));
                         } else {
                             fieldMap.put(name, value);
                         }
@@ -402,7 +402,7 @@ public class SensitiveUtils {
                     //获取值字段值
                     Object fv = fieldMap.get(j.fieldValue());
                     if (Objects.nonNull(fv)) {
-                        dataMap.put(j.fieldValue(), doGetSensitiveField(type, (String) fv));
+                        dataMap.put(j.fieldValue(), acqurieSensitiveField(type, (String) fv));
                     }
                 }
             }
@@ -430,7 +430,7 @@ public class SensitiveUtils {
      * @param fieldValue 字段值
      * @return
      */
-    public static String doGetSensitiveField(SensitiveType type, String fieldValue) {
+    public static String acqurieSensitiveField(SensitiveType type, String fieldValue) {
         if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
             return fieldValue;
         }

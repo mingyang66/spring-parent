@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description :  标注需要做多语言支持的字段
+ * @Description :  标注实体类是否需要进行多语言解析
  * @Author :  Emily
- * @CreateDate :  Created in 2023/4/15 5:17 PM
+ * @CreateDate :  Created in 2023/4/15 5:15 PM
  */
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonI18nField {
+public @interface ApiI18n {
 }

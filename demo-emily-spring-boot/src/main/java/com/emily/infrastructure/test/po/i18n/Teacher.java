@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.po.i18n;
 
 import com.emily.infrastructure.common.i18n.ApiI18n;
+import com.emily.infrastructure.common.i18n.ApiI18nProperty;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 @ApiI18n
 public class Teacher {
+    @ApiI18nProperty
     public String name;
     public List<Student> studentList = Lists.newArrayList();
     public Map<String, Student> studentMap = Maps.newHashMap();

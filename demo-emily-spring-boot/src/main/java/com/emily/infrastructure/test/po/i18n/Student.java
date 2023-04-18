@@ -14,6 +14,15 @@ public class Student {
     private String name;
     @ApiI18nProperty
     private int age;
+    private int[] array = new int[]{1, 2, 3};
+
+    public int[] getArray() {
+        return array;
+    }
+
+    public void setArray(int[] array) {
+        this.array = array;
+    }
 
     public String getName() {
         return name;

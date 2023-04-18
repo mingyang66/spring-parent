@@ -3,6 +3,7 @@ package com.emily.infrastructure.core.context.holder;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.common.i18n.LanguageType;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.UUIDUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
@@ -68,7 +69,7 @@ public class ThreadContextHolder {
         /**
          * 语言
          */
-        private String language;
+        private LanguageType languageType;
         /**
          * 开启时间
          */
@@ -109,6 +110,7 @@ public class ThreadContextHolder {
                 this.traceId = request.getHeader(HeaderInfo.TRACE_ID);
                 this.appType = request.getHeader(HeaderInfo.APP_TYPE);
                 this.appVersion = request.getHeader(HeaderInfo.APP_VERSION);
+                this.languageType = LanguageType.getByCode(request.getHeader(HeaderInfo.LANGUAGE));
                 this.servletContext = true;
                 //设置当前请求阶段标识
                 request.setAttribute(AttributeInfo.STAGE, Stage.REQUEST);
@@ -173,12 +175,12 @@ public class ThreadContextHolder {
             this.systemNumber = systemNumber;
         }
 
-        public String getLanguage() {
-            return language;
+        public LanguageType getLanguageType() {
+            return languageType;
         }
 
-        public void setLanguage(String language) {
-            this.language = language;
+        public void setLanguageType(LanguageType languageType) {
+            this.languageType = languageType;
         }
 
         public boolean isServletContext() {

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.i18n;
 
+import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -39,9 +39,14 @@ public class I18nUtils {
                     acquire(entry.getValue(), languageType);
                 }
             } else if (entity.getClass().isArray()) {
-                for (Object v : (Object[]) entity) {
-                    acquire(v, languageType);
+                if (!entity.getClass().getComponentType().isPrimitive()) {
+                    for (Object v : (Object[]) entity) {
+                        acquire(v, languageType);
+                    }
                 }
+            } else if (entity instanceof BaseResponse) {
+                BaseResponse response = (BaseResponse) entity;
+                acquire(response.getData(), languageType);
             } else if (entity.getClass().isAnnotationPresent(ApiI18n.class)) {
                 doSetField(entity, languageType);
             }
@@ -55,7 +60,6 @@ public class I18nUtils {
      * 获取实体类对象脱敏后的对象
      *
      * @param entity 需要脱敏的实体类对象
-     * @return
      */
     private static void doSetField(final Object entity, final LanguageType languageType) throws IllegalAccessException {
         if (Objects.isNull(entity)) {
@@ -85,13 +89,23 @@ public class I18nUtils {
                     doGetEntity(field, entry.getValue(), languageType);
                 }
             } else if (value.getClass().isArray()) {
-                for (Object v : (Object[]) value) {
-                    doGetEntity(field, v, languageType);
+                if (!value.getClass().getComponentType().isPrimitive()) {
+                    for (Object v : (Object[]) value) {
+                        doGetEntity(field, v, languageType);
+                    }
                 }
             }
         }
     }
 
+    /**
+     * 设置值对象的翻译结果
+     *
+     * @param field        字段对象
+     * @param entity       字段值对象
+     * @param languageType 语言类型
+     * @throws IllegalAccessException 非法访问异常
+     */
     public static void doGetEntity(final Field field, final Object entity, final LanguageType languageType) throws IllegalAccessException {
         if (Objects.isNull(entity)) {
             return;

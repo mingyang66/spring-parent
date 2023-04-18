@@ -32,7 +32,8 @@ public class I18nTest {
         student.setName("孙少安");
         teacher.studentMap.put("testMap2", student);
         teacher.students[1] = student;
-
+        System.out.println(JSONUtils.toJSONString(teacher));
         System.out.println(JSONUtils.toJSONString(I18nUtils.acquire(teacher, LanguageType.EN)));
+        System.out.println(JSONUtils.toJSONString(teacher));
     }
 }

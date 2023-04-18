@@ -2,7 +2,6 @@ package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -178,104 +177,58 @@ public class SensitiveUtils {
      * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
      */
     public static Object acquire(final Object entity) {
-        return acquire(entity, null);
-    }
-
-    /**
-     * 获取实体类对象脱敏后的对象
-     *
-     * @param entity  需要脱敏的实体类对象
-     * @param include 是否脱敏嵌套类，默认：null
-     * @return
-     */
-    private static Object acquire(final Object entity, final Boolean include) {
-        if (JavaBeanUtils.isFinal(entity)) {
-            return entity;
-        }
-        if (entity instanceof Collection) {
-            Collection coll = new ArrayList();
-            ((Collection) entity).stream().forEach(en -> {
-                coll.add(doGetEntity(en, include));
-            });
-            return coll;
-        } else if (entity instanceof Map) {
-            Map dMap = Maps.newHashMap();
-            ((Map) entity).forEach((k, v) -> {
-                dMap.put(k, doGetEntity(v, include));
-            });
-            return dMap;
-        } else if (entity.getClass().isArray()) {
-            if (entity.getClass().getComponentType().isPrimitive()) {
+        try {
+            if (JavaBeanUtils.isFinal(entity)) {
                 return entity;
-            } else {
-                Object[] v = (Object[]) entity;
-                Object[] t = new Object[v.length];
-                for (int i = 0; i < v.length; i++) {
-                    t[i] = doGetEntity(v[i], include);
-                }
-                return t;
             }
-        } else if (entity instanceof BaseResponse) {
-            return doGetBaseResponse(entity, include);
-        }
-        return doGetEntityResponse(entity, include);
-    }
+            if (entity instanceof Collection) {
+                Collection coll = new ArrayList();
+                for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
+                    coll.add(acquire(it.next()));
+                }
+                return coll;
+            } else if (entity instanceof Map) {
+                Map dMap = Maps.newHashMap();
+                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
+                    dMap.put(entry.getKey(), acquire(entry.getValue()));
+                }
+                return dMap;
+            } else if (entity.getClass().isArray()) {
+                if (entity.getClass().getComponentType().isPrimitive()) {
+                    return entity;
+                } else {
+                    Object[] v = (Object[]) entity;
+                    Object[] t = new Object[v.length];
+                    for (int i = 0; i < v.length; i++) {
+                        t[i] = acquire(v[i]);
+                    }
+                    return t;
+                }
+            } else if (entity instanceof BaseResponse) {
+                return doGetBaseResponse(entity);
+            } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+                return doSetField(entity);
+            }
+        } catch (IllegalAccessException exception) {
 
-    /**
-     * 获取实体类的最终对象值
-     *
-     * @param entity  实体类
-     * @param include 是否解析内部嵌套类
-     * @return
-     */
-    private static Object doGetEntity(final Object entity, final Boolean include) {
-        if (JavaBeanUtils.isFinal(entity)) {
-            return entity;
-        } else if (entity instanceof Collection) {
-            return acquire(entity, include);
-        } else if (entity instanceof Map) {
-            return acquire(entity, include);
-        } else if (entity.getClass().isArray()) {
-            return acquire(entity, include);
-        } else if (entity instanceof BaseResponse) {
-            return doGetBaseResponse(entity, include);
-        } else {
-            return doGetEntityResponse(entity, include);
         }
+        return entity;
     }
 
     /**
      * 对最外层是BaseResponse做处理
      *
-     * @param entity  实体类
-     * @param include 是否解析内部实体类
+     * @param entity 实体类
      * @return
      */
-    private static Object doGetBaseResponse(final Object entity, final Boolean include) {
-        BaseResponse baseResponse = ((BaseResponse) entity);
+    private static Object doGetBaseResponse(final Object entity) {
+        BaseResponse baseResponse = (BaseResponse) entity;
         BaseResponse response = new BaseResponse();
         response.setStatus(baseResponse.getStatus());
         response.setMessage(baseResponse.getMessage());
-        response.setData(acquire(baseResponse.getData(), include));
+        response.setData(acquire(baseResponse.getData()));
         response.setSpentTime(baseResponse.getSpentTime());
         return response;
-    }
-
-    /**
-     * 获取实体类脱敏后的数据
-     *
-     * @param entity  实体类
-     * @param include 是否解析嵌套类并脱敏
-     * @return
-     */
-    private static Object doGetEntityResponse(final Object entity, final Boolean include) {
-        if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
-            return doSetField(entity, entity.getClass().getAnnotation(JsonSensitive.class).include());
-        } else if (isInclude(include)) {
-            return doSetField(entity, Boolean.TRUE);
-        } else {
-            return entity;
-        }
     }
 
     /**
@@ -284,92 +237,84 @@ public class SensitiveUtils {
      * @param entity 需要脱敏的实体类对象
      * @return
      */
-    private static Map<String, Object> doSetField(final Object entity, final Boolean include) {
+    private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
         Map<String, Object> fieldMap = Maps.newHashMap();
-        try {
-            //通用fieldKey fieldValue忽略
-            Map<String, JsonFlexField> flexFieldMap = null;
-            Field[] fields = entity.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if (JavaBeanUtils.isModifierFinal(field)) {
-                    continue;
-                }
-                field.setAccessible(true);
-                String name = field.getName();
-                Object value = field.get(entity);
-                if (Objects.isNull(value)) {
-                    fieldMap.put(name, null);
-                    continue;
-                }
-                //普通字段脱敏
-                if (field.isAnnotationPresent(JsonSimField.class)) {
-                    if (JavaBeanUtils.isFinal(value)) {
-                        if (value instanceof String) {
-                            JsonSimField jsonSimField = field.getAnnotation(JsonSimField.class);
-                            fieldMap.put(name, acquireSensitiveField(jsonSimField.value(), (String) value));
-                        } else {
-                            fieldMap.put(name, value);
-                        }
-                    }
-                    // 复杂类型字段脱敏
-                } else if (field.isAnnotationPresent(JsonFlexField.class)) {
-                    if (flexFieldMap == null) {
-                        flexFieldMap = Maps.newHashMap();
-                    }
-                    if ((value instanceof String)) {
-                        JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
-                        flexFieldMap.put(name, jsonFlexField);
-                    }
-                    fieldMap.put(name, value);
-                } else if (value instanceof Collection) {
-                    Collection coll = new ArrayList();
-                    ((Collection) value).stream().forEach(en -> {
-                        coll.add(doGetField(en, include));
-                    });
-                    fieldMap.put(name, coll);
-                } else if (value instanceof Map) {
-                    Map dMap = Maps.newHashMap();
-                    ((Map) value).forEach((k, v) -> {
-                        dMap.put(k, doGetField(v, include));
-                    });
-                    fieldMap.put(name, dMap);
-                } else if (value.getClass().isArray()) {
-                    if (value.getClass().getComponentType().isPrimitive()) {
-                        fieldMap.put(name, value);
-                    } else {
-                        Object[] v = (Object[]) value;
-                        Object[] t = new Object[v.length];
-                        for (int i = 0; i < v.length; i++) {
-                            t[i] = doGetField(v[i], include);
-                        }
-                        fieldMap.put(name, t);
-                    }
-                } else {
-                    fieldMap.put(name, doGetField(value, include));
-                }
+        //通用fieldKey fieldValue忽略
+        Map<String, JsonFlexField> flexFieldMap = null;
+        Field[] fields = entity.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (JavaBeanUtils.isModifierFinal(field)) {
+                continue;
             }
-            // 灵活复杂数据类型脱敏
-            fieldMap.putAll(doGetFlexField(fieldMap, flexFieldMap));
-        } catch (Exception ex) {
-            logger.error(PrintExceptionInfo.printErrorInfo(ex));
+            field.setAccessible(true);
+            String name = field.getName();
+            Object value = field.get(entity);
+            if (Objects.isNull(value)) {
+                fieldMap.put(name, null);
+                continue;
+            }
+            if (field.isAnnotationPresent(JsonSimField.class)) {
+                if (value instanceof String) {
+                    fieldMap.put(name, acquireSensitiveField(field.getAnnotation(JsonSimField.class).value(), (String) value));
+                } else {
+                    fieldMap.put(name, doGetEntity(field, value));
+                }
+            } else if (field.isAnnotationPresent(JsonFlexField.class)) {
+                if (value instanceof String) {
+                    flexFieldMap = (flexFieldMap == null) ? Maps.newHashMap() : flexFieldMap;
+                    flexFieldMap.put(name, field.getAnnotation(JsonFlexField.class));
+                }
+                fieldMap.put(name, value);
+            } else if (value instanceof Collection) {
+                Collection coll = new ArrayList();
+                for (Iterator it = ((Collection) value).iterator(); it.hasNext(); ) {
+                    coll.add(doGetEntity(field, it.next()));
+                }
+                fieldMap.put(name, coll);
+            } else if (value instanceof Map) {
+                Map dMap = Maps.newHashMap();
+                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
+                    dMap.put(entry.getKey(), doGetEntity(field, entry.getValue()));
+                }
+                fieldMap.put(name, dMap);
+            } else if (value.getClass().isArray()) {
+                if (value.getClass().getComponentType().isPrimitive()) {
+                    fieldMap.put(name, value);
+                } else {
+                    Object[] v = (Object[]) value;
+                    Object[] t = new Object[v.length];
+                    for (int i = 0; i < v.length; i++) {
+                        t[i] = doGetEntity(field, v[i]);
+                    }
+                    fieldMap.put(name, t);
+                }
+            } else {
+                fieldMap.put(name, doGetEntity(field, value));
+            }
         }
+        // 灵活复杂数据类型脱敏
+        fieldMap.putAll(doGetFlexEntity(fieldMap, flexFieldMap));
         return fieldMap;
     }
 
     /**
      * 获取最终的字段值
      *
-     * @param f       字段值对象
-     * @param include 是否解析嵌套实体类
+     * @param entity 字段值对象
      * @return
      */
-    private static Object doGetField(final Object f, final Boolean include) {
-        if (JavaBeanUtils.isFinal(f)) {
-            return f;
-        } else if (isInclude(include)) {
-            return acquire(f, Boolean.TRUE);
+    private static Object doGetEntity(final Field field, final Object entity) {
+        if (Objects.isNull(entity)) {
+            return null;
+        }
+        if (field.isAnnotationPresent(JsonSimField.class)) {
+            if (entity instanceof String) {
+                return acquireSensitiveField(field.getAnnotation(JsonSimField.class).value(), (String) entity);
+            } else {
+                return acquire(entity);
+            }
         } else {
-            return f;
+            return acquire(entity);
         }
     }
 
@@ -380,7 +325,7 @@ public class SensitiveUtils {
      * @param flexFieldMap 复杂类型字段集合
      * @return
      */
-    private static Map<String, Object> doGetFlexField(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
+    private static Map<String, Object> doGetFlexEntity(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
         if (CollectionUtils.isEmpty(flexFieldMap)) {
             return Collections.emptyMap();
         }
@@ -408,19 +353,6 @@ public class SensitiveUtils {
             }
         });
         return dataMap;
-    }
-
-    /**
-     * 判定是否包含
-     *
-     * @param include
-     * @return
-     */
-    private static boolean isInclude(final Boolean include) {
-        if (Objects.nonNull(include) && include) {
-            return true;
-        }
-        return false;
     }
 
     /**

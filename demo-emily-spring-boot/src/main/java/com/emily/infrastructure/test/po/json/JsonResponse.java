@@ -158,6 +158,7 @@ public class JsonResponse {
         this.password = password;
     }
 
+    @JsonSensitive
     public static class Job {
         @JsonSimField(SensitiveType.DEFAULT)
         private String work;

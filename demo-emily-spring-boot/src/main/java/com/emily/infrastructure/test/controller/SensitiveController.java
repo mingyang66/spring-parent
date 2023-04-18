@@ -2,8 +2,6 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.sensitive.JsonSimField;
-import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;
@@ -26,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/json")
-public class JsonIgnoreController {
+public class SensitiveController {
 
     @PostMapping("test")
     @JsonSerialize

@@ -2,6 +2,7 @@ package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.entity.BaseResponse;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -205,30 +206,15 @@ public class SensitiveUtils {
                     return t;
                 }
             } else if (entity instanceof BaseResponse) {
-                return doGetBaseResponse(entity);
+                BaseResponse response = (BaseResponse) entity;
+                return new BaseResponse(response.getStatus(), response.getMessage(), acquire(response.getData()), response.getSpentTime());
             } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
                 return doSetField(entity);
             }
         } catch (IllegalAccessException exception) {
-
+            logger.error(PrintExceptionInfo.printErrorInfo(exception));
         }
         return entity;
-    }
-
-    /**
-     * 对最外层是BaseResponse做处理
-     *
-     * @param entity 实体类
-     * @return
-     */
-    private static Object doGetBaseResponse(final Object entity) {
-        BaseResponse baseResponse = (BaseResponse) entity;
-        BaseResponse response = new BaseResponse();
-        response.setStatus(baseResponse.getStatus());
-        response.setMessage(baseResponse.getMessage());
-        response.setData(acquire(baseResponse.getData()));
-        response.setSpentTime(baseResponse.getSpentTime());
-        return response;
     }
 
     /**
@@ -238,6 +224,9 @@ public class SensitiveUtils {
      * @return
      */
     private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
+        if (Objects.isNull(entity)) {
+            return null;
+        }
         Map<String, Object> fieldMap = Maps.newHashMap();
         //通用fieldKey fieldValue忽略
         Map<String, JsonFlexField> flexFieldMap = null;
@@ -255,7 +244,7 @@ public class SensitiveUtils {
             }
             if (field.isAnnotationPresent(JsonSimField.class)) {
                 if (value instanceof String) {
-                    fieldMap.put(name, acquireSensitiveField(field.getAnnotation(JsonSimField.class).value(), (String) value));
+                    fieldMap.put(name, doGetProperty(field.getAnnotation(JsonSimField.class).value(), (String) value));
                 } else {
                     fieldMap.put(name, doGetEntity(field, value));
                 }
@@ -309,7 +298,7 @@ public class SensitiveUtils {
         }
         if (field.isAnnotationPresent(JsonSimField.class)) {
             if (entity instanceof String) {
-                return acquireSensitiveField(field.getAnnotation(JsonSimField.class).value(), (String) entity);
+                return doGetProperty(field.getAnnotation(JsonSimField.class).value(), (String) entity);
             } else {
                 return acquire(entity);
             }
@@ -347,7 +336,7 @@ public class SensitiveUtils {
                     //获取值字段值
                     Object fv = fieldMap.get(j.fieldValue());
                     if (Objects.nonNull(fv)) {
-                        dataMap.put(j.fieldValue(), acquireSensitiveField(type, (String) fv));
+                        dataMap.put(j.fieldValue(), doGetProperty(type, (String) fv));
                     }
                 }
             }
@@ -362,7 +351,7 @@ public class SensitiveUtils {
      * @param fieldValue 字段值
      * @return
      */
-    public static String acquireSensitiveField(SensitiveType type, String fieldValue) {
+    public static String doGetProperty(SensitiveType type, String fieldValue) {
         if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
             return fieldValue;
         }

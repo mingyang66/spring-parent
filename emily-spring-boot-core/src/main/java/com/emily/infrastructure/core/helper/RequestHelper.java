@@ -224,7 +224,7 @@ public class RequestHelper {
                         Annotation annotation = annotations[i][j];
                         if (annotation instanceof JsonSimField) {
                             JsonSimField sensitive = (JsonSimField) annotation;
-                            paramMap.put(name, SensitiveUtils.acquireSensitiveField(sensitive.value(), (String) value));
+                            paramMap.put(name, SensitiveUtils.doGetProperty(sensitive.value(), (String) value));
                             flag = false;
                             break;
                         }

@@ -1,7 +1,10 @@
 package com.emily.infrastructure.common.i18n;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
+import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -15,6 +18,9 @@ import java.util.Objects;
  * @CreateDate :  Created in 2023/4/15 5:42 PM
  */
 public class I18nUtils {
+
+    public static final Logger logger = LoggerFactory.getLogger(I18nUtils.class);
+
     /**
      * 对实体类进行多语言翻译
      *
@@ -51,7 +57,7 @@ public class I18nUtils {
                 doSetField(entity, languageType);
             }
         } catch (IllegalAccessException exception) {
-
+            logger.error(PrintExceptionInfo.printErrorInfo(exception));
         }
         return entity;
     }

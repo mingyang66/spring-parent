@@ -319,28 +319,30 @@ public class SensitiveUtils {
             return Collections.emptyMap();
         }
         Map<String, Object> dataMap = Maps.newHashMap();
-        flexFieldMap.forEach((n, j) -> {
-            Object v = fieldMap.get(n);
-            if ((v instanceof String)) {
-                for (int i = 0; i < j.fieldNames().length; i++) {
-                    if (!StringUtils.equals(j.fieldNames()[i], (String) v)) {
-                        continue;
-                    }
-                    SensitiveType type;
-                    //如果A>B（等价于A-1>=B），则展示默认值
-                    if (i >= j.types().length) {
-                        type = SensitiveType.DEFAULT;
-                    } else {
-                        type = j.types()[i];
-                    }
-                    //获取值字段值
-                    Object fv = fieldMap.get(j.fieldValue());
-                    if (Objects.nonNull(fv)) {
-                        dataMap.put(j.fieldValue(), doGetProperty(type, (String) fv));
-                    }
+        for (Map.Entry<String, JsonFlexField> entry : flexFieldMap.entrySet()) {
+            JsonFlexField jsonFlexField = entry.getValue();
+            Object value = fieldMap.get(entry.getKey());
+            if (Objects.isNull(value) || !(value instanceof String)) {
+                continue;
+            }
+            for (int i = 0; i < jsonFlexField.fieldNames().length; i++) {
+                if (!StringUtils.equals(jsonFlexField.fieldNames()[i], (String) value)) {
+                    continue;
+                }
+                SensitiveType type;
+                //如果A>B（等价于A-1>=B），则展示默认值
+                if (i >= jsonFlexField.types().length) {
+                    type = SensitiveType.DEFAULT;
+                } else {
+                    type = jsonFlexField.types()[i];
+                }
+                //获取值字段值
+                Object fv = fieldMap.get(jsonFlexField.fieldValue());
+                if (Objects.nonNull(fv) && (fv instanceof String)) {
+                    dataMap.put(jsonFlexField.fieldValue(), doGetProperty(type, (String) fv));
                 }
             }
-        });
+        }
         return dataMap;
     }
 

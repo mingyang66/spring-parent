@@ -325,8 +325,8 @@ public class SensitiveUtils {
             if (Objects.isNull(value) || !(value instanceof String)) {
                 continue;
             }
-            for (int i = 0; i < jsonFlexField.fieldNames().length; i++) {
-                if (!StringUtils.equals(jsonFlexField.fieldNames()[i], (String) value)) {
+            for (int i = 0; i < jsonFlexField.fieldKeys().length; i++) {
+                if (!StringUtils.equals(jsonFlexField.fieldKeys()[i], (String) value)) {
                     continue;
                 }
                 SensitiveType type;

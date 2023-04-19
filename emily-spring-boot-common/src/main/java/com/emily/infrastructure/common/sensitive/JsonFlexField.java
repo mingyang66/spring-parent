@@ -26,7 +26,7 @@ public @interface JsonFlexField {
      *
      * @return
      */
-    String[] fieldNames() default {};
+    String[] fieldKeys() default {};
 
     /**
      * 要隐藏的参数值的key名称

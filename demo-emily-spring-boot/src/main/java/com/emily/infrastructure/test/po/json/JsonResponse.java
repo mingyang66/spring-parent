@@ -13,7 +13,7 @@ import java.util.Set;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSensitive(include = true)
+@JsonSensitive
 public class JsonResponse {
     private int a;
     private byte[] b;

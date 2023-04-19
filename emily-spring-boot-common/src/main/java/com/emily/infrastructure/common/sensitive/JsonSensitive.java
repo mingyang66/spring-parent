@@ -13,10 +13,4 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsonSensitive {
-    /**
-     * 序列化脱敏是否包含嵌套内部类
-     *
-     * @return
-     */
-    boolean include() default false;
 }

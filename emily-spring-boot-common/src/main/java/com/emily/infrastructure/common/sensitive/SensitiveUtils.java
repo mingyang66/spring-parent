@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -72,8 +71,8 @@ public class SensitiveUtils {
     /**
      * 字符串中间隐藏，分四份，中间两份隐藏
      *
-     * @param middle
-     * @return
+     * @param middle 字符串
+     * @return 影藏后的字符串
      */
     public static String middle(final String middle) {
         int length = new BigDecimal(middle.length()).divide(new BigDecimal(4), 0, RoundingMode.DOWN).intValue();
@@ -150,7 +149,6 @@ public class SensitiveUtils {
      * 获取实体类对象脱敏后的对象
      *
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
-     * @return
      * @Description 使用示例：
      * <pre>
      * @JsonSensitive(include = false)
@@ -177,6 +175,7 @@ public class SensitiveUtils {
      * JsonRequest[]
      * Map<String, Map<String, JsonRequest></>></>
      * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
+     * @return 脱敏后的实体类对象
      */
     public static Object acquire(final Object entity) {
         try {
@@ -184,13 +183,13 @@ public class SensitiveUtils {
                 return entity;
             }
             if (entity instanceof Collection) {
-                Collection coll = new ArrayList();
-                for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
+                Collection<Object> coll = new ArrayList();
+                for (Iterator<Object> it = ((Collection<Object>) entity).iterator(); it.hasNext(); ) {
                     coll.add(acquire(it.next()));
                 }
                 return coll;
             } else if (entity instanceof Map) {
-                Map dMap = Maps.newHashMap();
+                Map<Object, Object> dMap = Maps.newHashMap();
                 for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
                     dMap.put(entry.getKey(), acquire(entry.getValue()));
                 }
@@ -207,8 +206,8 @@ public class SensitiveUtils {
                     return t;
                 }
             } else if (entity instanceof BaseResponse) {
-                BaseResponse response = (BaseResponse) entity;
-                return new BaseResponse(response.getStatus(), response.getMessage(), acquire(response.getData()), response.getSpentTime());
+                BaseResponse<Object> response = (BaseResponse<Object>) entity;
+                return new BaseResponse<>(response.getStatus(), response.getMessage(), acquire(response.getData()), response.getSpentTime());
             } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
                 return doSetField(entity);
             }
@@ -222,7 +221,7 @@ public class SensitiveUtils {
      * 获取实体类对象脱敏后的对象
      *
      * @param entity 需要脱敏的实体类对象
-     * @return
+     * @return 实体类属性脱敏后的集合对象
      */
     private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
         if (Objects.isNull(entity)) {
@@ -256,13 +255,13 @@ public class SensitiveUtils {
                 }
                 fieldMap.put(name, value);
             } else if (value instanceof Collection) {
-                Collection coll = new ArrayList();
-                for (Iterator it = ((Collection) value).iterator(); it.hasNext(); ) {
+                Collection<Object> coll = new ArrayList();
+                for (Iterator<Object> it = ((Collection<Object>) value).iterator(); it.hasNext(); ) {
                     coll.add(doGetEntity(field, it.next()));
                 }
                 fieldMap.put(name, coll);
             } else if (value instanceof Map) {
-                Map dMap = Maps.newHashMap();
+                Map<Object, Object> dMap = Maps.newHashMap();
                 for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
                     dMap.put(entry.getKey(), doGetEntity(field, entry.getValue()));
                 }
@@ -287,40 +286,11 @@ public class SensitiveUtils {
         return fieldMap;
     }
 
-
-
-    /**
-     * 指定的修饰符是否序列化
-     *
-     * @param field 字段反射类型
-     * @return
-     */
-    private static boolean isModifierFinal(final Field field) {
-        int modifiers = field.getModifiers();
-        if (checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers)) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean checkModifierNativeSyncStrict(int modifiers) {
-        return Modifier.isNative(modifiers)
-                || Modifier.isSynchronized(modifiers)
-                || Modifier.isStrict(modifiers);
-    }
-
-    private static boolean checkModifierFinalStaticTransVol(int modifiers) {
-        return Modifier.isFinal(modifiers)
-                || Modifier.isStatic(modifiers)
-                || Modifier.isTransient(modifiers)
-                || Modifier.isVolatile(modifiers);
-    }
-
     /**
      * 获取最终的字段值
      *
      * @param entity 字段值对象
-     * @return
+     * @return 脱敏后的字段值
      */
     private static Object doGetEntity(final Field field, final Object entity) {
         if (Objects.isNull(entity)) {
@@ -342,7 +312,7 @@ public class SensitiveUtils {
      *
      * @param fieldMap     实体类字段值集合
      * @param flexFieldMap 复杂类型字段集合
-     * @return
+     * @return 复杂类型字段脱敏后的数据集合
      */
     private static Map<String, Object> doGetFlexEntity(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
         if (CollectionUtils.isEmpty(flexFieldMap)) {
@@ -381,7 +351,7 @@ public class SensitiveUtils {
      *
      * @param type       脱敏类型
      * @param fieldValue 字段值
-     * @return
+     * @return 脱敏后的字段值
      */
     public static String doGetProperty(SensitiveType type, String fieldValue) {
         if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {

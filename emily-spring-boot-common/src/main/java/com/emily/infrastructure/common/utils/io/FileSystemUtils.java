@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.utils.io;
 
-import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
 
 import java.io.IOException;

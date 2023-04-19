@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils.bean;
+package com.emily.infrastructure.common.object;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;

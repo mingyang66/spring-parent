@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.po.json;
 
-import com.emily.infrastructure.common.enums.DateFormatType;
+import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
@@ -13,7 +13,7 @@ import java.util.Set;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSensitive(include = true)
+@JsonSensitive
 public class JsonResponse {
     private int a;
     private byte[] b;
@@ -158,6 +158,7 @@ public class JsonResponse {
         this.password = password;
     }
 
+    @JsonSensitive
     public static class Job {
         @JsonSimField(SensitiveType.DEFAULT)
         private String work;

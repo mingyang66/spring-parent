@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.enums.HttpStatusType;
-import com.emily.infrastructure.common.i18n.LanguageCache;
+import com.emily.infrastructure.common.exception.HttpStatusType;
+import com.emily.infrastructure.common.i18n.LanguageMap;
 import com.emily.infrastructure.common.utils.RequestUtils;
 
 import java.io.Serializable;
@@ -25,7 +25,7 @@ public class BaseResponse<T> implements Serializable {
 
     public BaseResponse(int status, String message) {
         this.status = status;
-        this.message = LanguageCache.peek(message);
+        this.message = LanguageMap.acquire(message);
     }
 
     public BaseResponse(int status, String message, T data) {

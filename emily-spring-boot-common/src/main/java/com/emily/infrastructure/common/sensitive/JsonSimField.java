@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/7/19 5:22 下午
  */
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsonSimField {
     /**

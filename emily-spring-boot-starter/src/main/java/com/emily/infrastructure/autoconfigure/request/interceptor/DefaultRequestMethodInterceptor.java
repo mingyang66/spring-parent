@@ -3,14 +3,15 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.entity.BaseLogger;
-import com.emily.infrastructure.common.enums.DateFormatType;
-import com.emily.infrastructure.common.enums.HttpStatusType;
 import com.emily.infrastructure.common.exception.BasicException;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.i18n.I18nUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
@@ -64,12 +65,12 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 //404 Not Fund
                 handleNotFund(response, baseLogger);
                 //设置响应结果
-                baseLogger.setBody(SensitiveUtils.sensitive(responseBody));
+                baseLogger.setBody(SensitiveUtils.acquire(responseBody));
             } else {
                 //设置响应结果
-                baseLogger.setBody(SensitiveUtils.sensitive(response));
+                baseLogger.setBody(SensitiveUtils.acquire(response));
             }
-            return response;
+            return I18nUtils.acquire(response, ThreadContextHolder.current().getLanguageType());
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;

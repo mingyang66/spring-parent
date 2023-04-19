@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
 import org.springframework.validation.annotation.Validated;

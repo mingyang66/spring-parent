@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.enums.HttpStatusType;
+import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.google.common.collect.Maps;
 
 import java.io.Serializable;

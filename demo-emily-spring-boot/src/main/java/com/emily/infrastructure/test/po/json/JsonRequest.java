@@ -14,12 +14,12 @@ import java.util.Map;
  * @Author :  Emily
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
-@JsonSensitive(include = true)
+@JsonSensitive
 public class JsonRequest {
-    @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String fieldKey;
     private String fieldValue;
-    @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue1")
+    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue1")
     private String fieldKey1;
     private String fieldValue1;
     @NotEmpty
@@ -176,7 +176,7 @@ public class JsonRequest {
         private String work;
         @JsonSimField(SensitiveType.EMAIL)
         private String email;
-        @JsonFlexField(fieldNames = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+        @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
         private String fieldKey;
         private String fieldValue;
 

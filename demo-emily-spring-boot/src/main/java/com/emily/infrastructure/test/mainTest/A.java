@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.mainTest;
 
-import com.emily.infrastructure.common.enums.DateFormatType;
+import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
@@ -41,10 +41,10 @@ public class A {
         arr[1] = "test2";
         response.setArr(arr);
         int a = 1;
-        SensitiveUtils.sensitive(a);
+        SensitiveUtils.acquire(a);
         byte[] b = new byte[]{3, 4};
-        SensitiveUtils.sensitive(b);
-        SensitiveUtils.sensitive(response);
+        SensitiveUtils.acquire(b);
+        SensitiveUtils.acquire(response);
     }
 
     private static Object toObj(Object o, String... field) {

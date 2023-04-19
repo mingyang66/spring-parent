@@ -1,9 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.enums.DateFormatType;
-import com.emily.infrastructure.common.sensitive.JsonSimField;
-import com.emily.infrastructure.common.sensitive.SensitiveType;
+import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;
@@ -26,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/json")
-public class JsonIgnoreController {
+public class SensitiveController {
 
     @PostMapping("test")
     @JsonSerialize
@@ -88,7 +86,7 @@ public class JsonIgnoreController {
     }
 
     @GetMapping("test4")
-    public String test4(String name, @JsonSimField @RequestParam("phone") String phone, @JsonSimField(SensitiveType.USERNAME) @RequestParam String username) {
+    public String test4(String name, @RequestParam("phone") String phone, @RequestParam String username) {
         return phone + "-" + username;
     }
 

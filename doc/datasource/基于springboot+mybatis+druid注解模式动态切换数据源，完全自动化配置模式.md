@@ -258,8 +258,8 @@ package com.emily.infrastructure.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.emily.infrastructure.common.enums.AopOrderEnum;
-import com.emily.infrastructure.common.enums.AppHttpStatus;
+import com.emily.infrastructure.common.type.AopOrderEnum;
+import com.emily.infrastructure.common.type.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
 import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;

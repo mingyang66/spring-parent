@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.utils.io.FileUtils;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 
 /**
  * @Description: 计算java对象的大小

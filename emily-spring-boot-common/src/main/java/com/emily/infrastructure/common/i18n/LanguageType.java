@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.enums;
+package com.emily.infrastructure.common.i18n;
 
 import org.apache.commons.lang3.StringUtils;
 

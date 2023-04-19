@@ -26,12 +26,14 @@ public class I18nController {
         LanguageMap.bindEn("李老师", "li teacher");
         LanguageMap.bindEn("孙少平", "sun shao ping");
         LanguageMap.bindEn("孙少安", "sun shao an");
+        LanguageMap.bindEn("红薯", "sweet potato");
     }
     @GetMapping("test1")
     public Student student() {
         Student student = new Student();
         student.setName("田晓霞");
         student.setAge(18);
+        student.setFood("红薯");
         return student;
     }
 

@@ -3,6 +3,7 @@ package com.emily.infrastructure.common.i18n;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +72,7 @@ public class I18nUtils {
         if (Objects.isNull(entity)) {
             return;
         }
-        Field[] fields = entity.getClass().getDeclaredFields();
+        Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
                 continue;

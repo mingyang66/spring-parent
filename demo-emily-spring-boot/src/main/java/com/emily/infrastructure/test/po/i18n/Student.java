@@ -9,7 +9,7 @@ import com.emily.infrastructure.common.i18n.ApiI18nProperty;
  * @CreateDate :  Created in 2023/4/17 3:34 PM
  */
 @ApiI18n
-public class Student {
+public class Student extends People {
     @ApiI18nProperty
     private String name;
     @ApiI18nProperty

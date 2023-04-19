@@ -6,6 +6,7 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -230,7 +231,7 @@ public class SensitiveUtils {
         Map<String, Object> fieldMap = Maps.newHashMap();
         //通用fieldKey fieldValue忽略
         Map<String, JsonFlexField> flexFieldMap = null;
-        Field[] fields = entity.getClass().getDeclaredFields();
+        Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
                 continue;

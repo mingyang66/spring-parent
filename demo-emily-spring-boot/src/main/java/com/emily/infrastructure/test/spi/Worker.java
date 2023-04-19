@@ -7,7 +7,7 @@ package com.emily.infrastructure.test.spi;
  * @create: 2021/11/30
  */
 public class Worker implements People {
-    @Override
+
     public String getName() {
         return "工人";
     }

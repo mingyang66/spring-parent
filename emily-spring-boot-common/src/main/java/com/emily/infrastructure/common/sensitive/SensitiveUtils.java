@@ -286,6 +286,35 @@ public class SensitiveUtils {
         return fieldMap;
     }
 
+
+
+    /**
+     * 指定的修饰符是否序列化
+     *
+     * @param field 字段反射类型
+     * @return
+     */
+    private static boolean isModifierFinal(final Field field) {
+        int modifiers = field.getModifiers();
+        if (checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkModifierNativeSyncStrict(int modifiers) {
+        return Modifier.isNative(modifiers)
+                || Modifier.isSynchronized(modifiers)
+                || Modifier.isStrict(modifiers);
+    }
+
+    private static boolean checkModifierFinalStaticTransVol(int modifiers) {
+        return Modifier.isFinal(modifiers)
+                || Modifier.isStatic(modifiers)
+                || Modifier.isTransient(modifiers)
+                || Modifier.isVolatile(modifiers);
+    }
+
     /**
      * 获取最终的字段值
      *

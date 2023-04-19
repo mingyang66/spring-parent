@@ -12,7 +12,7 @@ public class SpiTest {
     public static void main(String[] args) {
         ServiceLoader<People> serviceLoader = ServiceLoader.load(People.class);
         for (People people : serviceLoader) {
-            System.out.println(people.getName());
+            //System.out.println(people.getName());
         }
     }
 }

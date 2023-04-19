@@ -1,9 +1,8 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.test.po.json.JsonRequest;
-import org.apache.commons.lang3.SerializationUtils;
 
 /**
  * @Description :  脱敏工具类

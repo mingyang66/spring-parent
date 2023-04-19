@@ -3,7 +3,7 @@ package com.emily.infrastructure.test.mainTest;
 import com.emily.infrastructure.common.i18n.I18nUtils;
 import com.emily.infrastructure.common.i18n.LanguageMap;
 import com.emily.infrastructure.common.i18n.LanguageType;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.test.po.i18n.Student;
 import com.emily.infrastructure.test.po.i18n.Teacher;
 

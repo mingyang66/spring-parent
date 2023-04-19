@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.cache.LRUCachePool;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 
 /**
  * @Description :  lru测试

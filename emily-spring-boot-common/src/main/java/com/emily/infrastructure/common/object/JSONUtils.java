@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils.json;
+package com.emily.infrastructure.common.object;
 
 import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.exception.HttpStatusType;

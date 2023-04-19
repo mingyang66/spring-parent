@@ -8,7 +8,7 @@ import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
-import com.emily.infrastructure.common.utils.json.JSONUtils;
+import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;

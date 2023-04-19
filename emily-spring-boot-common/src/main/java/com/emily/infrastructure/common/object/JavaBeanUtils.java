@@ -203,15 +203,22 @@ public class JavaBeanUtils {
      */
     public static boolean isModifierFinal(final Field field) {
         int modifiers = field.getModifiers();
-        if (Modifier.isFinal(modifiers)
-                || Modifier.isStatic(modifiers)
-                || Modifier.isTransient(modifiers)
-                || Modifier.isVolatile(modifiers)
-                || Modifier.isNative(modifiers)
-                || Modifier.isSynchronized(modifiers)
-                || Modifier.isStrict(modifiers)) {
+        if (checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers)) {
             return true;
         }
         return false;
+    }
+
+    private static boolean checkModifierNativeSyncStrict(int modifiers) {
+        return Modifier.isNative(modifiers)
+                || Modifier.isSynchronized(modifiers)
+                || Modifier.isStrict(modifiers);
+    }
+
+    private static boolean checkModifierFinalStaticTransVol(int modifiers) {
+        return Modifier.isFinal(modifiers)
+                || Modifier.isStatic(modifiers)
+                || Modifier.isTransient(modifiers)
+                || Modifier.isVolatile(modifiers);
     }
 }

@@ -1,5 +1,10 @@
 ### 
 -----
+基础库发布4.2.0
+Bug Fixes
+1. 
+2. 
+-----
 基础库发布4.1.9
 Bug Fixes
 1. 删除无用的openfeign引用；
@@ -11,6 +16,8 @@ Bug Fixes
 7. springboot升级到2.7.10版本；
 8. 新增NumberInfo数字常量类；
 9. 重命名LanguageCache为LanguageMap;
+10. 新增基于注解的I18n多语言支持工具类I18nUtils、ApiI18n和ApiI18nProperty注解；
+11. 优化重构脱敏工具类SensitiveUtils及其相关注解；
 
 -----
 基础库发布4.1.8

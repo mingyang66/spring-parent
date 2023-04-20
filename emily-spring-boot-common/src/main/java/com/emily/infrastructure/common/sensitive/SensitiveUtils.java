@@ -226,9 +226,6 @@ public class SensitiveUtils {
      * @return 实体类属性脱敏后的集合对象
      */
     private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
-        if (Objects.isNull(entity)) {
-            return null;
-        }
         Map<String, Object> fieldMap = Maps.newHashMap();
         //通用fieldKey fieldValue忽略
         Map<String, JsonFlexField> flexFieldMap = null;

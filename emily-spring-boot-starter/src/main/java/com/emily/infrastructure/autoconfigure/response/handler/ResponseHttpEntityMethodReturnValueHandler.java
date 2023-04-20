@@ -56,7 +56,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (entity.getStatusCode().value() == HttpStatus.NOT_FOUND.value()) {
             String path = ((Map) body).get("path").toString();
-            BaseResponse responseData = BaseResponse.buildResponse(HttpStatus.NOT_FOUND.value(), StringUtils.join("接口【", path, "】不存在"));
+            BaseResponse responseData = BaseResponse.build(HttpStatus.NOT_FOUND.value(), StringUtils.join("接口【", path, "】不存在"));
             proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
@@ -75,10 +75,10 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              */
             boolean flag = (type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class));
             if (flag) {
-                BaseResponse baseResponse = BaseResponse.buildResponse(HttpStatusType.OK);
+                BaseResponse baseResponse = BaseResponse.build(HttpStatusType.OK);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.buildResponse(HttpStatusType.OK, body);
+                BaseResponse baseResponse = BaseResponse.build(HttpStatusType.OK, body);
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }
         }

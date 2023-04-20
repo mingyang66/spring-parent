@@ -76,7 +76,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(int status, String message) {
+    public static <T> BaseResponse<T> build(int status, String message) {
         return new BaseResponse<T>(status, message, null, RequestUtils.getSpentTime());
     }
 
@@ -85,7 +85,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(int status, String message, T data) {
+    public static <T> BaseResponse<T> build(int status, String message, T data) {
         return new BaseResponse<T>(status, message, data, RequestUtils.getSpentTime());
     }
 
@@ -94,7 +94,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(HttpStatusType appHttpStatus, T data) {
+    public static <T> BaseResponse<T> build(HttpStatusType appHttpStatus, T data) {
         return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestUtils.getSpentTime());
     }
 
@@ -103,7 +103,7 @@ public class BaseResponse<T> implements Serializable {
      * @Date 2019/7/18 10:10
      * @Version 1.0
      */
-    public static <T> BaseResponse<T> buildResponse(HttpStatusType appHttpStatus) {
+    public static <T> BaseResponse<T> build(HttpStatusType appHttpStatus) {
         return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestUtils.getSpentTime());
     }
 
@@ -114,7 +114,7 @@ public class BaseResponse<T> implements Serializable {
      * @param <T>
      * @return
      */
-    public static <T> BaseResponse<T> buildResponse(T data) {
+    public static <T> BaseResponse<T> build(T data) {
         return new BaseResponse<>(HttpStatusType.OK.getStatus(), HttpStatusType.OK.getMessage(), data, RequestUtils.getSpentTime());
     }
 }

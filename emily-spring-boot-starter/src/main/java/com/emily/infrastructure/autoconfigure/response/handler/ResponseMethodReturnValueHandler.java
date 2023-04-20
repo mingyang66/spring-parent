@@ -56,10 +56,10 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         } else {
             //返回值为void类型的data字段不输出
             if (returnType.getMethod().getReturnType().equals(Void.TYPE)) {
-                BaseResponse baseResponse = BaseResponse.buildResponse(HttpStatusType.OK);
+                BaseResponse baseResponse = BaseResponse.build(HttpStatusType.OK);
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.buildResponse(HttpStatusType.OK, returnValue);
+                BaseResponse baseResponse = BaseResponse.build(HttpStatusType.OK, returnValue);
                 proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
             }
         }

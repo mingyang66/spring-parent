@@ -48,7 +48,7 @@ public class SensitiveController {
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);
-        return Lists.newArrayList(BaseResponse.buildResponse(response));
+        return Lists.newArrayList(BaseResponse.build(response));
     }
 
     @PostMapping("test1")
@@ -65,7 +65,7 @@ public class SensitiveController {
         job.email = "1393619859@qq.com";
         job.work = "呵呵哈哈哈";
         response.job = job;
-        return BaseResponse.buildResponse(response);
+        return BaseResponse.build(response);
     }
 
     @GetMapping("test3")

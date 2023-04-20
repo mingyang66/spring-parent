@@ -537,6 +537,56 @@ spring.emily.filter.global-switch=true
 spring.emily.filter.route-switch=false
 ```
 
+#### 十、实体类数据脱敏组件
+
+- @JsonSensitive注解标注在实体类上；
+- @JsonSimField注解标注在字符串属性上，可以指定隐藏的类型；
+- @JsonFlexField注解标注在复杂脱敏数据类型上；
+- 支持对父类的属性进行脱敏；
+
+```java
+@JsonSensitive
+public class JsonRequest extends Animal{
+    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    private String fieldKey;
+    private String fieldValue;
+    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue1")
+    private String fieldKey1;
+    private String fieldValue1;
+    @NotEmpty
+    @JsonSimField(SensitiveType.USERNAME)
+    private String username;
+    @JsonSimField
+    private String password;
+    @JsonSimField(SensitiveType.EMAIL)
+    private String email;
+    @JsonSimField(SensitiveType.ID_CARD)
+    private String idCard;
+    @JsonSimField(SensitiveType.BANK_CARD)
+    private String bankCard;
+    @JsonSimField(SensitiveType.PHONE)
+    private String phone;
+    @JsonSimField(SensitiveType.PHONE)
+    private String mobile;
+    }
+```
+
+#### 十一、I18n多语言支持组件
+
+- @ApiI18n注解标注在实体类上；
+- @ApiI18nProperty注解标注在实体类字符串属性上；
+- 支持对父类属性进行多语言支持；
+
+```java
+@ApiI18n
+public class Student extends People {
+    @ApiI18nProperty
+    private String name;
+    @ApiI18nProperty
+    private int age;
+    }
+```
+
 consul服务查询、删除接口
 
 - 查询服务接口Get

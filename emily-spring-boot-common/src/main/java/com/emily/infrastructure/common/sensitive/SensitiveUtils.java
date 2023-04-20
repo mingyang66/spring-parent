@@ -227,7 +227,6 @@ public class SensitiveUtils {
      */
     private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
         Map<String, Object> fieldMap = Maps.newHashMap();
-        //通用fieldKey fieldValue忽略
         Map<String, JsonFlexField> flexFieldMap = null;
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
@@ -254,8 +253,7 @@ public class SensitiveUtils {
                 fieldMap.put(name, acquire(value));
             }
         }
-        // 灵活复杂数据类型脱敏
-        fieldMap.putAll(doGetFlexEntity(fieldMap, flexFieldMap));
+        fieldMap.putAll(doGetEntityFlex(fieldMap, flexFieldMap));
         return fieldMap;
     }
 
@@ -349,7 +347,7 @@ public class SensitiveUtils {
      * @param flexFieldMap 复杂类型字段集合
      * @return 复杂类型字段脱敏后的数据集合
      */
-    protected static Map<String, Object> doGetFlexEntity(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
+    protected static Map<String, Object> doGetEntityFlex(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
         if (CollectionUtils.isEmpty(flexFieldMap)) {
             return Collections.emptyMap();
         }

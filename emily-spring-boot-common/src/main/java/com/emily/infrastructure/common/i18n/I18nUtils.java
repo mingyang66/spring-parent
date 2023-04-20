@@ -69,7 +69,7 @@ public class I18nUtils {
      *
      * @param entity 需要脱敏的实体类对象
      */
-    private static void doSetField(final Object entity, final LanguageType languageType) throws IllegalAccessException {
+    protected static void doSetField(final Object entity, final LanguageType languageType) throws IllegalAccessException {
         if (Objects.isNull(entity)) {
             return;
         }
@@ -95,12 +95,28 @@ public class I18nUtils {
         }
     }
 
+    /**
+     * @param field        实体类属性对象
+     * @param entity       实体类对象
+     * @param value        属性值对象
+     * @param languageType 语言类型
+     * @throws IllegalAccessException 抛出非法访问异常
+     * @Description 对字符串进行多语言支持
+     */
     protected static void doGetEntityStr(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (field.isAnnotationPresent(ApiI18nProperty.class)) {
             field.set(entity, doGetProperty((String) value, languageType));
         }
     }
 
+    /**
+     * @param field        实体类属性对象
+     * @param entity       实体类对象
+     * @param value        属性值对象
+     * @param languageType 语言类型
+     * @throws IllegalAccessException 抛出非法访问异常
+     * @Description 对Collection集合中存储是字符串、实体对象进行多语言支持
+     */
     protected static void doGetEntityColl(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         Collection<String> list = null;
         Collection collection = ((Collection) value);
@@ -121,6 +137,14 @@ public class I18nUtils {
         }
     }
 
+    /**
+     * @param field        实体类属性对象
+     * @param entity       实体类对象
+     * @param value        属性值对象
+     * @param languageType 语言类型
+     * @throws IllegalAccessException 抛出非法访问异常
+     * @Description 对Map集合中存储是字符串、实体对象进行多语言支持
+     */
     protected static void doGetEntityMap(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         Map<Object, Object> dMap = ((Map<Object, Object>) value);
         for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
@@ -137,6 +161,14 @@ public class I18nUtils {
         }
     }
 
+    /**
+     * @param field        实体类属性对象
+     * @param entity       实体类对象
+     * @param value        属性值对象
+     * @param languageType 语言类型
+     * @throws IllegalAccessException 抛出非法访问异常
+     * @Description 对数组中存储是字符串、实体对象进行多语言支持
+     */
     protected static void doGetEntityArray(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -65,6 +66,8 @@ public class SensitiveController {
         job.email = "1393619859@qq.com";
         job.work = "呵呵哈哈哈";
         response.job = job;
+        response.jobs = new PubResponse.Job[]{job};
+        response.jobList = Arrays.asList(job);
         return BaseResponse.build(response);
     }
 

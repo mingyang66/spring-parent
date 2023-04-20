@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -150,6 +151,7 @@ public class SensitiveUtils {
      * 获取实体类对象脱敏后的对象
      *
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
+     * @return 脱敏后的实体类对象
      * @Description 使用示例：
      * <pre>
      * @JsonSensitive(include = false)
@@ -176,7 +178,6 @@ public class SensitiveUtils {
      * JsonRequest[]
      * Map<String, Map<String, JsonRequest></>></>
      * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
-     * @return 脱敏后的实体类对象
      */
     public static Object acquire(final Object entity) {
         try {
@@ -212,7 +213,7 @@ public class SensitiveUtils {
             } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
                 return doSetField(entity);
             }
-        } catch (IllegalAccessException exception) {
+        } catch (Exception exception) {
             logger.error(PrintExceptionInfo.printErrorInfo(exception));
         }
         return entity;
@@ -243,43 +244,17 @@ public class SensitiveUtils {
                 fieldMap.put(name, null);
                 continue;
             }
-            if (field.isAnnotationPresent(JsonSimField.class)) {
-                if (value instanceof String) {
-                    fieldMap.put(name, doGetProperty(field.getAnnotation(JsonSimField.class).value(), (String) value));
-                } else {
-                    fieldMap.put(name, doGetEntity(field, value));
-                }
-            } else if (field.isAnnotationPresent(JsonFlexField.class)) {
-                if (value instanceof String) {
-                    flexFieldMap = (flexFieldMap == null) ? Maps.newHashMap() : flexFieldMap;
-                    flexFieldMap.put(name, field.getAnnotation(JsonFlexField.class));
-                }
-                fieldMap.put(name, value);
+            if (value instanceof String) {
+                flexFieldMap = (flexFieldMap == null) ? Maps.newHashMap() : flexFieldMap;
+                fieldMap.put(name, doGetEntityStr(field, value, flexFieldMap));
             } else if (value instanceof Collection) {
-                Collection<Object> coll = new ArrayList();
-                for (Iterator<Object> it = ((Collection<Object>) value).iterator(); it.hasNext(); ) {
-                    coll.add(doGetEntity(field, it.next()));
-                }
-                fieldMap.put(name, coll);
+                fieldMap.put(name, doGetEntityColl(field, value));
             } else if (value instanceof Map) {
-                Map<Object, Object> dMap = Maps.newHashMap();
-                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
-                    dMap.put(entry.getKey(), doGetEntity(field, entry.getValue()));
-                }
-                fieldMap.put(name, dMap);
+                fieldMap.put(name, doGetEntityMap(field, value));
             } else if (value.getClass().isArray()) {
-                if (value.getClass().getComponentType().isPrimitive()) {
-                    fieldMap.put(name, value);
-                } else {
-                    Object[] v = (Object[]) value;
-                    Object[] t = new Object[v.length];
-                    for (int i = 0; i < v.length; i++) {
-                        t[i] = doGetEntity(field, v[i]);
-                    }
-                    fieldMap.put(name, t);
-                }
+                fieldMap.put(name, doGetEntityArray(field, value));
             } else {
-                fieldMap.put(name, doGetEntity(field, value));
+                fieldMap.put(name, acquire(value));
             }
         }
         // 灵活复杂数据类型脱敏
@@ -288,23 +263,85 @@ public class SensitiveUtils {
     }
 
     /**
-     * 获取最终的字段值
-     *
-     * @param entity 字段值对象
-     * @return 脱敏后的字段值
+     * @param field        实体类属性对象
+     * @param value        属性值
+     * @param flexFieldMap 复杂数据类型集合
+     * @return 脱敏后的数据对象
      */
-    private static Object doGetEntity(final Field field, final Object entity) {
-        if (Objects.isNull(entity)) {
-            return null;
-        }
+    protected static Object doGetEntityStr(final Field field, final Object value, Map<String, JsonFlexField> flexFieldMap) {
         if (field.isAnnotationPresent(JsonSimField.class)) {
-            if (entity instanceof String) {
-                return doGetProperty(field.getAnnotation(JsonSimField.class).value(), (String) entity);
-            } else {
-                return acquire(entity);
-            }
+            return doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
+        } else if (field.isAnnotationPresent(JsonFlexField.class)) {
+            flexFieldMap.put(field.getName(), field.getAnnotation(JsonFlexField.class));
+            return value;
         } else {
-            return acquire(entity);
+            return acquire(value);
+        }
+    }
+
+    /**
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
+     */
+    protected static Object doGetEntityColl(final Field field, final Object value) {
+        Collection<Object> list = Lists.newArrayList();
+        Collection collection = (Collection) value;
+        for (Iterator it = collection.iterator(); it.hasNext(); ) {
+            Object v = it.next();
+            if (Objects.isNull(v)) {
+                list.add(null);
+            } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
+                list.add(doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+            } else {
+                list.add(acquire(v));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
+     */
+    protected static Object doGetEntityMap(final Field field, final Object value) {
+        Map<Object, Object> dMap = Maps.newHashMap();
+        for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
+            Object key = entry.getKey();
+            Object v = entry.getValue();
+            if (Objects.isNull(v)) {
+                dMap.put(key, null);
+            } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
+                dMap.put(key, doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+            } else {
+                dMap.put(key, acquire(v));
+            }
+        }
+        return dMap;
+    }
+
+    /**
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
+     */
+    protected static Object doGetEntityArray(final Field field, final Object value) {
+        if (value.getClass().getComponentType().isPrimitive()) {
+            return value;
+        } else {
+            Object[] v = (Object[]) value;
+            Object[] t = new Object[v.length];
+            for (int i = 0; i < v.length; i++) {
+                if (Objects.isNull(v[i])) {
+                    t[i] = null;
+                } else if ((v[i] instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
+                    t[i] = doGetProperty((String) v[i], field.getAnnotation(JsonSimField.class).value());
+                } else {
+                    t[i] = acquire(v[i]);
+                }
+            }
+            return t;
         }
     }
 
@@ -315,7 +352,7 @@ public class SensitiveUtils {
      * @param flexFieldMap 复杂类型字段集合
      * @return 复杂类型字段脱敏后的数据集合
      */
-    private static Map<String, Object> doGetFlexEntity(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
+    protected static Map<String, Object> doGetFlexEntity(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
         if (CollectionUtils.isEmpty(flexFieldMap)) {
             return Collections.emptyMap();
         }
@@ -340,7 +377,7 @@ public class SensitiveUtils {
                 //获取值字段值
                 Object fv = fieldMap.get(jsonFlexField.fieldValue());
                 if (Objects.nonNull(fv) && (fv instanceof String)) {
-                    dataMap.put(jsonFlexField.fieldValue(), doGetProperty(type, (String) fv));
+                    dataMap.put(jsonFlexField.fieldValue(), doGetProperty((String) fv, type));
                 }
             }
         }
@@ -348,26 +385,24 @@ public class SensitiveUtils {
     }
 
     /**
-     * 脱敏字段
-     *
-     * @param type       脱敏类型
-     * @param fieldValue 字段值
+     * @param value 字段值
+     * @param type  脱敏类型
      * @return 脱敏后的字段值
      */
-    public static String doGetProperty(SensitiveType type, String fieldValue) {
-        if (StringUtils.isBlank(fieldValue) || StringUtils.isEmpty(fieldValue)) {
-            return fieldValue;
+    public static String doGetProperty(String value, SensitiveType type) {
+        if (StringUtils.isBlank(value) || StringUtils.isEmpty(value)) {
+            return value;
         }
         if (SensitiveType.PHONE.equals(type)) {
-            return middle(fieldValue);
+            return middle(value);
         } else if (SensitiveType.ID_CARD.equals(type)) {
-            return middle(fieldValue);
+            return middle(value);
         } else if (SensitiveType.BANK_CARD.equals(type)) {
-            return middle(fieldValue);
+            return middle(value);
         } else if (SensitiveType.EMAIL.equals(type)) {
-            return email(fieldValue);
+            return email(value);
         } else if (SensitiveType.USERNAME.equals(type)) {
-            return chineseName(fieldValue);
+            return chineseName(value);
         } else {
             return AttributeInfo.PLACE_HOLDER;
         }

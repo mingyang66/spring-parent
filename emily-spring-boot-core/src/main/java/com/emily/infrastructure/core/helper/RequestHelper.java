@@ -4,12 +4,12 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.common.object.ParamNameUtils;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.object.ParamNameUtils;
 import com.emily.infrastructure.common.utils.io.IoUtils;
-import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
@@ -224,7 +224,7 @@ public class RequestHelper {
                         Annotation annotation = annotations[i][j];
                         if (annotation instanceof JsonSimField) {
                             JsonSimField sensitive = (JsonSimField) annotation;
-                            paramMap.put(name, SensitiveUtils.doGetProperty(sensitive.value(), (String) value));
+                            paramMap.put(name, SensitiveUtils.doGetProperty((String) value, sensitive.value()));
                             flag = false;
                             break;
                         }

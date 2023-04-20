@@ -41,6 +41,7 @@ public class JsonRequest extends Animal{
     private char c = 1;
     private BigDecimal d = new BigDecimal(4);
     private Job job;
+    @JsonSimField
     private Map<String, Object> work;
 
     public String getFieldKey1() {
@@ -171,6 +172,7 @@ public class JsonRequest extends Animal{
         this.password = password;
     }
 
+    @JsonSensitive
     public static class Job {
         @JsonSimField(SensitiveType.DEFAULT)
         private String work;

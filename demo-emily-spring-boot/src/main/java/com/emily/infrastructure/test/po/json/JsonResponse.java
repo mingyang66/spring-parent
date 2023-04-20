@@ -36,6 +36,7 @@ public class JsonResponse {
     private String[] arr;
     private Set<Job> list;
     private DateFormatType dateFormat;
+    @JsonSimField
     private Map<String, Object> work;
 
     public int getA() {

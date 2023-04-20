@@ -116,7 +116,7 @@ public class I18nUtils {
      * @Description 对Collection集合中存储是字符串、实体对象进行多语言支持
      */
     protected static void doGetEntityColl(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
-        Collection<String> list = null;
+        Collection<Object> list = null;
         Collection collection = ((Collection) value);
         for (Iterator it = collection.iterator(); it.hasNext(); ) {
             Object v = it.next();

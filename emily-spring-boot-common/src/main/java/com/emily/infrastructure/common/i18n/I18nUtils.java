@@ -65,14 +65,12 @@ public class I18nUtils {
     }
 
     /**
-     * 获取实体类对象脱敏后的对象
-     *
-     * @param entity 需要脱敏的实体类对象
+     * @param entity       实体类对象
+     * @param languageType 语言类型
+     * @throws IllegalAccessException 非法访问异常
+     * @Description 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
      */
     protected static void doSetField(final Object entity, final LanguageType languageType) throws IllegalAccessException {
-        if (Objects.isNull(entity)) {
-            return;
-        }
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {

@@ -4,7 +4,8 @@
 Bug Fixes
 1. I18n多语言支持翻译当前类中父类的属性;
 2. 脱敏工具类SensitiveUtils支持父类中的属性脱敏；
-3. 
+3. I18n多语言翻译支持Collection、Map、Array存储的值为字符串；
+4. 
 
 -----
 基础库发布4.1.9

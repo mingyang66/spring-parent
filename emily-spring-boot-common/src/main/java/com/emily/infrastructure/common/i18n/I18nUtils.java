@@ -3,6 +3,7 @@ package com.emily.infrastructure.common.i18n;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,60 +83,86 @@ public class I18nUtils {
             if (Objects.isNull(value)) {
                 continue;
             }
-            if (field.isAnnotationPresent(ApiI18nProperty.class)) {
-                if ((value instanceof String)) {
-                    field.set(entity, doGetProperty((String) value, languageType));
-                }
-            }
-            if (value instanceof Collection) {
-                for (Iterator it = ((Collection) value).iterator(); it.hasNext(); ) {
-                    doGetEntity(field, it.next(), languageType);
-                }
+            if (value instanceof String) {
+                doGetEntityStr(field, entity, value, languageType);
+            } else if (value instanceof Collection) {
+                doGetEntityColl(field, entity, value, languageType);
             } else if (value instanceof Map) {
-                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
-                    doGetEntity(field, entry.getValue(), languageType);
-                }
+                doGetEntityMap(field, entity, value, languageType);
             } else if (value.getClass().isArray()) {
-                if (!value.getClass().getComponentType().isPrimitive()) {
-                    for (Object v : (Object[]) value) {
-                        doGetEntity(field, v, languageType);
-                    }
-                }
+                doGetEntityArray(field, entity, value, languageType);
             }
         }
     }
 
-    /**
-     * 设置值对象的翻译结果
-     *
-     * @param field        字段对象
-     * @param entity       字段值对象
-     * @param languageType 语言类型
-     * @throws IllegalAccessException 非法访问异常
-     */
-    public static void doGetEntity(final Field field, final Object entity, final LanguageType languageType) throws IllegalAccessException {
-        if (Objects.isNull(entity)) {
+    protected static void doGetEntityStr(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+        if (field.isAnnotationPresent(ApiI18nProperty.class)) {
+            field.set(entity, doGetProperty((String) value, languageType));
+        }
+    }
+
+    protected static void doGetEntityColl(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+        Collection<String> list = null;
+        Collection collection = ((Collection) value);
+        for (Iterator it = collection.iterator(); it.hasNext(); ) {
+            Object v = it.next();
+            if (Objects.isNull(v)) {
+                continue;
+            }
+            if ((v instanceof String) && field.isAnnotationPresent(ApiI18nProperty.class)) {
+                list = (list == null) ? Lists.newArrayList() : list;
+                list.add(doGetProperty((String) v, languageType));
+            } else {
+                acquire(v, languageType);
+            }
+        }
+        if (Objects.nonNull(list)) {
+            field.set(entity, list);
+        }
+    }
+
+    protected static void doGetEntityMap(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+        Map<Object, Object> dMap = ((Map<Object, Object>) value);
+        for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
+            Object key = entry.getKey();
+            Object v = entry.getValue();
+            if (Objects.isNull(v)) {
+                continue;
+            }
+            if ((v instanceof String) && field.isAnnotationPresent(ApiI18nProperty.class)) {
+                dMap.put(key, doGetProperty((String) v, languageType));
+            } else {
+                acquire(value, languageType);
+            }
+        }
+    }
+
+    protected static void doGetEntityArray(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+        if (value.getClass().getComponentType().isPrimitive()) {
             return;
         }
-        if (field.isAnnotationPresent(ApiI18nProperty.class)) {
-            if (entity instanceof String) {
-                field.set(entity, doGetProperty((String) entity, languageType));
-            } else {
-                acquire(entity, languageType);
+        Object[] arrays = ((Object[]) value);
+        for (int i = 0; i < arrays.length; i++) {
+            Object v = arrays[i];
+            if (Objects.isNull(v)) {
+                continue;
             }
-        } else {
-            acquire(entity, languageType);
+            if ((v instanceof String) && field.isAnnotationPresent(ApiI18nProperty.class)) {
+                arrays[i] = doGetProperty((String) v, languageType);
+            } else {
+                acquire(value, languageType);
+            }
         }
     }
 
     /**
      * 获取根据语言类型翻译后的属性结果
      *
-     * @param entity       属性值
+     * @param value        属性值
      * @param languageType 语言类型
      * @return 翻译后的结果
      */
-    public static String doGetProperty(String entity, LanguageType languageType) {
-        return LanguageMap.acquire(entity, languageType);
+    public static String doGetProperty(String value, LanguageType languageType) {
+        return LanguageMap.acquire(value, languageType);
     }
 }

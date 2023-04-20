@@ -84,7 +84,7 @@ public class I18nUtils {
             }
             if (field.isAnnotationPresent(ApiI18nProperty.class)) {
                 if ((value instanceof String)) {
-                    field.set(entity, LanguageMap.acquire((String) value, languageType));
+                    field.set(entity, doGetProperty((String) value, languageType));
                 }
             }
             if (value instanceof Collection) {
@@ -119,12 +119,23 @@ public class I18nUtils {
         }
         if (field.isAnnotationPresent(ApiI18nProperty.class)) {
             if (entity instanceof String) {
-                field.set(entity, LanguageMap.acquire((String) entity, languageType));
+                field.set(entity, doGetProperty((String) entity, languageType));
             } else {
                 acquire(entity, languageType);
             }
         } else {
             acquire(entity, languageType);
         }
+    }
+
+    /**
+     * 获取根据语言类型翻译后的属性结果
+     *
+     * @param entity       属性值
+     * @param languageType 语言类型
+     * @return 翻译后的结果
+     */
+    public static String doGetProperty(String entity, LanguageType languageType) {
+        return LanguageMap.acquire(entity, languageType);
     }
 }

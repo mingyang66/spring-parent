@@ -5,7 +5,13 @@ Bug Fixes
 1. I18n多语言支持翻译当前类中父类的属性;
 2. 脱敏工具类SensitiveUtils支持父类中的属性脱敏；
 3. I18n多语言翻译支持Collection、Map、Array存储的值为字符串；
-4. 
+4. 重构SDK脱敏组件，调整如下：
+   一、添加JavaBeanUtils工具类，抽离SensitiveUtils工具类中的公共方法isFinal、isModifierFinal、checkModifierNativeSyncStrict、checkModifierFinalStaticTransVol并优化；
+   二、重构SensitiveUtils工具类，降低代码复杂度；
+   三、支持对当前类的所有父类中的属性进行脱敏(之前不支持);
+   四、支持对属性类型为Collection<String>、Map<String, String>、Array<String>集合类型中的数据进行脱敏处理（之前不支持）；
+   五、支持对注解@JsonFlexField标注的复杂类型多层嵌套脱敏（之前不支持）;
+   六、@JsonSensitive注解属性include过期作废，是否解析嵌套类的属性判定依据为类上标注的@JsonSensitive;
 
 -----
 基础库发布4.1.9

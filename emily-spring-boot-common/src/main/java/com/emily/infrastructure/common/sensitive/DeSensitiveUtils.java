@@ -181,7 +181,6 @@ public class DeSensitiveUtils {
      * @param field  实体类属性对象
      * @param entity 实体类对象
      * @param value  属性值对象
-     * @return 复杂类型字段脱敏后的数据集合
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityFlex(final Field field, final T entity, final Object value) throws IllegalAccessException {
@@ -191,11 +190,11 @@ public class DeSensitiveUtils {
             return;
         }
         Object flexValue = flexField.get(entity);
-        if (Objects.isNull(flexValue)) {
+        if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
             return;
         }
         SensitiveType type;
-        int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf(value);
+        int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf((String) value);
         if (index < 0) {
             return;
         }

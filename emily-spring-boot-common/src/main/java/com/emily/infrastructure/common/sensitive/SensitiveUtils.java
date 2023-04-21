@@ -5,11 +5,9 @@ import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -76,7 +74,6 @@ public class SensitiveUtils {
      */
     private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
         Map<String, Object> fieldMap = Maps.newHashMap();
-        Map<String, JsonFlexField> flexFieldMap = null;
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
@@ -90,8 +87,7 @@ public class SensitiveUtils {
                 continue;
             }
             if (value instanceof String) {
-                flexFieldMap = (flexFieldMap == null) ? Maps.newHashMap() : flexFieldMap;
-                fieldMap.put(name, doGetEntityStr(field, value, flexFieldMap));
+                fieldMap.put(name, doGetEntityStr(field, value));
             } else if (value instanceof Collection) {
                 fieldMap.put(name, doGetEntityColl(field, value));
             } else if (value instanceof Map) {
@@ -102,21 +98,19 @@ public class SensitiveUtils {
                 fieldMap.put(name, acquire(value));
             }
         }
-        fieldMap.putAll(doGetEntityFlex(fieldMap, flexFieldMap));
+        fieldMap.putAll(doGetEntityFlex(entity));
         return fieldMap;
     }
 
     /**
-     * @param field        实体类属性对象
-     * @param value        属性值
-     * @param flexFieldMap 复杂数据类型集合
+     * @param field 实体类属性对象
+     * @param value 属性值
      * @return 脱敏后的数据对象
      */
-    protected static Object doGetEntityStr(final Field field, final Object value, Map<String, JsonFlexField> flexFieldMap) {
+    protected static Object doGetEntityStr(final Field field, final Object value) {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
         } else if (field.isAnnotationPresent(JsonFlexField.class)) {
-            flexFieldMap.put(field.getName(), field.getAnnotation(JsonFlexField.class));
             return value;
         } else {
             return acquire(value);
@@ -192,38 +186,41 @@ public class SensitiveUtils {
     /**
      * 灵活复杂类型字段脱敏
      *
-     * @param fieldMap     实体类字段值集合
-     * @param flexFieldMap 复杂类型字段集合
+     * @param entity 实体类
      * @return 复杂类型字段脱敏后的数据集合
      */
-    protected static Map<String, Object> doGetEntityFlex(final Map<String, Object> fieldMap, final Map<String, JsonFlexField> flexFieldMap) {
-        if (CollectionUtils.isEmpty(flexFieldMap)) {
-            return Collections.emptyMap();
-        }
+    protected static Map<String, Object> doGetEntityFlex(final Object entity) throws IllegalAccessException {
         Map<String, Object> dataMap = Maps.newHashMap();
-        for (Map.Entry<String, JsonFlexField> entry : flexFieldMap.entrySet()) {
-            JsonFlexField jsonFlexField = entry.getValue();
-            Object value = fieldMap.get(entry.getKey());
-            if (Objects.isNull(value) || !(value instanceof String)) {
+        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), JsonFlexField.class);
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Object value = field.get(entity);
+            if (Objects.isNull(value)) {
                 continue;
             }
-            for (int i = 0; i < jsonFlexField.fieldKeys().length; i++) {
-                if (!StringUtils.equals(jsonFlexField.fieldKeys()[i], (String) value)) {
-                    continue;
-                }
-                SensitiveType type;
-                //如果A>B（等价于A-1>=B），则展示默认值
-                if (i >= jsonFlexField.types().length) {
-                    type = SensitiveType.DEFAULT;
-                } else {
-                    type = jsonFlexField.types()[i];
-                }
-                //获取值字段值
-                Object fv = fieldMap.get(jsonFlexField.fieldValue());
-                if (Objects.nonNull(fv) && (fv instanceof String)) {
-                    dataMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) fv, type));
-                }
+            JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
+            if (Objects.isNull(jsonFlexField.fieldValue())) {
+                continue;
             }
+            Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.fieldValue(), true);
+            if (Objects.isNull(flexField)) {
+                continue;
+            }
+            Object flexValue = flexField.get(entity);
+            if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
+                continue;
+            }
+            SensitiveType type;
+            int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf((String) value);
+            if (index < 0) {
+                continue;
+            }
+            if (index >= jsonFlexField.types().length) {
+                type = SensitiveType.DEFAULT;
+            } else {
+                type = jsonFlexField.types()[index];
+            }
+            dataMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) flexValue, type));
         }
         return dataMap;
     }

@@ -185,6 +185,9 @@ public class DeSensitiveUtils {
      */
     protected static <T> void doGetEntityFlex(final Field field, final T entity, final Object value) throws IllegalAccessException {
         JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
+        if (Objects.isNull(jsonFlexField.fieldValue())) {
+            return;
+        }
         Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.fieldValue(), true);
         if (Objects.isNull(flexField)) {
             return;

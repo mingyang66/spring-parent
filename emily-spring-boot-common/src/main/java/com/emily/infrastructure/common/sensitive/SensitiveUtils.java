@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -26,158 +24,11 @@ public class SensitiveUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(SensitiveUtils.class);
 
-    /**
-     * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
-     */
-    public static String chineseName(final String fullName) {
-        if (StringUtils.isBlank(fullName)) {
-            return "";
-        }
-        final String name = StringUtils.left(fullName, 1);
-        return StringUtils.rightPad(name, StringUtils.length(fullName), "*");
-    }
 
     /**
-     * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
-     */
-    public static String chineseName(final String familyName, final String givenName) {
-        if (StringUtils.isBlank(familyName) || StringUtils.isBlank(givenName)) {
-            return "";
-        }
-        return chineseName(familyName + givenName);
-    }
-
-    /**
-     * [身份证号] 显示最后四位，其他隐藏。共计18位或者15位。<例子：*************5762>
-     */
-    public static String idCardNum(final String id) {
-        if (StringUtils.isBlank(id)) {
-            return "";
-        }
-
-        return StringUtils.left(id, 3).concat(StringUtils
-                .removeStart(StringUtils.leftPad(StringUtils.right(id, 3), StringUtils.length(id), "*"),
-                        "***"));
-    }
-
-    /**
-     * [固定电话] 后四位，其他隐藏<例子：****1234>
-     */
-    public static String fixedPhone(final String num) {
-        if (StringUtils.isBlank(num)) {
-            return "";
-        }
-        return StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*");
-    }
-
-    /**
-     * 字符串中间隐藏，分四份，中间两份隐藏
-     *
-     * @param middle 字符串
-     * @return 影藏后的字符串
-     */
-    public static String middle(final String middle) {
-        int length = new BigDecimal(middle.length()).divide(new BigDecimal(4), 0, RoundingMode.DOWN).intValue();
-        String leftPad = StringUtils.substring(middle, 0, length);
-        String rightPad = StringUtils.substring(middle, middle.length() - length);
-        return StringUtils.rightPad(leftPad, middle.length() - 2 * length + length, "*").concat(rightPad);
-    }
-
-    /**
-     * [手机号码] 前三位，后四位，其他隐藏<例子:138******1234>
-     */
-    public static String mobilePhone(final String num) {
-        if (StringUtils.isBlank(num)) {
-            return "";
-        }
-        return StringUtils.left(num, 2).concat(StringUtils
-                .removeStart(StringUtils.leftPad(StringUtils.right(num, 2), StringUtils.length(num), "*"),
-                        "***"));
-
-    }
-
-    /**
-     * [地址] 只显示到地区，不显示详细地址；我们要对个人信息增强保护<例子：北京市海淀区****>
-     *
-     * @param sensitiveSize 敏感信息长度
-     */
-    public static String address(final String address, final int sensitiveSize) {
-        if (StringUtils.isBlank(address)) {
-            return "";
-        }
-        final int length = StringUtils.length(address);
-        return StringUtils.rightPad(StringUtils.left(address, length - sensitiveSize), length, "*");
-    }
-
-    /**
-     * [电子邮箱] 邮箱前缀仅显示第一个字母，前缀其他隐藏，用星号代替，@及后面的地址显示<例子:g**@163.com>
-     */
-    public static String email(final String email) {
-        if (StringUtils.isBlank(email)) {
-            return "";
-        }
-        final int index = StringUtils.indexOf(email, "@");
-        if (index <= 1) {
-            return email;
-        } else {
-            return StringUtils.rightPad(StringUtils.left(email, 1), index, "*")
-                    .concat(StringUtils.mid(email, index, StringUtils.length(email)));
-        }
-    }
-
-    /**
-     * [银行卡号] 前六位，后四位，其他用星号隐藏每位1个星号<例子:6222600**********1234>
-     */
-    public static String bankCard(final String cardNum) {
-        if (StringUtils.isBlank(cardNum)) {
-            return "";
-        }
-        return StringUtils.left(cardNum, 6).concat(StringUtils.removeStart(
-                StringUtils.leftPad(StringUtils.right(cardNum, 4), StringUtils.length(cardNum), "*"),
-                "******"));
-    }
-
-    /**
-     * [公司开户银行联号] 公司开户银行联行号,显示前两位，其他用星号隐藏，每位1个星号<例子:12********>
-     */
-    public static String bankCode(final String code) {
-        if (StringUtils.isBlank(code)) {
-            return "";
-        }
-        return StringUtils.rightPad(StringUtils.left(code, 2), StringUtils.length(code), "*");
-    }
-
-    /**
-     * 获取实体类对象脱敏后的对象
-     *
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @return 脱敏后的实体类对象
-     * @Description 使用示例：
-     * <pre>
-     * @JsonSensitive(include = false)
-     * public class JsonRequest {
-     *     @NotEmpty
-     *     @JsonSimField(SensitiveType.USERNAME)
-     *     private String username;
-     *     @JsonSimField
-     *     private String password;
-     *     @JsonSimField(SensitiveType.EMAIL)
-     *     private String email;
-     *     @JsonSimField(SensitiveType.ID_CARD)
-     *     private String idCard;
-     *     @JsonSimField(SensitiveType.BANK_CARD)
-     *     private String bankCard;
-     *     @JsonSimField(SensitiveType.PHONE)
-     *     private String phone;
-     *     @JsonSimField(SensitiveType.PHONE)
-     *     private String mobile;
-     * </pre>
-     * 支持如下模式：
-     * Map<String, JsonRequest></>
-     * List<JsonRequest></>
-     * JsonRequest[]
-     * Map<String, Map<String, JsonRequest></>></>
-     * 除上述外层包装，还支持实体类内部嵌套上述各种包装变体
+     * @Description 对实体类镜像脱敏，支持嵌套内部类及父类的
      */
     public static Object acquire(final Object entity) {
         try {
@@ -389,15 +240,15 @@ public class SensitiveUtils {
             return value;
         }
         if (SensitiveType.PHONE.equals(type)) {
-            return middle(value);
+            return DataMaskUtils.middle(value);
         } else if (SensitiveType.ID_CARD.equals(type)) {
-            return middle(value);
+            return DataMaskUtils.middle(value);
         } else if (SensitiveType.BANK_CARD.equals(type)) {
-            return middle(value);
+            return DataMaskUtils.middle(value);
         } else if (SensitiveType.EMAIL.equals(type)) {
-            return email(value);
+            return DataMaskUtils.email(value);
         } else if (SensitiveType.USERNAME.equals(type)) {
-            return chineseName(value);
+            return DataMaskUtils.chineseName(value);
         } else {
             return AttributeInfo.PLACE_HOLDER;
         }

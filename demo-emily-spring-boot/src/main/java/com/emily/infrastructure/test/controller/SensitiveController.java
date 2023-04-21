@@ -32,7 +32,7 @@ public class SensitiveController {
     @PostMapping("test")
     @JsonSerialize
     public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
-        List<JsonRequest> S = (List<JsonRequest>) DeSensitiveUtils.acquire(request);
+        List<JsonRequest> S = DeSensitiveUtils.acquire(request);
         System.out.println(JSONUtils.toJSONPrettyString(S));
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
@@ -55,7 +55,7 @@ public class SensitiveController {
         response.setArr(arr);
         List<BaseResponse<JsonResponse>> list = Lists.newArrayList(BaseResponse.build(response));
         //return list;
-        return (List<BaseResponse<JsonResponse>>) DeSensitiveUtils.acquire(list);
+        return DeSensitiveUtils.acquire(list);
     }
 
     @PostMapping("test1")
@@ -76,7 +76,7 @@ public class SensitiveController {
         response.jobList = Arrays.asList(job);
         BaseResponse<PubResponse> r = BaseResponse.build(response);
         //return r;
-        return (BaseResponse<PubResponse>) DeSensitiveUtils.acquire(r);
+        return DeSensitiveUtils.acquire(r);
     }
 
     @GetMapping("test3")

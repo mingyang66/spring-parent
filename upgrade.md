@@ -12,6 +12,7 @@ Bug Fixes
    四、支持对属性类型为Collection<String>、Map<String, String>、Array<String>集合类型中的数据进行脱敏处理（之前不支持）；
    五、支持对注解@JsonFlexField标注的复杂类型多层嵌套脱敏（之前不支持）;
    六、@JsonSensitive注解属性include过期作废，是否解析嵌套类的属性判定依据为类上标注的@JsonSensitive;
+5. 新增实体类脱敏工具类DeSensitiveUtils，支持所有的嵌套类、属性、集合、父类属性脱敏，并且返回原对象；
 
 -----
 基础库发布4.1.9

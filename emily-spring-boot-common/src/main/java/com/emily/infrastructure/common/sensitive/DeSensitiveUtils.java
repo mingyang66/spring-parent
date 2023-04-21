@@ -26,7 +26,7 @@ public class DeSensitiveUtils {
      * @param entity 实体类|普通对象
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
-    public static Object acquire(final Object entity) {
+    public static <T> T acquire(final T entity) {
         try {
             if (JavaBeanUtils.isFinal(entity)) {
                 return entity;
@@ -62,7 +62,7 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 非法访问异常
      * @Description 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
      */
-    protected static void doSetField(final Object entity) throws IllegalAccessException {
+    protected static <T> void doSetField(final T entity) throws IllegalAccessException {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
@@ -81,6 +81,8 @@ public class DeSensitiveUtils {
                 doGetEntityMap(field, entity, value);
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, entity, value);
+            } else {
+                acquire(value);
             }
         }
     }
@@ -92,7 +94,7 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对字符串进行多语言支持
      */
-    protected static void doGetEntityStr(final Field field, final Object entity, final Object value) throws IllegalAccessException {
+    protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             field.set(entity, doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value()));
         } else if (field.isAnnotationPresent(JsonFlexField.class)) {
@@ -109,7 +111,7 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对Collection集合中存储是字符串、实体对象进行多语言支持
      */
-    protected static void doGetEntityColl(final Field field, final Object entity, final Object value) throws IllegalAccessException {
+    protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value) throws IllegalAccessException {
         Collection<Object> list = null;
         Collection collection = ((Collection) value);
         for (Iterator it = collection.iterator(); it.hasNext(); ) {
@@ -136,7 +138,7 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对Map集合中存储是字符串、实体对象进行多语言支持
      */
-    protected static void doGetEntityMap(final Field field, final Object entity, final Object value) throws IllegalAccessException {
+    protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
         Map<Object, Object> dMap = ((Map<Object, Object>) value);
         for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
             Object key = entry.getKey();
@@ -159,7 +161,7 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对数组中存储是字符串、实体对象进行多语言支持
      */
-    protected static void doGetEntityArray(final Field field, final Object entity, final Object value) throws IllegalAccessException {
+    protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;
         }
@@ -184,7 +186,7 @@ public class DeSensitiveUtils {
      * @return 复杂类型字段脱敏后的数据集合
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static void doGetEntityFlex(final Field field, final Object entity, final Object value) throws IllegalAccessException {
+    protected static <T> void doGetEntityFlex(final Field field, final T entity, final Object value) throws IllegalAccessException {
         JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
         Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.fieldValue(), true);
         if (Objects.isNull(flexField)) {

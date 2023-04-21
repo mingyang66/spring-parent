@@ -30,12 +30,12 @@ public class I18nUtils {
      * @param languageType 语言类型
      * @return 翻译后的实体类对象
      */
-    public static Object acquire(final Object entity, LanguageType languageType) {
+    public static <T> T acquire(final T entity, LanguageType languageType) {
         try {
             if (JavaBeanUtils.isFinal(entity)) {
                 return entity;
             }
-            languageType = Objects.isNull(languageType) ?LanguageType.ZH: languageType;
+            languageType = Objects.isNull(languageType) ? LanguageType.ZH : languageType;
             if (entity instanceof Collection) {
                 for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
                     acquire(it.next(), languageType);
@@ -68,7 +68,7 @@ public class I18nUtils {
      * @throws IllegalAccessException 非法访问异常
      * @Description 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
      */
-    protected static void doSetField(final Object entity, final LanguageType languageType) throws IllegalAccessException {
+    protected static <T> void doSetField(final T entity, final LanguageType languageType) throws IllegalAccessException {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
@@ -87,6 +87,8 @@ public class I18nUtils {
                 doGetEntityMap(field, entity, value, languageType);
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, entity, value, languageType);
+            } else {
+                acquire(value, languageType);
             }
         }
     }
@@ -99,7 +101,7 @@ public class I18nUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对字符串进行多语言支持
      */
-    protected static void doGetEntityStr(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+    protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (field.isAnnotationPresent(ApiI18nProperty.class)) {
             field.set(entity, doGetProperty((String) value, languageType));
         }
@@ -113,7 +115,7 @@ public class I18nUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对Collection集合中存储是字符串、实体对象进行多语言支持
      */
-    protected static void doGetEntityColl(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+    protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         Collection<Object> list = null;
         Collection collection = ((Collection) value);
         for (Iterator it = collection.iterator(); it.hasNext(); ) {
@@ -141,7 +143,7 @@ public class I18nUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对Map集合中存储是字符串、实体对象进行多语言支持
      */
-    protected static void doGetEntityMap(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+    protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         Map<Object, Object> dMap = ((Map<Object, Object>) value);
         for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
             Object key = entry.getKey();
@@ -165,7 +167,7 @@ public class I18nUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      * @Description 对数组中存储是字符串、实体对象进行多语言支持
      */
-    protected static void doGetEntityArray(final Field field, final Object entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+    protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;
         }

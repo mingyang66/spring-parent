@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @Description :  敏感信息工具类
+ * @Description :  对实体类镜像脱敏，返回结构相同的非同一个对象
  * @Author :  Emily
  * @CreateDate :  Created in 2022/7/19 3:13 下午
  */
@@ -28,7 +28,7 @@ public class SensitiveUtils {
     /**
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @return 脱敏后的实体类对象
-     * @Description 对实体类镜像脱敏，支持嵌套内部类及父类的
+     * @Description 对实体类镜像脱敏，返回结构相同的非同一个对象
      */
     public static Object acquire(final Object entity) {
         try {

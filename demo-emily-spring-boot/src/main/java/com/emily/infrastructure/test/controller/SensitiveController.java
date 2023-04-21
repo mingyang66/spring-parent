@@ -1,7 +1,9 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.entity.BaseResponse;
+import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;
@@ -30,6 +32,8 @@ public class SensitiveController {
     @PostMapping("test")
     @JsonSerialize
     public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
+        List<JsonRequest> S = (List<JsonRequest>) DeSensitiveUtils.acquire(request);
+        System.out.println(JSONUtils.toJSONPrettyString(S));
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
         response.setUsername("条消息");
@@ -49,7 +53,9 @@ public class SensitiveController {
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);
-        return Lists.newArrayList(BaseResponse.build(response));
+        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(BaseResponse.build(response));
+        //return list;
+        return (List<BaseResponse<JsonResponse>>) DeSensitiveUtils.acquire(list);
     }
 
     @PostMapping("test1")
@@ -68,7 +74,9 @@ public class SensitiveController {
         response.job = job;
         response.jobs = new PubResponse.Job[]{job};
         response.jobList = Arrays.asList(job);
-        return BaseResponse.build(response);
+        BaseResponse<PubResponse> r = BaseResponse.build(response);
+        //return r;
+        return (BaseResponse<PubResponse>) DeSensitiveUtils.acquire(r);
     }
 
     @GetMapping("test3")

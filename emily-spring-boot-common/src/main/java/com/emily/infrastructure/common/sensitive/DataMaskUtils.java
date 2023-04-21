@@ -1,5 +1,6 @@
 package com.emily.infrastructure.common.sensitive;
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -132,4 +133,27 @@ public class DataMaskUtils {
         return StringUtils.rightPad(StringUtils.left(code, 2), StringUtils.length(code), "*");
     }
 
+    /**
+     * @param value 字段值
+     * @param type  脱敏类型
+     * @return 脱敏后的字段值
+     */
+    public static String doGetProperty(String value, SensitiveType type) {
+        if (StringUtils.isBlank(value) || StringUtils.isEmpty(value)) {
+            return value;
+        }
+        if (SensitiveType.PHONE.equals(type)) {
+            return DataMaskUtils.middle(value);
+        } else if (SensitiveType.ID_CARD.equals(type)) {
+            return DataMaskUtils.middle(value);
+        } else if (SensitiveType.BANK_CARD.equals(type)) {
+            return DataMaskUtils.middle(value);
+        } else if (SensitiveType.EMAIL.equals(type)) {
+            return DataMaskUtils.email(value);
+        } else if (SensitiveType.USERNAME.equals(type)) {
+            return DataMaskUtils.chineseName(value);
+        } else {
+            return AttributeInfo.PLACE_HOLDER;
+        }
+    }
 }

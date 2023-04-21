@@ -1,6 +1,5 @@
 package com.emily.infrastructure.common.sensitive;
 
-import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
@@ -23,7 +22,6 @@ import java.util.*;
 public class SensitiveUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(SensitiveUtils.class);
-
 
     /**
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
@@ -116,7 +114,7 @@ public class SensitiveUtils {
      */
     protected static Object doGetEntityStr(final Field field, final Object value, Map<String, JsonFlexField> flexFieldMap) {
         if (field.isAnnotationPresent(JsonSimField.class)) {
-            return doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
+            return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
         } else if (field.isAnnotationPresent(JsonFlexField.class)) {
             flexFieldMap.put(field.getName(), field.getAnnotation(JsonFlexField.class));
             return value;
@@ -138,7 +136,7 @@ public class SensitiveUtils {
             if (Objects.isNull(v)) {
                 list.add(null);
             } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                list.add(doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
                 list.add(acquire(v));
             }
@@ -159,7 +157,7 @@ public class SensitiveUtils {
             if (Objects.isNull(v)) {
                 dMap.put(key, null);
             } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                dMap.put(key, doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
                 dMap.put(key, acquire(v));
             }
@@ -182,7 +180,7 @@ public class SensitiveUtils {
                 if (Objects.isNull(v[i])) {
                     t[i] = null;
                 } else if ((v[i] instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                    t[i] = doGetProperty((String) v[i], field.getAnnotation(JsonSimField.class).value());
+                    t[i] = DataMaskUtils.doGetProperty((String) v[i], field.getAnnotation(JsonSimField.class).value());
                 } else {
                     t[i] = acquire(v[i]);
                 }
@@ -223,34 +221,10 @@ public class SensitiveUtils {
                 //获取值字段值
                 Object fv = fieldMap.get(jsonFlexField.fieldValue());
                 if (Objects.nonNull(fv) && (fv instanceof String)) {
-                    dataMap.put(jsonFlexField.fieldValue(), doGetProperty((String) fv, type));
+                    dataMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) fv, type));
                 }
             }
         }
         return dataMap;
-    }
-
-    /**
-     * @param value 字段值
-     * @param type  脱敏类型
-     * @return 脱敏后的字段值
-     */
-    public static String doGetProperty(String value, SensitiveType type) {
-        if (StringUtils.isBlank(value) || StringUtils.isEmpty(value)) {
-            return value;
-        }
-        if (SensitiveType.PHONE.equals(type)) {
-            return DataMaskUtils.middle(value);
-        } else if (SensitiveType.ID_CARD.equals(type)) {
-            return DataMaskUtils.middle(value);
-        } else if (SensitiveType.BANK_CARD.equals(type)) {
-            return DataMaskUtils.middle(value);
-        } else if (SensitiveType.EMAIL.equals(type)) {
-            return DataMaskUtils.email(value);
-        } else if (SensitiveType.USERNAME.equals(type)) {
-            return DataMaskUtils.chineseName(value);
-        } else {
-            return AttributeInfo.PLACE_HOLDER;
-        }
     }
 }

@@ -1,11 +1,9 @@
 package com.emily.infrastructure.common.sensitive;
 
-import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +94,7 @@ public class DeSensitiveUtils {
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonSimField.class)) {
-            field.set(entity, doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value()));
+            field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value()));
         } else if (field.isAnnotationPresent(JsonFlexField.class)) {
             doGetEntityFlex(field, entity, value);
         } else {
@@ -121,7 +119,7 @@ public class DeSensitiveUtils {
             }
             if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
                 list = (list == null) ? Lists.newArrayList() : list;
-                list.add(doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
                 acquire(v);
             }
@@ -147,7 +145,7 @@ public class DeSensitiveUtils {
                 continue;
             }
             if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                dMap.put(key, doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
                 acquire(value);
             }
@@ -172,7 +170,7 @@ public class DeSensitiveUtils {
                 continue;
             }
             if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                arrays[i] = doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value());
+                arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value());
             } else {
                 acquire(value);
             }
@@ -206,30 +204,6 @@ public class DeSensitiveUtils {
         } else {
             type = jsonFlexField.types()[index];
         }
-        flexField.set(entity, doGetProperty((String) flexValue, type));
-    }
-
-    /**
-     * @param value 字段值
-     * @param type  脱敏类型
-     * @return 脱敏后的字段值
-     */
-    public static String doGetProperty(String value, SensitiveType type) {
-        if (StringUtils.isBlank(value) || StringUtils.isEmpty(value)) {
-            return value;
-        }
-        if (SensitiveType.PHONE.equals(type)) {
-            return DataMaskUtils.middle(value);
-        } else if (SensitiveType.ID_CARD.equals(type)) {
-            return DataMaskUtils.middle(value);
-        } else if (SensitiveType.BANK_CARD.equals(type)) {
-            return DataMaskUtils.middle(value);
-        } else if (SensitiveType.EMAIL.equals(type)) {
-            return DataMaskUtils.email(value);
-        } else if (SensitiveType.USERNAME.equals(type)) {
-            return DataMaskUtils.chineseName(value);
-        } else {
-            return AttributeInfo.PLACE_HOLDER;
-        }
+        flexField.set(entity, DataMaskUtils.doGetProperty((String) flexValue, type));
     }
 }

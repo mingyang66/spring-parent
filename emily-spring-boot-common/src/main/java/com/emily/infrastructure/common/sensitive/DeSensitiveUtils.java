@@ -195,11 +195,11 @@ public class DeSensitiveUtils {
         if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
             return;
         }
-        SensitiveType type;
         int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf((String) value);
         if (index < 0) {
             return;
         }
+        SensitiveType type;
         if (index >= jsonFlexField.types().length) {
             type = SensitiveType.DEFAULT;
         } else {

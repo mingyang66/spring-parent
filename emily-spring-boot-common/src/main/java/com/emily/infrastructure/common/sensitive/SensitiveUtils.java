@@ -188,7 +188,7 @@ public class SensitiveUtils {
      * @return 复杂类型字段脱敏后的数据集合
      */
     protected static Map<String, Object> doGetEntityFlex(final Object entity) throws IllegalAccessException {
-        Map<String, Object> dataMap = null;
+        Map<String, Object> flexFieldMap = null;
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), JsonFlexField.class);
         for (Field field : fields) {
             field.setAccessible(true);
@@ -218,9 +218,9 @@ public class SensitiveUtils {
             } else {
                 type = jsonFlexField.types()[index];
             }
-            dataMap = Objects.isNull(dataMap) ? Maps.newHashMap() : dataMap;
-            dataMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) flexValue, type));
+            flexFieldMap = Objects.isNull(flexFieldMap) ? Maps.newHashMap() : flexFieldMap;
+            flexFieldMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) flexValue, type));
         }
-        return Objects.isNull(dataMap) ? Collections.emptyMap() : dataMap;
+        return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;
     }
 }

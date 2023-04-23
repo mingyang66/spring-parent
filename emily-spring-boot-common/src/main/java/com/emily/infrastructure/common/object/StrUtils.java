@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils;
+package com.emily.infrastructure.common.object;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;

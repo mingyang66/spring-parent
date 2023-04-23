@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils;
+package com.emily.infrastructure.common.object;
 
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import org.apache.commons.lang3.StringUtils;

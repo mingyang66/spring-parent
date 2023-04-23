@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.i18n.LanguageType;
 import com.emily.infrastructure.common.utils.RequestUtils;
-import com.emily.infrastructure.common.utils.UUIDUtils;
+import com.emily.infrastructure.common.object.UUIDUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import org.apache.commons.lang3.StringUtils;
 

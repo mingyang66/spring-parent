@@ -51,8 +51,7 @@ public class I18nUtils {
                     }
                 }
             } else if (entity instanceof BaseResponse) {
-                BaseResponse response = (BaseResponse) entity;
-                acquire(response.getData(), languageType);
+                acquire(((BaseResponse) entity).getData(), languageType);
             } else if (entity.getClass().isAnnotationPresent(ApiI18n.class)) {
                 doSetField(entity, languageType);
             }

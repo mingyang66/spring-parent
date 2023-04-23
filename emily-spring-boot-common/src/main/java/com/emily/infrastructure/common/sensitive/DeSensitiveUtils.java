@@ -44,8 +44,7 @@ public class DeSensitiveUtils {
                     }
                 }
             } else if (entity instanceof BaseResponse) {
-                BaseResponse response = (BaseResponse) entity;
-                acquire(response.getData());
+                acquire(((BaseResponse) entity).getData());
             } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
                 doSetField(entity);
             }

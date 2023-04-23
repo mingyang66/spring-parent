@@ -110,8 +110,6 @@ public class SensitiveUtils {
     protected static Object doGetEntityStr(final Field field, final Object value) {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
-        } else if (field.isAnnotationPresent(JsonFlexField.class)) {
-            return value;
         } else {
             return acquire(value);
         }

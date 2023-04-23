@@ -82,6 +82,7 @@ public class DeSensitiveUtils {
                 acquire(value);
             }
         }
+        doGetEntityFlex(entity);
     }
 
     /**
@@ -94,8 +95,6 @@ public class DeSensitiveUtils {
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value()));
-        } else if (field.isAnnotationPresent(JsonFlexField.class)) {
-            doGetEntityFlex(field, entity, value);
         } else {
             acquire(value);
         }
@@ -177,34 +176,40 @@ public class DeSensitiveUtils {
     }
 
     /**
-     * @param field  实体类属性对象
      * @param entity 实体类对象
-     * @param value  属性值对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static <T> void doGetEntityFlex(final Field field, final T entity, final Object value) throws IllegalAccessException {
-        JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
-        if (Objects.isNull(jsonFlexField.fieldValue())) {
-            return;
+    protected static <T> void doGetEntityFlex(final T entity) throws IllegalAccessException {
+        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), JsonFlexField.class);
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Object value = field.get(entity);
+            if (Objects.isNull(value)) {
+                continue;
+            }
+            JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
+            if (Objects.isNull(jsonFlexField.fieldValue())) {
+                return;
+            }
+            Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.fieldValue(), true);
+            if (Objects.isNull(flexField)) {
+                return;
+            }
+            Object flexValue = flexField.get(entity);
+            if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
+                return;
+            }
+            int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf((String) value);
+            if (index < 0) {
+                return;
+            }
+            SensitiveType type;
+            if (index >= jsonFlexField.types().length) {
+                type = SensitiveType.DEFAULT;
+            } else {
+                type = jsonFlexField.types()[index];
+            }
+            flexField.set(entity, DataMaskUtils.doGetProperty((String) flexValue, type));
         }
-        Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.fieldValue(), true);
-        if (Objects.isNull(flexField)) {
-            return;
-        }
-        Object flexValue = flexField.get(entity);
-        if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
-            return;
-        }
-        int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf((String) value);
-        if (index < 0) {
-            return;
-        }
-        SensitiveType type;
-        if (index >= jsonFlexField.types().length) {
-            type = SensitiveType.DEFAULT;
-        } else {
-            type = jsonFlexField.types()[index];
-        }
-        flexField.set(entity, DataMaskUtils.doGetProperty((String) flexValue, type));
     }
 }

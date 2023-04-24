@@ -13,7 +13,7 @@ import com.emily.infrastructure.test.po.i18n.Teacher;
  * @CreateDate :  Created in 2023/4/17 3:36 PM
  */
 public class I18nTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
         LanguageMap.bindEn("田晓霞","tianxiaoxia");
         LanguageMap.bindEn("李老师", "li teacher");
         LanguageMap.bindEn("孙少平", "sun shao ping");

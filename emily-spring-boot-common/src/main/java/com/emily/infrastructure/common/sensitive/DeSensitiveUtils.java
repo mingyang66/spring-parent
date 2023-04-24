@@ -1,7 +1,6 @@
 package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -24,32 +23,28 @@ public class DeSensitiveUtils {
      * @param entity 实体类|普通对象
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
-    public static <T> T acquire(final T entity) {
-        try {
-            if (JavaBeanUtils.isFinal(entity)) {
-                return entity;
+    public static <T> T acquire(final T entity) throws IllegalAccessException {
+        if (JavaBeanUtils.isFinal(entity)) {
+            return entity;
+        }
+        if (entity instanceof Collection) {
+            for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
+                acquire(it.next());
             }
-            if (entity instanceof Collection) {
-                for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
-                    acquire(it.next());
-                }
-            } else if (entity instanceof Map) {
-                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
-                    acquire(entry.getValue());
-                }
-            } else if (entity.getClass().isArray()) {
-                if (!entity.getClass().getComponentType().isPrimitive()) {
-                    for (Object v : (Object[]) entity) {
-                        acquire(v);
-                    }
-                }
-            } else if (entity instanceof BaseResponse) {
-                acquire(((BaseResponse) entity).getData());
-            } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
-                doSetField(entity);
+        } else if (entity instanceof Map) {
+            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
+                acquire(entry.getValue());
             }
-        } catch (IllegalAccessException exception) {
-            logger.error(PrintExceptionInfo.printErrorInfo(exception));
+        } else if (entity.getClass().isArray()) {
+            if (!entity.getClass().getComponentType().isPrimitive()) {
+                for (Object v : (Object[]) entity) {
+                    acquire(v);
+                }
+            }
+        } else if (entity instanceof BaseResponse) {
+            acquire(((BaseResponse) entity).getData());
+        } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+            doSetField(entity);
         }
         return entity;
     }

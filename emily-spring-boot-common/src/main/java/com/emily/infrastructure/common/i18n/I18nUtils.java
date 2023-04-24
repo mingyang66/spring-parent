@@ -1,7 +1,6 @@
 package com.emily.infrastructure.common.i18n;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -30,33 +29,29 @@ public class I18nUtils {
      * @param languageType 语言类型
      * @return 翻译后的实体类对象
      */
-    public static <T> T acquire(final T entity, LanguageType languageType) {
-        try {
-            if (JavaBeanUtils.isFinal(entity)) {
-                return entity;
+    public static <T> T acquire(final T entity, LanguageType languageType) throws IllegalAccessException {
+        if (JavaBeanUtils.isFinal(entity)) {
+            return entity;
+        }
+        languageType = Objects.isNull(languageType) ? LanguageType.ZH : languageType;
+        if (entity instanceof Collection) {
+            for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
+                acquire(it.next(), languageType);
             }
-            languageType = Objects.isNull(languageType) ? LanguageType.ZH : languageType;
-            if (entity instanceof Collection) {
-                for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
-                    acquire(it.next(), languageType);
-                }
-            } else if (entity instanceof Map) {
-                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
-                    acquire(entry.getValue(), languageType);
-                }
-            } else if (entity.getClass().isArray()) {
-                if (!entity.getClass().getComponentType().isPrimitive()) {
-                    for (Object v : (Object[]) entity) {
-                        acquire(v, languageType);
-                    }
-                }
-            } else if (entity instanceof BaseResponse) {
-                acquire(((BaseResponse) entity).getData(), languageType);
-            } else if (entity.getClass().isAnnotationPresent(ApiI18n.class)) {
-                doSetField(entity, languageType);
+        } else if (entity instanceof Map) {
+            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
+                acquire(entry.getValue(), languageType);
             }
-        } catch (IllegalAccessException exception) {
-            logger.error(PrintExceptionInfo.printErrorInfo(exception));
+        } else if (entity.getClass().isArray()) {
+            if (!entity.getClass().getComponentType().isPrimitive()) {
+                for (Object v : (Object[]) entity) {
+                    acquire(v, languageType);
+                }
+            }
+        } else if (entity instanceof BaseResponse) {
+            acquire(((BaseResponse) entity).getData(), languageType);
+        } else if (entity.getClass().isAnnotationPresent(ApiI18n.class)) {
+            doSetField(entity, languageType);
         }
         return entity;
     }

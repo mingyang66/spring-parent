@@ -31,7 +31,7 @@ public class SensitiveController {
 
     @PostMapping("test")
     @JsonSerialize
-    public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
+    public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) throws IllegalAccessException {
         List<JsonRequest> S = DeSensitiveUtils.acquire(request);
         System.out.println(JSONUtils.toJSONPrettyString(S));
         JsonResponse response = new JsonResponse();
@@ -59,7 +59,7 @@ public class SensitiveController {
     }
 
     @PostMapping("test1")
-    public BaseResponse<PubResponse> test1(@Validated @RequestBody PubRequest request) {
+    public BaseResponse<PubResponse> test1(@Validated @RequestBody PubRequest request) throws IllegalAccessException {
         PubResponse response = new PubResponse();
         response.password = "32433";
         response.username = "条消息";

@@ -1,5 +1,8 @@
 package com.emily.infrastructure.test.po;
 
+import com.emily.infrastructure.common.sensitive.JsonSensitive;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
+import com.emily.infrastructure.common.sensitive.SensitiveType;
 import org.springframework.core.Ordered;
 
 /**
@@ -8,8 +11,10 @@ import org.springframework.core.Ordered;
  * @author: Emily
  * @create: 2021/08/08
  */
+@JsonSensitive
 public class User implements Ordered {
     private String username = "liming";
+    @JsonSimField(SensitiveType.DEFAULT)
     private String password;
     private Job job;
     private int order;

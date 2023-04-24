@@ -265,42 +265,4 @@ public class RequestHelper {
         }
     }
 
-    /**
-     * 将Object类型对象转换为Map
-     *
-     * @param t
-     * @param field 脱敏字段--仅支持第一层脱敏
-     * @param <T>
-     * @return
-     */
-    public static <T> Map<String, Object> objectToMap(T t, String... field) {
-        if (Objects.isNull(t)) {
-            return Collections.emptyMap();
-        }
-        try {
-            Map<String, Object> params = Maps.newHashMap();
-            //反射获取request属性，构造入参
-            Class<?> aClass = Class.forName(t.getClass().getName());
-            Field[] fields = aClass.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++) {
-                Field f = fields[i];
-                f.setAccessible(true);
-                String name = f.getName();
-                Object value = f.get(t);
-                if (isFinal(value)) {
-                    continue;
-                }
-                if (Arrays.asList(field).contains(name)) {
-                    params.put(name, AttributeInfo.PLACE_HOLDER);
-                } else {
-                    params.put(name, value);
-                }
-            }
-            return params;
-        } catch (Exception ex) {
-            logger.error(PrintExceptionInfo.printErrorInfo(ex));
-        }
-        return Collections.emptyMap();
-    }
-
 }

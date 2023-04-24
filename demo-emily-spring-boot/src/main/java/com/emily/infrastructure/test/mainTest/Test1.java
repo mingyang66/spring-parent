@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
@@ -47,8 +48,8 @@ public class Test1 {
         job.setId(1234L);
         user.setJob(job);
 
-        Map<String, Object> paramMap = RequestHelper.objectToMap(user, "username");
-        System.out.println(JSONUtils.toJSONPrettyString(paramMap));
+        User user1 = DeSensitiveUtils.acquire(user);
+        System.out.println(JSONUtils.toJSONPrettyString(user1));
         //Converter.
         //ConversionService
 

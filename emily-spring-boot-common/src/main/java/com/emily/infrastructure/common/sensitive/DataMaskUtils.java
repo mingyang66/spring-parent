@@ -17,7 +17,7 @@ public class DataMaskUtils {
      */
     public static String chineseName(final String fullName) {
         if (StringUtils.isBlank(fullName)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         final String name = StringUtils.left(fullName, 1);
         return StringUtils.rightPad(name, StringUtils.length(fullName), "*");
@@ -28,7 +28,7 @@ public class DataMaskUtils {
      */
     public static String chineseName(final String familyName, final String givenName) {
         if (StringUtils.isBlank(familyName) || StringUtils.isBlank(givenName)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return chineseName(familyName + givenName);
     }
@@ -38,7 +38,7 @@ public class DataMaskUtils {
      */
     public static String idCardNum(final String id) {
         if (StringUtils.isBlank(id)) {
-            return "";
+            return StringUtils.EMPTY;
         }
 
         return StringUtils.left(id, 3).concat(StringUtils
@@ -51,7 +51,7 @@ public class DataMaskUtils {
      */
     public static String fixedPhone(final String num) {
         if (StringUtils.isBlank(num)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*");
     }
@@ -74,7 +74,7 @@ public class DataMaskUtils {
      */
     public static String mobilePhone(final String num) {
         if (StringUtils.isBlank(num)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return StringUtils.left(num, 2).concat(StringUtils
                 .removeStart(StringUtils.leftPad(StringUtils.right(num, 2), StringUtils.length(num), "*"),
@@ -89,7 +89,7 @@ public class DataMaskUtils {
      */
     public static String address(final String address, final int sensitiveSize) {
         if (StringUtils.isBlank(address)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         final int length = StringUtils.length(address);
         return StringUtils.rightPad(StringUtils.left(address, length - sensitiveSize), length, "*");
@@ -100,7 +100,7 @@ public class DataMaskUtils {
      */
     public static String email(final String email) {
         if (StringUtils.isBlank(email)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         final int index = StringUtils.indexOf(email, "@");
         if (index <= 1) {
@@ -116,7 +116,7 @@ public class DataMaskUtils {
      */
     public static String bankCard(final String cardNum) {
         if (StringUtils.isBlank(cardNum)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return StringUtils.left(cardNum, 6).concat(StringUtils.removeStart(
                 StringUtils.leftPad(StringUtils.right(cardNum, 4), StringUtils.length(cardNum), "*"),
@@ -128,7 +128,7 @@ public class DataMaskUtils {
      */
     public static String bankCode(final String code) {
         if (StringUtils.isBlank(code)) {
-            return "";
+            return StringUtils.EMPTY;
         }
         return StringUtils.rightPad(StringUtils.left(code, 2), StringUtils.length(code), "*");
     }

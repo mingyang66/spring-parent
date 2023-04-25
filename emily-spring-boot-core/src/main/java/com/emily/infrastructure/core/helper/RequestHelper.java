@@ -208,12 +208,13 @@ public class RequestHelper {
             Parameter parameter = parameters[i];
             String name = parameter.getName();
             Object value = args[i];
+            if (Objects.isNull(value)) {
+                paramMap.put(name, null);
+            }
             if (checkServletStream(value)) {
                 continue;
             }
-            if (Objects.isNull(value)) {
-                paramMap.put(name, null);
-            } else if (value instanceof String) {
+            if (value instanceof String) {
                 if (parameter.isAnnotationPresent(JsonSimField.class)) {
                     paramMap.put(name, DataMaskUtils.doGetProperty((String) value, parameter.getAnnotation(JsonSimField.class).value()));
                 } else {
@@ -230,19 +231,12 @@ public class RequestHelper {
      * 是否继续下一步
      *
      * @param value 对象值
-     * @return
+     * @return 校验参数类型是否需要处理
      */
     protected static boolean checkServletStream(Object value) {
-        if (value instanceof HttpServletRequest) {
-            return true;
-        } else if (value instanceof HttpServletResponse) {
-            return true;
-        } else if (value instanceof InputStreamSource) {
-            //MultipartFile是InputStreamSource的实现类
-            return true;
-        } else {
-            return false;
-        }
+        return (value instanceof HttpServletRequest)
+                || (value instanceof HttpServletResponse)
+                || (value instanceof InputStreamSource);
     }
 
 }

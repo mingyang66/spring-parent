@@ -11,13 +11,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
+
 /**
- * @Description Swagger配置
- * @ProjectName com.eastmoney.emis.simpletemplate
- * @Package
- * @Author 韩庆瑞
- * @Date 2019/08/12 16:00
- * @Version 1.0
+ * @author yaomingyang
  */
 @Configuration
 @EnableSwagger2WebMvc

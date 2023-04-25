@@ -24,7 +24,13 @@ public class ResponseWrapperProperties {
     /**
      * 忽略包装指定URL
      */
-    private Set<String> exclude = new HashSet<>();
+    private Set<String> exclude = new HashSet<>() {{
+        add("/swagger-resources/**");
+        add("/v2/api-docs");
+        add("/swagger-ui.html");
+        add("/oauth/token");
+        add("/error");
+    }};
 
     public boolean isEnabled() {
         return enabled;

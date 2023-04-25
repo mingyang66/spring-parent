@@ -5,12 +5,12 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>com.emily.infrastructure</groupId>
-        <version>4.1.9</version>
+        <version>4.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>demo-emily-spring-boot</artifactId>
-    <version>4.1.9</version>
+    <version>4.2.0</version>
     <name>demo-emily-spring-boot</name>
     <!--    <properties>
             <start-class>com.emily.infrastructure.test.TestBootStrap</start-class>
@@ -19,22 +19,22 @@
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>4.1.9</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>4.1.9</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
-            <version>4.1.9</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>
             <artifactId>emily-spring-boot-rabbitmq</artifactId>
-            <version>4.1.9</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
@@ -67,6 +67,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <version>4.1.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>demo</finalName>
@@ -85,6 +90,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>

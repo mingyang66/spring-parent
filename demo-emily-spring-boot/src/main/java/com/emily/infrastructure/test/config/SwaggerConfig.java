@@ -24,7 +24,7 @@ public class SwaggerConfig {
                 .apiInfo(createApiInfo())
                 .enable(true)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.eastmoney.emis.boot.demo.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.emily.infrastructure.test.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.controller.route;
+package com.emily.infrastructure.test.config.route;
 
 import com.google.common.collect.Maps;
 

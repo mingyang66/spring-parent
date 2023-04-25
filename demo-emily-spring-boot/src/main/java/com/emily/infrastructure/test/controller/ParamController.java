@@ -1,6 +1,8 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.common.sensitive.JsonSimField;
+import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
 import org.springframework.validation.annotation.Validated;
@@ -48,7 +50,7 @@ public class ParamController {
     }
 
     @GetMapping("getParam")
-    public String getParam(@NotEmpty(message = "用户名不可为空") String username) {
+    public String getParam(@NotEmpty(message = "用户名不可为空") @JsonSimField(SensitiveType.USERNAME) String username) {
         return username;
     }
 

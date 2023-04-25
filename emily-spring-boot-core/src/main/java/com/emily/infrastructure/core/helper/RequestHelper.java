@@ -3,9 +3,7 @@ package com.emily.infrastructure.core.helper;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JSONUtils;
-import com.emily.infrastructure.common.object.ParamNameUtils;
 import com.emily.infrastructure.common.sensitive.DataMaskUtils;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
@@ -23,9 +21,7 @@ import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 /**
@@ -199,49 +195,35 @@ public class RequestHelper {
      * 获取方法参数，支持指定字段脱敏处理
      *
      * @param invocation
-     * @param field      脱敏字段
      * @return
      */
-    public static Map<String, Object> getMethodArgs(MethodInvocation invocation, String... field) {
-        try {
-            Method method = invocation.getMethod();
-            Map<String, Object> paramMap = Maps.newHashMap();
-            List<String> list = ParamNameUtils.getParamNames(method);
-            Annotation[][] annotations = method.getParameterAnnotations();
-            Object[] obj = invocation.getArguments();
-            for (int i = 0; i < list.size(); i++) {
-                String name = list.get(i);
-                Object value = obj[i];
-                if (isFinal(value)) {
-                    continue;
-                }
-                if (Arrays.asList(field).contains(name)) {
-                    paramMap.put(name, AttributeInfo.PLACE_HOLDER);
-                } else if (value instanceof String) {
-                    // 控制器方法参数为字符串并且标记了注解
-                    //是否已添加参数
-                    boolean flag = true;
-                    for (int j = 0; j < annotations[i].length; j++) {
-                        Annotation annotation = annotations[i][j];
-                        if (annotation instanceof JsonSimField) {
-                            JsonSimField sensitive = (JsonSimField) annotation;
-                            paramMap.put(name, DataMaskUtils.doGetProperty((String) value, sensitive.value()));
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        paramMap.put(name, value);
-                    }
-                } else {
-                    paramMap.put(name, SensitiveUtils.acquire(value));
-                }
-            }
-            return paramMap;
-        } catch (Exception e) {
-            logger.error(PrintExceptionInfo.printErrorInfo(e));
+    public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
+        if (invocation.getArguments().length == 0) {
+            return Collections.emptyMap();
         }
-        return Collections.emptyMap();
+        Object[] args = invocation.getArguments();
+        Parameter[] parameters = invocation.getMethod().getParameters();
+        Map<String, Object> paramMap = Maps.newLinkedHashMap();
+        for (int i = 0; i < parameters.length; i++) {
+            Parameter parameter = parameters[i];
+            String name = parameter.getName();
+            Object value = args[i];
+            if (checkServletStream(value)) {
+                continue;
+            }
+            if (Objects.isNull(value)) {
+                paramMap.put(name, null);
+            } else if (value instanceof String) {
+                if (parameter.isAnnotationPresent(JsonSimField.class)) {
+                    paramMap.put(name, DataMaskUtils.doGetProperty((String) value, parameter.getAnnotation(JsonSimField.class).value()));
+                } else {
+                    paramMap.put(name, value);
+                }
+            } else {
+                paramMap.put(name, SensitiveUtils.acquire(value));
+            }
+        }
+        return paramMap;
     }
 
     /**
@@ -250,10 +232,8 @@ public class RequestHelper {
      * @param value 对象值
      * @return
      */
-    private static boolean isFinal(Object value) {
-        if (Objects.isNull(value)) {
-            return false;
-        } else if (value instanceof HttpServletRequest) {
+    protected static boolean checkServletStream(Object value) {
+        if (value instanceof HttpServletRequest) {
             return true;
         } else if (value instanceof HttpServletResponse) {
             return true;

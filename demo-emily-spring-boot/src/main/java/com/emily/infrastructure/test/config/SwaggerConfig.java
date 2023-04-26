@@ -37,4 +37,24 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
+
+    @Bean
+    public Docket docketPlugin() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .enable(true)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("Plugin API文档")
+                        .description("交易中台账户模块")
+                        .termsOfServiceUrl("https://github.com/mingyang66/spring-parent")
+                        .contact(new Contact("Emily", "https://github.com/mingyang66/spring-parent", "mingyangsky@foxmail.com"))
+                        .version("v1.0.0")
+                        .license("Apache2.0")
+                        .licenseUrl("http://www,apache.org/licenses/LICENSE-2.0")
+                        .build())
+                .groupName("插件Plugin")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.emily.infrastructure.test.plugin.controller"))
+                .paths(PathSelectors.any())
+                .build();
+    }
 }

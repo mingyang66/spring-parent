@@ -9,7 +9,7 @@ import com.emily.infrastructure.test.po.i18n.Teacher;
 
 /**
  * @Description :  多语言测试
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2023/4/17 3:36 PM
  */
 public class I18nTest {

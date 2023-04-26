@@ -2,6 +2,7 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.date.DateFormatType;
 import com.emily.infrastructure.common.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponseBuilder;
 import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
@@ -53,7 +54,7 @@ public class SensitiveController {
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);
-        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(BaseResponse.build(response));
+        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(new BaseResponseBuilder<JsonResponse>().data(response).build());
         //return list;
         return DeSensitiveUtils.acquire(list);
     }
@@ -74,7 +75,7 @@ public class SensitiveController {
         response.job = job;
         response.jobs = new PubResponse.Job[]{job};
         response.jobList = Arrays.asList(job);
-        BaseResponse<PubResponse> r = BaseResponse.build(response);
+        BaseResponse<PubResponse> r = new BaseResponseBuilder<PubResponse>().data(response).build();
         //return r;
         return DeSensitiveUtils.acquire(r);
     }

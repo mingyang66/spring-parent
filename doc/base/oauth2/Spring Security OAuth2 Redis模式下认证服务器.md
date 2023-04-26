@@ -1277,6 +1277,7 @@ be171b573f5a496ca601b32b1360fe84
 * OAuth2AccessToken接口的默认实现是DefaultOAuth2AccessToken类（自带过期时间属性）
 * OAuth2RefreshToken接口的默认实现是DefaultOAuth2RefreshToken类（不带过期时间属性）
 *
+
 ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2RefreshToken的默认实现是DefaultExpiringOAuth2RefreshToken（自带过期时间属性）
 
 #### 2.当前demo是使用自定义方式来实现access_token和refresh_token的生成，看如下代码：
@@ -1461,7 +1462,7 @@ ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2R
 
 经测试上面的方案完美解决自定义token生成refresh_token永不过期问题。。。
 
-###  
+###   
 
  ***
 
@@ -1543,7 +1544,9 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 #### 1.先看下官方文档的说明
 
 *
+
 地址：[https://projects.spring.io/spring-security-oauth/docs/oauth2.html](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
+
 * scope: The scope to which the client is limited. If scope is undefined or empty (the default) the client is not
   limited by scope.
 * 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围

@@ -24,7 +24,8 @@ public class People {
 ```
 
 > 前端传递过来的参数是{"USERNAME":"123"
-> }可以将json字符串反序列化为People实体类，并将属性USERNAME得值反序列化为username的值；但是此时如果将People实体对象序列化为json字符串，字符串结果为{"
+>
+}可以将json字符串反序列化为People实体类，并将属性USERNAME得值反序列化为username的值；但是此时如果将People实体对象序列化为json字符串，字符串结果为{"
 > USERNAME":"123"},这个应该不是我们想要的结果，我们想要的结果是{"username":"123"},那这样如何实现呢？看下面示例：
 
 ```java

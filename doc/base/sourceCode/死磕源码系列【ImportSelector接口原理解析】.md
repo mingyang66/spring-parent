@@ -242,6 +242,7 @@ AutoConfigurationGroup是一个静态内部类，实现了DeferredImportSelector
 ```
 
 -
+
 AutoConfigurationImportSelector#getCandidateConfigurations方法用于获取spring.factories配置文件中的配置类（其实际获取是直接从SpringFactoriesLoader类中的cache获取的，已经在初始化器阶段加载到缓存中了）：
 
 ```java

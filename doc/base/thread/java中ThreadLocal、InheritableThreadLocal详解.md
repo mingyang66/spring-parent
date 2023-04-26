@@ -375,7 +375,5 @@ public class Test {
 可以看到在运行线程2之前会修改InheritableThreadLocal内部存的值，但是在线程池内部获取值还是原来的，这其实又涉及到了线程池等会池化复用线程情况下，提供ThreadLocal值传递问题，推荐使用阿里开源的TTLhttps:
 //github.com/alibaba/transmittable-thread-local
 
-
-
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)
 

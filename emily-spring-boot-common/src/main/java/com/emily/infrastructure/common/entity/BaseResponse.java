@@ -1,8 +1,6 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.i18n.LanguageMap;
-import com.emily.infrastructure.common.utils.RequestUtils;
 
 import java.io.Serializable;
 
@@ -69,52 +67,5 @@ public class BaseResponse<T> implements Serializable {
 
     public void setSpentTime(long spentTime) {
         this.spentTime = spentTime;
-    }
-
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> build(int status, String message) {
-        return new BaseResponse<T>(status, message, null, RequestUtils.getSpentTime());
-    }
-
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> build(int status, String message, T data) {
-        return new BaseResponse<T>(status, message, data, RequestUtils.getSpentTime());
-    }
-
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> build(HttpStatusType appHttpStatus, T data) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), data, RequestUtils.getSpentTime());
-    }
-
-    /**
-     * @Description 创建响应对象
-     * @Date 2019/7/18 10:10
-     * @Version 1.0
-     */
-    public static <T> BaseResponse<T> build(HttpStatusType appHttpStatus) {
-        return new BaseResponse<>(appHttpStatus.getStatus(), appHttpStatus.getMessage(), null, RequestUtils.getSpentTime());
-    }
-
-    /**
-     * 创建响应数据对象
-     *
-     * @param data
-     * @param <T>
-     * @return
-     */
-    public static <T> BaseResponse<T> build(T data) {
-        return new BaseResponse<>(HttpStatusType.OK.getStatus(), HttpStatusType.OK.getMessage(), data, RequestUtils.getSpentTime());
     }
 }

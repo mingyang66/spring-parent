@@ -108,45 +108,45 @@ doInvoke方法源码：
 回调invokeAndHandle方法源码如下：
 
 ```java
-	/**
-	 * Invoke the method and handle the return value through one of the
-	 * configured {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
-	 * @param webRequest the current request
-	 * @param mavContainer the ModelAndViewContainer for this request
-	 * @param providedArgs "given" arguments matched by type (not resolved)
-	 */
-	public void invokeAndHandle(ServletWebRequest webRequest, ModelAndViewContainer mavContainer,
-			Object... providedArgs) throws Exception {
-		//调用父类InvocableHandlerMethod的回调方法，并返回调用接口控制器方法的返回结果
-		Object returnValue = invokeForRequest(webRequest, mavContainer, providedArgs);
-		setResponseStatus(webRequest);
+    /**
+ * Invoke the method and handle the return value through one of the
+ * configured {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
+ * @param webRequest the current request
+ * @param mavContainer the ModelAndViewContainer for this request
+ * @param providedArgs "given" arguments matched by type (not resolved)
+ */
+public void invokeAndHandle(ServletWebRequest webRequest,ModelAndViewContainer mavContainer,
+        Object...providedArgs)throws Exception{
+        //调用父类InvocableHandlerMethod的回调方法，并返回调用接口控制器方法的返回结果
+        Object returnValue=invokeForRequest(webRequest,mavContainer,providedArgs);
+        setResponseStatus(webRequest);
 
-		if (returnValue == null) {
-			if (isRequestNotModified(webRequest) || getResponseStatus() != null || mavContainer.isRequestHandled()) {
-				disableContentCachingIfNecessary(webRequest);
-				mavContainer.setRequestHandled(true);
-				return;
-			}
-		}
-		else if (StringUtils.hasText(getResponseStatusReason())) {
-			mavContainer.setRequestHandled(true);
-			return;
-		}
+        if(returnValue==null){
+        if(isRequestNotModified(webRequest)||getResponseStatus()!=null||mavContainer.isRequestHandled()){
+        disableContentCachingIfNecessary(webRequest);
+        mavContainer.setRequestHandled(true);
+        return;
+        }
+        }
+        else if(StringUtils.hasText(getResponseStatusReason())){
+        mavContainer.setRequestHandled(true);
+        return;
+        }
 
-		mavContainer.setRequestHandled(false);
-		Assert.state(this.returnValueHandlers != null, "No return value handlers");
-		try {
-      //将控制器返回的结果交给HandlerMethodReturnValueHandler来处理
-			this.returnValueHandlers.handleReturnValue(
-					returnValue, getReturnValueType(returnValue), mavContainer, webRequest);
-		}
-		catch (Exception ex) {
-			if (logger.isTraceEnabled()) {
-				logger.trace(formatErrorForReturnValue(returnValue), ex);
-			}
-			throw ex;
-		}
-	}
+        mavContainer.setRequestHandled(false);
+        Assert.state(this.returnValueHandlers!=null,"No return value handlers");
+        try{
+        //将控制器返回的结果交给HandlerMethodReturnValueHandler来处理
+        this.returnValueHandlers.handleReturnValue(
+        returnValue,getReturnValueType(returnValue),mavContainer,webRequest);
+        }
+        catch(Exception ex){
+        if(logger.isTraceEnabled()){
+        logger.trace(formatErrorForReturnValue(returnValue),ex);
+        }
+        throw ex;
+        }
+        }
 ```
 
 ##### 4.ConcurrentResultHandlerMethod类详解

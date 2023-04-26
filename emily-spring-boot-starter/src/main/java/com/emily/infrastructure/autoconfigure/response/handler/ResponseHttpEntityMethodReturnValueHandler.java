@@ -3,6 +3,7 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
 import com.emily.infrastructure.common.entity.BaseResponse;
+import com.emily.infrastructure.common.entity.BaseResponseBuilder;
 import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
@@ -56,8 +57,8 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (entity.getStatusCode().value() == HttpStatus.NOT_FOUND.value()) {
             String path = ((Map) body).get("path").toString();
-            BaseResponse responseData = BaseResponse.build(HttpStatus.NOT_FOUND.value(), StringUtils.join("接口【", path, "】不存在"));
-            proxyObject.handleReturnValue(ResponseEntity.ok(responseData), returnType, mavContainer, webRequest);
+            BaseResponse baseResponse = new BaseResponseBuilder<>().status(HttpStatus.NOT_FOUND.value()).message(StringUtils.join("接口【", path, "】不存在")).build();
+            proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
                 || pathMatcher.match(request.getRequestURI())) {
@@ -75,10 +76,10 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              */
             boolean flag = (type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class));
             if (flag) {
-                BaseResponse baseResponse = BaseResponse.build(HttpStatusType.OK);
+                BaseResponse baseResponse = new BaseResponseBuilder<>().status(HttpStatusType.OK.getStatus()).message(HttpStatusType.OK.getMessage()).build();
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.build(HttpStatusType.OK, body);
+                BaseResponse baseResponse = new BaseResponseBuilder<>().status(HttpStatusType.OK.getStatus()).message(HttpStatusType.OK.getMessage()).data(body).build();
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }
         }

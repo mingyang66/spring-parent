@@ -377,6 +377,7 @@ public class MetaDataProperties {
 ```
 
 -
+
 上一步我们生成了spring-configuration-metadata.json文件，但是文件中的hints提示属性为空，这就需要我们在META-INF目录下自定义一个additional-spring-configuration-metadata.json文件
 
 ```

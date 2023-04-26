@@ -2,14 +2,12 @@
 -----
 基础库发布4.2.1
 Bug Fixes
-
 1. springboot升级到2.7.11版本；
-2.
+2. 添加BaseResponse的建造器BaseResponseBuilder，替换SDK中所有基于BaseResponse构建对象方法；
 
 -----
 基础库发布4.2.0
 Bug Fixes
-
 1. I18n多语言支持翻译当前类中父类的属性;
 2. 脱敏工具类SensitiveUtils支持父类中的属性脱敏；
 3. I18n多语言翻译支持Collection、Map、Array存储的值为字符串；
@@ -26,7 +24,6 @@ Bug Fixes
 -----
 基础库发布4.1.9
 Bug Fixes
-
 1. 删除无用的openfeign引用；
 2. 删除RPC相关三个模块及依赖引用；
 3. 删除log4j多余模块；
@@ -42,9 +39,7 @@ Bug Fixes
 -----
 基础库发布4.1.8
 Bug Fixes
-
-1.
-DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
+1. DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
 2. springboot升级到2.7.8；
 3. 新增重新定义RequestMappingHandlerMapping路由映射组件，支持用户自定义扩展路由到指定的控制器；
 4. 优化全局过滤器自动化配置类；
@@ -248,9 +243,11 @@ Bug Fixes
 2. 优化Feign扩展点
 3. Mybatis方法请求参数优化调整，提取到公共获取参数类RequestHelper中；
 4.
+
 com.emily.infrastructure.core.config.properties.PropertyService,com.emily.infrastructure.core.config.ConfEnvironmentPostProcessor,
 com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emily.infrastructure.core.config.EmilyPropertiesPropertySourceLoader
 四个类删除；
+
 5. 上下文配置类名称变更，TraceContextHolder名称变更为ContextHolder;
 6. IOCContext类优化实现ApplicationContextInitializer初始化接口，删除自定义初始化类，调整IOCContext类包路径
 7. druid多数据源属性配置原理分析，添加多数据源守护线程

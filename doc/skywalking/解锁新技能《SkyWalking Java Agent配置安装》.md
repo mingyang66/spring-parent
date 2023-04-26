@@ -67,7 +67,8 @@ ENTRYPOINT ["java","-jar","emilyframework.jar"]
 ```
 
 > 核心是将FROM openjdk:11更换为FROM apache/skywalking-java-agent:
-> 8.7.0-jdk11，官网地址：https://skywalking.apache.org/docs/skywalking-java/latest/en/setup/service-agent/java-agent/containerization/#docker只提供了jdk8版本的配置可以通过skywalking-docker的配置说明推测到java11版本，官网地址：https://github.com/apache/skywalking-docker
+>
+8.7.0-jdk11，官网地址：https://skywalking.apache.org/docs/skywalking-java/latest/en/setup/service-agent/java-agent/containerization/#docker只提供了jdk8版本的配置可以通过skywalking-docker的配置说明推测到java11版本，官网地址：https://github.com/apache/skywalking-docker
 
 可以通过docker run传递参数更改指标收集地址值和服务名称：
 

@@ -6,7 +6,9 @@
 
 1. 连接池DruidDataSource支持新的配置connectTimeout和socketTimeout，分别都是10秒。这个默认值会减少因为网络丢包时导致的连接池无法创建链接。
 2.
+
 修复连接池DruidDataSource#handleFatalError方法判断是否关闭逻辑不对的问题 [#4724](https://github.com/alibaba/druid/pull/4724)
+
 3. 修复StatFilter统计Statement执行SQL只记录第一条SQL的问题 [#4921](https://github.com/alibaba/druid/issues/4921)
 4. 修复ParameterizedOutputVisitorUtils#restore结果不对的问题 [#4532](https://github.com/alibaba/druid/pull/4532)
 5. SQL Parser增强对PolarDB-X的支持 [#4927](https://github.com/alibaba/druid/issues/4927)

@@ -10,6 +10,7 @@ ConfigurationClassPostProcessor类是BeanFactory的一个后处理器类，因�
 - 项目中的bean是如何定位、加载、解析、注册到IOC容器之中的
 
 -
+
 自动化配置相关类是如何解析、注册到IOC容器中的，自动化配置类的定位加载可以参考：https://mingyang.blog.csdn.net/article/details/108681609
 
 - @EnableAutoConfiguration注解中的@Import是如何将AutoConfigurationImportSelector类定位、加载、解析、注册到IOC容器之中
@@ -153,6 +154,7 @@ ConfigurationClassPostProcessor类是BeanFactory的一个后处理器类，因�
   ```
 
 -
+
 checkConfigurationClassCandidate方法用来判定类是否是一个配置类，并为BeanDefinition设置full或者lite属性，如果配置类proxyBeanMethods属性为true,即开启了代理模式，则设置为full;如果添加了@Bean、@Component、@ComponentScan、@Import、@ImportResource注解则为lite;如果配置类上被@Order注解标注，则设置BeanDefinition的order属性值；
 
 ```java
@@ -224,6 +226,7 @@ checkConfigurationClassCandidate方法用来判定类是否是一个配置类，
 ```
 
 -
+
 processConfigurationClass方法使用递归的方法解析配置类，将配置类、@ComponmentScan扫描包下的bean、@Import引入的非DefferedImportedSelector类注册到IOC容器，源码如下；
 
 ```java

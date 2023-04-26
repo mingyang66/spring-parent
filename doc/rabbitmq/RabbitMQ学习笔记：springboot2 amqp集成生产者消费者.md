@@ -54,7 +54,7 @@ public class RabbitConfig {
      * 声明队列
      */
     @Bean
-    public Queue topicQueue(){
+    public Queue topicQueue() {
         Map<String, Object> args = Maps.newHashMap();
         /**
          * 设置消息发送到队列之后多久被丢弃，单位：毫秒
@@ -74,7 +74,7 @@ public class RabbitConfig {
      * 声明Topic类型交换器
      */
     @Bean
-    public TopicExchange topicExchange(){
+    public TopicExchange topicExchange() {
         TopicExchange exchange = new TopicExchange("test_exchange2");
         return exchange;
     }
@@ -84,7 +84,7 @@ public class RabbitConfig {
      * @return
      */
     @Bean
-    public Binding bindingTopicExchangeQueue(){
+    public Binding bindingTopicExchangeQueue() {
         return BindingBuilder.bind(topicQueue()).to(topicExchange()).with("*.topic.*");
     }
 }
@@ -128,16 +128,16 @@ public class RabbitSender {
          */
         @Override
         public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-            if(!ack){
+            if (!ack) {
                 //可以进行日志记录、异常处理、补偿处理等
-                System.err.println("异常ack-"+ack+",id-"+correlationData.getId()+",cause:"+cause);
-            }else {
+                System.err.println("异常ack-" + ack + ",id-" + correlationData.getId() + ",cause:" + cause);
+            } else {
                 //更新数据库，可靠性投递机制
-                System.out.println("正常ack-"+ack+",id-"+correlationData.getId());
-                try{
-                System.out.println(new String(correlationData.getReturnedMessage().getBody()));
+                System.out.println("正常ack-" + ack + ",id-" + correlationData.getId());
+                try {
+                    System.out.println(new String(correlationData.getReturnedMessage().getBody()));
 
-                } catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -157,15 +157,15 @@ public class RabbitSender {
          */
         @Override
         public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-            System.err.println("spring_returned_message_correlation:"+message.getMessageProperties().getHeaders().get(PublisherCallbackChannel.RETURNED_MESSAGE_CORRELATION_KEY)
-                                +"return exchange: " + exchange
-                                + ", routingKey: "+ routingKey
-                                + ", replyCode: " + replyCode
-                                + ", replyText: " + replyText
-                                + ",message:" + message);
+            System.err.println("spring_returned_message_correlation:" + message.getMessageProperties().getHeaders().get(PublisherCallbackChannel.RETURNED_MESSAGE_CORRELATION_KEY)
+                    + "return exchange: " + exchange
+                    + ", routingKey: " + routingKey
+                    + ", replyCode: " + replyCode
+                    + ", replyText: " + replyText
+                    + ",message:" + message);
             try {
                 System.out.println(new String(message.getBody()));
-            } catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -178,9 +178,9 @@ public class RabbitSender {
      * @param message 消息
      * @param properties
      */
-    public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties){
+    public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties) {
         try {
-            if(null == properties){
+            if (null == properties) {
                 properties = new MessageProperties();
             }
             /**
@@ -246,7 +246,7 @@ public class RabbitSender {
                     return message;
                 }
             }, correlationData);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -313,8 +313,8 @@ public class RabbitReceiver {
     @RabbitListener(queues = "test_queue2")
     public void onMessage(Channel channel, Message message) throws Exception {
         System.out.println("--------------------------------------");
-        System.out.println("消费端Payload: " + message.getPayload()+"-ID:"+message.getHeaders().getId()+"-messageId:"+message.getHeaders());
-        Long deliveryTag = (Long)message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
+        System.out.println("消费端Payload: " + message.getPayload() + "-ID:" + message.getHeaders().getId() + "-messageId:" + message.getHeaders());
+        Long deliveryTag = (Long) message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
         //手工ACK,获取deliveryTag
         channel.basicAck(deliveryTag, false);
     }
@@ -328,9 +328,9 @@ public class RabbitReceiver {
     @RabbitListener(queues = "test_queue2")
     public void onMessage(Channel channel, org.springframework.amqp.core.Message message) throws Exception {
         System.out.println("--------------------------------------");
-        System.out.println("消费端Payload: " + new String(message.getBody())+"-messageId:"+message.getMessageProperties().getMessageId());
-        message.getMessageProperties().getHeaders().forEach((key, value)->{
-            System.out.println("header=>>"+key+"="+value);
+        System.out.println("消费端Payload: " + new String(message.getBody()) + "-messageId:" + message.getMessageProperties().getMessageId());
+        message.getMessageProperties().getHeaders().forEach((key, value) -> {
+            System.out.println("header=>>" + key + "=" + value);
         });
         Long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手工ACK,获取deliveryTag
@@ -348,10 +348,10 @@ public class RabbitReceiver {
     //获取特定的消息
     @RabbitListener(queues = "test_queue2")
     //@RabbitHandler
-    public void handleMessage(Channel channel, @Payload byte[] body, @Header String amqp_messageId,  @Headers Map<String, Object> headers) throws Exception{
-        System.out.println("====消费消息===amqp_messageId:"+amqp_messageId);
-        headers.keySet().forEach((key)->{
-            System.out.println("header=>>"+key+"="+headers.get(key));
+    public void handleMessage(Channel channel, @Payload byte[] body, @Header String amqp_messageId, @Headers Map<String, Object> headers) throws Exception {
+        System.out.println("====消费消息===amqp_messageId:" + amqp_messageId);
+        headers.keySet().forEach((key) -> {
+            System.out.println("header=>>" + key + "=" + headers.get(key));
         });
         System.out.println(new String(body));
         Long deliveryTag = NumberUtils.toLong(headers.get("amqp_deliveryTag").toString());
@@ -370,10 +370,10 @@ public class RabbitReceiver {
      */
     @RabbitListener(queues = "test_queue2")
     //@RabbitHandler
-    public void handleMessage(Channel channel, @Payload byte[] body, MessageHeaders headers) throws Exception{
-        System.out.println("====消费消息===amqp_messageId:"+headers);
-        headers.keySet().forEach((key)->{
-            System.out.println("header=>>"+key+"="+headers.get(key));
+    public void handleMessage(Channel channel, @Payload byte[] body, MessageHeaders headers) throws Exception {
+        System.out.println("====消费消息===amqp_messageId:" + headers);
+        headers.keySet().forEach((key) -> {
+            System.out.println("header=>>" + key + "=" + headers.get(key));
         });
         System.out.println(new String(body));
         Long deliveryTag = NumberUtils.toLong(headers.get("amqp_deliveryTag").toString());

@@ -1,6 +1,7 @@
 ### 死磕源码系列【springboot之AutoConfigurationImportSelector#getExclusionFilter过滤器方法使用源码分析】
 
-AutoConfigurationImportSelector类是通过@EnableAutoConfiguration注解引入的，主要作用就是将自动化配置类加载到内存之中，除了这些还有一个强大的功能就是过滤掉不符合条件注解配置类；其中自动化配置类的过滤原理及流程已经分析过了，请参考：[死磕源码系列【springboot之OnClassCondition、OnBeanCondition、OnWebApplicationCondition条件注解源码解析】](https://mingyang.blog.csdn.net/article/details/110562664),本文只讲解基于AutoConfigurationImportSelector#getExclusionFilter过滤器的方法使用原理；
+AutoConfigurationImportSelector类是通过@EnableAutoConfiguration注解引入的，主要作用就是将自动化配置类加载到内存之中，除了这些还有一个强大的功能就是过滤掉不符合条件注解配置类；其中自动化配置类的过滤原理及流程已经分析过了，请参考：[死磕源码系列【springboot之OnClassCondition、OnBeanCondition、OnWebApplicationCondition条件注解源码解析】](https://mingyang.blog.csdn.net/article/details/110562664)
+,本文只讲解基于AutoConfigurationImportSelector#getExclusionFilter过滤器的方法使用原理；
 
 ```java
 	//函数式方法，验证指定的配置类是否符合条件

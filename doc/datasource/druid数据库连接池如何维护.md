@@ -1,6 +1,7 @@
 #### druid数据库连接池如何维护
 
-> druid如何维护线程池，其实是我在翻看源码过程中产生的一个疑问，在com.alibaba.druid.pool.DruidDataSource.DestroyTask守护线程中会调用shrink方法，在此方法中会对线程池中的线程有效性进行维护，对线程池中的线程进行keepAlive保活机制检查；
+>
+druid如何维护线程池，其实是我在翻看源码过程中产生的一个疑问，在com.alibaba.druid.pool.DruidDataSource.DestroyTask守护线程中会调用shrink方法，在此方法中会对线程池中的线程有效性进行维护，对线程池中的线程进行keepAlive保活机制检查；
 
 其中有一个变量checkCount，即当前需要检查剔除连接的数量：
 

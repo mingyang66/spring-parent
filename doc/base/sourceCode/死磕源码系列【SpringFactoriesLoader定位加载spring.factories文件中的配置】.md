@@ -1,6 +1,7 @@
 ### 死磕源码系列【SpringFactoriesLoader定位加载spring.factories文件中的配置】
 
-> META-INF/spring.factories文件对我们来说应该是最熟悉的了，如springboot开发自动化配置starter的时候配置类是要配置到这个文件后才能够实现自动的加载类到IOC容器之中；但是文件中的配置类是如何被定位、加载、初始化的呢？今天我们就来聊聊spring.factories文件定位、加载、实例化。
+>
+META-INF/spring.factories文件对我们来说应该是最熟悉的了，如springboot开发自动化配置starter的时候配置类是要配置到这个文件后才能够实现自动的加载类到IOC容器之中；但是文件中的配置类是如何被定位、加载、初始化的呢？今天我们就来聊聊spring.factories文件定位、加载、实例化。
 
 ##### 1.首先看下spring.factories文件中的配置示例
 

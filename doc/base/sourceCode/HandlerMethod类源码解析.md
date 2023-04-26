@@ -1,14 +1,10 @@
 ### HandlerMethod类源码解析
 
-
-
 > HandlerMethod类用于封装控制器方法信息，包含类信息、方法Method对象、参数、注解等信息，具体的接口请求是可以根据封装的信息调用具体的方法来执行业务逻辑；
 
 HandlerMethod有三个子类分别是InvocableHandlerMethod、ServletInvocableHandlerMethod、ConcurrentResultHandlerMethod，类的关系图如下：
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200605141632789.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70)
-
-
 
 ##### 1.HandlerMethod类源码详解
 
@@ -46,7 +42,9 @@ public class HandlerMethod {
 
 ##### 2.InvocableHandlerMethod类详解
 
-> InvocableHandlerMethod类是HandlerMethod的直接子类，该类中新增了对请求参数解析的参数解析程序，request请求时的回调方法invokeForRequest和doInvoke(建议阅读HandlerAdapter源码解析)
+>
+InvocableHandlerMethod类是HandlerMethod的直接子类，该类中新增了对请求参数解析的参数解析程序，request请求时的回调方法invokeForRequest和doInvoke(
+建议阅读HandlerAdapter源码解析)
 
 request请求会在RequestMappingHandlerAdapter类中的handleInternal方法进行回调，回调方法的源码如下：
 

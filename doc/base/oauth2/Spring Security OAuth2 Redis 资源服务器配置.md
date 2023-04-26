@@ -1,7 +1,9 @@
 # spring-parent
-###  Spring Security OAuth2 Redis 资源服务器配置
+
+### Spring Security OAuth2 Redis 资源服务器配置
 
 #### 1.资源服务器相关依赖
+
 ```
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -133,6 +135,7 @@ spring.redis.jedis.pool.max-active=8
 ***
 
 #### 4.资源控制器
+
 ```
 package com.yaomy.security.oauth2.api;
 
@@ -168,13 +171,14 @@ public class ResourceController {
 ### Spring Security OAuth2认证资源服务器异常处理
 
 #### 1.我们先看两个异常处理的接口
- - AuthenticationEntryPoint:用来解决匿名用户访问无权限资源时的异常,也就是跟token相关的资源异常
- - AccessDeniedHandler：用来解决认证过的用户访问无权限资源时的异常，主要跟权限控制相关
- 
+
+- AuthenticationEntryPoint:用来解决匿名用户访问无权限资源时的异常,也就是跟token相关的资源异常
+- AccessDeniedHandler：用来解决认证过的用户访问无权限资源时的异常，主要跟权限控制相关
+
  ***
- 
- #### 2.自定义AuthenticationEntryPoint异常处理类
- 
+
+#### 2.自定义AuthenticationEntryPoint异常处理类
+
  ```
  package com.yaomy.security.oauth2.handler;
  
@@ -205,6 +209,7 @@ public class ResourceController {
      }
  }
 ```
+
 ***
 
 #### 3.自定义AccessDeniedHandler接口实现类
@@ -303,6 +308,7 @@ public class BaseResponse {
     }
 }
 ```
+
 ***
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-redis-service)

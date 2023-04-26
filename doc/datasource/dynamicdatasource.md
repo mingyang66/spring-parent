@@ -1,8 +1,10 @@
 ### Springboot+mybatis+druid注解模式动态切换多数据源
 
->通常情况下一个项目里面只连接一个数据库就可以，但是也有很多种情况需要配置多个数据源的场景，本篇就讲解下使用spring boot、mybatis、druid配置多数据源的方式。
+> 通常情况下一个项目里面只连接一个数据库就可以，但是也有很多种情况需要配置多个数据源的场景，本篇就讲解下使用spring
+> boot、mybatis、druid配置多数据源的方式。
 
 #### 1.在pom文件中引入需要的依赖
+
 ```
  <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -28,8 +30,9 @@
             <version>12.1.0.2.0</version>
         </dependency>
  ```
- 
- #### 2.创建一个持有数据源上下文的DataSourceContextHolder类
+
+#### 2.创建一个持有数据源上下文的DataSourceContextHolder类
+
  ```
  package com.yaomy.control.aop.datasource;
  
@@ -94,9 +97,11 @@
      }
  }
 ```
->为了线程的安全使用ThreadLocal来存储数据源查找键（Look Up key）
+
+> 为了线程的安全使用ThreadLocal来存储数据源查找键（Look Up key）
 
 #### 3.多数据源实现类，该类需要继承AbstractRoutingDataSource抽象类来实现通过查找键（Look Up Key）动态的切换数据源
+
 ```
 package com.yaomy.control.aop.datasource;
 
@@ -166,6 +171,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 ```
 
 #### 4.定义动态切换的注解类TargetDataSource
+
 ```
 package com.yaomy.control.aop.annotation;
 
@@ -186,6 +192,7 @@ public @interface TargetDataSource {
 ```
 
 #### 5.上面几步把基础已经搭建完成了，这一步通过spring boot自带AOP接口MethodInterceptor进行动态的切换数据源
+
 ```
 package com.yaomy.control.aop.advice;
 
@@ -243,6 +250,7 @@ public class ControllerAdviceInterceptor implements MethodInterceptor {
 ```
 
 #### 6.启用注解模式多数据源要在启动类上引入sqlSessionTemplate
+
 ```
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = {"com.yaomy.control"})
@@ -253,7 +261,9 @@ public class HandlerBootStrap {
     }
 }
 ```
+
 #### 7.使用示例
+
 ```
 @Service
 @Transactional
@@ -274,7 +284,9 @@ public class JobServiceImpl implements JobService {
     }
 }
 ```
+
 看下打印日志如下：
+
 ```
 [2019-09-10 17:39:09.057] [000-exec-1] [INFO ] [c.y.c.t.serviceImpl.JobServiceImpl  :16  ] : 类|方法  ：class com.yaomy.control.test.serviceImpl.JobServiceImpl.findJob开始执行，切换数据源到【spring】
 

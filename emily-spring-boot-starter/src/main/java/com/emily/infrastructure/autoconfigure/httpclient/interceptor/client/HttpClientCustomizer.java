@@ -16,5 +16,6 @@ import java.io.IOException;
  */
 public interface HttpClientCustomizer extends ClientHttpRequestInterceptor, Ordered {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException;
+
     public int getOrder();
 }

@@ -1,7 +1,5 @@
 ### RabbitMQ学习笔记：centos7中操作rabbitmqctl指令the VM is running with native name encoding of latin1 which may cause Elixir to malfunction as it expects utf8
 
-
-
 ##### CentOS7中安装了rabbitmq，操作CLI工具时报如下错误：
 
 ```
@@ -19,8 +17,6 @@ export LC_ALL=en_US.UTF-8
 ```java
 source /etc/profile
 ```
-
-
 
 解决方案参考：[https://stackoverflow.com/questions/32407164/the-vm-is-running-with-native-name-encoding-of-latin1-which-may-cause-elixir-to](https://stackoverflow.com/questions/32407164/the-vm-is-running-with-native-name-encoding-of-latin1-which-may-cause-elixir-to)
 

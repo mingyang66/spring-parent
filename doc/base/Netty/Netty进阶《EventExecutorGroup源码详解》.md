@@ -210,16 +210,12 @@ public interface ScheduledExecutorService extends ExecutorService {
 }
 ```
 
-
-
 ##### 五、ScheduledExecutorService的子接口EventExecutorGroup
 
 EventExecutorGroup新增了三个方法：
 
 - isShuttingDown：当且仅当此EventExecutorGroup管理的所有EventExecutor正在正常关闭或已关闭时，返回true
 - shutdownGracefully：指定了超时时间的优雅关闭方法；
-
-
 
 源码参考：[https://github.com/mingyang66/SkyDb](https://github.com/mingyang66/SkyDb)
 

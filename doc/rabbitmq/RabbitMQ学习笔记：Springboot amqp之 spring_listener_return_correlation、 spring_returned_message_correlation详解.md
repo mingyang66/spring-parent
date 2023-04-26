@@ -16,8 +16,6 @@ spring.rabbitmq.publisher-returns=true
 spring.rabbitmq.template.mandatory=true
 ```
 
-
-
 ##### 2.发送消息到RabbitMQ消息服务器我们可以看到headers有两个属性
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191226174600463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taW5neWFuZy5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70)

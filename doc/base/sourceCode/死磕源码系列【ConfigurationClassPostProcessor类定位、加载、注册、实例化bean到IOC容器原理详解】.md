@@ -1,6 +1,7 @@
 ### 死磕源码系列【ConfigurationClassPostProcessor类定位、加载、注册、实例化bean到IOC容器原理详解】
 
-> ConfigurationClassPostProcessor类是BeanFactory的一个后处理器类，因此它的主要功能是参与BeanFactory的构建，这个类实现了BeanDefinitionRegistryPostProcessor接口，有两个核心实现方法postProcessBeanDefinitionRegistry（定位、加载、解析、注册相关注解，如：@Controller、@Service、@Component等注解类到IOC容器之中，自动化配置类的解析、注册）、postProcessBeanFactory（添加CGLIB增强处理及ImportAwareBeanPostProcessor后处理类）
+>
+ConfigurationClassPostProcessor类是BeanFactory的一个后处理器类，因此它的主要功能是参与BeanFactory的构建，这个类实现了BeanDefinitionRegistryPostProcessor接口，有两个核心实现方法postProcessBeanDefinitionRegistry（定位、加载、解析、注册相关注解，如：@Controller、@Service、@Component等注解类到IOC容器之中，自动化配置类的解析、注册）、postProcessBeanFactory（添加CGLIB增强处理及ImportAwareBeanPostProcessor后处理类）
 
 ##### 1.看到ConfigurationClassPostProcessor类我们应该想如下几个问题
 
@@ -8,11 +9,10 @@
 
 - 项目中的bean是如何定位、加载、解析、注册到IOC容器之中的
 
-- 自动化配置相关类是如何解析、注册到IOC容器中的，自动化配置类的定位加载可以参考：https://mingyang.blog.csdn.net/article/details/108681609
+-
+自动化配置相关类是如何解析、注册到IOC容器中的，自动化配置类的定位加载可以参考：https://mingyang.blog.csdn.net/article/details/108681609
 
 - @EnableAutoConfiguration注解中的@Import是如何将AutoConfigurationImportSelector类定位、加载、解析、注册到IOC容器之中
-
-  
 
 ##### 2.首先以BeanFactory后置处理器的postProcessBeanDefinitionRegistry方法为主线分析源码
 
@@ -34,7 +34,7 @@
   	}
   ```
 
-  进入processConfigBeanDefinitions方法，省略部分代码：
+进入processConfigBeanDefinitions方法，省略部分代码：
 
   ```java
   	public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
@@ -152,8 +152,8 @@
   	}
   ```
 
--   checkConfigurationClassCandidate方法用来判定类是否是一个配置类，并为BeanDefinition设置full或者lite属性，如果配置类proxyBeanMethods属性为true,即开启了代理模式，则设置为full;如果添加了@Bean、@Component、@ComponentScan、@Import、@ImportResource注解则为lite;如果配置类上被@Order注解标注，则设置BeanDefinition的order属性值；
-
+-
+checkConfigurationClassCandidate方法用来判定类是否是一个配置类，并为BeanDefinition设置full或者lite属性，如果配置类proxyBeanMethods属性为true,即开启了代理模式，则设置为full;如果添加了@Bean、@Component、@ComponentScan、@Import、@ImportResource注解则为lite;如果配置类上被@Order注解标注，则设置BeanDefinition的order属性值；
 
 ```java
 	public static boolean checkConfigurationClassCandidate(
@@ -223,7 +223,8 @@
 	}
 ```
 
-- processConfigurationClass方法使用递归的方法解析配置类，将配置类、@ComponmentScan扫描包下的bean、@Import引入的非DefferedImportedSelector类注册到IOC容器，源码如下；
+-
+processConfigurationClass方法使用递归的方法解析配置类，将配置类、@ComponmentScan扫描包下的bean、@Import引入的非DefferedImportedSelector类注册到IOC容器，源码如下；
 
 ```java
 protected void processConfigurationClass(ConfigurationClass configClass, Predicate<String> filter) throws IOException {
@@ -425,8 +426,6 @@ private void processImports(ConfigurationClass configClass, SourceClass currentS
 		}
 ```
 
-
-
 ###### 2.2核心方法deferredImportSelectorHandler（此处是对自动化配置类进行操作的入口）
 
 ```java
@@ -491,7 +490,5 @@ private void processImports(ConfigurationClass configClass, SourceClass currentS
 			return this.group.selectImports();
 		}
 ```
-
-
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

@@ -17,7 +17,8 @@ ch.queueDeclare("my-priority-queue", true, false, false, args);
 
 ##### 声明优先级消息
 
-> 消息优先级priority字段定义为一个无符号byte,所以实际的优先级应该在0到255之间；消息如果没有设置priority优先级字段，那么priority字段值默认为0；如果优先级队列priority属性被设置为比x-max-priority大，那么priority的值被设置为x-max-priority的值。
+>
+消息优先级priority字段定义为一个无符号byte,所以实际的优先级应该在0到255之间；消息如果没有设置priority优先级字段，那么priority字段值默认为0；如果优先级队列priority属性被设置为比x-max-priority大，那么priority的值被设置为x-max-priority的值。
 
 ```java
 AMQP.BasicProperties.Builder properties = MessageProperties.PERSISTENT_TEXT_PLAIN.builder();
@@ -42,11 +43,7 @@ channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (prio
 
 了解消费者在处理优先级队列时的工作方式很重要。默认情况下，用户在确认任何消息之前可能会收到大量消息，仅受网络压力的限制。
 
-
-
 因此如果这样一个饥渴的消费者连接到一个空队列，消息随后将被发布到该队列，则消息可能根本不会在队列中等待任何时间。在这种情况下，优先级队列将没有机会对它们进行优先级排序。
-
-
 
 在大多数情况下，你需要在用户的手动确认模式下使用basic.qos方法，以限制可以随时发送的消息数量，从而允许对消息进行优先级排序
 
@@ -54,11 +51,7 @@ channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, true, properties.build(), (prio
 
 一般来说，优先级队列具有标准RabbitMQ队列的所有特性，他们支持持久化，分页、镜像等等。
 
-
-
 应该过期的消息仍然只会从队列的头过期，这意味着，与普通队列不同，即使每个队列设置TTL也会导致过期的低优先级消息卡在未过期高优先级消息后面。这些消息将永远不会被传递，但他们将出现在队列统计信息中。
-
-
 
 设置了最大长度的队列将像其它队列一样，从队列头部丢弃消息以强制执行该限制。这意味着高优先级的消息可能会被丢弃，以便为低优先级的消息让路，这可能不是你所期望的。
 

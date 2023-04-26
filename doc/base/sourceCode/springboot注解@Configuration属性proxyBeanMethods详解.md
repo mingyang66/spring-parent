@@ -1,7 +1,5 @@
 ### springboot注解@Configuration属性proxyBeanMethods详解
 
-
-
 > proxyBeanMethods属性默认值是true,也就是说该配置类会被代理（CGLIB），在同一个配置文件中调用其它被@Bean注解标注的方法获取对象时会直接从IOC容器之中获取；
 
 ##### 1.看下源码注解

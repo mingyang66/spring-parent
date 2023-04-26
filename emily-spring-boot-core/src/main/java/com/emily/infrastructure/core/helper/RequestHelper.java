@@ -41,7 +41,7 @@ public class RequestHelper {
      * @return
      */
     public static Map<String, Object> getApiArgs(MethodInvocation invocation) {
-        if (RequestUtils.isServletContext()) {
+        if (RequestUtils.isServlet()) {
             return getArgs(invocation, RequestUtils.getRequest());
         }
         return Collections.emptyMap();
@@ -53,7 +53,7 @@ public class RequestHelper {
      * @return
      */
     public static Map<String, Object> getApiArgs(HttpServletRequest request) {
-        if (RequestUtils.isServletContext()) {
+        if (RequestUtils.isServlet()) {
             return getArgs(null, request);
         }
         return Collections.emptyMap();

@@ -2,7 +2,9 @@
 
 一、ThreadLocal介绍
 
-> ​		在多线程环境下访问同一个线程的时候会出现并发问题，特别是多个线程同时对一个变量进行写入操作时，为了保证线程的安全，通常会进行加锁来保证线程的安全，但是加锁又会造成效率的降低；ThreadLocal是jdk提供的除了加锁之外保证线程安全的方法，其实现原理是在Thread类中定义了两个ThreadLocalMap类型变量threadLocals、inheritableThreadLocals用来存储当前操作的ThreadLocal的引用及变量对象，这样就可以把当前线程的变量和其他的线程的变量之间进行隔离，从而实现了线程的安全性。
+> ​
+>
+在多线程环境下访问同一个线程的时候会出现并发问题，特别是多个线程同时对一个变量进行写入操作时，为了保证线程的安全，通常会进行加锁来保证线程的安全，但是加锁又会造成效率的降低；ThreadLocal是jdk提供的除了加锁之外保证线程安全的方法，其实现原理是在Thread类中定义了两个ThreadLocalMap类型变量threadLocals、inheritableThreadLocals用来存储当前操作的ThreadLocal的引用及变量对象，这样就可以把当前线程的变量和其他的线程的变量之间进行隔离，从而实现了线程的安全性。
 
 ##### 二、ThreadLocal的简单示例
 
@@ -63,7 +65,8 @@ Thread类有两个变量threadLocals和inheritableThreadLocals，这两个变量
     ThreadLocal.ThreadLocalMap inheritableThreadLocals = null;
 ```
 
-> 每个线程的变量不是存放在ThreadLocal类中，都是存放在当前线程的变量之中，也就是说存放在当前线程的上下文空间中，其线程本身相当于变量的一个承载工具，通过set方法将变量添加到线程的threadLocals变量中，通过get方法能够从它的threadLocals变量中获取变量。如果线程一直不终止，那么这个本地变量将会一直存放在它的threadLocals变量中，所以可以通过remove方法删除本地变量。
+>
+每个线程的变量不是存放在ThreadLocal类中，都是存放在当前线程的变量之中，也就是说存放在当前线程的上下文空间中，其线程本身相当于变量的一个承载工具，通过set方法将变量添加到线程的threadLocals变量中，通过get方法能够从它的threadLocals变量中获取变量。如果线程一直不终止，那么这个本地变量将会一直存放在它的threadLocals变量中，所以可以通过remove方法删除本地变量。
 
 - set方法
 
@@ -102,7 +105,6 @@ Thread类有两个变量threadLocals和inheritableThreadLocals，这两个变量
       }
   ```
 
-  
 
 - get方法
 
@@ -183,11 +185,10 @@ Thread类有两个变量threadLocals和inheritableThreadLocals，这两个变量
         }
 ```
 
-
-
 ##### 四、ThreadLocal不支持继承性
 
-​		在同一个ThreadLocal变量在父线程中被设置值之后，在子线程中是获取不到的（由二中的实例输出可以看出），threadLocals中为当前调用线程的本地变量，所以子线程是无法获取父线程的变量的；一开始我们介绍的时候说Thread类中还有一个inheritableThreadLocals变量，其值是存储的子线程的变量，所以可以通过InheritableThreadLocal类获取父线程的变量；
+​
+在同一个ThreadLocal变量在父线程中被设置值之后，在子线程中是获取不到的（由二中的实例输出可以看出），threadLocals中为当前调用线程的本地变量，所以子线程是无法获取父线程的变量的；一开始我们介绍的时候说Thread类中还有一个inheritableThreadLocals变量，其值是存储的子线程的变量，所以可以通过InheritableThreadLocal类获取父线程的变量；
 
 ##### 五、InheritableThreadLocal类源码简介
 
@@ -308,7 +309,8 @@ public class InheritableThreadLocal<T> extends ThreadLocal<T> {
     }
 ```
 
-> InheritableThreadLocal类通过重写方法在调用get、set方法的时候会调用重写的方法，调用方法时会对线程的inheritableThreadLocals变量进行初始化，在对子线程进行初始化的时候会将子线程的inheritableThreadLocals变量赋值为父线程的inheritableThreadLocals变量值，这样就实现了子线程继承父线程问题。
+>
+InheritableThreadLocal类通过重写方法在调用get、set方法的时候会调用重写的方法，调用方法时会对线程的inheritableThreadLocals变量进行初始化，在对子线程进行初始化的时候会将子线程的inheritableThreadLocals变量赋值为父线程的inheritableThreadLocals变量值，这样就实现了子线程继承父线程问题。
 
 ##### 六、拓展ThreadLocal使用不当引起的内存泄漏问题
 
@@ -337,7 +339,8 @@ ThreadLocalMap的内部实现实际上是一个Entry集合，Entry类继承了We
 Thread->ThreadLocalMap->Entry->value
 ```
 
-> 弱引用会在没有强引用的情况下在下次GC的时候自动的回收掉，每次使用完后要记得主动的调用remove方法，而且ThreadLocal每次调用get、set、remove的时候都会直接或者间接的调用expungeStaleEntry方法清除掉key为null的Entry，从而避免了内存泄漏。
+>
+弱引用会在没有强引用的情况下在下次GC的时候自动的回收掉，每次使用完后要记得主动的调用remove方法，而且ThreadLocal每次调用get、set、remove的时候都会直接或者间接的调用expungeStaleEntry方法清除掉key为null的Entry，从而避免了内存泄漏。
 
 七、拓展InheritableThreadLocal类子线程使用线程池更改存储变量值不变问题
 
@@ -368,7 +371,9 @@ public class Test {
 子线程：pool-1-thread-1:主线程1。。。
 ```
 
-> 可以看到在运行线程2之前会修改InheritableThreadLocal内部存的值，但是在线程池内部获取值还是原来的，这其实又涉及到了线程池等会池化复用线程情况下，提供ThreadLocal值传递问题，推荐使用阿里开源的TTLhttps://github.com/alibaba/transmittable-thread-local
+>
+可以看到在运行线程2之前会修改InheritableThreadLocal内部存的值，但是在线程池内部获取值还是原来的，这其实又涉及到了线程池等会池化复用线程情况下，提供ThreadLocal值传递问题，推荐使用阿里开源的TTLhttps:
+//github.com/alibaba/transmittable-thread-local
 
 
 

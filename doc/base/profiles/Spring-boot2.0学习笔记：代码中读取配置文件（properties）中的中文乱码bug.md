@@ -342,7 +342,8 @@ public class PropertiesPropertySourceLoader implements PropertySourceLoader {
 org.springframework.boot.env.PropertySourceLoader=PropertiesPropertySourceLoader
 ```
 
-> 两个类在同一个包下，并且PropertiesPropertySourceLoader类设置了@Order注解；原因是默认情况下系统自带的org.springframework.boot.env.PropertiesPropertySourceLoader类的优先级是2147483647，如果重构了类和项目在同一个项目的情况下，系统会加载的顺序是先加载自定义重构类再加载系统自带，这样在读取properties配置文件时优先使用自定义类；而如果是将自定义的类作为一个公用的jar包引入到系统中，加载顺序就会相反，所以需要使用@Order注解将优先级设置为高于系统自带的类；
+>
+两个类在同一个包下，并且PropertiesPropertySourceLoader类设置了@Order注解；原因是默认情况下系统自带的org.springframework.boot.env.PropertiesPropertySourceLoader类的优先级是2147483647，如果重构了类和项目在同一个项目的情况下，系统会加载的顺序是先加载自定义重构类再加载系统自带，这样在读取properties配置文件时优先使用自定义类；而如果是将自定义的类作为一个公用的jar包引入到系统中，加载顺序就会相反，所以需要使用@Order注解将优先级设置为高于系统自带的类；
 
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/doc/profiles](https://github.com/mingyang66/spring-parent/tree/master/doc/profiles)

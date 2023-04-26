@@ -1,8 +1,7 @@
 ### Maven Wrapper插件安装使用
 
-Maven Wrapper是一个maven插件，用于封装提供maven项目构建时所需的一切；使用maven wrapper就可以很好的确保所有参与项目者使用相同的maven版本，同时还不会影响其它项目；安装成功后会在项目中出现mvnw命令，是mvn的替代。
-
-
+Maven Wrapper是一个maven插件，用于封装提供maven项目构建时所需的一切；使用maven
+wrapper就可以很好的确保所有参与项目者使用相同的maven版本，同时还不会影响其它项目；安装成功后会在项目中出现mvnw命令，是mvn的替代。
 
 官方网站：https://github.com/takari/maven-wrapper
 
@@ -18,7 +17,8 @@ mvn -N io.takari:maven:0.7.7:wrapper -Dmaven=3.6.3
 https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.6.3/apache-maven-3.6.3-bin.zip
 ```
 
-如果下载缓慢或者下载不下来可以指定本地路径，找到项目中.mvn/wrapper/maven-wrapper.properties文件，修改distributionUrl属性为(mac)：
+如果下载缓慢或者下载不下来可以指定本地路径，找到项目中.mvn/wrapper/maven-wrapper.properties文件，修改distributionUrl属性为(
+mac)：
 
 ```
 distributionUrl=file:////Users/xxx/Documents/IDE/apache-maven-wrapper/apache-maven-3.6.3-bin.zip

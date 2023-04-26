@@ -246,7 +246,10 @@ public static final AnnotationBeanNameGenerator IMPORT_BEAN_NAME_GENERATOR =
 	private boolean localBeanNameGeneratorSet = false;
 ```
 
-ConfigurationClassPostProcessor#setBeanNameGenerator方法设置自定义bean name生成器，这个setter通常只适用于将ConfigurationClassPostProcessor后处理器配置为XML中的独立bean定义，例如：不使用专用的AnnotatiionConfig*应用程序上下文或者<context:annotation-config>标签，针对应用程序上下文指定的任何bean名称生成器都将优先于此处的设置（此方法只适合Spring中通过xml配置的形式，springboot可以忽略）。
+ConfigurationClassPostProcessor#setBeanNameGenerator方法设置自定义bean
+name生成器，这个setter通常只适用于将ConfigurationClassPostProcessor后处理器配置为XML中的独立bean定义，例如：不使用专用的AnnotatiionConfig*
+应用程序上下文或者<context:annotation-config>
+标签，针对应用程序上下文指定的任何bean名称生成器都将优先于此处的设置（此方法只适合Spring中通过xml配置的形式，springboot可以忽略）。
 
 ```java
 	public void setBeanNameGenerator(BeanNameGenerator beanNameGenerator) {
@@ -286,7 +289,8 @@ public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
 
 ```
 
-到这里会有一个疑问内部自定义bean name生成策略bean org.springframework.context.annotation.internalConfigurationBeanNameGenerator（AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR）是如何注入到IOC容器之中的？那我们看下启动类SpringApplication#run方法，方法中内嵌prepareContext方法，prepareContext方法内嵌postProcessApplicationContext方法：
+到这里会有一个疑问内部自定义bean name生成策略bean
+org.springframework.context.annotation.internalConfigurationBeanNameGenerator（AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR）是如何注入到IOC容器之中的？那我们看下启动类SpringApplication#run方法，方法中内嵌prepareContext方法，prepareContext方法内嵌postProcessApplicationContext方法：
 
 ```java
 	protected void postProcessApplicationContext(ConfigurableApplicationContext context) {
@@ -299,7 +303,8 @@ public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
 	}
 ```
 
-此段代码我们看到了如何将bean name自定义生成策略注入到IOC容器之中，那么beanNameGenerator生成策略是如何获取呢？beanNameGenerator是SpringApplication类的一个属性，提供了setter方法：
+此段代码我们看到了如何将bean
+name自定义生成策略注入到IOC容器之中，那么beanNameGenerator生成策略是如何获取呢？beanNameGenerator是SpringApplication类的一个属性，提供了setter方法：
 
 ```
 	public void setBeanNameGenerator(BeanNameGenerator beanNameGenerator) {
@@ -334,7 +339,5 @@ public class MySelfBeanNameGenerator implements BeanNameGenerator {
     }
 }
 ```
-
-
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

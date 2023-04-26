@@ -24,10 +24,10 @@ docker run -d --privileged=true --hostname rabbit2 --name centos8 -p 15673:15672
 docker run -d --privileged=true --hostname rabbit3 --name centos9 -p 15674:15672 -p 5674:5672 -p 4364:4369 -p 25674:25672 -p 15694:15692 --link centos7:rabbit1 --link centos8:rabbit2 -e TZ=Asia/Shanghai centos:7
 ```
 
- - 生产环境是直接部署在CentOS7上，上面的步骤可以直接忽略；
- - 15692端口是为rabbitmq-prometheus插件开放，如果没用到可以去掉；
- - -e TZ=Asia/Shanghai环境变量解决容器时间和系统时间不一致问题
- - -it参数会将当前终端连接到容器当中；-d参数启动容器，并在后台运行
+- 生产环境是直接部署在CentOS7上，上面的步骤可以直接忽略；
+- 15692端口是为rabbitmq-prometheus插件开放，如果没用到可以去掉；
+- -e TZ=Asia/Shanghai环境变量解决容器时间和系统时间不一致问题
+- -it参数会将当前终端连接到容器当中；-d参数启动容器，并在后台运行
 
 ## erlang安装
 
@@ -35,7 +35,7 @@ docker run -d --privileged=true --hostname rabbit3 --name centos9 -p 15674:15672
 
 ##### 1.从 https://github.com/rabbitmq/erlang-rpm 中可以查看到.repo的配置，选择如下版本
 
--  To use Erlang 22.x on CentOS 7: 
+- To use Erlang 22.x on CentOS 7:
 
 ```
 # In /etc/yum.repos.d/rabbitmq-erlang.repo
@@ -91,11 +91,10 @@ rpm -ivh erlang-21.2.4-1.el7.centos.x86_64.rpm  #安装erlang包
 ## RabbitMQ安装
 
 ##### 2.RabbitMQ下载，下载地址是
- https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.5 
+
+https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.5
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200618103939618.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200618103944331.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70)
-
-
 
 - 可以手动下载指定的版本然后再上传到CentOS7系统上的home目录下
 - 使用wget下载指定版本的rabbitmq到CentOS7系统上的home目录下
@@ -134,12 +133,14 @@ rabbitmq-plugins enable rabbitmq_management
 ```
 rabbitmq-plugins list
 ```
+
 启动RabbitMQ应用服务并顺带启动Erlang虚拟机：
 
 ```
 ##后台启动节点，-detached参数是为了能让RabbitMQ服务能以守护进程的方式在后台运行
 rabbitmq-server start -detached
 ```
+
 下面的命令安装过程中不执行：
 关闭RabbitMQ应用服务及Erlang虚拟机：
 
@@ -150,7 +151,8 @@ rabbitmq-server start -detached
 rabbitmqctl stop
 ```
 
- 停止RabbitMQ应用服务,但Erlang虚拟机会继续运行.此命令主要用于优先执行其它管理操作（这些管理操作需要先停止RabbitMQ应用服务），如. [**reset**](http://www.rabbitmq.com/man/rabbitmqctl.1.man.html#reset).例如： 
+停止RabbitMQ应用服务,但Erlang虚拟机会继续运行.此命令主要用于优先执行其它管理操作（这些管理操作需要先停止RabbitMQ应用服务），如. [
+**reset**](http://www.rabbitmq.com/man/rabbitmqctl.1.man.html#reset).例如：
 
 ```
 # 启动RabbitMQ应用程序
@@ -160,15 +162,14 @@ rabbitmqctl start_app
 
 启动RabbitMQ应用服务.
 
-此命令典型用于在执行了其它管理操作之后，重新启动停止的RabbitMQ应用服务。如[**reset**](http://www.rabbitmq.com/man/rabbitmqctl.1.man.html#reset).例如：
+此命令典型用于在执行了其它管理操作之后，重新启动停止的RabbitMQ应用服务。如[**reset
+**](http://www.rabbitmq.com/man/rabbitmqctl.1.man.html#reset).例如：
 
 ```
 # 停止RabbitMQ应用程序，但是Erlang VM虚拟机继续运行
 # rabbitmqctl -n rabbit@hostname stop_app 在集群中的一个节点停止另外一个节点的RabbitMQ应用
 rabbitmqctl stop_app
 ```
-
-
 
 ##### 5.增加访问用户， 默认用户guest只能本地访问（只在主节点执行，如：rabbit1）
 
@@ -208,10 +209,6 @@ rabbitmqctl set_user_tags admin administrator
 rabbitmqctl set_permissions -p "/" admin ".*" ".*" ".*"
 ```
 
-
-
-
-
 ##### =========重复上面的步骤分别在不同的服务器上安装Erlang和RabbitMQ====================
 
 ##### 接下来在三台主机rabbit1(主机名)、rabbit2(主机名)、rabbit3(主机名)上的hosts文件添加IP地址和节点（主机名）的映射信息
@@ -227,6 +224,7 @@ vi /etc/hosts
 172.30.67.122  rabbit2
 172.30.67.123  rabbit3
 ```
+
 以下命令安装过程中不执行
 查看主机名：
 
@@ -242,8 +240,6 @@ rabbit3
 CentOS Linux release 7.7.1908 (Core)
 ```
 
-
-
 ##### 以rabbit1节点为主节点，停止rabbit2、rabbit3节点的服务，命令如下：
 
 ```
@@ -254,15 +250,19 @@ rabbitmqctl stop
 
 复制秘钥要执行如下指令：
 ##修改文件读写权限
+
 ```
 chmod 777 /var/lib/rabbitmq/.erlang.cookie
 ```
+
 ##修改秘钥值
+
 ```
 vi /var/lib/rabbitmq/.erlang.cookie   
 ```
 
- ##cookie文件权限改为400
+##cookie文件权限改为400
+
 ```
 chmod 400 /var/lib/rabbitmq/.erlang.cookie
 ```
@@ -274,6 +274,7 @@ chmod 400 /var/lib/rabbitmq/.erlang.cookie
 ```
 rabbitmq-server start -detached
 ```
+
 关闭RabbitMQ应用：
 
 ```
@@ -289,11 +290,13 @@ rabbitmqctl stop_app
 # rabbit@rabbit1为要离开集群中的一个节点，rabbit@rabbit3为当前节点
 rabbitmqctl join_cluster rabbit@rabbit1
 ```
+
 启动RabbitMQ应用：
 
 ```
 rabbitmqctl start_app
 ```
+
 在任意一个节点上执行设置镜像模式命令
 
 ```
@@ -301,6 +304,7 @@ rabbitmqctl start_app
 # rabbitmqctl set_policy [-p vhost] [--priority priority] [--apply-to apply-to] {name} {pattern} {definition}
 rabbitmqctl set_policy -p / --priority 0 --apply-to queues ha-all "^" '{"ha-mode":"all","ha-sync-mode":"automatic"}'
 ```
+
 查看已经添加的策略
 
 ```
@@ -315,6 +319,7 @@ rabbitmqctl list_policies
 #  设置集群名称
 rabbitmqctl set_cluster_name rabbit@rabbit_cluster
 ```
+
 ```
 #重命名节点名称
 rabbitmqctl  rename_cluster_node   oldnode1  newnode1  [oldnode2  newnode2]  [oldnode3  newnode3...]
@@ -337,21 +342,23 @@ rabbitmqctl forget_cluster_node NodeName [--offline]
 # rabbitmqctl update_cluster_nodes clusternode
 rabbitmqctl update_cluster_nodes -n rabbit@A rabbit@B rabbit@C
 ```
+
 ```
 # 查看集群状态
 rabbitmqctl cluster_status
 ```
+
 ```
 # 更改集群节点类型
 rabbitmqctl change_cluster_node_type [disk|ram]
 ```
+
 - 7.CentOS7查看主机名
 
 ```
 [root@rabbit2 ~]# hostname
 rabbit2
 ```
-
 
 - 8.清空节点的状态，并将其恢复到空白状态
 
@@ -375,7 +382,7 @@ rabbitmqctl force_reset
 tail -f /var/log/rabbitmq/rabbit\@rabbit3.log
 ```
 
- - 10.环境变量和配置文件默认位置在
+- 10.环境变量和配置文件默认位置在
 
 ```
 ##配置文件

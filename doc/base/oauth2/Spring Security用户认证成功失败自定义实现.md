@@ -1,17 +1,19 @@
 ### Spring Security用户认证成功失败自定义实现
- 【一】[Spring boot Security OAuth2用户登录失败事件发布及监听](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/event.md)<br>
- 【二】[Spring Security用户认证成功失败源码分析](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)<br>
 
- [上一篇文章讲解了用户认证成功或者失败事件发布的整个流程](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)，
- 这一篇就讲解下自定义的实现方式。首先看一下认证的异常都有哪些：
- 
- 在org.springframework.security.authentication.event包下定义了发生认证时的所有事件类型，其中AbstractAuthenticationEvent是所有事件的父类，其它事件
- 都继承于AbstractAuthenticationEvent，其子类有AbstractAuthenticationFailureEvent、AuthenticationFailureBadCredentialsEvent、AuthenticationFailureCredentialsExpiredEvent
- 、AuthenticationFailureDisabledEvent、AuthenticationFailureExpiredEvent、AuthenticationFailureLockedEvent、AuthenticationFailureProviderNotFoundEvent
- 、AuthenticationFailureProxyUntrustedEvent、AuthenticationFailureServiceExceptionEvent、AuthenticationSuccessEvent、InteractiveAuthenticationSuccessEvent；
- 而AbstractAuthenticationFailureEvent又是所有认证异常发布事件的抽象类，这样就可以方便的分开成两个监听器；
- 
- #### 1.定义认证成功发布事件监听器
+【一】[Spring boot Security OAuth2用户登录失败事件发布及监听](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/event.md)<br>
+【二】[Spring Security用户认证成功失败源码分析](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)<br>
+
+[上一篇文章讲解了用户认证成功或者失败事件发布的整个流程](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)，
+这一篇就讲解下自定义的实现方式。首先看一下认证的异常都有哪些：
+
+在org.springframework.security.authentication.event包下定义了发生认证时的所有事件类型，其中AbstractAuthenticationEvent是所有事件的父类，其它事件
+都继承于AbstractAuthenticationEvent，其子类有AbstractAuthenticationFailureEvent、AuthenticationFailureBadCredentialsEvent、AuthenticationFailureCredentialsExpiredEvent
+、AuthenticationFailureDisabledEvent、AuthenticationFailureExpiredEvent、AuthenticationFailureLockedEvent、AuthenticationFailureProviderNotFoundEvent
+、AuthenticationFailureProxyUntrustedEvent、AuthenticationFailureServiceExceptionEvent、AuthenticationSuccessEvent、InteractiveAuthenticationSuccessEvent；
+而AbstractAuthenticationFailureEvent又是所有认证异常发布事件的抽象类，这样就可以方便的分开成两个监听器；
+
+#### 1.定义认证成功发布事件监听器
+
  ```
  package com.yaomy.security.oauth2.event.listener;
  
@@ -39,8 +41,11 @@
  
  }
 ```
+
 当然如果有需要可以将AuthenticationSuccessEvent更换为InteractiveAuthenticationSuccessEvent，都是认证成功，但是InteractiveAuthenticationSuccessEvent表示通过自动交互的手段来登录成功，比如cookie自动登录
+
 #### 2.定义认证失败事件发布监听器
+
 ```
 package com.yaomy.security.oauth2.event.listener;
 
@@ -88,5 +93,6 @@ public class AuthencationFailureListener implements ApplicationListener<Abstract
 
 }
 ```
+
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgradeCode.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgradeCode.md)    
     

@@ -1,8 +1,11 @@
 ### 死磕源码系列【spring系统初始化器ApplicationContextInitializer】
 
-> ApplicationContextInitializer初始化器接口是Spring boot应用上下文（ConfigurableApplicationContext）一个回调接口，会在refresh方法之前调用；通常用于对应用上下文容器进行一些属性初始化的web应用程序中,应用上下文类必须是ConfigurableApplicationContext的子类，springboot中使用的实际是org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext容器，通常用于设置环境配置、监听器、工厂钩子BeanFactoryPostProcessor
+> ApplicationContextInitializer初始化器接口是Spring
+>
+boot应用上下文（ConfigurableApplicationContext）一个回调接口，会在refresh方法之前调用；通常用于对应用上下文容器进行一些属性初始化的web应用程序中,应用上下文类必须是ConfigurableApplicationContext的子类，springboot中使用的实际是org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext容器，通常用于设置环境配置、监听器、工厂钩子BeanFactoryPostProcessor
 
-参考Springboot SPI加载接口实现类：[https://mingyang.blog.csdn.net/article/details/108681609](https://mingyang.blog.csdn.net/article/details/108681609)
+参考Springboot
+SPI加载接口实现类：[https://mingyang.blog.csdn.net/article/details/108681609](https://mingyang.blog.csdn.net/article/details/108681609)
 
 ##### 1.springboot初始化器使用非常简单，首先定义一个实现了ApplicationContextInitializer接口的类
 
@@ -18,8 +21,6 @@ public class SmallEmilyApplicationContenxtInitializer implements ApplicationCont
     }
 }
 ```
-
-
 
 ##### 2.在META-INF/spring.factories配置文件中配置初始化器
 
@@ -39,7 +40,8 @@ org.springframework.context.ApplicationContextInitializer=\
 
 初始化器的使用很简单，但是初始化器是在哪里加载，哪里调用呢？这个疑问我们接下来一步步的分析：
 
-首先要知道springboot使用的是SPI技术加载定义好的ApplicationContextInitializer接口实现类，加载的详细过程参考：[https://mingyang.blog.csdn.net/article/details/108681609](https://mingyang.blog.csdn.net/article/details/108681609)；我们进入SpringApplication#run方法，里面有一个prepareContext方法调用，进入prepareContext方法：
+首先要知道springboot使用的是SPI技术加载定义好的ApplicationContextInitializer接口实现类，加载的详细过程参考：[https://mingyang.blog.csdn.net/article/details/108681609](https://mingyang.blog.csdn.net/article/details/108681609)
+；我们进入SpringApplication#run方法，里面有一个prepareContext方法调用，进入prepareContext方法：
 
 ```java
 private void prepareContext(ConfigurableApplicationContext context, ConfigurableEnvironment environment,
@@ -65,8 +67,6 @@ private void prepareContext(ConfigurableApplicationContext context, Configurable
 		}
 	}
 ```
-
-
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)
 

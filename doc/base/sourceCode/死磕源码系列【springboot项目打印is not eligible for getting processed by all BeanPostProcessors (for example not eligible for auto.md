@@ -1,6 +1,7 @@
 ### 死磕源码系列【springboot项目打印is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying) info日志之两种解决方案】
 
-> 标题上打印的日志是info级别的，不影响程序正常使用，但是有代码洁癖的我还是看着不爽，总想找出问题所在，查了很久知道了是IOC容器注册Bean的时候使用到了还未注册到IOC容器中的Bean，也就是某一些Bean需要提前初始化的原因，后置处理器处理的时候打印了一条日志信息，那有没有解决方案呢？网上搜了一堆堆的都是说打印日志的原因，而没有提供一个有效的解决方案，经过几天巴拉巴拉的翻源码终于找到了两种解决方案，那就看看我们一步步的分析吧（不想看源码分析只想看解决方案的直接拉到最后）。
+>
+标题上打印的日志是info级别的，不影响程序正常使用，但是有代码洁癖的我还是看着不爽，总想找出问题所在，查了很久知道了是IOC容器注册Bean的时候使用到了还未注册到IOC容器中的Bean，也就是某一些Bean需要提前初始化的原因，后置处理器处理的时候打印了一条日志信息，那有没有解决方案呢？网上搜了一堆堆的都是说打印日志的原因，而没有提供一个有效的解决方案，经过几天巴拉巴拉的翻源码终于找到了两种解决方案，那就看看我们一步步的分析吧（不想看源码分析只想看解决方案的直接拉到最后）。
 
 ##### 1.基础知识BeanFactoryPostProcessor和BeanPostProcessor源码分析，及如何实例化并调用BeanFactoryPostProcessor实现类方法修改BeanDefinition
 
@@ -71,8 +72,6 @@ BeanFactoryPostProcessor接口的实现类会在BeanPostProcessor接口的实现
 				...
 	}
 ```
-
-
 
 invokeBeanFactoryPostProcessors方法源码
 
@@ -248,8 +247,6 @@ public static void invokeBeanFactoryPostProcessors(
 		}
 	}
 ```
-
-
 
 ##### 2.registerBeanPostProcessors方法注册BeanPostProcessor实现类的bean实例（打印日志位置查找）
 

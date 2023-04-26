@@ -1,6 +1,7 @@
 ### Spring boot控制器异常、参数异常统一处理之@RestControllerAdvice
 
 #### 1.@RestControllerAdvice注解定义全局处理异常类，异常处理类于@ControllerAdvice相比不需要添加@ResponseBody就可以返回JSON格式异常，
+
 ```
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,10 +20,12 @@ public @interface RestControllerAdvice {
 
 }
 ```
+
 * 该注解被@ControllerAdvice和@ResponseBody声明，作用相当于@ExceptionHandler标注的异常处理方法同时也被@ResponseBody注解声明,返回JSON数据
 * 可以指定异常处理要扫描的包，如@RestControllerAdvice(basePackages="org.my.pkg")}、@RestControllerAdvice("org.my.pkg")
 
 #### 2.@ExceptionHandler注解声明处理具体异常的方法；
+
 ```
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -36,9 +39,11 @@ public @interface ExceptionHandler {
 
 }
 ```
+
 * 用于处理特定处理程序类或者方法的注解
 
 #### 3.控制器异常处理实现类
+
 ```
 package com.yaomy.control.exception.advice;
 

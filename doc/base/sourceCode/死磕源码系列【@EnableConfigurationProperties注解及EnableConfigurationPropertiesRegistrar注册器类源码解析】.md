@@ -1,6 +1,7 @@
 ### 死磕源码系列【@EnableConfigurationProperties注解及EnableConfigurationPropertiesRegistrar注册器类源码解析】
 
-> @EnableConfigurationProperties注解通常和@ConfigurationProperties注解一起使用，将标记了@ConfigurationProperties的bean绑定配置文件中的属性并将其注册到IOC容器之中。
+>
+@EnableConfigurationProperties注解通常和@ConfigurationProperties注解一起使用，将标记了@ConfigurationProperties的bean绑定配置文件中的属性并将其注册到IOC容器之中。
 
 ##### 首先看下@EnableConfigurationProperties注解的源码
 
@@ -25,7 +26,8 @@ public @interface EnableConfigurationProperties {
 }
 ```
 
-> 上述注解中核心是@Import注解引入EnableConfigurationPropertiesRegistrar类,此类是ImportBeanDefinitionRegistrar注册器接口的子类，将会注册属性配置、绑定等所需要bean;
+>
+上述注解中核心是@Import注解引入EnableConfigurationPropertiesRegistrar类,此类是ImportBeanDefinitionRegistrar注册器接口的子类，将会注册属性配置、绑定等所需要bean;
 
 ------
 

@@ -3,6 +3,7 @@
 Spring定义的类实现ApplicationContextAware接口会自动的将应用程序上下文加入，首先我们看下具体的实现示例；
 
 #### 1.示例代码
+
 ```
 package com.yaomy.security.oauth2.filter;
 
@@ -31,6 +32,7 @@ public class BeanUtils implements ApplicationContextAware {
 #### 2.ApplicationContextAware的使用方式很简单，只要实现接口重写方法就可以，下面我们看下应用程序是如何初始化的
 
 AbstractApplicationContext类是Spring容器应用上下文的一个抽象父类，我们看下里面的prepareBeanFactory方法
+
 ```
   protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         beanFactory.setBeanClassLoader(this.getClassLoader());
@@ -70,6 +72,7 @@ AbstractApplicationContext类是Spring容器应用上下文的一个抽象父类
 ```
 
 #### 3.进入ApplicationContextAwareProcessor处理器类查看代码
+
 ```
     @Nullable
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -120,7 +123,8 @@ AbstractApplicationContext类是Spring容器应用上下文的一个抽象父类
 
     }
  ```
- 通过上面的代码可以很清楚的了解到ApplicationContextAware实现类在应用启动的时候就会初始化。。。
- 
- GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/applicationcontextaware.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/applicationcontextaware.md)
+
+通过上面的代码可以很清楚的了解到ApplicationContextAware实现类在应用启动的时候就会初始化。。。
+
+GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/applicationcontextaware.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/applicationcontextaware.md)
  

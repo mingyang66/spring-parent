@@ -1,6 +1,7 @@
 ## Springboot2.0--WebMvcConfigurer详解
 
-> WebMvcConfigurer是spring内部配置的一种方式，使用JavaBean的方式代替传统的xml配置；也可以自定义扩展配置类，实现方式是继承WebMvcConfigurer接口；WebMvcConfigurer其实就是一个接口，具体的配置是由实现类来决定的，现在会有两个问题，具体的实现类有哪些？这些实现类是如何加载到容器之中并生效的？带着这两个问题开启我们源码的探索之旅。
+>
+WebMvcConfigurer是spring内部配置的一种方式，使用JavaBean的方式代替传统的xml配置；也可以自定义扩展配置类，实现方式是继承WebMvcConfigurer接口；WebMvcConfigurer其实就是一个接口，具体的配置是由实现类来决定的，现在会有两个问题，具体的实现类有哪些？这些实现类是如何加载到容器之中并生效的？带着这两个问题开启我们源码的探索之旅。
 
 ## WebMvcConfigurer具体实现类
 
@@ -8,7 +9,7 @@
 
 - WebMvcAutoConfigurationAdapter是Spring的主要配置类（会集成其它配置类到当前类），几乎所有的缺省配置都是在此类中配置，此配置类的优先级是0
 
--  SpringDataWebConfiguration一些系统配置类，暂无仔细研究，此配置的优先级是最高的
+- SpringDataWebConfiguration一些系统配置类，暂无仔细研究，此配置的优先级是最高的
 - WebMvcConfigurerComposite此类是一个委托代理类，在DelegatingWebMvcConfiguration类中实例化，并将系统自带或者自定义的配置类注入到成员变量delegates之中。
 
 ##### 2.自定义配置实现类
@@ -61,7 +62,8 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 
 DelegatingWebMvcConfiguration是对Spring MVC进行配置的一个代理类，它结合缺省配置和用户自定义配置最终确定使用的配置。
 
-DelegatingWebMvcConfiguration继承自WebMvcConfigurationSupport，而WebMvcConfigurationSupport为Spring MVC提供缺省配置，它提供的就是上面提到的缺省配置。
+DelegatingWebMvcConfiguration继承自WebMvcConfigurationSupport，而WebMvcConfigurationSupport为Spring
+MVC提供缺省配置，它提供的就是上面提到的缺省配置。
 
 看如下源码，DelegatingWebMvcConfiguration代理类会创建一个WebMvcConfigurerComposite代理类，并将容器之中的缺省配置类和自定义配置类注入到代理类之中；
 
@@ -186,10 +188,13 @@ EnableWebMvcConfiguration配置类继承了DelegatingWebMvcConfiguration代理�
 	}
 ```
 
-> 具体的缺省配置基本上都是在代理类DelegatingWebMvcConfiguration的父类WebMvcConfigurationSupport中实现的，像RequestMappingHandlerMapping初始化、RequestMappingHandlerAdapter适配器类初始化等等；
+>
+具体的缺省配置基本上都是在代理类DelegatingWebMvcConfiguration的父类WebMvcConfigurationSupport中实现的，像RequestMappingHandlerMapping初始化、RequestMappingHandlerAdapter适配器类初始化等等；
 
-WebMvcAutoConfigurationAdapter是一个适配器类，使用@Import注解将EnableWebMvcConfiguration配置引入，可以说是spring 缺省配置的一个集合；
+WebMvcAutoConfigurationAdapter是一个适配器类，使用@Import注解将EnableWebMvcConfiguration配置引入，可以说是spring
+缺省配置的一个集合；
 
-WebMvcAutoConfiguration是一个自动化配置类，会在bean WebMvcConfigurationSupport不存在的时候初始化，所以这也是我们实现自定义配置的时候为什么不继承WebMvcConfigurationSupport类的原因；
+WebMvcAutoConfiguration是一个自动化配置类，会在bean
+WebMvcConfigurationSupport不存在的时候初始化，所以这也是我们实现自定义配置的时候为什么不继承WebMvcConfigurationSupport类的原因；
 
 GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/base](https://github.com/mingyang66/spring-parent/tree/master/doc/base)

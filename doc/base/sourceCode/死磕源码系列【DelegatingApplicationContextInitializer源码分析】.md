@@ -1,6 +1,9 @@
 ### 死磕源码系列【DelegatingApplicationContextInitializer源码分析】
 
-> DelegatingApplicationContextInitializer初始化器实现类是ApplicationContextInitializer接口的一个代理实现类，提供了一个属性key(context.initializer.classes)在配置文件中配置自定义的初始化器实现类；当然，也可以使用SPI方式在spring.factories配置文件配置org.springframework.context.ApplicationContextInitializer作为key来配置，两种方式都可以，本文重点讲解第一种方式。
+>
+DelegatingApplicationContextInitializer初始化器实现类是ApplicationContextInitializer接口的一个代理实现类，提供了一个属性key(
+context.initializer.classes)
+在配置文件中配置自定义的初始化器实现类；当然，也可以使用SPI方式在spring.factories配置文件配置org.springframework.context.ApplicationContextInitializer作为key来配置，两种方式都可以，本文重点讲解第一种方式。
 
 DelegatingApplicationContextInitializer源码分析：
 

@@ -1,13 +1,14 @@
 ### spring.factories将被弃用，做好Get新技能的准备了吗
 
-> 作为springboot的忠实用户，最近springboot升级到了2.7.0版本，其中有一项是改变原来的自动化配置注册方式；如果你之前写过相关starter类或者研究过自动化配置的源码知道，配置自动化配置类需要在META-INF/spring.factories文件中配置配置类，而最新版本是配置META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports文件中配置，不过目前是兼容两种配置模式共存。
+>
+作为springboot的忠实用户，最近springboot升级到了2.7.0版本，其中有一项是改变原来的自动化配置注册方式；如果你之前写过相关starter类或者研究过自动化配置的源码知道，配置自动化配置类需要在META-INF/spring.factories文件中配置配置类，而最新版本是配置META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports文件中配置，不过目前是兼容两种配置模式共存。
 
 ##### 新老版本比对
 
-| 原配置方式                | 当前配置方式                                                 |
-| :------------------------ | ------------------------------------------------------------ |
+| 原配置方式                     | 当前配置方式                                                                           |
+|:--------------------------|----------------------------------------------------------------------------------|
 | META-INF/spring.factories | META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports |
-| @Configuration            | @AutoConfiguration                                           |
+| @Configuration            | @AutoConfiguration                                                               |
 
 如果你自己写过自动化配置starter，那就赶快将注册方式有spring.factories方式更改为META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports。文件中的每一行代表了一个自动化配置类的全限定类名，[查看自动化配置实例](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports)。
 

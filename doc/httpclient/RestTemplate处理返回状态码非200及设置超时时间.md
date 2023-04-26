@@ -82,4 +82,5 @@ RestTemplate默认使用的是SimpleClientHttpRequestFactory工厂方法，看�
         return factory;
     }
 ```
+
 GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rest-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rest-service)

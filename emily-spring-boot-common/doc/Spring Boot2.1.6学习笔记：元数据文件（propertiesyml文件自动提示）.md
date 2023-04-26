@@ -1,12 +1,17 @@
 ### Spring Boot2.1.6学习笔记：元数据文件（properties|yml文件自动提示）
 
-> 参考： https://docs.spring.io/spring-boot/docs/2.1.6.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor 
 >
-> Spring Boot Jars包含元数据文件，这些文件提供了所有支持的配置属性的详细信息。这些文件旨在让IDE开发人员在使用application.properties或application.yml文件时提供提示及自动完成功能；当然开发人员也可以自定义元数据文件，这样我们自己定义的配置属性可以像系统的属性一样拥有提示功能，想想也是很美好的事情，接下来我们就看下如何实现这样的功能。
+参考： https://docs.spring.io/spring-boot/docs/2.1.6.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
+>
+> Spring Boot
+>
+Jars包含元数据文件，这些文件提供了所有支持的配置属性的详细信息。这些文件旨在让IDE开发人员在使用application.properties或application.yml文件时提供提示及自动完成功能；当然开发人员也可以自定义元数据文件，这样我们自己定义的配置属性可以像系统的属性一样拥有提示功能，想想也是很美好的事情，接下来我们就看下如何实现这样的功能。
 
 ##### 1.配置处理器
 
-通过使用spring boot提供的配置处理器jar包，你可以使用@ConfigurationProperties注释轻松的生成自己的配置元数据文件，jar包包含一个Java注释处理器，在编译项目时调用它。要使用处理器，请引入对如下spring boot配置处理器的依赖关系：
+通过使用spring
+boot提供的配置处理器jar包，你可以使用@ConfigurationProperties注释轻松的生成自己的配置元数据文件，jar包包含一个Java注释处理器，在编译项目时调用它。要使用处理器，请引入对如下spring
+boot配置处理器的依赖关系：
 
 ```java
 <dependency>
@@ -20,9 +25,8 @@
 
 > 只应将简单文本与@ConfigurationProperties字段Javadoc一起使用，因为在将它们添加到JSON之前不会对它们进行处理
 
-属性是通过标准getter和setter来发现的，他们对集合类型进行了特殊处理（即使只有getter存在，也会检测到）。注释处理器还支持使用@Data、@Getter、@Setter lombok注释。
-
-
+属性是通过标准getter和setter来发现的，他们对集合类型进行了特殊处理（即使只有getter存在，也会检测到）。注释处理器还支持使用@Data、@Getter、@Setter
+lombok注释。
 
 如果你正在使用AspectJ在你的项目中，你需要确保注释处理器只运行一次；这里有几种方法处理，如果你使用的是maven，你可以显式配置maven-apt-plugin，并仅在哪里像注释处理器添加依赖项。你可以让AspectJ插件运行所有处理，并在maven编译器插件配置中禁用注释处理。
 
@@ -38,7 +42,8 @@
 
 ##### 2.元数据格式
 
-配置元数据文件在jar包的 META-INF/spring-configuration-metadata.json 里，它们使用一种简单的JSON格式，将项目分类在“groups”或“properties”下，将附加值提示分类在“hints”下，如下示例所示：
+配置元数据文件在jar包的 META-INF/spring-configuration-metadata.json
+里，它们使用一种简单的JSON格式，将项目分类在“groups”或“properties”下，将附加值提示分类在“hints”下，如下示例所示：
 
 ```
 {"groups": [
@@ -112,7 +117,8 @@ group是更高级别的项，它们本身并不指定值，而是为属性提供
 
 > 并不要求每一个property拥有一个group，一些properties可能单独存在。
 
-最后，hints是用于帮助用户配置给定属性的附加信息。例如，当开发人员配置spring.jpa.hibernate.ddl-auto属性时，工具可以使用提示为none、validate、update、create和create drop值提供一些自动完成帮助。
+最后，hints是用于帮助用户配置给定属性的附加信息。例如，当开发人员配置spring.jpa.hibernate.ddl-auto属性时，工具可以使用提示为none、validate、update、create和create
+drop值提供一些自动完成帮助。
 
 ##### 3.生成元数据文件示例
 
@@ -370,7 +376,8 @@ public class MetaDataProperties {
 }
 ```
 
-- 上一步我们生成了spring-configuration-metadata.json文件，但是文件中的hints提示属性为空，这就需要我们在META-INF目录下自定义一个additional-spring-configuration-metadata.json文件
+-
+上一步我们生成了spring-configuration-metadata.json文件，但是文件中的hints提示属性为空，这就需要我们在META-INF目录下自定义一个additional-spring-configuration-metadata.json文件
 
 ```
 {"hints": [
@@ -642,7 +649,8 @@ public class NetWorkConfig {
 }
 ```
 
-> 综上两种方法，建议选择第二种方法，第一种需要在每个用到类中加上一个注解，比较麻烦；第二种方法只需要配置在spring.factories文件中，容器启动的时候自动的将java bean加载进入容器中，跟使用普通的Java Bean一样。
+> 综上两种方法，建议选择第二种方法，第一种需要在每个用到类中加上一个注解，比较麻烦；第二种方法只需要配置在spring.factories文件中，容器启动的时候自动的将java
+> bean加载进入容器中，跟使用普通的Java Bean一样。
 
 
 GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-common-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-common-service)

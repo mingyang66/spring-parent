@@ -3,16 +3,17 @@ Mybatis批处理学习笔记一
 **一、Mybatis内置的ExecutorType有三种执行方式，分别是SIMPLE,REUSE,BATCH**
 
 1. SIMPLE：是默认模式，该模式下会为每个sql语句的执行创建一个新的预处理语句，单条提交sql；
-2. BATCH：会重复使用已经预处理的语句，并且批量执行所有更新语句，显然batch的性能更高；但是Batch模式也有自己的缺点，比如:insert插入操作是，在事务还未提交之前，是没有办法获取到自增的id;
+2. BATCH：会重复使用已经预处理的语句，并且批量执行所有更新语句，显然batch的性能更高；但是Batch模式也有自己的缺点，比如:
+   insert插入操作是，在事务还未提交之前，是没有办法获取到自增的id;
 3. REUSE：会复用预处理SQL语句
 
 **二、在看实验案例之前先看下批处理测试结果比较**
 
-|       模式        |                     10000条批量插入耗时                     | 性能比对 |
-| :---------------: | :---------------------------------------------------------: | :------: |
-| SIMPLE(逐条插入)  | 16315/11749/11859/11746/11409/11663/11305/11652/11449/10631 |   最差   |
-| SIMPLE（foreach） |           425/390/430/364/409/381/354/339/350/361           |   良好   |
-|       BATCH       |           201/298/237189/212/232/213/308/202/167            |   最佳   |
+|       模式        |                        10000条批量插入耗时                         | 性能比对 |
+|:---------------:|:-----------------------------------------------------------:|:----:|
+|  SIMPLE(逐条插入)   | 16315/11749/11859/11746/11409/11663/11305/11652/11449/10631 |  最差  |
+| SIMPLE（foreach） |           425/390/430/364/409/381/354/339/350/361           |  良好  |
+|      BATCH      |           201/298/237189/212/232/213/308/202/167            |  最佳  |
 
 #### 三、实验案例（基于mysql数据库测试）
 
@@ -125,8 +126,7 @@ mybatis数据库xml配置
 jdbc:mysql://127.0.0.1:3306/sgrain?characterEncoding=utf-8&rewriteBatchedStatements=true
 ```
 
-
-
-> MYSQL的JDBC连接的url中需要加上rewriteBatchedStatements=true参数，mysql驱动默认情况下会把批量提交的sql拆分成一条一条的sql执行，导致批量插入变成了单条插入，造成了性能低下，只有把rewriteBatchedStatements=true参数加上，驱动才会帮我们批量执行sql，另外BATCH模式只对INSERT/UPDATE/DELETE有效；
+>
+MYSQL的JDBC连接的url中需要加上rewriteBatchedStatements=true参数，mysql驱动默认情况下会把批量提交的sql拆分成一条一条的sql执行，导致批量插入变成了单条插入，造成了性能低下，只有把rewriteBatchedStatements=true参数加上，驱动才会帮我们批量执行sql，另外BATCH模式只对INSERT/UPDATE/DELETE有效；
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

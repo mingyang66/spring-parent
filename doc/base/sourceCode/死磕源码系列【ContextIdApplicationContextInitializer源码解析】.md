@@ -2,7 +2,8 @@
 
 > ContextIdApplicationContextInitializer类是ApplicationContextInitializer初始化器接口实现类，会在应用程序启动的时候初始化应用程序的唯一ID。
 
-ContextIdApplicationContextInitializer设置Spring ApplicationContext上下文ID,如果spring.application.name属性存在，则将其作为ID，否则使用application默认值作为ID，源码如下：
+ContextIdApplicationContextInitializer设置Spring
+ApplicationContext上下文ID,如果spring.application.name属性存在，则将其作为ID，否则使用application默认值作为ID，源码如下：
 
 ```java
 public class ContextIdApplicationContextInitializer

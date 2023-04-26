@@ -176,8 +176,6 @@ public interface DeferredImportSelector extends ImportSelector {
 }
 ```
 
-
-
 ------
 
 ##### 3.示例，AutoConfigurationImportSelector是DeferredImportSelector接口的实现类，用于处理EnableAutoConfiguration自动化配置，
@@ -243,7 +241,8 @@ AutoConfigurationGroup是一个静态内部类，实现了DeferredImportSelector
 	}
 ```
 
-- AutoConfigurationImportSelector#getCandidateConfigurations方法用于获取spring.factories配置文件中的配置类（其实际获取是直接从SpringFactoriesLoader类中的cache获取的，已经在初始化器阶段加载到缓存中了）：
+-
+AutoConfigurationImportSelector#getCandidateConfigurations方法用于获取spring.factories配置文件中的配置类（其实际获取是直接从SpringFactoriesLoader类中的cache获取的，已经在初始化器阶段加载到缓存中了）：
 
 ```java
 	protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes) {
@@ -362,7 +361,5 @@ AutoConfigurationImportSelector#getExcludeAutoConfigurationsProperty获取spring
 					.collect(Collectors.toList());
 		}
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

@@ -2,15 +2,16 @@
 
 从3.8.0开始，RabbitMQ提供内置的Prometheus和Grafana支持。
 
-[rabbitmq_prometheus](https://github.com/rabbitmq/rabbitmq-prometheus)插件中提供了对Prometheus指标收集的支持。该插件以Prometheus文本格式在专用的TCP端口（默认端口15692）上公开所有RabbitMQ指标。
+[rabbitmq_prometheus](https://github.com/rabbitmq/rabbitmq-prometheus)
+插件中提供了对Prometheus指标收集的支持。该插件以Prometheus文本格式在专用的TCP端口（默认端口15692）上公开所有RabbitMQ指标。
 
-[rabbitmq_prometheus](https://github.com/rabbitmq/rabbitmq-prometheus)插件是RabbitMQ指标的核心导出器，由RabbitMQ核心团队开发。这是一个干净的设计，用于替换[kbudde/rabbitmq_exporter](https://github.com/kbudde/rabbitmq_exporter),[kbudde/rabbitmq_exporter](https://github.com/kbudde/rabbitmq_exporter)由Prometheus开发用于RabbitMQ指标收集。
+[rabbitmq_prometheus](https://github.com/rabbitmq/rabbitmq-prometheus)
+插件是RabbitMQ指标的核心导出器，由RabbitMQ核心团队开发。这是一个干净的设计，用于替换[kbudde/rabbitmq_exporter](https://github.com/kbudde/rabbitmq_exporter),[kbudde/rabbitmq_exporter](https://github.com/kbudde/rabbitmq_exporter)
+由Prometheus开发用于RabbitMQ指标收集。
 
 这些指标提供了对RabbitMQ节点和运行时状态的深入了解。它们对使用RabbitMQ的应用程序和各种基础设施元素的行为进行了更深入的推理。
 
 > rabbitmq_prometheus插件是新增的，相对来说还不成熟。它从3.8.0开始在RabbitMQ发行版中发布。
-
-
 
 ##### 1.rabbitmq_prometheus插件安装
 
@@ -67,8 +68,10 @@ erlang_mnesia_restarted_transactions 1
 此导出器通过prometheus.*配置键支持以下选项：
 
 - prometheus.path 定义到处端点，默认是“/metrics”。
-- prometheus.tcp.* 控制匹配的HTTP监听器设置[those used by the RabbitMQ HTTP API](https://www.rabbitmq.com/management.html#configuration)。
-- prometheus.ssl.* 控制匹配的TLS(HTTPS)监听器设置[those used by the RabbitMQ HTTP API](https://www.rabbitmq.com/management.html#single-listener-https)。
+- prometheus.tcp.*
+  控制匹配的HTTP监听器设置[those used by the RabbitMQ HTTP API](https://www.rabbitmq.com/management.html#configuration)。
+- prometheus.ssl.* 控制匹配的TLS(HTTPS)
+  监听器设置[those used by the RabbitMQ HTTP API](https://www.rabbitmq.com/management.html#single-listener-https)。
 
 简单示例：
 
@@ -83,8 +86,6 @@ prometheus.tcp.port =  15692
 ```
 /etc/rabbitmq/rabbitmq.conf
 ```
-
-
 
 插件地址：https://github.com/rabbitmq/rabbitmq-prometheus/blob/master/metrics.md
 

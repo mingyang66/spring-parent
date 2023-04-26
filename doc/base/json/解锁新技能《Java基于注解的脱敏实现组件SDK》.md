@@ -322,7 +322,8 @@ public class JsonRequest extends Animal{
     public PubResponse.Job[] jobs;
 ```
 
-> 如果实体类中的集合中存放的是实体类，并且这个实体类标注了@JsonSensitive注解，则会对嵌套实体类中标注了@JsonSimField、@JsonFlexField注解的字段进行脱敏处理；同样如果最外层是集合、数组、key-value类型则也会对内部嵌套的实体类进行脱敏处理；
+>
+如果实体类中的集合中存放的是实体类，并且这个实体类标注了@JsonSensitive注解，则会对嵌套实体类中标注了@JsonSimField、@JsonFlexField注解的字段进行脱敏处理；同样如果最外层是集合、数组、key-value类型则也会对内部嵌套的实体类进行脱敏处理；
 
 本文只对脱敏SDK做大概的阐述，如果你需要源码可以到个人GitHub上去拉；本文的示例是对当前实体类对象本身进行脱敏处理，返回的还是原来的对象本身，个人GitHub示例中还有一个返回是非当前对象的SDK工具类SensitiveUtils；
 

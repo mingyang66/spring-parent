@@ -1,11 +1,11 @@
 ### Java8新特性函数式接口Function|Predicate|Consumer
 
-| 名称      | 类型           | 描述                   |
-| --------- | -------------- | ---------------------- |
-| Function  | Function<T, R> | 接收T对象，返回R对象   |
+| 名称        | 类型             | 描述              |
+|-----------|----------------|-----------------|
+| Function  | Function<T, R> | 接收T对象，返回R对象     |
 | Predicate | Predicate<T>   | 接收T对象，返回boolean |
-| Consumer  | Consumer<T>    | 接收T对象，无返回值    |
-|           |                |                        |
+| Consumer  | Consumer<T>    | 接收T对象，无返回值      |
+|           |                |                 |
 
 ## java.util.function.Function接口
 

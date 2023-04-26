@@ -1,6 +1,7 @@
 ### 【死磕源码系列】BeanDefinitionRegistryPostProcessor作用及源码分析
 
-> BeanDefinitionRegistryPostProcessor接口实现了BeanFactoryPostProcessor接口，BeanFactoryPostProcessor接口的作用是在bean已经注册完成为BeanDefinition，但是还未实例化之前修改BeanDefinition属性；BeanDefinitionRegistryPostProcessor接口提供了一个通过代码形式来注册bean到IOC容器的钩子方法；
+>
+BeanDefinitionRegistryPostProcessor接口实现了BeanFactoryPostProcessor接口，BeanFactoryPostProcessor接口的作用是在bean已经注册完成为BeanDefinition，但是还未实例化之前修改BeanDefinition属性；BeanDefinitionRegistryPostProcessor接口提供了一个通过代码形式来注册bean到IOC容器的钩子方法；
 
 ##### 1.先看下源码
 
@@ -31,7 +32,8 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 }
 ```
 
-> BeanDefinitionRegistryPostProcessor接口会在bean实例化之前调用postProcessBeanDefinitionRegistry、postProcessBeanFactory方法对指定的bean进行实例化及修改BeanDefinition；
+>
+BeanDefinitionRegistryPostProcessor接口会在bean实例化之前调用postProcessBeanDefinitionRegistry、postProcessBeanFactory方法对指定的bean进行实例化及修改BeanDefinition；
 
 ##### 2.org.springframework.context.support.PostProcessorRegistrationDelegate#invokeBeanFactoryPostProcessors方法是调用处理器方法的入口
 

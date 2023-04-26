@@ -6,6 +6,7 @@ Spring boot默认使用的日志就是logback，我们就以logback为基础搭�
 [http://logback.qos.ch/manual/filters.html#thresholdFilter](http://logback.qos.ch/manual/filters.html#thresholdFilter)
 
 #### 1.配置日志xml文件logback-control.xml
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL -->
@@ -155,10 +156,12 @@ Spring boot默认使用的日志就是logback，我们就以logback为基础搭�
     </root>
 </configuration>
 ```
->上面的日志配置输出五种日志文件，并且日志文件每天自动滚动成一个文件，可以控制文件保存的有效期；其中输出控制台的日志文件使用的过滤器是阈值过滤器ThresholdFilter，
-其它的使用的是级别过滤器LevelFilter，有一种特殊的日志TRACE使用的是自定义的过滤器EnhanceLevelFilter，主要是用来生成用户自定义的JSON格式日志文件
+
+> 上面的日志配置输出五种日志文件，并且日志文件每天自动滚动成一个文件，可以控制文件保存的有效期；其中输出控制台的日志文件使用的过滤器是阈值过滤器ThresholdFilter，
+> 其它的使用的是级别过滤器LevelFilter，有一种特殊的日志TRACE使用的是自定义的过滤器EnhanceLevelFilter，主要是用来生成用户自定义的JSON格式日志文件
 
 #### 2.看下自定义过滤器EnhanceLevelFilter
+
 ```
 package com.yaomy.log.filter;
 
@@ -193,9 +196,11 @@ public class EnhanceLevelFilter extends LevelFilter {
     }
 }
 ```
->自定义过滤器是LevelFilter的一个子类，是为了满足特殊需求定义的
+
+> 自定义过滤器是LevelFilter的一个子类，是为了满足特殊需求定义的
 
 #### 3.接下来看下我们封装的工具类
+
 ```
 package com.yaomy.log.utils;
 
@@ -239,7 +244,9 @@ public class LoggerUtil {
 
 }
 ```
+
 #### 4.自定义的UserAction类
+
 ```
 package com.yaomy.log.po;
 
@@ -274,7 +281,9 @@ public class UserAction implements Serializable {
     }
 }
 ```
+
 #### 5.测试日志
+
 ```
 package com.yaomy.log;
 
@@ -300,6 +309,7 @@ public class LogBootStrap {
     }
 }
 ```
->日志配置好之后就可以单独的将其达成jar包给其它系统来使用，也可以给其它的module使用
+
+> 日志配置好之后就可以单独的将其达成jar包给其它系统来使用，也可以给其它的module使用
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-logback-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-logback-service)

@@ -1,32 +1,42 @@
 ### Spring AOP拦截控制器请求入参返回值时间两种方案
->在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理，如统计运行时间、拦截请求参数、获取返回值等等。
+
+> 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)
+> 处理，如统计运行时间、拦截请求参数、获取返回值等等。
 
 #### 1.概念
+
 * @Aspect把当前类标识为一个切面供容器读取,有点类似java中的类声明，包含切点（Point Cut）、连接点（Joint Point）
 * Joint Point（连接点）： 表示在程序中明确定义的点，如控制器中的一个个的方法
-* Point Cut(切点)：表示一组的Joint Point(连接点)，这些连接点是通过一定的逻辑规则组合起来的，如当前示例通过切入点函数表达式将控制器方法组合起来这一类就叫做切点，一个个的控制器方法就是Joint Point(连接点)
+* Point Cut(切点)：表示一组的Joint Point(连接点)，这些连接点是通过一定的逻辑规则组合起来的，如当前示例通过切入点函数表达式将控制器方法组合起来这一类就叫做切点，一个个的控制器方法就是Joint
+  Point(连接点)
 * Advice(增强)：Advice定义了在Point Cut(切点)里面要做的事情，包括在切点Before、After、替换切点执行的代码模块
 
 #### 2.切入点函数表达式配置规则
-* 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
+
+* 方法切入点函数：execution(<修饰符模式>? <返回类型模式> <方法名模式>(<参数模式>) <异常模式>?)
+  除了返回类型模式、方法名模式和参数模式外，其它项都是可选的
 
 execution切入点表达式：
+
 * 第一个*号：表示返回类型，*号表示所有的类型
 * 包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包下的所有子包
 * 第二个*号：表示类名，*号表示所有的类名
 * 第三个*号：表示方法名，*号表示所有的方法，后面的括弧表示方法里面的参数，两个句点表示任意参数
 
 annotation切入点表达式：
-* 参数表示注解类，必须为全限定名
-* 在多个表达式之间使用  || , or 表示  或 ，使用  && , and 表示  与 ， ！ 表示 非
 
-|类别|函数|入参|说明|
-|:---:|:---:|:---:|:---:|
-|方法切点函数|execution()|方法匹配模式串|表示满足某一匹配模式的所有目标类方法连接点，如：execution(public * com.yaomy.control.test.api..*.*(..))|
-|--|@annotation()|方法注解类名|表示标注了特定注解的目标方法连接点，如：@annotation(org.springframework.web.bind.annotation.GetMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping)|
-|方法入参切入点函数|args()|类名|通过判断目标类方法运行时入参对象类型定义连接点，如：args(com.yaomy.control.test.po.User)|
-|--|@args()|注解类名|通过判定运行时目标方法的参数是否被指定注解标注判定连接点，如@args(org.springframework.web.bind.annotation.RequestBody)|
+* 参数表示注解类，必须为全限定名
+* 在多个表达式之间使用 || , or 表示 或 ，使用 && , and 表示 与 ， ！ 表示 非
+
+|    类别     |      函数       |   入参    |                                                                           说明                                                                            |
+|:---------:|:-------------:|:-------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|  方法切点函数   |  execution()  | 方法匹配模式串 |                                     表示满足某一匹配模式的所有目标类方法连接点，如：execution(public * com.yaomy.control.test.api..*.*(..))                                     |
+|    --     | @annotation() | 方法注解类名  | 表示标注了特定注解的目标方法连接点，如：@annotation(org.springframework.web.bind.annotation.GetMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping) |
+| 方法入参切入点函数 |    args()     |   类名    |                                             通过判断目标类方法运行时入参对象类型定义连接点，如：args(com.yaomy.control.test.po.User)                                              |
+|    --     |    @args()    |  注解类名   |                                通过判定运行时目标方法的参数是否被指定注解标注判定连接点，如@args(org.springframework.web.bind.annotation.RequestBody)                                 |
+
 #### 3.切入点表达式demo示例一（还有二，往下看）
+
 ```
 package com.yaomy.control.aop.advice;
 
@@ -197,9 +207,10 @@ public class ControllerAdvice {
 }
 ```
 
->上面这种是直接使用注解的方式来进行的，其实spring-aop已经封装了更简单的，下面直接看示例
+> 上面这种是直接使用注解的方式来进行的，其实spring-aop已经封装了更简单的，下面直接看示例
 
 #### 4.编写继承MethodInterceptor接口类（示例二）
+
 ```
 package com.yaomy.control.aop.advice;
 
@@ -295,6 +306,7 @@ public class ControllerInterceptor implements MethodInterceptor {
 ```
 
 #### 5.开启拦截器配置
+
 ```
 @Configuration
 public class ControllerConfig {

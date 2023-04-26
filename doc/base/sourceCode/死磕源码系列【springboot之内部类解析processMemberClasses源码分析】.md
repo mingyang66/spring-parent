@@ -90,6 +90,4 @@ private void processMemberClasses(ConfigurationClass configClass, SourceClass so
 
 上述方法只有下半部分是常使用的，上半部分基本很少使用，此处不再做一一解析；
 
-
-
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

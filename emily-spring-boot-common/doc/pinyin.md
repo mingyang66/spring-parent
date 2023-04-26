@@ -1,9 +1,11 @@
 ### Java汉字转拼音（简繁体转换）库之JPinYin
+
 JPinyin[下载地址https://mvnrepository.com/artifact/com.github.stuxuhai/jpinyin](https://mvnrepository.com/artifact/com.github.stuxuhai/jpinyin)
 
->JPinyin是一个开源的汉字转拼音库，它是在PinYin4j的基础上做了改进，支持汉字转拼音、获取汉字拼音首字母、简体繁体相互转换、多音字、词典扩展等；
+> JPinyin是一个开源的汉字转拼音库，它是在PinYin4j的基础上做了改进，支持汉字转拼音、获取汉字拼音首字母、简体繁体相互转换、多音字、词典扩展等；
 
 最新版本
+
 ```
 <!-- https://mvnrepository.com/artifact/com.github.stuxuhai/jpinyin -->
 <dependency>
@@ -12,7 +14,9 @@ JPinyin[下载地址https://mvnrepository.com/artifact/com.github.stuxuhai/jpiny
     <version>1.1.8</version>
 </dependency>
 ```
+
 自己封装了个工具类，具体使用方法注解上有说明：
+
 ```
 package com.yaomy.control.common.control.utils;
 

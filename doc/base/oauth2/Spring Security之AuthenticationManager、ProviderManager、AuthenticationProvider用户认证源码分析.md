@@ -1,16 +1,19 @@
 ### Spring Security之AuthenticationManager、ProviderManager、AuthenticationProvider用户认证源码分析
 
 AuthenticationManager类源码解析
+
 ```
 public interface AuthenticationManager {
 	Authentication authenticate(Authentication authentication)
 			throws AuthenticationException;
 }
 ```
+
 AuthenticationManager是一个顶级接口，用来处理身份验证请求，并返回一个Authentication对象，如果发生异常将会抛出AuthenticationException；
 AuthenticationManager的实现有很多，通常使用ProviderManager对认证请求链进行管理；
 
 ProviderManager主要是对AuthenticationProvider链进项管理，看下注解描述：
+
 ```
  * <tt>AuthenticationProvider</tt>s are usually tried in order until one provides a
  * non-null response. A non-null response indicates the provider had authority to decide
@@ -26,15 +29,19 @@ ProviderManager主要是对AuthenticationProvider链进项管理，看下注解�
  * authentication. This is intended to support namespace configuration options though and
  * is not a feature that should normally be required.
  ```
- >TIPS:AuthenticationProvider通常按照认证请求链顺序去执行，一个返回非null响应表示程序验证通过，不再尝试验证其它的provider;如果后续提供的身份验证程序
- 成功地对请求进行身份认证，则忽略先前的身份验证异常及null响应，并将使用成功的身份验证。如果没有provider提供一个非null响应，或者有一个新的抛出AuthenticationException，
- 那么最后的AuthenticationException将会抛出。
- 
+
+> TIPS:AuthenticationProvider通常按照认证请求链顺序去执行，一个返回非null响应表示程序验证通过，不再尝试验证其它的provider;如果后续提供的身份验证程序
+> 成功地对请求进行身份认证，则忽略先前的身份验证异常及null响应，并将使用成功的身份验证。如果没有provider提供一个非null响应，或者有一个新的抛出AuthenticationException，
+> 那么最后的AuthenticationException将会抛出。
+
 ProviderManager中有一个List用来存储定义的AuthenticationProvider认证实现类，也可以认为是一个认证处理器链来支持同一个应用中的多个不同身份认证机制，ProviderManager将会根据顺序来进行验证
+
  ```
  private List<AuthenticationProvider> providers = Collections.emptyList();
  ```
+
 ProviderManager类继承AuthenticationManager接口，实现了authenticate方法
+
  ```
  	public Authentication authenticate(Authentication authentication)
  			throws AuthenticationException {
@@ -133,18 +140,22 @@ ProviderManager类继承AuthenticationManager接口，实现了authenticate方�
  ```
 
 AuthenticationProvider是一个顶级的接口，里面只提供了两个方法
+
 ```
 public interface AuthenticationProvider {
 	Authentication authenticate(Authentication authentication) throws AuthenticationException;
 	boolean supports(Class<?> authentication);
 }
 ```
->TIPS:AuthenticationProvider接口和AuthenticationManager接口很相似，只多了一个supports方法，它是用来验证是否支持某种身份验证方式；该接口通常是提供给开发人员
-实现，按照自己系统的特点来进行扩展验证
+
+> TIPS:AuthenticationProvider接口和AuthenticationManager接口很相似，只多了一个supports方法，它是用来验证是否支持某种身份验证方式；该接口通常是提供给开发人员
+> 实现，按照自己系统的特点来进行扩展验证
 
 
-到这里你可能会有一个疑问，AuthenticationProvider对象是如何加入进AuthenticationProviders请求认证链的，上述的authenticate方法中getProviders()获取到的providers
+到这里你可能会有一个疑问，AuthenticationProvider对象是如何加入进AuthenticationProviders请求认证链的，上述的authenticate方法中getProviders()
+获取到的providers
 是通过构造函数来进行赋值的：
+
 ```
 	public ProviderManager(List<AuthenticationProvider> providers,
 			AuthenticationManager parent) {
@@ -154,7 +165,9 @@ public interface AuthenticationProvider {
 		checkState();
 	}
 ```
+
 构造函数又是哪里调用呢？神秘面纱马上揭晓，WebSecurityConfigurerAdapter适配器类中有一个config方法
+
 ```
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -166,7 +179,9 @@ public interface AuthenticationProvider {
                 .authenticationProvider(authenticationProvider());
     }
 ```
+
 可以通过AuthenticationManagerBuilder对象的authenticationProvider方法添加AuthenticationProvider认证对象，看下authenticationProvider方法：
+
 ```
     private List<AuthenticationProvider> authenticationProviders = new ArrayList<>();
 	public AuthenticationManagerBuilder authenticationProvider(
@@ -175,7 +190,9 @@ public interface AuthenticationProvider {
 		return this;
 	}
 ```
+
 上面的是将AuthenticationProvider对象加入认证链中，下面的代码就是创建ProviderManager对象并初始化认证连：
+
 ```
 	@Override
 	protected ProviderManager performBuild() throws Exception {
@@ -198,6 +215,7 @@ public interface AuthenticationProvider {
 ```
 
 AuthenticationManagerBuilder类实现了ProviderManagerBuilder接口，接口如下：
+
 ```
 public interface ProviderManagerBuilder<B extends ProviderManagerBuilder<B>> extends
 		SecurityBuilder<AuthenticationManager> {
@@ -216,8 +234,10 @@ public interface ProviderManagerBuilder<B extends ProviderManagerBuilder<B>> ext
 	B authenticationProvider(AuthenticationProvider authenticationProvider);
 }
 ```
+
 ProviderManagerBuilder接口中定义了一个方法authenticationProvider，这个方法就是就是用来新增自定义实现的AuthenticationProvider;
 
-到这里用户认证从配置到AuthenticationManager、ProviderManager、AuthenticationPrivoder源码一步一步的分析完了，希望对学习Spring Security的你有所帮助。
+到这里用户认证从配置到AuthenticationManager、ProviderManager、AuthenticationPrivoder源码一步一步的分析完了，希望对学习Spring
+Security的你有所帮助。
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/providermanager.md)

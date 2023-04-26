@@ -41,8 +41,6 @@ public interface AutoConfigurationImportFilter {
 
 AutoConfigurationImportFilter是一个过滤器接口，其实现类是被注册到spring.factories配置文件，被设计用来在自动化配置类字节码加载之前根据条件删除配置类；该接口实现类可以实现org.springframework.beans.factory.Aware接口，可以在match方法被调用之前执行，如：EnvironmentAware、BeanFactoryAware、BeanClassLoaderAware、ResourceLoaderAware
 
-
-
 spring.factories配置的实现类如下：
 
 ```java
@@ -55,7 +53,8 @@ org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition
 
 从配置中可以看到AutoConfigurationImportFilter接口一共有三个实现类，且三个类都是通过FilteringSpringBootCondition抽象类间接实现AutoConfigurationImportFilter过滤器接口；FilteringSpringBootCondition抽象类是SpringBootCondition类的子类；SpringBootCondition类的作用是提供合理的日志记录以帮助用户诊断加载了哪些类，具体的比对由其子类来实现；
 
-- SpringBootCondition实现了Condition接口，将一些模板处理定义在该类中，声明了getMatchOutcome这么一个抽象方法，子类只需要实现该方法即可实现业务逻辑，matches方法用于判定其条件是否成立，如果不成立，则会组织该bean的注册
+-
+SpringBootCondition实现了Condition接口，将一些模板处理定义在该类中，声明了getMatchOutcome这么一个抽象方法，子类只需要实现该方法即可实现业务逻辑，matches方法用于判定其条件是否成立，如果不成立，则会组织该bean的注册
 
 ```java
 public abstract class SpringBootCondition implements Condition {
@@ -156,7 +155,5 @@ matches方法：
 ```
 
 三个过滤器子类OnBeanCondition、OnClassCondition、OnWebApplicationCondition的实现方法都是通过父类中的match方法调用抽象实现方法getOutcomes进行判定是否符合条件；
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

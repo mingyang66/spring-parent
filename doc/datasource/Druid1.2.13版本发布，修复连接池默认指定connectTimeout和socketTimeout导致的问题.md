@@ -127,6 +127,7 @@ java.util.Properties#getProperty(java.lang.String)方法源码如下：
     }
 ```
 
-> 通过上面的方法我们知道如果超时时间connectioinTimeout和socketTimeout的Properties属性值设置为int类型，则获取到的值是null，驱动将会忽略掉设置；上个版本的两个超时时间将会影响mysql、oracle、postgresql
+>
+通过上面的方法我们知道如果超时时间connectioinTimeout和socketTimeout的Properties属性值设置为int类型，则获取到的值是null，驱动将会忽略掉设置；上个版本的两个超时时间将会影响mysql、oracle、postgresql
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

@@ -4,6 +4,7 @@ TIPS:Spring在初始化完Bean之后其实已经给我们提供了一些钩子�
 BeanPostProcessor提供了两个回调方法，你可以在这两个方法中实现一些定制化的业务逻辑；
 
 #### 1.BeanPostProcessor源码解析
+
 ```
 public interface BeanPostProcessor {
 
@@ -25,10 +26,12 @@ public interface BeanPostProcessor {
 
 }
 ```
+
 上面的两个方法都是在Bean初始化完成后调用的，是Spring提供的钩子方法，看方法名好像是在Bean初始化之前和初始化之后调用，但是实际上不是这样，而是
 在Bean初始化完成后提供的两个后置处理方法，那这两个钩子方法在哪里被调用呢？看下面的示例。
 
 #### 2.看下AbstractAutowireCapableBeanFactory类中initializeBean方法，当然不止这一个类会调用后置处理器
+
 ```
 protected Object initializeBean(final String beanName, final Object bean, @Nullable RootBeanDefinition mbd) {
 		if (System.getSecurityManager() != null) {
@@ -68,7 +71,9 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 		return wrappedBean;
 	}
 ```
+
 调用Bean的applyBeanPostProcessorsBeforeInitialization后置处理方法
+
 ```
 	@Override
 	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
@@ -85,7 +90,9 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 		return result;
 	}
 ```
+
 调用Bean的postProcessAfterInitialization后置处理方法
+
 ```
 	@Override
 	public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
@@ -102,7 +109,9 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 		return result;
 	}
 ```
+
 初始化Bean的Aware属性值
+
 ```
 	private void invokeAwareMethods(final String beanName, final Object bean) {
 		if (bean instanceof Aware) {

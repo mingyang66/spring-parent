@@ -16,7 +16,8 @@ epmd(Erlang Port Mapping Daemon)是一个小的附加守护进程，与每个Rab
 
 ##### 2.端口5672,5671（ used by AMQP 0-9-1 and 1.0 clients without and with TLS ）由AMQP0-9-1和1.0客户机使用，不带和带TLS
 
-AMQP是Advanced Message Queuing Protocol的缩写，一个提供统一消息服务的应用层标准高级消息队列协议，是应用层协议的一个开放标准，专为面向消息的中间件设计。基于此协议的客户端与消息中间件之间可以传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制，Erlang中的实现有RabbitMQ等。
+AMQP是Advanced Message Queuing
+Protocol的缩写，一个提供统一消息服务的应用层标准高级消息队列协议，是应用层协议的一个开放标准，专为面向消息的中间件设计。基于此协议的客户端与消息中间件之间可以传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制，Erlang中的实现有RabbitMQ等。
 
 ##### 3.端口25672
 

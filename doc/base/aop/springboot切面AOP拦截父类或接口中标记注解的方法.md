@@ -126,6 +126,4 @@ targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method, TargetData
 targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
 ```
 
-
-
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

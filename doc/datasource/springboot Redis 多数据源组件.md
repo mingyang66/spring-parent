@@ -1,6 +1,7 @@
 ##### springboot Redis 多数据源组件
 
-> 由于系统需要同一个项目需要配置多个redis数据源，并且很多项目都是同样的需求；在网上查了一波，大家的做法都是在每个需要配置多个数据源的地方添加多个配置类，需要引入几个数据源就需要写几个配置类，如果有N个项目就需要在N个项目中重复N遍相同的代码；所以就想到了自己动手对springboot提供的redis模块进行封装，使其可以无需任何多余的代码编写只需引入提前写好的组件就可以完成任意多个redis数据源的配置。
+>
+由于系统需要同一个项目需要配置多个redis数据源，并且很多项目都是同样的需求；在网上查了一波，大家的做法都是在每个需要配置多个数据源的地方添加多个配置类，需要引入几个数据源就需要写几个配置类，如果有N个项目就需要在N个项目中重复N遍相同的代码；所以就想到了自己动手对springboot提供的redis模块进行封装，使其可以无需任何多余的代码编写只需引入提前写好的组件就可以完成任意多个redis数据源的配置。
 
 ##### 组件支持哪些功能
 
@@ -37,8 +38,6 @@ spring.emily.redis.config.test.lettuce.pool.max-idle=8
 spring.emily.redis.config.test.lettuce.pool.min-idle=0
 spring.emily.redis.config.test.lettuce.pool.max-wait=-1
 ```
-
-
 
 ##### 一、连接工厂配置类RedisDbConnectionConfiguration
 

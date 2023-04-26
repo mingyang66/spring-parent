@@ -145,7 +145,8 @@ org.springframework.cloud.openfeign.FeignClientFactoryBean#loadBalance方法获�
 	}
 ```
 
-> 经上述代码分析可知@FeignClient注解的url为空时，client为loadbalancer微服务对象，其Client对象是FeignBlockingLoadBalancerClient、RetryableFeignBlockingLoadBalancerClient；而url为非空时为普通请求，则Client对象是ApacheHttpClient实例对象，其获取ApacheHttpClient对象是通过getDelegate方法获取，这又是为何呢？
+>
+经上述代码分析可知@FeignClient注解的url为空时，client为loadbalancer微服务对象，其Client对象是FeignBlockingLoadBalancerClient、RetryableFeignBlockingLoadBalancerClient；而url为非空时为普通请求，则Client对象是ApacheHttpClient实例对象，其获取ApacheHttpClient对象是通过getDelegate方法获取，这又是为何呢？
 
 ```java
 @Configuration(proxyBeanMethods = false)
@@ -184,7 +185,5 @@ class HttpClientFeignLoadBalancerConfiguration {
 
 }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

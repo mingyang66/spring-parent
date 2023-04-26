@@ -1,6 +1,7 @@
 ### 死磕源码系列【springboot之ServletContextInitializerBeans如何将Filter、Servlet、EventListener注册到ServletContext中源码解析】
 
-ServletContextInitializerBeans类表示从ListableBeanFactory容器中获取到的ServletContextInitializer实例集合，包括所有的ServletContextInitializer beans，并且也包含Servlet、Filter、EventListener beans集合。
+ServletContextInitializerBeans类表示从ListableBeanFactory容器中获取到的ServletContextInitializer实例集合，包括所有的ServletContextInitializer
+beans，并且也包含Servlet、Filter、EventListener beans集合。
 
 这些beans会被排序，按照Servlet->Filter->EventListener->ServletContextInitializer的顺序排列。
 
@@ -29,7 +30,8 @@ springboot创建tomcat容器是在ServletWebServerApplicationContext#createWebSe
 	}
 ```
 
-ServletContextInitializerBeans是一个从容器ListableBeanFactory中获取的ServletContextInitializer实例对象集合，包含所有的ServletContextInitializer beans对象，Servlet、Filter、EventListener监听器bean。
+ServletContextInitializerBeans是一个从容器ListableBeanFactory中获取的ServletContextInitializer实例对象集合，包含所有的ServletContextInitializer
+beans对象，Servlet、Filter、EventListener监听器bean。
 
 ```java
 public class ServletContextInitializerBeans extends AbstractCollection<ServletContextInitializer> {
@@ -316,7 +318,5 @@ public class ServletContextInitializerBeans extends AbstractCollection<ServletCo
 }
 
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

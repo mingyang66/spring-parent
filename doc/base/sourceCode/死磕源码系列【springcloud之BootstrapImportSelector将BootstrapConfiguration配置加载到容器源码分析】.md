@@ -58,6 +58,4 @@ public class BootstrapImportSelector implements EnvironmentAware, DeferredImport
 
 总结：此类会将springcloud中bootstrap上下文需要加载的组件注入到IOC容器，其spring.factories配置文件中的配置key为org.springframework.cloud.bootstrap.BootstrapConfiguration。
 
-
-
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

@@ -56,5 +56,6 @@
         return objectMapper.getTypeFactory().constructParametricType(parametrized, parameterClasses);
     }
 ```    
+
 上面只列出了工具包的部分代码，其它的可以参考我的源码；
 GitHub源码地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-common-service/src/main/java/com/yaomy/control/common/control/utils/JSONUtils.java](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-common-service/src/main/java/com/yaomy/control/common/control/utils/JSONUtils.java)

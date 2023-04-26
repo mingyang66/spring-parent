@@ -1,6 +1,7 @@
 #### Java计算对象大小RamUsageEstimator工具类
 
 #### 1.引入第三方jar
+
 ```
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -8,9 +9,11 @@
             <version>8.2.0</version>
         </dependency>
 ```
->主要使用该包中的RamUsageEstimator工具类来计算内存大小
+
+> 主要使用该包中的RamUsageEstimator工具类来计算内存大小
 
 #### 2.自定义封装工具类
+
 ```
 package com.yaomy.control.common.control.utils;
 
@@ -38,7 +41,9 @@ public class ObjectSizeUtil {
     }
 }
 ```
+
 #### 3.工具方法使用说明
+
 ```
     public static long alignObjectSize(long size)
     
@@ -78,6 +83,7 @@ public class ObjectSizeUtil {
     ...
 
 ```
->还有其它一些方法没有一一说明，看源码注解就很清楚了
+
+> 还有其它一些方法没有一一说明，看源码注解就很清楚了
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-common-service/memorySize.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-common-service/memorySize.md)

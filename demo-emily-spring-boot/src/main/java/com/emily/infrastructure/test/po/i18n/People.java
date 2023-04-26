@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.po.i18n;
 
-import com.emily.infrastructure.common.i18n.ApiI18n;
 import com.emily.infrastructure.common.i18n.ApiI18nProperty;
 
 /**

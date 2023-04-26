@@ -70,6 +70,4 @@ public class BlockingLoadBalancerClientAutoConfiguration {
 logging.level.org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration=warn
 ```
 
-
-
 GitHub地址:[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

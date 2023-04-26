@@ -118,6 +118,4 @@ BeanDefinitionLoader#load()方法加载主配置类并注册到IOC容器：
 	}
 ```
 
-
-
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

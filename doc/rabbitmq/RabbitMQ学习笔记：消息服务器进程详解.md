@@ -4,7 +4,8 @@
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191211133613759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taW5neWFuZy5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70)
 
-> 可以看到一共有五个进程，其中PID为155（/usr/lib64/erlang/erts-10.5.6/bin/epmd -daemon）的进程是Erlang虚拟机的一个守护进程，与RabbitMQ节点一起运行，运行时使用它来发现特定节点监听端口；其它四个节点属于父子节点的关系；
+> 可以看到一共有五个进程，其中PID为155（/usr/lib64/erlang/erts-10.5.6/bin/epmd
+> -daemon）的进程是Erlang虚拟机的一个守护进程，与RabbitMQ节点一起运行，运行时使用它来发现特定节点监听端口；其它四个节点属于父子节点的关系；
 
 ##### 停止Erlang虚拟机和RabbitMQ应用服务
 

@@ -12,8 +12,6 @@ RabbitMQ是一个多租户系统，connetions、exchange、queues、bindings、u
 
 vhost主机具有名称，当AMQP 0-9-1客户端连接到RabbitMQ时，它将指定要连接的虚拟主机名称。如果身份验证成功并且提供的用户名被授予了对虚拟主机的权限，则建立连接。
 
-
-
 与虚拟主机的连接只能在该虚拟主机中的交换器、队列、绑定等上运行。仅当应用程序同时连接到两个虚拟主机时，才可能在不同的虚拟主机中进行队列和交换器的“互联”。例如：一个应用程序可以从一个虚拟主机中获取数据，然后发送到另外一个虚拟主机。
 
 ##### CLI工具创建虚拟主机
@@ -61,7 +59,7 @@ rabbitmqctl set_permissions [-p <vhost>] <user> <conf> <write> <read>
 
 权限设置包括：配置（队列和交换器的创建和删除）、写（发布消息）、读（有关消息的任何操作，包括清除这个队列）；
 
-1.  conf:一个正则表达式match哪些配置资源能够被该用户访问。
+1. conf:一个正则表达式match哪些配置资源能够被该用户访问。
 2. write:一个正则表达式match哪些配置资源能够被该用户读。
 3. read:一个正则表达式match哪些配置资源能够被该用户访问 。
 
@@ -82,8 +80,6 @@ rabbitmqctl delete_user Username
 ```
 rabbitmqctl change_password Username Newpassword
 ```
-
-
 
 ##### 配置最大连接限制
 

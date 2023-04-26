@@ -82,7 +82,8 @@ public @interface SpringBootConfiguration {
 
 ```
 
-可以看到该注解是@Configuration的派生注解，作用和@Configuration一样标注当前类是一个配置类，只不过@SpringBootConfiguration注解是springboot的注解，@Configuration是Spring注解；应用程序应该仅包含一个@SpringBootConfiguration注解，大多数通用的springboot 应用程序会自动继承@SpringBootConfiguration。
+可以看到该注解是@Configuration的派生注解，作用和@Configuration一样标注当前类是一个配置类，只不过@SpringBootConfiguration注解是springboot的注解，@Configuration是Spring注解；应用程序应该仅包含一个@SpringBootConfiguration注解，大多数通用的springboot
+应用程序会自动继承@SpringBootConfiguration。
 
 参考@Configuration用法：[https://blog.csdn.net/yaomingyang/article/details/108238121](https://blog.csdn.net/yaomingyang/article/details/108238121)
 

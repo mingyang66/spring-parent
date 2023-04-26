@@ -91,6 +91,4 @@ org.springframework.context.annotation.BeanMethod#validate
 
 ```
 
-
-
 GitHub代码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

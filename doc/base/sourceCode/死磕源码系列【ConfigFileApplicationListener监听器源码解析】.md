@@ -12,7 +12,9 @@ ConfigFileApplicationListener监听器类继承SmartApplicationListener接口实
 	}
 ```
 
-监听器支持ApplicationEnvironmentPreparedEvent、ApplicationPreparedEvent事件，其中ApplicationEnvironmentPreparedEvent事件是在SpringApplication#prepareEnvironment方法中通过listeners.environmentPrepared(environment)触发，ApplicationPreparedEvent事件是在SpringApplication#prepareContext方法中通过listeners.contextLoaded(context)触发；
+监听器支持ApplicationEnvironmentPreparedEvent、ApplicationPreparedEvent事件，其中ApplicationEnvironmentPreparedEvent事件是在SpringApplication#prepareEnvironment方法中通过listeners.environmentPrepared(
+environment)触发，ApplicationPreparedEvent事件是在SpringApplication#prepareContext方法中通过listeners.contextLoaded(
+context)触发；
 
 ##### 看下事件发生时触发的方法onApplicationEvent（此方法是监听器类业务处理的入口）：
 
@@ -71,8 +73,6 @@ org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProce
 org.springframework.boot.reactor.DebugAgentEnvironmentPostProcessor
 ```
 
-
-
 ##### 现在我们只看ConfigFileApplicationListener监听器类作为EnvironmentPostProcessor实现类提供的回调方法postProcessEnvironment：
 
 ```java
@@ -111,7 +111,8 @@ addPropertySources方法添加配置文件属性源到指定的环境：
 		}
 ```
 
-org.springframework.core.io.ResourceLoader接口加载classpath及file system下的资源配置文件，通常ApplicationContext需要这样的功能，DefaultResourceLoader是一个独立的实现在ApplicationContext之外使用的资源加载程序：
+org.springframework.core.io.ResourceLoader接口加载classpath及file
+system下的资源配置文件，通常ApplicationContext需要这样的功能，DefaultResourceLoader是一个独立的实现在ApplicationContext之外使用的资源加载程序：
 
 ```java
 public interface ResourceLoader {
@@ -347,8 +348,6 @@ private void load(PropertySourceLoader loader, String location, Profile profile,
 			};
 		}
 ```
-
-
 
 ##### loadDocument方法调用PropertySourceLoader加载程序的真实加载方法将配置加载到内存当中：
 

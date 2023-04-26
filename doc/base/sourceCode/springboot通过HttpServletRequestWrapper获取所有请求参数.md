@@ -1,6 +1,7 @@
 ### springboot通过HttpServletRequestWrapper获取所有请求参数
 
-> springboot通过拦截器获取参数有两种方式，一种通过request.getParameter获取Get方式传递的参数，另外一种是通过request.getInputStream或reques.getReader获取通过POST/PUT/DELETE/PATCH传递的参数；
+>
+springboot通过拦截器获取参数有两种方式，一种通过request.getParameter获取Get方式传递的参数，另外一种是通过request.getInputStream或reques.getReader获取通过POST/PUT/DELETE/PATCH传递的参数；
 
 ##### 1.拦截器获取参数有哪些方式
 

@@ -1,6 +1,7 @@
 Java中的弱引用WeakReference详解
 
-> 最近再看ThreadLocal源码，其中内部类ThreadLocalMap中的Entry类继承了WeakReference，其表示key的ThreadLocal对象是通过弱应用指向，如果外部没有强引用对象指向ThreadLocal对象的时候就会被GC回收掉，不论当前的内存空间是否足够，这个对象都会被回收
+>
+最近再看ThreadLocal源码，其中内部类ThreadLocalMap中的Entry类继承了WeakReference，其表示key的ThreadLocal对象是通过弱应用指向，如果外部没有强引用对象指向ThreadLocal对象的时候就会被GC回收掉，不论当前的内存空间是否足够，这个对象都会被回收
 
 ##### 一、WeakReference源码，其中只有两个构造函数
 

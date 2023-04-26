@@ -123,7 +123,8 @@ public class DefaultApplicationArguments implements ApplicationArguments {
 
 ##### 3.SimpleCommandLinePropertySource类源码
 
-与所有的CommandLinePropertySource实现一样，命令行参数分为两个不同的组（其另外一个实现JOptCommandLinePropertySource是使用第三方实现[https://github.com/jopt-simple/jopt-simple](https://github.com/jopt-simple/jopt-simple)）：选项参数和非选项参数；
+与所有的CommandLinePropertySource实现一样，命令行参数分为两个不同的组（其另外一个实现JOptCommandLinePropertySource是使用第三方实现[https://github.com/jopt-simple/jopt-simple](https://github.com/jopt-simple/jopt-simple)
+）：选项参数和非选项参数；
 
 使用选项参数必须遵循精确的语法，也就是说，选项必须以”--“为前缀，并且可以指定值，也可以不指定值；如果指定了一个值，则名称和值必须用”=“号分割，且不带空格，值可以是空字符串。
 
@@ -150,8 +151,6 @@ public class DefaultApplicationArguments implements ApplicationArguments {
 非选项参数：
 
 在命令行中指定的没有”--“选项前缀的任何参数都将被视为非选项参数。
-
-
 
 ```java
 public class SimpleCommandLinePropertySource extends CommandLinePropertySource<CommandLineArgs> {
@@ -308,8 +307,6 @@ class CommandLineArgs {
 
 }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)
 

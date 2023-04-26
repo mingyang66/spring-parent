@@ -1,6 +1,7 @@
 ### 死磕源码系列【ConfigurationCondition、TrackedConditionEvaluator、ConditionEvaluator接口类源码详解】
 
-> ConfigurationCondition接口继承自Condition接口，Condition接口只有一个matches方法，用来判定是否符合条件；ConfigurationCondition接口中有一个方法getConfigurationPhase，返回一个枚举值。
+>
+ConfigurationCondition接口继承自Condition接口，Condition接口只有一个matches方法，用来判定是否符合条件；ConfigurationCondition接口中有一个方法getConfigurationPhase，返回一个枚举值。
 
 源码如下：
 
@@ -33,7 +34,8 @@ public interface ConfigurationCondition extends Condition {
 
 ```
 
-> 总结来说上述配置阶段枚举值的意思就是在什么阶段对bean进行过滤，PARSE_CONFIGURATION值的意思是将bean转换为ConfigurationClass类之前进行过滤，REGISTER_BEAN值的意思是在将bean的ConfigurationClass转换为BeanDefinition并注册到IOC容器之前进行过滤；
+>
+总结来说上述配置阶段枚举值的意思就是在什么阶段对bean进行过滤，PARSE_CONFIGURATION值的意思是将bean转换为ConfigurationClass类之前进行过滤，REGISTER_BEAN值的意思是在将bean的ConfigurationClass转换为BeanDefinition并注册到IOC容器之前进行过滤；
 
 ------
 
@@ -184,8 +186,6 @@ ConditionEvaluator#getConditionClasses方法源码（获取条件配置类）：
 	}
 ```
 
-
-
 ConditionEvaluator#getCondition条件配置类实例化：
 
 ```java
@@ -194,7 +194,5 @@ ConditionEvaluator#getCondition条件配置类实例化：
 		return (Condition) BeanUtils.instantiateClass(conditionClass);
 	}
 ```
-
-
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

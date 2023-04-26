@@ -1,18 +1,22 @@
 #### Spring boot加载war、jar包(项目)之外的自定义配置文件之EnvironmentPostProcessor
 
-通常spring boot项目的配置文件都是配置在classpath环境变量下面，系统会默认使用ConfigFileApplicationListener去加载；但是如果项目打成war、jar包并且已经升级过了或者在项目之外有自定义的配置文件，这时候想改配置
+通常spring
+boot项目的配置文件都是配置在classpath环境变量下面，系统会默认使用ConfigFileApplicationListener去加载；但是如果项目打成war、jar包并且已经升级过了或者在项目之外有自定义的配置文件，这时候想改配置
 文件这时候就需要重新打包了，这样很麻烦，而Spring boot也给我们提供了扩展的接口EnvironmentPostProcessor；
 
 #### 1.EnvironmentPostProcessor源码
+
 ```
 @FunctionalInterface
 public interface EnvironmentPostProcessor {
     void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application);
 }
 ```
->接口是一个函数式接口，只有一个方法postProcessEnvironment用来加载外部自定义配置
+
+> 接口是一个函数式接口，只有一个方法postProcessEnvironment用来加载外部自定义配置
 
 ##### 2.看过源码后直接看自定义实现方式
+
 ```
 package com.yaomy.common.env;
 
@@ -79,18 +83,24 @@ public class UserEnvironmentPostProcessor implements EnvironmentPostProcessor {
 ```
 
 #### 3.要想使自定义的EnvironmentPostProcessor生效必须配置一个配置文件
+
 在resource目录下新增META-INF文件夹，在文件加下新建spring.facories文件，添加上如下配置
+
 ```
 org.springframework.boot.env.EnvironmentPostProcessor=com.yaomy.common.env.UserEnvironmentPostProcessor
 ```
+
 #### 4.在application.properties配置文件中新增
+
 ```
 spring.custom.file.loading=dev,devDb,devRedis,devSms
 spring.custom.file.path=D:\\work\\workplace\\config\\
 ```
->上面是我们自定义配置文件的实现方式，接下来我们看下自定义配置文件时如何被加载的
+
+> 上面是我们自定义配置文件的实现方式，接下来我们看下自定义配置文件时如何被加载的
 
 #### 5.ConfigFileApplicationListener调用自定义配置文件后处理器
+
 ```
     private void onApplicationEnvironmentPreparedEvent(ApplicationEnvironmentPreparedEvent event) {
         //获取系统中所有的后置处理器实现类
@@ -113,8 +123,10 @@ spring.custom.file.path=D:\\work\\workplace\\config\\
         return SpringFactoriesLoader.loadFactories(EnvironmentPostProcessor.class, this.getClass().getClassLoader());
     }
 ```
->onApplicationEvent调用上面的方法，而onApplicationEvent方法又是ConfigFileApplicationListener类实现SmartApplicationListener监听器的实现类，
-会在事件发布后自动的加载配置文件
+
+> onApplicationEvent调用上面的方法，而onApplicationEvent方法又是ConfigFileApplicationListener类实现SmartApplicationListener监听器的实现类，
+> 会在事件发布后自动的加载配置文件
+
 ```
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ApplicationEnvironmentPreparedEvent) {
@@ -127,7 +139,9 @@ spring.custom.file.path=D:\\work\\workplace\\config\\
 
     }
 ```    
->上面的分析我们知道了是通过监听器监听到事件之后触发自定义配置类的加载，那监听器又是在哪里启动及加载呢？它是在启动类SpringApplication中加载的，如下：
+
+> 上面的分析我们知道了是通过监听器监听到事件之后触发自定义配置类的加载，那监听器又是在哪里启动及加载呢？它是在启动类SpringApplication中加载的，如下：
+
 ```
 public class SpringApplication {
     ...
@@ -143,7 +157,8 @@ public class SpringApplication {
     }
 }    
 ```    
->TIPS：上面的从加载监听器->监听事件->加载自定义配置类->调用自定义配置类方法，整个流程都分析完毕了，那我会有一个疑问？事件是在哪里，何时发布？
+
+> TIPS：上面的从加载监听器->监听事件->加载自定义配置类->调用自定义配置类方法，整个流程都分析完毕了，那我会有一个疑问？事件是在哪里，何时发布？
 
 #### 6.事件的广播发布
 
@@ -178,7 +193,9 @@ public class SpringApplication {
         }
 }
 ``` 
->EventPublishingRunListener监听器中有一个SimpleApplicationEventMulticaster广播类，通过广播类向其它监听器发送广播事件
+
+> EventPublishingRunListener监听器中有一个SimpleApplicationEventMulticaster广播类，通过广播类向其它监听器发送广播事件
+
 ```
 public class EventPublishingRunListener implements SpringApplicationRunListener, Ordered {
 

@@ -45,9 +45,11 @@ consul agent \
 ```
 
 - `server` ： 定义agent运行在server模式
-- `bootstrap` ：用来控制一个server是否在bootstrap模式，在一个datacenter中只能有一个server处于bootstrap模式，当一个server处于bootstrap模式时，可以自己选举为raft leader
+- `bootstrap` ：用来控制一个server是否在bootstrap模式，在一个datacenter中只能有一个server处于bootstrap模式，当一个server处于bootstrap模式时，可以自己选举为raft
+  leader
 - `bootstrap-expect` ：在一个datacenter中期望提供的server节点数目，当该值提供的时候，consul一直等到达到指定sever数目的时候才会引导整个集群，该标记不能和bootstrap共用
-- `bind`：该地址用来在集群内部的通讯，集群内的所有节点到地址都必须是可达的(默认是0.0.0.0,多张网卡的时候会报错，必须启动命令显式指定ip)
+- `bind`：该地址用来在集群内部的通讯，集群内的所有节点到地址都必须是可达的(
+  默认是0.0.0.0,多张网卡的时候会报错，必须启动命令显式指定ip)
 - `node`：节点在集群中的名称，在一个集群中必须是唯一的，默认是该节点的主机名
 - `rejoin`：使consul忽略先前的离开，在再次启动后仍旧尝试加入集群中。
 - `config-dir`：配置文件目录，里面所有以.json结尾的文件都会被加载
@@ -139,7 +141,5 @@ export CONSUL_HTTP_TOKEN=<your_token_here>
 ```
 
 学习参考：[https://learn.hashicorp.com/tutorials/consul/access-control-setup-production](https://learn.hashicorp.com/tutorials/consul/access-control-setup-production)
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

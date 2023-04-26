@@ -48,15 +48,19 @@ public class MyWebAppInitializer implements WebApplicationInitializer {
 
 如你所见，由于Servlet3.0+新的ServletContext#addServlet方法，我们实际上注册了DispatcherServlet实例对象，这意味着现在可以像对待任何其他对象一样对待，在本例中，通过构造函数注入的方式注入应用程序上下文。
 
-这种风格即简单又简洁，不需要处理init params等，只是普通的JavaBean风格的属性和构造函数参数。在将Spring应用上下文中注入DispatcherServlet之前，你可以根据需要自由地创建和使用Spring应用程序上下文。
+这种风格即简单又简洁，不需要处理init
+params等，只是普通的JavaBean风格的属性和构造函数参数。在将Spring应用上下文中注入DispatcherServlet之前，你可以根据需要自由地创建和使用Spring应用程序上下文。
 
-大多数主要的Spring web组件都已更新以支持这种注册方式，你将发现DispatcherServlet、FrameworkServlet、ContextLoaderListener、DelegatingFilterProxy现在都支持构造函数参数。即使某一个组件（如：非Spring、其它第三方）尚未专门更新以在WebApplicationInitializers中使用，在任何情况下，它们仍然可以使用，Servlet3.0 API允许以编程的方式设置init-params、context-params等。
+大多数主要的Spring
+web组件都已更新以支持这种注册方式，你将发现DispatcherServlet、FrameworkServlet、ContextLoaderListener、DelegatingFilterProxy现在都支持构造函数参数。即使某一个组件（如：非Spring、其它第三方）尚未专门更新以在WebApplicationInitializers中使用，在任何情况下，它们仍然可以使用，Servlet3.0
+API允许以编程的方式设置init-params、context-params等。
 
 ##### 100%基于代码的配置方法
 
 在上面的实例中WEB-INF/web.xml文件已成功替换为代码格式，但是实际的dispatcher-config.xml配置仍然基于XML。
 
-WebApplicationInitializer非常适合与Spring的基于代码的JavaConfig @Configuration配置类一起使用。可以查看org.springframework.context.annotation.Configuration 的Javadoc详细文档信息。
+WebApplicationInitializer非常适合与Spring的基于代码的JavaConfig
+@Configuration配置类一起使用。可以查看org.springframework.context.annotation.Configuration 的Javadoc详细文档信息。
 
 下面的例子演示了如何使用Spring的org.springframework.web.context.support.AnnotationConfigWebApplicationContext代替XmlWebApplicationContext。
 
@@ -108,7 +112,5 @@ public interface WebApplicationInitializer {
 
 }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

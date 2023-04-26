@@ -18,5 +18,4 @@ git push origin newName
 git push --delete origin oldName
 ```
 
-
 GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/git](https://github.com/mingyang66/spring-parent/tree/master/doc/git)

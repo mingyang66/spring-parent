@@ -14,7 +14,7 @@ import com.emily.infrastructure.test.po.i18n.Teacher;
  */
 public class I18nTest {
     public static void main(String[] args) throws IllegalAccessException {
-        LanguageMap.bindEn("田晓霞","tianxiaoxia");
+        LanguageMap.bindEn("田晓霞", "tianxiaoxia");
         LanguageMap.bindEn("李老师", "li teacher");
         LanguageMap.bindEn("孙少平", "sun shao ping");
         LanguageMap.bindEn("孙少安", "sun shao an");
@@ -22,9 +22,9 @@ public class I18nTest {
         student.setAge(18);
         student.setName("田晓霞");
 
-       // System.out.println(JSONUtils.toJSONString(I18nUtils.acquire(student, LanguageType.EN)));
+        // System.out.println(JSONUtils.toJSONString(I18nUtils.acquire(student, LanguageType.EN)));
         Teacher teacher = new Teacher();
-        teacher.name ="李老师";
+        teacher.name = "李老师";
         teacher.studentList.add(student);
         student.setName("孙少平");
         teacher.studentMap.put("testMap1", student);

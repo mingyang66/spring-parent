@@ -21,25 +21,26 @@
 ```
 ./mvnw versions:commit
 ```
+
 ##### 4.项目打包(同时处理项目所依赖的包)
 
 ```
 mvn clean install -pl emily-spring-boot-starter -am
 ```
+
 或
+
 ```
 ./mvnw clean install -pl emily-spring-boot-starter -am
 ```
 
-
-
-| 参数 | 全程                   | 说明                                                         |
-| ---- | ---------------------- | ------------------------------------------------------------ |
+| 参数   | 全程                     | 说明                                                 |
+|------|------------------------|----------------------------------------------------|
 | -pl  | --projects             | 选项后可跟随{groupId}:{artifactId}或者所选模块的相对路径(多个模块以逗号分隔) |
-| -am  | --also-make            | 表示同时处理选定模块所依赖的模块                             |
-| -amd | --also-make-dependents | 表示同时处理依赖选定模块的模块                               |
-| -N   | --non-                 | 表示不递归子模块                                             |
-| -rf  | --resume-frm           | 表示从指定模块开始继续处理                                   |
+| -am  | --also-make            | 表示同时处理选定模块所依赖的模块                                   |
+| -amd | --also-make-dependents | 表示同时处理依赖选定模块的模块                                    |
+| -N   | --non-                 | 表示不递归子模块                                           |
+| -rf  | --resume-frm           | 表示从指定模块开始继续处理                                      |
 
 ### 打tag标签
 
@@ -58,6 +59,7 @@ git push origin --tags
 其它tag操作参考：[tag操作指南](https://blog.csdn.net/Emily/article/details/78839295?ops_request_misc=%7B%22request%5Fid%22%3A%22158685673019724835840750%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158685673019724835840750&biz_id=0&utm_source=distribute.pc_search_result.none-task-blog-blog_SOOPENSEARCH-1)
 
 ------
+
 #### 一、动态数据库多数据源组件
 
 ##### 特性：
@@ -215,8 +217,6 @@ spring.emily.mybatis.enabled=true
 #是否拦截超类或者接口中的方法，默认：true
 spring.emily.mybatis.check-class-inherited=true
 ```
-
-
 
 #### 三、Redis多数据源组件
 
@@ -431,8 +431,6 @@ public class TestTimeout {
 }
 ```
 
-
-
 #### 六、Feign组件
 
 - 扩展点FeignLoggerCustomizer，AOP根据拦截器的优先级判定使用优先级最高者
@@ -471,8 +469,6 @@ public interface DefaultFeignHandler {
 }
 ```
 
-
-
 - 自定义超时时间使用示例：
 
 ```java
@@ -485,8 +481,6 @@ public interface CustomFeignHandler {
     BaseResponse<String> getCustom(@RequestParam("timeout")  int timeout);
 }
 ```
-
-
 
 #### 七、API路由设置组件
 

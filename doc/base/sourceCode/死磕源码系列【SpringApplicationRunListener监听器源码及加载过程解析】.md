@@ -1,10 +1,12 @@
 ### 死磕源码系列【SpringApplicationRunListener监听器源码及加载过程解析】
 
-> springboot提供了两个类SpringApplicationRunListeners、SpringApplicationRunListener（EventPublishingRunListener），spring框架还提供了一个ApplicationListener接口，那么这几个类或接口的关系又是如何呢？首先SpringApplicationRunListeners类是SpringApplicationRunListener接口的代理类，可以批量调用SpringApplicationRunListener接口方法，SpringApplicationRunListener接口只有一个实现类EventPublishingRunListener，其有一个属性SimpleApplicationEventMulticaster，SimpleApplicationEventMulticaster即是一个ApplicationListener监听器接口的代理实现类，可以批量的执行监听器的onApplicationEvent方法。
+>
+springboot提供了两个类SpringApplicationRunListeners、SpringApplicationRunListener（EventPublishingRunListener），spring框架还提供了一个ApplicationListener接口，那么这几个类或接口的关系又是如何呢？首先SpringApplicationRunListeners类是SpringApplicationRunListener接口的代理类，可以批量调用SpringApplicationRunListener接口方法，SpringApplicationRunListener接口只有一个实现类EventPublishingRunListener，其有一个属性SimpleApplicationEventMulticaster，SimpleApplicationEventMulticaster即是一个ApplicationListener监听器接口的代理实现类，可以批量的执行监听器的onApplicationEvent方法。
 
 ##### 1.SpringApplicationRunListener接口源码
 
-SpringApplicationRunListener是对org.springframework.boot.SpringApplication类的run方法进行监听，SpringApplicationRunListener实现类是通过SpringFactoriesLoader类加载（即springboot SPI）;并且需要声明一个包含SpringApplication实例及String[]的参数构造方法。
+SpringApplicationRunListener是对org.springframework.boot.SpringApplication类的run方法进行监听，SpringApplicationRunListener实现类是通过SpringFactoriesLoader类加载（即springboot
+SPI）;并且需要声明一个包含SpringApplication实例及String[]的参数构造方法。
 
 ```java
 public interface SpringApplicationRunListener {
@@ -121,8 +123,6 @@ org.springframework.boot.context.logging.LoggingApplicationListener,\
 org.springframework.boot.liquibase.LiquibaseServiceLocatorApplicationListener
 ```
 
-
-
 ##### 3.SpringApplicationRunListener接口实现类集合类SpringApplicationRunListeners
 
 ```java
@@ -208,7 +208,5 @@ org.springframework.boot.SpringApplicationRunListener=\
 org.springframework.boot.context.event.EventPublishingRunListener
 
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

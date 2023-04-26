@@ -41,7 +41,8 @@ public class Compression {
     ...
 ```
 
-excludedUserAgents属性即server.compression.excluded-user-agents配置属性，指定不压缩的user-agent,使用正则表达式指定哪些浏览器不压缩，如：.*Chrome/83.0.4103.116.*|.*Safari/605.1.15.*
+excludedUserAgents属性即server.compression.excluded-user-agents配置属性，指定不压缩的user-agent,使用正则表达式指定哪些浏览器不压缩，如：.
+*Chrome/83.0.4103.116.*|.*Safari/605.1.15.*
 
 ```java
 #是否开启压缩，默认false
@@ -57,8 +58,6 @@ server.compression.excluded-user-agents=.*Chrome/83.0.4103.116.*|.*Safari/605.1.
 ```
 源码中虽然说server.compression.excluded-user-agents可以使用逗号隔开配置多个，但是实际测试发现是不支持的，如果需要配置多个可以使用正则表达式的或关系
 ```
-
-
 
 ##### 源码简单分析，以下是初始化tomcat容器支持压缩的基本分析：
 

@@ -15,7 +15,9 @@ ACL SETUSER username [rule [rule ...]]
 
 ##### Command rules（命令行规则）
 
-- ~<pattern>: 添加指定key的匹配模式（正则表达式），指定key模式匹配的列表的可读可写权限，也可以给用户指定多个key的匹配模式；示例：~objects:*
+- ~<pattern>:
+  添加指定key的匹配模式（正则表达式），指定key模式匹配的列表的可读可写权限，也可以给用户指定多个key的匹配模式；示例：~
+  objects:*
 - %R~<pattern>:（7.0以后版本支持）指定可读的key的匹配模式；
 - %W~<pattern>:（7.0以后版本支持）指定可写的key的匹配模式；
 - %RW~<pattern>: （7.0以后版本支持）别名是~<pattern>；
@@ -37,7 +39,8 @@ ACL SETUSER username [rule [rule ...]]
 - off: 将用户设置为非激活状态，如果用户已经和redis服务器建立连接，则可以正常的操作（除非删除用户或者关闭连接）
 - nopass: 设置用户无密码认证；
 - />password: 给用户添加指定的密码（eg: 》>password）；
-- #<hashedpassword>: 添加指定的哈希编码过的用户密码（eg: c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2）；
+- #<hashedpassword>: 添加指定的哈希编码过的用户密码（eg:
+  c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2）；
 - <password: 类似>password, 删除指定的密码；
 - !<hashedpassword>: 类似#<hashedpassword>, 删除指定的哈希密码；
 - reset: 删除用户的任何功能；

@@ -1,15 +1,17 @@
 ### commons-io程序库使用
 
->commons-io库是帮助开发IO功能的实用程序库，主要包括IOUtils工具类、FileUtils工具类、FilenameUtils工具类、EndianUtils工具类、FileSystemUtils工具类；
+> commons-io库是帮助开发IO功能的实用程序库，主要包括IOUtils工具类、FileUtils工具类、FilenameUtils工具类、EndianUtils工具类、FileSystemUtils工具类；
 
- * IOUtils:是使用最频繁的工具类，主要提供读、写、复制、关闭流操作
- * FileUtils:提供基于JDK文件类的操作。包括阅读、写作、复制、比较和删除
- * FilenameUtils:用户对文件的名称及路径进行操作
- * EndianUtils:在Big-Endian和Little-Endian之间转换数据
- * FileSystemUtils:允许以JDK不支持的方式访问文件系统。目前，这允许您获取驱动器上的可用空间。最新2.6版本已经废弃，可以使用java.nio.FileStore代替
- 
- 个人对FileUtils、FilenameUtils工具类做了重构，主要是为了处理异常，在使用的时候不必每次都要对异常进行处理
- #### 1.FileUtils的103个工具方法
+* IOUtils:是使用最频繁的工具类，主要提供读、写、复制、关闭流操作
+* FileUtils:提供基于JDK文件类的操作。包括阅读、写作、复制、比较和删除
+* FilenameUtils:用户对文件的名称及路径进行操作
+* EndianUtils:在Big-Endian和Little-Endian之间转换数据
+* FileSystemUtils:允许以JDK不支持的方式访问文件系统。目前，这允许您获取驱动器上的可用空间。最新2.6版本已经废弃，可以使用java.nio.FileStore代替
+
+个人对FileUtils、FilenameUtils工具类做了重构，主要是为了处理异常，在使用的时候不必每次都要对异常进行处理
+
+#### 1.FileUtils的103个工具方法
+
  ```
  package com.yaomy.control.common.control.utils;
  
@@ -1377,6 +1379,7 @@
 ```
 
 #### 2.FilenameUtils的27个工具方法
+
 ```
 package com.yaomy.control.common.control.utils;
 

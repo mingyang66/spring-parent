@@ -12,7 +12,9 @@
 
 在Redis 官方GitHub上发现一个ISSUE：https://github.com/redis/redis/issues/8172
 
-> Hi [@bonikforever](https://github.com/bonikforever), thanks for reporting this. This is a result of a bugfix that introduced a regression when the directory where the configuration file resides cannot be written to (which is more or less the case with a single file bindmount).
+> Hi [@bonikforever](https://github.com/bonikforever), thanks for reporting this. This is a result of a bugfix that
+> introduced a regression when the directory where the configuration file resides cannot be written to (which is more or
+> less the case with a single file bindmount).
 >
 > You can work around this easily by bind mounting the entire directory. For example:
 
@@ -29,7 +31,5 @@ chmod -R 0777 redis.conf
 ```
 
 启动该节点发现集群正常运行了，问题完美解决。
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

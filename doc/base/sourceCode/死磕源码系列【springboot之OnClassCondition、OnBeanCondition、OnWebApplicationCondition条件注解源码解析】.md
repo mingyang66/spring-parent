@@ -18,7 +18,8 @@ org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition
 	}
 ```
 
-之前的一篇文章[死磕源码系列【AutoConfigurationMetadataLoader之加载自动化配置元数据源码详解】](https://mingyang.blog.csdn.net/article/details/110448665)已经讲解过通过这三个过滤器取过滤掉不符合条件的配置类，本文不再详解；
+之前的一篇文章[死磕源码系列【AutoConfigurationMetadataLoader之加载自动化配置元数据源码详解】](https://mingyang.blog.csdn.net/article/details/110448665)
+已经讲解过通过这三个过滤器取过滤掉不符合条件的配置类，本文不再详解；
 
 ##### 1.OnClassCondition类在这三个类中优先级最高（@ConditionalOnClass、@ConditionalOnMissingClass），所以先讲解此类
 
@@ -30,7 +31,8 @@ org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition
 	}
 ```
 
-> 此接口是一个条件解析接口，返回当前配置类是否符合条件及日志信息，其有两个实现类StandardOutcomesResolver和ThreadedOutcomesResolver，其中ThreadedOutcomesResolver是采用线程异步的方式解析配置类，最终还是调用StandardOutcomesResolver的实现方法；
+>
+此接口是一个条件解析接口，返回当前配置类是否符合条件及日志信息，其有两个实现类StandardOutcomesResolver和ThreadedOutcomesResolver，其中ThreadedOutcomesResolver是采用线程异步的方式解析配置类，最终还是调用StandardOutcomesResolver的实现方法；
 
 ##### StandardOutcomesResolver标准条件匹配解析类：
 

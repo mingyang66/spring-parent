@@ -1,6 +1,8 @@
 ### 死磕源码系列【springboot actuator使用相同或不同management.server.port端口ApplicationContext应用程序上下文源码详解】
 
-> springboot actuator用于springboot项目健康监控，默认端口和应用程序相同，这时它们使用同一个应用程序上下文及tomcat容器；当management.server.port端口和应用程序不同时，actuator的应用上下文是系统的子上下文，使用独立的tomcat容器，这时如果我想拦截actuator应用程序的端点、管理actuator的容器及bean又该如何下手呢？
+> springboot
+>
+actuator用于springboot项目健康监控，默认端口和应用程序相同，这时它们使用同一个应用程序上下文及tomcat容器；当management.server.port端口和应用程序不同时，actuator的应用上下文是系统的子上下文，使用独立的tomcat容器，这时如果我想拦截actuator应用程序的端点、管理actuator的容器及bean又该如何下手呢？
 
 ##### 1.监控的端口相同时正常的拦截器及过滤器都可以拦截到端点的请求，但是当端口不同的时候这些统统失效了，啊啊崩溃，如何解决呢？线让大家看一个不同端口拦截端点请求的示例：
 
@@ -54,7 +56,8 @@ org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguratio
   com.emily.boot.actuator.autoconfigure.MonitorFilterRegistrationBeanAutoConfiguration
 ```
 
-> 经过上述简单的三步，一个基于springboot SPI机制的自动化配置组件开发完成，过滤器就可以拦截到端点发送过来的请求；是不是很神奇，脑袋里会有个疑问？这是如何拦截的？怎么做到的？接下来就这些疑问对源码进行分析并进行一一的解答。
+> 经过上述简单的三步，一个基于springboot
+> SPI机制的自动化配置组件开发完成，过滤器就可以拦截到端点发送过来的请求；是不是很神奇，脑袋里会有个疑问？这是如何拦截的？怎么做到的？接下来就这些疑问对源码进行分析并进行一一的解答。
 
 ##### 2.ManagementContext上下文加载
 
@@ -66,9 +69,13 @@ org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoC
 org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementContextAutoConfiguration
 ```
 
-> 看到EnableAutoConfiguration你应该能想到这是自动化配置（基于springboot SPI），ManagementContextAutoConfiguration、ServletManagementContextAutoConfiguration这两个类会在应用程序启动后自动的加载到容器之中，ServletManagementContextAutoConfiguration配置类是一个基于servlet应用 程序的工厂类，创建ManagementContext应用程序上下文；ManagementContextAutoConfiguration会在端口不同的时候通过事件触发ManagementContext应用上下文的创建。
+> 看到EnableAutoConfiguration你应该能想到这是自动化配置（基于springboot
+>
+SPI），ManagementContextAutoConfiguration、ServletManagementContextAutoConfiguration这两个类会在应用程序启动后自动的加载到容器之中，ServletManagementContextAutoConfiguration配置类是一个基于servlet应用
+> 程序的工厂类，创建ManagementContext应用程序上下文；ManagementContextAutoConfiguration会在端口不同的时候通过事件触发ManagementContext应用上下文的创建。
 
-ManagementContextAutoConfiguration是在 management.server.port和server.port端口相同时向环境Environment中添加属性配置，不同时创建应用程序上下文并初始化相关bean;端口相同时就不在讲解，看源码就明白了，只讲解端口不同时的源码：
+ManagementContextAutoConfiguration是在
+management.server.port和server.port端口相同时向环境Environment中添加属性配置，不同时创建应用程序上下文并初始化相关bean;端口相同时就不在讲解，看源码就明白了，只讲解端口不同时的源码：
 
 DifferentManagementContextConfiguration是ManagementContextAutoConfiguration的一个内部类：
 
@@ -117,7 +124,8 @@ DifferentManagementContextConfiguration是ManagementContextAutoConfiguration的�
 	}
 ```
 
-> @ConditionalOnManagementPort注解标注当端口不同的时候会将此类实例化加入到应用程序的IOC容器之中，其还实现了ApplicationListener监听器接口，触发此监听器的事件是WebServerInitializedEvent；具体是org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext#createWebServer方法中的WebServerStartStopLifecycle类对应的start方法触发此事件；
+>
+@ConditionalOnManagementPort注解标注当端口不同的时候会将此类实例化加入到应用程序的IOC容器之中，其还实现了ApplicationListener监听器接口，触发此监听器的事件是WebServerInitializedEvent；具体是org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext#createWebServer方法中的WebServerStartStopLifecycle类对应的start方法触发此事件；
 
 上述DifferentManagementContextConfiguration类的核心是onApplicationEvent方法，通过ServletManagementContextFactory工厂方法createManagementContext创建应用程序上下文：
 

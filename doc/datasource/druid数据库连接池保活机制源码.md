@@ -87,8 +87,6 @@ public class DestroyConnectionThread extends Thread {
     }
 ```
 
-
-
 ##### shirnk方法核心代码
 
 ```java
@@ -272,7 +270,5 @@ public class DestroyConnectionThread extends Thread {
         }
     }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

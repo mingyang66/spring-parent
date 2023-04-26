@@ -46,6 +46,4 @@ druid数据库连接池initial-size参数详解
     }
 ```
 
-
-
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

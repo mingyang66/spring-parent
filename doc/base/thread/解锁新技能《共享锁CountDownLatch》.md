@@ -1,6 +1,7 @@
 #### 解锁新技能《共享锁CountDownLatch》
 
-> CountDownLatch是一种同步辅助工具，允许一个或多个线程等待，直到在其它线程中执行的一组操作完成；CountDownLatch使用指定的计数初始化。wait方法会阻塞，直到当前计数由于countDown方法的调用而达到零，之后所有的等待线程都会被释放，任何后续的wait调用都会立即返回。这是一种一次性现象，计数无法重置。如果需要重置计数的版本，可以参考CyclicBarrier。
+>
+CountDownLatch是一种同步辅助工具，允许一个或多个线程等待，直到在其它线程中执行的一组操作完成；CountDownLatch使用指定的计数初始化。wait方法会阻塞，直到当前计数由于countDown方法的调用而达到零，之后所有的等待线程都会被释放，任何后续的wait调用都会立即返回。这是一种一次性现象，计数无法重置。如果需要重置计数的版本，可以参考CyclicBarrier。
 
 ##### 一、CountDownLatch的使用方法
 

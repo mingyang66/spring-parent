@@ -41,7 +41,8 @@ stopped 1 plugins.
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191220172623283.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taW5neWFuZy5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70)
 
-可以在此Tab项中添加相应的trace,如上图所示；在添加完成trace之后，会根据匹配规则将相应的日志输出到对应的trace文件中，文件的默认路径是/var/tmp/rabbitmq-tracing，可以在页面中直接点击Trace log files查看追踪到的消息，如下图：
+可以在此Tab项中添加相应的trace,如上图所示；在添加完成trace之后，会根据匹配规则将相应的日志输出到对应的trace文件中，文件的默认路径是/var/tmp/rabbitmq-tracing，可以在页面中直接点击Trace
+log files查看追踪到的消息，如下图：
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191220173351810.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taW5neWFuZy5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70)
 
@@ -65,7 +66,8 @@ stopped 1 plugins.
 
 - Format:表示输出消息日志的格式，有Text和JSON两种，Text格式方便人类阅读，JSON格式方便程序解析
 
-- Max payload bytes:表示每条消息的最大限制，单位为B。比如设置了此值为10，那么当有超过10B的消息经过RabbitMQ流转时就会被载断，如：trace test payload会被载断成trace test.
+- Max payload bytes:表示每条消息的最大限制，单位为B。比如设置了此值为10，那么当有超过10B的消息经过RabbitMQ流转时就会被载断，如：trace
+  test payload会被载断成trace test.
 
 - Pattern用来设置匹配的模式，和Firehose类似，详解如下：
 

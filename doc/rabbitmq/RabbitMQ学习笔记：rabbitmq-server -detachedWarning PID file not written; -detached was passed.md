@@ -1,4 +1,5 @@
 ### RabbitMQ学习笔记：rabbitmq-server -detached Warning: PID file not written; -detached was passed
+
 ##### 1.停止Erlang节点及节点上的RabbitMQ应用
 
 ```
@@ -21,7 +22,8 @@ Warning: PID file not written; -detached was passed.
 Warning: PID file not written; -detached was passed.
 ```
 
-启动的时候报Warning: PID file not written; -detached was passed.警告，经过多方努力查找到了原因，[官网是这样解释的](https://www.rabbitmq.com/rabbitmq-server.8.html#OPTIONS)：
+启动的时候报Warning: PID file not written; -detached was
+passed.警告，经过多方努力查找到了原因，[官网是这样解释的](https://www.rabbitmq.com/rabbitmq-server.8.html#OPTIONS)：
 
 ```
 Start the server process in the background. Note that this will cause the pid not to be written to the pid file.

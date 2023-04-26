@@ -1,6 +1,8 @@
 ### HandlerMapping接口源码解析
 
-> 实现HandlerMapping接口的类用来定义request请求和handler object之间的映射关系；request请求可以理解为路由url、RequestMappingInfo，handler object理解为控制器类；RequestMappingHandlerMapping类就是实现此接口并将容器中所有的控制器的RequestMappingInfo请求和HandlerMethod注册到内存之中，方便真实的请求发送过来调用具体的控制器方法；本文将以RequestMappingHandlerMapping为主线来讲解。
+> 实现HandlerMapping接口的类用来定义request请求和handler object之间的映射关系；request请求可以理解为路由url、RequestMappingInfo，handler
+>
+object理解为控制器类；RequestMappingHandlerMapping类就是实现此接口并将容器中所有的控制器的RequestMappingInfo请求和HandlerMethod注册到内存之中，方便真实的请求发送过来调用具体的控制器方法；本文将以RequestMappingHandlerMapping为主线来讲解。
 
 接口源码如下：
 
@@ -59,7 +61,8 @@ public interface HandlerMapping {
 	}
 ```
 
-> 上面的源码是从容器中获取HandlerMapping接口的实现类，其中包括RequestMappingHandlerMapping类实例，那这个类实例实在哪里加载的呢？请查看另一篇文章RequestMappingHandlerMapping源码分析；
+>
+上面的源码是从容器中获取HandlerMapping接口的实现类，其中包括RequestMappingHandlerMapping类实例，那这个类实例实在哪里加载的呢？请查看另一篇文章RequestMappingHandlerMapping源码分析；
 
 ##### 2.RequestMappingHandlerMapping处理reques请求
 
@@ -78,7 +81,8 @@ public interface HandlerMapping {
 > Handler execution chain, consisting of handler object and any handler interceptors.
 > Returned by HandlerMapping's {@link HandlerMapping#getHandler} method.
 
-上面官方说明已经说的很清楚了，该类包含handler object(HandlerMethod)和所有的handler interceptors；而且该类的生成只能通过HandlerMapping接口的getHandler方法，具体由AbstractHandlerMapping抽象类实现；AbstractHandlerMapping类实现源码：
+上面官方说明已经说的很清楚了，该类包含handler object(HandlerMethod)和所有的handler
+interceptors；而且该类的生成只能通过HandlerMapping接口的getHandler方法，具体由AbstractHandlerMapping抽象类实现；AbstractHandlerMapping类实现源码：
 
 ```java
 	/**

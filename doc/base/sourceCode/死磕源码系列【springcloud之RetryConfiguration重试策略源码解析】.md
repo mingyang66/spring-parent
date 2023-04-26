@@ -1,6 +1,7 @@
 ### 死磕源码系列【springcloud之RetryConfiguration重试策略源码解析】
 
-> RetryConfiguration配置是ConsulAutoConfiguration自动化配置的内部类，其作用是将AopAutoConfiguration、RetryProperties加入到IOC容器之中，并且实例化一个RetryOperationsInterceptor重试拦截器加入到IOC容器之中；
+>
+RetryConfiguration配置是ConsulAutoConfiguration自动化配置的内部类，其作用是将AopAutoConfiguration、RetryProperties加入到IOC容器之中，并且实例化一个RetryOperationsInterceptor重试拦截器加入到IOC容器之中；
 
 ##### 1.RetryConfiguration配置类源码
 

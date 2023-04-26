@@ -31,8 +31,6 @@ spring.rabbitmq.listener.simple.acknowledge-mode=manual
 spring.rabbitmq.listener.simple.prefetch=1
 ```
 
-
-
 ##### 2.定义队列、交换器、路由之间的绑定关系
 
 ```java

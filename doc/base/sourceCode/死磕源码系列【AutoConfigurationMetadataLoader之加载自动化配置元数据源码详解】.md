@@ -1,6 +1,7 @@
 ### 死磕源码系列【AutoConfigurationMetadataLoader之加载自动化配置元数据源码详解】
 
-> spring-autoconfigure-metadata.properties配置文件配置JavaConfig自动化配置类注解的元数据信息，这些原数据信息可以帮助springboot提前过滤掉不符合条件的配置类，提高加载启动应用程序的效率。
+>
+spring-autoconfigure-metadata.properties配置文件配置JavaConfig自动化配置类注解的元数据信息，这些原数据信息可以帮助springboot提前过滤掉不符合条件的配置类，提高加载启动应用程序的效率。
 
 ##### 1.AutoConfigurationMetadata接口提供自动化配置类注释处理器元数据的访问
 

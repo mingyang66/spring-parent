@@ -58,8 +58,6 @@ Sets the queue overflow behaviour. This determines what happens to messages when
 The default behaviour for RabbitMQ when a maximum queue length or size is set and the maximum is reached is to drop or dead-letter messages from the front of the queue (i.e. the oldest messages in the queue). To modify this behaviour, use the overflow setting described below.
 ```
 
-
-
 > x-overflow属性默认的处理策略是丢掉或者死信消息从队列的头部（也可以说是队列中最老的消息）
 
 GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E9%98%9F%E5%88%97%E5%AE%B9%E9%87%8F%E8%AE%BE%E7%BD%AE%EF%BC%88x-max-length%E3%80%81x-max-length-bytes%E3%80%81x-overflow%EF%BC%89.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E9%98%9F%E5%88%97%E5%AE%B9%E9%87%8F%E8%AE%BE%E7%BD%AE%EF%BC%88x-max-length%E3%80%81x-max-length-bytes%E3%80%81x-overflow%EF%BC%89.md)

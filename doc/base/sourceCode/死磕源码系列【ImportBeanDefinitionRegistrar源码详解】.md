@@ -1,6 +1,7 @@
 ### 死磕源码系列【ImportBeanDefinitionRegistrar源码详解】
 
-> @Configuration配置类通过@Import注解将ImportBeanDefinitionRegistrar接口的实现类添加其它bean到IOC容器中，这样可以方便的修改bean或自定义BeanDefinition；而且此过程是在所有的配置类都已经注册到IOC容器之后才触发；
+>
+@Configuration配置类通过@Import注解将ImportBeanDefinitionRegistrar接口的实现类添加其它bean到IOC容器中，这样可以方便的修改bean或自定义BeanDefinition；而且此过程是在所有的配置类都已经注册到IOC容器之后才触发；
 
 ##### 1.ConfigurationClassPostProcessor#processConfigBeanDefinitions方法是spring容器加载bean的入口（省略大部分代码）
 
@@ -13,8 +14,6 @@
 			//此处方法入口会将ImportBeanDefinitionRegistrar接口实现类自定义的bean注册到IOC容器
 			this.reader.loadBeanDefinitions(configClasses);
 ```
-
-
 
 ##### 2.源码分析org.springframework.context.annotation.ConfigurationClassParser#processImports
 
@@ -145,7 +144,5 @@ private void processImports(ConfigurationClass configClass, SourceClass currentS
 				registrar.registerBeanDefinitions(metadata, this.registry, this.importBeanNameGenerator));
 	}
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

@@ -1,6 +1,7 @@
 #### Netty进阶《ChannelPoolMap源码分析》
 
-> ChannelPoolMap是用来存储ChannelPool和指定key的一个集合Map，实际的应用场景就是服务器端是一个分布式集群服务，拥有多个配置地址，这样我们就可以配置多个服务地址，减轻单台服务器的压力；Netty框架提供了ChannelPoolMap接口和AbstractChannelPoolMap抽象方法。
+>
+ChannelPoolMap是用来存储ChannelPool和指定key的一个集合Map，实际的应用场景就是服务器端是一个分布式集群服务，拥有多个配置地址，这样我们就可以配置多个服务地址，减轻单台服务器的压力；Netty框架提供了ChannelPoolMap接口和AbstractChannelPoolMap抽象方法。
 
 ##### 一、ChannelPoolMap接口源码分析
 
@@ -110,8 +111,6 @@ public interface ChannelPoolMap<K, P extends ChannelPool> {
         return false;
     }
 ```
-
-
 
 源码参考：[https://github.com/mingyang66/SkyDb](https://github.com/mingyang66/SkyDb)
 

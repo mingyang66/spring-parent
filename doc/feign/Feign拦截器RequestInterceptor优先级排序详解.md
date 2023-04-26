@@ -14,11 +14,13 @@ public interface RequestInterceptor {
 }
 ```
 
-其实现类有BaseRequestInterceptor抽象拦截器，主要用来添加子类的header信息，其实现类有两个，FeignAcceptGzipEncodingInterceptor用来添加 Accept-Encoding、gzip、deflate头信息，FeignContentGzipEncodingInterceptor用来添加Content-Encoding、gzip、deflate头信息；BasicAuthRequestInterceptor用来添加认证Authorization头信息；OAuth2FeignRequestInterceptor用来添加OAuth2认证相关信息；这五个默认实现只有开启相关配置后才可以启用，优先级是最低的；
+其实现类有BaseRequestInterceptor抽象拦截器，主要用来添加子类的header信息，其实现类有两个，FeignAcceptGzipEncodingInterceptor用来添加
+Accept-Encoding、gzip、deflate头信息，FeignContentGzipEncodingInterceptor用来添加Content-Encoding、gzip、deflate头信息；BasicAuthRequestInterceptor用来添加认证Authorization头信息；OAuth2FeignRequestInterceptor用来添加OAuth2认证相关信息；这五个默认实现只有开启相关配置后才可以启用，优先级是最低的；
 
 ##### 二、RequestInterceptor接口实现类优先级
 
-自定义拦截器会希望有一个优先级顺序，那如何确定优先级呢？可以通过PriorityOrdered>Ordered>@Order来设置优先级顺序，但是系统已经实现的优先级因为没有设置上述排序字段，所以优先级永远是最低的；
+自定义拦截器会希望有一个优先级顺序，那如何确定优先级呢？可以通过PriorityOrdered>Ordered>
+@Order来设置优先级顺序，但是系统已经实现的优先级因为没有设置上述排序字段，所以优先级永远是最低的；
 
 org.springframework.cloud.openfeign.FeignClientFactoryBean#configureUsingConfiguration方法在系统启动时排序：
 
@@ -41,7 +43,5 @@ feign.SynchronousMethodHandler#targetRequest方法在发送请求时轮询调用
     return target.apply(template);
   }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

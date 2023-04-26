@@ -23,7 +23,9 @@ public class People {
 
 ```
 
-> 前端传递过来的参数是{"USERNAME":"123"}可以将json字符串反序列化为People实体类，并将属性USERNAME得值反序列化为username的值；但是此时如果将People实体对象序列化为json字符串，字符串结果为{"USERNAME":"123"},这个应该不是我们想要的结果，我们想要的结果是{"username":"123"},那这样如何实现呢？看下面示例：
+> 前端传递过来的参数是{"USERNAME":"123"
+> }可以将json字符串反序列化为People实体类，并将属性USERNAME得值反序列化为username的值；但是此时如果将People实体对象序列化为json字符串，字符串结果为{"
+> USERNAME":"123"},这个应该不是我们想要的结果，我们想要的结果是{"username":"123"},那这样如何实现呢？看下面示例：
 
 ```java
 package com.yaomy.control.test.po;
@@ -47,7 +49,8 @@ public class People {
 }
 ```
 
-> 将@JsonProperty放在getter和setter方法上，setter方法是用作反序列化、getter用作序列化；这时反序列化时可以将{"USERNAME":"123"}序列化为People对象，序列化时可以将People序列化为{"username":"123"}字符串
+> 将@JsonProperty放在getter和setter方法上，setter方法是用作反序列化、getter用作序列化；这时反序列化时可以将{"USERNAME":"
+> 123"}序列化为People对象，序列化时可以将People序列化为{"username":"123"}字符串
 
 ##### 2.@JsonGetter、@JsonSetter注解
 
@@ -141,6 +144,7 @@ public class People {
 
 ```
 
-> 首先可以将json字符串{"username":"123","age":1,"weight":23}反序列化为People对象，然后可以将People对象序列化为{"username":"123","age":1,"weight":23}
+> 首先可以将json字符串{"username":"123","age":1,"weight":23}反序列化为People对象，然后可以将People对象序列化为{"
+> username":"123","age":1,"weight":23}
 
 GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/doc/json](https://github.com/mingyang66/spring-parent/tree/master/doc/json)

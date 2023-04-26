@@ -15,9 +15,12 @@ Base64一般用于在HTTP协议下传输二进制数据，由于HTTP协议是文
 
 - Basic编码，输出被映射到一组字符A-Za-z0-9+/,编码不添加任何航标，输出的解码仅支持A-Za-z0-9+/
 - URL编码：输出映射到一组字符A-Za-z0-9+_，输出的是URL和文件
-- MINE编码：使用Basic编码，输出映射到MIME(Multipurpose Internet Mail Extensions-多用途互联网邮件扩展类型)友好格式，输出每行不超过76个字符，并使用'\r\n'作为分隔符；
+- MINE编码：使用Basic编码，输出映射到MIME(Multipurpose Internet Mail Extensions-多用途互联网邮件扩展类型)
+  友好格式，输出每行不超过76个字符，并使用'\r\n'作为分隔符；
 
-> Basic编码将指定的数据转换为base64编码，其中会将问号转换为斜杠，如：“runoob?java8”中的问号转换为“/”;URL编码和Basic编码的不同之处是会将问号转换为下横杠，如：“runoob?java8”中的问号转换为“_”，主要用在url参数传递时的编码和解码;那MINE编码呢？它是基于Basic编码，但是会输出格式友好的数据；
+>
+Basic编码将指定的数据转换为base64编码，其中会将问号转换为斜杠，如：“runoob?java8”中的问号转换为“/”;URL编码和Basic编码的不同之处是会将问号转换为下横杠，如：“runoob?java8”中的问号转换为“_
+”，主要用在url参数传递时的编码和解码;那MINE编码呢？它是基于Basic编码，但是会输出格式友好的数据；
 
 示例可以参考：
 

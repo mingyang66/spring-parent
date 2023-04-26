@@ -5,13 +5,16 @@
 这个版本连接池默认增加配置connectTimeout和socketTimeout，增强了SQL Parser
 
 1. 连接池DruidDataSource支持新的配置connectTimeout和socketTimeout，分别都是10秒。这个默认值会减少因为网络丢包时导致的连接池无法创建链接。
-2. 修复连接池DruidDataSource#handleFatalError方法判断是否关闭逻辑不对的问题 [#4724](https://github.com/alibaba/druid/pull/4724)
+2.
+修复连接池DruidDataSource#handleFatalError方法判断是否关闭逻辑不对的问题 [#4724](https://github.com/alibaba/druid/pull/4724)
 3. 修复StatFilter统计Statement执行SQL只记录第一条SQL的问题 [#4921](https://github.com/alibaba/druid/issues/4921)
 4. 修复ParameterizedOutputVisitorUtils#restore结果不对的问题 [#4532](https://github.com/alibaba/druid/pull/4532)
 5. SQL Parser增强对PolarDB-X的支持 [#4927](https://github.com/alibaba/druid/issues/4927)
 6. SQL Parser增强对Oceanbase的支持 [#4833](https://github.com/alibaba/druid/issues/4833)
-7. SQL Parser增强对MySQL的支持 [#4916](https://github.com/alibaba/druid/issues/4916) [#4817](https://github.com/alibaba/druid/issues/4817) [#4825](https://github.com/alibaba/druid/pull/4825)
-8. SQL Parser增强对Clickhouse的支持 [#4833](https://github.com/alibaba/druid/issues/4833) [#4881](https://github.com/alibaba/druid/pull/4881)
+7. SQL
+   Parser增强对MySQL的支持 [#4916](https://github.com/alibaba/druid/issues/4916) [#4817](https://github.com/alibaba/druid/issues/4817) [#4825](https://github.com/alibaba/druid/pull/4825)
+8. SQL
+   Parser增强对Clickhouse的支持 [#4833](https://github.com/alibaba/druid/issues/4833) [#4881](https://github.com/alibaba/druid/pull/4881)
 9. SQL Parser增强对DB2的支持 [#4838](https://github.com/alibaba/druid/pull/4838)
 10. SQL Parser增强对Oracle的支持
 
@@ -101,7 +104,8 @@
 ##### 连接池query-timeout、transaction-query-timeout配置
 
 - query-timeout：设置JDBC驱动执行Statement语句的秒数，如果超过限制，则会抛出SQLTimeoutException，默认：0 单位：秒 无限制
-- transaction-query-timeout：设置JDBC驱动执行N个Statement语句的秒数（事务模式），如果超过限制，则会抛出SQLTimeoutException，默认：0 单位：秒 无限制
+- transaction-query-timeout：设置JDBC驱动执行N个Statement语句的秒数（事务模式），如果超过限制，则会抛出SQLTimeoutException，默认：0
+  单位：秒 无限制
 
 具体实现代码在com.alibaba.druid.pool.DruidAbstractDataSource#initStatement中如下：
 
@@ -135,6 +139,9 @@
 
 ![超时时间区分](https://img-blog.csdnimg.cn/2420764cb95846f6ba01a06eeac11fb4.png)
 
-> 高级别的timeout依赖于低级别的timeout，只有当低级别的timeout无误时，高级别的timeout才能确保正常；如：当socket timeout出问题时，高级别statement timeout和transaction timeout都将失效。statement timeout无法处理网络连接失败时的超时，它能做的仅仅是限制statement的操作时间，网络连接失败时的timeout必须交由JDBC来处理，JDBC的socket timeout会受到操作系统socket timeout设置的影响。
+> 高级别的timeout依赖于低级别的timeout，只有当低级别的timeout无误时，高级别的timeout才能确保正常；如：当socket
+> timeout出问题时，高级别statement timeout和transaction timeout都将失效。statement
+> timeout无法处理网络连接失败时的超时，它能做的仅仅是限制statement的操作时间，网络连接失败时的timeout必须交由JDBC来处理，JDBC的socket
+> timeout会受到操作系统socket timeout设置的影响。
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

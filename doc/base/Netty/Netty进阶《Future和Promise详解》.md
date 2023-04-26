@@ -2,7 +2,9 @@
 
 ##### 一、java.util.concurrent.Future源码解析
 
-> java.util.concurrent.Future代表异步计算的结果，是JDK自带接口；提供了检查计算是否完成、等待计算完成以及检索计算结果的方法，只有当计算完成时，才能使用get方法获取结果，必要时进行阻塞，直到它准备好为止。通过cancel方法执行取消，额外提供了其它方法来确定任务时正常完成还是被取消，一旦计算完成，就不能取消计算。如果为了可取消性而想使用Future,但不提供可用的结果，则可以声明Future<?>形式的类型并且作为基础任务的结果返回null。
+>
+java.util.concurrent.Future代表异步计算的结果，是JDK自带接口；提供了检查计算是否完成、等待计算完成以及检索计算结果的方法，只有当计算完成时，才能使用get方法获取结果，必要时进行阻塞，直到它准备好为止。通过cancel方法执行取消，额外提供了其它方法来确定任务时正常完成还是被取消，一旦计算完成，就不能取消计算。如果为了可取消性而想使用Future,但不提供可用的结果，则可以声明Future<?>
+形式的类型并且作为基础任务的结果返回null。
 
 示例用法（源码提供）：
 
@@ -35,8 +37,6 @@ FutureTask类是Future、Runnable接口的一种实现，因此可以被Executor
  FutureTask<String> future = new FutureTask<>(task);  
  executor.execute(future);
 ```
-
-
 
 ```java
 public interface Future<V> {
@@ -187,8 +187,6 @@ Netty中的所有I/O操作都是异步的，这就意味着任何I/O操作都将
 
 ChannelFuture代表完成或未完成的异步计算，当一个I/O操作开始时，将会创建一个future实例对象。这个新的future对象是未完成初始化的，它是处于即未完成、失败，也没有被关闭的状态，因为I/O操作还未完成。如果I/O操作完成，并且成功、或者失败、或者被关闭任务，future异步计算将会被更具体的信息标记，例如故障的原因。请注意，即使失败和取消也属于已完成状态。
 
-
-
 ```java
                           +---------------------------+
                                        | Completed successfully    |
@@ -208,15 +206,19 @@ ChannelFuture代表完成或未完成的异步计算，当一个I/O操作开始�
                                        +---------------------------+
 ```
 
-ChannelFuture提供了各种方法，可以检查I/O操作是否已完成，等待完成，并检索I/O操作的结果。它还允许您添加ChannelFutureListener监听器，以便在I/O操作完成是受到通知。首选是addListener(GenericFutureListener) 而不是await()方法。
+ChannelFuture提供了各种方法，可以检查I/O操作是否已完成，等待完成，并检索I/O操作的结果。它还允许您添加ChannelFutureListener监听器，以便在I/O操作完成是受到通知。首选是addListener(
+GenericFutureListener) 而不是await()方法。
 
 建议尽可能选择addListener（GenericFutureListener）而不是await()，以便在I/O操作完成时得到通知并执行任何后续任务。
 
-addListener(GenericFutureListener) 是非阻塞的。它只需要将指定的ChannelFutureListener添加到ChannelFuture中，当I/O操作关联的future异步计算完成时将会通知监听器。ChannelFutureListener产生了最佳的性能和资源利用率，因为它根本不阻塞。但是如果您不习惯事件驱动的编程，那么实现顺序逻辑可能会很棘手。
+addListener(GenericFutureListener)
+是非阻塞的。它只需要将指定的ChannelFutureListener添加到ChannelFuture中，当I/O操作关联的future异步计算完成时将会通知监听器。ChannelFutureListener产生了最佳的性能和资源利用率，因为它根本不阻塞。但是如果您不习惯事件驱动的编程，那么实现顺序逻辑可能会很棘手。
 
-相比之下，await()是一个阻塞操作。一旦被调用，调用方线程就会阻塞，直到操作完成。使用await()更容易实现顺序逻辑，但是调用方线程在I/O操作完成之前会产生线程不必要的阻塞，并且线程间通知的成本相对较高。此外在特定情况下可能会出现死锁，如下所述。不要在ChannelHandler内部调用await()。
+相比之下，await()是一个阻塞操作。一旦被调用，调用方线程就会阻塞，直到操作完成。使用await()
+更容易实现顺序逻辑，但是调用方线程在I/O操作完成之前会产生线程不必要的阻塞，并且线程间通知的成本相对较高。此外在特定情况下可能会出现死锁，如下所述。不要在ChannelHandler内部调用await()。
 
-ChannelHandler中的事件处理程序方法通常由I/O线程调用。如果await()被事件处理程序调用，也就是被I/O操作调用的事件处理程序，I/O操作可能永远不会完成，因为await()可以阻塞它所调用的时间处理程序，这是一个死锁。
+ChannelHandler中的事件处理程序方法通常由I/O线程调用。如果await()
+被事件处理程序调用，也就是被I/O操作调用的事件处理程序，I/O操作可能永远不会完成，因为await()可以阻塞它所调用的时间处理程序，这是一个死锁。
 
 ```java
   // BAD - NEVER DO THIS
@@ -241,11 +243,13 @@ ChannelHandler中的事件处理程序方法通常由I/O线程调用。如果awa
   }
 ```
 
-尽管存在上述缺点，但是在某些情况下调用await()更方便。在这种情况下，请确保不要在I/O线程中调用await()。否则，将引发BlockingOperationException以防止死锁。
+尽管存在上述缺点，但是在某些情况下调用await()更方便。在这种情况下，请确保不要在I/O线程中调用await()
+。否则，将引发BlockingOperationException以防止死锁。
 
 不要混淆I/O超时和await等待超时。
 
-使用 await(long), await(long, TimeUnit), awaitUninterruptibly(long), 或 awaitUninterruptibly(long, TimeUnit) 指定的超时值与I/O超时完全无关。如果I/O操作超时，则未来将标记为“已完成但出现故障”，例如：应该通过特定于传输的选项配置连接超时：
+使用 await(long), await(long, TimeUnit), awaitUninterruptibly(long), 或 awaitUninterruptibly(long, TimeUnit)
+指定的超时值与I/O超时完全无关。如果I/O操作超时，则未来将标记为“已完成但出现故障”，例如：应该通过特定于传输的选项配置连接超时：
 
 ```java
 // BAD - NEVER DO THIS
@@ -280,8 +284,6 @@ ChannelHandler中的事件处理程序方法通常由I/O线程调用。如果awa
       // Connection established successfully
   }
 ```
-
-
 
 ```java
 public interface ChannelFuture extends Future<Void> {
@@ -498,7 +500,5 @@ public abstract class AbstractFuture<V> implements Future<V> {
     }
 }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

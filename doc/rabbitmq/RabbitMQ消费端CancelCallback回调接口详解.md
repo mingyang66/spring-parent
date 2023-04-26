@@ -35,8 +35,6 @@ public interface CancelCallback {
 }
 ```
 
-
-
 当一个消费者取消订阅时的回调接口;取消消费者订阅队列时除了使用{@link Channel#basicCancel}之外的所有方式都会调用该回调方法
 
 #### 3.删除消费者订阅的队列

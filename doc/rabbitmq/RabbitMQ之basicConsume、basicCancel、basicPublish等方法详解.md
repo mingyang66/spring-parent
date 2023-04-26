@@ -2,7 +2,7 @@
 
 > 最新版5.7.3提供了20个basicConsume消费方法，这些方法是由服务端主动PUSH消息过来，方法接收到消息后进行处理；而每个方法处理接收到的消息相差不大，下面详细介绍每个方法的参数详情；
 
-#####  1.String basicConsume(String queue, boolean autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)
+##### 1.String basicConsume(String queue, boolean autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)
 
 ```java
    /**
@@ -325,8 +325,6 @@ GetResponse basicGet(String queue, boolean autoAck)
         System.out.println("消费者接收到的消息是："+new String(response.getBody(), "UTF-8"));
 ```
 
-
-
 ##### 取消消费者订阅
 
 ```java
@@ -337,7 +335,7 @@ GetResponse basicGet(String queue, boolean autoAck)
 void basicCancel(String consumerTag)
 ```
 
-#####  basicQoc设置服务端每次发送给消费者的消息数量
+##### basicQoc设置服务端每次发送给消费者的消息数量
 
 ```java
 /**
@@ -347,8 +345,6 @@ void basicCancel(String consumerTag)
 **/
 void basicQos(int prefetchSize, int prefetchCount, boolean global)
 ```
-
-
 
 ```java
 /**
@@ -390,8 +386,6 @@ Basic.RecoverOk basicRecover(boolean requeue)
 **/
 Basic.RecoverOk basicRecover()
 ```
-
-
 
 ##### 拒绝消息
 
@@ -452,4 +446,5 @@ void basicPublish(String exchange, String routingKey, boolean mandatory, BasicPr
 */
 void basicPublish(String exchange, String routingKey, BasicProperties props, byte[] body)
 ```
+
 GitHub地址：[https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E4%B9%8BbasicConsume%E3%80%81basicCancel%E3%80%81basicPublish%E7%AD%89%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md](https://github.com/mingyang66/spring-parent/blob/master/spring-boot-control-rabbitmq-service/RabbitMQ%E4%B9%8BbasicConsume%E3%80%81basicCancel%E3%80%81basicPublish%E7%AD%89%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md)

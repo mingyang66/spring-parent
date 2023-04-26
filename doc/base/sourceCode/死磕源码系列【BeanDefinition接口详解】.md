@@ -1,7 +1,5 @@
 ### 死磕源码系列【BeanDefinition相关接口类详解】
 
-
-
 > BeanDefinition描述了一个bean实例，它具有属性值、构造函数、参数值和具体实现提供的进一步信息；这只是一个最小的接口：主要目的是允许BeanFactoryPostProcessor来接茬和修改属性值和其他bean元素。
 
 ##### 1.接口源码
@@ -231,8 +229,6 @@ RootBeanDefinition可以用于在配置阶段注册单个bean定义。然而从S
 AnnotatedGenericBeanDefinition存储@Configuration注解注释的类；
 
 ScannedGenericBeanDefinition存储@Component、@Service、@Controller等注解注释的类；
-
-
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)
 

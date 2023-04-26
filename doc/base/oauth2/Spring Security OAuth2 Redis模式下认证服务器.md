@@ -1,43 +1,55 @@
 # spring-parent
-<h3>Spring Security OAuth2 Redis模式下认证服务器</h3> 
+
+<h3>Spring Security OAuth2 Redis模式下认证服务器</h3>
 
 #### 1.四种授权码模式
+
 - 授权码模式
 - 密码模式
 - 客户端模式
 - 简化模式
 
 ***
+
 #### 2.密码模式
 
 ```
 http://localhost:9001/oauth/token?username=user&password=user&grant_type=password&client_id=client&client_secret=secret
 ```
+
 - grant_type:授权类型，必选，此处固定值“password”<br>
 - username：表示用户名，必选<br>
 - password：表示用户密码，必选<br>
 - scope：权限范围，可选<br>
+
 ***
 
 #### 3.授权码模式
+
 - client_id：客户端ID，必选
 - response_type：必须为code，必选
 - redirect_uri：回掉url,必选
+
 * 获取授权码：
 
 ```
 http://localhost:9001/oauth/authorize?client_id=client&response_type=code&redirect_uri=http://localhost:9001/auth_user/get_auth_code
 ```
+
 * 获取access_token
 
 ```
 http://localhost:9001/oauth/token?grant_type=authorization_code&code=XQfMUi&client_id=client&client_secret=secret&redirect_uri=http://localhost:9001/auth_user/get_token_info
 ```
+
 * 通过refresh_token获取access_token
+
 ```
 http://localhost:9001/oauth/token?grant_type=refresh_token&refresh_token=Beared5d74d532ba446b58f78186013f5e170&client_id=client&client_secret=secret
 ```
+
 * 通过refresh_token获取新的access_token时可以自定义用户信息验证service
+
 ```
 package com.yaomy.security.oauth2.po;
 
@@ -90,7 +102,9 @@ public class AuthUserDetailsService implements UserDetailsService {
 
 }
 ```
->在Security OAuth2授权服务配置类中添加上自定义的用户信息校验类
+
+> 在Security OAuth2授权服务配置类中添加上自定义的用户信息校验类
+
 ```
   /**
      用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
@@ -107,11 +121,13 @@ public class AuthUserDetailsService implements UserDetailsService {
                 .userDetailsService(authUserDetailsService);
     }
 ```
+
 ***
 
 #### 4.自定义token生成
 
 * 自定义一个实现TokenEnhancer接口的token增强器
+
 ```
 package com.yaomy.security.oauth2.enhancer;
 
@@ -168,6 +184,7 @@ public class UserTokenEnhancer implements TokenEnhancer {
 ```
 
 * 将自定义的token增强器加入IOC容器中
+
 ```
     /**
      * @Description 自定义生成令牌token
@@ -179,7 +196,9 @@ public class UserTokenEnhancer implements TokenEnhancer {
         return new UserTokenEnhancer();
     }
 ```
+
 * 将token增强器加入授权配置端点
+
 ```
    /**
      用来配置授权（authorization）以及令牌（token)的访问端点和令牌服务（token services）
@@ -197,6 +216,7 @@ public class UserTokenEnhancer implements TokenEnhancer {
     }
     
 ```
+
 ***
 
 #### 5.自定义token过期时长
@@ -373,10 +393,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 }
 ```
->>替换的核心是将InMemoryTokenStore对象更换为RedisTokenStore对象，并传递一个RedisConnectionFactory接口，接口的具体实现类是JedisConnectionFactory类；<br>
 
+> >
+替换的核心是将InMemoryTokenStore对象更换为RedisTokenStore对象，并传递一个RedisConnectionFactory接口，接口的具体实现类是JedisConnectionFactory类；<br>
 
 - Redis缓存配置
+
 ```
 ##单机应用环境配置
 spring.redis.host=127.0.0.1
@@ -399,30 +421,34 @@ spring.redis.jedis.pool.max-active=8
 
 * RedisConnectionFactory可以通过如下三个配置类应用在不同的应用场景
 
- 1. RedisStandaloneConfiguration:RedisConnectionFactory工厂类单机模式的配置类<br>
- 2. RedisSentinelConfiguration：RedisConnectionFactory工厂类高可用模式的配置类<br>
- 3. RedisClusterConfiguration：RedisConnectionFactory工厂类集群模式的配置类<br>
- 
+1. RedisStandaloneConfiguration:RedisConnectionFactory工厂类单机模式的配置类<br>
+2. RedisSentinelConfiguration：RedisConnectionFactory工厂类高可用模式的配置类<br>
+3. RedisClusterConfiguration：RedisConnectionFactory工厂类集群模式的配置类<br>
+
  ***
- 
- ### Spring Security OAuth2 认证服务器自定义异常处理
- 
- 认证服务器默认返回的数据格式如下：
+
+### Spring Security OAuth2 认证服务器自定义异常处理
+
+认证服务器默认返回的数据格式如下：
+
  ```
  {
      "error": "unsupported_grant_type",
      "error_description": "Unsupported grant type: password1"
  }
  ```
- 上面的返回结果很不友好，而且前端代码也很难判断是什么错误，所以我们需要对返回的错误进行统一的异常处理
- 
- #### 1.默认的异常处理器
- 默认情况是使用WebResponseExceptionTranslator接口的实现类DefaultWebResponseExceptionTranslator对抛出的异常进行处理；所以可以通过WebResponseExceptionTranslator
- 接口来入手，实现接口的方法对异常进行处理。
- 
+
+上面的返回结果很不友好，而且前端代码也很难判断是什么错误，所以我们需要对返回的错误进行统一的异常处理
+
+#### 1.默认的异常处理器
+
+默认情况是使用WebResponseExceptionTranslator接口的实现类DefaultWebResponseExceptionTranslator对抛出的异常进行处理；所以可以通过WebResponseExceptionTranslator
+接口来入手，实现接口的方法对异常进行处理。
+
  ***
- 
- #### 2.定义继承OAuth2Exception的异常类
+
+#### 2.定义继承OAuth2Exception的异常类
+
  ```
  package com.yaomy.security.oauth2.exception;
  
@@ -461,6 +487,7 @@ spring.redis.jedis.pool.max-active=8
 ***
 
 #### 3.定义序列化实现类
+
 ```
 package com.yaomy.security.oauth2.exception;
 
@@ -504,9 +531,11 @@ public class UserOAuth2ExceptionSerializer extends StdSerializer<UserOAuth2Excep
     }
 }
 ```
+
 ***
 
 #### 4.自定义实现异常转换类
+
 ```
 package com.yaomy.security.oauth2.exception;
 
@@ -638,6 +667,7 @@ public class UserOAuth2WebResponseExceptionTranslator implements WebResponseExce
 ***
 
 #### 5.将自定义异常处理类添加到认证服务器配置
+
 ```
 package com.yaomy.security.oauth2.config;
 
@@ -690,20 +720,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 }
 ```
- 
- 
+
  ***
- 
- ### Spring boot + Security + OAuth2 password模式、refresh_token模式访问/oauth/token端点
- 
- #### 1./oauth/token端点
- * 端点过滤器TokenEndpointAuthenticationFilter
- * 端点对应的action类TokenEndpoint
- * 受保护的资源信息类ResourceOwnerPasswordResourceDetails
- * 和认证服务器交互资源信息类ResourceOwnerPasswordAccessTokenProvider
- 
+
+### Spring boot + Security + OAuth2 password模式、refresh_token模式访问/oauth/token端点
+
+#### 1./oauth/token端点
+
+* 端点过滤器TokenEndpointAuthenticationFilter
+* 端点对应的action类TokenEndpoint
+* 受保护的资源信息类ResourceOwnerPasswordResourceDetails
+* 和认证服务器交互资源信息类ResourceOwnerPasswordAccessTokenProvider
+
  ***
- #### 2./oauth/token(令牌端点) 获取用户token信息
+
+#### 2./oauth/token(令牌端点) 获取用户token信息
+
  ```
     @RequestMapping(value = "token", method = RequestMethod.POST)
      public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
@@ -730,7 +762,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
          return ResponseEntity.ok(response);
      }
  ```
- 返回结果如下：
+
+返回结果如下：
+
  ```
  {
      "status": 200,
@@ -744,9 +778,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      }
  }
  ```
- 
- #### 3./oauth/token（令牌端点）刷新token信息
- 
+
+#### 3./oauth/token（令牌端点）刷新token信息
+
  ```
     @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
      public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
@@ -769,7 +803,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
          return ResponseEntity.ok(response);
      }
  ```
- 返回结果如下：
+
+返回结果如下：
+
  ```
  {
      "status": 200,
@@ -783,7 +819,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      }
  }
  ```
- #### 4.oauth/check_token（端点校验）token有效性
+
+#### 4.oauth/check_token（端点校验）token有效性
+
  ```
      @RequestMapping(value = "check_token", method = RequestMethod.POST)
      public ResponseEntity<BaseResponse> checkToken(String token){
@@ -805,7 +843,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
          return ResponseEntity.ok(response);
      }
  ```
- 返回结果如下：
+
+返回结果如下：
+
  ```
  {
      "status": 200,
@@ -826,7 +866,9 @@ Redis用户登出有两种方案,一种是通过资源服务器配置logoutSucce
 另外一种是自定义封装接口，通过RedisTokenStore来删除用户信息的形式；
 
 #### 1.通过资源服务器配置的方式
+
 * ResourceServerConfigurerAdapter配置
+
 ```
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -844,7 +886,9 @@ Redis用户登出有两种方案,一种是通过资源服务器配置logoutSucce
 
     }
 ```
+
 * 退出成功处理LogoutSuccessHandler类
+
 ```
 
 package com.yaomy.security.oauth2.handler;
@@ -899,8 +943,9 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     }
 }
 ```
- 
- #### 2.自定义退出接口方案
+
+#### 2.自定义退出接口方案
+
  ```
     @RequestMapping(value = "refresh_token", method = RequestMethod.POST)
     public ResponseEntity<BaseResponse> refreshToken(String refresh_token){
@@ -918,17 +963,20 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         return ResponseEntity.ok(response);
     }
 ```
+
 ***
 
 ### Spring Security OAuth2 使用Redis存储token键值详解
 
 #### 1.Spring Security OAuth2存储token值的方式由多种，所有的实现方式都是实现了TokenStore接口
+
 * InMemoryTokenStore:token存储在本机的内存之中
 * JdbcTokenStore:token存储在数据库之中
 * JwtTokenStore:token不会存储到任何介质中
 * RedisTokenStore:token存储在Redis数据库之中
 
 #### 2.看下RedisTokenStore实现类在redis中存储了那些key,贴上源码如下：
+
 ```
     private static final String ACCESS = "access:";
     private static final String AUTH_TO_ACCESS = "auth_to_access:";
@@ -940,15 +988,20 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     private static final String CLIENT_ID_TO_ACCESS = "client_id_to_access:";
     private static final String UNAME_TO_ACCESS = "uname_to_access:";
 ```
+
 本案例是使用password、refresh_token模式，在Redis缓存中共存储了9个键值对，其中有5个跟access_token相关，4个和refresh_token相关；
-* access_token相关access:(OAuth2AccessToken)、auth:(OAuth2Authentication)、auth_to_access:(OAuth2AccessToken)、client_id_to_access:(OAuth2AccessToken)、uname_to_access:(OAuth2AccessToken)
-* refresh_token相关refresh:(OAuth2RefreshToken)、refresh_auth:(OAuth2Authentication)、access_to_refresh(refresh_token):、refresh_to_access:(refresh_token)
+
+* access_token相关access:(OAuth2AccessToken)、auth:(OAuth2Authentication)、auth_to_access:(OAuth2AccessToken)
+  、client_id_to_access:(OAuth2AccessToken)、uname_to_access:(OAuth2AccessToken)
+* refresh_token相关refresh:(OAuth2RefreshToken)、refresh_auth:(OAuth2Authentication)、access_to_refresh(refresh_token):
+  、refresh_to_access:(refresh_token)
 
 ****
 
 #### 3.通过查看RedisTokenStore源码（源码我就不贴出来了）的方式理解每个key所存储的数据
 
 1. access:中存储的键是access:be171b573f5a496ca601b32b1360fe84，值是OAuth2AccessToken对象序列化后的值
+
 * 键是access:+access_token
 * 值示例如下：
   ```
@@ -960,10 +1013,12 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
           "scope": "test"
       }
   ```   
+
 2. auth_to_access:中存储的键是auth_to_access:a994f2a9a61186f32870e32d72a38d21，值是OAuth2AccessToken序列化后的值
-* 键是auth_to_access:+  username、client_id、scope三个MD5加密后的值 
+
+* 键是auth_to_access:+ username、client_id、scope三个MD5加密后的值
 * 值示例如下：
- 
+
   ```
   {
           "access_token": "12833d6c89fb4ea58cbe7b6ada5de7b5",
@@ -973,10 +1028,12 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
           "scope": "test"
       }
   ``` 
-   
+
 3. auth:中存储的键是auth:be171b573f5a496ca601b32b1360fe84，值是OAuth2Authentication对象序列化后的值
+
 * 键是auth:+access_token值
 * 值示例如下：
+
 ```
 {
     "authorities": [
@@ -1062,8 +1119,10 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 ```
 
 4. refresh_auth:中存储的是refresh_auth:d0017ce6db6441d1b87a0a2804d1434b,值是OAuth2Authentication序列化后的值
+
 * 键是：refresh_auth:+refresh_token值
 * 值示例如下：
+
 ```
 {
     "authorities": [
@@ -1147,12 +1206,17 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     "name": "user"
 }
 ```
+
 5. access_to_refresh:中存储的是access_to_refresh:c90cab28971948d2a85ca2ae814641ed，值是refresh_token值
+
 * 键是access_to_refresh:+refresh_token值
 * 值是refresh_token值
+
 6. refresh:中存储的是refresh:d0017ce6db6441d1b87a0a2804d1434b，值是OAuth2RefreshToken对象序列化后的值
+
 * 键是refresh:+refresh_token值
 * 值示例如下：
+
 ```
  {
         "access_token": "dfec9f18e161408dbf66b85b94401d7f",
@@ -1162,16 +1226,21 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         "scope": "test"
     }
 ```
+
 7. refresh_to_access:中存储的值是refresh_to_access:d0017ce6db6441d1b87a0a2804d1434b，值是refresh_token值
+
 * 键是refresh_to_access:+refresh_token值
 * 值示例如下：
+
 ```
 be171b573f5a496ca601b32b1360fe84
 ```
 
 8. client_id_to_access:中存储的值是client_id_to_access:client_password，值是OAuth2AccessToken序列化后的值
+
 * 键是client_id_to_access:+clientId
 * 值示例如下：
+
 ```
 {
         "access_token": "dfec9f18e161408dbf66b85b94401d7f",
@@ -1183,8 +1252,10 @@ be171b573f5a496ca601b32b1360fe84
 ```
 
 9. uname_to_access:中存储的键是uname_to_access:client_password:user，值是OAuth2AccessToken对象序列化后的值
+
 * 键是：uname_to_access:+clientid+用户名
 * 值示例如下：
+
 ```
 {
         "access_token": "dfec9f18e161408dbf66b85b94401d7f",
@@ -1194,16 +1265,22 @@ be171b573f5a496ca601b32b1360fe84
         "scope": "test"
     }
 ```
+
  ***
- 
- ### Spring Security OAuth2 Redis存储token refresh_token永不过期问题详解
+
+### Spring Security OAuth2 Redis存储token refresh_token永不过期问题详解
+
  ***
- #### 1.先看几个实现类，然后再看源码分析这样会更清晰
- * OAuth2AccessToken接口的默认实现是DefaultOAuth2AccessToken类（自带过期时间属性）
- * OAuth2RefreshToken接口的默认实现是DefaultOAuth2RefreshToken类（不带过期时间属性）
- * ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2RefreshToken的默认实现是DefaultExpiringOAuth2RefreshToken（自带过期时间属性）
- 
- #### 2.当前demo是使用自定义方式来实现access_token和refresh_token的生成，看如下代码：
+
+#### 1.先看几个实现类，然后再看源码分析这样会更清晰
+
+* OAuth2AccessToken接口的默认实现是DefaultOAuth2AccessToken类（自带过期时间属性）
+* OAuth2RefreshToken接口的默认实现是DefaultOAuth2RefreshToken类（不带过期时间属性）
+*
+ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2RefreshToken的默认实现是DefaultExpiringOAuth2RefreshToken（自带过期时间属性）
+
+#### 2.当前demo是使用自定义方式来实现access_token和refresh_token的生成，看如下代码：
+
  ```
  package com.yaomy.security.oauth2.enhancer;
  
@@ -1256,9 +1333,12 @@ be171b573f5a496ca601b32b1360fe84
      }
  }
 ```
- 在实际的测试环境之中我可以拿到access_token的过期时间，并且在redis的客户端查看access_token相关键值对都是跟我设置的过期时间是一直的，但是refresh_token设置的过期
- 时间一直不起作用，TTL显示-1，也就是一直有效，感觉就很奇怪，所以就翻看了TokenStore的实现类RedisTokenStore，源码如下
- * 生成access_token键值对的代码如下：
+
+在实际的测试环境之中我可以拿到access_token的过期时间，并且在redis的客户端查看access_token相关键值对都是跟我设置的过期时间是一直的，但是refresh_token设置的过期
+时间一直不起作用，TTL显示-1，也就是一直有效，感觉就很奇怪，所以就翻看了TokenStore的实现类RedisTokenStore，源码如下
+
+* 生成access_token键值对的代码如下：
+
  ```
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         //序列化相关key
@@ -1340,9 +1420,11 @@ be171b573f5a496ca601b32b1360fe84
  
      }
  ```
- 上面的refreshToken instanceof ExpiringOAuth2RefreshToken这一段代码是来判断刷新token是否是带有有效期时间的ExpiringOAuth2RefreshToken实例对象，我们可以
- 看到上面我自定义的生成refresh_token的实例对象是OAuth2RefreshToken类型，只带有一个refresh_token值，而没有有效时间的字段值，我们看下ExpiringOAuth2RefreshToken
- 类的源码：
+
+上面的refreshToken instanceof ExpiringOAuth2RefreshToken这一段代码是来判断刷新token是否是带有有效期时间的ExpiringOAuth2RefreshToken实例对象，我们可以
+看到上面我自定义的生成refresh_token的实例对象是OAuth2RefreshToken类型，只带有一个refresh_token值，而没有有效时间的字段值，我们看下ExpiringOAuth2RefreshToken
+类的源码：
+
  ```
  package org.springframework.security.oauth2.common;
  
@@ -1352,7 +1434,9 @@ be171b573f5a496ca601b32b1360fe84
      Date getExpiration();
  }
  ```
- 我们可以看到ExpiringOAuth2RefreshToken是OAuth2RefreshToken的子类，所以我们可以将生成的refresh_token实例对象更改为ExpiringOAuth2RefreshToken对象，代码如下：
+
+我们可以看到ExpiringOAuth2RefreshToken是OAuth2RefreshToken的子类，所以我们可以将生成的refresh_token实例对象更改为ExpiringOAuth2RefreshToken对象，代码如下：
+
  ```
      @Override
      public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -1374,20 +1458,22 @@ be171b573f5a496ca601b32b1360fe84
          return accessToken;
      }
  ```
- 经测试上面的方案完美解决自定义token生成refresh_token永不过期问题。。。
- 
- 
- ### 
+
+经测试上面的方案完美解决自定义token生成refresh_token永不过期问题。。。
+
+###  
+
  ***
- 
- 
- ### Spring Security OAuth2之认证服务、资源服务、web安全配置服务加载优先级详解
- 
- 最近一直在搭建Spring Security OAuth2认证服务，经常会遇到在资源服务器配置中配置生效，但是在web安全配置类中配置就不生效等等像这样的问题，今天我就
- 深入的研究了一下原来是三个类在IOC容器之中加载的优先级问题所造成的，下面我们就一步一步的来分析下三个类的优先级问题；
- 
- #### 1.@EnableAuthorizationServer注解的类继承AuthorizationServerConfigurerAdapter类配置认证服务
- * 首先查看@EnableAuthorizationServer的源码如下
+
+### Spring Security OAuth2之认证服务、资源服务、web安全配置服务加载优先级详解
+
+最近一直在搭建Spring Security OAuth2认证服务，经常会遇到在资源服务器配置中配置生效，但是在web安全配置类中配置就不生效等等像这样的问题，今天我就
+深入的研究了一下原来是三个类在IOC容器之中加载的优先级问题所造成的，下面我们就一步一步的来分析下三个类的优先级问题；
+
+#### 1.@EnableAuthorizationServer注解的类继承AuthorizationServerConfigurerAdapter类配置认证服务
+
+* 首先查看@EnableAuthorizationServer的源码如下
+
  ```
  
 @Target({ElementType.TYPE})
@@ -1397,7 +1483,9 @@ be171b573f5a496ca601b32b1360fe84
 public @interface EnableAuthorizationServer {
 }
 ```
+
 * 上面的注解引入了两个类，我们点击进入ClientDetailsServiceConfiguration类中
+
 ```
 @Configuration
 @Order(0)
@@ -1405,10 +1493,13 @@ public @interface EnableAuthorizationServer {
 public class AuthorizationServerSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         ...
 ``` 
+
 上面的注解@Order(0)，也就是认证服务器配置的优先级为0；
 
 #### 2.@EnableResourceServer注解的类继承ResourceServerConfigurerAdapter类配置资源服务器
+
 * 点击注解@EnableResourceServer查看源码
+
 ```
 
 @Target({ElementType.TYPE})
@@ -1418,23 +1509,30 @@ public class AuthorizationServerSecurityConfiguration extends WebSecurityConfigu
 public @interface EnableResourceServer {
 }
 ```
+
 * 注解中引入了ResourceServerConfiguration类，点击进入
+
 ```
 @Configuration
 public class ResourceServerConfiguration extends WebSecurityConfigurerAdapter implements Ordered {
     private int order = 3;
 ```
+
 上面的类实现了Ordered接口，优先级为3
 
 #### 3.@EnableWebSecurity注解修饰的类继承WebSecurityConfigurerAdapter类配置web安全配置
+
 * 查看WebSecurityConfigurerAdapter的源码
+
 ```
 @Order(100)
 public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigurer<WebSecurity> {
 ```
+
 上面的类使用注解@Order,优先级为100
 
 #### 4.分析说明
+
 * order的值越小，类的优先级越高，IOC容器就会优先加载，上面的优先级是：认证服务器配置（0）>资源服务器配置（3）>web安全服务配置（100）
 * 在做资源权限配置的时候按照优先级高的来配置，否则不会生效
 
@@ -1443,13 +1541,17 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 ### Spring Security OAuth2之scopes配置详解
 
 #### 1.先看下官方文档的说明
-* 地址：[https://projects.spring.io/spring-security-oauth/docs/oauth2.html](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
-* scope: The scope to which the client is limited. If scope is undefined or empty (the default) the client is not limited by scope.
+
+*
+地址：[https://projects.spring.io/spring-security-oauth/docs/oauth2.html](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
+* scope: The scope to which the client is limited. If scope is undefined or empty (the default) the client is not
+  limited by scope.
 * 用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围
-scope中文翻译就是作用域，用来限制客户端权限访问的范围，可以用来设置角色或者权限，也可以不设置。
+  scope中文翻译就是作用域，用来限制客户端权限访问的范围，可以用来设置角色或者权限，也可以不设置。
 
 > 虽然官方网站说是服务器端的client配置scopes可以为空，但是经过实际操作及跟踪源码来看password模式下调用/oauth/token端点拿用户token信息服务端可以为空，
-但是客户端必须传scopes;refresh_token模式服务端及client端的scopes都 需要配置，所以即使我们用不到scopes前后端最好都配置上scopes("all");
+> 但是客户端必须传scopes;refresh_token模式服务端及client端的scopes都
+> 需要配置，所以即使我们用不到scopes前后端最好都配置上scopes("all");
 
 资料信息：[https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope](https://stackoverflow.com/questions/39756748/spring-oauth-authorization-server-requires-scope)
 
@@ -1501,8 +1603,11 @@ scope中文翻译就是作用域，用来限制客户端权限访问的范围，
         }
     }
 ```
+
 #### 3.进入this.oAuth2RequestValidator.validateScope(tokenRequest, authenticatedClient);查看处理逻辑
+
 oAuth2RequestValidator对象是DefaultOAuth2RequestValidator的实例，进入看下实现逻辑：
+
 ```
 //
 // Source code recreated from a .class file by IntelliJ IDEA
@@ -1553,6 +1658,7 @@ public class DefaultOAuth2RequestValidator implements OAuth2RequestValidator {
 ```
 
 #### 4.DefaultOAuth2RequestFactory实现类组装token请求及校验scopes
+
 ```
 //
 // Source code recreated from a .class file by IntelliJ IDEA
@@ -1683,6 +1789,7 @@ public class DefaultOAuth2RequestFactory implements OAuth2RequestFactory {
 的字符串，如果我们想灵活的使用很难控制；所以我这边通过实现GrantedAuthority接口，自定义实现权限控制；
 
 #### 1.自定义授权接口如下
+
 ```
 package com.yaomy.security.oauth2.authority;
 
@@ -1712,6 +1819,7 @@ public class UserGrantedAuthority implements GrantedAuthority {
 ```
 
 #### 2.用户验证信息类中的使用方法
+
 ```
 package com.yaomy.security.oauth2.po;
 
@@ -1774,6 +1882,7 @@ public class UserAuthDetailsService implements UserDetailsService {
 ```
 
 #### 3.控制器方法获取用户信息解析权限及返回前端
+
 ```
   @RequestMapping(value = "token", method = RequestMethod.POST)
     public ResponseEntity<BaseResponse> getToken(@RequestParam String username, @RequestParam String password){
@@ -1816,6 +1925,7 @@ public class UserAuthDetailsService implements UserDetailsService {
 ```
 
 #### 4.测试返回结果如下
+
 ```
 {
     "status": 200,
@@ -1842,6 +1952,7 @@ public class UserAuthDetailsService implements UserDetailsService {
     }
 }
 ```
+
  ***
- GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
+GitHub源码：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-server-redis-service)
 

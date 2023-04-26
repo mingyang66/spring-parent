@@ -18,7 +18,8 @@
     </delete>
 
     <select id="getMysql" resultType="com.emily.infrastructure.test.po.World">
-        SELECT * FROM world w
+        SELECT *
+        FROM world w
     </select>
 
     <insert id="insertMysql">

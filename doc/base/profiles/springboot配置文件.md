@@ -8,8 +8,6 @@
 java -jar myproject.jar --spring.config.name=myproject
 ```
 
-
-
 ##### 2.spring.profiles.active激活指定的配置文件application-{profile}.properties
 
 - 系统默认加载application-[default].properties配置文件;
@@ -51,7 +49,8 @@ java -jar myproject.jar --spring.config.location=classpath:/default.properties,c
 3. classpath:/config/
 4. classpath:/
 
-当使用spring.config.location指定配置文件时将会替换掉以上默认位置的配置；例如，如果spring.config.location的配置是classpath:/custom-config/,file:./custom-config/，那么优先级顺序是：
+当使用spring.config.location指定配置文件时将会替换掉以上默认位置的配置；例如，如果spring.config.location的配置是classpath:
+/custom-config/,file:./custom-config/，那么优先级顺序是：
 
 1. file:./custom-config/
 2. classpath:/custom-config/
@@ -92,8 +91,6 @@ java -jar myproject.jar --spring.config.location=classpath:/default.properties,c
 		}
 ```
 
-
-
 使用逗号分隔符分割配置路径，并反转配置顺序：
 
 ```java
@@ -111,7 +108,8 @@ java -jar myproject.jar --spring.config.location=classpath:/default.properties,c
 
 ##### 4.spring.config.additional-location指定配置文件
 
-该属性是用来指定默认配置之外的位置的配置文件，系统会有限使用指定的外部配置；例如，如果指定的配置是classpath:/custom-config/,file:./custom-config/，那么优先级顺序将会是：
+该属性是用来指定默认配置之外的位置的配置文件，系统会有限使用指定的外部配置；例如，如果指定的配置是classpath:
+/custom-config/,file:./custom-config/，那么优先级顺序将会是：
 
 1. file:./custom-config/
 2. classpath:custom-config/
@@ -125,8 +123,6 @@ java -jar myproject.jar --spring.config.location=classpath:/default.properties,c
 ```
 java -jar demo-0.0.1-SNAPSHOT.jar --spring.config.additional-location=file:///Users/yaomingyang/Downloads/config/
 ```
-
-
 
 > 该配置属性用在命令行参数、OS环境变量、系统属性配置
 

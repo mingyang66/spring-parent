@@ -1,6 +1,7 @@
 ### RabbitMQ学习笔记：mandatory、publisher-confirms、publisher-return属性区别
 
-> rabbitmq客户端发送消息首先发送的交换器exchange，然后通过路由键routingKey和bindingKey比较判定需要将消息发送到那个队列queue上；在这个过程有两个地方消息可能丢失，第一消息发送到交换器exchange的过程，第二消息从交换器exchange发送到队列queue的过程；
+>
+rabbitmq客户端发送消息首先发送的交换器exchange，然后通过路由键routingKey和bindingKey比较判定需要将消息发送到那个队列queue上；在这个过程有两个地方消息可能丢失，第一消息发送到交换器exchange的过程，第二消息从交换器exchange发送到队列queue的过程；
 
 ##### 1.publiser-confirm模式可以确保生产者到交换器exchange消息有没有发送成功
 

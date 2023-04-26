@@ -26,11 +26,11 @@ public interface Aware {
 }
 ```
 
-> Aware接口其实就是一个空接口，没有任何的方法定义，解释下上面的注解：一个标记父接口，指示了一个bean有资格被spring容器通过一个回调风格的方法调用框架的特定对象。实际的方法签名（即方法）由各个子接口确定的，通常应该仅包含一个接受单个参数、返回值为void的方法。
 >
-> 请注意，仅仅实现Aware接口不会提供默认功能。相反，处理必须明确的进行，例如在一个org.springframework.beans.factory.config.BeanPostProcessor中，请参考org.springframework.context.support.ApplicationContextAwareProcessor类对部分Aware接口类的处理实例；
-
-
+Aware接口其实就是一个空接口，没有任何的方法定义，解释下上面的注解：一个标记父接口，指示了一个bean有资格被spring容器通过一个回调风格的方法调用框架的特定对象。实际的方法签名（即方法）由各个子接口确定的，通常应该仅包含一个接受单个参数、返回值为void的方法。
+>
+>
+请注意，仅仅实现Aware接口不会提供默认功能。相反，处理必须明确的进行，例如在一个org.springframework.beans.factory.config.BeanPostProcessor中，请参考org.springframework.context.support.ApplicationContextAwareProcessor类对部分Aware接口类的处理实例；
 
 ##### 2.示例
 
@@ -105,6 +105,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 }
 ```
 
-> BeanPostProcessor接口为IOC容器类提供了钩子方法，在Bean实例化之前和实例化之后分别调用before和after方法调用，具体使用方法请参考：https://blog.csdn.net/yaomingyang/article/details/108628357，当回调方法postProcessBeforeInitialization被调用时，会调用invokeAwareInterfaces方法，那么就会调用Aware接口中的方法，可能会传入一个参数，就是上述文档中提到的框架对象，如：applicationContext。
+>
+BeanPostProcessor接口为IOC容器类提供了钩子方法，在Bean实例化之前和实例化之后分别调用before和after方法调用，具体使用方法请参考：https://blog.csdn.net/yaomingyang/article/details/108628357，当回调方法postProcessBeforeInitialization被调用时，会调用invokeAwareInterfaces方法，那么就会调用Aware接口中的方法，可能会传入一个参数，就是上述文档中提到的框架对象，如：applicationContext。
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

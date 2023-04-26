@@ -1,6 +1,8 @@
 ### 死磕源码系列【springboot之ServletContextInitializer接口源码解析】
 
-> springboot提供在Servlet 3.0+环境中用于编码方式配置ServletContext的接口，此接口（ServletContextInitializer）主要被RegistrationBean抽象类实现用于往ServletContext容器中注册Servlet、Filter或者Listener。这些实现了此接口的Bean的生命周期将会交给Spring容器管理，而不会交给Servlet容器。
+> springboot提供在Servlet
+>
+3.0+环境中用于编码方式配置ServletContext的接口，此接口（ServletContextInitializer）主要被RegistrationBean抽象类实现用于往ServletContext容器中注册Servlet、Filter或者Listener。这些实现了此接口的Bean的生命周期将会交给Spring容器管理，而不会交给Servlet容器。
 
 ##### 1.ServletContextInitializer接口源码：
 
@@ -541,8 +543,6 @@ public abstract class AbstractFilterRegistrationBean<T extends Filter> extends D
 }
 
 ```
-
-
 
 ##### 6.FilterRegistrationBean是基于Servlet3.0+容器注册Filter，类似于ServletContext#addFilter(String, Filter)注册过滤器的特性，但是提供了注册为spring bean的友好特性
 

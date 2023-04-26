@@ -12,14 +12,12 @@
 #### DLX和TTL模拟延迟队列
 
 - 消息变成死信一般由以下几种情况
-  1. 消息被拒绝（Basic.Reject/Basic.Nack）,并且设置requeue参数为false;
-  2. 消息过期
-  3. 队列达到最大长度
+    1. 消息被拒绝（Basic.Reject/Basic.Nack）,并且设置requeue参数为false;
+    2. 消息过期
+    3. 队列达到最大长度
 - DLX
 
 DLX是一个正常的交换器，和一般的交换器没有区别，它能在任何的队列上被指定，实际上就是设置某个队列的属性。当这个队列中存在死信时，RabbitMQ就会自动地将这个消息重新发布到设置的DLX上去，进而被路由到另一个队列，即死信队列。可以监听这个队列中的消息进行相应的处理，这个特性与将消息的TTL设置为0配合使用可以弥补immediate参数的功能。
-
-
 
 - 声明队列、交换器、绑定路由并在容器启动时自动创建，通过在队列的参数上设置x-dead-letter-exchange参数添加死信交换器，设置x-dead-letter-routing-key参数添加死信路由
 
@@ -299,17 +297,20 @@ public class RabbitSender {
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020010216025482.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taW5neWFuZy5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70)
 
-
-
 ### 延迟消息插件rabbitmq_delayed_message_exchange
 
-> 一段时间以来，人们一直在寻找用RabbitMQ实现延迟消息的传递方法，到目前为止，公认的解决方案是混合使用TTL和DLX。而rabbitmq_delayed_message_exchange插件就是基于此来实现的，RabbitMQ延迟消息插件新增了一种新的交换器类型，消息通过这种交换器路由就可以实现延迟发送。
+>
+一段时间以来，人们一直在寻找用RabbitMQ实现延迟消息的传递方法，到目前为止，公认的解决方案是混合使用TTL和DLX。而rabbitmq_delayed_message_exchange插件就是基于此来实现的，RabbitMQ延迟消息插件新增了一种新的交换器类型，消息通过这种交换器路由就可以实现延迟发送。
 
 ##### 插件安装
 
 插件安装，当前我使用的是3.8.1，一定要找到自己对应的版本来下载，否则会出现异常
 
-- 到 https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/tag/v3.8.0 上下载 [rabbitmq_delayed_message_exchange-3.8.0.ez](https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez)或者 [Source code(zip)](https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/archive/v3.8.0.zip)  可以先下载到本地再上传到/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.1/plugins目录下；源码包要先解压缩；也可以使用wget（wget  https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez ）直接下载到服务器plugins目录下;
+- 到 https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/tag/v3.8.0
+  上下载 [rabbitmq_delayed_message_exchange-3.8.0.ez](https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez)
+  或者 [Source code(zip)](https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/archive/v3.8.0.zip)
+  可以先下载到本地再上传到/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.1/plugins目录下；源码包要先解压缩；也可以使用wget（wget  https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez
+  ）直接下载到服务器plugins目录下;
 - 启动插件rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 
 首先可以通过rabbitmq-plugins list命令查看插件名：
@@ -392,8 +393,6 @@ The following plugins have been disabled:
 
 stopped 1 plugins.
 ```
-
-
 
 - 升级RabbitMQ时，必须冲新安装该插件，也就是要安装它们的新版本；或者，可以在升级之前或升级期间禁用它们。
 
@@ -788,9 +787,8 @@ public class RabbitDelayReceiver {
 
 ##### 检查消息是否延期
 
->  To check if a message was delayed, use the `getReceivedDelay()` method on the `MessageProperties`. It is a separate property to avoid unintended propagation to an output message generated from an input message. 
-
-
+> To check if a message was delayed, use the `getReceivedDelay()` method on the `MessageProperties`. It is a separate
+> property to avoid unintended propagation to an output message generated from an input message.
 
 ##### 查看已发送到exchange的延迟消息数量：
 
@@ -809,12 +807,10 @@ public class RabbitDelayReceiver {
 - 目前该插件只支持disk节点，不支持ram节点
 - 性能比原生的差一点（普通的Exchange收到消息后直接路由到队列，而延迟队列需要判断消息是否过期，未过期的需要保存在表中，时间到了再捞出来路由）
 
-
-
 参考：
 
-1. https://www.rabbitmq.com/blog/2015/04/16/scheduling-messages-with-rabbitmq/ 
-2.  https://www.rabbitmq.com/community-plugins.html 
-3.  https://docs.spring.io/spring-amqp/docs/2.1.7.BUILD-SNAPSHOT/reference/html/#delayed-message-exchange 
+1. https://www.rabbitmq.com/blog/2015/04/16/scheduling-messages-with-rabbitmq/
+2. https://www.rabbitmq.com/community-plugins.html
+3. https://docs.spring.io/spring-amqp/docs/2.1.7.BUILD-SNAPSHOT/reference/html/#delayed-message-exchange
 
 GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rabbitmq-service](https://github.com/mingyang66/spring-parent/tree/master/spring-boot-control-rabbitmq-service)

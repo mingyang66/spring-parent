@@ -19,7 +19,9 @@ SETBIT key offset value
 1B=8bits
 ```
 
-在Redis中，存储的字符串都是以二进制的方式存储的；字符'a'的ASCII码时97，转为二进制是01100001，字符'b'的ASCII码时98，转为二进制是01100010；二进制中的每一位都是offset偏移量的值，比如：字符'a'的偏移量offset为0时值为0，offset为1时值为1；offset偏移量是从左往右计算的，也就是从高位往低位（偏移量从0开始计算）
+在Redis中，存储的字符串都是以二进制的方式存储的；字符'a'的ASCII码时97，转为二进制是01100001，字符'b'
+的ASCII码时98，转为二进制是01100010；二进制中的每一位都是offset偏移量的值，比如：字符'a'
+的偏移量offset为0时值为0，offset为1时值为1；offset偏移量是从左往右计算的，也就是从高位往低位（偏移量从0开始计算）
 
 我们可以通过SETBIT命令将emily中的字符'a'变为字符'b'，即将01100001变为01100010；
 
@@ -90,7 +92,5 @@ BITCOUNT key [start end [BYTE | BIT]]
 127.0.0.1:6379[1]> BITCOUNT emily 0 6 bit
 (integer) 3
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

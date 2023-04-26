@@ -135,11 +135,17 @@ public abstract class SpringFactoryImportSelector<T>
 }
 ```
 
+看过EnableDiscoveryClientImportSelector及其父类SpringFactoryImportSelector的源码你应该会发现此处的自动化配置是通过key为org.springframework.cloud.client.discovery.EnableDiscoveryClient的配置来实现的，这是你会想到做微服务相关的自动化配置是可以不使用org.springframework.boot.autoconfigure.EnableAutoConfiguration作为key来配置了，这样做是不是很美好；然后扒拉扒拉的把微服务相关的自动化配置改成org.springframework.cloud.client.discovery.EnableDiscoveryClient做为key，然后启动服务，发现可以正常启用及加载配置类，perfect；但是在仔细看启动日志发现有一个警告warn日志（More
+than one implementation of @EnableDiscoveryClient (now relying on @Conditionals to pick one):
+），瞬间感觉心情不美丽了，虽然程序正常启动没问题，但是总感觉有点啥问题，然后又开始了使劲的查找，在网上找到一篇文章[What's the difference between EnableEurekaClient and EnableDiscoveryClient?](https://stackoverflow.com/questions/31976236/whats-the-difference-between-enableeurekaclient-and-enablediscoveryclient)
 
-
-看过EnableDiscoveryClientImportSelector及其父类SpringFactoryImportSelector的源码你应该会发现此处的自动化配置是通过key为org.springframework.cloud.client.discovery.EnableDiscoveryClient的配置来实现的，这是你会想到做微服务相关的自动化配置是可以不使用org.springframework.boot.autoconfigure.EnableAutoConfiguration作为key来配置了，这样做是不是很美好；然后扒拉扒拉的把微服务相关的自动化配置改成org.springframework.cloud.client.discovery.EnableDiscoveryClient做为key，然后启动服务，发现可以正常启用及加载配置类，perfect；但是在仔细看启动日志发现有一个警告warn日志（More than one implementation of @EnableDiscoveryClient (now relying on @Conditionals to pick one): ），瞬间感觉心情不美丽了，虽然程序正常启动没问题，但是总感觉有点啥问题，然后又开始了使劲的查找，在网上找到一篇文章[What's the difference between EnableEurekaClient and EnableDiscoveryClient?](https://stackoverflow.com/questions/31976236/whats-the-difference-between-enableeurekaclient-and-enablediscoveryclient)
-
-[Ask Question](https://stackoverflow.com/questions/31976236/whats-the-difference-between-enableeurekaclient-and-enablediscoveryclient),上面有这样一段解释There are multiple implementations of "Discovery Service" (eureka, [consul](https://github.com/spring-cloud/spring-cloud-consul), [zookeeper](https://github.com/spring-cloud/spring-cloud-zookeeper)). `@EnableDiscoveryClient` lives in [spring-cloud-commons](https://github.com/spring-cloud/spring-cloud-commons) and picks the implementation on the classpath. `@EnableEurekaClient` lives in [spring-cloud-netflix](https://github.com/spring-cloud/spring-cloud-netflix/) and only works for eureka. If eureka is on your classpath, they are effectively the same.
+[Ask Question](https://stackoverflow.com/questions/31976236/whats-the-difference-between-enableeurekaclient-and-enablediscoveryclient)
+,上面有这样一段解释There are multiple implementations of "Discovery Service" (
+eureka, [consul](https://github.com/spring-cloud/spring-cloud-consul), [zookeeper](https://github.com/spring-cloud/spring-cloud-zookeeper)). `@EnableDiscoveryClient`
+lives in [spring-cloud-commons](https://github.com/spring-cloud/spring-cloud-commons) and picks the implementation on
+the classpath. `@EnableEurekaClient` lives
+in [spring-cloud-netflix](https://github.com/spring-cloud/spring-cloud-netflix/) and only works for eureka. If eureka is
+on your classpath, they are effectively the same.
 
 意思是这样的，服务发现有多种实现方式（consul、zookeeper、eureka）,其中客户端注解@EnableDiscoveryClient是基于spring-cloud-commons实现，@EnableEurekaClient是基于spring-cloud-netflix实现，如果是基于consul或zookeeper实现则使用@EnableDiscoveryClient注解启用服务（不建议使用org.springframework.cloud.client.discovery.EnableDiscoveryClient作为key进行自动化配置，否则会有一条警告信息），如果是使用eureka则使用@EnableEurekaClient启用服务（可以通过org.springframework.cloud.client.discovery.EnableDiscoveryClient=org.springframework.cloud.netflix.eureka.EurekaDiscoveryClientConfiguration）；
 
@@ -147,7 +153,8 @@ public abstract class SpringFactoryImportSelector<T>
 
 ##### consul做服务注册及发现主方法加上@EnableDiscoveryClient和去掉一样起作用原因分析
 
-> 上述源码我们已经看到了EnableDiscoveryClientImportSelector类的作用是将org.springframework.cloud.client.serviceregistry.AutoServiceRegistrationConfiguration配置类注入到IOC容器之中，那为啥将@EnableDiscoveryClient注解去掉之后服务注册及发现功能一样其作用呢？接下来我们就对这做一个详细的分析；
+>
+上述源码我们已经看到了EnableDiscoveryClientImportSelector类的作用是将org.springframework.cloud.client.serviceregistry.AutoServiceRegistrationConfiguration配置类注入到IOC容器之中，那为啥将@EnableDiscoveryClient注解去掉之后服务注册及发现功能一样其作用呢？接下来我们就对这做一个详细的分析；
 
 ##### AutoServiceRegistrationConfiguration源码
 
@@ -161,7 +168,8 @@ public class AutoServiceRegistrationConfiguration {
 }
 ```
 
-> 配置类有两个作用，第一将AutoServiceRegistrationProperties属性配置类注入IOC容器，其二只有在spring.cloud.service-registry.auto-registration.enabled为true时才将配置类注入IOC容器，默认就为true;
+>
+配置类有两个作用，第一将AutoServiceRegistrationProperties属性配置类注入IOC容器，其二只有在spring.cloud.service-registry.auto-registration.enabled为true时才将配置类注入IOC容器，默认就为true;
 
 分析：既然@EnableDiscoveryClient注解不配置AutoServiceRegistrationConfiguration一样可以注入到IOC容器，那么说明肯定是有其他的地方有注入，看下spring.factories配置文件中的自动化配置有一个AutoServiceRegistrationAutoConfiguration自动化配置类，再看下其源码：
 

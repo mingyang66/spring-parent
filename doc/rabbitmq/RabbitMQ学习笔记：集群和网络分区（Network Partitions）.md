@@ -16,7 +16,8 @@
 rabbitmq-diagnostics cluster_status
 ```
 
-rabbitmq-diagnostics cluster_status通常会为分区显示一个空列表（经过实际的测试会显示如：Node rabbit@rabbit1 cannot communicate with rabbit@rabbit2）：
+rabbitmq-diagnostics cluster_status通常会为分区显示一个空列表（经过实际的测试会显示如：Node rabbit@rabbit1 cannot
+communicate with rabbit@rabbit2）：
 
 官网示例：
 
@@ -131,7 +132,9 @@ ignore模式在/etc/rabbitmq/advanced.config中的配置：
 cluster_partition_handling = ignore
 ```
 
-在pause-minority模式下，当发生网络分区时，集群的节点在观察到某些节点down掉时，会自动检测自身是否处于少数派（即少于或等于节点总数的一半），少数派将会在分区发生时自动关闭，并且在分区结束时自动启动。这里的关闭是只RabbitMQ 应用程序关闭，对应CTL命令是rabbitmqctl stop_app，而Erlang VM并不关闭。处于关闭的节点会每秒检测一次是否可以连通到剩余的集群中，如果可以则启动自身的应用，这种配置防止了网络分区，因此能够自动从网络分区恢复而不出现不一致。
+在pause-minority模式下，当发生网络分区时，集群的节点在观察到某些节点down掉时，会自动检测自身是否处于少数派（即少于或等于节点总数的一半），少数派将会在分区发生时自动关闭，并且在分区结束时自动启动。这里的关闭是只RabbitMQ
+应用程序关闭，对应CTL命令是rabbitmqctl stop_app，而Erlang
+VM并不关闭。处于关闭的节点会每秒检测一次是否可以连通到剩余的集群中，如果可以则启动自身的应用，这种配置防止了网络分区，因此能够自动从网络分区恢复而不出现不一致。
 
 需要注意的是RabbitMQ也会关闭不是严格意义上的大多数，比如在一个集群中只有两个节点的时候并不适合pause-minority模式，因为由于其中任何一个节点失败而发生网络分区时，两个节点都会关闭。当网络恢复时，有可能两个节点会自动启动恢复网络分区，也有可能保持关闭状态。然而如果集群中的节点远大于两个时，pause-minority模式比ignore模式更加可靠，特别是网络分区通常是由于单个节点网络故障而脱离原分区引起的。
 
@@ -155,7 +158,9 @@ cluster_partition_handling = ignore
 cluster_partition_handling = pause_minority
 ```
 
-在pause-if-all-down模式下，RabbitMQ会自动关闭不能和list中节点通信的节点。语法为{pause-if-all-down,[nodes],ignore|autoheal}，其中[nodes]就是前面所说的list。如果一个节点与list中的所有节点都无法通信时，关闭其自身。如果list中的所有节点都down时，其余节点是正常的话，也会根据这个规则关闭其自身。此时集群中所有的节点会关闭。如果某个节点可以和list中的节点恢复通信，那么会启动其自身的RabbitMQ应用，慢慢的集群可以恢复。
+在pause-if-all-down模式下，RabbitMQ会自动关闭不能和list中节点通信的节点。语法为{pause-if-all-down,[nodes]
+,ignore|autoheal}，其中[nodes]
+就是前面所说的list。如果一个节点与list中的所有节点都无法通信时，关闭其自身。如果list中的所有节点都down时，其余节点是正常的话，也会根据这个规则关闭其自身。此时集群中所有的节点会关闭。如果某个节点可以和list中的节点恢复通信，那么会启动其自身的RabbitMQ应用，慢慢的集群可以恢复。
 
 有两种配置如下：
 
@@ -197,9 +202,8 @@ cluster_partition_handling = pause_minority
 # cluster_partition_handling.pause_if_all_down.nodes.2 = hare@localhost
 ```
 
-配置中会有ignore和autoheal模式设置，考虑会有这样一种情况，有两个节点在A、B在机架M上，节点C、D在机架N上，此时机架M和N的通信出现了异常，如果使用pause-minority模式的话会关闭所有的节点，如果此时采用pause-if-all-down，list中配置成[A,C]的话，集群中的四个节点都不会关闭，但是会形成两个分区，此时就需要使用ignore和autoheal来指引如何处理这种分区情况。
-
-
+配置中会有ignore和autoheal模式设置，考虑会有这样一种情况，有两个节点在A、B在机架M上，节点C、D在机架N上，此时机架M和N的通信出现了异常，如果使用pause-minority模式的话会关闭所有的节点，如果此时采用pause-if-all-down，list中配置成[A,C]
+的话，集群中的四个节点都不会关闭，但是会形成两个分区，此时就需要使用ignore和autoheal来指引如何处理这种分区情况。
 
 在autoheal模式下，当认为发生网络分区时，RabbitMQ会自动决定一个获胜的分区，然后重启不在这个分区中的节点以恢复网络分区。一个获胜的分区是指客户端连接最多的一个分区。如果产生平局，即两个或者多个分区的客户端连接数一样多，那么节点数最多的一个分区就是获胜的分区。如果此时节点数一样多，将以一种特殊的方式来挑选获胜分区。
 
@@ -218,8 +222,6 @@ cluster_partition_handling = pause_minority
 rabbitmq.conf配置文件示例地址：https://github.com/rabbitmq/rabbitmq-server/blob/master/docs/rabbitmq.conf.example
 
 rabbitmq.conf配置文件在服务端的位置是/etc/rabbitmq/rabbitmq.conf
-
-
 
 ###### 6.如何关闭端口号或者域名
 

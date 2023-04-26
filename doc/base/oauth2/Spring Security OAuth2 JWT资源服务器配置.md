@@ -1,7 +1,9 @@
 # spring-parent
-<h3>Spring Security OAuth2 JWT资源服务器配置</h3> 
+
+<h3>Spring Security OAuth2 JWT资源服务器配置</h3>
 
 #### 1.POM相关依赖
+
 ```
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -22,7 +24,9 @@
             <version>1.0.10.RELEASE</version>
         </dependency>
 ```
+
 #### 2.添加资源服务器配置
+
 ```package com.yaomy.security.resource.config;
    
    import org.springframework.context.annotation.Bean;
@@ -115,6 +119,7 @@
 添加有Authorization，并且Authorization是以Bearer开头的access_token才能够识别；过滤器中相关的接口有TokenExtractor，其实现类是BearerTokenExtractor。
 
 #### 3.新增资源服务接口
+
 ```
 package com.yaomy.security.resource.api;
 
@@ -167,4 +172,5 @@ public class ResourceBootStrap {
     }
 }
 ```
+
 源码GitHub地址：[https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-jwt-service](https://github.com/mingyang66/spring-parent/tree/master/spring-security-oauth2-resource-jwt-service)

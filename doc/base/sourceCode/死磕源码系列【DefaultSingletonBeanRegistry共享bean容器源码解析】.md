@@ -4,7 +4,8 @@
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201030112017610.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70#pic_center)
 
-SimpleAliasRegistry类提供了bean别名注册功能，之前已经讲解过，请参考[死磕源码系列【JavaConfig配置bean别名AliasRegistry详解】](https://mingyang.blog.csdn.net/article/details/109228656)；SingletonBeanRegistry接口为共享bean实例定义注册表的接口，可以通过IOC容器来实现，以便以统一公开的方式公开单实例管理工具。
+SimpleAliasRegistry类提供了bean别名注册功能，之前已经讲解过，请参考[死磕源码系列【JavaConfig配置bean别名AliasRegistry详解】](https://mingyang.blog.csdn.net/article/details/109228656)
+；SingletonBeanRegistry接口为共享bean实例定义注册表的接口，可以通过IOC容器来实现，以便以统一公开的方式公开单实例管理工具。
 
 ##### SingletonBeanRegistry单实例注册表接口：
 

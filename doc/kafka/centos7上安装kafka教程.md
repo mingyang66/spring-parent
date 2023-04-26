@@ -34,8 +34,6 @@ export PATH=$PATH:$JAVA_HOME/bin
 source /etc/profile
 ```
 
-
-
 ##### 二、Zookeeper安装
 
 去官网下载最新版zookeeper服务：https://zookeeper.apache.org/releases.html
@@ -68,8 +66,6 @@ server.3=xx.xx.xx.xx:2888:3888
 vi myid
 ```
 
-
-
 ```properties
 # 启动服务器
 bin/zkServer.sh start
@@ -91,8 +87,6 @@ export PATH=$PATH:$ZOOKEEPER_HOME/bin
 # 使环境配置立马生效
 source /etc/profile
 ```
-
-
 
 ##### 三、kafka下载安装
 
@@ -140,7 +134,5 @@ bin/kafka-console-producer.sh --broker-list xx.xx.xx.xx:9092 --topic test
 # 消费者
 bin/kafka-console-consumer.sh --bootstrap-server xx.xx.xx.xx:9092 --topic test --from-beginning
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

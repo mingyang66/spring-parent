@@ -1,6 +1,7 @@
 ### 死磕源码系列【ServerPortInfoApplicationContextInitializer初始化器源码详解】
 
-> ServerPortInfoApplicationContextInitializer是ApplicationContextInitializer接口的实现类，会通过SPI方式在应用程序启动时初始化，其主要作用是在环境Environment中添加一个属性源，将应用的本地端口号添加进去，方便通过@Value或environment获取本地端口号；ServerPortInfoApplicationContextInitializer初始化器还实现了另外一个ApplicationListener监听器，监听器实现方法会在服务器server启动后调用。
+>
+ServerPortInfoApplicationContextInitializer是ApplicationContextInitializer接口的实现类，会通过SPI方式在应用程序启动时初始化，其主要作用是在环境Environment中添加一个属性源，将应用的本地端口号添加进去，方便通过@Value或environment获取本地端口号；ServerPortInfoApplicationContextInitializer初始化器还实现了另外一个ApplicationListener监听器，监听器实现方法会在服务器server启动后调用。
 
 ##### 1.初始化方法initialize
 
@@ -11,9 +12,9 @@
 	}
 ```
 
-> initialize方法是ApplicationContextInitializer接口的回调方法，会在springboot应用启动时在org.springframework.boot.SpringApplication#prepareContext方法中调用初始化，在方法中会将当前类作为监听器添加到应用程序上下文ConfigurableApplicationContext（实际是AnnotationConfigServletWebServerApplicationContext）中，会在后面web server启动之后触发。
-
-
+>
+initialize方法是ApplicationContextInitializer接口的回调方法，会在springboot应用启动时在org.springframework.boot.SpringApplication#prepareContext方法中调用初始化，在方法中会将当前类作为监听器添加到应用程序上下文ConfigurableApplicationContext（实际是AnnotationConfigServletWebServerApplicationContext）中，会在后面web
+server启动之后触发。
 
 ##### 2.onApplicationEvent监听器回调方法
 
@@ -103,7 +104,9 @@ class WebServerStartStopLifecycle implements SmartLifecycle {
 }
 ```
 
-> 到这里我们知道了初始化器是在WebServerStartStopLifecycle生命周期类的start方法中发布事件触发的，那么WebServerStartStopLifecycle生命周期类又是在哪里触发调用的start方法呢？是在org.springframework.context.support.AbstractApplicationContext#refresh方法中的最后一步调用finishRefresh方法，finishRefresh方法的getLifecycleProcessor().onRefresh()方法，此处就不在一步步的跟踪了，有兴趣的同学可以自己调试源码看看。
+>
+到这里我们知道了初始化器是在WebServerStartStopLifecycle生命周期类的start方法中发布事件触发的，那么WebServerStartStopLifecycle生命周期类又是在哪里触发调用的start方法呢？是在org.springframework.context.support.AbstractApplicationContext#refresh方法中的最后一步调用finishRefresh方法，finishRefresh方法的getLifecycleProcessor()
+.onRefresh()方法，此处就不在一步步的跟踪了，有兴趣的同学可以自己调试源码看看。
 
 ------
 

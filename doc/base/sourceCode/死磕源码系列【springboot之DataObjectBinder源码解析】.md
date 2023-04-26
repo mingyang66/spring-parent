@@ -1,6 +1,7 @@
 ### 死磕源码系列【springboot之DataObjectBinder、DataObjectBinder源码解析】
 
-> DataObjectBinder是一个内部策略被Binder用来绑定数据对象，数据对象是由递归绑定的属性组成的对象；其实现类有JavaBeanBinder、ValueObjectBinder；JavaBeanBinder实现类是通过getter/setter绑定，ValueObjectBinder实现类是通过构造函数绑定；
+>
+DataObjectBinder是一个内部策略被Binder用来绑定数据对象，数据对象是由递归绑定的属性组成的对象；其实现类有JavaBeanBinder、ValueObjectBinder；JavaBeanBinder实现类是通过getter/setter绑定，ValueObjectBinder实现类是通过构造函数绑定；
 
 ##### DataObjectBinder接口源码：
 

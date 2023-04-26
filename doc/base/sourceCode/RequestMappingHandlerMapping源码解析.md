@@ -1,6 +1,7 @@
 ### RequestMappingHandlerMapping源码解析
 
-> RequestMappingHandlerMapping的作用是在容器启动后将系统中所有控制器方法的请求条件（RequestMappingInfo）和控制器方法(HandlerMethod)的对应关系注册到RequestMappingHandlerMapping Bean的内存中，待接口请求系统的时候根据请求条件和内存中存储的系统接口信息比对，再执行对应的控制器方法。
+> RequestMappingHandlerMapping的作用是在容器启动后将系统中所有控制器方法的请求条件（RequestMappingInfo）和控制器方法(
+> HandlerMethod)的对应关系注册到RequestMappingHandlerMapping Bean的内存中，待接口请求系统的时候根据请求条件和内存中存储的系统接口信息比对，再执行对应的控制器方法。
 
 ##### 1.首先分析下HandlerMethod（控制器方法包装对象）
 
@@ -40,7 +41,8 @@ public class HandlerMethod {
 
 ##### 2.RequestMappingInfo(请求信息)
 
-> RequestMappingInfo其实就是将我们熟悉的@RequestMapping注解的信息数据封装到了RequestMappingInfo POJO对象之中，然后和HandlerMethod做映射关系存入缓存之中；
+> RequestMappingInfo其实就是将我们熟悉的@RequestMapping注解的信息数据封装到了RequestMappingInfo
+> POJO对象之中，然后和HandlerMethod做映射关系存入缓存之中；
 
 首先看下@RequestMapping注解，这个注解会将请求映射到控制器方法之上；
 
@@ -152,17 +154,18 @@ createRequestMappingInfo方法使用RequestMappingInfo对象将RequestMapping对
     }
 ```
 
-
-
 ##### 3.源码执行逻辑分析
 
 先总结下RequestMappingHandlerMapping的工作流程大致如下：
 
 - 容器将RequestMappingHandlerMapping组件注册入容器的时候，监测到了InitializingBean接口，注册完成后会执行afterPropertiesSet方法；
-- afterPropertiesSet方法会调用父类AbstractHandlerMethodMapping的afterPropertiesSet方法，然后调用initHandlerMethods方法，此方法会首先获取容器中所有bean的beanName,然后循环调用processCandidateBean方法；
+-
+afterPropertiesSet方法会调用父类AbstractHandlerMethodMapping的afterPropertiesSet方法，然后调用initHandlerMethods方法，此方法会首先获取容器中所有bean的beanName,然后循环调用processCandidateBean方法；
 - processCandidateBean方法首先会获取bean的Class类型，然后调用isHandler方法判定是否是控制器类，如果是则调用detectHandlerMethods方法；
-- detectHandlerMethods方法首先会通过MethodIntrospector.selectMethods方法获取bean中所有控制器方法的Method和RequestMappingInfo对应关系，然后循环调用registerHandlerMethod注册方法；
-- 在registerHandlerMethod方法中会将对应关系分别注册入多个不同的Map关系映射中，其中mappingLookup集合Map是我们外部获取系统中所有URL的入口地址，urlLookup是前端发送request请求时根据url获取RequestMappingInfo信息的入口集合；
+-
+detectHandlerMethods方法首先会通过MethodIntrospector.selectMethods方法获取bean中所有控制器方法的Method和RequestMappingInfo对应关系，然后循环调用registerHandlerMethod注册方法；
+-
+在registerHandlerMethod方法中会将对应关系分别注册入多个不同的Map关系映射中，其中mappingLookup集合Map是我们外部获取系统中所有URL的入口地址，urlLookup是前端发送request请求时根据url获取RequestMappingInfo信息的入口集合；
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200529150222763.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70)
 

@@ -34,8 +34,6 @@
 rabbitmqctl stop
 ```
 
-
-
 ##### 2.启动RabbitMQ节点可以加上-detached参数以后端模式启动
 
 ```
@@ -49,8 +47,6 @@ Start the server process in the background. Note that this will cause the pid no
 For example, runs RabbitMQ AMQP server in the background:
 ```
 
-
-
 ## Environment(环境变量)
 
 ##### 1.环境变量配置文件rabbitmq-env.conf
@@ -59,11 +55,7 @@ For example, runs RabbitMQ AMQP server in the background:
 
 该文件由系统shell解释，因此应包含一系列shell环境变量定义。允许使用普通的shell语法（因为文件的源代码是使用shell“.”运算符），包括以#号开头的行注解。
 
-
-
 按照优先级顺序，启动脚本从Shell环境变量（Environmen）、rabbitmq-env.conf和最后从内置的默认值获取它们的值。例如：对于RABBITMQ_NODENAME设置，首先检查Shell环境变量中的RABBITMQ_NODENAME.如果不存在或等于空字符串，则选中rabbitmq-env.conf中的NODENAME。如果它也不存在或设置为等于空字符串，则使用启动脚本中的默认值。
-
-
 
 rabbitmq-env.conf中的变量名始终等于环境变量名，去掉了RABBITMQ_前缀；环境变量中的RABBITMQ_NODE_PORT在rabbitmq-env.conf中的名字是NODE_PORT。
 
@@ -71,29 +63,18 @@ rabbitmq-env.conf中的变量名始终等于环境变量名，去掉了RABBITMQ_
 
 节点名称默认前缀是rabbit,默认是rabbit@后面加上计算机的主机名，可以在同一个主机上运行多个节点，在集群中每个节点必须有一个唯一的RABBITMQ_NODENAME。
 
-
-
 RabbitMQ节点由节点名称标识，节点名称由两部分组成，前缀（通常是rabbit）和主机名，例如：rabbit@rabbit1是一个节点名包含前缀rabbit和主机名rabbit1。
-
-
 
 在一个集群中节点名称必须是唯一的。如果在给定的主机上运行多个节点（开发和QA环境中通常是这种情况），它们必须使用不同的前缀，例如：rabbit1@hostname和rabbit2@hostname
 
-
-
 在集群中，节点使用节点名称标识和联系彼此，这意味着必须解析每个节点名的主机名部分。CLI工具也使用节点名称标识和寻址节点。
-
-
 
 当节点启动时，它会检查是否已为其分配了节点名。这是通过RABBITMQ_NODENAME环境变量配置，如果环境变量没有配置，则节点将解析其主机名并在其前面添加rabbit以计算其节点名。
 
+如果系统使用完全限定名（FQDNS Fully Qualified Domain
+Name）作为主机名，RabbitMQ节点和CLI工具必须配置为使用所谓的长节点名称，对于服务器节点，这是通过将RABBITMQ_USE_LONGNAME环境变量设置为true来完成的。
 
-
-如果系统使用完全限定名（FQDNS Fully Qualified Domain Name）作为主机名，RabbitMQ节点和CLI工具必须配置为使用所谓的长节点名称，对于服务器节点，这是通过将RABBITMQ_USE_LONGNAME环境变量设置为true来完成的。
-
-示例：rabbit@rabbit1.qq.com  其中rabbit为前缀，rabbit1是主机名，qq.com为节点的域名
-
-
+示例：rabbit@rabbit1.qq.com 其中rabbit为前缀，rabbit1是主机名，qq.com为节点的域名
 
 对于CLI工具，必须设置RABBITMQ_USE_LONGNAME或指定--longnames选项。
 

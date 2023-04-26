@@ -12,7 +12,9 @@ Spring Plugin通过提供扩展核心系统功能的插件实现核心的灵活�
 
 ##### 示例程序
 
-Spring Plugin提供了一个标准的Plugin<S>接口供开发人员声明自己的插件的机制，然后通过@EnablePluginRegistries注解注入到Spring IOC容器，Spring容器会为我们自动匹配到插件的所有实现子对象，最终我们的代码在使用时通过注入PluginRegistry<T extends Plugin<S>,S>对象拿到插件实例进行操作。
+Spring Plugin提供了一个标准的Plugin<S>接口供开发人员声明自己的插件的机制，然后通过@EnablePluginRegistries注解注入到Spring
+IOC容器，Spring容器会为我们自动匹配到插件的所有实现子对象，最终我们的代码在使用时通过注入PluginRegistry<T extends
+Plugin<S>,S>对象拿到插件实例进行操作。
 
 Plugin<S>接口声明一个实现，标注该插件是否支持，因为可能会有多个接口的实现：
 
@@ -78,7 +80,5 @@ public class PluginController {
     }
 }
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

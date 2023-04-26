@@ -3,6 +3,7 @@
 WebClient是从spring webflux5.0版本开始提供的一个非阻塞型的HTTP请求客户端工具，它是基于Reactor响应式编程；
 
 #### 1.WebClient支持7种请求方式
+
 ```
 
 public interface WebClient {
@@ -22,19 +23,27 @@ public interface WebClient {
 ```
 
 #### 2.WebClient对象的创建提供了三种方式
+
 * 使用默认方式创建
+
 ```
 WebClient webClient = WebClient.create();
 ```
+
 * 指定基础baseUrl，即访问同一个应用的相同URL部分
+
 ```
  WebClient webClient = WebClient.create(baseUrl);
 ```
+
 * 使用build建造者模式构件
+
 ```
 WebClient webClient = WebClient.builder().build();
 ```
+
 * 创建WebClient相关源码
+
 ```
     static WebClient create() {
         return (new DefaultWebClientBuilder()).build();
@@ -48,10 +57,13 @@ WebClient webClient = WebClient.builder().build();
         return new DefaultWebClientBuilder();
     }
 ```
+
 * WebClient创建之后不可以更改，不过可以通过克隆的方式更改
+
 ```
 webClient.mutate().build();
 ```
+
 #### 3.WebClient传递URL一共提供了四种方式
 
 ```
@@ -67,6 +79,7 @@ webClient.mutate().build();
 ```
 
 * 不带参数测试用例
+
 ```
     @Test
     public void test(){
@@ -78,7 +91,9 @@ webClient.mutate().build();
         System.out.println(result.block());
     }
 ```
+
 * 带参数的测试用例
+
 ```
   @Test
     public void test(){
@@ -90,7 +105,9 @@ webClient.mutate().build();
         System.out.println(result.block());
     }
 ```
+
 或者
+
 ```
     @Test
     public void test(){
@@ -102,6 +119,7 @@ webClient.mutate().build();
 ```
 
 * 使用UriBuilder构造url
+
 ```
     @Test
     public void testUrlBuilder(){
@@ -118,6 +136,7 @@ webClient.mutate().build();
 ```
 
 #### 4.UriBuilder
+
 ```
 package org.springframework.web.util;
 
@@ -234,7 +253,9 @@ public interface UriBuilder {
 
 }
 ```
+
 使用示例：
+
 ```
  Mono<String> result = webClient.post()
                                     .uri(uriBuilder -> uriBuilder.path("/handler/client1")
@@ -249,7 +270,9 @@ public interface UriBuilder {
                                     .retrieve()
                                     .bodyToMono(String.class);
 ```
+
 #### 5.发送请求
+
 ```
         //发送请求
         WebClient.ResponseSpec retrieve();
@@ -258,6 +281,7 @@ public interface UriBuilder {
 ```
 
 #### 6.ResponseSpec 指定请求返回值转换为指定的数据类型，并包装为Mono对象
+
 ```
     public interface ResponseSpec {
         //自定义异常处理，示例：onStatus(HttpStatus::is2xxSuccessful, clientResponse -> Mono.error(new Throwable()))
@@ -276,6 +300,7 @@ public interface UriBuilder {
 #### 7.请求参数传递syncBody
 
 * 传递参数实体类型，如：User user = ...
+
 ```
    @Test
     public void testUrlBuilder(){
@@ -297,9 +322,11 @@ public interface UriBuilder {
         System.out.println(result.blockFirst());
     }
 ```
->如果没有封装实体类Map数据类型也是支持的
+
+> 如果没有封装实体类Map数据类型也是支持的
 
 #### 8.支持多个参数传递
+
 ```
     @Test
     public void testUrlBuilder(){
@@ -318,7 +345,5 @@ public interface UriBuilder {
         System.out.println(result.block());
     }
 ```
-
-
 
 参考：[https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client-body-form](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client-body-form)

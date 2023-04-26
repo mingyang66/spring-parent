@@ -1,11 +1,14 @@
 ### Spring Security用户认证成功失败源码分析
+
 【一】[Spring boot Security OAuth2用户登录失败事件发布及监听](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/event.md)<br>
 【二】[Spring Security用户认证成功失败自定义实现](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgradeCode.md)
 
- 通常用户登录成功或者失败之后要做一些处理，比如日志记录、数据初始化等等；Spring中提供了事件及监听器，而Spring Security很好的运用了这一特点，
- 框架中用了很多的事件来处理,要想很好的控制这些我先看下源码，要知其所以然。
+通常用户登录成功或者失败之后要做一些处理，比如日志记录、数据初始化等等；Spring中提供了事件及监听器，而Spring
+Security很好的运用了这一特点，
+框架中用了很多的事件来处理,要想很好的控制这些我先看下源码，要知其所以然。
 
 #### 1.首先看下ProviderManager类,之前的文章已经对该类进行过分析，侧重点不太一样，对AuthenticationProvider不懂的可以翻看其它文章
+
 ```
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
@@ -89,7 +92,9 @@
         		eventPublisher.publishAuthenticationFailure(ex, auth);
         	}
 ```    
+
 发布事件对象eventPublisher是一个AuthenticationEventPublisher类型，它是一个接口，里面有如下两个方法：
+
 ```
 public interface AuthenticationEventPublisher {
     //发布认证成功事件
@@ -99,8 +104,10 @@ public interface AuthenticationEventPublisher {
 			Authentication authentication);
 }
 ```
+
 我们在ProviderManager类中看到eventPublisher的初始化值是一个NullEventPublisher对象，但是NullEventPublisher类中没有做任何的处理，所以推测肯定有其它地方对eventPublisher
 进行初始化，ProviderManager类中有一个setAuthenticationEventPublisher方法：
+
 ```
 	public void setAuthenticationEventPublisher(
 			AuthenticationEventPublisher eventPublisher) {
@@ -108,9 +115,11 @@ public interface AuthenticationEventPublisher {
 		this.eventPublisher = eventPublisher;
 	}
 ```
+
 上面的方法就是初始化事件发布对象的入口，这个方法是由AuthenticationManagerBuilder类来进行初始化的
 
 #### 2.AuthenticationManagerBuilder类分析
+
 ```
 	@Override
 	protected ProviderManager performBuild() throws Exception {
@@ -131,7 +140,9 @@ public interface AuthenticationEventPublisher {
 		return providerManager;
 	}
 ```
+
 看到上面的源码了没，就是在这里对ProviderManager类中的发布事件进行初始化的；继续查看代码发现AuthenticationManagerBuilder类中存在eventPublisher对象及初始化方法，即：
+
 ```
 private AuthenticationEventPublisher eventPublisher;
 private AuthenticationEventPublisher eventPublisher;
@@ -142,9 +153,11 @@ private AuthenticationEventPublisher eventPublisher;
 		return this;
 	}
 ```
+
 问题又回到了类似1的问题，是由哪个类调用AuthenticationManagerBuilder的authenticationEventPublisher初始化方法，接下来看下WebSecurityConfigurerAdapter类
 
 #### 3.WebSecurityConfigurerAdapter类分析
+
 ```
 	public void init(final WebSecurity web) throws Exception {
 		final HttpSecurity http = getHttp();
@@ -157,7 +170,9 @@ private AuthenticationEventPublisher eventPublisher;
 		});
 	}
 ```
+
 上面的init方法调用了getHttp方法
+
 ```
 	protected final HttpSecurity getHttp() throws Exception {
 		if (http != null) {
@@ -177,9 +192,11 @@ private AuthenticationEventPublisher eventPublisher;
 		...
 	}    
 ```
+
 上面的源码已经注解了，事件发布的真实对象就是DefaultAuthenticationEventPublisher，它是AuthenticationEventPublisher接口的实现，接下来看下源码分析
 
 #### 4.AuthenticationEventPublisher源码分析
+
 ```
 public class DefaultAuthenticationEventPublisher implements AuthenticationEventPublisher,
 		ApplicationEventPublisherAware {
@@ -253,6 +270,7 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
     ...
 }
 ```
+
 到这里Spring Security中的事件发布采用倒叙的方式已经将源码分析完了，具体的代码实现将在下一篇文章中讲解；
 
 GitHub源码：[https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md](https://github.com/mingyang66/spring-parent/blob/master/spring-security-oauth2-server-redis-service/eventUpgrade.md)

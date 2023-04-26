@@ -1,6 +1,7 @@
 ### springboot通过AsyncConfigurer接口实现异步线程池自动化配置组件
 
-> springboot提供了org.springframework.scheduling.annotation.AsyncConfigurer接口让开发人员可以自定义线程池执行器；框架默认提供了一个空的实现类AsyncConfigurerSupport，不过两个方法体内部提供的都是空实现；
+>
+springboot提供了org.springframework.scheduling.annotation.AsyncConfigurer接口让开发人员可以自定义线程池执行器；框架默认提供了一个空的实现类AsyncConfigurerSupport，不过两个方法体内部提供的都是空实现；
 
 ##### 1.首先看下AsyncConfigurer接口
 
@@ -143,7 +144,8 @@ public class AsyncThreadPoolAutoConfiguration implements AsyncConfigurer {
 
 ```
 
-> 线程池的自定义属性及异常处理代码中的注解已经标的很清晰了，不在重复说明；@Configuration注解描述当前类是一个配置类，@EnableAsync注解描述启动线程池执行器开启异步执行功能；@EnableConfigurationProperties注解描述启动对@ConfigurationProperties注解标注的bean的支持，该bean可以被注入到IOC容器之中；@ConditionalOnProperty是一个条件注解，用来控制容器是否将当前的配置类注入到IOC容器之中；
+>
+线程池的自定义属性及异常处理代码中的注解已经标的很清晰了，不在重复说明；@Configuration注解描述当前类是一个配置类，@EnableAsync注解描述启动线程池执行器开启异步执行功能；@EnableConfigurationProperties注解描述启动对@ConfigurationProperties注解标注的bean的支持，该bean可以被注入到IOC容器之中；@ConditionalOnProperty是一个条件注解，用来控制容器是否将当前的配置类注入到IOC容器之中；
 
 线程池使用到的外部属性配置类如下：
 
@@ -310,7 +312,8 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 
 ##### 3.异步线程池原理分析
 
-> springboot框架自带ThreadPoolTaskExecutor线程池，org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration自动化配置类自动的创建默认的线程池，如果没有自定义ThreadPoolTaskExecutor线程池，那么@EnableAsync异步线程自动关联默认的线程池；
+>
+springboot框架自带ThreadPoolTaskExecutor线程池，org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration自动化配置类自动的创建默认的线程池，如果没有自定义ThreadPoolTaskExecutor线程池，那么@EnableAsync异步线程自动关联默认的线程池；
 
 - 看下@EnableAsync的源码是如何启动异步执行器的
 

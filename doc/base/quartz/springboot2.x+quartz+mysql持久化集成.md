@@ -221,11 +221,7 @@ public class QuartzConfig {
 
 解释一下首先是存储Job任务实例的信息，当Job任务添加到调度任务时JobDataMap会被持久化存储；在Job类上添加@PersistJobDataAfterExecution注解在任务执行完成后也会重新持久化；
 
-
-
 JobDataMap实例也可以通过Trigger一起存储，当有一个Job被多个触发器调用时，每个触发器可以传递不同的参数给Job任务；
-
-
 
 Job任务可以通过JobExecutionContext接收到JobDataMap中存储的数据，可以通过getMergedJobDataMap合并的方法获取到存储在JobDetails和Trigger中的数据，也可以分别获取存储在Trigger和JobDetails中的数据。
 

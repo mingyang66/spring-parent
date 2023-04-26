@@ -1,6 +1,7 @@
 #### springboot内嵌tomcat如何优雅开启http端口
 
-> springboot默认使用的是内置tomcat，默认是只可以开启一个端口，如果开启了https服务，并且想同时可以通过http访问，如何开启第二个端口号呢？网上有很多解决方案，大都是通过new一个TomcatServletWebServerFactory实例对象，这样其实是在springboot内部创建了两个容器，而不是在一个容器内部开启两个端口。
+>
+springboot默认使用的是内置tomcat，默认是只可以开启一个端口，如果开启了https服务，并且想同时可以通过http访问，如何开启第二个端口号呢？网上有很多解决方案，大都是通过new一个TomcatServletWebServerFactory实例对象，这样其实是在springboot内部创建了两个容器，而不是在一个容器内部开启两个端口。
 
 ##### 一、创建WebServerFactoryCustomizer自定义策略接口实现类
 
@@ -131,7 +132,8 @@ public class TomcatAutoConfiguration implements InitializingBean, DisposableBean
 }
 ```
 
-> 如需配置自动化配置可在META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports文件中配置上配置类即可（springboot2.7.0）
+>
+如需配置自动化配置可在META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports文件中配置上配置类即可（springboot2.7.0）
 
 通过上述三个简单类完美实现在同一个容器内开启第二个端口，启动信息如下：
 

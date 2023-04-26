@@ -1,6 +1,7 @@
 ### 解锁新技能RestTemplate设置全局、单个请求超时时间及支持https请求
 
-> springboot请求第三方接口时会用到RestTemplate，其底层实现逻辑默认是通过SimpleClientHttpRequestFactory来实现，具体由socket连接来实现；可以替换其默认实现为HttpComponentsClientHttpRequestFactory。
+>
+springboot请求第三方接口时会用到RestTemplate，其底层实现逻辑默认是通过SimpleClientHttpRequestFactory来实现，具体由socket连接来实现；可以替换其默认实现为HttpComponentsClientHttpRequestFactory。
 
 ##### 一、自定义RestTemplate实例对象
 
@@ -77,7 +78,8 @@
 	}
 ```
 
-> 其中createHttpContext方法默认返回的是null，因此HttpContext中的RequestConfig配置值为null，所以需要按照接下来的代码生成并设置；RequestConfig配置类中的socketTimeout是设置读取超时时间，connectTimeout是设置连接超时时间的两个属性，明白了这些就应该知道怎样设置单个请求超时时间了；
+>
+其中createHttpContext方法默认返回的是null，因此HttpContext中的RequestConfig配置值为null，所以需要按照接下来的代码生成并设置；RequestConfig配置类中的socketTimeout是设置读取超时时间，connectTimeout是设置连接超时时间的两个属性，明白了这些就应该知道怎样设置单个请求超时时间了；
 
 定义一个HttpContextFactory类，即HttpContext类的一个实现：
 

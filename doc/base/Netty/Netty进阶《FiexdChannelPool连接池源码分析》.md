@@ -1,6 +1,7 @@
 #### Netty进阶《FiexdChannelPool连接池源码分析》
 
-> ChannelPool接口的直接实现类是SimpleChannelPool，而SimpleChannelPool的实现类是FixedChannelPool，FixedChannelPool是ChannelPool的增强实现，允许设置最大并发连接数；
+>
+ChannelPool接口的直接实现类是SimpleChannelPool，而SimpleChannelPool的实现类是FixedChannelPool，FixedChannelPool是ChannelPool的增强实现，允许设置最大并发连接数；
 
 ##### 一、了解枚举类AcquireTimeoutAction
 
@@ -300,8 +301,6 @@ public FixedChannelPool(Bootstrap bootstrap,
         return promise;
     }
 ```
-
-
 
 源码参考：[https://github.com/mingyang66/SkyDb](https://github.com/mingyang66/SkyDb)
 

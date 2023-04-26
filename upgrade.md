@@ -1,12 +1,15 @@
-### 
+###
 -----
 基础库发布4.2.1
 Bug Fixes
+
 1. springboot升级到2.7.11版本；
-2. 
+2.
+
 -----
 基础库发布4.2.0
 Bug Fixes
+
 1. I18n多语言支持翻译当前类中父类的属性;
 2. 脱敏工具类SensitiveUtils支持父类中的属性脱敏；
 3. I18n多语言翻译支持Collection、Map、Array存储的值为字符串；
@@ -23,6 +26,7 @@ Bug Fixes
 -----
 基础库发布4.1.9
 Bug Fixes
+
 1. 删除无用的openfeign引用；
 2. 删除RPC相关三个模块及依赖引用；
 3. 删除log4j多余模块；
@@ -38,7 +42,9 @@ Bug Fixes
 -----
 基础库发布4.1.8
 Bug Fixes
-1. DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
+
+1.
+DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
 2. springboot升级到2.7.8；
 3. 新增重新定义RequestMappingHandlerMapping路由映射组件，支持用户自定义扩展路由到指定的控制器；
 4. 优化全局过滤器自动化配置类；
@@ -48,6 +54,7 @@ Bug Fixes
 -----
 基础库发布4.1.7
 Bug Fixes
+
 1. 新增JsonFlexField注解，脱敏复杂数据类型；
 2. 解决实体类外层包装是BaseResponse无法脱敏问题；
 3. 实体类中字段是数组类型脱敏处理增强优化；
@@ -69,6 +76,7 @@ Bug Fixes
 -----
 基础库发布4.1.6
 Bug Fixes
+
 1. springboot升级到2.7.5；
 2. mysql依赖包引用修改；
 3. ContextHolder更名为ThreadContextHolder；
@@ -92,9 +100,9 @@ Bug Fixes
 - Set集合相关组合
 - 支持所有Collection、Map、数组各种变体类型
 - 其中Persion实体类内部支持以上各种复杂集合组合类型；
-10. 新增注解@JsonSerialize，只能标注在实体类上，只有标注了此注解脱敏注解@JsonSensitive才会生效，默认只脱敏实体类一层，如需脱敏嵌套层则将include属性设置为true;
-使用示例如下：
 
+10. 新增注解@JsonSerialize，只能标注在实体类上，只有标注了此注解脱敏注解@JsonSensitive才会生效，默认只脱敏实体类一层，如需脱敏嵌套层则将include属性设置为true;
+    使用示例如下：
 
 > ```java
 > @JsonSerialize(include = false)
@@ -102,10 +110,9 @@ Bug Fixes
 >     @JsonSensitive(SensitiveType.USERNAME)
 >     private String username;
 > ```
+
 11. 脱敏工具类中将实体类中的枚举类型标记为最终类型，减少冗余处理逻辑；
 12. 脱敏工具类中的枚举类标记为最终类的BigDecimal类型更改为Number类型，扩展兼容BigDecimal、BigInteger、AtomicInteger、AtomicLong等等；
-
-
 
 -----
 基础库发布4.1.5
@@ -127,6 +134,7 @@ Bug Fixes
 -----
 基础库发布4.1.4
 Bug Fixes
+
 1. 解决请求入参为非法参数是事务流水号跟上游服务不一致问题；
 2. 修改httpclient依赖的版本为跟spring-boot-starter-parent依赖；
 3. 修改commons-lang3依赖版本为跟spring-boot-starter-parent依赖；
@@ -143,6 +151,7 @@ Bug Fixes
 -----
 基础库发布4.1.3
 Bug Fixes
+
 1. RequestHelper.getObjectMap方法名重命名为objectToMap；
 2. 事务流水号统一为UUIDUtils工具类生成；
 3. 新增全局异常捕获UnknownContentTypeException、ResourceAccessException；
@@ -154,22 +163,24 @@ Bug Fixes
 -----
 基础库发布4.1.2
 Bug Fixes
+
 1. 全局异常捕获组件抛出异常时添加状态码，即添加@ResponseBody、@ResponseStatus注解标注
 2. 对请求参数日志记录为数组类型的做兼容，如下：
 
 ```java
     @PostMapping("postList")
-    public int postList(@RequestBody List<User> list) {
+public int postList(@RequestBody List<User> list){
         System.out.println(JSONUtils.toJSONPrettyString(list));
         return 0;
-    }
+        }
 
-    @PostMapping("postArray")
-    public int postList(@RequestBody User[] list) {
+@PostMapping("postArray")
+public int postList(@RequestBody User[]list){
         System.out.println(JSONUtils.toJSONPrettyString(list));
         return 0;
-    }
+        }
 ```
+
 3. 新增获取实际参数名工具类ParamNameUtils；
 4. 优化DataSourceContextHolder类中set-bind,remove-unbind;
 5. 优化ContextHolder类中set-bind,reomve-unbind，get-peek;
@@ -187,6 +198,7 @@ Bug Fixes
 -----
 基础库发布4.1.1
 Bug Fixes
+
 1. ApplicationStatus异常状态码枚举优化调整，并更改使用异常的相关类
 2. TTL版本更新到2.13.0
 3. Druid版本更新到1.2.11
@@ -201,6 +213,7 @@ Bug Fixes
 -----
 基础库发布4.1.0
 Bug Fixes
+
 1. springboot升级到2.6.6
 2. springboot升级到2.7.0
 3. 数据库多数据源组件AutoConfiguration配置方式由spring.factories更改为最新META-INF/spring/{全限定名}.imports模式
@@ -217,6 +230,7 @@ Bug Fixes
 -----
 基础库发布4.0.9
 Bug Fixes
+
 1. 优化异常统一处理
 2. 控制器请求在url转换阶段所报的异常记录到日志平台；
 3. 数据库多数据源组件去除getDataSource方法，优化默认拦截器，支持两种扩展点方案；
@@ -229,10 +243,12 @@ Bug Fixes
 -----
 基础库发布4.0.8
 Bug Fixes
+
 1. 扩展点默认拦截器命名前加Default
 2. 优化Feign扩展点
 3. Mybatis方法请求参数优化调整，提取到公共获取参数类RequestHelper中；
-4. com.emily.infrastructure.core.config.properties.PropertyService,com.emily.infrastructure.core.config.ConfEnvironmentPostProcessor,
+4.
+com.emily.infrastructure.core.config.properties.PropertyService,com.emily.infrastructure.core.config.ConfEnvironmentPostProcessor,
 com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emily.infrastructure.core.config.EmilyPropertiesPropertySourceLoader
 四个类删除；
 5. 上下文配置类名称变更，TraceContextHolder名称变更为ContextHolder;
@@ -248,6 +264,7 @@ com.emily.infrastructure.core.config.EmilyOriginTrackedPropertiesLoader,com.emil
 -----
 基础库发布4.0.7
 Bug Fixes
+
 1. 优化数据源注解@TargetDataSource注解说明
 2. 升级springboot到2.6.3版本
 3. netty升级到4.1.73.Final
@@ -256,7 +273,7 @@ Bug Fixes
 6. 自动化配置中 @ConditionalOnBean(xx.class)注解使用去除，解决不可加载问题
 7. 全链路日志追踪在多线程池化时会重新创建事务编号问题解决
 8. 日志组件新增初始化类LogbackApplicationContextInitializer类，在项目启动时即初始化日志组件，即程序启动时最先加载日志组件，防止系统日志打印丢失
-9. 多数据源统一拦截器父接口，其实现了Ordered接口，AOP切面会根据优先级顺序启用优先级最高的拦截器  
+9. 多数据源统一拦截器父接口，其实现了Ordered接口，AOP切面会根据优先级顺序启用优先级最高的拦截器
 10. API请求日志拦截器扩展接口，其实现Ordered接口，AOP切面会根据优先级顺序取优先级最高的拦截器
 11. RestTemplate拦截器接口，新增Ordered实现，AOP切面会取优先级最高
 12. mybatis-spring-boot-starter版本升级到2.2.2
@@ -266,6 +283,7 @@ Bug Fixes
 -----
 基础库发布4.0.6
 Bug Fixes
+
 1. 新增TTL说明文档及示例demo
 2. 化基于大小和时间的策略文件大小的默认值
 3. 增加对logback appender日志控制属性配置
@@ -283,6 +301,7 @@ Bug Fixes
 -----
 基础库发布4.0.5
 Bug Fixes
+
 1. 解决logback日志组件分组时pattern打印时不可以打印指定具体的类问题
 2. 对appender等基础类进行优化调整
 3. logback日志组件文件归档策略类型调整优化为指定枚举类型
@@ -292,6 +311,7 @@ Bug Fixes
 -----
 基础库发布4.0.4
 Bug Fixes
+
 1. 优化logback属性配置，ROOT、Group、Module三种分别定义子类型
 2. 获取logback的appenderName方式加入日志类别
 3. 优化logback异步属性配置
@@ -304,23 +324,27 @@ Bug Fixes
 -----
 基础库发布4.0.3
 Bug Fixes
+
 1. springboot升级到2.6.2
 2. logback日志组件优化调整
 
 -----
 基础库发布4.0.2
 Bug Fixes
+
 1. springcloud版本升级到3.1.0
 
 -----
 基础库发布4.0.1
 Bug Fixes
+
 1. 多数据源组件优化调整
 2. SPI示例编写
 3. 升级springboot版本2.6.1及springcloud版本3.0.4
 
 -----
 基础库发布3.11.5
+
 1. Redis组件代码优化调整
 2. 数据源及API切面拦截新增拦截器扩展点（基于ObjectProvider）
 3. 新增全链路追踪属性配置类
@@ -329,6 +353,7 @@ Bug Fixes
 
 -----
 基础库发布3.11.4
+
 1. ContextHolder全局属性新增clientIp、serverIp
 2. 基础库所有请求日志新增clientIp、serverIp字段
 3. Redis组件新增是否校验连接配置、新增是否共享本地物理连接配置
@@ -339,6 +364,7 @@ Bug Fixes
 
 -----
 基础库发布3.11.3
+
 1. 新增Redis数据源指标监控采集能力
 2. ContextHolder上下文持有数据有ThreadLocal更改为InheritableThreadLocal，解决子线程拿不到父线程数据的问题
 3. RestTemplate新增请求header添加traceId事务唯一编号
@@ -346,6 +372,7 @@ Bug Fixes
 
 -----
 基础库发布3.11.2
+
 1. 新增RedisPoolBuilderFactory工厂类
 2. 对redis多数据源基础组件进行优化调整，使用springboot自动化注入的方式注入ClientResources并在销毁是调用shutdown方法
 3. 优化redis多数据源组件工厂类构造方法
@@ -354,6 +381,7 @@ Bug Fixes
 
 -----
 基础库发布3.11.1
+
 1. RPC客户端新增LoadBalance负载均衡策略获取客户端连接（RandomLoadBalance）
 2. 新增RPC客户端轮询RoundLoadBalance策略
 3. RPC客户端支持配置多个服务器地址
@@ -362,6 +390,7 @@ Bug Fixes
 
 -----
 基础库发布3.11.0
+
 1. API请求Get方式参数记录
 2. PrintExceptionInfo打印异常堆栈信息时真实的异常类信息不完整优化调整
 3. RPC客户端及服务端发送的消息体结构更改，返回数据增加IRpcResponse响应实体
@@ -369,6 +398,7 @@ Bug Fixes
 
 -----
 基础库发布3.10.5
+
 1. RPC客户端及服务端InBound时间处理完成后主动添加ReferenceCountUtil.release(msg);释放消息，防止对象内存溢出
 2. RPC客户端发送接收消息归类到用户自定义handler
 3. RPC客户端记录日志
@@ -378,6 +408,7 @@ Bug Fixes
 
 -------
 基础库发布3.10.4
+
 1. RPC客户端及服务端代码整合优化
 2. RPC请求消息头新增traceId事务唯一标识，将协议中的traceId去除掉
 3. RPC服务端代码优化，记录请求响应日志
@@ -385,12 +416,14 @@ Bug Fixes
 
 ------
 基础库发布3.10.3
+
 1. Feign基于微服务获取真实url优化
 2. 删除FeignCommonUtils工具类
 
 ------
 2021/10/17
 基础库发布3.10.2
+
 1. 新增header常量类
 2. 移除线程上下文方法优化调整
 3. 耗时统计修改为通过线程上下文方式，优化调整基础类路径及RequestUtils工具类
@@ -402,6 +435,7 @@ Bug Fixes
 ------
 2021/10/10
 基础库发布3.10.1
+
 1. netty引用统一调整到emily-spring-boot-core模块
 2. demo实例模块名调整
 3. 优化RequestHelper获取参数中header bug
@@ -411,6 +445,7 @@ Bug Fixes
 ------
 2021/10/10
 基础库发布3.10.0
+
 1. RPC服务端开发
 2. RPC客户端开发
 3. 升级spring-boot到2.5.5版本
@@ -419,11 +454,13 @@ Bug Fixes
 ------
 2021/10/1
 基础库发布3.9.5
+
 1. Feign调用接口解决参数丢失问题
 
 ------
 2021/09/19
 基础库发布3.9.4
+
 1. 新增Redis监控信息
 2. 新增Redis监控间隔时间配置支持
 3. 新增基于netty的RPC服务
@@ -435,6 +472,7 @@ Bug Fixes
 ------
 2021/09/19
 基础库发布3.9.3
+
 1. 异常耗时优化调整
 2. 新增自定义异常返回值模式（还遗留一些校验异常无法处理问题）
 3. feign非servlet上下文请求兼容
@@ -446,21 +484,23 @@ Bug Fixes
 9. HttpClient请求包括cloud httpclient请求拦截器优化
 10. 所有基础库异步记录日志方式更改为通过ThreadPoolTaskExecutor实现
 
-
 ------
 2021/09/12
 基础库发布3.9.2
+
 1. Redis多数据源组件序列化hash类型优化调整
 2. 优化多数据源组件及新增批处理示例
 
 ------
 2021/09/05
 基础库发布3.9.1
+
 1. 多数据源注解@TargetDataSource支持复合注解@Mapper
 
 ------
 2021/06/02
 基础库发布2.4.8版本
+
 1. 日志组件优化，解决设置日志级别时最低级别不可以打印日志问题，优化日志组件类代码，优化日志代码中锁不起作用问题
 2. 日志组件级别调整更改为枚举类型，可以自动提示有哪些级别，并新增off和all两个关闭日志及打开所有级别日志
 3. 日志组件调整为可以打印出指定级别的日志

@@ -291,8 +291,6 @@ private void loadBeanDefinitionsForConfigurationClass(
 
 通过容器的getBean方法传递别名后，容器会将别名转换为真实name,然后去容器之中查找bean定义：
 
-
-
 ```java
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
@@ -322,7 +320,5 @@ private void loadBeanDefinitionsForConfigurationClass(
 		return canonicalName;
 	}
 ```
-
-
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

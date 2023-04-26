@@ -1,6 +1,7 @@
 ### 死磕源码系列【StandardServletEnvironment源码解析】
 
-> spring中的StandardServletEnvironment将由基于servlet的web应用程序使用，所有基于servlet的web相关ApplicationContext类将会初始化一个StandardServletEnvironment实例。
+>
+spring中的StandardServletEnvironment将由基于servlet的web应用程序使用，所有基于servlet的web相关ApplicationContext类将会初始化一个StandardServletEnvironment实例。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201015175302794.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70#pic_center)
 

@@ -1,6 +1,7 @@
 ### 死磕源码系列【springboot自动化配置类加载顺序源码详解AutoConfigureBefore、AutoConfigureAfter、AutoConfigureOrder】
 
-> springboot的自动化配置类默认的加载及初始化顺序是按照字母顺序来的，当然也可以通过AutoConfigureBefore、AutoConfigureAfter、AutoConfigureOrder三个注解类来控制，下面我们就看一下底层源码是如何实现的；
+>
+springboot的自动化配置类默认的加载及初始化顺序是按照字母顺序来的，当然也可以通过AutoConfigureBefore、AutoConfigureAfter、AutoConfigureOrder三个注解类来控制，下面我们就看一下底层源码是如何实现的；
 
 ##### 1.查看自动化配置类加载顺序源码AutoConfigurationImportSelector.AutoConfigurationGroup#sortAutoConfigurations
 

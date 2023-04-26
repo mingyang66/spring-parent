@@ -23,7 +23,7 @@ public class Student extends People {
     @ApiI18nProperty
     private Map<String, String> data = Maps.newHashMap();
     @ApiI18nProperty
-    private String[] s = {"红薯","电影"};
+    private String[] s = {"红薯", "电影"};
 
     public String[] getS() {
         return s;

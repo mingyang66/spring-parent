@@ -1,8 +1,11 @@
 ### 死磕源码系列【PropertySourceLoader加载properties、yml配置文件源码详解】
 
-> PropertySourceLoader接口实现类用来在项目启动的时候加载properties、xml、yml配置文件，其实现类一共有两个PropertiesPropertySourceLoader、YamlPropertySourceLoader，分别用来加载 properties文件及yml配置文件；
+>
+PropertySourceLoader接口实现类用来在项目启动的时候加载properties、xml、yml配置文件，其实现类一共有两个PropertiesPropertySourceLoader、YamlPropertySourceLoader，分别用来加载
+properties文件及yml配置文件；
 
-PropertiesPropertySourceLoader、YamlPropertySourceLoader两个实现类是通过springboot SPI机制在ConfigFileApplicationListener监听器类中被加载，并通过不同的逻辑加载classpath环境变量及其它配置方式制定地址下的配置文件（本文重点讲解PropertiesPropertySourceLoader实现类的源码分析，YamlPropertySourceLoader加载逻辑类似不在重复讲解），看下spring.factories配置：
+PropertiesPropertySourceLoader、YamlPropertySourceLoader两个实现类是通过springboot
+SPI机制在ConfigFileApplicationListener监听器类中被加载，并通过不同的逻辑加载classpath环境变量及其它配置方式制定地址下的配置文件（本文重点讲解PropertiesPropertySourceLoader实现类的源码分析，YamlPropertySourceLoader加载逻辑类似不在重复讲解），看下spring.factories配置：
 
 ```java
 # PropertySource Loaders
@@ -89,7 +92,9 @@ Resource接口是InputStreamSource接口的子接口，InputStreamSource接口�
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201022145555685.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70#pic_center)
 
-OriginTrackedMapPropertySource实现了多个接口和类，先看下PropertySoruce抽象类；PropertySoruce类提供了两个属性name和source,name用来存储资源名（如：applicationConfig: [classpath:/application-redis.properties]），source用来存储属性源的配置信息(如：java.util.Properties、java.util.Map对象)；EnumerablePropertySource抽象类是PropertySource抽象类的一个实现，提供了一个getPropertyNames抽象方法枚举配置文件中的key名称，并且提供了containsProperty方法实现通过调用getPropertyNames枚举方法判定是否包含指定的配置；MapPropertySource类是EnumerablePropertySource抽象类的子类，提供了一个带有两个参数的构造函数（String类型的name，及Map类型的source，并且source不可以为null），对getPropertyNames方法枚举配置字典key方法实现；OriginTrackedMapPropertySource类继承了MapPropertySource类，新增了一个immutable属性（设定资源属性是否可变），提供了带有三个个参数name、Map类型的source及immutable的构造函数。
+OriginTrackedMapPropertySource实现了多个接口和类，先看下PropertySoruce抽象类；PropertySoruce类提供了两个属性name和source,name用来存储资源名（如：applicationConfig: [classpath:/application-redis.properties]
+），source用来存储属性源的配置信息(如：java.util.Properties、java.util.Map对象)
+；EnumerablePropertySource抽象类是PropertySource抽象类的一个实现，提供了一个getPropertyNames抽象方法枚举配置文件中的key名称，并且提供了containsProperty方法实现通过调用getPropertyNames枚举方法判定是否包含指定的配置；MapPropertySource类是EnumerablePropertySource抽象类的子类，提供了一个带有两个参数的构造函数（String类型的name，及Map类型的source，并且source不可以为null），对getPropertyNames方法枚举配置字典key方法实现；OriginTrackedMapPropertySource类继承了MapPropertySource类，新增了一个immutable属性（设定资源属性是否可变），提供了带有三个个参数name、Map类型的source及immutable的构造函数。
 
 ##### 最后是OriginTrackedPropertiesLoader类加载.properties文件到 Map<String, OriginTrackedValue>集合，并且支持扩展样式，如：name[]=a,b,c 源码分析如下
 
@@ -241,7 +246,8 @@ public class OriginTrackedValue implements OriginProvider {
 		}
 ```
 
-可以清晰的看到读取properties配置文件的编码方式是ISO_8859_1,这样会导致配置文件中的中文乱码，我的解决方案是重写PropertiesPropertySourceLoader、OriginTrackedPropertiesLoader类（直接复制这两个类只需将上述编码更改为UTF-8就可以，另外需要在spring.factories配置，这样springboot SPI就可以加载到了），并将PropertiesPropertySourceLoader加载类的优先级高于框架自带的优先级，这样读取自定义的加载程序后就不会读取系统自带的加载程序。
+可以清晰的看到读取properties配置文件的编码方式是ISO_8859_1,这样会导致配置文件中的中文乱码，我的解决方案是重写PropertiesPropertySourceLoader、OriginTrackedPropertiesLoader类（直接复制这两个类只需将上述编码更改为UTF-8就可以，另外需要在spring.factories配置，这样springboot
+SPI就可以加载到了），并将PropertiesPropertySourceLoader加载类的优先级高于框架自带的优先级，这样读取自定义的加载程序后就不会读取系统自带的加载程序。
 
 ------
 

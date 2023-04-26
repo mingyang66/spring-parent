@@ -15,7 +15,7 @@ import java.util.Map;
  * @CreateDate :  Created in 2022/10/27 10:53 上午
  */
 @JsonSensitive
-public class JsonRequest extends Animal{
+public class JsonRequest extends Animal {
     @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String fieldKey;
     private String fieldValue;

@@ -63,7 +63,7 @@ public class LanguageMap {
      */
     public static String acquire(String simple) {
         String language = LanguageType.ZH.getCode();
-        if (RequestUtils.isServletContext()) {
+        if (RequestUtils.isServlet()) {
             language = RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE);
         }
         return acquire(simple, language);

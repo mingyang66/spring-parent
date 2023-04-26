@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,22 +21,23 @@ import java.util.Map;
 @RequestMapping("api/i18n")
 public class I18nController {
     static {
-        LanguageMap.bindEn("田晓霞","tianxiaoxia");
+        LanguageMap.bindEn("田晓霞", "tianxiaoxia");
         LanguageMap.bindEn("李老师", "li teacher");
         LanguageMap.bindEn("孙少平", "sun shao ping");
         LanguageMap.bindEn("孙少安", "sun shao an");
         LanguageMap.bindEn("红薯", "sweet potato");
-        LanguageMap.bindEn("看书","book");
-        LanguageMap.bindEn("电影","movie");
-        LanguageMap.bindEn("刷抖音","Tiktok");
+        LanguageMap.bindEn("看书", "book");
+        LanguageMap.bindEn("电影", "movie");
+        LanguageMap.bindEn("刷抖音", "Tiktok");
     }
+
     @GetMapping("test1")
     public Student student() {
         Student student = new Student();
         student.setName("田晓霞");
         student.setAge(18);
         student.setFood("红薯");
-        student.setLike(Arrays.asList("看书","电影","刷抖音"));
+        student.setLike(Arrays.asList("看书", "电影", "刷抖音"));
         student.getData().put("s", "看书");
         student.getData().put("t", "红薯");
         return student;
@@ -47,7 +47,7 @@ public class I18nController {
     public Teacher teacher() {
         Student student = new Student();
         student.setFood("红薯");
-        student.setLike(Arrays.asList("看书","电影","刷抖音"));
+        student.setLike(Arrays.asList("看书", "电影", "刷抖音"));
         student.getData().put("s", "看书");
         student.getData().put("t", "红薯");
         student.setName("孙少平");

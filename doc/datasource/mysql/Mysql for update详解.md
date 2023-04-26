@@ -48,7 +48,6 @@ InnoDB引擎对for update语句默认是行级别的锁，当有明确指定的�
    SELECT * FROM sailboat s WHERE s.id=5 and name='小白兔' for UPDATE;
    ```
 
-   
 
 6. sdf
 

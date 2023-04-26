@@ -1,14 +1,13 @@
 ### 死磕源码系列【ApplicationEventMulticaster接口及实现类源码解析】
 
-> ApplicationEventMulticaster接口的实现类可以管理多个ApplicationListener监听器对象，并且发布事件到监听器；ApplicationEventMulticaster其实是ApplicationEventPublisher发布事件的代理类，通常作为SpringApplicationRunListener接口实现类EventPublishingRunListener的一个属性来使用；
+>
+ApplicationEventMulticaster接口的实现类可以管理多个ApplicationListener监听器对象，并且发布事件到监听器；ApplicationEventMulticaster其实是ApplicationEventPublisher发布事件的代理类，通常作为SpringApplicationRunListener接口实现类EventPublishingRunListener的一个属性来使用；
 
 类的结构图：
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020100916102123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lhb21pbmd5YW5n,size_16,color_FFFFFF,t_70#pic_center)
 
 ApplicationEventMulticaster接口只有一个直接实现抽象类AbstractApplicationEventMulticaster及SimpleApplicationEventMulticaster实现类；
-
-
 
 ApplicationEventMulticaster接口源码如下：
 
@@ -59,11 +58,7 @@ public interface ApplicationEventMulticaster {
 }
 ```
 
-
-
 AbstractApplicationEventMulticaster类是ApplicationEventMulticaster接口的抽象实现，提供基本的监听器注册工具方法（注册和移除监听器）；默认情况下不允许同一个监听器有多个实例，因为该类会将监听器保存在ListenerRetriever集合类的Set集合中。
-
-
 
 AbstractApplicationEventMulticaster类属性源码如下：
 
@@ -85,7 +80,8 @@ public abstract class AbstractApplicationEventMulticaster
 }
 ```
 
-ListenerRetriever监听器助手类(封装一组特定目标监听器的帮助类，允许有效地检索预过滤的监听器，此助手的实例按照时间类型和源类型缓存)：
+ListenerRetriever监听器助手类(
+封装一组特定目标监听器的帮助类，允许有效地检索预过滤的监听器，此助手的实例按照时间类型和源类型缓存)：
 
 ```java
 	private class ListenerRetriever {
@@ -238,7 +234,5 @@ AbstractApplicationEventMulticaster#getApplicationListeners方法获取监听器
 	}
 
 ```
-
-
 
 GitHub地址：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

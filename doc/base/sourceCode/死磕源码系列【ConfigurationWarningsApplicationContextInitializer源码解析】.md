@@ -1,6 +1,7 @@
 ### 死磕源码系列【ConfigurationWarningsApplicationContextInitializer源码解析】
 
-> ConfigurationWarningsApplicationContextInitializer是ApplicationContextInitializer初始化器接口的实现类，用作报告常见错误配置的警告（通过分析源码实际情况是如果系统配置包扫描（@ComponentScan）到了org或者org.springframework包就会发出警告并停止系统启动）
+>
+ConfigurationWarningsApplicationContextInitializer是ApplicationContextInitializer初始化器接口的实现类，用作报告常见错误配置的警告（通过分析源码实际情况是如果系统配置包扫描（@ComponentScan）到了org或者org.springframework包就会发出警告并停止系统启动）
 
 ##### ConfigurationWarningsApplicationContextInitializer初始化器源码：
 

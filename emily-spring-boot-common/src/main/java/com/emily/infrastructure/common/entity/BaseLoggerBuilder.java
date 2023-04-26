@@ -167,6 +167,11 @@ public class BaseLoggerBuilder implements Serializable {
         return this;
     }
 
+    public BaseLoggerBuilder requestParams(String key, Object value) {
+        this.requestParams.put(key, value);
+        return this;
+    }
+
     public BaseLoggerBuilder triggerTime(String triggerTime) {
         this.triggerTime = triggerTime;
         return this;

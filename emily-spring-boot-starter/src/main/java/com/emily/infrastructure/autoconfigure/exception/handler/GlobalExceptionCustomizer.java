@@ -13,7 +13,6 @@ import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
@@ -88,13 +87,11 @@ public class GlobalExceptionCustomizer {
             if (ex instanceof BindException) {
                 BindingResult bindingResult = ((BindException) ex).getBindingResult();
                 if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
-                    paramMap = Maps.newHashMap();
-                    paramMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
-                    paramMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquire(bindingResult.getTarget()));
-                    builder.requestParams(paramMap);
+                    builder.requestParams(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
+                    builder.requestParams(AttributeInfo.PARAMS, SensitiveUtils.acquire(bindingResult.getTarget()));
                 }
             }
-            if (CollectionUtils.isEmpty(paramMap)) {
+            if (CollectionUtils.isEmpty(builder.getRequestParams())) {
                 builder.requestParams(RequestHelper.getApiArgs(request));
             }
             //响应体

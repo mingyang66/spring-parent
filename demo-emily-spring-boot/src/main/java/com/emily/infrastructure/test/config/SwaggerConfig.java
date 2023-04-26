@@ -13,30 +13,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 
 /**
- * @author yaomingyang
+ * @author Emily
  */
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    Docket docket() {
+    public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(createApiInfo())
                 .enable(true)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("API文档")
+                        .description("交易中台账户模块")
+                        .termsOfServiceUrl("https://github.com/mingyang66/spring-parent")
+                        .contact(new Contact("Emily", "https://github.com/mingyang66/spring-parent", "mingyangsky@foxmail.com"))
+                        .version("v1.0.0")
+                        .license("Apache2.0")
+                        .licenseUrl("http://www,apache.org/licenses/LICENSE-2.0")
+                        .build())
+                .groupName("账户服务")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.emily.infrastructure.test.controller"))
                 .paths(PathSelectors.any())
-                .build();
-    }
-
-    private ApiInfo createApiInfo() {
-        return new ApiInfoBuilder()
-                .description("交易中台账户模块")
-                .contact(new Contact("韩庆瑞", "http://172.30.64.81/emis/api/com.eastmoney.emis.trade.api.git", "qingrui@eastmoney.com"))
-                .version("v1.0.0")
-                .title("API文档")
-                .license("Apache2.0")
-                .licenseUrl("http://www,apache.org/licenses/LICENSE-2.0")
                 .build();
     }
 }

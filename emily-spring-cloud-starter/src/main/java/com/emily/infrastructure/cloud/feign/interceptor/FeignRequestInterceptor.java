@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -30,17 +30,17 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求header设置事务ID
         template.header(HeaderInfo.TRACE_ID, ThreadContextHolder.current().getTraceId());
         //封装异步日志信息
-        BaseLogger baseLogger = new BaseLogger();
-        //事务唯一编号
-        baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
-        //时间
-        baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-        //请求url
-        baseLogger.setUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
+        BaseLoggerBuilder builder = new BaseLoggerBuilder()
+                //事务唯一编号
+                .traceId(ThreadContextHolder.current().getTraceId())
+                //时间
+                .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
+                //请求url
+                .url(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
         //请求参数
-        baseLogger.getRequestParams().put(AttributeInfo.HEADERS, template.headers());
+        builder.getRequestParams().put(AttributeInfo.HEADERS, template.headers());
         // 将日志信息放入请求对象
-        FeignContextHolder.bind(baseLogger);
+        FeignContextHolder.bind(builder);
     }
 
     @Override

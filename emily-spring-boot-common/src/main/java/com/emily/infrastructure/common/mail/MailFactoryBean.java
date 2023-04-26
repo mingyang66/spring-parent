@@ -88,6 +88,12 @@ import java.util.Objects;
  * @return 发送MIME类型邮件
  * @param javaMailSender 邮件发送实体对象
  * @param message        发送邮件实体信息
+ * @return 发送简单文本邮件
+ * @param javaMailSender 邮件发送实体对象
+ * @param mailMessage    发送邮件实体信息
+ * @return 发送MIME类型邮件
+ * @param javaMailSender 邮件发送实体对象
+ * @param message        发送邮件实体信息
  * @return
  *//*
 

@@ -2,12 +2,15 @@
 -----
 基础库发布4.2.1
 Bug Fixes
+
 1. springboot升级到2.7.11版本；
 2. 添加BaseResponse的建造器BaseResponseBuilder，替换SDK中所有基于BaseResponse构建对象方法；
+3. 添加BaseLogger的建造器BaseLoggerBuilder类，替换SDK中所有基于BaseLogger构建对象的方法；
 
 -----
 基础库发布4.2.0
 Bug Fixes
+
 1. I18n多语言支持翻译当前类中父类的属性;
 2. 脱敏工具类SensitiveUtils支持父类中的属性脱敏；
 3. I18n多语言翻译支持Collection、Map、Array存储的值为字符串；
@@ -24,6 +27,7 @@ Bug Fixes
 -----
 基础库发布4.1.9
 Bug Fixes
+
 1. 删除无用的openfeign引用；
 2. 删除RPC相关三个模块及依赖引用；
 3. 删除log4j多余模块；
@@ -39,7 +43,9 @@ Bug Fixes
 -----
 基础库发布4.1.8
 Bug Fixes
-1. DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
+
+1.
+DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
 2. springboot升级到2.7.8；
 3. 新增重新定义RequestMappingHandlerMapping路由映射组件，支持用户自定义扩展路由到指定的控制器；
 4. 优化全局过滤器自动化配置类；

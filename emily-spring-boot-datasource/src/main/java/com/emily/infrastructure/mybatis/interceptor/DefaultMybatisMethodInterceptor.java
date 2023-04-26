@@ -2,7 +2,7 @@ package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
@@ -31,27 +31,27 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         //开始时间
         long start = System.currentTimeMillis();
 
-        BaseLogger baseLogger = new BaseLogger();
+        BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
             Object response = invocation.proceed();
-            baseLogger.setBody(SensitiveUtils.acquire(response));
+            builder.body(SensitiveUtils.acquire(response));
             return response;
         } catch (Throwable ex) {
-            baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
+            builder.body(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
-            baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
-            baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
-            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
-            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
-            baseLogger.setRequestParams(RequestHelper.getMethodArgs(invocation));
-            baseLogger.setUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()));
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())));
-            baseLogger.setSpentTime(System.currentTimeMillis() - start);
+            builder.systemNumber(ThreadContextHolder.current().getSystemNumber())
+                    .traceId(ThreadContextHolder.current().getTraceId())
+                    .clientIp(ThreadContextHolder.current().getClientIp())
+                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    .requestParams(RequestHelper.getMethodArgs(invocation))
+                    .url(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())))
+                    .spentTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {
-                logger.info(JSONUtils.toJSONString(baseLogger));
+                logger.info(JSONUtils.toJSONString(builder.build()));
             });
         }
     }

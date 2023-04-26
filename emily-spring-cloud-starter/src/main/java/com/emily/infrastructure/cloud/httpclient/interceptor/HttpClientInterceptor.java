@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.httpclient.interceptor;
 
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
@@ -43,34 +43,34 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //开始计时
         long start = System.currentTimeMillis();
         //创建拦截日志信息
-        BaseLogger baseLogger = new BaseLogger();
-        //生成事物流水号
-        baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
-        //请求URL
-        baseLogger.setUrl(request.getURI().toString());
-        //请求参数
-        baseLogger.setRequestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
+        BaseLoggerBuilder builder = new BaseLoggerBuilder()
+                //生成事物流水号
+                .traceId(ThreadContextHolder.current().getTraceId())
+                //请求URL
+                .url(request.getURI().toString())
+                //请求参数
+                .requestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
         try {
             //调用接口
             ClientHttpResponse clientHttpResponse = execution.execute(request, body);
             //响应数据
-            baseLogger.setBody(RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(clientHttpResponse.getBody())));
+            builder.body(RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(clientHttpResponse.getBody())));
             return clientHttpResponse;
         } catch (IOException ex) {
             //响应结果
-            baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
+            builder.body(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
-            //服务端IP
-            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
-            //耗时
-            baseLogger.setSpentTime(System.currentTimeMillis() - start);
-            //响应时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            builder.clientIp(ThreadContextHolder.current().getClientIp())
+                    //服务端IP
+                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    //耗时
+                    .spentTime(System.currentTimeMillis() - start)
+                    //响应时间
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步线程池记录日志
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
         }

@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -46,68 +46,68 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         //封装异步日志信息
-        BaseLogger baseLogger = new BaseLogger();
+        BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
             //系统编号
-            baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
-            //事务唯一编号
-            baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
-            //时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
-            //请求url
-            baseLogger.setUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN));
-            //请求参数
-            baseLogger.setRequestParams(RequestHelper.getApiArgs(invocation));
+            builder.systemNumber(ThreadContextHolder.current().getSystemNumber())
+                    //事务唯一编号
+                    .traceId(ThreadContextHolder.current().getTraceId())
+                    //时间
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
+                    //请求url
+                    .url(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
+                    //请求参数
+                    .requestParams(RequestHelper.getApiArgs(invocation));
             //调用真实的action方法
             Object response = invocation.proceed();
             if (Objects.nonNull(response) && response instanceof ResponseEntity) {
                 Object responseBody = ((ResponseEntity) response).getBody();
                 //404 Not Fund
-                handleNotFund(response, baseLogger);
+                handleNotFund(response, builder);
                 //设置响应结果
-                baseLogger.setBody(SensitiveUtils.acquire(responseBody));
+                builder.body(SensitiveUtils.acquire(responseBody));
             } else {
                 //设置响应结果
-                baseLogger.setBody(SensitiveUtils.acquire(response));
+                builder.body(SensitiveUtils.acquire(response));
             }
             return I18nUtils.acquire(response, ThreadContextHolder.current().getLanguageType());
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;
                 //响应码
-                baseLogger.setStatus(exception.getStatus());
-                //响应描述
-                baseLogger.setMessage(exception.getMessage());
-                //异常响应体
-                baseLogger.setBody(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
+                builder.status(exception.getStatus())
+                        //响应描述
+                        .message(exception.getMessage())
+                        //异常响应体
+                        .body(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
                 //响应码
-                baseLogger.setStatus(HttpStatusType.EXCEPTION.getStatus());
-                //响应描述
-                baseLogger.setMessage(HttpStatusType.EXCEPTION.getMessage());
-                //异常响应体
-                baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
+                builder.status(HttpStatusType.EXCEPTION.getStatus())
+                        //响应描述
+                        .message(HttpStatusType.EXCEPTION.getMessage())
+                        //异常响应体
+                        .body(PrintExceptionInfo.printErrorInfo(ex));
             }
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
-            //服务端IP
-            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
-            //版本类型
-            baseLogger.setAppType(ThreadContextHolder.current().getAppType());
-            //版本号
-            baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
-            //耗时
-            baseLogger.setSpentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime());
-            //时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            builder.clientIp(ThreadContextHolder.current().getClientIp())
+                    //服务端IP
+                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    //版本类型
+                    .appType(ThreadContextHolder.current().getAppType())
+                    //版本号
+                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    //耗时
+                    .spentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime())
+                    //时间
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //移除线程上下文数据
             ThreadContextHolder.unbind(true);
             //设置耗时
-            RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, baseLogger.getSpentTime());
+            RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, builder.getSpentTime());
         }
 
     }
@@ -116,16 +116,16 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      * 404 Not Fund接口处理
      *
      * @param result
-     * @param baseLogger
+     * @param builder
      */
-    private void handleNotFund(Object result, BaseLogger baseLogger) {
+    private void handleNotFund(Object result, BaseLoggerBuilder builder) {
         int status = ((ResponseEntity) result).getStatusCodeValue();
         if (status == HttpStatus.NOT_FOUND.value()) {
             Object resultBody = ((ResponseEntity) result).getBody();
             Map<String, Object> dataMap = JSONUtils.toJavaBean(JSONUtils.toJSONString(resultBody), Map.class);
-            baseLogger.setUrl(dataMap.get("path").toString());
-            baseLogger.setStatus(status);
-            baseLogger.setMessage(dataMap.get("error").toString());
+            builder.url(dataMap.get("path").toString())
+                    .status(status)
+                    .message(dataMap.get("error").toString());
         }
     }
 

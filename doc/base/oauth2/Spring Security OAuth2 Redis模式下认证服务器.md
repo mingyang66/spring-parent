@@ -1462,7 +1462,7 @@ ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2R
 
 经测试上面的方案完美解决自定义token生成refresh_token永不过期问题。。。
 
-###   
+###    
 
  ***
 

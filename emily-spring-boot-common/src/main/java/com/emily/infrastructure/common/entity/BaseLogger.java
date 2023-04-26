@@ -4,9 +4,7 @@ import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.google.common.collect.Maps;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Emily
@@ -119,18 +117,6 @@ public class BaseLogger implements Serializable {
 
     public void setRequestParams(Map<String, Object> requestParams) {
         this.requestParams = requestParams;
-    }
-
-    public void setRequestParams(Object[] params) {
-        if (Objects.isNull(params)) {
-            return;
-        }
-        if (Objects.isNull(requestParams)) {
-            this.requestParams = Maps.newHashMap();
-        }
-        for (int i = 0; i < params.length; i++) {
-            this.requestParams.put(MessageFormat.format("arg{0}", i), params[i]);
-        }
     }
 
     public String getTraceId() {

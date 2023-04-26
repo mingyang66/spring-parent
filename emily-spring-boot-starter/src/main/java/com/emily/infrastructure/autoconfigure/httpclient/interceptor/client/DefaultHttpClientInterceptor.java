@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
@@ -44,15 +44,15 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
         //设置事务标识
         request.getHeaders().set(HeaderInfo.TRACE_ID, ThreadContextHolder.current().getTraceId());
         //创建拦截日志信息
-        BaseLogger baseLogger = new BaseLogger();
-        //系统编号
-        baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
-        //生成事物流水号
-        baseLogger.setTraceId(ThreadContextHolder.current().getTraceId());
-        //请求URL
-        baseLogger.setUrl(request.getURI().toString());
-        //请求参数
-        baseLogger.setRequestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
+        BaseLoggerBuilder builder = new BaseLoggerBuilder()
+                //系统编号
+                .systemNumber(ThreadContextHolder.current().getSystemNumber())
+                //生成事物流水号
+                .traceId(ThreadContextHolder.current().getTraceId())
+                //请求URL
+                .url(request.getURI().toString())
+                //请求参数
+                .requestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
         //开始计时
         long start = System.currentTimeMillis();
         try {
@@ -61,28 +61,28 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             //响应数据
             Object responseBody = RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(response.getBody()));
             //响应结果
-            baseLogger.setBody(responseBody);
+            builder.body(responseBody);
 
             return response;
         } catch (IOException ex) {
             //响应结果
-            baseLogger.setBody(PrintExceptionInfo.printErrorInfo(ex));
+            builder.body(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP
-            baseLogger.setClientIp(ThreadContextHolder.current().getClientIp());
-            //服务端IP
-            baseLogger.setServerIp(ThreadContextHolder.current().getServerIp());
-            //版本类型
-            baseLogger.setAppType(ThreadContextHolder.current().getAppType());
-            //版本号
-            baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
-            //耗时
-            baseLogger.setSpentTime(System.currentTimeMillis() - start);
-            //响应时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            builder.clientIp(ThreadContextHolder.current().getClientIp())
+                    //服务端IP
+                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    //版本类型
+                    .appType(ThreadContextHolder.current().getAppType())
+                    //版本号
+                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    //耗时
+                    .spentTime(System.currentTimeMillis() - start)
+                    //响应时间
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步线程池记录日志
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(baseLogger)));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
         }

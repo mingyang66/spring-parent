@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.date.DateFormatType;
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JSONUtils;
@@ -66,42 +66,43 @@ public class GlobalExceptionCustomizer {
             //事务流水号
             String traceId = request.getHeader(HeaderInfo.TRACE_ID) == null ? UUIDUtils.randomSimpleUUID() : request.getHeader(HeaderInfo.TRACE_ID);
 
-            BaseLogger baseLogger = new BaseLogger();
-            //系统编号
-            baseLogger.setSystemNumber(ThreadContextHolder.current().getSystemNumber());
-            //事务唯一编号
-            baseLogger.setTraceId(traceId);
-            //请求URL
-            baseLogger.setUrl(request.getRequestURI());
-            //客户端IP
-            baseLogger.setClientIp(RequestUtils.getClientIp());
-            //服务端IP
-            baseLogger.setServerIp(RequestUtils.getServerIp());
-            //版本类型
-            baseLogger.setAppType(ThreadContextHolder.current().getAppType());
-            //版本号
-            baseLogger.setAppVersion(ThreadContextHolder.current().getAppVersion());
-            //触发时间
-            baseLogger.setTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            BaseLoggerBuilder builder = new BaseLoggerBuilder()
+                    //系统编号
+                    .systemNumber(ThreadContextHolder.current().getSystemNumber())
+                    //事务唯一编号
+                    .traceId(traceId)
+                    //请求URL
+                    .url(request.getRequestURI())
+                    //客户端IP
+                    .clientIp(RequestUtils.getClientIp())
+                    //服务端IP
+                    .serverIp(RequestUtils.getServerIp())
+                    //版本类型
+                    .appType(ThreadContextHolder.current().getAppType())
+                    //版本号
+                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    //触发时间
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+            Map<String, Object> paramMap = null;
             //请求参数
             if (ex instanceof BindException) {
                 BindingResult bindingResult = ((BindException) ex).getBindingResult();
                 if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
-                    Map<String, Object> paramMap = Maps.newHashMap();
+                    paramMap = Maps.newHashMap();
                     paramMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
                     paramMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquire(bindingResult.getTarget()));
-                    baseLogger.setRequestParams(paramMap);
+                    builder.requestParams(paramMap);
                 }
             }
-            if (CollectionUtils.isEmpty(baseLogger.getRequestParams())) {
-                baseLogger.setRequestParams(RequestHelper.getApiArgs(request));
+            if (CollectionUtils.isEmpty(paramMap)) {
+                builder.requestParams(RequestHelper.getApiArgs(request));
             }
             //响应体
-            baseLogger.setBody(errorMsg);
-            //耗时(未处理任何逻辑)
-            baseLogger.setSpentTime(0L);
+            builder.body(errorMsg)
+                    //耗时(未处理任何逻辑)
+                    .spentTime(0L);
             //记录日志到文件
-            logger.info(JSONUtils.toJSONString(baseLogger));
+            logger.info(JSONUtils.toJSONString(builder.build()));
         } catch (Exception exception) {
             logger.error(MessageFormat.format("记录错误日志异常：{0}", PrintExceptionInfo.printErrorInfo(exception)));
         } finally {

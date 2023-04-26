@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign.context;
 
 
-import com.emily.infrastructure.common.entity.BaseLogger;
+import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import org.springframework.core.NamedThreadLocal;
 
 /**
@@ -11,19 +11,19 @@ import org.springframework.core.NamedThreadLocal;
  * @create: 2021/09/27
  */
 public class FeignContextHolder {
-    private static final ThreadLocal<BaseLogger> CONTEXT = new NamedThreadLocal<>("Feign Logger Context");
+    private static final ThreadLocal<BaseLoggerBuilder> CONTEXT = new NamedThreadLocal<>("Feign Logger Context");
 
     /**
      * 设置当前线程持有的数据源
      */
-    public static void bind(BaseLogger baseLogger) {
-        CONTEXT.set(baseLogger);
+    public static void bind(BaseLoggerBuilder builder) {
+        CONTEXT.set(builder);
     }
 
     /**
      * 获取当前线程持有的数据源
      */
-    public static BaseLogger current() {
+    public static BaseLoggerBuilder current() {
         return CONTEXT.get();
     }
 

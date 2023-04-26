@@ -17,6 +17,22 @@ public class BaseResponseBuilder<T> implements Serializable {
     private T data;
     private long spentTime;
 
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public long getSpentTime() {
+        return spentTime;
+    }
+
     public BaseResponseBuilder<T> status(int status) {
         this.status = status;
         return this;

@@ -7,5 +7,3 @@ com.emily.infrastructure.autoconfigure.web.EmilyWebAutoConfiguration
 com.emily.infrastructure.autoconfigure.exception.GlobalExceptionAutoConfiguration
 com.emily.infrastructure.autoconfigure.converters.EmilyMappingJackson2HttpMessageConverterAutoConfiguration
 com.emily.infrastructure.autoconfigure.tomcat.TomcatAutoConfiguration
-com.emily.infrastructure.autoconfigure.route.RouteWebMvcAutoConfiguration
-com.emily.infrastructure.autoconfigure.route.LookupPathAutoConfiguration

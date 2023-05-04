@@ -1,21 +1,46 @@
-package com.emily.infrastructure.common.captcha;
+#### 解锁新技能《Java绘制2D图形验证码方法》
 
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
+##### 一、常见的图形验证码有如下三种：
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Random;
+- 字母数字混合（干扰线）；
+- 纯数字（干扰线）；
+- 纯字母（干扰线）；
 
-/**
- * @author Emily
- * @Description 图形验证码
- * @See Also: 获取字体名称 String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
- * @See Also: 获取字体对象 Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
- */
+##### 二、示例图如下：
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/3ecd6b043020491285f454c3153771c3.png)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/dc548a6df21941dd8f195d9952f961f5.png)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/adebbf4bf4514056acf10902b95f0818.png)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/5279ae1474fd40248d6eff36507aa96d.png)
+
+![image-20230504144214030](/Users/yaomingyang/Library/Application Support/typora-user-images/image-20230504144214030.png)
+
+![image-20230504144234385](/Users/yaomingyang/Library/Application Support/typora-user-images/image-20230504144234385.png)
+
+##### 三、案例代码
+
+问题一：绘制验证码的(x,y)坐标相对的点是哪里？
+
+答案：左上角
+
+问题二：绘制图形验证码的x坐标起始位置计算方法？
+
+答案：(画板宽度-验证码字符文本宽度）/2
+
+问题三：如何逐个计算每个字符绘制的x坐标位置？
+
+答案：起始x坐标+(验证码宽度/验证码字符个数)*第n-1个字符
+
+问题四：如何计算y轴坐标确保验证码上下居中？
+
+答案：(height - (fm.getAscent() + fm.getDescent())) / 2 + fm.getAscent();
+
+理解上述公式之前大家应该先弄清楚什么是基线(baseline)、升度(ascent)、降度(descent)、行间距（lead）
+
+```java
 public class CaptchaUtils {
     /**
      * 数字
@@ -197,27 +222,6 @@ public class CaptchaUtils {
         int textWidth = fm.stringWidth(StringUtils.join(code));
         // 字符串左侧x坐标
         int x = (width - textWidth) / 2;
-        /**
-         *
-         *  文本高度=lead+ascent+descent
-         ***************************************************************
-         *  lead 字体前导|行间距
-         ***************************************************************
-         *
-         *
-         *  ascent 字体升序
-         *
-         *
-         **************************************************************** baseline
-         *
-         *  descent 字体降序
-         *
-         ****************************************************************
-         *
-         * 上图就是四线格，文本占用的有效高度就是ascent+descent
-         * 居中计算规则就是：(画板的高度height-文本的有效高度（ascent+descent）)/2获得文本非占用空间的一半，由于绘制字符串是以基线为准，所以再加上ascent后绘制字符串以基线为准在一条线上并且居中
-         *
-         */
         int y = (height - (fm.getAscent() + fm.getDescent())) / 2 + fm.getAscent();
         for (int i = 0; i < code.length; i++) {
             // 设置随机颜色
@@ -271,3 +275,7 @@ public class CaptchaUtils {
         }
     }
 }
+
+```
+
+案例完整代码请参考：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

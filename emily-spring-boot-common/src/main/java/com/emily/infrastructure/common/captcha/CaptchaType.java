@@ -6,16 +6,22 @@ package com.emily.infrastructure.common.captcha;
  * @CreateDate :  Created in 2023/5/4 1:11 PM
  */
 public enum CaptchaType {
-    ALPHANUMERIC("字母数字"),
-    DIGIT("数字"),
-    LETTER("字母");
-    private String description;
+    ALPHANUMERIC("0", "字母数字"),
+    DIGIT("1", "数字"),
+    LETTER("2", "字母");
+    private String code;
+    private String name;
 
-    CaptchaType(String description) {
-        this.description = description;
+    CaptchaType(String code, String name) {
+        this.code = code;
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
     }
 }

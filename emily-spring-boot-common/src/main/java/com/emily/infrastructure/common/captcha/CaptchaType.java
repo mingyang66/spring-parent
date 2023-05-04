@@ -7,9 +7,14 @@ package com.emily.infrastructure.common.captcha;
  */
 public enum CaptchaType {
     //字母数字
-    ALPHANUMERIC,
+    ALPHANUMERIC("字母数字"),
     //数字
-    DIGIT,
+    DIGIT("数字"),
     //字母
-    LETTER;
+    LETTER("字母");
+    private String description;
+
+    CaptchaType(String description) {
+        this.description = description;
+    }
 }

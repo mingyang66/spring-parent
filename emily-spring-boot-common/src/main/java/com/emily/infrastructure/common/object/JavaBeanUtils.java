@@ -209,13 +209,13 @@ public class JavaBeanUtils {
         return false;
     }
 
-    private static boolean checkModifierNativeSyncStrict(int modifiers) {
+    protected static boolean checkModifierNativeSyncStrict(int modifiers) {
         return Modifier.isNative(modifiers)
                 || Modifier.isSynchronized(modifiers)
                 || Modifier.isStrict(modifiers);
     }
 
-    private static boolean checkModifierFinalStaticTransVol(int modifiers) {
+    protected static boolean checkModifierFinalStaticTransVol(int modifiers) {
         return Modifier.isFinal(modifiers)
                 || Modifier.isStatic(modifiers)
                 || Modifier.isTransient(modifiers)

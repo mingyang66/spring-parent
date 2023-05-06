@@ -26,7 +26,7 @@ public class SocketServerStarter {
                 int len = is.read(bytes);
                 System.out.println("服务器端接收到：" + new String(bytes, 0, len));
                 OutputStream os = a1.getOutputStream();
-                String now = "我是服务器，当前时间是：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
+                String now = "我是服务器，当前时间是：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern()));
                 os.write(now.getBytes());
                 os.flush();
             }

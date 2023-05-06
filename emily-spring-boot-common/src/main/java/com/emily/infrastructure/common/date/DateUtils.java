@@ -269,7 +269,7 @@ public class DateUtils {
      */
     public static boolean tryParse(String str) {
         try {
-            org.apache.commons.lang3.time.DateUtils.parseDate(str, DatePatternType.getAllFormats());
+            org.apache.commons.lang3.time.DateUtils.parseDate(str, DatePatternType.getAllPatterns());
         } catch (ParseException e) {
             return false;
         }

@@ -68,7 +68,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
                     //耗时
                     .spentTime(System.currentTimeMillis() - start)
                     //响应时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
             //异步线程池记录日志
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据

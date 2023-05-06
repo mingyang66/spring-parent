@@ -112,7 +112,7 @@ public class ThreadPoolJob extends QuartzJobBean {
         String valeu = context.getTrigger().getJobDataMap().getString("tragger_param");
         String jobValue = context.getJobDetail().getJobDataMap().getString("jobDataKey");
         System.out.println(JSONUtils.toJSONPrettyString(context.getMergedJobDataMap()));
-        System.out.println(Thread.currentThread().getName() + "--执行作业调度--" + DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat())+"--"+valeu+"--"+jobValue);
+        System.out.println(Thread.currentThread().getName() + "--执行作业调度--" + DateUtils.formatDate(new Date(), DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getPattern())+"--"+valeu+"--"+jobValue);
     }
 }
 

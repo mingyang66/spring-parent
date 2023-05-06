@@ -81,7 +81,7 @@ public class GlobalExceptionCustomizer {
                     //版本号
                     .appVersion(ThreadContextHolder.current().getAppVersion())
                     //触发时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
             Map<String, Object> paramMap = null;
             //请求参数
             if (ex instanceof BindException) {

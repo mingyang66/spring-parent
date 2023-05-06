@@ -53,7 +53,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //事务唯一编号
                     .traceId(ThreadContextHolder.current().getTraceId())
                     //时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
                     //请求url
                     .url(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
                     //请求参数
@@ -101,7 +101,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //耗时
                     .spentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime())
                     //时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
             //异步记录接口响应信息
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //移除线程上下文数据

@@ -62,14 +62,14 @@ public enum DatePatternType {
     YYYY_MM_DD_AHH_MM_SS_SSS("yyyy-MM-dd aHH:mm:ss.SSS");
 
 
-    private final String format;
+    private final String pattern;
 
-    DatePatternType(String format) {
-        this.format = format;
+    DatePatternType(String pattern) {
+        this.pattern = pattern;
     }
 
-    public String getFormat() {
-        return format;
+    public String getPattern() {
+        return pattern;
     }
 
     /**
@@ -77,12 +77,11 @@ public enum DatePatternType {
      *
      * @return
      */
-    public static String[] getAllFormats() {
-        String[] formats = new String[]{};
-        DatePatternType[] formatEnums = DatePatternType.values();
-        for (int i = 0; i < formatEnums.length; i++) {
-            formats = ArrayUtils.add(formats, formatEnums[i].getFormat());
+    public static String[] getAllPatterns() {
+        String[] patterns = new String[]{};
+        for (DatePatternType type : DatePatternType.values()) {
+            patterns = ArrayUtils.add(patterns, type.getPattern());
         }
-        return formats;
+        return patterns;
     }
 }

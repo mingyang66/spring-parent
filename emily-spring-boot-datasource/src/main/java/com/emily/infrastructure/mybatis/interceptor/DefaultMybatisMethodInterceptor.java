@@ -46,7 +46,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .serverIp(ThreadContextHolder.current().getServerIp())
                     .requestParams(RequestHelper.getMethodArgs(invocation))
                     .url(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getFormat())))
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getPattern())))
                     .spentTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();

@@ -68,7 +68,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
                     //耗时
                     .spentTime(System.currentTimeMillis() - start)
                     //触发时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
                     //响应结果
                     .body(SensitiveUtils.acquire(response));
             //请求参数

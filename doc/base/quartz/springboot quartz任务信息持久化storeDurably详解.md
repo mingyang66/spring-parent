@@ -53,7 +53,7 @@
                     .build();
             //返回第一次任务执行时间
             Date date = scheduler.scheduleJob(jobDetail, trigger);
-            return DateFormatUtils.format(date, DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getFormat());
+            return DateFormatUtils.format(date, DateFormatEnum.YYYY_MM_DD_HH_MM_SS.getPattern());
         } catch (SchedulerException e) {
             throw new BusinessException(AppHttpStatus.API_EXCEPTION.getStatus(), "新增Task任务异常" + e.getMessage());
         }

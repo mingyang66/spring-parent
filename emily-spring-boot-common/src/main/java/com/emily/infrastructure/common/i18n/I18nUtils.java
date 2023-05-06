@@ -33,7 +33,7 @@ public class I18nUtils {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
-        languageType = Objects.isNull(languageType) ? LanguageType.ZH : languageType;
+        languageType = Objects.isNull(languageType) ? LanguageType.ZH_CN : languageType;
         if (entity instanceof Collection) {
             for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
                 acquire(it.next(), languageType);

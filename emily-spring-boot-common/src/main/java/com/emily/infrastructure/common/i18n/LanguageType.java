@@ -8,29 +8,29 @@ import org.apache.commons.lang3.StringUtils;
  * @CreateDate :  Created in 2022/8/17 4:45 下午
  */
 public enum LanguageType {
-    ZH("zh", "简体"),
-    FT("ft", "繁体"),
-    EN("en", "英文");
+    ZH_CN("zh-CN", "简体"),
+    ZH_TW("zh-TW", "繁体"),
+    EN_US("en-US", "英文");
 
     private String code;
-    private String desc;
+    private String name;
 
-    LanguageType(String code, String desc) {
+    LanguageType(String code, String name) {
         this.code = code;
-        this.desc = desc;
+        this.name = name;
     }
 
     public String getCode() {
         return code;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getName() {
+        return name;
     }
 
     public static LanguageType getByCode(String code) {
         if (StringUtils.isEmpty(code)) {
-            return ZH;
+            return ZH_CN;
         }
         for (LanguageType languageType : LanguageType.values()) {
             if (languageType.code.equals(code)) {
@@ -42,7 +42,7 @@ public enum LanguageType {
 
     public static LanguageType getByType(String type) {
         if (StringUtils.isEmpty(type)) {
-            return ZH;
+            return ZH_CN;
         }
         for (LanguageType languageType : LanguageType.values()) {
             if (languageType.toString().equals(type)) {

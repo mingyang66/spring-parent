@@ -62,7 +62,7 @@ public class LanguageMap {
      * 获取简体中文对应的语言
      */
     public static String acquire(String simple) {
-        String language = LanguageType.ZH.getCode();
+        String language = LanguageType.ZH_CN.getCode();
         if (RequestUtils.isServlet()) {
             language = RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE);
         }
@@ -87,10 +87,10 @@ public class LanguageMap {
         if (StringUtils.length(simple) > NumberInfo.N100 * NumberInfo.N2) {
             return simple;
         }
-        if (languageType.equals(LanguageType.FT)) {
+        if (languageType.equals(LanguageType.ZH_TW)) {
             return zhMap.containsKey(simple) ? zhMap.get(simple) : PinYinUtils.convertToTraditionalChinese(simple);
         }
-        if (languageType.equals(LanguageType.EN)) {
+        if (languageType.equals(LanguageType.EN_US)) {
             return enMap.containsKey(simple) ? enMap.get(simple) : simple;
         }
         return simple;

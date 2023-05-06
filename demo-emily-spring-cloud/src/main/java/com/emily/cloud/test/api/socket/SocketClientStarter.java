@@ -1,6 +1,6 @@
 package com.emily.cloud.test.api.socket;
 
-import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.date.DatePatternType;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +19,7 @@ public class SocketClientStarter {
         try {
             Socket sc = new Socket("172.30.67.122", 8888);
             OutputStream out = sc.getOutputStream();
-            String now = "我是客户端，当前时间是：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
+            String now = "我是客户端，当前时间是：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat()));
             out.write(now.getBytes());
             InputStream is = sc.getInputStream();
             byte[] bytes = new byte[1024];

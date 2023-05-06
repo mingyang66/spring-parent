@@ -3,7 +3,7 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
@@ -68,7 +68,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
                     //耗时
                     .spentTime(System.currentTimeMillis() - start)
                     //触发时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
                     //响应结果
                     .body(SensitiveUtils.acquire(response));
             //请求参数

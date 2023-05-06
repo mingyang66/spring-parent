@@ -6,7 +6,9 @@ Bug Fixes
 1. springboot升级到2.7.11版本；
 2. 添加BaseResponse的建造器BaseResponseBuilder，替换SDK中所有基于BaseResponse构建对象方法；
 3. 添加BaseLogger的建造器BaseLoggerBuilder类，替换SDK中所有基于BaseLogger构建对象的方法；
-
+4. 新增图形验证码组件，核心工具类CaptchaUtils、Captcha、CaptchaBuilder、CaptchaType;
+5. DateUtils工具类重构，DateFormatType枚举类重命名为DatePatternType;
+6. 
 -----
 基础库发布4.2.0
 Bug Fixes

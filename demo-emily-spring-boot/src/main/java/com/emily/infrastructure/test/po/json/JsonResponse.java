@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.po.json;
 
-import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.sensitive.JsonSensitive;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
@@ -35,7 +35,7 @@ public class JsonResponse {
     private Job[] jobs;
     private String[] arr;
     private Set<Job> list;
-    private DateFormatType dateFormat;
+    private DatePatternType dateFormat;
     @JsonSimField
     private Map<String, Object> work;
 
@@ -63,11 +63,11 @@ public class JsonResponse {
         this.arr = arr;
     }
 
-    public DateFormatType getDateFormat() {
+    public DatePatternType getDateFormat() {
         return dateFormat;
     }
 
-    public void setDateFormat(DateFormatType dateFormat) {
+    public void setDateFormat(DatePatternType dateFormat) {
         this.dateFormat = dateFormat;
     }
 

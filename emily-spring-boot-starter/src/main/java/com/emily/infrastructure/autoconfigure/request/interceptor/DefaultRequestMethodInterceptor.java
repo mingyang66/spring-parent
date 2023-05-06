@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.HttpStatusType;
@@ -53,7 +53,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //事务唯一编号
                     .traceId(ThreadContextHolder.current().getTraceId())
                     //时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())))
                     //请求url
                     .url(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
                     //请求参数
@@ -101,7 +101,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //耗时
                     .spentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime())
                     //时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步记录接口响应信息
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //移除线程上下文数据

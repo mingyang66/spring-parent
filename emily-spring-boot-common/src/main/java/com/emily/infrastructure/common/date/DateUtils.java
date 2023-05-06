@@ -1,6 +1,5 @@
 package com.emily.infrastructure.common.date;
 
-import com.emily.infrastructure.common.exception.HttpStatusType;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
@@ -19,68 +18,67 @@ import java.util.Objects;
  * @description: 日期工具类
  * @create: 2020/06/16
  */
-@SuppressWarnings("all")
 public class DateUtils {
     /**
      * 字符串日期格式化
      *
-     * @param dateStr        字符串日期
-     * @param originalFormat 原始日期格式
-     * @param nowFormat      目标格式化格式
+     * @param str           字符串日期
+     * @param sourcePattern 原始日期格式
+     * @param targetPattern 目标格式化格式
      * @return 格式化后的日期
      */
-    public static String formatDate(String dateStr, String originalFormat, String nowFormat) {
+    public static String format(String str, String sourcePattern, String targetPattern) {
         try {
-            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
-            return DateFormatUtils.format(date, nowFormat);
+            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, sourcePattern);
+            return DateFormatUtils.format(date, targetPattern);
         } catch (ParseException e) {
-            throw new IllegalArgumentException("日期格式转换异常");
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
     /**
      * 字符串日期格式化
      *
-     * @param nowFormat 目标格式化格式
+     * @param pattern 目标格式化格式
      * @return 格式化后的日期
      */
-    public static String formatDate(Date date, String nowFormat) {
-        return DateFormatUtils.format(date, nowFormat);
+    public static String format(Date date, String pattern) {
+        return DateFormatUtils.format(date, pattern);
     }
 
     /**
      * 字符串日期格式化
      *
-     * @param dateStr        字符串日期
-     * @param originalFormat 原始日期格式
+     * @param str     字符串日期
+     * @param pattern 原始日期格式
      * @return 格式化后的日期
      */
-    public static Date parseDate(String dateStr, String originalFormat) {
+    public static Date parse(String str, String pattern) {
         try {
-            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
+            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
             return date;
         } catch (ParseException e) {
-            throw new IllegalArgumentException("日期格式转换异常");
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
     /**
      * 判定日期是否跨年
      *
-     * @param dateStr
-     * @param originalFormat 日期格式
+     * @param str     字符串日期
+     * @param pattern 日期格式
      * @return true:跨年 false：未跨年
      */
-    public static boolean isCrossYear(String dateStr, String originalFormat) {
+    public static boolean isCrossYear(String str, String pattern) {
         try {
-            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, originalFormat);
+            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
             if (org.apache.commons.lang3.time.DateUtils.truncatedEquals(new Date(), date, Calendar.YEAR)) {
                 return false;
             } else {
                 return true;
             }
         } catch (ParseException e) {
-            throw new IllegalArgumentException("日期格式转换异常");
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -101,19 +99,20 @@ public class DateUtils {
     /**
      * 日期转换为星期几
      *
-     * @param dateStr 日期
+     * @param str     字符串日期
+     * @param pattern 日期格式
      * @return 如：星期一、星期二
      */
-    public static String dateToWeek(String dateStr, String format) {
+    public static String dateToWeek(String str, String pattern) {
         try {
             String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, format);
+            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
             return weekDays[w];
         } catch (ParseException e) {
-            throw new IllegalArgumentException("日期格式转换异常");
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -244,7 +243,7 @@ public class DateUtils {
             }
             return false;
         } catch (ParseException e) {
-            throw new IllegalArgumentException(HttpStatusType.ILLEGAL_DATA.getMessage());
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -265,12 +264,12 @@ public class DateUtils {
     /**
      * 判定指定的字符串是否可以转换为日期格式
      *
-     * @param dateStr
-     * @return
+     * @param str 日期字符串
+     * @return true-可以转换 false-不可以转换
      */
-    public static boolean tryParse(String dateStr) {
+    public static boolean tryParse(String str) {
         try {
-            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, DateFormatType.getAllFormats());
+            org.apache.commons.lang3.time.DateUtils.parseDate(str, DatePatternType.getAllFormats());
         } catch (ParseException e) {
             return false;
         }
@@ -280,13 +279,13 @@ public class DateUtils {
     /**
      * 判定指定的字符串是否可以转换成指定格式的日期
      *
-     * @param dateStr
-     * @param format
+     * @param str     字符串日期
+     * @param pattern 日期格式
      * @return
      */
-    public static boolean tryParse(String dateStr, String format) {
+    public static boolean tryParse(String str, String pattern) {
         try {
-            org.apache.commons.lang3.time.DateUtils.parseDate(dateStr, format);
+            org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
         } catch (ParseException e) {
             return false;
         }
@@ -296,135 +295,111 @@ public class DateUtils {
     /**
      * 将日期类型转换为数字类型
      *
-     * @param date   日期
-     * @param format 格式@{@link DateFormatType}
+     * @param date    日期
+     * @param pattern 格式@{@link DatePatternType}
      * @return
      */
-    public static Long dateToNum(Date date, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        return Long.valueOf(formatDate(date, format));
+    public static Long dateToNum(Date date, String pattern) {
+        Objects.requireNonNull(date, "非法数据");
+        Objects.requireNonNull(pattern, "非法数据");
+        return Long.valueOf(format(date, pattern));
     }
 
     /**
      * 将日期类型转换为数字类型
      *
-     * @param date   日期
-     * @param format 格式@{@link DateFormatType}
+     * @param localDate 日期
+     * @param pattern   格式@{@link DatePatternType}
      * @return
      */
-    public static Long dateToNum(LocalDate date, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        return Long.valueOf(date.format(DateTimeFormatter.ofPattern(format)));
+    public static Long dateToNum(LocalDate localDate, String pattern) {
+        Objects.requireNonNull(localDate, "非法数据");
+        Objects.requireNonNull(pattern, "非法数据");
+        return Long.valueOf(localDate.format(DateTimeFormatter.ofPattern(pattern)));
     }
 
     /**
      * 将日期类型转换为数字类型
      *
-     * @param date   日期
-     * @param format 格式@{@link DateFormatType}
+     * @param localDateTime 日期
+     * @param pattern       格式@{@link DatePatternType}
      * @return YYYYMMDD格式
      */
-    public static Long dateToNum(LocalDateTime date, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        return Long.valueOf(date.format(DateTimeFormatter.ofPattern(format)));
+    public static Long dateToNum(LocalDateTime localDateTime, String pattern) {
+        Objects.requireNonNull(localDateTime, "非法数据");
+        Objects.requireNonNull(pattern, "非法数据");
+        return Long.valueOf(localDateTime.format(DateTimeFormatter.ofPattern(pattern)));
     }
 
     /**
      * 将数字类型日期转换类Date类型
      *
-     * @param date   日期数字
-     * @param format 格式@{@link DateFormatType}
+     * @param date    日期数字
+     * @param pattern 格式@{@link DatePatternType}
      * @return
      */
-    public static Date numToDate(Long date, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        return parseDate(String.valueOf(date), format);
+    public static Date numToDate(Long date, String pattern) {
+        Objects.requireNonNull(date, "非法数据");
+        Objects.requireNonNull(pattern, "非法数据");
+        return parse(String.valueOf(date), pattern);
     }
 
     /**
      * 将数字类型日期转换类LocalDate类型
      *
-     * @param date   日期数字
-     * @param format 格式@{@link DateFormatType}
+     * @param date    日期数字
+     * @param pattern 格式@{@link DatePatternType}
      * @return
      */
-    public static LocalDate numToLocalDate(Long date, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        if (String.valueOf(date).length() > 8) {
-            throw new IllegalArgumentException("数字类型日期不可以包含时间");
-        }
-        return LocalDate.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
+    public static LocalDate numToLocalDate(Long date, String pattern) {
+        Objects.requireNonNull(date, "非法数据");
+        Objects.requireNonNull(String.valueOf(date).length() > 8, "非法数据");
+        return LocalDate.parse(String.valueOf(date), DateTimeFormatter.ofPattern(pattern));
     }
 
     /**
      * 将数字类型日期转换类LocalDateTime类型
      *
-     * @param date   日期数字
-     * @param format 格式@{@link DateFormatType}
+     * @param date    日期数字
+     * @param pattern 格式@{@link DatePatternType}
      * @return
      */
-    public static LocalDateTime numToLocalDateTime(Long date, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        if (String.valueOf(date).length() < 10) {
-            throw new IllegalArgumentException("数字类型日期必须包含时间");
-        }
-        return LocalDateTime.parse(String.valueOf(date), DateTimeFormatter.ofPattern(format));
+    public static LocalDateTime numToLocalDateTime(Long date, String pattern) {
+        Objects.requireNonNull(date, "非法数据");
+        Objects.requireNonNull(String.valueOf(date).length() < 10, "非法数据");
+        return LocalDateTime.parse(String.valueOf(date), DateTimeFormatter.ofPattern(pattern));
     }
 
     /**
      * 将字符串日期转换为数字格式
      *
-     * @param dateStr      字符串日期
-     * @param originFormat 字符串日期原格式
-     * @param format       目标数字格式
+     * @param str           字符串日期
+     * @param sourcePattern 字符串日期原格式
+     * @param targetPattern 目标数字格式
      * @return
      */
-    public static Long strToNum(String dateStr, String originFormat, String format) {
-        if (Objects.isNull(dateStr)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        if (Objects.isNull(originFormat)) {
-            throw new IllegalArgumentException("原日期格式参数不可以为空");
-        }
-        if (Objects.isNull(format)) {
-            throw new IllegalArgumentException("目标日期格式参数不可以为空");
-        }
-        Date date = parseDate(dateStr, originFormat);
-        return Long.valueOf(DateFormatUtils.format(date, format));
+    public static Long strToNum(String str, String sourcePattern, String targetPattern) {
+        Objects.requireNonNull(str, "非法数据");
+        Objects.requireNonNull(sourcePattern, "非法数据");
+        Objects.requireNonNull(targetPattern, "非法数据");
+        Date date = parse(str, sourcePattern);
+        return Long.valueOf(DateFormatUtils.format(date, targetPattern));
     }
 
     /**
      * 将字符串日期转换为数字格式
      *
-     * @param date         字符串日期
-     * @param originFormat 字符串日期原格式
-     * @param format       目标数字格式
+     * @param date          字符串日期
+     * @param sourcePattern 字符串日期原格式
+     * @param targetPattern 目标数字格式
      * @return
      */
-    public static String numToStr(Long date, String originFormat, String format) {
-        if (Objects.isNull(date)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
-        if (Objects.isNull(originFormat)) {
-            throw new IllegalArgumentException("原日期格式参数不可以为空");
-        }
-        if (Objects.isNull(format)) {
-            throw new IllegalArgumentException("目标日期格式参数不可以为空");
-        }
-        Date dateStr = parseDate(String.valueOf(date), originFormat);
-        return DateFormatUtils.format(dateStr, format);
+    public static String numToStr(Long date, String sourcePattern, String targetPattern) {
+        Objects.requireNonNull(date, "非法数据");
+        Objects.requireNonNull(sourcePattern, "非法数据");
+        Objects.requireNonNull(targetPattern, "非法数据");
+        Date dateStr = parse(String.valueOf(date), sourcePattern);
+        return DateFormatUtils.format(dateStr, targetPattern);
     }
 
     /**
@@ -435,12 +410,8 @@ public class DateUtils {
      * @return
      */
     public static Duration between(LocalDateTime startDate, LocalDateTime endDate) {
-        if (Objects.isNull(startDate)) {
-            throw new IllegalArgumentException("参数不可以为空");
-        }
-        if (Objects.isNull(startDate)) {
-            throw new IllegalArgumentException("参数不可以为空");
-        }
+        Objects.requireNonNull(startDate, "非法数据");
+        Objects.requireNonNull(endDate, "非法数据");
         return Duration.between(startDate, endDate);
     }
 
@@ -451,9 +422,7 @@ public class DateUtils {
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDate localDate) {
-        if (Objects.isNull(localDate)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDate, "非法数据");
         return localDate.with(TemporalAdjusters.firstDayOfMonth());
     }
 
@@ -465,9 +434,7 @@ public class DateUtils {
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDate localDate, int month) {
-        if (Objects.isNull(localDate)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDate, "非法数据");
         if (month == 0) {
             return localDate.with(TemporalAdjusters.firstDayOfMonth());
         } else if (month < 0) {
@@ -480,27 +447,23 @@ public class DateUtils {
     /**
      * 获取指定日期的月份的第一天
      *
-     * @param localDate 日期
+     * @param localDateTime 日期
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime) {
-        if (Objects.isNull(localDateTime)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDateTime, "非法数据");
         return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
     }
 
     /**
      * 获取指定日期的月份的第一天
      *
-     * @param localDate 日期
-     * @param month     向前推 month>0 向后推<0
+     * @param localDateTime 日期
+     * @param month         向前推 month>0 向后推<0
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
-        if (Objects.isNull(localDateTime)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDateTime, "非法数据");
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
         } else if (month < 0) {
@@ -517,9 +480,7 @@ public class DateUtils {
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDate localDate) {
-        if (Objects.isNull(localDate)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDate, "非法数据");
         return localDate.with(TemporalAdjusters.lastDayOfMonth());
     }
 
@@ -531,9 +492,7 @@ public class DateUtils {
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDate localDate, int month) {
-        if (Objects.isNull(localDate)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDate, "非法数据");
         if (month == 0) {
             return localDate.with(TemporalAdjusters.lastDayOfMonth());
         } else if (month < 0) {
@@ -546,27 +505,23 @@ public class DateUtils {
     /**
      * 获取指定日期的月份的最后一天
      *
-     * @param localDate 日期
+     * @param localDateTime 日期
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime) {
-        if (Objects.isNull(localDateTime)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDateTime, "非法数据");
         return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
     }
 
     /**
      * 获取指定日期的月份的最后一天
      *
-     * @param localDate 日期
-     * @param month     向前推 month>0 向后推<0
+     * @param localDateTime 日期
+     * @param month         向前推 month>0 向后推<0
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
-        if (Objects.isNull(localDateTime)) {
-            throw new IllegalArgumentException("日期参数不可以为空");
-        }
+        Objects.requireNonNull(localDateTime, "非法数据");
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
         } else if (month < 0) {
@@ -588,15 +543,13 @@ public class DateUtils {
     /**
      * 计算指定时间所在天剩余的时间
      *
-     * @param currentTime 指定日期
+     * @param localDateTime 指定日期
      * @return
      */
-    public static Duration getRemainTimeOfDay(LocalDateTime currentTime) {
-        if (Objects.isNull(currentTime)) {
-            throw new IllegalArgumentException("日期不可为空");
-        }
-        LocalDateTime lastTime = currentTime.plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
-        return Duration.between(currentTime, lastTime);
+    public static Duration getRemainTimeOfDay(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime, "非法数据");
+        LocalDateTime lastTime = localDateTime.plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        return Duration.between(localDateTime, lastTime);
     }
 
     /**
@@ -611,15 +564,13 @@ public class DateUtils {
     /**
      * 获取日期所在月份剩余的天数
      *
-     * @param currentTime 日期
+     * @param localDateTime 日期
      * @return
      */
-    public static long getRemainDayOfMonth(LocalDateTime currentTime) {
-        if (Objects.isNull(currentTime)) {
-            throw new IllegalArgumentException("日期不可为空");
-        }
-        LocalDateTime lastDayOfMonth = currentTime.with(TemporalAdjusters.lastDayOfMonth());
-        return lastDayOfMonth.getDayOfMonth() - currentTime.getDayOfMonth();
+    public static long getRemainDayOfMonth(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime, "非法数据");
+        LocalDateTime lastDayOfMonth = localDateTime.with(TemporalAdjusters.lastDayOfMonth());
+        return lastDayOfMonth.getDayOfMonth() - localDateTime.getDayOfMonth();
     }
 
     /**
@@ -634,15 +585,13 @@ public class DateUtils {
     /**
      * 获取指定日期所在年份剩余的天数
      *
-     * @param currentTime 日期
+     * @param localDateTime 日期
      * @return
      */
-    public static long getRemainDayOfYear(LocalDateTime currentTime) {
-        if (Objects.isNull(currentTime)) {
-            throw new IllegalArgumentException("日期不可为空");
-        }
-        LocalDateTime lastDayOfMonth = currentTime.with(TemporalAdjusters.lastDayOfYear());
-        return lastDayOfMonth.getDayOfYear() - currentTime.getDayOfYear();
+    public static long getRemainDayOfYear(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime, "非法数据");
+        LocalDateTime lastDayOfYear = localDateTime.with(TemporalAdjusters.lastDayOfYear());
+        return lastDayOfYear.getDayOfYear() - localDateTime.getDayOfYear();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.cloud.httpclient.interceptor;
 
-import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JSONUtils;
@@ -68,7 +68,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
                     //耗时
                     .spentTime(System.currentTimeMillis() - start)
                     //响应时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
+                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getFormat())));
             //异步线程池记录日志
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据

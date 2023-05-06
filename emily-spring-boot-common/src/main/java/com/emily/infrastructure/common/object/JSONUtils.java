@@ -1,6 +1,6 @@
 package com.emily.infrastructure.common.object;
 
-import com.emily.infrastructure.common.date.DateFormatType;
+import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -35,7 +35,7 @@ public class JSONUtils {
         //取消默认转换timestamps
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DateFormatType.YYYY_MM_DD_HH_MM_SS.getFormat()));
+        objectMapper.setDateFormat(new SimpleDateFormat(DatePatternType.YYYY_MM_DD_HH_MM_SS.getFormat()));
         //忽略空Bean转json的错误
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         //忽略，在json字符串中存在但是在java对象中不存在的属性

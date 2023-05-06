@@ -10,11 +10,9 @@ import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
-import com.emily.infrastructure.logger.LoggerFactory;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
@@ -27,18 +25,15 @@ import java.util.*;
 /**
  * @author Emily
  * @program: spring-parent
- * @description: 请求服务类
+ * @Description: 请求服务类
  * @create: 2020/11/23
  * @since 4.0.7
  */
 public class RequestHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(RequestHelper.class);
-
     /**
-     * 获取请求入参,给API请求控制器获取入参
-     *
-     * @return
+     * @return 请求入参
+     * @Description: 获取请求入参, 给API请求控制器获取入参
      */
     public static Map<String, Object> getApiArgs(MethodInvocation invocation) {
         if (RequestUtils.isServlet()) {
@@ -48,9 +43,8 @@ public class RequestHelper {
     }
 
     /**
-     * 获取请求入参,给API请求控制器获取入参
-     *
-     * @return
+     * @return 请求入参
+     * @Description: 获取请求入参, 给API请求控制器获取入参
      */
     public static Map<String, Object> getApiArgs(HttpServletRequest request) {
         if (RequestUtils.isServlet()) {
@@ -60,10 +54,9 @@ public class RequestHelper {
     }
 
     /**
-     * 获取请求入参
-     *
-     * @param request
-     * @return
+     * @param request servlet请求对象
+     * @return 请求入参
+     * @Description: 获取请求入参
      */
     private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
         //请求参数
@@ -94,10 +87,9 @@ public class RequestHelper {
     }
 
     /**
-     * 获取请求头
-     *
-     * @param request
-     * @return
+     * @param request 请求servlet对象
+     * @return 请求头集合对象
+     * @Description: 获取请求头
      */
     public static Map<String, Object> getHeaders(HttpServletRequest request) {
         Map<String, Object> headers = new LinkedHashMap<>();
@@ -116,7 +108,6 @@ public class RequestHelper {
      * HttpClient 获取返回结果对象
      *
      * @param body 返回结果字节数组
-     * @return
      */
     public static Object getHttpClientResponseBody(byte[] body) {
         try {
@@ -128,9 +119,6 @@ public class RequestHelper {
 
     /**
      * HttpClient 获取参数对象及请求header
-     *
-     * @param params
-     * @return
      */
     public static Map<String, Object> getHttpClientArgs(HttpHeaders headers, byte[] params) {
         Map<String, Object> dataMap = Maps.newLinkedHashMap();
@@ -141,11 +129,8 @@ public class RequestHelper {
 
     /**
      * 将byte[]转换为Map对象
-     *
-     * @param params
-     * @return
      */
-    private static Map<String, Object> byteArgToMap(byte[] params) {
+    protected static Map byteArgToMap(byte[] params) {
         try {
             return JSONUtils.toObject(params, Map.class);
         } catch (Exception e) {
@@ -155,18 +140,15 @@ public class RequestHelper {
 
     /**
      * 将参数转换为Map类型
-     *
-     * @param param
-     * @return
      */
-    private static Map<String, Object> strToMap(String param) {
+    protected static Map<String, Object> strToMap(String param) {
         if (StringUtils.isEmpty(param)) {
             return Collections.emptyMap();
         }
         Map<String, Object> pMap = Maps.newLinkedHashMap();
         String[] pArray = StringUtils.split(param, CharacterInfo.AND_AIGN);
-        for (int i = 0; i < pArray.length; i++) {
-            String[] array = StringUtils.split(pArray[i], CharacterInfo.EQUAL_SIGN);
+        for (String arr : pArray) {
+            String[] array = StringUtils.split(arr, CharacterInfo.EQUAL_SIGN);
             if (array.length == 2) {
                 pMap.put(array[0], array[1]);
             }
@@ -179,12 +161,9 @@ public class RequestHelper {
 
     /**
      * 将参数转为对象
-     *
-     * @param param
-     * @return
      */
-    private static Object toObject(String param) {
-        Assert.notNull(param, "参数不可为空");
+    protected static Object toObject(String param) {
+        Assert.notNull(param, "非法参数");
         if (param.startsWith(CharacterInfo.LEFT_SQ)) {
             return JSONUtils.toJavaBean(param, List.class);
         }
@@ -192,10 +171,9 @@ public class RequestHelper {
     }
 
     /**
-     * 获取方法参数，支持指定字段脱敏处理
-     *
-     * @param invocation
-     * @return
+     * @param invocation 方法切面对象
+     * @return 返回调用方法的参数及参数值
+     * @Description: 获取方法参数，支持指定字段脱敏处理
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
         if (invocation.getArguments().length == 0) {

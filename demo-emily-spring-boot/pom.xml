@@ -12,9 +12,6 @@
     <artifactId>demo-emily-spring-boot</artifactId>
     <version>4.2.0</version>
     <name>demo-emily-spring-boot</name>
-    <!--    <properties>
-            <start-class>com.emily.infrastructure.test.TestBootStrap</start-class>
-        </properties>-->
     <dependencies>
         <dependency>
             <groupId>com.emily.infrastructure</groupId>

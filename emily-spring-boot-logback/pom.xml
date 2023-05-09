@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-parent</artifactId>
-        <groupId>com.emily.infrastructure</groupId>
-        <version>4.2.0</version>
+        <groupId>io.github.mingyang66</groupId>
+        <version>4.2.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

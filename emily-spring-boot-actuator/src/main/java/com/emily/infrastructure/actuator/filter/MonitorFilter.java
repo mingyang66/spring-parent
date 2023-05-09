@@ -1,6 +1,6 @@
 package com.emily.infrastructure.actuator.filter;
 
-import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

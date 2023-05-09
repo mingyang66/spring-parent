@@ -1,7 +1,5 @@
 package com.emily.infrastructure.common.entity;
 
-import com.emily.infrastructure.common.utils.RequestUtils;
-
 import java.io.Serializable;
 
 /**
@@ -54,9 +52,9 @@ public class BaseResponseBuilder<T> implements Serializable {
     }
 
     public BaseResponse<T> build() {
-        if (this.spentTime == 0L && RequestUtils.isServlet()) {
-            this.spentTime = RequestUtils.getSpentTime();
-        }
+        // if (this.spentTime == 0L && RequestUtils.isServlet()) {
+        //this.spentTime = RequestUtils.getSpentTime();
+        //}
         return new BaseResponse<>(status, message, data, spentTime);
     }
 }

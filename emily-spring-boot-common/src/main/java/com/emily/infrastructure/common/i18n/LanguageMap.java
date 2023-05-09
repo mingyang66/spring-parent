@@ -1,8 +1,6 @@
 package com.emily.infrastructure.common.i18n;
 
-import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.common.constant.NumberInfo;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
@@ -63,9 +61,9 @@ public class LanguageMap {
      */
     public static String acquire(String simple) {
         String language = LanguageType.ZH_CN.getCode();
-        if (RequestUtils.isServlet()) {
-            language = RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE);
-        }
+        //if (RequestUtils.isServlet()) {
+        // language = RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE);
+        // }
         return acquire(simple, language);
     }
 

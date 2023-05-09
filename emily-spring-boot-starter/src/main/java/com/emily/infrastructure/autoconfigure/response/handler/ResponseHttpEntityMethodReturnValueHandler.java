@@ -5,7 +5,7 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgno
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.entity.BaseResponseBuilder;
 import com.emily.infrastructure.common.exception.HttpStatusType;
-import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.common.utils.path.PathMatcher;
 import com.emily.infrastructure.common.utils.path.PathUrls;
 import org.apache.commons.lang3.ArrayUtils;

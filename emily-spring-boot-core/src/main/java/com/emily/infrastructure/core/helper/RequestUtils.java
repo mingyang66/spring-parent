@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.utils;
+package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.exception.BasicException;

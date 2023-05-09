@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.utils.RequestUtils;
+import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
 import com.emily.infrastructure.test.mapper.mysql.ItemMapper;

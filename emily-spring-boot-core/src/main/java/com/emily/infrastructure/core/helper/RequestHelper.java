@@ -7,7 +7,6 @@ import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.DataMaskUtils;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
-import com.emily.infrastructure.common.utils.RequestUtils;
 import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
 import com.google.common.collect.Maps;

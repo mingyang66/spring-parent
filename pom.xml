@@ -7,8 +7,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.11</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <groupId>io.github.mingyang66</groupId>
+    <artifactId>spring-parent</artifactId>
+    <version>4.3.0</version>
+    <name>EmilyInfrastructure</name>
+    <description>EmilyInfrastructure基础框架</description>
+    <url>https://github.com/mingyang66/spring-parent</url>
     <!--模块聚合-->
     <modules>
         <module>emily-spring-boot-common</module>
@@ -23,11 +28,6 @@
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
     </modules>
-    <groupId>io.github.mingyang66</groupId>
-    <artifactId>spring-parent</artifactId>
-    <version>4.2.5</version>
-    <name>EmilyInfrastructure</name>
-    <description>EmilyInfrastructure基础框架</description>
 
     <properties>
         <!--JDK版本-->
@@ -45,7 +45,7 @@
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
     </properties>
-    <url>https://github.com/mingyang66/spring-parent</url>
+
     <developers>
         <developer>
             <name>Emily</name>
@@ -54,6 +54,7 @@
             <organizationUrl>https://github.com/mingyang66/spring-parent</organizationUrl>
         </developer>
     </developers>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -131,27 +132,44 @@
         <url>https://github.com/mingyang66/spring-parent</url>
     </scm>
 
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <!-- 发布到中央仓库插件 -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.13</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <!--注意,此id必须与setting.xml中指定的一致,不要自作聪明改它名字-->
-            <id>ossrh</id>
+            <id>source</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
-                    <!-- 发布到中央仓库插件 -->
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
                     <!-- 生成源码插件 -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -165,7 +183,20 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <attach>true</attach>
+                        </configuration>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>javadoc</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
                     <!-- 生成API文档插件 -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -183,7 +214,16 @@
                             </execution>
                         </executions>
                     </plugin>
-
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>gpg</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
                     <!-- gpg插件 -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -201,17 +241,7 @@
                     </plugin>
                 </plugins>
             </build>
-
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-                </snapshotRepository>
-                <repository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
         </profile>
     </profiles>
+
 </project>

@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>spring-parent</artifactId>
+        <artifactId>emily-spring-boot-parent</artifactId>
         <groupId>io.github.mingyang66</groupId>
-        <version>4.3.0</version>
+        <version>4.3.0.4</version>
+        <relativePath>../emily-spring-boot-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +15,7 @@
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-core</artifactId>
-            <version>4.3.0</version>
+            <version>4.3.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

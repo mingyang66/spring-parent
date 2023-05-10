@@ -3,14 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.11</version>
-    </parent>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>4.3.0</version>
+    <version>4.3.0.4</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>
@@ -21,12 +16,12 @@
         <module>emily-spring-boot-core</module>
         <module>emily-spring-boot-redis</module>
         <module>emily-spring-boot-datasource</module>
-        <module>emily-spring-boot-actuator</module>
         <module>emily-spring-boot-starter</module>
         <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-rabbitmq</module>
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
+        <module>emily-spring-boot-parent</module>
     </modules>
 
     <properties>
@@ -40,10 +35,12 @@
         <spring.consul.version>3.1.2</spring.consul.version>
         <spring.mybatis.version>2.3.0</spring.mybatis.version>
         <commons.io.version>2.11.0</commons.io.version>
+        <commons.lang.version>3.12.0</commons.lang.version>
         <alibaba.druid.version>1.2.16</alibaba.druid.version>
         <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
+        <xml.bind>2.3.1</xml.bind>
     </properties>
 
     <developers>
@@ -55,15 +52,19 @@
         </developer>
     </developers>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${xml.bind}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang.version}</version>
+            </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>

@@ -4,8 +4,6 @@ import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -17,7 +15,6 @@ import java.util.*;
  */
 public class DeSensitiveUtils {
 
-    public static final Logger logger = LoggerFactory.getLogger(DeSensitiveUtils.class);
 
     /**
      * @param entity 实体类|普通对象

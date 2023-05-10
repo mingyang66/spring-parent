@@ -1,13 +1,10 @@
 package com.emily.infrastructure.common.sensitive;
 
 import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -18,8 +15,6 @@ import java.util.*;
  * @CreateDate :  Created in 2022/7/19 3:13 下午
  */
 public class SensitiveUtils {
-
-    public static final Logger logger = LoggerFactory.getLogger(SensitiveUtils.class);
 
     /**
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
@@ -61,7 +56,6 @@ public class SensitiveUtils {
                 return doSetField(entity);
             }
         } catch (Exception exception) {
-            logger.error(PrintExceptionInfo.printErrorInfo(exception));
         }
         return entity;
     }

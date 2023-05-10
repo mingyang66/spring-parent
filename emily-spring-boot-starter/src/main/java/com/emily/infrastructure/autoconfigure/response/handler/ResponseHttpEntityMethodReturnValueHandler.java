@@ -5,10 +5,8 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgno
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.entity.BaseResponseBuilder;
 import com.emily.infrastructure.common.exception.HttpStatusType;
+import com.emily.infrastructure.core.helper.MatchUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.common.utils.path.PathMatcher;
-import com.emily.infrastructure.common.utils.path.PathUrls;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
@@ -32,13 +30,13 @@ import java.util.Map;
 public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
     private HandlerMethodReturnValueHandler proxyObject;
-    private ResponseWrapperProperties returnValueProperties;
-    private PathMatcher pathMatcher;
+    private ResponseWrapperProperties properties;
+    //private PathMatcher pathMatcher;
 
-    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ResponseWrapperProperties returnValueProperties) {
+    public ResponseHttpEntityMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ResponseWrapperProperties properties) {
         this.proxyObject = proxyObject;
-        this.returnValueProperties = returnValueProperties;
-        this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.DEFAULT_EXCLUDE_URL));
+        this.properties = properties;
+        // this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.DEFAULT_EXCLUDE_URL));
     }
 
     @Override
@@ -61,7 +59,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
-                || pathMatcher.match(request.getRequestURI())) {
+                || MatchUtils.match(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) body;

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.common.utils.path;
 
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Emily
@@ -16,7 +16,7 @@ public class PathUtils {
      * @Description 规范化路径
      */
     public static String normalizePath(String path) {
-        if (!StringUtils.hasText(path)) {
+        if (StringUtils.isEmpty(path)) {
             return path;
         }
         String normalizedPath = path;

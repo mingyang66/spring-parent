@@ -5,13 +5,24 @@
     <parent>
         <artifactId>spring-parent</artifactId>
         <groupId>io.github.mingyang66</groupId>
-        <version>4.3.0</version>
+        <version>4.3.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-common</artifactId>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.5</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

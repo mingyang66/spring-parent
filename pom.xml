@@ -11,7 +11,7 @@
     <url>https://github.com/mingyang66/spring-parent</url>
     <!--模块聚合-->
     <modules>
-        <module>emily-spring-boot-common</module>
+        <module>oceansky-commons</module>
         <module>emily-spring-boot-logback</module>
         <module>emily-spring-boot-core</module>
         <module>emily-spring-boot-redis</module>

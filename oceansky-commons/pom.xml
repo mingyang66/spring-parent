@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.mingyang66</groupId>
-    <artifactId>emily-spring-boot-common</artifactId>
+    <artifactId>oceansky-commons</artifactId>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>

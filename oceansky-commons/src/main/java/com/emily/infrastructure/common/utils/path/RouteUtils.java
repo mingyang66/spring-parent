@@ -16,14 +16,32 @@ import java.util.List;
  * @Description: 读取路由配置文件---20201126废弃
  * @Date: 2019/11/13 13:39
  * @Version: 1.0
+ * <p>
+ * 路由配置文件地址
+ * <p>
+ * 读取路由配置文件
+ * <p>
+ * 新增路由
+ * <p>
+ * 新增路由,以文件的方式
+ * <p>
+ * 删除路由
+ * <p>
+ * 判定是否有符合条件的路由
+ * 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ * @param route
+ * @return
  *//*
 
 @Deprecated
 public class RouteUtils {
     */
 /**
-     * 路由配置文件地址
-     *//*
+ * 路由配置文件地址
+ *//*
 
     private static final String filePath = "route.txt";
     public static List<String> list;
@@ -35,8 +53,8 @@ public class RouteUtils {
 
     */
 /**
-     * 读取路由配置文件
-     *//*
+ * 读取路由配置文件
+ *//*
 
     public static List<String> getList() {
         return list;
@@ -44,8 +62,8 @@ public class RouteUtils {
 
     */
 /**
-     * 新增路由
-     *//*
+ * 新增路由
+ *//*
 
     public static void addRoute(String... routes) {
         if (ObjectUtils.isEmpty(routes) || routes.length == 0) {
@@ -60,8 +78,8 @@ public class RouteUtils {
 
     */
 /**
-     * 新增路由,以文件的方式
-     *//*
+ * 新增路由,以文件的方式
+ *//*
 
     public static void addRoute(File file) {
         if (ObjectUtils.isEmpty(file) || !file.exists()) {
@@ -72,8 +90,8 @@ public class RouteUtils {
 
     */
 /**
-     * 删除路由
-     *//*
+ * 删除路由
+ *//*
 
     public static void removeRoute(String... routes) {
         if (ObjectUtils.isEmpty(routes) || routes.length == 0) {
@@ -84,15 +102,15 @@ public class RouteUtils {
 
     */
 /**
-     * 判定是否有符合条件的路由
-     * 支持ant表达式
-     * ?:匹配单个字符
-     * *:匹配0或多个字符
-     * **:匹配0或多个目录
-     *
-     * @param route
-     * @return
-     *//*
+ * 判定是否有符合条件的路由
+ * 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ *
+ * @param route
+ * @return
+ *//*
 
     public static boolean match(String route) {
         if (list.contains(route)) {

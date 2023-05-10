@@ -11,6 +11,30 @@ import java.util.*;
  * @program: spring-parent
  * @description: 路径判断是否符合规则
  * @create: 2020/11/26
+ * <p>
+ * 判定给定的路径是否符合条件
+ * 支持 * 号匹配所有
+ * 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ * @param path
+ * @return 判定URL是否以指定的前缀开头
+ * @param prefix 前缀
+ * @param path   URL
+ * @return 判定给定的路径是否全部符合条件
+ * 支持 * 号匹配所有
+ * 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ * @param path
+ * @return Ant 表达式匹配类
+ * @param path 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ * @return
  *//*
 
 public class PathMatcher {
@@ -23,16 +47,16 @@ public class PathMatcher {
 
     */
 /**
-     * 判定给定的路径是否符合条件
-     * 支持 * 号匹配所有
-     * 支持ant表达式
-     * ?:匹配单个字符
-     * *:匹配0或多个字符
-     * **:匹配0或多个目录
-     *
-     * @param path
-     * @return
-     *//*
+ * 判定给定的路径是否符合条件
+ * 支持 * 号匹配所有
+ * 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ *
+ * @param path
+ * @return
+ *//*
 
     public boolean match(String path) {
         return pathPatterns.matchesAll || pathPatterns.matches(path);
@@ -40,12 +64,12 @@ public class PathMatcher {
 
     */
 /**
-     * 判定URL是否以指定的前缀开头
-     *
-     * @param prefix 前缀
-     * @param path   URL
-     * @return
-     *//*
+ * 判定URL是否以指定的前缀开头
+ *
+ * @param prefix 前缀
+ * @param path   URL
+ * @return
+ *//*
 
     public boolean matchStart(String prefix, String path) {
         if (StringUtils.isEmpty(path)) {
@@ -56,16 +80,16 @@ public class PathMatcher {
 
     */
 /**
-     * 判定给定的路径是否全部符合条件
-     * 支持 * 号匹配所有
-     * 支持ant表达式
-     * ?:匹配单个字符
-     * *:匹配0或多个字符
-     * **:匹配0或多个目录
-     *
-     * @param path
-     * @return
-     *//*
+ * 判定给定的路径是否全部符合条件
+ * 支持 * 号匹配所有
+ * 支持ant表达式
+ * ?:匹配单个字符
+ * *:匹配0或多个字符
+ * **:匹配0或多个目录
+ *
+ * @param path
+ * @return
+ *//*
 
     public boolean matchAll(String... path) {
         if (pathPatterns.matchesAll) {
@@ -82,8 +106,8 @@ public class PathMatcher {
     private static class PathPatterns {
         */
 /**
-         * Ant 表达式匹配类
-         *//*
+ * Ant 表达式匹配类
+ *//*
 
         private final AntPathMatcher matcher = new AntPathMatcher();
 
@@ -116,12 +140,12 @@ public class PathMatcher {
 
         */
 /**
-         * @param path 支持ant表达式
-         *             ?:匹配单个字符
-         *             *:匹配0或多个字符
-         *             **:匹配0或多个目录
-         * @return
-         *//*
+ * @param path 支持ant表达式
+ *             ?:匹配单个字符
+ *             *:匹配0或多个字符
+ *             **:匹配0或多个目录
+ * @return
+ *//*
 
         boolean antMatches(String path) {
             for (Iterator<String> it = this.paths.iterator(); it.hasNext(); ) {

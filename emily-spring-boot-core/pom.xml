@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-common</artifactId>
+            <artifactId>oceansky-commons</artifactId>
             <version>4.3.0.4</version>
         </dependency>
         <dependency>

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.cache.LRUCachePool;
-import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.json.JsonUtils;
 
 /**
  * @Description :  lru测试
@@ -16,7 +16,7 @@ public class LRUTest {
             if (i == 5) {
                 pool.get("key2");
             }
-            System.out.println(JSONUtils.toJSONString(pool.getAll()));
+            System.out.println(JsonUtils.toJSONString(pool.getAll()));
             System.out.println(pool.getSize());
 
         }

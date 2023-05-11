@@ -12,6 +12,7 @@
     <!--模块聚合-->
     <modules>
         <module>oceansky-commons</module>
+        <module>oceansky-json</module>
         <module>emily-spring-boot-logback</module>
         <module>emily-spring-boot-core</module>
         <module>emily-spring-boot-redis</module>
@@ -31,16 +32,13 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
-        <spring.cloud.version>3.1.2</spring.cloud.version>
-        <spring.consul.version>3.1.2</spring.consul.version>
-        <spring.mybatis.version>2.3.0</spring.mybatis.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.lang.version>3.12.0</commons.lang.version>
-        <alibaba.druid.version>1.2.16</alibaba.druid.version>
         <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <xml.bind>2.3.1</xml.bind>
+        <jackson.databind.version>2.13.5</jackson.databind.version>
     </properties>
 
     <developers>
@@ -55,6 +53,16 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.databind.version}</version>
+            </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
@@ -72,11 +80,6 @@
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${alibaba.druid.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${alibaba.ttl.version}</version>
             </dependency>
@@ -89,32 +92,6 @@
                 <groupId>com.github.stuxuhai</groupId>
                 <artifactId>jpinyin</artifactId>
                 <version>${jpinyin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${spring.mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-config</artifactId>
-                <version>${spring.consul.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-                <version>${spring.consul.version}</version>
-            </dependency>
-            <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-bootstrap</artifactId>
-                <version>${spring.cloud.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${spring.cloud.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

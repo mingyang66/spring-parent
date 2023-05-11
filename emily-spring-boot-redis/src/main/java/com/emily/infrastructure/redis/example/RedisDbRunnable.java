@@ -1,8 +1,8 @@
 package com.emily.infrastructure.redis.example;
 
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.example.entity.RedisIndicator;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class RedisDbRunnable implements Runnable {
             try {
                 redisDbProperties.getConfig().forEach((key, value) -> {
                     Properties properties = redisConnection.info();
-                    logger.info(JSONUtils.toJSONPrettyString(properties));
+                    logger.info(JsonUtils.toJSONPrettyString(properties));
                     logger.info(RedisIndicator.toString(properties));
                 });
             } catch (Exception exception) {

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.mainTest;
 
-import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 
@@ -16,7 +16,7 @@ public class SensitiveTest {
         request.setPassword("123456");
         request.setFieldKey("email");
         request.setFieldValue("1383612596@qq.com");
-        System.out.println(JSONUtils.toJSONPrettyString(SensitiveUtils.acquire(request)));
+        System.out.println(JsonUtils.toJSONPrettyString(SensitiveUtils.acquire(request)));
 
     }
 }

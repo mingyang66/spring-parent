@@ -7,11 +7,11 @@ import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -74,7 +74,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //请求参数
             builder.getRequestParams().put(AttributeInfo.PARAMS, RequestHelper.getMethodArgs(invocation));
             //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据

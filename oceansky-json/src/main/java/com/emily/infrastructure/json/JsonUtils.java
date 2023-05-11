@@ -1,8 +1,5 @@
-package com.emily.infrastructure.common.object;
+package com.emily.infrastructure.json;
 
-import com.emily.infrastructure.common.date.DatePatternType;
-import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -10,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,10 +20,10 @@ import java.util.Objects;
  * @ProjectName: spring-parent
  * @Version: 1.0
  */
-@SuppressWarnings("all")
-public class JSONUtils {
+public class JsonUtils {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
+    public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     static {
         //对象的所有字段全部序列化
@@ -35,7 +31,7 @@ public class JSONUtils {
         //取消默认转换timestamps
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DatePatternType.YYYY_MM_DD_HH_MM_SS.getPattern()));
+        objectMapper.setDateFormat(new SimpleDateFormat(DATE_PATTERN));
         //忽略空Bean转json的错误
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         //忽略，在json字符串中存在但是在java对象中不存在的属性
@@ -72,7 +68,7 @@ public class JSONUtils {
             objectMapper.setSerializationInclusion(include);
             return objectMapper.writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON序列化处理异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -104,7 +100,7 @@ public class JSONUtils {
             objectMapper.setSerializationInclusion(include);
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON序列化处理异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -116,11 +112,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(file, responseType);
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonParseException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -132,11 +128,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(jsonString, responseType);
         } catch (JsonParseException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -147,12 +143,12 @@ public class JSONUtils {
      * map.put(12, "gg");
      * map.put(34, "sd");
      * list.add(map);
-     * List<Map<Integer, String>> list1 = toJavaBean(JSONUtils.toJSONString(list), ArrayList.class, HashMap.class);
+     * List<Map<Integer, String>> list1 = toJavaBean(JsonUtils.toJSONString(list), ArrayList.class, HashMap.class);
      * 示例2：
      * Map<Integer, String> map = Maps.newHashMap();
      * map.put(12, "gg");
      * map.put(34, "sd");
-     * Map<Integer, String> map1 = toJavaBean(JSONUtils.toJSONString(map), HashMap.class, Integer.class, String.class);
+     * Map<Integer, String> map1 = toJavaBean(JsonUtils.toJSONString(map), HashMap.class, Integer.class, String.class);
      *
      * @param jsonString       JSON字符串
      * @param parametrized     数据类型最外层class或者泛型实际的class, 如List<Map<String, Integer>>的List.class 或者Map<String, Integer>中的Map.class
@@ -164,11 +160,11 @@ public class JSONUtils {
             JavaType javaType = javaType(parametrized, parameterClasses);
             return objectMapper.readValue(jsonString, javaType);
         } catch (JsonParseException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -177,9 +173,9 @@ public class JSONUtils {
      * 示例：
      * Map<String, List<Integer>> map = Maps.newHashMap();
      * ObjectMapper mapper = new ObjectMapper();
-     * JavaType javaType = JSONUtils.javaType(List.class, Integer.class);
-     * JavaType javaType1 = JSONUtils.javaType(HashMap.class, String.class, javaType.getRawClass());
-     * Map<String, List<Integer>> result = JSONUtils.toJavaBean(JSONUtils.toJSONString(map), javaType1);
+     * JavaType javaType = JsonUtils.javaType(List.class, Integer.class);
+     * JavaType javaType1 = JsonUtils.javaType(HashMap.class, String.class, javaType.getRawClass());
+     * Map<String, List<Integer>> result = JsonUtils.toJavaBean(JsonUtils.toJSONString(map), javaType1);
      *
      * @param jsonString json字符串
      * @param javaType   java数据类型 objectMapper.getTypeFactory().constructParametricType(parametrized, parameterClasses)
@@ -190,21 +186,21 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(jsonString, javaType);
         } catch (JsonParseException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
     /**
      * 将json字符串反序列化为指定的数据类型
      * 示例：
-     * List<Map<Long, Map<Integer, Integer>>> data2 = JSONUtils.toJavaBean(jsonString, new TypeReference<List<Map<Long, Map<Integer, Integer>>>>() {});
+     * List<Map<Long, Map<Integer, Integer>>> data2 = JsonUtils.toJavaBean(jsonString, new TypeReference<List<Map<Long, Map<Integer, Integer>>>>() {});
      *
      * @param jsonString json字符串
-     * @param var2       TypeReference引用
+     * @param typeReference       TypeReference引用
      * @param <T>        转换的实际类型
      * @return 目标数据类型
      */
@@ -212,11 +208,11 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(jsonString, typeReference);
         } catch (JsonParseException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -247,11 +243,11 @@ public class JSONUtils {
         try {
             objectMapper.writeValue(file, o);
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonGenerationException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -263,11 +259,11 @@ public class JSONUtils {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, o);
         } catch (JsonMappingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON转换对应关系异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (JsonGenerationException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "JSON字符串转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "IO异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -284,7 +280,7 @@ public class JSONUtils {
         try {
             return objectMapper.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "对象转换为字节数组异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -299,7 +295,7 @@ public class JSONUtils {
         try {
             return objectMapper.readValue(src, responseType);
         } catch (Exception e) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "从输入流中读取数据对象异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -311,13 +307,13 @@ public class JSONUtils {
      * @param <T>
      */
     public static <T> T toObject(byte[] bytes, Class<T> responseType) {
-        if (ArrayUtils.isEmpty(bytes)) {
+        if (bytes == null) {
             return null;
         }
         try {
             return objectMapper.readValue(bytes, responseType);
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "数据转换为对象异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
     }
 
@@ -331,7 +327,7 @@ public class JSONUtils {
         try {
             objectMapper.writeValue(outputStream, value);
         } catch (IOException e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), "转换异常，" + e);
+            throw new IllegalArgumentException("非法数据");
         }
 
     }
@@ -349,7 +345,7 @@ public class JSONUtils {
             return null;
         }
         try {
-            return JSONUtils.toJavaBean(toJSONString(obj), responseType);
+            return toJavaBean(toJSONString(obj), responseType);
         } catch (Exception exception) {
             return responseType.cast(obj);
         }

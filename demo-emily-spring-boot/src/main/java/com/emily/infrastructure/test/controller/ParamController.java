@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveType;
 import com.emily.infrastructure.test.po.Job;
@@ -34,13 +34,13 @@ public class ParamController {
 
     @PostMapping("postList")
     public int postList(@RequestBody List<User> list) {
-        System.out.println(JSONUtils.toJSONPrettyString(list));
+        System.out.println(JsonUtils.toJSONPrettyString(list));
         return 0;
     }
 
     @PostMapping("postArray")
     public int postList(@RequestBody User[] list) {
-        System.out.println(JSONUtils.toJSONPrettyString(list));
+        System.out.println(JsonUtils.toJSONPrettyString(list));
         return 0;
     }
 

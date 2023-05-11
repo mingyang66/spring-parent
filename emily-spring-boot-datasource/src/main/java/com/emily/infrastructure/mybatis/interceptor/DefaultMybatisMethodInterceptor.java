@@ -4,11 +4,11 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {
-                logger.info(JSONUtils.toJSONString(builder.build()));
+                logger.info(JsonUtils.toJSONString(builder.build()));
             });
         }
     }

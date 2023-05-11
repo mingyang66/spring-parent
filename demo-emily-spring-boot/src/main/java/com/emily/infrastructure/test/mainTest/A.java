@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.date.DatePatternType;
-import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.google.common.collect.Sets;
@@ -58,7 +58,7 @@ public class A {
             }
         }
         try {
-            Map dataMap = JSONUtils.toJavaBean(JSONUtils.toJSONString(o), Map.class);
+            Map dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(o), Map.class);
             Arrays.asList(field).stream().forEach(f -> {
                 if (dataMap.containsKey(f)) {
                     dataMap.put(f, "----");

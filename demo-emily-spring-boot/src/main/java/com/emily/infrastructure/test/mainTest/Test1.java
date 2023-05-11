@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.mainTest;
 
-import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
@@ -46,7 +46,7 @@ public class Test1 {
         user.setJob(job);
 
         User user1 = DeSensitiveUtils.acquire(user);
-        System.out.println(JSONUtils.toJSONPrettyString(user1));
+        System.out.println(JsonUtils.toJSONPrettyString(user1));
         //Converter.
         //ConversionService
 

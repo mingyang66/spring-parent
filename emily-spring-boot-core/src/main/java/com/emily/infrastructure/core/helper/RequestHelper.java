@@ -3,12 +3,12 @@ package com.emily.infrastructure.core.helper;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
-import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.DataMaskUtils;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
+import com.emily.infrastructure.json.JsonUtils;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -110,7 +110,7 @@ public class RequestHelper {
      */
     public static Object getHttpClientResponseBody(byte[] body) {
         try {
-            return JSONUtils.toObject(body, Object.class);
+            return JsonUtils.toObject(body, Object.class);
         } catch (Exception e) {
             return IoUtils.toString(body, CharsetInfo.UTF_8);
         }
@@ -131,7 +131,7 @@ public class RequestHelper {
      */
     protected static Map byteArgToMap(byte[] params) {
         try {
-            return JSONUtils.toObject(params, Map.class);
+            return JsonUtils.toObject(params, Map.class);
         } catch (Exception e) {
             return strToMap(IoUtils.toString(params, CharsetInfo.UTF_8));
         }
@@ -164,7 +164,7 @@ public class RequestHelper {
     protected static Object toObject(String param) {
         Assert.notNull(param, "非法参数");
         if (param.startsWith(CharacterInfo.LEFT_SQ)) {
-            return JSONUtils.toJavaBean(param, List.class);
+            return JsonUtils.toJavaBean(param, List.class);
         }
         return param;
     }

@@ -3,7 +3,7 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.entity.BaseResponseBuilder;
-import com.emily.infrastructure.common.object.JSONUtils;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
@@ -34,7 +34,7 @@ public class SensitiveController {
     @JsonSerialize
     public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) throws IllegalAccessException {
         List<JsonRequest> S = DeSensitiveUtils.acquire(request);
-        System.out.println(JSONUtils.toJSONPrettyString(S));
+        System.out.println(JsonUtils.toJSONPrettyString(S));
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
         response.setUsername("条消息");

@@ -9,12 +9,12 @@ import com.emily.infrastructure.common.exception.BasicException;
 import com.emily.infrastructure.common.exception.HttpStatusType;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.common.i18n.I18nUtils;
-import com.emily.infrastructure.common.object.JSONUtils;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -103,7 +103,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //时间
                     .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
             //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JSONUtils.toJSONString(builder.build())));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
             //移除线程上下文数据
             ThreadContextHolder.unbind(true);
             //设置耗时
@@ -122,7 +122,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         int status = ((ResponseEntity) result).getStatusCodeValue();
         if (status == HttpStatus.NOT_FOUND.value()) {
             Object resultBody = ((ResponseEntity) result).getBody();
-            Map<String, Object> dataMap = JSONUtils.toJavaBean(JSONUtils.toJSONString(resultBody), Map.class);
+            Map<String, Object> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(resultBody), Map.class);
             builder.url(dataMap.get("path").toString())
                     .status(status)
                     .message(dataMap.get("error").toString());

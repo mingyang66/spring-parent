@@ -8,7 +8,7 @@ package com.emily.infrastructure.i18n;
  */
 public class I18nNodeManager<T> {
 
-    private I18nNode<T> root = new I18nNode<T>();
+    private final I18nNode<T> root = new I18nNode<T>();
 
     public I18nNodeManager() {
         super();
@@ -19,10 +19,10 @@ public class I18nNodeManager<T> {
             return;
         }
         I18nNode<T> p = root;
-        for (int i = 0; i < w.length; i++) {
-            I18nNode<T> n = p.getChildren().get(w[i]);
+        for (char c : w) {
+            I18nNode<T> n = p.getChildren().get(c);
             if (n == null) {
-                n = p.addChild(w[i]);
+                n = p.addChild(c);
             }
             p = n;
         }
@@ -47,7 +47,7 @@ public class I18nNodeManager<T> {
      * @return 匹配到的字符节点
      */
     public I18nNode<T> match(char[] sen, int offset, int len) {
-        I18nNode<T> ret = null;
+        I18nNode<T> result = null;
         I18nNode<T> node = root;
         for (int i = offset; i < len; i++) {
             node = node.getChildren().get(sen[i]);
@@ -55,10 +55,10 @@ public class I18nNodeManager<T> {
                 break;
             }
             if (node.isLeaf()) {
-                ret = node;
+                result = node;
             }
         }
-        return ret;
+        return result;
     }
 
 }

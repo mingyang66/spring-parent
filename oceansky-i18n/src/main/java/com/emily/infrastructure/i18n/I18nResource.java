@@ -52,6 +52,7 @@ public class I18nResource {
      * @return 字典对象
      */
     public static I18nDictionary loadDictionary(String classpath, boolean reverse) {
+        //单字语言映射
         Map<Character, Character> languageMap = new ConcurrentHashMap<>(8192);
         I18nNodeManager<String> i18nNodeManager = new I18nNodeManager<>();
         int maxLen = 2;

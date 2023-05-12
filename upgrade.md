@@ -8,7 +8,9 @@ Bug Fixes
 3. 添加BaseLogger的建造器BaseLoggerBuilder类，替换SDK中所有基于BaseLogger构建对象的方法；
 4. 新增图形验证码组件，核心工具类CaptchaUtils、Captcha、CaptchaBuilder、CaptchaType;
 5. DateUtils工具类重构，DateFormatType枚举类重命名为DatePatternType;
-6. 
+6. 新增简繁体组件oceansky-i18n SDK;
+7. 将emily-spring-boot-common组件更改为oceansky-commons,变更为完全纯java版本；
+8. 新增oceansky-json组件SDK;
 -----
 基础库发布4.2.0
 Bug Fixes

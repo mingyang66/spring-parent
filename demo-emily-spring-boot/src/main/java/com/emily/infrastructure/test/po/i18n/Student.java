@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.po.i18n;
 
-import com.emily.infrastructure.language.convert.ApiI18n;
-import com.emily.infrastructure.language.convert.ApiI18nProperty;
+import com.emily.infrastructure.language.convert.JsonI18n;
+import com.emily.infrastructure.language.convert.JsonI18nField;
 import com.google.common.collect.Maps;
 
 import java.util.List;
@@ -12,17 +12,17 @@ import java.util.Map;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/4/17 3:34 PM
  */
-@ApiI18n
+@JsonI18n
 public class Student extends People {
-    @ApiI18nProperty
+    @JsonI18nField
     private String name;
-    @ApiI18nProperty
+    @JsonI18nField
     private int age;
-    @ApiI18nProperty
+    @JsonI18nField
     private List<String> like;
-    @ApiI18nProperty
+    @JsonI18nField
     private Map<String, String> data = Maps.newHashMap();
-    @ApiI18nProperty
+    @JsonI18nField
     private String[] s = {"红薯", "电影"};
 
     public String[] getS() {

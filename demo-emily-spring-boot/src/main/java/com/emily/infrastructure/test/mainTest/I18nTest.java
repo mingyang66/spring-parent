@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.language.convert.I18nUtils;
+import com.emily.infrastructure.language.convert.I18nConvertHelper;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.language.convert.LanguageType;
 import com.emily.infrastructure.test.po.i18n.Student;
@@ -33,7 +33,7 @@ public class I18nTest {
         teacher.studentMap.put("testMap2", student);
         teacher.students[1] = student;
         System.out.println(JsonUtils.toJSONString(teacher));
-        System.out.println(JsonUtils.toJSONString(I18nUtils.acquire(teacher, LanguageType.EN_US)));
+        System.out.println(JsonUtils.toJSONString(I18nConvertHelper.acquire(teacher, LanguageType.EN_US)));
         System.out.println(JsonUtils.toJSONString(teacher));
     }
 }

@@ -13,7 +13,7 @@ import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.language.convert.I18nUtils;
+import com.emily.infrastructure.language.convert.I18nConvertHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.aopalliance.intercept.MethodInvocation;
@@ -70,7 +70,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 //设置响应结果
                 builder.body(SensitiveUtils.acquire(response));
             }
-            return I18nUtils.acquire(response, ThreadContextHolder.current().getLanguageType());
+            return I18nConvertHelper.acquire(response, ThreadContextHolder.current().getLanguageType());
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;

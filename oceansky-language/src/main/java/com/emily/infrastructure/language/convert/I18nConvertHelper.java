@@ -14,7 +14,7 @@ import java.util.Objects;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/4/15 5:42 PM
  */
-public class I18nUtils {
+public class I18nConvertHelper {
 
     /**
      * 对实体类进行多语言翻译
@@ -42,7 +42,7 @@ public class I18nUtils {
                     acquire(v, languageType);
                 }
             }
-        } else if (entity.getClass().isAnnotationPresent(ApiI18n.class)) {
+        } else if (entity.getClass().isAnnotationPresent(JsonI18n.class)) {
             doSetField(entity, languageType);
         }
         return entity;
@@ -88,7 +88,7 @@ public class I18nUtils {
      * @Description 对字符串进行多语言支持
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
-        if (field.isAnnotationPresent(ApiI18nProperty.class)) {
+        if (field.isAnnotationPresent(JsonI18nField.class)) {
             field.set(entity, doGetProperty((String) value, languageType));
         }
     }
@@ -109,7 +109,7 @@ public class I18nUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(ApiI18nProperty.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(JsonI18nField.class)) {
                 list = (list == null) ? Lists.newArrayList() : list;
                 list.add(doGetProperty((String) v, languageType));
             } else {
@@ -137,7 +137,7 @@ public class I18nUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(ApiI18nProperty.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(JsonI18nField.class)) {
                 dMap.put(key, doGetProperty((String) v, languageType));
             } else {
                 acquire(value, languageType);
@@ -163,7 +163,7 @@ public class I18nUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(ApiI18nProperty.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(JsonI18nField.class)) {
                 arrays[i] = doGetProperty((String) v, languageType);
             } else {
                 acquire(value, languageType);

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.po.i18n;
 
 
-import com.emily.infrastructure.language.convert.ApiI18nProperty;
+import com.emily.infrastructure.language.convert.JsonI18nField;
 
 /**
  * @Description :  人
@@ -9,7 +9,7 @@ import com.emily.infrastructure.language.convert.ApiI18nProperty;
  * @CreateDate :  Created in 2023/4/19 3:43 PM
  */
 public class People {
-    @ApiI18nProperty
+    @JsonI18nField
     private String food;
 
     public String getFood() {

@@ -1,6 +1,7 @@
 package com.emily.infrastructure.i18n.test;
 
 import com.emily.infrastructure.i18n.I18nChineseHelper;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -23,5 +24,15 @@ public class I18nChineseHelperTest {
     public void test1() {
         System.out.println(I18nChineseHelper.convertToTraditionalChinese("标志"));
         System.out.println(I18nChineseHelper.convertToTraditionalChinese("〇"));
+    }
+
+    @Test
+    public void testChinese() {
+        Assert.assertTrue(I18nChineseHelper.isChinese('〇'));
+    }
+
+    @Test
+    public void testContainsChinese() {
+        Assert.assertTrue(I18nChineseHelper.containsChinese("emily田晓霞girl"));
     }
 }

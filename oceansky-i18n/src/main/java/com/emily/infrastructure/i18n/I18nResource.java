@@ -38,7 +38,7 @@ public class I18nResource {
                 dictionary = I18nResource.loadDictionary("/dic/t2s.txt", false);
                 break;
             default:
-                throw new IllegalArgumentException("暂不支持转化方式" + i18nType);
+                throw new IllegalArgumentException("非法数据");
         }
         dictionaryMap.put(i18nType.getCode(), dictionary);
         return dictionary;

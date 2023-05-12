@@ -35,4 +35,33 @@ public class I18nChineseHelperTest {
     public void testContainsChinese() {
         Assert.assertTrue(I18nChineseHelper.containsChinese("emily田晓霞girl"));
     }
+    @Test
+    public void test粉刺(){
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("讠"),"訁");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("饣"),"飠");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("纟"),"糹");
+
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("捕获"),"捕獲");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("获得"),"獲得");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("收获"),"收穫");
+
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("尽管"),"儘管");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("尽力"),"盡力");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("前功尽弃"),"前功盡棄");
+
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("紫苏"),"紫蘇");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("江苏"),"江蘇");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("苏维埃"),"蘇維埃");
+        Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("蘇維埃"),"苏维埃");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("苏醒"),"甦醒");
+
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("只言片语"),"隻言片語");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("一只"),"一隻");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("只不过"),"只不過");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("只有"),"只有");
+
+        // 发挥火眼金睛发现不同
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("特别"),"特別");
+        Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("别扭"),"彆扭");
+    }
 }

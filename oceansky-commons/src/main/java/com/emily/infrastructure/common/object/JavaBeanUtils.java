@@ -199,10 +199,7 @@ public class JavaBeanUtils {
      */
     public static boolean isModifierFinal(final Field field) {
         int modifiers = field.getModifiers();
-        if (checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers)) {
-            return true;
-        }
-        return false;
+        return checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers);
     }
 
     protected static boolean checkModifierNativeSyncStrict(int modifiers) {

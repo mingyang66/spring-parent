@@ -23,7 +23,7 @@
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
         <module>emily-spring-boot-parent</module>
-        <module>oceansky-i18n</module>
+        <module>oceansky-language</module>
     </modules>
 
     <properties>
@@ -37,7 +37,6 @@
         <commons.lang.version>3.12.0</commons.lang.version>
         <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
         <google.guava.version>31.1-jre</google.guava.version>
-        <jpinyin.version>1.1.8</jpinyin.version>
         <xml.bind>2.3.1</xml.bind>
         <jackson.databind.version>2.13.5</jackson.databind.version>
     </properties>
@@ -88,11 +87,6 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${google.guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.stuxuhai</groupId>
-                <artifactId>jpinyin</artifactId>
-                <version>${jpinyin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

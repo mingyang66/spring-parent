@@ -2,9 +2,9 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
-import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.entity.BaseResponseBuilder;
-import com.emily.infrastructure.common.exception.HttpStatusType;
+import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.core.entity.BaseResponseBuilder;
+import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.helper.MatchUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.core.MethodParameter;

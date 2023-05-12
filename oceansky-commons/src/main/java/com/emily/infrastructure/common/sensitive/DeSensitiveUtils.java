@@ -1,6 +1,5 @@
 package com.emily.infrastructure.common.sensitive;
 
-import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -38,8 +37,6 @@ public class DeSensitiveUtils {
                     acquire(v);
                 }
             }
-        } else if (entity instanceof BaseResponse) {
-            acquire(((BaseResponse) entity).getData());
         } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
             doSetField(entity);
         }

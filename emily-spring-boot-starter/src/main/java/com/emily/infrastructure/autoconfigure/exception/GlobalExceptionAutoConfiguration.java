@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception;
 
 import com.emily.infrastructure.autoconfigure.exception.handler.DefaultGlobalExceptionHandler;
 import com.emily.infrastructure.autoconfigure.exception.handler.GlobalExceptionCustomizer;
-import com.emily.infrastructure.common.i18n.LanguageMap;
+import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;

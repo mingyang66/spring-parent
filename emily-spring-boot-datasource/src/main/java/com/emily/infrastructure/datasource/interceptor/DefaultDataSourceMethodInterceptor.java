@@ -1,7 +1,7 @@
 package com.emily.infrastructure.datasource.interceptor;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;

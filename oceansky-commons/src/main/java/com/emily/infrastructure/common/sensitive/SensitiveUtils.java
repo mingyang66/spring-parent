@@ -1,6 +1,5 @@
 package com.emily.infrastructure.common.sensitive;
 
-import com.emily.infrastructure.common.entity.BaseResponse;
 import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -49,9 +48,6 @@ public class SensitiveUtils {
                     }
                     return t;
                 }
-            } else if (entity instanceof BaseResponse) {
-                BaseResponse<Object> response = (BaseResponse<Object>) entity;
-                return new BaseResponse<>(response.getStatus(), response.getMessage(), acquire(response.getData()), response.getSpentTime());
             } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
                 return doSetField(entity);
             }

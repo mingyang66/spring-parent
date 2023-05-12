@@ -1,8 +1,5 @@
 package com.emily.infrastructure.common.object;
 
-import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.exception.HttpStatusType;
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.google.common.collect.Maps;
 
 import java.beans.BeanInfo;
@@ -51,8 +48,8 @@ public class JavaBeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
+        return null;
     }
 
     /**
@@ -78,8 +75,8 @@ public class JavaBeanUtils {
             }
             return map;
         } catch (Exception e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
+        return null;
     }
 
     /**
@@ -104,8 +101,8 @@ public class JavaBeanUtils {
             }
             return bean;
         } catch (Exception e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
+        return null;
     }
 
     /**
@@ -128,8 +125,8 @@ public class JavaBeanUtils {
             }
             return beanClass;
         } catch (Exception e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_DATA.getStatus(), PrintExceptionInfo.printErrorInfo(e));
         }
+        return null;
     }
 
     /**
@@ -153,10 +150,9 @@ public class JavaBeanUtils {
 
             return (T) ois.readObject();
         } catch (NotSerializableException exception) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "未实现序列化接口");
         } catch (Exception exception) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), "深度拷贝数据异常");
         }
+        return null;
     }
 
     /**

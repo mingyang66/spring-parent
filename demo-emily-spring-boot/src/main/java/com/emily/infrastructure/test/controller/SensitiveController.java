@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.common.date.DatePatternType;
-import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.entity.BaseResponseBuilder;
+import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;

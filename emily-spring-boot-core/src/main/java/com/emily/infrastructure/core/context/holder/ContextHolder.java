@@ -2,10 +2,10 @@ package com.emily.infrastructure.core.context.holder;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.common.i18n.LanguageType;
 import com.emily.infrastructure.common.object.UUIDUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import com.emily.infrastructure.language.convert.LanguageType;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;

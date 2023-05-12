@@ -1,10 +1,10 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
-import com.emily.infrastructure.common.entity.BaseResponse;
-import com.emily.infrastructure.common.entity.BaseResponseBuilder;
-import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.exception.HttpStatusType;
+import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.core.entity.BaseResponseBuilder;
+import com.emily.infrastructure.core.exception.BasicException;
+import com.emily.infrastructure.core.exception.HttpStatusType;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

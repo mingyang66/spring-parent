@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis.example;
 
-import com.emily.infrastructure.common.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;

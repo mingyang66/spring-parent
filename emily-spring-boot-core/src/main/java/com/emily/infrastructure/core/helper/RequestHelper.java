@@ -6,11 +6,11 @@ import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.common.sensitive.DataMaskUtils;
 import com.emily.infrastructure.common.sensitive.JsonSimField;
 import com.emily.infrastructure.common.sensitive.SensitiveUtils;
-import com.emily.infrastructure.common.utils.io.IoUtils;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
 import com.emily.infrastructure.json.JsonUtils;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.HttpHeaders;
@@ -112,7 +112,7 @@ public class RequestHelper {
         try {
             return JsonUtils.toObject(body, Object.class);
         } catch (Exception e) {
-            return IoUtils.toString(body, CharsetInfo.UTF_8);
+            return IOUtils.toString(body, CharsetInfo.UTF_8);
         }
     }
 
@@ -133,7 +133,7 @@ public class RequestHelper {
         try {
             return JsonUtils.toObject(params, Map.class);
         } catch (Exception e) {
-            return strToMap(IoUtils.toString(params, CharsetInfo.UTF_8));
+            return strToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
         }
     }
 

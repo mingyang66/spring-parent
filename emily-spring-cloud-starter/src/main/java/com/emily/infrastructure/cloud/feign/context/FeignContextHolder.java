@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign.context;
 
 
-import com.emily.infrastructure.common.entity.BaseLoggerBuilder;
+import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import org.springframework.core.NamedThreadLocal;
 
 /**

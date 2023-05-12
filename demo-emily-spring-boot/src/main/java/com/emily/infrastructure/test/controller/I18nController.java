@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.i18n.LanguageMap;
+import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.test.po.i18n.Student;
 import com.emily.infrastructure.test.po.i18n.Teacher;
 import com.google.common.collect.Maps;

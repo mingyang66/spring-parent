@@ -1,8 +1,6 @@
 package com.emily.infrastructure.common.utils.calculation;
 
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.common.exception.BasicException;
-import com.emily.infrastructure.common.exception.HttpStatusType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -24,14 +22,10 @@ public class NumberUtils {
      * @return
      */
     public static String rounding(String number, int scale) {
-        try {
-            if (scale < 0) {
-                scale = 0;
-            }
-            return new BigDecimal(number).setScale(scale, RoundingMode.HALF_UP).toString();
-        } catch (Exception e) {
-            throw new BasicException(HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), "数据计算异常");
+        if (scale < 0) {
+            scale = 0;
         }
+        return new BigDecimal(number).setScale(scale, RoundingMode.HALF_UP).toString();
     }
 
     /**

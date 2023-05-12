@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>spring-parent</artifactId>
-    <version>4.3.0.4</version>
+    <version>4.3.1</version>
     <name>EmilyInfrastructure</name>
     <description>EmilyInfrastructure基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>

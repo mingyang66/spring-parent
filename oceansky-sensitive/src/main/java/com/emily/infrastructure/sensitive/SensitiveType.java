@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.sensitive;
+package com.emily.infrastructure.sensitive;
 
 /**
  * @Description :  脱敏类型

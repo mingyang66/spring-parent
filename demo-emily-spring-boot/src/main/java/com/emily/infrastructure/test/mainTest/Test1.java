@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
+import com.emily.infrastructure.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
 

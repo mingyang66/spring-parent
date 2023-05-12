@@ -12,6 +12,8 @@ Bug Fixes
 7. 将emily-spring-boot-common组件更改为oceansky-commons,变更为完全纯java版本；
 8. 新增oceansky-json组件SDK;
 9. 抽离commons包中的简繁体翻译SDK;
+10. 抽离出oceansky-sensitive脱敏SDK;
+11. 
 -----
 基础库发布4.2.0
 Bug Fixes

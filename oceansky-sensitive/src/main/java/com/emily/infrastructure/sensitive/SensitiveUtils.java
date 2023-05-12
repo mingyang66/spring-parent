@@ -1,6 +1,5 @@
-package com.emily.infrastructure.common.sensitive;
+package com.emily.infrastructure.sensitive;
 
-import com.emily.infrastructure.common.object.JavaBeanUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.reflect.FieldUtils;

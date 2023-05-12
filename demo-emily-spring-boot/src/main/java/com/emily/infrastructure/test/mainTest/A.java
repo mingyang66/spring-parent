@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.common.sensitive.SensitiveUtils;
+import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;

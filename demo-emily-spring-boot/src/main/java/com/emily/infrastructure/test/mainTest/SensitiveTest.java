@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.mainTest;
 
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.common.sensitive.SensitiveUtils;
+import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 
 /**

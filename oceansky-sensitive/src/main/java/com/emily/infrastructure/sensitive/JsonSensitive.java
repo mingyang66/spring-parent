@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.sensitive;
+package com.emily.infrastructure.sensitive;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

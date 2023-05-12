@@ -24,6 +24,7 @@
         <module>demo-emily-spring-boot</module>
         <module>emily-spring-boot-parent</module>
         <module>oceansky-language</module>
+        <module>oceansky-sensitive</module>
     </modules>
 
     <properties>

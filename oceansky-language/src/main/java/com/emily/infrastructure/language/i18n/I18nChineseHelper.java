@@ -6,8 +6,8 @@ package com.emily.infrastructure.language.i18n;
  * @author Emily
  */
 public class I18nChineseHelper {
-    public static final I18nDictionary s2tContainer = I18nResource.getDictionary(I18nType.SIMPLE_TO_TRADITIONAL);
-    public static final I18nDictionary t2sContainer = I18nResource.getDictionary(I18nType.TRADITIONAL_TO_SIMPLE);
+    public static final I18nDictionary S2T_Container = I18nResource.getDictionary(I18nType.SIMPLE_TO_TRADITIONAL);
+    public static final I18nDictionary T2S_Container = I18nResource.getDictionary(I18nType.TRADITIONAL_TO_SIMPLE);
     /**
      * 汉字正则表达式
      */
@@ -16,21 +16,21 @@ public class I18nChineseHelper {
     /**
      * 简体转繁体
      *
-     * @return
+     * @return 繁体字符串
      */
     public static String convertToTraditionalChinese(String content) {
-        return s2tContainer.convert(content);
+        return S2T_Container.convert(content);
     }
 
 
     /**
      * 繁体转简体
      *
-     * @param content
-     * @return
+     * @param content 简体字符串
+     * @return 翻译后繁体字符串
      */
     public static String convertToSimplifiedChinese(String content) {
-        return t2sContainer.convert(content);
+        return T2S_Container.convert(content);
     }
 
     /**

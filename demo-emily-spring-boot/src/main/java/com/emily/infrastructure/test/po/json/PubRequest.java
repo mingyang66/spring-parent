@@ -1,8 +1,9 @@
 package com.emily.infrastructure.test.po.json;
 
-import com.emily.infrastructure.common.sensitive.JsonSensitive;
-import com.emily.infrastructure.common.sensitive.JsonSimField;
-import com.emily.infrastructure.common.sensitive.SensitiveType;
+
+import com.emily.infrastructure.sensitive.JsonSensitive;
+import com.emily.infrastructure.sensitive.JsonSimField;
+import com.emily.infrastructure.sensitive.SensitiveType;
 
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,5 @@
-package com.emily.infrastructure.common.sensitive;
+package com.emily.infrastructure.sensitive;
 
-import com.emily.infrastructure.common.constant.AttributeInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -12,6 +11,8 @@ import java.math.RoundingMode;
  * @CreateDate :  Created in 2023/4/21 1:51 PM
  */
 public class DataMaskUtils {
+    public static final String PLACE_HOLDER = "--隐藏--";
+
     /**
      * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
      */
@@ -153,7 +154,7 @@ public class DataMaskUtils {
         } else if (SensitiveType.USERNAME.equals(type)) {
             return DataMaskUtils.chineseName(value);
         } else {
-            return AttributeInfo.PLACE_HOLDER;
+            return PLACE_HOLDER;
         }
     }
 }

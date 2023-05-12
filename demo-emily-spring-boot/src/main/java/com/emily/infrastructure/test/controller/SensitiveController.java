@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.date.DatePatternType;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.common.sensitive.DeSensitiveUtils;
+import com.emily.infrastructure.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 import com.emily.infrastructure.test.po.json.JsonResponse;

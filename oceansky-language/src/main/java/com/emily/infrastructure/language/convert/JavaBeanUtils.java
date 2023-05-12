@@ -51,14 +51,11 @@ class JavaBeanUtils {
      * 指定的修饰符是否序列化
      *
      * @param field 字段反射类型
-     * @return
+     * @return true -是 false-否
      */
     public static boolean isModifierFinal(final Field field) {
         int modifiers = field.getModifiers();
-        if (checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers)) {
-            return true;
-        }
-        return false;
+        return checkModifierFinalStaticTransVol(modifiers) || checkModifierNativeSyncStrict(modifiers);
     }
 
     protected static boolean checkModifierNativeSyncStrict(int modifiers) {

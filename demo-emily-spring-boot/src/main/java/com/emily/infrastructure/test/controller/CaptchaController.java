@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.common.captcha.Captcha;
-import com.emily.infrastructure.common.captcha.CaptchaUtils;
+import com.emily.infrastructure.captcha.Captcha;
+import com.emily.infrastructure.captcha.CaptchaUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

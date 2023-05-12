@@ -13,7 +13,8 @@ Bug Fixes
 8. 新增oceansky-json组件SDK;
 9. 抽离commons包中的简繁体翻译SDK;
 10. 抽离出oceansky-sensitive脱敏SDK;
-11. 
+11. 抽离出oceansky-captcha图形验证码SDK;
+
 -----
 基础库发布4.2.0
 Bug Fixes

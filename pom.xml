@@ -25,6 +25,7 @@
         <module>emily-spring-boot-parent</module>
         <module>oceansky-language</module>
         <module>oceansky-sensitive</module>
+        <module>oceansky-captcha</module>
     </modules>
 
     <properties>

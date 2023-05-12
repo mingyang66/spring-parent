@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.captcha;
+package com.emily.infrastructure.captcha;
 
 /**
  * @Description :  验证码类型

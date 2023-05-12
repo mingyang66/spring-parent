@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.captcha;
+package com.emily.infrastructure.captcha;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;

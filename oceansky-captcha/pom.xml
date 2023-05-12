@@ -11,6 +11,7 @@
     <packaging>jar</packaging>
 
     <name>oceansky-captcha</name>
+    <description>Java图形验证码生成SDK</description>
     <url>http://maven.apache.org</url>
 
     <properties>

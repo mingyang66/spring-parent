@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>oceansky-language</artifactId>
-
+    <description>Java简体繁体想换转换，实体类多语言支持SDK</description>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

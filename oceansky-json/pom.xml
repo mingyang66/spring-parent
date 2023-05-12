@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>oceansky-json</artifactId>
-
+    <description>Java基于jackson封装的json序列化和反序列化SDK</description>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

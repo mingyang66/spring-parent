@@ -9,8 +9,8 @@
 
     <artifactId>oceansky-sensitive</artifactId>
     <packaging>jar</packaging>
-
     <name>oceansky-sensitive</name>
+    <description>Java实体类脱敏SDK</description>
     <url>http://maven.apache.org</url>
 
     <properties>

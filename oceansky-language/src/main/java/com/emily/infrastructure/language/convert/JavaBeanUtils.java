@@ -1,6 +1,5 @@
-package com.emily.infrastructure.language.utils;
+package com.emily.infrastructure.language.convert;
 
-import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import java.util.Objects;
  * @author: Emily
  * @create: 2021/05/28
  */
-public class JavaBeanUtils {
+class JavaBeanUtils {
     /**
      * 判断是否是无需解析的值对象
      *

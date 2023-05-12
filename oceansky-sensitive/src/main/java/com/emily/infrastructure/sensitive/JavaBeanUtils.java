@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author: Emily
  * @create: 2021/05/28
  */
-public class JavaBeanUtils {
+class JavaBeanUtils {
     /**
      * 判断是否是无需解析的值对象
      *

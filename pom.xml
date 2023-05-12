@@ -23,6 +23,7 @@
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
         <module>emily-spring-boot-parent</module>
+        <module>oceansky-i18n</module>
     </modules>
 
     <properties>

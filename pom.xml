@@ -11,8 +11,6 @@
     <url>https://github.com/mingyang66/spring-parent</url>
     <!--模块聚合-->
     <modules>
-        <module>oceansky-commons</module>
-        <module>oceansky-json</module>
         <module>emily-spring-boot-logback</module>
         <module>emily-spring-boot-core</module>
         <module>emily-spring-boot-redis</module>
@@ -23,6 +21,8 @@
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
         <module>emily-spring-boot-parent</module>
+        <module>oceansky-commons</module>
+        <module>oceansky-json</module>
         <module>oceansky-language</module>
         <module>oceansky-sensitive</module>
         <module>oceansky-captcha</module>

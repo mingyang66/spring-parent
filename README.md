@@ -4,6 +4,37 @@
 
 ### maven父pom和子pom的版本号批量修改
 
+#### 开源pom依赖引用
+
+```java
+<!--Java图形验证码SDK-->
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-captcha</artifactId>
+  <version>4.3.1</version>
+</dependency>
+<!--Java简繁体转换、多语言支持SDK-->  
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-language</artifactId>
+  <version>4.3.0.4</version>
+</dependency>
+<!--Java实体类脱敏SDK-->  
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-sensitive</artifactId>
+  <version>4.3.1</version>
+</dependency>  
+<!--Java基于jackson的序列化反序列化SDK-->  
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-json</artifactId>
+  <version>4.3.1</version>
+</dependency>  
+```
+
+
+
 ##### 1 设置新的版本号
 
 ```

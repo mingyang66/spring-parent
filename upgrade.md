@@ -2,7 +2,8 @@
 -----
 基础库发布4.3.2
 Bug Fixes
-1. 
+1. 去除jaxb-api的pom引用，删除Md5Utils工具类；
+2. 
 -----
 基础库发布4.3.1
 Bug Fixes

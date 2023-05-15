@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
@@ -594,4 +595,25 @@ public class DateUtils {
         return lastDayOfYear.getDayOfYear() - localDateTime.getDayOfYear();
     }
 
+    /**
+     * 将LocalDateTime转为Date
+     *
+     * @param localDateTime 日期类型
+     * @return Date日期对象
+     */
+    public static Date asDate(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime, "非法数据");
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * 将LocalDateTime转为Date
+     *
+     * @param localDate 日期类型
+     * @return Date日期对象
+     */
+    public static Date asDate(LocalDate localDate) {
+        Objects.requireNonNull(localDate, "非法数据");
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
 }

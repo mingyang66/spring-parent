@@ -5,7 +5,9 @@ Bug Fixes
 1. 去除jaxb-api的pom引用，删除Md5Utils工具类；
 2. 单元测试junit-test依赖应用更改为dependencyManagement;
 3. 异常捕获多语言支持，并对多语言组件做优化调整；
-4. 
+4. pom.xml文件新增url标签指定github地址；
+5. DateUtils工具类新增两个asDate方法，将LocalDateTime、LocalDate转换为Date对象；
+6. 
 -----
 基础库发布4.3.1
 Bug Fixes

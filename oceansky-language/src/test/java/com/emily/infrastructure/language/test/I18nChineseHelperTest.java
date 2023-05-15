@@ -66,9 +66,4 @@ public class I18nChineseHelperTest {
         Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("別"), "别");
         Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("别扭"), "彆扭");
     }
-
-    @Test
-    public void judge1() {
-        Assert.assertEquals("特别", "特別");
-    }
 }

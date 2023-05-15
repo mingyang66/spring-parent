@@ -564,7 +564,7 @@ public class DateUtils {
     /**
      * 获取今天剩余的时间
      *
-     * @return
+     * @return 今天剩余的时间
      */
     public static Duration getRemainTimeOfDay() {
         return getRemainTimeOfDay(LocalDateTime.now());
@@ -574,7 +574,7 @@ public class DateUtils {
      * 计算指定时间所在天剩余的时间
      *
      * @param localDateTime 指定日期
-     * @return
+     * @return 指定时间所在天剩余的时间
      */
     public static Duration getRemainTimeOfDay(LocalDateTime localDateTime) {
         if (localDateTime == null) {
@@ -587,9 +587,9 @@ public class DateUtils {
     /**
      * 获取今日所在月份剩余的天数
      *
-     * @return
+     * @return 当前月份剩余的天数
      */
-    public static long getRemainDayOfMonth() {
+    public static int getRemainDayOfMonth() {
         return getRemainDayOfMonth(LocalDateTime.now());
     }
 
@@ -597,9 +597,9 @@ public class DateUtils {
      * 获取日期所在月份剩余的天数
      *
      * @param localDateTime 日期
-     * @return
+     * @return 指定日期所在月份剩余天数
      */
-    public static long getRemainDayOfMonth(LocalDateTime localDateTime) {
+    public static int getRemainDayOfMonth(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("非法参数");
         }
@@ -610,9 +610,9 @@ public class DateUtils {
     /**
      * 获取今年还剩的天数
      *
-     * @return
+     * @return 今年剩余的天数
      */
-    public static long getRemainDayOfYear() {
+    public static int getRemainDayOfYear() {
         return getRemainDayOfYear(LocalDateTime.now());
     }
 
@@ -620,9 +620,9 @@ public class DateUtils {
      * 获取指定日期所在年份剩余的天数
      *
      * @param localDateTime 日期
-     * @return
+     * @return 指定日期所在年剩余天数
      */
-    public static long getRemainDayOfYear(LocalDateTime localDateTime) {
+    public static int getRemainDayOfYear(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("非法参数");
         }

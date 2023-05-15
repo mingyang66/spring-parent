@@ -380,9 +380,15 @@ public class DateUtils {
      * @return
      */
     public static Long strToNum(String str, String sourcePattern, String targetPattern) {
-        Objects.requireNonNull(str, "非法数据");
-        Objects.requireNonNull(sourcePattern, "非法数据");
-        Objects.requireNonNull(targetPattern, "非法数据");
+        if (str == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (sourcePattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (targetPattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         Date date = parse(str, sourcePattern);
         return Long.valueOf(DateFormatUtils.format(date, targetPattern));
     }
@@ -396,9 +402,15 @@ public class DateUtils {
      * @return
      */
     public static String numToStr(Long date, String sourcePattern, String targetPattern) {
-        Objects.requireNonNull(date, "非法数据");
-        Objects.requireNonNull(sourcePattern, "非法数据");
-        Objects.requireNonNull(targetPattern, "非法数据");
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (sourcePattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (targetPattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         Date dateStr = parse(String.valueOf(date), sourcePattern);
         return DateFormatUtils.format(dateStr, targetPattern);
     }
@@ -411,8 +423,12 @@ public class DateUtils {
      * @return
      */
     public static Duration between(LocalDateTime startDate, LocalDateTime endDate) {
-        Objects.requireNonNull(startDate, "非法数据");
-        Objects.requireNonNull(endDate, "非法数据");
+        if (startDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (endDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return Duration.between(startDate, endDate);
     }
 
@@ -423,7 +439,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDate localDate) {
-        Objects.requireNonNull(localDate, "非法数据");
+        if (localDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return localDate.with(TemporalAdjusters.firstDayOfMonth());
     }
 
@@ -435,7 +453,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDate localDate, int month) {
-        Objects.requireNonNull(localDate, "非法数据");
+        if (localDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         if (month == 0) {
             return localDate.with(TemporalAdjusters.firstDayOfMonth());
         } else if (month < 0) {
@@ -452,7 +472,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
     }
 
@@ -464,7 +486,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
         } else if (month < 0) {
@@ -481,7 +505,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDate localDate) {
-        Objects.requireNonNull(localDate, "非法数据");
+        if (localDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return localDate.with(TemporalAdjusters.lastDayOfMonth());
     }
 
@@ -493,7 +519,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDate localDate, int month) {
-        Objects.requireNonNull(localDate, "非法数据");
+        if (localDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         if (month == 0) {
             return localDate.with(TemporalAdjusters.lastDayOfMonth());
         } else if (month < 0) {
@@ -510,7 +538,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
     }
 
@@ -522,7 +552,9 @@ public class DateUtils {
      * @return
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
         } else if (month < 0) {
@@ -548,7 +580,9 @@ public class DateUtils {
      * @return
      */
     public static Duration getRemainTimeOfDay(LocalDateTime localDateTime) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         LocalDateTime lastTime = localDateTime.plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         return Duration.between(localDateTime, lastTime);
     }
@@ -569,7 +603,9 @@ public class DateUtils {
      * @return
      */
     public static long getRemainDayOfMonth(LocalDateTime localDateTime) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         LocalDateTime lastDayOfMonth = localDateTime.with(TemporalAdjusters.lastDayOfMonth());
         return lastDayOfMonth.getDayOfMonth() - localDateTime.getDayOfMonth();
     }
@@ -590,7 +626,9 @@ public class DateUtils {
      * @return
      */
     public static long getRemainDayOfYear(LocalDateTime localDateTime) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         LocalDateTime lastDayOfYear = localDateTime.with(TemporalAdjusters.lastDayOfYear());
         return lastDayOfYear.getDayOfYear() - localDateTime.getDayOfYear();
     }
@@ -602,7 +640,9 @@ public class DateUtils {
      * @return Date日期对象
      */
     public static Date asDate(LocalDateTime localDateTime) {
-        Objects.requireNonNull(localDateTime, "非法数据");
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -613,7 +653,9 @@ public class DateUtils {
      * @return Date日期对象
      */
     public static Date asDate(LocalDate localDate) {
-        Objects.requireNonNull(localDate, "非法数据");
+        if (localDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 }

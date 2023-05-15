@@ -19,20 +19,20 @@ import java.util.Date;
 public class DateUtilsTest {
 
     @Test
-    public void asDate() {
+    public void toDate() {
         Assert.assertNotNull(DateUtils.toDate(LocalDateTime.now()));
         Assert.assertNotNull(DateUtils.toDate(LocalDate.now()));
     }
 
     @Test
-    public void asLocalDateXX() {
+    public void toLocalDateXX() {
         Assert.assertNotNull(DateUtils.toLocalDateTime(new Date()));
         Assert.assertNotNull(DateUtils.toLocalDate(new Date()));
         Assert.assertNotNull(DateUtils.toLocalTime(new Date()));
     }
 
     @Test
-    public void asLocalDateXXX() {
+    public void toLocalDateXXX() {
         LocalDate localDate = LocalDate.parse("2023-05-14 00:00:00", DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS.getPattern()));
         LocalDateTime localDateTime = DateUtils.toLocalDateTime(localDate);
         String str = localDateTime.format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS.getPattern()));
@@ -58,5 +58,17 @@ public class DateUtilsTest {
         LocalTime localTime = DateUtils.parseLocalTime("12:56:58", DatePatternType.HH_MM_SS.getPattern());
         String str = localTime.format(DateTimeFormatter.ofPattern(DatePatternType.HH_MM_SS.getPattern()));
         Assert.assertEquals("12:56:58", str);
+    }
+
+    @Test
+    public void getDay() {
+        Date date = DateUtils.parse("2023-05-14 12:58:56", DatePatternType.YYYY_MM_DD_HH_MM_SS.getPattern());
+        Assert.assertEquals(DateUtils.getYear(date), 2023);
+        Assert.assertEquals(DateUtils.getMonth(date), 5);
+        Assert.assertEquals(DateUtils.getDay(date), 14);
+        Assert.assertEquals(DateUtils.getHour(date), 12);
+        Assert.assertEquals(DateUtils.getMinute(date), 58);
+        Assert.assertEquals(DateUtils.getSecond(date), 56);
+
     }
 }

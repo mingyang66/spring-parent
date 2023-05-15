@@ -53,8 +53,7 @@ public class DateUtils {
      */
     public static Date parse(String str, String pattern) {
         try {
-            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
-            return date;
+            return org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
         } catch (ParseException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -180,84 +179,84 @@ public class DateUtils {
     }
 
     /**
-     * 获取指定日期的年份
+     * 获取指定日期的年份，如：2023-05-14 12:23:25  取2023
      *
-     * @param date
-     * @return
+     * @param date 日期
+     * @return 年份
      */
-    public static long getYear(Date date) {
+    public static int getYear(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
     }
 
     /**
-     * 获取指定日期的月份
+     * 获取指定日期的月份，如：2023-05-14 12:23:25  取5
      *
-     * @param date
-     * @return
+     * @param date 日期对象
+     * @return 月份
      */
-    public static long getMonth(Date date) {
+    public static int getMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.MONTH) + 1;
     }
 
     /**
-     * 获取指定日期的日
+     * 获取指定日期是所在月份的第几天，如：2023-05-14 12:23:25  取14
      *
-     * @param date
-     * @return
+     * @param date 日期对象
+     * @return 月份的第几天
      */
-    public static long getDay(Date date) {
+    public static int getDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
-     * 获取指定日期的小时
+     * 获取指定日期所在天的第几小时，如：2023-05-14 12:23:25  取12
      *
-     * @param date
-     * @return
+     * @param date 日期对象
+     * @return 日期的小时数
      */
-    public static long getHour(Date date) {
+    public static int getHour(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.HOUR_OF_DAY);
     }
 
     /**
-     * 获取指定日期的分钟
+     * 获取指定日期的分钟位，如：2023-05-14 12:23:25  取23
      *
-     * @param date
-     * @return
+     * @param date 日期对象
+     * @return 日期对应的分钟数
      */
-    public static long getMinute(Date date) {
+    public static int getMinute(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.MINUTE);
     }
 
     /**
-     * 获取指定日期的秒数
+     * 获取指定日期的秒数，如：2023-05-14 12:23:25  取25
      *
-     * @param date
-     * @return
+     * @param date 日期对象
+     * @return 日期对应的秒数
      */
-    public static long getSecond(Date date) {
+    public static int getSecond(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return calendar.get(Calendar.MINUTE);
+        return calendar.get(Calendar.SECOND);
     }
 
     /**
      * 获取指定日期是一周中的第几天，从周日开始计算
      *
-     * @param date
-     * @return
+     * @param date 日期对象
+     * @return 一周的第几天
      */
-    public static long getDayOfWeek(Date date) {
+    public static int getDayOfWeek(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.DAY_OF_WEEK);
@@ -269,7 +268,7 @@ public class DateUtils {
      * @param date
      * @return
      */
-    public static long getWeekOfMonth(Date date) {
+    public static int getWeekOfMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.WEEK_OF_MONTH);

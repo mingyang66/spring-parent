@@ -61,6 +61,57 @@ public class DateUtils {
     }
 
     /**
+     * 将字符串日期转换为LocalDateTime对象
+     *
+     * @param str     字符串日期
+     * @param pattern 格式
+     * @return 日期对象
+     */
+    public static LocalDateTime parseLocalDateTime(String str, String pattern) {
+        if (str == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return LocalDateTime.parse(str, DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 将字符串日期转换为LocalDate对象
+     *
+     * @param str     字符串日期
+     * @param pattern 格式
+     * @return 日期对象
+     */
+    public static LocalDate parseLocalDate(String str, String pattern) {
+        if (str == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return LocalDate.parse(str, DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 将字符串日期转换为LocalDate对象
+     *
+     * @param str     字符串日期
+     * @param pattern 格式
+     * @return 日期对象
+     */
+    public static LocalTime parseLocalTime(String str, String pattern) {
+        if (str == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
      * 判定日期是否跨年
      *
      * @param str     字符串日期
@@ -636,7 +687,7 @@ public class DateUtils {
      * @param localDateTime 日期类型
      * @return Date日期对象
      */
-    public static Date asDate(LocalDateTime localDateTime) {
+    public static Date toDate(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("非法参数");
         }
@@ -649,11 +700,24 @@ public class DateUtils {
      * @param localDate 日期类型
      * @return Date日期对象
      */
-    public static Date asDate(LocalDate localDate) {
+    public static Date toDate(LocalDate localDate) {
         if (localDate == null) {
             throw new IllegalArgumentException("非法参数");
         }
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * 将LocalDate转换为LocalDateTime
+     *
+     * @param localDate 日期对象
+     * @return LocalDateTime对象
+     */
+    public static LocalDateTime toLocalDateTime(LocalDate localDate) {
+        if (localDate == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return localDate.atStartOfDay();
     }
 
     /**
@@ -662,7 +726,7 @@ public class DateUtils {
      * @param date 日期对象
      * @return 转换后的LocalDateTime对象
      */
-    public static LocalDateTime asLocalDateTime(Date date) {
+    public static LocalDateTime toLocalDateTime(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("非法参数");
         }
@@ -675,7 +739,7 @@ public class DateUtils {
      * @param date 日期对象
      * @return 转换后的LocalDate对象
      */
-    public static LocalDate asLocalDate(Date date) {
+    public static LocalDate toLocalDate(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("非法参数");
         }
@@ -688,7 +752,7 @@ public class DateUtils {
      * @param date 日期对象
      * @return 转换后的LocalDate对象
      */
-    public static LocalTime asLocalTime(Date date) {
+    public static LocalTime toLocalTime(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("非法参数");
         }

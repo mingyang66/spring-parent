@@ -6,9 +6,10 @@ Bug Fixes
 2. 单元测试junit-test依赖应用更改为dependencyManagement;
 3. 异常捕获多语言支持，并对多语言组件做优化调整；
 4. pom.xml文件新增url标签指定github地址；
-5. DateUtils工具类新增两个asDate方法，将LocalDateTime、LocalDate转换为Date对象；
-6. DateUtils工具类新增三个方法asLocalDateTime、asLocalDate、asLocalTime;
-7. 
+5. DateUtils工具类新增两个toDate方法，将LocalDateTime、LocalDate转换为Date对象；
+6. DateUtils工具类新增三个方法toLocalDateTime、toLocalDate、toLocalTime;
+7. DateUtils工具类新增parseLocalDateTime、parseLocalDate、parseLocalTime三个将字符串转为日期对象方法；
+8. 
 -----
 基础库发布4.3.1
 Bug Fixes

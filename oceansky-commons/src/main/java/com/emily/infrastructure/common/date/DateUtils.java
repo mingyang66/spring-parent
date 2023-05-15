@@ -3,10 +3,7 @@ package com.emily.infrastructure.common.date;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
@@ -657,5 +654,44 @@ public class DateUtils {
             throw new IllegalArgumentException("非法参数");
         }
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * 将Date数据类型转换为LocalDateTime
+     *
+     * @param date 日期对象
+     * @return 转换后的LocalDateTime对象
+     */
+    public static LocalDateTime asLocalDateTime(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    /**
+     * 将Date数据类型转换为LocalDate
+     *
+     * @param date 日期对象
+     * @return 转换后的LocalDate对象
+     */
+    public static LocalDate asLocalDate(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    /**
+     * 将Date数据类型转换为LocalDate
+     *
+     * @param date 日期对象
+     * @return 转换后的LocalDate对象
+     */
+    public static LocalTime asLocalTime(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
     }
 }

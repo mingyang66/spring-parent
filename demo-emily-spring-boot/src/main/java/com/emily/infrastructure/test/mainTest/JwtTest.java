@@ -28,17 +28,17 @@ public class JwtTest {
                 // 第一步header
                 .withHeader(headers)
                 // 第二部分PayLoad
-                //  jwt唯一标识
+                //  jwt唯一标识 jti
                 .withJWTId(UUIDUtils.randomSimpleUUID())
-                // 签发者
+                // 签发者 iss
                 .withIssuer("server")
-                // 签发时间
+                // 签发时间 iat
                 .withIssuedAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
                 .withClaim("username", "田晓霞")
                 .withClaim("password", "123456")
-                // 过期时间
+                // 过期时间 exp
                 .withExpiresAt(LocalDateTime.now().plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant())
-                // 前面算法
+                // header:typ、alg 算法
                 .sign(Algorithm.HMAC256("zheshimiyao"));
         System.out.println(jwtToken);
 

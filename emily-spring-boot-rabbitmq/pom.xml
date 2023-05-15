@@ -12,6 +12,8 @@
 
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-rabbitmq</artifactId>
+    <url>https://github.com/mingyang66/spring-parent</url>
+
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

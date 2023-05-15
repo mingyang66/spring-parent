@@ -12,6 +12,8 @@
     <groupId>io.github.mingyang66</groupId>
     <artifactId>oceansky-commons</artifactId>
     <description>Java常用工具类SDK</description>
+    <url>https://github.com/mingyang66/spring-parent</url>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>

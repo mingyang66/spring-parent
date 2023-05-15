@@ -11,6 +11,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>emily-spring-boot-logback</artifactId>
+    <url>https://github.com/mingyang66/spring-parent</url>
+
     <dependencies>
         <!--logback日志依赖-->
         <dependency>

@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>emily-spring-boot-parent</artifactId>
+    <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

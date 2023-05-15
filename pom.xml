@@ -40,6 +40,7 @@
         <google.guava.version>31.1-jre</google.guava.version>
         <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
         <jackson.databind.version>2.13.5</jackson.databind.version>
+        <junit.test.version>4.13.2</junit.test.version>
     </properties>
 
     <developers>
@@ -83,6 +84,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${google.guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.test.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

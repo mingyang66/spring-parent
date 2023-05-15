@@ -1,8 +1,5 @@
 package com.emily.infrastructure.core.entity;
 
-
-import com.emily.infrastructure.language.convert.LanguageMap;
-
 import java.io.Serializable;
 
 /**
@@ -24,7 +21,7 @@ public class BaseResponse<T> implements Serializable {
 
     public BaseResponse(int status, String message) {
         this.status = status;
-        this.message = LanguageMap.acquire(message);
+        this.message = message;
     }
 
     public BaseResponse(int status, String message, T data) {

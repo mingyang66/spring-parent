@@ -59,17 +59,6 @@ public class LanguageMap {
     /**
      * 获取简体中文对应的语言
      */
-    public static String acquire(String simple) {
-        String language = LanguageType.ZH_CN.getCode();
-        //if (RequestUtils.isServlet()) {
-        // language = RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE);
-        // }
-        return acquire(simple, language);
-    }
-
-    /**
-     * 获取简体中文对应的语言
-     */
     public static String acquire(String simple, String language) {
         LanguageType languageType = LanguageType.getByCode(language);
         return acquire(simple, languageType);

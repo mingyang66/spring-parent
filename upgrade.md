@@ -4,7 +4,8 @@
 Bug Fixes
 1. 去除jaxb-api的pom引用，删除Md5Utils工具类；
 2. 单元测试junit-test依赖应用更改为dependencyManagement;
-3. 
+3. 异常捕获多语言支持，并对多语言组件做优化调整；
+4. 
 -----
 基础库发布4.3.1
 Bug Fixes

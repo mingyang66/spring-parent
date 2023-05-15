@@ -1,8 +1,6 @@
 package com.emily.infrastructure.core.exception;
 
 
-import com.emily.infrastructure.language.convert.LanguageMap;
-
 /**
  * @author Emily
  * @Description: 业务异常
@@ -28,13 +26,13 @@ public class BasicException extends RuntimeException {
     public BasicException(HttpStatusType httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
-        this.message = LanguageMap.acquire(httpStatus.getMessage());
+        this.message = httpStatus.getMessage();
     }
 
     public BasicException(int status, String message) {
         super(message);
         this.status = status;
-        this.message = LanguageMap.acquire(message);
+        this.message = message;
     }
 
     public BasicException(int status, String errorMessage, boolean error) {
@@ -56,7 +54,7 @@ public class BasicException extends RuntimeException {
     }
 
     public void setMessage(String message) {
-        this.message = LanguageMap.acquire(message);
+        this.message = message;
     }
 
     public boolean isError() {

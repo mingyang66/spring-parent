@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 public class RsaPemCreatorHelperTest {
     @Test
     public void test() throws NoSuchAlgorithmException, IOException {
-        String DIRECTORY = "oceansky-jwt/src/main/resources/rsa/";
+        String DIRECTORY = "src/main/resources/rsa/";
         RsaPemCreatorHelper.create(DIRECTORY);
     }
 }

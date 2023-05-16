@@ -46,8 +46,8 @@ public class RsaPemCreatorHelper {
              PemWriter pemWriter = new PemWriter(writer);
              FileWriter pubFileWriter = new FileWriter(String.join("", directory, PUBLIC_KEY_FILE));
              PemWriter pubPemWriter = new PemWriter(pubFileWriter)) {
-             pemWriter.writeObject(new PemObject(privateKeyPrefix, keyPair.getPrivate().getEncoded()));
-             pubPemWriter.writeObject(new PemObject(publicKeyPrefix, keyPair.getPublic().getEncoded()));
+            pemWriter.writeObject(new PemObject(privateKeyPrefix, keyPair.getPrivate().getEncoded()));
+            pubPemWriter.writeObject(new PemObject(publicKeyPrefix, keyPair.getPublic().getEncoded()));
         } catch (IOException e) {
             e.printStackTrace();
         }

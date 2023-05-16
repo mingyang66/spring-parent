@@ -36,12 +36,14 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
-        <commons.io.version>2.11.0</commons.io.version>
-        <commons.lang3.version>3.12.0</commons.lang3.version>
-        <google.guava.version>31.1-jre</google.guava.version>
-        <alibaba.ttl.version>2.14.2</alibaba.ttl.version>
-        <jackson.databind.version>2.13.5</jackson.databind.version>
-        <junit.test.version>4.13.2</junit.test.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <google-guava.version>31.1-jre</google-guava.version>
+        <alibaba-ttl.version>2.14.2</alibaba-ttl.version>
+        <jackson-databind.version>2.13.5</jackson-databind.version>
+        <junit-test.version>4.13.2</junit-test.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
+        <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
     </properties>
 
     <developers>
@@ -59,37 +61,47 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.databind.version}</version>
+                <version>${jackson-databind.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.databind.version}</version>
+                <version>${jackson-databind.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${commons.lang3.version}</version>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
-                <version>${alibaba.ttl.version}</version>
+                <version>${alibaba-ttl.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${google.guava.version}</version>
+                <version>${google-guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit.test.version}</version>
+                <version>${junit-test.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov-jdk15on.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

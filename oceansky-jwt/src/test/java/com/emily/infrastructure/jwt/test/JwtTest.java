@@ -6,12 +6,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.emily.infrastructure.jwt.JwtHelper;
 import com.emily.infrastructure.jwt.RsaAlgorithmHelper;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -99,7 +97,7 @@ public class JwtTest {
         Assert.assertEquals(jwt.getClaim("password").asString(), "不喜欢");
         Assert.assertEquals(jwt.getHeaderClaim("ip").asString(), "123.12.123.25.12");
         Assert.assertEquals(jwt.getIssuer(), "顾养民");
-        Assert.assertEquals(jwt.getAudience().get(0),"田海民");
-        Assert.assertEquals(jwt.getAudience().get(1),"孙玉婷");
+        Assert.assertEquals(jwt.getAudience().get(0), "田海民");
+        Assert.assertEquals(jwt.getAudience().get(1), "孙玉婷");
     }
 }

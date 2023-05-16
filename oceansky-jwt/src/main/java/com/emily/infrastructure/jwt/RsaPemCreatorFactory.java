@@ -25,8 +25,8 @@ public class RsaPemCreatorFactory {
      * 私钥文件名
      */
     private static final String PRIVATE_KEY_FILE = "privateKey.pem";
-    private static final String publicKeyPrefix = "RSA PUBLIC KEY";
-    private static final String privateKeyPrefix = "RSA PRIVATE KEY";
+    private static final String publicKeyPrefix = "PUBLIC KEY";
+    private static final String privateKeyPrefix = "PRIVATE KEY";
     /**
      * 算法
      */

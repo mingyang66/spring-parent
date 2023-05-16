@@ -26,39 +26,39 @@ import java.util.UUID;
  * @CreateDate :  Created in 2023/5/14 1:52 PM
  */
 public class JwtTest {
-    public static final String publicKey1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjnc5RxOVewpwzvb131oz\n" +
-            "I4120riYDjebhyd0eYyPvN2VSNg8z43tqznvj+lG7Xn6Ij9qU7ydxN3GDK6xRdjS\n" +
-            "HW2Tvu47Vm+ZpeNfuuhhBHlQ0zrDbh/fuLP/WH7a/ovjvf/Q3vqk/bakreT2Mm5I\n" +
-            "Rtns53+yNDobvlnLXYgLQrwTFg2Ytarmv1wpzsaqIdW0p8GkLNvCF8ZONqvEb3Cb\n" +
-            "O30jb5xEx3d2xhGGVobg6BpmK7OxY6dr5OCs9yk4RdVM5GG7lan8aa6kwWDyO9jB\n" +
-            "ygb4r3+31Cr5xuz3ojdApAImeC709j6aX/zosm26+sAFK8sGhWMYVJBu9rKKIiyh\n" +
-            "dQIDAQAB";
-    public static final String privateKey1 = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCOdzlHE5V7CnDO\n" +
-            "9vXfWjMjjXbSuJgON5uHJ3R5jI+83ZVI2DzPje2rOe+P6UbtefoiP2pTvJ3E3cYM\n" +
-            "rrFF2NIdbZO+7jtWb5ml41+66GEEeVDTOsNuH9+4s/9Yftr+i+O9/9De+qT9tqSt\n" +
-            "5PYybkhG2eznf7I0Ohu+WctdiAtCvBMWDZi1qua/XCnOxqoh1bSnwaQs28IXxk42\n" +
-            "q8RvcJs7fSNvnETHd3bGEYZWhuDoGmYrs7Fjp2vk4Kz3KThF1UzkYbuVqfxprqTB\n" +
-            "YPI72MHKBvivf7fUKvnG7PeiN0CkAiZ4LvT2Pppf/Oiybbr6wAUrywaFYxhUkG72\n" +
-            "sooiLKF1AgMBAAECggEBAIlgdh8Px2jqXHV2twk1lXKHCzmPPzEWdicR6ML8w+4/\n" +
-            "TaD8w0bxeWlPaK7BJ9//azBzLjio/QnFQSEho1fTCGnQLFRErXtgCi1o3/r/8e26\n" +
-            "fjHxzFn46mbVSzkuukYS5v1kHSmnUEpHQO1eh/mBVrjblBJ3lIPANNiNBgmfEhy6\n" +
-            "hXSC9HMYvJmui0pn1oRBQMG25MwfIxhDdcRn1uJnquhN5BzFplq75BUSYB+MNu3S\n" +
-            "3jlg0vmkEMNcY+gLtxa4B771atvBgVqs4+8233Qb5LzyDj7H2n+XQ5qxwh6AmqF/\n" +
-            "wZ1eK9b9iDhpUjE6BQm2ssgDDQ79zNQsIqc+amaA4lECgYEA0NSyCIOgsDf9Otk8\n" +
-            "ghLSc85lMd3pLWC+432nIue3K/vm/KokmBN9pv27L/t7ttQsw91rNnb/X6Nvgjgs\n" +
-            "19kUlD25qZfPtKB45q51nU/A1Mwkau1lOcdTT+0CVnKqab4wQsYcekpzG/sLv8Bs\n" +
-            "PuviIMYbIqDhtAVZkIcmYX56olcCgYEArqUSnGeWfQlwtG2UQ4X2xcE8RbQ4VyTU\n" +
-            "g2a62+swCg6qLWduXHH8YGlf3DSXWPZyW24xGNWWIhmwp82mzyZqr8aKWHjqzbUo\n" +
-            "M7HyIFytrPOufrfKHhhOsrTm7pKoAhqmZxXvgcvCSxYCHVErHlqelTc1NW/UB9wy\n" +
-            "lGd5SoiW8xMCgYEAk8qDeM0W8r+dIoHNdcy2Tij6qxD+zhOS5NLvbx+IHcO31Ibh\n" +
-            "QRNCMOWPDUUwZ9K/H5rbHn+W+etjpkf1TIkgLE2G0QRUheOvzKoZKMzhjngvKdF6\n" +
-            "eyqaxozYw6+A9TcZVph4XP/FeT7xMLKQqPMtZL5vQ9GSCmJi4YsUWZk2Vx8CgYEA\n" +
-            "iLobc+91VbbKUbdoV+TNacz6zudlJHRlG+qVaA8csQMCIEHVmPJ0T1awAcn6o19t\n" +
-            "8D64mWS+ATxznSvX6F1/MNYTAWjJCvtE2hP6J3PnVHwCpJpm1mDZW/dcxHJ0rhEH\n" +
-            "LbVyqP9IwVgdl64wP7daaB+svIUsTmsJ/j10K/H7m5kCgYAjh8MI09EXKtcURjSc\n" +
-            "6SbDXInC4lZmpfky8TVfkOB7m8LYVbr+6/Ds23H1/U5wWsfSv+eL+xsOlWWV0DPa\n" +
-            "1HEzQISBrw+TfF1RZTOo1zGKTBQGsM5wJj4kpX1XH3vs+oPzSR3MqX6cFPQwbygD\n" +
-            "PCa7aPmgETjjpTFKGKvnkGj5KQ==";
+    public static final String publicKey1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkBpftIcwYL0qm0ecwdBX\n" +
+            "h0oRE2vXFgwWLJCnottOuYVIx7OLFyow9ebyMF98PBU/qEEb3tsmZu1bzpPzLsyH\n" +
+            "CG60t3Irebg+K/9Vir2WtEnqHF+2T5jWJkfRXZycbGoult449ZIdXbKIJUtYFrTf\n" +
+            "BNHS1LaWmYGhCkBFIP/81ZGTvNZriwbhgusduaZmQtwqWaBSw4vTyscaE6vTJFyL\n" +
+            "oe1N0FHVd7DKm/KMZEvQtTwuKAx/4qe3qYZR9tbcQ7Od7Dw+jCsiZmrrwI6C4r33\n" +
+            "LFByDM+Elrq0yfnzfas8AdLmPY+Ihqr9iYFX2t6hsC9A4L0YX+gHer52L6+BlhNv\n" +
+            "pwIDAQAB";
+    public static final String privateKey1 = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQGl+0hzBgvSqb\n" +
+            "R5zB0FeHShETa9cWDBYskKei2065hUjHs4sXKjD15vIwX3w8FT+oQRve2yZm7VvO\n" +
+            "k/MuzIcIbrS3cit5uD4r/1WKvZa0SeocX7ZPmNYmR9FdnJxsai6W3jj1kh1dsogl\n" +
+            "S1gWtN8E0dLUtpaZgaEKQEUg//zVkZO81muLBuGC6x25pmZC3CpZoFLDi9PKxxoT\n" +
+            "q9MkXIuh7U3QUdV3sMqb8oxkS9C1PC4oDH/ip7ephlH21txDs53sPD6MKyJmauvA\n" +
+            "joLivfcsUHIMz4SWurTJ+fN9qzwB0uY9j4iGqv2JgVfa3qGwL0DgvRhf6Ad6vnYv\n" +
+            "r4GWE2+nAgMBAAECggEASKsUIjyeV9ptFvspAM/oo8/lBo82Wubjc7vK3aSMcZ/W\n" +
+            "EObouFjNcePxtBUi2EW64UVcIakQF42Q437Wfn4jhkwVlADeDbasm5FaeOmcivRP\n" +
+            "O9nEXSVssMc8vGFSvJVbQzdzL9tsNajnYS86j9DMOmj5Uc116pllNX8tnTOaM7RB\n" +
+            "BRZYeXIqWGRpUz1cu1RyNl7AK0pCXjoRO/DoEPG+D1apgo72RUSClHavl8xuG7j0\n" +
+            "E5Ry0ARo7aUgmIUQZUjFXRJKfIrpeyicwEIoqkvFA9rYubDjzGP2NniU1yLzJVz/\n" +
+            "ymARCDFwvhc8nbvyTEQVUlZxYjgeiXH7i1wagOMleQKBgQDJgIPHGHHRE+hVO7uP\n" +
+            "wCQcIQ3o0ifWhfIN1vfHHFcVj1KTj6r3iSuxG49upE5EZ01imEBvh9M5ncuIYkqU\n" +
+            "KYhz66UL5a2qA8OiSTYN00L2ULN/eiEi6VOE0iloKDtWIyIZUHejGPr6bwAlKJ3k\n" +
+            "4PDqpOcAFn8K8X1+d+Mxhy24/QKBgQC3E7MXljuFbQ+NBygt53qARJIlc6shxbk4\n" +
+            "Z7lSb8Ib7FlEQzxAVAymO33U/MIZAMAccyfj+0+9liDZC05Ackdmt54WaNIOpKY3\n" +
+            "/fca7m6vR3R6QbzY8QU50VNzVLHyTsJ7zHHbH8oUAlRP0l8aFgwjQuUR9/TMGHeH\n" +
+            "9HfTzbGOcwKBgGMYZrY1GVQ/PBUeqSEK1zdWMib7o0fm26FexMAQ+erKb0vObcAK\n" +
+            "n4gcC6/X8f3F59LDGX1ACOre5UePPyoaOtb3XlW5gGyKKV3YL1MhQF8uVPguMbmf\n" +
+            "kclSKbblgjjcUlqsrglxsYwTpriffvcegJyEuG3comHZXWQixYKH/j5pAoGBAKjM\n" +
+            "pxIWWKb7GZ2Efc1lYpOlpcKWVbF75v1U1ZBmruikEOJZw9HkLQ2QSML6kdQP1xHk\n" +
+            "M2GHM8ywAXVdcTcGp0LUBhTPbO5HbWKu7QmN0cwW7BRVTFQSVikrEfCCpNevOq5+\n" +
+            "oHPTabTtOOOoKjuZHHPel+rrXnBYFs3p4BoPy6h1AoGATSSnCXsq2IyUMqXx8Tiq\n" +
+            "P3zEM/3loVll4T5tbnKIxFeTThKWQLwOGL+nnSZhYT6xNSr1tl82zXObLzlDiT+k\n" +
+            "Yfgomne+ivO3JqO8Os3dGFJiHWZpWRXWp812J+f/UnwZqlEXuSsS+ILd7tqNmWVI\n" +
+            "I2rXOoEPfVzVTQBvbdeyixY=";
 
     @Test
     public void test() throws InvalidKeySpecException, NoSuchAlgorithmException {

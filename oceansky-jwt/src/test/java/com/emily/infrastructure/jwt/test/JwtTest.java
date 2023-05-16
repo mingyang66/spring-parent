@@ -4,8 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.emily.infrastructure.jwt.JwtHelper;
-import com.emily.infrastructure.jwt.RsaAlgorithmHelper;
+import com.emily.infrastructure.jwt.JwtFactory;
+import com.emily.infrastructure.jwt.RsaAlgorithmFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -62,10 +62,10 @@ public class JwtTest {
 
     @Test
     public void test() throws InvalidKeySpecException, NoSuchAlgorithmException {
-        RSAPublicKey publicKey = RsaAlgorithmHelper.getPublicKey(publicKey1);
+        RSAPublicKey publicKey = RsaAlgorithmFactory.getPublicKey(publicKey1);
 
         //Security.addProvider(new BouncyCastleProvider());
-        RSAPrivateKey privateKey = RsaAlgorithmHelper.getPrivateKey(privateKey1);
+        RSAPrivateKey privateKey = RsaAlgorithmFactory.getPrivateKey(privateKey1);
         System.out.println(privateKey.getFormat());
         Map<String, Object> headers = new HashMap<>();
         headers.put("ip", "123.12.123.25.12");
@@ -89,10 +89,10 @@ public class JwtTest {
                 .withKeyId("sd")
                 //JWT过期时间 exp
                 .withExpiresAt(LocalDateTime.now().plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant());
-        String jwtToken = JwtHelper.createJwtToken(builder, Algorithm.RSA256(publicKey, privateKey));
+        String jwtToken = JwtFactory.createJwtToken(builder, Algorithm.RSA256(publicKey, privateKey));
         Assert.assertNotNull(jwtToken);
 
-        DecodedJWT jwt = JwtHelper.verifyJwtToken(jwtToken, Algorithm.RSA256(publicKey, privateKey));
+        DecodedJWT jwt = JwtFactory.verifyJwtToken(jwtToken, Algorithm.RSA256(publicKey, privateKey));
         Assert.assertEquals(jwt.getClaim("username").asString(), "田润叶");
         Assert.assertEquals(jwt.getClaim("password").asString(), "不喜欢");
         Assert.assertEquals(jwt.getHeaderClaim("ip").asString(), "123.12.123.25.12");

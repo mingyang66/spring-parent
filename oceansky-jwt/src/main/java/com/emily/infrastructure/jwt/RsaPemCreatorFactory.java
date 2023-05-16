@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/14 4:27 PM
  */
-public class RsaPemCreatorHelper {
+public class RsaPemCreatorFactory {
     /**
      * 公钥文件名
      */

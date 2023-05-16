@@ -18,7 +18,7 @@ import java.util.Base64;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/14 10:40 AM
  */
-public class RsaAlgorithmHelper {
+public class RsaAlgorithmFactory {
     public static final String N = "\n";
     public static final String R = "\r";
     public static final String ALGORITHM = "RSA";

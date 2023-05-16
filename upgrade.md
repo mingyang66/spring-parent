@@ -9,7 +9,8 @@ Bug Fixes
 5. DateUtils工具类新增两个toDate方法，将LocalDateTime、LocalDate转换为Date对象；
 6. DateUtils工具类新增三个方法toLocalDateTime、toLocalDate、toLocalTime;
 7. DateUtils工具类新增parseLocalDateTime、parseLocalDate、parseLocalTime三个将字符串转为日期对象方法；
-8. 
+8. 新增oceansky-jwt SDK模块，支持自动生成RSA公私钥，天剑获取公钥私钥方法，支持JWT使用RSA公钥和私钥加密；
+9. 
 -----
 基础库发布4.3.1
 Bug Fixes

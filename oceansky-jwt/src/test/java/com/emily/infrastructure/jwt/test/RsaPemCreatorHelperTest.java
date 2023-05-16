@@ -1,6 +1,6 @@
 package com.emily.infrastructure.jwt.test;
 
-import com.emily.infrastructure.jwt.RsaPemCreatorHelper;
+import com.emily.infrastructure.jwt.RsaPemCreatorFactory;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,6 +15,6 @@ public class RsaPemCreatorHelperTest {
     @Test
     public void test() throws NoSuchAlgorithmException, IOException {
         String DIRECTORY = "src/main/resources/rsa/";
-        RsaPemCreatorHelper.create(DIRECTORY);
+        RsaPemCreatorFactory.create(DIRECTORY);
     }
 }

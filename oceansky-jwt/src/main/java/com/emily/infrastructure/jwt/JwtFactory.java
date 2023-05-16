@@ -11,7 +11,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/14 1:23 PM
  */
-public class JwtHelper {
+public class JwtFactory {
     /**
      * 创建JWT Token字符串
      *

@@ -66,4 +66,14 @@ public class I18nChineseHelperTest {
         Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("別"), "别");
         Assert.assertEquals(I18nChineseHelper.convertToTraditionalChinese("别扭"), "彆扭");
     }
+
+    @Test
+    public void jz() {
+        Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("上市發行人可否根據購回股份的授權購回人民幣櫃台及／或港幣櫃台的證券？還是兩者都可以購回？（適用於股本證券）"),
+                "上市发行人可否根据购回股份的授权购回人民币柜台及／或港币柜台的证券？还是两者都可以购回？（适用于股本证券）");
+        Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("發行人有權自行決定"), "发行人有权自行决定");
+        Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("上市發行人可否取消其中一種幣值櫃台？"), "上市发行人可否取消其中一种币值柜台？");
+        Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("若某證券有兩個以港幣和人民幣計價、用於交易和交收的櫃台，可否自動成爲「雙櫃台」證券？"), "若某证券有两个以港币和人民币计价、用于交易和交收的柜台，可否自动成为“双柜台”证券？");
+        Assert.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("某些有港幣及人民幣櫃台的特定證券，將在雙櫃台模式推出後由交易所不時指定並公佈。"),"某些有港币及人民币柜台的特定证券，将在双柜台模式推出后由交易所不时指定并公布。");
+    }
 }

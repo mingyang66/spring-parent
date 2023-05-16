@@ -36,7 +36,7 @@ public class RsaPemCreatorFactory {
         // algorithm 指定算法为RSA
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
         // 指定密钥长度为2048
-        keyPairGenerator.initialize(2048);
+        keyPairGenerator.initialize(1024);
         // 生成密钥
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         // 文件夹不存在，则先创建

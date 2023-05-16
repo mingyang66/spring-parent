@@ -26,6 +26,7 @@
         <module>oceansky-language</module>
         <module>oceansky-sensitive</module>
         <module>oceansky-captcha</module>
+        <module>oceansky-jwt</module>
     </modules>
 
     <properties>

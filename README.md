@@ -6,7 +6,7 @@
 
 #### 开源pom依赖引用
 
-```java
+```xml
 <!--Java图形验证码SDK-->
 <dependency>
   <groupId>io.github.mingyang66</groupId>
@@ -17,7 +17,7 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-language</artifactId>
-  <version>4.3.0.4</version>
+  <version>4.3.1</version>
 </dependency>
 <!--Java实体类脱敏SDK-->  
 <dependency>
@@ -29,6 +29,12 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-json</artifactId>
+  <version>4.3.1</version>
+</dependency>  
+<!--Java基于JWT获取签名解析签名SDK-->  
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-jwt</artifactId>
   <version>4.3.1</version>
 </dependency>  
 ```

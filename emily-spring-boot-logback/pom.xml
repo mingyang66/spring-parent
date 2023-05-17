@@ -5,7 +5,7 @@
     <parent>
         <artifactId>emily-spring-boot-parent</artifactId>
         <groupId>io.github.mingyang66</groupId>
-        <version>4.3.1</version>
+        <version>4.3.2</version>
         <relativePath>../emily-spring-boot-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>

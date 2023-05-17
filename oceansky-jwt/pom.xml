@@ -6,10 +6,14 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>spring-parent</artifactId>
-        <version>4.3.1</version>
+        <version>4.3.2</version>
     </parent>
 
     <artifactId>oceansky-jwt</artifactId>
+    <packaging>jar</packaging>
+    <name>oceansky-jwt</name>
+    <description>Java基于JWT封装帮助工具类SDK</description>
+    <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

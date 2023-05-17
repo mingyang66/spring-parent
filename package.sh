@@ -1,4 +1,4 @@
-mvn versions:set -DnewVersion=4.3.1
+mvn versions:set -DnewVersion=4.3.2
 echo '修改版本号'
 mvn versions:commit
 echo '提交修改'
@@ -8,6 +8,7 @@ mvn clean deploy -pl oceansky-json
 mvn clean deploy -pl oceansky-captcha
 mvn clean deploy -pl oceansky-language
 mvn clean deploy -pl oceansky-sensitive
+mvn clean deploy -pl oceansky-jwt
 echo '#########oceansky-json打包完成...'
 mvn clean deploy -pl emily-spring-boot-parent
 echo '#########emily-spring-boot-parent打包完成...'

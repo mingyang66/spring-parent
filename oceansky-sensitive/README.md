@@ -1,3 +1,15 @@
+#### 开源pom依赖引用
+
+```xml
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-sensitive</artifactId>
+  <version>4.3.2</version>
+</dependency>
+```
+
+
+
 #### 解锁新技能《Java基于注解的脱敏实现组件SDK》
 
 > 平时开发的过程中经常会遇到对一些敏感的字段进行脱敏处理，防止信息泄漏，如：邮箱、用户名、密码等；做为一个优秀的程序员我们不应该遇到这种问题时就做特殊处理，重复做相同的工作，所以我们应该写一个基础库SDK，解决重复的问题；

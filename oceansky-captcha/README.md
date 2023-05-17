@@ -1,3 +1,15 @@
+#### 开源pom依赖引用
+
+```xml
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-captcha</artifactId>
+  <version>4.3.2</version>
+</dependency>
+```
+
+
+
 #### 解锁新技能《Java绘制2D图形验证码方法》
 
 ##### 一、常见的图形验证码有如下三种：

@@ -17,39 +17,6 @@ public class DateComputeUtils {
     /**
      * 获取指定日期的月份的第一天
      *
-     * @param localDate 日期
-     * @return 获取指定日期对应的第一天的日期对象
-     */
-    public static LocalDate firstDayOfMonth(LocalDate localDate) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        return localDate.with(TemporalAdjusters.firstDayOfMonth());
-    }
-
-    /**
-     * 获取指定日期的月份的第一天
-     *
-     * @param localDate 日期
-     * @param month     向前推 month>0 向后推<0
-     * @return
-     */
-    public static LocalDate firstDayOfMonth(LocalDate localDate, int month) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (month == 0) {
-            return localDate.with(TemporalAdjusters.firstDayOfMonth());
-        } else if (month < 0) {
-            return localDate.minusMonths(-month).with(TemporalAdjusters.firstDayOfMonth());
-        } else {
-            return localDate.plusMonths(month).with(TemporalAdjusters.firstDayOfMonth());
-        }
-    }
-
-    /**
-     * 获取指定日期的月份的第一天
-     *
      * @param localDateTime 日期
      * @return 获取指定日期对应的第一天的日期对象
      */
@@ -77,39 +44,6 @@ public class DateComputeUtils {
             return localDateTime.minusMonths(-month).with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
         } else {
             return localDateTime.plusMonths(month).with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
-        }
-    }
-
-    /**
-     * 获取指定日期的月份的最后一天
-     *
-     * @param localDate 日期
-     * @return
-     */
-    public static LocalDate lastDayOfMonth(LocalDate localDate) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        return localDate.with(TemporalAdjusters.lastDayOfMonth());
-    }
-
-    /**
-     * 获取指定日期的月份的最后一天
-     *
-     * @param localDate 日期
-     * @param month     向前推 month>0 向后推<0
-     * @return
-     */
-    public static LocalDate lastDayOfMonth(LocalDate localDate, int month) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (month == 0) {
-            return localDate.with(TemporalAdjusters.lastDayOfMonth());
-        } else if (month < 0) {
-            return localDate.minusMonths(-month).with(TemporalAdjusters.lastDayOfMonth());
-        } else {
-            return localDate.plusMonths(month).with(TemporalAdjusters.lastDayOfMonth());
         }
     }
 

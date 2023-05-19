@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.mainTest;
 
-import com.emily.infrastructure.common.date.DatePatternType;
+import com.emily.infrastructure.date.DatePatternType;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonResponse;

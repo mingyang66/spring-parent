@@ -6,7 +6,8 @@ Bug Fixes
 2. 新增DateConvertUtils日期相互转换工具类；
 3. 新增DateCompareUtils日期比大小工具类；
 4. 新增DateComputeUtils日期计算相关工具类；
-5. 
+5. 新增DateConvertUtils.toLocalDateTime(java.time.LocalDateTime, java.time.ZoneId)根据时区转换日期方法；
+6. 
 -----
 基础库发布4.3.2
 Bug Fixes

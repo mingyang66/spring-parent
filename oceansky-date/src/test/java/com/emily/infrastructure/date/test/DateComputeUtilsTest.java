@@ -1,14 +1,12 @@
 package com.emily.infrastructure.date.test;
 
 import com.emily.infrastructure.date.DateComputeUtils;
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternType;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -85,5 +83,12 @@ public class DateComputeUtilsTest {
         Duration duration = DateComputeUtils.between(LocalDateTime.now(), LocalDateTime.now().minusDays(1).minusHours(10).minusSeconds(50));
         long hour = Duration.ofHours(48).minus(duration).toHours();
         Assert.assertEquals(hour, 13);
+    }
+
+    @Test
+    public void zoneId() {
+        LocalDateTime localDateTime = LocalDateTime.of(2023, 12, 12, 12, 12, 12);
+        String s = DateConvertUtils.toLocalDateTime(localDateTime, ZoneId.of("US/Eastern")).format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_EN.getPattern()));
+        Assert.assertEquals(s, "2023/12/11 23:12:12");
     }
 }

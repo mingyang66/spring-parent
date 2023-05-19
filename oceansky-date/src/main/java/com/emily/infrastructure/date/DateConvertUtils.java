@@ -161,6 +161,28 @@ public class DateConvertUtils {
     }
 
     /**
+     * 将指定时间转化为对应时区的时间
+     * ------------------------------------------------------
+     * zoneId示例：
+     * ZoneId ZONE_CN = ZoneId.of("Asia/Shanghai");
+     * ZoneId ZONE_US = ZoneId.of("US/Eastern")
+     * ------------------------------------------------------
+     *
+     * @param date1  日期对象
+     * @param zoneId 时区对象
+     * @return 转换后的日期对象
+     */
+    public static LocalDateTime toLocalDateTime(LocalDateTime date1, ZoneId zoneId) {
+        if (date1 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (zoneId == null) {
+            zoneId = ZoneId.systemDefault();
+        }
+        return date1.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
+    }
+
+    /**
      * 将Date数据类型转换为LocalDate
      *
      * @param date 日期对象

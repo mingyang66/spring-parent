@@ -37,6 +37,12 @@
   <artifactId>oceansky-jwt</artifactId>
   <version>4.3.2</version>
 </dependency>  
+<!--Java基于日期转换比较计算SDK-->  
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-date</artifactId>
+  <version>4.3.2</version>
+</dependency>  
 ```
 
 

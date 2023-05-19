@@ -58,19 +58,19 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //封装异步日志信息
             BaseLoggerBuilder builder = FeignContextHolder.current()
                     //客户端IP
-                    .clientIp(ThreadContextHolder.current().getClientIp())
+                    .withClientIp(ThreadContextHolder.current().getClientIp())
                     //服务端IP
-                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(ThreadContextHolder.current().getServerIp())
                     //版本类型
-                    .appType(ThreadContextHolder.current().getAppType())
+                    .withAppType(ThreadContextHolder.current().getAppType())
                     //版本号
-                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //耗时
-                    .spentTime(System.currentTimeMillis() - start)
+                    .withSpentTime(System.currentTimeMillis() - start)
                     //触发时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
                     //响应结果
-                    .body(SensitiveUtils.acquire(response));
+                    .withBody(SensitiveUtils.acquire(response));
             //请求参数
             builder.getRequestParams().put(AttributeInfo.PARAMS, RequestHelper.getMethodArgs(invocation));
             //异步记录接口响应信息

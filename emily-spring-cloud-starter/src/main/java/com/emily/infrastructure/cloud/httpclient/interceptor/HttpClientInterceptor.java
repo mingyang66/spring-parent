@@ -45,30 +45,30 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
         //创建拦截日志信息
         BaseLoggerBuilder builder = new BaseLoggerBuilder()
                 //生成事物流水号
-                .traceId(ThreadContextHolder.current().getTraceId())
+                .withTraceId(ThreadContextHolder.current().getTraceId())
                 //请求URL
-                .url(request.getURI().toString())
+                .withUrl(request.getURI().toString())
                 //请求参数
-                .requestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
+                .withRequestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
         try {
             //调用接口
             ClientHttpResponse clientHttpResponse = execution.execute(request, body);
             //响应数据
-            builder.body(RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(clientHttpResponse.getBody())));
+            builder.withBody(RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(clientHttpResponse.getBody())));
             return clientHttpResponse;
         } catch (IOException ex) {
             //响应结果
-            builder.body(PrintExceptionInfo.printErrorInfo(ex));
+            builder.withBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP
-            builder.clientIp(ThreadContextHolder.current().getClientIp())
+            builder.withClientIp(ThreadContextHolder.current().getClientIp())
                     //服务端IP
-                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(ThreadContextHolder.current().getServerIp())
                     //耗时
-                    .spentTime(System.currentTimeMillis() - start)
+                    .withSpentTime(System.currentTimeMillis() - start)
                     //响应时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
             //异步线程池记录日志
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据

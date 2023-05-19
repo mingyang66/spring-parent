@@ -34,20 +34,20 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
             Object response = invocation.proceed();
-            builder.body(SensitiveUtils.acquire(response));
+            builder.withBody(SensitiveUtils.acquire(response));
             return response;
         } catch (Throwable ex) {
-            builder.body(PrintExceptionInfo.printErrorInfo(ex));
+            builder.withBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
-            builder.systemNumber(ThreadContextHolder.current().getSystemNumber())
-                    .traceId(ThreadContextHolder.current().getTraceId())
-                    .clientIp(ThreadContextHolder.current().getClientIp())
-                    .serverIp(ThreadContextHolder.current().getServerIp())
-                    .requestParams(RequestHelper.getMethodArgs(invocation))
-                    .url(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getPattern())))
-                    .spentTime(System.currentTimeMillis() - start);
+            builder.withSystemNumber(ThreadContextHolder.current().getSystemNumber())
+                    .withTraceId(ThreadContextHolder.current().getTraceId())
+                    .withClientIp(ThreadContextHolder.current().getClientIp())
+                    .withServerIp(ThreadContextHolder.current().getServerIp())
+                    .withRequestParams(RequestHelper.getMethodArgs(invocation))
+                    .withUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DDTHH_MM_SS_COLON_SSS.getPattern())))
+                    .withSpentTime(System.currentTimeMillis() - start);
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {

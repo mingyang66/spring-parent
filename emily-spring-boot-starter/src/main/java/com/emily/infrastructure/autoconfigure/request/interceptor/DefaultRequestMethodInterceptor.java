@@ -3,15 +3,16 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.date.DatePatternType;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DatePatternType;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.language.convert.I18nConvertHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -49,15 +50,15 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
             //系统编号
-            builder.systemNumber(ThreadContextHolder.current().getSystemNumber())
+            builder.withSystemNumber(ThreadContextHolder.current().getSystemNumber())
                     //事务唯一编号
-                    .traceId(ThreadContextHolder.current().getTraceId())
+                    .withTraceId(ThreadContextHolder.current().getTraceId())
                     //时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
                     //请求url
-                    .url(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
+                    .withUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
                     //请求参数
-                    .requestParams(RequestHelper.getApiArgs(invocation));
+                    .withRequestParams(RequestHelper.getApiArgs(invocation));
             //调用真实的action方法
             Object response = invocation.proceed();
             if (Objects.nonNull(response) && response instanceof ResponseEntity) {
@@ -65,49 +66,51 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 //404 Not Fund
                 handleNotFund(response, builder);
                 //设置响应结果
-                builder.body(SensitiveUtils.acquire(responseBody));
+                builder.withBody(SensitiveUtils.acquire(responseBody));
             } else {
                 //设置响应结果
-                builder.body(SensitiveUtils.acquire(response));
+                builder.withBody(SensitiveUtils.acquire(response));
             }
             return I18nConvertHelper.acquire(response, ThreadContextHolder.current().getLanguageType());
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;
                 //响应码
-                builder.status(exception.getStatus())
+                builder.withStatus(exception.getStatus())
                         //响应描述
-                        .message(exception.getMessage())
+                        .withMessage(exception.getMessage())
                         //异常响应体
-                        .body(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
+                        .withBody(StringUtils.join("【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage()));
             } else {
                 //响应码
-                builder.status(HttpStatusType.EXCEPTION.getStatus())
+                builder.withStatus(HttpStatusType.EXCEPTION.getStatus())
                         //响应描述
-                        .message(HttpStatusType.EXCEPTION.getMessage())
+                        .withMessage(HttpStatusType.EXCEPTION.getMessage())
                         //异常响应体
-                        .body(PrintExceptionInfo.printErrorInfo(ex));
+                        .withBody(PrintExceptionInfo.printErrorInfo(ex));
             }
             throw ex;
         } finally {
             //客户端IP
-            builder.clientIp(ThreadContextHolder.current().getClientIp())
+            builder.withClientIp(ThreadContextHolder.current().getClientIp())
                     //服务端IP
-                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(ThreadContextHolder.current().getServerIp())
                     //版本类型
-                    .appType(ThreadContextHolder.current().getAppType())
+                    .withAppType(ThreadContextHolder.current().getAppType())
                     //版本号
-                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //耗时
-                    .spentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime())
+                    .withSpentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime())
                     //时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
+
+            BaseLogger baseLogger = builder.build();
             //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
             //移除线程上下文数据
             ThreadContextHolder.unbind(true);
             //设置耗时
-            RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, builder.getSpentTime());
+            RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, baseLogger.getSpentTime());
         }
 
     }
@@ -123,9 +126,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         if (status == HttpStatus.NOT_FOUND.value()) {
             Object resultBody = ((ResponseEntity) result).getBody();
             Map<String, Object> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(resultBody), Map.class);
-            builder.url(dataMap.get("path").toString())
-                    .status(status)
-                    .message(dataMap.get("error").toString());
+            builder.withUrl(dataMap.get("path").toString())
+                    .withStatus(status)
+                    .withMessage(dataMap.get("error").toString());
         }
     }
 

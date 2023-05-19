@@ -2,17 +2,18 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.date.DatePatternType;
+import com.emily.infrastructure.common.object.UUIDUtils;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.common.object.UUIDUtils;
-import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.date.DatePatternType;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
@@ -61,43 +62,43 @@ public class GlobalExceptionCustomizer {
         if (Objects.nonNull(request.getAttribute(AttributeInfo.STAGE))) {
             return;
         }
+        Map<String, Object> paramsMap = null;
+        //请求参数
+        if (ex instanceof BindException) {
+            BindingResult bindingResult = ((BindException) ex).getBindingResult();
+            if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
+                paramsMap = Maps.newLinkedHashMap();
+                paramsMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
+                paramsMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquire(bindingResult.getTarget()));
+            }
+        }
+        if (CollectionUtils.isEmpty(paramsMap)) {
+            paramsMap = RequestHelper.getApiArgs(request);
+        }
         try {
-            //事务流水号
-            String traceId = request.getHeader(HeaderInfo.TRACE_ID) == null ? UUIDUtils.randomSimpleUUID() : request.getHeader(HeaderInfo.TRACE_ID);
-
             BaseLoggerBuilder builder = new BaseLoggerBuilder()
                     //系统编号
-                    .systemNumber(ThreadContextHolder.current().getSystemNumber())
+                    .withSystemNumber(ThreadContextHolder.current().getSystemNumber())
                     //事务唯一编号
-                    .traceId(traceId)
+                    .withTraceId(request.getHeader(HeaderInfo.TRACE_ID) == null ? UUIDUtils.randomSimpleUUID() : request.getHeader(HeaderInfo.TRACE_ID))
                     //请求URL
-                    .url(request.getRequestURI())
+                    .withUrl(request.getRequestURI())
                     //客户端IP
-                    .clientIp(RequestUtils.getClientIp())
+                    .withClientIp(RequestUtils.getClientIp())
                     //服务端IP
-                    .serverIp(RequestUtils.getServerIp())
+                    .withServerIp(RequestUtils.getServerIp())
                     //版本类型
-                    .appType(ThreadContextHolder.current().getAppType())
+                    .withAppType(ThreadContextHolder.current().getAppType())
                     //版本号
-                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //触发时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
-            Map<String, Object> paramMap = null;
-            //请求参数
-            if (ex instanceof BindException) {
-                BindingResult bindingResult = ((BindException) ex).getBindingResult();
-                if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
-                    builder.requestParams(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
-                    builder.requestParams(AttributeInfo.PARAMS, SensitiveUtils.acquire(bindingResult.getTarget()));
-                }
-            }
-            if (CollectionUtils.isEmpty(builder.getRequestParams())) {
-                builder.requestParams(RequestHelper.getApiArgs(request));
-            }
-            //响应体
-            builder.body(errorMsg)
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
+                    //请求参数
+                    .withRequestParams(paramsMap)
+                    //响应体
+                    .withBody(errorMsg)
                     //耗时(未处理任何逻辑)
-                    .spentTime(0L);
+                    .withSpentTime(0L);
             //记录日志到文件
             logger.info(JsonUtils.toJSONString(builder.build()));
         } catch (Exception exception) {

@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.date.DatePatternType;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
+import com.emily.infrastructure.date.DatePatternType;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
@@ -11,6 +11,7 @@ import com.emily.infrastructure.test.po.json.JsonResponse;
 import com.emily.infrastructure.test.po.json.PubRequest;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
+import com.emily.infrastructure.test.po.sensitive.UploadRequest;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -54,7 +55,7 @@ public class SensitiveController {
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);
-        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(new BaseResponseBuilder<JsonResponse>().data(response).build());
+        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(new BaseResponseBuilder<JsonResponse>().withData(response).build());
         //return list;
         return DeSensitiveUtils.acquire(list);
     }
@@ -75,7 +76,7 @@ public class SensitiveController {
         response.job = job;
         response.jobs = new PubResponse.Job[]{job};
         response.jobList = Arrays.asList(job);
-        BaseResponse<PubResponse> r = new BaseResponseBuilder<PubResponse>().data(response).build();
+        BaseResponse<PubResponse> r = new BaseResponseBuilder<PubResponse>().withData(response).build();
         //return r;
         return DeSensitiveUtils.acquire(r);
     }
@@ -121,5 +122,10 @@ public class SensitiveController {
         job.work = "呵呵哈哈哈";
         response.job = job;
         return mysqlMapper.getMapperIgnore(response, "江南七怪", "mingyangsky@foxmail.com");
+    }
+
+    @PostMapping("upload")
+    public UploadRequest upload(UploadRequest request) {
+        return request;
     }
 }

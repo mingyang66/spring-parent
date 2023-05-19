@@ -7,7 +7,8 @@ Bug Fixes
 3. 新增DateCompareUtils日期比大小工具类；
 4. 新增DateComputeUtils日期计算相关工具类；
 5. 新增DateConvertUtils.toLocalDateTime(java.time.LocalDateTime, java.time.ZoneId)根据时区转换日期方法；
-6. 
+6. BaseLoggerBuilder、BaseResponseBuilder建造者模式类方法统一添加with前缀，并修改所有使用到的点；
+7. 
 -----
 基础库发布4.3.2
 Bug Fixes

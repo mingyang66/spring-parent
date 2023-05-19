@@ -65,124 +65,72 @@ public class BaseLoggerBuilder implements Serializable {
      */
     private Object body;
 
-    public String getSystemNumber() {
-        return systemNumber;
-    }
-
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public String getClientIp() {
-        return clientIp;
-    }
-
-    public String getServerIp() {
-        return serverIp;
-    }
-
-    public String getAppType() {
-        return appType;
-    }
-
-    public String getAppVersion() {
-        return appVersion;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Map<String, Object> getRequestParams() {
-        return requestParams;
-    }
-
-    public String getTriggerTime() {
-        return triggerTime;
-    }
-
-    public long getSpentTime() {
-        return spentTime;
-    }
-
-    public Object getBody() {
-        return body;
-    }
-
-    public BaseLoggerBuilder systemNumber(String systemNumber) {
+    public BaseLoggerBuilder withSystemNumber(String systemNumber) {
         this.systemNumber = systemNumber;
         return this;
     }
 
-    public BaseLoggerBuilder traceId(String traceId) {
+    public BaseLoggerBuilder withTraceId(String traceId) {
         this.traceId = traceId;
         return this;
     }
 
-    public BaseLoggerBuilder clientIp(String clientIp) {
+    public BaseLoggerBuilder withClientIp(String clientIp) {
         this.clientIp = clientIp;
         return this;
     }
 
-    public BaseLoggerBuilder serverIp(String serverIp) {
+    public BaseLoggerBuilder withServerIp(String serverIp) {
         this.serverIp = serverIp;
         return this;
     }
 
-    public BaseLoggerBuilder appType(String appType) {
+    public BaseLoggerBuilder withAppType(String appType) {
         this.appType = appType;
         return this;
     }
 
-    public BaseLoggerBuilder appVersion(String appVersion) {
+    public BaseLoggerBuilder withAppVersion(String appVersion) {
         this.appVersion = appVersion;
         return this;
     }
 
-    public BaseLoggerBuilder url(String url) {
+    public BaseLoggerBuilder withUrl(String url) {
         this.url = url;
         return this;
     }
 
-    public BaseLoggerBuilder status(int status) {
+    public BaseLoggerBuilder withStatus(int status) {
         this.status = status;
         return this;
     }
 
-    public BaseLoggerBuilder message(String message) {
+    public BaseLoggerBuilder withMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public BaseLoggerBuilder requestParams(Map<String, Object> requestParams) {
+    public BaseLoggerBuilder withRequestParams(Map<String, Object> requestParams) {
         this.requestParams = requestParams;
         return this;
     }
 
-    public BaseLoggerBuilder requestParams(String key, Object value) {
+    public BaseLoggerBuilder withRequestParams(String key, Object value) {
         this.requestParams.put(key, value);
         return this;
     }
 
-    public BaseLoggerBuilder triggerTime(String triggerTime) {
+    public BaseLoggerBuilder withTriggerTime(String triggerTime) {
         this.triggerTime = triggerTime;
         return this;
     }
 
-    public BaseLoggerBuilder spentTime(long spentTime) {
+    public BaseLoggerBuilder withSpentTime(long spentTime) {
         this.spentTime = spentTime;
         return this;
     }
 
-    public BaseLoggerBuilder body(Object body) {
+    public BaseLoggerBuilder withBody(Object body) {
         this.body = body;
         return this;
     }

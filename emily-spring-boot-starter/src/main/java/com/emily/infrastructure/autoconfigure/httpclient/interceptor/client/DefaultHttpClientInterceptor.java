@@ -46,13 +46,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
         //创建拦截日志信息
         BaseLoggerBuilder builder = new BaseLoggerBuilder()
                 //系统编号
-                .systemNumber(ThreadContextHolder.current().getSystemNumber())
+                .withSystemNumber(ThreadContextHolder.current().getSystemNumber())
                 //生成事物流水号
-                .traceId(ThreadContextHolder.current().getTraceId())
+                .withTraceId(ThreadContextHolder.current().getTraceId())
                 //请求URL
-                .url(request.getURI().toString())
+                .withUrl(request.getURI().toString())
                 //请求参数
-                .requestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
+                .withRequestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
         //开始计时
         long start = System.currentTimeMillis();
         try {
@@ -61,26 +61,26 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             //响应数据
             Object responseBody = RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(response.getBody()));
             //响应结果
-            builder.body(responseBody);
+            builder.withBody(responseBody);
 
             return response;
         } catch (IOException ex) {
             //响应结果
-            builder.body(PrintExceptionInfo.printErrorInfo(ex));
+            builder.withBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP
-            builder.clientIp(ThreadContextHolder.current().getClientIp())
+            builder.withClientIp(ThreadContextHolder.current().getClientIp())
                     //服务端IP
-                    .serverIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(ThreadContextHolder.current().getServerIp())
                     //版本类型
-                    .appType(ThreadContextHolder.current().getAppType())
+                    .withAppType(ThreadContextHolder.current().getAppType())
                     //版本号
-                    .appVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //耗时
-                    .spentTime(System.currentTimeMillis() - start)
+                    .withSpentTime(System.currentTimeMillis() - start)
                     //响应时间
-                    .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())));
             //异步线程池记录日志
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据

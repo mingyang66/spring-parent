@@ -32,11 +32,11 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //封装异步日志信息
         BaseLoggerBuilder builder = new BaseLoggerBuilder()
                 //事务唯一编号
-                .traceId(ThreadContextHolder.current().getTraceId())
+                .withTraceId(ThreadContextHolder.current().getTraceId())
                 //时间
-                .triggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
+                .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
                 //请求url
-                .url(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
+                .withUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")));
         //请求参数
         builder.getRequestParams().put(AttributeInfo.HEADERS, template.headers());
         // 将日志信息放入请求对象

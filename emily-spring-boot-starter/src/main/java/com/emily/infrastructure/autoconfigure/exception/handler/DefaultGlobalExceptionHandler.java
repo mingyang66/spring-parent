@@ -41,7 +41,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.EXCEPTION.getStatus()).message(e.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.EXCEPTION.getStatus()).withMessage(e.getMessage()).build();
     }
 
     /**
@@ -52,7 +52,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(value = RuntimeException.class)
     public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.EXCEPTION.getStatus()).message(e.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.EXCEPTION.getStatus()).withMessage(e.getMessage()).build();
     }
 
     /**
@@ -63,7 +63,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(BasicException.class)
     public BaseResponse basicException(BasicException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(e.getStatus()).message(e.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(e.getStatus()).withMessage(e.getMessage()).build();
     }
 
     /**
@@ -74,7 +74,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_PROXY.getStatus()).message(HttpStatusType.ILLEGAL_PROXY.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_PROXY.getStatus()).withMessage(HttpStatusType.ILLEGAL_PROXY.getMessage()).build();
     }
 
     /**
@@ -85,7 +85,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(NullPointerException.class)
     public BaseResponse nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_DATA.getStatus()).message(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
     }
 
     /**
@@ -96,7 +96,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ClassCastException.class)
     public BaseResponse classCastExceptionHandler(ClassCastException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_DATA.getStatus()).message(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
     }
 
     /**
@@ -107,7 +107,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(IOException.class)
     public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.EXCEPTION.getStatus()).message(HttpStatusType.EXCEPTION.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.EXCEPTION.getStatus()).withMessage(HttpStatusType.EXCEPTION.getMessage()).build();
     }
 
     /**
@@ -118,7 +118,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_DATA.getStatus()).message(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
     }
 
     /**
@@ -129,7 +129,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(TypeMismatchException.class)
     public BaseResponse requestTypeMismatch(TypeMismatchException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).message(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
     }
 
     /**
@@ -140,7 +140,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(MissingRequestValueException.class)
     public BaseResponse missingRequestValueException(MissingRequestValueException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).message(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
     }
 
 
@@ -155,7 +155,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler({BindException.class})
     public BaseResponse bindException(BindException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).message(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
     }
 
     @ResponseBody
@@ -163,7 +163,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).message(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
     }
 
     /**
@@ -179,7 +179,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ValidationException.class)
     public BaseResponse validationException(ValidationException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).message(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
     }
 
     /**
@@ -195,7 +195,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(IllegalArgumentException.class)
     public BaseResponse validationException(IllegalArgumentException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).message(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
     }
 
     /**
@@ -206,7 +206,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public BaseResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_METHOD.getStatus()).message(HttpStatusType.ILLEGAL_METHOD.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_METHOD.getStatus()).withMessage(HttpStatusType.ILLEGAL_METHOD.getMessage()).build();
     }
 
     /**
@@ -217,7 +217,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(NumberFormatException.class)
     public BaseResponse numberFormatException(NumberFormatException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_DATA.getStatus()).message(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
     }
 
     /**
@@ -228,7 +228,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ArithmeticException.class)
     public BaseResponse arithmeticException(ArithmeticException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_DATA.getStatus()).message(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
     }
 
     /**
@@ -239,7 +239,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(UnknownContentTypeException.class)
     public BaseResponse unknownContentTypeException(UnknownContentTypeException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ACCESS.getStatus()).message(HttpStatusType.ILLEGAL_ACCESS.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ACCESS.getStatus()).withMessage(HttpStatusType.ILLEGAL_ACCESS.getMessage()).build();
     }
 
     /**
@@ -250,7 +250,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(ResourceAccessException.class)
     public BaseResponse resourceAccessException(ResourceAccessException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().status(HttpStatusType.ILLEGAL_ACCESS.getStatus()).message(HttpStatusType.ILLEGAL_ACCESS.getMessage()).build();
+        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ACCESS.getStatus()).withMessage(HttpStatusType.ILLEGAL_ACCESS.getMessage()).build();
     }
 }
 

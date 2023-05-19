@@ -79,4 +79,11 @@ public class DateComputeUtilsTest {
         Assert.assertEquals(DateComputeUtils.getRemainDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45)), 5);
         Assert.assertEquals(DateComputeUtils.getRemainDayOfYear(LocalDateTime.of(2023, 03, 26, 12, 23, 45)), 280);
     }
+
+    @Test
+    public void duration() {
+        Duration duration = DateComputeUtils.between(LocalDateTime.now(), LocalDateTime.now().minusDays(1).minusHours(10).minusSeconds(50));
+        long hour = Duration.ofHours(48).minus(duration).toHours();
+        Assert.assertEquals(hour, 13);
+    }
 }

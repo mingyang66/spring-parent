@@ -9,7 +9,7 @@ Bug Fixes
 5. 新增DateConvertUtils.toLocalDateTime(java.time.LocalDateTime, java.time.ZoneId)根据时区转换日期方法；
 6. BaseLoggerBuilder、BaseResponseBuilder建造者模式类方法统一添加with前缀，并修改所有使用到的点；
 7. 脱敏SDK新增@JsonNullField注解，可以将指定的非原始字段值置为null;
-8. 
+
 -----
 基础库发布4.3.2
 Bug Fixes

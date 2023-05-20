@@ -3,10 +3,7 @@ package com.emily.infrastructure.date;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Date;
 
 /**
@@ -105,5 +102,19 @@ public class DateCompareUtils {
             throw new IllegalArgumentException("非法参数");
         }
         return duration1.compareTo(duration2);
+    }
+
+    /**
+     * Instant对象类型比较大小
+     *
+     * @param instant1 日期对象
+     * @param instant2 日期对象
+     * @return 1：instant1>instant2，0：instant1=instant2，-1：instant1<instant2
+     */
+    public static int compareTo(Instant instant1, Instant instant2) {
+        if (instant1 == null || instant2 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return instant1.compareTo(instant2);
     }
 }

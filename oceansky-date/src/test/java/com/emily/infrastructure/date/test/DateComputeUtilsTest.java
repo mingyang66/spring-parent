@@ -91,4 +91,13 @@ public class DateComputeUtilsTest {
         String s = DateConvertUtils.toLocalDateTime(localDateTime, ZoneId.of("US/Eastern")).format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_EN));
         Assert.assertEquals(s, "2023/12/11 23:12:12");
     }
+
+    @Test
+    public void instant() throws InterruptedException {
+        Instant instant3 = Instant.now();
+        Thread.sleep(100);
+        Instant instant4 = Instant.now();
+        System.out.println(DateComputeUtils.minusMillis(instant4, instant3));
+        System.out.println(instant4.minusMillis(instant3.toEpochMilli()).toEpochMilli());
+    }
 }

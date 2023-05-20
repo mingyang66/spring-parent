@@ -34,6 +34,7 @@ public class DatePatternInfo {
     public static final String MM_DD_HH_MM_EN = "MM/dd HH:mm";
     public static final String MM_DD_HH_MM_SS_EN = "MM/dd HH:mm:ss";
     public static final String MM_DD_HHTMM_SS_SSSZ_EN = "MM-dd’T’HH:mm:ss.SSSZ";
+    public static final String YYYY_MM_DD_HHTMM_SS_SSSZ_EN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String YYYY_MM_CN = "yyyy年MM月";
     public static final String YYYY_MM_DD_CN = "yyyy年MM月dd日";
     public static final String YYYY_MM_DD_HH_MM_CN = "yyyy年MM月dd日 HH:mm";

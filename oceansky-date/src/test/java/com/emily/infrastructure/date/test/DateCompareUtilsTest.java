@@ -6,10 +6,8 @@ import com.emily.infrastructure.date.DatePatternInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -59,5 +57,22 @@ public class DateCompareUtilsTest {
         Assert.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(9)), 1);
         Assert.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(10)), 0);
         Assert.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(11)), -1);
+    }
+
+    @Test
+    public void instant() {
+        String s1 = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HHTMM_SS_SSSZ_EN));
+        System.out.println(s1);
+        Instant instant1 = Instant.parse("2023-05-20T15:33:58.093Z");
+        Instant instant2 = Instant.parse("2023-05-20T15:34:58.093Z");
+        Assert.assertEquals(DateCompareUtils.compareTo(instant1, instant2), -1);
+        Assert.assertEquals(DateCompareUtils.compareTo(instant2, instant1), 1);
+        //秒
+        Assert.assertEquals(instant1.getEpochSecond(),1684596838);
+        //纳秒
+        Assert.assertEquals(instant1.getNano(),93000000);
+        //毫秒
+        Assert.assertEquals(instant1.toEpochMilli(),1684596838093l);
+
     }
 }

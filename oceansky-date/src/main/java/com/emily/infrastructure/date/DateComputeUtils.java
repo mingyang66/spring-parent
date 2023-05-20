@@ -1,9 +1,6 @@
 package com.emily.infrastructure.date;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjusters;
 
@@ -32,7 +29,7 @@ public class DateComputeUtils {
      *
      * @param localDateTime 日期
      * @param month         向前推 month>0 向后推<0
-     * @return
+     * @return 第一天
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
         if (localDateTime == null) {
@@ -51,7 +48,7 @@ public class DateComputeUtils {
      * 获取指定日期的月份的最后一天
      *
      * @param localDateTime 日期
-     * @return
+     * @return 最后一天的日期对象
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime) {
         if (localDateTime == null) {
@@ -65,7 +62,7 @@ public class DateComputeUtils {
      *
      * @param localDateTime 日期
      * @param month         向前推 month>0 向后推<0
-     * @return
+     * @return 一个月的最后一天日期对象
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
         if (localDateTime == null) {
@@ -172,5 +169,20 @@ public class DateComputeUtils {
             throw new IllegalArgumentException("非法参数");
         }
         return Period.between(date2, date1);
+    }
+
+    /**
+     * @param instant1
+     * @param instant2
+     * @return
+     */
+    public static long minusMillis(Instant instant1, Instant instant2) {
+        if (instant1 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (instant2 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return instant1.minusMillis(instant2.toEpochMilli()).toEpochMilli();
     }
 }

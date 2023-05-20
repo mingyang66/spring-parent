@@ -55,7 +55,8 @@ public class DeSensitiveUtils {
             }
             field.setAccessible(true);
             Object value = field.get(entity);
-            if (Objects.isNull(value)) {
+            if (checkNullValue(field, value)) {
+                doGetEntityNull(field, entity, value);
                 continue;
             }
             if (value instanceof String) {
@@ -71,6 +72,42 @@ public class DeSensitiveUtils {
             }
         }
         doGetEntityFlex(entity);
+    }
+
+    /**
+     * 判定Field字段值是否置为null
+     * -------------------------------------------
+     * 1.value为null,则返回true
+     * 2.field字段类型为原始数据类型，如int、boolean、double等，则返回false
+     * 3.field被JsonNullField注解标注，则返回true
+     * 4.其它场景都返回false
+     * -------------------------------------------
+     *
+     * @param field 字段对象
+     * @param value 字段值
+     * @return true-置为null, false-按原值展示
+     */
+    protected static boolean checkNullValue(Field field, Object value) {
+        if (value == null) {
+            return true;
+        } else if (field.getType().isPrimitive()) {
+            return false;
+        } else if (field.isAnnotationPresent(JsonNullField.class)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 将字段值置为null
+     *
+     * @param field  实体类属性对象
+     * @param entity 实体类对象
+     * @param value  属性值对象
+     * @throws IllegalAccessException 抛出非法访问异常
+     */
+    protected static <T> void doGetEntityNull(final Field field, final T entity, final Object value) throws IllegalAccessException {
+        field.set(entity, null);
     }
 
     /**

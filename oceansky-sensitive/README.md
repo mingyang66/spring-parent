@@ -10,6 +10,32 @@
 
 
 
+##### 新增JsonNullField注解，可将指定的字段值置为null，注解定义如下：
+
+```java
+/**
+ * @Description :  自定义注解，标注在属性上，字段属性值置为null
+ * ---------------------------------------------
+ * 生效规则：
+ * 1.非int、double、float、byte、short、long、boolean、char八种基本数据类型字段才会生效；
+ * 2.
+ * ---------------------------------------------
+ * @Author :  Emily
+ * @CreateDate :  Created in 2023/7/14 5:22 下午
+ */
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface JsonNullField {
+
+}
+```
+
+
+
+------
+
+
+
 #### 解锁新技能《Java基于注解的脱敏实现组件SDK》
 
 > 平时开发的过程中经常会遇到对一些敏感的字段进行脱敏处理，防止信息泄漏，如：邮箱、用户名、密码等；做为一个优秀的程序员我们不应该遇到这种问题时就做特殊处理，重复做相同的工作，所以我们应该写一个基础库SDK，解决重复的问题；

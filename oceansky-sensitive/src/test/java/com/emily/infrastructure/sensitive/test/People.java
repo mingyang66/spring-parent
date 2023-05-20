@@ -1,9 +1,6 @@
 package com.emily.infrastructure.sensitive.test;
 
-import com.emily.infrastructure.sensitive.JsonFlexField;
-import com.emily.infrastructure.sensitive.JsonSensitive;
-import com.emily.infrastructure.sensitive.JsonSimField;
-import com.emily.infrastructure.sensitive.SensitiveType;
+import com.emily.infrastructure.sensitive.*;
 
 /**
  * @Description : 人
@@ -18,6 +15,86 @@ public class People {
     @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "value", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String key;
     private String value;
+    @JsonNullField
+    private int age;
+    @JsonNullField
+    private byte b;
+    @JsonNullField
+    private short s;
+    @JsonNullField
+    private long l;
+    @JsonNullField
+    private double d;
+    @JsonNullField
+    private float f;
+    @JsonNullField
+    private char c;
+    @JsonNullField
+    private String str;
+
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public byte getB() {
+        return b;
+    }
+
+    public void setB(byte b) {
+        this.b = b;
+    }
+
+    public short getS() {
+        return s;
+    }
+
+    public void setS(short s) {
+        this.s = s;
+    }
+
+    public long getL() {
+        return l;
+    }
+
+    public void setL(long l) {
+        this.l = l;
+    }
+
+    public double getD() {
+        return d;
+    }
+
+    public void setD(double d) {
+        this.d = d;
+    }
+
+    public float getF() {
+        return f;
+    }
+
+    public void setF(float f) {
+        this.f = f;
+    }
+
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
 
     public String getKey() {
         return key;

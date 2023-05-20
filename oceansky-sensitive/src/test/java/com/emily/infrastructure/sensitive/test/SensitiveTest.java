@@ -1,8 +1,11 @@
 package com.emily.infrastructure.sensitive.test;
 
 import com.emily.infrastructure.sensitive.DeSensitiveUtils;
+import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Map;
 
 /**
  * @Description : 单元测试
@@ -35,5 +38,32 @@ public class SensitiveTest {
         p = DeSensitiveUtils.acquire(people);
         Assert.assertEquals(p.getKey(), "phone");
         Assert.assertEquals(people.getValue(),"15******68");
+    }
+    @Test
+    public void jsonNullFieldTest(){
+        People people = new People();
+        people.setKey("email");
+        people.setValue("1563919868@qq.com");
+        people.setStr("测试null");
+        Map<String, Object> s = (Map<String,Object>)SensitiveUtils.acquire(people);
+        Assert.assertEquals(s.get("str"), null);
+        Assert.assertEquals(s.get("age"), 0);
+        Assert.assertEquals(s.get("b"), (byte)0);
+        Assert.assertEquals(s.get("s"), (short)0);
+        Assert.assertEquals(s.get("l"), 0l);
+    }
+
+    @Test
+    public void jsonNullFieldTest1() throws IllegalAccessException {
+        People people = new People();
+        people.setKey("email");
+        people.setValue("1563919868@qq.com");
+        people.setStr("测试null");
+        People s = DeSensitiveUtils.acquire(people);
+        Assert.assertEquals(s.getStr(), null);
+        Assert.assertEquals(s.getAge(), 0);
+        Assert.assertEquals(s.getB(), (byte)0);
+        Assert.assertEquals(s.getS(), (short)0);
+        Assert.assertEquals(s.getL(), 0l);
     }
 }

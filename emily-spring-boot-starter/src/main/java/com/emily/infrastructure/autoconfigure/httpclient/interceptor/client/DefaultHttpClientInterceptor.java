@@ -2,12 +2,13 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.date.DatePatternInfo;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
+import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -54,7 +56,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
                 //请求参数
                 .withRequestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
         //开始计时
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
@@ -78,7 +80,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
                     //版本号
                     .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(System.currentTimeMillis() - start)
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //响应时间
                     .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)));
             //异步线程池记录日志

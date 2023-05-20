@@ -5,7 +5,8 @@ Bug Fixes
 1. 日期SDK DatePatternType枚举类修改为DatePatternInfo常量类；
 2. 日期SDK DateComputeUtils工具类新增minusMillis(Instant instant1, Instant instant2)工具方法；
 3. 日期SDK DateCompareUtils工具类新增compareTo(Instant instant1, Instant instant2)工具方法；
-4. 
+4. SDK中设计到耗时计算的组件更改为使用DateComputeUtils.minusMills工具方法；
+5. 
 -----
 基础库发布4.3.3
 Bug Fixes

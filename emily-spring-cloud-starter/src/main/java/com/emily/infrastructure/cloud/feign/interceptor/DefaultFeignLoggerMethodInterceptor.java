@@ -9,6 +9,7 @@ import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -17,6 +18,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -39,7 +41,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         // 开始时间
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         // 响应结果
         Object response = null;
         try {
@@ -66,7 +68,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
                     //版本号
                     .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(System.currentTimeMillis() - start)
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //触发时间
                     .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)))
                     //响应结果

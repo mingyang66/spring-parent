@@ -2,6 +2,7 @@ package com.emily.infrastructure.example;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.Instant;
 
 /**
  * @program: spring-parent
@@ -32,7 +35,7 @@ public class DataSourceController {
     @TargetDataSource("mysql")
     @Transactional(rollbackFor = Exception.class)
     public long getBatch(@PathVariable Integer num) {
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory();
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try {
@@ -57,7 +60,7 @@ public class DataSourceController {
         } finally {
             sqlSession.close();
         }
-        return System.currentTimeMillis() - start;
+        return DateComputeUtils.minusMillis(Instant.now(), start);
     }
 
 

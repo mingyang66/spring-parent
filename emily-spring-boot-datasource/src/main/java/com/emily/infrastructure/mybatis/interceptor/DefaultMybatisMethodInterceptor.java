@@ -1,11 +1,12 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -14,6 +15,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,7 +31,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         //开始时间
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
 
         BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
@@ -47,7 +49,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .withRequestParams(RequestHelper.getMethodArgs(invocation))
                     .withUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
                     .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DDTHH_MM_SS_COLON_SSS)))
-                    .withSpentTime(System.currentTimeMillis() - start);
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {

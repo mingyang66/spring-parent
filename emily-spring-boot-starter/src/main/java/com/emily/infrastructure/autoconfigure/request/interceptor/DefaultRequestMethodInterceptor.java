@@ -12,6 +12,7 @@ import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.language.convert.I18nConvertHelper;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -100,7 +102,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //版本号
                     .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(System.currentTimeMillis() - ThreadContextHolder.current().getStartTime())
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), ThreadContextHolder.current().getStartTime()))
                     //时间
                     .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)));
 

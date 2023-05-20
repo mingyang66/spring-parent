@@ -3,6 +3,7 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.test.mapper.mysql.ItemMapper;
 import com.emily.infrastructure.test.mapper.mysql.JobMapper;
 import com.emily.infrastructure.test.po.Item;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -58,9 +60,9 @@ public class DataSourceController {
             item.setScheName("B" + i);
             list.add(item);
         }
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         itemMapper.inertByBatch(list);
-        return System.currentTimeMillis() - start;
+        return DateComputeUtils.minusMillis(Instant.now(), start);
     }
 
     /**
@@ -73,7 +75,7 @@ public class DataSourceController {
     @TargetDataSource("mysql")
     @Transactional(rollbackFor = Exception.class)
     public long getBatch(@PathVariable Integer num) {
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory();
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try {
@@ -98,7 +100,7 @@ public class DataSourceController {
         } finally {
             sqlSession.close();
         }
-        return System.currentTimeMillis() - start;
+        return DateComputeUtils.minusMillis(Instant.now(), start);
     }
 
     /**
@@ -110,14 +112,14 @@ public class DataSourceController {
     @GetMapping("insertItem/{num}")
     @TargetDataSource("mysql")
     public long insertItem(@PathVariable Integer num) {
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         for (int i = 0; i < num; i++) {
             Item item = new Item();
             item.setLockName("a" + i);
             item.setScheName("B" + i);
             itemMapper.insertItem(item.getScheName(), item.getLockName());
         }
-        return System.currentTimeMillis() - start;
+        return DateComputeUtils.minusMillis(Instant.now(), start);
     }
 
     @GetMapping("getJob")

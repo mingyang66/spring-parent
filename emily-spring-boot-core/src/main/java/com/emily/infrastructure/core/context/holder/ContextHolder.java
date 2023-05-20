@@ -9,6 +9,7 @@ import com.emily.infrastructure.language.convert.LanguageType;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 
 /**
  * @Description :  上下文实体类
@@ -31,7 +32,7 @@ public class ContextHolder {
     /**
      * 开启时间
      */
-    private Long startTime;
+    private Instant startTime;
     /**
      * 客户端IP
      */
@@ -55,7 +56,7 @@ public class ContextHolder {
 
     public ContextHolder() {
         //servlet请求开始时间
-        this.startTime = System.currentTimeMillis();
+        this.startTime = Instant.now();
         //系统编号
         this.systemNumber = SystemNumberHelper.getSystemNumber();
         //客户端IP
@@ -102,11 +103,11 @@ public class ContextHolder {
         this.traceId = traceId;
     }
 
-    public Long getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Long startTime) {
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 

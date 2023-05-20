@@ -1,11 +1,12 @@
 package com.emily.infrastructure.cloud.httpclient.interceptor;
 
-import com.emily.infrastructure.date.DatePatternInfo;
+import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
+import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -41,7 +43,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //开始计时
-        long start = System.currentTimeMillis();
+        Instant start = Instant.now();
         //创建拦截日志信息
         BaseLoggerBuilder builder = new BaseLoggerBuilder()
                 //生成事物流水号
@@ -66,7 +68,7 @@ public class HttpClientInterceptor implements ClientHttpRequestInterceptor {
                     //服务端IP
                     .withServerIp(ThreadContextHolder.current().getServerIp())
                     //耗时
-                    .withSpentTime(System.currentTimeMillis() - start)
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //响应时间
                     .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)));
             //异步线程池记录日志

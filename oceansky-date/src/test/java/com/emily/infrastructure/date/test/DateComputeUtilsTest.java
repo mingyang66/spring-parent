@@ -94,10 +94,11 @@ public class DateComputeUtilsTest {
 
     @Test
     public void instant() throws InterruptedException {
+        long l1 = System.currentTimeMillis();
         Instant instant3 = Instant.now();
         Thread.sleep(100);
         Instant instant4 = Instant.now();
+        System.out.println(System.currentTimeMillis()-l1);
         System.out.println(DateComputeUtils.minusMillis(instant4, instant3));
-        System.out.println(instant4.minusMillis(instant3.toEpochMilli()).toEpochMilli());
     }
 }

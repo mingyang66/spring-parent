@@ -9,7 +9,7 @@ import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.date.DatePatternType;
+import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
@@ -92,7 +92,7 @@ public class GlobalExceptionCustomizer {
                     //版本号
                     .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //触发时间
-                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS.getPattern())))
+                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)))
                     //请求参数
                     .withRequestParams(paramsMap)
                     //响应体

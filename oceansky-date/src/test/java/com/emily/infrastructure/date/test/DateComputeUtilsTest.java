@@ -2,7 +2,7 @@ package com.emily.infrastructure.date.test;
 
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
-import com.emily.infrastructure.date.DatePatternType;
+import com.emily.infrastructure.date.DatePatternInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,31 +44,31 @@ public class DateComputeUtilsTest {
     @Test
     public void firstDayOfMonth() {
         LocalDate localDate1 = DateComputeUtils.firstDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45));
-        Assert.assertEquals(localDate1.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230301");
+        Assert.assertEquals(localDate1.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230301");
 
         LocalDate localDate2 = DateComputeUtils.firstDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45), 2);
-        Assert.assertEquals(localDate2.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230501");
+        Assert.assertEquals(localDate2.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230501");
 
         LocalDate localDate3 = DateComputeUtils.firstDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45), 0);
-        Assert.assertEquals(localDate3.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230301");
+        Assert.assertEquals(localDate3.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230301");
 
         LocalDate localDate4 = DateComputeUtils.firstDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45), -1);
-        Assert.assertEquals(localDate4.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230201");
+        Assert.assertEquals(localDate4.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230201");
     }
 
     @Test
     public void lastDayOfMonth() {
         LocalDate localDate1 = DateComputeUtils.lastDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45));
-        Assert.assertEquals(localDate1.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230331");
+        Assert.assertEquals(localDate1.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230331");
 
         LocalDate localDate2 = DateComputeUtils.lastDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45), 3);
-        Assert.assertEquals(localDate2.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230630");
+        Assert.assertEquals(localDate2.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230630");
 
         LocalDate localDate3 = DateComputeUtils.lastDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45), 0);
-        Assert.assertEquals(localDate3.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20230331");
+        Assert.assertEquals(localDate3.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20230331");
 
         LocalDate localDate4 = DateComputeUtils.lastDayOfMonth(LocalDateTime.of(2023, 03, 26, 12, 23, 45), -3);
-        Assert.assertEquals(localDate4.format(DateTimeFormatter.ofPattern(DatePatternType.YYYYMMDD.getPattern())), "20221231");
+        Assert.assertEquals(localDate4.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYYMMDD)), "20221231");
 
     }
 
@@ -88,7 +88,7 @@ public class DateComputeUtilsTest {
     @Test
     public void zoneId() {
         LocalDateTime localDateTime = LocalDateTime.of(2023, 12, 12, 12, 12, 12);
-        String s = DateConvertUtils.toLocalDateTime(localDateTime, ZoneId.of("US/Eastern")).format(DateTimeFormatter.ofPattern(DatePatternType.YYYY_MM_DD_HH_MM_SS_EN.getPattern()));
+        String s = DateConvertUtils.toLocalDateTime(localDateTime, ZoneId.of("US/Eastern")).format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_EN));
         Assert.assertEquals(s, "2023/12/11 23:12:12");
     }
 }

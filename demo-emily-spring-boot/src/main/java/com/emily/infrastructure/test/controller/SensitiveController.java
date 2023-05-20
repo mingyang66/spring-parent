@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
-import com.emily.infrastructure.date.DatePatternType;
+import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DeSensitiveUtils;
 import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
@@ -50,7 +50,7 @@ public class SensitiveController {
         response.setJobs(new JsonResponse.Job[]{job, job});
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
-        response.setDateFormat(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS);
+        response.setDateFormat(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS);
         String[] arr = new String[2];
         arr[0] = "test1";
         arr[1] = "test2";

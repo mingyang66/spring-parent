@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.mainTest;
 
-import com.emily.infrastructure.date.DatePatternType;
+import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonResponse;
@@ -35,7 +35,7 @@ public class A {
         response.setJobs(new JsonResponse.Job[]{job, job});
         response.setList(Sets.newHashSet(job));
         response.setJob(job);
-        response.setDateFormat(DatePatternType.YYYY_MM_DD_HH_MM_SS_SSS);
+        response.setDateFormat(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS);
         String[] arr = new String[2];
         arr[0] = "test1";
         arr[1] = "test2";

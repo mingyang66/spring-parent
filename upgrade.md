@@ -1,6 +1,6 @@
 ###
 -----
-基础库发布4.3.3
+基础库发布4.3.4
 Bug Fixes
 1. 日期SDK DatePatternType枚举类修改为DatePatternInfo常量类；
 2. 

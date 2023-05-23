@@ -99,6 +99,7 @@
                 <artifactId>java-jwt</artifactId>
                 <version>${java-jwt.version}</version>
             </dependency>
+            <!--JWT RSA秘钥对生成，非PKCS8转换-->
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>

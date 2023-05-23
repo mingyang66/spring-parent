@@ -2,15 +2,19 @@
 -----
 基础库发布4.3.4
 Bug Fixes
+
 1. 日期SDK DatePatternType枚举类修改为DatePatternInfo常量类；
 2. 日期SDK DateComputeUtils工具类新增minusMillis(Instant instant1, Instant instant2)工具方法；
 3. 日期SDK DateCompareUtils工具类新增compareTo(Instant instant1, Instant instant2)工具方法；
 4. SDK中设计到耗时计算的组件更改为使用DateComputeUtils.minusMills工具方法；
 5. springboot版本升级到2.7.12；
-6. 
+6. 日期SDK DateConvertUtils新增两个combine连接方法，将日期对象或字符串和时间对象和字符串拼接到一起；
+7.
+
 -----
 基础库发布4.3.3
 Bug Fixes
+
 1. 新增oceansky-date SDK组件，新增DateUtils工具类，内部包含14个工具方法，涉及字符串转日期，日期转字符串；
 2. 新增DateConvertUtils日期相互转换工具类；
 3. 新增DateCompareUtils日期比大小工具类；
@@ -22,6 +26,7 @@ Bug Fixes
 -----
 基础库发布4.3.2
 Bug Fixes
+
 1. 去除jaxb-api的pom引用，删除Md5Utils工具类；
 2. 单元测试junit-test依赖应用更改为dependencyManagement;
 3. 异常捕获多语言支持，并对多语言组件做优化调整；
@@ -85,7 +90,9 @@ Bug Fixes
 Bug Fixes
 
 1.
+
 DateUtils工具类新增getRemainTimeOfDay、getRemainDayOfMonth、getRemainDayOfYear方法，并将所有的BasicException异常修改为IllegalArgumentException;
+
 2. springboot升级到2.7.8；
 3. 新增重新定义RequestMappingHandlerMapping路由映射组件，支持用户自定义扩展路由到指定的控制器；
 4. 优化全局过滤器自动化配置类；

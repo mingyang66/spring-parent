@@ -28,6 +28,7 @@ import java.util.Date;
  * Date-LocalTime
  * LocalDateTime-LocalTime
  * ----------------------------------------------
+ *
  * @author Emily
  * @program: spring-parent
  * @create: 2020/06/16
@@ -267,5 +268,47 @@ public class DateConvertUtils {
             throw new IllegalArgumentException("非法参数");
         }
         return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 将日期和时间类型拼接成 LocalDateTime对象
+     *
+     * @param date1 日期
+     * @param date2 时间
+     * @return 拼接后的时间对象
+     */
+    public static LocalDateTime combine(LocalDate date1, LocalTime date2) {
+        if (date1 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (date2 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return LocalDateTime.of(date1, date2);
+    }
+
+    /**
+     * 将日期和时间类型拼接成 LocalDateTime对象
+     *
+     * @param date1    日期
+     * @param pattern1 日期date1的格式类型
+     * @param date2    时间
+     * @param pattern2 日期date2的格式类型
+     * @return 拼接后的时间对象
+     */
+    public static LocalDateTime combine(String date1, String pattern1, String date2, String pattern2) {
+        if (date1 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern1 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (date2 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern2 == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return LocalDateTime.of(LocalDate.parse(date1, DateTimeFormatter.ofPattern(pattern1)), LocalTime.parse(date2, DateTimeFormatter.ofPattern(pattern2)));
     }
 }

@@ -106,6 +106,15 @@ public class DateComputeUtils {
     }
 
     /**
+     * 获取今天剩余时间
+     *
+     * @return 剩余时间对象
+     */
+    public static Duration getRemainTimeOfDay() {
+        return DateComputeUtils.between(LocalDate.now().plusDays(1).atStartOfDay(), LocalDateTime.now());
+    }
+
+    /**
      * 计算两个日期的时间间隔，精度是秒、纳秒
      * ---------------------------------------------------------------
      * 格式转换

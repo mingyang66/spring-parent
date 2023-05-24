@@ -9,7 +9,8 @@ Bug Fixes
 4. SDK中设计到耗时计算的组件更改为使用DateComputeUtils.minusMills工具方法；
 5. springboot版本升级到2.7.12；
 6. 日期SDK DateConvertUtils新增两个combine连接方法，将日期对象或字符串和时间对象和字符串拼接到一起；
-7.
+7. 日期SDK新增DateComputeUtils.getRemainTimeOfDay()方法；
+8. 
 
 -----
 基础库发布4.3.3

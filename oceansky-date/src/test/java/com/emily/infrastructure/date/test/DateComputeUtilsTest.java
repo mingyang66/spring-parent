@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * @Description :  日期计算单元测试类
@@ -100,5 +101,20 @@ public class DateComputeUtilsTest {
         Instant instant4 = Instant.now();
         System.out.println(System.currentTimeMillis()-l1);
         System.out.println(DateComputeUtils.minusMillis(instant4, instant3));
+    }
+
+    @Test
+    public void shengyu(){
+        long seconds = LocalDate.now().atTime(23, 59, 59).toEpochSecond(ZoneOffset.of("+8")) - LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
+        System.out.println(seconds);
+        Duration duration = DateComputeUtils.between(LocalDate.now().plusDays(1).atStartOfDay(), LocalDateTime.now());
+        System.out.println(duration.getSeconds());
+        System.out.println(DateComputeUtils.getRemainTimeOfDay().getSeconds());
+
+        long second = Instant.ofEpochSecond(12).getEpochSecond();
+        System.out.println(second);
+        System.out.println(Instant.ofEpochSecond(12).toEpochMilli());
+        Date data = Date.from(Instant.ofEpochSecond(LocalDateTime.now().getSecond()));
+        System.out.println(DateConvertUtils.format(data, DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
     }
 }

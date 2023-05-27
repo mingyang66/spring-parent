@@ -10,7 +10,9 @@ Bug Fixes
 5. springboot版本升级到2.7.12；
 6. 日期SDK DateConvertUtils新增两个combine连接方法，将日期对象或字符串和时间对象和字符串拼接到一起；
 7. 日期SDK新增DateComputeUtils.getRemainTimeOfDay()方法；
-8. 
+8. RequestUtils工具类新增getHeader请求方法获取请求头；
+9. DataMaskUtils脱敏手机号、邮箱、银行卡、身份证等工具方法重构；
+10. 
 
 -----
 基础库发布4.3.3

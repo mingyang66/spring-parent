@@ -16,5 +16,7 @@ public enum SensitiveType {
     // 姓名
     USERNAME,
     // email
-    EMAIL;
+    EMAIL,
+    //地址
+    ADDRESS;
 }

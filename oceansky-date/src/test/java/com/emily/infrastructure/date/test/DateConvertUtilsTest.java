@@ -1,5 +1,6 @@
 package com.emily.infrastructure.date.test;
 
+import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import org.junit.Assert;
@@ -75,5 +76,13 @@ public class DateConvertUtilsTest {
 
         Date date = DateConvertUtils.toDate("20230201", DatePatternInfo.YYYYMMDD);
         Assert.assertEquals(DateConvertUtils.dateToInt(date, DatePatternInfo.YYYYMMDD), 20230201);
+    }
+    @Test
+    public void timestamp(){
+        Date date = DateConvertUtils.toDate(1685353612112L);
+        Assert.assertEquals(DateConvertUtils.format(date, DatePatternInfo.YYYY_MM_DD_HH_MM_SS),"2023-05-29 17:46:52");
+
+        Date date1 = DateConvertUtils.toDate(0);
+        Assert.assertEquals(DateConvertUtils.format(date1, DatePatternInfo.YYYY_MM_DD_HH_MM_SS),"1970-01-01 08:00:00");
     }
 }

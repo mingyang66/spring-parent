@@ -112,8 +112,8 @@ public class DateComputeUtilsTest {
         System.out.println(DateComputeUtils.getRemainTimeOfDay().getSeconds());
 
         long second = Instant.ofEpochSecond(12).getEpochSecond();
-        System.out.println(second);
-        System.out.println(Instant.ofEpochSecond(12).toEpochMilli());
+        Assert.assertEquals(second,12);
+        Assert.assertEquals(Instant.ofEpochSecond(12).toEpochMilli(),12000);
         Date data = Date.from(Instant.ofEpochSecond(LocalDateTime.now().getSecond()));
         System.out.println(DateConvertUtils.format(data, DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
     }

@@ -174,6 +174,15 @@ public class DateConvertUtils {
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    /**
+     * 将毫秒转换为日期对象
+     *
+     * @param milliseconds 毫秒，如：System.currentTimeMillis()
+     * @return 日期对象
+     */
+    public static Date toDate(long milliseconds) {
+        return new Date(milliseconds);
+    }
     //-----------------------------------------------------------LocalDateTime---------------------------------------------------------------------------------
 
     /**

@@ -23,6 +23,15 @@ public class DateConvertUtilsTest {
 
         Date date = DateConvertUtils.toDate("2023-05-14 12:52:56", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
         Assert.assertEquals(DateConvertUtils.format(date, DatePatternInfo.YYYY_MM_DD_HH_MM_SS), "2023-05-14 12:52:56");
+
+        LocalDateTime localDateTime = LocalDateTime.of(2023, 06, 01, 8, 52, 53);
+        Assert.assertEquals(DateConvertUtils.format(localDateTime, DatePatternInfo.YYYY_MM_DD_HH_MM_SS), "2023-06-01 08:52:53");
+
+        LocalDate localDate = LocalDate.of(2023, 06, 01);
+        Assert.assertEquals(DateConvertUtils.format(localDate, DatePatternInfo.YYYY_MM_DD), "2023-06-01");
+
+        LocalTime localTime = LocalTime.of(8, 52, 53);
+        Assert.assertEquals(DateConvertUtils.format(localTime, DatePatternInfo.HH_MM_SS), "08:52:53");
     }
 
     @Test
@@ -51,5 +60,20 @@ public class DateConvertUtilsTest {
         LocalDateTime localDateTime = DateConvertUtils.combine("20230506", DatePatternInfo.YYYYMMDD, "05:23:21", DatePatternInfo.HH_MM_SS);
         String s = LocalDateTime.of(localDateTime.toLocalDate(), localDateTime.toLocalTime()).format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
         Assert.assertEquals(s, "2023-05-06 05:23:21");
+        Assert.assertNotNull(DateConvertUtils.combine(LocalDate.now(), LocalTime.now()));
+    }
+
+    @Test
+    public void dateToInt() {
+        LocalDateTime localDateTime = LocalDateTime.of(2023, 06, 01, 8, 52, 53);
+        Assert.assertEquals(DateConvertUtils.dateToInt(localDateTime, DatePatternInfo.YYYYMMDDHHMMSS), 20230601085253L);
+        Assert.assertEquals(DateConvertUtils.dateToInt(localDateTime.toLocalDate(), null), 20230601);
+        Assert.assertEquals(DateConvertUtils.dateToInt(localDateTime.toLocalDate(), DatePatternInfo.YYYYMMDD), 20230601);
+        Assert.assertEquals(DateConvertUtils.dateToInt(localDateTime.toLocalTime(), null), 85253);
+        Assert.assertEquals(DateConvertUtils.dateToInt(localDateTime.toLocalTime(), DatePatternInfo.HHMMSS), 85253);
+        Assert.assertEquals(DateConvertUtils.dateToInt(localDateTime.toLocalTime(), DatePatternInfo.HHMM), 852);
+
+        Date date = DateConvertUtils.toDate("20230201", DatePatternInfo.YYYYMMDD);
+        Assert.assertEquals(DateConvertUtils.dateToInt(date, DatePatternInfo.YYYYMMDD), 20230201);
     }
 }

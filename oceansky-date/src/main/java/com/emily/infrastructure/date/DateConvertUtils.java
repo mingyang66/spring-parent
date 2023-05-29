@@ -47,7 +47,7 @@ public class DateConvertUtils {
             Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, sourcePattern);
             return DateFormatUtils.format(date, targetPattern);
         } catch (ParseException e) {
-            throw new IllegalArgumentException("非法数据");
+            throw new IllegalArgumentException("非法参数");
         }
     }
 
@@ -62,17 +62,76 @@ public class DateConvertUtils {
     }
 
     /**
+     * 日期对象转字符串
+     *
+     * @param date    日期对象
+     * @param pattern 日期格式
+     * @return 字符串日期
+     */
+    public static String format(LocalTime date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return date.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 日期对象转字符串
+     *
+     * @param date    日期对象
+     * @param pattern 日期格式
+     * @return 字符串日期
+     */
+    public static String format(LocalDate date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return date.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 日期对象转字符串
+     *
+     * @param date    日期对象
+     * @param pattern 日期格式
+     * @return 字符串日期
+     */
+    public static String format(LocalDateTime date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return date.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    //----------------------------------------------------------Date----------------------------------------------------------------------------------
+
+    /**
      * 字符串日期格式化
      *
      * @param str     字符串日期
-     * @param pattern 原始日期格式
+     * @param pattern 日期格式
      * @return 格式化后的日期
      */
     public static Date toDate(String str, String pattern) {
         try {
+            if (str == null || str.length() == 0) {
+                throw new IllegalArgumentException("非法参数");
+            }
+            if (pattern == null || pattern.length() == 0) {
+                throw new IllegalArgumentException("非法参数");
+            }
             return org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
         } catch (ParseException e) {
-            throw new IllegalArgumentException("非法数据");
+            throw new IllegalArgumentException("非法参数");
         }
     }
 
@@ -101,6 +160,8 @@ public class DateConvertUtils {
         }
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
+
+    //-----------------------------------------------------------LocalDateTime---------------------------------------------------------------------------------
 
     /**
      * 将LocalDate转换为LocalDateTime
@@ -184,6 +245,8 @@ public class DateConvertUtils {
         return date1.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
     }
 
+    //-------------------------------------------------------------------LocalDate-------------------------------------------------------------------------
+
     /**
      * 将Date数据类型转换为LocalDate
      *
@@ -226,6 +289,8 @@ public class DateConvertUtils {
         }
         return LocalDate.parse(str, DateTimeFormatter.ofPattern(pattern));
     }
+
+    //-----------------------------------------------------------------------LocalTime---------------------------------------------------------------------
 
     /**
      * 将Date数据类型转换为LocalDate
@@ -270,6 +335,8 @@ public class DateConvertUtils {
         return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern));
     }
 
+    //----------------------------------------------------------------combine----------------------------------------------------------------------------
+
     /**
      * 将日期和时间类型拼接成 LocalDateTime对象
      *
@@ -311,4 +378,77 @@ public class DateConvertUtils {
         }
         return LocalDateTime.of(LocalDate.parse(date1, DateTimeFormatter.ofPattern(pattern1)), LocalTime.parse(date2, DateTimeFormatter.ofPattern(pattern2)));
     }
+
+
+    //---------------------------------------------------------------dateToInt-----------------------------------------------------------------------------
+
+    /**
+     * 将日期对象转换为整数日期
+     *
+     * @param date    日期对象
+     * @param pattern 日期 格式
+     * @return 整数日期
+     */
+    public static long dateToInt(Date date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return Long.parseLong(format(date, pattern));
+    }
+
+    /**
+     * 将时间对象转换为整数类型
+     *
+     * @param date    时间对象
+     * @param pattern 日期格式
+     * @return 整数类型日期
+     */
+    public static long dateToInt(LocalTime date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            pattern = DatePatternInfo.HHMMSS;
+        }
+        return Long.parseLong(date.format(DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    /**
+     * 将日期对象转换为整数类型
+     *
+     * @param date    日期对象
+     * @param pattern 日期格式对象
+     * @return 整数类型日期
+     */
+    public static long dateToInt(LocalDate date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            pattern = DatePatternInfo.YYYYMMDD;
+        }
+        return dateToInt(date.atStartOfDay(), pattern);
+    }
+
+    /**
+     * 日期类型转换为整数类型
+     *
+     * @param date    日期对象
+     * @param pattern 日期格式
+     * @return 整数类型日期
+     */
+    public static long dateToInt(LocalDateTime date, String pattern) {
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            pattern = DatePatternInfo.YYYYMMDDHHMMSS;
+        }
+        return Long.parseLong(date.format(DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------
 }

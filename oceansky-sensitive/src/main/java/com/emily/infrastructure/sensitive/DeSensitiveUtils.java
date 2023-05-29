@@ -1,6 +1,5 @@
 package com.emily.infrastructure.sensitive;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
@@ -141,7 +140,7 @@ public class DeSensitiveUtils {
                 continue;
             }
             if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                list = (list == null) ? Lists.newArrayList() : list;
+                list = (list == null) ? new ArrayList<>() : list;
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
                 acquire(v);

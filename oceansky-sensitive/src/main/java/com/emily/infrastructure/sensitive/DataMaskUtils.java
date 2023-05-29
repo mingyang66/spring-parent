@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sensitive;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Arrays;
 
 /**
  * @Description :  数据隐藏
@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * @CreateDate :  Created in 2023/4/21 1:51 PM
  */
 public class DataMaskUtils {
+
     public static final String PLACE_HOLDER = "--隐藏--";
 
     /**
@@ -101,11 +102,7 @@ public class DataMaskUtils {
         // 中间字符串的长度
         int middle = str.length() - before.length() - after.length();
         // 中间字符串拼接为*号
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < middle; i++) {
-            sb.append('*');
-        }
-        return String.join(sb.toString(), before, after);
+        return String.join("*".repeat(Math.max(0, middle)), before, after);
     }
 
 
@@ -124,12 +121,8 @@ public class DataMaskUtils {
         if (len <= 0) {
             len = address.length() / 3;
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(address.substring(0, len));
-        for (int i = len; i < address.length(); i++) {
-            sb.append('*');
-        }
-        return sb.toString();
+        return address.substring(0, len) +
+                "*".repeat(Math.max(0, address.length() - len));
     }
 
     /**
@@ -164,7 +157,7 @@ public class DataMaskUtils {
         }
         String firstChar = username.substring(0, 1);
         String lastChar = username.substring(len - 1);
-        return StringUtils.join(firstChar, "***", lastChar, domain);
+        return String.join("", Arrays.asList(firstChar, "***", lastChar, domain));
     }
 
     /**
@@ -184,13 +177,9 @@ public class DataMaskUtils {
         if (cardNo.length() <= 10) {
             return maskMiddleTwoPortions(cardNo);
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(cardNo.substring(0, 6));
-        for (int i = 6; i < cardNo.length() - 4; i++) {
-            sb.append('*');
-        }
-        sb.append(cardNo.substring(cardNo.length() - 4));
-        return sb.toString();
+        return cardNo.substring(0, 6) +
+                "*".repeat(cardNo.length() - 10) +
+                cardNo.substring(cardNo.length() - 4);
     }
 
     /**
@@ -218,9 +207,8 @@ public class DataMaskUtils {
                 return DataMaskUtils.maskChineseName(value);
             case ADDRESS:
                 return DataMaskUtils.maskAddress(value, 0);
-            case DEFAULT:
-                return DataMaskUtils.maskMiddleTwoPortions(value);
+            default:
+                return PLACE_HOLDER;
         }
-        return PLACE_HOLDER;
     }
 }

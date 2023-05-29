@@ -12,7 +12,8 @@ Bug Fixes
 7. 日期SDK新增DateComputeUtils.getRemainTimeOfDay()方法；
 8. RequestUtils工具类新增getHeader请求方法获取请求头；
 9. DataMaskUtils脱敏手机号、邮箱、银行卡、身份证等工具方法重构；
-10. 
+10. oceansky-sensitive脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
+11. 
 
 -----
 基础库发布4.3.3

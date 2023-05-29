@@ -31,13 +31,13 @@ public class SensitiveTest {
         People p = DeSensitiveUtils.acquire(people);
         Assert.assertEquals(p, people);
         Assert.assertEquals(p.getKey(), "email");
-        Assert.assertEquals(p.getValue(), "1*********@qq.com");
+        Assert.assertEquals(p.getValue(), "1***8@qq.com");
 
         people.setKey("phone");
         people.setValue("1563919868");
         p = DeSensitiveUtils.acquire(people);
         Assert.assertEquals(p.getKey(), "phone");
-        Assert.assertEquals(people.getValue(),"15******68");
+        Assert.assertEquals(people.getValue(),"15****9868");
     }
     @Test
     public void jsonNullFieldTest(){

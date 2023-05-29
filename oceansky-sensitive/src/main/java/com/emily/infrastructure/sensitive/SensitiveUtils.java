@@ -1,7 +1,5 @@
 package com.emily.infrastructure.sensitive;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
@@ -31,7 +29,7 @@ public class SensitiveUtils {
                 }
                 return coll;
             } else if (entity instanceof Map) {
-                Map<Object, Object> dMap = Maps.newHashMap();
+                Map<Object, Object> dMap = new HashMap<>();
                 for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
                     dMap.put(entry.getKey(), acquire(entry.getValue()));
                 }
@@ -62,7 +60,7 @@ public class SensitiveUtils {
      * @return 实体类属性脱敏后的集合对象
      */
     private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
-        Map<String, Object> fieldMap = Maps.newHashMap();
+        Map<String, Object> fieldMap = new HashMap<>();
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
@@ -134,7 +132,7 @@ public class SensitiveUtils {
      * @return 脱敏后的数据对象
      */
     protected static Object doGetEntityColl(final Field field, final Object value) {
-        Collection<Object> list = Lists.newArrayList();
+        Collection<Object> list = new ArrayList<>();
         Collection collection = (Collection) value;
         for (Iterator it = collection.iterator(); it.hasNext(); ) {
             Object v = it.next();
@@ -155,7 +153,7 @@ public class SensitiveUtils {
      * @return 脱敏后的数据对象
      */
     protected static Object doGetEntityMap(final Field field, final Object value) {
-        Map<Object, Object> dMap = Maps.newHashMap();
+        Map<Object, Object> dMap = new HashMap<>();
         for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
@@ -231,7 +229,7 @@ public class SensitiveUtils {
             } else {
                 type = jsonFlexField.types()[index];
             }
-            flexFieldMap = Objects.isNull(flexFieldMap) ? Maps.newHashMap() : flexFieldMap;
+            flexFieldMap = Objects.isNull(flexFieldMap) ? new HashMap<>() : flexFieldMap;
             flexFieldMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) flexValue, type));
         }
         return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;

@@ -15,12 +15,12 @@ public class CaptchaBuilder {
      */
     private byte[] image;
 
-    public CaptchaBuilder code(String code) {
+    public CaptchaBuilder withCode(String code) {
         this.code = code;
         return this;
     }
 
-    public CaptchaBuilder image(byte[] image) {
+    public CaptchaBuilder withImage(byte[] image) {
         this.image = image;
         return this;
     }

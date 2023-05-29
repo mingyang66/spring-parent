@@ -14,7 +14,8 @@ Bug Fixes
 9. DataMaskUtils脱敏手机号、邮箱、银行卡、身份证等工具方法重构；
 10. oceansky-sensitive脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
 11. oceansky-date日期组件SDK去除掉commons-lang3依赖引用，将Date类型日期转换调整为使用SimpleDateFormat;
-12. 
+12. oceansky-captcha图形验证码组件去掉commons-lang3依赖引用；
+13. 
 
 -----
 基础库发布4.3.3

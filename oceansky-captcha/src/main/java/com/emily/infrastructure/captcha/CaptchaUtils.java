@@ -1,8 +1,5 @@
 package com.emily.infrastructure.captcha;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,6 +14,8 @@ import java.util.Random;
  * @See Also: 获取字体对象 Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
  */
 public class CaptchaUtils {
+
+    private static final Random RANDOM = new Random();
     /**
      * 数字
      */
@@ -179,7 +178,7 @@ public class CaptchaUtils {
         }
         ByteArrayOutputStream bas = new ByteArrayOutputStream();
         ImageIO.write(image, FORMAT_NAME, bas);
-        return new CaptchaBuilder().code(StringUtils.join(code)).image(bas.toByteArray()).build();
+        return new CaptchaBuilder().withCode(String.join("", code)).withImage(bas.toByteArray()).build();
 
     }
 
@@ -194,7 +193,7 @@ public class CaptchaUtils {
         // 计算文字长度，计算居中的x点坐标，即字符串左边位置
         FontMetrics fm = graphic.getFontMetrics(graphic.getFont());
         // 字符串宽度
-        int textWidth = fm.stringWidth(StringUtils.join(code));
+        int textWidth = fm.stringWidth(String.join("", code));
         // 字符串左侧x坐标
         int x = (width - textWidth) / 2;
         /**
@@ -221,7 +220,7 @@ public class CaptchaUtils {
         int y = (height - (fm.getAscent() + fm.getDescent())) / 2 + fm.getAscent();
         for (int i = 0; i < code.length; i++) {
             // 设置随机颜色
-            graphic.setColor(new Color(RandomUtils.nextInt(0, 255), RandomUtils.nextInt(0, 255), RandomUtils.nextInt(0, 255)));
+            graphic.setColor(new Color(RANDOM.nextInt(255), RANDOM.nextInt(255), RANDOM.nextInt( 255)));
             // 绘制字符串
             graphic.drawString(code[i], x + (textWidth / code.length) * i, y);
         }
@@ -265,9 +264,9 @@ public class CaptchaUtils {
         // 画干扰线
         for (int i = 0; i < lineCount; i++) {
             // 设置随机颜色
-            graphic.setColor(new Color(RandomUtils.nextInt(0, 255), RandomUtils.nextInt(0, 255), RandomUtils.nextInt(0, 255)));
+            graphic.setColor(new Color(RANDOM.nextInt(255), RANDOM.nextInt(255), RANDOM.nextInt(255)));
             // 随机画线
-            graphic.drawLine(RandomUtils.nextInt(0, width), RandomUtils.nextInt(0, height), RandomUtils.nextInt(0, width), RandomUtils.nextInt(0, height));
+            graphic.drawLine(RANDOM.nextInt(width), RANDOM.nextInt(height), RANDOM.nextInt(width), RANDOM.nextInt(height));
         }
     }
 }

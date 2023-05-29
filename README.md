@@ -11,37 +11,37 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-captcha</artifactId>
-  <version>4.3.3</version>
+  <version>4.3.4</version>
 </dependency>
 <!--Java简繁体转换、多语言支持SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-language</artifactId>
-  <version>4.3.3</version>
+  <version>4.3.4</version>
 </dependency>
 <!--Java实体类脱敏SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-sensitive</artifactId>
-  <version>4.3.3</version>
+  <version>4.3.4</version>
 </dependency>  
 <!--Java基于jackson的序列化反序列化SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-json</artifactId>
-  <version>4.3.3</version>
+  <version>4.3.4</version>
 </dependency>  
 <!--Java基于JWT获取签名解析签名SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-jwt</artifactId>
-  <version>4.3.3</version>
+  <version>4.3.4</version>
 </dependency>  
 <!--Java基于日期转换比较计算SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-date</artifactId>
-  <version>4.3.3</version>
+  <version>4.3.4</version>
 </dependency>  
 ```
 

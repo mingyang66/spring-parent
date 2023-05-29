@@ -2,9 +2,9 @@ package com.emily.infrastructure.core.context.holder;
 
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.helper.UUIDUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import com.emily.infrastructure.core.helper.UUIDUtils;
 import com.emily.infrastructure.language.convert.LanguageType;
 import org.apache.commons.lang3.StringUtils;
 

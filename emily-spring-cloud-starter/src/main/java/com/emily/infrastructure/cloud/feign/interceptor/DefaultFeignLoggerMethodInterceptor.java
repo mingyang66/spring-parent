@@ -10,6 +10,7 @@ import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -20,7 +21,6 @@ import org.slf4j.Logger;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author Emily
@@ -70,7 +70,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
                     //耗时
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //触发时间
-                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)))
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //响应结果
                     .withBody(SensitiveUtils.acquire(response))
                     //请求参数

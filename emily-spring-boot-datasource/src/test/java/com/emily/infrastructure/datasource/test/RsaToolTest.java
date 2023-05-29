@@ -2,9 +2,6 @@ package com.emily.infrastructure.datasource.test;
 
 import org.junit.Test;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-
 import static com.alibaba.druid.filter.config.ConfigTools.encrypt;
 import static com.alibaba.druid.filter.config.ConfigTools.genKeyPair;
 

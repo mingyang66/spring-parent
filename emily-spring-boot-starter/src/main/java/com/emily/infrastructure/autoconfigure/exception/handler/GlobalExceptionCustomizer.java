@@ -2,13 +2,14 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.helper.UUIDUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.core.helper.UUIDUtils;
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -22,7 +23,6 @@ import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Objects;
 
@@ -92,7 +92,7 @@ public class GlobalExceptionCustomizer {
                     //版本号
                     .withAppVersion(ThreadContextHolder.current().getAppVersion())
                     //触发时间
-                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)))
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //请求参数
                     .withRequestParams(paramsMap)
                     //响应体

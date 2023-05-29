@@ -7,6 +7,7 @@ import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
@@ -17,7 +18,6 @@ import org.slf4j.Logger;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -48,7 +48,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .withServerIp(ThreadContextHolder.current().getServerIp())
                     .withRequestParams(RequestHelper.getMethodArgs(invocation))
                     .withUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
-                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DDTHH_MM_SS_COLON_SSS)))
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //非servlet上下文移除数据
             ThreadContextHolder.unbind();

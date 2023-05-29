@@ -1,5 +1,6 @@
 package com.emily.cloud.test.api.socket;
 
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 
 import java.io.InputStream;
@@ -26,7 +27,7 @@ public class SocketServerStarter {
                 int len = is.read(bytes);
                 System.out.println("服务器端接收到：" + new String(bytes, 0, len));
                 OutputStream os = a1.getOutputStream();
-                String now = "我是服务器，当前时间是：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
+                String now = "我是服务器，当前时间是：" + DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS);
                 os.write(now.getBytes());
                 os.flush();
             }

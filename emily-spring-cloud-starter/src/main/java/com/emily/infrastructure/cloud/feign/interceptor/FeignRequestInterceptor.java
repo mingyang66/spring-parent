@@ -6,6 +6,7 @@ import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -15,7 +16,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author Emily
@@ -34,7 +34,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
                 //事务唯一编号
                 .withTraceId(ThreadContextHolder.current().getTraceId())
                 //时间
-                .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)))
+                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求url
                 .withUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")))
                 //请求参数

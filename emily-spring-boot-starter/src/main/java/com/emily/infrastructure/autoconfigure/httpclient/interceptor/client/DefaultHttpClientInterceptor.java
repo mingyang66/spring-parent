@@ -8,6 +8,7 @@ import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
+import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import org.slf4j.Logger;
@@ -20,7 +21,6 @@ import org.springframework.util.StreamUtils;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author Emily
@@ -82,7 +82,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
                     //耗时
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //响应时间
-                    .withTriggerTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS)));
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据

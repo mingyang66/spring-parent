@@ -7,7 +7,7 @@ import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.Defa
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.HttpClientCustomizer;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.DefaultHttpTimeoutMethodInterceptor;
 import com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout.HttpTimeoutCustomizer;
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;

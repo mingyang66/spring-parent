@@ -3,7 +3,7 @@ package com.emily.infrastructure.datasource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DynamicRoutingDataSource;

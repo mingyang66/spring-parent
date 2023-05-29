@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.mingyang66</groupId>
-        <artifactId>spring-parent</artifactId>
-        <version>4.3.3</version>
+        <artifactId>emily-sdk</artifactId>
+        <version>4.3.4</version>
     </parent>
 
     <artifactId>oceansky-json</artifactId>

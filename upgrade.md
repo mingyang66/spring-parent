@@ -1,5 +1,9 @@
 ###
 -----
+基础库发布4.3.5
+Bug Fixes
+1. 
+-----
 基础库发布4.3.4
 Bug Fixes
 
@@ -15,7 +19,7 @@ Bug Fixes
 10. oceansky-sensitive脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
 11. oceansky-date日期组件SDK去除掉commons-lang3依赖引用，将Date类型日期转换调整为使用SimpleDateFormat;
 12. oceansky-captcha图形验证码组件去掉commons-lang3依赖引用；
-13. 
+13. 删除掉oceansky-commons包，并修改其依赖；
 
 -----
 基础库发布4.3.3

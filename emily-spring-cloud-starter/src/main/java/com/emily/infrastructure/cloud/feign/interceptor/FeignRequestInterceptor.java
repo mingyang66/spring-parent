@@ -1,9 +1,9 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
-import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.core.constant.AttributeInfo;
+import com.emily.infrastructure.core.constant.CharacterInfo;
+import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.date.DatePatternInfo;

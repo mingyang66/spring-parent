@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
+import static com.alibaba.druid.filter.config.ConfigTools.encrypt;
 import static com.alibaba.druid.filter.config.ConfigTools.genKeyPair;
-import static com.emily.infrastructure.common.utils.hash.DesUtils.encrypt;
 
 /**
  * @Description : 数据库密码生成
@@ -15,7 +15,7 @@ import static com.emily.infrastructure.common.utils.hash.DesUtils.encrypt;
  */
 public class RsaToolTest {
     @Test
-    public void test() throws NoSuchAlgorithmException, NoSuchProviderException {
+    public void test() throws Exception {
         String password = "123";
         String[] arr = genKeyPair(512);
         System.out.println("privateKey:" + arr[0]);

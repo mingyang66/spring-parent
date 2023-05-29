@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis.helper;
 
-import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import org.springframework.util.Assert;
 

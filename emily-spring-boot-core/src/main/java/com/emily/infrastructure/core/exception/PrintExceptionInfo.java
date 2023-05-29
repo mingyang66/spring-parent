@@ -1,6 +1,6 @@
 package com.emily.infrastructure.core.exception;
 
-import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.core.constant.CharacterInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;

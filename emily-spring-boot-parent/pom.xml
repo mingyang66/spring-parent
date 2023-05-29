@@ -8,8 +8,8 @@
     <url>https://github.com/mingyang66/spring-parent</url>
     <parent>
         <groupId>io.github.mingyang66</groupId>
-        <artifactId>spring-parent</artifactId>
-        <version>4.3.3</version>
+        <artifactId>emily-sdk</artifactId>
+        <version>4.3.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

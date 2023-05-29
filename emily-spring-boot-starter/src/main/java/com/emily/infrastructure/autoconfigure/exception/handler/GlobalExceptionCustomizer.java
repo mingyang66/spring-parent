@@ -1,8 +1,8 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
-import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.common.object.UUIDUtils;
+import com.emily.infrastructure.core.constant.AttributeInfo;
+import com.emily.infrastructure.core.constant.HeaderInfo;
+import com.emily.infrastructure.core.helper.UUIDUtils;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;

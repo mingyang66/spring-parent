@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.example.amqp.lazy;
 
-import com.emily.infrastructure.common.object.UUIDUtils;
+import com.emily.infrastructure.core.helper.UUIDUtils;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;

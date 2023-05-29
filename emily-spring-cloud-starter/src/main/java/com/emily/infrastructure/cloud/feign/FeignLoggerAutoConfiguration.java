@@ -5,7 +5,7 @@ import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerCustomizer;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import feign.Logger;

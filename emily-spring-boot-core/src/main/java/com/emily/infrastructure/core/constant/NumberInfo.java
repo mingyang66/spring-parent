@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common.constant;
+package com.emily.infrastructure.core.constant;
 
 /**
  * @Description :  数字常量

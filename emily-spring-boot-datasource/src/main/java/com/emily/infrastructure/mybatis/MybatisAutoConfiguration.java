@@ -1,6 +1,6 @@
 package com.emily.infrastructure.mybatis;
 
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.mybatis.interceptor.DefaultMybatisMethodInterceptor;

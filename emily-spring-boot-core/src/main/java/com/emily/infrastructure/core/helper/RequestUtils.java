@@ -1,6 +1,6 @@
 package com.emily.infrastructure.core.helper;
 
-import com.emily.infrastructure.common.constant.AttributeInfo;
+import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;

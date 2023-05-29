@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.httpclient;
 
 
-import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.core.constant.CharacterInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

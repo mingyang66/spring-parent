@@ -1,6 +1,6 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;

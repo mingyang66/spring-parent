@@ -1,6 +1,6 @@
 package com.emily.infrastructure.core.entity;
 
-import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.language.convert.LanguageType;

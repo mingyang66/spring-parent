@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout;
 
 import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.autoconfigure.httpclient.context.HttpContextHolder;
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.http.client.config.RequestConfig;
 

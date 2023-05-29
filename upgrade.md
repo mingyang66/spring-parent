@@ -2,7 +2,8 @@
 -----
 基础库发布4.3.5
 Bug Fixes
-1. 
+1. emily-spring-cloud-starter组件删除httpclient对自定义负载均衡支持；
+2. 
 -----
 基础库发布4.3.4
 Bug Fixes

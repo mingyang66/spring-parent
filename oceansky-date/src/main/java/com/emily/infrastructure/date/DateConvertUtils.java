@@ -1,8 +1,8 @@
 package com.emily.infrastructure.date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,12 +43,17 @@ public class DateConvertUtils {
      * @return 格式化后的日期
      */
     public static String format(String str, String sourcePattern, String targetPattern) {
-        try {
-            Date date = org.apache.commons.lang3.time.DateUtils.parseDate(str, sourcePattern);
-            return DateFormatUtils.format(date, targetPattern);
-        } catch (ParseException e) {
+        if (str == null || str.length() == 0) {
             throw new IllegalArgumentException("非法参数");
         }
+        if (sourcePattern == null || sourcePattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (targetPattern == null || targetPattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        DateFormat sdf = new SimpleDateFormat(targetPattern);
+        return sdf.format(toDate(str, sourcePattern));
     }
 
     /**
@@ -58,7 +63,14 @@ public class DateConvertUtils {
      * @return 格式化后的日期
      */
     public static String format(Date date, String pattern) {
-        return DateFormatUtils.format(date, pattern);
+        if (date == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        DateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(date);
     }
 
     /**
@@ -129,7 +141,8 @@ public class DateConvertUtils {
             if (pattern == null || pattern.length() == 0) {
                 throw new IllegalArgumentException("非法参数");
             }
-            return org.apache.commons.lang3.time.DateUtils.parseDate(str, pattern);
+            DateFormat sdf = new SimpleDateFormat(pattern);
+            return sdf.parse(str);
         } catch (ParseException e) {
             throw new IllegalArgumentException("非法参数");
         }

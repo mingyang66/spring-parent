@@ -1,8 +1,8 @@
 package com.emily.infrastructure.date;
 
-import org.apache.commons.lang3.StringUtils;
-
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 
@@ -22,15 +22,22 @@ public class DateCompareUtils {
      * @return 1:date1>date2、0:date1=date2 -1:date1<date2
      */
     public static int compareTo(String date1, String date2, String pattern) {
-        if (StringUtils.isEmpty(date1) || StringUtils.isEmpty(date2) || StringUtils.isEmpty(pattern)) {
+        if (date1 == null || date1.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (date2 == null || date2.length() == 0) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        if (pattern == null || pattern.length() == 0) {
             throw new IllegalArgumentException("非法参数");
         }
         try {
-            Date first = org.apache.commons.lang3.time.DateUtils.parseDate(date1, pattern);
-            Date second = org.apache.commons.lang3.time.DateUtils.parseDate(date2, pattern);
+            DateFormat sdf = new SimpleDateFormat(pattern);
+            Date first = sdf.parse(date1);
+            Date second = sdf.parse(date2);
             return first.compareTo(second);
         } catch (ParseException e) {
-            throw new IllegalArgumentException("非法数据");
+            throw new IllegalArgumentException("非法参数");
         }
     }
 

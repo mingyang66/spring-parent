@@ -36,7 +36,7 @@ public class DateConvertUtilsTest {
     }
 
     @Test
-    public void toDate() {
+    public void toLocalDateTime() {
         Assert.assertNotNull(DateConvertUtils.toDate("2023-05-14 12:52:56", DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
         Assert.assertNotNull(DateConvertUtils.toDate(LocalDate.now()));
         Assert.assertNotNull(DateConvertUtils.toDate(LocalDateTime.now()));
@@ -61,18 +61,53 @@ public class DateConvertUtilsTest {
         LocalDateTime localDateTime12 = DateConvertUtils.toLocalDateTime(localDate);
         Assert.assertEquals(DateConvertUtils.format(localDateTime12, DatePatternInfo.YYYY_MM_DD_HH_MM_SS), "2023-05-06 00:00:00");
 
-        Assert.assertNotNull(DateConvertUtils.toLocalDate("2023-05-14", DatePatternInfo.YYYY_MM_DD));
-        Assert.assertNotNull(DateConvertUtils.toLocalDate(new Date()));
-        Assert.assertNotNull(DateConvertUtils.toLocalDate(LocalDateTime.now()));
-
-        Assert.assertNotNull(DateConvertUtils.toLocalTime("12:52:56", DatePatternInfo.HH_MM_SS));
-        Assert.assertNotNull(DateConvertUtils.toLocalTime(new Date()));
-        Assert.assertNotNull(DateConvertUtils.toLocalTime(LocalDateTime.now()));
-
         LocalDateTime localDateTime = DateConvertUtils.toLocalDateTime(LocalDate.of(2023, 3, 14), LocalTime.of(12, 12, 12), ZoneId.of("America/New_York"));
         Assert.assertEquals(localDateTime.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS)), "2023-03-14 00:12:12");
         LocalDateTime localDateTime1 = DateConvertUtils.toLocalDateTime(LocalDate.of(2023, 3, 14), LocalTime.of(12, 12, 12));
         Assert.assertEquals(localDateTime1.format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS)), "2023-03-14 12:12:12");
+    }
+
+    @Test
+    public void toLocalDate() {
+        Date date1 = Date.from(LocalDate.of(2023, 05, 06).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Assert.assertEquals(DateConvertUtils.format(date1, DatePatternInfo.YYYY_MM_DD_HH_MM_SS), "2023-05-06 00:00:00");
+        LocalDate localDate1 = DateConvertUtils.toLocalDate(date1, ZoneId.of("America/New_York"));
+        Assert.assertEquals(DateConvertUtils.format(localDate1, DatePatternInfo.YYYY_MM_DD), "2023-05-05");
+        LocalDate localDate2 = DateConvertUtils.toLocalDate(date1);
+        Assert.assertEquals(DateConvertUtils.format(localDate2, DatePatternInfo.YYYY_MM_DD), "2023-05-06");
+
+        LocalDateTime localDateTime13 = LocalDateTime.of(2023, 05, 06, 11, 52, 53);
+        Assert.assertEquals(DateConvertUtils.format(localDateTime13, DatePatternInfo.YYYY_MM_DD_HH_MM_SS), "2023-05-06 11:52:53");
+        LocalDate localDate3 = DateConvertUtils.toLocalDate(localDateTime13, ZoneId.of("America/New_York"));
+        Assert.assertEquals(DateConvertUtils.format(localDate3, DatePatternInfo.YYYY_MM_DD), "2023-05-05");
+        LocalDate localDate4 = DateConvertUtils.toLocalDate(localDateTime13);
+        Assert.assertEquals(DateConvertUtils.format(localDate4, DatePatternInfo.YYYY_MM_DD), "2023-05-06");
+
+        LocalDate localDate5 = DateConvertUtils.toLocalDate("2023-05-14", DatePatternInfo.YYYY_MM_DD);
+        Assert.assertEquals(DateConvertUtils.format(localDate5, DatePatternInfo.YYYY_MM_DD), "2023-05-14");
+        LocalDate localDate6 = DateConvertUtils.toLocalDate("2023-05-14", DatePatternInfo.YYYY_MM_DD, ZoneId.of("America/New_York"));
+        Assert.assertEquals(DateConvertUtils.format(localDate6, DatePatternInfo.YYYY_MM_DD), "2023-05-13");
+    }
+
+    @Test
+    public void toLocalTime() {
+        LocalTime localTime1 = DateConvertUtils.toLocalTime("12:52:56", DatePatternInfo.HH_MM_SS);
+        Assert.assertEquals(DateConvertUtils.format(localTime1, DatePatternInfo.HHMMSS), "125256");
+        LocalTime localTime2 = DateConvertUtils.toLocalTime("12:52:56", DatePatternInfo.HH_MM_SS, ZoneId.of("America/New_York"));
+        Assert.assertEquals(DateConvertUtils.format(localTime2, DatePatternInfo.HHMMSS), "005256");
+
+        LocalDateTime localDateTime1 = LocalDateTime.of(2023, 05, 06, 13, 14, 25);
+        LocalTime localTime3 = DateConvertUtils.toLocalTime(localDateTime1);
+        Assert.assertEquals(DateConvertUtils.format(localTime3, DatePatternInfo.HHMMSS), "131425");
+        LocalTime localTime4 = DateConvertUtils.toLocalTime(localDateTime1, ZoneId.of("America/New_York"));
+        Assert.assertEquals(DateConvertUtils.format(localTime4, DatePatternInfo.HHMMSS), "011425");
+
+        LocalDateTime localDateTime2 = LocalDateTime.of(2023, 05, 06, 13, 14, 25);
+        Date date = Date.from(localDateTime2.atZone(ZoneId.systemDefault()).toInstant());
+        LocalTime localTime5 = DateConvertUtils.toLocalTime(date);
+        Assert.assertEquals(DateConvertUtils.format(localTime5, DatePatternInfo.HHMMSS), "131425");
+        LocalTime localTime6 = DateConvertUtils.toLocalTime(date, ZoneId.of("America/New_York"));
+        Assert.assertEquals(DateConvertUtils.format(localTime6, DatePatternInfo.HHMMSS), "011425");
     }
 
     @Test

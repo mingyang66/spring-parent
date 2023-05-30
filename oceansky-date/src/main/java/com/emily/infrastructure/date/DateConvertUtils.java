@@ -24,6 +24,7 @@ import java.util.Date;
  * 字符串-LocalTime
  * Date-LocalTime
  * LocalDateTime-LocalTime
+ *
  * ----------------------------------------------
  *
  * @author Emily
@@ -95,13 +96,41 @@ public class DateConvertUtils {
      * @return 字符串日期
      */
     public static String format(LocalDate date, String pattern) {
+        return format(date, pattern, ZoneId.systemDefault());
+    }
+
+    /**
+     * 日期对象转字符串
+     * --------------------------------------------------------------------------------------------
+     * 示例说明：
+     * <p>
+     * 格林威治时区：ZoneId.of("UTC") 和 ZoneId.of("GMT")
+     * <p>
+     * 北京时间，东八区： ZoneId.of("Asia/Shanghai") 和 ZoneId.of("GMT+8")
+     * Asia/Shanghai和GMT+8都是用于表示北京时间的方式，它们都代表同一个时区。但是在Java中，推荐使用"Asia/Shanghai"这个标识符来表示北京时间。
+     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而GMT+8只是一个表示时差的简单方式，没有考虑到夏令时等复杂情况。
+     * <p>
+     * 美东时区：ZoneId.of("America/New_York") 和 ZoneId.of("US/Eastern")
+     * America/New_York和US/Eastern都是表示美东时间的时区标识符，但是在Java中，推荐使用"America/New_York"这个标识符来表示美东时间。
+     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而US/Eastern是一个较旧的标识符，更容易导致时区错误
+     * --------------------------------------------------------------------------------------------
+     *
+     * @param date    日期对象
+     * @param pattern 日期格式
+     * @param zoneId  时区
+     * @return 字符串日期
+     */
+    public static String format(LocalDate date, String pattern, ZoneId zoneId) {
         if (date == null) {
             throw new IllegalArgumentException("非法参数");
         }
         if (pattern == null || pattern.length() == 0) {
             throw new IllegalArgumentException("非法参数");
         }
-        return date.format(DateTimeFormatter.ofPattern(pattern));
+        if (zoneId == null) {
+            zoneId = ZoneId.systemDefault();
+        }
+        return date.atStartOfDay().atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     /**
@@ -117,6 +146,19 @@ public class DateConvertUtils {
 
     /**
      * 日期对象转字符串
+     * --------------------------------------------------------------------------------------------
+     * 示例说明：
+     * <p>
+     * 格林威治时区：ZoneId.of("UTC") 和 ZoneId.of("GMT")
+     * <p>
+     * 北京时间，东八区： ZoneId.of("Asia/Shanghai") 和 ZoneId.of("GMT+8")
+     * Asia/Shanghai和GMT+8都是用于表示北京时间的方式，它们都代表同一个时区。但是在Java中，推荐使用"Asia/Shanghai"这个标识符来表示北京时间。
+     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而GMT+8只是一个表示时差的简单方式，没有考虑到夏令时等复杂情况。
+     * <p>
+     * 美东时区：ZoneId.of("America/New_York") 和 ZoneId.of("US/Eastern")
+     * America/New_York和US/Eastern都是表示美东时间的时区标识符，但是在Java中，推荐使用"America/New_York"这个标识符来表示美东时间。
+     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而US/Eastern是一个较旧的标识符，更容易导致时区错误
+     * --------------------------------------------------------------------------------------------
      *
      * @param date    日期对象
      * @param pattern 日期格式
@@ -133,7 +175,7 @@ public class DateConvertUtils {
         if (zoneId == null) {
             zoneId = ZoneId.systemDefault();
         }
-        return date.atZone(zoneId).format(DateTimeFormatter.ofPattern(pattern));
+        return date.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     //----------------------------------------------------------Date----------------------------------------------------------------------------------
@@ -575,37 +617,10 @@ public class DateConvertUtils {
      * @return 转换后的LocalDate对象
      */
     public static LocalTime toLocalTime(Date date) {
-        return toLocalTime(date, ZoneId.systemDefault());
-    }
-
-    /**
-     * 将Date数据类型转换为LocalDate
-     * --------------------------------------------------------------------------------------------
-     * 示例说明：
-     * <p>
-     * 格林威治时区：ZoneId.of("UTC") 和 ZoneId.of("GMT")
-     * <p>
-     * 北京时间，东八区： ZoneId.of("Asia/Shanghai") 和 ZoneId.of("GMT+8")
-     * Asia/Shanghai和GMT+8都是用于表示北京时间的方式，它们都代表同一个时区。但是在Java中，推荐使用"Asia/Shanghai"这个标识符来表示北京时间。
-     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而GMT+8只是一个表示时差的简单方式，没有考虑到夏令时等复杂情况。
-     * <p>
-     * 美东时区：ZoneId.of("America/New_York") 和 ZoneId.of("US/Eastern")
-     * America/New_York和US/Eastern都是表示美东时间的时区标识符，但是在Java中，推荐使用"America/New_York"这个标识符来表示美东时间。
-     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而US/Eastern是一个较旧的标识符，更容易导致时区错误
-     * --------------------------------------------------------------------------------------------
-     *
-     * @param date   日期对象
-     * @param zoneId 时区
-     * @return 转换后的LocalDate对象
-     */
-    public static LocalTime toLocalTime(Date date, ZoneId zoneId) {
         if (date == null) {
             throw new IllegalArgumentException("非法参数");
         }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
-        return date.toInstant().atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalTime();
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
     }
 
     /**
@@ -615,37 +630,10 @@ public class DateConvertUtils {
      * @return LocalTime对象
      */
     public static LocalTime toLocalTime(LocalDateTime localDateTime) {
-        return toLocalTime(localDateTime, ZoneId.systemDefault());
-    }
-
-    /**
-     * 将LocalDateTime转 LocalTime对象
-     * --------------------------------------------------------------------------------------------
-     * 示例说明：
-     * <p>
-     * 格林威治时区：ZoneId.of("UTC") 和 ZoneId.of("GMT")
-     * <p>
-     * 北京时间，东八区： ZoneId.of("Asia/Shanghai") 和 ZoneId.of("GMT+8")
-     * Asia/Shanghai和GMT+8都是用于表示北京时间的方式，它们都代表同一个时区。但是在Java中，推荐使用"Asia/Shanghai"这个标识符来表示北京时间。
-     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而GMT+8只是一个表示时差的简单方式，没有考虑到夏令时等复杂情况。
-     * <p>
-     * 美东时区：ZoneId.of("America/New_York") 和 ZoneId.of("US/Eastern")
-     * America/New_York和US/Eastern都是表示美东时间的时区标识符，但是在Java中，推荐使用"America/New_York"这个标识符来表示美东时间。
-     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而US/Eastern是一个较旧的标识符，更容易导致时区错误
-     * --------------------------------------------------------------------------------------------
-     *
-     * @param localDateTime 日期对象
-     * @param zoneId        时区
-     * @return LocalTime对象
-     */
-    public static LocalTime toLocalTime(LocalDateTime localDateTime, ZoneId zoneId) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("非法参数");
         }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
-        return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalTime();
+        return localDateTime.toLocalTime();
     }
 
     /**
@@ -656,41 +644,13 @@ public class DateConvertUtils {
      * @return 日期对象
      */
     public static LocalTime toLocalTime(String str, String pattern) {
-        return toLocalTime(str, pattern, ZoneId.systemDefault());
-    }
-
-    /**
-     * 将字符串日期转换为LocalDate对象
-     * --------------------------------------------------------------------------------------------
-     * 示例说明：
-     * <p>
-     * 格林威治时区：ZoneId.of("UTC") 和 ZoneId.of("GMT")
-     * <p>
-     * 北京时间，东八区： ZoneId.of("Asia/Shanghai") 和 ZoneId.of("GMT+8")
-     * Asia/Shanghai和GMT+8都是用于表示北京时间的方式，它们都代表同一个时区。但是在Java中，推荐使用"Asia/Shanghai"这个标识符来表示北京时间。
-     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而GMT+8只是一个表示时差的简单方式，没有考虑到夏令时等复杂情况。
-     * <p>
-     * 美东时区：ZoneId.of("America/New_York") 和 ZoneId.of("US/Eastern")
-     * America/New_York和US/Eastern都是表示美东时间的时区标识符，但是在Java中，推荐使用"America/New_York"这个标识符来表示美东时间。
-     * 因为它更准确地反映了这个时区的历史和规则变化，可以更好地处理夏令时等问题。而US/Eastern是一个较旧的标识符，更容易导致时区错误
-     * --------------------------------------------------------------------------------------------
-     *
-     * @param str     字符串日期
-     * @param pattern 格式
-     * @param zoneId  时区
-     * @return 日期对象
-     */
-    public static LocalTime toLocalTime(String str, String pattern, ZoneId zoneId) {
         if (str == null) {
             throw new IllegalArgumentException("非法参数");
         }
         if (pattern == null) {
             throw new IllegalArgumentException("非法参数");
         }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
-        return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern)).atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalTime();
+        return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern));
     }
 
     //----------------------------------------------------------------combine----------------------------------------------------------------------------

@@ -27,9 +27,11 @@ public class DateConvertUtilsTest {
 
         LocalDateTime localDateTime = LocalDateTime.of(2023, 06, 01, 8, 52, 53);
         Assert.assertEquals(DateConvertUtils.format(localDateTime, DatePatternInfo.YYYY_MM_DD_HH_MM_SS), "2023-06-01 08:52:53");
+        Assert.assertEquals(DateConvertUtils.format(localDateTime, DatePatternInfo.YYYY_MM_DD_HH_MM_SS, ZoneId.of("America/New_York")), "2023-05-31 20:52:53");
 
         LocalDate localDate = LocalDate.of(2023, 06, 01);
         Assert.assertEquals(DateConvertUtils.format(localDate, DatePatternInfo.YYYY_MM_DD), "2023-06-01");
+        Assert.assertEquals(DateConvertUtils.format(localDate, DatePatternInfo.YYYY_MM_DD, ZoneId.of("America/New_York")), "2023-05-31");
 
         LocalTime localTime = LocalTime.of(8, 52, 53);
         Assert.assertEquals(DateConvertUtils.format(localTime, DatePatternInfo.HH_MM_SS), "08:52:53");
@@ -93,21 +95,16 @@ public class DateConvertUtilsTest {
     public void toLocalTime() {
         LocalTime localTime1 = DateConvertUtils.toLocalTime("12:52:56", DatePatternInfo.HH_MM_SS);
         Assert.assertEquals(DateConvertUtils.format(localTime1, DatePatternInfo.HHMMSS), "125256");
-        LocalTime localTime2 = DateConvertUtils.toLocalTime("12:52:56", DatePatternInfo.HH_MM_SS, ZoneId.of("America/New_York"));
-        Assert.assertEquals(DateConvertUtils.format(localTime2, DatePatternInfo.HHMMSS), "005256");
 
         LocalDateTime localDateTime1 = LocalDateTime.of(2023, 05, 06, 13, 14, 25);
         LocalTime localTime3 = DateConvertUtils.toLocalTime(localDateTime1);
         Assert.assertEquals(DateConvertUtils.format(localTime3, DatePatternInfo.HHMMSS), "131425");
-        LocalTime localTime4 = DateConvertUtils.toLocalTime(localDateTime1, ZoneId.of("America/New_York"));
-        Assert.assertEquals(DateConvertUtils.format(localTime4, DatePatternInfo.HHMMSS), "011425");
 
         LocalDateTime localDateTime2 = LocalDateTime.of(2023, 05, 06, 13, 14, 25);
         Date date = Date.from(localDateTime2.atZone(ZoneId.systemDefault()).toInstant());
         LocalTime localTime5 = DateConvertUtils.toLocalTime(date);
         Assert.assertEquals(DateConvertUtils.format(localTime5, DatePatternInfo.HHMMSS), "131425");
-        LocalTime localTime6 = DateConvertUtils.toLocalTime(date, ZoneId.of("America/New_York"));
-        Assert.assertEquals(DateConvertUtils.format(localTime6, DatePatternInfo.HHMMSS), "011425");
+
     }
 
     @Test

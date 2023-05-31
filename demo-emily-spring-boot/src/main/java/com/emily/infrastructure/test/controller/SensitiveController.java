@@ -33,8 +33,8 @@ public class SensitiveController {
 
     @PostMapping("test")
     @JsonSerialize
-    public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) throws IllegalAccessException {
-        List<JsonRequest> S = DeSensitiveUtils.acquire(request);
+    public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
+        List<JsonRequest> S = DeSensitiveUtils.acquireElseGet(request);
         System.out.println(JsonUtils.toJSONPrettyString(S));
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
@@ -57,11 +57,11 @@ public class SensitiveController {
         response.setArr(arr);
         List<BaseResponse<JsonResponse>> list = Lists.newArrayList(new BaseResponseBuilder<JsonResponse>().withData(response).build());
         //return list;
-        return DeSensitiveUtils.acquire(list);
+        return DeSensitiveUtils.acquireElseGet(list);
     }
 
     @PostMapping("test1")
-    public BaseResponse<PubResponse> test1(@Validated @RequestBody PubRequest request) throws IllegalAccessException {
+    public BaseResponse<PubResponse> test1(@Validated @RequestBody PubRequest request) {
         PubResponse response = new PubResponse();
         response.password = "32433";
         response.username = "条消息";
@@ -78,7 +78,7 @@ public class SensitiveController {
         response.jobList = Arrays.asList(job);
         BaseResponse<PubResponse> r = new BaseResponseBuilder<PubResponse>().withData(response).build();
         //return r;
-        return DeSensitiveUtils.acquire(r);
+        return DeSensitiveUtils.acquireElseGet(r);
     }
 
     @GetMapping("test3")

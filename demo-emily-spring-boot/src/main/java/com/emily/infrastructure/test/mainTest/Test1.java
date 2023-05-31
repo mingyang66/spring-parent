@@ -45,7 +45,7 @@ public class Test1 {
         job.setId(1234L);
         user.setJob(job);
 
-        User user1 = DeSensitiveUtils.acquire(user);
+        User user1 = DeSensitiveUtils.acquireElseGet(user);
         System.out.println(JsonUtils.toJSONPrettyString(user1));
         //Converter.
         //ConversionService

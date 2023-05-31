@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sensitive.test;
+package com.emily.infrastructure.sensitive.test.entity;
 
 import com.emily.infrastructure.sensitive.*;
 

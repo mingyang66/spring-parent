@@ -12,6 +12,17 @@ import java.util.*;
  */
 public class DeSensitiveUtils {
 
+    /**
+     * @param entity 实体类|普通对象 如果发生异常则源对象返回
+     * @return 对实体类进行脱敏，返回原来的实体类对象
+     */
+    public static <T> T acquireElseGet(final T entity) {
+        try {
+            return acquire(entity);
+        } catch (Exception exception) {
+            return entity;
+        }
+    }
 
     /**
      * @param entity 实体类|普通对象

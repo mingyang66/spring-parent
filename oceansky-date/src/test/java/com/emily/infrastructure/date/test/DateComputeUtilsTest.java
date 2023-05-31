@@ -107,4 +107,10 @@ public class DateComputeUtilsTest {
         Date data = Date.from(Instant.ofEpochSecond(LocalDateTime.now().getSecond()));
         System.out.println(DateConvertUtils.format(data, DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
     }
+    @Test
+    public void isLeapYear(){
+        Assert.assertEquals(DateComputeUtils.isLeapYear(2004), true);
+        Assert.assertEquals(DateComputeUtils.isLeapYear(2000), true);
+        Assert.assertEquals(DateComputeUtils.isLeapYear(1900), false);
+    }
 }

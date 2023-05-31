@@ -172,4 +172,28 @@ public class DateComputeUtils {
         DateAssert.illegalArgument(instant2, "非法参数");
         return instant1.minusMillis(instant2.toEpochMilli()).toEpochMilli();
     }
+
+    /**
+     * 判定指定的年份是否是闰年
+     * -------------------------------------------------------------------
+     * 闰年是指公历中含有366天的年份，通常是每4年一次，但有例外。闰年的2月份有29天，而平年只有28天。在公历中，从公元前45年到公元3200年，闰年的规则为：
+     * 能被4整除但不能被100整除的年份是闰年（如2004年就是闰年）；
+     * 能被400整除的年份也是闰年（如2000年是闰年，1900年不是闰年）；
+     * 闰年的出现是为了弥补平年中一年中多出来的约0.242199天（即365.242199天）的差距。
+     * -------------------------------------------------------------------
+     * @param year 年份
+     * @return true-是，false-否
+     */
+    public static boolean isLeapYear(int year) {
+        if (year % 4 == 0) {
+            if (year % 100 == 0) {
+                if (year % 400 == 0) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
 }

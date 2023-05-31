@@ -22,15 +22,9 @@ public class DateCompareUtils {
      * @return 1:date1>date2、0:date1=date2 -1:date1<date2
      */
     public static int compareTo(String date1, String date2, String pattern) {
-        if (date1 == null || date1.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (date2 == null || date2.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1,"非法参数");
+        DateAssert.illegalArgument(date2,"非法参数");
+        DateAssert.illegalArgument(pattern,"非法参数");
         try {
             DateFormat sdf = new SimpleDateFormat(pattern);
             Date first = sdf.parse(date1);
@@ -49,9 +43,8 @@ public class DateCompareUtils {
      * @return 1:date1>date2、0:date1=date2 -1:date1<date2
      */
     public static int compareTo(Date date1, Date date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1,"非法参数");
+        DateAssert.illegalArgument(date2,"非法参数");
         return date1.compareTo(date2);
     }
 
@@ -63,9 +56,8 @@ public class DateCompareUtils {
      * @return 1:date1>date2、0:date1=date2 -1:date1<date2
      */
     public static int compareTo(LocalDateTime date1, LocalDateTime date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1,"非法参数");
+        DateAssert.illegalArgument(date2,"非法参数");
         return date1.compareTo(date2);
     }
 
@@ -77,9 +69,8 @@ public class DateCompareUtils {
      * @return 1:date1>date2、0:date1=date2 -1:date1<date2
      */
     public static int compareTo(LocalDate date1, LocalDate date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1,"非法参数");
+        DateAssert.illegalArgument(date2,"非法参数");
         return date1.compareTo(date2);
     }
 
@@ -91,9 +82,8 @@ public class DateCompareUtils {
      * @return 1:date1>date2、0:date1=date2 -1:date1<date2
      */
     public static int compareTo(LocalTime date1, LocalTime date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1,"非法参数");
+        DateAssert.illegalArgument(date2,"非法参数");
         return date1.compareTo(date2);
     }
 
@@ -105,9 +95,8 @@ public class DateCompareUtils {
      * @return 1:duration1>duration2，0:duration1=duration2，-1:duration1<duration2
      */
     public static int compareTo(Duration duration1, Duration duration2) {
-        if (duration1 == null || duration2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(duration1,"非法参数");
+        DateAssert.illegalArgument(duration2,"非法参数");
         return duration1.compareTo(duration2);
     }
 
@@ -119,9 +108,8 @@ public class DateCompareUtils {
      * @return 1：instant1>instant2，0：instant1=instant2，-1：instant1<instant2
      */
     public static int compareTo(Instant instant1, Instant instant2) {
-        if (instant1 == null || instant2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(instant1,"非法参数");
+        DateAssert.illegalArgument(instant2,"非法参数");
         return instant1.compareTo(instant2);
     }
 }

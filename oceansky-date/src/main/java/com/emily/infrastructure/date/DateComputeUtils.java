@@ -18,9 +18,7 @@ public class DateComputeUtils {
      * @return 获取指定日期对应的第一天的日期对象
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
     }
 
@@ -32,9 +30,7 @@ public class DateComputeUtils {
      * @return 第一天
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate();
         } else if (month < 0) {
@@ -51,9 +47,7 @@ public class DateComputeUtils {
      * @return 最后一天的日期对象
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
     }
 
@@ -65,9 +59,7 @@ public class DateComputeUtils {
      * @return 一个月的最后一天日期对象
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         if (month == 0) {
             return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate();
         } else if (month < 0) {
@@ -84,9 +76,7 @@ public class DateComputeUtils {
      * @return 指定日期所在月份剩余天数
      */
     public static int getRemainDayOfMonth(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         LocalDateTime lastDayOfMonth = localDateTime.with(TemporalAdjusters.lastDayOfMonth());
         return lastDayOfMonth.getDayOfMonth() - localDateTime.getDayOfMonth();
     }
@@ -98,9 +88,7 @@ public class DateComputeUtils {
      * @return 指定日期所在年剩余天数
      */
     public static int getRemainDayOfYear(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         LocalDateTime lastDayOfYear = localDateTime.with(TemporalAdjusters.lastDayOfYear());
         return lastDayOfYear.getDayOfYear() - localDateTime.getDayOfYear();
     }
@@ -138,12 +126,8 @@ public class DateComputeUtils {
      * @return date1-date2>0 返回正数，否则返回负数
      */
     public static Duration between(Temporal date1, Temporal date2) {
-        if (date1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return Duration.between(date2, date1);
     }
 
@@ -171,12 +155,8 @@ public class DateComputeUtils {
      * @return ddate1-date2>0 返回正数，否则返回负数
      */
     public static Period between(LocalDate date1, LocalDate date2) {
-        if (date1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return Period.between(date2, date1);
     }
 
@@ -186,12 +166,8 @@ public class DateComputeUtils {
      * @return
      */
     public static long minusMillis(Instant instant1, Instant instant2) {
-        if (instant1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (instant2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(instant1, "非法参数");
+        DateAssert.illegalArgument(instant2, "非法参数");
         return instant1.minusMillis(instant2.toEpochMilli()).toEpochMilli();
     }
 }

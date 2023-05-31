@@ -42,15 +42,9 @@ public class DateConvertUtils {
      * @return 格式化后的日期
      */
     public static String format(String str, String sourcePattern, String targetPattern) {
-        if (str == null || str.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (sourcePattern == null || sourcePattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (targetPattern == null || targetPattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(str, "非法参数");
+        DateAssert.illegalArgument(sourcePattern, "非法参数");
+        DateAssert.illegalArgument(targetPattern, "非法参数");
         DateFormat sdf = new SimpleDateFormat(targetPattern);
         return sdf.format(toDate(str, sourcePattern));
     }
@@ -62,12 +56,8 @@ public class DateConvertUtils {
      * @return 格式化后的日期
      */
     public static String format(Date date, String pattern) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
         DateFormat sdf = new SimpleDateFormat(pattern);
         return sdf.format(date);
     }
@@ -80,12 +70,8 @@ public class DateConvertUtils {
      * @return 字符串日期
      */
     public static String format(LocalTime date, String pattern) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
         return date.format(DateTimeFormatter.ofPattern(pattern));
     }
 
@@ -122,15 +108,9 @@ public class DateConvertUtils {
      * @return 字符串日期
      */
     public static String format(LocalDate date, String pattern, ZoneId zoneId) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return date.atStartOfDay().atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern(pattern));
     }
 
@@ -167,15 +147,9 @@ public class DateConvertUtils {
      * @return 字符串日期
      */
     public static String format(LocalDateTime date, String pattern, ZoneId zoneId) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return date.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern(pattern));
     }
 
@@ -190,12 +164,8 @@ public class DateConvertUtils {
      */
     public static Date toDate(String str, String pattern) {
         try {
-            if (str == null || str.length() == 0) {
-                throw new IllegalArgumentException("非法参数");
-            }
-            if (pattern == null || pattern.length() == 0) {
-                throw new IllegalArgumentException("非法参数");
-            }
+            DateAssert.illegalArgument(str, "非法参数");
+            DateAssert.illegalArgument(pattern, "非法参数");
             DateFormat sdf = new SimpleDateFormat(pattern);
             return sdf.parse(str);
         } catch (ParseException e) {
@@ -210,9 +180,7 @@ public class DateConvertUtils {
      * @return Date日期对象
      */
     public static Date toDate(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -223,9 +191,7 @@ public class DateConvertUtils {
      * @return Date日期对象
      */
     public static Date toDate(LocalDate localDate) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDate, "非法参数");
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -273,12 +239,8 @@ public class DateConvertUtils {
      * @return LocalDateTime对象
      */
     public static LocalDateTime toLocalDateTime(LocalDate localDate, ZoneId zoneId) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(localDate, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return localDate.atStartOfDay().atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
     }
 
@@ -313,12 +275,8 @@ public class DateConvertUtils {
      * @return 转换后的LocalDateTime对象
      */
     public static LocalDateTime toLocalDateTime(Date date, ZoneId zoneId) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return date.toInstant().atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
     }
 
@@ -355,15 +313,9 @@ public class DateConvertUtils {
      * @return 日期对象
      */
     public static LocalDateTime toLocalDateTime(String str, String pattern, ZoneId zoneId) {
-        if (str == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(str, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return LocalDateTime.parse(str, DateTimeFormatter.ofPattern(pattern)).atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
     }
 
@@ -400,15 +352,9 @@ public class DateConvertUtils {
      * @return 拼接后的时间对象
      */
     public static LocalDateTime toLocalDateTime(LocalDate date1, LocalTime date2, ZoneId zoneId) {
-        if (date1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return LocalDateTime.of(date1, date2).atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
     }
 
@@ -433,12 +379,8 @@ public class DateConvertUtils {
      * @return 转换后的日期对象
      */
     public static LocalDateTime toLocalDateTime(LocalDateTime date1, ZoneId zoneId) {
-        if (date1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(date1, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return date1.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDateTime();
     }
 
@@ -476,9 +418,7 @@ public class DateConvertUtils {
      * @return 日期对象
      */
     public static LocalDateTime toLocalDateTime(long milliseconds, ZoneId zoneId) {
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         Instant instant = Instant.ofEpochMilli(milliseconds);
         return LocalDateTime.ofInstant(instant, zoneId);
     }
@@ -515,12 +455,8 @@ public class DateConvertUtils {
      * @return 转换后的LocalDate对象
      */
     public static LocalDate toLocalDate(Date date, ZoneId zoneId) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return date.toInstant().atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDate();
     }
 
@@ -555,12 +491,8 @@ public class DateConvertUtils {
      * @return LocalDate日期对象
      */
     public static LocalDate toLocalDate(LocalDateTime localDateTime, ZoneId zoneId) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
+        zoneId = DateAssert.requireElseGet(zoneId, ZoneId.systemDefault());
         return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(zoneId).toLocalDate();
     }
 
@@ -597,12 +529,8 @@ public class DateConvertUtils {
      * @return 日期对象
      */
     public static LocalDate toLocalDate(String str, String pattern, ZoneId zoneId) {
-        if (str == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(str, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
         if (zoneId == null) {
             zoneId = ZoneId.systemDefault();
         }
@@ -618,9 +546,7 @@ public class DateConvertUtils {
      * @return 转换后的LocalDate对象
      */
     public static LocalTime toLocalTime(Date date) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date, "非法参数");
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
     }
 
@@ -631,9 +557,7 @@ public class DateConvertUtils {
      * @return LocalTime对象
      */
     public static LocalTime toLocalTime(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(localDateTime, "非法参数");
         return localDateTime.toLocalTime();
     }
 
@@ -645,12 +569,8 @@ public class DateConvertUtils {
      * @return 日期对象
      */
     public static LocalTime toLocalTime(String str, String pattern) {
-        if (str == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(str, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
         return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern));
     }
 
@@ -664,12 +584,8 @@ public class DateConvertUtils {
      * @return 拼接后的时间对象
      */
     public static LocalDateTime combine(LocalDate date1, LocalTime date2) {
-        if (date1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return LocalDateTime.of(date1, date2);
     }
 
@@ -683,18 +599,10 @@ public class DateConvertUtils {
      * @return 拼接后的时间对象
      */
     public static LocalDateTime combine(String date1, String pattern1, String date2, String pattern2) {
-        if (date1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern1 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (date2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern2 == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(pattern1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
+        DateAssert.illegalArgument(pattern2, "非法参数");
         return LocalDateTime.of(LocalDate.parse(date1, DateTimeFormatter.ofPattern(pattern1)), LocalTime.parse(date2, DateTimeFormatter.ofPattern(pattern2)));
     }
 
@@ -709,12 +617,8 @@ public class DateConvertUtils {
      * @return 整数日期
      */
     public static long dateToInt(Date date, String pattern) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            throw new IllegalArgumentException("非法参数");
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
         return Long.parseLong(format(date, pattern));
     }
 
@@ -726,12 +630,8 @@ public class DateConvertUtils {
      * @return 整数类型日期
      */
     public static long dateToInt(LocalTime date, String pattern) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            pattern = DatePatternInfo.HHMMSS;
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        pattern = DateAssert.requireElseGet(pattern, DatePatternInfo.HHMMSS);
         return Long.parseLong(date.format(DateTimeFormatter.ofPattern(pattern)));
     }
 
@@ -743,12 +643,8 @@ public class DateConvertUtils {
      * @return 整数类型日期
      */
     public static long dateToInt(LocalDate date, String pattern) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            pattern = DatePatternInfo.YYYYMMDD;
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        pattern = DateAssert.requireElseGet(pattern, DatePatternInfo.YYYYMMDD);
         return dateToInt(date.atStartOfDay(), pattern);
     }
 
@@ -760,12 +656,8 @@ public class DateConvertUtils {
      * @return 整数类型日期
      */
     public static long dateToInt(LocalDateTime date, String pattern) {
-        if (date == null) {
-            throw new IllegalArgumentException("非法参数");
-        }
-        if (pattern == null || pattern.length() == 0) {
-            pattern = DatePatternInfo.YYYYMMDDHHMMSS;
-        }
+        DateAssert.illegalArgument(date, "非法参数");
+        pattern = DateAssert.requireElseGet(pattern, DatePatternInfo.YYYYMMDDHHMMSS);
         return Long.parseLong(date.format(DateTimeFormatter.ofPattern(pattern)));
     }
 

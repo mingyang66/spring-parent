@@ -87,13 +87,10 @@ public class DateComputeUtilsTest {
     }
 
     @Test
-    public void instant() throws InterruptedException {
-        long l1 = System.currentTimeMillis();
-        Instant instant3 = Instant.now();
-        Thread.sleep(100);
-        Instant instant4 = Instant.now();
-        System.out.println(System.currentTimeMillis()-l1);
-        System.out.println(DateComputeUtils.minusMillis(instant4, instant3));
+    public void instant() {
+        Instant instant3 = Instant.ofEpochSecond(1000);
+        Instant instant4 = Instant.ofEpochSecond(2000);
+        Assert.assertEquals(DateComputeUtils.minusMillis(instant4, instant3), 1000000);
     }
 
     @Test

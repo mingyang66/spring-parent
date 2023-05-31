@@ -161,9 +161,11 @@ public class DateComputeUtils {
     }
 
     /**
-     * @param instant1
-     * @param instant2
-     * @return
+     * 两个对象相减得到毫秒
+     *
+     * @param instant1 时间对象
+     * @param instant2 时间对象
+     * @return 毫秒
      */
     public static long minusMillis(Instant instant1, Instant instant2) {
         DateAssert.illegalArgument(instant1, "非法参数");

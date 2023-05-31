@@ -17,7 +17,7 @@ public class SensitiveUtilsTest {
         request.setAge(12);
         request.setAgeW(13);
         request.setFileName("test");
-        Object s = SensitiveUtils.acquire(request);
+        Object s = SensitiveUtils.acquireElseGet(request);
         System.out.println(JsonUtils.toJSONPrettyString(s));
     }
 }

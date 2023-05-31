@@ -5,6 +5,7 @@ import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -37,19 +38,20 @@ public class SensitiveTest {
         people.setValue("1563919868");
         p = DeSensitiveUtils.acquire(people);
         Assert.assertEquals(p.getKey(), "phone");
-        Assert.assertEquals(people.getValue(),"15****9868");
+        Assert.assertEquals(people.getValue(), "15****9868");
     }
+
     @Test
-    public void jsonNullFieldTest(){
+    public void jsonNullFieldTest() {
         People people = new People();
         people.setKey("email");
         people.setValue("1563919868@qq.com");
         people.setStr("测试null");
-        Map<String, Object> s = (Map<String,Object>)SensitiveUtils.acquire(people);
+        Map<String, Object> s = (Map<String, Object>) SensitiveUtils.acquireElseGet(people);
         Assert.assertEquals(s.get("str"), null);
         Assert.assertEquals(s.get("age"), 0);
-        Assert.assertEquals(s.get("b"), (byte)0);
-        Assert.assertEquals(s.get("s"), (short)0);
+        Assert.assertEquals(s.get("b"), (byte) 0);
+        Assert.assertEquals(s.get("s"), (short) 0);
         Assert.assertEquals(s.get("l"), 0l);
     }
 
@@ -62,8 +64,23 @@ public class SensitiveTest {
         People s = DeSensitiveUtils.acquire(people);
         Assert.assertEquals(s.getStr(), null);
         Assert.assertEquals(s.getAge(), 0);
-        Assert.assertEquals(s.getB(), (byte)0);
-        Assert.assertEquals(s.getS(), (short)0);
+        Assert.assertEquals(s.getB(), (byte) 0);
+        Assert.assertEquals(s.getS(), (short) 0);
         Assert.assertEquals(s.getL(), 0l);
+    }
+
+    @Test
+    public void map() {
+        PeopleMap peopleMap = new PeopleMap();
+        peopleMap.setUsername("田晓霞");
+        peopleMap.setPassword("123456");
+        PeopleMap.SubMap subMap = new PeopleMap.SubMap();
+        subMap.setSub("subMap");
+        peopleMap.getSubMapMap().put("subMap", subMap);
+        Map<String, PeopleMap> dataMap = new HashMap<>();
+        dataMap.put("test", peopleMap);
+        Map<String, Object> map = (Map<String, Object>) SensitiveUtils.acquireElseGet(dataMap);
+        Assert.assertEquals(((PeopleMap) map.get("test")).getUsername(), "田晓霞");
+        Assert.assertEquals(((PeopleMap) map.get("test")).getPassword(), "123456");
     }
 }

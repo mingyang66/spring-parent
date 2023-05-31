@@ -198,7 +198,7 @@ public class RequestHelper {
                     paramMap.put(name, value);
                 }
             } else {
-                paramMap.put(name, SensitiveUtils.acquire(value));
+                paramMap.put(name, SensitiveUtils.acquireElseGet(value));
             }
         }
         return paramMap;

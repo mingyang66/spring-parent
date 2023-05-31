@@ -11,44 +11,56 @@ import java.util.*;
  * @CreateDate :  Created in 2022/7/19 3:13 下午
  */
 public class SensitiveUtils {
+    /**
+     * 脱敏过程中如果发生异常，则原样返回
+     *
+     * @param entity 脱敏实体类对象
+     * @return 脱敏后的数据
+     */
+    public static Object acquireElseGet(final Object entity) {
+        try {
+            return acquire(entity);
+        } catch (Exception exception) {
+            return entity;
+        }
+    }
 
     /**
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @return 脱敏后的实体类对象
      * @Description 对实体类镜像脱敏，返回结构相同的非同一个对象
      */
-    public static Object acquire(final Object entity) {
-        try {
-            if (JavaBeanUtils.isFinal(entity)) {
+    public static Object acquire(final Object entity) throws IllegalAccessException {
+        if (JavaBeanUtils.isFinal(entity)) {
+            return entity;
+        }
+        if (entity instanceof Collection) {
+            Collection<Object> coll = new ArrayList();
+            for (Object o : (Collection<Object>) entity) {
+                coll.add(acquire(o));
+            }
+            return coll;
+        } else if (entity instanceof Map) {
+            Map<Object, Object> dMap = Collections.unmodifiableMap(new HashMap<>());
+            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
+                Object key = entry.getKey();
+                Object value = entry.getValue();
+                dMap.put(key, acquire(value));
+            }
+            return dMap;
+        } else if (entity.getClass().isArray()) {
+            if (entity.getClass().getComponentType().isPrimitive()) {
                 return entity;
+            } else {
+                Object[] v = (Object[]) entity;
+                Object[] t = new Object[v.length];
+                for (int i = 0; i < v.length; i++) {
+                    t[i] = acquire(v[i]);
+                }
+                return t;
             }
-            if (entity instanceof Collection) {
-                Collection<Object> coll = new ArrayList();
-                for (Iterator<Object> it = ((Collection<Object>) entity).iterator(); it.hasNext(); ) {
-                    coll.add(acquire(it.next()));
-                }
-                return coll;
-            } else if (entity instanceof Map) {
-                Map<Object, Object> dMap = new HashMap<>();
-                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
-                    dMap.put(entry.getKey(), acquire(entry.getValue()));
-                }
-                return dMap;
-            } else if (entity.getClass().isArray()) {
-                if (entity.getClass().getComponentType().isPrimitive()) {
-                    return entity;
-                } else {
-                    Object[] v = (Object[]) entity;
-                    Object[] t = new Object[v.length];
-                    for (int i = 0; i < v.length; i++) {
-                        t[i] = acquire(v[i]);
-                    }
-                    return t;
-                }
-            } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
-                return doSetField(entity);
-            }
-        } catch (Exception exception) {
+        } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+            return doSetField(entity);
         }
         return entity;
     }
@@ -118,7 +130,7 @@ public class SensitiveUtils {
      * @param value 属性值
      * @return 脱敏后的数据对象
      */
-    protected static Object doGetEntityStr(final Field field, final Object value) {
+    protected static Object doGetEntityStr(final Field field, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
         } else {
@@ -131,11 +143,10 @@ public class SensitiveUtils {
      * @param value 属性值
      * @return 脱敏后的数据对象
      */
-    protected static Object doGetEntityColl(final Field field, final Object value) {
+    protected static Object doGetEntityColl(final Field field, final Object value) throws IllegalAccessException {
         Collection<Object> list = new ArrayList<>();
         Collection collection = (Collection) value;
-        for (Iterator it = collection.iterator(); it.hasNext(); ) {
-            Object v = it.next();
+        for (Object v : collection) {
             if (Objects.isNull(v)) {
                 list.add(null);
             } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
@@ -152,7 +163,7 @@ public class SensitiveUtils {
      * @param value 属性值
      * @return 脱敏后的数据对象
      */
-    protected static Object doGetEntityMap(final Field field, final Object value) {
+    protected static Object doGetEntityMap(final Field field, final Object value) throws IllegalAccessException {
         Map<Object, Object> dMap = new HashMap<>();
         for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
             Object key = entry.getKey();
@@ -173,7 +184,7 @@ public class SensitiveUtils {
      * @param value 属性值
      * @return 脱敏后的数据对象
      */
-    protected static Object doGetEntityArray(final Field field, final Object value) {
+    protected static Object doGetEntityArray(final Field field, final Object value) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
             return value;
         } else {

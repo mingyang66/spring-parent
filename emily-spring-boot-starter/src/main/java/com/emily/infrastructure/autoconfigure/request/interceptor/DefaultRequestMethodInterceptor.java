@@ -68,10 +68,10 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 //404 Not Fund
                 handleNotFund(response, builder);
                 //设置响应结果
-                builder.withBody(SensitiveUtils.acquire(responseBody));
+                builder.withBody(SensitiveUtils.acquireElseGet(responseBody));
             } else {
                 //设置响应结果
-                builder.withBody(SensitiveUtils.acquire(response));
+                builder.withBody(SensitiveUtils.acquireElseGet(response));
             }
             return I18nConvertHelper.acquire(response, ThreadContextHolder.current().getLanguageType());
         } catch (Exception ex) {

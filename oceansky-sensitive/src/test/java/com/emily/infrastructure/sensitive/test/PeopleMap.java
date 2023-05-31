@@ -2,6 +2,7 @@ package com.emily.infrastructure.sensitive.test;
 
 import com.emily.infrastructure.sensitive.JsonSensitive;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,16 @@ import java.util.Map;
 public class PeopleMap {
     private String username;
     private String password;
+    private LocalDateTime localDateTime;
     private Map<String, SubMap> subMapMap = new HashMap<>();
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
 
     public String getUsername() {
         return username;

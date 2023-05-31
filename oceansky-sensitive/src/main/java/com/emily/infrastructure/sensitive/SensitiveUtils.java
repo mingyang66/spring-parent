@@ -35,13 +35,13 @@ public class SensitiveUtils {
             return entity;
         }
         if (entity instanceof Collection) {
-            Collection<Object> coll = new ArrayList();
+            Collection<Object> coll = new ArrayList<>();
             for (Object o : (Collection<Object>) entity) {
                 coll.add(acquire(o));
             }
             return coll;
         } else if (entity instanceof Map) {
-            Map<Object, Object> dMap = Collections.unmodifiableMap(new HashMap<>());
+            Map<Object, Object> dMap = new HashMap<>();
             for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
                 Object key = entry.getKey();
                 Object value = entry.getValue();
@@ -121,8 +121,9 @@ public class SensitiveUtils {
             return false;
         } else if (field.isAnnotationPresent(JsonNullField.class)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**

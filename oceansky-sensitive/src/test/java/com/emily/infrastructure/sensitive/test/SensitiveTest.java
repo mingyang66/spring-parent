@@ -5,6 +5,7 @@ import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,13 +75,14 @@ public class SensitiveTest {
         PeopleMap peopleMap = new PeopleMap();
         peopleMap.setUsername("田晓霞");
         peopleMap.setPassword("123456");
+        peopleMap.setLocalDateTime(LocalDateTime.now());
         PeopleMap.SubMap subMap = new PeopleMap.SubMap();
         subMap.setSub("subMap");
         peopleMap.getSubMapMap().put("subMap", subMap);
         Map<String, PeopleMap> dataMap = new HashMap<>();
         dataMap.put("test", peopleMap);
         Map<String, Object> map = (Map<String, Object>) SensitiveUtils.acquireElseGet(dataMap);
-        Assert.assertEquals(((PeopleMap) map.get("test")).getUsername(), "田晓霞");
-        Assert.assertEquals(((PeopleMap) map.get("test")).getPassword(), "123456");
+        Assert.assertEquals(((Map) map.get("test")).get("username"), "田晓霞");
+        Assert.assertEquals(((Map) map.get("test")).get("password"), "123456");
     }
 }

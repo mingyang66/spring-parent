@@ -30,7 +30,7 @@ public class FileResourceUtils {
      * @param filePath 文件路径
      * @return 键值对类型配置文件
      */
-    public static Properties loadConfig(String filePath) throws IOException, IllegalAccessException {
+    public static Properties loadConfig(String filePath) throws IOException {
         Properties properties = new Properties();
         InputStream inStream = null;
         try {
@@ -52,7 +52,8 @@ public class FileResourceUtils {
                 xml = filePath.endsWith(XML_SUFFIX);
             }
             if (inStream == null) {
-                throw new IllegalAccessException("file does not exist");
+                System.out.println("load config file error, file : " + filePath);
+                return null;
             }
             if (xml) {
                 properties.loadFromXML(inStream);
@@ -61,7 +62,8 @@ public class FileResourceUtils {
             }
             return properties;
         } catch (Exception ex) {
-            throw ex;
+            System.out.println("load config file error, file : " + filePath);
+            return null;
         } finally {
             inStream.close();
         }

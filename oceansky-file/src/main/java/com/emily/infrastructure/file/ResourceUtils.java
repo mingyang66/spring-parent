@@ -9,7 +9,7 @@ import java.util.Properties;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/28 4:37 PM
  */
-public class FileResourceUtils {
+public class ResourceUtils {
     public static final String FILE_PREFIX = "file://";
     public static final String HTTP_PREFIX = "http://";
     public static final String HTTPS_PREFIX = "https://";

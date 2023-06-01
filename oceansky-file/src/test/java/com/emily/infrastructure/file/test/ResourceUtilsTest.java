@@ -1,6 +1,6 @@
 package com.emily.infrastructure.file.test;
 
-import com.emily.infrastructure.file.FileResourceUtils;
+import com.emily.infrastructure.file.ResourceUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,28 +11,28 @@ import java.util.Properties;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/28 4:46 PM
  */
-public class FileResourceUtilsTest {
+public class ResourceUtilsTest {
     @Test
     public void loadConfig() {
         String path = "classpath:test.properties";
-        Properties properties = FileResourceUtils.loadConfigElseGet(path);
+        Properties properties = ResourceUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("test.key"), "testkey");
 
         path = "/Users/yaomingyang/Documents/IDE/workplace-java/spring-parent/oceansky-file/src/test/resources/test.properties";
-        properties = FileResourceUtils.loadConfigElseGet(path);
+        properties = ResourceUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("test.key"), "testkey");
 
         path = "https://www.baidu.com/";
-        properties = FileResourceUtils.loadConfigElseGet(path);
+        properties = ResourceUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("<!DOCTYPE"), "html>");
 
         path = "classpath:test.xml";
-        properties = FileResourceUtils.loadConfigElseGet(path);
+        properties = ResourceUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("username"), "孙少平");
         Assert.assertEquals(properties.getProperty("password"), "123456");
 
         path = "classpath:test.yaml";
-        properties = FileResourceUtils.loadConfigElseGet(path);
+        properties = ResourceUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("username"), "tiaoxiao");
         Assert.assertEquals(properties.getProperty("password"), "1234");
 

@@ -6,7 +6,8 @@ Bug Fixes
 2. oceansky-date组件新增将时间戳转换为Date对象方法；
 3. oceansky-sensitive实体类脱敏组件抛出异常方式优化，新增acquireElseGet方法;
 4. 新增oceansky-file组件，新增FileResourceUtils工具类用于读取各种路径下的配置文件，支持properties、xml、yaml;
-5. 
+5. 删除demo实例程序中的FileHelper相关代码；
+6. 
 -----
 基础库发布4.3.4
 Bug Fixes

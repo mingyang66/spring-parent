@@ -76,9 +76,6 @@ public class ResourceUtils {
                 properties.load(inStream);
             }
             return properties;
-        } catch (Exception ex) {
-            System.out.println("load config file error, file : " + filePath);
-            throw ex;
         } finally {
             if (inStream != null) {
                 inStream.close();

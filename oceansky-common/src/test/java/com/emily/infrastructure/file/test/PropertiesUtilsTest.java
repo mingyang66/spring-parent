@@ -1,6 +1,6 @@
 package com.emily.infrastructure.file.test;
 
-import com.emily.infrastructure.file.ResourceUtils;
+import com.emily.infrastructure.file.PropertiesUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,30 +11,31 @@ import java.util.Properties;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/28 4:46 PM
  */
-public class ResourceUtilsTest {
+public class PropertiesUtilsTest {
     @Test
     public void loadConfig() {
         String path = "classpath:test.properties";
-        Properties properties = ResourceUtils.loadConfigElseGet(path);
+        Properties properties = PropertiesUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("test.key"), "testkey");
 
-        path = "/Users/yaomingyang/Documents/IDE/workplace-java/spring-parent/oceansky-file/src/test/resources/test.properties";
-        properties = ResourceUtils.loadConfigElseGet(path);
+        path = "/Users/yaomingyang/Documents/IDE/workplace-java/spring-parent/oceansky-common/src/test/resources/test.properties";
+        properties = PropertiesUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("test.key"), "testkey");
 
         path = "https://www.baidu.com/";
-        properties = ResourceUtils.loadConfigElseGet(path);
+        properties = PropertiesUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("<!DOCTYPE"), "html>");
 
         path = "classpath:test.xml";
-        properties = ResourceUtils.loadConfigElseGet(path);
+        properties = PropertiesUtils.loadConfigElseGet(path);
         Assert.assertEquals(properties.getProperty("username"), "孙少平");
         Assert.assertEquals(properties.getProperty("password"), "123456");
 
         path = "classpath:test.yaml";
-        properties = ResourceUtils.loadConfigElseGet(path);
-        Assert.assertEquals(properties.getProperty("username"), "tiaoxiao");
+        properties = PropertiesUtils.loadConfigElseGet(path);
+        Assert.assertEquals(properties.getProperty("username"), "田晓霞");
         Assert.assertEquals(properties.getProperty("password"), "1234");
+        Assert.assertEquals(properties.getProperty("desc"), "descss");
 
     }
 }

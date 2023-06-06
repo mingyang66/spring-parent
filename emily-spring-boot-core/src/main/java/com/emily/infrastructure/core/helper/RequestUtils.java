@@ -204,16 +204,16 @@ public class RequestUtils {
     /**
      * 获取请求头
      *
-     * @param header 请求头
-     * @param flag   是否允许请求头为空或者不传递，true-是；false-否
+     * @param header   请求头
+     * @param required 是否允许请求头为空或者不传递，true-是；false-否
      * @return 请求头结果
      */
-    public static String getHeader(String header, boolean flag) {
+    public static String getHeader(String header, boolean required) {
         if (header == null || header.length() == 0) {
             return header;
         }
         String value = getRequest().getHeader(header);
-        if (!flag) {
+        if (!required) {
             return value;
         }
         if (value == null || value.length() == 0) {

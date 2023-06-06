@@ -8,7 +8,8 @@ Bug Fixes
 4. 新增oceansky-common组件，新增PropertiesUtils工具类用于读取各种路径下的配置文件，支持properties、xml、yaml;
 5. 删除demo实例程序中的FileHelper相关代码；
 6. common组件新增CollectionUtils工具类；
-7. 
+7. 优化RequestUtils.getHeader方法参数；
+8. 
 -----
 基础库发布4.3.4
 Bug Fixes

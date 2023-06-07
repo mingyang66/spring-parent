@@ -13,6 +13,14 @@
     <artifactId>emily-spring-boot-logback</artifactId>
     <url>https://github.com/mingyang66/spring-parent</url>
 
+    <!--开源协议...-->
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
     <dependencies>
         <!--logback日志依赖-->
         <dependency>

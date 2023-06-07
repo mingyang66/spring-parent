@@ -14,6 +14,14 @@
     <artifactId>emily-spring-cloud-starter</artifactId>
     <url>https://github.com/mingyang66/spring-parent</url>
 
+    <!--开源协议...-->
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
@@ -42,11 +50,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!-- 开启feign Apache HttpClient-->
-        <!--   <dependency>
-               <groupId>io.github.openfeign</groupId>
-               <artifactId>feign-httpclient</artifactId>
-           </dependency>-->
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>

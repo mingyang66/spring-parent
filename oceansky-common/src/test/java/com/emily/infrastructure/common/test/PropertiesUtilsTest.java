@@ -1,6 +1,6 @@
-package com.emily.infrastructure.file.test;
+package com.emily.infrastructure.common.test;
 
-import com.emily.infrastructure.file.PropertiesUtils;
+import com.emily.infrastructure.common.PropertiesUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
-package com.emily.infrastructure.collection.test;
+package com.emily.infrastructure.common.test;
 
-import com.emily.infrastructure.collection.CollectionUtils;
+import com.emily.infrastructure.common.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

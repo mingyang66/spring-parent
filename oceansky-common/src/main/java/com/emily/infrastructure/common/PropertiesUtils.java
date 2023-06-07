@@ -1,4 +1,4 @@
-package com.emily.infrastructure.file;
+package com.emily.infrastructure.common;
 
 import java.io.*;
 import java.net.URL;

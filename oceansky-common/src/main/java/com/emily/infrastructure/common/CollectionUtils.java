@@ -1,4 +1,4 @@
-package com.emily.infrastructure.collection;
+package com.emily.infrastructure.common;
 
 import java.util.ArrayList;
 import java.util.Collection;

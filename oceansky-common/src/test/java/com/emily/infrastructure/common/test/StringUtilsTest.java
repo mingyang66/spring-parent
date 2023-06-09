@@ -4,6 +4,9 @@ import com.emily.infrastructure.common.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 /**
  * @Description :
  * @Author :  Emily
@@ -207,5 +210,12 @@ public class StringUtilsTest {
         Assert.assertFalse(StringUtils.endsWithIgnoreCase("", ""));
         Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cd"));
         Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cD"));
+    }
+
+    @Test
+    public void getBytes() throws UnsupportedEncodingException {
+        Assert.assertEquals(StringUtils.getBytes("ab", Charset.defaultCharset()).length, 2);
+
+        Assert.assertEquals(StringUtils.getBytes("ab", "utf-8").length, 2);
     }
 }

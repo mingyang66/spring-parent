@@ -1,5 +1,7 @@
 package com.emily.infrastructure.common;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -580,5 +582,34 @@ public class StringUtils {
      */
     public static boolean endsWithIgnoreCase(final String str, final String suffix) {
         return endsWith(str, suffix, true);
+    }
+
+    /**
+     * 获取字符串对应的字节码数组
+     * ----------------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.getBytes(null, null).length, 0);
+     * Assert.assertEquals(StringUtils.getBytes("", null).length, 0);
+     * Assert.assertEquals(StringUtils.getBytes("ab", Charset.defaultCharset()).length, 2);
+     * ----------------------------------------------------------------
+     *
+     * @param string  字符串
+     * @param charset 编码类型
+     * @return 字节数组
+     */
+    public static byte[] getBytes(final String string, final Charset charset) {
+        return string == null ? ArrayUtils.EMPTY_BYTE_ARRAY : string.getBytes(Charsets.toCharset(charset));
+    }
+
+    /**
+     * 将字符串转换为字节数组
+     *
+     * @param string  字符串
+     * @param charset 编码名称
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static byte[] getBytes(final String string, final String charset) throws UnsupportedEncodingException {
+        return string == null ? ArrayUtils.EMPTY_BYTE_ARRAY : string.getBytes(Charsets.toCharsetName(charset));
     }
 }

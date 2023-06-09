@@ -353,4 +353,33 @@ public class StringUtils {
         }
         return true;
     }
+
+    /**
+     * 字符串使用指定的标识缩略
+     * --------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.abbreviate(null, "...", 8), null);
+     * Assert.assertEquals(StringUtils.abbreviate("", "...", 8), "");
+     * Assert.assertEquals(StringUtils.abbreviate("a", "...", 8), "a...");
+     * Assert.assertEquals(StringUtils.abbreviate("abc", "...", 8), "abc...");
+     * Assert.assertEquals(StringUtils.abbreviate("abcde", "...", 8), "abcde...");
+     * Assert.assertEquals(StringUtils.abbreviate("ABCDEFGHIJKLMN", "...", 8), "ABCDE...");
+     * --------------------------------------------------------
+     *
+     * @param str          字符串
+     * @param abbrevMarker 缩略标识，如：...
+     * @param maxLength    缩略后字符串最大长度
+     * @return
+     */
+    public static String abbreviate(final String str, final String abbrevMarker, int maxLength) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        int strLen = str.length();
+        int markerLen = abbrevMarker.length();
+        if (strLen + markerLen <= maxLength) {
+            return str.concat(abbrevMarker);
+        }
+        return str.substring(0, maxLength - markerLen).concat(abbrevMarker);
+    }
 }

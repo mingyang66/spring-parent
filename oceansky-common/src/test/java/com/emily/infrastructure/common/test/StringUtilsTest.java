@@ -107,8 +107,9 @@ public class StringUtilsTest {
         Assert.assertEquals(StringUtils.isNotBlank(" a"), true);
         Assert.assertEquals(StringUtils.isNotBlank(" a "), true);
     }
+
     @Test
-    public void isNumeric(){
+    public void isNumeric() {
         Assert.assertFalse(StringUtils.isNumeric(null));
         Assert.assertFalse(StringUtils.isNumeric(""));
         Assert.assertFalse(StringUtils.isNumeric(" "));
@@ -117,5 +118,15 @@ public class StringUtilsTest {
         Assert.assertFalse(StringUtils.isNumeric("1-"));
         Assert.assertFalse(StringUtils.isNumeric("+1"));
         Assert.assertFalse(StringUtils.isNumeric("-1"));
+    }
+
+    @Test
+    public void abbreviate() {
+        Assert.assertEquals(StringUtils.abbreviate(null, "...", 8), null);
+        Assert.assertEquals(StringUtils.abbreviate("", "...", 8), "");
+        Assert.assertEquals(StringUtils.abbreviate("a", "...", 8), "a...");
+        Assert.assertEquals(StringUtils.abbreviate("abc", "...", 8), "abc...");
+        Assert.assertEquals(StringUtils.abbreviate("abcde", "...", 8), "abcde...");
+        Assert.assertEquals(StringUtils.abbreviate("ABCDEFGHIJKLMN", "...", 8), "ABCDE...");
     }
 }

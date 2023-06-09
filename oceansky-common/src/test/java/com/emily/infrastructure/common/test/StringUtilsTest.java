@@ -129,4 +129,83 @@ public class StringUtilsTest {
         Assert.assertEquals(StringUtils.abbreviate("abcde", "...", 8), "abcde...");
         Assert.assertEquals(StringUtils.abbreviate("ABCDEFGHIJKLMN", "...", 8), "ABCDE...");
     }
+
+    @Test
+    public void defaultIfEmpty() {
+        Assert.assertEquals(StringUtils.defaultIfEmpty(null, "ab"), "ab");
+        Assert.assertEquals(StringUtils.defaultIfEmpty("", "ab"), "ab");
+        Assert.assertEquals(StringUtils.defaultIfEmpty(" ", "ab"), " ");
+        Assert.assertEquals(StringUtils.defaultIfEmpty("1", "ab"), "1");
+    }
+
+    @Test
+    public void defaultIfBlank() {
+        Assert.assertEquals(StringUtils.defaultIfBlank(null, "ab"), "ab");
+        Assert.assertEquals(StringUtils.defaultIfBlank("", "ab"), "ab");
+        Assert.assertEquals(StringUtils.defaultIfBlank(" ", "ab"), "ab");
+        Assert.assertEquals(StringUtils.defaultIfBlank("1", "ab"), "1");
+    }
+
+    @Test
+    public void defaultString() {
+        Assert.assertEquals(StringUtils.defaultString(null, "ab"), "ab");
+        Assert.assertEquals(StringUtils.defaultString("", "ab"), "");
+        Assert.assertEquals(StringUtils.defaultString("1", "ab"), "1");
+    }
+
+    @Test
+    public void startsWith() {
+        Assert.assertFalse(StringUtils.startsWith(null, "ab", 0, false));
+        Assert.assertFalse(StringUtils.startsWith("", "ab", 0, false));
+        Assert.assertFalse(StringUtils.startsWith(null, null, 0, false));
+        Assert.assertFalse(StringUtils.startsWith("", "", 0, false));
+        Assert.assertTrue(StringUtils.startsWith("abcd", "ab", 0, false));
+        Assert.assertTrue(StringUtils.startsWith("abcd", "ab", 0, true));
+        Assert.assertFalse(StringUtils.startsWith("Abcd", "ab", 0, false));
+        Assert.assertTrue(StringUtils.startsWith("Abcd", "ab", 0, true));
+        Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 1, false));
+        Assert.assertTrue(StringUtils.startsWith("AbCd", "bc", 1, true));
+        Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 3, true));
+        Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 4, true));
+
+        Assert.assertFalse(StringUtils.startsWith(null, null));
+        Assert.assertFalse(StringUtils.startsWith(null, ""));
+        Assert.assertFalse(StringUtils.startsWith(null, "a"));
+        Assert.assertFalse(StringUtils.startsWith("", null));
+        Assert.assertFalse(StringUtils.startsWith("", ""));
+        Assert.assertTrue(StringUtils.startsWith("abb", "ab"));
+        Assert.assertFalse(StringUtils.startsWith("abb", "Ab"));
+
+        Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, null));
+        Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, ""));
+        Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, "a"));
+        Assert.assertFalse(StringUtils.startsWithIgnoreCase("", null));
+        Assert.assertFalse(StringUtils.startsWithIgnoreCase("", ""));
+        Assert.assertTrue(StringUtils.startsWithIgnoreCase("abb", "ab"));
+        Assert.assertTrue(StringUtils.startsWithIgnoreCase("abb", "Ab"));
+    }
+
+    @Test
+    public void endsWith() {
+        Assert.assertFalse(StringUtils.endsWith(null, null, false));
+        Assert.assertFalse(StringUtils.endsWith(null, "", false));
+        Assert.assertFalse(StringUtils.endsWith("", null, false));
+        Assert.assertFalse(StringUtils.endsWith("", "", false));
+        Assert.assertTrue(StringUtils.endsWith("abcd", "cd", false));
+        Assert.assertTrue(StringUtils.endsWith("abcd", "cD", true));
+
+        Assert.assertFalse(StringUtils.endsWith(null, null));
+        Assert.assertFalse(StringUtils.endsWith(null, ""));
+        Assert.assertFalse(StringUtils.endsWith("", null));
+        Assert.assertFalse(StringUtils.endsWith("", ""));
+        Assert.assertTrue(StringUtils.endsWith("abcd", "cd"));
+        Assert.assertFalse(StringUtils.endsWith("abcd", "cD"));
+
+        Assert.assertFalse(StringUtils.endsWithIgnoreCase(null, null));
+        Assert.assertFalse(StringUtils.endsWithIgnoreCase(null, ""));
+        Assert.assertFalse(StringUtils.endsWithIgnoreCase("", null));
+        Assert.assertFalse(StringUtils.endsWithIgnoreCase("", ""));
+        Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cd"));
+        Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cD"));
+    }
 }

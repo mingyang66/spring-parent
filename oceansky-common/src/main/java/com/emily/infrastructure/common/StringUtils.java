@@ -40,7 +40,7 @@ public class StringUtils {
         if (str.length() == 1) {
             return str.toUpperCase();
         }
-        return String.join("", String.valueOf(str.charAt(0)).toUpperCase(), str.substring(1));
+        return String.valueOf(str.charAt(0)).toUpperCase().concat(str.substring(1));
     }
 
     /**
@@ -64,7 +64,7 @@ public class StringUtils {
         if (str.length() == 1) {
             return str.toLowerCase();
         }
-        return String.join("", String.valueOf(str.charAt(0)).toLowerCase(), str.substring(1));
+        return String.valueOf(str.charAt(0)).toLowerCase().concat(str.substring(1));
     }
 
     /**
@@ -144,6 +144,62 @@ public class StringUtils {
      */
     public static boolean isNotBlank(final CharSequence cs) {
         return !isBlank(cs);
+    }
+
+    /**
+     * 如果字符串为null或者空字符串，则返回默认字符串
+     * -----------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.defaultIfEmpty(null, "ab"),"ab");
+     * Assert.assertEquals(StringUtils.defaultIfEmpty("", "ab"),"ab");
+     * Assert.assertEquals(StringUtils.defaultIfEmpty(" ", "ab")," ");
+     * Assert.assertEquals(StringUtils.defaultIfEmpty("1", "ab"),"1");
+     * -----------------------------------------------------
+     *
+     * @param str        字符串
+     * @param defaultStr 默认字符串
+     * @param <T>        字符类型
+     * @return 最终结果
+     */
+    public static <T extends CharSequence> T defaultIfEmpty(final T str, final T defaultStr) {
+        return isEmpty(str) ? defaultStr : str;
+    }
+
+    /**
+     * 如果字符串为nul，则返回defaultStr字符串
+     * -------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.defaultString(null, "ab"), "ab");
+     * Assert.assertEquals(StringUtils.defaultString("", "ab"), "");
+     * Assert.assertEquals(StringUtils.defaultString("1", "ab"), "1");
+     * -------------------------------------------------------
+     *
+     * @param str        字符串
+     * @param defaultStr 默认字符串
+     * @param <T>        字符类型
+     * @return 最终字符串结果
+     */
+    public static <T extends CharSequence> T defaultString(final T str, final T defaultStr) {
+        return str == null ? defaultStr : str;
+    }
+
+    /**
+     * 如果字符为null、""、" "，则返回默认字符串
+     * ------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.defaultIfBlank(null, "ab"),"ab");
+     * Assert.assertEquals(StringUtils.defaultIfBlank("", "ab"),"ab");
+     * Assert.assertEquals(StringUtils.defaultIfBlank(" ", "ab"),"ab");
+     * Assert.assertEquals(StringUtils.defaultIfBlank("1", "ab"),"1");
+     * ------------------------------------------------------
+     *
+     * @param str        字符串
+     * @param defaultStr 默认字符串
+     * @param <T>        字符类型
+     * @return 最终结果
+     */
+    public static <T extends CharSequence> T defaultIfBlank(final T str, final T defaultStr) {
+        return isBlank(str) ? defaultStr : str;
     }
 
     /**
@@ -369,7 +425,7 @@ public class StringUtils {
      * @param str          字符串
      * @param abbrevMarker 缩略标识，如：...
      * @param maxLength    缩略后字符串最大长度
-     * @return
+     * @return 缩略后的字符串
      */
     public static String abbreviate(final String str, final String abbrevMarker, int maxLength) {
         if (isEmpty(str)) {
@@ -381,5 +437,148 @@ public class StringUtils {
             return str.concat(abbrevMarker);
         }
         return str.substring(0, maxLength - markerLen).concat(abbrevMarker);
+    }
+
+    /**
+     * 判定字符串是否以指定的前缀开头
+     * -------------------------------------------------------------------------------
+     * 示例：
+     * Assert.assertFalse(StringUtils.startsWith(null, "ab", 0, false));
+     * Assert.assertFalse(StringUtils.startsWith("", "ab", 0, false));
+     * Assert.assertFalse(StringUtils.startsWith(null, null, 0, false));
+     * Assert.assertFalse(StringUtils.startsWith("", "", 0, false));
+     * Assert.assertTrue(StringUtils.startsWith("abcd", "ab", 0, false));
+     * Assert.assertTrue(StringUtils.startsWith("abcd", "ab", 0, true));
+     * Assert.assertFalse(StringUtils.startsWith("Abcd", "ab", 0, false));
+     * Assert.assertTrue(StringUtils.startsWith("Abcd", "ab", 0, true));
+     * Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 1, false));
+     * Assert.assertTrue(StringUtils.startsWith("AbCd", "bc", 1, true));
+     * Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 3, true));
+     * Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 4, true));
+     * -------------------------------------------------------------------------------
+     *
+     * @param str        字符串
+     * @param prefix     前缀
+     * @param toffset    起始索引
+     * @param ignoreCase 是否忽略大小写
+     * @return true-是，false-否
+     */
+    public static boolean startsWith(final String str, final String prefix, int toffset, final boolean ignoreCase) {
+        if (isEmpty(str) || isEmpty(prefix)) {
+            return false;
+        }
+        if (ignoreCase) {
+            return str.toLowerCase().startsWith(prefix.toLowerCase(), toffset);
+        }
+        return str.startsWith(prefix, toffset);
+    }
+
+    /**
+     * 判定字符串是否以指定的前缀开头
+     * ----------------------------------------------------------
+     * 示例：
+     * Assert.assertFalse(StringUtils.startsWith(null, null));
+     * Assert.assertFalse(StringUtils.startsWith(null, ""));
+     * Assert.assertFalse(StringUtils.startsWith(null, "a"));
+     * Assert.assertFalse(StringUtils.startsWith("", null));
+     * Assert.assertFalse(StringUtils.startsWith("", ""));
+     * Assert.assertTrue(StringUtils.startsWith("abb", "ab"));
+     * Assert.assertFalse(StringUtils.startsWith("abb", "Ab"));
+     * ----------------------------------------------------------
+     *
+     * @param str    字符串
+     * @param prefix 前缀
+     * @return true-是，false-否
+     */
+    public static boolean startsWith(final String str, final String prefix) {
+        return startsWith(str, prefix, 0, false);
+    }
+
+    /**
+     * 判定字符串是否以指定的前缀开头
+     * ----------------------------------------------------------
+     * 示例：
+     * Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, null));
+     * Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, ""));
+     * Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, "a"));
+     * Assert.assertFalse(StringUtils.startsWithIgnoreCase("", null));
+     * Assert.assertFalse(StringUtils.startsWithIgnoreCase("", ""));
+     * Assert.assertTrue(StringUtils.startsWithIgnoreCase("abb", "ab"));
+     * Assert.assertTrue(StringUtils.startsWithIgnoreCase("abb", "Ab"));
+     * ----------------------------------------------------------
+     *
+     * @param str    字符串
+     * @param prefix 前缀
+     * @return true-是，false-否
+     */
+    public static boolean startsWithIgnoreCase(final String str, final String prefix) {
+        return startsWith(str, prefix, 0, true);
+    }
+
+    /**
+     * 判定字符串是否以指定后缀结尾
+     * -------------------------------------------------------
+     * 示例：
+     * Assert.assertFalse(StringUtils.endsWith(null, null, false));
+     * Assert.assertFalse(StringUtils.endsWith(null, "", false));
+     * Assert.assertFalse(StringUtils.endsWith("", null, false));
+     * Assert.assertFalse(StringUtils.endsWith("", "", false));
+     * Assert.assertTrue(StringUtils.endsWith("abcd", "cd", false));
+     * Assert.assertTrue(StringUtils.endsWith("abcd", "cD", true));
+     * -------------------------------------------------------
+     *
+     * @param str        字符串
+     * @param suffix     前缀
+     * @param ignoreCase 是否忽略大小写
+     * @return true-是，false-否
+     */
+    public static boolean endsWith(final String str, final String suffix, final boolean ignoreCase) {
+        if (isEmpty(str) || isEmpty(suffix)) {
+            return false;
+        }
+        if (ignoreCase) {
+            return str.toLowerCase().endsWith(suffix.toLowerCase());
+        }
+        return str.endsWith(suffix);
+    }
+
+    /**
+     * 判定字符串是否以指定后缀结尾
+     * -------------------------------------------------------
+     * 示例：
+     * Assert.assertFalse(StringUtils.endsWith(null, null));
+     * Assert.assertFalse(StringUtils.endsWith(null, ""));
+     * Assert.assertFalse(StringUtils.endsWith("", null));
+     * Assert.assertFalse(StringUtils.endsWith("", ""));
+     * Assert.assertTrue(StringUtils.endsWith("abcd", "cd"));
+     * Assert.assertFalse(StringUtils.endsWith("abcd", "cD"));
+     * -------------------------------------------------------
+     *
+     * @param str    字符串
+     * @param suffix 前缀
+     * @return true-是，false-否
+     */
+    public static boolean endsWith(final String str, final String suffix) {
+        return endsWith(str, suffix, false);
+    }
+
+    /**
+     * 判定字符串是否以指定后缀结尾
+     * -------------------------------------------------------
+     * 示例：
+     * Assert.assertFalse(StringUtils.endsWithIgnoreCase(null, null));
+     * Assert.assertFalse(StringUtils.endsWithIgnoreCase(null, ""));
+     * Assert.assertFalse(StringUtils.endsWithIgnoreCase("", null));
+     * Assert.assertFalse(StringUtils.endsWithIgnoreCase("", ""));
+     * Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cd"));
+     * Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cD"));
+     * -------------------------------------------------------
+     *
+     * @param str    字符串
+     * @param suffix 前缀
+     * @return true-是，false-否
+     */
+    public static boolean endsWithIgnoreCase(final String str, final String suffix) {
+        return endsWith(str, suffix, true);
     }
 }

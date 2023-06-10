@@ -653,4 +653,53 @@ public class StringUtils {
         }
         return str.replace(oldChar, newChar);
     }
+
+    /**
+     * 字符串两端空格去除，如果为null，则返回null
+     * --------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.trim(null),null);
+     * Assert.assertEquals(StringUtils.trim(""),"");
+     * Assert.assertEquals(StringUtils.trim(" a "),"a");
+     * --------------------------------------------------------
+     *
+     * @param str 字符串
+     * @return 去除空格后的字符串对象；
+     */
+    public static String trim(final String str) {
+        return str == null ? null : str.trim();
+    }
+
+    /**
+     * 将字符串去除两端空格，如果为null,则返回空字符串""
+     * --------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.trimToEmpty(null), "");
+     * Assert.assertEquals(StringUtils.trimToEmpty(""), "");
+     * Assert.assertEquals(StringUtils.trimToEmpty(" a "), "a");
+     * --------------------------------------------------------
+     *
+     * @param str 字符串
+     * @return 去除空格后的字符串对象；
+     */
+    public static String trimToEmpty(final String str) {
+        return str == null ? EMPTY : str.trim();
+    }
+
+    /**
+     * 将字符串去除两端空格，如果为null或"",则返回null
+     * --------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.trimToNull(" "), null);
+     * Assert.assertEquals(StringUtils.trimToNull(null), null);
+     * Assert.assertEquals(StringUtils.trimToNull(" a "), "a");
+     * --------------------------------------------------------
+     *
+     * @param str 字符串
+     * @return 去除空格后的字符串对象；
+     */
+    public static String trimToNull(final String str) {
+        final String ts = trim(str);
+        return isEmpty(ts) ? null : ts;
+    }
 }

@@ -2,6 +2,7 @@
 -----
 基础库发布4.3.5
 Bug Fixes
+
 1. emily-spring-cloud-starter组件删除httpclient对自定义负载均衡支持；
 2. oceansky-date组件新增将时间戳转换为Date对象方法；
 3. oceansky-sensitive实体类脱敏组件抛出异常方式优化，新增acquireElseGet方法;
@@ -10,7 +11,9 @@ Bug Fixes
 6. common组件新增CollectionUtils工具类；
 7. 优化RequestUtils.getHeader方法参数；
 8. 新增字符串工具类StringUtils，新增leftPad、rightPad、isEmpty、isBlank、length、isNumeric、replace、getBytes等工具方法；
-9. 
+9. 字符串工具类StringUtils新增trim、trimToEmpty、trimToNull工具方法；
+10.
+
 -----
 基础库发布4.3.4
 Bug Fixes

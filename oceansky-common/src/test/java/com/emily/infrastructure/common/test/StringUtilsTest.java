@@ -3,7 +3,6 @@ package com.emily.infrastructure.common.test;
 import com.emily.infrastructure.common.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -227,5 +226,20 @@ public class StringUtilsTest {
         Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", null, ""));
 
         Assert.assertEquals(StringUtils.replace("abc", 'b', 'B'), "aBc");
+    }
+
+    @Test
+    public void trim() {
+        Assert.assertEquals(StringUtils.trim(null), null);
+        Assert.assertEquals(StringUtils.trim(""), "");
+        Assert.assertEquals(StringUtils.trim(" a "), "a");
+
+        Assert.assertEquals(StringUtils.trimToNull(" "), null);
+        Assert.assertEquals(StringUtils.trimToNull(null), null);
+        Assert.assertEquals(StringUtils.trimToNull(" a "), "a");
+
+        Assert.assertEquals(StringUtils.trimToEmpty(null), "");
+        Assert.assertEquals(StringUtils.trimToEmpty(""), "");
+        Assert.assertEquals(StringUtils.trimToEmpty(" a "), "a");
     }
 }

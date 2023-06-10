@@ -3,6 +3,7 @@ package com.emily.infrastructure.common.test;
 import com.emily.infrastructure.common.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -217,5 +218,14 @@ public class StringUtilsTest {
         Assert.assertEquals(StringUtils.getBytes("ab", Charset.defaultCharset()).length, 2);
 
         Assert.assertEquals(StringUtils.getBytes("ab", "utf-8").length, 2);
+    }
+
+    @Test
+    public void replace() {
+        Assert.assertEquals(StringUtils.replace("abc", "ab", "AB"), "ABc");
+        Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", "", ""));
+        Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", null, ""));
+
+        Assert.assertEquals(StringUtils.replace("abc", 'b', 'B'), "aBc");
     }
 }

@@ -606,10 +606,51 @@ public class StringUtils {
      *
      * @param string  字符串
      * @param charset 编码名称
-     * @return
-     * @throws UnsupportedEncodingException
      */
     public static byte[] getBytes(final String string, final String charset) throws UnsupportedEncodingException {
         return string == null ? ArrayUtils.EMPTY_BYTE_ARRAY : string.getBytes(Charsets.toCharsetName(charset));
+    }
+
+    /**
+     * 字符串中的字符序列替换
+     * ---------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.replace("abc", "ab", "AB"), "ABc");
+     * Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", "", ""));
+     * Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", null, ""));
+     * ---------------------------------------------------------
+     *
+     * @param str         字符串
+     * @param target      要替换的字符值序列
+     * @param replacement 字符值的替换序列
+     * @return 替换后的字符串
+     */
+    public static String replace(final String str, final CharSequence target, final CharSequence replacement) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        if (isEmpty(target) || isEmpty(replacement)) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        return str.replace(target, replacement);
+    }
+
+    /**
+     * 替换字符串中的指定字符
+     * -------------------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(StringUtils.replace("abc", 'b', 'B'), "aBc");
+     * -------------------------------------------------------------
+     *
+     * @param str     字符串
+     * @param oldChar 要被替换的字符
+     * @param newChar 字符的替换字符
+     * @return 替换字符后的字符串
+     */
+    public static String replace(final String str, final char oldChar, final char newChar) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        return str.replace(oldChar, newChar);
     }
 }

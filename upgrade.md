@@ -9,7 +9,7 @@ Bug Fixes
 5. 删除demo实例程序中的FileHelper相关代码；
 6. common组件新增CollectionUtils工具类；
 7. 优化RequestUtils.getHeader方法参数；
-8. 新增字符串工具类StringUtils，新增leftPad、rightPad、isEmpty、isBlank、length、isNumeric等工具方法；
+8. 新增字符串工具类StringUtils，新增leftPad、rightPad、isEmpty、isBlank、length、isNumeric、replace、getBytes等工具方法；
 9. 
 -----
 基础库发布4.3.4

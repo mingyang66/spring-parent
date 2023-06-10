@@ -24,7 +24,7 @@ public class Charsets {
      * @param charsetName 编码名称
      * @return 编码对象
      */
-    static Charset toCharset(final String charsetName) {
+    public static Charset toCharset(final String charsetName) {
         return charsetName == null ? Charset.defaultCharset() : Charset.forName(charsetName);
     }
 
@@ -34,7 +34,7 @@ public class Charsets {
      * @param charsetName 编码名称
      * @return 编码对象
      */
-    static String toCharsetName(final String charsetName) {
+    public static String toCharsetName(final String charsetName) {
         return charsetName == null ? Charset.defaultCharset().name() : charsetName;
     }
 }

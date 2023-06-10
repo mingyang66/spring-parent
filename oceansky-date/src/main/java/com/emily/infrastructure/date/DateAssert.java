@@ -5,14 +5,14 @@ package com.emily.infrastructure.date;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/5/28 9:29 AM
  */
-public class DateAssert {
+class DateAssert {
     /**
      * 判定字符串是否为null或者空串
      *
      * @param str     字符
      * @param message 异常描述信息
      */
-    public static void illegalArgument(String str, String message) {
+    static void illegalArgument(String str, String message) {
         if (str == null || str.length() == 0) {
             throw new IllegalArgumentException(message);
         }
@@ -24,7 +24,7 @@ public class DateAssert {
      * @param obj     对象
      * @param message 异常描述
      */
-    public static void illegalArgument(Object obj, String message) {
+    static void illegalArgument(Object obj, String message) {
         if (obj == null) {
             throw new IllegalArgumentException(message);
         }
@@ -37,7 +37,7 @@ public class DateAssert {
      * @param defaultValue 默认值
      * @return 结果值
      */
-    public static String requireElseGet(String str, String defaultValue) {
+    static String requireElseGet(String str, String defaultValue) {
         if (str == null || str.length() == 0) {
             return defaultValue;
         }
@@ -52,7 +52,7 @@ public class DateAssert {
      * @param <T>          对象类型
      * @return 结果
      */
-    public static <T> T requireElseGet(T t, T defaultValue) {
+    static <T> T requireElseGet(T t, T defaultValue) {
         if (t == null) {
             return defaultValue;
         }

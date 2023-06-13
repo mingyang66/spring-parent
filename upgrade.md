@@ -12,7 +12,8 @@ Bug Fixes
 7. 优化RequestUtils.getHeader方法参数；
 8. 新增字符串工具类StringUtils，新增leftPad、rightPad、isEmpty、isBlank、length、isNumeric、replace、getBytes等工具方法；
 9. 字符串工具类StringUtils新增trim、trimToEmpty、trimToNull工具方法；
-10.
+10. 新增ObjectUtils工具类，包含isNull、isNotNull、isEmpty、isNotEmpty工具方法；
+11. 
 
 -----
 基础库发布4.3.4

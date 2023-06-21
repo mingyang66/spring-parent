@@ -21,7 +21,7 @@ public class MysqlServiceImpl implements MysqlService {
 
     @Override
     public List<World> getMysql() {
-        return mysqlMapper.getMysql();
+        return mysqlMapper.getMysql("田晓霞", "123456");
     }
 
     @Override

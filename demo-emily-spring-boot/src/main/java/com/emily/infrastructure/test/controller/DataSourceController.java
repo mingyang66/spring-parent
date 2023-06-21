@@ -12,6 +12,7 @@ import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.OracleService;
 import com.google.common.collect.Lists;
+import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -149,5 +150,14 @@ public class DataSourceController {
         return oracleService.getTarget(RequestUtils.getRequest().getParameter("param"));
     }
 
+    @GetMapping("getSql")
+    public String getSql() {
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory();
+        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
 
+        String id = "com.emily.infrastructure.test.mapper.mysql.MysqlMapper.insertMysql";
+        MappedStatement statement = sqlSession.getConfiguration().getMappedStatement(id);
+        String sql = statement.getBoundSql("schedName").getSql();
+        return sql;
+    }
 }

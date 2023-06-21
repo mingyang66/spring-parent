@@ -32,13 +32,13 @@ public interface MysqlMapper {
      * 查询接口
      */
     @TargetDataSource("mysql")
-    List<World> getMysql();
+    List<World> getMysql(String username, String password);
 
     /**
      * 新增接口
      */
     @TargetDataSource(value = "mysql")
-    void insertMysql(String schedName, String lockName);
+    void insertMysql(String username, String password);
 
     @TargetDataSource(value = "mysql")
     MapperIgnore getMapperIgnore(PubResponse response, String username, String email);

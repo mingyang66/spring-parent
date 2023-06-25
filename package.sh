@@ -9,6 +9,7 @@ mvn clean deploy -pl oceansky-language
 mvn clean deploy -pl oceansky-sensitive
 mvn clean deploy -pl oceansky-jwt
 mvn clean deploy -pl oceansky-date
+mvn clean deploy -pl oceansky-common
 echo '#########oceansky-json打包完成...'
 mvn clean deploy -pl emily-spring-boot-parent
 echo '#########emily-spring-boot-parent打包完成...'

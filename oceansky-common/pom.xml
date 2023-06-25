@@ -9,8 +9,8 @@
 
     <artifactId>oceansky-common</artifactId>
     <packaging>jar</packaging>
-    <name>oceansky-file</name>
-    <description>Java文件读取操作相关组件SDK</description>
+    <name>oceansky-common</name>
+    <description>Java通用工具类组件SDK</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>

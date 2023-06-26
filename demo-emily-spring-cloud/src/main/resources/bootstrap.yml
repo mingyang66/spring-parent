@@ -17,7 +17,7 @@ spring:
           # 监控的固定延迟值,即一次执行完成到下一次执行开始之间的间隔，默认：1000毫秒
           delay: 1000
           # 等待（或阻塞）监视查询的秒数，默认：55秒，需要小于60
-          wait-time: 55
+          wait-time: 5
         # 配置文件格式
         format: properties
         # consul配置key

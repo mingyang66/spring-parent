@@ -702,4 +702,27 @@ public class StringUtils {
         final String ts = trim(str);
         return isEmpty(ts) ? null : ts;
     }
+
+    /**
+     * 字符串分割
+     * -----------------------------------------------------
+     * 示例如下：
+     * Assert.assertNotNull(StringUtils.split(null, null));
+     * Assert.assertNotNull(StringUtils.split("", null));
+     * Assert.assertEquals(StringUtils.split("abcd", "").length,4);
+     * Assert.assertEquals(StringUtils.split("abcd", ",").length,1);
+     * Assert.assertEquals(StringUtils.split("ab,cd", ",").length,2);
+     * Assert.assertEquals(StringUtils.split("abcd", "c").length,2);
+     * -----------------------------------------------------
+     *
+     * @param str            待分割的字符串
+     * @param separatorChars 字符串分隔符
+     * @return 分割后的字符串数组
+     */
+    public static String[] split(final String str, final String separatorChars) {
+        if (isBlank(str)) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        return str.split(separatorChars);
+    }
 }

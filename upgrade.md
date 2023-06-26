@@ -13,7 +13,11 @@ Bug Fixes
 8. 新增字符串工具类StringUtils，新增leftPad、rightPad、isEmpty、isBlank、length、isNumeric、replace、getBytes等工具方法；
 9. 字符串工具类StringUtils新增trim、trimToEmpty、trimToNull工具方法；
 10. 新增ObjectUtils工具类，包含isNull、isNotNull、isEmpty、isNotEmpty工具方法；
-11. 
+11. 新增监听器EnvironmentChangeApplicationListener解决ApplicationContext重新创建导致原来的ApplicationContext失效；
+    异常示例：
+    org.springframework.context.annotation.AnnotationConfigApplicationContext@7a8414ea has been closed already
+12. StringUtils工具类新增split方法；
+13.
 
 -----
 基础库发布4.3.4

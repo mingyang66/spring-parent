@@ -242,4 +242,14 @@ public class StringUtilsTest {
         Assert.assertEquals(StringUtils.trimToEmpty(""), "");
         Assert.assertEquals(StringUtils.trimToEmpty(" a "), "a");
     }
+
+    @Test
+    public void split() {
+        Assert.assertNotNull(StringUtils.split(null, null));
+        Assert.assertNotNull(StringUtils.split("", null));
+        Assert.assertEquals(StringUtils.split("abcd", "").length, 4);
+        Assert.assertEquals(StringUtils.split("abcd", ",").length, 1);
+        Assert.assertEquals(StringUtils.split("ab,cd", ",").length, 2);
+        Assert.assertEquals(StringUtils.split("abcd", "c").length, 2);
+    }
 }

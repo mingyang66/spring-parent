@@ -24,6 +24,10 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
         return CONTEXT;
     }
 
+    public static void setCONTEXT(ApplicationContext CONTEXT) {
+        IOCContext.CONTEXT = CONTEXT;
+    }
+
     /**
      * 获取指定Class类型的实例对象
      *

@@ -10,4 +10,8 @@ public class ArrayUtils {
      * 不可变byte空数组
      */
     public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+    /**
+     * 字符串空数组
+     */
+    public static final String[] EMPTY_STRING_ARRAY = new String[0];
 }

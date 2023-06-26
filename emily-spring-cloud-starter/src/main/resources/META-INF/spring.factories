@@ -1,2 +1,2 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.emily.infrastructure.cloud.feign.FeignLoggerAutoConfiguration
+# Application Listener
+org.springframework.context.ApplicationListener=com.emily.infrastructure.cloud.listener.EnvironmentChangeApplicationListener

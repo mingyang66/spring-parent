@@ -3,6 +3,8 @@ package com.emily.cloud.test.api;
 import com.emily.cloud.test.api.po.User;
 import com.emily.cloud.test.api.po.ValidateCodeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,10 +23,12 @@ import java.util.Map;
 @RequestMapping("api/test")
 public class TestController {
 
+    @Autowired
+    private Environment environment;
     @GetMapping("test1")
     public String test1(HttpServletResponse response) {
         response.setContentType("text/html");
-        return "success";
+        return environment.getProperty("c");
     }
 
     @PostMapping("test2")

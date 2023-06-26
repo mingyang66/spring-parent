@@ -23,7 +23,7 @@ import java.util.Map;
 public interface StoreClient {
 
     @GetMapping(value = "/innerApi/accountNumber/getMainFundAccountBy/{accountCode}")
-    BaseResponse<Object> stores(@PathVariable String accountCode, String password);
+    BaseResponse<Object> stores(@PathVariable("accountCode") String accountCode, String password);
 
     @RequestMapping(method = RequestMethod.POST, value = "/insertStores")
     Store insertStores(Store store);

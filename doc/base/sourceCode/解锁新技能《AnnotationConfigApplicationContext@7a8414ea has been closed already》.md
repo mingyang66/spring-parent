@@ -159,7 +159,11 @@ public class LegacyContextRefresher extends ContextRefresher {
 public class EnvironmentChangeApplicationListener implements ApplicationListener<EnvironmentChangeEvent> {
     @Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
-        IOCContext.setCONTEXT((ApplicationContext) event.getSource());
+        Object source = event.getSource();
+        if (Objects.isNull(source) || !(source instanceof ApplicationContext)) {
+            return;
+        }
+        IOCContext.setCONTEXT((ApplicationContext) source);
     }
 }
 

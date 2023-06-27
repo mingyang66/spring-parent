@@ -1,4 +1,4 @@
-package com.emily.infrastructure.common;
+package com.emily.infrastructure.common.charset;
 
 import java.nio.charset.Charset;
 

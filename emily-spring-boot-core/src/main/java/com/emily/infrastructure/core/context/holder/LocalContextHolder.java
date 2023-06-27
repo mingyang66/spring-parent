@@ -7,7 +7,7 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  * @Author: Emily
  * @create: 2021/10/12
  */
-public class ThreadContextHolder {
+public class LocalContextHolder {
 
     private static final ThreadLocal<ContextHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override

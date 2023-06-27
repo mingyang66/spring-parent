@@ -6,6 +6,7 @@ import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public interface MysqlMapper {
      * 新增接口
      */
     @TargetDataSource(value = "mysql")
-    void insertMysql(String username, String password);
+    void insertMysql(@Param("username") String username, @Param("password") String password);
 
     @TargetDataSource(value = "mysql")
     MapperIgnore getMapperIgnore(PubResponse response, String username, String email);

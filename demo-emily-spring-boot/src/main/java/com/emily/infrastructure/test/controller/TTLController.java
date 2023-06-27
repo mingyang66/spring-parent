@@ -5,7 +5,7 @@ import com.alibaba.ttl.TtlCallable;
 import com.alibaba.ttl.TtlRunnable;
 import com.alibaba.ttl.TtlWrappers;
 import com.alibaba.ttl.threadpool.TtlExecutors;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +24,10 @@ public class TTLController {
 
     @GetMapping("test")
     public String get() throws ExecutionException, InterruptedException {
-        System.out.println("-----上下文ID:" + ThreadContextHolder.current().getTraceId());
+        System.out.println("-----上下文ID:" + LocalContextHolder.current().getTraceId());
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(TtlWrappers.wrapSupplier(() -> {
-            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + ThreadContextHolder.current().getTraceId());
-            return ThreadContextHolder.current().getTraceId();
+            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + LocalContextHolder.current().getTraceId());
+            return LocalContextHolder.current().getTraceId();
         }));
         return future1.get();
     }

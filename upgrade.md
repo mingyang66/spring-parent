@@ -17,7 +17,9 @@ Bug Fixes
     异常示例：
     org.springframework.context.annotation.AnnotationConfigApplicationContext@7a8414ea has been closed already
 12. StringUtils工具类新增split方法；
-13.
+13. 新增ServletRequestHandledApplicationListener监听器，监听ServletRequestHandledEvent事件；
+14. ThreadContextHolder类重命名为LocalContextHolder;
+15. 
 
 -----
 基础库发布4.3.4

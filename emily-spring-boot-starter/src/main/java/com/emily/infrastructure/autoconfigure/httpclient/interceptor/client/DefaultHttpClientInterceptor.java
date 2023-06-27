@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -44,13 +44,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         //设置事务标识
-        request.getHeaders().set(HeaderInfo.TRACE_ID, ThreadContextHolder.current().getTraceId());
+        request.getHeaders().set(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //创建拦截日志信息
         BaseLoggerBuilder builder = new BaseLoggerBuilder()
                 //系统编号
-                .withSystemNumber(ThreadContextHolder.current().getSystemNumber())
+                .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                 //生成事物流水号
-                .withTraceId(ThreadContextHolder.current().getTraceId())
+                .withTraceId(LocalContextHolder.current().getTraceId())
                 //请求URL
                 .withUrl(request.getURI().toString())
                 //请求参数
@@ -72,13 +72,13 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            builder.withClientIp(ThreadContextHolder.current().getClientIp())
+            builder.withClientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
-                    .withServerIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(LocalContextHolder.current().getServerIp())
                     //版本类型
-                    .withAppType(ThreadContextHolder.current().getAppType())
+                    .withAppType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //响应时间
@@ -86,7 +86,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             //异步线程池记录日志
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
             //非servlet上下文移除数据
-            ThreadContextHolder.unbind();
+            LocalContextHolder.unbind();
         }
 
     }

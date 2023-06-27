@@ -8,7 +8,6 @@ import com.emily.infrastructure.core.helper.UUIDUtils;
 import com.emily.infrastructure.language.convert.LanguageType;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
 /**
@@ -67,16 +66,15 @@ public class ContextHolder {
         this.servlet = RequestUtils.isServlet();
         //判定是否是servlet请求上下文
         if (servlet) {
-            HttpServletRequest request = RequestUtils.getRequest();
-            this.traceId = request.getHeader(HeaderInfo.TRACE_ID);
-            this.appType = request.getHeader(HeaderInfo.APP_TYPE);
-            this.appVersion = request.getHeader(HeaderInfo.APP_VERSION);
-            this.languageType = LanguageType.getByCode(request.getHeader(HeaderInfo.LANGUAGE));
+            this.traceId = RequestUtils.getHeader(HeaderInfo.TRACE_ID, false);
+            this.appType = RequestUtils.getHeader(HeaderInfo.APP_TYPE, false);
+            this.appVersion = RequestUtils.getHeader(HeaderInfo.APP_VERSION, false);
+            this.languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE, false));
             //设置当前请求阶段标识
-            request.setAttribute(AttributeInfo.STAGE, StageType.REQUEST);
+            RequestUtils.getRequest().setAttribute(AttributeInfo.STAGE, StageType.REQUEST);
         }
         //事务流水号
-        this.traceId = StringUtils.isEmpty(traceId) ? UUIDUtils.randomSimpleUUID() : traceId;
+        this.traceId = StringUtils.defaultString(traceId, UUIDUtils.randomSimpleUUID());
     }
 
     public String getAppType() {

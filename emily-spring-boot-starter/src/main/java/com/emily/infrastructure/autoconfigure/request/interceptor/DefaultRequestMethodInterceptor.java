@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.CharacterInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
@@ -52,9 +52,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
             //系统编号
-            builder.withSystemNumber(ThreadContextHolder.current().getSystemNumber())
+            builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号
-                    .withTraceId(ThreadContextHolder.current().getTraceId())
+                    .withTraceId(LocalContextHolder.current().getTraceId())
                     //时间
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //请求url
@@ -73,7 +73,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                 //设置响应结果
                 builder.withBody(SensitiveUtils.acquireElseGet(response));
             }
-            return I18nConvertHelper.acquire(response, ThreadContextHolder.current().getLanguageType());
+            return I18nConvertHelper.acquire(response, LocalContextHolder.current().getLanguageType());
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;
@@ -94,15 +94,15 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             throw ex;
         } finally {
             //客户端IP
-            builder.withClientIp(ThreadContextHolder.current().getClientIp())
+            builder.withClientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
-                    .withServerIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(LocalContextHolder.current().getServerIp())
                     //版本类型
-                    .withAppType(ThreadContextHolder.current().getAppType())
+                    .withAppType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), ThreadContextHolder.current().getStartTime()))
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()))
                     //时间
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
 
@@ -110,7 +110,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //异步记录接口响应信息
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
             //移除线程上下文数据
-            ThreadContextHolder.unbind(true);
+            LocalContextHolder.unbind(true);
             //设置耗时
             RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, baseLogger.getSpentTime());
         }

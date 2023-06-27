@@ -1,0 +1,2 @@
+# Application Listener
+org.springframework.context.ApplicationListener=com.emily.infrastructure.autoconfigure.listener.ServletRequestHandledApplicationListener

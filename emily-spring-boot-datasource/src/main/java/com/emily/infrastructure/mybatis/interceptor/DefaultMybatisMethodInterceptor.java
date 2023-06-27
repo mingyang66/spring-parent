@@ -1,7 +1,7 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.core.constant.AopOrderInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -42,16 +42,16 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             builder.withBody(PrintExceptionInfo.printErrorInfo(ex));
             throw ex;
         } finally {
-            builder.withSystemNumber(ThreadContextHolder.current().getSystemNumber())
-                    .withTraceId(ThreadContextHolder.current().getTraceId())
-                    .withClientIp(ThreadContextHolder.current().getClientIp())
-                    .withServerIp(ThreadContextHolder.current().getServerIp())
+            builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
+                    .withTraceId(LocalContextHolder.current().getTraceId())
+                    .withClientIp(LocalContextHolder.current().getClientIp())
+                    .withServerIp(LocalContextHolder.current().getServerIp())
                     .withRequestParams(RequestHelper.getMethodArgs(invocation))
                     .withUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //非servlet上下文移除数据
-            ThreadContextHolder.unbind();
+            LocalContextHolder.unbind();
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {
                 logger.info(JsonUtils.toJSONString(builder.build()));
             });

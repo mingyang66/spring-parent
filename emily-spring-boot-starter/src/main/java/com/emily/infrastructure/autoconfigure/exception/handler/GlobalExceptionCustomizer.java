@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
@@ -78,7 +78,7 @@ public class GlobalExceptionCustomizer {
         try {
             BaseLoggerBuilder builder = new BaseLoggerBuilder()
                     //系统编号
-                    .withSystemNumber(ThreadContextHolder.current().getSystemNumber())
+                    .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号
                     .withTraceId(request.getHeader(HeaderInfo.TRACE_ID) == null ? UUIDUtils.randomSimpleUUID() : request.getHeader(HeaderInfo.TRACE_ID))
                     //请求URL
@@ -88,9 +88,9 @@ public class GlobalExceptionCustomizer {
                     //服务端IP
                     .withServerIp(RequestUtils.getServerIp())
                     //版本类型
-                    .withAppType(ThreadContextHolder.current().getAppType())
+                    .withAppType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(LocalContextHolder.current().getAppVersion())
                     //触发时间
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //请求参数
@@ -105,7 +105,7 @@ public class GlobalExceptionCustomizer {
             logger.error(MessageFormat.format("记录错误日志异常：{0}", PrintExceptionInfo.printErrorInfo(exception)));
         } finally {
             //由于获取参数中会初始化上下文，清除防止OOM
-            ThreadContextHolder.unbind(true);
+            LocalContextHolder.unbind(true);
         }
     }
 }

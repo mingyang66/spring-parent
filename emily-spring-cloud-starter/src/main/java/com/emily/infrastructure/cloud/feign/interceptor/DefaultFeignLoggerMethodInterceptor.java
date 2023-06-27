@@ -3,7 +3,7 @@ package com.emily.infrastructure.cloud.feign.interceptor;
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.AttributeInfo;
-import com.emily.infrastructure.core.context.holder.ThreadContextHolder;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
@@ -60,13 +60,13 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //封装异步日志信息
             BaseLoggerBuilder builder = FeignContextHolder.current()
                     //客户端IP
-                    .withClientIp(ThreadContextHolder.current().getClientIp())
+                    .withClientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
-                    .withServerIp(ThreadContextHolder.current().getServerIp())
+                    .withServerIp(LocalContextHolder.current().getServerIp())
                     //版本类型
-                    .withAppType(ThreadContextHolder.current().getAppType())
+                    .withAppType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(ThreadContextHolder.current().getAppVersion())
+                    .withAppVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //触发时间
@@ -80,7 +80,7 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据
-            ThreadContextHolder.unbind();
+            LocalContextHolder.unbind();
         }
     }
 

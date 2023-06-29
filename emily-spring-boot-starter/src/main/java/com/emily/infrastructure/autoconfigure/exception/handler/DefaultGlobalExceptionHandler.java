@@ -1,8 +1,6 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
-import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import org.springframework.beans.TypeMismatchException;
@@ -10,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,9 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.UnknownContentTypeException;
+import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
@@ -39,9 +36,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = Exception.class)
-    public BaseResponse exceptionHandler(Exception e, HttpServletRequest request) {
+    public Object exceptionHandler(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.EXCEPTION.getStatus()).withMessage(e.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -50,9 +47,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = RuntimeException.class)
-    public BaseResponse runtimeExceptionHandler(RuntimeException e, HttpServletRequest request) {
+    public Object runtimeExceptionHandler(RuntimeException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.EXCEPTION.getStatus()).withMessage(e.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION.getStatus(), e.getMessage());
     }
 
     /**
@@ -61,9 +58,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(BasicException.class)
-    public BaseResponse basicException(BasicException e, HttpServletRequest request) {
+    public Object basicException(BasicException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(e.getStatus()).withMessage(e.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, e.getStatus(), e.getMessage());
     }
 
     /**
@@ -72,9 +69,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(UndeclaredThrowableException.class)
-    public BaseResponse undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request) {
+    public Object undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_PROXY.getStatus()).withMessage(HttpStatusType.ILLEGAL_PROXY.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_PROXY);
     }
 
     /**
@@ -83,9 +80,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NullPointerException.class)
-    public BaseResponse nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request) {
+    public Object nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -94,9 +91,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ClassCastException.class)
-    public BaseResponse classCastExceptionHandler(ClassCastException e, HttpServletRequest request) {
+    public Object classCastExceptionHandler(ClassCastException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -105,9 +102,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(IOException.class)
-    public BaseResponse ioExceptionHandler(IOException e, HttpServletRequest request) {
+    public Object ioExceptionHandler(IOException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.EXCEPTION.getStatus()).withMessage(HttpStatusType.EXCEPTION.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION);
     }
 
     /**
@@ -116,9 +113,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    public BaseResponse indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request) {
+    public Object indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -127,9 +124,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(TypeMismatchException.class)
-    public BaseResponse requestTypeMismatch(TypeMismatchException e, HttpServletRequest request) {
+    public Object requestTypeMismatch(TypeMismatchException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -138,64 +135,51 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MissingRequestValueException.class)
-    public BaseResponse missingRequestValueException(MissingRequestValueException e, HttpServletRequest request) {
+    public Object missingRequestValueException(MissingRequestValueException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
 
     /**
      * API-控制器方法参数Validate异常
-     *
-     * @throws BindException
-     * @throws MethodArgumentNotValidException
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({BindException.class})
-    public BaseResponse bindException(BindException e, HttpServletRequest request) {
+    public Object bindException(BindException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public BaseResponse httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
+    public Object httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
      * Get请求参数校验，如@NotEmpty、@NotNull等等
-     *
-     * @param e
-     * @param request
-     * @return
-     * @throws ConstraintViolationException,ValidationException
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ValidationException.class)
-    public BaseResponse validationException(ValidationException e, HttpServletRequest request) {
+    public Object validationException(ValidationException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
      * 非法参数异常捕获
-     *
-     * @param e
-     * @param request
-     * @return
-     * @throws IllegalArgumentException
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(IllegalArgumentException.class)
-    public BaseResponse validationException(IllegalArgumentException e, HttpServletRequest request) {
+    public Object illegalArgumentException(IllegalArgumentException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ARGUMENT.getStatus()).withMessage(HttpStatusType.ILLEGAL_ARGUMENT.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -204,9 +188,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public BaseResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
+    public Object httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_METHOD.getStatus()).withMessage(HttpStatusType.ILLEGAL_METHOD.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_METHOD);
     }
 
     /**
@@ -215,9 +199,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NumberFormatException.class)
-    public BaseResponse numberFormatException(NumberFormatException e, HttpServletRequest request) {
+    public Object numberFormatException(NumberFormatException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -226,9 +210,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ArithmeticException.class)
-    public BaseResponse arithmeticException(ArithmeticException e, HttpServletRequest request) {
+    public Object arithmeticException(ArithmeticException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_DATA.getStatus()).withMessage(HttpStatusType.ILLEGAL_DATA.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -237,9 +221,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(UnknownContentTypeException.class)
-    public BaseResponse unknownContentTypeException(UnknownContentTypeException e, HttpServletRequest request) {
+    public Object unknownContentTypeException(UnknownContentTypeException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ACCESS.getStatus()).withMessage(HttpStatusType.ILLEGAL_ACCESS.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ACCESS);
     }
 
     /**
@@ -248,9 +232,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ResourceAccessException.class)
-    public BaseResponse resourceAccessException(ResourceAccessException e, HttpServletRequest request) {
+    public Object resourceAccessException(ResourceAccessException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return new BaseResponseBuilder<>().withStatus(HttpStatusType.ILLEGAL_ACCESS.getStatus()).withMessage(HttpStatusType.ILLEGAL_ACCESS.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ACCESS);
     }
 }
 

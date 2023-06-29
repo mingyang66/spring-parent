@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.response.handler;
 
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
@@ -57,8 +57,8 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             String path = ((Map) body).get("path").toString();
             BaseResponse baseResponse = new BaseResponseBuilder<>().withStatus(HttpStatus.NOT_FOUND.value()).withMessage(StringUtils.join("接口【", path, "】不存在")).build();
             proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
-        } else if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
-                || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
+        } else if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)
+                || returnType.getContainingClass().isAnnotationPresent(ApiResponseWrapperIgnore.class)
                 || MatchUtils.match(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {

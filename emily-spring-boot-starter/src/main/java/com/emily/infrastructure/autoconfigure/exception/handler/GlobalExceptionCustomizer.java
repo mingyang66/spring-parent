@@ -1,10 +1,13 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
+import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
+import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
@@ -19,8 +22,10 @@ import org.slf4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -34,6 +39,47 @@ import java.util.Objects;
 public class GlobalExceptionCustomizer {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultGlobalExceptionHandler.class);
+
+    /**
+     * 对API请求异常处理，
+     * 1.如果标记了ApiResponseWrapperIgnore注解，则统一去除包装
+     * 2.否则添加外层包装
+     *
+     * @param handlerMethod  控制器方法处理对象
+     * @param httpStatusType 异常状态枚举
+     * @return 包装或为包装的结果
+     */
+    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, HttpStatusType httpStatusType) {
+        if (Objects.nonNull(handlerMethod)) {
+            // 获取控制器方法
+            Method method = handlerMethod.getMethod();
+            if (method.isAnnotationPresent(ApiResponseWrapperIgnore.class)) {
+                return httpStatusType.getMessage();
+            }
+        }
+        return new BaseResponseBuilder<>().withStatus(httpStatusType.getStatus()).withMessage(httpStatusType.getMessage()).build();
+    }
+
+    /**
+     * 对API请求异常处理，
+     * 1.如果标记了ApiResponseWrapperIgnore注解，则统一去除包装
+     * 2.否则添加外层包装
+     *
+     * @param handlerMethod 控制器方法处理对象
+     * @param status        状态码
+     * @param message       异常提示消息
+     * @return 包装或为包装的结果
+     */
+    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, int status, String message) {
+        if (Objects.nonNull(handlerMethod)) {
+            // 获取控制器方法
+            Method method = handlerMethod.getMethod();
+            if (method.isAnnotationPresent(ApiResponseWrapperIgnore.class)) {
+                return message;
+            }
+        }
+        return new BaseResponseBuilder<>().withStatus(status).withMessage(message).build();
+    }
 
     /**
      * 获取异常堆栈信息并记录到error文件中

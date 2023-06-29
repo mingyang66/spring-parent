@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.response.handler;
 
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
@@ -44,8 +44,8 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (returnType.hasMethodAnnotation(ApiWrapperIgnore.class)
-                || returnType.getContainingClass().isAnnotationPresent(ApiWrapperIgnore.class)
+        if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)
+                || returnType.getContainingClass().isAnnotationPresent(ApiResponseWrapperIgnore.class)
                 || MatchUtils.match(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {

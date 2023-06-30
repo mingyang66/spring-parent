@@ -3,6 +3,7 @@ package com.emily.infrastructure.autoconfigure.response;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpHeadersReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseMethodReturnValueHandler;
+import com.emily.infrastructure.autoconfigure.response.handler.ResponseWrapperAdviceHandler;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -33,7 +34,11 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
     private static final Logger logger = LoggerFactory.getLogger(ResponseWrapperAutoConfiguration.class);
 
+    /**
+     * 基于适配器模式处理返回值包装类模式，默认：关闭
+     */
     @Bean
+    @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-adapter", havingValue = "true")
     public Object initResponseWrapper(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties properties) {
         List<HandlerMethodReturnValueHandler> handlers = handlerAdapter.getReturnValueHandlers().stream().map(valueHandler -> {
             if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
@@ -50,6 +55,15 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
         handlerAdapter.setReturnValueHandlers(handlers);
         return "UNSET";
+    }
+
+    /**
+     * 基于ResponseBodyAdvice切面模式处理返回值包装类模式，默认：开启
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-advice", havingValue = "true", matchIfMissing = true)
+    public ResponseWrapperAdviceHandler responseWrapperAdviceHandler(ResponseWrapperProperties properties) {
+        return new ResponseWrapperAdviceHandler(properties);
     }
 
     @Override

@@ -89,11 +89,9 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
         }
 
         // 如果是字符串类型，外层有ResponseEntity包装，将其 包装成BaseResponse类型
-        if (returnType.getParameterType().equals(ResponseEntity.class)) {
-            if (MediaType.TEXT_PLAIN.equals(selectedContentType)) {
-                response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-                return JsonUtils.toJSONString(builder.withData(body).build());
-            }
+        if (returnType.getParameterType().equals(ResponseEntity.class) && MediaType.TEXT_PLAIN.equals(selectedContentType)) {
+            response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return JsonUtils.toJSONString(builder.withData(body).build());
         }
 
         return builder.withData(body).build();

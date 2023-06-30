@@ -20,7 +20,8 @@ Bug Fixes
 13. 新增ServletRequestHandledApplicationListener监听器，监听ServletRequestHandledEvent事件；
 14. ThreadContextHolder类重命名为LocalContextHolder;
 15. springboot全局异常处理新增HandledMethod参数，修改异常返回值数据类型为Object,兼容@ApiResponseWrapperIgnore注解忽略异常返回包装；
-16. 
+16. guava-jre升级到32.1.0版本；
+17. 
 
 -----
 基础库发布4.3.4

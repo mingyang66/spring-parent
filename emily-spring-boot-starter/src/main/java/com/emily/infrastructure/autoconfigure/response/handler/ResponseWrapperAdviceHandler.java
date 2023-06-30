@@ -5,6 +5,7 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWra
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
+import com.emily.infrastructure.core.helper.MatchUtils;
 import com.emily.infrastructure.json.JsonUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -65,6 +66,11 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
 
         // 如果控制器上标注类忽略包装注解，则直接返回
         if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)) {
+            return body;
+        }
+
+        // 如果请求URL在指定的排除URL集合，则直接返回
+        if (MatchUtils.match(properties.getExclude(), request.getURI().getPath())) {
             return body;
         }
 

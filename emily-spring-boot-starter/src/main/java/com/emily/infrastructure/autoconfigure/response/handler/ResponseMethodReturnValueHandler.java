@@ -2,10 +2,10 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.helper.MatchUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -46,7 +46,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiResponseWrapperIgnore.class)
-                || MatchUtils.match(properties.getExclude(), request.getRequestURI())) {
+                || RegexPathMatcher.matchAny(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) returnValue;

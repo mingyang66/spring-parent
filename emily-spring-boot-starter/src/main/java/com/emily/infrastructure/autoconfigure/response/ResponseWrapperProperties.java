@@ -2,8 +2,8 @@ package com.emily.infrastructure.autoconfigure.response;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Emily
@@ -32,7 +32,7 @@ public class ResponseWrapperProperties {
     /**
      * 忽略包装指定URL
      */
-    private Set<String> exclude = new HashSet<>();
+    private List<String> exclude = new ArrayList<>();
 
     public boolean isEnabledAdapter() {
         return enabledAdapter;
@@ -58,11 +58,11 @@ public class ResponseWrapperProperties {
         this.enabled = enabled;
     }
 
-    public Set<String> getExclude() {
+    public List<String> getExclude() {
         return exclude;
     }
 
-    public void setExclude(Set<String> exclude) {
+    public void setExclude(List<String> exclude) {
         this.exclude = exclude;
     }
 }

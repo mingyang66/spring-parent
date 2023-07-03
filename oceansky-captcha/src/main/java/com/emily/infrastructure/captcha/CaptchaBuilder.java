@@ -2,7 +2,7 @@ package com.emily.infrastructure.captcha;
 
 /**
  * @Description :  图形验证码建造器
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2023/5/4 10:18 AM
  */
 public class CaptchaBuilder {

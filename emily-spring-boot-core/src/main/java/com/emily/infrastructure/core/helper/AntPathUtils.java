@@ -6,11 +6,13 @@ import java.util.Set;
 
 /**
  * @Description: 处理匹配地址
- * @Author: 姚明洋
+ * @Author: Emily
  * @Date: 2019/11/13 13:39
  * @Version: 1.0
  */
-public class MatchUtils {
+public class AntPathUtils {
+
+    public static final String STAR = "*";
 
     /**
      * 判定是否有符合条件的路由
@@ -25,7 +27,7 @@ public class MatchUtils {
      */
     public static boolean match(Set<String> routes, String route) {
         AntPathMatcher matcher = new AntPathMatcher();
-        if (routes.contains("*") || routes.contains(route)) {
+        if (routes.contains(STAR) || routes.contains(route)) {
             return true;
         }
         boolean isMatch = false;

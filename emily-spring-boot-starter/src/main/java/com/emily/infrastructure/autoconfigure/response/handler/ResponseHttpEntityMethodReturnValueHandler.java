@@ -57,7 +57,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
         } else if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiResponseWrapperIgnore.class)
-                || RegexPathMatcher.matchAny(properties.getExclude(), request.getRequestURI())) {
+                || RegexPathMatcher.matcherAny(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) body;

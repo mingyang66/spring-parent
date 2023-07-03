@@ -46,7 +46,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)
                 || returnType.getContainingClass().isAnnotationPresent(ApiResponseWrapperIgnore.class)
-                || RegexPathMatcher.matchAny(properties.getExclude(), request.getRequestURI())) {
+                || RegexPathMatcher.matcherAny(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) returnValue;

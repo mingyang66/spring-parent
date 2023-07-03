@@ -67,7 +67,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
             return body;
         }
         // 如果请求URL在指定的排除URL集合，则直接返回
-        else if (RegexPathMatcher.matchAny(properties.getExclude(), request.getURI().getPath())) {
+        else if (RegexPathMatcher.matcherAny(properties.getExclude(), request.getURI().getPath())) {
             return body;
         }
         // 如果返回值是数据流类型，则直接返回

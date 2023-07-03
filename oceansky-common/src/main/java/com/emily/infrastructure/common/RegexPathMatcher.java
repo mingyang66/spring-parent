@@ -1,6 +1,8 @@
 package com.emily.infrastructure.common;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +12,8 @@ import java.util.regex.Pattern;
  * @CreateDate :  Created in 2023/7/2 1:13 PM
  */
 public class RegexPathMatcher {
+    private static final Map<String, Pattern> CACHE = new HashMap<>();
+
     /**
      * 判断给定的URL请求路径是否与指定的正则表达式匹配
      *
@@ -19,13 +23,14 @@ public class RegexPathMatcher {
      */
     public static Matcher matcher(String pattern, String path) {
         // 编译正则表达式
-        Pattern p = Pattern.compile(pattern);
+        Pattern p = CACHE.putIfAbsent(pattern, Pattern.compile(pattern));
         // 匹配操作
         return p.matcher(path);
     }
 
     /**
      * 判定给定的URL请求路径是否与指定的正则表达式配置
+     *
      * @param patterns
      * @param path
      * @return

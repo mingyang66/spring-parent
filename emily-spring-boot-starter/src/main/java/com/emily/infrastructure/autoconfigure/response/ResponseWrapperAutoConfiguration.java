@@ -19,7 +19,9 @@ import org.springframework.web.servlet.mvc.method.annotation.HttpHeadersReturnVa
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +35,16 @@ import java.util.stream.Collectors;
 public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ResponseWrapperAutoConfiguration.class);
+    /**
+     * 默认排除路由地址
+     */
+    private static final Set<String> defaultExclude = new HashSet<>() {{
+        add("/swagger-resources/**");
+        add("/v2/api-docs");
+        add("/swagger-ui.html");
+        add("/oauth/token");
+        add("/error");
+    }};
 
     /**
      * 基于适配器模式处理返回值包装类模式，默认：关闭
@@ -40,6 +52,7 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
     @Bean
     @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-adapter", havingValue = "true")
     public Object initResponseWrapper(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties properties) {
+        properties.getExclude().addAll(defaultExclude);
         List<HandlerMethodReturnValueHandler> handlers = handlerAdapter.getReturnValueHandlers().stream().map(valueHandler -> {
             if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
                 return new ResponseMethodReturnValueHandler(valueHandler, properties);
@@ -63,6 +76,7 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
     @Bean
     @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-advice", havingValue = "true", matchIfMissing = true)
     public ResponseWrapperAdviceHandler responseWrapperAdviceHandler(ResponseWrapperProperties properties) {
+        properties.getExclude().addAll(defaultExclude);
         return new ResponseWrapperAdviceHandler(properties);
     }
 

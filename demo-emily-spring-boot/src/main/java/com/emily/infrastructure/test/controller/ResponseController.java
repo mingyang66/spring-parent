@@ -21,7 +21,7 @@ public class ResponseController {
 
     @GetMapping("wrapper")
     public String wrapper() {
-        return "wrapper";
+        return null;
     }
 
     @GetMapping("wrapperException")

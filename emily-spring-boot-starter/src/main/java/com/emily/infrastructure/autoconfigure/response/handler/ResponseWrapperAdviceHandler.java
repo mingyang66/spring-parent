@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> {
 
-    private ResponseWrapperProperties properties;
+    private final ResponseWrapperProperties properties;
 
     public ResponseWrapperAdviceHandler(ResponseWrapperProperties properties) {
         this.properties = properties;
@@ -76,7 +76,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
         }
 
         //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
-        BaseResponseBuilder builder = new BaseResponseBuilder<>()
+        BaseResponseBuilder<Object> builder = new BaseResponseBuilder<>()
                 .withStatus(HttpStatusType.OK.getStatus())
                 .withMessage(HttpStatusType.OK.getMessage());
         // 如果返回值是void类型，则直接返回BaseResponse空对象

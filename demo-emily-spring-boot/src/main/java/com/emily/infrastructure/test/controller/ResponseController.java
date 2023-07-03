@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @Description :  返回值包装测试控制器
  * @Author :  Emily
@@ -69,6 +71,7 @@ public class ResponseController {
     public ResponseEntity<String> getResponseEntity() {
         return ResponseEntity.ok("测试");
     }
+
     @GetMapping("getResponseEntityWrapper")
     public ResponseEntity<Wrapper> getResponseEntityWrapper() {
         Wrapper wrapper = new Wrapper();
@@ -76,6 +79,7 @@ public class ResponseController {
         wrapper.password = "密码";
         return ResponseEntity.ok(wrapper);
     }
+
     @GetMapping("getResponseEntityString")
     public ResponseEntity<BaseResponse<String>> getResponseEntityString() {
         BaseResponse<String> response = new BaseResponse<>();
@@ -83,5 +87,16 @@ public class ResponseController {
         response.setMessage("成功了");
         response.setData("strdding");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("getBytes")
+    public byte[] getBytes() {
+        return "abcdesf".getBytes(StandardCharsets.UTF_8);
+    }
+
+    @GetMapping("getInts")
+    public Integer[] getInts() {
+        Integer[] s = new Integer[]{1,2,3};
+        return s;
     }
 }

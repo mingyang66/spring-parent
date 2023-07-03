@@ -9,7 +9,6 @@ import com.emily.infrastructure.core.helper.MatchUtils;
 import com.emily.infrastructure.json.JsonUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -55,7 +54,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
      * @param selectedConverterType the converter type selected to write to the response
      * @param request               the current request
      * @param response              the current response
-     * @return
+     * @return 包装处理后的数据
      */
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
@@ -63,17 +62,20 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
         if (body instanceof BaseResponse) {
             return body;
         }
-
         // 如果控制器上标注类忽略包装注解，则直接返回
-        if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)) {
+        else if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)) {
             return body;
         }
-
         // 如果请求URL在指定的排除URL集合，则直接返回
-        if (MatchUtils.match(properties.getExclude(), request.getURI().getPath())) {
+        else if (MatchUtils.match(properties.getExclude(), request.getURI().getPath())) {
+            return body;
+        }
+        // 如果返回值是数据流类型，则直接返回
+        else if (MediaType.APPLICATION_OCTET_STREAM.equals(selectedContentType)) {
             return body;
         }
 
+        //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
         BaseResponseBuilder builder = new BaseResponseBuilder<>()
                 .withStatus(HttpStatusType.OK.getStatus())
                 .withMessage(HttpStatusType.OK.getMessage());
@@ -81,15 +83,9 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
         if (returnType.getParameterType().equals(Void.class)) {
             return builder.build();
         }
-
         // 如果是字符串类型，将其包装成BaseResponse类型
-        if (returnType.getParameterType().equals(String.class)) {
-            response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            return JsonUtils.toJSONString(builder.withData(body).build());
-        }
-
-        // 如果是字符串类型，外层有ResponseEntity包装，将其 包装成BaseResponse类型
-        if (returnType.getParameterType().equals(ResponseEntity.class) && MediaType.TEXT_PLAIN.equals(selectedContentType)) {
+        // 如果是字符串类型，外层有ResponseEntity包装，将其包装成BaseResponse类型
+        else if (MediaType.TEXT_PLAIN.equals(selectedContentType)) {
             response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
             return JsonUtils.toJSONString(builder.withData(body).build());
         }

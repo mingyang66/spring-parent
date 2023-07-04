@@ -624,6 +624,42 @@ public class Student extends People {
     }
 ```
 
+#### 十二、返回值包装组件
+
+- 支持所有数据类型返回值包装BaseResponse类；
+- 支持通过注解@ApiResponseWrapperIgnore忽略掉返回值包装；
+- 返回值类型为BaseResponse的忽略掉包装；
+- 支持通过属性配置spring.emily.response.exclude=xx,xx配置模式忽略返回值包装（可以配置正则表达式）；
+- 返回值类型是byte[]字节码流的忽略返回值包装；
+
+组件SDK属性配置：
+
+```properties
+# 返回值包装SDK开关，默认：true
+spring.emily.response.enabled=true
+# 基于适配器模式的实现方案，默认：false
+spring.emily.response.enabled-adapter=false
+# 基于AOP切面的实现方案，默认：true
+spring.emily.response.enabled-advice=true
+# 排除指定url对返回值进行包装，支持正则表达式
+spring.emily.response.exclude=abc/a.html
+
+```
+
+返回值包装案例：
+
+```java
+{
+    "status": 0,
+    "message": "SUCCESS",
+    "data": {
+        "username": "田晓霞",
+        "password": "密码"
+    },
+    "spentTime": 3
+}
+```
+
 consul服务查询、删除接口
 
 - 查询服务接口Get

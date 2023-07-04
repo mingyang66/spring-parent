@@ -94,7 +94,9 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
 如果返回值是字符串，那又会发生什么问题？看如下报错：
 
 ```sh
-org.springframework.http.converter.StringHttpMessageConverter.addDefaultHeaders(StringHttpMessageConverter.java:44) class com.emily.infrastructure.core.entity.BaseResponse cannot be cast to class java.lang.String (com.emily.infrastructure.core.entity.BaseResponse is in unnamed module of loader 'app'; java.lang.String is in module java.base of loader 'bootstrap')
+org.springframework.http.converter.StringHttpMessageConverter.addDefaultHeaders(StringHttpMessageConverter.java:44) 
+class com.emily.infrastructure.core.entity.BaseResponse cannot be cast to class java.lang.String (com.emily.infrastructure.core.entity.BaseResponse is 
+in unnamed module of loader 'app'; java.lang.String is in module java.base of loader 'bootstrap')
 org.springframework.http.converter.AbstractHttpMessageConverter.write(AbstractHttpMessageConverter.java:211)
 org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:293)
 org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:219)

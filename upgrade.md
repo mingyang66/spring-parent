@@ -27,6 +27,7 @@ Bug Fixes
 20. UUIDUtils工具类去除三方依赖并迁移到oceansky-common包；
 21. springboot版本升级到2.7.13；
 22. mybatis-spring-boot-starter升级到2.3.1；
+23. druid-spring-boot-starter升级到1.2.18；
 
 -----
 基础库发布4.3.4

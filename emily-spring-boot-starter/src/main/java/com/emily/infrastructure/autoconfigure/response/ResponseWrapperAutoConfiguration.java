@@ -39,7 +39,7 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
      * 默认排除路由地址
      */
     private static final Set<String> defaultExclude = new HashSet<>() {{
-        add("^/swagger-resources/.*$");
+        add("^/swagger-resources.*$");
         add("/v2/api-docs");
         add("/swagger-ui.html");
         add("/error");

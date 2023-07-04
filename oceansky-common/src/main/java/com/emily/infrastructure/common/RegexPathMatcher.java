@@ -22,18 +22,20 @@ public class RegexPathMatcher {
      * @return true-请求路径符合正则表达式，false-请求路径不符合正则表达式
      */
     public static Matcher matcher(String pattern, String path) {
-        // 编译正则表达式
-        Pattern p = CACHE.putIfAbsent(pattern, Pattern.compile(pattern));
+        if (!CACHE.containsKey(pattern)) {
+            // 编译正则表达式
+            CACHE.put(pattern, Pattern.compile(pattern));
+        }
         // 匹配操作
-        return p.matcher(path);
+        return CACHE.get(pattern).matcher(path);
     }
 
     /**
      * 判定给定的URL请求路径是否与指定的正则表达式配置
      *
-     * @param patterns
-     * @param path
-     * @return
+     * @param patterns 正则表达式集合
+     * @param path     请求URL
+     * @return 如果有一个正则表达式匹配，则返回true；否则返回false
      */
     public static boolean matcherAny(List<String> patterns, String path) {
         for (int i = 0; i < patterns.size(); i++) {

@@ -19,17 +19,18 @@ public class RegexPathMatcherTest {
         String pattern = "^/swagger-resources/.*$";
         Assert.assertEquals(RegexPathMatcher.matcher(pattern, "/swagger-resources/ba.html").matches(), true);
         Assert.assertEquals(RegexPathMatcher.matcher(pattern, "1/swagger-resources/ba.html").matches(), false);
+        Assert.assertEquals(RegexPathMatcher.matcher(pattern, "/swagger-resources/").matches(), true);
         Assert.assertEquals(RegexPathMatcher.matcher("/v2/api-docs", "/v2/api-docs").matches(), true);
         Assert.assertEquals(RegexPathMatcher.matcher("/swagger-ui.html", "/swagger-ui.html").matches(), true);
         Assert.assertEquals(RegexPathMatcher.matcher("/error", "/error").matches(), true);
 
         Matcher matcher = RegexPathMatcher.matcher("^(A|B|C) TO (D|E|F)$", "B TO E");
         Assert.assertEquals(matcher.find(), true);
-        System.out.println(matcher.group());
-        System.out.println(matcher.groupCount());
-        System.out.println(matcher.group(0));
-        System.out.println(matcher.group(1));
-        System.out.println(matcher.group(2));
+        Assert.assertEquals(matcher.group(), "B TO E");
+        Assert.assertEquals(matcher.groupCount(), 2);
+        Assert.assertEquals(matcher.group(0), "B TO E");
+        Assert.assertEquals(matcher.group(1), "B");
+        Assert.assertEquals(matcher.group(2), "E");
     }
 
     @Test

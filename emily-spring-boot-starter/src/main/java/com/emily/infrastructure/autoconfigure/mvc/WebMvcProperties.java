@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.web;
+package com.emily.infrastructure.autoconfigure.mvc;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,8 +10,16 @@ import java.util.Set;
  * @description: Web配置文件
  * @create: 2020/05/28
  */
-@ConfigurationProperties(prefix = "spring.emily.web")
-public class WebProperties {
+@ConfigurationProperties(prefix = WebMvcProperties.PREFIX)
+public class WebMvcProperties {
+    /**
+     * 属性配置前缀
+     */
+    public static final String PREFIX = "spring.emily.mvc";
+    /**
+     * WebMvc组件是否启用，默认：true
+     */
+    private boolean enabled = true;
     /**
      * API路由配置属性
      */
@@ -20,6 +28,14 @@ public class WebProperties {
      * 跨域配置
      */
     private CorsRegister cors = new CorsRegister();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public Path getPath() {
         return path;
@@ -41,7 +57,7 @@ public class WebProperties {
         /**
          * 是否开启所有接口的前缀
          */
-        private boolean enableAllPrefix = false;
+        private boolean enabled = false;
         //区分大小写,默认true
         private boolean caseSensitive = true;
         //是否去除前后空格,默认false
@@ -55,12 +71,12 @@ public class WebProperties {
         //忽略指定的路由
         private Set<String> exclude = new HashSet<>();
 
-        public boolean isEnableAllPrefix() {
-            return enableAllPrefix;
+        public boolean isEnabled() {
+            return enabled;
         }
 
-        public void setEnableAllPrefix(boolean enableAllPrefix) {
-            this.enableAllPrefix = enableAllPrefix;
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
         }
 
         public boolean isCaseSensitive() {
@@ -117,7 +133,7 @@ public class WebProperties {
      */
     public static class CorsRegister {
         //开启跨域设置，默认false
-        private boolean enable = false;
+        private boolean enabled = false;
         private Set<String> allowedOrigins = new HashSet<>();
         //允许HTTP请求方法
         private Set<String> allowedMethods = new HashSet<>();
@@ -126,12 +142,12 @@ public class WebProperties {
         private Set<String> exposedHeaders = new HashSet<>();
         private long maxAge = 18000L;
 
-        public boolean isEnable() {
-            return enable;
+        public boolean isEnabled() {
+            return enabled;
         }
 
-        public void setEnable(boolean enable) {
-            this.enable = enable;
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
         }
 
         public Set<String> getAllowedOrigins() {

@@ -528,39 +528,39 @@ public interface CustomFeignHandler {
 #### 七、API路由设置组件
 
 ```properties
-#是否开启所有接口的前缀prefix,默认前面添加api
-spring.emily.web.path.enable-all-prefix=true
+#是否开钱添加前缀组件，默认：false
+spring.emily.mvc.path.enabled=false
 #自定义添加前缀,默认api
-spring.emily.web.path.prefix=api
+spring.emily.mvc.path.prefix=api
 #区分大小写,默认false
-spring.emily.web.path.case-sensitive=false
+spring.emily.mvc.path.case-sensitive=false
 #是否缓存匹配规则,默认null等于true
-spring.emily.web.path.cache-patterns=true
+spring.emily.mvc.path.cache-patterns=true
 #是否去除前后空格,默认false
-spring.emily.web.path.trim-tokens=false
+spring.emily.mvc.path.trim-tokens=false
 #设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
-spring.emily.web.path.use-trailing-slash-match=true
+spring.emily.mvc.path.use-trailing-slash-match=true
 #忽略URL前缀控制器设置,默认空
-spring.emily.web.path.exclude=
+spring.emily.mvc.path.exclude=
 ```
 
 #### 八、API跨域组件
 
 ```properties
-#开启跨域设置，默认false
-spring.emily.web.cors.enable=false
+#开启跨域设置，默认：false
+spring.emily.mvc.cors.enable=false
 #设置允许哪些源来访问,多个源用逗号分开
-spring.emily.web.cors.allowed-origins=
+spring.emily.mvc.cors.allowed-origins=
 #允许HTTP请求方法
-spring.emily.web.cors.allowed-methods=GET,POST
+spring.emily.mvc.cors.allowed-methods=GET,POST
 #设置用户可以拿到的字段
-spring.emily.web.cors.allowed-headers=
+spring.emily.mvc.cors.allowed-headers=
 #设置浏览器是否应该发送凭据cookie
-spring.emily.web.cors.allow-credentials=true
+spring.emily.mvc.cors.allow-credentials=true
 #设置响应HEAD,默认无任何设置，不可以使用*号
-spring.emily.web.cors.exposed-headers=
+spring.emily.mvc.cors.exposed-headers=
 #设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
-spring.emily.web.cors.max-age=1800
+spring.emily.mvc.cors.max-age=1800
 ```
 
 #### 九、全局过滤器及灰度发布路由重定向组件

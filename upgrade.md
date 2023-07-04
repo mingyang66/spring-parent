@@ -23,6 +23,7 @@ Bug Fixes
 16. guava-jre升级到32.1.0版本；
 17. 新增正则表达式匹配帮种类RegexPathMatcher；
 18. 删除修改响应数据类型编码自动化配置类EmilyMappingJackson2HttpMessageConverterAutoConfiguration；
+19. WebMvcAutoConfiguration组件优化调整，@ApiPrefix注解更改为ApiPathPrefixIgnore并做逻辑处理；
 
 -----
 基础库发布4.3.4

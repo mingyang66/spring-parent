@@ -1,6 +1,6 @@
-package com.emily.infrastructure.autoconfigure.web;
+package com.emily.infrastructure.autoconfigure.mvc;
 
-import com.emily.infrastructure.autoconfigure.web.annotation.ApiPrefix;
+import com.emily.infrastructure.autoconfigure.mvc.annotation.ApiPathPrefixIgnore;
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
@@ -9,14 +9,13 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Objects;
 
 /**
  * @author Emily
@@ -25,73 +24,54 @@ import java.util.Objects;
  * @create: 2020/05/26
  */
 @AutoConfiguration
-@EnableConfigurationProperties(WebProperties.class)
-public class EmilyWebAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
+@EnableConfigurationProperties(WebMvcProperties.class)
+@ConditionalOnProperty(prefix = WebMvcProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class WebMvcAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmilyWebAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebMvcAutoConfiguration.class);
 
-    private WebProperties webProperties;
-    /**
-     * 自定义路由规则是否已加载
-     */
-    private boolean enablePathMatch;
-    /**
-     * 自定义跨域规则是否已加载
-     */
-    private boolean enableCors;
+    private final WebMvcProperties properties;
     /**
      * 忽略URL前缀的控制器类
      */
     private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
 
-    public EmilyWebAutoConfiguration(WebProperties webProperties) {
-        this.webProperties = webProperties;
+    public WebMvcAutoConfiguration(WebMvcProperties properties) {
+        this.properties = properties;
     }
 
     /**
      * 配置路由规则
-     *
-     * @param configurer
      */
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
+        if (!properties.getPath().isEnabled()) {
+            return;
+        }
         AntPathMatcher matcher = new AntPathMatcher();
         //区分大小写,默认true
-        matcher.setCaseSensitive(webProperties.getPath().isCaseSensitive());
+        matcher.setCaseSensitive(properties.getPath().isCaseSensitive());
         //是否去除前后空格,默认false
-        matcher.setTrimTokens(webProperties.getPath().isTrimTokens());
+        matcher.setTrimTokens(properties.getPath().isTrimTokens());
         //分隔符
         matcher.setPathSeparator(CharacterInfo.PATH_SEPARATOR);
         //是否缓存匹配规则,默认null等于true
-        matcher.setCachePatterns(webProperties.getPath().isCachePatterns());
+        matcher.setCachePatterns(properties.getPath().isCachePatterns());
         //设置路由匹配规则
         configurer.setPathMatcher(matcher);
         //设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
-        configurer.setUseTrailingSlashMatch(webProperties.getPath().isUseTrailingSlashMatch());
+        configurer.setUseTrailingSlashMatch(properties.getPath().isUseTrailingSlashMatch());
         //忽略URL前缀的控制器类
-        ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, webProperties.getPath().getExclude().toArray(new String[]{}));
+        ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, properties.getPath().getExclude().toArray(new String[]{}));
         //给所有的接口统一添加前缀
-        configurer.addPathPrefix(webProperties.getPath().getPrefix(), c -> {
-            /**
-             * 1.注解@ApiPrefix优先级最高
-             * 2.isEnableAllPrefix方法优先级第二
-             */
-            if (c.isAnnotationPresent(ApiPrefix.class)) {
-                if (BooleanUtils.isFalse(c.getAnnotation(ApiPrefix.class).ignore())) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            if (!ArrayUtils.contains(ignoreUrlPrefixController, c.getName()) && (BooleanUtils.isTrue(webProperties.getPath().isEnableAllPrefix()))) {
-                return true;
-            } else {
+        configurer.addPathPrefix(properties.getPath().getPrefix(), c -> {
+            if (c.isAnnotationPresent(ApiPathPrefixIgnore.class) || ArrayUtils.contains(ignoreUrlPrefixController, c.getName())) {
                 return false;
+            } else {
+                return true;
             }
         });
-        enablePathMatch = true;
-
     }
 
     /**
@@ -114,60 +94,51 @@ public class EmilyWebAutoConfiguration implements WebMvcConfigurer, Initializing
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        if (BooleanUtils.isFalse(webProperties.getCors().isEnable())) {
+        if (BooleanUtils.isFalse(properties.getCors().isEnabled())) {
             return;
         }
         //启用跨域匹配的路径，默认所有请求，示例：/admin或/admin/**
         CorsRegistration registration = registry.addMapping("/**");
         //允许来自所有域名请求
-        if (!webProperties.getCors().getAllowedOrigins().isEmpty()) {
-            registration.allowedOrigins(webProperties.getCors().getAllowedOrigins().toArray(new String[]{}));
+        if (!properties.getCors().getAllowedOrigins().isEmpty()) {
+            registration.allowedOrigins(properties.getCors().getAllowedOrigins().toArray(new String[]{}));
         } else {
             registration.allowedOriginPatterns("*");
         }
         //设置所允许的HTTP请求方法，*号代表允许所有方法
-        if (!webProperties.getCors().getAllowedMethods().isEmpty()) {
-            registration.allowedMethods(webProperties.getCors().getAllowedMethods().toArray(new String[]{}));
+        if (!properties.getCors().getAllowedMethods().isEmpty()) {
+            registration.allowedMethods(properties.getCors().getAllowedMethods().toArray(new String[]{}));
         } else {
             registration.allowedMethods("OPTIONS", "GET", "PUT", "POST");
         }
         //服务器支持的所有头信息字段，多个字段用逗号分隔；默认支持所有，*号代表所有
-        if (!webProperties.getCors().getAllowedHeaders().isEmpty()) {
-            registration.allowedHeaders(webProperties.getCors().getAllowedHeaders().toArray(new String[]{}));
+        if (!properties.getCors().getAllowedHeaders().isEmpty()) {
+            registration.allowedHeaders(properties.getCors().getAllowedHeaders().toArray(new String[]{}));
         } else {
             registration.allowedHeaders("*");
         }
         //浏览器是否应该发送凭据，如是否允许发送Cookie，true为允许
-        if (BooleanUtils.isFalse(webProperties.getCors().isAllowCredentials())) {
+        if (BooleanUtils.isFalse(properties.getCors().isAllowCredentials())) {
             registration.allowCredentials(false);
         } else {
             registration.allowCredentials(true);
         }
         //设置响应HEAD,默认无任何设置，不可以使用*号
-        if (!webProperties.getCors().getExposedHeaders().isEmpty()) {
-            registration.exposedHeaders(webProperties.getCors().getExposedHeaders().toArray(new String[]{}));
+        if (!properties.getCors().getExposedHeaders().isEmpty()) {
+            registration.exposedHeaders(properties.getCors().getExposedHeaders().toArray(new String[]{}));
         }
         //设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
-        if (Objects.nonNull(webProperties.getCors().getMaxAge())) {
-            registration.maxAge(webProperties.getCors().getMaxAge());
-        }
-        enableCors = true;
-
+        registration.maxAge(properties.getCors().getMaxAge());
     }
 
     @Override
     public void destroy() throws Exception {
-        logger.info("<== 【销毁--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
-        logger.info("<== 【销毁--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----WebMvc组件【WebMvcAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (enablePathMatch) {
-            logger.info("==> 【初始化--自动化配置】----API前缀组件【EmilyWebAutoConfiguration】");
-        }
-        if (enableCors) {
-            logger.info("==> 【初始化--自动化配置】----跨域组件【EmilyWebAutoConfiguration】");
-        }
+        logger.info("==> 【初始化--自动化配置】----WebMvc组件【WebMvcAutoConfiguration】");
+
     }
 }

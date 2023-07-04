@@ -3,6 +3,6 @@ com.emily.infrastructure.autoconfigure.response.ResponseWrapperAutoConfiguration
 com.emily.infrastructure.autoconfigure.httpclient.HttpClientAutoConfiguration
 com.emily.infrastructure.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration
 com.emily.infrastructure.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration
-com.emily.infrastructure.autoconfigure.web.EmilyWebAutoConfiguration
+com.emily.infrastructure.autoconfigure.mvc.WebMvcAutoConfiguration
 com.emily.infrastructure.autoconfigure.exception.GlobalExceptionAutoConfiguration
 com.emily.infrastructure.autoconfigure.tomcat.TomcatAutoConfiguration

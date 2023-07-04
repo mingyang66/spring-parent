@@ -5,5 +5,4 @@ com.emily.infrastructure.autoconfigure.bean.factory.EmilyBeanFactoryPostProcesso
 com.emily.infrastructure.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration
 com.emily.infrastructure.autoconfigure.web.EmilyWebAutoConfiguration
 com.emily.infrastructure.autoconfigure.exception.GlobalExceptionAutoConfiguration
-com.emily.infrastructure.autoconfigure.converters.EmilyMappingJackson2HttpMessageConverterAutoConfiguration
 com.emily.infrastructure.autoconfigure.tomcat.TomcatAutoConfiguration

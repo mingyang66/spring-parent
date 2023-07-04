@@ -1,7 +1,4 @@
-package com.emily.infrastructure.core.helper;
-
-import com.emily.infrastructure.core.constant.CharacterInfo;
-import org.apache.commons.lang3.StringUtils;
+package com.emily.infrastructure.common;
 
 import java.util.UUID;
 
@@ -12,11 +9,13 @@ import java.util.UUID;
  * @create: 2020/04/01
  */
 public class UUIDUtils {
+    public static final String LINE = "-";
+
     /**
      * 生成简洁版UUID，即：删除横杠的UUID
      */
     public static String randomSimpleUUID() {
-        return StringUtils.replace(randomUUID(), CharacterInfo.LINE_THROUGH_CENTER, "");
+        return randomUUID().replace(LINE, "");
     }
 
     /**
@@ -27,4 +26,5 @@ public class UUIDUtils {
     public static String randomUUID() {
         return UUID.randomUUID().toString();
     }
+
 }

@@ -24,6 +24,7 @@ Bug Fixes
 17. 新增正则表达式匹配帮种类RegexPathMatcher；
 18. 删除修改响应数据类型编码自动化配置类EmilyMappingJackson2HttpMessageConverterAutoConfiguration；
 19. WebMvcAutoConfiguration组件优化调整，@ApiPrefix注解更改为ApiPathPrefixIgnore并做逻辑处理；
+20. UUIDUtils工具类去除三方依赖并迁移到oceansky-common包；
 
 -----
 基础库发布4.3.4

@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -43,11 +44,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      * 拦截接口日志
      *
      * @param invocation 接口方法切面连接点
-     * @return
-     * @throws Throwable
      */
     @Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
+    public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //封装异步日志信息
         BaseLoggerBuilder builder = new BaseLoggerBuilder();
         try {
@@ -64,7 +63,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //调用真实的action方法
             Object response = invocation.proceed();
             if (Objects.nonNull(response) && response instanceof ResponseEntity) {
-                Object responseBody = ((ResponseEntity) response).getBody();
+                Object responseBody = ((ResponseEntity<?>) response).getBody();
                 //404 Not Fund
                 handleNotFund(response, builder);
                 //设置响应结果
@@ -119,15 +118,12 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
 
     /**
      * 404 Not Fund接口处理
-     *
-     * @param result
-     * @param builder
      */
     private void handleNotFund(Object result, BaseLoggerBuilder builder) {
-        int status = ((ResponseEntity) result).getStatusCodeValue();
+        int status = ((ResponseEntity<?>) result).getStatusCodeValue();
         if (status == HttpStatus.NOT_FOUND.value()) {
-            Object resultBody = ((ResponseEntity) result).getBody();
-            Map<String, Object> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(resultBody), Map.class);
+            Object resultBody = ((ResponseEntity<?>) result).getBody();
+            Map dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(resultBody), Map.class);
             builder.withUrl(dataMap.get("path").toString())
                     .withStatus(status)
                     .withMessage(dataMap.get("error").toString());

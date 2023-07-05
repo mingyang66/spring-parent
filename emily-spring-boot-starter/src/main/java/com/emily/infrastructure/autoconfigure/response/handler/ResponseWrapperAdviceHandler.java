@@ -15,7 +15,18 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import javax.annotation.Nonnull;
+
 /**
+ * ---------------------------------------------------------------
+ * 使用说明：
+ * 1.此AOP拦截器只会拦截到使用@ResponseBody获取ResponseEntity返回的响应；
+ * 2.如果在springboot中使用HttpServletResponse.getOutputStream.write()将图片返回给客户端，那么ResponseBodyAdvice是无法拦截到响应；
+ * RequestMapping参数说明：
+ * 1.produces:指定返回的内容类型，仅当请求header中的Accept类型中包含该指定类型才能返回；
+ * 2.consumes:指定处理请求的提交内容类型（ContentType），如：application/json
+ * ---------------------------------------------------------------
+ *
  * @Description :  返回值包装类统一处理
  * @Author :  Emily
  * @CreateDate :  Created in 2023/7/1 3:02 PM
@@ -37,7 +48,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
      * @return true-支持所有类型
      */
     @Override
-    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(@Nonnull MethodParameter returnType, @Nonnull Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
     }
 
@@ -57,7 +68,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
      * @return 包装处理后的数据
      */
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body, @Nonnull MethodParameter returnType, @Nonnull MediaType selectedContentType, @Nonnull Class<? extends HttpMessageConverter<?>> selectedConverterType, @Nonnull ServerHttpRequest request, @Nonnull ServerHttpResponse response) {
         // 如果返回值已经是BaseResponse类型(包括控制器直接返回是BaseResponse和返回是ResponseEntity<BaseResponse>类型)，则直接返回
         if (body instanceof BaseResponse) {
             return body;
@@ -71,7 +82,10 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
             return body;
         }
         // 如果返回值是数据流类型，则直接返回
-        else if (MediaType.APPLICATION_OCTET_STREAM.equals(selectedContentType)) {
+        else if (MediaType.APPLICATION_OCTET_STREAM.equals(selectedContentType)
+                || MediaType.IMAGE_PNG.equals(selectedContentType)
+                || MediaType.IMAGE_JPEG.equals(selectedContentType)
+                || MediaType.IMAGE_GIF.equals(selectedContentType)) {
             return body;
         }
 

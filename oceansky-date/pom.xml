@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-sdk</artifactId>
-        <version>4.3.4</version>
+        <version>4.3.5</version>
     </parent>
 
     <artifactId>oceansky-date</artifactId>

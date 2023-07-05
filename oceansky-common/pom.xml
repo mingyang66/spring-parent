@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-sdk</artifactId>
-        <version>4.3.4</version>
+        <version>4.3.5</version>
     </parent>
 
     <artifactId>oceansky-common</artifactId>
@@ -14,6 +14,8 @@
     <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

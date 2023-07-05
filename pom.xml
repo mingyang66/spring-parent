@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-sdk</artifactId>
-    <version>4.3.4</version>
+    <version>4.3.5</version>
     <name>emily-sdk</name>
     <description>emily-sdk基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>

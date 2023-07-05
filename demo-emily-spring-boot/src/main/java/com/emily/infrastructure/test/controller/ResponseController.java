@@ -6,8 +6,7 @@ import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.test.po.response.FileUploadRequest;
 import com.emily.infrastructure.test.po.response.Wrapper;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @Description :  返回值包装测试控制器
@@ -175,4 +176,14 @@ public class ResponseController {
         return "File uploaded successfully!";
     }
 
+    @GetMapping("/downloadPdf")
+    public ResponseEntity<byte[]> downloadPdf() throws IOException {
+        // 读取 PDF 文件内容
+        byte[] content = Files.readAllBytes(Paths.get("/Users/yaomingyang/Documents/IDE/workplace-java/spring-parent/demo-emily-spring-boot/src/main/resources/image/file.pdf"));
+        // 将 PDF 文件内容作为字节流返回给客户端
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.attachment().filename("file.pdf").build());
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
+    }
 }

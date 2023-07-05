@@ -83,6 +83,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
         }
         // 如果返回值是数据流类型，则直接返回
         else if (MediaType.APPLICATION_OCTET_STREAM.equals(selectedContentType)
+                || MediaType.APPLICATION_PDF.equals(selectedContentType)
                 || MediaType.IMAGE_PNG.equals(selectedContentType)
                 || MediaType.IMAGE_JPEG.equals(selectedContentType)
                 || MediaType.IMAGE_GIF.equals(selectedContentType)) {

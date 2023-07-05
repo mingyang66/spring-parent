@@ -4,12 +4,12 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWra
 import com.emily.infrastructure.common.PropertiesUtils;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.test.po.response.FileUploadRequest;
 import com.emily.infrastructure.test.po.response.Wrapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -136,4 +136,43 @@ public class ResponseController {
         bos.close();
         return imageBytes;
     }
+
+    /**
+     * 文件上传，支持同时传多个参数
+     */
+    @PostMapping(value = "/uploadMul", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadMul(@ModelAttribute("request") FileUploadRequest request) throws IOException {
+        byte[] fileContent = request.getFile().getBytes();
+        byte[] imageFileContent = request.getImageFile().getBytes();
+        String accountCode = request.getAccountCode();
+        String address = request.getAddress();
+        // 处理上传的文件内容
+        return "File uploaded successfully!";
+    }
+
+    @PostMapping(value = "/uploadMuls", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadMuls(@ModelAttribute FileUploadRequest[] request) throws IOException {
+        byte[] fileContent = request[0].getFile().getBytes();
+        byte[] imageFileContent = request[0].getImageFile().getBytes();
+        String accountCode = request[0].getAccountCode();
+        String address = request[0].getAddress();
+        // 处理上传的文件内容
+        return "File uploaded successfully!";
+    }
+
+    @PostMapping(value = "/uploadSingle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadSingle(@RequestParam("file") MultipartFile file, @RequestParam("file1") MultipartFile file1, @RequestParam("name") String name, @RequestParam("desc") String desc) throws IOException {
+        byte[] fileContent = file.getBytes();
+        byte[] fileContent1 = file1.getBytes();
+        // 处理上传的文件内容
+        return "File uploaded successfully!";
+    }
+
+    @PostMapping(value = "/uploadArray", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String handleFileUpload(@RequestParam("files") MultipartFile[] files) throws IOException {
+        byte[] fileContent = files[0].getBytes();
+        // 处理上传的文件内容
+        return "File uploaded successfully!";
+    }
+
 }

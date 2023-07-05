@@ -177,6 +177,15 @@
                             <attach>true</attach>
                         </configuration>
                     </plugin>
+                    <!--Maven编译后保留方法名-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.1</version>
+                        <configuration>
+                            <parameters>true</parameters>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>

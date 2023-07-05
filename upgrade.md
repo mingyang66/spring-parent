@@ -29,6 +29,7 @@ Bug Fixes
 22. mybatis-spring-boot-starter升级到2.3.1；
 23. druid-spring-boot-starter升级到1.2.18；
 24. 返回值包装处理程序兼容响应Content-Type为Image/gif、image/jpeg、image/png类型；
+25. 最外层添加maven-compiler-plugin插件，控制maven编译之后保留方法参数名；
 
 -----
 基础库发布4.3.4

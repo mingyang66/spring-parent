@@ -2,8 +2,6 @@
 
 > Oauth2相关代码请移步到feature_bak分支查看
 
-### maven父pom和子pom的版本号批量修改
-
 #### 原生Java开源pom依赖引用
 
 ```xml
@@ -69,12 +67,12 @@
 
 ```
 
-
+### maven父pom和子pom的版本号批量修改
 
 ##### 1 设置新的版本号
 
 ```
-./mvnw versions:set -DnewVersion=4.1.9
+./mvnw versions:set -DnewVersion=4.3.5
 ```
 
 ##### 2 撤销设置

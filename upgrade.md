@@ -3,7 +3,7 @@
 -----
 基础库发布4.3.6
 Bug Fixes
-1. s
+1. 删除自动化配置类RouteWebMvcAutoConfiguration、LookupPathAutoConfiguration；
 
 
 基础库发布4.3.5

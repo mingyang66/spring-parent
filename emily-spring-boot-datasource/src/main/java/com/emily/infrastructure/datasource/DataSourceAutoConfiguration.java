@@ -88,7 +88,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DataSource dynamicRoutingDataSource(DataSourceProperties properties) {
+    public DataSource dynamicRoutingDataSource(final DataSourceProperties properties) {
         //获取默认数据库配置
         Object defaultTargetDataSource = Objects.requireNonNull(DataSourceHelper.getDefaultTargetDataSource(properties), "默认数据库必须配置");
         //动态切换多数据源对象

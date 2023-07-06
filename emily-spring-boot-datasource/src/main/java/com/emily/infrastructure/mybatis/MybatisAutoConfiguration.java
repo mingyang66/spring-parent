@@ -48,7 +48,7 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor mybatisLogAdvisor(ObjectProvider<MybatisCustomizer> mybatisCustomizers, MybatisProperties properties) {
+    public Advisor mybatisLogAdvisor(ObjectProvider<MybatisCustomizer> mybatisCustomizers, final MybatisProperties properties) {
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(Mapper.class, properties.isCheckInherited());
         //限定方法级别的切点

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger.configuration.context;
 
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.configuration.classic.Logback;
+import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
@@ -72,7 +72,7 @@ public class LogbackContext {
      * @param appender appender instance object
      */
     protected Logger getLogger(String loggerName, LogbackAppender appender) {
-        Logback logback;
+        AbstractLogback logback;
         if (appender.getLogbackType().equals(LogbackType.MODULE)) {
             logback = new LogbackModule(this.properties);
         } else {

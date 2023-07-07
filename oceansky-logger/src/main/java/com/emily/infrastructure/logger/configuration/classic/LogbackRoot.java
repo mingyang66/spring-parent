@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/07/08
  */
-public class LogbackRoot implements Logback {
+public class LogbackRoot extends AbstractLogback {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
     private final LoggerProperties properties;
 

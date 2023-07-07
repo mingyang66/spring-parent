@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
  * @author: Emily
  * @create: 2021/12/17
  */
-public interface Logback {
+public abstract class AbstractLogback {
     /**
      * 获取Logger对象
      *
@@ -17,7 +17,5 @@ public interface Logback {
      * @param appender   appender属性名
      * @return 返回Logger日志对象
      */
-    default Logger getLogger(String loggerName, LogbackAppender appender) {
-        return null;
-    }
+    public abstract Logger getLogger(String loggerName, LogbackAppender appender);
 }

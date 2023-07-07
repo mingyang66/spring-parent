@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author: Emily
  * @create: 2021/12/12
  */
-public class LogbackGroup implements Logback {
+public class LogbackGroup extends AbstractLogback {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
     private final LoggerProperties properties;
 

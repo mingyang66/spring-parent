@@ -9,11 +9,13 @@
 
     <artifactId>oceansky-logger</artifactId>
     <packaging>jar</packaging>
-
     <name>oceansky-logger</name>
-    <url>http://maven.apache.org</url>
+    <description>Java通用日志组件SDK</description>
+    <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -25,12 +27,10 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.2.12</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.12</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

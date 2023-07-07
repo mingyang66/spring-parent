@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.configuration.appender;
+package com.emily.infrastructure.logger.configuration.property;
 
 
 import com.emily.infrastructure.logger.configuration.type.LogbackType;

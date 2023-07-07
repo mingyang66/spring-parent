@@ -5,7 +5,6 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,14 +25,9 @@ public abstract class AbstractAppender {
      * logger上下文
      */
     private final LoggerContext loggerContext;
-    /**
-     * 属性配置
-     */
-    private final LoggerProperties properties;
 
-    public AbstractAppender(LoggerContext loggerContext, LoggerProperties properties) {
+    public AbstractAppender(LoggerContext loggerContext) {
         this.loggerContext = loggerContext;
-        this.properties = properties;
     }
 
     /**
@@ -83,11 +77,6 @@ public abstract class AbstractAppender {
 
     public LoggerContext getLoggerContext() {
         return loggerContext;
-    }
-
-
-    public LoggerProperties getProperties() {
-        return properties;
     }
 
 }

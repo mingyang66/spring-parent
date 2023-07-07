@@ -1,6 +1,6 @@
 package com.emily.infrastructure.logger.configuration.context;
 
-import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
+import com.emily.infrastructure.logger.configuration.classic.Logback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
@@ -70,7 +70,7 @@ public class LogbackContext {
      * @param fileName 日志文件名|模块名称
      */
     protected Logger getLogger(String loggerName, String appenderName, String filePath, String fileName, LogbackType logbackType) {
-        AbstractLogback logback;
+        Logback logback;
         if (logbackType.getType().equals(LogbackType.MODULE.getType())) {
             logback = new LogbackModule(this.properties);
         } else {

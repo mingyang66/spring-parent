@@ -12,7 +12,6 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 import org.apache.commons.lang3.StringUtils;
 
-
 import java.text.MessageFormat;
 
 /**

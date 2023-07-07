@@ -6,11 +6,12 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
-import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logger.common.PathUtils;
+import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicy;
+import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,16 +26,22 @@ import java.text.MessageFormat;
 public class LogbackRollingFileAppender extends AbstractAppender {
 
     private LogbackAppender appender;
+    /**
+     * 属性配置
+     */
+    private final LoggerProperties properties;
 
     public LogbackRollingFileAppender(LoggerContext loggerContext, LoggerProperties properties, LogbackAppender appender) {
-        super(loggerContext, properties);
+        super(loggerContext);
         this.appender = appender;
+        this.properties = properties;
     }
 
     /**
      * 获取按照时间归档文件附加器对象
      *
-     * @return
+     * @param level 日志级别
+     * @return appender
      */
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
@@ -45,22 +52,22 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置文件名
         rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), this.getLoggerContext()));
         //设置日志文件归档策略
-        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.getInstance(this.getLoggerContext(), this.getProperties(), rollingFileAppender, loggerPath));
+        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.getInstance(this.getLoggerContext(), properties, rollingFileAppender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         rollingFileAppender.setContext(this.getLoggerContext());
         //appender的name属性
         rollingFileAppender.setName(this.getAppenderName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
-        rollingFileAppender.setAppend(this.getProperties().getAppender().isAppend());
+        rollingFileAppender.setAppend(properties.getAppender().isAppend());
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
-        rollingFileAppender.setPrudent(this.getProperties().getAppender().isPrudent());
+        rollingFileAppender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
         rollingFileAppender.addFilter(LogbackFilter.getLevelFilter(level));
         //设置附加器编码
         rollingFileAppender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(this.getLoggerContext(), this.getFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
-        rollingFileAppender.setImmediateFlush(this.getProperties().getAppender().isImmediateFlush());
+        rollingFileAppender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         rollingFileAppender.start();
 
         return rollingFileAppender;
@@ -75,7 +82,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     @Override
     protected String getFilePath(Level level) {
         //基础相对路径
-        String basePath = this.getProperties().getAppender().getPath();
+        String basePath = properties.getAppender().getPath();
         //文件路径
         String filePath = PathUtils.normalizePath(appender.getFilePath());
         //日志级别
@@ -104,14 +111,14 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     protected String getFilePattern() {
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
-            return this.getProperties().getRoot().getPattern();
+            return properties.getRoot().getPattern();
         }
         //分组
         if (LogbackType.GROUP.equals(appender.getLogbackType())) {
-            return this.getProperties().getGroup().getPattern();
+            return properties.getGroup().getPattern();
         }
         //分模块
-        return this.getProperties().getModule().getPattern();
+        return properties.getModule().getPattern();
     }
 
     /**

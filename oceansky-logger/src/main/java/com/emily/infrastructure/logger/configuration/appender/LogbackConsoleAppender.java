@@ -5,9 +5,9 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
  * @author Emily
@@ -19,16 +19,21 @@ public class LogbackConsoleAppender extends AbstractAppender {
      * 控制台appender name
      */
     public static final String CONSOLE_NAME = "CONSOLE";
+    /**
+     * 属性配置
+     */
+    private final LoggerProperties properties;
 
     public LogbackConsoleAppender(LoggerContext loggerContext, LoggerProperties properties) {
-        super(loggerContext, properties);
+        super(loggerContext);
+        this.properties = properties;
     }
 
     /**
      * 控制台打印appender
      *
-     * @param level
-     * @return
+     * @param level 日志级别
+     * @return consul appender
      */
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
@@ -57,7 +62,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
 
     @Override
     protected String getFilePattern() {
-        return this.getProperties().getRoot().getPattern();
+        return properties.getRoot().getPattern();
     }
 
     @Override

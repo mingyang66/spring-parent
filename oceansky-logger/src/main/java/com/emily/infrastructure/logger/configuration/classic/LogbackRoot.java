@@ -2,14 +2,13 @@ package com.emily.infrastructure.logger.configuration.classic;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
+import com.emily.infrastructure.logger.configuration.appender.*;
+import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
-import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
+import org.slf4j.LoggerFactory;
 
 /**
  * @program: spring-parent
@@ -17,10 +16,12 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  * @author: Emily
  * @create: 2021/07/08
  */
-public class LogbackRoot extends AbstractLogback {
+public class LogbackRoot implements Logback {
+    private static final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
     private final LoggerProperties properties;
+
     public LogbackRoot(LoggerProperties properties) {
-        this.properties=properties;
+        this.properties = properties;
     }
 
     /**
@@ -30,7 +31,7 @@ public class LogbackRoot extends AbstractLogback {
     @Override
     public Logger getLogger() {
         // 获取logger对象
-        Logger logger = this.getLoggerContext().getLogger(Logger.ROOT_LOGGER_NAME);
+        Logger logger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
@@ -38,11 +39,11 @@ public class LogbackRoot extends AbstractLogback {
         // 获取帮助类对象
         LogbackAppender appender = new LogbackAppender(Logger.ROOT_LOGGER_NAME, properties.getRoot().getFilePath(), LogbackType.ROOT);
         // appender对象
-        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(this.getLoggerContext(), properties, appender);
+        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties, appender);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(this.getLoggerContext(), properties);
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(loggerContext, properties);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.getInstance(Level.ERROR)));
             }
@@ -81,7 +82,7 @@ public class LogbackRoot extends AbstractLogback {
         }
         //是否报告logback内部状态信息
         if (properties.getAppender().isReportState()) {
-            StatusPrinter.print(this.getLoggerContext());
+            StatusPrinter.print(loggerContext);
         }
         return logger;
     }

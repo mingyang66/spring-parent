@@ -11,7 +11,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class PathUtils {
 
-    private static final String SLASH = "/";
+    public static final String SLASH = "/";
+    public static final String DOT = ".";
 
     /**
      * @param path 路径

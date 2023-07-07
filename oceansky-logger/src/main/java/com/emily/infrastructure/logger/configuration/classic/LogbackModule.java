@@ -3,7 +3,10 @@ package com.emily.infrastructure.logger.configuration.classic;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.emily.infrastructure.logger.configuration.appender.*;
+import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
+import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
+import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
+import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
@@ -18,7 +21,6 @@ import org.slf4j.LoggerFactory;
 public class LogbackModule implements Logback {
     private static final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
     private final LoggerProperties properties;
-
     public LogbackModule(LoggerProperties properties) {
         this.properties = properties;
     }
@@ -31,7 +33,7 @@ public class LogbackModule implements Logback {
      * @param appenderName appender属性名
      * @param filePath     文件路径
      * @param fileName     文件名
-     * @return
+     * @return 日志对象
      */
     @Override
     public Logger getLogger(String loggerName, String appenderName, String filePath, String fileName) {

@@ -1,5 +1,6 @@
 package com.emily.infrastructure.logger.configuration.context;
 
+import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.classic.Logback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
@@ -96,7 +97,7 @@ public class LogbackContext {
      * @param logbackType 类型
      */
     private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
-        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getCode()).replace("/", ".");
+        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getCode()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
     /**

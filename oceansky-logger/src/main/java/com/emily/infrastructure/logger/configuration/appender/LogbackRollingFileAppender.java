@@ -52,7 +52,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置文件名
         rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), this.getLoggerContext()));
         //设置日志文件归档策略
-        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.getInstance(this.getLoggerContext(), properties, rollingFileAppender, loggerPath));
+        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.newInstance(this.getLoggerContext(), properties, rollingFileAppender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         rollingFileAppender.setContext(this.getLoggerContext());
@@ -69,7 +69,6 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         rollingFileAppender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         rollingFileAppender.start();
-
         return rollingFileAppender;
     }
 
@@ -77,7 +76,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * 获取文件路径
      *
      * @param level 日志级别
-     * @return
+     * @return 日志文件路径
      */
     @Override
     protected String getFilePath(Level level) {
@@ -92,14 +91,15 @@ public class LogbackRollingFileAppender extends AbstractAppender {
             return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
         }
         //分模块日志
-        if (LogbackType.MODULE.equals(appender.getLogbackType())) {
+        else if (LogbackType.MODULE.equals(appender.getLogbackType())) {
             return StringUtils.join(basePath, filePath, File.separator, appender.getFileName());
         }
         //分组日志
-        if (StringUtils.isEmpty(appender.getFileName())) {
+        else if (StringUtils.isEmpty(appender.getFileName())) {
             return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
+        } else {
+            return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
         }
-        return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
     }
 
     /**
@@ -125,7 +125,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * 日志级别
      *
      * @param level 日志级别
-     * @return
+     * @return appender name值
      */
     @Override
     protected String getAppenderName(Level level) {

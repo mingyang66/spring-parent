@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.initializer;
 
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logger.LoggerContextManager;
+import com.emily.infrastructure.logger.manager.LoggerContextManager;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

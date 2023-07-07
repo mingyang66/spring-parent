@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger;
+package com.emily.infrastructure.logger.manager;
 
 import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
@@ -32,15 +32,19 @@ public class LoggerContextManager {
         logbackContext = new LogbackContext(properties);
         // 初始化root logger
         LogbackAppender appender = new LogbackAppender();
+        // appender name
         appender.setAppenderName(Logger.ROOT_LOGGER_NAME);
+        // logger file path
         appender.setFilePath(properties.getRoot().getFilePath());
+        // logger type
         appender.setLogbackType(LogbackType.ROOT);
+
         new LogbackRoot(properties).getLogger(Logger.ROOT_LOGGER_NAME, appender);
     }
 
     public static LogbackContext getLogbackContext() {
         if (Objects.isNull(logbackContext)) {
-            throw new IllegalStateException("日志SDK未初始化");
+            throw new IllegalStateException("Log sdk not initialized");
         }
         return logbackContext;
     }

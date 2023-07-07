@@ -7,12 +7,11 @@ import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
+import com.emily.infrastructure.logger.manager.CacheManager;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Emily
@@ -21,10 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create: 2020/08/04
  */
 public class LogbackContext {
-    /**
-     * Logger对象容器
-     */
-    private final Map<String, Logger> cacheLogger = new ConcurrentHashMap<>();
 
     private final LoggerProperties properties;
 
@@ -51,19 +46,19 @@ public class LogbackContext {
         //获取loggerName
         String loggerName = getLoggerName(clazz, appender.getAppenderName());
         // 获取Logger对象
-        Logger logger = cacheLogger.get(loggerName);
+        Logger logger = CacheManager.LOGGER.get(loggerName);
         if (Objects.nonNull(logger)) {
             return logger;
         }
         synchronized (this) {
-            logger = cacheLogger.get(loggerName);
+            logger = CacheManager.LOGGER.get(loggerName);
             if (Objects.nonNull(logger)) {
                 return logger;
             }
             //获取logger日志对象
             logger = getLogger(loggerName, appender);
             //存入缓存
-            cacheLogger.put(loggerName, logger);
+            CacheManager.LOGGER.put(loggerName, logger);
         }
         return logger;
     }
@@ -73,7 +68,8 @@ public class LogbackContext {
      * 构建Logger对象
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      *
-     * @param fileName 日志文件名|模块名称
+     * @param loggerName logger name
+     * @param appender appender instance object
      */
     protected Logger getLogger(String loggerName, LogbackAppender appender) {
         Logback logback;
@@ -109,6 +105,6 @@ public class LogbackContext {
      * 清空保存的日志对象
      */
     public void clear() {
-        this.cacheLogger.clear();
+        CacheManager.LOGGER.clear();
     }
 }

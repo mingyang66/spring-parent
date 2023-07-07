@@ -4,9 +4,7 @@ package com.emily.infrastructure.logger.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.emily.infrastructure.logger.manager.CacheManager;
 
 /**
  * @program: spring-parent
@@ -16,29 +14,24 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractAppender {
     /**
-     * Appender实例对象缓存
-     */
-    private static final Map<String, Appender<ILoggingEvent>> APPENDER = new ConcurrentHashMap<>();
-
-    /**
      * 获取Appender实例对象
      *
-     * @param level
-     * @return
+     * @param level logger level
+     * @return appender instance
      */
     public Appender<ILoggingEvent> newInstance(Level level) {
         //appender名称重新拼接
         String appenderName = this.getAppenderName(level);
         //如果已经存在，则忽略，否则添加
-        APPENDER.putIfAbsent(appenderName, this.getAppender(level));
-        return APPENDER.get(appenderName);
+        CacheManager.APPENDER.putIfAbsent(appenderName, this.getAppender(level));
+        return CacheManager.APPENDER.get(appenderName);
     }
 
     /**
      * 获取appender对象
      *
      * @param level appender过滤日志级别
-     * @return
+     * @return appender对象
      */
     protected abstract Appender<ILoggingEvent> getAppender(Level level);
 
@@ -61,7 +54,7 @@ public abstract class AbstractAppender {
      * 获取appenderName
      *
      * @param level 日志级别
-     * @return
+     * @return appender name
      */
     protected abstract String getAppenderName(Level level);
 

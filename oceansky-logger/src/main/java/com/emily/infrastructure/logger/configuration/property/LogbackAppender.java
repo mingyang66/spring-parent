@@ -27,20 +27,6 @@ public class LogbackAppender {
      */
     private LogbackType logbackType;
 
-    public LogbackAppender() {
-    }
-
-    public LogbackAppender(String appenderName, String filePath, LogbackType logbackType) {
-        this(appenderName, filePath, null, logbackType);
-    }
-
-    public LogbackAppender(String appenderName, String filePath, String fileName, LogbackType logbackType) {
-        this.appenderName = appenderName;
-        this.filePath = filePath;
-        this.fileName = fileName;
-        this.logbackType = logbackType;
-    }
-
     public String getAppenderName() {
         return appenderName;
     }

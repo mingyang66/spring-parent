@@ -2,7 +2,6 @@ package com.emily.infrastructure.logger.configuration.appender;
 
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 
@@ -20,15 +19,6 @@ public abstract class AbstractAppender {
      * Appender实例对象缓存
      */
     private static final Map<String, Appender<ILoggingEvent>> APPENDER = new ConcurrentHashMap<>();
-
-    /**
-     * logger上下文
-     */
-    private final LoggerContext loggerContext;
-
-    public AbstractAppender(LoggerContext loggerContext) {
-        this.loggerContext = loggerContext;
-    }
 
     /**
      * 获取Appender实例对象
@@ -74,9 +64,5 @@ public abstract class AbstractAppender {
      * @return
      */
     protected abstract String getAppenderName(Level level);
-
-    public LoggerContext getLoggerContext() {
-        return loggerContext;
-    }
 
 }

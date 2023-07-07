@@ -17,7 +17,7 @@ public class LogbackFilter {
      * @param level 日志级别
      * @return
      */
-    public static LevelFilter getLevelFilter(Level level) {
+    public static LevelFilter newLevelFilter(Level level) {
         LevelFilter filter = new LevelFilter();
         //日志过滤级别
         filter.setLevel(level);
@@ -35,7 +35,7 @@ public class LogbackFilter {
      * @param level 日志级别
      * @return
      */
-    public static ThresholdFilter getThresholdLevelFilter(Level level) {
+    public static ThresholdFilter newThresholdLevelFilter(Level level) {
         ThresholdFilter filter = new ThresholdFilter();
         filter.setLevel(level.levelStr);
         filter.start();

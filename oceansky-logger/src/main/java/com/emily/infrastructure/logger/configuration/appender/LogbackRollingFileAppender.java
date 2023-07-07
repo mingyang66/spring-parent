@@ -27,12 +27,16 @@ public class LogbackRollingFileAppender extends AbstractAppender {
 
     private LogbackAppender appender;
     /**
+     * logger上下文
+     */
+    private final LoggerContext loggerContext;
+    /**
      * 属性配置
      */
     private final LoggerProperties properties;
 
     public LogbackRollingFileAppender(LoggerContext loggerContext, LoggerProperties properties, LogbackAppender appender) {
-        super(loggerContext);
+        this.loggerContext = loggerContext;
         this.appender = appender;
         this.properties = properties;
     }
@@ -50,12 +54,12 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //日志文件路径
         String loggerPath = this.getFilePath(level);
         //设置文件名
-        rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), this.getLoggerContext()));
+        rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), loggerContext));
         //设置日志文件归档策略
-        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.newInstance(this.getLoggerContext(), properties, rollingFileAppender, loggerPath));
+        rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.newInstance(loggerContext, properties, rollingFileAppender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        rollingFileAppender.setContext(this.getLoggerContext());
+        rollingFileAppender.setContext(loggerContext);
         //appender的name属性
         rollingFileAppender.setName(this.getAppenderName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
@@ -63,9 +67,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         rollingFileAppender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
-        rollingFileAppender.addFilter(LogbackFilter.getLevelFilter(level));
+        rollingFileAppender.addFilter(LogbackFilter.newLevelFilter(level));
         //设置附加器编码
-        rollingFileAppender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(this.getLoggerContext(), this.getFilePattern()));
+        rollingFileAppender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(loggerContext, this.getFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         rollingFileAppender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         rollingFileAppender.start();

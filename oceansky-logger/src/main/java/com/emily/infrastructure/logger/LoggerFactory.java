@@ -1,6 +1,5 @@
 package com.emily.infrastructure.logger;
 
-import com.emily.infrastructure.logger.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -11,11 +10,6 @@ import org.slf4j.Logger;
  * @Version: 1.0
  */
 public class LoggerFactory {
-    /**
-     * Logger日志上下文
-     */
-    public static LogbackContext CONTEXT;
-
     /**
      * 获取日志Logger对象
      *
@@ -47,8 +41,7 @@ public class LoggerFactory {
      * @return
      */
     public static <T> Logger getGroupLogger(Class<T> clazz, String filePath, String fileName) {
-        validLoggerContext();
-        return CONTEXT.getLogger(clazz, filePath, fileName, LogbackType.GROUP);
+        return LoggerContextManager.getLogbackContext().getLogger(clazz, filePath, fileName, LogbackType.GROUP);
     }
 
     /**
@@ -61,16 +54,6 @@ public class LoggerFactory {
      * @return
      */
     public static <T> Logger getModuleLogger(Class<T> clazz, String filePath, String fileName) {
-        validLoggerContext();
-        return CONTEXT.getLogger(clazz, filePath, fileName, LogbackType.MODULE);
-    }
-
-    /**
-     * 校验Logger上下文的有效性
-     */
-    private static void validLoggerContext() {
-        if (CONTEXT == null) {
-            throw new RuntimeException("logback日志组件上下文未初始化");
-        }
+        return LoggerContextManager.getLogbackContext().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
     }
 }

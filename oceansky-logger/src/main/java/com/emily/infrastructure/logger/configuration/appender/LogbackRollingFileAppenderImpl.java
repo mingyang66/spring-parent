@@ -6,7 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.util.OptionHelper;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;

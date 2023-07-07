@@ -2,7 +2,7 @@ package com.emily.infrastructure.logger.configuration.classic;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppenderImpl;

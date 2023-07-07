@@ -1,6 +1,6 @@
 package com.emily.infrastructure.logger.configuration.context;
 
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.classic.Logback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroupImpl;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModuleImpl;

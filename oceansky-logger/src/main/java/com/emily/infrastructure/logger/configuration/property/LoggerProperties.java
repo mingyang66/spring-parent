@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger;
+package com.emily.infrastructure.logger.configuration.property;
 
 
 import com.emily.infrastructure.logger.configuration.type.LevelType;

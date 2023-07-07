@@ -1,6 +1,7 @@
 package com.emily.infrastructure.logger;
 
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 import java.util.Objects;
 
@@ -10,6 +11,8 @@ import java.util.Objects;
  * @CreateDate :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextManager {
+    private static LogbackContext logbackContext;
+
     /**
      * 日志组件SDK初始化
      *
@@ -19,9 +22,16 @@ public class LoggerContextManager {
         if (!properties.isEnabled()) {
             return;
         }
-        if (Objects.nonNull(LoggerFactory.CONTEXT)) {
-            LoggerFactory.CONTEXT.clear();
+        if (Objects.nonNull(logbackContext)) {
+            logbackContext.clear();
         }
-        LoggerFactory.CONTEXT = new LogbackContext(properties);
+        logbackContext = new LogbackContext(properties);
+    }
+
+    public static LogbackContext getLogbackContext() {
+        if (Objects.isNull(logbackContext)) {
+            throw new IllegalStateException("日志SDK未初始化");
+        }
+        return logbackContext;
     }
 }

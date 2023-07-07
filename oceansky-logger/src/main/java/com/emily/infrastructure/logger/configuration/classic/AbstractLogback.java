@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger.configuration.classic;
 
 import ch.qos.logback.classic.LoggerContext;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import org.slf4j.LoggerFactory;
 
 /**

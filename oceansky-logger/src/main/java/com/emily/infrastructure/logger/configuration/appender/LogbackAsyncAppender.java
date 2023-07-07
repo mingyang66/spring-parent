@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger.configuration.appender;
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import org.apache.commons.lang3.StringUtils;
 
 /**

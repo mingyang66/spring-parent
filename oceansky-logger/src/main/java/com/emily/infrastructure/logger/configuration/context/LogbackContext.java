@@ -1,10 +1,10 @@
 package com.emily.infrastructure.logger.configuration.context;
 
+import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
+import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
+import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
+import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
-import com.emily.infrastructure.logger.configuration.classic.Logback;
-import com.emily.infrastructure.logger.configuration.classic.LogbackGroupImpl;
-import com.emily.infrastructure.logger.configuration.classic.LogbackModuleImpl;
-import com.emily.infrastructure.logger.configuration.classic.LogbackRootImpl;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create: 2020/08/04
  */
 public class LogbackContext {
-
     /**
      * Logger对象容器
      */
@@ -31,7 +30,7 @@ public class LogbackContext {
 
     public LogbackContext(LoggerProperties properties) {
         this.properties = properties;
-        this.root = new LogbackRootImpl(properties).getLogger();
+        this.root = new LogbackRoot(properties).getLogger();
     }
 
     /**
@@ -71,11 +70,11 @@ public class LogbackContext {
      * @param fileName 日志文件名|模块名称
      */
     protected Logger getLogger(String loggerName, String appenderName, String filePath, String fileName, LogbackType logbackType) {
-        Logback logback;
+        AbstractLogback logback;
         if (logbackType.getType().equals(LogbackType.MODULE.getType())) {
-            logback = new LogbackModuleImpl(this.properties);
+            logback = new LogbackModule(this.properties);
         } else {
-            logback = new LogbackGroupImpl(this.properties);
+            logback = new LogbackGroup(this.properties);
         }
         return logback.getLogger(loggerName, appenderName, filePath, fileName);
     }

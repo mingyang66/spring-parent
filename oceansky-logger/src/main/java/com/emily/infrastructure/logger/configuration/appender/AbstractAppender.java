@@ -20,16 +20,16 @@ public abstract class AbstractAppender {
     /**
      * Appender实例对象缓存
      */
-    private static final Map<String, Appender<ILoggingEvent>> APPENDER_CACHE = new ConcurrentHashMap<>();
+    private static final Map<String, Appender<ILoggingEvent>> APPENDER = new ConcurrentHashMap<>();
 
     /**
      * logger上下文
      */
-    private LoggerContext loggerContext;
+    private final LoggerContext loggerContext;
     /**
      * 属性配置
      */
-    private LoggerProperties properties;
+    private final LoggerProperties properties;
 
     public AbstractAppender(LoggerContext loggerContext, LoggerProperties properties) {
         this.loggerContext = loggerContext;
@@ -45,12 +45,9 @@ public abstract class AbstractAppender {
     public Appender<ILoggingEvent> getInstance(Level level) {
         //appender名称重新拼接
         String appenderName = this.getAppenderName(level);
-        //如果已经存在，则复用
-        if (!APPENDER_CACHE.containsKey(appenderName)) {
-            //生成appender存入缓存
-            APPENDER_CACHE.put(appenderName, this.getAppender(level));
-        }
-        return APPENDER_CACHE.get(appenderName);
+        //如果已经存在，则忽略，否则添加
+        APPENDER.putIfAbsent(appenderName, this.getAppender(level));
+        return APPENDER.get(appenderName);
     }
 
     /**
@@ -65,14 +62,14 @@ public abstract class AbstractAppender {
      * 获取文件路径
      *
      * @param level 日志级别
-     * @return
+     * @return 日志文件路径
      */
     protected abstract String getFilePath(Level level);
 
     /**
      * 获取日志输出格式
      *
-     * @return
+     * @return 日志文件输出格式
      */
     protected abstract String getFilePattern();
 
@@ -88,15 +85,9 @@ public abstract class AbstractAppender {
         return loggerContext;
     }
 
-    public void setLoggerContext(LoggerContext loggerContext) {
-        this.loggerContext = loggerContext;
-    }
 
     public LoggerProperties getProperties() {
         return properties;
     }
 
-    public void setProperties(LoggerProperties properties) {
-        this.properties = properties;
-    }
 }

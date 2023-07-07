@@ -38,7 +38,7 @@ import java.util.Objects;
  */
 public class DefaultRequestMethodInterceptor implements RequestCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultRequestMethodInterceptor.class);
+    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultRequestMethodInterceptor.class, "request","user");
 
     /**
      * 拦截接口日志

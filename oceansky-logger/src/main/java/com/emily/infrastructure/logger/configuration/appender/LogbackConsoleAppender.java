@@ -14,13 +14,13 @@ import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
  * @description: 通过名字和级别设置Appender
  * @create: 2020/08/04
  */
-public class LogbackConsoleAppenderImpl extends AbstractAppender {
+public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 控制台appender name
      */
     public static final String CONSOLE_NAME = "CONSOLE";
 
-    public LogbackConsoleAppenderImpl(LoggerContext loggerContext, LoggerProperties properties) {
+    public LogbackConsoleAppender(LoggerContext loggerContext, LoggerProperties properties) {
         super(loggerContext, properties);
     }
 

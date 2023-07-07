@@ -22,11 +22,11 @@ import java.text.MessageFormat;
  * @description: 通过名字和级别设置Appender
  * @create: 2020/08/04
  */
-public class LogbackRollingFileAppenderImpl extends AbstractAppender {
+public class LogbackRollingFileAppender extends AbstractAppender {
 
     private LogbackAppender appender;
 
-    public LogbackRollingFileAppenderImpl(LoggerContext loggerContext, LoggerProperties properties, LogbackAppender appender) {
+    public LogbackRollingFileAppender(LoggerContext loggerContext, LoggerProperties properties, LogbackAppender appender) {
         super(loggerContext, properties);
         this.appender = appender;
     }

@@ -1,6 +1,7 @@
 package com.emily.infrastructure.logger.configuration.classic;
 
 import ch.qos.logback.classic.Logger;
+import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 
 /**
  * @program: spring-parent
@@ -9,26 +10,14 @@ import ch.qos.logback.classic.Logger;
  * @create: 2021/12/17
  */
 public interface Logback {
-
-    /**
-     * 获取Root Logger对象
-     *
-     * @return 返回Logger日志对象
-     */
-    default Logger getLogger() {
-        return null;
-    }
-
     /**
      * 获取Logger对象
      *
-     * @param loggerName   logger属性名
-     * @param appenderName appender属性名
-     * @param filePath     文件路径
-     * @param fileName     文件名
+     * @param loggerName logger属性名
+     * @param appender   appender属性名
      * @return 返回Logger日志对象
      */
-    default Logger getLogger(String loggerName, String appenderName, String filePath, String fileName) {
+    default Logger getLogger(String loggerName, LogbackAppender appender) {
         return null;
     }
 }

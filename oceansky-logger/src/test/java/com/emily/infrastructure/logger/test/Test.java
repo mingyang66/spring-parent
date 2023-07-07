@@ -1,7 +1,5 @@
 package com.emily.infrastructure.logger.test;
 
-import org.slf4j.Logger;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

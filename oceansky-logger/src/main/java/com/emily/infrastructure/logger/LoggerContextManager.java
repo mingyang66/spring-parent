@@ -1,7 +1,11 @@
 package com.emily.infrastructure.logger;
 
+import ch.qos.logback.classic.Logger;
+import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
+import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 import java.util.Objects;
 
@@ -26,6 +30,12 @@ public class LoggerContextManager {
             logbackContext.clear();
         }
         logbackContext = new LogbackContext(properties);
+        // 初始化root logger
+        LogbackAppender appender = new LogbackAppender();
+        appender.setAppenderName(Logger.ROOT_LOGGER_NAME);
+        appender.setFilePath(properties.getRoot().getFilePath());
+        appender.setLogbackType(LogbackType.ROOT);
+        new LogbackRoot(properties).getLogger(Logger.ROOT_LOGGER_NAME, appender);
     }
 
     public static LogbackContext getLogbackContext() {

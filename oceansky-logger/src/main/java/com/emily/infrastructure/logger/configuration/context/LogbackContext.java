@@ -71,7 +71,7 @@ public class LogbackContext {
      */
     protected Logger getLogger(String loggerName, String appenderName, String filePath, String fileName, LogbackType logbackType) {
         Logback logback;
-        if (logbackType.getType().equals(LogbackType.MODULE.getType())) {
+        if (logbackType.equals(LogbackType.MODULE)) {
             logback = new LogbackModule(this.properties);
         } else {
             logback = new LogbackGroup(this.properties);
@@ -96,7 +96,7 @@ public class LogbackContext {
      * @param logbackType 类型
      */
     private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
-        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getType()).replace("/", ".");
+        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getCode()).replace("/", ".");
     }
 
     /**

@@ -11,16 +11,16 @@ public enum LogbackType {
     GROUP(2, "分组日志"),
     MODULE(3, "模块日志");
 
-    private Integer type;
+    private Integer code;
     private String desc;
 
-    LogbackType(Integer type, String desc) {
-        this.type = type;
+    LogbackType(Integer code, String desc) {
+        this.code = code;
         this.desc = desc;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getCode() {
+        return code;
     }
 
     public String getDesc() {

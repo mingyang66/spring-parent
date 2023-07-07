@@ -4,6 +4,11 @@
 基础库发布4.3.6
 Bug Fixes
 1. 删除自动化配置类RouteWebMvcAutoConfiguration、LookupPathAutoConfiguration；
+2. oceansky-common工具类新增PathUtils格式化路径方法；
+3. 返回值包装类ResponseWrapperAdviceHandler支持application/vnd.spring-boot.actuator.v3+json媒体类型；
+4. 新增oceansky-logger基于logback的日志组件，并提供纯Java使用日志SDK的方法；
+5. emily-spring-boot-logback组件SDK重构为依赖oceansky-logger并进行starter化；
+6. 
 
 
 基础库发布4.3.5

@@ -28,6 +28,7 @@
         <module>oceansky-jwt</module>
         <module>oceansky-date</module>
         <module>oceansky-common</module>
+        <module>oceansky-logger</module>
     </modules>
 
     <properties>

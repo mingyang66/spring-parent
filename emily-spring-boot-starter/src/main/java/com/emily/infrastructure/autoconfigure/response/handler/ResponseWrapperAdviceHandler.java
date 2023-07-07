@@ -33,6 +33,10 @@ import javax.annotation.Nonnull;
  */
 @RestControllerAdvice
 public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> {
+    /**
+     * 是 Spring Boot 2.2 版本及以上版本中引入的 Actuator V3 版本的媒体类型，用于获取应用程序运行时的信息和指标
+     */
+    public static final String APPLICATION_ACTUATOR_JSON = "application/vnd.spring-boot.actuator.v3+json";
 
     private final ResponseWrapperProperties properties;
 
@@ -86,7 +90,8 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
                 || MediaType.APPLICATION_PDF.equals(selectedContentType)
                 || MediaType.IMAGE_PNG.equals(selectedContentType)
                 || MediaType.IMAGE_JPEG.equals(selectedContentType)
-                || MediaType.IMAGE_GIF.equals(selectedContentType)) {
+                || MediaType.IMAGE_GIF.equals(selectedContentType)
+                || APPLICATION_ACTUATOR_JSON.equals(selectedContentType.toString())) {
             return body;
         }
 

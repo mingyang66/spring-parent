@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @create: 2021/05/31
  */
 @RestController
-@RequestMapping("logback")
+@RequestMapping("api/logback")
 public class LogbackController {
     private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
     private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test", "test");

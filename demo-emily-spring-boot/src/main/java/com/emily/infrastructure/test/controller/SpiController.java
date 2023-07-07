@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("api/spi")
 public class SpiController {
     public String getSpi() {
-        List<LogbackProperties> list = SpringFactoriesLoader.loadFactories(LogbackProperties.class, null);
+        List<LoggerFactory> list = SpringFactoriesLoader.loadFactories(LoggerFactory.class, null);
         return null;
     }
 }

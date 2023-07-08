@@ -17,6 +17,7 @@ public class LoggerTest {
     @Test
     public void test1() {
         LoggerContextManager.init(new LoggerProperties());
+        LoggerContextManager.init(new LoggerProperties());
         logger.info("info test ----------------");
         logger.error("info test ----------------");
         logger.warn("warn test ----------------");

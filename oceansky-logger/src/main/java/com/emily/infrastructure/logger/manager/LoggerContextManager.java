@@ -4,8 +4,6 @@ import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
-import java.util.Objects;
-
 /**
  * @Description :  日志初始化管理器
  * @Author :  Emily
@@ -13,6 +11,11 @@ import java.util.Objects;
  */
 public class LoggerContextManager {
     private static LogbackContext logbackContext;
+    private static org.slf4j.Logger logger;
+    /**
+     * 是否已经初始化
+     */
+    private static boolean initialized = false;
 
     /**
      * 日志组件SDK初始化
@@ -23,19 +26,24 @@ public class LoggerContextManager {
         if (!properties.isEnabled()) {
             return;
         }
-        if (Objects.nonNull(logbackContext)) {
+        if (initialized) {
             logbackContext.clear();
+            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
         logbackContext = new LogbackContext(properties);
         // 修改root logger
-        logbackContext.getRootLogger(Logger.ROOT_LOGGER_NAME);
+        logger = logbackContext.getRootLogger(Logger.ROOT_LOGGER_NAME);
 
-        System.out.println("Log sdk initialized");
+        if (!initialized) {
+            logger.info("Log sdk initialized");
+        }
+        // 设置为已初始化
+        initialized = true;
     }
 
     public static LogbackContext getLogbackContext() {
-        if (Objects.isNull(logbackContext)) {
+        if (!initialized) {
             throw new IllegalStateException("Log sdk not initialized");
         }
         return logbackContext;

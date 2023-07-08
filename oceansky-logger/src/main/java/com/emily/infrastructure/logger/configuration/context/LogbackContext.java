@@ -1,8 +1,6 @@
 package com.emily.infrastructure.logger.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.spi.AppenderAttachable;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
@@ -17,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -136,24 +132,10 @@ public class LogbackContext {
      * 清空保存的日志对象
      */
     public void clear() {
-        List<ch.qos.logback.classic.Logger> list = LOGGER_CONTEXT.getLoggerList();
-        list.stream().forEach(logger -> {
-            Iterator<Appender<ILoggingEvent>> iterator = logger.iteratorForAppenders();
-            while (iterator.hasNext()) {
-                Appender<ILoggingEvent> appender = iterator.next();
-                System.out.println(appender.getName());
-            }
-        });
         CacheManager.LOGGER.forEach((loggerName, logger) -> {
-            Iterator<Appender<ILoggingEvent>> iterator = ((ch.qos.logback.classic.Logger) logger).iteratorForAppenders();
-            while (iterator.hasNext()) {
-                Appender<ILoggingEvent> appender = iterator.next();
-                System.out.println(appender.getName());
-            }
             if (logger instanceof AppenderAttachable) {
-               // String name = ((AppenderAttachable<ILoggingEvent>) logger).getAppender(loggerName).getName();
-               // System.out.println(name);
-                ((AppenderAttachable<ILoggingEvent>) logger).detachAppender(loggerName);
+                // 移除logger对象上添加的appender
+                ((AppenderAttachable<?>) logger).detachAppender(loggerName);
             }
         });
         CacheManager.LOGGER.clear();

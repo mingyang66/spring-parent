@@ -28,9 +28,9 @@ public class LogbackConsoleAppender extends AbstractAppender {
      */
     private final LoggerContext loggerContext;
 
-    public LogbackConsoleAppender(LoggerContext loggerContext, LoggerProperties properties) {
-        this.loggerContext = loggerContext;
+    public LogbackConsoleAppender( LoggerProperties properties,LoggerContext loggerContext) {
         this.properties = properties;
+        this.loggerContext = loggerContext;
     }
 
     /**

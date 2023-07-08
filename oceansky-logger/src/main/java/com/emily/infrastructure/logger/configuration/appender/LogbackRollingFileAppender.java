@@ -27,18 +27,18 @@ public class LogbackRollingFileAppender extends AbstractAppender {
 
     private LogbackAppender appender;
     /**
-     * logger上下文
-     */
-    private final LoggerContext loggerContext;
-    /**
      * 属性配置
      */
     private final LoggerProperties properties;
+    /**
+     * logger上下文
+     */
+    private final LoggerContext loggerContext;
 
-    public LogbackRollingFileAppender(LoggerContext loggerContext, LoggerProperties properties, LogbackAppender appender) {
+    public LogbackRollingFileAppender(LoggerProperties properties, LoggerContext loggerContext, LogbackAppender appender) {
+        this.properties = properties;
         this.loggerContext = loggerContext;
         this.appender = appender;
-        this.properties = properties;
     }
 
     /**

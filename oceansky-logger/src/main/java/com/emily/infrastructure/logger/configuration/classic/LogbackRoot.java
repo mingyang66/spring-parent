@@ -18,8 +18,8 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @create: 2021/07/08
  */
 public class LogbackRoot extends AbstractLogback {
-    private final LoggerContext loggerContext;
     private final LoggerProperties properties;
+    private final LoggerContext loggerContext;
 
     public LogbackRoot(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
@@ -39,11 +39,11 @@ public class LogbackRoot extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(loggerContext, properties, appender);
+        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(loggerContext, properties);
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.ERROR)));
             }

@@ -17,17 +17,17 @@ public class LogbackAsyncAppender {
      */
     public static final String APPENDER_PREFIX = "ASYNC-";
     /**
-     * logger上下文
-     */
-    private final LoggerContext loggerContext;
-    /**
      * 属性配置
      */
     private final LoggerProperties properties;
+    /**
+     * logger上下文
+     */
+    private final LoggerContext loggerContext;
 
-    public LogbackAsyncAppender(LoggerContext loggerContext, LoggerProperties properties) {
-        this.loggerContext = loggerContext;
+    public LogbackAsyncAppender(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
+        this.loggerContext = loggerContext;
     }
 
     /**

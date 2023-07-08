@@ -46,25 +46,33 @@ public class LogbackRoot extends AbstractLogback {
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(loggerContext, properties);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.ERROR)));
-            } else if (logger.getLevel().levelInt <= Level.WARN_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.WARN_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.WARN)));
-            } else if (logger.getLevel().levelInt <= Level.INFO_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.INFO_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.INFO)));
-            } else if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.DEBUG)));
-            } else if (logger.getLevel().levelInt <= Level.TRACE_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.TRACE_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(rollingFileAppender.newInstance(Level.ERROR));
-            } else if (logger.getLevel().levelInt <= Level.WARN_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.WARN_INT) {
                 logger.addAppender(rollingFileAppender.newInstance(Level.WARN));
-            } else if (logger.getLevel().levelInt <= Level.INFO_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.INFO_INT) {
                 logger.addAppender(rollingFileAppender.newInstance(Level.INFO));
-            } else if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
                 logger.addAppender(rollingFileAppender.newInstance(Level.DEBUG));
-            } else if (logger.getLevel().levelInt <= Level.TRACE_INT) {
+            }
+            if (logger.getLevel().levelInt <= Level.TRACE_INT) {
                 logger.addAppender(rollingFileAppender.newInstance(Level.TRACE));
             }
         }

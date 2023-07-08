@@ -1,8 +1,6 @@
 package com.emily.cloud.test.api;
 
-import com.emily.infrastructure.core.context.ioc.IOCContext;
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class DemoEventListener {
 
     @EventListener
-    public void handler(EnvironmentChangeEvent event){
+    public void handler(EnvironmentChangeEvent event) {
         //ApplicationContext context = (ApplicationContext) event.getSource();
         //IOCContext.setCONTEXT(context);
         //System.out.println(event.getSource());

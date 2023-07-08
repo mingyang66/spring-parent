@@ -25,6 +25,7 @@ public class TestController {
 
     @Autowired
     private Environment environment;
+
     @GetMapping("test1")
     public String test1(HttpServletResponse response) {
         response.setContentType("text/html");

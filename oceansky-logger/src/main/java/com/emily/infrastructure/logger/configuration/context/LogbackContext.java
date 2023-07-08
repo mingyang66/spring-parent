@@ -1,7 +1,6 @@
 package com.emily.infrastructure.logger.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.spi.AppenderAttachable;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
@@ -25,7 +24,7 @@ import java.util.Objects;
  * @create: 2020/08/04
  */
 public class LogbackContext {
-    private static final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+    private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     private final LoggerProperties properties;
 
@@ -98,17 +97,17 @@ public class LogbackContext {
     protected Logger getLogger(String loggerName, LogbackAppender appender) {
         AbstractLogback logback;
         if (appender.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = new LogbackModule(properties, loggerContext);
+            logback = new LogbackModule(properties, LOGGER_CONTEXT);
         } else if (appender.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = new LogbackGroup(properties, loggerContext);
+            logback = new LogbackGroup(properties, LOGGER_CONTEXT);
         } else {
-            logback = new LogbackRoot(properties, loggerContext);
+            logback = new LogbackRoot(properties, LOGGER_CONTEXT);
         }
         return logback.getLogger(loggerName, appender);
     }
 
     /**
-     * 获取appenderName
+     * 获取 logger name
      *
      * @param clazz        当前类实例
      * @param appenderName appender属性名
@@ -119,6 +118,8 @@ public class LogbackContext {
     }
 
     /**
+     * 获取appenderName
+     *
      * @param filePath    路径
      * @param fileName    文件名
      * @param logbackType 类型
@@ -133,7 +134,8 @@ public class LogbackContext {
     public void clear() {
         CacheManager.LOGGER.forEach((loggerName, logger) -> {
             if (logger instanceof AppenderAttachable) {
-                ((AppenderAttachable<ILoggingEvent>) logger).detachAppender(loggerName);
+
+                //  ((AppenderAttachable<ILoggingEvent>) logger).detachAppender(loggerName);
             }
         });
         CacheManager.LOGGER.clear();

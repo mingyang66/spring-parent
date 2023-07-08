@@ -40,11 +40,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
             <version>2.7.12</version>
         </dependency>
-<!--        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-rabbitmq</artifactId>
-            <version>4.3.4</version>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>io.github.mingyang66</groupId>
+                    <artifactId>emily-spring-boot-rabbitmq</artifactId>
+                    <version>4.3.4</version>
+                </dependency>-->
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -70,23 +70,23 @@
             </resource>
         </resources>
         <plugins>
-           <!-- <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                &lt;!&ndash;加入下面两项配置&ndash;&gt;
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    &lt;!&ndash; 指定该Main Class为全局的唯一入口 &ndash;&gt;
-                    &lt;!&ndash;<mainClass>com.emily.boot.test.TestBootStrap</mainClass>&ndash;&gt;
-                    <includeSystemScope>true</includeSystemScope>
-                </configuration>
-            </plugin>-->
+            <!-- <plugin>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-maven-plugin</artifactId>
+                 &lt;!&ndash;加入下面两项配置&ndash;&gt;
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>repackage</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     &lt;!&ndash; 指定该Main Class为全局的唯一入口 &ndash;&gt;
+                     &lt;!&ndash;<mainClass>com.emily.boot.test.TestBootStrap</mainClass>&ndash;&gt;
+                     <includeSystemScope>true</includeSystemScope>
+                 </configuration>
+             </plugin>-->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>

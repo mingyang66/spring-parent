@@ -18,7 +18,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 控制台appender name
      */
-    public static final String CONSOLE_NAME = "CONSOLE";
+    public static final String CONSOLE_NAME = "console";
     /**
      * 属性配置
      */
@@ -51,7 +51,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //添加过滤器
         appender.addFilter(LogbackFilter.newThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(loggerContext, this.getFilePattern()));
+        appender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(loggerContext, this.getFilePattern()));
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
         appender.setWithJansi(false);
         appender.start();

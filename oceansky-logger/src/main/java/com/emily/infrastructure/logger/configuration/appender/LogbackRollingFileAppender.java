@@ -69,7 +69,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置过滤器
         rollingFileAppender.addFilter(LogbackFilter.newLevelFilter(level));
         //设置附加器编码
-        rollingFileAppender.setEncoder(LogbackEncoder.getPatternLayoutEncoder(loggerContext, this.getFilePattern()));
+        rollingFileAppender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(loggerContext, this.getFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         rollingFileAppender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         rollingFileAppender.start();

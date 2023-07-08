@@ -1,12 +1,12 @@
 package com.emily.cloud.test.controller;
 
+import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @program: spring-parent
@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
  * @create: 2021/05/31
  */
 @RestController
-@RequestMapping("logback")
+@RequestMapping("api/logback")
 public class LogbackController {
     private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
-    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test", "com/emily/cloud/test");
+    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test", "test");
     private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test1/demo");
 
     @GetMapping("debug")
@@ -46,9 +46,9 @@ public class LogbackController {
         return "success";
     }
 
-    @GetMapping("get")
-    public String get(HttpServletRequest request) {
-        String file = request.getParameter("name");
-        return null;
+    @GetMapping("debug1")
+    public String get() {
+        Environment environment = IOCContext.getApplicationContext().getEnvironment();
+        return environment.getProperty("spring.emily.logback.enabled");
     }
 }

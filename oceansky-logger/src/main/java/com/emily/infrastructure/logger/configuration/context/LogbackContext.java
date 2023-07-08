@@ -1,14 +1,19 @@
 package com.emily.infrastructure.logger.configuration.context;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.spi.AppenderAttachable;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
+import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import com.emily.infrastructure.logger.manager.CacheManager;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -20,11 +25,30 @@ import java.util.Objects;
  * @create: 2020/08/04
  */
 public class LogbackContext {
+    private static final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     private final LoggerProperties properties;
 
     public LogbackContext(LoggerProperties properties) {
         this.properties = properties;
+    }
+
+    public Logger getRootLogger(String loggerName) {
+        // 初始化root logger
+        LogbackAppender appender = new LogbackAppender();
+        // appender name
+        appender.setAppenderName(loggerName);
+        // logger file path
+        appender.setFilePath(properties.getRoot().getFilePath());
+        // logger type
+        appender.setLogbackType(LogbackType.ROOT);
+        if (CacheManager.LOGGER.containsValue(loggerName)) {
+            return CacheManager.LOGGER.get(loggerName);
+        } else {
+            Logger logger = getLogger(loggerName, appender);
+            CacheManager.LOGGER.put(loggerName, logger);
+            return logger;
+        }
     }
 
     /**
@@ -69,14 +93,16 @@ public class LogbackContext {
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      *
      * @param loggerName logger name
-     * @param appender appender instance object
+     * @param appender   appender instance object
      */
     protected Logger getLogger(String loggerName, LogbackAppender appender) {
         AbstractLogback logback;
         if (appender.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = new LogbackModule(this.properties);
+            logback = new LogbackModule(properties, loggerContext);
+        } else if (appender.getLogbackType().equals(LogbackType.GROUP)) {
+            logback = new LogbackGroup(properties, loggerContext);
         } else {
-            logback = new LogbackGroup(this.properties);
+            logback = new LogbackRoot(properties, loggerContext);
         }
         return logback.getLogger(loggerName, appender);
     }
@@ -105,6 +131,12 @@ public class LogbackContext {
      * 清空保存的日志对象
      */
     public void clear() {
+        CacheManager.LOGGER.forEach((loggerName, logger) -> {
+            if (logger instanceof AppenderAttachable) {
+                ((AppenderAttachable<ILoggingEvent>) logger).detachAppender(loggerName);
+            }
+        });
         CacheManager.LOGGER.clear();
+        CacheManager.APPENDER.clear();
     }
 }

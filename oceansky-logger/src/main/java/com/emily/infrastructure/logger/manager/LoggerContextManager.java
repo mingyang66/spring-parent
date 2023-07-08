@@ -1,11 +1,8 @@
 package com.emily.infrastructure.logger.manager;
 
 import ch.qos.logback.classic.Logger;
-import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
-import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
-import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 import java.util.Objects;
 
@@ -29,17 +26,10 @@ public class LoggerContextManager {
         if (Objects.nonNull(logbackContext)) {
             logbackContext.clear();
         }
+        // 初始化日志上下文
         logbackContext = new LogbackContext(properties);
         // 初始化root logger
-        LogbackAppender appender = new LogbackAppender();
-        // appender name
-        appender.setAppenderName(Logger.ROOT_LOGGER_NAME);
-        // logger file path
-        appender.setFilePath(properties.getRoot().getFilePath());
-        // logger type
-        appender.setLogbackType(LogbackType.ROOT);
-
-        new LogbackRoot(properties).getLogger(Logger.ROOT_LOGGER_NAME, appender);
+        logbackContext.getRootLogger(Logger.ROOT_LOGGER_NAME);
     }
 
     public static LogbackContext getLogbackContext() {

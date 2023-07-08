@@ -28,8 +28,10 @@ public class LoggerContextManager {
         }
         // 初始化日志上下文
         logbackContext = new LogbackContext(properties);
-        // 初始化root logger
+        // 修改root logger
         logbackContext.getRootLogger(Logger.ROOT_LOGGER_NAME);
+
+        System.out.println("Log sdk initialized");
     }
 
     public static LogbackContext getLogbackContext() {

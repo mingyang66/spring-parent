@@ -34,7 +34,7 @@ public class LogbackAsyncAppender {
      * 控制台打印appender
      *
      * @param ref 附件appender的引用
-     * @return
+     * @return 异步appender对象
      */
     public AsyncAppender getAppender(Appender ref) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：

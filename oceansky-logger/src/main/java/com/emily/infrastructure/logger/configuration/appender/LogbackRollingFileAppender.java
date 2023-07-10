@@ -52,9 +52,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
         //日志文件路径
-        String loggerPath = this.getFilePath(level);
+        String loggerPath = this.resolveFilePath(level);
         //设置文件名
-        rollingFileAppender.setFile(OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), context));
+        rollingFileAppender.setFile(loggerPath);
         //设置日志文件归档策略
         rollingFileAppender.setRollingPolicy(LogbackRollingPolicy.newInstance(context, properties, rollingFileAppender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -69,7 +69,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置过滤器
         rollingFileAppender.addFilter(LogbackFilter.newLevelFilter(level));
         //设置附加器编码
-        rollingFileAppender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(context, this.getFilePattern()));
+        rollingFileAppender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(context, this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         rollingFileAppender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         rollingFileAppender.start();
@@ -83,27 +83,29 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return 日志文件路径
      */
     @Override
-    protected String getFilePath(Level level) {
+    protected String resolveFilePath(Level level) {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
         String filePath = PathUtils.normalizePath(appender.getFilePath());
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
+        String loggerPath;
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
-            return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
+            loggerPath = StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
         }
         //分模块日志
         else if (LogbackType.MODULE.equals(appender.getLogbackType())) {
-            return StringUtils.join(basePath, filePath, File.separator, appender.getFileName());
+            loggerPath = StringUtils.join(basePath, filePath, File.separator, appender.getFileName());
         }
         //分组日志
         else if (StringUtils.isEmpty(appender.getFileName())) {
-            return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
+            loggerPath = StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
         } else {
-            return StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
+            loggerPath = StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
         }
+        return OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), context);
     }
 
     /**
@@ -112,7 +114,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return 日志格式
      */
     @Override
-    protected String getFilePattern() {
+    protected String resolveFilePattern() {
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
             return properties.getRoot().getPattern();

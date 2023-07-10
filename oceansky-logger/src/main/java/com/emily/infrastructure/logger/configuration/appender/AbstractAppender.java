@@ -41,14 +41,14 @@ public abstract class AbstractAppender {
      * @param level 日志级别
      * @return 日志文件路径
      */
-    protected abstract String getFilePath(Level level);
+    protected abstract String resolveFilePath(Level level);
 
     /**
      * 获取日志输出格式
      *
      * @return 日志文件输出格式
      */
-    protected abstract String getFilePattern();
+    protected abstract String resolveFilePattern();
 
     /**
      * 获取appenderName

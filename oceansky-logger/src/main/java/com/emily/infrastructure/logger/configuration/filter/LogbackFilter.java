@@ -15,7 +15,7 @@ public class LogbackFilter {
      * 日志级别过滤器设置
      *
      * @param level 日志级别
-     * @return
+     * @return 日志级别过滤器对象
      */
     public static LevelFilter newLevelFilter(Level level) {
         LevelFilter filter = new LevelFilter();
@@ -33,7 +33,7 @@ public class LogbackFilter {
      * 日志阀值过滤器，等于或者高于日志级别
      *
      * @param level 日志级别
-     * @return
+     * @return 日志阀值过滤器对象
      */
     public static ThresholdFilter newThresholdLevelFilter(Level level) {
         ThresholdFilter filter = new ThresholdFilter();

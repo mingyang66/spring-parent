@@ -51,7 +51,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //添加过滤器
         appender.addFilter(LogbackFilter.newThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(context, this.getFilePattern()));
+        appender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(context, this.resolveFilePattern()));
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
         appender.setWithJansi(false);
         appender.start();
@@ -60,12 +60,12 @@ public class LogbackConsoleAppender extends AbstractAppender {
     }
 
     @Override
-    protected String getFilePath(Level level) {
+    protected String resolveFilePath(Level level) {
         return null;
     }
 
     @Override
-    protected String getFilePattern() {
+    protected String resolveFilePattern() {
         return properties.getRoot().getPattern();
     }
 

@@ -26,7 +26,7 @@ import java.util.Objects;
  * @create: 2020/08/04
  */
 public class LogbackContext {
-    private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
+    private static final LoggerContext CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     private final LoggerProperties properties;
 
@@ -34,6 +34,12 @@ public class LogbackContext {
         this.properties = properties;
     }
 
+    /**
+     * 初始化ROOT logger对象
+     *
+     * @param loggerName logger 日志名称
+     * @return logger对象
+     */
     public Logger getRootLogger(String loggerName) {
         // 初始化root logger
         LogbackAppender appender = new LogbackAppender();
@@ -99,11 +105,11 @@ public class LogbackContext {
     protected Logger getLogger(String loggerName, LogbackAppender appender) {
         AbstractLogback logback;
         if (appender.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = new LogbackModule(properties, LOGGER_CONTEXT);
+            logback = new LogbackModule(properties, CONTEXT);
         } else if (appender.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = new LogbackGroup(properties, LOGGER_CONTEXT);
+            logback = new LogbackGroup(properties, CONTEXT);
         } else {
-            logback = new LogbackRoot(properties, LOGGER_CONTEXT);
+            logback = new LogbackRoot(properties, CONTEXT);
         }
         return logback.getLogger(loggerName, appender);
     }

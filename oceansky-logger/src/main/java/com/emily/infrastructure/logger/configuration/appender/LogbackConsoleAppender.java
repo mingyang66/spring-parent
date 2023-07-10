@@ -26,11 +26,11 @@ public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LoggerContext loggerContext;
+    private final LoggerContext context;
 
-    public LogbackConsoleAppender( LoggerProperties properties,LoggerContext loggerContext) {
+    public LogbackConsoleAppender(LoggerProperties properties, LoggerContext context) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.context = context;
     }
 
     /**
@@ -45,13 +45,13 @@ public class LogbackConsoleAppender extends AbstractAppender {
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(loggerContext);
+        appender.setContext(context);
         //appender的name属性
         appender.setName(this.getAppenderName(level));
         //添加过滤器
         appender.addFilter(LogbackFilter.newThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(loggerContext, this.getFilePattern()));
+        appender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(context, this.getFilePattern()));
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
         appender.setWithJansi(false);
         appender.start();

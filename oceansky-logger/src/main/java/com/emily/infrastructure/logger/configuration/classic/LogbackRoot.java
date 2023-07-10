@@ -19,11 +19,11 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  */
 public class LogbackRoot extends AbstractLogback {
     private final LoggerProperties properties;
-    private final LoggerContext loggerContext;
+    private final LoggerContext context;
 
-    public LogbackRoot(LoggerProperties properties, LoggerContext loggerContext) {
+    public LogbackRoot(LoggerProperties properties, LoggerContext context) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.context = context;
     }
 
     /**
@@ -33,17 +33,17 @@ public class LogbackRoot extends AbstractLogback {
     @Override
     public Logger getLogger(String loggerName, LogbackAppender appender) {
         // 获取logger对象
-        Logger logger = loggerContext.getLogger(loggerName);
+        Logger logger = context.getLogger(loggerName);
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
+        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, context, appender);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, context);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.ERROR)));
             }
@@ -82,7 +82,7 @@ public class LogbackRoot extends AbstractLogback {
         }
         //是否报告logback内部状态信息
         if (properties.getAppender().isReportState()) {
-            StatusPrinter.print(loggerContext);
+            StatusPrinter.print(context);
         }
         return logger;
     }

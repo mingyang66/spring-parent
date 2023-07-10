@@ -32,30 +32,18 @@ public class LogbackContext {
 
     public LogbackContext(LoggerProperties properties) {
         this.properties = properties;
-    }
-
-    /**
-     * 初始化ROOT logger对象
-     *
-     * @param loggerName logger 日志名称
-     * @return logger对象
-     */
-    public Logger getRootLogger(String loggerName) {
         // 初始化root logger
         LogbackAppender appender = new LogbackAppender();
         // appender name
-        appender.setAppenderName(loggerName);
+        appender.setAppenderName(Logger.ROOT_LOGGER_NAME);
         // logger file path
         appender.setFilePath(properties.getRoot().getFilePath());
         // logger type
         appender.setLogbackType(LogbackType.ROOT);
-        if (CacheManager.LOGGER.containsValue(loggerName)) {
-            return CacheManager.LOGGER.get(loggerName);
-        } else {
-            Logger logger = getLogger(loggerName, appender);
-            CacheManager.LOGGER.put(loggerName, logger);
-            return logger;
-        }
+        // 获取root logger对象
+        Logger logger = getLogger(Logger.ROOT_LOGGER_NAME, appender);
+        // 将root添加到缓存
+        CacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, logger);
     }
 
     /**

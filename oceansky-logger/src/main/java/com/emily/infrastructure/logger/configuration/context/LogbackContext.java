@@ -133,7 +133,7 @@ public class LogbackContext {
     /**
      * 清空保存的日志对象
      */
-    public void clear() {
+    public void reset() {
         // 此处清除对springboot项目是无效的，springboot会自动重构LoggerContext对象
         CacheManager.LOGGER.forEach((loggerName, logger) -> {
             if (logger instanceof AppenderAttachable) {

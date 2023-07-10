@@ -27,7 +27,7 @@ public class LoggerContextManager {
             return;
         }
         if (initialized) {
-            logbackContext.clear();
+            logbackContext.reset();
             logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文

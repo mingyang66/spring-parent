@@ -35,9 +35,7 @@ public class LoggerContextManager {
         // 修改root logger
         logger = logbackContext.getRootLogger(Logger.ROOT_LOGGER_NAME);
 
-        if (!initialized) {
-            logger.info("Log sdk initialized");
-        }
+        logger.info("Log sdk initialized");
         // 设置为已初始化
         initialized = true;
     }

@@ -47,6 +47,7 @@
         <java-jwt.version>4.4.0</java-jwt.version>
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <logback.version>1.2.12</logback.version>
+        <jansi.version>2.4.0</jansi.version>
     </properties>
 
     <developers>
@@ -116,6 +117,11 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fusesource.jansi</groupId>
+                <artifactId>jansi</artifactId>
+                <version>${jansi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -66,7 +66,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
 
     @Override
     protected String resolveFilePattern() {
-        return properties.getRoot().getPattern();
+        return properties.getRoot().getConsolePattern();
     }
 
     @Override

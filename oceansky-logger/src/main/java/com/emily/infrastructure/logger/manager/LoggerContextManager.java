@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LoggerContextManager {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
-    private static LogbackContext logbackContext;
+    private static LogbackContext context;
     /**
      * 是否已经初始化
      */
@@ -28,11 +28,11 @@ public class LoggerContextManager {
             return;
         }
         if (initialized) {
-            logbackContext.stopAndReset();
+            context.stopAndReset();
             System.out.println("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
-        logbackContext = new LogbackContext(properties, LOGGER_CONTEXT);
+        context = new LogbackContext(properties, LOGGER_CONTEXT);
 
         if (initialized) {
             System.out.println("Log sdk initialized");
@@ -47,6 +47,6 @@ public class LoggerContextManager {
         if (!initialized) {
             throw new IllegalStateException("Log sdk not initialized");
         }
-        return logbackContext;
+        return context;
     }
 }

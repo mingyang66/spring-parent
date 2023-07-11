@@ -25,8 +25,20 @@ public class LogbackContext {
     private final LoggerProperties properties;
     private final LoggerContext loggerContext;
 
+    /**
+     * logback context 构造函数
+     * ---------------------------------------------------
+     * 1.初始化属性值
+     * 2.对Root根Logger对象进行初始化并将其存入缓存
+     * ---------------------------------------------------
+     *
+     * @param properties    日志属性配置
+     * @param loggerContext logger context
+     */
     public LogbackContext(LoggerProperties properties, LoggerContext loggerContext) {
+        // 日志属性配置
         this.properties = properties;
+        // logger context
         this.loggerContext = loggerContext;
         // 初始化root logger
         LogbackAppender appender = new LogbackAppender();

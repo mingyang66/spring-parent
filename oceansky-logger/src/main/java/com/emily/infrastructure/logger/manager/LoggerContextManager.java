@@ -12,9 +12,12 @@ import org.slf4j.LoggerFactory;
  */
 public class LoggerContextManager {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
+    /**
+     * logback sdk context
+     */
     private static LogbackContext context;
     /**
-     * 是否已经初始化
+     * 是否已经初始化，默认：false
      */
     private static boolean initialized = false;
 

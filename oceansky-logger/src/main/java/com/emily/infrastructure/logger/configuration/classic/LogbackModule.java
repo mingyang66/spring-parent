@@ -18,11 +18,11 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  */
 public class LogbackModule extends AbstractLogback {
     private final LoggerProperties properties;
-    private final LoggerContext context;
+    private final LoggerContext loggerContext;
 
-    public LogbackModule(LoggerProperties properties, LoggerContext context) {
+    public LogbackModule(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
-        this.context = context;
+        this.loggerContext = loggerContext;
     }
 
     /**
@@ -36,17 +36,17 @@ public class LogbackModule extends AbstractLogback {
     @Override
     public Logger getLogger(String loggerName, LogbackAppender appender) {
         // 获取Logger对象
-        Logger logger = context.getLogger(loggerName);
+        Logger logger = loggerContext.getLogger(loggerName);
         // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getModule().getLevel().levelStr));
         // appender对象
-        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, context, appender);
+        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, context);
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.ERROR)));
             }
@@ -81,7 +81,7 @@ public class LogbackModule extends AbstractLogback {
         }
         if (properties.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(new LogbackConsoleAppender(properties, context).newInstance(logger.getLevel()));
+            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).newInstance(logger.getLevel()));
         }
 
         return logger;

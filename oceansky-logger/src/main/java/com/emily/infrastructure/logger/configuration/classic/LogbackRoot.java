@@ -19,11 +19,11 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  */
 public class LogbackRoot extends AbstractLogback {
     private final LoggerProperties properties;
-    private final LoggerContext context;
+    private final LoggerContext loggerContext;
 
-    public LogbackRoot(LoggerProperties properties, LoggerContext context) {
+    public LogbackRoot(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
-        this.context = context;
+        this.loggerContext = loggerContext;
     }
 
     /**
@@ -33,17 +33,17 @@ public class LogbackRoot extends AbstractLogback {
     @Override
     public Logger getLogger(String loggerName, LogbackAppender appender) {
         // 获取logger对象
-        Logger logger = context.getLogger(loggerName);
+        Logger logger = loggerContext.getLogger(loggerName);
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, context, appender);
+        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, context);
+            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.ERROR)));
             }
@@ -80,14 +80,14 @@ public class LogbackRoot extends AbstractLogback {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
             // 添加控制台appender
-            logger.addAppender(new LogbackConsoleAppender(properties, context).newInstance(logger.getLevel()));
+            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).newInstance(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
         }
         //是否报告logback内部状态信息
         if (properties.getAppender().isReportState()) {
-            StatusPrinter.print(context);
+            StatusPrinter.print(loggerContext);
         }
         return logger;
     }

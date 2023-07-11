@@ -23,12 +23,12 @@ import java.util.Objects;
  * @create: 2020/08/04
  */
 public class LogbackContext {
-    private static final LoggerContext CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
-
     private final LoggerProperties properties;
+    private final LoggerContext loggerContext;
 
-    public LogbackContext(LoggerProperties properties) {
+    public LogbackContext(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
+        this.loggerContext = loggerContext;
         // 初始化root logger
         LogbackAppender appender = new LogbackAppender();
         // appender name
@@ -90,11 +90,11 @@ public class LogbackContext {
     protected Logger getLogger(String loggerName, LogbackAppender appender) {
         AbstractLogback logback;
         if (appender.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = new LogbackModule(properties, CONTEXT);
+            logback = new LogbackModule(properties, loggerContext);
         } else if (appender.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = new LogbackGroup(properties, CONTEXT);
+            logback = new LogbackGroup(properties, loggerContext);
         } else {
-            logback = new LogbackRoot(properties, CONTEXT);
+            logback = new LogbackRoot(properties, loggerContext);
         }
         return logback.getLogger(loggerName, appender);
     }
@@ -125,8 +125,9 @@ public class LogbackContext {
      * 此方法会清除掉所有的内部属性，内部状态消息除外，关闭所有的appender，移除所有的turboFilters过滤器，
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
-    public void reset() {
-        CONTEXT.reset();
+    public void stopAndReset() {
+        loggerContext.stop();
+        loggerContext.reset();
         CacheManager.LOGGER.clear();
         CacheManager.APPENDER.clear();
     }

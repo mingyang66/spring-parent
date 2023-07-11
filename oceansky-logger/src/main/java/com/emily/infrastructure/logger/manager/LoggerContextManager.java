@@ -1,7 +1,9 @@
 package com.emily.infrastructure.logger.manager;
 
+import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Description :  日志初始化管理器
@@ -9,7 +11,8 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @CreateDate :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextManager {
-    private static LogbackContext context;
+    private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
+    private static LogbackContext logbackContext;
     /**
      * 是否已经初始化
      */
@@ -25,11 +28,11 @@ public class LoggerContextManager {
             return;
         }
         if (initialized) {
-            context.reset();
+            logbackContext.stopAndReset();
             System.out.println("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
-        context = new LogbackContext(properties);
+        logbackContext = new LogbackContext(properties, LOGGER_CONTEXT);
 
         if (initialized) {
             System.out.println("Log sdk initialized");
@@ -44,6 +47,6 @@ public class LoggerContextManager {
         if (!initialized) {
             throw new IllegalStateException("Log sdk not initialized");
         }
-        return context;
+        return logbackContext;
     }
 }

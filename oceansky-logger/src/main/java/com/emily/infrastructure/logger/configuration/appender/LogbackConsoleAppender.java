@@ -53,7 +53,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //设置编码
         appender.setEncoder(LogbackEncoder.newPatternLayoutEncoder(loggerContext, this.resolveFilePattern()));
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
-        appender.setWithJansi(false);
+        appender.setWithJansi(true);
         appender.start();
         return appender;
 

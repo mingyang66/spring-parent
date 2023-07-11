@@ -87,7 +87,7 @@ public class LoggerProperties {
          * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
          * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
          */
-        private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} \\u001B[32m %-5level \\u001B[0m --- [%18thread] \\u001B[36m %-36.36logger{36}:%-4.4line \\u001B[0m : %msg%n";
         /**
          * 是否将日志信息输出到控制台，默认：true
          */
@@ -134,7 +134,7 @@ public class LoggerProperties {
         /**
          * 模块日志输出格式，默认：%msg%n
          */
-        private String pattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n";
+        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} \\u001B[32m %-5level \\u001B[0m --- [%18thread] \\u001B[36m %-36.36logger{36}:%-4.4line \\u001B[0m : %msg%n";
         /**
          * 是否将模块日志信息输出到控制台，默认false
          */

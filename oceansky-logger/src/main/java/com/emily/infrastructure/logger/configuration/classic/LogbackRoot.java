@@ -18,8 +18,8 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @create: 2021/07/08
  */
 public class LogbackRoot extends AbstractLogback {
-    private final LoggerProperties properties;
     private final LoggerContext loggerContext;
+    private final LoggerProperties properties;
 
     public LogbackRoot(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;

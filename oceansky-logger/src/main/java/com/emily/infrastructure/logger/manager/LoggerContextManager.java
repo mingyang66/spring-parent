@@ -34,11 +34,7 @@ public class LoggerContextManager {
         // 初始化日志上下文
         context = new LogbackContext(properties, LOGGER_CONTEXT);
 
-        if (initialized) {
-            System.out.println("Log sdk initialized");
-        } else {
-            System.out.println("Log sdk initialized");
-        }
+        System.out.println("Log sdk initialized");
         // 设置为已初始化
         initialized = true;
     }

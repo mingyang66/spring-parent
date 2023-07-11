@@ -42,7 +42,7 @@ public class LoggerFactory {
      * @return
      */
     public static <T> Logger getGroupLogger(Class<T> clazz, String filePath, String fileName) {
-        return LoggerContextManager.getLogbackContext().getLogger(clazz, filePath, fileName, LogbackType.GROUP);
+        return LoggerContextManager.getContext().getLogger(clazz, filePath, fileName, LogbackType.GROUP);
     }
 
     /**
@@ -55,6 +55,6 @@ public class LoggerFactory {
      * @return
      */
     public static <T> Logger getModuleLogger(Class<T> clazz, String filePath, String fileName) {
-        return LoggerContextManager.getLogbackContext().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
+        return LoggerContextManager.getContext().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
     }
 }

@@ -76,7 +76,12 @@ public class LogbackRoot extends AbstractLogback {
                 logger.addAppender(rollingFileAppender.newInstance(Level.TRACE));
             }
         }
-        if (!properties.getRoot().isConsole()) {
+        if (properties.getRoot().isConsole()) {
+            //移除console控制台appender
+            logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
+            // 添加控制台appender
+            logger.addAppender(new LogbackConsoleAppender(properties, context).newInstance(logger.getLevel()));
+        } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
         }

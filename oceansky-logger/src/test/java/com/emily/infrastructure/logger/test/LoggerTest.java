@@ -12,7 +12,8 @@ import org.slf4j.Logger;
  * @CreateDate :  Created in 2023/7/2 3:45 PM
  */
 public class LoggerTest {
-    public static final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
 
     @Test
     public void test1() {

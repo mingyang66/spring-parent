@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @CreateDate :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextManager {
-    private static LogbackContext logbackContext;
+    private static LogbackContext context;
     /**
      * 是否已经初始化
      */
@@ -25,11 +25,11 @@ public class LoggerContextManager {
             return;
         }
         if (initialized) {
-            logbackContext.reset();
+            context.reset();
             System.out.println("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
-        logbackContext = new LogbackContext(properties);
+        context = new LogbackContext(properties);
 
         if (initialized) {
             System.out.println("Log sdk initialized");
@@ -40,10 +40,10 @@ public class LoggerContextManager {
         initialized = true;
     }
 
-    public static LogbackContext getLogbackContext() {
+    public static LogbackContext getContext() {
         if (!initialized) {
             throw new IllegalStateException("Log sdk not initialized");
         }
-        return logbackContext;
+        return context;
     }
 }

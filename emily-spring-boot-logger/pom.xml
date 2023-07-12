@@ -22,15 +22,6 @@
     </licenses>
 
     <dependencies>
-        <!--logback日志依赖-->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-logger</artifactId>

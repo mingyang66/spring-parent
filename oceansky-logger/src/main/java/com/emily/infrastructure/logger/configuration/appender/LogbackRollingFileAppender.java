@@ -89,20 +89,19 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         String filePath = PathUtils.normalizePath(appender.getFilePath());
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
-        String loggerPath;
+        // 基础路径
+        String loggerPath = String.join("", basePath, filePath, File.separator);
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
-            loggerPath = String.join("", basePath, filePath, File.separator, levelStr, File.separator, levelStr);
+            loggerPath = String.join("", loggerPath, levelStr, File.separator, levelStr);
         }
         //分模块日志
         else if (LogbackType.MODULE.equals(appender.getLogbackType())) {
-            loggerPath = String.join("", basePath, filePath, File.separator, appender.getFileName());
+            loggerPath = String.join("", loggerPath, appender.getFileName());
         }
         //分组日志
-        else if (appender.getFileName() == null || appender.getFileName().length() == 0) {
-            loggerPath = String.join("", basePath, filePath, File.separator, levelStr, File.separator, levelStr);
-        } else {
-            loggerPath = String.join("", basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
+        else {
+            loggerPath = String.join("", loggerPath, levelStr, File.separator, levelStr);
         }
         return OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), loggerContext);
     }

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 public class LoggerFactory {
     /**
      * 获取日志Logger对象
+     * 日志路径格式：基础路径/filePath/日志级别info|error|debug/info.log
      *
      * @param clazz 类实例
      * @return logger实例对象
@@ -21,37 +22,27 @@ public class LoggerFactory {
         return org.slf4j.LoggerFactory.getLogger(clazz);
     }
 
+
     /**
      * 获取分组Logger日志对象
+     * 日志路径格式：基础路径/filePath/日志级别info|error|debug/info.log
      *
-     * @param clazz    类实例对象
-     * @param filePath 日志文件路径
+     * @param clazz    类实例
+     * @param filePath 分组日志路径
      * @param <T>      类类型
      * @return logger实例对象
      */
     public static <T> Logger getGroupLogger(Class<T> clazz, String filePath) {
-        return getGroupLogger(clazz, filePath, null);
-    }
-
-    /**
-     * 获取分组Logger日志对象
-     *
-     * @param clazz    类实例
-     * @param filePath 日志文件对象
-     * @param fileName 文件名
-     * @param <T>      类类型
-     * @return logger实例对象
-     */
-    public static <T> Logger getGroupLogger(Class<T> clazz, String filePath, String fileName) {
-        return LoggerContextManager.getContext().getLogger(clazz, filePath, fileName, LogbackType.GROUP);
+        return LoggerContextManager.getContext().getLogger(clazz, filePath, null, LogbackType.GROUP);
     }
 
     /**
      * 获取模块Logger日志对象
+     * 日志路径格式：基础路径/filePath/fileName.log
      *
      * @param clazz    类实例
-     * @param filePath 文件路径
-     * @param fileName 文件名
+     * @param filePath 模块日志路径
+     * @param fileName 模块文件名文件名
      * @param <T>      类类型
      * @return logger实例对象
      */

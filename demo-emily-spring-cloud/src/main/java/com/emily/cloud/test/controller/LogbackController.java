@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/logback")
 public class LogbackController {
     private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
-    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test", "test");
-    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test1/demo");
+    private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test");
+    private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test1");
 
     @GetMapping("debug")
     public String debug() {

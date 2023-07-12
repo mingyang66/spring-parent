@@ -34,14 +34,17 @@ public class LoggerContextManager {
         }
         if (isAlreadyInitialized()) {
             context.stopAndReset();
-            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
         context = new LogbackContext(properties, LOGGER_CONTEXT);
+
+        if (isAlreadyInitialized()) {
+            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
+        } else {
+            logger.info("Log sdk initialized");
+        }
         // 设置为已初始化
         markAsInitialized();
-
-        logger.info("Log sdk initialized");
     }
 
     public static LogbackContext getContext() {

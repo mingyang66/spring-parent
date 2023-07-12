@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/7/2 5:31 PM
  */
-public class CacheManager {
+public class LoggerCacheManager {
     /**
      * Logger对象容器
      */

@@ -10,7 +10,7 @@ import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LogbackAppenderBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
-import com.emily.infrastructure.logger.manager.CacheManager;
+import com.emily.infrastructure.logger.manager.LoggerCacheManager;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
@@ -53,7 +53,7 @@ public class LogbackContext {
         // 获取root logger对象
         Logger rootLogger = getLogger(Logger.ROOT_LOGGER_NAME, appender);
         // 将root添加到缓存
-        CacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
+        LoggerCacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
     /**
@@ -76,19 +76,19 @@ public class LogbackContext {
         //获取loggerName
         String loggerName = getLoggerName(clazz, appender.getAppenderName());
         // 获取Logger对象
-        Logger logger = CacheManager.LOGGER.get(loggerName);
+        Logger logger = LoggerCacheManager.LOGGER.get(loggerName);
         if (Objects.nonNull(logger)) {
             return logger;
         }
         synchronized (this) {
-            logger = CacheManager.LOGGER.get(loggerName);
+            logger = LoggerCacheManager.LOGGER.get(loggerName);
             if (Objects.nonNull(logger)) {
                 return logger;
             }
             //获取logger日志对象
             logger = getLogger(loggerName, appender);
             //存入缓存
-            CacheManager.LOGGER.put(loggerName, logger);
+            LoggerCacheManager.LOGGER.put(loggerName, logger);
         }
         return logger;
     }
@@ -143,7 +143,7 @@ public class LogbackContext {
     public void stopAndReset() {
         loggerContext.stop();
         loggerContext.reset();
-        CacheManager.LOGGER.clear();
-        CacheManager.APPENDER.clear();
+        LoggerCacheManager.LOGGER.clear();
+        LoggerCacheManager.APPENDER.clear();
     }
 }

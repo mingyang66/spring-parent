@@ -4,7 +4,7 @@ package com.emily.infrastructure.logger.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logger.manager.CacheManager;
+import com.emily.infrastructure.logger.manager.LoggerCacheManager;
 
 /**
  * @program: spring-parent
@@ -23,8 +23,8 @@ public abstract class AbstractAppender {
         //appender名称重新拼接
         String appenderName = this.getAppenderName(level);
         //如果已经存在，则忽略，否则添加
-        CacheManager.APPENDER.putIfAbsent(appenderName, this.getAppender(level));
-        return CacheManager.APPENDER.get(appenderName);
+        LoggerCacheManager.APPENDER.putIfAbsent(appenderName, this.getAppender(level));
+        return LoggerCacheManager.APPENDER.get(appenderName);
     }
 
     /**

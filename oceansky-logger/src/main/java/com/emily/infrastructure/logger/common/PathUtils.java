@@ -1,8 +1,6 @@
 package com.emily.infrastructure.logger.common;
 
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * @author Emily
  * @program: spring-parent
@@ -20,7 +18,7 @@ public class PathUtils {
      * @Description 规范化路径
      */
     public static String normalizePath(String path) {
-        if (StringUtils.isBlank(path)) {
+        if (path == null || path.length() == 0) {
             return path;
         }
         String normalizedPath = path;

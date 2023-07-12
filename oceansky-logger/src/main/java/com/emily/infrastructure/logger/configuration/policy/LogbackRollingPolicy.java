@@ -10,7 +10,6 @@ import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 
@@ -67,7 +66,7 @@ public class LogbackRollingPolicy {
          /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
          /info/info.%d 每天轮转
          */
-        String fp = OptionHelper.substVars(StringUtils.join(loggerPath, "%d{yyyy-MM-dd}.log"), context);
+        String fp = OptionHelper.substVars(String.join("", loggerPath, "%d{yyyy-MM-dd}.log"), context);
         //设置文件名模式
         policy.setFileNamePattern(fp);
         //设置要保留的最大存档文件数

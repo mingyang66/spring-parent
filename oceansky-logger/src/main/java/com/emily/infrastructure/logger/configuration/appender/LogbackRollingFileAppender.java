@@ -13,7 +13,6 @@ import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicy
 import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -93,17 +92,17 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         String loggerPath;
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
-            loggerPath = StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
+            loggerPath = String.join("", basePath, filePath, File.separator, levelStr, File.separator, levelStr);
         }
         //分模块日志
         else if (LogbackType.MODULE.equals(appender.getLogbackType())) {
-            loggerPath = StringUtils.join(basePath, filePath, File.separator, appender.getFileName());
+            loggerPath = String.join("", basePath, filePath, File.separator, appender.getFileName());
         }
         //分组日志
-        else if (StringUtils.isEmpty(appender.getFileName())) {
-            loggerPath = StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, levelStr);
+        else if (appender.getFileName() == null || appender.getFileName().length() == 0) {
+            loggerPath = String.join("", basePath, filePath, File.separator, levelStr, File.separator, levelStr);
         } else {
-            loggerPath = StringUtils.join(basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
+            loggerPath = String.join("", basePath, filePath, File.separator, levelStr, File.separator, appender.getFileName());
         }
         return OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), loggerContext);
     }

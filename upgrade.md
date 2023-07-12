@@ -7,8 +7,10 @@ Bug Fixes
 2. oceansky-common工具类新增PathUtils格式化路径方法；
 3. 返回值包装类ResponseWrapperAdviceHandler支持application/vnd.spring-boot.actuator.v3+json媒体类型；
 4. 新增oceansky-logger基于logback的日志组件，并提供纯Java使用日志SDK的方法；
-5. emily-spring-boot-logback组件SDK重构为依赖oceansky-logger并进行starter化；
-6. 
+5. emily-spring-boot-logger组件SDK重构为依赖oceansky-logger并进行starter化；
+6. oceansky-logger组件支持重复初始化时重置调原来LoggerContext上下文对象的初始化信息；
+7. emily-spring-boot-logger组件支持通过Binder类将Environment变量中的变量转换为一个实例变量；
+8. 
 
 
 基础库发布4.3.5

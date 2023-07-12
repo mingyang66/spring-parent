@@ -13,8 +13,8 @@ mvn clean deploy -pl oceansky-common
 echo '#########oceansky-json打包完成...'
 mvn clean deploy -pl emily-spring-boot-parent
 echo '#########emily-spring-boot-parent打包完成...'
-mvn clean deploy -pl emily-spring-boot-logback
-echo '#########emily-spring-boot-logback打包完成...'
+mvn clean deploy -pl emily-spring-boot-logger
+echo '#########emily-spring-boot-logger打包完成...'
 mvn clean deploy -pl emily-spring-boot-core
 echo '#########emily-spring-boot-core打包完成...'
 mvn clean deploy -pl emily-spring-boot-starter

@@ -7,6 +7,7 @@ import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
+import com.emily.infrastructure.logger.configuration.property.LogbackAppenderBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import com.emily.infrastructure.logger.manager.CacheManager;
@@ -41,17 +42,18 @@ public class LogbackContext {
         // logger context
         this.loggerContext = loggerContext;
         // 初始化root logger
-        LogbackAppender appender = new LogbackAppender();
-        // appender name
-        appender.setAppenderName(Logger.ROOT_LOGGER_NAME);
-        // logger file path
-        appender.setFilePath(properties.getRoot().getFilePath());
-        // logger type
-        appender.setLogbackType(LogbackType.ROOT);
+        LogbackAppender appender = new LogbackAppenderBuilder()
+                // appender name
+                .withAppenderName(Logger.ROOT_LOGGER_NAME)
+                // logger file path
+                .withFilePath(properties.getRoot().getFilePath())
+                // logger type
+                .withLogbackType(LogbackType.ROOT)
+                .build();
         // 获取root logger对象
-        Logger logger = getLogger(Logger.ROOT_LOGGER_NAME, appender);
+        Logger rootLogger = getLogger(Logger.ROOT_LOGGER_NAME, appender);
         // 将root添加到缓存
-        CacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, logger);
+        CacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
     /**
@@ -61,15 +63,16 @@ public class LogbackContext {
      * @param logbackType 日志类别 {@link LogbackType}
      */
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
-        LogbackAppender appender = new LogbackAppender();
-        // 获取缓存key
-        appender.setAppenderName(getAppenderName(filePath, fileName, logbackType));
-        // 文件保存路径
-        appender.setFilePath(filePath);
-        // 文件名
-        appender.setFileName(fileName);
-        // 日志类型
-        appender.setLogbackType(logbackType);
+        LogbackAppender appender = new LogbackAppenderBuilder()
+                // 获取缓存key
+                .withAppenderName(getAppenderName(filePath, fileName, logbackType))
+                // 文件保存路径
+                .withFilePath(filePath)
+                // 文件名
+                .withFileName(fileName)
+                // 日志类型
+                .withLogbackType(logbackType)
+                .build();
         //获取loggerName
         String loggerName = getLoggerName(clazz, appender.getAppenderName());
         // 获取Logger对象
@@ -115,7 +118,7 @@ public class LogbackContext {
      *
      * @param clazz        当前类实例
      * @param appenderName appender属性名
-     * @return appenderName
+     * @return logger name
      */
     private <T> String getLoggerName(Class<T> clazz, String appenderName) {
         return MessageFormat.format("{0}.{1}", appenderName, clazz.getName());
@@ -127,6 +130,7 @@ public class LogbackContext {
      * @param filePath    路径
      * @param fileName    文件名
      * @param logbackType 类型
+     * @return appender name
      */
     private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
         return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getCode()).replace(PathUtils.SLASH, PathUtils.DOT);

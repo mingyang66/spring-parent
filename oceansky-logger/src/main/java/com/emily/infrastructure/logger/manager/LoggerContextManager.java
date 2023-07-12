@@ -3,6 +3,7 @@ package com.emily.infrastructure.logger.manager;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LoggerContextManager {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
+    private static final Logger logger = LoggerFactory.getLogger(LoggerContextManager.class);
     /**
      * logback sdk context
      */
@@ -32,12 +34,15 @@ public class LoggerContextManager {
         }
         if (initialized) {
             context.stopAndReset();
-            System.out.println("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
         context = new LogbackContext(properties, LOGGER_CONTEXT);
-
-        System.out.println("Log sdk initialized");
+        if (initialized) {
+            logger.warn("Log sdk initialized");
+            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
+        } else {
+            logger.info("Log sdk initialized");
+        }
         // 设置为已初始化
         initialized = true;
     }

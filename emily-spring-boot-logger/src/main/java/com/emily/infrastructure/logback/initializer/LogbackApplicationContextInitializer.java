@@ -31,6 +31,5 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
         LogbackProperties properties = Binder.get(context.getEnvironment()).bindOrCreate(LogbackProperties.PREFIX, LogbackProperties.class);
         // 初始化日志SDK上下文
         LoggerContextManager.init(properties);
-
     }
 }

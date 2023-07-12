@@ -32,25 +32,39 @@ public class LoggerContextManager {
         if (!properties.isEnabled()) {
             return;
         }
-        if (initialized) {
+        if (isAlreadyInitialized()) {
             context.stopAndReset();
+            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         }
         // 初始化日志上下文
         context = new LogbackContext(properties, LOGGER_CONTEXT);
-        if (initialized) {
-            logger.warn("Log sdk initialized");
-            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
-        } else {
-            logger.info("Log sdk initialized");
-        }
         // 设置为已初始化
-        initialized = true;
+        markAsInitialized();
+
+        logger.info("Log sdk initialized");
     }
 
     public static LogbackContext getContext() {
-        if (!initialized) {
-            throw new IllegalStateException("Log sdk not initialized");
+        if (isAlreadyInitialized()) {
+            return context;
         }
-        return context;
+        throw new IllegalStateException("Log sdk not initialized");
     }
+
+    /**
+     * 是否已经初始化过
+     *
+     * @return true-是 false-否
+     */
+    private static boolean isAlreadyInitialized() {
+        return initialized;
+    }
+
+    /**
+     * 标记为已经初始化
+     */
+    private static void markAsInitialized() {
+        initialized = true;
+    }
+
 }

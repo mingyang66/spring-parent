@@ -11,13 +11,23 @@ import ch.qos.logback.core.spi.FilterReply;
  * @create: 2020/08/04
  */
 public class LogbackFilter {
+
+    private static LogbackFilter filter = new LogbackFilter();
+
+    private LogbackFilter() {
+    }
+
+    public static LogbackFilter getSingleton() {
+        return filter;
+    }
+
     /**
      * 日志级别过滤器设置
      *
      * @param level 日志级别
      * @return 日志级别过滤器对象
      */
-    public static LevelFilter newLevelFilter(Level level) {
+    public LevelFilter getLevelFilter(Level level) {
         LevelFilter filter = new LevelFilter();
         //日志过滤级别
         filter.setLevel(level);
@@ -35,7 +45,7 @@ public class LogbackFilter {
      * @param level 日志级别
      * @return 日志阀值过滤器对象
      */
-    public static ThresholdFilter newThresholdLevelFilter(Level level) {
+    public ThresholdFilter getThresholdLevelFilter(Level level) {
         ThresholdFilter filter = new ThresholdFilter();
         filter.setLevel(level.levelStr);
         filter.start();

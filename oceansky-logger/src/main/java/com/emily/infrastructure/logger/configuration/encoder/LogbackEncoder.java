@@ -12,6 +12,16 @@ import java.nio.charset.StandardCharsets;
  * @create: 2022/01/10
  */
 public class LogbackEncoder {
+
+    private static LogbackEncoder encoder = new LogbackEncoder();
+
+    private LogbackEncoder() {
+    }
+
+    public static LogbackEncoder getSingleton() {
+        return encoder;
+    }
+
     /**
      * 获取编码方式
      *
@@ -19,7 +29,7 @@ public class LogbackEncoder {
      * @param pattern 日志输出格式
      * @return 编码方式对象
      */
-    public static PatternLayoutEncoder newPatternLayoutEncoder(Context context, String pattern) {
+    public PatternLayoutEncoder getPatternLayoutEncoder(Context context, String pattern) {
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。

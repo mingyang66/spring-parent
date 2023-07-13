@@ -21,35 +21,42 @@ import java.text.MessageFormat;
  */
 public class LogbackRollingPolicy {
 
-    private static final LogbackRollingPolicy rollingPolicy = new LogbackRollingPolicy();
+    private static LogbackRollingPolicy rollingPolicy = new LogbackRollingPolicy();
+
+    private LogbackRollingPolicy() {
+    }
+
+    public static LogbackRollingPolicy getSingleton() {
+        return rollingPolicy;
+    }
 
     /**
      * 获取指定归档文件策略类型的归档策略
      *
-     * @param context             logback上下文
-     * @param properties          日志属性配置
-     * @param rollingFileAppender 归档文件appender
-     * @param loggerPath          日志文件路径
+     * @param context      logback上下文
+     * @param properties   日志属性配置
+     * @param fileAppender 归档文件appender
+     * @param loggerPath   日志文件路径
      * @return 策略
      */
-    public static RollingPolicy newInstance(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
+    public RollingPolicy getRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> fileAppender, String loggerPath) {
         if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(properties.getAppender().getRollingPolicy().getType())) {
-            return rollingPolicy.newSizeAndTimeBasedRollingPolicy(context, properties, rollingFileAppender, loggerPath);
+            return getSizeAndTimeBasedRollingPolicy(context, properties, fileAppender, loggerPath);
         } else {
-            return rollingPolicy.newTimeBasedRollingPolicy(context, properties, rollingFileAppender, loggerPath);
+            return getTimeBasedRollingPolicy(context, properties, fileAppender, loggerPath);
         }
     }
 
     /**
      * 获取基于时间的文件归档策略
      *
-     * @param context             logback上下文
-     * @param properties          日志属性配置
-     * @param rollingFileAppender 归档文件appender
-     * @param loggerPath          日志文件路径
+     * @param context      logback上下文
+     * @param properties   日志属性配置
+     * @param fileAppender 归档文件appender
+     * @param loggerPath   日志文件路径
      * @return 基于时间的滚动策略
      */
-    public RollingPolicy newTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
+    RollingPolicy getTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> fileAppender, String loggerPath) {
         //文件归档大小和时间设置
         TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -76,7 +83,7 @@ public class LogbackRollingPolicy {
         //是否在应用程序启动时删除存档，默认：false
         policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
-        policy.setParent(rollingFileAppender);
+        policy.setParent(fileAppender);
 
         policy.start();
         return policy;
@@ -85,13 +92,13 @@ public class LogbackRollingPolicy {
     /**
      * 获取基于时间和大小的日志文件归档策略
      *
-     * @param context             logback上下文
-     * @param properties          日志属性配置
-     * @param rollingFileAppender 归档文件appender
-     * @param loggerPath          日志文件路径
+     * @param context      logback上下文
+     * @param properties   日志属性配置
+     * @param fileAppender 归档文件appender
+     * @param loggerPath   日志文件路径
      * @return 基于时间和大小的策略
      */
-    public RollingPolicy newSizeAndTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> rollingFileAppender, String loggerPath) {
+    RollingPolicy getSizeAndTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> fileAppender, String loggerPath) {
         //文件归档大小和时间设置
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> policy = new SizeAndTimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -120,7 +127,7 @@ public class LogbackRollingPolicy {
         //是否在应用程序启动时删除存档，默认：false
         policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
-        policy.setParent(rollingFileAppender);
+        policy.setParent(fileAppender);
         policy.start();
         return policy;
     }

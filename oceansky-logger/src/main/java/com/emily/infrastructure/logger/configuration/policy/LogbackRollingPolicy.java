@@ -21,13 +21,13 @@ import java.text.MessageFormat;
  */
 public class LogbackRollingPolicy {
 
-    private static LogbackRollingPolicy rollingPolicy = new LogbackRollingPolicy();
+    private static final LogbackRollingPolicy ROLLING_POLICY = new LogbackRollingPolicy();
 
     private LogbackRollingPolicy() {
     }
 
     public static LogbackRollingPolicy getSingleton() {
-        return rollingPolicy;
+        return ROLLING_POLICY;
     }
 
     /**

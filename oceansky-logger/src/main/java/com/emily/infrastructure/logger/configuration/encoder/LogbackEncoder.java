@@ -13,13 +13,13 @@ import java.nio.charset.StandardCharsets;
  */
 public class LogbackEncoder {
 
-    private static LogbackEncoder encoder = new LogbackEncoder();
+    private static final LogbackEncoder ENCODER = new LogbackEncoder();
 
     private LogbackEncoder() {
     }
 
     public static LogbackEncoder getSingleton() {
-        return encoder;
+        return ENCODER;
     }
 
     /**

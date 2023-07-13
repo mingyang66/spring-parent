@@ -12,13 +12,13 @@ import ch.qos.logback.core.spi.FilterReply;
  */
 public class LogbackFilter {
 
-    private static LogbackFilter filter = new LogbackFilter();
+    private static final LogbackFilter FILTER = new LogbackFilter();
 
     private LogbackFilter() {
     }
 
     public static LogbackFilter getSingleton() {
-        return filter;
+        return FILTER;
     }
 
     /**

@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 
 /**
  * @Description :  自定义logback上下文
- * @Author :  姚明洋
+ * @Author :  Emily
  * @CreateDate :  Created in 2023/7/10 11:11 AM
  */
 public interface Context {

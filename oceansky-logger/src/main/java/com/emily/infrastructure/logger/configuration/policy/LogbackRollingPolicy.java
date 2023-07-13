@@ -7,11 +7,9 @@ import ch.qos.logback.core.rolling.RollingPolicy;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
-import ch.qos.logback.core.util.OptionHelper;
+import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
-
-import java.text.MessageFormat;
 
 /**
  * @program: spring-parent
@@ -73,7 +71,7 @@ public class LogbackRollingPolicy {
          /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
          /info/info.%d 每天轮转
          */
-        String fp = OptionHelper.substVars(String.join("", loggerPath, "%d{yyyy-MM-dd}.log"), context);
+        String fp = StrUtils.substVars(context, loggerPath, "%d{yyyy-MM-dd}.log");
         //设置文件名模式
         policy.setFileNamePattern(fp);
         //设置要保留的最大存档文件数
@@ -115,7 +113,7 @@ public class LogbackRollingPolicy {
          /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
          /info/info.%d 每天轮转
          */
-        String fp = OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".%d{yyyy-MM-dd}.%i.log"), context);
+        String fp = StrUtils.substVars(context, loggerPath, ".%d{yyyy-MM-dd}.%i.log");
         //设置文件名模式,如果文件名后缀为.gz or .zip自动压缩
         policy.setFileNamePattern(fp);
         //最大日志文件大小 KB,MB,GB

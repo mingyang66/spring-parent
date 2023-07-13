@@ -5,8 +5,8 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import ch.qos.logback.core.util.OptionHelper;
 import com.emily.infrastructure.logger.common.PathUtils;
+import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicy;
@@ -90,20 +90,20 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
         // 基础路径
-        String loggerPath = String.join("", basePath, filePath, File.separator);
+        String loggerPath = StrUtils.join(basePath, filePath, File.separator);
         //基础日志
         if (LogbackType.ROOT.equals(appender.getLogbackType())) {
-            loggerPath = String.join("", loggerPath, levelStr, File.separator, levelStr);
+            loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
         }
         //分模块日志
         else if (LogbackType.MODULE.equals(appender.getLogbackType())) {
-            loggerPath = String.join("", loggerPath, appender.getFileName());
+            loggerPath = StrUtils.join(loggerPath, appender.getFileName());
         }
         //分组日志
         else {
-            loggerPath = String.join("", loggerPath, levelStr, File.separator, levelStr);
+            loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
         }
-        return OptionHelper.substVars(MessageFormat.format("{0}{1}", loggerPath, ".log"), loggerContext);
+        return StrUtils.substVars(loggerContext, loggerPath, ".log");
     }
 
     /**

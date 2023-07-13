@@ -22,33 +22,33 @@ import java.util.Objects;
  * @description: 日志类 logback+slf4j
  * @create: 2020/08/04
  */
-public class LogbackContext {
-    private final LoggerProperties properties;
-    private final LoggerContext loggerContext;
+public class LogbackContext implements Context {
+    private LoggerProperties properties;
+    private LoggerContext loggerContext;
 
     /**
-     * logback context 构造函数
-     * ---------------------------------------------------
-     * 1.初始化属性值
-     * 2.对Root根Logger对象进行初始化并将其存入缓存
-     * ---------------------------------------------------
+     * 属性配置
      *
-     * @param properties    日志属性配置
-     * @param loggerContext logger context
+     * @param properties logback日志属性
+     * @param context    上下文
      */
-    public LogbackContext(LoggerProperties properties, LoggerContext loggerContext) {
-        // 日志属性配置
+    @Override
+    public void configure(LoggerProperties properties, LoggerContext context) {
         this.properties = properties;
-        // logger context
-        this.loggerContext = loggerContext;
+        this.loggerContext = context;
     }
 
     /**
-     * 获取日志输出对象
+     * 获取logger日志对象
      *
-     * @param fileName    日志文件名|模块名称
-     * @param logbackType 日志类别 {@link LogbackType}
+     * @param clazz       当前打印类实例
+     * @param filePath    文件路径
+     * @param fileName    文件名称
+     * @param logbackType 日志类型
+     * @param <T>         类类型
+     * @return logger对象
      */
+    @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
         LogbackAppender appender = new LogbackAppenderBuilder()
                 // 获取缓存key
@@ -124,8 +124,9 @@ public class LogbackContext {
     }
 
     /**
-     * 初始化root logger
+     * 启动上下文，初始化root logger对象
      */
+    @Override
     public void start() {
         // 初始化root logger
         LogbackAppender appender = new LogbackAppenderBuilder()
@@ -146,6 +147,7 @@ public class LogbackContext {
      * 此方法会清除掉所有的内部属性，内部状态消息除外，关闭所有的appender，移除所有的turboFilters过滤器，
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
+    @Override
     public void stopAndReset() {
         loggerContext.stop();
         loggerContext.reset();

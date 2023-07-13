@@ -1,6 +1,8 @@
 package com.emily.infrastructure.logger.manager;
 
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.util.EnvUtil;
+import com.emily.infrastructure.logger.configuration.context.Context;
 import com.emily.infrastructure.logger.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import org.slf4j.Logger;
@@ -17,7 +19,7 @@ public class LoggerContextInitializer {
     /**
      * logback sdk context
      */
-    private static LogbackContext logbackContext;
+    private static Context context;
     /**
      * 是否已经初始化，默认：false
      */
@@ -33,12 +35,14 @@ public class LoggerContextInitializer {
             return;
         }
         if (isAlreadyInitialized()) {
-            logbackContext.stopAndReset();
+            context.stopAndReset();
         }
         // 初始化日志上下文
-        logbackContext = new LogbackContext(properties, LOGGER_CONTEXT);
+        context = EnvUtil.loadFromServiceLoader(Context.class);
+        // 对属性进行设置
+        context.configure(properties, LOGGER_CONTEXT);
         // 初始化root logger对象
-        logbackContext.start();
+        context.start();
         if (isAlreadyInitialized()) {
             logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         } else {
@@ -48,9 +52,9 @@ public class LoggerContextInitializer {
         markAsInitialized();
     }
 
-    public static LogbackContext getLogbackContext() {
+    public static Context getContext() {
         if (isAlreadyInitialized()) {
-            return logbackContext;
+            return context;
         }
         throw new IllegalStateException("Log sdk not initialized");
     }

@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
  * @Author :  Emily
  * @CreateDate :  Created in 2023/7/2 11:16 AM
  */
-public class LoggerContextManager {
+public class LoggerContextInitializer {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
-    private static final Logger logger = LoggerFactory.getLogger(LoggerContextManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoggerContextInitializer.class);
     /**
      * logback sdk context
      */
-    private static LogbackContext context;
+    private static LogbackContext logbackContext;
     /**
      * 是否已经初始化，默认：false
      */
@@ -33,11 +33,12 @@ public class LoggerContextManager {
             return;
         }
         if (isAlreadyInitialized()) {
-            context.stopAndReset();
+            logbackContext.stopAndReset();
         }
         // 初始化日志上下文
-        context = new LogbackContext(properties, LOGGER_CONTEXT);
-
+        logbackContext = new LogbackContext(properties, LOGGER_CONTEXT);
+        // 初始化root logger对象
+        logbackContext.start();
         if (isAlreadyInitialized()) {
             logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         } else {
@@ -47,9 +48,9 @@ public class LoggerContextManager {
         markAsInitialized();
     }
 
-    public static LogbackContext getContext() {
+    public static LogbackContext getLogbackContext() {
         if (isAlreadyInitialized()) {
-            return context;
+            return logbackContext;
         }
         throw new IllegalStateException("Log sdk not initialized");
     }

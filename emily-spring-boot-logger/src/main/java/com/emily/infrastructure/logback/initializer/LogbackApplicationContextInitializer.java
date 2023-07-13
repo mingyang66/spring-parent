@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.initializer;
 
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logger.manager.LoggerContextManager;
+import com.emily.infrastructure.logger.manager.LoggerContextInitializer;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -40,6 +40,6 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
         // 将属性配置绑定到配置类上
         LogbackProperties properties = Binder.get(context.getEnvironment()).bindOrCreate(LogbackProperties.PREFIX, LogbackProperties.class);
         // 初始化日志SDK上下文
-        LoggerContextManager.init(properties);
+        LoggerContextInitializer.init(properties);
     }
 }

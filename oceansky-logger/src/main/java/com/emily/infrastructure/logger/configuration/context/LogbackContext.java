@@ -41,19 +41,6 @@ public class LogbackContext {
         this.properties = properties;
         // logger context
         this.loggerContext = loggerContext;
-        // 初始化root logger
-        LogbackAppender appender = new LogbackAppenderBuilder()
-                // appender name
-                .withAppenderName(Logger.ROOT_LOGGER_NAME)
-                // logger file path
-                .withFilePath(properties.getRoot().getFilePath())
-                // logger type
-                .withLogbackType(LogbackType.ROOT)
-                .build();
-        // 获取root logger对象
-        Logger rootLogger = getLogger(Logger.ROOT_LOGGER_NAME, appender);
-        // 将root添加到缓存
-        LoggerCacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
     /**
@@ -134,6 +121,25 @@ public class LogbackContext {
      */
     private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
         return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getCode()).replace(PathUtils.SLASH, PathUtils.DOT);
+    }
+
+    /**
+     * 初始化root logger
+     */
+    public void start() {
+        // 初始化root logger
+        LogbackAppender appender = new LogbackAppenderBuilder()
+                // appender name
+                .withAppenderName(Logger.ROOT_LOGGER_NAME)
+                // logger file path
+                .withFilePath(properties.getRoot().getFilePath())
+                // logger type
+                .withLogbackType(LogbackType.ROOT)
+                .build();
+        // 获取root logger对象
+        Logger rootLogger = getLogger(Logger.ROOT_LOGGER_NAME, appender);
+        // 将root添加到缓存
+        LoggerCacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
     /**

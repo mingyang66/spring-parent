@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger;
 
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
-import com.emily.infrastructure.logger.manager.LoggerContextManager;
+import com.emily.infrastructure.logger.manager.LoggerContextInitializer;
 import org.slf4j.Logger;
 
 /**
@@ -33,7 +33,7 @@ public class LoggerFactory {
      * @return logger实例对象
      */
     public static <T> Logger getGroupLogger(Class<T> clazz, String filePath) {
-        return LoggerContextManager.getContext().getLogger(clazz, filePath, null, LogbackType.GROUP);
+        return LoggerContextInitializer.getLogbackContext().getLogger(clazz, filePath, null, LogbackType.GROUP);
     }
 
     /**
@@ -47,6 +47,6 @@ public class LoggerFactory {
      * @return logger实例对象
      */
     public static <T> Logger getModuleLogger(Class<T> clazz, String filePath, String fileName) {
-        return LoggerContextManager.getContext().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
+        return LoggerContextInitializer.getLogbackContext().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
     }
 }

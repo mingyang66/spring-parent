@@ -39,41 +39,41 @@ public class LogbackRoot extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender rollingFileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
+        AbstractAppender fileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.ERROR)));
+                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.ERROR)));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.WARN)));
+                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.WARN)));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.INFO)));
+                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.INFO)));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.DEBUG)));
+                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.DEBUG)));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAppender(rollingFileAppender.newInstance(Level.TRACE)));
+                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(rollingFileAppender.newInstance(Level.ERROR));
+                logger.addAppender(fileAppender.newInstance(Level.ERROR));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(rollingFileAppender.newInstance(Level.WARN));
+                logger.addAppender(fileAppender.newInstance(Level.WARN));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(rollingFileAppender.newInstance(Level.INFO));
+                logger.addAppender(fileAppender.newInstance(Level.INFO));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(rollingFileAppender.newInstance(Level.DEBUG));
+                logger.addAppender(fileAppender.newInstance(Level.DEBUG));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(rollingFileAppender.newInstance(Level.TRACE));
+                logger.addAppender(fileAppender.newInstance(Level.TRACE));
             }
         }
         if (properties.getRoot().isConsole()) {

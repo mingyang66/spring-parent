@@ -24,6 +24,7 @@ public abstract class AbstractAppender {
         String appenderName = this.getAppenderName(level);
         //如果已经存在，则忽略，否则添加
         LoggerCacheManager.APPENDER.putIfAbsent(appenderName, this.getAppender(level));
+        // return appender object
         return LoggerCacheManager.APPENDER.get(appenderName);
     }
 

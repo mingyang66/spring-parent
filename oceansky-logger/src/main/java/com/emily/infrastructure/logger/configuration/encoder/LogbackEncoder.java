@@ -17,7 +17,7 @@ public class LogbackEncoder {
      *
      * @param context logback上下文
      * @param pattern 日志输出格式
-     * @return
+     * @return 编码方式对象
      */
     public static PatternLayoutEncoder newPatternLayoutEncoder(Context context, String pattern) {
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();

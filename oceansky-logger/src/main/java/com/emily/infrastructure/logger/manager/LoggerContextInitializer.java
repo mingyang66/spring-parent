@@ -3,7 +3,6 @@ package com.emily.infrastructure.logger.manager;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.EnvUtil;
 import com.emily.infrastructure.logger.configuration.context.Context;
-import com.emily.infrastructure.logger.configuration.context.LogbackContext;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

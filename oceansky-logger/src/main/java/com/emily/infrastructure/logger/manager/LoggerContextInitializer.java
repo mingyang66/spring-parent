@@ -60,14 +60,14 @@ public class LoggerContextInitializer {
      *
      * @return true-是 false-否
      */
-    private static boolean isAlreadyInitialized() {
+    static boolean isAlreadyInitialized() {
         return initialized;
     }
 
     /**
      * 标记为已经初始化
      */
-    private static void markAsInitialized() {
+    static void markAsInitialized() {
         initialized = true;
     }
 

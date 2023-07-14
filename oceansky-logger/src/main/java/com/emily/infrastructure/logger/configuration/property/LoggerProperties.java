@@ -77,27 +77,27 @@ public class LoggerProperties {
      */
     public static class Root {
         /**
-         * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
+         * 是否将日志信息输出到控制台，默认：true
          */
-        private LevelType level = LevelType.INFO;
+        private boolean console = true;
         /**
          * 基础日志文件路径，相对
          */
         private String filePath = "base";
+        /**
+         * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
+         */
+        private LevelType level = LevelType.INFO;
+        /**
+         * 记录文件格式-不带颜色
+         */
+        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36}:%-4.4line : %msg %n";
         /**
          * 打印控制台格式-带颜色
          * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
          * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
          */
         private String consolePattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %cn --- [%18.18thread] %cyan(%-36.36logger{36}:%-4.4line) : %msg %n";
-        /**
-         * 记录文件格式-不带颜色
-         */
-        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36}:%-4.4line : %msg %n";
-        /**
-         * 是否将日志信息输出到控制台，默认：true
-         */
-        private boolean console = true;
 
         public LevelType getLevel() {
             return level;
@@ -142,6 +142,10 @@ public class LoggerProperties {
 
     public static class Group {
         /**
+         * 是否将模块日志信息输出到控制台，默认false
+         */
+        private boolean console = false;
+        /**
          * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
          */
         private LevelType level = LevelType.INFO;
@@ -149,10 +153,6 @@ public class LoggerProperties {
          * 模块日志输出格式，默认：%msg%n
          */
         private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36}:%-4.4line : %msg %n";
-        /**
-         * 是否将模块日志信息输出到控制台，默认false
-         */
-        private boolean console = false;
 
         public LevelType getLevel() {
             return level;
@@ -181,6 +181,10 @@ public class LoggerProperties {
 
     public static class Module {
         /**
+         * 是否将模块日志信息输出到控制台，默认：false
+         */
+        private boolean console = false;
+        /**
          * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
          */
         private LevelType level = LevelType.INFO;
@@ -188,10 +192,6 @@ public class LoggerProperties {
          * 模块日志输出格式，默认：%msg%n
          */
         private String pattern = "%msg%n";
-        /**
-         * 是否将模块日志信息输出到控制台，默认false
-         */
-        private boolean console = false;
 
         public LevelType getLevel() {
             return level;

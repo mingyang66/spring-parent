@@ -73,7 +73,7 @@ public class LogbackRollingPolicy {
          */
         String fp = StrUtils.substVars(context, loggerPath, "%d{yyyy-MM-dd}.log");
         //设置文件名模式
-        policy.setFileNamePattern(fp);
+        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         //设置要保留的最大存档文件数
         policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
         //控制所有归档文件总大小 KB、MB、GB，默认:0
@@ -115,7 +115,7 @@ public class LogbackRollingPolicy {
          */
         String fp = StrUtils.substVars(context, loggerPath, ".%d{yyyy-MM-dd}.%i.log");
         //设置文件名模式,如果文件名后缀为.gz or .zip自动压缩
-        policy.setFileNamePattern(fp);
+        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         //最大日志文件大小 KB,MB,GB
         policy.setMaxFileSize(FileSize.valueOf(properties.getAppender().getRollingPolicy().getMaxFileSize()));
         //设置要保留的最大存档文件数

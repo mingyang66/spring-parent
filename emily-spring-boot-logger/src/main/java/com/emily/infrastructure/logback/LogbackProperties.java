@@ -13,5 +13,5 @@ public class LogbackProperties extends LoggerProperties {
     /**
      * 前缀
      */
-    public static final String PREFIX = "spring.emily.logback";
+    public static final String PREFIX = "spring.emily.logger";
 }

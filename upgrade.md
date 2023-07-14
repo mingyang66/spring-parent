@@ -10,7 +10,8 @@ Bug Fixes
 5. emily-spring-boot-logger组件SDK重构为依赖oceansky-logger并进行starter化；
 6. oceansky-logger组件支持重复初始化时重置调原来LoggerContext上下文对象的初始化信息；
 7. emily-spring-boot-logger组件支持通过Binder类将Environment变量中的变量转换为一个实例变量；
-8. 
+8. oceansky-logger SDK组件支持对归档日志文件进行压缩处理，支持GZ、ZIP格式压缩；
+9. 
 
 
 基础库发布4.3.5

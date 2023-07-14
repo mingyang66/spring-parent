@@ -1,6 +1,7 @@
 package com.emily.infrastructure.logger.configuration.property;
 
 
+import com.emily.infrastructure.logger.common.CompressionMode;
 import com.emily.infrastructure.logger.configuration.type.LevelType;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
@@ -291,7 +292,7 @@ public class LoggerProperties {
          * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
          * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
          */
-        private RollingPolicyType type;
+        private RollingPolicyType type = RollingPolicyType.TIME_BASE;
         /**
          * 是否在应用程序启动时删除存档，默认：false
          * 是否在应用启动的时候删除历史日志。
@@ -312,6 +313,20 @@ public class LoggerProperties {
          * 控制所有归档文件总大小 KB、MB、GB，默认5GB
          */
         private String totalSizeCap = "5GB";
+        /**
+         * 压缩模式，默认：zip
+         * .gz  1/5  10KB压缩后2KB
+         * .zip  2/11 11KB压缩后2KB
+         */
+        private CompressionMode compressionMode = CompressionMode.ZIP;
+
+        public CompressionMode getCompressionMode() {
+            return compressionMode;
+        }
+
+        public void setCompressionMode(CompressionMode compressionMode) {
+            this.compressionMode = compressionMode;
+        }
 
         public RollingPolicyType getType() {
             return type;

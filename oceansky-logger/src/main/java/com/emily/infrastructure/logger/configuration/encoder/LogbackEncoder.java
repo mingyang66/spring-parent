@@ -40,6 +40,8 @@ public class LogbackEncoder {
         encoder.setCharset(StandardCharsets.UTF_8);
         //为了便于解析日志文件，logback可以在日志文件的顶部插入用于日志输出的模式，默认：false
         encoder.setOutputPatternAsHeader(false);
+        //添加内部状态信息
+        encoder.addInfo("build PatternLayoutEncoder success");
         encoder.start();
         return encoder;
     }

@@ -4,6 +4,7 @@ mvn versions:commit
 echo '提交修改'
 mvn clean deploy -pl oceansky-json -am
 echo '#########oceansky-json打包完成...'
+mvn clean deploy -pl oceansky-logger
 mvn clean deploy -pl oceansky-captcha
 mvn clean deploy -pl oceansky-language
 mvn clean deploy -pl oceansky-sensitive

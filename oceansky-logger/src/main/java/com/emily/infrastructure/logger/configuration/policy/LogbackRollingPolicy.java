@@ -82,7 +82,8 @@ public class LogbackRollingPolicy {
         policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(fileAppender);
-
+        //添加内部状态
+        policy.addInfo("build TimeBasedRollingPolicy success");
         policy.start();
         return policy;
     }
@@ -126,6 +127,8 @@ public class LogbackRollingPolicy {
         policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(fileAppender);
+        //添加内部状态
+        policy.addInfo("build SizeAndTimeBasedRollingPolicy policy success");
         policy.start();
         return policy;
     }

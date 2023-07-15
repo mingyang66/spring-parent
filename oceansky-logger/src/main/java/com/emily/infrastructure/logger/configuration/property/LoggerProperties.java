@@ -16,6 +16,10 @@ public class LoggerProperties {
      */
     private boolean enabled = true;
     /**
+     * 是否开启debug模式，默认：false
+     */
+    private boolean debug = false;
+    /**
      * 基础根日志
      */
     private Root root = new Root();
@@ -38,6 +42,14 @@ public class LoggerProperties {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 
     public Appender getAppender() {
@@ -387,10 +399,6 @@ public class LoggerProperties {
          */
         private boolean immediateFlush = true;
         /**
-         * 是否报告内部状态信息，默认；false
-         */
-        private boolean reportState;
-        /**
          * 文件归档策略
          */
         private RollingPolicy rollingPolicy = new RollingPolicy();
@@ -429,14 +437,6 @@ public class LoggerProperties {
 
         public void setImmediateFlush(boolean immediateFlush) {
             this.immediateFlush = immediateFlush;
-        }
-
-        public boolean isReportState() {
-            return reportState;
-        }
-
-        public void setReportState(boolean reportState) {
-            this.reportState = reportState;
         }
 
         public RollingPolicy getRollingPolicy() {

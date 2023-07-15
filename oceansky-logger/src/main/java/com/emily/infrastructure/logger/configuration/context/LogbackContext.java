@@ -36,6 +36,9 @@ public class LogbackContext implements Context {
     public void configure(LoggerProperties properties, LoggerContext context) {
         this.properties = properties;
         this.loggerContext = context;
+        // 开启OnConsoleStatusListener监听器，即开启debug模式
+        ConfigurationAction configuration = new ConfigurationAction(properties, context);
+        configuration.start();
     }
 
     /**

@@ -3,7 +3,6 @@ package com.emily.infrastructure.logger.configuration.classic;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.core.util.StatusPrinter;
 import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
@@ -84,10 +83,6 @@ public class LogbackRoot extends AbstractLogback {
         } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
-        }
-        //是否报告logback内部状态信息
-        if (properties.getAppender().isReportState()) {
-            StatusPrinter.print(loggerContext);
         }
         return logger;
     }

@@ -3,6 +3,7 @@ package com.emily.infrastructure.logger.configuration.filter;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.filter.LevelFilter;
 import ch.qos.logback.classic.filter.ThresholdFilter;
+import ch.qos.logback.core.Context;
 import ch.qos.logback.core.spi.FilterReply;
 
 /**
@@ -27,8 +28,10 @@ public class LogbackFilter {
      * @param level 日志级别
      * @return 日志级别过滤器对象
      */
-    public LevelFilter getLevelFilter(Level level) {
+    public LevelFilter getLevelFilter(Context context, Level level) {
         LevelFilter filter = new LevelFilter();
+        //上下文
+        filter.setContext(context);
         //日志过滤级别
         filter.setLevel(level);
         //设置符合条件的日志接受
@@ -47,8 +50,10 @@ public class LogbackFilter {
      * @param level 日志级别
      * @return 日志阀值过滤器对象
      */
-    public ThresholdFilter getThresholdLevelFilter(Level level) {
+    public ThresholdFilter getThresholdLevelFilter(Context context, Level level) {
         ThresholdFilter filter = new ThresholdFilter();
+        //上下文
+        filter.setContext(context);
         //日志级别
         filter.setLevel(level.levelStr);
         //添加内部状态信息

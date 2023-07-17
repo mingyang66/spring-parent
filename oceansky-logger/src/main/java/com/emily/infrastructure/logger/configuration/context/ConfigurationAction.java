@@ -45,7 +45,7 @@ public class ConfigurationAction extends ContextAwareBase {
         } else {
             addInfo(INTERNAL_DEBUG_ATTR + " attribute not set");
         }
-        if (Boolean.getBoolean(PACKAGING_DATA_ATTR) || properties.isPackagingData()) {
+        if (properties.isPackagingData()) {
             ((LoggerContext) context).setPackagingDataEnabled(true);
         } else {
             ((LoggerContext) context).setPackagingDataEnabled(false);

@@ -11,6 +11,12 @@
   <artifactId>oceansky-common</artifactId>
   <version>4.3.5</version>
 </dependency>
+<!--Java通用日志组件SDK-->
+<dependency>
+  <groupId>io.github.mingyang66</groupId>
+  <artifactId>oceansky-logger</artifactId>
+  <version>4.3.5</version>
+</dependency>
 <!--Java图形验证码SDK-->
 <dependency>
   <groupId>io.github.mingyang66</groupId>
@@ -52,6 +58,12 @@
 基于springboot的开源SDKpom依赖引用
 
 ```xml
+<!-- Java基于logback的日志组件SDK -->
+<dependency>
+    <groupId>io.github.mingyang66</groupId>
+    <artifactId>emily-spring-boot-logger</artifactId>
+    <version>4.3.5</version>
+</dependency>
 <!-- 基于druid的数据库多数据源切换SDK -->
 <dependency>
     <groupId>io.github.mingyang66</groupId>

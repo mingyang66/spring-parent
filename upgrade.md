@@ -15,6 +15,7 @@ Bug Fixes
 10. logger sdk内部debug模式和是否开启内部状态信息合并，并优化代码；
 11. logger sdk对root logger中的console appender兼容大小写类型；
 12. logger sdk新增对packingData属性的支持；
+13. root logger剔除console appender，如果初始化默认appender name为大写时兼容；
 
 
 基础库发布4.3.5

@@ -22,8 +22,8 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 public class ConfigurationAction extends ContextAwareBase {
     static final String INTERNAL_DEBUG_ATTR = "debug";
     static final String PACKAGING_DATA_ATTR = "packagingData";
-    static final String SCAN_ATTR = "scan";
-    static final String SCAN_PERIOD_ATTR = "scanPeriod";
+    //static final String SCAN_ATTR = "scan";
+    //static final String SCAN_PERIOD_ATTR = "scanPeriod";
     static final String DEBUG_SYSTEM_PROPERTY_KEY = "logback.debug";
     private LoggerProperties properties;
 
@@ -45,18 +45,10 @@ public class ConfigurationAction extends ContextAwareBase {
         } else {
             addInfo(INTERNAL_DEBUG_ATTR + " attribute not set");
         }
-
-    }
-
-    String getSystemProperty(String name) {
-        /*
-         * LOGBACK-743: accessing a system property in the presence of a SecurityManager (e.g. applet sandbox) can
-         * result in a SecurityException.
-         */
-        try {
-            return System.getProperty(name);
-        } catch (SecurityException ex) {
-            return null;
+        if (Boolean.getBoolean(PACKAGING_DATA_ATTR) || properties.isPackagingData()) {
+            ((LoggerContext) context).setPackagingDataEnabled(true);
+        } else {
+            ((LoggerContext) context).setPackagingDataEnabled(false);
         }
     }
 

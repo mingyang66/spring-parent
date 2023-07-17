@@ -28,6 +28,12 @@ public class LogbackController {
         baseLogger.debug("--------debug");
         baseLogger.warn("--------warn");
         baseLogger.trace("--------trace");
+        try {
+            String s = null;
+            s.length();
+        } catch (Exception e) {
+            baseLogger.error("-----error test----", e);
+        }
 
         logger.error("211112122error");
         logger.debug("211112122debug");

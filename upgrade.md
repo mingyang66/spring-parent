@@ -13,6 +13,8 @@ Bug Fixes
 8. oceansky-logger SDK组件支持对归档日志文件进行压缩处理，支持GZ、ZIP格式压缩；
 9. logger sdk新增ConfigurationAction类，支持debug、logback.debug调试信息，向LoggerContext中新增OnConsoleStatusListener监听器监听打印调试信息；
 10. logger sdk内部debug模式和是否开启内部状态信息合并，并优化代码；
+11. logger sdk对root logger中的console appender兼容大小写类型；
+12. logger sdk新增对packingData属性的支持；
 
 
 基础库发布4.3.5

@@ -20,6 +20,10 @@ public class LoggerProperties {
      */
     private boolean debug = false;
     /**
+     * 发生异常打印异常堆栈时是否将包信息追加到每行末尾，默认：true
+     */
+    private boolean packagingData = true;
+    /**
      * 基础根日志
      */
     private Root root = new Root();
@@ -50,6 +54,14 @@ public class LoggerProperties {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public boolean isPackagingData() {
+        return packagingData;
+    }
+
+    public void setPackagingData(boolean packagingData) {
+        this.packagingData = packagingData;
     }
 
     public Appender getAppender() {

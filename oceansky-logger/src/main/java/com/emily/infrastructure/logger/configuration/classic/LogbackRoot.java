@@ -7,7 +7,7 @@ import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logger.configuration.property.LogbackAppender;
+import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
@@ -30,15 +30,15 @@ public class LogbackRoot extends AbstractLogback {
      * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
      */
     @Override
-    public Logger getLogger(String loggerName, LogbackAppender appender) {
+    public Logger getLogger(LogbackProperty property) {
         // 获取logger对象
-        Logger logger = loggerContext.getLogger(loggerName);
+        Logger logger = loggerContext.getLogger(property.getLoggerName());
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender fileAppender = new LogbackRollingFileAppender(properties, loggerContext, appender);
+        AbstractAppender fileAppender = new LogbackRollingFileAppender(properties, loggerContext, property);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender

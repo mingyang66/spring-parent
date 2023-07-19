@@ -9,11 +9,11 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  * @author: Emily
  * @create: 2021/07/07
  */
-public class LogbackAppender {
+public class LogbackProperty {
     /**
-     * appender名称
+     * logger name
      */
-    private String appenderName;
+    private String loggerName;
     /**
      * 日志路径
      */
@@ -27,12 +27,12 @@ public class LogbackAppender {
      */
     private LogbackType logbackType;
 
-    public String getAppenderName() {
-        return appenderName;
+    public String getLoggerName() {
+        return loggerName;
     }
 
-    public void setAppenderName(String appenderName) {
-        this.appenderName = appenderName;
+    public void setLoggerName(String loggerName) {
+        this.loggerName = loggerName;
     }
 
     public String getFilePath() {

@@ -17,7 +17,8 @@
 </dependency>
 ```
 
-> 在项目开发过程中通常会使用logback作为日志记录的依赖工具，使用方式是引入logback相关jar包，然后配置logback.xml配置文件的方式来实现；xml的配置方案如果是一个两个项目还好，那如果是几十个项目呢？每个项目都要写一遍配置文件也是一键很繁琐的事情，而且配置文件还容易出错，那我们有没有办法将其改造成一个纯java版本的SDK组件呢？如果我们需要用的时候只需要将其依赖引入项目中开箱即用是不是很方便。
+>
+在项目开发过程中通常会使用logback作为日志记录的依赖工具，使用方式是引入logback相关jar包，然后配置logback.xml配置文件的方式来实现；xml的配置方案如果是一个两个项目还好，那如果是几十个项目呢？每个项目都要写一遍配置文件也是一键很繁琐的事情，而且配置文件还容易出错，那我们有没有办法将其改造成一个纯java版本的SDK组件呢？如果我们需要用的时候只需要将其依赖引入项目中开箱即用是不是很方便。
 
 ##### 一、开源SDK项目规划
 
@@ -173,7 +174,5 @@ LoggerContextInitializer.init(properties);
 ```
 
 - emily-spring-boot-logger是一个基于springboot自动化配置，开箱即用的组件，只需要引入组件既可以使用；
-
-
 
 如果对源码感兴趣，可以查看GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

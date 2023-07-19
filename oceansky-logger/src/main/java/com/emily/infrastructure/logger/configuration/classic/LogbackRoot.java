@@ -77,16 +77,16 @@ public class LogbackRoot extends AbstractLogback {
         }
         if (properties.getRoot().isConsole()) {
             //移除console控制台appender
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
+            logger.detachAppender(LogbackConsoleAppender.CONSOLE);
             //基于springboot默认初始化的appender name默认大写
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME.toUpperCase());
+            logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
             // 添加控制台appender
             logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).newInstance(logger.getLevel()));
         } else {
             //移除console控制台appender
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME);
+            logger.detachAppender(LogbackConsoleAppender.CONSOLE);
             //基于springboot默认初始化appender name默认大写
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE_NAME.toUpperCase());
+            logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
 
         }
         return logger;

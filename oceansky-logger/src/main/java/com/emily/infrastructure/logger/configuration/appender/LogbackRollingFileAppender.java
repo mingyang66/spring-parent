@@ -127,12 +127,16 @@ public class LogbackRollingFileAppender extends AbstractAppender {
 
     /**
      * 日志级别
+     * 拼接规则：分组.路径.文件名.日志级别
      *
      * @param level 日志级别
      * @return appender name值
      */
     @Override
     protected String getAppenderName(Level level) {
-        return MessageFormat.format("{0}_{1}", appender.getAppenderName(), level.levelStr.toLowerCase());
+        if (appender.getFileName() == null) {
+            appender.setFileName(level.levelStr.toLowerCase());
+        }
+        return MessageFormat.format("{0}.{1}.{2}.{3}", appender.getLogbackType(), appender.getFilePath(), appender.getFileName(), level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 }

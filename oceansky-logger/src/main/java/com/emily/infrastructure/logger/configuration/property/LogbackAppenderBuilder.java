@@ -11,10 +11,6 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  */
 public class LogbackAppenderBuilder {
     /**
-     * appender名称
-     */
-    private String appenderName;
-    /**
      * 日志路径
      */
     private String filePath;
@@ -26,11 +22,6 @@ public class LogbackAppenderBuilder {
      * 日志类型
      */
     private LogbackType logbackType;
-
-    public LogbackAppenderBuilder withAppenderName(String appenderName) {
-        this.appenderName = appenderName;
-        return this;
-    }
 
     public LogbackAppenderBuilder withFilePath(String filePath) {
         this.filePath = filePath;
@@ -49,7 +40,6 @@ public class LogbackAppenderBuilder {
 
     public LogbackAppender build() {
         LogbackAppender appender = new LogbackAppender();
-        appender.setAppenderName(this.appenderName);
         appender.setFilePath(this.filePath);
         appender.setFileName(this.fileName);
         appender.setLogbackType(this.logbackType);

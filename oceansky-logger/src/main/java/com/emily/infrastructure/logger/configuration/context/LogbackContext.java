@@ -55,8 +55,6 @@ public class LogbackContext implements Context {
     @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
         LogbackAppender appender = new LogbackAppenderBuilder()
-                // 获取缓存key
-                .withAppenderName(getAppenderName(filePath, fileName, logbackType))
                 // 文件保存路径
                 .withFilePath(filePath)
                 // 文件名
@@ -65,7 +63,7 @@ public class LogbackContext implements Context {
                 .withLogbackType(logbackType)
                 .build();
         //获取loggerName
-        String loggerName = getLoggerName(clazz, appender.getAppenderName());
+        String loggerName = getLoggerName(clazz, appender);
         // 获取Logger对象
         Logger logger = LoggerCacheManager.LOGGER.get(loggerName);
         if (Objects.nonNull(logger)) {
@@ -106,28 +104,19 @@ public class LogbackContext implements Context {
 
     /**
      * 获取 logger name
+     * 拼接规则：分组.路径.文件名（可能不存在）.类名（包括包名）
      *
-     * @param clazz        当前类实例
-     * @param appenderName appender属性名
+     * @param clazz    当前类实例
+     * @param appender appender属性名
      * @return logger name
      */
-    private <T> String getLoggerName(Class<T> clazz, String appenderName) {
-        return MessageFormat.format("{0}.{1}", appenderName, clazz.getName());
-    }
-
-    /**
-     * 获取appenderName
-     *
-     * @param filePath    路径
-     * @param fileName    文件名
-     * @param logbackType 类型
-     * @return appender name
-     */
-    private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
-        if (fileName == null) {
-            fileName = StrUtils.EMPTY;
+    private <T> String getLoggerName(Class<T> clazz, LogbackAppender appender) {
+        if (appender.getFileName() == null) {
+            appender.setFileName(StrUtils.EMPTY);
         }
-        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType).replace(PathUtils.SLASH, PathUtils.DOT);
+        return MessageFormat.format("{0}.{1}.{2}.{3}", appender.getLogbackType(), appender.getFilePath(), appender.getFileName(), clazz.getName())
+                .replace(PathUtils.SLASH, PathUtils.DOT)
+                .replace(StrUtils.join(PathUtils.DOT, PathUtils.DOT), PathUtils.DOT);
     }
 
     /**
@@ -137,8 +126,6 @@ public class LogbackContext implements Context {
     public void start() {
         // 初始化root logger
         LogbackAppender appender = new LogbackAppenderBuilder()
-                // appender name
-                .withAppenderName(Logger.ROOT_LOGGER_NAME)
                 // logger file path
                 .withFilePath(properties.getRoot().getFilePath())
                 // logger type

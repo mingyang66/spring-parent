@@ -17,6 +17,8 @@ Bug Fixes
 12. logger sdk新增对packingData属性的支持；
 13. root logger剔除console appender，如果初始化默认appender name为大写时兼容；
 14. logger sdk的appender name拼接中如果filename为null，转换为空字符串；
+15. logger sdk appender name 拼接规则重构为：分组.路径.文件名.日志级别；
+16. logger sdk logger name 拼接规则：分组.路径.文件名（可能不存在）.类名（包括包名）；
 
 
 基础库发布4.3.5

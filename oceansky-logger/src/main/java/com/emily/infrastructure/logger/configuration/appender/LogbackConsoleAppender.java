@@ -19,7 +19,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
      * 控制台appender name
      * 必须小写，否则会出现多个控制台appender
      */
-    public static final String CONSOLE_NAME = "console";
+    public static final String CONSOLE = "console";
     /**
      * 属性配置
      */
@@ -72,6 +72,6 @@ public class LogbackConsoleAppender extends AbstractAppender {
 
     @Override
     protected String getAppenderName(Level level) {
-        return CONSOLE_NAME;
+        return CONSOLE;
     }
 }

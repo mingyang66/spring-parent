@@ -56,7 +56,7 @@ public class LogbackContext implements Context {
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
         LogbackProperty property = new LogbackPropertyBuilder()
                 // 文件保存路径
-                .withFilePath(filePath)
+                .withFilePath(PathUtils.normalizePath(filePath))
                 // 文件名
                 .withFileName(fileName)
                 // 日志类型
@@ -115,7 +115,8 @@ public class LogbackContext implements Context {
         if (property.getFileName() == null) {
             property.setFileName(StrUtils.EMPTY);
         }
-        return MessageFormat.format("{0}.{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), property.getFileName(), clazz.getName())
+        //拼装logger name
+        return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), property.getFileName(), clazz.getName())
                 .replace(PathUtils.SLASH, PathUtils.DOT)
                 .replace(StrUtils.join(PathUtils.DOT, PathUtils.DOT), PathUtils.DOT);
     }
@@ -129,7 +130,7 @@ public class LogbackContext implements Context {
         LogbackProperty property = new LogbackPropertyBuilder()
                 .withLoggerName(Logger.ROOT_LOGGER_NAME)
                 // logger file path
-                .withFilePath(properties.getRoot().getFilePath())
+                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
                 // logger type
                 .withLogbackType(LogbackType.ROOT)
                 .build();

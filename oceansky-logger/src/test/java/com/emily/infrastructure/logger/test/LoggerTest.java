@@ -1,8 +1,10 @@
 package com.emily.infrastructure.logger.test;
 
 import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.manager.LoggerContextInitializer;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -24,5 +26,15 @@ public class LoggerTest {
         logger.warn("warn test ----------------");
         logger.debug("debug test ----------------");
         logger.trace("trace test ----------------");
+    }
+
+    @Test
+    public void pathTest() {
+        Assert.assertEquals(PathUtils.normalizePath(null), "");
+        Assert.assertEquals(PathUtils.normalizePath(""), "");
+        Assert.assertEquals(PathUtils.normalizePath("a/"), "/a");
+        Assert.assertEquals(PathUtils.normalizePath("/a/"), "/a");
+        Assert.assertEquals(PathUtils.normalizePath("/a/b"), "/a/b");
+        Assert.assertEquals(PathUtils.normalizePath("/a/b/"), "/a/b");
     }
 }

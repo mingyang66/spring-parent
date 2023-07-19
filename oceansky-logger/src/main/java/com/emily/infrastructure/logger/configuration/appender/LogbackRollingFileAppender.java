@@ -134,9 +134,10 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      */
     @Override
     protected String getAppenderName(Level level) {
-        if (property.getFileName() == null) {
+        if (StrUtils.isEmpty(property.getFileName())) {
             property.setFileName(level.levelStr.toLowerCase());
         }
-        return MessageFormat.format("{0}.{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), property.getFileName(), level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
+        //拼装appender name
+        return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), property.getFileName(), level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 }

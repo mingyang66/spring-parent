@@ -13,13 +13,24 @@ public class PathUtils {
     public static final String DOT = ".";
 
     /**
+     * 路径格式化
+     * --------------------------------------------------
+     * 示例：
+     * Assert.assertEquals(PathUtils.normalizePath(null), "");
+     * Assert.assertEquals(PathUtils.normalizePath(""), "");
+     * Assert.assertEquals(PathUtils.normalizePath("a/"), "/a");
+     * Assert.assertEquals(PathUtils.normalizePath("/a/"), "/a");
+     * Assert.assertEquals(PathUtils.normalizePath("/a/b"), "/a/b");
+     * Assert.assertEquals(PathUtils.normalizePath("/a/b/"), "/a/b");
+     * --------------------------------------------------
+     *
      * @param path 路径
-     * @return
+     * @return 格式化后的url
      * @Description 规范化路径
      */
     public static String normalizePath(String path) {
         if (path == null || path.length() == 0) {
-            return path;
+            return StrUtils.EMPTY;
         }
         String normalizedPath = path;
         if (!normalizedPath.startsWith(SLASH)) {

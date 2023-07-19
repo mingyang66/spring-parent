@@ -31,4 +31,14 @@ public class StrUtils {
     public static String substVars(Context context, String... str) {
         return OptionHelper.substVars(join(str), context);
     }
+
+    /**
+     * 判定字符串是否为空
+     *
+     * @param str 字符串
+     * @return true-是 false-否
+     */
+    public static boolean isEmpty(final String str) {
+        return str == null || str.length() == 0;
+    }
 }

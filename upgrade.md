@@ -20,6 +20,7 @@ Bug Fixes
 15. logger sdk appender name 拼接规则重构为：分组.路径.文件名.日志级别；
 16. logger sdk logger name 拼接规则：分组.路径.文件名（可能不存在）.类名（包括包名）；
 17. LogbackAppender重命名为LogbackProperty，新增loggerName属性，重构核心类属性传递逻辑；
+18. logger sdk 路径统一格式化；
 
 
 基础库发布4.3.5

@@ -2,6 +2,7 @@ package com.emily.infrastructure.logger.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.PathUtils;
+import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
@@ -123,7 +124,10 @@ public class LogbackContext implements Context {
      * @return appender name
      */
     private String getAppenderName(String filePath, String fileName, LogbackType logbackType) {
-        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType.getCode()).replace(PathUtils.SLASH, PathUtils.DOT);
+        if (fileName == null) {
+            fileName = StrUtils.EMPTY;
+        }
+        return MessageFormat.format("{0}{1}.{2}", filePath, fileName, logbackType).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
     /**

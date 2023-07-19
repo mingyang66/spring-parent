@@ -3,6 +3,8 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ public class LogbackController {
     private static final Logger baseLogger = LoggerFactory.getLogger(LogbackController.class);
     private static final Logger logger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test");
     private static final Logger groupLogger = LoggerFactory.getGroupLogger(LogbackController.class, "group/test1");
+    private static final Marker marker = MarkerFactory.getMarker("instance_marker");
 
     @GetMapping("debug")
     public String debug() {
@@ -33,6 +36,7 @@ public class LogbackController {
             s.length();
         } catch (Exception e) {
             baseLogger.error("-----error test----", e);
+            baseLogger.error(marker, "test marker", e);
         }
 
         logger.error("211112122error");
@@ -51,6 +55,7 @@ public class LogbackController {
 
         return "success";
     }
+
 
     @GetMapping("debug1")
     public String get() {

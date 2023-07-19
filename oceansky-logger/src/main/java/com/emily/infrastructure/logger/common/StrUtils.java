@@ -9,6 +9,8 @@ import ch.qos.logback.core.util.OptionHelper;
  * @CreateDate :  Created in 2023/7/9 4:34 PM
  */
 public class StrUtils {
+    public static final String EMPTY = "";
+
     /**
      * 字符串拼接
      *
@@ -16,7 +18,7 @@ public class StrUtils {
      * @return 拼接后的字符串
      */
     public static String join(String... strings) {
-        return String.join("", strings);
+        return String.join(EMPTY, strings);
     }
 
     /**

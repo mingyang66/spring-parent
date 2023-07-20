@@ -39,7 +39,7 @@ public class LogbackFilter {
         //不符合条件的日志拒绝
         filter.setOnMismatch(FilterReply.DENY);
         //添加内部状态信息
-        filter.addError("build LevelFilter success");
+        filter.addError("Build LevelFilter Success");
         filter.start();
         return filter;
     }
@@ -57,7 +57,7 @@ public class LogbackFilter {
         //日志级别
         filter.setLevel(level.levelStr);
         //添加内部状态信息
-        filter.addInfo("build ThresholdFilter success");
+        filter.addInfo("Build ThresholdFilter Success");
         filter.start();
         return filter;
     }

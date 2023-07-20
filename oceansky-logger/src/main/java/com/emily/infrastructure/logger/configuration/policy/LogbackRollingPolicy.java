@@ -83,7 +83,7 @@ public class LogbackRollingPolicy {
         //设置父节点是appender
         policy.setParent(fileAppender);
         //添加内部状态
-        policy.addInfo("build TimeBasedRollingPolicy success");
+        policy.addInfo("Build TimeBasedRollingPolicy Success");
         policy.start();
         return policy;
     }
@@ -128,7 +128,7 @@ public class LogbackRollingPolicy {
         //设置父节点是appender
         policy.setParent(fileAppender);
         //添加内部状态
-        policy.addInfo("build SizeAndTimeBasedRollingPolicy policy success");
+        policy.addInfo("Build SizeAndTimeBasedRollingPolicy Policy Success");
         policy.start();
         return policy;
     }

@@ -1,5 +1,11 @@
 ###
 -----
+基础库发布4.3.7
+Bug Fixes
+1. logger sdk新增name属性设置；
+2. 
+
+
 -----
 基础库发布4.3.6
 Bug Fixes
@@ -22,7 +28,7 @@ Bug Fixes
 17. LogbackAppender重命名为LogbackProperty，新增loggerName属性，重构核心类属性传递逻辑；
 18. logger sdk 路径统一格式化；
 
-
+-----
 基础库发布4.3.5
 Bug Fixes
 

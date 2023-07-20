@@ -87,7 +87,6 @@ public class LogbackRoot extends AbstractLogback {
             logger.detachAppender(LogbackConsoleAppender.CONSOLE);
             //基于springboot默认初始化appender name默认大写
             logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
-
         }
         return logger;
     }

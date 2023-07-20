@@ -62,9 +62,9 @@ public class LogbackContext implements Context {
                 // 日志类型
                 .withLogbackType(logbackType)
                 .build();
-        //获取logger name
+        // 获取logger name
         String loggerName = getLoggerName(clazz, property);
-        //设置logger name
+        // 设置logger name
         property.setLoggerName(loggerName);
         // 获取Logger对象
         Logger logger = LoggerCacheManager.LOGGER.get(loggerName);
@@ -76,9 +76,9 @@ public class LogbackContext implements Context {
             if (Objects.nonNull(logger)) {
                 return logger;
             }
-            //获取logger日志对象
+            // 获取logger日志对象
             logger = getLogger(property);
-            //存入缓存
+            // 存入缓存
             LoggerCacheManager.LOGGER.put(loggerName, logger);
         }
         return logger;
@@ -91,7 +91,7 @@ public class LogbackContext implements Context {
      *
      * @param property 属性配置上下文传递类
      */
-    protected Logger getLogger(LogbackProperty property) {
+    Logger getLogger(LogbackProperty property) {
         AbstractLogback logback;
         if (property.getLogbackType().equals(LogbackType.MODULE)) {
             logback = new LogbackModule(properties, loggerContext);
@@ -111,7 +111,7 @@ public class LogbackContext implements Context {
      * @param property property属性名
      * @return logger name
      */
-    private <T> String getLoggerName(Class<T> clazz, LogbackProperty property) {
+    <T> String getLoggerName(Class<T> clazz, LogbackProperty property) {
         if (property.getFileName() == null) {
             property.setFileName(StrUtils.EMPTY);
         }

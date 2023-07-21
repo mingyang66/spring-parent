@@ -1,9 +1,14 @@
 package com.emily.infrastructure.logger.configuration.filter;
 
 import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.boolex.JaninoEventEvaluator;
 import ch.qos.logback.classic.filter.LevelFilter;
 import ch.qos.logback.classic.filter.ThresholdFilter;
+import ch.qos.logback.classic.turbo.MarkerFilter;
 import ch.qos.logback.core.Context;
+import ch.qos.logback.core.boolex.EvaluationException;
+import ch.qos.logback.core.boolex.EventEvaluator;
+import ch.qos.logback.core.filter.EvaluatorFilter;
 import ch.qos.logback.core.spi.FilterReply;
 import com.emily.infrastructure.logger.common.StrUtils;
 
@@ -65,6 +70,80 @@ public class LogbackFilter {
         //添加内部状态信息
         filter.addInfo("Build ThresholdFilter Success");
         //标记为启用状态
+        filter.start();
+        return filter;
+    }
+
+    /**
+     * 全局标记过滤器，接受指定标记的日志记录到文件中
+     *
+     * @param context 上下文
+     * @param marker  marker标识
+     * @return 标记过滤器，将会接受被标记的日志记录到文件中
+     */
+    public MarkerFilter getAcceptMarkerFilter(Context context, String marker) {
+        MarkerFilter filter = new MarkerFilter();
+        //过滤器名称
+        filter.setName(StrUtils.join("AcceptMarkerFilter-", marker));
+        //上下文
+        filter.setContext(context);
+        //日志过滤级别
+        filter.setMarker(marker);
+        //设置符合条件的日志接受
+        filter.setOnMatch(FilterReply.ACCEPT.name());
+        //不符合条件的日志拒绝
+        filter.setOnMismatch(FilterReply.DENY.name());
+        //添加内部状态信息
+        filter.addError("Build AcceptMarkerFilter Success");
+        //标记为启用状态
+        filter.start();
+        return filter;
+    }
+
+    /**
+     * 全局标记过滤器，拒绝标记的日志记录到文件中
+     *
+     * @param context 上下文
+     * @param marker  marker标识
+     * @return 标记过滤器，将会拒绝被标记的日志记录到文件中
+     */
+    public MarkerFilter getDenyMarkerFilter(Context context, String marker) {
+        MarkerFilter filter = new MarkerFilter();
+        //过滤器名称
+        filter.setName(StrUtils.join("DenyMarkerFilter-", marker));
+        //上下文
+        filter.setContext(context);
+        //日志过滤级别
+        filter.setMarker(marker);
+        //设置符合条件的日志接受
+        filter.setOnMatch(FilterReply.DENY.name());
+        //不符合条件的日志拒绝
+        filter.setOnMismatch(FilterReply.ACCEPT.name());
+        //添加内部状态信息
+        filter.addError("Build DenyMarkerFilter Success");
+        //标记为启用状态
+        filter.start();
+        return filter;
+    }
+
+    /**
+     * todo 待定
+     *
+     * @param context
+     * @return
+     */
+    public EvaluatorFilter getEvaluatorFilter(Context context) {
+        EvaluatorFilter filter = new EvaluatorFilter();
+        EventEvaluator evaluator = new JaninoEventEvaluator();
+        try {
+            evaluator.evaluate("return message.contains('info')");
+        } catch (EvaluationException e) {
+            throw new RuntimeException(e);
+        }
+        filter.setEvaluator(evaluator);
+        filter.setContext(context);
+        filter.setOnMatch(FilterReply.ACCEPT);
+        filter.setOnMismatch(FilterReply.DENY);
         filter.start();
         return filter;
     }

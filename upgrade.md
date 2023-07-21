@@ -3,7 +3,16 @@
 基础库发布4.3.7
 Bug Fixes
 1. logger sdk新增name属性设置；
-2. 
+2. logger sdk新增对Marker的支持，支持接受标记的日志记录入文件，支持拒绝标记的日志记录入文件，新增如下配置：
+
+```properties
+#接受指定标记的日志记录到文件中
+spring.emily.logger.marker.accept-marker=
+#拒绝标记的日志记录到文件中
+spring.emily.logger.marker.deny-marker=
+```
+
+3. s
 
 
 -----

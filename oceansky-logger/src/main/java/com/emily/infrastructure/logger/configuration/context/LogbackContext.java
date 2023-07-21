@@ -7,6 +7,7 @@ import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
+import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LogbackPropertyBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
@@ -28,7 +29,12 @@ public class LogbackContext implements Context {
     private LoggerContext loggerContext;
 
     /**
-     * 属性配置
+     * ------------------------------------
+     * 1. 属性配置
+     * 2. 报告状态展示控制；
+     * 3. debug内部状态信息控制；
+     * 4. packagingData异常堆栈拼接所属jar包控制
+     * 5. 全局过滤器TurboFilter控制
      *
      * @param properties logback日志属性
      * @param context    上下文
@@ -40,6 +46,14 @@ public class LogbackContext implements Context {
         // 开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(properties, context);
         configuration.start();
+        //全局过滤器，接受指定标记的日志记录到文件中
+        properties.getMarker().getAcceptMarker().forEach((marker) -> {
+            context.addTurboFilter(LogbackFilter.getSingleton().getAcceptMarkerFilter(context, marker));
+        });
+        //全局过滤器，拒绝标记的日志记录到文件中
+        properties.getMarker().getDenyMarker().forEach((marker) -> {
+            context.addTurboFilter(LogbackFilter.getSingleton().getDenyMarkerFilter(context, marker));
+        });
     }
 
     /**

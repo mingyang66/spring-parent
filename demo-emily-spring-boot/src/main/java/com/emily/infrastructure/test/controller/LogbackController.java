@@ -1,11 +1,9 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.context.ioc.IOCContext;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,12 +29,12 @@ public class LogbackController {
         baseLogger.debug("--------debug");
         baseLogger.warn("--------warn");
         baseLogger.trace("--------trace");
+
         try {
             String s = null;
             s.length();
         } catch (Exception e) {
             baseLogger.error("-----error test----", e);
-            baseLogger.error(marker, "test marker", e);
         }
 
         logger.error("211112122error");
@@ -57,9 +55,18 @@ public class LogbackController {
     }
 
 
-    @GetMapping("debug1")
-    public String get() {
-        Environment environment = IOCContext.getApplicationContext().getEnvironment();
-        return environment.getProperty("spring.emily.logback.enabled");
+    @GetMapping("marker")
+    public void get() {
+        baseLogger.error("--------error");
+        baseLogger.info("--------info");
+        baseLogger.debug("--------debug");
+        baseLogger.warn("--------warn");
+        baseLogger.trace("--------trace");
+
+        baseLogger.error(marker, "--------marker error");
+        baseLogger.info(marker, "--------marker info");
+        baseLogger.debug(marker, "--------marker debug");
+        baseLogger.warn(marker, "--------marker warn");
+        baseLogger.trace(marker, "--------marker trace");
     }
 }

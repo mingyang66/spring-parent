@@ -5,6 +5,9 @@ import com.emily.infrastructure.logger.common.CompressionMode;
 import com.emily.infrastructure.logger.configuration.type.LevelType;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Emily
  * @description: 日志配置属性
@@ -23,6 +26,10 @@ public class LoggerProperties {
      * 发生异常打印异常堆栈时是否将包信息追加到每行末尾，默认：true
      */
     private boolean packagingData = true;
+    /**
+     * 全局过滤器日志标记控制
+     */
+    private Marker marker = new Marker();
     /**
      * 基础根日志
      */
@@ -62,6 +69,14 @@ public class LoggerProperties {
 
     public void setPackagingData(boolean packagingData) {
         this.packagingData = packagingData;
+    }
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
     }
 
     public Appender getAppender() {
@@ -465,6 +480,36 @@ public class LoggerProperties {
 
         public void setAsync(Async async) {
             this.async = async;
+        }
+    }
+
+    /**
+     * 标记全局过滤器控制
+     */
+    public static class Marker {
+        /**
+         * 接受指定标记的日志记录到文件中
+         */
+        private List<String> acceptMarker = new ArrayList<>();
+        /**
+         * 拒绝标记的日志记录到文件中
+         */
+        private List<String> denyMarker = new ArrayList<>();
+
+        public List<String> getAcceptMarker() {
+            return acceptMarker;
+        }
+
+        public void setAcceptMarker(List<String> acceptMarker) {
+            this.acceptMarker = acceptMarker;
+        }
+
+        public List<String> getDenyMarker() {
+            return denyMarker;
+        }
+
+        public void setDenyMarker(List<String> denyMarker) {
+            this.denyMarker = denyMarker;
         }
     }
 }

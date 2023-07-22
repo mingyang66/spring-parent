@@ -1,5 +1,6 @@
 package com.emily.infrastructure.datasource.interceptor;
 
+import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
@@ -23,7 +24,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultDataSourceMethodInterceptor.class);
 
-    private DataSourceProperties properties;
+    private final DataSourceProperties properties;
 
     public DefaultDataSourceMethodInterceptor(DataSourceProperties properties) {
         this.properties = properties;
@@ -32,7 +33,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
     /**
      * 拦截器执行前置方法
      *
-     * @param method
      * @return 调用数据的数据标识
      */
     @Override
@@ -54,7 +54,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             //返回当前类或父类或接口上标注的注解对象
             targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
         }
-        if (StringUtils.isEmpty(targetDataSource.value())) {
+        if (ObjectUtils.isEmpty(targetDataSource.value())) {
             return properties.getDefaultConfig();
         }
         //获取注解标注的数据源
@@ -64,9 +64,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
     /**
      * 数据库连接池拦截方法
      *
-     * @param invocation
-     * @return
-     * @throws Throwable
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -91,7 +88,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
     /**
      * 调用数据库操作完成后执行，移除当前线程值变量
      *
-     * @param method
      */
     @Override
     public void after(Method method) {

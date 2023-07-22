@@ -13,7 +13,7 @@
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-logger</artifactId>
-    <version>4.3.5</version>
+    <version>4.3.6</version>
 </dependency>
 ```
 

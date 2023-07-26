@@ -4,10 +4,10 @@ package com.emily.infrastructure.logger.configuration.property;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 /**
- * @program: spring-parent
- * @description: 日志滚动帮助类
- * @author: Emily
- * @create: 2021/07/07
+ * 日志滚动帮助类
+ *
+ * @author : Emily
+ * @since : 2021/07/07
  */
 public class LogbackPropertyBuilder {
     /**

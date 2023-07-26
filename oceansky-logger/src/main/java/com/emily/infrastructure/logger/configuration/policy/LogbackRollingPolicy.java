@@ -12,10 +12,10 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
- * @program: spring-parent
- * @description: logback归档策略
- * @author: Emily
- * @create: 2022/01/10
+ * logback归档策略
+ *
+ * @author : Emily
+ * @since : 2022/01/10
  */
 public class LogbackRollingPolicy {
 

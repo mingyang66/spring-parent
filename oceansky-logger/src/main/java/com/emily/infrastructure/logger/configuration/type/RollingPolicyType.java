@@ -1,9 +1,10 @@
 package com.emily.infrastructure.logger.configuration.type;
 
 /**
- * @Description: 日志归档策略
- * @Author: Emily
- * @create: 2022/1/4
+ * 日志归档策略
+ *
+ * @author : Emily
+ * @since : 2022/1/4
  */
 public enum RollingPolicyType {
     /**

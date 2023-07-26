@@ -4,10 +4,10 @@ import ch.qos.logback.classic.Logger;
 import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 
 /**
- * @program: spring-parent
- * @description: 日志实现抽象类
- * @author: Emily
- * @create: 2021/12/17
+ * 日志实现抽象类
+ *
+ * @author : Emily
+ * @since : 2021/12/17
  */
 public abstract class AbstractLogback {
     /**

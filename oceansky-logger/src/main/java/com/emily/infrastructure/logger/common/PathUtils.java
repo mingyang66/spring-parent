@@ -3,9 +3,9 @@ package com.emily.infrastructure.logger.common;
 
 /**
  * @author Emily
- * @program: spring-parent
- * @description: 路径工具类
- * @create: 2020/11/26
+ * <p>
+ * 路径工具类
+ * @since : 2020/11/26
  */
 public class PathUtils {
 
@@ -23,10 +23,11 @@ public class PathUtils {
      * Assert.assertEquals(PathUtils.normalizePath("/a/b"), "/a/b");
      * Assert.assertEquals(PathUtils.normalizePath("/a/b/"), "/a/b");
      * --------------------------------------------------
+     * <p>
+     * 规范化路径
      *
      * @param path 路径
      * @return 格式化后的url
-     * @Description 规范化路径
      */
     public static String normalizePath(String path) {
         if (path == null || path.length() == 0) {

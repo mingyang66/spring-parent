@@ -13,9 +13,10 @@ import ch.qos.logback.core.spi.FilterReply;
 import com.emily.infrastructure.logger.common.StrUtils;
 
 /**
+ * 日志的过滤级别
+ *
  * @author Emily
- * @description: 日志的过滤级别
- * @create: 2020/08/04
+ * @since : 2020/08/04
  */
 public class LogbackFilter {
 
@@ -31,7 +32,8 @@ public class LogbackFilter {
     /**
      * 日志级别过滤器设置
      *
-     * @param level 日志级别
+     * @param context logger context上下文
+     * @param level   日志级别
      * @return 日志级别过滤器对象
      */
     public LevelFilter getLevelFilter(Context context, Level level) {
@@ -56,7 +58,8 @@ public class LogbackFilter {
     /**
      * 日志阀值过滤器，等于或者高于日志级别
      *
-     * @param level 日志级别
+     * @param context logger context 上下文
+     * @param level   日志级别
      * @return 日志阀值过滤器对象
      */
     public ThresholdFilter getThresholdLevelFilter(Context context, Level level) {
@@ -129,8 +132,8 @@ public class LogbackFilter {
     /**
      * todo 待定
      *
-     * @param context
-     * @return
+     * @param context logger context上下文
+     * @return 评估过滤器实例
      */
     public EvaluatorFilter getEvaluatorFilter(Context context) {
         EvaluatorFilter filter = new EvaluatorFilter();

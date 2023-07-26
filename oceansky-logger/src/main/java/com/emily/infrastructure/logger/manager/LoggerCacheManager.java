@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @Description :  缓存管理器
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/2 5:31 PM
+ * 缓存管理器
+ *
+ * @author :  Emily
+ * @since :  Created in 2023/7/2 5:31 PM
  */
 public class LoggerCacheManager {
     /**

@@ -6,10 +6,10 @@ import ch.qos.logback.core.Context;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @program: spring-parent
- * @description: logback编码方式
- * @author: Emily
- * @create: 2022/01/10
+ * logback编码方式
+ *
+ * @author : Emily
+ * @since : 2022/01/10
  */
 public class LogbackEncoder {
 

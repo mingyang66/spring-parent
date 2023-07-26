@@ -7,10 +7,10 @@ import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logger.manager.LoggerCacheManager;
 
 /**
- * @program: spring-parent
- * @description: Appender抽象类
- * @author: Emily
- * @create: 2022/01/04
+ * Appender抽象类
+ *
+ * @author : Emily
+ * @since : 2022/01/04
  */
 public abstract class AbstractAppender {
     /**

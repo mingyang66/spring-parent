@@ -14,10 +14,11 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * -Dlogback.debug=true
  * -Ddebug=true
  * -------------------------------------------
+ * <p>
+ * logback日志全局configuration配置属性解析
  *
- * @Description :  logback日志全局configuration配置属性解析
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/15 5:32 PM
+ * @author :  Emily
+ * @since :  Created in 2023/7/15 5:32 PM
  */
 public class ConfigurationAction extends ContextAwareBase {
     static final String INTERNAL_DEBUG_ATTR = "debug";

@@ -18,12 +18,15 @@ import java.io.File;
 import java.text.MessageFormat;
 
 /**
+ * 通过名字和级别设置Appender
+ *
  * @author Emily
- * @description: 通过名字和级别设置Appender
- * @create: 2020/08/04
+ * @since : 2020/08/04
  */
 public class LogbackRollingFileAppender extends AbstractAppender {
-
+    /**
+     * 属性配置
+     */
     private final LogbackProperty property;
     /**
      * 属性配置

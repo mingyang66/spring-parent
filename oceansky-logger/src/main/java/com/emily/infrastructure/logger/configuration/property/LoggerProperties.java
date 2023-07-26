@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 日志配置属性
+ *
  * @author Emily
- * @description: 日志配置属性
- * @create: 2020/08/08
+ * @since : 2020/08/08
  */
 public class LoggerProperties {
     /**

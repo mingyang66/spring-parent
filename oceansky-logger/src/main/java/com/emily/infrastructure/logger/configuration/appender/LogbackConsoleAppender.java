@@ -10,9 +10,10 @@ import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
+ * 通过名字和级别设置Appender
+ *
  * @author Emily
- * @Description: 通过名字和级别设置Appender
- * @create: 2020/08/04
+ * @since : 2020/08/04
  */
 public class LogbackConsoleAppender extends AbstractAppender {
     /**

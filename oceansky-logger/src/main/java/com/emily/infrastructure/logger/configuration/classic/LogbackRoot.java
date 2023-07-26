@@ -11,10 +11,10 @@ import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
- * @program: spring-parent
- * @description: 日志组件抽象类
- * @author: Emily
- * @create: 2021/07/08
+ * 日志组件抽象类
+ *
+ * @author : Emily
+ * @since : 2021/07/08
  */
 public class LogbackRoot extends AbstractLogback {
     private final LoggerContext loggerContext;
@@ -27,7 +27,7 @@ public class LogbackRoot extends AbstractLogback {
 
     /**
      * 构建RootLogger对象，需在配置类中主动调用进行初始化
-     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     * 日志级别以及优先级排序: OFF &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt;ALL
      */
     @Override
     public Logger getLogger(LogbackProperty property) {

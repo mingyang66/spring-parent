@@ -6,9 +6,10 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
 /**
- * @Description :  自定义logback上下文
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/10 11:11 AM
+ * 自定义logback上下文
+ *
+ * @author :  Emily
+ * @since :  Created in 2023/7/10 11:11 AM
  */
 public interface Context {
     /**

@@ -11,10 +11,10 @@ import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
- * @program: spring-parent
- * @description: 分组记录日志
- * @author: Emily
- * @create: 2021/12/12
+ * 分组记录日志
+ *
+ * @author : Emily
+ * @since : 2021/12/12
  */
 public class LogbackModule extends AbstractLogback {
     private final LoggerProperties properties;
@@ -27,7 +27,7 @@ public class LogbackModule extends AbstractLogback {
 
     /**
      * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
+     * 日志级别以及优先级排序: OFF &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt;ALL
      *
      * @param property 属性配置传递类
      * @return 日志对象

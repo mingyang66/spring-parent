@@ -6,9 +6,10 @@ import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
+ * 通过名字和级别设置异步Appender
+ *
  * @author Emily
- * @description: 通过名字和级别设置异步Appender
- * @create: 2020/08/04
+ * @since : 2020/08/04
  */
 public class LogbackAsyncAppender {
     /**

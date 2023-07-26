@@ -1,9 +1,10 @@
 package com.emily.infrastructure.logger.configuration.type;
 
 /**
- * @Description: 日志类型
- * @Author: Emily
- * @create: 2021/7/7
+ * 日志类型
+ *
+ * @author : Emily
+ * @since : 2021/7/7
  */
 public enum LogbackType {
     CONSOLE(0, "控制台日志"),

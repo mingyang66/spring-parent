@@ -8,9 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @Description :  日志初始化管理器
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/2 11:16 AM
+ * 日志初始化管理器
+ *
+ * @author :  Emily
+ * @since :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextInitializer {
     private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();

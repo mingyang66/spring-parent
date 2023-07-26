@@ -19,10 +19,10 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
+ * 日志类 logback+slf4j
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 日志类 logback+slf4j
- * @create: 2020/08/04
+ * @since : 2020/08/04
  */
 public class LogbackContext implements Context {
     private LoggerProperties properties;

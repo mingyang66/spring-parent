@@ -5,10 +5,11 @@ import com.emily.infrastructure.logger.manager.LoggerContextInitializer;
 import org.slf4j.Logger;
 
 /**
- * @author Emily
- * @Description: 日志工具类 日志级别总共有TARCE < DEBUG < INFO < WARN < ERROR < FATAL，且级别是逐渐提供，
+ * 日志工具类 日志级别总共有TARCE &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL，且级别是逐渐提供，
  * 如果日志级别设置为INFO，则意味TRACE和DEBUG级别的日志都看不到。
- * @Version: 1.0
+ *
+ * @author Emily
+ * @since 20230722
  */
 public class LoggerFactory {
     /**
@@ -16,6 +17,7 @@ public class LoggerFactory {
      * 日志路径格式：基础路径/filePath/日志级别info|error|debug/info.log
      *
      * @param clazz 类实例
+     * @param <T>   参数实例类型
      * @return logger实例对象
      */
     public static <T> Logger getLogger(Class<T> clazz) {

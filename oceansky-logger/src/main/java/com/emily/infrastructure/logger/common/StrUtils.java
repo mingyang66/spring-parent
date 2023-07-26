@@ -4,9 +4,10 @@ import ch.qos.logback.core.Context;
 import ch.qos.logback.core.util.OptionHelper;
 
 /**
- * @Description :  日志工具类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/9 4:34 PM
+ * 日志工具类
+ *
+ * @author :  Emily
+ * @since : Created in 2023/7/9 4:34 PM
  */
 public class StrUtils {
     public static final String EMPTY = "";

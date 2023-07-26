@@ -37,9 +37,10 @@ import java.util.Objects;
 
 /**
  * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
+ * <p>
+ * 控制器切点配置
  *
- * @Description: 控制器切点配置
- * @Author Emily
+ * @author Emily
  * @since 4.0.8
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -85,6 +86,9 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
      * 从配置文件中获取多数据源配置信息
      * {@link DataSourceTransactionManagerAutoConfiguration}
      * {@link MybatisAutoConfiguration}
+     *
+     * @param properties 属性配置
+     * @return 数据源对象
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -109,8 +113,8 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     /**
      * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
      *
-     * @param beanFactory
-     * @throws BeansException
+     * @param beanFactory 工厂对象
+     * @throws BeansException 抛出的异常
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

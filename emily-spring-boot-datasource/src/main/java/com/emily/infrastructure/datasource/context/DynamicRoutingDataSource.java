@@ -3,10 +3,11 @@ package com.emily.infrastructure.datasource.context;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
- * @Description: 抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
+ * 抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
  * 的事务上下文来确定
- * @Author Emily
- * @Version: 1.0
+ *
+ * @author Emily
+ * @since 1.0
  */
 public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
     /**

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 
 /**
- * @program: spring-parent
- * @description: 数据源测试
- * @author: Emily
- * @create: 2021/04/22
+ * 数据源测试
+ *
+ * @author : Emily
+ * @since : 2021/04/22
  */
 @RestController
 @RequestMapping("api")
@@ -28,8 +28,8 @@ public class DataSourceController {
     /**
      * batch模式批量插入数据库
      *
-     * @param num
-     * @return
+     * @param num 数量
+     * @return 批处理数量
      */
     @GetMapping("batch/{num}")
     @TargetDataSource("mysql")

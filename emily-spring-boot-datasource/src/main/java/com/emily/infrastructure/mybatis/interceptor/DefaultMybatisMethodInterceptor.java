@@ -20,9 +20,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
- * @Author Emily
- * @Version: 1.0
+ * 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ *
+ * @author Emily
+ * @since 1.0
  */
 public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
 

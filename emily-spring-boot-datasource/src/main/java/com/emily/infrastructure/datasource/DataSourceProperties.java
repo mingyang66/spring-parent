@@ -7,9 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 /**
- * @description: 数据源配置文件
- * @author: Emily
- * @create: 2020/05/14
+ * 数据源配置文件
+ *
+ * @author Emily
+ * @since 2020/05/14
  */
 @ConfigurationProperties(prefix = DataSourceProperties.PREFIX)
 public class DataSourceProperties {

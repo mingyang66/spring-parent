@@ -5,10 +5,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 
 /**
- * @program: spring-parent
- * @description: SqlSessionFactory工厂帮助类
- * @author: Emily
- * @create: 2021/09/14
+ * SqlSessionFactory工厂帮助类
+ *
+ * @author Emily
+ * @since 2021/09/14
  */
 public class SqlSessionFactoryHelper {
     /**

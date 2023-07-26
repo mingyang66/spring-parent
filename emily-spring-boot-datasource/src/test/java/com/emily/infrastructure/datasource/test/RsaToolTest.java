@@ -6,8 +6,9 @@ import static com.alibaba.druid.filter.config.ConfigTools.encrypt;
 import static com.alibaba.druid.filter.config.ConfigTools.genKeyPair;
 
 /**
- * @Description : 数据库密码生成
- * @Author :  Emily
+ * 数据库密码生成
+ *
+ * @author :  Emily
  * @CreateDate :  Created in 2023/5/27 2:18 PM
  */
 public class RsaToolTest {

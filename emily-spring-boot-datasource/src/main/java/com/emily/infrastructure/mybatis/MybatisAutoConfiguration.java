@@ -27,9 +27,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 
 /**
- * @Description: 控制器切点配置
- * @Author Emily
- * @Version: 1.0
+ * 控制器切点配置
+ *
+ * @author Emily
+ * @since : 1.0
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration
@@ -43,6 +44,8 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
      * Mybatis请求日志拦截切面增强类
      * checkInherited:是否验证父类或接口集成的注解，如果注解用@Inherited标注则自动集成
      *
+     * @param mybatisCustomizers 扩展点
+     * @param properties         属性配置
      * @return 组合切面增强类
      * @since 4.0.5
      */
@@ -74,8 +77,8 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
     /**
      * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
      *
-     * @param beanFactory
-     * @throws BeansException
+     * @param beanFactory 工厂类
+     * @throws BeansException 抛出异常
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

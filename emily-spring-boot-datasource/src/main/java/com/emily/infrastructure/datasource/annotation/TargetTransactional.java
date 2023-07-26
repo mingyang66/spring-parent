@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.annotation.*;
 
 /**
- * @Description :  目标事务
+ * 目标事务
  * 技能点总结
  * 1.@AliasFor 标注：1.注解内别名，2.元数据的别名
  * 2.事务失效
@@ -21,8 +21,9 @@ import java.lang.annotation.*;
  * 被外部线程捕获，所以父线程不抛异常，事务回滚不生效；
  * 参考资料：https://mp.weixin.qq.com/s/r388pF8-c6sPVyVGjLBjqg
  * 核心代码：TransactionInterceptor
- * @Author :  Emily
- * @CreateDate :  Created in 2022/7/16 1:38 下午
+ *
+ * @author :  Emily
+ * @since :  Created in 2022/7/16 1:38 下午
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,6 +41,8 @@ public @interface TargetTransactional {
 
     /**
      * 事务管理器，默认根据value指定的数据源获取事务管理器
+     *
+     * @return 事务管理器
      */
     @AliasFor(annotation = Transactional.class, value = "transactionManager")
     String transactionManager() default "";
@@ -56,12 +59,16 @@ public @interface TargetTransactional {
      * org.springframework.transaction.annotation.Propagation#NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。
      * org.springframework.transaction.annotation.Propagation#MANDATORY：如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。
      * org.springframework.transaction.annotation.Propagation#NESTED：如果当前存在事务，则创建一个事物作为当前事物的嵌套事务来运行，如果当前没有事务，则取值等价于Propagation#REQUIRED
+     *
+     * @return 事务传播行为
      */
     @AliasFor(annotation = Transactional.class, value = "propagation")
     Propagation propagation() default Propagation.REQUIRED;
 
     /**
      * 事务隔离级别
+     *
+     * @return 隔离级别对象
      */
     @AliasFor(annotation = Transactional.class, value = "isolation")
     Isolation isolation() default Isolation.DEFAULT;
@@ -74,6 +81,8 @@ public @interface TargetTransactional {
 
     /**
      * 指定事务实际上是否只读
+     *
+     * @return 是否只读
      */
     @AliasFor(annotation = Transactional.class, value = "readOnly")
     boolean readOnly() default false;
@@ -82,6 +91,8 @@ public @interface TargetTransactional {
      * 默认指定0或者多个异常类，这些类必须是Throwable的子类，指定哪些类可以触发事务回滚；
      * 默认情况事务只会捕获RuntimeException和Error异常时触发回滚机制（非受检异常）；
      * 如果未指定受检异常（业务异常）则不会触发回滚机制
+     *
+     * @return 抛出的异常对象
      */
     @AliasFor(annotation = Transactional.class, value = "rollbackFor")
     Class<? extends Throwable>[] rollbackFor() default {};

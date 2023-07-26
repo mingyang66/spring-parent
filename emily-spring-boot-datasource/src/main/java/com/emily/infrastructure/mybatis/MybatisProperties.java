@@ -3,9 +3,10 @@ package com.emily.infrastructure.mybatis;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @description: 数据源配置文件
- * @author: Emily
- * @create: 2020/05/14
+ * 数据源配置文件
+ *
+ * @author : Emily
+ * @since : 2020/05/14
  */
 @ConfigurationProperties(prefix = MybatisProperties.PREFIX)
 public class MybatisProperties {

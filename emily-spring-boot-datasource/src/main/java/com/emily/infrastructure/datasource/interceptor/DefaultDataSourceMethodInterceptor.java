@@ -7,7 +7,6 @@ import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -15,9 +14,9 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import java.lang.reflect.Method;
 
 /**
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
- * @Author Emily
- * @Version: 1.0
+ * 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ *
+ * @author Emily
  * @since 4.0.8
  */
 public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer {
@@ -63,7 +62,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
 
     /**
      * 数据库连接池拦截方法
-     *
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -87,7 +85,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
 
     /**
      * 调用数据库操作完成后执行，移除当前线程值变量
-     *
      */
     @Override
     public void after(Method method) {

@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-sdk</artifactId>
-    <version>4.3.6</version>
+    <version>4.3.7</version>
     <name>emily-sdk</name>
     <description>emily-sdk基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>
@@ -182,7 +182,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -192,15 +192,16 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <!--构建过程中生成源码包，并将其附加到maven项目中-->
                             <attach>true</attach>
                         </configuration>
                     </plugin>
-                    <!--Maven编译后保留方法名-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.8.1</version>
                         <configuration>
+                            <!--Maven编译后保留方法名-->
                             <parameters>true</parameters>
                         </configuration>
                     </plugin>
@@ -218,7 +219,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.3.2</version>
+                        <version>3.5.0</version>
                         <configuration>
                             <!--控制构建过程中如果出现错误是否停止构建-->
                             <failOnError>false</failOnError>

@@ -52,7 +52,7 @@ Command line was: /Library/Java/JavaVirtualMachines/jdk-11.0.10.jdk/Contents/Hom
 Refer to the generated Javadoc files in '/Users/xx/Documents/IDE/workplace-java/spring-parent/emily-spring-boot-logger/target/apidocs' dir.
 ```
 
-解决方案，添加failOnError参数如下配置：
+解决方案，添加failOnError参数控制构建过程中出现错误是否停止构建，如下配置：
 
 ```xml
                     <!-- 生成API文档插件 -->
@@ -75,3 +75,17 @@ Refer to the generated Javadoc files in '/Users/xx/Documents/IDE/workplace-java/
 ```
 
 > 将failOnError参数设置为false，即在生成文档时出现错误时不会停止构建过程。
+
+##### 三、排除指定的包构建过程中检查javadoc文档是否正确
+
+可以通过excludePackageNames参数指定要排除哪些包或者注解
+
+```xml
+                        <configuration>
+                            <!--控制构建过程中如果出现错误是否停止构建-->
+                            <failOnError>false</failOnError>
+                            <!--排除指定的包，可以使用: or , or ; 三种符号分割-->
+                            <excludePackageNames>com.emily.cloud.test.*,com.emily.infrastructure.test.*</excludePackageNames>
+                        </configuration>
+```
+

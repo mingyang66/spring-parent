@@ -45,9 +45,9 @@
  import java.util.Set;
  
  /**
-  * @Description: 线程持有数据源上线文
+  *  线程持有数据源上线文
   * @Author yaomy
-  * @Version: 1.0
+  * @since 1.0
   */
  public class DataSourceContextHolder  {
      /**
@@ -111,10 +111,10 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 /**
- * @Description: 抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
+ *  抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
  * 的事务上下文来确定
  * @Author yaomy
- * @Version: 1.0
+ * @since 1.0
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
     /**
@@ -180,8 +180,8 @@ import DbType;
 import java.lang.annotation.*;
 
 /**
- * @Description: 自定义注解，切换数据源,默认主数据源primary
- * @Version: 1.0
+ *  自定义注解，切换数据源,默认主数据源primary
+ * @since 1.0
  */
 @Documented
 @Target({ElementType.METHOD})
@@ -199,8 +199,8 @@ package com.yaomy.control.aop.advice;
 ...
 
 /**
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
- * @Version: 1.0
+ *  在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ * @since 1.0
  */
 @Component
 public class ControllerAdviceInterceptor implements MethodInterceptor {

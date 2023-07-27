@@ -7,10 +7,10 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
+ * HttpHeader类型返回值处理程序
+ *
  * @author Emily
- * @Description: HttpHeader类型返回值处理程序
- * @ProjectName: spring-parent
- * @Version: 1.0
+ * @since 1.0
  */
 public class ResponseHttpHeadersReturnValueHandler implements HandlerMethodReturnValueHandler {
 

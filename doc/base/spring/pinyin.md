@@ -27,8 +27,8 @@ import LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @Description: 汉字转拼音
- * @Version: 1.0
+ *  汉字转拼音
+ * @since 1.0
  */
 public class PinYinUtils {
     /**

@@ -3,9 +3,9 @@ package com.emily.infrastructure.test.plugin;
 import org.springframework.stereotype.Service;
 
 /**
- * @Description :  黄种人
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/26 1:50 PM
+ *  黄种人
+ * @author  Emily
+ * @since  Created in 2023/4/26 1:50 PM
  */
 @Service
 public class YellowPeoplePluginImpl implements PeoplePlugin {

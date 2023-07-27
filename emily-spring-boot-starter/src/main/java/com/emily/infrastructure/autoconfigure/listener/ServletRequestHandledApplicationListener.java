@@ -17,10 +17,11 @@ import org.springframework.web.context.support.ServletRequestHandledEvent;
  * 总的来说，ServletRequestHandledEvent是一个强大的工具，用于监视和分析SpringMVC应用程序的行为，以及实现基于HTTP
  * 请求处理的自定义功能。
  * ---------------------------------------------------------------------
+ * <p>
+ * ServletRequestHandledEvent事件监听器
  *
- * @Description :  ServletRequestHandledEvent事件监听器
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/24 7:28 PM
+ * @author Emily
+ * @since Created in 2023/6/24 7:28 PM
  */
 public class ServletRequestHandledApplicationListener implements ApplicationListener<ServletRequestHandledEvent> {
     @Override

@@ -32,8 +32,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ生产者交换器、绑定、队列声明
- * @Version: 1.0
+ *  RabbitMQ生产者交换器、绑定、队列声明
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Configuration
@@ -140,9 +140,9 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * @Description: RabbitMQ生产者
+ *  RabbitMQ生产者
  * @ProjectName: spring-parent
- * @Version: 1.0
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component
@@ -446,8 +446,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ生产者交换器、绑定、队列声明
- * @Version: 1.0
+ *  RabbitMQ生产者交换器、绑定、队列声明
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Configuration
@@ -525,9 +525,9 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * @Description: RabbitMQ生产者（延迟队列）
+ *  RabbitMQ生产者（延迟队列）
  * @ProjectName: spring-parent
- * @Version: 1.0
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component
@@ -697,8 +697,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ消息消费者（延迟队列）
- * @Version: 1.0
+ *  RabbitMQ消息消费者（延迟队列）
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component

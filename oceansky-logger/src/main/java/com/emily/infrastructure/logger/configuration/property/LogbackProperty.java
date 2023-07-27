@@ -6,7 +6,7 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
 /**
  * 日志滚动帮助类
  *
- * @author : Emily
+ * @author Emily
  * @since : 2021/07/07
  */
 public class LogbackProperty {

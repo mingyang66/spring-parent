@@ -7,8 +7,8 @@ import java.util.Objects;
 /**
  * bean相互转换工具类
  *
- * @author: Emily
- * @create: 2021/05/28
+ * @author Emily
+ * @since 2021/05/28
  */
 class JavaBeanUtils {
     /**

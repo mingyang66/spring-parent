@@ -11,9 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * @Description :  日期计算单元测试类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 3:13 PM
+ * 日期计算单元测试类
+ *
+ * @author Emily
+ * @since Created in 2023/5/14 3:13 PM
  */
 public class DateComputeUtilsTest {
 
@@ -94,7 +95,7 @@ public class DateComputeUtilsTest {
     }
 
     @Test
-    public void shengyu(){
+    public void shengyu() {
         long seconds = LocalDate.now().atTime(23, 59, 59).toEpochSecond(ZoneOffset.of("+8")) - LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
         System.out.println(seconds);
         Duration duration = DateComputeUtils.between(LocalDate.now().plusDays(1).atStartOfDay(), LocalDateTime.now());
@@ -102,13 +103,14 @@ public class DateComputeUtilsTest {
         System.out.println(DateComputeUtils.getRemainTimeOfDay().getSeconds());
 
         long second = Instant.ofEpochSecond(12).getEpochSecond();
-        Assert.assertEquals(second,12);
-        Assert.assertEquals(Instant.ofEpochSecond(12).toEpochMilli(),12000);
+        Assert.assertEquals(second, 12);
+        Assert.assertEquals(Instant.ofEpochSecond(12).toEpochMilli(), 12000);
         Date data = Date.from(Instant.ofEpochSecond(LocalDateTime.now().getSecond()));
         System.out.println(DateConvertUtils.format(data, DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
     }
+
     @Test
-    public void isLeapYear(){
+    public void isLeapYear() {
         Assert.assertEquals(DateComputeUtils.isLeapYear(2004), true);
         Assert.assertEquals(DateComputeUtils.isLeapYear(2000), true);
         Assert.assertEquals(DateComputeUtils.isLeapYear(1900), false);

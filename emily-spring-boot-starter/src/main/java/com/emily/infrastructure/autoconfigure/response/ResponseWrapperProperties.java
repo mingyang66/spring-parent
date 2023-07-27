@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 返回值配置文件类
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 返回值配置文件类
- * @create: 2020/03/25
+ * @since 2020/03/25
  */
 @ConfigurationProperties(prefix = ResponseWrapperProperties.PREFIX)
 public class ResponseWrapperProperties {

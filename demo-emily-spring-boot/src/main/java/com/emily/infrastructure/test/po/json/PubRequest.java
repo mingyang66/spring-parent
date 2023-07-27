@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description :
- * @Author :  Emily
- * @CreateDate :  Created in 2022/10/27 10:53 上午
+ *
+ * @author  Emily
+ * @since  Created in 2022/10/27 10:53 上午
  */
 @JsonSensitive
 public class PubRequest {

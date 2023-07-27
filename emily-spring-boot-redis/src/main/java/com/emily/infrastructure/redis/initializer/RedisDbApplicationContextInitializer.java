@@ -5,10 +5,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 
 /**
+ * RedisAutoConfiguration自动化配置关闭
+ *
  * @author Emily
- * @program: spring-parent
- * @description: RedisAutoConfiguration自动化配置关闭
- * @create: 2020/09/22
+ * @since 2020/09/22
  */
 public class RedisDbApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     @Override

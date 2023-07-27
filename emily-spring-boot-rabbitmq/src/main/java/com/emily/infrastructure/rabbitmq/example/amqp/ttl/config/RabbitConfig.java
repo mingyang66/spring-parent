@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ生产者交换器、绑定、队列声明
- * @Version: 1.0
+ * RabbitMQ生产者交换器、绑定、队列声明
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Configuration
@@ -23,6 +24,8 @@ public class RabbitConfig {
 
     /**
      * 声明队列
+     *
+     * @return Queue对象
      */
     @Bean
     public Queue topicQueue() {
@@ -56,6 +59,8 @@ public class RabbitConfig {
 
     /**
      * 声明Topic类型交换器
+     *
+     * @return TopicExchange对象
      */
     @Bean
     public TopicExchange topicExchange() {
@@ -66,7 +71,7 @@ public class RabbitConfig {
     /**
      * Topic交换器和队列通过bindingKey绑定
      *
-     * @return
+     * @return Binding对象
      */
     @Bean
     public Binding bindingTopicExchangeQueue() {
@@ -77,6 +82,8 @@ public class RabbitConfig {
 
     /**
      * 定义延迟队列
+     *
+     * @return Queue对象
      */
     @Bean
     public Queue ttlQueue() {
@@ -85,6 +92,8 @@ public class RabbitConfig {
 
     /**
      * 定义延迟交换器
+     *
+     * @return TopicExchange对象
      */
     @Bean
     public TopicExchange ttlExchange() {
@@ -94,6 +103,8 @@ public class RabbitConfig {
 
     /**
      * 延迟队列交换器绑定
+     *
+     * @return Binding对象
      */
     @Bean
     public Binding bindingTtlDirectExchangeQueue() {

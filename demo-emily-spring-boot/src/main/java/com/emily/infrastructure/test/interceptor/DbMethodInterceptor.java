@@ -12,9 +12,9 @@ import java.lang.reflect.Method;
 
 /**
  * @program: spring-parent
- * @description: 数据库拦截器i
- * @author: Emily
- * @create: 2021/11/23
+ *  数据库拦截器i
+ * @author Emily
+ * @since 2021/11/23
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 //@Component

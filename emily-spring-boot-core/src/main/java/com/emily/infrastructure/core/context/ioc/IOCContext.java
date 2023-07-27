@@ -11,9 +11,10 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 /**
- * @Description: IOC容器实例上下文，可以获取容器内部的实例对象
- * @Author: Emily
- * @create: 2021/5/13
+ * IOC容器实例上下文，可以获取容器内部的实例对象
+ *
+ * @author Emily
+ * @since 2021/5/13
  */
 @SuppressWarnings("all")
 public class IOCContext implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
@@ -33,7 +34,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      *
      * @param requiredType 实例类型
      * @param <T>          泛型类类型
-     * @return
+     * @return bean实例对象
      */
     public static <T> T getBean(Class<T> requiredType) {
         return CONTEXT.getBean(requiredType);
@@ -42,9 +43,9 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
     /**
      * 获取指定bean实例名称的实例对象
      *
-     * @param name
-     * @return
-     * @throws BeansException
+     * @param name bean名称
+     * @return bean实例对象
+     * @throws BeansException 异常
      */
     public static Object getBean(String name) {
         return CONTEXT.getBean(name);
@@ -56,23 +57,18 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @param name         bean实例名称
      * @param requiredType 目标类型
      * @param <T>          类型
-     * @return
+     * @return bean实例对象
      */
     public static <T> T getBean(String name, Class<T> requiredType) {
         return CONTEXT.getBean(name, requiredType);
     }
 
     /**
+     * 实例对象必须是原型模式
+     *
      * @param name bean的名称
      * @param args 实例参数
-     * @return
-     * @Desc 实例对象必须是原型模式
-     * @Bean
-     * @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) public Job job(Long id){
-     * Job job = new Job();
-     * job.setId(id);
-     * return job;
-     * }
+     * @return bean对象
      */
     public static Object getBean(String name, Object... args) {
         return CONTEXT.getBean(name, args);
@@ -82,7 +78,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * 获取指定注解标注的实例bean集合
      *
      * @param annotationType 注解类型
-     * @return
+     * @return 注解标注的bean对象
      */
     public static Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
         return CONTEXT.getBeansWithAnnotation(annotationType);
@@ -92,7 +88,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * 获取指定注解类型标注的bean实例名称
      *
      * @param annotationType 主机类型
-     * @return
+     * @return 注解标注的beanname
      */
     public static String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
         return CONTEXT.getBeanNamesForAnnotation(annotationType);
@@ -133,7 +129,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      *
      * @param name        bean实例名称
      * @param typeToMatch 匹配的类类型
-     * @return
+     * @return 是否和指定的类型匹配
      */
     public static boolean isTypeMatch(String name, Class<?> typeToMatch) {
         return CONTEXT.isTypeMatch(name, typeToMatch);

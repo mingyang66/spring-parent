@@ -18,10 +18,10 @@ import org.springframework.context.annotation.Role;
 import javax.annotation.PostConstruct;
 
 /**
+ * 异常捕获自动化配置类
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 异常捕获自动化配置类
- * @create: 2020/10/28
+ * @since 2020/10/28
  */
 @AutoConfiguration
 @EnableConfigurationProperties(GlobalExceptionProperties.class)
@@ -46,7 +46,7 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
     /**
      * 异常抛出拦截bean初始化
      *
-     * @return
+     * @return 全局异常捕获切面对象
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

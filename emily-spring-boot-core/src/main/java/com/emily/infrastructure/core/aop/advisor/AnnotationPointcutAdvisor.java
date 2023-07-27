@@ -9,10 +9,10 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
- * @program: spring-parent
- * @description: 切面增强类，增强类=切点+切面（拦截器advice）
- * @author: Emily
- * @create: 2022/01/12
+ * 切面增强类，增强类=切点+切面（拦截器advice）
+ *
+ * @author Emily
+ * @since 2022/01/12
  */
 public class AnnotationPointcutAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 

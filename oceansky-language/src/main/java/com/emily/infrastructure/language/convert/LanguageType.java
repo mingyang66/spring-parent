@@ -3,9 +3,10 @@ package com.emily.infrastructure.language.convert;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @Description :  多语言枚举类
- * @Author :  Emily
- * @CreateDate :  Created in 2022/8/17 4:45 下午
+ * 多语言枚举类
+ *
+ * @author Emily
+ * @since Created in 2022/8/17 4:45 下午
  */
 public enum LanguageType {
     ZH_CN("zh-CN", "简体"),

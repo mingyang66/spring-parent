@@ -12,9 +12,10 @@ import org.springframework.boot.context.properties.PropertyMapper;
 import java.util.List;
 
 /**
- * @Description : RabbitMQ监听器工厂配置类 Direct模式
- * @Author :  Emily
- * @CreateDate :  Created in 2022/11/17 10:32 上午
+ * RabbitMQ监听器工厂配置类 Direct模式
+ *
+ * @author Emily
+ * @since Created in 2022/11/17 10:32 上午
  */
 public class DirectRabbitMqListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<DirectRabbitListenerContainerFactory> {
 

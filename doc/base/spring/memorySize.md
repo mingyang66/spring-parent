@@ -20,9 +20,9 @@ package com.yaomy.control.common.control.utils;
 import org.apache.lucene.util.RamUsageEstimator;
 
 /**
- * @Description: 计算java对象的大小
+ *  计算java对象的大小
  * @ProjectName: spring-parent
- * @Version: 1.0
+ * @since 1.0
  */
 public class ObjectSizeUtil {
     /**

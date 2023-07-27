@@ -1,10 +1,8 @@
 package com.emily.infrastructure.redis.exception;
 
 /**
- * @program: spring-parent
- * @description:
- * @author: Emily
- * @create: 2021/11/05
+ * @author Emily
+ * @since 2021/11/05
  */
 public class RedisUrlSyntaxException extends RuntimeException {
 

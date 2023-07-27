@@ -17,7 +17,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * <p>
  * logback日志全局configuration配置属性解析
  *
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/7/15 5:32 PM
  */
 public class ConfigurationAction extends ContextAwareBase {

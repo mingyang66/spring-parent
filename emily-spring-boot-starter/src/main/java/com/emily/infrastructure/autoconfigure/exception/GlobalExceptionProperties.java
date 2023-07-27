@@ -3,10 +3,10 @@ package com.emily.infrastructure.autoconfigure.exception;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 异常处理自动化配置PO
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 异常处理自动化配置PO
- * @create: 2020/10/28
+ * @since 2020/10/28
  */
 @ConfigurationProperties(prefix = GlobalExceptionProperties.PREFIX)
 public class GlobalExceptionProperties {

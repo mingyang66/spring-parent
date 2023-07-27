@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author Emily
  * @program: spring-parent
- * @description:
- * @create: 2020/12/16
+ *
+ * @since 2020/12/16
  */
 @RestController
 public class I18nController {

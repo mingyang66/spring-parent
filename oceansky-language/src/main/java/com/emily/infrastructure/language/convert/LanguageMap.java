@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Description :  异常多语言缓存
- * @Author :  Emily
- * @CreateDate :  Created in 2022/8/9 7:38 下午
+ * 异常多语言缓存
+ *
+ * @author Emily
+ * @since Created in 2022/8/9 7:38 下午
  */
 public class LanguageMap {
     /**
@@ -34,6 +35,8 @@ public class LanguageMap {
 
     /**
      * 简体-繁体 绑定
+     *
+     * @param zhCache 语言映射关系对象
      */
     public static void bindZh(Map<String, String> zhCache) {
         zhMap.putAll(zhCache);
@@ -51,6 +54,8 @@ public class LanguageMap {
 
     /**
      * 简体-英文 绑定
+     *
+     * @param enCache 语言映射关系对象
      */
     public static void bindEn(Map<String, String> enCache) {
         enMap.putAll(enCache);
@@ -58,6 +63,10 @@ public class LanguageMap {
 
     /**
      * 获取简体中文对应的语言
+     *
+     * @param simple   简体字符串
+     * @param language 语言对象
+     * @return 转换后的语言对象
      */
     public static String acquire(String simple, String language) {
         LanguageType languageType = LanguageType.getByCode(language);
@@ -66,6 +75,10 @@ public class LanguageMap {
 
     /**
      * 获取简体中文对应的语言
+     *
+     * @param simple       字符串
+     * @param languageType 语言类型
+     * @return 转换后的语言字符串
      */
     public static String acquire(String simple, LanguageType languageType) {
         if (Objects.isNull(languageType) || StringUtils.isEmpty(simple)) {

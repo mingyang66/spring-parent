@@ -23,15 +23,20 @@ import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 /**
+ * 控制并统一处理异常类 @ExceptionHandler标注的方法优先级问题，它会找到异常的最近继承关系，也就是继承关系最浅的注解方法
+ *
  * @author Emily
- * @Description: 控制并统一处理异常类
- * @ExceptionHandler标注的方法优先级问题，它会找到异常的最近继承关系，也就是继承关系最浅的注解方法
- * @Version: 1.0
+ * @since 1.0
  */
 @RestControllerAdvice
 public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     /**
      * 未知异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -43,6 +48,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 运行时异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -54,6 +64,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 业务异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -65,6 +80,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 非法代理
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -76,6 +96,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 空指针异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -87,6 +112,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 类型转换异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -98,6 +128,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * IO异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -109,6 +144,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 数组越界异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -120,6 +160,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-参数类型不匹配
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -131,6 +176,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-缺少参数，如Get请求@RequestParam注解
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -143,6 +193,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-控制器方法参数Validate异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -152,6 +207,12 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
+    /**
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
+     */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -162,6 +223,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * Get请求参数校验，如@NotEmpty、@NotNull等等
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -173,6 +239,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 非法参数异常捕获
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -184,6 +255,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-请求method不匹配
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
@@ -195,6 +271,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 数字格式异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -206,6 +287,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 非法计算异常
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -217,6 +303,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 非法访问
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -228,6 +319,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * 非法访问
+     *
+     * @param e             异常
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)

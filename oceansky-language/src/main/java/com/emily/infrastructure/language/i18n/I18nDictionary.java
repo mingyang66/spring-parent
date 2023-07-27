@@ -65,7 +65,7 @@ public class I18nDictionary {
      *
      * @param reader 指定字符串
      * @param writer 目标字符串
-     * @throws IOException
+     * @throws IOException 异常
      */
     public void convert(Reader reader, Writer writer) throws IOException {
         PushbackReader in = new PushbackReader(new BufferedReader(reader), this.getMaxLen());

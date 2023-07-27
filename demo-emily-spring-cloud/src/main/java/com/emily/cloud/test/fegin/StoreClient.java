@@ -15,8 +15,8 @@ import java.util.Map;
 /**
  * @author Emily
  * @program: spring-parent
- * @description: fegin
- * @create: 2021/03/24
+ *  fegin
+ * @since 2021/03/24
  */
 @FeignClient(value = "stores", url = "http://10.10.181.116:8150/")
 //@FeignClient(name = "consul-demo", contextId = "store", primary = true)

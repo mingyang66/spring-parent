@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * * private String fieldKey1;
  * * }
  *
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2022/7/19 5:22 下午
  */
 @Target({ElementType.FIELD})

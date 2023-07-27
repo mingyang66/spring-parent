@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * logback编码方式
  *
- * @author : Emily
+ * @author Emily
  * @since : 2022/01/10
  */
 public class LogbackEncoder {

@@ -6,9 +6,9 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 /**
  * @program: spring-parent
- * @description:
- * @author:
- * @create: 2021/03/19
+ *
+ * @author
+ * @since 2021/03/19
  */
 public class PoolMain {
     public static void main(String[] args) throws Exception {

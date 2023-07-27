@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * 数据脱敏
  *
- * @author :  Emily
+ * @author  Emily
  * @since : Created in 2023/4/21 1:51 PM
  */
 public class DataMaskUtils {

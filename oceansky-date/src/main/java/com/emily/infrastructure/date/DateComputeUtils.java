@@ -5,10 +5,10 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjusters;
 
 /**
+ * 日期工具类
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 日期工具类
- * @create: 2020/06/16
+ * @since 2020/06/16
  */
 public class DateComputeUtils {
     /**
@@ -26,7 +26,7 @@ public class DateComputeUtils {
      * 获取指定日期的月份的第一天
      *
      * @param localDateTime 日期
-     * @param month         向前推 month>0 向后推<0
+     * @param month         向前推 month&gt;0 向后推&lt;0
      * @return 第一天
      */
     public static LocalDate firstDayOfMonth(LocalDateTime localDateTime, int month) {
@@ -55,7 +55,7 @@ public class DateComputeUtils {
      * 获取指定日期的月份的最后一天
      *
      * @param localDateTime 日期
-     * @param month         向前推 month>0 向后推<0
+     * @param month         向前推 month&gt;0 向后推&lt;0
      * @return 一个月的最后一天日期对象
      */
     public static LocalDate lastDayOfMonth(LocalDateTime localDateTime, int month) {
@@ -123,7 +123,7 @@ public class DateComputeUtils {
      *
      * @param date1, 开始日期
      * @param date2  结束日期
-     * @return date1-date2>0 返回正数，否则返回负数
+     * @return date1-date2&gt;0 返回正数，否则返回负数
      */
     public static Duration between(Temporal date1, Temporal date2) {
         DateAssert.illegalArgument(date1, "非法参数");
@@ -152,7 +152,7 @@ public class DateComputeUtils {
      *
      * @param date1 日期对象
      * @param date2 日期对象
-     * @return ddate1-date2>0 返回正数，否则返回负数
+     * @return ddate1-date2&gt;0 返回正数，否则返回负数
      */
     public static Period between(LocalDate date1, LocalDate date2) {
         DateAssert.illegalArgument(date1, "非法参数");
@@ -181,6 +181,7 @@ public class DateComputeUtils {
      * 能被400整除的年份也是闰年（如2000年是闰年，1900年不是闰年）；
      * 闰年的出现是为了弥补平年中一年中多出来的约0.242199天（即365.242199天）的差距。
      * -------------------------------------------------------------------
+     *
      * @param year 年份
      * @return true-是，false-否
      */

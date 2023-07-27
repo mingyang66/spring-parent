@@ -7,9 +7,9 @@ import org.junit.Test;
 import java.util.Collections;
 
 /**
- * @Description :  对象工具类单元测试
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/13 10:33 AM
+ *  对象工具类单元测试
+ * @author  Emily
+ * @since  Created in 2023/6/13 10:33 AM
  */
 public class ObjectUtilsTest {
     @Test

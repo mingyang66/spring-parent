@@ -14,9 +14,9 @@ import java.util.concurrent.*;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: Emily
- * @create: 2021/05/17
+ * 
+ * @author Emily
+ * @since 2021/05/17
  */
 @RestController
 @RequestMapping("api/threadlocal/")

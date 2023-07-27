@@ -16,10 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 /**
+ * JSON工具类
+ *
  * @author Emily
- * @Description: JSON工具类
- * @ProjectName: spring-parent
- * @Version: 1.0
+ * @since 1.0
  */
 public class JsonUtils {
 
@@ -42,8 +42,12 @@ public class JsonUtils {
     }
 
     /**
-     * @Description 对象转换为json字符串, 支持List、Map、Collection、字符串
-     * @Version 1.0
+     * 对象转换为json字符串, 支持List、Map、Collection、字符串
+     *
+     * @param o   参数对象
+     * @param <T> 参数类型
+     * @return json字符串
+     * @since 1.0
      */
     public static <T> String toJSONString(T o) {
         return toJSONString(o, Include.ALWAYS);
@@ -58,8 +62,11 @@ public class JsonUtils {
      *                NON_DEFAULT：表示POJO类属性的值为缺省值是不序列化，如User类的 int age = 0; String username = null;
      *                CUSTOM:自定义，根据过滤器等
      *                USE_DEFAULTS：...
-     * @Description 对象转换为json字符串, 支持List、Map、Collection、字符串
-     * @Version 1.0
+     *                对象转换为json字符串, 支持List、Map、Collection、字符串
+     * @param o       参数对象
+     * @param <T>     参数类型
+     * @return 转换后的json字符串
+     * @since 1.0
      */
     public static <T> String toJSONString(T o, Include include) {
         try {
@@ -74,8 +81,12 @@ public class JsonUtils {
     }
 
     /**
-     * @Description 带格式化， 对象转换为json字符串,支持List、Map、Collection、字符串
-     * @Version 1.0
+     * 带格式化， 对象转换为json字符串,支持List、Map、Collection、字符串
+     *
+     * @param o   对象
+     * @param <T> 对象类型
+     * @return 转换后的字符串对象
+     * @since 1.0
      */
     public static <T> String toJSONPrettyString(T o) {
         return toJSONPrettyString(o, Include.ALWAYS);
@@ -90,8 +101,11 @@ public class JsonUtils {
      *                NON_DEFAULT：表示POJO类属性的值为缺省值是不序列化，如User类的 int age = 0; String username = null;
      *                CUSTOM:自定义，根据过滤器等
      *                USE_DEFAULTS：...
-     * @Description 带格式化， 对象转换为json字符串,支持List、Map、Collection、字符串
-     * @Version 1.0
+     *                带格式化， 对象转换为json字符串,支持List、Map、Collection、字符串
+     * @param o       对象
+     * @param <T>     对象类型
+     * @return 格式化后的json字符串对象
+     * @since 1.0
      */
     public static <T> String toJSONPrettyString(T o, Include include) {
         try {
@@ -106,8 +120,13 @@ public class JsonUtils {
     }
 
     /**
-     * @Description JSON字符串转换为java对象, 支持List、Map、Collection、字符串
-     * @Version 1.0
+     * JSON字符串转换为java对象, 支持List、Map、Collection、字符串
+     *
+     * @param file         文件对象
+     * @param responseType 响应对象
+     * @param <T>          实例对象
+     * @return 转换后的对象
+     * @since 1.0
      */
     public static <T> T toJavaBean(File file, Class<T> responseType) {
         try {
@@ -122,8 +141,13 @@ public class JsonUtils {
     }
 
     /**
-     * @Description JSON字符串转换为java对象, 支持List、Map、Collection、字符串
-     * @Version 1.0
+     * JSON字符串转换为java对象, 支持List、Map、Collection、字符串
+     *
+     * @param jsonString   字符串对象
+     * @param responseType 响应数据类型
+     * @param <T>          实例对象
+     * @return 转换后的实例对象
+     * @since 1.0
      */
     public static <T> T toJavaBean(String jsonString, Class<T> responseType) {
         try {
@@ -139,22 +163,31 @@ public class JsonUtils {
 
     /**
      * 示例1：
+     * <pre>
+     *     {@code
      * List<Map<Integer, String>> list = Lists.newArrayList();
      * Map<Integer, String> map = Maps.newHashMap();
      * map.put(12, "gg");
      * map.put(34, "sd");
      * list.add(map);
      * List<Map<Integer, String>> list1 = toJavaBean(JsonUtils.toJSONString(list), ArrayList.class, HashMap.class);
+     * }
+     * </pre>
      * 示例2：
+     * <pre>
+     *     {@code
      * Map<Integer, String> map = Maps.newHashMap();
      * map.put(12, "gg");
      * map.put(34, "sd");
      * Map<Integer, String> map1 = toJavaBean(JsonUtils.toJSONString(map), HashMap.class, Integer.class, String.class);
+     * }
+     * </pre>
      *
      * @param jsonString       JSON字符串
-     * @param parametrized     数据类型最外层class或者泛型实际的class, 如List<Map<String, Integer>>的List.class 或者Map<String, Integer>中的Map.class
-     * @param parameterClasses 参数内部类型，如List<Map<String, Object>中的Map.class 或者Map<String, Integer>中的String.class、Integer.class
+     * @param parametrized     数据类型最外层class或者泛型实际的class, 如<pre>{@code List<Map<String, Integer>>的List.class 或者Map<String, Integer>中的Map.class}</pre>
+     * @param parameterClasses 参数内部类型，如<pre>{@code List<Map<String, Object>中的Map.class 或者Map<String, Integer>中的String.class、Integer.class}</pre>
      * @param <T>              序列化目标类型
+     * @return 转换后的实例对象
      */
     public static <T> T toJavaBean(String jsonString, Class<?> parametrized, Class<?>... parameterClasses) {
         try {
@@ -172,11 +205,15 @@ public class JsonUtils {
     /**
      * json字符串反序列化
      * 示例：
+     * <pre>
+     *     {@code
      * Map<String, List<Integer>> map = Maps.newHashMap();
      * ObjectMapper mapper = new ObjectMapper();
      * JavaType javaType = JsonUtils.javaType(List.class, Integer.class);
      * JavaType javaType1 = JsonUtils.javaType(HashMap.class, String.class, javaType.getRawClass());
      * Map<String, List<Integer>> result = JsonUtils.toJavaBean(JsonUtils.toJSONString(map), javaType1);
+     * }
+     * </pre>
      *
      * @param jsonString json字符串
      * @param javaType   java数据类型 objectMapper.getTypeFactory().constructParametricType(parametrized, parameterClasses)
@@ -198,11 +235,15 @@ public class JsonUtils {
     /**
      * 将json字符串反序列化为指定的数据类型
      * 示例：
-     * List<Map<Long, Map<Integer, Integer>>> data2 = JsonUtils.toJavaBean(jsonString, new TypeReference<List<Map<Long, Map<Integer, Integer>>>>() {});
+     * <pre>
+     *     {@code
+     *      List<Map<Long, Map<Integer, Integer>>> data2 = JsonUtils.toJavaBean(jsonString, new TypeReference<List<Map<Long, Map<Integer, Integer>>>>() {});
+     *      }
+     * </pre>
      *
-     * @param jsonString json字符串
-     * @param typeReference       TypeReference引用
-     * @param <T>        转换的实际类型
+     * @param jsonString    json字符串
+     * @param typeReference TypeReference引用
+     * @param <T>           转换的实际类型
      * @return 目标数据类型
      */
     public static <T> T toJavaBean(String jsonString, TypeReference<T> typeReference) {
@@ -219,26 +260,38 @@ public class JsonUtils {
 
     /**
      * 示例1：
-     * Map<Integer, String> map = Maps.newHashMap();
-     * JavaType javaType = javaType(Map.class, Integer.class, String.class);
+     * <pre>
+     *  {@code
+     *      Map<Integer, String> map = Maps.newHashMap();
+     *      JavaType javaType = javaType(Map.class, Integer.class, String.class);
+     *  }
+     * </pre>
      * 示例2：
-     * List<Map<Integer, String>> list = Lists.newArrayList();
-     * Map<Integer, String> map = Maps.newHashMap();
-     * map.put(12, "gg");
-     * map.put(34, "sd");
-     * list.add(map);
-     * JavaType javaType = javaType(List.class, Map.class);
+     * <pre>
+     *  {@code
+     *      List<Map<Integer, String>> list = Lists.newArrayList();
+     *      Map<Integer, String> map = Maps.newHashMap();
+     *      map.put(12, "gg");
+     *      map.put(34, "sd");
+     *      list.add(map);
+     *      JavaType javaType = javaType(List.class, Map.class);
+     *  }
+     * </pre>
      *
      * @param parametrized     实际的数据类型，即最外层数据类型List
      * @param parameterClasses 内部参数类型，即Set.class Bean.class
+     * @return 数据对象
      */
     public static JavaType javaType(Class<?> parametrized, Class<?>... parameterClasses) {
         return objectMapper.getTypeFactory().constructParametricType(parametrized, parameterClasses);
     }
 
     /**
-     * @Description 将对象写入文件
-     * @Version 1.0
+     * 将对象写入文件
+     *
+     * @param file 文件对象
+     * @param o    待写入文件的对象
+     * @since 1.0
      */
     public static void writeToFile(File file, Object o) {
         try {
@@ -253,8 +306,11 @@ public class JsonUtils {
     }
 
     /**
-     * @Description 格式化，将对象写入文件
-     * @Version 1.0
+     * 格式化，将对象写入文件
+     *
+     * @param file 文件对象
+     * @param o    待写入文件的对象
+     * @since 1.0
      */
     public static void writeToFilePretty(File file, Object o) {
         try {
@@ -271,8 +327,8 @@ public class JsonUtils {
     /**
      * 将对象转换为字节数组
      *
-     * @param value
-     * @return
+     * @param value 待转换对象
+     * @return 字节数组
      */
     public static byte[] toByteArray(Object value) {
         if (value == null) {
@@ -286,11 +342,12 @@ public class JsonUtils {
     }
 
     /**
+     * 从输入流InputStream中读取数据
+     *
      * @param src          输入流对象
      * @param responseType 返回的数据对象
-     * @param <T>
-     * @return
-     * @Description 从输入流InputStream中读取数据
+     * @param <T>          数据类型
+     * @return 转换后的对象类型
      */
     public static <T> T toObject(InputStream src, Class<T> responseType) {
         try {
@@ -305,7 +362,8 @@ public class JsonUtils {
      *
      * @param bytes        字节数组
      * @param responseType 返回值类型
-     * @param <T>
+     * @param <T>          数据类型
+     * @return 转换后的数据对象
      */
     public static <T> T toObject(byte[] bytes, Class<T> responseType) {
         if (bytes == null) {
@@ -321,8 +379,8 @@ public class JsonUtils {
     /**
      * 使用字节流将value对象输出
      *
-     * @param outputStream
-     * @param value
+     * @param outputStream 输出流对象
+     * @param value        值对象
      */
     public static void writeValue(OutputStream outputStream, Object value) {
         try {
@@ -338,8 +396,8 @@ public class JsonUtils {
      *
      * @param obj          原始对象
      * @param responseType 目标class对象
-     * @param <T>
-     * @return
+     * @param <T>          参数类型
+     * @return 转换后对象
      */
     public static <T> T parseObject(Object obj, Class<T> responseType) {
         if (Objects.isNull(obj)) {

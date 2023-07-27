@@ -9,9 +9,9 @@ import java.util.List;
 
 /**
  * @program: spring-parent
- * @description: SPI控制器
- * @author: Emily
- * @create: 2021/12/17
+ *  SPI控制器
+ * @author Emily
+ * @since 2021/12/17
  */
 @RestController
 @RequestMapping("api/spi")

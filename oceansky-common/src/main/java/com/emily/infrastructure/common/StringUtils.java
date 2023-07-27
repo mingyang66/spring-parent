@@ -7,9 +7,10 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
- * @Description :  字符串操作工具类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/4 2:13 PM
+ * 字符串操作工具类
+ *
+ * @author Emily
+ * @since Created in 2023/6/4 2:13 PM
  */
 public class StringUtils {
     /**
@@ -26,12 +27,16 @@ public class StringUtils {
      * 首字母转大写
      * ----------------------------------------------
      * 示例程序：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StrUtils.toUpperFirstCase(null), null);
      * Assert.assertEquals(StrUtils.toUpperFirstCase(""), "");
      * Assert.assertEquals(StrUtils.toUpperFirstCase(" "), " ");
      * Assert.assertEquals(StrUtils.toUpperFirstCase(" a".trim()), "A");
      * Assert.assertEquals(StrUtils.toUpperFirstCase("a"), "A");
      * Assert.assertEquals(StrUtils.toUpperFirstCase("abc"), "Abc");
+     * }
+     * </pre>
      * ----------------------------------------------
      *
      * @param str 字符串
@@ -50,12 +55,16 @@ public class StringUtils {
     /**
      * 将字符串首字母转为小写
      * ---------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertEquals(StrUtils.toLowerFirstCase(null), null);
      * Assert.assertEquals(StrUtils.toLowerFirstCase(""), "");
      * Assert.assertEquals(StrUtils.toLowerFirstCase(" "), " ");
      * Assert.assertEquals(StrUtils.toLowerFirstCase(" A"), " A");
      * Assert.assertEquals(StrUtils.toLowerFirstCase("A"), "a");
      * Assert.assertEquals(StrUtils.toLowerFirstCase("Abc"), "abc");
+     * }
+     * </pre>
      * ---------------------------------------------
      *
      * @param str 字符串
@@ -75,11 +84,15 @@ public class StringUtils {
      * 判断字符串是否为空
      * ----------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertTrue(StrUtils.isEmpty(null));
      * Assert.assertTrue(StrUtils.isEmpty(""));
      * Assert.assertFalse(StrUtils.isEmpty("a"));
      * Assert.assertFalse(StrUtils.isEmpty(" a"));
      * Assert.assertFalse(StrUtils.isEmpty(" a "));
+     *  }
+     *      </pre>
      * ----------------------------------------------------------
      *
      * @param cs 字符串
@@ -93,11 +106,15 @@ public class StringUtils {
      * 判断字符串是否不为空
      * -------------------------------------------------
      * 示例
+     * <pre>
+     * {@code
      * Assert.assertFalse(StrUtils.isNotEmpty(null));
      * Assert.assertFalse(StrUtils.isNotEmpty(""));
      * Assert.assertTrue(StrUtils.isNotEmpty("a"));
      * Assert.assertTrue(StrUtils.isNotEmpty(" a"));
      * Assert.assertTrue(StrUtils.isNotEmpty(" a "));
+     *  }
+     *      </pre>
      * -------------------------------------------------
      *
      * @param cs 字符串
@@ -110,11 +127,15 @@ public class StringUtils {
     /**
      * 判定字符串是否是空白
      * ---------------------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.isBlank(null), true);
      * Assert.assertEquals(StringUtils.isBlank(""), true);
      * Assert.assertEquals(StringUtils.isBlank(" "), true);
      * Assert.assertEquals(StringUtils.isBlank(" a"), false);
      * Assert.assertEquals(StringUtils.isBlank(" a "), false);
+     *  }
+     *      </pre>
      * ---------------------------------------------------------
      *
      * @param cs 字符串
@@ -136,11 +157,15 @@ public class StringUtils {
     /**
      * 判定字符串是是非空白
      * -----------------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.isNotBlank(null), false);
      * Assert.assertEquals(StringUtils.isNotBlank(""), false);
      * Assert.assertEquals(StringUtils.isNotBlank(" "), false);
      * Assert.assertEquals(StringUtils.isNotBlank(" a"), true);
      * Assert.assertEquals(StringUtils.isNotBlank(" a "), true);
+     *  }
+     *      </pre>
      * -----------------------------------------------------
      *
      * @param cs 字符串
@@ -154,10 +179,14 @@ public class StringUtils {
      * 如果字符串为null或者空字符串，则返回默认字符串
      * -----------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.defaultIfEmpty(null, "ab"),"ab");
      * Assert.assertEquals(StringUtils.defaultIfEmpty("", "ab"),"ab");
      * Assert.assertEquals(StringUtils.defaultIfEmpty(" ", "ab")," ");
      * Assert.assertEquals(StringUtils.defaultIfEmpty("1", "ab"),"1");
+     *  }
+     *      </pre>
      * -----------------------------------------------------
      *
      * @param str        字符串
@@ -173,9 +202,13 @@ public class StringUtils {
      * 如果字符串为nul，则返回defaultStr字符串
      * -------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.defaultString(null, "ab"), "ab");
      * Assert.assertEquals(StringUtils.defaultString("", "ab"), "");
      * Assert.assertEquals(StringUtils.defaultString("1", "ab"), "1");
+     *  }
+     *      </pre>
      * -------------------------------------------------------
      *
      * @param str        字符串
@@ -191,10 +224,14 @@ public class StringUtils {
      * 如果字符为null、""、" "，则返回默认字符串
      * ------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.defaultIfBlank(null, "ab"),"ab");
      * Assert.assertEquals(StringUtils.defaultIfBlank("", "ab"),"ab");
      * Assert.assertEquals(StringUtils.defaultIfBlank(" ", "ab"),"ab");
      * Assert.assertEquals(StringUtils.defaultIfBlank("1", "ab"),"1");
+     *  }
+     *      </pre>
      * ------------------------------------------------------
      *
      * @param str        字符串
@@ -210,10 +247,14 @@ public class StringUtils {
      * 字符串左侧拼接指定的字符达到指定的长度
      * ------------------------------------------------------------
      * 实例如下：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StrUtils.leftPad(null, 5, 'a'), null);
      * Assert.assertEquals(StrUtils.leftPad("", 5, '0'), "00000");
      * Assert.assertEquals(StrUtils.leftPad("aaaaa", 5, '0'), "aaaaa");
      * Assert.assertEquals(StrUtils.leftPad("2", 5, '0'), "00002");
+     *  }
+     *      </pre>
      * ------------------------------------------------------------
      *
      * @param str     字符串
@@ -236,6 +277,8 @@ public class StringUtils {
      * 字符串左侧拼接上指定的字符串
      * --------------------------------------------------------
      * 示例如下：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StrUtils.leftPad(null, 5, "ab"), null);
      * Assert.assertEquals(StrUtils.leftPad(null, 5, null), null);
      * Assert.assertEquals(StrUtils.leftPad(null, 5, ""), null);
@@ -247,6 +290,8 @@ public class StringUtils {
      * Assert.assertEquals(StrUtils.leftPad("1", 5, "0AB"), "0AB01");
      * Assert.assertEquals(StrUtils.leftPad("11", 8, "0AB"), "0AB0AB11");
      * Assert.assertEquals(StrUtils.leftPad("11", 7, "0AB"), "0AB0A11");
+     *  }
+     *      </pre>
      * --------------------------------------------------------
      *
      * @param str    字符串
@@ -284,10 +329,14 @@ public class StringUtils {
     /**
      * 字符串右侧拼接上指定的字符达到指定的长度
      * -----------------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.rightPad(null, 5, 'a'), null);
      * Assert.assertEquals(StringUtils.rightPad("", 5, '0'), "00000");
      * Assert.assertEquals(StringUtils.rightPad("aaaaa", 5, '0'), "aaaaa");
      * Assert.assertEquals(StringUtils.rightPad("2", 5, '0'), "20000");
+     *  }
+     *      </pre>
      * -----------------------------------------------------
      *
      * @param str     字符串
@@ -309,6 +358,8 @@ public class StringUtils {
     /**
      * 将字符串右侧拼接上指定的字符串达到指定的长度
      * -----------------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.rightPad(null, 5, "ab"), null);
      * Assert.assertEquals(StringUtils.rightPad(null, 5, null), null);
      * Assert.assertEquals(StringUtils.rightPad(null, 5, ""), null);
@@ -320,6 +371,8 @@ public class StringUtils {
      * Assert.assertEquals(StringUtils.rightPad("1", 5, "0AB"), "10AB0");
      * Assert.assertEquals(StringUtils.rightPad("11", 8, "0AB"), "110AB0AB");
      * Assert.assertEquals(StringUtils.rightPad("11", 7, "0AB"), "110AB0A");
+     *  }
+     *      </pre>
      * -----------------------------------------------------
      *
      * @param str    字符串
@@ -373,9 +426,13 @@ public class StringUtils {
     /**
      * 获取字符串的长度
      * ----------------------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertEquals(StrUtils.length(null), 0);
      * Assert.assertEquals(StrUtils.length(""), 0);
      * Assert.assertEquals(StrUtils.length("12"), 2);
+     *  }
+     *      </pre>
      * ----------------------------------------------------------
      *
      * @param cs 字符串，如果为null，则长度为0
@@ -388,6 +445,8 @@ public class StringUtils {
     /**
      * 判定指定的字符串是否是数字
      * -----------------------------------------------
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.isNumeric(null));
      * Assert.assertFalse(StringUtils.isNumeric(""));
      * Assert.assertFalse(StringUtils.isNumeric(" "));
@@ -396,6 +455,8 @@ public class StringUtils {
      * Assert.assertFalse(StringUtils.isNumeric("1-"));
      * Assert.assertFalse(StringUtils.isNumeric("+1"));
      * Assert.assertFalse(StringUtils.isNumeric("-1"));
+     *  }
+     *      </pre>
      * -----------------------------------------------
      *
      * @param cs 字符串
@@ -418,12 +479,16 @@ public class StringUtils {
      * 字符串使用指定的标识缩略
      * --------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.abbreviate(null, "...", 8), null);
      * Assert.assertEquals(StringUtils.abbreviate("", "...", 8), "");
      * Assert.assertEquals(StringUtils.abbreviate("a", "...", 8), "a...");
      * Assert.assertEquals(StringUtils.abbreviate("abc", "...", 8), "abc...");
      * Assert.assertEquals(StringUtils.abbreviate("abcde", "...", 8), "abcde...");
      * Assert.assertEquals(StringUtils.abbreviate("ABCDEFGHIJKLMN", "...", 8), "ABCDE...");
+     *  }
+     *      </pre>
      * --------------------------------------------------------
      *
      * @param str          字符串
@@ -447,6 +512,8 @@ public class StringUtils {
      * 判定字符串是否以指定的前缀开头
      * -------------------------------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.startsWith(null, "ab", 0, false));
      * Assert.assertFalse(StringUtils.startsWith("", "ab", 0, false));
      * Assert.assertFalse(StringUtils.startsWith(null, null, 0, false));
@@ -459,6 +526,8 @@ public class StringUtils {
      * Assert.assertTrue(StringUtils.startsWith("AbCd", "bc", 1, true));
      * Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 3, true));
      * Assert.assertFalse(StringUtils.startsWith("AbCd", "bc", 4, true));
+     *  }
+     *      </pre>
      * -------------------------------------------------------------------------------
      *
      * @param str        字符串
@@ -481,6 +550,8 @@ public class StringUtils {
      * 判定字符串是否以指定的前缀开头
      * ----------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.startsWith(null, null));
      * Assert.assertFalse(StringUtils.startsWith(null, ""));
      * Assert.assertFalse(StringUtils.startsWith(null, "a"));
@@ -488,6 +559,8 @@ public class StringUtils {
      * Assert.assertFalse(StringUtils.startsWith("", ""));
      * Assert.assertTrue(StringUtils.startsWith("abb", "ab"));
      * Assert.assertFalse(StringUtils.startsWith("abb", "Ab"));
+     *  }
+     *      </pre>
      * ----------------------------------------------------------
      *
      * @param str    字符串
@@ -502,6 +575,8 @@ public class StringUtils {
      * 判定字符串是否以指定的前缀开头
      * ----------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, null));
      * Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, ""));
      * Assert.assertFalse(StringUtils.startsWithIgnoreCase(null, "a"));
@@ -509,6 +584,8 @@ public class StringUtils {
      * Assert.assertFalse(StringUtils.startsWithIgnoreCase("", ""));
      * Assert.assertTrue(StringUtils.startsWithIgnoreCase("abb", "ab"));
      * Assert.assertTrue(StringUtils.startsWithIgnoreCase("abb", "Ab"));
+     *  }
+     *      </pre>
      * ----------------------------------------------------------
      *
      * @param str    字符串
@@ -523,12 +600,16 @@ public class StringUtils {
      * 判定字符串是否以指定后缀结尾
      * -------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.endsWith(null, null, false));
      * Assert.assertFalse(StringUtils.endsWith(null, "", false));
      * Assert.assertFalse(StringUtils.endsWith("", null, false));
      * Assert.assertFalse(StringUtils.endsWith("", "", false));
      * Assert.assertTrue(StringUtils.endsWith("abcd", "cd", false));
      * Assert.assertTrue(StringUtils.endsWith("abcd", "cD", true));
+     *  }
+     *      </pre>
      * -------------------------------------------------------
      *
      * @param str        字符串
@@ -550,12 +631,16 @@ public class StringUtils {
      * 判定字符串是否以指定后缀结尾
      * -------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.endsWith(null, null));
      * Assert.assertFalse(StringUtils.endsWith(null, ""));
      * Assert.assertFalse(StringUtils.endsWith("", null));
      * Assert.assertFalse(StringUtils.endsWith("", ""));
      * Assert.assertTrue(StringUtils.endsWith("abcd", "cd"));
      * Assert.assertFalse(StringUtils.endsWith("abcd", "cD"));
+     *  }
+     *      </pre>
      * -------------------------------------------------------
      *
      * @param str    字符串
@@ -570,12 +655,16 @@ public class StringUtils {
      * 判定字符串是否以指定后缀结尾
      * -------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertFalse(StringUtils.endsWithIgnoreCase(null, null));
      * Assert.assertFalse(StringUtils.endsWithIgnoreCase(null, ""));
      * Assert.assertFalse(StringUtils.endsWithIgnoreCase("", null));
      * Assert.assertFalse(StringUtils.endsWithIgnoreCase("", ""));
      * Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cd"));
      * Assert.assertTrue(StringUtils.endsWithIgnoreCase("abcd", "cD"));
+     * }
+     * </pre>
      * -------------------------------------------------------
      *
      * @param str    字符串
@@ -590,9 +679,13 @@ public class StringUtils {
      * 获取字符串对应的字节码数组
      * ----------------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.getBytes(null, null).length, 0);
      * Assert.assertEquals(StringUtils.getBytes("", null).length, 0);
      * Assert.assertEquals(StringUtils.getBytes("ab", Charset.defaultCharset()).length, 2);
+     * }
+     * </pre>
      * ----------------------------------------------------------------
      *
      * @param string  字符串
@@ -608,6 +701,8 @@ public class StringUtils {
      *
      * @param string  字符串
      * @param charset 编码名称
+     * @return 字节数组
+     * @throws UnsupportedEncodingException 不支持的编码异常
      */
     public static byte[] getBytes(final String string, final String charset) throws UnsupportedEncodingException {
         return string == null ? ArrayUtils.EMPTY_BYTE_ARRAY : string.getBytes(Charsets.toCharsetName(charset));
@@ -617,9 +712,13 @@ public class StringUtils {
      * 字符串中的字符序列替换
      * ---------------------------------------------------------
      * 示例：
+     * <pre>
+     * {@code
      * Assert.assertEquals(StringUtils.replace("abc", "ab", "AB"), "ABc");
      * Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", "", ""));
      * Assert.assertThrows(IllegalArgumentException.class, () -> StringUtils.replace("abc", null, ""));
+     * }
+     * </pre>
      * ---------------------------------------------------------
      *
      * @param str         字符串
@@ -641,7 +740,10 @@ public class StringUtils {
      * 替换字符串中的指定字符
      * -------------------------------------------------------------
      * 示例：
+     * <pre>{@code
      * Assert.assertEquals(StringUtils.replace("abc", 'b', 'B'), "aBc");
+     *  }
+     *      </pre>
      * -------------------------------------------------------------
      *
      * @param str     字符串
@@ -660,9 +762,12 @@ public class StringUtils {
      * 字符串两端空格去除，如果为null，则返回null
      * --------------------------------------------------------
      * 示例：
+     * <pre>{@code
      * Assert.assertEquals(StringUtils.trim(null),null);
      * Assert.assertEquals(StringUtils.trim(""),"");
      * Assert.assertEquals(StringUtils.trim(" a "),"a");
+     *  }
+     *      </pre>
      * --------------------------------------------------------
      *
      * @param str 字符串
@@ -676,9 +781,12 @@ public class StringUtils {
      * 将字符串去除两端空格，如果为null,则返回空字符串""
      * --------------------------------------------------------
      * 示例：
+     * <pre>{@code
      * Assert.assertEquals(StringUtils.trimToEmpty(null), "");
      * Assert.assertEquals(StringUtils.trimToEmpty(""), "");
      * Assert.assertEquals(StringUtils.trimToEmpty(" a "), "a");
+     *  }
+     *      </pre>
      * --------------------------------------------------------
      *
      * @param str 字符串
@@ -692,9 +800,12 @@ public class StringUtils {
      * 将字符串去除两端空格，如果为null或"",则返回null
      * --------------------------------------------------------
      * 示例：
+     * <pre>{@code
      * Assert.assertEquals(StringUtils.trimToNull(" "), null);
      * Assert.assertEquals(StringUtils.trimToNull(null), null);
      * Assert.assertEquals(StringUtils.trimToNull(" a "), "a");
+     *  }
+     *      </pre>
      * --------------------------------------------------------
      *
      * @param str 字符串
@@ -709,12 +820,15 @@ public class StringUtils {
      * 字符串分割
      * -----------------------------------------------------
      * 示例如下：
+     * <pre>{@code
      * Assert.assertNotNull(StringUtils.split(null, null));
      * Assert.assertNotNull(StringUtils.split("", null));
      * Assert.assertEquals(StringUtils.split("abcd", "").length,4);
      * Assert.assertEquals(StringUtils.split("abcd", ",").length,1);
      * Assert.assertEquals(StringUtils.split("ab,cd", ",").length,2);
      * Assert.assertEquals(StringUtils.split("abcd", "c").length,2);
+     *  }
+     *      </pre>
      * -----------------------------------------------------
      *
      * @param str            待分割的字符串

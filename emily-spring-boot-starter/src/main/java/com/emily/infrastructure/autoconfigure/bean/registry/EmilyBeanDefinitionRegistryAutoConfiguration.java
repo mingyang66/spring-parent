@@ -12,9 +12,7 @@ import org.springframework.context.annotation.Import;
 
 /**
  * @author Emily
- * @program: spring-parent
- * @description:
- * @create: 2020/09/16
+ * @since 2020/09/16
  */
 @AutoConfiguration
 @Conditional(MacOsCondition.class)
@@ -24,9 +22,9 @@ public class EmilyBeanDefinitionRegistryAutoConfiguration implements Initializin
     private static final Logger logger = LoggerFactory.getLogger(EmilyBeanDefinitionRegistryAutoConfiguration.class);
 
     /**
-     * spring BeanFacory的后置处理器，会在IOC容器执行扫描注册（@ComponentScan和@ComponentScans）、自动化配置加载注册之前执行，提前将bean注入到IOC容器
+     * spring BeanFactory的后置处理器，会在IOC容器执行扫描注册（@ComponentScan和@ComponentScans）、自动化配置加载注册之前执行，提前将bean注入到IOC容器
      *
-     * @return
+     * @return 后置处理器对象
      */
     @Bean
     public EmilyBeanDefinitionRegistryPostProcessor smallEmilyBeanDefinitionRegistryPostProcessor() {

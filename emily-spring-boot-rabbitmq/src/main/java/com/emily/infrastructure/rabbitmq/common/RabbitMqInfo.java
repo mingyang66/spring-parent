@@ -1,9 +1,10 @@
 package com.emily.infrastructure.rabbitmq.common;
 
 /**
- * @Description :  常量类
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/8 10:47 上午
+ * 常量类
+ *
+ * @author Emily
+ * @since Created in 2022/6/8 10:47 上午
  */
 public class RabbitMqInfo {
     /**

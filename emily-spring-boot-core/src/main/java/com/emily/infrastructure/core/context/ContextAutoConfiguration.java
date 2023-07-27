@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
 /**
- * @program: spring-parent
- * @description: 全链路追踪上下文自动化配置
- * @author: Emily
- * @create: 2021/11/27
+ * 全链路追踪上下文自动化配置
+ *
+ * @author Emily
+ * @since 2021/11/27
  */
 @Configuration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -33,8 +33,8 @@ public class ContextAutoConfiguration implements BeanFactoryPostProcessor, Initi
     /**
      * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
      *
-     * @param beanFactory
-     * @throws BeansException
+     * @param beanFactory 工厂类
+     * @throws BeansException 异常
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

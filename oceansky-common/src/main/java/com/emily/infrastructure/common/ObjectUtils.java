@@ -5,9 +5,10 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * @Description :  对象类型工具类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/13 10:30 AM
+ * 对象类型工具类
+ *
+ * @author Emily
+ * @since Created in 2023/6/13 10:30 AM
  */
 public class ObjectUtils {
     /**

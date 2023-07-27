@@ -13,9 +13,9 @@ import java.time.Duration;
 
 /**
  * @program: spring-parent
- * @description: 高速缓存控制器
- * @author: Emily
- * @create: 2021/08/28
+ *  高速缓存控制器
+ * @author Emily
+ * @since 2021/08/28
  */
 @RestController
 @RequestMapping("api/caffeine")

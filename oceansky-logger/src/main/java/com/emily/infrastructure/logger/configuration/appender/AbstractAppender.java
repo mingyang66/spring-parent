@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.manager.LoggerCacheManager;
 /**
  * Appender抽象类
  *
- * @author : Emily
+ * @author Emily
  * @since : 2022/01/04
  */
 public abstract class AbstractAppender {

@@ -1,9 +1,10 @@
 package com.emily.infrastructure.core.exception;
 
 /**
+ * 自定义状态码异常枚举类
+ *
  * @author Emily
- * @Description: 自定义状态码异常枚举类
- * @Version: 1.0
+ * @since 1.0
  */
 public enum HttpStatusType {
     OK(0, "SUCCESS"),

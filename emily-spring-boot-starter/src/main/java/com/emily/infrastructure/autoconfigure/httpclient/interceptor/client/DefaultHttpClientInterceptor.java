@@ -23,10 +23,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
+ * RestTemplate拦截器
+ *
  * @author Emily
- * @program: spring-parent
- * @description: RestTemplate拦截器
- * @create: 2020/08/17
+ * @since 2020/08/17
  */
 public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
 
@@ -35,11 +35,11 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
     /**
      * RestTemplate拦截方法
      *
-     * @param request
-     * @param body
-     * @param execution
-     * @return
-     * @throws IOException
+     * @param request   请求对象
+     * @param body      请求体
+     * @param execution 请求方法执行对象
+     * @return 响应对象
+     * @throws IOException 抛出异常
      */
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {

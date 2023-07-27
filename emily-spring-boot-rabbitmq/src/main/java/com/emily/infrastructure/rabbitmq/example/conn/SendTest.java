@@ -14,8 +14,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @Description: Direct类型交换器发送消息客户端
- * @Version: 1.0
+ * Direct类型交换器发送消息客户端
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 public class SendTest implements Runnable {

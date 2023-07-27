@@ -1,19 +1,20 @@
 package com.emily.infrastructure.core.context.holder;
 
+import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
-import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.language.convert.LanguageType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 
 /**
- * @Description :  上下文实体类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/22 3:51 PM
+ * 上下文实体类
+ *
+ * @author Emily
+ * @since Created in 2023/4/22 3:51 PM
  */
 public class ContextHolder {
     /**

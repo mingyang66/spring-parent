@@ -2,9 +2,9 @@ package com.emily.infrastructure.test.spi;
 
 /**
  * @program: spring-parent
- * @description: 工人
- * @author: Emily
- * @create: 2021/11/30
+ *  工人
+ * @author Emily
+ * @since 2021/11/30
  */
 public class Worker implements People {
 

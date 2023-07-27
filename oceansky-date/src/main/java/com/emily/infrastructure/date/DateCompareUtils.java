@@ -9,8 +9,8 @@ import java.util.Date;
 /**
  * 日期比较工具类，比较两个日期大小
  *
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 5:14 PM
+ * @author Emily
+ * @since Created in 2023/5/14 5:14 PM
  */
 public class DateCompareUtils {
     /**
@@ -19,12 +19,12 @@ public class DateCompareUtils {
      * @param date1   日期字符串
      * @param date2   日期字符串
      * @param pattern 日期格式
-     * @return 1:date1>date2、0:date1=date2 -1:date1<date2
+     * @return 1:date1&gt;date2、0:date1=date2 -1:date1&lt;date2
      */
     public static int compareTo(String date1, String date2, String pattern) {
-        DateAssert.illegalArgument(date1,"非法参数");
-        DateAssert.illegalArgument(date2,"非法参数");
-        DateAssert.illegalArgument(pattern,"非法参数");
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
+        DateAssert.illegalArgument(pattern, "非法参数");
         try {
             DateFormat sdf = new SimpleDateFormat(pattern);
             Date first = sdf.parse(date1);
@@ -40,11 +40,11 @@ public class DateCompareUtils {
      *
      * @param date1 日期字符串
      * @param date2 日期字符串
-     * @return 1:date1>date2、0:date1=date2 -1:date1<date2
+     * @return 1:date1&gt;date2、0:date1=date2 -1:date1&lt;date2
      */
     public static int compareTo(Date date1, Date date2) {
-        DateAssert.illegalArgument(date1,"非法参数");
-        DateAssert.illegalArgument(date2,"非法参数");
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return date1.compareTo(date2);
     }
 
@@ -53,11 +53,11 @@ public class DateCompareUtils {
      *
      * @param date1 日期对象
      * @param date2 日期对象
-     * @return 1:date1>date2、0:date1=date2 -1:date1<date2
+     * @return 1:date1&gt;date2、0:date1=date2 -1:date1&lt;date2
      */
     public static int compareTo(LocalDateTime date1, LocalDateTime date2) {
-        DateAssert.illegalArgument(date1,"非法参数");
-        DateAssert.illegalArgument(date2,"非法参数");
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return date1.compareTo(date2);
     }
 
@@ -66,11 +66,11 @@ public class DateCompareUtils {
      *
      * @param date1 日期对象
      * @param date2 日期对象
-     * @return 1:date1>date2、0:date1=date2 -1:date1<date2
+     * @return 1:date1&gt;date2、0:date1=date2 -1:date1&lt;date2
      */
     public static int compareTo(LocalDate date1, LocalDate date2) {
-        DateAssert.illegalArgument(date1,"非法参数");
-        DateAssert.illegalArgument(date2,"非法参数");
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return date1.compareTo(date2);
     }
 
@@ -79,11 +79,11 @@ public class DateCompareUtils {
      *
      * @param date1 日期对象
      * @param date2 日期对象
-     * @return 1:date1>date2、0:date1=date2 -1:date1<date2
+     * @return 1:date1&gt;date2、0:date1=date2 -1:date1&lt;date2
      */
     public static int compareTo(LocalTime date1, LocalTime date2) {
-        DateAssert.illegalArgument(date1,"非法参数");
-        DateAssert.illegalArgument(date2,"非法参数");
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
         return date1.compareTo(date2);
     }
 
@@ -92,11 +92,11 @@ public class DateCompareUtils {
      *
      * @param duration1 日期对象
      * @param duration2 日期对象
-     * @return 1:duration1>duration2，0:duration1=duration2，-1:duration1<duration2
+     * @return 1:duration1&gt;duration2，0:duration1=duration2，-1:duration1&lt;duration2
      */
     public static int compareTo(Duration duration1, Duration duration2) {
-        DateAssert.illegalArgument(duration1,"非法参数");
-        DateAssert.illegalArgument(duration2,"非法参数");
+        DateAssert.illegalArgument(duration1, "非法参数");
+        DateAssert.illegalArgument(duration2, "非法参数");
         return duration1.compareTo(duration2);
     }
 
@@ -105,11 +105,11 @@ public class DateCompareUtils {
      *
      * @param instant1 日期对象
      * @param instant2 日期对象
-     * @return 1：instant1>instant2，0：instant1=instant2，-1：instant1<instant2
+     * @return 1：instant1&gt;instant2，0：instant1=instant2，-1：instant1&lt;instant2
      */
     public static int compareTo(Instant instant1, Instant instant2) {
-        DateAssert.illegalArgument(instant1,"非法参数");
-        DateAssert.illegalArgument(instant2,"非法参数");
+        DateAssert.illegalArgument(instant1, "非法参数");
+        DateAssert.illegalArgument(instant2, "非法参数");
         return instant1.compareTo(instant2);
     }
 }

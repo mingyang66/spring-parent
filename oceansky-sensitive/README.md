@@ -20,7 +20,7 @@
  * 1.非int、double、float、byte、short、long、boolean、char八种基本数据类型字段才会生效；
  * 2.
  * ---------------------------------------------
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/7/14 5:22 下午
  */
 @Target({ElementType.FIELD})

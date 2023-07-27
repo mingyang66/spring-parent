@@ -9,8 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ生产者交换器、绑定、队列声明
- * @Version: 1.0
+ * RabbitMQ生产者交换器、绑定、队列声明
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Configuration
@@ -30,6 +31,8 @@ public class RabbitDelayConfig {
 
     /**
      * 声明延时队列
+     *
+     * @return Queue对象
      */
     @Bean
     public Queue delayQueue() {
@@ -50,6 +53,8 @@ public class RabbitDelayConfig {
      * 注意：
      * 1.交换器类是CustomExchange
      * 2.交换器类型是x-delayed-message
+     *
+     * @return CustomExchange对象
      */
     @Bean
     public CustomExchange delayExchange() {
@@ -64,6 +69,8 @@ public class RabbitDelayConfig {
 
     /**
      * 延迟队列绑定交换器
+     *
+     * @return Binding对象
      */
     @Bean
     public Binding bindingDelayCustomExchangeQueue() {

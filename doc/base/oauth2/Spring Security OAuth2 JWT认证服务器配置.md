@@ -103,11 +103,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
+ *  @EnableAuthorizationServer注解开启OAuth2授权服务机制
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.AuthorizationServerConfig
  * @Date: 2019/7/9 11:26
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableAuthorizationServer
@@ -219,10 +219,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 /**
- * @Description: 自定义client详细信息类
+ *  自定义client详细信息类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.service.OAuth2ClientDetailsService
- * @Version: 1.0
+ * @since 1.0
  */
 @Service
 public class OAuth2ClientDetailsService implements ClientDetailsService {
@@ -344,11 +344,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * @Description: 启动基于Spring Security的安全认证
+ *  启动基于Spring Security的安全认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.WebSecurityConfigurer
  * @Date: 2019/7/8 17:43
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableWebSecurity
@@ -467,11 +467,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import java.util.Map;
 
 /**
- * @Description: 用户自定义token令牌，包括access_token和refresh_token
+ *  用户自定义token令牌，包括access_token和refresh_token
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
  * @Date: 2019/7/9 19:43
- * @Version: 1.0
+ * @since 1.0
  */
 public class UserTokenEnhancer extends JwtAccessTokenConverter {
     /**
@@ -526,11 +526,11 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 /**
- * @Description: 用户自定义身份认证
+ *  用户自定义身份认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.provider.MyAuthenticationProvider
  * @Date: 2019/7/2 17:17
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
@@ -736,11 +736,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * @Description: 自定义登陆页面
+ *  自定义登陆页面
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.api.GrantController
  * @Date: 2019/7/10 16:28
- * @Version: 1.0
+ * @since 1.0
  */
 @Controller
 @SessionAttributes("authorizationRequest")

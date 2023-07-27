@@ -44,11 +44,11 @@
    import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
    
    /**
-    * @Description: @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器
+    *  @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器
     * @ProjectName: spring-parent
     * @Package: com.yaomy.security.oauth2.config.ResServerConfig
     * @Date: 2019/7/9 13:28
-    * @Version: 1.0
+    * @since 1.0
     */
    @Configuration
    @EnableResourceServer
@@ -131,11 +131,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Description: 资源服务器
+ *  资源服务器
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.resource.api.ResourceController
  * @Date: 2019/7/12 14:59
- * @Version: 1.0
+ * @since 1.0
  */
 @RestController
 @RequestMapping("/resource")
@@ -159,11 +159,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @Description: 资源服务器启动类
+ *  资源服务器启动类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.resource.ResourceBootStrap
  * @Date: 2019/7/12 14:43
- * @Version: 1.0
+ * @since 1.0
  */
 @SpringBootApplication(scanBasePackages = {"com.yaomy.security.resource"})
 public class ResourceBootStrap {

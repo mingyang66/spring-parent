@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @program: spring-parent
- * @description: 响应数据
- * @author: Emily
- * @create: 2021/09/12
+ *  响应数据
+ * @author Emily
+ * @since 2021/09/12
  */
 public class ApiResponse {
 

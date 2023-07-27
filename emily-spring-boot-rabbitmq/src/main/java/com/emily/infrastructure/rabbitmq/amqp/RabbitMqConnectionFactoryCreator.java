@@ -11,9 +11,10 @@ import org.springframework.boot.autoconfigure.amqp.*;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * @Description :  Rabbit工厂创建器 参考：{@link RabbitAutoConfiguration}
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/6 9:54 上午
+ * Rabbit工厂创建器 参考：{@link RabbitAutoConfiguration}
+ *
+ * @author Emily
+ * @since Created in 2022/6/6 9:54 上午
  */
 public class RabbitMqConnectionFactoryCreator {
 
@@ -42,8 +43,8 @@ public class RabbitMqConnectionFactoryCreator {
     /**
      * 创建RabbitConnectionFactoryBeanConfigurer对象
      *
-     * @param properties
-     * @return
+     * @param properties 属性配置
+     * @return 连接工厂配置类
      */
     public RabbitConnectionFactoryBeanConfigurer createRabbitConnectionFactoryBeanConfigurer(RabbitProperties properties) {
         RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader,

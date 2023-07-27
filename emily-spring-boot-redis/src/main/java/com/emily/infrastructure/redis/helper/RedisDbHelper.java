@@ -5,9 +5,10 @@ import com.emily.infrastructure.core.exception.HttpStatusType;
 import org.springframework.util.Assert;
 
 /**
- * @Description :  Redis操作帮助类
- * @Author :  Emily
- * @CreateDate :  Created in 2022/8/18 2:05 下午
+ * Redis操作帮助类
+ *
+ * @author Emily
+ * @since Created in 2022/8/18 2:05 下午
  */
 public class RedisDbHelper {
 
@@ -16,7 +17,7 @@ public class RedisDbHelper {
      *
      * @param prefix key的开头
      * @param keys   可以指定多个key
-     * @return
+     * @return redis建值
      */
     public static String getKey(String prefix, String... keys) {
         Assert.notNull(prefix, HttpStatusType.ILLEGAL_ARGUMENT.getMessage());

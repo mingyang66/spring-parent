@@ -6,9 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 /**
- * @Description :  RabbitMq属性配置
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/2 5:06 下午
+ * RabbitMq属性配置
+ *
+ * @author Emily
+ * @since Created in 2022/6/2 5:06 下午
  */
 @ConfigurationProperties(prefix = RabbitMqProperties.PREFIX)
 public class RabbitMqProperties {

@@ -2,9 +2,10 @@ package com.emily.infrastructure.core.exception;
 
 
 /**
+ * 业务异常
+ *
  * @author Emily
- * @Description: 业务异常
- * @Version: 1.0
+ * @since 1.0
  */
 public class BasicException extends RuntimeException {
     /**

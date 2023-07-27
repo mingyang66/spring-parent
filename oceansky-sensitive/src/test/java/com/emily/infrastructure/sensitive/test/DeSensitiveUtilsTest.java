@@ -7,7 +7,7 @@ import org.junit.Test;
 
 /**
  *  实体类对象脱敏单元测试
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/5/31 3:34 PM
  */
 public class DeSensitiveUtilsTest {

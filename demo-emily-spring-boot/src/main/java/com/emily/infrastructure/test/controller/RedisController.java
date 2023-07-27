@@ -17,9 +17,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
- * @description: 缓存测试
- * @author: Emily
- * @create: 2021/07/14
+ *  缓存测试
+ * @author Emily
+ * @since 2021/07/14
  */
 @RestController
 @RequestMapping("api/redis")

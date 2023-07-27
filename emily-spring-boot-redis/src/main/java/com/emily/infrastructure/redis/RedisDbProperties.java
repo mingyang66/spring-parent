@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @program: spring-parent
- * @description: Redis多数据源配置文件
- * @author: Emily
- * @create: 2021/07/11
+ * Redis多数据源配置文件
+ *
+ * @author Emily
+ * @since 2021/07/11
  */
 @ConfigurationProperties(prefix = RedisDbProperties.PREFIX)
 public class RedisDbProperties {

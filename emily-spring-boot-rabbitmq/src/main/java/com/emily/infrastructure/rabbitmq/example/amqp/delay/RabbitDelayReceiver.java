@@ -15,8 +15,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ消息消费者（延迟队列）
- * @Version: 1.0
+ * RabbitMQ消息消费者（延迟队列）
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component
@@ -24,7 +25,7 @@ public class RabbitDelayReceiver {
     /**
      * @param channel 信道
      * @param message 消息
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
@@ -38,7 +39,7 @@ public class RabbitDelayReceiver {
     /**
      * @param channel 信道
      * @param message 消息
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     public void onMessage(Channel channel, org.springframework.amqp.core.Message message) throws Exception {
@@ -57,7 +58,7 @@ public class RabbitDelayReceiver {
      * @param body           负载
      * @param amqp_messageId 消息唯一标识
      * @param headers        消息header
-     * @throws Exception
+     * @throws Exception 异常
      */
     //获取特定的消息
     @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
@@ -79,7 +80,7 @@ public class RabbitDelayReceiver {
      * @param channel 信道
      * @param body    负载
      * @param headers 消息header
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitDelayConfig.DELAY_TEST_QUEUE)
     //@RabbitHandler

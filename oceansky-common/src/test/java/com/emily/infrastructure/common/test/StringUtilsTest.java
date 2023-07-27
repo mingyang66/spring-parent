@@ -8,9 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
- * @Description :
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/4 2:14 PM
+ *
+ * @author  Emily
+ * @since  Created in 2023/6/4 2:14 PM
  */
 public class StringUtilsTest {
     @Test

@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @program: spring-parent
- * @description: Redis数据库事件消费，参考：https://my.oschina.net/go4it/blog/2049651
- * @author: Emily
- * @create: 2021/11/06
+ * Redis数据库事件消费，参考：https://my.oschina.net/go4it/blog/2049651
+ *
+ * @author Emily
+ * @since 2021/11/06
  */
 public class RedisDbEventConsumer {
 

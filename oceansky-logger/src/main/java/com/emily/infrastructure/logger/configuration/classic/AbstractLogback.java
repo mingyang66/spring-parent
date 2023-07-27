@@ -6,7 +6,7 @@ import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 /**
  * 日志实现抽象类
  *
- * @author : Emily
+ * @author Emily
  * @since : 2021/12/17
  */
 public abstract class AbstractLogback {

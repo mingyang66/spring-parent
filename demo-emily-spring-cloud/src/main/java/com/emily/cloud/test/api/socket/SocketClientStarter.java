@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 /**
  * @author Emily
  * @program: spring-parent
- * @description: 客户端
- * @create: 2021/03/04
+ *  客户端
+ * @since 2021/03/04
  */
 public class SocketClientStarter {
     public static void main(String[] args) {

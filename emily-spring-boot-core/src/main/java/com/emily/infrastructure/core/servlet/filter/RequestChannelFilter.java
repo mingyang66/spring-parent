@@ -8,9 +8,10 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link DelegateRequestWrapper}
+ *
  * @author Emily
- * @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link DelegateRequestWrapper}
- * @create: 2020/8/19
+ * @since 2020/8/19
  */
 public class RequestChannelFilter implements Filter {
     @Override

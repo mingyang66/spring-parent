@@ -16,11 +16,11 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.security.core.Authentication;
 
 /**
- * @Description: 定义用户登录失败事件
+ *  定义用户登录失败事件
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.event.event.UserLoginFailedEvent
  * @Date: 2019/7/31 10:46
- * @Version: 1.0
+ * @since 1.0
  */
 public class UserLoginFailedEvent extends ApplicationEvent {
     public UserLoginFailedEvent(Authentication authentication) {
@@ -40,11 +40,11 @@ import org.springframework.security.authentication.event.InteractiveAuthenticati
 import org.springframework.stereotype.Component;
 
 /**
- * @Description: 用户登录失败监听器
+ *  用户登录失败监听器
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.handler.ApplicationListenerAuthencationSuccess
  * @Date: 2019/7/25 11:27
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserLoginFailedListener implements ApplicationListener<UserLoginFailedEvent> {
@@ -79,11 +79,11 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 /**
- * @Description: 用户自定义身份认证
+ *  用户自定义身份认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.provider.MyAuthenticationProvider
  * @Date: 2019/7/2 17:17
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {

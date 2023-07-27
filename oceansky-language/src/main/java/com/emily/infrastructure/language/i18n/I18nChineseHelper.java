@@ -16,6 +16,7 @@ public class I18nChineseHelper {
     /**
      * 简体转繁体
      *
+     * @param content 字符串
      * @return 繁体字符串
      */
     public static String convertToTraditionalChinese(String content) {
@@ -59,7 +60,7 @@ public class I18nChineseHelper {
     }
 
     /**
-     * 转半角的函数(DBC case)<br/><br/>
+     * 转半角的函数(DBC case)
      * 全角空格为12288，半角空格为32
      * 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
      *
@@ -83,7 +84,7 @@ public class I18nChineseHelper {
     }
 
     /**
-     * 转全角的方法(SBC case)<br/><br/>
+     * 转全角的方法(SBC case)
      * 全角空格为12288，半角空格为32
      * 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
      *

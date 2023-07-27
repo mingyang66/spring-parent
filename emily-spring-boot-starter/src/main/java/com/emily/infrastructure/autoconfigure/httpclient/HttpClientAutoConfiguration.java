@@ -44,9 +44,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
 /**
+ * 将RestTemplate加入容器
+ *
  * @author Emily
- * @Description: 将RestTemplate加入容器
- * @Version: 1.0
+ * @since 1.0
  */
 @AutoConfiguration
 @ConditionalOnClass(RestTemplate.class)
@@ -59,6 +60,11 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
 
     /**
      * 将RestTemplate加入容器，对异常处理进行处理，使异常也可以返回结果
+     *
+     * @param httpClientCustomizers    扩展点
+     * @param clientHttpRequestFactory 请求工厂类
+     * @param httpClientProperties     属性配置
+     * @return http请求对象
      */
     @Primary
     @Bean
@@ -79,6 +85,12 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
 
     /**
      * 定义HTTP请求工厂方法,设置超市时间
+     *
+     * @param properties 属性配置
+     * @return 请求工厂对象
+     * @throws KeyStoreException        抛出异常
+     * @throws NoSuchAlgorithmException 抛出异常
+     * @throws KeyManagementException   抛出异常
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -110,6 +122,9 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
 
     /**
      * RestTemplate请求超时切面（单个请求）
+     *
+     * @param httpTimeoutCustomizers 扩展点方法
+     * @return 切面对象
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

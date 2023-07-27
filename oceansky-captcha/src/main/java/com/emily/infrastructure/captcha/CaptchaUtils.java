@@ -8,10 +8,19 @@ import java.io.IOException;
 import java.util.Random;
 
 /**
+ * 图形验证码
+ * 获取字体名称
+ * <pre>
+ *     {@code
+ *      String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+ *     }
+ * </pre>
+ * 获取字体对象
+ * <pre>{@code
+ * Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+ * }</pre>
+ *
  * @author Emily
- * @Description 图形验证码
- * @See Also: 获取字体名称 String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
- * @See Also: 获取字体对象 Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
  */
 public class CaptchaUtils {
 
@@ -47,8 +56,8 @@ public class CaptchaUtils {
      * @param height   画板高度
      * @param count    验证码个数
      * @param fontSize 字体大小
-     * @return
-     * @Description: 绘制数字图形验证码，不带干扰线
+     * @return 绘制数字图形验证码，不带干扰线
+     * @throws IOException 异常
      */
     public static Captcha createDigit(int width, int height, int count, int fontSize) throws IOException {
         return createDigit(width, height, count, fontSize, false, null);
@@ -61,8 +70,8 @@ public class CaptchaUtils {
      * @param fontSize  字体大小
      * @param line      是否画干扰线
      * @param lineCount 干扰线数量
-     * @return
-     * @Description: 绘制数字图形验证码
+     * @return 绘制数字图形验证码
+     * @throws IOException 异常
      */
     public static Captcha createDigit(int width, int height, int count, int fontSize, boolean line, Integer lineCount) throws IOException {
         /**
@@ -80,9 +89,8 @@ public class CaptchaUtils {
      * @param height   画板高度
      * @param count    验证码个数
      * @param fontSize 字体大小
-     * @return
-     * @throws IOException
-     * @Description: 绘制字母图形验证码
+     * @return 图形验证码对象
+     * @throws IOException 绘制字母图形验证码
      */
     public static Captcha createLetter(int width, int height, int count, int fontSize) throws IOException {
         return createLetter(width, height, count, fontSize, false, null);
@@ -95,9 +103,8 @@ public class CaptchaUtils {
      * @param fontSize  字体大小
      * @param line      是否画干扰线
      * @param lineCount 干扰线数量
-     * @return
-     * @throws IOException
-     * @Description: 绘制字母图形验证码
+     * @return 图形验证码对象
+     * @throws IOException 绘制字母图形验证码
      */
     public static Captcha createLetter(int width, int height, int count, int fontSize, boolean line, Integer lineCount) throws IOException {
         /**
@@ -115,24 +122,24 @@ public class CaptchaUtils {
      * @param height   画板高度
      * @param count    验证码个数
      * @param fontSize 字体大小
-     * @return
-     * @throws IOException
-     * @Description: 绘制数字字母图形验证码
+     * @return 图形验证码对象
+     * @throws IOException 绘制数字字母图形验证码
      */
     public static Captcha createAlphanumeric(int width, int height, int count, int fontSize) throws IOException {
         return createAlphanumeric(width, height, count, fontSize, false, null);
     }
 
     /**
+     * 绘制数字字母图形验证码
+     *
      * @param width     画板宽度
      * @param height    画板高度
      * @param count     验证码个数
      * @param fontSize  字体大小
      * @param line      是否画干扰线
      * @param lineCount 干扰线数量
-     * @return
-     * @throws IOException
-     * @Description: 绘制数字字母图形验证码
+     * @return 图形验证码对象
+     * @throws IOException 异常
      */
     public static Captcha createAlphanumeric(int width, int height, int count, int fontSize, boolean line, Integer lineCount) throws IOException {
         /**
@@ -153,8 +160,7 @@ public class CaptchaUtils {
      * @param line      是否绘制干扰线
      * @param lineCount 干扰线条数
      * @return 生成的图形验证码对象
-     * @throws IOException
-     * @Description: 生成图形验证码
+     * @throws IOException 生成图形验证码
      */
     public static Captcha create2D(int width, int height, String[] code, Font font, boolean line, Integer lineCount) throws IOException {
         // 创建空白图片
@@ -187,7 +193,7 @@ public class CaptchaUtils {
      * @param width   画板宽度
      * @param height  画板高度
      * @param code    图形验证码字符串
-     * @Description 画图形验证码
+     *                画图形验证码
      */
     protected static void drawCode(Graphics graphic, int width, int height, String[] code) {
         // 计算文字长度，计算居中的x点坐标，即字符串左边位置
@@ -220,7 +226,7 @@ public class CaptchaUtils {
         int y = (height - (fm.getAscent() + fm.getDescent())) / 2 + fm.getAscent();
         for (int i = 0; i < code.length; i++) {
             // 设置随机颜色
-            graphic.setColor(new Color(RANDOM.nextInt(255), RANDOM.nextInt(255), RANDOM.nextInt( 255)));
+            graphic.setColor(new Color(RANDOM.nextInt(255), RANDOM.nextInt(255), RANDOM.nextInt(255)));
             // 绘制字符串
             graphic.drawString(code[i], x + (textWidth / code.length) * i, y);
         }
@@ -258,7 +264,7 @@ public class CaptchaUtils {
      * @param width     画板宽度
      * @param height    画板高度
      * @param lineCount 干扰线条数
-     * @Description 绘制干扰线
+     *                  绘制干扰线
      */
     protected static void drawLine(Graphics graphic, int width, int height, Integer lineCount) {
         // 画干扰线

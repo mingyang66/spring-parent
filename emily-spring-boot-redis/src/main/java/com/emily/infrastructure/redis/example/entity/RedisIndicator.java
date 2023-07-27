@@ -4,10 +4,10 @@ import java.text.MessageFormat;
 import java.util.Properties;
 
 /**
- * @program: spring-parent
- * @description: Redis监控指标
- * @author: Emily
- * @create: 2021/09/16
+ * Redis监控指标
+ *
+ * @author Emily
+ * @since 2021/09/16
  */
 public class RedisIndicator {
     /**

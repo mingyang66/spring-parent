@@ -1,9 +1,10 @@
 package com.emily.infrastructure.core.constant;
 
 /**
+ * 字符集编码
+ *
  * @author Emily
- * @Description: 字符集编码
- * @Version: 1.0
+ * @since 1.0
  */
 public class CharsetInfo {
     public static String GBK = "GBK";

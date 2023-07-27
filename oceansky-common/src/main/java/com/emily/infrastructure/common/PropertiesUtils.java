@@ -6,9 +6,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 /**
- * @Description :  文件资源读取操作
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/28 4:37 PM
+ * 文件资源读取操作
+ *
+ * @author Emily
+ * @since Created in 2023/5/28 4:37 PM
  */
 public class PropertiesUtils {
     public static final String FILE_PREFIX = "file://";
@@ -45,6 +46,7 @@ public class PropertiesUtils {
      *
      * @param filePath 文件路径
      * @return 键值对类型对象
+     * @throws IOException 异常
      */
     public static Properties loadConfig(String filePath) throws IOException {
         Properties properties = new Properties();
@@ -89,6 +91,7 @@ public class PropertiesUtils {
      *
      * @param filePath 文件路径
      * @return InputStream流
+     * @throws FileNotFoundException 文件不存在异常
      */
     public static InputStream getFileAsStream(String filePath) throws FileNotFoundException {
         InputStream inStream;

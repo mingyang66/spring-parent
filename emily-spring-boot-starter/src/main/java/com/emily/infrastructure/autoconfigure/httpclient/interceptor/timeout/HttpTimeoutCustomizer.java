@@ -5,16 +5,16 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.Ordered;
 
 /**
- * @Description :  RestTemplate请求超时时间设置接口
- * @Author :  Emily
- * @CreateDate :  Created in 2022/8/3 2:42 下午
+ * RestTemplate请求超时时间设置接口
+ *
+ * @author Emily
  * @since 4.1.3
  */
 public interface HttpTimeoutCustomizer extends MethodInterceptor, Ordered {
     /**
      * 拦截器前置方法
      *
-     * @param invocation
+     * @param invocation 反射方法对象
      */
     void before(MethodInvocation invocation);
 

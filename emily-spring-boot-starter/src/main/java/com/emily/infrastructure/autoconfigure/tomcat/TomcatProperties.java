@@ -3,9 +3,10 @@ package com.emily.infrastructure.autoconfigure.tomcat;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * http属性配置文件
+ *
  * @author Emily
- * @description: http属性配置文件
- * @create: 2020/06/28
+ * @since 2020/06/28
  */
 @ConfigurationProperties(prefix = "server.http")
 public class TomcatProperties {

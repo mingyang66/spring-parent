@@ -14,8 +14,8 @@ import java.util.List;
  * org.apache.ibatis.reflection.ParamNameResolver#getNamedParams(java.lang.Object[])
  *
  * @author Emily
- * @Description: Description
- * @Version: 1.0
+ *  Description
+ * @since 1.0
  */
 @Mapper
 public interface MysqlMapper {

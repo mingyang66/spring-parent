@@ -1,10 +1,10 @@
 package com.emily.infrastructure.core.exception;
 
 /**
- * @program: spring-parent
- * @description: 业务异常
- * @author: Emily
- * @create: 2021/10/12
+ * 业务异常
+ *
+ * @author Emily
+ * @since 2021/10/12
  */
 public class BusinessException extends BasicException {
     public BusinessException() {

@@ -107,8 +107,8 @@ import com.rabbitmq.client.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description: Direct类型交换器发送消息客户端
- * @Version: 1.0
+ *  Direct类型交换器发送消息客户端
+ * @since 1.0
  */
 public class Send {
     /**
@@ -211,8 +211,8 @@ import com.rabbitmq.client.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description: Direct类型交换器消费者
- * @Version: 1.0
+ *  Direct类型交换器消费者
+ * @since 1.0
  */
 public class Recv {
     /**

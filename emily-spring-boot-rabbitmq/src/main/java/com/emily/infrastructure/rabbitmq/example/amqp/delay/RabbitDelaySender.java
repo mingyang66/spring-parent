@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description: RabbitMQ生产者（延迟队列）
- * @ProjectName: spring-parent
- * @Version: 1.0
+ * RabbitMQ生产者（延迟队列）
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component
@@ -105,9 +105,9 @@ public class RabbitDelaySender {
      * 发送消息
      *
      * @param exchange   交换器
-     * @param route      路由键
+     * @param routingKey 路由键
      * @param message    消息
-     * @param properties
+     * @param properties 属性配置
      */
     public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties) {
         /**

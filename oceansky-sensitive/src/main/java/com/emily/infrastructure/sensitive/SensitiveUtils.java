@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * 对实体类镜像脱敏，返回结构相同的非同一个对象
  *
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2022/7/19 3:13 下午
  */
 public class SensitiveUtils {

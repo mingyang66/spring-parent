@@ -27,9 +27,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
- * @description: http控制器
- * @author: Emily
- * @create: 2021/11/11
+ *  http控制器
+ * @author Emily
+ * @since 2021/11/11
  */
 @RequestMapping("api/http")
 @RestController

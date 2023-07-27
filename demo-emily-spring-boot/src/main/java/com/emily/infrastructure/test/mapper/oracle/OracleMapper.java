@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author Emily
- * @Description: Description
- * @Version: 1.0
+ *  Description
+ * @since 1.0
  */
 @Mapper
 public interface OracleMapper {

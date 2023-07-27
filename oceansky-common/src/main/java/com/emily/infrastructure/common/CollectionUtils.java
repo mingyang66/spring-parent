@@ -6,9 +6,10 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * @Description :  集合工具操作类类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/3 9:31 AM
+ * 集合工具操作类类
+ *
+ * @author Emily
+ * @since Created in 2023/6/3 9:31 AM
  */
 public abstract class CollectionUtils {
     /**

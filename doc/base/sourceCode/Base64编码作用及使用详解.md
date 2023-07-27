@@ -48,7 +48,7 @@ import java.util.Base64;
  * 不在这个范围内的字符无法传输。那么该怎么才能传输其它字符呢？其中一种方式就是使用Base64
  *
  * @program: spring-parent
- * @description: base64编码工具类
+ *  base64编码工具类
  * @create: 2020/05/21
  */
 public class Base64Utils {

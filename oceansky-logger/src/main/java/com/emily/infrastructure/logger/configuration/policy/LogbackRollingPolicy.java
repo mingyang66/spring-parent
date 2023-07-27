@@ -14,7 +14,7 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 /**
  * logback归档策略
  *
- * @author : Emily
+ * @author Emily
  * @since : 2022/01/10
  */
 public class LogbackRollingPolicy {

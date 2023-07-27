@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @author Emily
- * @program: spring-parent
- * @description:
- * @create: 2020/09/11
+ * @since 2020/09/11
  */
 @AutoConfiguration
 public class EmilyBeanFactoryPostProcessorAutoConfiguration implements InitializingBean, DisposableBean {

@@ -23,9 +23,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
+ * 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ *
  * @author Emily
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
- * @Version: 1.0
+ * @since 1.0
  */
 public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomizer {
 
@@ -35,8 +36,8 @@ public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomize
      * 拦截接口日志
      *
      * @param invocation 接口方法切面连接点
-     * @return
-     * @throws Throwable
+     * @return 接口返回值
+     * @throws Throwable 异常
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

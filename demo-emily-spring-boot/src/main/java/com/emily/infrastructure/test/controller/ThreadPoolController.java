@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Emily
  * @program: spring-parent
- * @description: 线程池监控控制器
- * @create: 2020/08/25
+ *  线程池监控控制器
+ * @since 2020/08/25
  */
 @RestController
 @RequestMapping("threadPool")

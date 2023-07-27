@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description :  学生
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/17 3:34 PM
+ *  学生
+ * @author  Emily
+ * @since  Created in 2023/4/17 3:34 PM
  */
 @JsonI18n
 public class Student extends People {

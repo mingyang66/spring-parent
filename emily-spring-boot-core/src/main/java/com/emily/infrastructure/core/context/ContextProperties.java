@@ -3,12 +3,10 @@ package com.emily.infrastructure.core.context;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * m
+ * 链路追踪上下文属性配置
  *
- * @program: spring-parent
- * @description: 链路追踪上下文属性配置
- * @author: Emily
- * @create: 2021/11/27
+ * @author Emily
+ * @since 2021/11/27
  */
 @ConfigurationProperties(prefix = ContextProperties.PREFIX)
 public class ContextProperties {

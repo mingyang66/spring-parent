@@ -7,10 +7,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
+ * 日志基础类
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 日志基础类
- * @create: 2020/11/14
+ * @since 2020/11/14
  */
 public class BaseLogger implements Serializable {
     /**

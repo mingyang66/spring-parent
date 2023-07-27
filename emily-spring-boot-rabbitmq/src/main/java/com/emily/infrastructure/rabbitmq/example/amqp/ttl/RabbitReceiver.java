@@ -15,8 +15,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ消息消费者
- * @Version: 1.0
+ * RabbitMQ消息消费者
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component
@@ -24,7 +25,7 @@ public class RabbitReceiver {
     /**
      * @param channel 信道
      * @param message 消息
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {
@@ -39,7 +40,7 @@ public class RabbitReceiver {
     /**
      * @param channel 信道
      * @param message 消息
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     public void onMessage(Channel channel, org.springframework.amqp.core.Message message) throws Exception {
@@ -58,7 +59,7 @@ public class RabbitReceiver {
      * @param body           负载
      * @param amqp_messageId 消息唯一标识
      * @param headers        消息header
-     * @throws Exception
+     * @throws Exception 异常
      */
     //获取特定的消息
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
@@ -80,7 +81,7 @@ public class RabbitReceiver {
      * @param channel 信道
      * @param body    负载
      * @param headers 消息header
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitConfig.TTL_TOPIC_QUEUE)
     //@RabbitHandler

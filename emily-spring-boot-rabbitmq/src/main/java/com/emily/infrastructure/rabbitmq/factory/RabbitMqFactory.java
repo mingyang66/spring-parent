@@ -18,13 +18,16 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
- * @Description :  RabbitMq消息中间件工厂类
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/6 11:31 上午
+ * RabbitMq消息中间件工厂类
+ *
+ * @author Emily
+ * @since Created in 2022/6/6 11:31 上午
  */
 public class RabbitMqFactory {
     /**
      * 获取RabbitTemplate对象
+     *
+     * @return RabbitTemplate对象
      */
     public static RabbitTemplate getRabbitTemplate() {
         return getRabbitTemplate(IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig());
@@ -34,7 +37,7 @@ public class RabbitMqFactory {
      * 获取RabbitTemplate对象
      *
      * @param key 消息中间件配置标识
-     * @return
+     * @return RabbitTemplate对象
      */
     public static RabbitTemplate getRabbitTemplate(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
@@ -54,6 +57,8 @@ public class RabbitMqFactory {
      * amqpAdmin.declareExchange(exchange);
      * amqpAdmin.declareQueue(queue);
      * amqpAdmin.declareBinding(binding);
+     *
+     * @return AmqpAdmin对象
      */
     public static AmqpAdmin getAmqpAdmin() {
         return getAmqpAdmin(IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig());
@@ -70,7 +75,7 @@ public class RabbitMqFactory {
      * amqpAdmin.declareBinding(binding);
      *
      * @param key 消息中间件配置标识
-     * @return
+     * @return AmqpAdmin对象
      */
     public static AmqpAdmin getAmqpAdmin(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
@@ -83,6 +88,8 @@ public class RabbitMqFactory {
 
     /**
      * 获取RabbitMessagingTemplate实例对象
+     *
+     * @return RabbitMessagingTemplate对象
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate() {
         return getRabbitMessagingTemplate(IOCContext.getBean(RabbitMqProperties.class).getDefaultConfig());
@@ -92,7 +99,7 @@ public class RabbitMqFactory {
      * 获取RabbitMessagingTemplate实例对象
      *
      * @param key 消息中间件标识
-     * @return
+     * @return RabbitMessagingTemplate对象
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
@@ -136,7 +143,7 @@ public class RabbitMqFactory {
      * 获取RabbitMQ消息中间件通道
      *
      * @param transactional true-支持事务，false-不支持事务
-     * @return
+     * @return Channel对象
      */
     public static Channel getChannel(boolean transactional) {
         return getChannel(null, transactional);
@@ -147,7 +154,7 @@ public class RabbitMqFactory {
      *
      * @param key           中间件配置标识
      * @param transactional true-支持事务，false-不支持事务
-     * @return
+     * @return Channel对象
      */
     public static Channel getChannel(String key, boolean transactional) {
         ConnectionFactory connectionFactory = getRabbitTemplate(key).getConnectionFactory();

@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger.configuration.type;
 /**
  * 日志类型
  *
- * @author : Emily
+ * @author Emily
  * @since : 2021/7/7
  */
 public enum LogbackType {

@@ -1,9 +1,10 @@
 package com.emily.infrastructure.core.constant;
 
 /**
- * @Description :  数字常量
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/4 9:47 AM
+ * 数字常量
+ *
+ * @author Emily
+ * @since Created in 2023/4/4 9:47 AM
  */
 public class NumberInfo {
     public static final int N0 = 0;

@@ -1,6 +1,7 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
@@ -11,7 +12,6 @@ import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
@@ -32,9 +32,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Description :  异常处理基础类
- * @Author : Emily
- * @CreateDate :  Created in 2022/7/8 1:43 下午
+ * 异常处理基础类
+ *
+ * @author Emily
+ * @since Created in 2022/7/8 1:43 下午
  */
 public class GlobalExceptionCustomizer {
 
@@ -83,6 +84,9 @@ public class GlobalExceptionCustomizer {
 
     /**
      * 获取异常堆栈信息并记录到error文件中
+     *
+     * @param ex      异常对象
+     * @param request 请求对象
      */
     public static void recordErrorMsg(Throwable ex, HttpServletRequest request) {
         String errorMsg = PrintExceptionInfo.printErrorInfo(ex);

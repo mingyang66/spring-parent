@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  *   集合类型
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/5/28 2:45 PM
  */
 @JsonSensitive

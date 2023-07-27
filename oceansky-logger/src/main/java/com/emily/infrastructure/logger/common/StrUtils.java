@@ -6,7 +6,7 @@ import ch.qos.logback.core.util.OptionHelper;
 /**
  * 日志工具类
  *
- * @author :  Emily
+ * @author  Emily
  * @since : Created in 2023/7/9 4:34 PM
  */
 public class StrUtils {

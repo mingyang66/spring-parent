@@ -5,10 +5,10 @@ import org.springframework.util.AntPathMatcher;
 import java.util.Set;
 
 /**
- * @Description: 处理匹配地址
- * @Author: Emily
- * @Date: 2019/11/13 13:39
- * @Version: 1.0
+ * 处理匹配地址
+ *
+ * @author Emily
+ * @since 1.0
  */
 public class AntPathUtils {
 
@@ -21,9 +21,9 @@ public class AntPathUtils {
      * *:匹配0或多个字符
      * **:匹配0或多个目录
      *
-     * @param routes
-     * @param route
-     * @return
+     * @param routes 路由集合
+     * @param route  路由
+     * @return true-符合，false-不符合
      */
     public static boolean match(Set<String> routes, String route) {
         AntPathMatcher matcher = new AntPathMatcher();

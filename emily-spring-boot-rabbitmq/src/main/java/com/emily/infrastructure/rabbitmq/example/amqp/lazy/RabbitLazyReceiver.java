@@ -8,8 +8,9 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description: RabbitMQ消息消费者
- * @Version: 1.0
+ * RabbitMQ消息消费者
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Component
@@ -17,7 +18,7 @@ public class RabbitLazyReceiver {
     /**
      * @param channel 信道
      * @param message 消息
-     * @throws Exception
+     * @throws Exception 异常
      */
     @RabbitListener(queues = RabbitLazyConfig.LAZY_TOPIC_QUEUE)
     public void onMessage(Channel channel, Message message) throws Exception {

@@ -15,9 +15,9 @@ import java.util.List;
 
 /**
  * @program: spring-parent
- * @description: 参数控制器
- * @author: Emily
- * @create: 2021/10/30
+ *  参数控制器
+ * @author Emily
+ * @since 2021/10/30
  */
 @Validated
 @RestController

@@ -38,9 +38,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Description :  rabbitmq自动化配置
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/2 4:58 下午
+ * rabbitmq自动化配置
+ *
+ * @author Emily
+ * @since Created in 2022/6/2 4:58 下午
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration(before = RabbitAutoConfiguration.class)
@@ -96,14 +97,14 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
     /**
      * RabbitMQ消息中间件多元组件初始化
      *
-     * @param rabbitMqProperties
-     * @param defaultListableBeanFactory
-     * @param connectionFactoryCreator
-     * @param templateConfiguration
-     * @param messagingTemplateConfiguration
-     * @param rabbitMqAnnotationDrivenConfiguration
-     * @return
-     * @throws Exception
+     * @param rabbitMqProperties                    属性配置
+     * @param defaultListableBeanFactory            todo
+     * @param connectionFactoryCreator              todo
+     * @param templateConfiguration                 todo
+     * @param messagingTemplateConfiguration        todo
+     * @param rabbitMqAnnotationDrivenConfiguration todo
+     * @return 预定字符串
+     * @throws Exception 异常
      */
     @Bean
     public Object rabbitTemplates(RabbitMqProperties rabbitMqProperties,
@@ -151,9 +152,10 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
     /**
      * 参考：org.springframework.boot.autoconfigure.amqp.RabbitAnnotationDrivenConfiguration
      *
-     * @param connectionFactory
-     * @param properties
-     * @return
+     * @param connectionFactory                        工厂类
+     * @param properties                               属性配置
+     * @param rabbitListenerContainerFactoryConfigurer 工厂配置类
+     * @return 连接工厂
      */
     protected AbstractRabbitListenerContainerFactory getRabbitListenerContainerFactory(ConnectionFactory connectionFactory, RabbitProperties properties,
                                                                                        AbstractRabbitListenerContainerFactoryConfigurer rabbitListenerContainerFactoryConfigurer) {

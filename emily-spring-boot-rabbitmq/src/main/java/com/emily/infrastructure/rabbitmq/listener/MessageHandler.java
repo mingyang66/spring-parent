@@ -3,9 +3,8 @@ package com.emily.infrastructure.rabbitmq.listener;
 import org.springframework.amqp.core.Message;
 
 /**
- * @Description :
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/14 1:37 下午
+ * @author Emily
+ * @since Created in 2022/6/14 1:37 下午
  */
 public class MessageHandler {
     public void handleMessage(Message message) {

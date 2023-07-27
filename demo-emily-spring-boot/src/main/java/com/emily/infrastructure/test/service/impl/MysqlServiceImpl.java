@@ -10,9 +10,9 @@ import java.util.List;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: Emily
- * @create: 2021/05/13
+ * 
+ * @author Emily
+ * @since 2021/05/13
  */
 @Service
 public class MysqlServiceImpl implements MysqlService {

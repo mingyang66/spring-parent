@@ -46,11 +46,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器
+ *  @EnableResourceServer注解实际上相当于加上OAuth2AuthenticationProcessingFilter过滤器
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.ResServerConfig
  * @Date: 2019/7/9 13:28
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableResourceServer
@@ -147,11 +147,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Description: 资源服务器
+ *  资源服务器
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.resource.api.ResourceController
  * @Date: 2019/7/12 14:59
- * @Version: 1.0
+ * @since 1.0
  */
 @RestController
 @RequestMapping("/resource")
@@ -194,11 +194,11 @@ public class ResourceController {
  import java.io.IOException;
  
  /**
-  * @Description: 用来解决匿名用户访问无权限资源时的异常
+  *  用来解决匿名用户访问无权限资源时的异常
   * @ProjectName: spring-parent
   * @Package: com.yaomy.security.handler.AjaxAuthenticationEntryPoint
   * @Date: 2019/7/1 15:36
-  * @Version: 1.0
+  * @since 1.0
   */
  @Component
  public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -229,11 +229,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Description: 用来解决认证过的用户访问无权限资源时的异常
+ *  用来解决认证过的用户访问无权限资源时的异常
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxAccessDeniedHandler
  * @Date: 2019/7/1 15:34
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserAccessDeniedHandler implements AccessDeniedHandler {
@@ -260,11 +260,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Description: Description
+ *  Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.common.utils.HttpUtils
  * @Date: 2019/7/18 9:34
- * @Version: 1.0
+ * @since 1.0
  */
 public class HttpUtils {
     /**
@@ -285,11 +285,11 @@ package com.yaomy.common.po;
 import lombok.Data;
 
 /**
- * @Description: Description
+ *  Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.AjaxResponseBody
  * @Date: 2019/7/1 15:33
- * @Version: 1.0
+ * @since 1.0
  */
 @Data
 public class BaseResponse {

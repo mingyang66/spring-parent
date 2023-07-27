@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 /**
  * @author Emily
- * @Description: Description
- * @ProjectName: spring-parent
- * @Date: 2020/1/2 17:10
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 public class BeanConfig {

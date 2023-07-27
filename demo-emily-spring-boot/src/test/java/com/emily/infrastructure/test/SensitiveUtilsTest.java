@@ -6,9 +6,9 @@ import com.emily.infrastructure.test.po.sensitive.UploadRequest;
 import org.junit.Test;
 
 /**
- * @Description :  脱敏单元测试类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/20 9:17 AM
+ *  脱敏单元测试类
+ * @author  Emily
+ * @since  Created in 2023/5/20 9:17 AM
  */
 public class SensitiveUtilsTest {
     @Test

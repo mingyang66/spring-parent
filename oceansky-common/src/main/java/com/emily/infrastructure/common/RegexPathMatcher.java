@@ -7,9 +7,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Description :  正则表达式匹配
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/2 1:13 PM
+ * 正则表达式匹配
+ *
+ * @author Emily
+ * @since Created in 2023/7/2 1:13 PM
  */
 public class RegexPathMatcher {
     private static final Map<String, Pattern> CACHE = new HashMap<>();

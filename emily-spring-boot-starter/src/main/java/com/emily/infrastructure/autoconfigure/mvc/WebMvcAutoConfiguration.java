@@ -18,10 +18,10 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * webmvc自动化配置
+ *
  * @author Emily
- * @program: spring-parent
- * @description: webmvc自动化配置
- * @create: 2020/05/26
+ * @since 2020/05/26
  */
 @AutoConfiguration
 @EnableConfigurationProperties(WebMvcProperties.class)

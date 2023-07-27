@@ -8,9 +8,10 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 
 /**
- * @Description :  监听器配置类
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/14 1:36 下午
+ * 监听器配置类
+ *
+ * @author Emily
+ * @since Created in 2022/6/14 1:36 下午
  */
 public class RabbitMqListenerConfigurer implements RabbitListenerConfigurer {
     private String key;

@@ -13,10 +13,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import java.util.Properties;
 
 /**
- * @program: spring-parent
- * @description: Redis监控指标线程池
- * @author: Emily
- * @create: 2021/09/12
+ * Redis监控指标线程池
+ *
+ * @author Emily
+ * @since 2021/09/12
  */
 public class RedisDbRunnable implements Runnable {
 

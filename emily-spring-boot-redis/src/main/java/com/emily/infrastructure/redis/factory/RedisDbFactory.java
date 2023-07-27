@@ -12,10 +12,10 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @program: spring-parent
- * @description: Redis数据源
- * @author: Emily
- * @create: 2021/07/11
+ * Redis数据源
+ *
+ * @author Emily
+ * @since 2021/07/11
  */
 public class RedisDbFactory {
     /**
@@ -38,7 +38,7 @@ public class RedisDbFactory {
     /**
      * 获取Redis默认字符串模板
      *
-     * @return
+     * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate() {
         return getStringRedisTemplate(null);
@@ -48,7 +48,7 @@ public class RedisDbFactory {
      * 获取Redis模板对戏
      *
      * @param redisMark 数据源标识
-     * @return
+     * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate(String redisMark) {
         if (Objects.isNull(redisMark)) {
@@ -72,7 +72,7 @@ public class RedisDbFactory {
     /**
      * 获取Redis默认字符串模板
      *
-     * @return
+     * @return redis操作对象
      */
     public static RedisTemplate getRedisTemplate() {
         return getRedisTemplate(null);
@@ -82,7 +82,7 @@ public class RedisDbFactory {
      * 获取Redis模板对戏
      *
      * @param redisMark 数据源标识
-     * @return
+     * @return redis操作模板对象
      */
     public static RedisTemplate getRedisTemplate(String redisMark) {
         if (Objects.isNull(redisMark)) {
@@ -106,8 +106,8 @@ public class RedisDbFactory {
     /**
      * 获取StringRedisTemplate对象bean名称
      *
-     * @param redisMark
-     * @return
+     * @param redisMark 标识
+     * @return StringRedisTemplate对象bean名称
      */
     public static String getStringRedisTemplateBeanName(String redisMark) {
 
@@ -119,8 +119,8 @@ public class RedisDbFactory {
     /**
      * 获取RedisTemplate对象bean名称
      *
-     * @param redisMark
-     * @return
+     * @param redisMark 标识
+     * @return RedisTemplate对象bean名称
      */
     public static String getRedisTemplateBeanName(String redisMark) {
 

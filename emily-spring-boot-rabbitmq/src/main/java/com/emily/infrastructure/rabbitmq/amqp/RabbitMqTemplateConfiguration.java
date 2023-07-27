@@ -6,7 +6,6 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
 import org.springframework.boot.autoconfigure.amqp.RabbitTemplateConfigurer;
@@ -14,9 +13,10 @@ import org.springframework.boot.autoconfigure.amqp.RabbitTemplateConfigurer;
 import java.util.stream.Collectors;
 
 /**
- * @Description :  RabbitTemplate配置类 参考：{@link RabbitAutoConfiguration.RabbitTemplateConfiguration}
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/6 10:08 上午
+ * RabbitTemplate配置类 参考：RabbitAutoConfiguration.RabbitTemplateConfiguration
+ *
+ * @author Emily
+ * @since Created in 2022/6/6 10:08 上午
  */
 public class RabbitMqTemplateConfiguration {
 
@@ -33,8 +33,8 @@ public class RabbitMqTemplateConfiguration {
     /**
      * 创建RabbitTemplateConfigurer配置类
      *
-     * @param properties
-     * @return
+     * @param properties 属性配置
+     * @return 模板配置类
      */
     public RabbitTemplateConfigurer createRabbitTemplateConfigurer(RabbitProperties properties) {
         RabbitTemplateConfigurer configurer = new RabbitTemplateConfigurer(properties);
@@ -47,9 +47,9 @@ public class RabbitMqTemplateConfiguration {
     /**
      * 创建RabbitTemplate
      *
-     * @param configurer
-     * @param connectionFactory
-     * @return
+     * @param configurer        模板配置类
+     * @param connectionFactory 连接工厂
+     * @return RabbitTemplate对象
      */
     public RabbitTemplate createRabbitTemplate(RabbitTemplateConfigurer configurer, ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate();
@@ -60,8 +60,8 @@ public class RabbitMqTemplateConfiguration {
     /**
      * 创建AmqpAdmin对象
      *
-     * @param connectionFactory
-     * @return
+     * @param connectionFactory 连接工厂
+     * @return AmqpAdmin对象
      */
     public AmqpAdmin createAmqpAdmin(ConnectionFactory connectionFactory) {
         return new RabbitAdmin(connectionFactory);

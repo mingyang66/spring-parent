@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 /**
- * @Description :  正则表达式匹配单元测试
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/2 1:19 PM
+ *  正则表达式匹配单元测试
+ * @author  Emily
+ * @since  Created in 2023/7/2 1:19 PM
  */
 public class RegexPathMatcherTest {
     @Test

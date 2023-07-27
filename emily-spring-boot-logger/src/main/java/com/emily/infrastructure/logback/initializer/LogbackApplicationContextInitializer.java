@@ -20,7 +20,7 @@ import org.springframework.core.Ordered;
  * <p>
  * Logback日志组件初始化类
  *
- * @author : Emily
+ * @author Emily
  * @since 4.0.7
  */
 public class LogbackApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {

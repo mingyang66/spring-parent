@@ -23,10 +23,10 @@ import org.springframework.util.StringUtils;
 import java.time.Duration;
 
 /**
- * @program: spring-parent
- * @description: Redis连接工厂类
- * @author: Emily
- * @create: 2021/07/11
+ * Redis连接工厂类
+ *
+ * @author Emily
+ * @since 2021/07/11
  */
 public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConfiguration {
     /**
@@ -46,7 +46,9 @@ public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConf
     /**
      * 创建连接工厂类
      *
-     * @return
+     * @param builderCustomizers 扩展点
+     * @param clientResources    客户端资源对象
+     * @return 连接工厂
      */
     public LettuceConnectionFactory getRedisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources) {
 

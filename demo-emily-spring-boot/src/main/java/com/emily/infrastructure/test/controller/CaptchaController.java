@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Description :  图形验证码控制器
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/29 3:27 PM
+ *  图形验证码控制器
+ * @author  Emily
+ * @since  Created in 2023/4/29 3:27 PM
  */
 @RestController
 @RequestMapping("api/captcha")

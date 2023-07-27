@@ -16,10 +16,10 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 /**
- * @Description: 抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
+ *  抽象的数据源实现（javax.sql.DataSource），该实现基于查找键将getConnection()路由到各种目标数据源，目标数据源通常但是不限于通过一些线程绑定
  * 的事务上下文来确定
  * @Author Emily
- * @Version: 1.0
+ * @since 1.0
  */
 public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
     /**
@@ -78,9 +78,9 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
 package com.emily.infrastructure.datasource.context;
 
 /**
- * @Description: 线程持有数据源上线文
+ *  线程持有数据源上线文
  * @Author Emily
- * @Version: 1.0
+ * @since 1.0
  */
 public class DataSourceContextHolder {
     /**
@@ -141,9 +141,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Method;
 
 /**
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ *  在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
  * @Author Emily
- * @Version: 1.0
+ * @since 1.0
  */
 public class DataSourceMethodInterceptor implements MethodInterceptor {
 
@@ -198,8 +198,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @description: 数据源配置文件
- * @author: Emily
+ *  数据源配置文件
+ * @author Emily
  * @create: 2020/05/14
  */
 @ConfigurationProperties(prefix = "spring.emily.datasource")
@@ -283,9 +283,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: 控制器切点配置
+ *  控制器切点配置
  * @Author Emily
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @AutoConfigureBefore(DruidDataSourceAutoConfigure.class)

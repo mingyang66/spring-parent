@@ -8,11 +8,10 @@ import com.emily.infrastructure.language.convert.LanguageType;
 import java.io.Serializable;
 
 /**
+ * 控制器返回结果构造器
+ *
  * @author Emily
- * @Description: 控制器返回结果构造器
- * @ProjectName: spring-parent
- * @Date: 2019/7/1 15:33
- * @Version: 1.0
+ * @since 1.0
  */
 public class BaseResponseBuilder<T> implements Serializable {
     private int status;

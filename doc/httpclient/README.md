@@ -26,8 +26,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 /**
- * @Description: 发送Http请求Client服务类
- * @Version: 1.0
+ *  发送Http请求Client服务类
+ * @since 1.0
  */
 @Component
 public class HttpClientService {

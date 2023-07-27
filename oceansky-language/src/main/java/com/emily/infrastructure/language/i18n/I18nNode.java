@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 节点
  *
- * @param <T>
+ * @param <T> 数据类型
  * @author Emily
  */
 public class I18nNode<T> {

@@ -5,9 +5,9 @@ import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.test.po.json.JsonRequest;
 
 /**
- * @Description :  脱敏工具类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/17 5:07 PM
+ *  脱敏工具类
+ * @author  Emily
+ * @since  Created in 2023/4/17 5:07 PM
  */
 public class SensitiveTest {
     public static void main(String[] args) {

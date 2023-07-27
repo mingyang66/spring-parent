@@ -7,15 +7,18 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
+ * 获取打印异常日志信息
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 获取打印异常日志信息
- * @create: 2020/08/24
+ * @since 2020/08/24
  */
 public class PrintExceptionInfo {
     /**
-     * @Description 打印错误日志信息
-     * @Version 1.0
+     * 打印错误日志信息
+     *
+     * @param ex 异常对象
+     * @return 字符串对象
+     * @since 1.0
      */
     public static String printErrorInfo(Throwable ex) {
         if (Objects.isNull(ex)) {
@@ -40,6 +43,9 @@ public class PrintExceptionInfo {
 
     /**
      * 输出所有异常
+     *
+     * @param ex 异常堆栈
+     * @return 异常堆栈信息
      */
     public static String printErrorInfo(Throwable[] ex) {
         if (Objects.isNull(ex)) {

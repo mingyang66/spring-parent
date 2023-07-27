@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * @description: Description
+ *  Description
  * @Author Emily
  * @Date: 2020/6/29 11:33
- * @Version: 1.0
+ * @since 1.0
  */
 public class ValidateCodeUtils {
     /**

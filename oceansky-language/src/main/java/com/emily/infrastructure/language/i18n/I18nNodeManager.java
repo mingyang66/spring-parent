@@ -3,7 +3,7 @@ package com.emily.infrastructure.language.i18n;
 /**
  * 节点管理
  *
- * @param <T>
+ * @param <T> 数据类型
  * @author Emily
  */
 public class I18nNodeManager<T> {

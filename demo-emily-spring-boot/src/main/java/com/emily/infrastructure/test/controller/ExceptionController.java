@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: spring-parent
- * @description: 异常控制器
- * @author: Emily
- * @create: 2021/08/21
+ *  异常控制器
+ * @author Emily
+ * @since 2021/08/21
  */
 @RestController
 @RequestMapping("/api/exception")

@@ -6,10 +6,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
+ * 日志基础类建造器
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 日志基础类建造器
- * @create: 2020/11/14
+ * @since 2020/11/14
  */
 public class BaseLoggerBuilder implements Serializable {
     /**

@@ -221,6 +221,7 @@
                         <version>3.3.2</version>
                         <configuration>
                             <failOnError>false</failOnError>
+                            <excludePackageNames>com.emily.cloud.test.*,com.emily.infrastructure.test.*</excludePackageNames>
                         </configuration>
                         <executions>
                             <execution>

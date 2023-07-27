@@ -1,9 +1,10 @@
 package com.emily.infrastructure.core.constant;
 
 /**
+ * 定义优先级顺序
+ *
  * @author Emily
- * @Description: 定义优先级顺序
- * @create: 2020/3/23
+ * @since 2020/3/23
  */
 public class AopOrderInfo {
     /**

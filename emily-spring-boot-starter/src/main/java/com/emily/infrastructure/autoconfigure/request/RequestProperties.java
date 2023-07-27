@@ -3,9 +3,10 @@ package com.emily.infrastructure.autoconfigure.request;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 拦截器属性配置类
+ *
  * @author Emily
- * @description: 拦截器属性配置类
- * @create: 2020/03/19
+ * @since 2020/03/19
  */
 @ConfigurationProperties(prefix = RequestProperties.PREFIX)
 public class RequestProperties {

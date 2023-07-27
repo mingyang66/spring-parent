@@ -5,9 +5,9 @@ import org.junit.Test;
 import java.util.Random;
 
 /**
- * @Description :  单元测试类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/28 2:23 PM
+ *  单元测试类
+ * @author  Emily
+ * @since  Created in 2023/5/28 2:23 PM
  */
 public class CaptchaUtilsTest {
     private static final Random RANDOM = new Random();

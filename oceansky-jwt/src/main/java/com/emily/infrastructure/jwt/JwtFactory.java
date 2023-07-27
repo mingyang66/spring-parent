@@ -7,9 +7,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 /**
- * @Description :  jwt创建解析帮助类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 1:23 PM
+ * jwt创建解析帮助类
+ *
+ * @author Emily
+ * @since Created in 2023/5/14 1:23 PM
  */
 public class JwtFactory {
     /**

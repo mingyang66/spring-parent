@@ -8,9 +8,10 @@ import org.springframework.context.ApplicationListener;
 import java.util.Objects;
 
 /**
- * @Description :  Environment环境配置更改监听器
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/25 5:54 PM
+ * Environment环境配置更改监听器
+ *
+ * @author Emily
+ * @since Created in 2023/6/25 5:54 PM
  */
 public class EnvironmentChangeApplicationListener implements ApplicationListener<EnvironmentChangeEvent> {
     @Override

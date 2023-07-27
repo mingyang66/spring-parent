@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger.configuration.type;
 /**
  * 日志级别 OFF &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt;ALL
  *
- * @author : Emily
+ * @author Emily
  * @since : 2022/1/4
  */
 public enum LevelType {

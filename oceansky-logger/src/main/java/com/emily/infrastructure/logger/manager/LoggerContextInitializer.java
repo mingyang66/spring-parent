@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 日志初始化管理器
  *
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextInitializer {

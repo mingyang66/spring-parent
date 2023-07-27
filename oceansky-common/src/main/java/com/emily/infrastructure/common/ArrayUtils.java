@@ -1,9 +1,10 @@
 package com.emily.infrastructure.common;
 
 /**
- * @Description :  数组工具类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/9 3:57 PM
+ * 数组工具类
+ *
+ * @author Emily
+ * @since Created in 2023/6/9 3:57 PM
  */
 public class ArrayUtils {
     /**

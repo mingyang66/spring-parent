@@ -4,10 +4,10 @@ import com.emily.infrastructure.core.context.ioc.IOCContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
- * @program: spring-parent
- * @description: 线程池帮助类, TaskExecutionAutoConfiguration
- * @author: Emily
- * @create: 2021/09/12
+ * 线程池帮助类, TaskExecutionAutoConfiguration
+ *
+ * @author Emily
+ * @since 2021/09/12
  */
 public class ThreadPoolHelper {
     /**

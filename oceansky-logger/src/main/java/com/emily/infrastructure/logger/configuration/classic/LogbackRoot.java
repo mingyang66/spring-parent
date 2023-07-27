@@ -13,7 +13,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 /**
  * 日志组件抽象类
  *
- * @author : Emily
+ * @author Emily
  * @since : 2021/07/08
  */
 public class LogbackRoot extends AbstractLogback {

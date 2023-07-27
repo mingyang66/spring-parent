@@ -28,9 +28,9 @@
  import java.util.zip.Checksum;
  
  /**
-  * @Description: 文件读写工具类,共103个工具方法
+  *  文件读写工具类,共103个工具方法
   * @Date: 2019/10/9 10:37
-  * @Version: 1.0
+  * @since 1.0
   */
  @SuppressWarnings("all")
  public class FileUtils {
@@ -1391,8 +1391,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * @Description: 文件名称和文件路径操作工具类，共27个工具方法
- * @Version: 1.0
+ *  文件名称和文件路径操作工具类，共27个工具方法
+ * @since 1.0
  */
 public class FileNameUtils {
     /**

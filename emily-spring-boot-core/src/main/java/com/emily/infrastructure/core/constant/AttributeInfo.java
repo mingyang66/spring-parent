@@ -1,10 +1,10 @@
 package com.emily.infrastructure.core.constant;
 
 /**
- * @program: spring-parent
- * @description: 属性字段名常量
- * @author: Emily
- * @create: 2021/10/13
+ * 属性字段名常量
+ *
+ * @author Emily
+ * @since 2021/10/13
  */
 public class AttributeInfo {
     /**

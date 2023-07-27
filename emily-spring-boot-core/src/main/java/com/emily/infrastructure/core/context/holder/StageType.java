@@ -1,9 +1,10 @@
 package com.emily.infrastructure.core.context.holder;
 
 /**
- * @Description :  Api请求阶段枚举类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/22 3:53 PM
+ * Api请求阶段枚举类
+ *
+ * @author Emily
+ * @since Created in 2023/4/22 3:53 PM
  */
 public enum StageType {
     //RequestMappingHandlerMapping校验转发阶段

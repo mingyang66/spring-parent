@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description: Direct类型交换器消费者
- * @Version: 1.0
+ * Direct类型交换器消费者
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 public class Consumer {

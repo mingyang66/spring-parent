@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * @author Emily
- * @Description: Description
- * @Version: 1.0
+ *  Description
+ * @since 1.0
  */
 public class Job1<T> implements Serializable {
     private Long id;

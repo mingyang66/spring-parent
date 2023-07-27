@@ -99,7 +99,7 @@ import java.util.Date;
 
 /**
  * @program: spring-parent
- * @description:
+ * 
  * @create: 2020/08/28
  */
 public class ThreadPoolJob extends QuartzJobBean {
@@ -130,7 +130,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @program: spring-parent
- * @description:
+ * 
  * @create: 2020/08/28
  */
 @Configuration(proxyBeanMethods = false)

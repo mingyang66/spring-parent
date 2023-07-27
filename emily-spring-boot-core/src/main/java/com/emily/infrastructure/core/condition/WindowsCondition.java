@@ -7,10 +7,10 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
+ * condition条件注解判定类
+ *
  * @author Emily
- * @program: spring-parent
- * @description: condition条件注解判定类
- * @create: 2020/12/04
+ * @since 2020/12/04
  */
 public class WindowsCondition implements Condition {
     /**

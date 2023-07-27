@@ -4,7 +4,7 @@ import com.emily.infrastructure.sensitive.*;
 
 /**
  *  人
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/5/14 4:50 PM
  */
 @JsonSensitive

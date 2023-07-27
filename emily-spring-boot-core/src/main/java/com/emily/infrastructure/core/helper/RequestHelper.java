@@ -22,17 +22,18 @@ import java.lang.reflect.Parameter;
 import java.util.*;
 
 /**
+ * 请求服务类
+ *
  * @author Emily
- * @program: spring-parent
- * @Description: 请求服务类
- * @create: 2020/11/23
  * @since 4.0.7
  */
 public class RequestHelper {
 
     /**
+     * 获取请求入参, 给API请求控制器获取入参
+     *
+     * @param invocation 方法反射对象
      * @return 请求入参
-     * @Description: 获取请求入参, 给API请求控制器获取入参
      */
     public static Map<String, Object> getApiArgs(MethodInvocation invocation) {
         if (RequestUtils.isServlet()) {
@@ -42,8 +43,10 @@ public class RequestHelper {
     }
 
     /**
+     * 获取请求入参, 给API请求控制器获取入参
+     *
+     * @param request 请求对象
      * @return 请求入参
-     * @Description: 获取请求入参, 给API请求控制器获取入参
      */
     public static Map<String, Object> getApiArgs(HttpServletRequest request) {
         if (RequestUtils.isServlet()) {
@@ -55,7 +58,7 @@ public class RequestHelper {
     /**
      * @param request servlet请求对象
      * @return 请求入参
-     * @Description: 获取请求入参
+     * 获取请求入参
      */
     private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
         //请求参数
@@ -88,7 +91,7 @@ public class RequestHelper {
     /**
      * @param request 请求servlet对象
      * @return 请求头集合对象
-     * @Description: 获取请求头
+     * 获取请求头
      */
     public static Map<String, Object> getHeaders(HttpServletRequest request) {
         Map<String, Object> headers = new LinkedHashMap<>();
@@ -107,6 +110,7 @@ public class RequestHelper {
      * HttpClient 获取返回结果对象
      *
      * @param body 返回结果字节数组
+     * @return 请求响应结果
      */
     public static Object getHttpClientResponseBody(byte[] body) {
         try {
@@ -118,6 +122,10 @@ public class RequestHelper {
 
     /**
      * HttpClient 获取参数对象及请求header
+     *
+     * @param headers 请求头
+     * @param params  字节数组参数
+     * @return 参数集合
      */
     public static Map<String, Object> getHttpClientArgs(HttpHeaders headers, byte[] params) {
         Map<String, Object> dataMap = Maps.newLinkedHashMap();
@@ -128,6 +136,9 @@ public class RequestHelper {
 
     /**
      * 将byte[]转换为Map对象
+     *
+     * @param params 字节数组参数
+     * @return 转换后的Map参数集合
      */
     protected static Map byteArgToMap(byte[] params) {
         try {
@@ -139,6 +150,9 @@ public class RequestHelper {
 
     /**
      * 将参数转换为Map类型
+     *
+     * @param param 字符串参数
+     * @return 转换后的参数集合
      */
     protected static Map<String, Object> strToMap(String param) {
         if (StringUtils.isEmpty(param)) {
@@ -160,6 +174,9 @@ public class RequestHelper {
 
     /**
      * 将参数转为对象
+     *
+     * @param param 字符串参数
+     * @return 转换后的对象
      */
     protected static Object toObject(String param) {
         Assert.notNull(param, "非法参数");
@@ -172,7 +189,7 @@ public class RequestHelper {
     /**
      * @param invocation 方法切面对象
      * @return 返回调用方法的参数及参数值
-     * @Description: 获取方法参数，支持指定字段脱敏处理
+     * 获取方法参数，支持指定字段脱敏处理
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
         if (invocation.getArguments().length == 0) {

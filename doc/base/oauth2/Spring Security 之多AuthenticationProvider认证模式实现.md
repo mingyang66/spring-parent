@@ -31,11 +31,11 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 /**
- * @Description: 用户自定义身份认证,短信验证码模式
+ *  用户自定义身份认证,短信验证码模式
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.provider.MyAuthenticationProvider
  * @Date: 2019/7/2 17:17
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserSmsAuthenticationProvider implements AuthenticationProvider {
@@ -114,11 +114,11 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 /**
- * @Description: 用户自定义身份认证
+ *  用户自定义身份认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.provider.MyAuthenticationProvider
  * @Date: 2019/7/2 17:17
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
@@ -194,11 +194,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: 启动基于Spring Security的安全认证,优先级顺序order=100
+ *  启动基于Spring Security的安全认证,优先级顺序order=100
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.WebSecurityConfigurer
  * @Date: 2019/7/8 17:43
- * @Version: 1.0
+ * @since 1.0
  */
 @EnableWebSecurity(debug = true)
 public class BaseSecurityConfigurer extends WebSecurityConfigurerAdapter {

@@ -4,16 +4,16 @@ import com.emily.infrastructure.core.context.ContextProperties;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
 
 /**
- * @program: spring-parent
- * @description: 系统编号帮助类
- * @author: Emily
- * @create: 2021/11/27
+ * 系统编号帮助类
+ *
+ * @author Emily
+ * @since 2021/11/27
  */
 public class SystemNumberHelper {
     /**
-     * 获取系统编号
+     * 获取系统标识
      *
-     * @return
+     * @return 系统标识
      */
     public static String getSystemNumber() {
         return IOCContext.getBean(ContextProperties.class).getSystemNumber();

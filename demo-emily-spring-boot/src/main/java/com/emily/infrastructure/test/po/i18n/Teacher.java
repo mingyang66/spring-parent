@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description :  老师
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/17 3:46 PM
+ *  老师
+ * @author  Emily
+ * @since  Created in 2023/4/17 3:46 PM
  */
 @JsonI18n
 public class Teacher {

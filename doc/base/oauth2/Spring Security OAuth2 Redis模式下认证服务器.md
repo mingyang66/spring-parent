@@ -68,11 +68,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @Description: 用户认证
+ *  用户认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.User
  * @Date: 2019/6/28 17:37
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class AuthUserDetailsService implements UserDetailsService {
@@ -144,11 +144,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * @Description: 用户自定义token令牌，包括access_token和refresh_token
+ *  用户自定义token令牌，包括access_token和refresh_token
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
  * @Date: 2019/7/9 19:43
- * @Version: 1.0
+ * @since 1.0
  */
 public class UserTokenEnhancer implements TokenEnhancer {
     /**
@@ -290,11 +290,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
+ *  @EnableAuthorizationServer注解开启OAuth2授权服务机制
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.OAuth2ServerConfig
  * @Date: 2019/7/9 11:26
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableAuthorizationServer
@@ -457,11 +457,11 @@ spring.redis.jedis.pool.max-active=8
  import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  
  /**
-  * @Description: 异常处理类
+  *  异常处理类
   * @ProjectName: spring-parent
   * @Package: com.yaomy.security.oauth2.exception.UserOAuth2Exception
   * @Date: 2019/7/17 15:29
-  * @Version: 1.0
+  * @since 1.0
   */
  @JsonSerialize(using = UserOAuth2ExceptionSerializer.class)
  public class UserOAuth2Exception extends OAuth2Exception {
@@ -500,11 +500,11 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * @Description: 序列化异常类
+ *  序列化异常类
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.exception.BootOAuthExceptionJacksonSerializer
  * @Date: 2019/7/17 15:32
- * @Version: 1.0
+ * @since 1.0
  */
 public class UserOAuth2ExceptionSerializer extends StdSerializer<UserOAuth2Exception> {
 
@@ -555,11 +555,11 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import java.io.IOException;
 
 /**
- * @Description: 资源服务器异常自定义捕获
+ *  资源服务器异常自定义捕获
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.exception.OAuth2ServerWebResponseExceptionTranslator
  * @Date: 2019/7/17 14:49
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserOAuth2WebResponseExceptionTranslator implements WebResponseExceptionTranslator {
@@ -693,11 +693,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @Description: @EnableAuthorizationServer注解开启OAuth2授权服务机制
+ *  @EnableAuthorizationServer注解开启OAuth2授权服务机制
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.config.OAuth2ServerConfig
  * @Date: 2019/7/9 11:26
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableAuthorizationServer
@@ -913,11 +913,11 @@ import java.io.IOException;
 
 
 /**
- * @Description: 用户成功退出
+ *  用户成功退出
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.handler.AjaxLogoutSuccessHandler
  * @Date: 2019/7/1 15:39
- * @Version: 1.0
+ * @since 1.0
  *//*
 
 @Component
@@ -1295,11 +1295,11 @@ ExpiringOAuth2RefreshToken接口父接口是OAuth2RefreshToken，ExpiringOAuth2R
  import java.util.UUID;
  
  /**
-  * @Description: 用户自定义token令牌，包括access_token和refresh_token
+  *  用户自定义token令牌，包括access_token和refresh_token
   * @ProjectName: spring-parent
   * @Package: com.yaomy.security.oauth2.enhancer.UserTokenEnhancer
   * @Date: 2019/7/9 19:43
-  * @Version: 1.0
+  * @since 1.0
   */
  public class UserTokenEnhancer implements TokenEnhancer {
      /**
@@ -1803,11 +1803,11 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Map;
 
 /**
- * @Description: 自定义GrantedAuthority接口
+ *  自定义GrantedAuthority接口
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.authority.UserGrantedAuthority
  * @Date: 2019/7/29 16:14
- * @Version: 1.0
+ * @since 1.0
  */
 public class UserGrantedAuthority implements GrantedAuthority {
     private Map<String, Object> authoritys = Maps.newHashMap();
@@ -1842,11 +1842,11 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * @Description: 用户认证
+ *  用户认证
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.po.User
  * @Date: 2019/6/28 17:37
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class UserAuthDetailsService implements UserDetailsService {

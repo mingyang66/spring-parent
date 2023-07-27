@@ -13,11 +13,11 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description: Description
+ *  Description
  * @ProjectName: spring-parent
  * @Package: com.yaomy.security.oauth2.filter.BeanUtils
  * @Date: 2019/8/1 10:58
- * @Version: 1.0
+ * @since 1.0
  */
 @Component
 public class BeanUtils implements ApplicationContextAware {

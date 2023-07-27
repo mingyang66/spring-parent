@@ -8,10 +8,10 @@ import org.springframework.cloud.client.loadbalancer.*;
 import java.util.Objects;
 
 /**
+ * 定义loadbalancer执行前后可以执行的操作，此处用来获取实际的请求地址
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 定义loadbalancer执行前后可以执行的操作，此处用来获取实际的请求地址
- * @create: 2021/04/01
+ * @since 2021/04/01
  */
 public class FeignLoggerLoadBalancerLifecycle implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
 

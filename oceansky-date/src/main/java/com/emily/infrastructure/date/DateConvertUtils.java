@@ -29,8 +29,7 @@ import java.util.Date;
  * ----------------------------------------------
  *
  * @author Emily
- * @program: spring-parent
- * @create: 2020/06/16
+ * @since 2020/06/16
  */
 public class DateConvertUtils {
     /**
@@ -52,6 +51,7 @@ public class DateConvertUtils {
     /**
      * 字符串日期格式化
      *
+     * @param date    日期对象
      * @param pattern 目标格式化格式
      * @return 格式化后的日期
      */

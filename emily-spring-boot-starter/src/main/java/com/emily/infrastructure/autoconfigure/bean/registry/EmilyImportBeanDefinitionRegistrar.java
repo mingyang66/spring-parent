@@ -9,9 +9,7 @@ import org.springframework.core.type.AnnotationMetadata;
 
 /**
  * @author Emily
- * @program: spring-parent
- * @description:
- * @create: 2020/09/27
+ * @since 2020/09/27
  */
 public class EmilyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     private static final Logger logger = LoggerFactory.getLogger(EmilyImportBeanDefinitionRegistrar.class);

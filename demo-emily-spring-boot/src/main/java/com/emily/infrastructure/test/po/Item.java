@@ -2,9 +2,9 @@ package com.emily.infrastructure.test.po;
 
 /**
  * @program: spring-parent
- * @description: 调度po
- * @author: Emily
- * @create: 2021/09/08
+ *  调度po
+ * @author Emily
+ * @since 2021/09/08
  */
 public class Item {
     private String scheName;

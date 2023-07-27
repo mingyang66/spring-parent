@@ -9,9 +9,10 @@ import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer
 import java.util.stream.Collectors;
 
 /**
- * @Description : 配置RabbitMQ  注解驱动端点
- * @Author :  Emily
- * @CreateDate :  Created in 2022/11/17 10:27 上午
+ * 配置RabbitMQ  注解驱动端点
+ *
+ * @author Emily
+ * @since Created in 2022/11/17 10:27 上午
  */
 public class RabbitMqAnnotationDrivenConfiguration {
 

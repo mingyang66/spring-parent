@@ -11,16 +11,16 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 
 /**
- * @Description :  Http请求超时设置拦截器，即方法上标注@TargetHttpTimeout注解才会生效
- * @Author :  Emily
- * @CreateDate :  Created in 2022/8/2 5:59 下午
+ * Http请求超时设置拦截器，即方法上标注@TargetHttpTimeout注解才会生效
+ *
+ * @author Emily
  * @since 4.1.3
  */
 public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomizer {
     /**
      * 拦截器前置方法
      *
-     * @param invocation
+     * @param invocation 反射方法对象
      */
     @Override
     public void before(MethodInvocation invocation) {
@@ -39,9 +39,9 @@ public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomize
     /**
      * 拦截器调用方法
      *
-     * @param invocation
-     * @return
-     * @throws Throwable
+     * @param invocation 反射方法对象
+     * @return 方法调用结果
+     * @throws Throwable 异常
      */
     @Nullable
     @Override

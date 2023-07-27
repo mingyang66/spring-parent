@@ -23,9 +23,10 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
+ * HttpEntity返回值控制
+ *
  * @author Emily
- * @Description: HttpEntity返回值控制
- * @Version: 1.0
+ * @since 1.0
  */
 public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 

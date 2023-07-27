@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * 对实体类进行脱敏，返回原来的实体类对象
  *
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/4/21 1:50 PM
  */
 public class DeSensitiveUtils {

@@ -26,10 +26,11 @@ import javax.annotation.Nonnull;
  * 1.produces:指定返回的内容类型，仅当请求header中的Accept类型中包含该指定类型才能返回；
  * 2.consumes:指定处理请求的提交内容类型（ContentType），如：application/json
  * ---------------------------------------------------------------
+ * <p>
+ * 返回值包装类统一处理
  *
- * @Description :  返回值包装类统一处理
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/1 3:02 PM
+ * @author Emily
+ * @since Created in 2023/7/1 3:02 PM
  */
 @RestControllerAdvice
 public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> {

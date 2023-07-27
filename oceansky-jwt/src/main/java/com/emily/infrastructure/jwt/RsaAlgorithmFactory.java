@@ -13,10 +13,11 @@ import java.util.Base64;
 /**
  * PKCS8：全名《Public-Key Cryptography Standards (PKCS) #8: Private-Key Information Syntax Specification》最新版本1.2，
  * 从名称上可以看出它是一个专门用来存储私钥的文件格式规范。
+ * <p>
+ * RSA算法工具类
  *
- * @Description :  RSA算法工具类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 10:40 AM
+ * @author Emily
+ * @since Created in 2023/5/14 10:40 AM
  */
 public class RsaAlgorithmFactory {
     public static final String N = "\n";
@@ -28,8 +29,8 @@ public class RsaAlgorithmFactory {
      *
      * @param publicKey 公钥字符串
      * @return 公钥对象
-     * @throws InvalidKeySpecException
-     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException  异常
+     * @throws NoSuchAlgorithmException 异常
      */
     public static RSAPublicKey getPublicKey(String publicKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
         if (publicKey == null || publicKey.length() == 0) {
@@ -46,8 +47,8 @@ public class RsaAlgorithmFactory {
      *
      * @param privateKey 私钥字符串
      * @return 私钥对象
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException 未发现算法异常
+     * @throws InvalidKeySpecException  无效的key异常
      */
     public static RSAPrivateKey getPrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] keyBytes = Base64.getDecoder().decode(privateKey.replace(N, "").replace(R, "").getBytes(StandardCharsets.UTF_8));

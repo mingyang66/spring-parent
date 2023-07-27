@@ -11,9 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * @Description :  日期大小比较
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 5:23 PM
+ * 日期大小比较
+ *
+ * @author Emily
+ * @since Created in 2023/5/14 5:23 PM
  */
 public class DateCompareUtilsTest {
     @Test
@@ -68,11 +69,11 @@ public class DateCompareUtilsTest {
         Assert.assertEquals(DateCompareUtils.compareTo(instant1, instant2), -1);
         Assert.assertEquals(DateCompareUtils.compareTo(instant2, instant1), 1);
         //秒
-        Assert.assertEquals(instant1.getEpochSecond(),1684596838);
+        Assert.assertEquals(instant1.getEpochSecond(), 1684596838);
         //纳秒
-        Assert.assertEquals(instant1.getNano(),93000000);
+        Assert.assertEquals(instant1.getNano(), 93000000);
         //毫秒
-        Assert.assertEquals(instant1.toEpochMilli(),1684596838093l);
+        Assert.assertEquals(instant1.toEpochMilli(), 1684596838093l);
 
     }
 }

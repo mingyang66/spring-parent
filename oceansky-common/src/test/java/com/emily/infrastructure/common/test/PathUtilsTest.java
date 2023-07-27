@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @Description :  路径规范化单元测试类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/6 5:05 PM
+ *  路径规范化单元测试类
+ * @author  Emily
+ * @since  Created in 2023/7/6 5:05 PM
  */
 public class PathUtilsTest {
     @Test

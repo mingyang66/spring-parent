@@ -42,6 +42,8 @@ public class RequestUtils {
 
     /**
      * 获取客户端IP
+     *
+     * @return 客户端IP
      */
     public static String getClientIp() {
         if (isServlet()) {
@@ -52,6 +54,9 @@ public class RequestUtils {
 
     /**
      * 获取客户单IP地址
+     *
+     * @param request 请求对象
+     * @return 客户端IP
      */
     public static String getClientIp(HttpServletRequest request) {
         try {
@@ -81,18 +86,10 @@ public class RequestUtils {
     }
 
     /**
-     * @param ip
-     * @return
-     */
-    public static boolean noInternet(String ip) {
-        return !isInternet(ip);
-    }
-
-    /**
      * 判定是否是内网地址
      *
-     * @param ip
-     * @return
+     * @param ip IP地址
+     * @return 是否内网
      */
     public static boolean isInternet(String ip) {
         if (StringUtils.isEmpty(ip)) {
@@ -108,6 +105,8 @@ public class RequestUtils {
 
     /**
      * 获取服务器端的IP
+     *
+     * @return 服务器端IP
      */
     public static String getServerIp() {
         if (StringUtils.isNotEmpty(SERVER_IP)) {
@@ -141,7 +140,7 @@ public class RequestUtils {
     /**
      * 是否存在servlet上下文
      *
-     * @return
+     * @return 是否servlet上下文
      */
     public static boolean isServlet() {
         return RequestContextHolder.getRequestAttributes() == null ? false : true;
@@ -149,6 +148,8 @@ public class RequestUtils {
 
     /**
      * 获取用户当前请求的HttpServletRequest
+     *
+     * @return 请求对象
      */
     public static HttpServletRequest getRequest() {
         try {
@@ -161,6 +162,8 @@ public class RequestUtils {
 
     /**
      * 获取当前请求的HttpServletResponse
+     *
+     * @return 响应对象
      */
     public static HttpServletResponse getResponse() {
         try {
@@ -178,7 +181,7 @@ public class RequestUtils {
     /**
      * 获取耗时字段
      *
-     * @return
+     * @return 耗时
      */
     public static long getSpentTime() {
         if (!RequestUtils.isServlet()) {

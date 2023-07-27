@@ -13,7 +13,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 /**
  * 分组记录日志
  *
- * @author : Emily
+ * @author Emily
  * @since : 2021/12/12
  */
 public class LogbackGroup extends AbstractLogback {

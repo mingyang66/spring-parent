@@ -5,10 +5,10 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 /**
+ * bean注册成功但未实例化之前调用的后置处理器，用来更改BeanDefinition
+ *
  * @author Emily
- * @program: spring-parent
- * @description: bean注册成功但未实例化之前调用的后置处理器，用来更改BeanDefinition
- * @create: 2020/09/11
+ * @since 2020/09/11
  */
 @SuppressWarnings("all")
 public class EmilyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {

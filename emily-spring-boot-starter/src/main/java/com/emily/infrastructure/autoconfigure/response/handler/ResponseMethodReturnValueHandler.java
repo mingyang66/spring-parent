@@ -17,9 +17,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 控制器返回返回值包装类, 处理带@ResponseBody标识的返回值类型
+ *
  * @author Emily
- * @Description: 控制器返回返回值包装类, 处理带@ResponseBody标识的返回值类型
- * @Version: 1.0
+ * @since 1.0
  */
 public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 

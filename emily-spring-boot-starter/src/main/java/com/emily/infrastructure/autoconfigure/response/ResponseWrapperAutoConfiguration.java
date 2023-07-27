@@ -25,9 +25,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 控制器返回值配置处理类
+ *
  * @author Emily
- * @Description: 控制器返回值配置处理类
- * @Version: 1.0
+ * @since 1.0
  */
 @AutoConfiguration(after = WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties(ResponseWrapperProperties.class)
@@ -47,6 +48,10 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
     /**
      * 基于适配器模式处理返回值包装类模式，默认：关闭
+     *
+     * @param handlerAdapter 适配器对象
+     * @param properties     属性配置
+     * @return 自定义字符串对象
      */
     @Bean
     @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-adapter", havingValue = "true")
@@ -71,6 +76,9 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
 
     /**
      * 基于ResponseBodyAdvice切面模式处理返回值包装类模式，默认：开启
+     *
+     * @param properties 属性配置
+     * @return 请求响应AOP切面
      */
     @Bean
     @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-advice", havingValue = "true", matchIfMissing = true)

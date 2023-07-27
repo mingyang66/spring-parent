@@ -3,9 +3,10 @@ package com.emily.infrastructure.core.servlet;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @Description :  过滤器配置类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/2/4 10:43 上午
+ * 过滤器配置类
+ *
+ * @author Emily
+ * @since Created in 2023/2/4 10:43 上午
  */
 @ConfigurationProperties(prefix = FilterProperties.PREFIX)
 public class FilterProperties {

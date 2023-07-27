@@ -33,9 +33,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.function.Supplier;
 
 /**
+ * 控制器切点配置
+ *
  * @author Emily
- * @Description: 控制器切点配置
- * @Version: 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableConfigurationProperties(FeignLoggerProperties.class)
@@ -45,8 +46,11 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(FeignLoggerAutoConfiguration.class);
 
     /**
-     * @Description 定义接口拦截器切点
-     * @Version 1.0
+     * 定义接口拦截器切点
+     *
+     * @param feignLoggerCustomizers 扩展点对象
+     * @return 切面对象
+     * @since 1.0
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -68,6 +72,8 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
 
     /**
      * Feign 请求日志拦截
+     *
+     * @return 请求拦截器
      */
     @Bean
     public FeignRequestInterceptor feignRequestInterceptor() {
@@ -77,6 +83,8 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
 
     /**
      * Feign 声明周期管理，主要获取真实URL
+     *
+     * @return 负载均衡执行前后执行的对象
      */
     @Bean
     public FeignLoggerLoadBalancerLifecycle feignLogLoadBalancerLifecycle() {
@@ -86,6 +94,8 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
 
     /**
      * 自定义日志系统代理feign日志系统
+     *
+     * @return 日志对象
      */
     @Bean
     public Logger logger() {

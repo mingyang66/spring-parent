@@ -20,8 +20,8 @@ import com.emily.infrastructure.logback.factory.LogbackFactory;
 import org.apache.ibatis.logging.Log;
 
 /**
-* @Description: 将mybatis sql语句记录到日志文件中实现类，是org.apache.ibatis.logging.stdout.StdOutImpl类的替换
-* @Author: Emily
+*  将mybatis sql语句记录到日志文件中实现类，是org.apache.ibatis.logging.stdout.StdOutImpl类的替换
+* @author Emily
 * @create: 2021/8/22
 */
 public class LogBackImpl implements Log {

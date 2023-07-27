@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @Description :  路由重定向
- * @Author :  Emily
- * @CreateDate :  Created in 2023/2/2 5:01 下午
+ * 路由重定向
+ *
+ * @author Emily
+ * @since Created in 2023/2/2 5:01 下午
  */
 public class RoutingRedirectFilter implements Filter {
 

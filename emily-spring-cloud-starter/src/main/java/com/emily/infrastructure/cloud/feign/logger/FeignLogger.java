@@ -4,10 +4,10 @@ import com.emily.infrastructure.logger.LoggerFactory;
 import feign.Logger;
 
 /**
+ * 自定义Feign日志
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 自定义Feign日志
- * @create: 2021/04/10
+ * @since 2021/04/10
  */
 public class FeignLogger extends Logger {
     /**

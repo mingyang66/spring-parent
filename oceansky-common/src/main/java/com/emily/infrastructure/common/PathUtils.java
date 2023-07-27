@@ -2,10 +2,10 @@ package com.emily.infrastructure.common;
 
 
 /**
+ * 路径工具类
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 路径工具类
- * @create: 2020/11/26
+ * @since 2020/11/26
  */
 public class PathUtils {
 
@@ -23,8 +23,7 @@ public class PathUtils {
      * -------------------------------------------------------
      *
      * @param path 路径格式规范化
-     * @return
-     * @Description 规范化路径
+     * @return 规范化路径
      */
     public static String normalizePath(String path) {
         if (StringUtils.isBlank(path)) {

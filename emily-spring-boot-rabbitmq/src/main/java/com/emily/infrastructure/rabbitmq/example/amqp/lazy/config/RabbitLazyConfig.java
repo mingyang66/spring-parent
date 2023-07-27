@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Map;
 
 /**
- * @Description: RabbitMQ生产者交换器、绑定、队列声明
- * @Version: 1.0
+ * RabbitMQ生产者交换器、绑定、队列声明
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 @Configuration
@@ -20,6 +21,8 @@ public class RabbitLazyConfig {
 
     /**
      * 声明队列
+     *
+     * @return Queue对象
      */
     @Bean
     public Queue topicLazyQueue() {
@@ -35,6 +38,8 @@ public class RabbitLazyConfig {
 
     /**
      * 声明Topic类型交换器
+     *
+     * @return TopicExchange对象
      */
     @Bean
     public TopicExchange topicLazyExchange() {
@@ -45,7 +50,7 @@ public class RabbitLazyConfig {
     /**
      * Topic交换器和队列通过bindingKey绑定
      *
-     * @return
+     * @return Binding对象
      */
     @Bean
     public Binding bindingTopicLazyExchangeQueue() {

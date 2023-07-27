@@ -3,8 +3,8 @@ package com.emily.infrastructure.test.po;
 /**
  * @author Emily
  * @program: spring-parent
- * @description: Mysql Quartz
- * @create: 2021/04/22
+ *  Mysql Quartz
+ * @since 2021/04/22
  */
 public class QuartzJob {
 

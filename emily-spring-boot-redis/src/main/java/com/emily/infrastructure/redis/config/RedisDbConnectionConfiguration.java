@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @program: spring-parent
- * @description: RedisConfiguration工厂配置类  RedisConnectionConfiguration
- * @author: Emily
- * @create: 2021/07/11
+ * RedisConfiguration工厂配置类  RedisConnectionConfiguration
+ *
+ * @author Emily
+ * @since 2021/07/11
  */
 public class RedisDbConnectionConfiguration {
     private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", RedisDbLettuceConnectionConfiguration.class.getClassLoader());

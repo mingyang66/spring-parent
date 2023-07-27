@@ -63,7 +63,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @program: spring-parent
- * @description: 异步线程池配置 AsyncConfigurer在applicationContext早期初始化，如果需要依赖于其它的bean，尽可能的将它们声明为lazy
+ *  异步线程池配置 AsyncConfigurer在applicationContext早期初始化，如果需要依赖于其它的bean，尽可能的将它们声明为lazy
  * @create: 2020/08/21
  */
 @EnableAsync
@@ -156,7 +156,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @program: spring-parent
- * @description: 异步线程池配置文件
+ *  异步线程池配置文件
  * @create: 2020/08/21
  */
 @ConfigurationProperties(prefix = "spring.emily.async-thread-pool")

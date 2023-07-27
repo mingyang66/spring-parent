@@ -10,10 +10,8 @@ import jdk.jfr.StackTrace;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @program: spring-parent
- * @description:
- * @author: Emily
- * @create: 2021/11/09
+ * @author Emily
+ * @since 2021/11/09
  */
 @Deprecated
 @Category({"Lettuce", "Command Events"})

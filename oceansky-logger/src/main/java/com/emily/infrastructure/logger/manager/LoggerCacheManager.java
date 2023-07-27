@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 缓存管理器
  *
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/7/2 5:31 PM
  */
 public class LoggerCacheManager {

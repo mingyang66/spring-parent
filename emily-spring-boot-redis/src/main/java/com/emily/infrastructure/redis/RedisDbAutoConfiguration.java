@@ -41,11 +41,11 @@ import org.springframework.util.CollectionUtils;
 import java.util.Map;
 
 /**
- * @program: spring-parent
- * @description: Redis多数据源配置，参考源码：LettuceConnectionConfiguration
+ * Redis多数据源配置，参考源码：LettuceConnectionConfiguration
  * {@link org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration}
- * @author: Emily
- * @create: 2021/07/11
+ *
+ * @author Emily
+ * @since 2021/07/11
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration
@@ -93,6 +93,14 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
     /**
      * 初始化redis相关bean
+     *
+     * @param clientResources                 todo
+     * @param builderCustomizers              扩展点
+     * @param redisDbProperties               属性配置
+     * @param clusterConfigurationProvider    todo
+     * @param sentinelConfigurationProvider   todo
+     * @param standaloneConfigurationProvider todo
+     * @return 约定字符串对象
      */
     @Bean
     public Object initTargetRedis(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisDbProperties redisDbProperties,
@@ -132,7 +140,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * 创建 StringRedisTemplate对象
      *
      * @param redisConnectionFactory 链接工厂对象
-     * @return
+     * @return StringRedisTemplate对象
      */
     protected StringRedisTemplate createStringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
@@ -153,7 +161,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * 创建 RedisTemplate对象
      *
      * @param redisConnectionFactory 链接工厂对象
-     * @return
+     * @return redisTemplate对象
      */
     protected RedisTemplate<Object, Object> createRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
@@ -173,6 +181,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
     /**
      * 初始化string序列化对象
+     *
+     * @return 字符串序列化对象
      */
     protected StringRedisSerializer stringSerializer() {
         return new StringRedisSerializer();
@@ -180,6 +190,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
     /**
      * 初始化jackson序列化对象
+     *
+     * @return jackson序列化对象
      */
     protected Jackson2JsonRedisSerializer<Object> jacksonSerializer() {
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值

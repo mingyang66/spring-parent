@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Description :  多语言解析
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/15 5:42 PM
+ * 多语言解析
+ *
+ * @author Emily
+ * @since Created in 2023/4/15 5:42 PM
  */
 public class I18nConvertHelper {
 
@@ -21,7 +22,9 @@ public class I18nConvertHelper {
      *
      * @param entity       实体类|普通对象
      * @param languageType 语言类型
+     * @param <T>          实体对象
      * @return 翻译后的实体类对象
+     * @throws IllegalAccessException 非法访问异常
      */
     public static <T> T acquire(final T entity, LanguageType languageType) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
@@ -49,10 +52,12 @@ public class I18nConvertHelper {
     }
 
     /**
+     * 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
+     *
      * @param entity       实体类对象
      * @param languageType 语言类型
+     * @param <T>          实体对象
      * @throws IllegalAccessException 非法访问异常
-     * @Description 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
      */
     protected static <T> void doSetField(final T entity, final LanguageType languageType) throws IllegalAccessException {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
@@ -80,12 +85,14 @@ public class I18nConvertHelper {
     }
 
     /**
+     * 对字符串进行多语言支持
+     *
      * @param field        实体类属性对象
      * @param entity       实体类对象
      * @param value        属性值对象
      * @param languageType 语言类型
+     * @param <T>          实体对象
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对字符串进行多语言支持
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonI18nField.class)) {
@@ -94,12 +101,14 @@ public class I18nConvertHelper {
     }
 
     /**
+     * 对Collection集合中存储是字符串、实体对象进行多语言支持
+     *
      * @param field        实体类属性对象
      * @param entity       实体类对象
      * @param value        属性值对象
      * @param languageType 语言类型
+     * @param <T>          实体对象类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对Collection集合中存储是字符串、实体对象进行多语言支持
      */
     protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         Collection<Object> list = null;
@@ -122,12 +131,14 @@ public class I18nConvertHelper {
     }
 
     /**
+     * 对Map集合中存储是字符串、实体对象进行多语言支持
+     *
      * @param field        实体类属性对象
      * @param entity       实体类对象
      * @param value        属性值对象
      * @param languageType 语言类型
+     * @param <T>          实体类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对Map集合中存储是字符串、实体对象进行多语言支持
      */
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         Map<Object, Object> dMap = ((Map<Object, Object>) value);
@@ -146,12 +157,14 @@ public class I18nConvertHelper {
     }
 
     /**
+     * 对数组中存储是字符串、实体对象进行多语言支持
+     *
      * @param field        实体类属性对象
      * @param entity       实体类对象
      * @param value        属性值对象
      * @param languageType 语言类型
+     * @param <T>          实体对象类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对数组中存储是字符串、实体对象进行多语言支持
      */
     protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {

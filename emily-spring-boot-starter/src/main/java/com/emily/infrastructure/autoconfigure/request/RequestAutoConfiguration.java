@@ -24,9 +24,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 
 /**
+ * 请求日志拦截AOP切面
+ *
  * @author Emily
- * @Description: 请求日志拦截AOP切面
- * @Version: 1.0
+ * @since 1.0
  */
 @AutoConfiguration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -53,8 +54,11 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
 
 
     /**
-     * @Description 定义接口拦截器切点
-     * @Version 1.0
+     * 定义接口拦截器切点
+     *
+     * @param requestCustomizers 扩展点对象
+     * @return 切面对象
+     * @since 1.0
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

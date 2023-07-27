@@ -86,7 +86,7 @@ public class CaptchaUtils {
      * @param count    验证码个数
      * @param fontSize 字体大小
      * @return
-     * @Description: 绘制数字图形验证码，不带干扰线
+     *  绘制数字图形验证码，不带干扰线
      */
     public static Captcha createDigit(int width, int height, int count, int fontSize) throws IOException {
         return createDigit(width, height, count, fontSize, false, null);
@@ -100,7 +100,7 @@ public class CaptchaUtils {
      * @param line      是否画干扰线
      * @param lineCount 干扰线数量
      * @return
-     * @Description: 绘制数字图形验证码
+     *  绘制数字图形验证码
      */
     public static Captcha createDigit(int width, int height, int count, int fontSize, boolean line, Integer lineCount) throws IOException {
         /**
@@ -120,7 +120,7 @@ public class CaptchaUtils {
      * @param fontSize 字体大小
      * @return
      * @throws IOException
-     * @Description: 绘制字母图形验证码
+     *  绘制字母图形验证码
      */
     public static Captcha createLetter(int width, int height, int count, int fontSize) throws IOException {
         return createLetter(width, height, count, fontSize, false, null);
@@ -135,7 +135,7 @@ public class CaptchaUtils {
      * @param lineCount 干扰线数量
      * @return
      * @throws IOException
-     * @Description: 绘制字母图形验证码
+     *  绘制字母图形验证码
      */
     public static Captcha createLetter(int width, int height, int count, int fontSize, boolean line, Integer lineCount) throws IOException {
         /**
@@ -155,7 +155,7 @@ public class CaptchaUtils {
      * @param fontSize 字体大小
      * @return
      * @throws IOException
-     * @Description: 绘制数字字母图形验证码
+     *  绘制数字字母图形验证码
      */
     public static Captcha createAlphanumeric(int width, int height, int count, int fontSize) throws IOException {
         return createAlphanumeric(width, height, count, fontSize, false, null);
@@ -170,7 +170,7 @@ public class CaptchaUtils {
      * @param lineCount 干扰线数量
      * @return
      * @throws IOException
-     * @Description: 绘制数字字母图形验证码
+     *  绘制数字字母图形验证码
      */
     public static Captcha createAlphanumeric(int width, int height, int count, int fontSize, boolean line, Integer lineCount) throws IOException {
         /**
@@ -192,7 +192,7 @@ public class CaptchaUtils {
      * @param lineCount 干扰线条数
      * @return 生成的图形验证码对象
      * @throws IOException
-     * @Description: 生成图形验证码
+     *  生成图形验证码
      */
     public static Captcha create2D(int width, int height, String[] code, Font font, boolean line, Integer lineCount) throws IOException {
         // 创建空白图片

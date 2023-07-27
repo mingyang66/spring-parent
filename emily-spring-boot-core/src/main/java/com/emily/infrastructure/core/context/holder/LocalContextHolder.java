@@ -3,9 +3,10 @@ package com.emily.infrastructure.core.context.holder;
 import com.alibaba.ttl.TransmittableThreadLocal;
 
 /**
- * @Description: 全链路追踪上下文
- * @Author: Emily
- * @create: 2021/10/12
+ * 全链路追踪上下文
+ *
+ * @author Emily
+ * @since 2021/10/12
  */
 public class LocalContextHolder {
 
@@ -18,6 +19,8 @@ public class LocalContextHolder {
 
     /**
      * 设置当前线程持有的数据源
+     *
+     * @param ContextHolder 上下文对象
      */
     public static void bind(ContextHolder ContextHolder) {
         CONTEXT.set(ContextHolder);
@@ -25,6 +28,8 @@ public class LocalContextHolder {
 
     /**
      * 获取当前线程持有的数据源
+     *
+     * @return 上下文对象
      */
     public static ContextHolder current() {
         return CONTEXT.get();
@@ -32,6 +37,8 @@ public class LocalContextHolder {
 
     /**
      * 是否移除上下文
+     *
+     * @param flag 是否servlet上下恩
      */
     public static void unbind(boolean flag) {
         if (flag) {

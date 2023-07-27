@@ -3,9 +3,10 @@ package com.emily.infrastructure.common.charset;
 import java.nio.charset.Charset;
 
 /**
- * @Description :  字符转换类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/9 4:02 PM
+ * 字符转换类
+ *
+ * @author Emily
+ * @since Created in 2023/6/9 4:02 PM
  */
 public class Charsets {
     /**

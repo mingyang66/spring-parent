@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 /**
+ * 过滤器注册自动化配置
+ *
  * @author Emily
- * @program: spring-parent
- * @description: 过滤器注册自动化配置
- * @create: 2020/11/23
+ * @since 2020/11/23
  */
 @AutoConfiguration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -37,7 +37,7 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
     /**
      * 注册HTTP请求拦截器注册BEAN
      *
-     * @return
+     * @return 过滤器注册对象
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -54,7 +54,8 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
     /**
      * 路由重定向过滤器
      *
-     * @return
+     * @param routingRedirectCustomizer 扩展点对象
+     * @return 过滤器注册对象
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

@@ -8,9 +8,9 @@ import java.util.List;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: Emily
- * @create: 2021/09/08
+ * 
+ * @author Emily
+ * @since 2021/09/08
  */
 @Mapper
 public interface ItemMapper {

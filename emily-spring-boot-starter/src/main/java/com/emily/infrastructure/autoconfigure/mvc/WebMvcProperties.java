@@ -6,9 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Web配置文件
+ *
  * @author Emily
- * @description: Web配置文件
- * @create: 2020/05/28
+ * @since 2020/05/28
  */
 @ConfigurationProperties(prefix = WebMvcProperties.PREFIX)
 public class WebMvcProperties {

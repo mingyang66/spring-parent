@@ -13,9 +13,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * @Description :  单元测试类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 3:24 PM
+ * 单元测试类
+ *
+ * @author Emily
+ * @since Created in 2023/5/14 3:24 PM
  */
 public class DateConvertUtilsTest {
     @Test

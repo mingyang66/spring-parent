@@ -14,9 +14,9 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 
 /**
- * @Description : 自定义策略接口，会在tomcat启动之后回调，会被WebServerFactoryCustomizerBeanPostProcessor类回调
- * @Author :  Emily
- * @CreateDate :  Created in 2022/6/22 1:37 下午
+ * 自定义策略接口，会在tomcat启动之后回调，会被WebServerFactoryCustomizerBeanPostProcessor类回调
+ * @author  Emily
+ * @since  Created in 2022/6/22 1:37 下午
  */
 public class TomcatServerCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
     /**
@@ -52,7 +52,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author Emily
- * @description: http属性配置文件
+ *  http属性配置文件
  * @create: 2020/06/28
  */
 @ConfigurationProperties(prefix = "server.http")

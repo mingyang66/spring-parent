@@ -7,8 +7,8 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 /**
  * @author Emily
  * @program: spring-parent
- * @description:
- * @create: 2021/03/06
+ *
+ * @since 2021/03/06
  */
 @Configuration(proxyBeanMethods = false)
 public class WebSocketConfig {

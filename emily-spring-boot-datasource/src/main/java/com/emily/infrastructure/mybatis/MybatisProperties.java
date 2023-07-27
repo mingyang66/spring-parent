@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 数据源配置文件
  *
- * @author : Emily
+ * @author Emily
  * @since : 2020/05/14
  */
 @ConfigurationProperties(prefix = MybatisProperties.PREFIX)

@@ -1,9 +1,9 @@
 package com.emily.infrastructure.captcha;
 
 /**
- * @Description :  图形验证码建造器
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/4 10:18 AM
+ *  图形验证码建造器
+ * @author  Emily
+ * @since  Created in 2023/5/4 10:18 AM
  */
 public class CaptchaBuilder {
     /**

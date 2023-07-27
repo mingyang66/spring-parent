@@ -1,9 +1,10 @@
 package com.emily.infrastructure.date;
 
 /**
- * @Description :  日期断言判断类
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/28 9:29 AM
+ * 日期断言判断类
+ *
+ * @author Emily
+ * @since Created in 2023/5/28 9:29 AM
  */
 class DateAssert {
     /**

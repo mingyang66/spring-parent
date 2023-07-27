@@ -16,11 +16,15 @@ import java.lang.annotation.*;
 public @interface TargetHttpTimeout {
     /**
      * 读取超时时间，默认：-1
+     *
+     * @return 连接超时时间
      */
     int readTimeout() default -1;
 
     /**
      * 连接超时时间，默认：-1
+     *
+     * @return 连接超时时间
      */
     int connectTimeout() default -1;
 }

@@ -6,7 +6,7 @@ import org.apache.ibatis.logging.Log;
 /**
  * 将mybatis sql语句记录到日志文件中实现类，是org.apache.ibatis.logging.stdout.StdOutImpl类的替换
  *
- * @author : Emily
+ * @author Emily
  * @since : 2021/8/22
  */
 public class LogBackImpl implements Log {

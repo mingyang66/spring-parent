@@ -9,10 +9,10 @@ import org.springframework.util.Assert;
 import java.lang.annotation.Annotation;
 
 /**
- * @program: spring-parent
- * @description: 针对方法切点
- * @author: Emily
- * @create: 2022/01/14
+ * 针对方法切点
+ *
+ * @author Emily
+ * @since 2022/01/14
  */
 public class AnnotationMethodPointcut implements Pointcut {
     /**
@@ -58,7 +58,7 @@ public class AnnotationMethodPointcut implements Pointcut {
     /**
      * 属于Pointcut切点的一部分，判定目标方法是否符合判定条件
      *
-     * @return
+     * @return 切点匹配对象
      */
     @Override
     public MethodMatcher getMethodMatcher() {

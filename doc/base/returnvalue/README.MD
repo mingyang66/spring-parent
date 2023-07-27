@@ -116,8 +116,8 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
 
 ```
 /**
- * @Description: 控制器返回值配置处理类
- * @Version: 1.0
+ *  控制器返回值配置处理类
+ * @since 1.0
  */
 @Configuration
 public class ResponseMethodReturnValueConfigurer implements InitializingBean {

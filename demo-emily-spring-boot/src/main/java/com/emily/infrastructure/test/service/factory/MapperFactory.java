@@ -8,9 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 
 /**
- * @Description : 获取Mapper实例对象帮助类
- * @Author :  Emily
- * @CreateDate :  Created in 2022/3/24 4:23 下午
+ * 获取Mapper实例对象帮助类
+ * @author  Emily
+ * @since  Created in 2022/3/24 4:23 下午
  */
 public class MapperFactory<T> {
     /**

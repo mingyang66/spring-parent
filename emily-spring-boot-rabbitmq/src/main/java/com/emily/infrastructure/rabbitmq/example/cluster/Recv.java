@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description: Direct类型交换器消费者
- * @Version: 1.0
+ * Direct类型交换器消费者
+ *
+ * @since 1.0
  */
 @SuppressWarnings("all")
 public class Recv {

@@ -7,9 +7,9 @@ import javax.annotation.Nonnull;
 
 /**
  * @program: spring-parent
- * @description: 构造函数拦截器
- * @author: Emily
- * @create: 2021/05/25
+ *  构造函数拦截器
+ * @author Emily
+ * @since 2021/05/25
  */
 public class DebuggingInterceptor implements ConstructorInterceptor {
     private Object instance = null;

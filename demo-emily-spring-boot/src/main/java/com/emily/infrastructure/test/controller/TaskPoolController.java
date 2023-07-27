@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: spring-parent
- * @description: 线程池测试
- * @author: Emily
- * @create: 2021/09/14
+ *  线程池测试
+ * @author Emily
+ * @since 2021/09/14
  */
 @RestController
 public class TaskPoolController {

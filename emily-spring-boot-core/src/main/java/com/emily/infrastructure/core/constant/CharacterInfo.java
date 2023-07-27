@@ -1,10 +1,10 @@
 package com.emily.infrastructure.core.constant;
 
 /**
- * @program: spring-parent
- * @description: 特殊字符集工具类
- * @author: Emily
- * @create: 2020/05/18
+ * 特殊字符集工具类
+ *
+ * @author Emily
+ * @since 2020/05/18
  */
 public class CharacterInfo {
     public static final String EQUAL_SIGN = "=";

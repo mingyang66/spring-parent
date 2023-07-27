@@ -2,9 +2,9 @@ package com.emily.cloud.test.api.po;
 
 /**
  * @program: consul-demo
- * @description:
- * @author:
- * @create: 2021/01/25
+ *
+ * @author
+ * @since 2021/01/25
  */
 public class User {
     private String name;

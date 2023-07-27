@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 
 /**
- * @Description: 对HttpServletRequest进行重写，
+ *  对HttpServletRequest进行重写，
  * 1、用来接收application/json参数数据类型，即@RequestBody注解标注的参数,解决多次读取问题
  * 2、用来解决注解@RequestParam通过POST/PUT/DELETE/PATCH方法传递参数，解决多次读取问题
  * 首先看一下springboot控制器三个注解：
@@ -112,7 +112,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
-* @Description: 拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link com.emily.boot.common.servlet.RequestWrapper}
+*  拦截所有请求过滤器，并将请求类型是HttpServletRequest类型的请求替换为自定义{@link com.emily.boot.common.servlet.RequestWrapper}
 * @create: 2020/8/19
 */
 @Component

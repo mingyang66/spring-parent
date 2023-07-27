@@ -5,9 +5,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description :
- * @Author :  Emily
- * @CreateDate :  Created in 2023/6/25 6:02 PM
+ *
+ * @author  Emily
+ * @since  Created in 2023/6/25 6:02 PM
  */
 @Component
 public class DemoEventListener {

@@ -7,9 +7,9 @@ import java.lang.ref.WeakReference;
 
 /**
  * @program: spring-parent
- * @description: 弱引用
- * @author: Emily
- * @create: 2021/11/13
+ *  弱引用
+ * @author Emily
+ * @since 2021/11/13
  */
 public class UserWeakReference extends WeakReference<User> {
 

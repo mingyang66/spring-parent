@@ -6,7 +6,7 @@ import org.junit.Test;
 
 /**
  *   字符串脱敏
- * @author :  Emily
+ * @author  Emily
  * @since :  Created in 2023/5/27 3:18 PM
  */
 public class DataMaskUtilsTest {

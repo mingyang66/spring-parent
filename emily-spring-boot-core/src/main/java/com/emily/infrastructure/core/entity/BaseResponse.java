@@ -3,11 +3,10 @@ package com.emily.infrastructure.core.entity;
 import java.io.Serializable;
 
 /**
+ * 控制器返回结果
+ *
  * @author Emily
- * @Description: 控制器返回结果
- * @ProjectName: spring-parent
- * @Date: 2019/7/1 15:33
- * @Version: 1.0
+ * @since 1.0
  */
 public class BaseResponse<T> implements Serializable {
     private int status;

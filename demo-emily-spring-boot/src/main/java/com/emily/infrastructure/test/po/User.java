@@ -7,9 +7,9 @@ import org.springframework.core.Ordered;
 
 /**
  * @program: spring-parent
- * @description:
- * @author: Emily
- * @create: 2021/08/08
+ * 
+ * @author Emily
+ * @since 2021/08/08
  */
 @JsonSensitive
 public class User implements Ordered {

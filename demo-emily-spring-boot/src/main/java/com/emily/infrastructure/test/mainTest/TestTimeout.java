@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @Description :
- * @Author :  Emily
- * @CreateDate :  Created in 2022/8/2 7:28 下午
+ *
+ * @author  Emily
+ * @since  Created in 2022/8/2 7:28 下午
  */
 @Service
 public class TestTimeout {

@@ -18,10 +18,10 @@ import org.springframework.core.PriorityOrdered;
 import java.time.LocalDateTime;
 
 /**
+ * feign请求日志拦截
+ *
  * @author Emily
- * @program: spring-parent
- * @description: feign请求日志拦截
- * @create: 2021/03/31
+ * @since 2021/03/31
  */
 public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrdered {
 

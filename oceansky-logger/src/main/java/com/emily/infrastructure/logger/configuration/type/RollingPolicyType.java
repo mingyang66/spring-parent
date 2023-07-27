@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger.configuration.type;
 /**
  * 日志归档策略
  *
- * @author : Emily
+ * @author Emily
  * @since : 2022/1/4
  */
 public enum RollingPolicyType {

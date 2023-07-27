@@ -38,11 +38,11 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * @Description: 用户自定义加载配置文件
+ *  用户自定义加载配置文件
  * @ProjectName: EM.FrontEnd.PrivateEquity.electronic-contract
  * @Package: com.uufund.ecapi.config.properties.UserEnvironmentPostProcessor
  * @Date: 2019/8/12 14:52
- * @Version: 1.0
+ * @since 1.0
  */
 public class UserEnvironmentPostProcessor implements EnvironmentPostProcessor {
     @Override

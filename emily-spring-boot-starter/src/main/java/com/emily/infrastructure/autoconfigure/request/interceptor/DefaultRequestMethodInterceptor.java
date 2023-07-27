@@ -32,13 +32,14 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ *
  * @author Emily
- * @Description: 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
- * @Version: 1.0
+ * @since 1.0
  */
 public class DefaultRequestMethodInterceptor implements RequestCustomizer {
 
-    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultRequestMethodInterceptor.class, "request","user");
+    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultRequestMethodInterceptor.class, "request", "user");
 
     /**
      * 拦截接口日志

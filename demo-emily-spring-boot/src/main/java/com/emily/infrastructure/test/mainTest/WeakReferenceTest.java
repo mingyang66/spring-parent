@@ -4,9 +4,9 @@ import com.emily.infrastructure.test.po.User;
 
 /**
  * @program: spring-parent
- * @description: 弱引用测试
- * @author: Emily
- * @create: 2021/11/13
+ *  弱引用测试
+ * @author Emily
+ * @since 2021/11/13
  */
 public class WeakReferenceTest {
     public static void main(String[] args) throws InterruptedException {

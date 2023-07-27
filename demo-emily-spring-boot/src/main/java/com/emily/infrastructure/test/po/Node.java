@@ -2,9 +2,9 @@ package com.emily.infrastructure.test.po;
 
 /**
  * @program: spring-parent
- * @description: 节点测试
- * @author: Emily
- * @create: 2021/04/22
+ *  节点测试
+ * @author Emily
+ * @since 2021/04/22
  */
 public class Node {
 

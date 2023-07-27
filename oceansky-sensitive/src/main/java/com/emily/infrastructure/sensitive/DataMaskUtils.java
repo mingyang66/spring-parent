@@ -3,9 +3,10 @@ package com.emily.infrastructure.sensitive;
 import java.util.Arrays;
 
 /**
- * @Description :  数据隐藏
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/21 1:51 PM
+ * 数据脱敏
+ *
+ * @author :  Emily
+ * @since : Created in 2023/4/21 1:51 PM
  */
 public class DataMaskUtils {
 
@@ -14,6 +15,9 @@ public class DataMaskUtils {
     /**
      * 中文姓名脱敏，第一个字符展示，其它隐藏
      * 示例：孙玉婷  孙**
+     *
+     * @param name 姓名
+     * @return 脱敏后的姓名
      */
     public static String maskChineseName(final String name) {
         if (name == null || name.length() == 0) {
@@ -39,6 +43,9 @@ public class DataMaskUtils {
      * 412822185703252531 412***********2531
      * 十五位身份证
      * 412822185703252    412********3252
+     *
+     * @param idCard 身份证
+     * @return 脱敏后的身份证信息
      */
     public static String maskIdCard(final String idCard) {
         if (idCard == null || idCard.length() == 0) {
@@ -60,6 +67,9 @@ public class DataMaskUtils {
      * 3. 4位区号+11位手机号，区号+取前三后四中间脱敏；如：008618221120687 0086182*****0687
      * 4. 手机号长度大于等于4时，取四等份中间两份隐藏，首尾两份展示
      * 5. 长度小于4，则原样展示
+     *
+     * @param phone 手机号码
+     * @return 脱敏后的手机号
      */
     public static String maskPhoneNumber(final String phone) {
         if (phone == null || phone.length() == 0) {
@@ -108,8 +118,12 @@ public class DataMaskUtils {
 
     /**
      * 地址脱敏，只显示地址，不展示详细信息
-     * len<=0，则按照字符串长度展示前三分之一，其它隐藏
-     * len>0，则按照指定的长度展示字符串，其它隐藏
+     * len&lt;=0，则按照字符串长度展示前三分之一，其它隐藏
+     * len&gt;0，则按照指定的长度展示字符串，其它隐藏
+     *
+     * @param address 地址
+     * @param len     长度
+     * @return 脱敏后的地址信息
      */
     public static String maskAddress(final String address, int len) {
         if (address == null || address.length() == 0) {
@@ -128,18 +142,21 @@ public class DataMaskUtils {
     /**
      * 邮箱脱敏，实例如下：
      * 123                123
+     * <p>
+     * * @qq.com @qq.com
+     * * 1@qq.com           1***@qq.com
+     * * 12@qq.com          1***2@qq.com
+     * * 123@qq.com         1***3@qq.com
+     * * 1234@qq.com        1***4@qq.com
+     * * 12345@qq.com       1***5@qq.com
+     * * 123456@qq.com      1***6@qq.com
+     * * 1234567@qq.com     1***7@qq.com
+     * * 12345678@qq.com    1***8@qq.com
+     * * 123456789@qq.com   1***9@qq.com
+     * * 1234567890@qq.com  1***0@qq.com
      *
-     * @qq.com @qq.com
-     * 1@qq.com           1***@qq.com
-     * 12@qq.com          1***2@qq.com
-     * 123@qq.com         1***3@qq.com
-     * 1234@qq.com        1***4@qq.com
-     * 12345@qq.com       1***5@qq.com
-     * 123456@qq.com      1***6@qq.com
-     * 1234567@qq.com     1***7@qq.com
-     * 12345678@qq.com    1***8@qq.com
-     * 123456789@qq.com   1***9@qq.com
-     * 1234567890@qq.com  1***0@qq.com
+     * @param email 邮箱
+     * @return 脱敏后的邮箱
      */
     public static String maskEmail(final String email) {
         if (email == null || email.length() == 0) {
@@ -169,6 +186,9 @@ public class DataMaskUtils {
      * 12位 123456789012          123456**9012
      * 16位 1234567890123456      123456******3456
      * 19位 62270010000000000000  622700**********0000
+     *
+     * @param cardNo 卡号
+     * @return 脱敏后的银行卡号
      */
     public static String maskBankCard(final String cardNo) {
         if (cardNo == null || cardNo.length() == 0) {

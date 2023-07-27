@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @Description :  字符串脱敏
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/27 3:18 PM
+ *   字符串脱敏
+ * @author :  Emily
+ * @since :  Created in 2023/5/27 3:18 PM
  */
 public class DataMaskUtilsTest {
 

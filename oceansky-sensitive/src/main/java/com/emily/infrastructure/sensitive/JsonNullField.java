@@ -6,14 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description :  自定义注解，标注在属性上，字段属性值置为null
+ * 自定义注解，标注在属性上，字段属性值置为null
  * ---------------------------------------------
  * 生效规则：
  * 1.非int、double、float、byte、short、long、boolean、char八种基本数据类型字段才会生效；
  * 2.
  * ---------------------------------------------
- * @Author :  Emily
- * @CreateDate :  Created in 2023/7/14 5:22 下午
+ *
+ * @author :  Emily
+ * @since :  Created in 2023/7/14 5:22 下午
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

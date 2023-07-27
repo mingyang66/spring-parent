@@ -16,6 +16,8 @@ spring.emily.logger.marker.deny-marker=
 4. 升级maven-javadoc-plugin插件版本到3.3.2版本，并修改如果遇到文档错误不暂停构建参数为failOnError；
 5. oceansky-logger、emily-spring-boot-starter sdk的javadoc文档优化；
 6. emily-spring-boot-datasource SDK的javadoc文档优化；
+7. oceansky-sensitive SDK的javadoc文档优化；
+8. 
 
 
 -----

@@ -6,9 +6,10 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @Description :  对实体类镜像脱敏，返回结构相同的非同一个对象
- * @Author :  Emily
- * @CreateDate :  Created in 2022/7/19 3:13 下午
+ * 对实体类镜像脱敏，返回结构相同的非同一个对象
+ *
+ * @author :  Emily
+ * @since :  Created in 2022/7/19 3:13 下午
  */
 public class SensitiveUtils {
     /**
@@ -26,9 +27,11 @@ public class SensitiveUtils {
     }
 
     /**
+     * 对实体类镜像脱敏，返回结构相同的非同一个对象
+     *
      * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @return 脱敏后的实体类对象
-     * @Description 对实体类镜像脱敏，返回结构相同的非同一个对象
+     * @throws IllegalAccessException 抛出非法访问异常
      */
     public static Object acquire(final Object entity) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
@@ -130,6 +133,7 @@ public class SensitiveUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
+     * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static Object doGetEntityStr(final Field field, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonSimField.class)) {
@@ -143,6 +147,7 @@ public class SensitiveUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
+     * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static Object doGetEntityColl(final Field field, final Object value) throws IllegalAccessException {
         Collection<Object> list = new ArrayList<>();
@@ -163,6 +168,7 @@ public class SensitiveUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
+     * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static Object doGetEntityMap(final Field field, final Object value) throws IllegalAccessException {
         Map<Object, Object> dMap = new HashMap<>();
@@ -184,6 +190,7 @@ public class SensitiveUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
+     * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static Object doGetEntityArray(final Field field, final Object value) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
@@ -209,6 +216,7 @@ public class SensitiveUtils {
      *
      * @param entity 实体类
      * @return 复杂类型字段脱敏后的数据集合
+     * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static Map<String, Object> doGetEntityFlex(final Object entity) throws IllegalAccessException {
         Map<String, Object> flexFieldMap = null;

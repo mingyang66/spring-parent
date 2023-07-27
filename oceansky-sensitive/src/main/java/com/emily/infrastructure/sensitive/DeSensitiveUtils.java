@@ -6,14 +6,16 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @Description :  对实体类进行脱敏，返回原来的实体类对象
- * @Author :  Emily
- * @CreateDate :  Created in 2023/4/21 1:50 PM
+ * 对实体类进行脱敏，返回原来的实体类对象
+ *
+ * @author :  Emily
+ * @since :  Created in 2023/4/21 1:50 PM
  */
 public class DeSensitiveUtils {
 
     /**
      * @param entity 实体类|普通对象 如果发生异常则源对象返回
+     * @param <T>    实体类类型
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
     public static <T> T acquireElseGet(final T entity) {
@@ -26,7 +28,9 @@ public class DeSensitiveUtils {
 
     /**
      * @param entity 实体类|普通对象
+     * @param <T>    实体类类型
      * @return 对实体类进行脱敏，返回原来的实体类对象
+     * @throws IllegalAccessException 非法访问异常
      */
     public static <T> T acquire(final T entity) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
@@ -53,9 +57,11 @@ public class DeSensitiveUtils {
     }
 
     /**
+     * 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
+     *
      * @param entity 实体类对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 非法访问异常
-     * @Description 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
      */
     protected static <T> void doSetField(final T entity) throws IllegalAccessException {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
@@ -114,6 +120,7 @@ public class DeSensitiveUtils {
      * @param field  实体类属性对象
      * @param entity 实体类对象
      * @param value  属性值对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityNull(final Field field, final T entity, final Object value) throws IllegalAccessException {
@@ -121,11 +128,13 @@ public class DeSensitiveUtils {
     }
 
     /**
+     * 对字符串进行多语言支持
+     *
      * @param field  实体类属性对象
      * @param entity 实体类对象
      * @param value  属性值对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对字符串进行多语言支持
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(JsonSimField.class)) {
@@ -136,11 +145,13 @@ public class DeSensitiveUtils {
     }
 
     /**
+     * 对Collection集合中存储是字符串、实体对象进行多语言支持
+     *
      * @param field  实体类属性对象
      * @param entity 实体类对象
      * @param value  属性值对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对Collection集合中存储是字符串、实体对象进行多语言支持
      */
     protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value) throws IllegalAccessException {
         Collection<Object> list = null;
@@ -163,11 +174,13 @@ public class DeSensitiveUtils {
     }
 
     /**
+     * 对Map集合中存储是字符串、实体对象进行多语言支持
+     *
      * @param field  实体类属性对象
      * @param entity 实体类对象
      * @param value  属性值对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对Map集合中存储是字符串、实体对象进行多语言支持
      */
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
         Map<Object, Object> dMap = ((Map<Object, Object>) value);
@@ -186,11 +199,13 @@ public class DeSensitiveUtils {
     }
 
     /**
+     * 对数组中存储是字符串、实体对象进行多语言支持
+     *
      * @param field  实体类属性对象
      * @param entity 实体类对象
      * @param value  属性值对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
-     * @Description 对数组中存储是字符串、实体对象进行多语言支持
      */
     protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
@@ -212,6 +227,7 @@ public class DeSensitiveUtils {
 
     /**
      * @param entity 实体类对象
+     * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityFlex(final T entity) throws IllegalAccessException {

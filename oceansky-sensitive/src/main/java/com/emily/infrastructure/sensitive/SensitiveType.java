@@ -1,9 +1,10 @@
 package com.emily.infrastructure.sensitive;
 
 /**
- * @Description :  脱敏类型
- * @Author :  Emily
- * @CreateDate :  Created in 2022/10/27 10:03 上午
+ * 脱敏类型
+ *
+ * @author :  Emily
+ * @since :  Created in 2022/10/27 10:03 上午
  */
 public enum SensitiveType {
     DEFAULT,

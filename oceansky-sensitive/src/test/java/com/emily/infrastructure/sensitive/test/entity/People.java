@@ -3,9 +3,9 @@ package com.emily.infrastructure.sensitive.test.entity;
 import com.emily.infrastructure.sensitive.*;
 
 /**
- * @Description : 人
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/14 4:50 PM
+ *  人
+ * @author :  Emily
+ * @since :  Created in 2023/5/14 4:50 PM
  */
 @JsonSensitive
 public class People {

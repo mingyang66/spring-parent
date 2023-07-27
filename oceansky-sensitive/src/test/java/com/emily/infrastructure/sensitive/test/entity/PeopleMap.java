@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description :  集合类型
- * @Author :  Emily
- * @CreateDate :  Created in 2023/5/28 2:45 PM
+ *   集合类型
+ * @author :  Emily
+ * @since :  Created in 2023/5/28 2:45 PM
  */
 @JsonSensitive
 public class PeopleMap {

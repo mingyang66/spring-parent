@@ -23,7 +23,6 @@ spring.emily.logger.marker.deny-marker=
 6. emily-spring-boot-datasource SDK的javadoc文档优化；
 7. oceansky-sensitive SDK的javadoc文档优化；
 8. sdk对javadoc文档注解优化调整；
-9. 
 
 
 -----

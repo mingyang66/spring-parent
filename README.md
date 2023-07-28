@@ -1,6 +1,4 @@
-# EmilyInfrustructure基础框架
-
-> Oauth2相关代码请移步到feature_bak分支查看
+# emily-sdk
 
 #### 原生Java开源pom依赖引用
 

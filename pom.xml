@@ -224,7 +224,8 @@
                             <!--控制构建过程中如果出现错误是否停止构建-->
                             <failOnError>false</failOnError>
                             <!--排除指定的包，可以使用: or , or ; 三种符号分割-->
-                            <excludePackageNames>com.emily.cloud.test.*,com.emily.infrastructure.test.*</excludePackageNames>
+                            <excludePackageNames>com.emily.cloud.test.*,com.emily.infrastructure.test.*
+                            </excludePackageNames>
                         </configuration>
                         <executions>
                             <execution>
@@ -245,16 +246,17 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- gpg插件 -->
+                    <!-- 使用GnuPG签署项目的所有附加工件 -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
                                 <phase>verify</phase>
                                 <goals>
+                                    <!--使用GunPG对项目工件、POM和附加工件进行签名以进行部署-->
                                     <goal>sign</goal>
                                 </goals>
                             </execution>

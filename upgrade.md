@@ -1,5 +1,10 @@
 ###
 -----
+基础库发布4.3.8
+Bug Fixes
+1. s
+2. 
+-----
 基础库发布4.3.7
 Bug Fixes
 1. logger sdk新增name属性设置；

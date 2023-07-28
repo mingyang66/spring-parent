@@ -1,8 +1,8 @@
-#mvn versions:set -DnewVersion=4.3.7
+mvn versions:set -DnewVersion=4.3.8
 echo '修改版本号'
-#mvn versions:commit
+mvn versions:commit
 echo '提交修改'
-#mvn clean deploy -pl oceansky-json -am
+mvn clean deploy -pl oceansky-json -am
 echo '#########oceansky-json打包完成...'
 mvn clean deploy -pl oceansky-logger
 mvn clean deploy -pl oceansky-captcha

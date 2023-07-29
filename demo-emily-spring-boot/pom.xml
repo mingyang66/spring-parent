@@ -106,7 +106,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
-                    <!--显示的更改源代码的编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
+                    <!--插件将默认使用project.build.sourceEncoding设置的系统编码，有时为了不同的目的需要显式指定编码，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
                     <encoding>utf-8</encoding>
                     <!-- 解决Spring boot引起的profile失效问题 -->
                     <useDefaultDelimiters>true</useDefaultDelimiters>

@@ -42,7 +42,7 @@ management:
 ---
 spring:
   profiles:
-    active: redis,mybatis,mysql,feign
+    active: mybatis,mysql,feign
   cloud:
     compatibility-verifier:
       enabled: true

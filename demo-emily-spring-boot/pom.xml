@@ -77,10 +77,15 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>demo</finalName>
+        <!--指定jar包名-->
+        <finalName>demo-sdk</finalName>
+        <!--指定资源目录，参考：https://maven.apache.org/plugins/maven-resources-plugin/index.html-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <!--资源文件中可以包含变量，表示为${...}或@...@，可以是系统变量，项目变量、过滤器资源、命令行
+                参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html
+                -->
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -93,20 +98,25 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
+            <!--资源处理插件，用于将项目中的资源文件（如：配置文件、模板文件等）复制到目标目录中。在复制过程中，插件可以对资源文件进行过滤和替换，
+            例如：将${variable}替换为实际值。默认情况下会对所有资源文件进行过滤和替换。
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.3.1</version>
                 <configuration>
+                    <!--显示的更改源代码的编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
                     <encoding>utf-8</encoding>
                     <!-- 解决Spring boot引起的profile失效问题 -->
                     <useDefaultDelimiters>true</useDefaultDelimiters>
-                    <!-- 过滤后缀为p12、pem、pfx的证书文件 -->
+                    <!-- 用于指定哪些文件不需要过滤和替换，可以提高构建效率，减少不必要的文件处理操作，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/binaries-filtering.html -->
                     <nonFilteredFileExtensions>
                         <nonFilteredFileExtension>p12</nonFilteredFileExtension>
                         <nonFilteredFileExtension>cer</nonFilteredFileExtension>
                         <nonFilteredFileExtension>pem</nonFilteredFileExtension>
                         <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
                     </nonFilteredFileExtensions>
                 </configuration>
             </plugin>

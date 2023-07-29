@@ -9,7 +9,7 @@
         <relativePath>../emily-spring-boot-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.0.2</version>
+    <version>4.3.8</version>
     <name>demo-emily-spring-cloud</name>
     <artifactId>demo-emily-spring-cloud</artifactId>
 
@@ -26,11 +26,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-redis</artifactId>
-            <version>4.3.8</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
             <version>4.3.8</version>
         </dependency>
@@ -40,11 +35,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
             <version>2.7.12</version>
         </dependency>
-        <!--        <dependency>
-                    <groupId>io.github.mingyang66</groupId>
-                    <artifactId>emily-spring-boot-rabbitmq</artifactId>
-                    <version>4.3.4</version>
-                </dependency>-->
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -62,31 +52,21 @@
     </dependencies>
 
     <build>
-        <finalName>emilyframework</finalName>
+        <finalName>cloud-sdk</finalName>
+        <!--指定资源目录，参考：https://maven.apache.org/plugins/maven-resources-plugin/index.html-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <!--资源文件中可以包含变量，表示为${...}或@...@，可以是系统变量，项目变量、过滤器资源、命令行
+                参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html
+                -->
                 <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>
-            <!-- <plugin>
-                 <groupId>org.springframework.boot</groupId>
-                 <artifactId>spring-boot-maven-plugin</artifactId>
-                 &lt;!&ndash;加入下面两项配置&ndash;&gt;
-                 <executions>
-                     <execution>
-                         <goals>
-                             <goal>repackage</goal>
-                         </goals>
-                     </execution>
-                 </executions>
-                 <configuration>
-                     &lt;!&ndash; 指定该Main Class为全局的唯一入口 &ndash;&gt;
-                     &lt;!&ndash;<mainClass>com.emily.boot.test.TestBootStrap</mainClass>&ndash;&gt;
-                     <includeSystemScope>true</includeSystemScope>
-                 </configuration>
-             </plugin>-->
+            <!--资源处理插件，用于将项目中的资源文件（如：配置文件、模板文件等）复制到目标目录中。在复制过程中，插件可以对资源文件进行过滤和替换，
+            例如：将${variable}替换为实际值。默认情况下会对所有资源文件进行过滤和替换。
+            -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>
@@ -94,7 +74,7 @@
                     <encoding>utf-8</encoding>
                     <!-- 解决Spring boot引起的profile失效问题 -->
                     <useDefaultDelimiters>true</useDefaultDelimiters>
-                    <!-- 过滤后缀为p12、pem、pfx的证书文件 -->
+                    <!-- 用于指定哪些文件不需要过滤和替换，可以提高构建效率，减少不必要的文件处理操作，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/binaries-filtering.html -->
                     <nonFilteredFileExtensions>
                         <nonFilteredFileExtension>p12</nonFilteredFileExtension>
                         <nonFilteredFileExtension>cer</nonFilteredFileExtension>

@@ -3,7 +3,8 @@
 基础库发布4.3.8
 Bug Fixes
 1. maven-gpg-plugin插件升级到3.1.0版本；
-2. 
+2. pom.xml指定源代码编码格式配置project.build.sourceEncoding；
+3. maven-resources-plugin插件研究，添加使用注解；
 -----
 基础库发布4.3.7
 Bug Fixes

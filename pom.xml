@@ -38,6 +38,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
         <maven.compiler.target>11</maven.compiler.target>
+        <!--maven项目源代码编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <google-guava.version>32.1.0-jre</google-guava.version>

@@ -142,6 +142,7 @@ public class LogbackContext implements Context {
     public void start() {
         // 初始化root logger
         LogbackProperty property = new LogbackPropertyBuilder()
+                // logger name
                 .withLoggerName(Logger.ROOT_LOGGER_NAME)
                 // logger file path
                 .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))

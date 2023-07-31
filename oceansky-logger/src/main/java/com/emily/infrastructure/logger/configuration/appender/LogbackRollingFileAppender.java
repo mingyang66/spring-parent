@@ -89,22 +89,20 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
-        String filePath = PathUtils.normalizePath(property.getFilePath());
+        String filePath = property.getFilePath();
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
         // 基础路径
         String loggerPath = StrUtils.join(basePath, filePath, File.separator);
-        //基础日志
-        if (LogbackType.ROOT.equals(property.getLogbackType())) {
+        //基础日志、分组日志
+        if (LogbackType.ROOT.equals(property.getLogbackType()) || LogbackType.GROUP.equals(property.getLogbackType())) {
             loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
         }
         //分模块日志
         else if (LogbackType.MODULE.equals(property.getLogbackType())) {
             loggerPath = StrUtils.join(loggerPath, property.getFileName());
-        }
-        //分组日志
-        else {
-            loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
+        } else {
+            throw new UnsupportedOperationException("Unsupported log type");
         }
         return StrUtils.substVars(loggerContext, loggerPath, ".log");
     }
@@ -137,10 +135,11 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      */
     @Override
     protected String getAppenderName(Level level) {
-        if (StrUtils.isEmpty(property.getFileName())) {
-            property.setFileName(level.levelStr.toLowerCase());
+        String fileName = property.getFileName();
+        if (StrUtils.isEmpty(fileName)) {
+            fileName = level.levelStr.toLowerCase();
         }
         //拼装appender name
-        return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), property.getFileName(), level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
+        return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 }

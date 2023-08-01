@@ -45,10 +45,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <!-- Import dependency management from Spring Boot,not include plugin
-                    management as the parent import style -->
+                <!-- Import dependency management from Spring Boot，参考：https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/ -->
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
+                <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>

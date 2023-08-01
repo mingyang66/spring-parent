@@ -95,8 +95,20 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.7.14</version>
                 <configuration>
-                    <executable>true</executable>
+                    <!--用于指定应用程序的主类，如果未指定，则将使用找到的包含主方法的第一个编译类-->
+                    <mainClass>com.emily.infrastructure.test.TestBootStrap</mainClass>
                 </configuration>
+                <!--如果依赖的父节点是spring-boot-starter-parent，已经预先配置了一个重新打包的执行ID，因此只应添加插件定义；
+                参考：https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/
+                -->
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!--资源处理插件，用于将项目中的资源文件（如：配置文件、模板文件等）复制到目标目录中。在复制过程中，插件可以对资源文件进行过滤和替换，
             例如：将${variable}替换为实际值。默认情况下会对所有资源文件进行过滤和替换。

@@ -2,14 +2,17 @@
 -----
 基础库发布4.3.8
 Bug Fixes
+
 1. maven-gpg-plugin插件升级到3.1.0版本；
 2. pom.xml指定源代码编码格式配置project.build.sourceEncoding；
 3. maven-resources-plugin插件研究，添加使用注解；
 4. logger sdk的appender name优化重构；
-5. 
+5.
+
 -----
 基础库发布4.3.7
 Bug Fixes
+
 1. logger sdk新增name属性设置；
 2. logger sdk新增对Marker的支持，支持接受标记的日志记录入文件，支持拒绝标记的日志记录入文件，新增如下配置：
 
@@ -27,10 +30,10 @@ spring.emily.logger.marker.deny-marker=
 7. oceansky-sensitive SDK的javadoc文档优化；
 8. sdk对javadoc文档注解优化调整；
 
-
 -----
 基础库发布4.3.6
 Bug Fixes
+
 1. 删除自动化配置类RouteWebMvcAutoConfiguration、LookupPathAutoConfiguration；
 2. oceansky-common工具类新增PathUtils格式化路径方法；
 3. 返回值包装类ResponseWrapperAdviceHandler支持application/vnd.spring-boot.actuator.v3+json媒体类型；

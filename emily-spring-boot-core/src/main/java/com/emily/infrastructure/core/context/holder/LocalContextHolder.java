@@ -36,21 +36,21 @@ public class LocalContextHolder {
     }
 
     /**
-     * 是否移除上下文
+     * 是否移除上下文中文存储的值
      *
-     * @param flag 是否servlet上下恩
+     * @param servlet 是否servlet上下文
      */
-    public static void unbind(boolean flag) {
-        if (flag) {
+    public static void unbind(boolean servlet) {
+        if (servlet) {
             CONTEXT.remove();
         }
     }
 
     /**
-     * 删除当前线程持有的数据源
+     * 如果当前上下文是非servlet上下文场景才会移除上下文中存储的数据
      */
     public static void unbind() {
-        if (!CONTEXT.get().isServlet()) {
+        if (!current().isServlet()) {
             CONTEXT.remove();
         }
     }

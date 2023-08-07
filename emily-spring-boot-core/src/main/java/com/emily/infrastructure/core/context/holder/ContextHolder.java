@@ -16,7 +16,7 @@ import java.time.Instant;
  * @author Emily
  * @since Created in 2023/4/22 3:51 PM
  */
-public class ContextHolder {
+class ContextHolder {
     /**
      * 事务唯一编号
      */

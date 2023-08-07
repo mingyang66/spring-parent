@@ -201,7 +201,7 @@ public class RequestUtils {
      * @return 请求头结果
      */
     public static String getHeader(String header) {
-        return getHeader(header, true);
+        return getHeader(header, false);
     }
 
     /**

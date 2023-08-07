@@ -67,10 +67,14 @@ public class ContextHolder {
         this.servlet = RequestUtils.isServlet();
         //判定是否是servlet请求上下文
         if (servlet) {
-            this.traceId = RequestUtils.getHeader(HeaderInfo.TRACE_ID, false);
-            this.appType = RequestUtils.getHeader(HeaderInfo.APP_TYPE, false);
-            this.appVersion = RequestUtils.getHeader(HeaderInfo.APP_VERSION, false);
-            this.languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE, false));
+            //事务流水号
+            this.traceId = RequestUtils.getHeader(HeaderInfo.TRACE_ID);
+            //版本类型，com.emily.android
+            this.appType = RequestUtils.getHeader(HeaderInfo.APP_TYPE);
+            //版本号，4.1.4
+            this.appVersion = RequestUtils.getHeader(HeaderInfo.APP_VERSION);
+            //语言
+            this.languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
             //设置当前请求阶段标识
             RequestUtils.getRequest().setAttribute(AttributeInfo.STAGE, StageType.REQUEST);
         }

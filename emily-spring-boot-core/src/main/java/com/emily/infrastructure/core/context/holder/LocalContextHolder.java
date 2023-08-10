@@ -29,7 +29,8 @@ public class LocalContextHolder {
          */
         @Override
         protected ContextHolder childValue(ContextHolder parentValue) {
-            return initialValue();
+            //调用父类的初始化方法可以确保子类初始化为null
+            return super.initialValue();
         }
     };
 

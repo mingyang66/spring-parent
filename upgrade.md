@@ -8,6 +8,8 @@ Bug Fixes
 3. maven-resources-plugin插件研究，添加使用注解；
 4. logger sdk的appender name优化重构；
 5. 将TTL在线程池、父子线程场景下取消Interitable继承能力，防止由于线程复用导致脏读、OOM问题；
+6. SystemNumberHelper如果在非容器上下文发生异常返回空字符串；
+7. 新增ContextWrapper对传入的线程进行TTL修饰并执行；
 
 -----
 基础库发布4.3.7

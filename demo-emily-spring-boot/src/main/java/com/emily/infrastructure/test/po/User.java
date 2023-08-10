@@ -13,7 +13,7 @@ import org.springframework.core.Ordered;
  */
 @JsonSensitive
 public class User implements Ordered {
-    private String username = "liming";
+    private String username;
     @JsonSimField(SensitiveType.DEFAULT)
     private String password;
     private Job job;

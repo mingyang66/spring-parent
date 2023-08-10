@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.mainTest;
+package com.emily.infrastructure.test.test;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

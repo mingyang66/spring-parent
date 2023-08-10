@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.mainTest;
+package com.emily.infrastructure.test.test;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.BloomFilter;

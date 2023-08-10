@@ -7,7 +7,7 @@ Bug Fixes
 2. pom.xml指定源代码编码格式配置project.build.sourceEncoding；
 3. maven-resources-plugin插件研究，添加使用注解；
 4. logger sdk的appender name优化重构；
-5.
+5. 将TTL在线程池、父子线程场景下取消Interitable继承能力，防止由于线程复用导致脏读、OOM问题；
 
 -----
 基础库发布4.3.7

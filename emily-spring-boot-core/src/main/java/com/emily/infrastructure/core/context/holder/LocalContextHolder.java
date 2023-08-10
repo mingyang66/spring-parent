@@ -15,6 +15,22 @@ public class LocalContextHolder {
         protected ContextHolder initialValue() {
             return new ContextHolder();
         }
+
+        /**
+         * 将子线程的初始上下文值设置为null
+         * ----------------------------------------------------------------------
+         * 关闭父子线程之间的继承关系，为什么要关闭继承关系？
+         * 1. 在线程池的场景下会触发父线程已经remove掉上下文值，子线程还持有从父线程继承的上下文值，子线程结束后会将线程归还给线程池，归还后线程有可能会被复用，
+         * 这样就可能会导致一部分值一直无法被GC收回，如果复用的数量过多可能导致OOM，而且还有可能导致其它线程拿到了本部署当前线程的数据；
+         * ----------------------------------------------------------------------
+         * @param parentValue 父线程的值对象
+         * @return 子线程的初始值对象
+         * @see {@link <a href="https://github.com/alibaba/transmittable-thread-local/issues/521">...</a>}
+         */
+        @Override
+        protected ContextHolder childValue(ContextHolder parentValue) {
+            return initialValue();
+        }
     };
 
     /**

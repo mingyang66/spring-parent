@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.mainTest;
+package com.emily.infrastructure.test.test;
 
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;

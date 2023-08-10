@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.mainTest;
+package com.emily.infrastructure.test.test;
 
 import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.core.entity.BaseResponse;

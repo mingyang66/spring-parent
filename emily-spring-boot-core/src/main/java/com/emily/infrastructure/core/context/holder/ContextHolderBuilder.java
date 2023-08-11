@@ -1,14 +1,15 @@
 package com.emily.infrastructure.core.context.holder;
 
+import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.language.convert.LanguageType;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
+import java.util.Objects;
 
 /**
  * 上下文实体类建造器
@@ -101,24 +102,24 @@ public class ContextHolderBuilder {
 
     public ContextHolder build() {
         ContextHolder holder = new ContextHolder();
-        //servlet请求开始时间
-        holder.setStartTime(Instant.now());
-        //系统编号
-        holder.setSystemNumber(SystemNumberHelper.getSystemNumber());
-        //客户端IP
-        holder.setClientIp(RequestUtils.getClientIp());
-        //服务端IP
-        holder.setServerIp(RequestUtils.getServerIp());
-        //servlet上下文
-        holder.setServlet(RequestUtils.isServlet());
-        //版本类型，com.emily.android
-        holder.setAppType(RequestUtils.isServlet() ? RequestUtils.getHeader(HeaderInfo.APP_TYPE) : null);
-        //版本号，4.1.4
-        holder.setAppVersion(RequestUtils.isServlet() ? RequestUtils.getHeader(HeaderInfo.APP_VERSION) : null);
-        //语言
-        holder.setLanguageType(RequestUtils.isServlet() ? LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)) : LanguageType.ZH_CN);
         //事务流水号
         holder.setTraceId(RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.TRACE_ID), UUIDUtils.randomSimpleUUID()) : UUIDUtils.randomSimpleUUID());
+        //系统编号
+        holder.setSystemNumber(Objects.isNull(systemNumber) ? SystemNumberHelper.getSystemNumber() : systemNumber);
+        //servlet上下文
+        holder.setServlet(servlet ? true : RequestUtils.isServlet());
+        //语言
+        holder.setLanguageType(RequestUtils.isServlet() ? LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)) : LanguageType.ZH_CN);
+        //版本类型，com.emily.android
+        holder.setAppType(RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_TYPE), appType) : appType);
+        //版本号，4.1.4
+        holder.setAppVersion(RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_VERSION), appVersion) : appVersion);
+        //servlet请求开始时间
+        holder.setStartTime(Objects.isNull(startTime) ? Instant.now() : startTime);
+        //客户端IP
+        holder.setClientIp(Objects.isNull(clientIp) ? RequestUtils.getClientIp() : clientIp);
+        //服务端IP
+        holder.setServerIp(Objects.isNull(serverIp) ? RequestUtils.getServerIp() : serverIp);
         //设置当前请求阶段标识
         if (RequestUtils.isServlet()) {
             RequestUtils.getRequest().setAttribute(AttributeInfo.STAGE, StageType.REQUEST);

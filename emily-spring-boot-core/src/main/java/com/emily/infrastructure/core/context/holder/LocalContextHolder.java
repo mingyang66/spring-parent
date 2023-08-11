@@ -13,7 +13,7 @@ public class LocalContextHolder {
     private static final ThreadLocal<ContextHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override
         protected ContextHolder initialValue() {
-            return new ContextHolder();
+            return new ContextHolderBuilder().build();
         }
 
         /**

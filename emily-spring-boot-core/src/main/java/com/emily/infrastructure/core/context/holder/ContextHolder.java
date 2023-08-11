@@ -1,12 +1,6 @@
 package com.emily.infrastructure.core.context.holder;
 
-import com.emily.infrastructure.common.UUIDUtils;
-import com.emily.infrastructure.core.constant.AttributeInfo;
-import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.language.convert.LanguageType;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 
@@ -53,34 +47,6 @@ public class ContextHolder {
      * (逻辑)是否servlet容器上下文，默认：false
      */
     private boolean servlet;
-
-    public ContextHolder() {
-        //servlet请求开始时间
-        this.startTime = Instant.now();
-        //系统编号
-        this.systemNumber = SystemNumberHelper.getSystemNumber();
-        //客户端IP
-        this.clientIp = RequestUtils.getClientIp();
-        //服务端IP
-        this.serverIp = RequestUtils.getServerIp();
-        //servlet上下文
-        this.servlet = RequestUtils.isServlet();
-        //判定是否是servlet请求上下文
-        if (servlet) {
-            //事务流水号
-            this.traceId = RequestUtils.getHeader(HeaderInfo.TRACE_ID);
-            //版本类型，com.emily.android
-            this.appType = RequestUtils.getHeader(HeaderInfo.APP_TYPE);
-            //版本号，4.1.4
-            this.appVersion = RequestUtils.getHeader(HeaderInfo.APP_VERSION);
-            //语言
-            this.languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
-            //设置当前请求阶段标识
-            RequestUtils.getRequest().setAttribute(AttributeInfo.STAGE, StageType.REQUEST);
-        }
-        //事务流水号
-        this.traceId = StringUtils.defaultString(traceId, UUIDUtils.randomSimpleUUID());
-    }
 
     public String getAppType() {
         return appType;

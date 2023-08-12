@@ -127,4 +127,8 @@ public class ContextHolderBuilder {
         }
         return holder;
     }
+
+    public static ContextHolderBuilder create() {
+        return new ContextHolderBuilder();
+    }
 }

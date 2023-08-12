@@ -12,6 +12,7 @@ Bug Fixes
 7. 新增ContextWrapper对传入的线程进行TTL修饰并执行；
 8. 新增ContextHolderBuilder类，替换直接使用ContextHolder类；
 9. ObjectUtils工具类新增defaultIfNull方法；
+10. 修改new BaseLoggerBuilder()为BaseLoggerBuilder.create()方法；
 
 -----
 基础库发布4.3.7

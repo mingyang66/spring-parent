@@ -23,7 +23,7 @@ public class TtlConfig {
     @Autowired
     private MysqlService mysqlService;
 
-    @Scheduled(fixedRate = 5000)
+    //@Scheduled(fixedRate = 5000)
     public void doSchedule() {
         String traceId = UUIDUtils.randomSimpleUUID();
         System.out.println("父节点的ID是：" + traceId);

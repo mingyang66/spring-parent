@@ -37,10 +37,10 @@ public class LocalContextHolder {
     /**
      * 设置当前线程持有的数据源
      *
-     * @param ContextHolder 上下文对象
+     * @param holder 上下文对象
      */
-    public static void bind(ContextHolder ContextHolder) {
-        CONTEXT.set(ContextHolder);
+    public static void bind(ContextHolder holder) {
+        CONTEXT.set(holder);
     }
 
     /**

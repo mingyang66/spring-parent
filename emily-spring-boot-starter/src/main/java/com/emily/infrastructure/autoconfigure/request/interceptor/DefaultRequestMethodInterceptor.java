@@ -49,7 +49,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //封装异步日志信息
-        BaseLoggerBuilder builder = new BaseLoggerBuilder();
+        BaseLoggerBuilder builder = BaseLoggerBuilder.create();
         try {
             //系统编号
             builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())

@@ -126,7 +126,7 @@ public class GlobalExceptionCustomizer {
             paramsMap = RequestHelper.getApiArgs(request);
         }
         try {
-            BaseLoggerBuilder builder = new BaseLoggerBuilder()
+            BaseLoggerBuilder builder = BaseLoggerBuilder.create()
                     //系统编号
                     .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号

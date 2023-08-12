@@ -30,7 +30,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求header设置事务ID
         template.header(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //封装异步日志信息
-        BaseLoggerBuilder builder = new BaseLoggerBuilder()
+        BaseLoggerBuilder builder = BaseLoggerBuilder.create()
                 //事务唯一编号
                 .withTraceId(LocalContextHolder.current().getTraceId())
                 //时间

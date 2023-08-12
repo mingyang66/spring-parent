@@ -46,7 +46,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
         //设置事务标识
         request.getHeaders().set(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //创建拦截日志信息
-        BaseLoggerBuilder builder = new BaseLoggerBuilder()
+        BaseLoggerBuilder builder = BaseLoggerBuilder.create()
                 //系统编号
                 .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                 //生成事物流水号

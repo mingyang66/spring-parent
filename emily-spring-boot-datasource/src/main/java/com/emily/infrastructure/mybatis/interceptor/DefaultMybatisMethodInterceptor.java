@@ -34,7 +34,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         //开始时间
         Instant start = Instant.now();
 
-        BaseLoggerBuilder builder = new BaseLoggerBuilder();
+        BaseLoggerBuilder builder = BaseLoggerBuilder.create();
         try {
             Object response = invocation.proceed();
             builder.withBody(SensitiveUtils.acquireElseGet(response));

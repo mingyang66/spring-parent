@@ -13,6 +13,7 @@ Bug Fixes
 8. 新增ContextHolderBuilder类，替换直接使用ContextHolder类；
 9. ObjectUtils工具类新增defaultIfNull方法；
 10. 修改new BaseLoggerBuilder()为BaseLoggerBuilder.create()方法；
+11. ContextWrapper包装执行代码优化新增业务逻辑上的servlet设置；
 
 -----
 基础库发布4.3.7

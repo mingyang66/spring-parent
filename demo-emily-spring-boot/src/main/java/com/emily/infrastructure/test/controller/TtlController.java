@@ -5,7 +5,10 @@ import com.alibaba.ttl.TtlCallable;
 import com.alibaba.ttl.TtlRunnable;
 import com.alibaba.ttl.TtlWrappers;
 import com.alibaba.ttl.threadpool.TtlExecutors;
+import com.emily.infrastructure.core.context.holder.ContextWrapper;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.*;
 
 /**
- * @program: spring-parent
- * 
+ * TTL测试控制器
+ *
  * @author Emily
  * @since 2021/05/17
  */
 @RestController
-@RequestMapping("api/threadlocal/")
-public class TTLController {
+@RequestMapping("api/ttl/")
+public class TtlController {
 
     @GetMapping("test")
     public String get() throws ExecutionException, InterruptedException {
@@ -84,13 +87,14 @@ public class TTLController {
         System.out.println(future.get());
     }
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        ForkJoinPool pool = ForkJoinPool.commonPool();
-        pool.execute(TtlRunnable.get(new Runnable() {
-            @Override
-            public void run() {
+    @Autowired
+    private MysqlMapper mysqlMapper;
 
-            }
-        }));
+    @GetMapping("context")
+    public void context() {
+        ContextWrapper.run(() -> {
+            mysqlMapper.getMysql("sd", "sdf");
+            mysqlMapper.getMysql("田晓霞", "520");
+        }, true);
     }
 }

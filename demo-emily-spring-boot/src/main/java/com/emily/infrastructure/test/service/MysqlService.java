@@ -11,5 +11,5 @@ public interface MysqlService {
 
     List<World> getMysql();
 
-    void insertMysql() throws Exception;
+    void insertMysql();
 }

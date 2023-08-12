@@ -97,7 +97,7 @@ public class ObjectUtils {
     }
 
     /**
-     * <pre>@code{
+     * <pre>{@code
      *         Assert.assertEquals(ObjectUtils.defaultIfNull(null, "a"), "a");
      *         Assert.assertEquals(ObjectUtils.defaultIfNull("b", "a"), "b");
      * }</pre>

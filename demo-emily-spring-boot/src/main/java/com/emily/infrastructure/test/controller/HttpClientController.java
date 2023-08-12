@@ -92,13 +92,13 @@ public class HttpClientController {
     public void init() {
         //获取环境变量，初始化服务器端IP
         ScheduledExecutorService service = TtlExecutors.getTtlScheduledExecutorService(Executors.newScheduledThreadPool(2));
-        service.scheduleAtFixedRate(() -> {
+       /* service.scheduleAtFixedRate(() -> {
             try {
                 // testTimeout.loadStr();
             } catch (Exception e) {
             }
 
-        }, 5, 5, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);*/
     }
 
 

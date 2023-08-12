@@ -6,6 +6,10 @@ import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 
 /**
  * 新增对非servlet上下文请求入口
+ * 应用场景：
+ * 1.定时调度器方法，需要当前调用的请求方法内调用三方业务的事物流水号串联起来；
+ * 2.消息监听器方法，需要当前调用的请求方法内调用三方业务的事物流水号串联起来；
+ * 3.也可以应用在正常的控制器请求方法；
  *
  * @author :  Emily
  * @since :  2023/8/7 4:59 PM

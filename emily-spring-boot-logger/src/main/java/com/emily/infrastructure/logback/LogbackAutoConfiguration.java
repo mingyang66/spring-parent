@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  *
  * @author Emily
  * @since : 2020/08/08
+ * @see <a href="https://logback.qos.ch/manual/configuration.html">...</a>
  */
 @AutoConfiguration
 @EnableConfigurationProperties(LogbackProperties.class)
@@ -24,11 +25,11 @@ public class LogbackAutoConfiguration implements InitializingBean, DisposableBea
 
     @Override
     public void destroy() {
-        logger.info("<== 【销毁--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Logger日志组件【LogbackAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("==> 【初始化--自动化配置】----Logback日志组件【LogbackAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Logger日志组件【LogbackAutoConfiguration】");
     }
 }

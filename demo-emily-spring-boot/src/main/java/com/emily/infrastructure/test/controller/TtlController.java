@@ -95,6 +95,6 @@ public class TtlController {
         ContextWrapper.run(() -> {
             mysqlMapper.getMysql("sd", "sdf");
             mysqlMapper.getMysql("田晓霞", "520");
-        }, true);
+        });
     }
 }

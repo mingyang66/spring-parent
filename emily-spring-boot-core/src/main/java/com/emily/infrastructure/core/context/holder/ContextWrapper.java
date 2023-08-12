@@ -1,6 +1,7 @@
 package com.emily.infrastructure.core.context.holder;
 
 import com.alibaba.ttl.TtlRunnable;
+import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 
 /**
@@ -12,6 +13,7 @@ import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 public class ContextWrapper {
     /**
      * 通过Ttl修饰运行指定的线程
+     * 默认业务逻辑上的servlet上下文
      * 使用案例如下：
      * <pre>{@code
      *     @Scheduled(fixedRate = 5000)
@@ -29,7 +31,18 @@ public class ContextWrapper {
      * @param runnable 线程
      */
     public static void run(Runnable runnable) {
-        run(runnable, true);
+        run(runnable, true, null);
+    }
+
+    /**
+     * 运行线程，并传递指定的事物流水号
+     * 默认业务逻辑上的servlet上下文
+     *
+     * @param runnable 线程
+     * @param traceId  事物流水号
+     */
+    public static void run(Runnable runnable, String traceId) {
+        run(runnable, true, traceId);
     }
 
     /**
@@ -39,9 +52,14 @@ public class ContextWrapper {
      *
      * @param runnable 线程
      * @param servlet  是否是servlet上下文
+     * @param traceId  事务流水号
      */
-    public static void run(Runnable runnable, boolean servlet) {
+    public static void run(Runnable runnable, boolean servlet, String traceId) {
         try {
+            //事务流水号
+            if (StringUtils.isNotBlank(traceId)) {
+                LocalContextHolder.current().setTraceId(traceId);
+            }
             //初始化上下文
             LocalContextHolder.current().setServlet(servlet);
             //执行具体代码

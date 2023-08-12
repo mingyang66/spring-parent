@@ -1,11 +1,10 @@
 package com.emily.infrastructure.test.config;
 
+import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.context.holder.ContextWrapper;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.test.mapper.mysql.MysqlMapper;
 import com.emily.infrastructure.test.service.MysqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,6 +25,8 @@ public class TtlConfig {
 
     @Scheduled(fixedRate = 5000)
     public void doSchedule() {
+        String traceId = UUIDUtils.randomSimpleUUID();
+        System.out.println("父节点的ID是：" + traceId);
         ContextWrapper.run(() -> {
             BaseLoggerBuilder builder = BaseLoggerBuilder.create();
             builder.withTraceId(LocalContextHolder.current().getTraceId());
@@ -37,6 +38,6 @@ public class TtlConfig {
             mysqlService.insertMysql();
             System.out.println("end--------上下文-3-" + LocalContextHolder.current().getTraceId());
             System.out.println(JsonUtils.toJSONString(builder.build()));
-        });
+        }, traceId);
     }
 }

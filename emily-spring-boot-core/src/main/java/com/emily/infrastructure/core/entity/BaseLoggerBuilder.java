@@ -152,4 +152,8 @@ public class BaseLoggerBuilder implements Serializable {
         logger.setBody(this.body);
         return logger;
     }
+
+    public static BaseLoggerBuilder create() {
+        return new BaseLoggerBuilder();
+    }
 }

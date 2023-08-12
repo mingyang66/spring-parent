@@ -95,4 +95,19 @@ public class ObjectUtils {
     public static boolean isNotEmpty(final Object object) {
         return !isEmpty(object);
     }
+
+    /**
+     * <pre>@code{
+     *         Assert.assertEquals(ObjectUtils.defaultIfNull(null, "a"), "a");
+     *         Assert.assertEquals(ObjectUtils.defaultIfNull("b", "a"), "b");
+     * }</pre>
+     *
+     * @param obj        待判定是否为null的对象
+     * @param defaultObj 默认对象
+     * @param <T>        数据类型
+     * @return 符合条件的对象
+     */
+    public static <T> T defaultIfNull(final T obj, final T defaultObj) {
+        return obj == null ? defaultObj : obj;
+    }
 }

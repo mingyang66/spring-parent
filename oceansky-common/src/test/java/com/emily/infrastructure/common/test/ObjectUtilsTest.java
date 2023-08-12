@@ -7,9 +7,10 @@ import org.junit.Test;
 import java.util.Collections;
 
 /**
- *  对象工具类单元测试
- * @author  Emily
- * @since  Created in 2023/6/13 10:33 AM
+ * 对象工具类单元测试
+ *
+ * @author Emily
+ * @since Created in 2023/6/13 10:33 AM
  */
 public class ObjectUtilsTest {
     @Test
@@ -38,5 +39,11 @@ public class ObjectUtilsTest {
         Assert.assertFalse(ObjectUtils.isNotEmpty(new String[]{}));
         Assert.assertFalse(ObjectUtils.isNotEmpty(Collections.emptyMap()));
         Assert.assertFalse(ObjectUtils.isNotEmpty(Collections.emptyList()));
+    }
+
+    @Test
+    public void defaultIfNull() {
+        Assert.assertEquals(ObjectUtils.defaultIfNull(null, "a"), "a");
+        Assert.assertEquals(ObjectUtils.defaultIfNull("b", "a"), "b");
     }
 }

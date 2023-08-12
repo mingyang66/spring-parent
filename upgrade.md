@@ -11,6 +11,7 @@ Bug Fixes
 6. SystemNumberHelper如果在非容器上下文发生异常返回空字符串；
 7. 新增ContextWrapper对传入的线程进行TTL修饰并执行；
 8. 新增ContextHolderBuilder类，替换直接使用ContextHolder类；
+9. ObjectUtils工具类新增defaultIfNull方法；
 
 -----
 基础库发布4.3.7

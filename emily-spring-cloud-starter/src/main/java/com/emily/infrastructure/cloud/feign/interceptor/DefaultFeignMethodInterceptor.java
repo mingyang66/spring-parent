@@ -28,9 +28,9 @@ import java.time.LocalDateTime;
  * @author Emily
  * @since 1.0
  */
-public class DefaultFeignLoggerMethodInterceptor implements FeignLoggerCustomizer {
+public class DefaultFeignMethodInterceptor implements FeignCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultFeignLoggerMethodInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultFeignMethodInterceptor.class);
 
     /**
      * 拦截接口日志

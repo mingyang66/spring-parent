@@ -9,5 +9,5 @@ import org.springframework.core.Ordered;
  * @author Emily
  * @since 2022/2/11
  */
-public interface FeignLoggerCustomizer extends MethodInterceptor, Ordered {
+public interface FeignCustomizer extends MethodInterceptor, Ordered {
 }

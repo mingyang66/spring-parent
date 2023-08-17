@@ -1,7 +1,7 @@
 package com.emily.infrastructure.cloud.feign;
 
-import com.emily.infrastructure.cloud.feign.interceptor.DefaultFeignLoggerMethodInterceptor;
-import com.emily.infrastructure.cloud.feign.interceptor.FeignLoggerCustomizer;
+import com.emily.infrastructure.cloud.feign.interceptor.DefaultFeignMethodInterceptor;
+import com.emily.infrastructure.cloud.feign.interceptor.FeignCustomizer;
 import com.emily.infrastructure.cloud.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
@@ -39,26 +39,26 @@ import java.util.function.Supplier;
  * @since 1.0
  */
 @Configuration
-@EnableConfigurationProperties(FeignLoggerProperties.class)
-@ConditionalOnProperty(prefix = FeignLoggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
+@EnableConfigurationProperties(FeignProperties.class)
+@ConditionalOnProperty(prefix = FeignProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class FeignAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(FeignLoggerAutoConfiguration.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(FeignAutoConfiguration.class);
 
     /**
      * 定义接口拦截器切点
      *
-     * @param feignLoggerCustomizers 扩展点对象
+     * @param feignCustomizers 扩展点对象
      * @return 切面对象
      * @since 1.0
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor feignAdvisor(ObjectProvider<FeignLoggerCustomizer> feignLoggerCustomizers) {
+    public Advisor feignAdvisor(ObjectProvider<FeignCustomizer> feignCustomizers) {
         //限定类|方法级别的切点
         Pointcut pointcut = new AnnotationMatchingPointcut(FeignClient.class, RequestMapping.class, true);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(feignLoggerCustomizers.orderedStream().findFirst().get(), pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(feignCustomizers.orderedStream().findFirst().get(), pointcut);
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderInfo.FEIGN);
         return advisor;
@@ -66,8 +66,8 @@ public class FeignLoggerAutoConfiguration implements BeanFactoryPostProcessor, I
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultFeignLoggerMethodInterceptor feignLoggerMethodInterceptor() {
-        return new DefaultFeignLoggerMethodInterceptor();
+    public DefaultFeignMethodInterceptor defaultFeignMethodInterceptor() {
+        return new DefaultFeignMethodInterceptor();
     }
 
     /**

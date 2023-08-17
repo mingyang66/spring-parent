@@ -8,12 +8,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Emily
  * @since 2020/03/19
  */
-@ConfigurationProperties(prefix = FeignLoggerProperties.PREFIX)
-public class FeignLoggerProperties {
+@ConfigurationProperties(prefix = FeignProperties.PREFIX)
+public class FeignProperties {
     /**
      * 属性配置前缀
      */
-    public static final String PREFIX = "spring.emily.feign.logger";
+    public static final String PREFIX = "spring.emily.feign";
     /**
      * 组件开关
      */

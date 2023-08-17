@@ -15,6 +15,7 @@ Bug Fixes
 10. 修改new BaseLoggerBuilder()为BaseLoggerBuilder.create()方法；
 11. ContextWrapper包装执行代码优化新增业务逻辑上的servlet设置；
 12. transmittable-thread-local升级版本到2.14.3；
+13. optimize ContextHolderBuilder code;
 
 -----
 基础库发布4.3.7

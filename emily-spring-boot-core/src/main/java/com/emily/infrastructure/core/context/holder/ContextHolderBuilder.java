@@ -1,6 +1,5 @@
 package com.emily.infrastructure.core.context.holder;
 
-import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.constant.AttributeInfo;
@@ -104,17 +103,17 @@ public class ContextHolderBuilder {
     public ContextHolder build() {
         ContextHolder holder = new ContextHolder();
         //事务流水号
-        holder.setTraceId(StringUtils.defaultIfBlank((RequestUtils.isServlet() ? RequestUtils.getHeader(HeaderInfo.TRACE_ID) : traceId), UUIDUtils.randomSimpleUUID()));
+        holder.setTraceId(Objects.isNull(traceId) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.TRACE_ID), UUIDUtils.randomSimpleUUID()) : UUIDUtils.randomSimpleUUID()) : traceId);
         //系统编号
         holder.setSystemNumber(Objects.isNull(systemNumber) ? SystemNumberHelper.getSystemNumber() : systemNumber);
         //servlet上下文
         holder.setServlet(servlet ? true : RequestUtils.isServlet());
         //语言
-        holder.setLanguageType(ObjectUtils.defaultIfNull((RequestUtils.isServlet() ? LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)) : languageType), LanguageType.ZH_CN));
+        holder.setLanguageType(Objects.isNull(languageType) ? (RequestUtils.isServlet() ? LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)) : LanguageType.ZH_CN) : languageType);
         //版本类型，com.emily.android
-        holder.setAppType(RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_TYPE), appType) : appType);
+        holder.setAppType(Objects.isNull(appType) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_TYPE), appType) : appType) : appType);
         //版本号，4.1.4
-        holder.setAppVersion(RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_VERSION), appVersion) : appVersion);
+        holder.setAppVersion(Objects.isNull(appVersion) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_VERSION), appVersion) : appVersion) : appVersion);
         //servlet请求开始时间
         holder.setStartTime(Objects.isNull(startTime) ? Instant.now() : startTime);
         //客户端IP

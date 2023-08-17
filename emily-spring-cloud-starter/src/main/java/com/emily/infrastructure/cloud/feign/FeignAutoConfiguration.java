@@ -129,11 +129,11 @@ public class FeignAutoConfiguration implements BeanFactoryPostProcessor, Initial
 
     @Override
     public void destroy() throws Exception {
-        logger.info("<== 【销毁--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Feign日志记录组件【FeignAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("==> 【初始化--自动化配置】----Feign日志记录组件【FeignLoggerAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Feign日志记录组件【FeignAutoConfiguration】");
     }
 }

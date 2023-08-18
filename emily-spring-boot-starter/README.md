@@ -31,6 +31,7 @@ spring.emily.response.exclude=abc/a.html
 ##### 三、基于AOP实现方案
 
 ```java
+
 @RestControllerAdvice
 public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> {
 
@@ -82,13 +83,13 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
 
 ```json
 {
-    "status": 0,
-    "message": "SUCCESS",
-    "data": {
-        "username": "田晓霞",
-        "password": "密码"
-    },
-    "spentTime": 3
+  "status": 0,
+  "message": "SUCCESS",
+  "data": {
+    "username": "田晓霞",
+    "password": "密码"
+  },
+  "spentTime": 3
 }
 ```
 
@@ -117,51 +118,51 @@ org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapt
 代码示例如下：
 
 ```java
-if (MediaType.TEXT_PLAIN.equals(selectedContentType)) {
-      response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-      return JsonUtils.toJSONString(builder.withData(body).build());
-  }
+if(MediaType.TEXT_PLAIN.equals(selectedContentType)){
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+        return JsonUtils.toJSONString(builder.withData(body).build());
+        }
 ```
 
 SDK对其它特殊场景的支持看如下完整的代码：
 
 ```java
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+public Object beforeBodyWrite(Object body,MethodParameter returnType,MediaType selectedContentType,Class<?extends HttpMessageConverter<?>> selectedConverterType,ServerHttpRequest request,ServerHttpResponse response){
         // 如果返回值已经是BaseResponse类型(包括控制器直接返回是BaseResponse和返回是ResponseEntity<BaseResponse>类型)，则直接返回
-        if (body instanceof BaseResponse) {
-            return body;
+        if(body instanceof BaseResponse){
+        return body;
         }
         // 如果控制器上标注类忽略包装注解，则直接返回
-        else if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)) {
-            return body;
+        else if(returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)){
+        return body;
         }
         // 如果请求URL在指定的排除URL集合，则直接返回
-        else if (RegexPathMatcher.matcherAny(properties.getExclude(), request.getURI().getPath())) {
-            return body;
+        else if(RegexPathMatcher.matcherAny(properties.getExclude(),request.getURI().getPath())){
+        return body;
         }
         // 如果返回值是数据流类型，则直接返回
-        else if (MediaType.APPLICATION_OCTET_STREAM.equals(selectedContentType)) {
-            return body;
+        else if(MediaType.APPLICATION_OCTET_STREAM.equals(selectedContentType)){
+        return body;
         }
 
         //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
-        BaseResponseBuilder<Object> builder = new BaseResponseBuilder<>()
-                .withStatus(HttpStatusType.OK.getStatus())
-                .withMessage(HttpStatusType.OK.getMessage());
+        BaseResponseBuilder<Object> builder=new BaseResponseBuilder<>()
+        .withStatus(HttpStatusType.OK.getStatus())
+        .withMessage(HttpStatusType.OK.getMessage());
         // 如果返回值是void类型，则直接返回BaseResponse空对象
-        if (returnType.getParameterType().equals(Void.class)) {
-            return builder.build();
+        if(returnType.getParameterType().equals(Void.class)){
+        return builder.build();
         }
         // 如果是字符串类型，将其包装成BaseResponse类型
         // 如果是字符串类型，外层有ResponseEntity包装，将其包装成BaseResponse类型
-        else if (MediaType.TEXT_PLAIN.equals(selectedContentType)) {
-            response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            return JsonUtils.toJSONString(builder.withData(body).build());
+        else if(MediaType.TEXT_PLAIN.equals(selectedContentType)){
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+        return JsonUtils.toJSONString(builder.withData(body).build());
         }
 
         return builder.withData(body).build();
-    }
+        }
 ```
 
 GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

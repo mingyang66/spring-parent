@@ -3,10 +3,10 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,7 +51,7 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) returnValue;
-            baseResponse.setSpentTime(RequestUtils.getSpentTime());
+            baseResponse.setSpentTime(LocalContextHolder.current().getSpentTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //返回值为void类型的data字段不输出

@@ -34,6 +34,10 @@ public class ContextHolderBuilder {
      */
     private Instant startTime;
     /**
+     * API接口耗时
+     */
+    private long spentTime;
+    /**
      * 客户端IP
      */
     private String clientIp;
@@ -108,6 +112,11 @@ public class ContextHolderBuilder {
         return this;
     }
 
+    public ContextHolderBuilder withSpentTime(long spentTime) {
+        this.spentTime = spentTime;
+        return this;
+    }
+
     public ContextHolder build() {
         ContextHolder holder = new ContextHolder();
         //事务流水号
@@ -124,6 +133,8 @@ public class ContextHolderBuilder {
         holder.setAppVersion(Objects.isNull(appVersion) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_VERSION), appVersion) : appVersion) : appVersion);
         //servlet请求开始时间
         holder.setStartTime(Objects.isNull(startTime) ? Instant.now() : startTime);
+        //API耗时
+        holder.setSpentTime(spentTime);
         //客户端IP
         holder.setClientIp(Objects.isNull(clientIp) ? RequestUtils.getClientIp() : clientIp);
         //服务端IP

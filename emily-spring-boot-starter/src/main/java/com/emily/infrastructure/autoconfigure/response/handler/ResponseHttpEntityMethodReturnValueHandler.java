@@ -3,10 +3,10 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.helper.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpEntity;
@@ -62,7 +62,7 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != body && (body instanceof BaseResponse)) {
             BaseResponse baseResponse = (BaseResponse) body;
-            baseResponse.setSpentTime(RequestUtils.getSpentTime());
+            baseResponse.setSpentTime(LocalContextHolder.current().getSpentTime());
             proxyObject.handleReturnValue(baseResponse, returnType, mavContainer, webRequest);
         } else {
             //获取控制器方法返回值得泛型类型

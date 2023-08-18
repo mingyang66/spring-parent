@@ -28,6 +28,10 @@ public class ContextHolder {
      */
     private Instant startTime;
     /**
+     * API接口耗时
+     */
+    private long spentTime;
+    /**
      * 客户端IP
      */
     private String clientIp;
@@ -51,6 +55,14 @@ public class ContextHolder {
      * 当前上下文所处阶段标识
      */
     private ServletStage servletStage;
+
+    public long getSpentTime() {
+        return spentTime;
+    }
+
+    public void setSpentTime(long spentTime) {
+        this.spentTime = spentTime;
+    }
 
     public ServletStage getServletStage() {
         return servletStage;

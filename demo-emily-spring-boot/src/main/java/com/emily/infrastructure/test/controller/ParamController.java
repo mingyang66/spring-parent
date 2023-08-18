@@ -58,7 +58,7 @@ public class ParamController {
     }
 
     @GetMapping("getBody")
-    public String getParam(@Validated Job job) {
+    public String getParam(@Validated @RequestBody Job job) {
         return "sdf";
     }
 

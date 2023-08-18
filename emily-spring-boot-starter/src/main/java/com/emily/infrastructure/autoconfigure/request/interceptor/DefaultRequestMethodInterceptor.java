@@ -1,7 +1,6 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
 import com.emily.infrastructure.core.constant.AopOrderInfo;
-import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.context.holder.ContextTransmitter;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
@@ -113,12 +112,13 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
 
             BaseLogger baseLogger = builder.build();
-            //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
+            //API耗时
+            LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //恢复阶段标识
             ContextTransmitter.restore(backup);
-            //设置耗时
-            RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, baseLogger.getSpentTime());
+            //异步记录接口响应信息
+            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
+
         }
 
     }

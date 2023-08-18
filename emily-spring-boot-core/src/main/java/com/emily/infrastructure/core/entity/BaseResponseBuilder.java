@@ -1,6 +1,7 @@
 package com.emily.infrastructure.core.entity;
 
 import com.emily.infrastructure.core.constant.HeaderInfo;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.language.convert.LanguageType;
@@ -40,9 +41,9 @@ public class BaseResponseBuilder<T> implements Serializable {
     }
 
     public BaseResponse<T> build() {
-        if (this.spentTime == 0L && RequestUtils.isServlet()) {
-            this.spentTime = RequestUtils.getSpentTime();
-            this.message = LanguageMap.acquire(message, LanguageType.getByCode(RequestUtils.getRequest().getHeader(HeaderInfo.LANGUAGE)));
+        if (RequestUtils.isServlet()) {
+            this.spentTime = LocalContextHolder.current().getSpentTime();
+            this.message = LanguageMap.acquire(message, LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)));
         }
         return new BaseResponse<>(status, message, data, spentTime);
     }

@@ -17,6 +17,8 @@ Bug Fixes
 12. transmittable-thread-local升级版本到2.14.3；
 13. optimize ContextHolderBuilder code;
 14. optimize cloud feign code;
+15. 将spring-boot-starter-validation依赖由core模块更改为emily-spring-boot-starter模块；
+16. 
 
 -----
 基础库发布4.3.7

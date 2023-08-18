@@ -11,11 +11,12 @@ import org.springframework.core.Ordered;
  * --------------------------------------------------
  * ApplicationContextInitializer的初始化顺序整体在ApplicationListener监听器之后
  * 具体调用在org.springframework.boot.SpringApplication#run(java.lang.String...)方法内部
+ * <pre>{@code
  * SpringApplicationRunListeners listeners = this.getRunListeners(args);
  * listeners.starting(bootstrapContext, this.mainApplicationClass);
- * ...
+ *
  * this.prepareContext(bootstrapContext, context, environment, listeners, applicationArguments, printedBanner);
- * ...
+ * }</pre>
  * --------------------------------------------------
  * <p>
  * Logback日志组件初始化类

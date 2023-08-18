@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
  */
 public class DefaultFeignMethodInterceptor implements FeignCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultFeignMethodInterceptor.class);
+    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultFeignMethodInterceptor.class, "api", "request");
 
     /**
      * 拦截接口日志

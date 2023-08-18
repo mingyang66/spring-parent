@@ -10,13 +10,14 @@ public class ContextTransmitter {
     /**
      * 获取原始数据备份，设置当前数据
      *
-     * @return 备份数据
+     * @param servletStage 当前阶段标识
+     * @return 备份阶段标识
      */
-    public static ServletStage replay() {
+    public static ServletStage replay(ServletStage servletStage) {
         // 获取原始阶段标识
         ServletStage backup = LocalContextHolder.current().getServletStage();
         // 设置当前阶段标识
-        LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
+        LocalContextHolder.current().setServletStage(servletStage);
         return backup;
     }
 

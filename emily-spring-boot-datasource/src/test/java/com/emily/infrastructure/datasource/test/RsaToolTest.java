@@ -8,8 +8,8 @@ import static com.alibaba.druid.filter.config.ConfigTools.genKeyPair;
 /**
  * 数据库密码生成
  *
- * @author  Emily
- * @since  Created in 2023/5/27 2:18 PM
+ * @author Emily
+ * @since Created in 2023/5/27 2:18 PM
  */
 public class RsaToolTest {
     @Test

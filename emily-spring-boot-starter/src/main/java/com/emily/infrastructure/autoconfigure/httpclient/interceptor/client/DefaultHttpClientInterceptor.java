@@ -11,8 +11,8 @@ import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
+import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
  */
 public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultHttpClientInterceptor.class);
+    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultHttpClientInterceptor.class, "api", "request");
 
     /**
      * RestTemplate拦截方法

@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
  */
 public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultMybatisMethodInterceptor.class);
+    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultMybatisMethodInterceptor.class, "api", "request");
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

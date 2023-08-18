@@ -22,7 +22,7 @@ import java.lang.annotation.*;
  * 参考资料：https://mp.weixin.qq.com/s/r388pF8-c6sPVyVGjLBjqg
  * 核心代码：TransactionInterceptor
  *
- * @author  Emily
+ * @author Emily
  * @since :  Created in 2022/7/16 1:38 下午
  */
 @Target({ElementType.METHOD, ElementType.TYPE})

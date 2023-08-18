@@ -40,7 +40,7 @@ import java.util.Objects;
  */
 public class DefaultRequestMethodInterceptor implements RequestCustomizer {
 
-    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultRequestMethodInterceptor.class, "request", "user");
+    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultRequestMethodInterceptor.class, "api", "request");
 
     /**
      * 拦截接口日志
@@ -49,10 +49,8 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      */
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
-        //备份、设置阶段标识
-        ServletStage backup = ContextTransmitter.replay();
-        //标记当前servlet阶段
-        LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
+        //备份、设置当前阶段标识
+        ServletStage backup = ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
         //封装异步日志信息
         BaseLoggerBuilder builder = BaseLoggerBuilder.create();
         try {

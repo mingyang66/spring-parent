@@ -38,7 +38,7 @@ import java.util.Objects;
  */
 public class GlobalExceptionCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultGlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getModuleLogger(GlobalExceptionCustomizer.class, "api", "request");
 
     /**
      * 对API请求异常处理，
@@ -93,7 +93,6 @@ public class GlobalExceptionCustomizer {
             BasicException systemException = (BasicException) ex;
             errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getMessage(), errorMsg);
         }
-        logger.error(errorMsg);
         //记录错误日志
         recordErrorLogger(request, ex, errorMsg);
     }
@@ -121,34 +120,31 @@ public class GlobalExceptionCustomizer {
         if (CollectionUtils.isEmpty(paramsMap)) {
             paramsMap = RequestHelper.getApiArgs(request);
         }
-        try {
-            BaseLoggerBuilder builder = BaseLoggerBuilder.create()
-                    //系统编号
-                    .withSystemNumber(LocalContextHolder.current().getSystemNumber())
-                    //事务唯一编号
-                    .withTraceId(LocalContextHolder.current().getTraceId())
-                    //请求URL
-                    .withUrl(request.getRequestURI())
-                    //客户端IP
-                    .withClientIp(RequestUtils.getClientIp())
-                    //服务端IP
-                    .withServerIp(RequestUtils.getServerIp())
-                    //版本类型
-                    .withAppType(LocalContextHolder.current().getAppType())
-                    //版本号
-                    .withAppVersion(LocalContextHolder.current().getAppVersion())
-                    //触发时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    //请求参数
-                    .withRequestParams(paramsMap)
-                    //响应体
-                    .withBody(errorMsg)
-                    //耗时(未处理任何逻辑)
-                    .withSpentTime(0L);
-            //记录日志到文件
-            logger.info(JsonUtils.toJSONString(builder.build()));
-        } catch (Exception exception) {
-            logger.error(MessageFormat.format("记录错误日志异常：{0}", PrintExceptionInfo.printErrorInfo(exception)));
-        }
+        BaseLoggerBuilder builder = BaseLoggerBuilder.create()
+                //系统编号
+                .withSystemNumber(LocalContextHolder.current().getSystemNumber())
+                //事务唯一编号
+                .withTraceId(LocalContextHolder.current().getTraceId())
+                //请求URL
+                .withUrl(request.getRequestURI())
+                //客户端IP
+                .withClientIp(RequestUtils.getClientIp())
+                //服务端IP
+                .withServerIp(RequestUtils.getServerIp())
+                //版本类型
+                .withAppType(LocalContextHolder.current().getAppType())
+                //版本号
+                .withAppVersion(LocalContextHolder.current().getAppVersion())
+                //触发时间
+                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                //请求参数
+                .withRequestParams(paramsMap)
+                //响应体
+                .withBody(errorMsg)
+                //耗时(未处理任何逻辑)
+                .withSpentTime(0L);
+        //记录日志到文件
+        logger.info(JsonUtils.toJSONString(builder.build()));
+
     }
 }

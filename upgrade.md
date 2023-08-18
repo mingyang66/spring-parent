@@ -23,7 +23,7 @@ Bug Fixes
 18. 新增ParameterInterceptor拦截器，对API请求进行上下文初始化及移除操作；
 19. 上下文新增servlet阶段标识，重构API、全局异常处理对阶段标识处理逻辑；
 20. ContextHolder新增spentTime耗时字段，API上下文中spentTime相关处理移除，统一使用上线文中的耗时字段；
-21. 
+21. 日志记录全部标准化记录到指定的日志文件中；
 
 -----
 基础库发布4.3.7

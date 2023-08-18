@@ -1,6 +1,7 @@
 #### 解锁新技能《springboot基于ResponseBodyAdvice的AOP切面返回值包装》
 
-> 在项目开发过程中我们会对返回值进行统一的包装处理，对最外层加上status、message、data、spentTime等统一个是的包装；当前SDK支持两种方案，一种基于适配器模式实现，一种基于AOP切面实现，本文只对AOP模式讲解，适配器方案参考源码；
+>
+在项目开发过程中我们会对返回值进行统一的包装处理，对最外层加上status、message、data、spentTime等统一个是的包装；当前SDK支持两种方案，一种基于适配器模式实现，一种基于AOP切面实现，本文只对AOP模式讲解，适配器方案参考源码；
 
 ##### 一、开源SDK依赖POM
 
@@ -105,7 +106,8 @@ org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMet
 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
 ```
 
-主要看BaseResponse cannot be cast to class java.lang.String 这个报错，我们可以看到是由于字符串不可以转换为BaseResponse的原因；这是由于AOP切面拿到的数据ContentType是text/plain,解析器是使用StringHttpMessageConverter来解析；
+主要看BaseResponse cannot be cast to class java.lang.String
+这个报错，我们可以看到是由于字符串不可以转换为BaseResponse的原因；这是由于AOP切面拿到的数据ContentType是text/plain,解析器是使用StringHttpMessageConverter来解析；
 
 解决方案是：
 

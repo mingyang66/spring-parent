@@ -3,7 +3,9 @@ package com.emily.infrastructure.autoconfigure.request.interceptor;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.CharacterInfo;
+import com.emily.infrastructure.core.context.holder.ContextTransmitter;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
@@ -48,9 +50,13 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      */
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
+        //备份、设置阶段标识
+        ServletStage backup = ContextTransmitter.replay();
         //封装异步日志信息
         BaseLoggerBuilder builder = BaseLoggerBuilder.create();
         try {
+            //标记当前servlet阶段
+            LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
             //系统编号
             builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号
@@ -109,8 +115,8 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             BaseLogger baseLogger = builder.build();
             //异步记录接口响应信息
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
-            //移除线程上下文数据
-            LocalContextHolder.unbind(true);
+            //恢复阶段标识
+            ContextTransmitter.restore(backup);
             //设置耗时
             RequestUtils.getRequest().setAttribute(AttributeInfo.SPENT_TIME, baseLogger.getSpentTime());
         }

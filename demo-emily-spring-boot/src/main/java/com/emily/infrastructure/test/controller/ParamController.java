@@ -6,6 +6,7 @@ import com.emily.infrastructure.sensitive.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveType;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
+import com.emily.infrastructure.test.test.valid.MyValidation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,5 +60,10 @@ public class ParamController {
     @GetMapping("getBody")
     public String getParam(@Validated Job job) {
         return "sdf";
+    }
+
+    @GetMapping("validParam")
+    public String validParam(@MyValidation String username){
+        return username;
     }
 }

@@ -2,7 +2,6 @@ package com.emily.infrastructure.core.context.holder;
 
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
-import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
@@ -54,6 +53,10 @@ public class ContextHolderBuilder {
      * (逻辑)是否servlet容器上下文，默认：false
      */
     private boolean servlet;
+    /**
+     * 当前上下文所处阶段标识
+     */
+    private ServletStage servletStage;
 
     public ContextHolderBuilder withTraceId(String traceId) {
         this.traceId = traceId;
@@ -100,6 +103,11 @@ public class ContextHolderBuilder {
         return this;
     }
 
+    public ContextHolderBuilder withServletStage(ServletStage servletStage) {
+        this.servletStage = servletStage;
+        return this;
+    }
+
     public ContextHolder build() {
         ContextHolder holder = new ContextHolder();
         //事务流水号
@@ -121,9 +129,7 @@ public class ContextHolderBuilder {
         //服务端IP
         holder.setServerIp(Objects.isNull(serverIp) ? RequestUtils.getServerIp() : serverIp);
         //设置当前请求阶段标识
-        if (RequestUtils.isServlet()) {
-            RequestUtils.getRequest().setAttribute(AttributeInfo.STAGE, StageType.REQUEST);
-        }
+        holder.setServletStage(Objects.isNull(servletStage) ? ServletStage.OTHER : servletStage);
         return holder;
     }
 

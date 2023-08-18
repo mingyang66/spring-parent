@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.mvc.annotation;
+package com.emily.infrastructure.autoconfigure.servlet.annotation;
 
 import java.lang.annotation.*;
 

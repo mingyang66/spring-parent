@@ -1,6 +1,7 @@
-package com.emily.infrastructure.autoconfigure.mvc;
+package com.emily.infrastructure.autoconfigure.servlet;
 
-import com.emily.infrastructure.autoconfigure.mvc.annotation.ApiPathPrefixIgnore;
+import com.emily.infrastructure.autoconfigure.servlet.annotation.ApiPathPrefixIgnore;
+import com.emily.infrastructure.autoconfigure.servlet.interceptor.ParameterInterceptor;
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
@@ -12,10 +13,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * webmvc自动化配置
@@ -24,20 +22,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @since 2020/05/26
  */
 @AutoConfiguration
-@EnableConfigurationProperties(WebMvcProperties.class)
-@ConditionalOnProperty(prefix = WebMvcProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class WebMvcAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
+@EnableConfigurationProperties(ServletProperties.class)
+@ConditionalOnProperty(prefix = ServletProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebMvcAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(ServletAutoConfiguration.class);
 
-    private final WebMvcProperties properties;
+    private final ServletProperties properties;
     /**
      * 忽略URL前缀的控制器类
      */
     private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
 
-    public WebMvcAutoConfiguration(WebMvcProperties properties) {
+    public ServletAutoConfiguration(ServletProperties properties) {
         this.properties = properties;
     }
 
@@ -129,6 +127,11 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer, InitializingBe
         }
         //设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
         registration.maxAge(properties.getCors().getMaxAge());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new ParameterInterceptor()).addPathPatterns("/**");
     }
 
     @Override

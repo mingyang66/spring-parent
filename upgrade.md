@@ -19,7 +19,9 @@ Bug Fixes
 14. optimize cloud feign code;
 15. 将spring-boot-starter-validation依赖由core模块更改为emily-spring-boot-starter模块；
 16. commons-lang3版本升级到3.13.0;
-17. 
+17. 新增ContextTransmitter对上线文进行备份、设置、恢复类；
+18. 新增ParameterInterceptor拦截器，对API请求进行上下文初始化及移除操作；
+19. 上下文新增servlet阶段标识，重构API、全局异常处理对阶段标识处理逻辑；
 
 -----
 基础库发布4.3.7

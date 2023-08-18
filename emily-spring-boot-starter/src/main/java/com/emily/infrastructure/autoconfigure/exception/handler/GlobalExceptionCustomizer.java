@@ -1,10 +1,9 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
-import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.constant.AttributeInfo;
-import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
@@ -106,10 +105,7 @@ public class GlobalExceptionCustomizer {
      * @param errorMsg
      */
     private static void recordErrorLogger(HttpServletRequest request, Throwable ex, String errorMsg) {
-        if (Objects.isNull(request)) {
-            return;
-        }
-        if (Objects.nonNull(request.getAttribute(AttributeInfo.STAGE))) {
+        if (!ServletStage.BEFORE_PARAMETER.equals(LocalContextHolder.current().getServletStage())) {
             return;
         }
         Map<String, Object> paramsMap = null;
@@ -130,7 +126,7 @@ public class GlobalExceptionCustomizer {
                     //系统编号
                     .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号
-                    .withTraceId(request.getHeader(HeaderInfo.TRACE_ID) == null ? UUIDUtils.randomSimpleUUID() : request.getHeader(HeaderInfo.TRACE_ID))
+                    .withTraceId(LocalContextHolder.current().getTraceId())
                     //请求URL
                     .withUrl(request.getRequestURI())
                     //客户端IP
@@ -153,9 +149,6 @@ public class GlobalExceptionCustomizer {
             logger.info(JsonUtils.toJSONString(builder.build()));
         } catch (Exception exception) {
             logger.error(MessageFormat.format("记录错误日志异常：{0}", PrintExceptionInfo.printErrorInfo(exception)));
-        } finally {
-            //由于获取参数中会初始化上下文，清除防止OOM
-            LocalContextHolder.unbind(true);
         }
     }
 }

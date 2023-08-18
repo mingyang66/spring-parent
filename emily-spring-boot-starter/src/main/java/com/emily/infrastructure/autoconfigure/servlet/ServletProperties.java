@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.mvc;
+package com.emily.infrastructure.autoconfigure.servlet;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -11,12 +11,12 @@ import java.util.Set;
  * @author Emily
  * @since 2020/05/28
  */
-@ConfigurationProperties(prefix = WebMvcProperties.PREFIX)
-public class WebMvcProperties {
+@ConfigurationProperties(prefix = ServletProperties.PREFIX)
+public class ServletProperties {
     /**
      * 属性配置前缀
      */
-    public static final String PREFIX = "spring.emily.mvc";
+    public static final String PREFIX = "spring.emily.servlet";
     /**
      * WebMvc组件是否启用，默认：true
      */

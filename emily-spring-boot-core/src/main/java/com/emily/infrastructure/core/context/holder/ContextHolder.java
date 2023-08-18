@@ -47,6 +47,18 @@ public class ContextHolder {
      * (逻辑)是否servlet容器上下文，默认：false
      */
     private boolean servlet;
+    /**
+     * 当前上下文所处阶段标识
+     */
+    private ServletStage servletStage;
+
+    public ServletStage getServletStage() {
+        return servletStage;
+    }
+
+    public void setServletStage(ServletStage servletStage) {
+        this.servletStage = servletStage;
+    }
 
     public String getAppType() {
         return appType;

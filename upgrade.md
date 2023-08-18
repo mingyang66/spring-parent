@@ -18,7 +18,8 @@ Bug Fixes
 13. optimize ContextHolderBuilder code;
 14. optimize cloud feign code;
 15. 将spring-boot-starter-validation依赖由core模块更改为emily-spring-boot-starter模块；
-16. 
+16. commons-lang3版本升级到3.13.0;
+17. 
 
 -----
 基础库发布4.3.7

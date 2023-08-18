@@ -51,11 +51,11 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //备份、设置阶段标识
         ServletStage backup = ContextTransmitter.replay();
+        //标记当前servlet阶段
+        LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
         //封装异步日志信息
         BaseLoggerBuilder builder = BaseLoggerBuilder.create();
         try {
-            //标记当前servlet阶段
-            LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
             //系统编号
             builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号

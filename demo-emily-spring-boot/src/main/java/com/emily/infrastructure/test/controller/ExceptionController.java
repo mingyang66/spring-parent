@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.core.exception.BusinessException;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +21,8 @@ public class ExceptionController {
         throw new IllegalArgumentException("非法参数测试");
     }
 
-    @GetMapping("assert1")
+    @GetMapping("basic")
     public void assert1() {
-        String s = null;
-        Assert.notNull(s, "字符串为不可为空");
+        throw new BusinessException(100,"业务异常");
     }
 }

@@ -9,11 +9,11 @@ package com.emily.infrastructure.core.exception;
 public enum HttpStatusType {
     OK(0, "SUCCESS"),
     EXCEPTION(100000, "网络异常，请稍后再试"),
-    ILLEGAL_METHOD(100001, "非法方法请求"),
-    ILLEGAL_ARGUMENT(100002, "非法参数"),
-    ILLEGAL_DATA(100003, "非法数据"),
-    ILLEGAL_ACCESS(100004, "非法访问"),
-    ILLEGAL_PROXY(100005, "非法代理");
+    ILLEGAL_ARGUMENT(100001, "非法参数"),
+    ILLEGAL_DATA(100002, "非法数据"),
+    ILLEGAL_ACCESS(100003, "非法访问"),
+    ILLEGAL_PROXY(100004, "非法代理"),
+    METHOD_NOT_ALLOWED(405, "方法不允许");
 
     /**
      * 状态码

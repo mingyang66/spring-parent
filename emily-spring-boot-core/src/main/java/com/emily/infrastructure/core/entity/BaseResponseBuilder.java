@@ -47,4 +47,8 @@ public class BaseResponseBuilder<T> implements Serializable {
         }
         return new BaseResponse<>(status, message, data, spentTime);
     }
+
+    public static <T> BaseResponseBuilder<T> create() {
+        return new BaseResponseBuilder<>();
+    }
 }

@@ -1,16 +1,19 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.servlet.interceptor.ParameterInterceptor;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.entity.BaseResponseBuilder;
-import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
@@ -21,12 +24,14 @@ import org.slf4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
@@ -50,14 +55,7 @@ public class GlobalExceptionCustomizer {
      * @return 包装或为包装的结果
      */
     public static Object getApiResponseWrapper(HandlerMethod handlerMethod, HttpStatusType httpStatusType) {
-        if (Objects.nonNull(handlerMethod)) {
-            // 获取控制器方法
-            Method method = handlerMethod.getMethod();
-            if (method.isAnnotationPresent(ApiResponseWrapperIgnore.class)) {
-                return httpStatusType.getMessage();
-            }
-        }
-        return new BaseResponseBuilder<>().withStatus(httpStatusType.getStatus()).withMessage(httpStatusType.getMessage()).build();
+        return getApiResponseWrapper(handlerMethod, httpStatusType.getStatus(), httpStatusType.getMessage());
     }
 
     /**
@@ -78,47 +76,25 @@ public class GlobalExceptionCustomizer {
                 return message;
             }
         }
-        return new BaseResponseBuilder<>().withStatus(status).withMessage(message).build();
+        return BaseResponseBuilder.create().withStatus(status).withMessage(message).build();
     }
 
     /**
-     * 获取异常堆栈信息并记录到error文件中
+     * 记录错误日志
+     * ----------------------------------------------------------------------
+     * 打印错误日志的场景：
+     * 1.请求阶段标识为ServletStage.BEFORE_PARAMETER，即：部分参数校验异常；
+     * 2.抛出的错误异常为HttpRequestMethodNotSupportedException，此异常不会进入{@link ParameterInterceptor}，即：405 Method Not Allowed
+     * ----------------------------------------------------------------------
      *
      * @param ex      异常对象
      * @param request 请求对象
      */
     public static void recordErrorMsg(Throwable ex, HttpServletRequest request) {
-        String errorMsg = PrintExceptionInfo.printErrorInfo(ex);
-        if (ex instanceof BasicException) {
-            BasicException systemException = (BasicException) ex;
-            errorMsg = MessageFormat.format("业务异常，异常码是【{0}】，异常消息是【{1}】，异常详情{2}", systemException.getStatus(), systemException.getMessage(), errorMsg);
-        }
-        //记录错误日志
-        recordErrorLogger(request, ex, errorMsg);
-    }
-
-    /**
-     * 记录错误日志
-     *
-     * @param request
-     * @param errorMsg
-     */
-    private static void recordErrorLogger(HttpServletRequest request, Throwable ex, String errorMsg) {
-        if (!ServletStage.BEFORE_PARAMETER.equals(LocalContextHolder.current().getServletStage())) {
+        //----------------------前置条件判断------------------------
+        if (!(ServletStage.BEFORE_PARAMETER.equals(LocalContextHolder.current().getServletStage())
+                || ex instanceof HttpRequestMethodNotSupportedException)) {
             return;
-        }
-        Map<String, Object> paramsMap = null;
-        //请求参数
-        if (ex instanceof BindException) {
-            BindingResult bindingResult = ((BindException) ex).getBindingResult();
-            if (Objects.nonNull(bindingResult) && Objects.nonNull(bindingResult.getTarget())) {
-                paramsMap = Maps.newLinkedHashMap();
-                paramsMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
-                paramsMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquireElseGet(bindingResult.getTarget()));
-            }
-        }
-        if (CollectionUtils.isEmpty(paramsMap)) {
-            paramsMap = RequestHelper.getApiArgs(request);
         }
         BaseLoggerBuilder builder = BaseLoggerBuilder.create()
                 //系统编号
@@ -138,13 +114,44 @@ public class GlobalExceptionCustomizer {
                 //触发时间
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求参数
-                .withRequestParams(paramsMap)
+                .withRequestParams(getRequestParams(ex, request))
                 //响应体
-                .withBody(errorMsg)
+                .withBody(PrintExceptionInfo.printErrorInfo(ex))
                 //耗时(未处理任何逻辑)
-                .withSpentTime(0L);
+                .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()));
+        //日志
+        BaseLogger baseLogger = builder.build();
+        //API耗时
+        LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件
-        logger.info(JsonUtils.toJSONString(builder.build()));
+        ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
+        //--------------------------后通知特殊条件判断-------------------------
+        if (ex instanceof HttpRequestMethodNotSupportedException) {
+            LocalContextHolder.unbind(true);
+        }
+    }
 
+    /**
+     * 获取请求参数
+     *
+     * @param ex      异常对象
+     * @param request servlet对象
+     * @return 请求参数
+     */
+    private static Map<String, Object> getRequestParams(Throwable ex, HttpServletRequest request) {
+        Map<String, Object> paramsMap = Collections.emptyMap();
+        //请求参数
+        if (ex instanceof BindException) {
+            BindingResult bindingResult = ((BindException) ex).getBindingResult();
+            if (Objects.nonNull(bindingResult.getTarget())) {
+                paramsMap = Maps.newLinkedHashMap();
+                paramsMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
+                paramsMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquireElseGet(bindingResult.getTarget()));
+            }
+        }
+        if (CollectionUtils.isEmpty(paramsMap)) {
+            paramsMap = RequestHelper.getApiArgs(request);
+        }
+        return paramsMap;
     }
 }

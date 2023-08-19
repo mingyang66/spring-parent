@@ -223,6 +223,13 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * Get请求参数校验，如@NotEmpty、@NotNull等等
+     * 示例如下：
+     * <pre>{@code
+     *     @GetMapping("validParam")
+     *     public String validParam(@Validated @NotEmpty(message = "不可为空") String username){
+     *         return username;
+     *     }
+     * }</pre>
      *
      * @param e             异常
      * @param request       请求对象
@@ -255,18 +262,18 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-请求method不匹配
+     * 不支持HandlerMethod handlerMethod参数
      *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
+     * @param e       异常
+     * @param request 请求对象
      * @return 异常处理后返回给用户的对象
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Object httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request, HandlerMethod handlerMethod) {
+    public Object httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_METHOD);
+        return getApiResponseWrapper(null, HttpStatusType.METHOD_NOT_ALLOWED);
     }
 
     /**

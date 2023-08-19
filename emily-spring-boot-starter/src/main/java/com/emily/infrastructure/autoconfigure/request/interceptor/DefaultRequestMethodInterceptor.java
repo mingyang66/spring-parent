@@ -1,5 +1,6 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
+import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.context.holder.ContextTransmitter;
@@ -7,6 +8,8 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
+import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
@@ -17,20 +20,17 @@ import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.language.convert.I18nConvertHelper;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
@@ -50,7 +50,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //备份、设置当前阶段标识
-        ServletStage backup = ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
+        ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
         //封装异步日志信息
         BaseLoggerBuilder builder = BaseLoggerBuilder.create();
         try {
@@ -66,17 +66,17 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     .withRequestParams(RequestHelper.getApiArgs(invocation));
             //调用真实的action方法
             Object response = invocation.proceed();
-            if (Objects.nonNull(response) && response instanceof ResponseEntity) {
-                Object responseBody = ((ResponseEntity<?>) response).getBody();
-                //404 Not Fund
-                handleNotFund(response, builder);
-                //设置响应结果
-                builder.withBody(SensitiveUtils.acquireElseGet(responseBody));
-            } else {
-                //设置响应结果
-                builder.withBody(SensitiveUtils.acquireElseGet(response));
+            //返回数据不存在
+            if (ObjectUtils.isEmpty(response)) {
+                return response;
             }
-            return I18nConvertHelper.acquire(response, LocalContextHolder.current().getLanguageType());
+            if (response instanceof ResponseEntity) {
+                response = handleException(response, builder);
+            }
+            //设置响应结果
+            builder.withBody(SensitiveUtils.acquireElseGet(response));
+
+            return response;
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
                 BasicException exception = (BasicException) ex;
@@ -112,8 +112,6 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             BaseLogger baseLogger = builder.build();
             //API耗时
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
-            //恢复阶段标识
-            ContextTransmitter.restore(backup);
             //异步记录接口响应信息
             ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
 
@@ -122,17 +120,22 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     }
 
     /**
-     * 404 Not Fund接口处理
+     * 对返回是ResponseEntity类型异常类型特殊处理，如：404 Not Fund接口处理
      */
-    private void handleNotFund(Object result, BaseLoggerBuilder builder) {
-        int status = ((ResponseEntity<?>) result).getStatusCodeValue();
-        if (status == HttpStatus.NOT_FOUND.value()) {
-            Object resultBody = ((ResponseEntity<?>) result).getBody();
-            Map dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(resultBody), Map.class);
-            builder.withUrl(dataMap.get("path").toString())
-                    .withStatus(status)
-                    .withMessage(dataMap.get("error").toString());
+    private Object handleException(Object response, BaseLoggerBuilder builder) {
+        ResponseEntity<?> entity = ((ResponseEntity<?>) response);
+        if (entity.getStatusCode().is2xxSuccessful()) {
+            return entity;
         }
+        Map dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(entity.getBody()), Map.class);
+        builder.withUrl(dataMap.get("path").toString())
+                .withStatus(entity.getStatusCode().value())
+                .withMessage(dataMap.get("error").toString());
+        BaseResponse baseResponse = BaseResponseBuilder.create()
+                .withStatus(entity.getStatusCode().value())
+                .withMessage(dataMap.get("error").toString())
+                .build();
+        return new ResponseEntity<>(baseResponse, entity.getHeaders(), entity.getStatusCode());
     }
 
     @Override

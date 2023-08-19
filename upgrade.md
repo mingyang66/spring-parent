@@ -24,6 +24,8 @@ Bug Fixes
 19. 上下文新增servlet阶段标识，重构API、全局异常处理对阶段标识处理逻辑；
 20. ContextHolder新增spentTime耗时字段，API上下文中spentTime相关处理移除，统一使用上线文中的耗时字段；
 21. 日志记录全部标准化记录到指定的日志文件中；
+22. GlobalExceptionCustomizer全局异常处理记录日志优化，对HttpRequestMethodNotSupportedException做前置和后置特殊处理；
+23. DefaultRequestMethodInterceptor拦截器异常特殊处理，确保返回数据符合标准格式；
 
 -----
 基础库发布4.3.7

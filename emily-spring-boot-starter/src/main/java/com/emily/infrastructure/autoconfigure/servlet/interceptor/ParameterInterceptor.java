@@ -25,7 +25,7 @@ public class ParameterInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //标记servlet阶段
+        //标记阶段标识
         LocalContextHolder.current().setServletStage(ServletStage.BEFORE_PARAMETER);
         return true;
     }

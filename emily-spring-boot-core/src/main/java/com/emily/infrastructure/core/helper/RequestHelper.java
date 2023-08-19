@@ -141,6 +141,9 @@ public class RequestHelper {
      * @return 转换后的Map参数集合
      */
     protected static Map byteArgToMap(byte[] params) {
+        if (params == null) {
+            return Collections.emptyMap();
+        }
         try {
             return JsonUtils.toObject(params, Map.class);
         } catch (Exception e) {

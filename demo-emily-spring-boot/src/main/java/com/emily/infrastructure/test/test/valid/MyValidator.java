@@ -1,5 +1,7 @@
 package com.emily.infrastructure.test.test.valid;
 
+import com.emily.infrastructure.common.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -17,6 +19,9 @@ public class MyValidator implements ConstraintValidator<MyValidation, String> {
     public boolean isValid(String value, ConstraintValidatorContext context) {
         // 自定义的参数校验逻辑
         // 返回 true 表示校验通过，返回 false 表示校验失败
+        if (StringUtils.isBlank(value)) {
+            return false;
+        }
         return true;
     }
 }

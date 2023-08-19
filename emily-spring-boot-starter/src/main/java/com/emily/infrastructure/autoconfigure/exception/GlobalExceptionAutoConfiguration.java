@@ -36,7 +36,7 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
     @PostConstruct
     public void init() {
         LanguageMap.bindEn("网络异常，请稍后再试", "Network exception, please try again later");
-        LanguageMap.bindEn("非法方法请求", "Illegal method request");
+        LanguageMap.bindEn("方法不允许", "Method Not Allowed");
         LanguageMap.bindEn("非法参数", "Illegal parameter");
         LanguageMap.bindEn("非法数据", "invalid data");
         LanguageMap.bindEn("非法访问", "Illegal access");

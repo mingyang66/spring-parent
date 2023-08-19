@@ -57,13 +57,13 @@ public class ParamController {
         return username;
     }
 
-    @GetMapping("getBody")
+    @PostMapping("getBody")
     public String getParam(@Validated @RequestBody Job job) {
         return "sdf";
     }
 
-    @GetMapping("validParam")
-    public String validParam(@MyValidation String username){
+    @PostMapping("validParam")
+    public String validParam(@Validated @NotEmpty(message = "不可为空") String username){
         return username;
     }
 }

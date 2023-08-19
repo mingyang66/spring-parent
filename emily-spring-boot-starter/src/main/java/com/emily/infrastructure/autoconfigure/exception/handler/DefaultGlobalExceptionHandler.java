@@ -18,6 +18,7 @@ import org.springframework.web.client.UnknownContentTypeException;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
@@ -192,7 +193,18 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
 
     /**
-     * API-控制器方法参数Validate参数绑定异常
+     * API-控制器方法参数Validated参数绑定异常
+     * 示例如下：
+     * <pre>{@code
+     * public class Job implements Serializable {
+     *     @NotNull(message = "不可为空")
+     *     private Long id;
+     *     private Long jobNumber;
+     *     @NotEmpty(message = "描述不可以为空")
+     *     private String jobDesc;
+     *     public String a;
+     * }
+     * }</pre>
      *
      * @param e             异常
      * @param request       请求对象
@@ -205,6 +217,34 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     public Object bindException(BindException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), e.getFieldError().getDefaultMessage());
+    }
+
+    /**
+     * Get请求参数校验，如@NotEmpty、@NotNull等等
+     * 示例如下：
+     * <pre>{@code
+     *     @GetMapping("validParam")
+     *     public String validParam(@Validated @NotEmpty(message = "不可为空") String username){
+     *         return username;
+     *     }
+     * }</pre>
+     *
+     * @param e             异常对象
+     * @param request       请求对象
+     * @param handlerMethod 方法对象
+     * @return 异常处理后返回给用户的对象
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(ValidationException.class)
+    public Object validationException(ValidationException e, HttpServletRequest request, HandlerMethod handlerMethod) {
+        recordErrorMsg(e, request);
+        String message = HttpStatusType.ILLEGAL_ARGUMENT.getMessage();
+        // 提取默认消息
+        if (e instanceof ConstraintViolationException) {
+            message = ((ConstraintViolationException) e).getConstraintViolations().stream().findFirst().get().getMessageTemplate();
+        }
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
     }
 
     /**
@@ -221,28 +261,6 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
-    /**
-     * Get请求参数校验，如@NotEmpty、@NotNull等等
-     * 示例如下：
-     * <pre>{@code
-     *     @GetMapping("validParam")
-     *     public String validParam(@Validated @NotEmpty(message = "不可为空") String username){
-     *         return username;
-     *     }
-     * }</pre>
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(ValidationException.class)
-    public Object validationException(ValidationException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
-    }
 
     /**
      * 非法参数异常捕获

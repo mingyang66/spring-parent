@@ -7,49 +7,49 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-common</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>
 <!--Java通用日志组件SDK-->
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-logger</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>
 <!--Java图形验证码SDK-->
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-captcha</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>
 <!--Java简繁体转换、多语言支持SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-language</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>
 <!--Java实体类脱敏SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-sensitive</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>  
 <!--Java基于jackson的序列化反序列化SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-json</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>  
 <!--Java基于JWT获取签名解析签名SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-jwt</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>  
 <!--Java基于日期转换比较计算SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-date</artifactId>
-  <version>4.3.7</version>
+  <version>4.3.8</version>
 </dependency>  
 ```
 
@@ -60,19 +60,19 @@
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-logger</artifactId>
-    <version>4.3.7</version>
+    <version>4.3.8</version>
 </dependency>
 <!-- 基于druid的数据库多数据源切换SDK -->
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-datasource</artifactId>
-    <version>4.3.7</version>
+    <version>4.3.8</version>
 </dependency>
 <!-- 基于springboot的请求AOP拦截、返回值包装、全局异常处理SDK -->
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-starter</artifactId>
-    <version>4.3.7</version>
+    <version>4.3.8</version>
 </dependency>
 
 ```
@@ -82,7 +82,7 @@
 ##### 1 设置新的版本号
 
 ```
-./mvnw versions:set -DnewVersion=4.3.7
+./mvnw versions:set -DnewVersion=4.3.8
 ```
 
 ##### 2 撤销设置

@@ -192,7 +192,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
 
     /**
-     * API-控制器方法参数Validate异常
+     * API-控制器方法参数Validate参数绑定异常
      *
      * @param e             异常
      * @param request       请求对象
@@ -204,7 +204,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler({BindException.class})
     public Object bindException(BindException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), e.getFieldError().getDefaultMessage());
     }
 
     /**

@@ -32,8 +32,10 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
     /**
      * 忽略URL前缀的控制器类
      */
-    private static String[] ignoreUrlPrefixController = new String[]{"springfox.documentation.swagger.web.ApiResourceController",
-            "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"};
+    private static String[] ignoreUrlPrefixController = new String[]{
+            "springfox.documentation.swagger.web.ApiResourceController",
+            "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"
+    };
 
     public ServletAutoConfiguration(ServletProperties properties) {
         this.properties = properties;

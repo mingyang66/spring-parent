@@ -1,5 +1,8 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
+import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
+import com.emily.infrastructure.rabbitmq.listener.DefaultMqConnectionListener;
+import com.emily.infrastructure.rabbitmq.listener.DefaultMqExceptionHandler;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
@@ -18,26 +21,29 @@ import org.springframework.core.io.ResourceLoader;
  */
 public class RabbitMqConnectionFactoryCreator {
 
-    private ResourceLoader resourceLoader;
+    private final ResourceLoader resourceLoader;
 
-    private ObjectProvider<CredentialsProvider> credentialsProvider;
+    private final ObjectProvider<CredentialsProvider> credentialsProvider;
 
-    private ObjectProvider<CredentialsRefreshService> credentialsRefreshService;
+    private final ObjectProvider<CredentialsRefreshService> credentialsRefreshService;
 
-    private ObjectProvider<ConnectionNameStrategy> connectionNameStrategy;
+    private final ObjectProvider<ConnectionNameStrategy> connectionNameStrategy;
 
-    private ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers;
+    private final ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers;
+    private final RabbitMqProperties properties;
 
     public RabbitMqConnectionFactoryCreator(ResourceLoader resourceLoader,
                                             ObjectProvider<CredentialsProvider> credentialsProvider,
                                             ObjectProvider<CredentialsRefreshService> credentialsRefreshService,
                                             ObjectProvider<ConnectionNameStrategy> connectionNameStrategy,
-                                            ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers) {
+                                            ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,
+                                            RabbitMqProperties properties) {
         this.resourceLoader = resourceLoader;
         this.credentialsProvider = credentialsProvider;
         this.credentialsRefreshService = credentialsRefreshService;
         this.connectionNameStrategy = connectionNameStrategy;
         this.connectionFactoryCustomizers = connectionFactoryCustomizers;
+        this.properties = properties;
     }
 
     /**
@@ -74,6 +80,18 @@ public class RabbitMqConnectionFactoryCreator {
         CachingConnectionFactory factory = new CachingConnectionFactory(connectionFactory);
         rabbitCachingConnectionFactoryConfigurer.configure(factory);
 
+        //设置TCP连接超时时间，默认：60000ms
+        factory.getRabbitConnectionFactory().setConnectionTimeout(properties.getConnectionTimeout());
+        //启用或禁用连接自动恢复，默认：false
+        factory.getRabbitConnectionFactory().setAutomaticRecoveryEnabled(properties.isAutomaticRecovery());
+        //设置连接恢复时间间隔，默认：5000ms
+        factory.getRabbitConnectionFactory().setNetworkRecoveryInterval(properties.getNetworkRecoveryInterval());
+        //启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
+        factory.getRabbitConnectionFactory().setTopologyRecoveryEnabled(properties.isTopologyRecovery());
+        //替换默认异常处理DefaultExceptionHandler
+        factory.getRabbitConnectionFactory().setExceptionHandler(new DefaultMqExceptionHandler());
+        //添加连接监听器
+        factory.addConnectionListener(new DefaultMqConnectionListener(factory));
         return factory;
     }
 }

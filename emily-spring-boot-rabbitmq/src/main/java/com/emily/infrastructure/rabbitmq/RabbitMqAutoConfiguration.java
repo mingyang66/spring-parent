@@ -180,8 +180,8 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public RabbitMqConnectionFactoryCreator connectionFactoryCreator() {
-        return new RabbitMqConnectionFactoryCreator(resourceLoader, credentialsProvider, credentialsRefreshService, connectionNameStrategy, connectionFactoryCustomizers);
+    public RabbitMqConnectionFactoryCreator connectionFactoryCreator(RabbitMqProperties properties) {
+        return new RabbitMqConnectionFactoryCreator(resourceLoader, credentialsProvider, credentialsRefreshService, connectionNameStrategy, connectionFactoryCustomizers, properties);
     }
 
     @Bean

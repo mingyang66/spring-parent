@@ -19,7 +19,9 @@ import org.springframework.amqp.rabbit.connection.ConnectionListener;
 import java.time.LocalDateTime;
 
 /**
- * @author :  姚明洋
+ * rabbit连接监听器
+ *
+ * @author :  Emily
  * @since :  2023/8/23 9:45 AM
  */
 public class DefaultMqConnectionListener implements ConnectionListener {

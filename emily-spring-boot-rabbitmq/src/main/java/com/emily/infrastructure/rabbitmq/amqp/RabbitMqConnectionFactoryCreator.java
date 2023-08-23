@@ -53,8 +53,7 @@ public class RabbitMqConnectionFactoryCreator {
      * @return 连接工厂配置类
      */
     public RabbitConnectionFactoryBeanConfigurer createRabbitConnectionFactoryBeanConfigurer(RabbitProperties properties) {
-        RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader,
-                properties);
+        RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader, properties);
         configurer.setCredentialsProvider(credentialsProvider.getIfUnique());
         configurer.setCredentialsRefreshService(credentialsRefreshService.getIfUnique());
         return configurer;
@@ -66,9 +65,17 @@ public class RabbitMqConnectionFactoryCreator {
         return configurer;
     }
 
+    /**
+     * 新建CachingConnectionFactory工厂类，支持故障自动恢复
+     *
+     * @param rabbitConnectionFactoryBeanConfigurer 使用合理的默认配置RabbitConnectionFactoryBean的配置类
+     * @param cachingConnectionFactoryConfigurer    使用合理的默认值配置Rabbit的CachingConnectionFactory的配置类
+     * @return CachingConnectionFactory 工厂类
+     * @throws Exception 异常
+     */
     public CachingConnectionFactory createRabbitConnectionFactory(
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer,
-            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer) throws Exception {
+            CachingConnectionFactoryConfigurer cachingConnectionFactoryConfigurer) throws Exception {
 
         RabbitConnectionFactoryBean connectionFactoryBean = new RabbitConnectionFactoryBean();
         rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
@@ -78,7 +85,7 @@ public class RabbitMqConnectionFactoryCreator {
                 .forEach((customizer) -> customizer.customize(connectionFactory));
 
         CachingConnectionFactory factory = new CachingConnectionFactory(connectionFactory);
-        rabbitCachingConnectionFactoryConfigurer.configure(factory);
+        cachingConnectionFactoryConfigurer.configure(factory);
 
         //设置TCP连接超时时间，默认：60000ms
         factory.getRabbitConnectionFactory().setConnectionTimeout(properties.getConnectionTimeout());

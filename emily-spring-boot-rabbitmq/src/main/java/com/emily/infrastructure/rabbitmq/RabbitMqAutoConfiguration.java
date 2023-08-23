@@ -117,9 +117,9 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RabbitProperties properties = entry.getValue();
-            //创建连接工厂配置类
+            //创建CachingConnectionFactory默认配置类对象
             CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer = connectionFactoryCreator.rabbitConnectionFactoryConfigurer(properties);
-            //创建RabbitConnectionFactoryBeanConfigurer对象
+            //创建RabbitConnectionFactoryBean默认配置类对象
             RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = connectionFactoryCreator.createRabbitConnectionFactoryBeanConfigurer(properties);
             //创建CachingConnectionFactory对象
             CachingConnectionFactory connectionFactory = connectionFactoryCreator.createRabbitConnectionFactory(rabbitConnectionFactoryBeanConfigurer, rabbitConnectionFactoryConfigurer);

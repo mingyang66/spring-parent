@@ -47,10 +47,10 @@ public class RabbitMqConnectionFactoryCreator {
     }
 
     /**
-     * 创建RabbitConnectionFactoryBeanConfigurer对象
+     * 使用合理的默认值配置RabbitConnectionFactoryBean
      *
      * @param properties 属性配置
-     * @return 连接工厂配置类
+     * @return RabbitConnectionFactoryBean配置类
      */
     public RabbitConnectionFactoryBeanConfigurer createRabbitConnectionFactoryBeanConfigurer(RabbitProperties properties) {
         RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader, properties);
@@ -59,6 +59,12 @@ public class RabbitMqConnectionFactoryCreator {
         return configurer;
     }
 
+    /**
+     * 使用合理的默认值配置Rabbit CachingConnectionFactory
+     *
+     * @param rabbitProperties 属性配置
+     * @return CachingConnectionFactory配置类对象
+     */
     public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitProperties rabbitProperties) {
         CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(rabbitProperties);
         configurer.setConnectionNameStrategy(connectionNameStrategy.getIfUnique());
@@ -70,16 +76,14 @@ public class RabbitMqConnectionFactoryCreator {
      *
      * @param rabbitConnectionFactoryBeanConfigurer 使用合理的默认配置RabbitConnectionFactoryBean的配置类
      * @param cachingConnectionFactoryConfigurer    使用合理的默认值配置Rabbit的CachingConnectionFactory的配置类
-     * @return CachingConnectionFactory 工厂类
+     * @return CachingConnectionFactory 工厂类对象
      * @throws Exception 异常
      */
-    public CachingConnectionFactory createRabbitConnectionFactory(
-            RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer,
-            CachingConnectionFactoryConfigurer cachingConnectionFactoryConfigurer) throws Exception {
-
+    public CachingConnectionFactory createRabbitConnectionFactory(RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer, CachingConnectionFactoryConfigurer cachingConnectionFactoryConfigurer) throws Exception {
         RabbitConnectionFactoryBean connectionFactoryBean = new RabbitConnectionFactoryBean();
         rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
         connectionFactoryBean.afterPropertiesSet();
+
         ConnectionFactory connectionFactory = connectionFactoryBean.getObject();
         connectionFactoryCustomizers.orderedStream()
                 .forEach((customizer) -> customizer.customize(connectionFactory));

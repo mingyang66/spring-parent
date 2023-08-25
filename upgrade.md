@@ -2,21 +2,23 @@
 -----
 基础库发布4.3.9
 Bug Fixes
+一、 RabbitMQ SDK支持连接故障自动恢复能力
+1. 新增如下4个属性配置：
 
-1. 新增DefaultMqConnectionListener监听器类，对监听的四种类型增加日志记录；
-2. 新增DefaultMqExceptionHandler异常处理类，对需要捕获的异常类型进行日志记录；
-3. rabbit SDK新增如下配置：
-```properties
-#设置TCP连接超时时间，默认：60000ms
-spring.emily.rabbit.connection-timeout=60000
-#启用或禁用连接自动恢复，默认：true
-spring.emily.rabbit.automatic-recovery=true
-#设置连接恢复时间间隔，默认：5000ms
-spring.emily.rabbit.network-recovery-interval=5000
-#启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
-spring.emily.rabbit.topology-recovery=true
-```
-4. 为
+   ```properties
+   #设置TCP连接超时时间，默认：60000ms
+   spring.emis.rabbitmq.connection-timeout=60000
+   #启用或禁用连接自动恢复，默认：true
+   spring.emis.rabbitmq.automatic-recovery=true
+   #设置连接恢复时间间隔，默认：5000ms
+   spring.emis.rabbitmq.network-recovery-interval=5000
+   #启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
+   spring.emis.rabbitmq.topology-recovery=true
+   ```
+2. 创建CachingConnectionFactory对象时设置（1）的4个属性设置；
+3. 新增DefaultMqConnectionListener连接监听器类，对onCreate、onClose、onShutDown、onFailed四个方法监听并记录三方日志，方便在日志平台观察rabbitmq的故障恢复的全过程；
+4. 新增DefaultMqExceptionHandler RabbitMQ全局异常处理，将希望记录到日志文件的日志记录到三方日志，方便日志平台查看；
+5. 为
 
 
 -----

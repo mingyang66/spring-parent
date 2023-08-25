@@ -1,2 +1,1 @@
-com.emily.infrastructure.test.controller.rabbit.RabbitConsumer
 com.emily.infrastructure.test.controller.rabbit.RabbitConfig

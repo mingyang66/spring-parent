@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.controller.rabbit;
+package com.emily.infrastructure.test.config.rabbit;
 
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
@@ -13,8 +13,6 @@ import java.io.IOException;
  * @author  Emily
  * @since  Created in 2022/6/10 4:48 下午
  */
-
-
 @AutoConfiguration
 public class RabbitConfig {
 

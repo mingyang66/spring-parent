@@ -1,1 +1,1 @@
-com.emily.infrastructure.test.controller.rabbit.RabbitConfig
+com.emily.infrastructure.test.config.rabbit.RabbitConfig

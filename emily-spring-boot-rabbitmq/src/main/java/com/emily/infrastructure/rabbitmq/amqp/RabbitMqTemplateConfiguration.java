@@ -9,6 +9,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
 import org.springframework.boot.autoconfigure.amqp.RabbitTemplateConfigurer;
+import org.springframework.retry.support.RetryTemplate;
 
 import java.util.stream.Collectors;
 
@@ -39,8 +40,7 @@ public class RabbitMqTemplateConfiguration {
     public RabbitTemplateConfigurer createRabbitTemplateConfigurer(RabbitProperties properties) {
         RabbitTemplateConfigurer configurer = new RabbitTemplateConfigurer(properties);
         configurer.setMessageConverter(messageConverter.getIfUnique());
-        configurer
-                .setRetryTemplateCustomizers(retryTemplateCustomizers.orderedStream().collect(Collectors.toList()));
+        configurer.setRetryTemplateCustomizers(retryTemplateCustomizers.orderedStream().collect(Collectors.toList()));
         return configurer;
     }
 

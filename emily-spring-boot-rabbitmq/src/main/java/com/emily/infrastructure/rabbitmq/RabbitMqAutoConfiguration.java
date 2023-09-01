@@ -143,7 +143,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
                 rabbitListenerContainerFactoryConfigurer = rabbitMqAnnotationDrivenConfiguration.createSimpleRabbitListenerContainerFactoryConfigurer(properties);
                 defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), rabbitListenerContainerFactoryConfigurer);
             }
-            BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = getRabbitListenerContainerFactory(connectionFactory, properties, rabbitListenerContainerFactoryConfigurer);
+            BaseRabbitListenerContainerFactory rabbitListenerContainerFactory = createRabbitListenerContainerFactory(rabbitListenerContainerFactoryConfigurer, connectionFactory, properties);
             defaultListableBeanFactory.registerSingleton(MessageFormat.format("{0}{1}", key, RabbitMqInfo.RABBIT_LISTENER_CONTAINER_FACTORY), rabbitListenerContainerFactory);
         }
         return "UNSET";
@@ -152,13 +152,12 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
     /**
      * 参考：org.springframework.boot.autoconfigure.amqp.RabbitAnnotationDrivenConfiguration
      *
-     * @param connectionFactory                        工厂类
-     * @param properties                               属性配置
-     * @param rabbitListenerContainerFactoryConfigurer 工厂配置类
-     * @return 连接工厂
+     * @param rabbitListenerContainerFactoryConfigurer RabbitMQ容器监听器工厂配置类
+     * @param connectionFactory                        连接工厂类
+     * @param properties                               RabbitMQ属性配置
+     * @return RabbitMQ容器监听器工厂对象
      */
-    protected AbstractRabbitListenerContainerFactory getRabbitListenerContainerFactory(ConnectionFactory connectionFactory, RabbitProperties properties,
-                                                                                       AbstractRabbitListenerContainerFactoryConfigurer rabbitListenerContainerFactoryConfigurer) {
+    protected AbstractRabbitListenerContainerFactory createRabbitListenerContainerFactory(AbstractRabbitListenerContainerFactoryConfigurer rabbitListenerContainerFactoryConfigurer, ConnectionFactory connectionFactory, RabbitProperties properties) {
         if (RabbitProperties.ContainerType.DIRECT.equals(properties.getListener().getType())) {
             DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
             rabbitListenerContainerFactoryConfigurer.configure(factory, connectionFactory);

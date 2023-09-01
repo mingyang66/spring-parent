@@ -107,7 +107,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
      * @throws Exception 异常
      */
     @Bean
-    Object rabbitTemplates(RabbitMqProperties rabbitMqProperties,
+    Object listenerContainerFactory(RabbitMqProperties rabbitMqProperties,
                            DefaultListableBeanFactory defaultListableBeanFactory,
                            RabbitMqConnectionFactoryCreator connectionFactoryCreator,
                            RabbitMqTemplateConfiguration templateConfiguration,
@@ -146,7 +146,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
             BaseRabbitListenerContainerFactory listenerContainerFactory = createRabbitListenerContainerFactory(listenerContainerFactoryConfigurer, connectionFactory, properties);
             defaultListableBeanFactory.registerSingleton(join(key, RABBIT_LISTENER_CONTAINER_FACTORY), listenerContainerFactory);
         }
-        return "UNSET";
+        return "MultiListenerContainerFactory";
     }
 
     /**

@@ -1,12 +1,14 @@
 package com.emily.infrastructure.rabbitmq.common;
 
+import java.text.MessageFormat;
+
 /**
  * 常量类
  *
  * @author Emily
  * @since Created in 2022/6/8 10:47 上午
  */
-public class RabbitMqInfo {
+public class RabbitMqUtils {
     /**
      * 动态初始化队里、交换机、路由绑定bean名称后缀
      */
@@ -47,4 +49,15 @@ public class RabbitMqInfo {
      * RabbitMQ监听器工厂配置类，DIRECT
      */
     public static final String DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "DirectRabbitListenerContainerFactoryConfigurer";
+
+    /**
+     * 拼接字符串
+     *
+     * @param key    RabbitMQ配置标识
+     * @param suffix 后缀
+     * @return 拼接后的beanName
+     */
+    public static String join(String key, String suffix) {
+        return MessageFormat.format("{0}{1}", key, suffix);
+    }
 }

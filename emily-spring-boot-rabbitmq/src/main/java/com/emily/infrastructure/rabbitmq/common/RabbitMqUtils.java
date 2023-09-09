@@ -21,22 +21,30 @@ public class RabbitMqUtils {
      * ConnectionFactory bean名称
      */
     public static final String RABBIT_CONNECTION_FACTORY = "RabbitConnectionFactory";
+    public static final String DEFAULT_RABBIT_CONNECTION_FACTORY = "rabbitConnectionFactory";
     /**
      * RabbitListenerAnnotationBeanPostProcessor.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME
      */
     public static final String RABBIT_LISTENER_CONTAINER_FACTORY = "RabbitListenerContainerFactory";
     /**
+     * 默认容器工厂bean名称
+     */
+    public static final String defaultContainerFactoryBeanName = "rabbitListenerContainerFactory";
+    /**
      * RabbitTemplate Bean名称后缀
      */
     public static final String RABBIT_TEMPLATE = "RabbitTemplate";
+    public static final String DEFAULT_RABBIT_TEMPLATE = "rabbitTemplate";
     /**
      * Rabbit连接工厂Bean配置类
      */
     public static final String RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER = "RabbitConnectionFactoryBeanConfigurer";
+    public static final String DEFAULT_RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER = "rabbitConnectionFactoryBeanConfigurer";
     /**
      * Rabbit连接工厂配置类
      */
     public static final String RABBIT_CONNECTION_FACTORY_CONFIGURER = "RabbitConnectionFactoryConfigurer";
+    public static final String DEFAULT_RABBIT_CONNECTION_FACTORY_CONFIGURER = "rabbitConnectionFactoryConfigurer";
     /**
      * RabbitTemplate配置类
      */
@@ -49,6 +57,7 @@ public class RabbitMqUtils {
      * RabbitMQ监听器工厂配置类，DIRECT
      */
     public static final String DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "DirectRabbitListenerContainerFactoryConfigurer";
+    public static final String DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "rabbitListenerContainerFactoryConfigurer";
 
     /**
      * 拼接字符串

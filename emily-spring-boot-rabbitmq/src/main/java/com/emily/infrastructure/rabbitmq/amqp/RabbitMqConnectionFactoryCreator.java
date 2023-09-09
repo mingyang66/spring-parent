@@ -36,11 +36,7 @@ public class RabbitMqConnectionFactoryCreator {
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
-    /**
-     * 使用合理的默认值配置RabbitConnectionFactoryBean
-     *
-     * @return RabbitConnectionFactoryBean配置类
-     */
+
     @Bean
     @ConditionalOnMissingBean
     public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(RabbitMqProperties rabbitMqProperties, ResourceLoader resourceLoader,
@@ -64,11 +60,7 @@ public class RabbitMqConnectionFactoryCreator {
         return rabbitConnectionFactoryBeanConfigurer;
     }
 
-    /**
-     * 使用合理的默认值配置Rabbit CachingConnectionFactory
-     *
-     * @return CachingConnectionFactory配置类对象
-     */
+
     @Bean
     @ConditionalOnMissingBean
     public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitMqProperties rabbitMqProperties, ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
@@ -89,12 +81,7 @@ public class RabbitMqConnectionFactoryCreator {
         return cachingConnectionFactoryConfigurer;
     }
 
-    /**
-     * 新建CachingConnectionFactory工厂类，支持故障自动恢复
-     *
-     * @return CachingConnectionFactory 工厂类对象
-     * @throws Exception 异常
-     */
+
     @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
     public CachingConnectionFactory rabbitConnectionFactory(RabbitMqProperties rabbitMqProperties,

@@ -29,7 +29,7 @@ public class RabbitMqUtils {
     /**
      * 默认容器工厂bean名称
      */
-    public static final String defaultContainerFactoryBeanName = "rabbitListenerContainerFactory";
+    public static final String DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY = "rabbitListenerContainerFactory";
     /**
      * RabbitTemplate Bean名称后缀
      */

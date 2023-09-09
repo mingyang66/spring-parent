@@ -53,6 +53,13 @@ public class RabbitMqAnnotationDrivenConfiguration {
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
+    /**
+     * 容器监听器工厂配置类
+     * 返回默认配置类，将其它容器监听器工厂配置类注入IOC容器
+     *
+     * @param rabbitMqProperties 属性配置
+     * @return 默认容器监听器工厂配置类
+     */
     @Bean
     @ConditionalOnMissingBean
     public AbstractRabbitListenerContainerFactoryConfigurer rabbitListenerContainerFactoryConfigurer(RabbitMqProperties rabbitMqProperties) {
@@ -87,8 +94,17 @@ public class RabbitMqAnnotationDrivenConfiguration {
         return rabbitListenerContainerFactoryConfigurer;
     }
 
-    @Bean(name = defaultContainerFactoryBeanName)
-    @ConditionalOnMissingBean(name = defaultContainerFactoryBeanName)
+    /**
+     * 获取容器监听器工厂类
+     * 默认返回默认的容器监听器工厂类，其它的容器监听器工厂类注入IOC容器
+     *
+     * @param rabbitMqProperties        属性配置
+     * @param simpleContainerCustomizer 自定义simple容器配置类
+     * @param directContainerCustomizer 自定义direct容器配置类
+     * @return 默认的容器监听器工厂类
+     */
+    @Bean(name = DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY)
+    @ConditionalOnMissingBean(name = DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY)
     RabbitListenerContainerFactory rabbitListenerContainerFactory(RabbitMqProperties rabbitMqProperties,
                                                                   ObjectProvider<ContainerCustomizer<SimpleMessageListenerContainer>> simpleContainerCustomizer,
                                                                   ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) {

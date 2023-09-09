@@ -22,7 +22,7 @@ public class ContextWrapper {
      * 默认业务逻辑上的servlet上下文
      * 使用案例如下：
      * <pre>{@code
-     *     @Scheduled(fixedRate = 5000)
+     *     //@Scheduled(fixedRate = 5000)
      *     public void doSchedule() {
      *         ContextWrapper.run(() -> {
      *             System.out.println("start--------上下文-1-" + LocalContextHolder.current().getTraceId());

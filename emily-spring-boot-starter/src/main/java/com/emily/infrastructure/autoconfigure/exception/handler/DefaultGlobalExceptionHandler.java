@@ -197,10 +197,10 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * 示例如下：
      * <pre>{@code
      * public class Job implements Serializable {
-     *     @NotNull(message = "不可为空")
+     *     //@NotNull(message = "不可为空")
      *     private Long id;
      *     private Long jobNumber;
-     *     @NotEmpty(message = "描述不可以为空")
+     *     //@NotEmpty(message = "描述不可以为空")
      *     private String jobDesc;
      *     public String a;
      * }
@@ -223,7 +223,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      * Get请求参数校验，如@NotEmpty、@NotNull等等
      * 示例如下：
      * <pre>{@code
-     *     @GetMapping("validParam")
+     *     //@GetMapping("validParam")
      *     public String validParam(@Validated @NotEmpty(message = "不可为空") String username){
      *         return username;
      *     }

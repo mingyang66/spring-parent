@@ -19,6 +19,7 @@ Bug Fixes
 3. 新增DefaultMqConnectionListener连接监听器类，对onCreate、onClose、onShutDown、onFailed四个方法监听并记录三方日志，方便在日志平台观察rabbitmq的故障恢复的全过程；
 4. 新增DefaultMqExceptionHandler RabbitMQ全局异常处理，将希望记录到日志文件的日志记录到三方日志，方便日志平台查看；
 5. ContextWrapper优化为只对非servlet上下文场景下使用；
+6. RabbitMQ SDK重构，默认支持springboot官方支持的使用方法；支持直接使用注解模式发送消息，支持默认监听器不用配置连接器工厂类；
 
 
 -----

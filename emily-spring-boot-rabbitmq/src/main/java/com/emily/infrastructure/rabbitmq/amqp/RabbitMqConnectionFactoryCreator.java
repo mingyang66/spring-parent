@@ -36,7 +36,6 @@ public class RabbitMqConnectionFactoryCreator {
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
-
     @Bean
     @ConditionalOnMissingBean
     public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(RabbitMqProperties rabbitMqProperties, ResourceLoader resourceLoader,
@@ -60,7 +59,6 @@ public class RabbitMqConnectionFactoryCreator {
         return rabbitConnectionFactoryBeanConfigurer;
     }
 
-
     @Bean
     @ConditionalOnMissingBean
     public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitMqProperties rabbitMqProperties, ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
@@ -69,8 +67,8 @@ public class RabbitMqConnectionFactoryCreator {
         CachingConnectionFactoryConfigurer cachingConnectionFactoryConfigurer = null;
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
-            RabbitProperties rabbitProperties = entry.getValue();
-            CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(rabbitProperties);
+            RabbitProperties properties = entry.getValue();
+            CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(properties);
             configurer.setConnectionNameStrategy(connectionNameStrategy.getIfUnique());
             if (defaultConfig.equals(key)) {
                 cachingConnectionFactoryConfigurer = configurer;

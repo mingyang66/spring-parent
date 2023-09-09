@@ -89,7 +89,6 @@ public class RabbitMqTemplateConfiguration {
 
     @Bean
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
-    @ConditionalOnProperty(prefix = "spring.rabbitmq", name = "dynamic", matchIfMissing = true)
     @ConditionalOnMissingBean
     public AmqpAdmin amqpAdmin(RabbitMqProperties rabbitMqProperties) {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");

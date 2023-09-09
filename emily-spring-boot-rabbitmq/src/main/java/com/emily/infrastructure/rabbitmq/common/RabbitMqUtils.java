@@ -13,10 +13,12 @@ public class RabbitMqUtils {
      * 动态初始化队里、交换机、路由绑定bean名称后缀
      */
     public static final String AMQP_ADMIN = "AmqpAdmin";
+    public static final String DEFAULT_AMQP_ADMIN = "amqpAdmin";
     /**
      * RabbitMessagingTemplate bean名称
      */
     public static final String RABBIT_MESSAGING_TEMPLATE = "RabbitMessagingTemplate";
+    public static final String DEFAULT_RABBIT_MESSAGING_TEMPLATE = "rabbitMessagingTemplate";
     /**
      * ConnectionFactory bean名称
      */

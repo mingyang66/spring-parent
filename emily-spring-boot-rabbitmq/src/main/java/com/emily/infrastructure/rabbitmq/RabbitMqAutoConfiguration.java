@@ -1,9 +1,6 @@
 package com.emily.infrastructure.rabbitmq;
 
-import com.emily.infrastructure.rabbitmq.amqp.RabbitMqAnnotationDrivenConfiguration;
-import com.emily.infrastructure.rabbitmq.amqp.RabbitMqConnectionFactoryCreator;
-import com.emily.infrastructure.rabbitmq.amqp.RabbitMqMessagingTemplateConfiguration;
-import com.emily.infrastructure.rabbitmq.amqp.RabbitMqTemplateConfiguration;
+import com.emily.infrastructure.rabbitmq.amqp.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.MultiRabbitBootstrapConfiguration;
@@ -16,8 +13,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Role;
 
@@ -41,6 +40,17 @@ import org.springframework.context.annotation.Role;
 public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqAutoConfiguration.class);
+
+    /**
+     * 自定义实现回调接口RabbitRetryTemplateCustomizer 作为RetryTemplate的一部分
+     * 只有开启重试才会启用此自定义实现类
+     *
+     * @return 自定义RetryTemplate钩子类对象
+     */
+    @Bean
+    public RabbitRetryTemplateCustomizer rabbitRetryTemplateCustomizer() {
+        return new RabbitMqRetryTemplateCustomizer();
+    }
 
     @Override
     public void destroy() throws Exception {

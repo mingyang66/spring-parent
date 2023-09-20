@@ -14,6 +14,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +49,7 @@ public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBe
      * @return 自定义RetryTemplate钩子类对象
      */
     @Bean
+    @ConditionalOnMissingBean(RabbitRetryTemplateCustomizer.class)
     public RabbitRetryTemplateCustomizer rabbitRetryTemplateCustomizer() {
         return new RabbitMqRetryTemplateCustomizer();
     }

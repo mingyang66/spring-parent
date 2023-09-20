@@ -109,13 +109,13 @@ public class RabbitMqConnectionFactoryCreator {
             rabbitCachingConnectionFactoryConfigurer.configure(factory);
 
             //设置TCP连接超时时间，默认：60000ms
-            factory.getRabbitConnectionFactory().setConnectionTimeout(rabbitMqProperties.getConnectionTimeout());
+            factory.getRabbitConnectionFactory().setConnectionTimeout(rabbitMqProperties.getConnection().getConnectionTimeout());
             //启用或禁用连接自动恢复，默认：false
-            factory.getRabbitConnectionFactory().setAutomaticRecoveryEnabled(rabbitMqProperties.isAutomaticRecovery());
+            factory.getRabbitConnectionFactory().setAutomaticRecoveryEnabled(rabbitMqProperties.getConnection().isAutomaticRecovery());
             //设置连接恢复时间间隔，默认：5000ms
-            factory.getRabbitConnectionFactory().setNetworkRecoveryInterval(rabbitMqProperties.getNetworkRecoveryInterval());
+            factory.getRabbitConnectionFactory().setNetworkRecoveryInterval(rabbitMqProperties.getConnection().getNetworkRecoveryInterval());
             //启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
-            factory.getRabbitConnectionFactory().setTopologyRecoveryEnabled(rabbitMqProperties.isTopologyRecovery());
+            factory.getRabbitConnectionFactory().setTopologyRecoveryEnabled(rabbitMqProperties.getConnection().isTopologyRecovery());
             //替换默认异常处理DefaultExceptionHandler
             factory.getRabbitConnectionFactory().setExceptionHandler(new DefaultMqExceptionHandler());
             //添加连接监听器

@@ -26,21 +26,9 @@ public class RabbitMqProperties {
      */
     private String defaultConfig;
     /**
-     * 设置TCP连接超时时间，默认：60000ms
+     * 连接工厂配置
      */
-    private int connectionTimeout = 60000;
-    /**
-     * 启用或禁用连接自动恢复，默认：true
-     */
-    private boolean automaticRecovery = true;
-    /**
-     * 设置连接恢复时间间隔，默认：5000ms
-     */
-    private long networkRecoveryInterval = 5000;
-    /**
-     * 启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
-     */
-    private boolean topologyRecovery = true;
+    private Connection connection = new Connection();
     /**
      * RabbitMq属性配置
      */
@@ -70,35 +58,62 @@ public class RabbitMqProperties {
         this.config = config;
     }
 
-    public int getConnectionTimeout() {
-        return connectionTimeout;
+    public Connection getConnection() {
+        return connection;
     }
 
-    public void setConnectionTimeout(int connectionTimeout) {
-        this.connectionTimeout = connectionTimeout;
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
-    public boolean isAutomaticRecovery() {
-        return automaticRecovery;
-    }
+    public static class Connection {
+        /**
+         * 设置TCP连接超时时间，默认：60000ms
+         */
+        private int connectionTimeout = 60000;
+        /**
+         * 启用或禁用连接自动恢复，默认：true
+         */
+        private boolean automaticRecovery = true;
+        /**
+         * 设置连接恢复时间间隔，默认：5000ms
+         */
+        private long networkRecoveryInterval = 5000;
+        /**
+         * 启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
+         */
+        private boolean topologyRecovery = true;
 
-    public void setAutomaticRecovery(boolean automaticRecovery) {
-        this.automaticRecovery = automaticRecovery;
-    }
+        public int getConnectionTimeout() {
+            return connectionTimeout;
+        }
 
-    public long getNetworkRecoveryInterval() {
-        return networkRecoveryInterval;
-    }
+        public void setConnectionTimeout(int connectionTimeout) {
+            this.connectionTimeout = connectionTimeout;
+        }
 
-    public void setNetworkRecoveryInterval(long networkRecoveryInterval) {
-        this.networkRecoveryInterval = networkRecoveryInterval;
-    }
+        public boolean isAutomaticRecovery() {
+            return automaticRecovery;
+        }
 
-    public boolean isTopologyRecovery() {
-        return topologyRecovery;
-    }
+        public void setAutomaticRecovery(boolean automaticRecovery) {
+            this.automaticRecovery = automaticRecovery;
+        }
 
-    public void setTopologyRecovery(boolean topologyRecovery) {
-        this.topologyRecovery = topologyRecovery;
+        public long getNetworkRecoveryInterval() {
+            return networkRecoveryInterval;
+        }
+
+        public void setNetworkRecoveryInterval(long networkRecoveryInterval) {
+            this.networkRecoveryInterval = networkRecoveryInterval;
+        }
+
+        public boolean isTopologyRecovery() {
+            return topologyRecovery;
+        }
+
+        public void setTopologyRecovery(boolean topologyRecovery) {
+            this.topologyRecovery = topologyRecovery;
+        }
     }
 }

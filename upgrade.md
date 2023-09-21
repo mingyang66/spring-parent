@@ -22,6 +22,7 @@ Bug Fixes
 6. RabbitMQ SDK重构，默认支持springboot官方支持的使用方法；支持直接使用注解模式发送消息，支持默认监听器不用配置连接器工厂类；
 7. 新增RabbitMqRetryTemplateCustomizer作为RetryTemplate自定义配置的一部分；
 8. 新增PublisherRetryListener发布放重试监听器；
+9. springboot版本升级到2.7.15；
 
 
 -----

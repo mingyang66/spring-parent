@@ -21,7 +21,7 @@ public abstract class AbstractAppender {
      */
     public Appender<ILoggingEvent> newInstance(Level level) {
         //appender名称重新拼接
-        String appenderName = this.getAppenderName(level);
+        String appenderName = this.getName(level);
         //如果已经存在，则忽略，否则添加
         LoggerCacheManager.APPENDER.putIfAbsent(appenderName, this.getAppender(level));
         // return appender object
@@ -57,6 +57,6 @@ public abstract class AbstractAppender {
      * @param level 日志级别
      * @return appender name
      */
-    protected abstract String getAppenderName(Level level);
+    protected abstract String getName(Level level);
 
 }

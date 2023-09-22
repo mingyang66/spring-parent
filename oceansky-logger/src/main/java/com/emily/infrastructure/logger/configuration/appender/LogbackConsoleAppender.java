@@ -49,13 +49,15 @@ public class LogbackConsoleAppender extends AbstractAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);
         //appender的name属性
-        appender.setName(this.getAppenderName(level));
+        appender.setName(this.getName(level));
         //添加过滤器
         appender.addFilter(LogbackFilter.getSingleton().getThresholdLevelFilter(loggerContext, level));
         //设置编码
         appender.setEncoder(LogbackEncoder.getSingleton().getPatternLayoutEncoder(loggerContext, this.resolveFilePattern()));
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
         appender.setWithJansi(true);
+        //设置是否将输出流刷新，确保日志信息不丢失，默认：true
+        appender.setImmediateFlush(true);
         appender.start();
         return appender;
 
@@ -72,7 +74,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
     }
 
     @Override
-    protected String getAppenderName(Level level) {
+    protected String getName(Level level) {
         return CONSOLE;
     }
 }

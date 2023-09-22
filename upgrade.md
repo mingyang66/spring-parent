@@ -23,6 +23,8 @@ Bug Fixes
 7. 新增RabbitMqRetryTemplateCustomizer作为RetryTemplate自定义配置的一部分；
 8. 新增PublisherRetryListener发布放重试监听器；
 9. springboot版本升级到2.7.15；
+10. springboot升级到3.1.3版本，并对整体做架构升级，jdk升级到17；
+11. logback sdk代码优化调整；
 
 
 -----

@@ -38,7 +38,7 @@ public class RabbitLazySender {
                 //更新数据库，可靠性投递机制
                 System.out.println("正常ack-" + ack + ",id-" + correlationData.getId());
                 try {
-                    System.out.println(new String(correlationData.getReturnedMessage().getBody()));
+                    System.out.println(new String(correlationData.getReturned().getMessage().getBody()));
 
                 } catch (Exception e) {
 
@@ -49,29 +49,12 @@ public class RabbitLazySender {
     /**
      * 创建一个消息是否被队列接收的监听对象，如果没有队列接收发送出的消息，则调用此方法进行后续处理
      */
-    private final RabbitTemplate.ReturnCallback returnCallback = new RabbitTemplate.ReturnCallback() {
-        /**
-         *
-         * @param message 被退回的消息
-         * @param replyCode 错误编码
-         * @param replyText 错误描述
-         * @param exchange 交换器
-         * @param routingKey 路由
-         */
+    private final RabbitTemplate.ReturnsCallback returnCallback = new RabbitTemplate.ReturnsCallback() {
         @Override
-        public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-            System.err.println("spring_returned_message_correlation:" + message.getMessageProperties().getHeaders().get(PublisherCallbackChannel.RETURNED_MESSAGE_CORRELATION_KEY)
-                    + "return exchange: " + exchange
-                    + ", routingKey: " + routingKey
-                    + ", replyCode: " + replyCode
-                    + ", replyText: " + replyText
-                    + ",message:" + message);
-            try {
-                System.out.println(new String(message.getBody()));
-            } catch (Exception e) {
+        public void returnedMessage(ReturnedMessage returnedMessage) {
 
-            }
         }
+
     };
     /**
      * 扩展点，在消息转换完成之后，发送之前调用；可以修改消息属性、消息头信息
@@ -118,7 +101,7 @@ public class RabbitLazySender {
         /**
          * 设置消息退回回调函数
          */
-        this.rabbitTemplate.setReturnCallback(returnCallback);
+        this.rabbitTemplate.setReturnsCallback(returnCallback);
         /**
          * 新增消息转换完成后、发送之前的扩展点
          */
@@ -152,7 +135,7 @@ public class RabbitLazySender {
             /**
              * 设置此相关数据的返回消息
              */
-            correlationData.setReturnedMessage(returnedMessage);
+            //correlationData.setReturned(returnedMessage);
             /**
              * 如果msg是org.springframework.amqp.core.Message对象的实例，则直接返回，否则转化为Message对象
              */

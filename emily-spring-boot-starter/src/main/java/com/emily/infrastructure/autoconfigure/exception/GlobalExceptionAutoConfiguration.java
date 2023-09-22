@@ -4,6 +4,7 @@ import com.emily.infrastructure.autoconfigure.exception.handler.DefaultGlobalExc
 import com.emily.infrastructure.autoconfigure.exception.handler.GlobalExceptionCustomizer;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.logger.LoggerFactory;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,7 +16,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 
-import javax.annotation.PostConstruct;
 
 /**
  * 异常捕获自动化配置类

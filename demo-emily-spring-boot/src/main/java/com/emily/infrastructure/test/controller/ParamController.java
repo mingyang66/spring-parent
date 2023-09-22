@@ -6,12 +6,11 @@ import com.emily.infrastructure.sensitive.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveType;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
-import com.emily.infrastructure.test.test.valid.MyValidation;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**

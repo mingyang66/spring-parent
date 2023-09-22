@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class TestTimeout {
-    @Autowired
+    //@Autowired
     private RestTemplate restTemplate;
 
     @TargetHttpTimeout(readTimeout = 4000)

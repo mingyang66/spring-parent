@@ -6,6 +6,8 @@ import com.emily.infrastructure.autoconfigure.httpclient.context.HttpContextHold
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.test.test.TestTimeout;
 import com.google.common.collect.Maps;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @program: spring-parent
@@ -34,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("api/http")
 @RestController
 public class HttpClientController {
-    @Autowired
+    //@Autowired
     private RestTemplate restTemplate;
 
     @GetMapping("get1")

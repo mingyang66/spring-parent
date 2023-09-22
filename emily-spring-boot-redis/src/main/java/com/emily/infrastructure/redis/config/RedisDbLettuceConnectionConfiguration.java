@@ -107,7 +107,7 @@ public class RedisDbLettuceConnectionConfiguration extends RedisDbConnectionConf
 
     private LettuceClientConfiguration.LettuceClientConfigurationBuilder applyProperties(
             LettuceClientConfiguration.LettuceClientConfigurationBuilder builder) {
-        if (getProperties().isSsl()) {
+        if (getProperties().getSsl().isEnabled()) {
             builder.useSsl();
         }
         if (getProperties().getTimeout() != null) {

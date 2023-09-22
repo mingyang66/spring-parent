@@ -2,6 +2,7 @@ package com.emily.cloud.test.api;
 
 import com.emily.cloud.test.api.po.User;
 import com.emily.cloud.test.api.po.ValidateCodeUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**

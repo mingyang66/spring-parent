@@ -4,6 +4,7 @@ import com.emily.infrastructure.core.servlet.filter.RequestChannelFilter;
 import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
 import com.emily.infrastructure.core.servlet.filter.RoutingRedirectFilter;
 import com.emily.infrastructure.logger.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 /**

@@ -98,17 +98,17 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
         //SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         //读取超时5秒,默认无限限制,单位：毫秒
-        factory.setReadTimeout(properties.getReadTimeOut());
+        //todo factory.setReadTimeout(properties.getReadTimeOut());
         //连接超时10秒，默认无限制，单位：毫秒
         factory.setConnectTimeout(properties.getConnectTimeOut());
         //设置HTTP进程执行状态工厂类
-        factory.setHttpContextFactory(new HttpContextFactory());
+       //todo  factory.setHttpContextFactory(new HttpContextFactory());
         //开启HTTPS请求支持
         if (properties.isSsl()) {
             TrustStrategy acceptingTrustStrategy = (x509Certificates, authType) -> true;
             SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
             SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
-            factory.setHttpClient(HttpClients.custom().setSSLSocketFactory(connectionSocketFactory).build());
+            // todo factory.setHttpClient(HttpClients.custom().setSSLSocketFactory(connectionSocketFactory).build());
         }
         return factory;
     }

@@ -1,16 +1,18 @@
 package com.emily.infrastructure.logger.manager;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.util.EnvUtil;
+import ch.qos.logback.classic.util.ClassicEnvUtil;
 import com.emily.infrastructure.logger.configuration.context.Context;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * 日志初始化管理器
  *
- * @author  Emily
+ * @author Emily
  * @since :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextInitializer {
@@ -38,7 +40,13 @@ public class LoggerContextInitializer {
             context.stopAndReset();
         }
         // 初始化日志上下文
-        context = EnvUtil.loadFromServiceLoader(Context.class);
+        List<Context> list = ClassicEnvUtil.loadFromServiceLoader(Context.class, Context.class.getClassLoader());
+        if (list == null || list.isEmpty()) {
+            System.out.println("Non existing log context");
+            return;
+        }
+        //context = EnvUtil.loadFromServiceLoader(Context.class); // new version expire
+        context = list.get(0);
         // 对属性进行设置
         context.configure(properties, LOGGER_CONTEXT);
         // 初始化root logger对象

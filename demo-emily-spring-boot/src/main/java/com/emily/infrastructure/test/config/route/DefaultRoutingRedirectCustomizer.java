@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.config.route;
 
 import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *  默认路由跳转实现

@@ -1,9 +1,9 @@
 package com.emily.infrastructure.test.test.valid;
 
 import com.emily.infrastructure.common.StringUtils;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 /**
  * @author :  Emily

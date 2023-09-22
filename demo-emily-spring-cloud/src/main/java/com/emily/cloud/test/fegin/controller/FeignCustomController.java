@@ -4,11 +4,11 @@ import com.emily.cloud.test.fegin.Custom;
 import com.emily.cloud.test.fegin.handler.CustomFeignHandler;
 import com.emily.cloud.test.fegin.handler.DefaultFeignHandler;
 import com.emily.infrastructure.core.entity.BaseResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *  自定义Feign控制器

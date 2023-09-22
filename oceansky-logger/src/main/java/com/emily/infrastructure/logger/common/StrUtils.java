@@ -1,12 +1,13 @@
 package com.emily.infrastructure.logger.common;
 
 import ch.qos.logback.core.Context;
+import ch.qos.logback.core.spi.ScanException;
 import ch.qos.logback.core.util.OptionHelper;
 
 /**
  * 日志工具类
  *
- * @author  Emily
+ * @author Emily
  * @since : Created in 2023/7/9 4:34 PM
  */
 public class StrUtils {
@@ -30,7 +31,11 @@ public class StrUtils {
      * @return 替换后的字符串
      */
     public static String substVars(Context context, String... str) {
-        return OptionHelper.substVars(join(str), context);
+        try {
+            return OptionHelper.substVars(join(str), context);
+        } catch (ScanException e) {
+            throw new IllegalArgumentException("非法参数");
+        }
     }
 
     /**

@@ -5,8 +5,8 @@ import com.emily.infrastructure.sensitive.JsonFlexField;
 import com.emily.infrastructure.sensitive.JsonSensitive;
 import com.emily.infrastructure.sensitive.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveType;
+import jakarta.validation.constraints.NotEmpty;
 
-import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Map;
 

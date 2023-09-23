@@ -138,6 +138,10 @@ public class LoggerProperties {
          * 通用日志输出格式：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
          */
         private String consolePattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %cn --- [%18.18thread] %cyan(%-36.36logger{36}:%-4.4line) : %msg %n";
+        /**
+         * ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
+         */
+        private boolean withJansi = false;
 
         public LevelType getLevel() {
             return level;
@@ -177,6 +181,14 @@ public class LoggerProperties {
 
         public void setConsole(boolean console) {
             this.console = console;
+        }
+
+        public boolean isWithJansi() {
+            return withJansi;
+        }
+
+        public void setWithJansi(boolean withJansi) {
+            this.withJansi = withJansi;
         }
     }
 

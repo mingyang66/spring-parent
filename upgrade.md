@@ -27,6 +27,8 @@ Bug Fixes
 11. logback sdk代码优化调整；
 12. springboot升级到3.1.4版本；
 13. logger sdk新增withJansi属性配置，默认不开启jansi；
+14. 修复RabbitMQ SDK中RabbitTemplate配置bug;
+15. 
 
 
 -----

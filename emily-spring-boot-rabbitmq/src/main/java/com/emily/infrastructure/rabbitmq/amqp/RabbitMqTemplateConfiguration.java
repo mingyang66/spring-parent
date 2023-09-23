@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
 import org.springframework.boot.autoconfigure.amqp.RabbitTemplateConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,7 +66,7 @@ public class RabbitMqTemplateConfiguration {
     @Bean
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
     @ConditionalOnMissingBean(RabbitOperations.class)
-    public RabbitTemplate rabbitTemplate(RabbitMqProperties rabbitMqProperties, RabbitTemplateConfigurer configurer) {
+    public RabbitTemplate rabbitTemplate(RabbitMqProperties rabbitMqProperties) {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMQ连接配置不存在");
         RabbitTemplate rabbitTemplate = null;
@@ -76,10 +75,12 @@ public class RabbitMqTemplateConfiguration {
             RabbitTemplate template = new RabbitTemplate();
             if (defaultConfig.equals(key)) {
                 ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(DEFAULT_RABBIT_CONNECTION_FACTORY, ConnectionFactory.class);
+                RabbitTemplateConfigurer configurer = defaultListableBeanFactory.getBean(DEFAULT_RABBIT_TEMPLATE_CONFIGURER, RabbitTemplateConfigurer.class);
                 configurer.configure(template, connectionFactory);
                 rabbitTemplate = template;
             } else {
                 ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(join(key, RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
+                RabbitTemplateConfigurer configurer = defaultListableBeanFactory.getBean(join(key, RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
                 configurer.configure(template, connectionFactory);
                 defaultListableBeanFactory.registerSingleton(join(key, RABBIT_TEMPLATE), template);
             }

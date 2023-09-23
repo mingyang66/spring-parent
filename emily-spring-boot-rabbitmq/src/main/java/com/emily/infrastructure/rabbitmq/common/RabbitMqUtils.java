@@ -51,6 +51,7 @@ public class RabbitMqUtils {
      * RabbitTemplate配置类
      */
     public static final String RABBIT_TEMPLATE_CONFIGURER = "RabbitTemplateConfigurer";
+    public static final String DEFAULT_RABBIT_TEMPLATE_CONFIGURER = "rabbitTemplateConfigurer";
     /**
      * RabbitMQ监听器工厂配置类，SIMPLE
      */

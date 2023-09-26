@@ -5,7 +5,6 @@ import com.emily.infrastructure.redis.common.RedisInfo;
 import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
-import com.emily.infrastructure.redis.connection.RedisTemplateDbConfiguration;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

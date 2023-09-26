@@ -37,29 +37,29 @@ public class RedisController {
     @Autowired
     @Qualifier("testRedisTemplate")
     private RedisTemplate testRedisTemplate;
-    @Autowired
-    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
-    @Autowired
-    @Qualifier("testReactiveStringRedisTemplate")
-    private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
+    //@Autowired
+    //private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
+    //@Autowired
+    //@Qualifier("testReactiveStringRedisTemplate")
+    //private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
 
     @GetMapping("test")
     public String test() {
-        ReactiveListOperations<String, String> listOperations = testReactiveStringRedisTemplate.opsForList();
+       // ReactiveListOperations<String, String> listOperations = testReactiveStringRedisTemplate.opsForList();
         //1、没有使用 subscribe()
-        listOperations.leftPush("reactiveList", "hello1");
+       // listOperations.leftPush("reactiveList", "hello1");
         //2、直接调用 subscribe()
-        listOperations.leftPush("reactiveList", "world2").subscribe();
+       // listOperations.leftPush("reactiveList", "world2").subscribe();
         //3、对输出的 mono 使用 subscribe()
-        Mono<Long> mono = listOperations.leftPush("reactiveList", "yinyu3");
-        mono.subscribe(System.out::println);
+        //Mono<Long> mono = listOperations.leftPush("reactiveList", "yinyu3");
+       // mono.subscribe(System.out::println);
 
-        //RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好");
-        //RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("test", "你好");
-       // stringRedisTemplate.opsForValue().set("test1", "你好1");
-       // testStringRedisTemplate.opsForValue().set("test2", "你好2");
-        //redisTemplate.opsForValue().set("test3", "test3");
-        //testRedisTemplate.opsForHash().put("test:hash","tt",23);
+        RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好");
+        RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("test", "你好");
+        stringRedisTemplate.opsForValue().set("test1", "你好1");
+        testStringRedisTemplate.opsForValue().set("test2", "你好2");
+        redisTemplate.opsForValue().set("test3", "test3");
+        testRedisTemplate.opsForHash().put("test:hash","tt",23);
         return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
     }
 

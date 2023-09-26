@@ -91,6 +91,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             if (this.getProperties().getDefaultConfig().equals(key)) {
                 redisConnectionFactory = jedisConnectionFactory;
             } else {
+                jedisConnectionFactory.afterPropertiesSet();
                 defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECTION_FACTORY, jedisConnectionFactory);
             }
         }

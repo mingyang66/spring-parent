@@ -82,7 +82,9 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
             } else {
                 this.setConnectionDetails(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECTION_FACTORY, this.createLettuceConnectionFactory(clientConfig, key));
+                LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
+                connectionFactory.afterPropertiesSet();
+                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECTION_FACTORY, connectionFactory);
             }
         }
         return redisConnectionFactory;

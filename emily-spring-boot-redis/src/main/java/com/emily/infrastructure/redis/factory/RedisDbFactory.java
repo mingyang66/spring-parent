@@ -2,6 +2,7 @@ package com.emily.infrastructure.redis.factory;
 
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.core.context.ioc.IOCContext;
+import com.emily.infrastructure.redis.common.RedisInfo;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -30,9 +31,9 @@ public class RedisDbFactory {
      */
     public static StringRedisTemplate getStringRedisTemplate(String key) {
         if (StringUtils.isBlank(key)) {
-            return IOCContext.getBean("stringRedisTemplate", StringRedisTemplate.class);
+            return IOCContext.getBean(RedisInfo.DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
         } else {
-            return IOCContext.getBean(key + "StringRedisTemplate", StringRedisTemplate.class);
+            return IOCContext.getBean(key + RedisInfo.STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
         }
 
     }
@@ -54,9 +55,9 @@ public class RedisDbFactory {
      */
     public static RedisTemplate getRedisTemplate(String key) {
         if (StringUtils.isBlank(key)) {
-            return IOCContext.getBean("redisTemplate", StringRedisTemplate.class);
+            return IOCContext.getBean(RedisInfo.DEFAULT_REDIS_TEMPLATE, StringRedisTemplate.class);
         } else {
-            return IOCContext.getBean(key + "RedisTemplate", StringRedisTemplate.class);
+            return IOCContext.getBean(key + RedisInfo.REDIS_TEMPLATE, StringRedisTemplate.class);
         }
     }
 }

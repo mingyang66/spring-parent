@@ -70,20 +70,19 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisInfo.REDIS_TEMPLATE)
-    public RedisTemplate<Object, Object> redisTemplate() {
+    @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REDIS_TEMPLATE)
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
         RedisTemplate<Object, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             if (redisDbProperties.getDefaultConfig().equals(key)) {
-                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(RedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
                 template.setConnectionFactory(redisConnectionFactory);
                 redisTemplate = template;
             } else {
-                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
-                template.setConnectionFactory(redisConnectionFactory);
+                template.setConnectionFactory(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
+                template.afterPropertiesSet();
                 defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_TEMPLATE, template);
             }
         }
@@ -92,20 +91,19 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public StringRedisTemplate stringRedisTemplate() {
+    @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_STRING_REDIS_TEMPLATE)
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
         StringRedisTemplate stringRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             if (redisDbProperties.getDefaultConfig().equals(key)) {
-                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(RedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
                 template.setConnectionFactory(redisConnectionFactory);
                 stringRedisTemplate = template;
             } else {
-                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
-                template.setConnectionFactory(redisConnectionFactory);
+                template.setConnectionFactory(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
+                template.afterPropertiesSet();
                 defaultListableBeanFactory.registerSingleton(key + RedisInfo.STRING_REDIS_TEMPLATE, template);
             }
         }

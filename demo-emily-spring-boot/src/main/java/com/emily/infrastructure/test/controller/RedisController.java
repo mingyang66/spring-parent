@@ -1,9 +1,9 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
-import com.emily.infrastructure.redis.helper.RedisDbHelper;
+import com.emily.infrastructure.redis.common.RedisDbHelper;
 import com.google.common.collect.Maps;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,14 +16,27 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @program: spring-parent
- *  缓存测试
  * @author Emily
+ * @program: spring-parent
+ * 缓存测试
  * @since 2021/07/14
  */
 @RestController
 @RequestMapping("api/redis")
 public class RedisController {
+    //@Autowired
+    //private StringRedisTemplate stringRedisTemplate;
+   // @Autowired
+   //@Qualifier("testStringRedisTemplate")
+   // private StringRedisTemplate testStringRedisTemplate;
+    @GetMapping("test")
+    public String test() {
+        RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好");
+        //stringRedisTemplate.opsForValue().set("test1","你好1");
+      //  testStringRedisTemplate.opsForValue().set("test2","你好2");
+        return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
+    }
+
     @GetMapping("info/{section}")
     public Properties getInfo(@PathVariable("section") String section) {
         Properties properties = RedisDbFactory.getStringRedisTemplate().getConnectionFactory().getConnection().info(section);

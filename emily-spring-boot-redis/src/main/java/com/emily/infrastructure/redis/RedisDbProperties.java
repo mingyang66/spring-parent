@@ -46,12 +46,24 @@ public class RedisDbProperties {
      */
     private String defaultConfig = "default";
     /**
+     * 客户端类型
+     */
+    private RedisProperties.ClientType clientType = RedisProperties.ClientType.LETTUCE;
+    /**
      * 多数据源配置
      */
     private Map<String, RedisProperties> config = new HashMap<>();
 
     public Map<String, RedisProperties> getConfig() {
         return config;
+    }
+
+    public RedisProperties.ClientType getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(RedisProperties.ClientType clientType) {
+        this.clientType = clientType;
     }
 
     public String getDefaultConfig() {

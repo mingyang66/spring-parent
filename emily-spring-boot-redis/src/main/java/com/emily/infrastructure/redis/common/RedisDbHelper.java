@@ -1,4 +1,4 @@
-package com.emily.infrastructure.redis.helper;
+package com.emily.infrastructure.redis.common;
 
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.exception.HttpStatusType;

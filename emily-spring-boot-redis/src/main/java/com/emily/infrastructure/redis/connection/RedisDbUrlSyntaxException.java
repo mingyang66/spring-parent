@@ -1,19 +1,18 @@
-package com.emily.infrastructure.redis.exception;
+package com.emily.infrastructure.redis.connection;
 
 /**
  * @author Emily
  * @since 2021/11/05
  */
-public class RedisUrlSyntaxException extends RuntimeException {
-
+public class RedisDbUrlSyntaxException extends RuntimeException {
     private final String url;
 
-    public RedisUrlSyntaxException(String url, Exception cause) {
+    public RedisDbUrlSyntaxException(String url, Exception cause) {
         super(buildMessage(url), cause);
         this.url = url;
     }
 
-    public RedisUrlSyntaxException(String url) {
+    public RedisDbUrlSyntaxException(String url) {
         super(buildMessage(url));
         this.url = url;
     }
@@ -25,5 +24,4 @@ public class RedisUrlSyntaxException extends RuntimeException {
     private static String buildMessage(String url) {
         return "Invalid Redis URL '" + url + "'";
     }
-
 }

@@ -1,1 +1,2 @@
 com.emily.infrastructure.redis.RedisDbAutoConfiguration
+com.emily.infrastructure.redis.RedisDbReactiveAutoConfiguration

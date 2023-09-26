@@ -19,6 +19,6 @@ public class RedisDbApplicationContextInitializer implements ApplicationContextI
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         // 关闭LettuceConnectionConfiguration自动化配置类，并级联关闭RedisAutoConfiguration自动化配置
-        System.getProperties().put("spring.redis.client-type", "");
+        System.getProperties().put("spring.data.redis.client-type", "");
     }
 }

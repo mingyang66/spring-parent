@@ -1,9 +1,13 @@
 package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.redis.common.RedisInfo;
 import com.emily.infrastructure.redis.config.RedisDbLettuceConnectionConfiguration;
+import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
+import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
+import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
+import com.emily.infrastructure.redis.connection.RedisTemplateDbConfiguration;
 import com.emily.infrastructure.redis.example.RedisDbEventConsumer;
-import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,21 +16,19 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.slf4j.Logger;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.redis.ClientResourcesBuilderCustomizer;
-import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.autoconfigure.data.redis.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Role;
-import org.springframework.core.Ordered;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
@@ -39,6 +41,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Redis多数据源配置，参考源码：LettuceConnectionConfiguration
@@ -48,17 +51,85 @@ import java.util.Map;
  * @since 2021/07/11
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration
-@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 1)
+@AutoConfiguration(before = RedisAutoConfiguration.class)
 @EnableConfigurationProperties(RedisDbProperties.class)
 @ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean, BeanFactoryAware {
+@Import({LettuceDbConnectionConfiguration.class, JedisDbConnectionConfiguration.class, RedisTemplateDbConfiguration.class})
+public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
 
-    private DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final RedisDbProperties redisDbProperties;
 
-    @Bean(initMethod = "init")
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.redisDbProperties = redisDbProperties;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(RedisConnectionDetails.class)
+    PropertiesRedisDbConnectionDetails redisConnectionDetails() {
+        Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
+        PropertiesRedisDbConnectionDetails redisConnectionDetails = null;
+        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+            String key = entry.getKey();
+            RedisProperties properties = entry.getValue();
+            PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
+            if (redisDbProperties.getDefaultConfig().equals(key)) {
+                redisConnectionDetails = propertiesRedisDbConnectionDetails;
+            } else {
+                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECT_DETAILS, propertiesRedisDbConnectionDetails);
+            }
+        }
+        return redisConnectionDetails;
+    }
+
+    //@Bean
+    // @ConditionalOnMissingBean(name = "redisTemplate")
+    public RedisTemplate<Object, Object> redisTemplate() {
+        Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
+        RedisTemplate<Object, Object> redisTemplate = null;
+        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+            String key = entry.getKey();
+            RedisTemplate<Object, Object> template = new RedisTemplate<>();
+            if (redisDbProperties.getDefaultConfig().equals(key)) {
+                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(RedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
+                template.setConnectionFactory(redisConnectionFactory);
+                redisTemplate = template;
+            } else {
+                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
+                template.setConnectionFactory(redisConnectionFactory);
+                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_TEMPLATE, template);
+            }
+        }
+
+        return redisTemplate;
+    }
+
+    //@Bean
+    // @ConditionalOnMissingBean
+    public StringRedisTemplate stringRedisTemplate() {
+        Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
+        StringRedisTemplate stringRedisTemplate = null;
+        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+            String key = entry.getKey();
+            StringRedisTemplate template = new StringRedisTemplate();
+            if (redisDbProperties.getDefaultConfig().equals(key)) {
+                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(RedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
+                template.setConnectionFactory(redisConnectionFactory);
+                stringRedisTemplate = template;
+            } else {
+                RedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class);
+                template.setConnectionFactory(redisConnectionFactory);
+                defaultListableBeanFactory.registerSingleton(key + RedisInfo.STRING_REDIS_TEMPLATE, template);
+            }
+        }
+
+        return stringRedisTemplate;
+    }
+
+    // @Bean(initMethod = "init")
     public RedisDbEventConsumer redisDbEventConsumer(ClientResources clientResources) {
         return new RedisDbEventConsumer(clientResources.eventBus());
     }
@@ -71,8 +142,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      *
      * @return
      */
-    @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingBean(ClientResources.class)
+    // @Bean(destroyMethod = "shutdown")
+    // @ConditionalOnMissingBean(ClientResources.class)
     DefaultClientResources lettuceClientResources(ObjectProvider<ClientResourcesBuilderCustomizer> customizers) {
         DefaultClientResources.Builder builder = DefaultClientResources.builder();
         customizers.orderedStream().forEach((customizer) -> {
@@ -102,7 +173,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
      * @param standaloneConfigurationProvider todo
      * @return 约定字符串对象
      */
-    @Bean
+    //@Bean
     public Object initTargetRedis(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisDbProperties redisDbProperties,
                                   ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
                                   ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider) {
@@ -127,11 +198,11 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             // 获取StringRedisTemplate对象
             StringRedisTemplate stringRedisTemplate = createStringRedisTemplate(redisConnectionFactory);
             // 将StringRedisTemplate对象注入IOC容器bean
-            this.getDefaultListableBeanFactory().registerSingleton(RedisDbFactory.getStringRedisTemplateBeanName(key), stringRedisTemplate);
+            //this.getDefaultListableBeanFactory().registerSingleton(RedisDbFactory.getStringRedisTemplateBeanName(key), stringRedisTemplate);
             // 获取RedisTemplate对象
             RedisTemplate redisTemplate = createRedisTemplate(redisConnectionFactory);
             // 将RedisTemplate对象注入IOC容器
-            this.getDefaultListableBeanFactory().registerSingleton(RedisDbFactory.getRedisTemplateBeanName(key), redisTemplate);
+            // this.getDefaultListableBeanFactory().registerSingleton(RedisDbFactory.getRedisTemplateBeanName(key), redisTemplate);
         });
         return "UNSET";
     }
@@ -212,18 +283,6 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         return jackson2JsonRedisSerializer;
     }
 
-    public DefaultListableBeanFactory getDefaultListableBeanFactory() {
-        return defaultListableBeanFactory;
-    }
-
-    public void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.setDefaultListableBeanFactory((DefaultListableBeanFactory) beanFactory);
-    }
 
     @Override
     public void destroy() {

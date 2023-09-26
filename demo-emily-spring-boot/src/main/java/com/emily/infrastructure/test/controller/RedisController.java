@@ -2,13 +2,16 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.emily.infrastructure.redis.common.RedisDbHelper;
+import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -24,16 +27,39 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("api/redis")
 public class RedisController {
-    //@Autowired
-    //private StringRedisTemplate stringRedisTemplate;
-   // @Autowired
-   //@Qualifier("testStringRedisTemplate")
-   // private StringRedisTemplate testStringRedisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    @Qualifier("testStringRedisTemplate")
+    private StringRedisTemplate testStringRedisTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    @Qualifier("testRedisTemplate")
+    private RedisTemplate testRedisTemplate;
+    @Autowired
+    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
+    @Autowired
+    @Qualifier("testReactiveStringRedisTemplate")
+    private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
+
     @GetMapping("test")
     public String test() {
-        RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好");
-        //stringRedisTemplate.opsForValue().set("test1","你好1");
-      //  testStringRedisTemplate.opsForValue().set("test2","你好2");
+        ReactiveListOperations<String, String> listOperations = testReactiveStringRedisTemplate.opsForList();
+        //1、没有使用 subscribe()
+        listOperations.leftPush("reactiveList", "hello1");
+        //2、直接调用 subscribe()
+        listOperations.leftPush("reactiveList", "world2").subscribe();
+        //3、对输出的 mono 使用 subscribe()
+        Mono<Long> mono = listOperations.leftPush("reactiveList", "yinyu3");
+        mono.subscribe(System.out::println);
+
+        //RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好");
+        //RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("test", "你好");
+       // stringRedisTemplate.opsForValue().set("test1", "你好1");
+       // testStringRedisTemplate.opsForValue().set("test2", "你好2");
+        //redisTemplate.opsForValue().set("test3", "test3");
+        //testRedisTemplate.opsForHash().put("test:hash","tt",23);
         return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
     }
 

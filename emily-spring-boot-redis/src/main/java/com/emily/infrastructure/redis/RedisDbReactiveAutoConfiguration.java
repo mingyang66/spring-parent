@@ -38,7 +38,7 @@ public class RedisDbReactiveAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate(ResourceLoader resourceLoader) {
+    public ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory, ResourceLoader resourceLoader) {
         JdkSerializationRedisSerializer jdkSerializer = new JdkSerializationRedisSerializer(
                 resourceLoader.getClassLoader());
         RedisSerializationContext<Object, Object> serializationContext = RedisSerializationContext
@@ -53,11 +53,10 @@ public class RedisDbReactiveAutoConfiguration {
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             if (redisDbProperties.getDefaultConfig().equals(key)) {
-                ReactiveRedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(RedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
                 reactiveRedisTemplate = new ReactiveRedisTemplate<>(redisConnectionFactory, serializationContext);
             } else {
-                ReactiveRedisConnectionFactory redisConnectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REACTIVE_REDIS_TEMPLATE, new ReactiveRedisTemplate<>(redisConnectionFactory, serializationContext));
+                ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
+                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REACTIVE_REDIS_TEMPLATE, new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
             }
         }
         return reactiveRedisTemplate;
@@ -66,17 +65,16 @@ public class RedisDbReactiveAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveStringRedisTemplate reactiveStringRedisTemplate() {
+    public ReactiveStringRedisTemplate reactiveStringRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory) {
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveStringRedisTemplate reactiveStringRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             if (redisDbProperties.getDefaultConfig().equals(key)) {
-                ReactiveRedisConnectionFactory reactiveRedisConnectionFactory = defaultListableBeanFactory.getBean(RedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(reactiveRedisConnectionFactory);
+                reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(redisConnectionFactory);
             } else {
-                ReactiveRedisConnectionFactory reactiveRedisConnectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REACTIVE_STRING_REDIS_TEMPLATE, new ReactiveStringRedisTemplate(reactiveRedisConnectionFactory));
+                ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
+                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REACTIVE_STRING_REDIS_TEMPLATE, new ReactiveStringRedisTemplate(connectionFactory));
             }
         }
         return reactiveStringRedisTemplate;

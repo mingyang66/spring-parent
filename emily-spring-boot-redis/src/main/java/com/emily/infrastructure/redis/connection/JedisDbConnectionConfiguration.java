@@ -69,13 +69,14 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
 
     private JedisConnectionFactory createJedisConnectionFactory(
             ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
+        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(),"默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.getProperties().getConfig(), "Redis连接配置不存在");
         JedisConnectionFactory redisConnectionFactory = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
             JedisClientConfiguration clientConfiguration = getJedisClientConfiguration(builderCustomizers, properties, key);
-            if (this.getProperties().getDefaultConfig().equals(key)) {
+            if (defaultConfig.equals(key)) {
                 this.setConnectionDetails(connectionDetails);
             } else {
                 this.setConnectionDetails(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
@@ -88,7 +89,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             } else {
                 jedisConnectionFactory = new JedisConnectionFactory(getStandaloneConfig(), clientConfiguration);
             }
-            if (this.getProperties().getDefaultConfig().equals(key)) {
+            if (defaultConfig.equals(key)) {
                 redisConnectionFactory = jedisConnectionFactory;
             } else {
                 jedisConnectionFactory.afterPropertiesSet();

@@ -48,11 +48,12 @@ public class RedisDbReactiveAutoConfiguration {
                 .hashKey(jdkSerializer)
                 .hashValue(jdkSerializer)
                 .build();
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveRedisTemplate reactiveRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
-            if (redisDbProperties.getDefaultConfig().equals(key)) {
+            if (defaultConfig.equals(key)) {
                 reactiveRedisTemplate = new ReactiveRedisTemplate<>(redisConnectionFactory, serializationContext);
             } else {
                 ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
@@ -66,11 +67,12 @@ public class RedisDbReactiveAutoConfiguration {
     @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveStringRedisTemplate reactiveStringRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory) {
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveStringRedisTemplate reactiveStringRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
-            if (redisDbProperties.getDefaultConfig().equals(key)) {
+            if (defaultConfig.equals(key)) {
                 reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(redisConnectionFactory);
             } else {
                 ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);

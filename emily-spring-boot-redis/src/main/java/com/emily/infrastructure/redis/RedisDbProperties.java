@@ -42,9 +42,9 @@ public class RedisDbProperties {
      */
     private boolean shareNativeConnection = true;
     /**
-     * 默认配置
+     * 默认配置标识
      */
-    private String defaultConfig = "default";
+    private String defaultConfig;
     /**
      * 客户端类型
      */

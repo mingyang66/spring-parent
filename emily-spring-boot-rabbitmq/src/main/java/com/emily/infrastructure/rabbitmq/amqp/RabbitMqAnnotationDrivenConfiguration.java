@@ -110,7 +110,7 @@ public class RabbitMqAnnotationDrivenConfiguration {
                                                                   ObjectProvider<ContainerCustomizer<DirectMessageListenerContainer>> directContainerCustomizer) {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMQ连接配置不存在");
-        RabbitListenerContainerFactory listenerContainerFactory = null;
+        RabbitListenerContainerFactory rabbitListenerContainerFactory = null;
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RabbitProperties properties = entry.getValue();
@@ -138,11 +138,11 @@ public class RabbitMqAnnotationDrivenConfiguration {
                 simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
             }
             if (defaultConfig.equals(key)) {
-                listenerContainerFactory = factory;
+                rabbitListenerContainerFactory = factory;
             } else {
                 defaultListableBeanFactory.registerSingleton(join(key, RABBIT_LISTENER_CONTAINER_FACTORY), factory);
             }
         }
-        return listenerContainerFactory;
+        return rabbitListenerContainerFactory;
     }
 }

@@ -15,20 +15,37 @@ Bug Fixes
    #启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
    spring.emis.rabbitmq.topology-recovery=true
    ```
+   
 2. 创建CachingConnectionFactory对象时设置（1）的4个属性设置；
+
 3. 新增DefaultMqConnectionListener连接监听器类，对onCreate、onClose、onShutDown、onFailed四个方法监听并记录三方日志，方便在日志平台观察rabbitmq的故障恢复的全过程；
+
 4. 新增DefaultMqExceptionHandler RabbitMQ全局异常处理，将希望记录到日志文件的日志记录到三方日志，方便日志平台查看；
+
 5. ContextWrapper优化为只对非servlet上下文场景下使用；
+
 6. RabbitMQ SDK重构，默认支持springboot官方支持的使用方法；支持直接使用注解模式发送消息，支持默认监听器不用配置连接器工厂类；
+
 7. 新增RabbitMqRetryTemplateCustomizer作为RetryTemplate自定义配置的一部分；
+
 8. 新增PublisherRetryListener发布放重试监听器；
-9. springboot版本升级到2.7.15；
-10. springboot升级到3.1.3版本，并对整体做架构升级，jdk升级到17；
-11. logback sdk代码优化调整；
-12. springboot升级到3.1.4版本；
-13. logger sdk新增withJansi属性配置，默认不开启jansi；
+
+9. springboot升级到3.1.3版本，并对整体做架构升级，jdk升级到17；
+
+10. logback sdk代码优化调整；
+
+11. logger sdk新增withJansi属性配置，默认不开启jansi；
+
 14. 修复RabbitMQ SDK中RabbitTemplate配置bug;
-15. 
+15. 动态多数据源SDK代码优化；
+
+
+
+------
+
+Dependency Upgrades
+
+1. springboot升级到3.1.4版本；
 
 
 -----

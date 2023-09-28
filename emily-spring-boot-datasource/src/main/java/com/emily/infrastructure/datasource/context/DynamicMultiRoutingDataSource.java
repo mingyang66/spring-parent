@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * @author Emily
  * @since 1.0
  */
-public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
+public class DynamicMultiRoutingDataSource extends AbstractRoutingDataSource {
     /**
      * 解析给定的查找键对象，就像在{@link #setTargetDataSources targetDataSources} map中，
      * 输入要用于{@link #determineCurrentLookupKey() 当前查找键}

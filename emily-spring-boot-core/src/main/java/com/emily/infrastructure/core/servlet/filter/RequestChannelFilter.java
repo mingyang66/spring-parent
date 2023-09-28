@@ -22,8 +22,8 @@ public class RequestChannelFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
         try {
             ServletRequest requestWrapper;
-            if (request instanceof HttpServletRequest) {
-                requestWrapper = new DelegateRequestWrapper((HttpServletRequest) request);
+            if (request instanceof HttpServletRequest httpServletRequest) {
+                requestWrapper = new DelegateRequestWrapper(httpServletRequest);
                 chain.doFilter(requestWrapper, response);
             } else {
                 chain.doFilter(request, response);

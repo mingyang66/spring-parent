@@ -38,8 +38,8 @@ public class AnnotationPointcutAdvisor extends AbstractPointcutAdvisor implement
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        if (this.advice instanceof BeanFactoryAware) {
-            ((BeanFactoryAware) this.advice).setBeanFactory(beanFactory);
+        if (this.advice instanceof BeanFactoryAware adviceAware) {
+            adviceAware.setBeanFactory(beanFactory);
         }
     }
 

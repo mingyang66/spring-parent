@@ -64,8 +64,7 @@ public class RequestHelper {
         //请求参数
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (Objects.isNull(invocation)) {
-            if (request instanceof DelegateRequestWrapper) {
-                DelegateRequestWrapper requestWrapper = (DelegateRequestWrapper) request;
+            if (request instanceof DelegateRequestWrapper requestWrapper) {
                 paramMap.putAll(byteArgToMap(requestWrapper.getRequestBody()));
             }
         } else {
@@ -211,9 +210,9 @@ public class RequestHelper {
             if (checkServletStream(value)) {
                 continue;
             }
-            if (value instanceof String) {
+            if (value instanceof String valueStr) {
                 if (parameter.isAnnotationPresent(JsonSimField.class)) {
-                    paramMap.put(name, DataMaskUtils.doGetProperty((String) value, parameter.getAnnotation(JsonSimField.class).value()));
+                    paramMap.put(name, DataMaskUtils.doGetProperty(valueStr, parameter.getAnnotation(JsonSimField.class).value()));
                 } else {
                     paramMap.put(name, value);
                 }

@@ -2,6 +2,8 @@ package com.emily.infrastructure.autoconfigure.httpclient;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
+
 /**
  * 配置元数据文件.
  *
@@ -20,11 +22,11 @@ public class HttpClientProperties {
     /**
      * HttpClientService read timeout (in milliseconds),default:5000
      */
-    private Integer readTimeOut = 5000;
+    private Duration readTimeOut = Duration.ofMillis(5000);
     /**
      * HttpClientService connect timeout (in milliseconds),default:10000
      */
-    private Integer connectTimeOut = 10000;
+    private Duration connectTimeOut = Duration.ofMillis(10000);
     /**
      * 开启调用接口拦截器
      */
@@ -34,19 +36,19 @@ public class HttpClientProperties {
      */
     private boolean ssl = true;
 
-    public Integer getReadTimeOut() {
+    public Duration getReadTimeOut() {
         return readTimeOut;
     }
 
-    public void setReadTimeOut(Integer readTimeOut) {
+    public void setReadTimeOut(Duration readTimeOut) {
         this.readTimeOut = readTimeOut;
     }
 
-    public Integer getConnectTimeOut() {
+    public Duration getConnectTimeOut() {
         return connectTimeOut;
     }
 
-    public void setConnectTimeOut(Integer connectTimeOut) {
+    public void setConnectTimeOut(Duration connectTimeOut) {
         this.connectTimeOut = connectTimeOut;
     }
 

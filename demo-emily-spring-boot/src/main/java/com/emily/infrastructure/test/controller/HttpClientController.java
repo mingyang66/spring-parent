@@ -2,18 +2,15 @@ package com.emily.infrastructure.test.controller;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
-import com.emily.infrastructure.autoconfigure.httpclient.context.HttpContextHolder;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.test.test.TestTimeout;
 import com.google.common.collect.Maps;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +30,7 @@ import java.util.concurrent.ScheduledExecutorService;
 @RequestMapping("api/http")
 @RestController
 public class HttpClientController {
-    //@Autowired
+    @Autowired
     private RestTemplate restTemplate;
 
     @GetMapping("get1")
@@ -41,10 +38,10 @@ public class HttpClientController {
         String timeout = request.getParameter("timeout");
         BaseResponse<String> result;
         try {
-            HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
+         //   HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
             result = restTemplate.getForObject("https://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
         } finally {
-            HttpContextHolder.unbind();
+          //  HttpContextHolder.unbind();
         }
         return result;
     }
@@ -60,7 +57,7 @@ public class HttpClientController {
 
 
     @RequestMapping("testResponse")
-    public String testResponse(HttpServletRequest request) throws IllegalArgumentException {
+    public String testResponse(HttpServletRequest request) {
         String timeout = request.getParameter("timeout");
         try {
             Thread.sleep(NumberUtils.toLong(timeout, 0));
@@ -80,8 +77,8 @@ public class HttpClientController {
         Map<String, String> body = Maps.newHashMap();
         body.put("param1", "value1");
         body.put("param2", "value2");
-        ResponseEntity<BaseResponse> response = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(body, headers), BaseResponse.class);
-        return response.getBody().getMessage();
+        ResponseEntity<String> entity = restTemplate.postForEntity(url,new HttpEntity<>(body, headers), String.class);
+        return entity.getBody();
     }
 
     @Autowired

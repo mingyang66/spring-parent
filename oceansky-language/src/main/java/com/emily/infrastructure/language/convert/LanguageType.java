@@ -38,7 +38,7 @@ public enum LanguageType {
                 return languageType;
             }
         }
-        throw new IllegalArgumentException("非法语言类型");
+        return ZH_CN;
     }
 
     public static LanguageType getByType(String type) {
@@ -50,7 +50,7 @@ public enum LanguageType {
                 return languageType;
             }
         }
-        throw new IllegalArgumentException("非法语言类型");
+        return ZH_CN;
     }
 
 }

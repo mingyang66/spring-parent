@@ -6,10 +6,10 @@ import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfigurat
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.datasource.lookup.DynamicMultiRoutingDataSource;
 import com.emily.infrastructure.datasource.helper.DataSourceHelper;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
+import com.emily.infrastructure.datasource.lookup.DynamicMultiRoutingDataSource;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
@@ -36,11 +36,10 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 /**
- * Oracle数据库PSCache解决方案：https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88
- * <p>
  * 控制器切点配置
  *
  * @author Emily
+ * @see <a href="https://github.com/alibaba/druid/wiki/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8BPreparedStatementCache%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">Oracle数据库PSCache解决方案</a>
  * @since 4.0.8
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

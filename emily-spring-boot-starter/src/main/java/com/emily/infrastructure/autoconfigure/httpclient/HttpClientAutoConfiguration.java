@@ -50,9 +50,9 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      * @param properties            属性配置
      * @return http请求对象
      */
-    @Primary
-    @Bean(name = "restTemplate")
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    //@Primary
+    //@Bean(name = "restTemplate")
+    //@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, SslBundles sslBundles, HttpClientProperties properties) {
         RestTemplateBuilder builder = new RestTemplateBuilder()
                 .setReadTimeout(properties.getReadTimeOut())

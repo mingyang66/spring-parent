@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ import java.util.concurrent.ScheduledExecutorService;
 @RequestMapping("api/http")
 @RestController
 public class HttpClientController {
-    @Autowired
-    private RestTemplate restTemplate;
+    //@Autowired
+    private RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping("get1")
     public BaseResponse get1(HttpServletRequest request) {
@@ -69,7 +70,7 @@ public class HttpClientController {
 
     @GetMapping("testHeader")
     public String testHeader() {
-        String url = "http://127.0.0.1:8080/api/http/testResponse";
+        String url = "https://127.0.0.1:8080/api/http/testResponse";
         HttpHeaders headers = new HttpHeaders();
         headers.set("username", "田晓霞");
         headers.set("password", "平凡的世界");
@@ -77,7 +78,7 @@ public class HttpClientController {
         Map<String, String> body = Maps.newHashMap();
         body.put("param1", "value1");
         body.put("param2", "value2");
-        ResponseEntity<String> entity = restTemplate.postForEntity(url,new HttpEntity<>(body, headers), String.class);
+        ResponseEntity<String> entity = new RestTemplateBuilder().build().postForEntity(url,new HttpEntity<>(body, headers), String.class);
         return entity.getBody();
     }
 

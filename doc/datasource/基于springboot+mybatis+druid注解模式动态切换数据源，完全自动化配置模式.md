@@ -8,7 +8,7 @@
 ##### 一、创建基于AbstractRoutingDataSource抽象类动态切换数据源的实现类
 
 ```java
-package com.emily.infrastructure.datasource.context;
+package com.emily.infrastructure.datasource.holder;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -27,7 +27,7 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
      * @param defaultTargetDataSource 默认数据源
      * @param targetDataSources 所有的数据源
      */
-    private DynamicMultipleDataSources(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources){
+    private DynamicMultipleDataSources(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         /**
          * 如果存在默认数据源，指定默认的目标数据源；映射的值可以是javax.sql.DataSource或者是数据源（data source）字符串；
          * 如果setTargetDataSources指定的数据源不存在，将会使用默认的数据源
@@ -55,7 +55,7 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
     /**
      * 构件DynamicDataSource对象静态方法
      */
-    public static DynamicMultipleDataSources build(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources){
+    public static DynamicMultipleDataSources build(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         return new DynamicMultipleDataSources(defaultTargetDataSource, targetDataSources);
     }
 
@@ -75,7 +75,7 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
 ##### 二、创建持有当前线程上下文数据源标识类
 
 ```java
-package com.emily.infrastructure.datasource.context;
+package com.emily.infrastructure.datasource.holder;
 
 /**
  *  线程持有数据源上线文
@@ -132,7 +132,7 @@ package com.emily.infrastructure.datasource.interceptor;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
+import com.emily.infrastructure.datasource.holder.DataSourceContextHolder;
 import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -263,7 +263,7 @@ import com.emily.infrastructure.common.type.AopOrderEnum;
 import com.emily.infrastructure.common.type.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
-import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
+import com.emily.infrastructure.datasource.holder.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;

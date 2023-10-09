@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-sdk</artifactId>
-    <version>4.3.8</version>
+    <version>4.3.9</version>
     <name>emily-sdk</name>
     <description>emily-sdk基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>
@@ -201,7 +201,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.1</version>
+                        <version>3.11.0</version>
                         <configuration>
                             <!--Maven编译后保留方法名-->
                             <parameters>true</parameters>

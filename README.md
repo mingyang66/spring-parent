@@ -1,5 +1,7 @@
 # emily-sdk
 
+> master分支是基于java17及springboot 3.x.x的版本，源基于java11及springboot2.7.x版本的代码在java11分支
+
 #### 原生Java开源pom依赖引用
 
 ```xml
@@ -7,49 +9,49 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-common</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>
 <!--Java通用日志组件SDK-->
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-logger</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>
 <!--Java图形验证码SDK-->
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-captcha</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>
 <!--Java简繁体转换、多语言支持SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-language</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>
 <!--Java实体类脱敏SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-sensitive</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>  
 <!--Java基于jackson的序列化反序列化SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-json</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>  
 <!--Java基于JWT获取签名解析签名SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-jwt</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>  
 <!--Java基于日期转换比较计算SDK-->  
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-date</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>  
 ```
 
@@ -60,21 +62,32 @@
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-logger</artifactId>
-    <version>4.3.8</version>
+    <version>4.3.9</version>
 </dependency>
 <!-- 基于druid的数据库多数据源切换SDK -->
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-datasource</artifactId>
-    <version>4.3.8</version>
+    <version>4.3.9</version>
 </dependency>
 <!-- 基于springboot的请求AOP拦截、返回值包装、全局异常处理SDK -->
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-starter</artifactId>
-    <version>4.3.8</version>
+    <version>4.3.9</version>
 </dependency>
-
+<!-- 基于springboot的多集群多配置SDK -->
+<dependency>
+    <groupId>io.github.mingyang66</groupId>
+    <artifactId>emily-spring-boot-redis</artifactId>
+    <version>4.3.9</version>
+</dependency>
+<!-- 基于springboot的RabbitMQ支持多虚拟主机多集群SDK -->
+<dependency>
+    <groupId>io.github.mingyang66</groupId>
+    <artifactId>emily-spring-boot-rabbitmq</artifactId>
+    <version>4.3.9</version>
+</dependency>
 ```
 
 ### maven父pom和子pom的版本号批量修改
@@ -82,7 +95,7 @@
 ##### 1 设置新的版本号
 
 ```
-./mvnw versions:set -DnewVersion=4.3.8
+./mvnw versions:set -DnewVersion=4.3.9
 ```
 
 ##### 2 撤销设置

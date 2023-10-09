@@ -7,7 +7,7 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-logger</artifactId>
-  <version>4.3.8</version>
+  <version>4.3.9</version>
 </dependency>
 <!-- Java基于logback的日志组件SDK -->
 <dependency>

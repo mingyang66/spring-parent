@@ -3,7 +3,10 @@ package com.emily.infrastructure.datasource;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,9 +26,9 @@ public class DataSourceProperties {
      */
     private boolean enabled = true;
     /**
-     * 默认数据源配置，默认：default
+     * 默认数据源配置
      */
-    private String defaultConfig = "default";
+    private String defaultConfig;
     /**
      * 是否拦截超类或者接口中的方法，默认：true
      */
@@ -101,5 +104,33 @@ public class DataSourceProperties {
 
     public void setJndi(Map<String, String> jndi) {
         this.jndi = jndi;
+    }
+
+    /**
+     * 获取合并后的目标数据源配置
+     *
+     * @return 数据源映射
+     */
+    public Map<Object, Object> getTargetDataSources() {
+        Map<Object, Object> dsMap = new HashMap(5);
+        if (!CollectionUtils.isEmpty(this.druid)) {
+            dsMap.putAll(this.druid);
+        }
+        if (!CollectionUtils.isEmpty(this.hikari)) {
+            dsMap.putAll(this.hikari);
+        }
+        if (!CollectionUtils.isEmpty(this.jndi)) {
+            dsMap.putAll(this.jndi);
+        }
+        return Collections.unmodifiableMap(dsMap);
+    }
+
+    /**
+     * 获取默认数据源
+     *
+     * @return 默认数据源
+     */
+    public Object getDefaultDataSource() {
+        return getTargetDataSources().get(this.defaultConfig);
     }
 }

@@ -21,7 +21,7 @@
         <spring.cloud.version>4.0.3</spring.cloud.version>
         <spring.consul.version>4.0.3</spring.consul.version>
         <spring.mybatis.version>3.0.2</spring.mybatis.version>
-        <alibaba.druid.version>1.2.19</alibaba.druid.version>
+        <alibaba.druid.version>1.2.20</alibaba.druid.version>
     </properties>
 
     <!--开源协议...-->

@@ -36,8 +36,8 @@ Bug Fixes
 
 11. logger sdk新增withJansi属性配置，默认不开启jansi；
 
-14. 修复RabbitMQ SDK中RabbitTemplate配置bug;
-15. 动态多数据源SDK代码优化；
+12. 修复RabbitMQ SDK中RabbitTemplate配置bug;
+13. 动态多数据源SDK代码优化；
 
 
 
@@ -46,6 +46,7 @@ Bug Fixes
 Dependency Upgrades
 
 1. springboot升级到3.1.4版本；
+2. druid升级到1.2.20版本；
 
 
 -----

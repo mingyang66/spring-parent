@@ -31,6 +31,7 @@ import java.util.Collections;
  * @see <a href="https://spring.io/blog/2023/06/07/securing-spring-boot-applications-with-ssl">官方文档案例</a>
  * @see <a href="https://github.com/scottfrederick/spring-boot-ssl-demo/tree/main">案例代码</a>
  * @see <a href="https://www.baeldung.com/spring-boot-security-ssl-bundles">证书生成</a>
+ * @see <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.ssl">SSL官方文档</a>
  * @since 1.0
  */
 @AutoConfiguration

@@ -47,6 +47,10 @@ public class LogbackPropertyBuilder {
         return this;
     }
 
+    public static LogbackPropertyBuilder create() {
+        return new LogbackPropertyBuilder();
+    }
+
     public LogbackProperty build() {
         LogbackProperty property = new LogbackProperty();
         property.setLoggerName(this.loggerName);

@@ -1,8 +1,17 @@
 ###
 -----
+基础库发布4.4.0
+Bug Fixes
+
+1. LogbackPropertyBuilder新增create创建对象方法；
+2. LogbackContext的getLogger方法修改获取logger对象双重锁检查方法代码；
+3.
+
+-----
 基础库发布4.3.9
 Bug Fixes
 一、 RabbitMQ SDK支持连接故障自动恢复能力
+
 1. 新增如下4个属性配置：
 
    ```properties
@@ -15,7 +24,7 @@ Bug Fixes
    #启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
    spring.emis.rabbitmq.topology-recovery=true
    ```
-   
+
 2. 创建CachingConnectionFactory对象时设置（1）的4个属性设置；
 
 3. 新增DefaultMqConnectionListener连接监听器类，对onCreate、onClose、onShutDown、onFailed四个方法监听并记录三方日志，方便在日志平台观察rabbitmq的故障恢复的全过程；
@@ -39,15 +48,12 @@ Bug Fixes
 12. 修复RabbitMQ SDK中RabbitTemplate配置bug;
 13. 动态多数据源SDK代码优化；
 
-
-
 ------
 
 Dependency Upgrades
 
 1. springboot升级到3.1.4版本；
 2. druid升级到1.2.20版本；
-
 
 -----
 基础库发布4.3.8

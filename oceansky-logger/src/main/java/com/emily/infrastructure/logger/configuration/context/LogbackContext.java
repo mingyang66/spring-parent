@@ -16,7 +16,6 @@ import com.emily.infrastructure.logger.manager.LoggerCacheManager;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
-import java.util.Objects;
 
 /**
  * 日志类 logback+slf4j
@@ -58,6 +57,24 @@ public class LogbackContext implements Context {
 
     /**
      * 获取logger日志对象
+     * 使用双重检查锁(Double-Checked Locking)的方式实现，如下示例：首先检查对象是否已经创建，如果没有，则进入synchronized块。在synchronized块内部再次检查
+     * 是否已经被创建，以防止多个线程同时创建对象。如果对象任然为null,则创建对象并赋值给instance。
+     * <pre>{@code
+     * public class ObjectCreator {
+     *     private static Object instance;
+     *
+     *     public static Object getInstance() {
+     *         if (instance == null) {
+     *             synchronized (ObjectCreator.class) {
+     *                 if (instance == null) {
+     *                     instance = new Object();
+     *                 }
+     *             }
+     *         }
+     *         return instance;
+     *     }
+     * }
+     * }</pre>
      *
      * @param clazz       当前打印类实例
      * @param filePath    文件路径
@@ -68,7 +85,7 @@ public class LogbackContext implements Context {
      */
     @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
-        LogbackProperty property = new LogbackPropertyBuilder()
+        LogbackProperty property = LogbackPropertyBuilder.create()
                 // 文件保存路径
                 .withFilePath(PathUtils.normalizePath(filePath))
                 // 文件名
@@ -82,18 +99,17 @@ public class LogbackContext implements Context {
         property.setLoggerName(loggerName);
         // 获取Logger对象
         Logger logger = LoggerCacheManager.LOGGER.get(loggerName);
-        if (Objects.nonNull(logger)) {
-            return logger;
-        }
-        synchronized (this) {
-            logger = LoggerCacheManager.LOGGER.get(loggerName);
-            if (Objects.nonNull(logger)) {
-                return logger;
+        if (logger == null) {
+            synchronized (LogbackContext.class) {
+                if (logger == null) {
+                    // 获取logger日志对象
+                    logger = getLogger(property);
+                    // 存入缓存
+                    LoggerCacheManager.LOGGER.put(loggerName, logger);
+                } else {
+                    logger = LoggerCacheManager.LOGGER.get(loggerName);
+                }
             }
-            // 获取logger日志对象
-            logger = getLogger(property);
-            // 存入缓存
-            LoggerCacheManager.LOGGER.put(loggerName, logger);
         }
         return logger;
     }

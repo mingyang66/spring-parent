@@ -26,21 +26,22 @@ import org.springframework.core.Ordered;
  */
 public class LogbackApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
-    /**
-     * 初始化优先级低于org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration类
-     *
-     * @return 优先级
-     */
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 11;
-    }
-
     @Override
     public void initialize(ConfigurableApplicationContext context) {
         // 将属性配置绑定到配置类上
         LogbackProperties properties = Binder.get(context.getEnvironment()).bindOrCreate(LogbackProperties.PREFIX, LogbackProperties.class);
         // 初始化日志SDK上下文
         LoggerContextInitializer.init(properties);
+    }
+
+    /**
+     * 在spring-cloud场景下需满足：
+     * 1. 初始化优先级低于org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration类
+     *
+     * @return 优先级
+     */
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE + 11;
     }
 }

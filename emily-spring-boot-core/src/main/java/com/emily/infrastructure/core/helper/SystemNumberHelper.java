@@ -2,7 +2,7 @@ package com.emily.infrastructure.core.helper;
 
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.core.context.ContextProperties;
-import com.emily.infrastructure.core.context.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IocUtils;
 
 /**
  * 系统编号帮助类
@@ -18,7 +18,7 @@ public class SystemNumberHelper {
      */
     public static String getSystemNumber() {
         try {
-            return IOCContext.getBean(ContextProperties.class).getSystemNumber();
+            return IocUtils.getBean(ContextProperties.class).getSystemNumber();
         } catch (Exception e) {
             return StringUtils.EMPTY;
         }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.cloud.listener;
 
-import com.emily.infrastructure.core.context.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IocUtils;
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -20,6 +20,6 @@ public class EnvironmentChangeApplicationListener implements ApplicationListener
         if (Objects.isNull(source) || !(source instanceof ApplicationContext)) {
             return;
         }
-        IOCContext.setCONTEXT((ApplicationContext) source);
+        IocUtils.setCONTEXT((ApplicationContext) source);
     }
 }

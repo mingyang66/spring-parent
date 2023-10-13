@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
@@ -28,7 +27,7 @@ import org.springframework.core.Ordered;
 @EnableConfigurationProperties(ContextProperties.class)
 @ConditionalOnProperty(prefix = ContextProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ContextAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
-
+    public static final String BEANNAME = "advisor";
     private static final Logger logger = LoggerFactory.getLogger(ContextAutoConfiguration.class);
 
     /**
@@ -39,9 +38,8 @@ public class ContextAutoConfiguration implements BeanFactoryPostProcessor, Initi
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        String beanName = "advisor";
-        if (beanFactory.containsBeanDefinition(beanName)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+        if (beanFactory.containsBeanDefinition(BEANNAME)) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(BEANNAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
     }

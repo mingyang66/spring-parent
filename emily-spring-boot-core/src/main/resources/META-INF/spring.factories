@@ -1,3 +1,3 @@
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.core.context.ioc.IOCContext
+  com.emily.infrastructure.core.context.ioc.IocApplicationContextInitializer

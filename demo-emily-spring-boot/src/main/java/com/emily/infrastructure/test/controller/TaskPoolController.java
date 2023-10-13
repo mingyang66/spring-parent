@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.context.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IocUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class TaskPoolController {
 
     @GetMapping("test1")
     public void test1() {
-        ThreadPoolTaskScheduler threadPoolTaskScheduler = IOCContext.getBean(ThreadPoolTaskScheduler.class);
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = IocUtils.getBean(ThreadPoolTaskScheduler.class);
         System.out.println(threadPoolTaskScheduler);
     }
 }

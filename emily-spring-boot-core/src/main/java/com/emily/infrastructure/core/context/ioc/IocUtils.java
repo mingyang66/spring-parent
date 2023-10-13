@@ -1,10 +1,12 @@
 package com.emily.infrastructure.core.context.ioc;
 
 import org.springframework.beans.BeansException;
+import org.springframework.boot.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.lang.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -17,16 +19,16 @@ import java.util.Map;
  * @since 2021/5/13
  */
 @SuppressWarnings("all")
-public class IOCContext implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+public class IocUtils {
 
-    private static ApplicationContext CONTEXT;
+    private static ApplicationContext applicationContext;
 
     public static ApplicationContext getApplicationContext() {
-        return CONTEXT;
+        return applicationContext;
     }
 
-    public static void setCONTEXT(ApplicationContext CONTEXT) {
-        IOCContext.CONTEXT = CONTEXT;
+    public static void setApplicationContext(ApplicationContext applicationContext) {
+        applicationContext = applicationContext;
     }
 
     /**
@@ -37,7 +39,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return bean实例对象
      */
     public static <T> T getBean(Class<T> requiredType) {
-        return CONTEXT.getBean(requiredType);
+        return applicationContext.getBean(requiredType);
     }
 
     /**
@@ -48,7 +50,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @throws BeansException 异常
      */
     public static Object getBean(String name) {
-        return CONTEXT.getBean(name);
+        return applicationContext.getBean(name);
     }
 
     /**
@@ -60,7 +62,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return bean实例对象
      */
     public static <T> T getBean(String name, Class<T> requiredType) {
-        return CONTEXT.getBean(name, requiredType);
+        return applicationContext.getBean(name, requiredType);
     }
 
     /**
@@ -71,7 +73,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return bean对象
      */
     public static Object getBean(String name, Object... args) {
-        return CONTEXT.getBean(name, args);
+        return applicationContext.getBean(name, args);
     }
 
     /**
@@ -81,7 +83,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return 注解标注的bean对象
      */
     public static Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
-        return CONTEXT.getBeansWithAnnotation(annotationType);
+        return applicationContext.getBeansWithAnnotation(annotationType);
     }
 
     /**
@@ -91,7 +93,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return 注解标注的beanname
      */
     public static String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
-        return CONTEXT.getBeanNamesForAnnotation(annotationType);
+        return applicationContext.getBeanNamesForAnnotation(annotationType);
     }
 
     /**
@@ -101,7 +103,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return true|false
      */
     public static boolean containsBean(String name) {
-        return CONTEXT.containsBean(name);
+        return applicationContext.containsBean(name);
     }
 
     /**
@@ -111,7 +113,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return true|false
      */
     public static boolean isPrototype(String name) {
-        return CONTEXT.isPrototype(name);
+        return applicationContext.isPrototype(name);
     }
 
     /**
@@ -121,7 +123,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return true|false
      */
     public static boolean isSingleton(String name) {
-        return CONTEXT.isSingleton(name);
+        return applicationContext.isSingleton(name);
     }
 
     /**
@@ -132,7 +134,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return 是否和指定的类型匹配
      */
     public static boolean isTypeMatch(String name, Class<?> typeToMatch) {
-        return CONTEXT.isTypeMatch(name, typeToMatch);
+        return applicationContext.isTypeMatch(name, typeToMatch);
     }
 
     /**
@@ -143,7 +145,7 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return 返回实例对象的集合
      */
     public static <T> Map<String, T> getBeansOfType(@Nullable Class<T> type) {
-        return CONTEXT.getBeansOfType(type);
+        return applicationContext.getBeansOfType(type);
     }
 
     /**
@@ -156,16 +158,6 @@ public class IOCContext implements ApplicationContextInitializer<ConfigurableApp
      * @return 返回实例对象的集合
      */
     public static <T> Map<String, T> getBeansOfType(@Nullable Class<T> type, boolean includeNonSingletons, boolean allowEagerInit) {
-        return CONTEXT.getBeansOfType(type, includeNonSingletons, allowEagerInit);
-    }
-
-    @Override
-    public void initialize(ConfigurableApplicationContext applicationContext) {
-        CONTEXT = applicationContext;
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 1;
+        return applicationContext.getBeansOfType(type, includeNonSingletons, allowEagerInit);
     }
 }

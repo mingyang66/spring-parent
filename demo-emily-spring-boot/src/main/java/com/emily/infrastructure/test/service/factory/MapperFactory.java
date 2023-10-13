@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.service.factory;
 
 import com.emily.infrastructure.core.exception.BusinessException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.context.ioc.IOCContext;
+import com.emily.infrastructure.core.context.ioc.IocUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -87,7 +87,7 @@ public class MapperFactory<T> {
         //获取Mapper实例对象名
         String beanName = defaultClass.getSimpleName();
         //获取实例对象对应的所有bean集合
-        Map<String, T> beanMaps = IOCContext.getBeansOfType(defaultClass);
+        Map<String, T> beanMaps = IocUtils.getBeansOfType(defaultClass);
         if (!beanMaps.containsKey(beanName)) {
             throw new BusinessException(HttpStatusType.ILLEGAL_ACCESS);
         }

@@ -20,6 +20,6 @@ public class EnvironmentChangeApplicationListener implements ApplicationListener
         if (Objects.isNull(source) || !(source instanceof ApplicationContext)) {
             return;
         }
-        IocUtils.setCONTEXT((ApplicationContext) source);
+        IocUtils.setApplicationContext((ApplicationContext) source);
     }
 }

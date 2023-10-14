@@ -18,43 +18,37 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
  * @since : 2022/01/10
  */
 public class LogbackRollingPolicy {
+    private final Context context;
+    private final LoggerProperties.RollingPolicy rollingPolicy;
 
-    private static final LogbackRollingPolicy ROLLING_POLICY = new LogbackRollingPolicy();
-
-    private LogbackRollingPolicy() {
-    }
-
-    public static LogbackRollingPolicy create() {
-        return ROLLING_POLICY;
+    private LogbackRollingPolicy(Context context, LoggerProperties.RollingPolicy rollingPolicy) {
+        this.context = context;
+        this.rollingPolicy = rollingPolicy;
     }
 
     /**
      * 获取指定归档文件策略类型的归档策略
      *
-     * @param context      logback上下文
-     * @param properties   日志属性配置
-     * @param appender 归档文件appender
-     * @param loggerPath   日志文件路径
+     * @param appender   归档文件appender
+     * @param loggerPath 日志文件路径
      * @return 策略
      */
-    public RollingPolicy getRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
-        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(properties.getAppender().getRollingPolicy().getType())) {
-            return getSizeAndTimeBasedRollingPolicy(context, properties, appender, loggerPath);
+    public RollingPolicy build(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
+        if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(rollingPolicy.getType())) {
+            return getSizeAndTimeBasedRollingPolicy(appender, loggerPath);
         } else {
-            return getTimeBasedRollingPolicy(context, properties, appender, loggerPath);
+            return getTimeBasedRollingPolicy(appender, loggerPath);
         }
     }
 
     /**
      * 获取基于时间的文件归档策略
      *
-     * @param context      logback上下文
-     * @param properties   日志属性配置
-     * @param appender 归档文件appender
-     * @param loggerPath   日志文件路径
+     * @param appender   归档文件appender
+     * @param loggerPath 日志文件路径
      * @return 基于时间的滚动策略
      */
-    RollingPolicy getTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
+    RollingPolicy getTimeBasedRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         //文件归档大小和时间设置
         TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -73,13 +67,13 @@ public class LogbackRollingPolicy {
          */
         String fp = StrUtils.substVars(context, loggerPath, "%d{yyyy-MM-dd}.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, rollingPolicy.getCompressionMode().getSuffix()));
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
+        policy.setMaxHistory(rollingPolicy.getMaxHistory());
         //控制所有归档文件总大小 KB、MB、GB，默认:0
-        policy.setTotalSizeCap(FileSize.valueOf(properties.getAppender().getRollingPolicy().getTotalSizeCap()));
+        policy.setTotalSizeCap(FileSize.valueOf(rollingPolicy.getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(rollingPolicy.isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(appender);
         //添加内部状态
@@ -91,13 +85,11 @@ public class LogbackRollingPolicy {
     /**
      * 获取基于时间和大小的日志文件归档策略
      *
-     * @param context      logback上下文
-     * @param properties   日志属性配置
-     * @param appender 归档文件appender
-     * @param loggerPath   日志文件路径
+     * @param appender   归档文件appender
+     * @param loggerPath 日志文件路径
      * @return 基于时间和大小的策略
      */
-    RollingPolicy getSizeAndTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
+    RollingPolicy getSizeAndTimeBasedRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         //文件归档大小和时间设置
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> policy = new SizeAndTimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -116,20 +108,24 @@ public class LogbackRollingPolicy {
          */
         String fp = StrUtils.substVars(context, loggerPath, ".%d{yyyy-MM-dd}.%i.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, rollingPolicy.getCompressionMode().getSuffix()));
         //最大日志文件大小 KB,MB,GB
-        policy.setMaxFileSize(FileSize.valueOf(properties.getAppender().getRollingPolicy().getMaxFileSize()));
+        policy.setMaxFileSize(FileSize.valueOf(rollingPolicy.getMaxFileSize()));
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
+        policy.setMaxHistory(rollingPolicy.getMaxHistory());
         //文件总大小限制 KB,MB,G
-        policy.setTotalSizeCap(FileSize.valueOf(properties.getAppender().getRollingPolicy().getTotalSizeCap()));
+        policy.setTotalSizeCap(FileSize.valueOf(rollingPolicy.getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(rollingPolicy.isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(appender);
         //添加内部状态
         policy.addInfo("Build SizeAndTimeBasedRollingPolicy Policy Success");
         policy.start();
         return policy;
+    }
+
+    public static LogbackRollingPolicy create(Context context, LoggerProperties.RollingPolicy rollingPolicy) {
+        return new LogbackRollingPolicy(context, rollingPolicy);
     }
 }

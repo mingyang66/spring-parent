@@ -51,14 +51,16 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      */
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
-        //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
+        //创建策略对象
+        LogbackRollingPolicy policy = LogbackRollingPolicy.create(loggerContext, properties.getAppender().getRollingPolicy());
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
-        //设置文件名
+        //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
+        RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
+        //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
-        appender.setRollingPolicy(LogbackRollingPolicy.create().getRollingPolicy(loggerContext, properties, appender, loggerPath));
+        appender.setRollingPolicy(policy.build(appender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);

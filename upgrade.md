@@ -6,7 +6,8 @@ Bug Fixes
 1. LogbackPropertyBuilder新增create创建对象方法；
 2. LogbackContext的getLogger方法修改获取logger对象双重锁检查方法代码；
 3. logger sdk code optimize;
-4. 
+4. logger policy构建对象重构为builder模式；
+5. 
 
 -----
 基础库发布4.3.9

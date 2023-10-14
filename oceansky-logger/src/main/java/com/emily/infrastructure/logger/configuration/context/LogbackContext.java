@@ -107,7 +107,7 @@ public class LogbackContext implements Context {
                     // 获取logger日志对象
                     logger = getLogger(property);
                     // 存入缓存
-                    LOGGER.put(loggerName, logger);
+                    LOGGER.putIfAbsent(loggerName, logger);
                 } else {
                     logger = LOGGER.get(loggerName);
                 }

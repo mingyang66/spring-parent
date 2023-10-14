@@ -5,8 +5,8 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
-import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
-import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
+import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoderBuilder;
+import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
@@ -15,7 +15,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackConsoleAppender extends AbstractAppender {
+public class ConsoleAppenderBuilder extends AbstractAppender {
     /**
      * 控制台appender name
      * 必须小写，否则会出现多个控制台appender
@@ -30,7 +30,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
      */
     private final LoggerContext loggerContext;
 
-    public LogbackConsoleAppender(LoggerProperties properties, LoggerContext loggerContext) {
+    private ConsoleAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
         this.loggerContext = loggerContext;
     }
@@ -51,9 +51,9 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //appender的name属性
         appender.setName(this.resolveName(level));
         //添加过滤器
-        appender.addFilter(LogbackFilter.create(loggerContext).buildThresholdLevelFilter(level));
+        appender.addFilter(LogbackFilterBuilder.create(loggerContext).buildThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(LogbackEncoder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogbackEncoderBuilder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(true);
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
@@ -76,5 +76,9 @@ public class LogbackConsoleAppender extends AbstractAppender {
     @Override
     protected String resolveName(Level level) {
         return CONSOLE;
+    }
+
+    public static ConsoleAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext) {
+        return new ConsoleAppenderBuilder(properties, loggerContext);
     }
 }

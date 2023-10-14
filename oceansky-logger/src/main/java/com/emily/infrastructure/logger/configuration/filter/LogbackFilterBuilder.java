@@ -18,10 +18,10 @@ import com.emily.infrastructure.logger.common.StrUtils;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackFilter {
+public class LogbackFilterBuilder {
     private final Context context;
 
-    private LogbackFilter(Context context) {
+    private LogbackFilterBuilder(Context context) {
         this.context = context;
     }
 
@@ -143,7 +143,7 @@ public class LogbackFilter {
         return filter;
     }
 
-    public static LogbackFilter create(Context context) {
-        return new LogbackFilter(context);
+    public static LogbackFilterBuilder create(Context context) {
+        return new LogbackFilterBuilder(context);
     }
 }

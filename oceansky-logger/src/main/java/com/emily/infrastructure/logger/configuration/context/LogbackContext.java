@@ -4,10 +4,10 @@ import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
-import com.emily.infrastructure.logger.configuration.classic.LogbackGroup;
-import com.emily.infrastructure.logger.configuration.classic.LogbackModule;
-import com.emily.infrastructure.logger.configuration.classic.LogbackRoot;
-import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
+import com.emily.infrastructure.logger.configuration.classic.LogbackGroupBuilder;
+import com.emily.infrastructure.logger.configuration.classic.LogbackModuleBuilder;
+import com.emily.infrastructure.logger.configuration.classic.LogbackRootBuilder;
+import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
 import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LogbackPropertyBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
@@ -49,11 +49,11 @@ public class LogbackContext implements Context {
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> {
-            context.addTurboFilter(LogbackFilter.create(context).buildAcceptMarkerFilter(marker));
+            context.addTurboFilter(LogbackFilterBuilder.create(context).buildAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
         properties.getMarker().getDenyMarker().forEach((marker) -> {
-            context.addTurboFilter(LogbackFilter.create(context).buildDenyMarkerFilter(marker));
+            context.addTurboFilter(LogbackFilterBuilder.create(context).buildDenyMarkerFilter(marker));
         });
     }
 
@@ -126,11 +126,11 @@ public class LogbackContext implements Context {
     Logger getLogger(LogbackProperty property) {
         AbstractLogback logback;
         if (property.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = new LogbackModule(properties, loggerContext);
+            logback = LogbackModuleBuilder.create(properties, loggerContext);
         } else if (property.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = new LogbackGroup(properties, loggerContext);
+            logback = LogbackGroupBuilder.create(properties, loggerContext);
         } else {
-            logback = new LogbackRoot(properties, loggerContext);
+            logback = LogbackRootBuilder.create(properties, loggerContext);
         }
         return logback.getLogger(property);
     }

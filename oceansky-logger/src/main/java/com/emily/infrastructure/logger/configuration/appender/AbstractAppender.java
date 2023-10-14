@@ -20,7 +20,7 @@ public abstract class AbstractAppender {
      * @param level logger level
      * @return appender instance
      */
-    public Appender<ILoggingEvent> create(Level level) {
+    public Appender<ILoggingEvent> build(Level level) {
         //appender名称重新拼接
         String appenderName = this.resolveName(level);
         //如果已经存在，则忽略，否则添加

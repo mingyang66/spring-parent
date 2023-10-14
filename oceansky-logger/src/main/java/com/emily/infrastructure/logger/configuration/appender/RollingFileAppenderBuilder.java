@@ -7,9 +7,9 @@ import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoder;
-import com.emily.infrastructure.logger.configuration.filter.LogbackFilter;
-import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicy;
+import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoderBuilder;
+import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
+import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicyBuilder;
 import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
@@ -23,7 +23,7 @@ import java.text.MessageFormat;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackRollingFileAppender extends AbstractAppender {
+public class RollingFileAppenderBuilder extends AbstractAppender {
     /**
      * 属性配置
      */
@@ -37,7 +37,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      */
     private final LoggerContext loggerContext;
 
-    public LogbackRollingFileAppender(LoggerProperties properties, LoggerContext loggerContext, LogbackProperty property) {
+    private RollingFileAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext, LogbackProperty property) {
         this.properties = properties;
         this.loggerContext = loggerContext;
         this.property = property;
@@ -52,7 +52,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
         //创建策略对象
-        LogbackRollingPolicy policy = LogbackRollingPolicy.create(loggerContext, properties.getAppender().getRollingPolicy());
+        LogbackRollingPolicyBuilder policy = LogbackRollingPolicyBuilder.create(loggerContext, properties.getAppender().getRollingPolicy());
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
@@ -71,9 +71,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
-        appender.addFilter(LogbackFilter.create(loggerContext).buildLevelFilter(level));
+        appender.addFilter(LogbackFilterBuilder.create(loggerContext).buildLevelFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogbackEncoder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogbackEncoderBuilder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();
@@ -143,5 +143,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         }
         //拼装appender name
         return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
+    }
+
+    public static RollingFileAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext, LogbackProperty property) {
+        return new RollingFileAppenderBuilder(properties, loggerContext, property);
     }
 }

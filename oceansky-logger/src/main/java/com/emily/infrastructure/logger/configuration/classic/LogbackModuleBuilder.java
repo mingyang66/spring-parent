@@ -4,9 +4,9 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
-import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFileAppender;
+import com.emily.infrastructure.logger.configuration.appender.AsyncAppenderBuilder;
+import com.emily.infrastructure.logger.configuration.appender.ConsoleAppenderBuilder;
+import com.emily.infrastructure.logger.configuration.appender.RollingFileAppenderBuilder;
 import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
@@ -16,11 +16,11 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2021/12/12
  */
-public class LogbackModule extends AbstractLogback {
+public class LogbackModuleBuilder extends AbstractLogback {
     private final LoggerProperties properties;
     private final LoggerContext loggerContext;
 
-    public LogbackModule(LoggerProperties properties, LoggerContext loggerContext) {
+    private LogbackModuleBuilder(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
         this.loggerContext = loggerContext;
     }
@@ -41,48 +41,52 @@ public class LogbackModule extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getModule().getLevel().levelStr));
         // appender对象
-        AbstractAppender appender = new LogbackRollingFileAppender(properties, loggerContext, property);
+        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, loggerContext, property);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
+            AsyncAppenderBuilder asyncAppender = AsyncAppenderBuilder.create(properties, loggerContext);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.create(Level.ERROR)));
+                logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.create(Level.WARN)));
+                logger.addAppender(asyncAppender.getAppender(appender.build(Level.WARN)));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.create(Level.INFO)));
+                logger.addAppender(asyncAppender.getAppender(appender.build(Level.INFO)));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.create(Level.DEBUG)));
+                logger.addAppender(asyncAppender.getAppender(appender.build(Level.DEBUG)));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.create(Level.TRACE)));
+                logger.addAppender(asyncAppender.getAppender(appender.build(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(appender.create(Level.ERROR));
+                logger.addAppender(appender.build(Level.ERROR));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(appender.create(Level.WARN));
+                logger.addAppender(appender.build(Level.WARN));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(appender.create(Level.INFO));
+                logger.addAppender(appender.build(Level.INFO));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(appender.create(Level.DEBUG));
+                logger.addAppender(appender.build(Level.DEBUG));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(appender.create(Level.TRACE));
+                logger.addAppender(appender.build(Level.TRACE));
             }
         }
         if (properties.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).create(logger.getLevel()));
+            logger.addAppender(ConsoleAppenderBuilder.create(properties, loggerContext).build(logger.getLevel()));
         }
 
         return logger;
+    }
+
+    public static AbstractLogback create(LoggerProperties properties, LoggerContext loggerContext) {
+        return new LogbackModuleBuilder(properties, loggerContext);
     }
 }

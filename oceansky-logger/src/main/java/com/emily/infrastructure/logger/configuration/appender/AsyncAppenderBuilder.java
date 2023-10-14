@@ -11,7 +11,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackAsyncAppender {
+public class AsyncAppenderBuilder {
     /**
      * 前缀
      */
@@ -25,7 +25,7 @@ public class LogbackAsyncAppender {
      */
     private final LoggerContext loggerContext;
 
-    public LogbackAsyncAppender(LoggerProperties properties, LoggerContext loggerContext) {
+    private AsyncAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext) {
         this.properties = properties;
         this.loggerContext = loggerContext;
     }
@@ -62,7 +62,9 @@ public class LogbackAsyncAppender {
         appender.addAppender(ref);
         appender.start();
         return appender;
-
     }
 
+    public static AsyncAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext) {
+        return new AsyncAppenderBuilder(properties, loggerContext);
+    }
 }

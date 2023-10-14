@@ -11,10 +11,10 @@ import java.nio.charset.StandardCharsets;
  * @author Emily
  * @since : 2022/01/10
  */
-public class LogbackEncoder {
+public class LogbackEncoderBuilder {
     private final Context context;
 
-    private LogbackEncoder(Context context) {
+    private LogbackEncoderBuilder(Context context) {
         this.context = context;
     }
 
@@ -41,7 +41,7 @@ public class LogbackEncoder {
         return encoder;
     }
 
-    public static LogbackEncoder create(Context context) {
-        return new LogbackEncoder(context);
+    public static LogbackEncoderBuilder create(Context context) {
+        return new LogbackEncoderBuilder(context);
     }
 }

@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 
 import java.text.MessageFormat;
 
+import static com.emily.infrastructure.logger.manager.LoggerCacheManager.LOGGER;
+
 /**
  * 日志类 logback+slf4j
  *
@@ -98,16 +100,16 @@ public class LogbackContext implements Context {
         // 设置logger name
         property.setLoggerName(loggerName);
         // 获取Logger对象
-        Logger logger = LoggerCacheManager.LOGGER.get(loggerName);
+        Logger logger = LOGGER.get(loggerName);
         if (logger == null) {
             synchronized (LogbackContext.class) {
                 if (logger == null) {
                     // 获取logger日志对象
                     logger = getLogger(property);
                     // 存入缓存
-                    LoggerCacheManager.LOGGER.put(loggerName, logger);
+                    LOGGER.put(loggerName, logger);
                 } else {
-                    logger = LoggerCacheManager.LOGGER.get(loggerName);
+                    logger = LOGGER.get(loggerName);
                 }
             }
         }
@@ -168,7 +170,7 @@ public class LogbackContext implements Context {
         // 获取root logger对象
         Logger rootLogger = getLogger(property);
         // 将root添加到缓存
-        LoggerCacheManager.LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
+        LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
     /**
@@ -179,7 +181,7 @@ public class LogbackContext implements Context {
     public void stopAndReset() {
         loggerContext.stop();
         loggerContext.reset();
-        LoggerCacheManager.LOGGER.clear();
+        LOGGER.clear();
         LoggerCacheManager.APPENDER.clear();
     }
 }

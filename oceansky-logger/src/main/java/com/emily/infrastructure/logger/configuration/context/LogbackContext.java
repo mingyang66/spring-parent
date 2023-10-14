@@ -49,11 +49,11 @@ public class LogbackContext implements Context {
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> {
-            context.addTurboFilter(LogbackFilter.getSingleton().getAcceptMarkerFilter(context, marker));
+            context.addTurboFilter(LogbackFilter.create(context).buildAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
         properties.getMarker().getDenyMarker().forEach((marker) -> {
-            context.addTurboFilter(LogbackFilter.getSingleton().getDenyMarkerFilter(context, marker));
+            context.addTurboFilter(LogbackFilter.create(context).buildDenyMarkerFilter(marker));
         });
     }
 

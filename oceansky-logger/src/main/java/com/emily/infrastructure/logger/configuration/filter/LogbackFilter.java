@@ -19,24 +19,19 @@ import com.emily.infrastructure.logger.common.StrUtils;
  * @since : 2020/08/04
  */
 public class LogbackFilter {
+    private final Context context;
 
-    private static final LogbackFilter FILTER = new LogbackFilter();
-
-    private LogbackFilter() {
-    }
-
-    public static LogbackFilter getSingleton() {
-        return FILTER;
+    private LogbackFilter(Context context) {
+        this.context = context;
     }
 
     /**
      * 日志级别过滤器设置
      *
-     * @param context logger context上下文
-     * @param level   日志级别
+     * @param level 日志级别
      * @return 日志级别过滤器对象
      */
-    public LevelFilter getLevelFilter(Context context, Level level) {
+    public LevelFilter buildLevelFilter(Level level) {
         LevelFilter filter = new LevelFilter();
         //过滤器名称
         filter.setName(StrUtils.join("LevelFilter-", level.levelStr));
@@ -58,11 +53,10 @@ public class LogbackFilter {
     /**
      * 日志阀值过滤器，等于或者高于日志级别
      *
-     * @param context logger context 上下文
-     * @param level   日志级别
+     * @param level 日志级别
      * @return 日志阀值过滤器对象
      */
-    public ThresholdFilter getThresholdLevelFilter(Context context, Level level) {
+    public ThresholdFilter buildThresholdLevelFilter(Level level) {
         ThresholdFilter filter = new ThresholdFilter();
         //过滤器名称
         filter.setName(StrUtils.join("ThresholdFilter-", level.levelStr));
@@ -80,11 +74,10 @@ public class LogbackFilter {
     /**
      * 全局标记过滤器，接受指定标记的日志记录到文件中
      *
-     * @param context 上下文
-     * @param marker  marker标识
+     * @param marker marker标识
      * @return 标记过滤器，将会接受被标记的日志记录到文件中
      */
-    public MarkerFilter getAcceptMarkerFilter(Context context, String marker) {
+    public MarkerFilter buildAcceptMarkerFilter(String marker) {
         MarkerFilter filter = new MarkerFilter();
         //过滤器名称
         filter.setName(StrUtils.join("AcceptMarkerFilter-", marker));
@@ -106,11 +99,10 @@ public class LogbackFilter {
     /**
      * 全局标记过滤器，拒绝标记的日志记录到文件中
      *
-     * @param context 上下文
-     * @param marker  marker标识
+     * @param marker marker标识
      * @return 标记过滤器，将会拒绝被标记的日志记录到文件中
      */
-    public MarkerFilter getDenyMarkerFilter(Context context, String marker) {
+    public MarkerFilter buildDenyMarkerFilter(String marker) {
         MarkerFilter filter = new MarkerFilter();
         //过滤器名称
         filter.setName(StrUtils.join("DenyMarkerFilter-", marker));
@@ -135,7 +127,7 @@ public class LogbackFilter {
      * @param context logger context上下文
      * @return 评估过滤器实例
      */
-    public EvaluatorFilter getEvaluatorFilter(Context context) {
+    public EvaluatorFilter buildEvaluatorFilter(Context context) {
         EvaluatorFilter filter = new EvaluatorFilter();
         EventEvaluator evaluator = new JaninoEventEvaluator();
         try {
@@ -149,5 +141,9 @@ public class LogbackFilter {
         filter.setOnMismatch(FilterReply.DENY);
         filter.start();
         return filter;
+    }
+
+    public static LogbackFilter create(Context context) {
+        return new LogbackFilter(context);
     }
 }

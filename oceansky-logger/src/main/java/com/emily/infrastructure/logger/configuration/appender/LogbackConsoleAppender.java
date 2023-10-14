@@ -51,9 +51,9 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //appender的name属性
         appender.setName(this.resolveName(level));
         //添加过滤器
-        appender.addFilter(LogbackFilter.getSingleton().getThresholdLevelFilter(loggerContext, level));
+        appender.addFilter(LogbackFilter.create(loggerContext).buildThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(LogbackEncoder.getSingleton().getPatternLayoutEncoder(loggerContext, this.resolveFilePattern()));
+        appender.setEncoder(LogbackEncoder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(true);
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。

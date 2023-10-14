@@ -71,9 +71,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
-        appender.addFilter(LogbackFilter.getSingleton().getLevelFilter(loggerContext, level));
+        appender.addFilter(LogbackFilter.create(loggerContext).buildLevelFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogbackEncoder.getSingleton().getPatternLayoutEncoder(loggerContext, this.resolveFilePattern()));
+        appender.setEncoder(LogbackEncoder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();

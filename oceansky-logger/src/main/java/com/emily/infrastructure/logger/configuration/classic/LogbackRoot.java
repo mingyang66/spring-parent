@@ -10,6 +10,8 @@ import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFile
 import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
+import static com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender.CONSOLE;
+
 /**
  * 日志组件抽象类
  *
@@ -38,55 +40,55 @@ public class LogbackRoot extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender fileAppender = new LogbackRollingFileAppender(properties, loggerContext, property);
+        AbstractAppender appender = new LogbackRollingFileAppender(properties, loggerContext, property);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.ERROR)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.ERROR)));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.WARN)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.WARN)));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.INFO)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.INFO)));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.DEBUG)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.DEBUG)));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.TRACE)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.ERROR));
+                logger.addAppender(appender.create(Level.ERROR));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.WARN));
+                logger.addAppender(appender.create(Level.WARN));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.INFO));
+                logger.addAppender(appender.create(Level.INFO));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.DEBUG));
+                logger.addAppender(appender.create(Level.DEBUG));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.TRACE));
+                logger.addAppender(appender.create(Level.TRACE));
             }
         }
         if (properties.getRoot().isConsole()) {
             //移除console控制台appender
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE);
+            logger.detachAppender(CONSOLE);
             //基于springboot默认初始化的appender name默认大写
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
+            logger.detachAppender(CONSOLE.toUpperCase());
             // 添加控制台appender
-            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).newInstance(logger.getLevel()));
+            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).create(logger.getLevel()));
         } else {
             //移除console控制台appender
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE);
+            logger.detachAppender(CONSOLE);
             //基于springboot默认初始化appender name默认大写
-            logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
+            logger.detachAppender(CONSOLE.toUpperCase());
         }
         return logger;
     }

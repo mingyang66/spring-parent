@@ -4,7 +4,8 @@ package com.emily.infrastructure.logger.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logger.manager.LoggerCacheManager;
+
+import static com.emily.infrastructure.logger.manager.LoggerCacheManager.APPENDER;
 
 /**
  * Appender抽象类
@@ -19,13 +20,13 @@ public abstract class AbstractAppender {
      * @param level logger level
      * @return appender instance
      */
-    public Appender<ILoggingEvent> newInstance(Level level) {
+    public Appender<ILoggingEvent> create(Level level) {
         //appender名称重新拼接
-        String appenderName = this.getName(level);
+        String appenderName = this.resolveName(level);
         //如果已经存在，则忽略，否则添加
-        LoggerCacheManager.APPENDER.putIfAbsent(appenderName, this.getAppender(level));
+        APPENDER.putIfAbsent(appenderName, this.getAppender(level));
         // return appender object
-        return LoggerCacheManager.APPENDER.get(appenderName);
+        return APPENDER.get(appenderName);
     }
 
     /**
@@ -57,6 +58,6 @@ public abstract class AbstractAppender {
      * @param level 日志级别
      * @return appender name
      */
-    protected abstract String getName(Level level);
+    protected abstract String resolveName(Level level);
 
 }

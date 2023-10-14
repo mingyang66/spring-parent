@@ -41,46 +41,46 @@ public class LogbackModule extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getModule().getLevel().levelStr));
         // appender对象
-        AbstractAppender fileAppender = new LogbackRollingFileAppender(properties, loggerContext, property);
+        AbstractAppender appender = new LogbackRollingFileAppender(properties, loggerContext, property);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = new LogbackAsyncAppender(properties, loggerContext);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.ERROR)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.ERROR)));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.WARN)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.WARN)));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.INFO)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.INFO)));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.DEBUG)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.DEBUG)));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAppender(fileAppender.newInstance(Level.TRACE)));
+                logger.addAppender(asyncAppender.getAppender(appender.create(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.ERROR));
+                logger.addAppender(appender.create(Level.ERROR));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.WARN));
+                logger.addAppender(appender.create(Level.WARN));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.INFO));
+                logger.addAppender(appender.create(Level.INFO));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.DEBUG));
+                logger.addAppender(appender.create(Level.DEBUG));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(fileAppender.newInstance(Level.TRACE));
+                logger.addAppender(appender.create(Level.TRACE));
             }
         }
         if (properties.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).newInstance(logger.getLevel()));
+            logger.addAppender(new LogbackConsoleAppender(properties, loggerContext).create(logger.getLevel()));
         }
 
         return logger;

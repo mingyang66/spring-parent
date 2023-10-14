@@ -49,7 +49,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(loggerContext);
         //appender的name属性
-        appender.setName(this.getName(level));
+        appender.setName(this.resolveName(level));
         //添加过滤器
         appender.addFilter(LogbackFilter.getSingleton().getThresholdLevelFilter(loggerContext, level));
         //设置编码
@@ -74,7 +74,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
     }
 
     @Override
-    protected String getName(Level level) {
+    protected String resolveName(Level level) {
         return CONSOLE;
     }
 }

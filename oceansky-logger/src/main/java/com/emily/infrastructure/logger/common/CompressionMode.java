@@ -9,7 +9,7 @@ package com.emily.infrastructure.logger.common;
  * <p>
  * 压缩模式
  *
- * @author  Emily
+ * @author Emily
  * @since : Created in 2023/7/15 9:55 AM
  */
 public enum CompressionMode {

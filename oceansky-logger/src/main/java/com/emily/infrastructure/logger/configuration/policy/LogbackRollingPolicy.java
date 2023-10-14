@@ -24,7 +24,7 @@ public class LogbackRollingPolicy {
     private LogbackRollingPolicy() {
     }
 
-    public static LogbackRollingPolicy getSingleton() {
+    public static LogbackRollingPolicy create() {
         return ROLLING_POLICY;
     }
 
@@ -33,15 +33,15 @@ public class LogbackRollingPolicy {
      *
      * @param context      logback上下文
      * @param properties   日志属性配置
-     * @param fileAppender 归档文件appender
+     * @param appender 归档文件appender
      * @param loggerPath   日志文件路径
      * @return 策略
      */
-    public RollingPolicy getRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> fileAppender, String loggerPath) {
+    public RollingPolicy getRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         if (RollingPolicyType.SIZE_AND_TIME_BASED.equals(properties.getAppender().getRollingPolicy().getType())) {
-            return getSizeAndTimeBasedRollingPolicy(context, properties, fileAppender, loggerPath);
+            return getSizeAndTimeBasedRollingPolicy(context, properties, appender, loggerPath);
         } else {
-            return getTimeBasedRollingPolicy(context, properties, fileAppender, loggerPath);
+            return getTimeBasedRollingPolicy(context, properties, appender, loggerPath);
         }
     }
 
@@ -50,11 +50,11 @@ public class LogbackRollingPolicy {
      *
      * @param context      logback上下文
      * @param properties   日志属性配置
-     * @param fileAppender 归档文件appender
+     * @param appender 归档文件appender
      * @param loggerPath   日志文件路径
      * @return 基于时间的滚动策略
      */
-    RollingPolicy getTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> fileAppender, String loggerPath) {
+    RollingPolicy getTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         //文件归档大小和时间设置
         TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -81,7 +81,7 @@ public class LogbackRollingPolicy {
         //是否在应用程序启动时删除存档，默认：false
         policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
-        policy.setParent(fileAppender);
+        policy.setParent(appender);
         //添加内部状态
         policy.addInfo("Build TimeBasedRollingPolicy Success");
         policy.start();
@@ -93,11 +93,11 @@ public class LogbackRollingPolicy {
      *
      * @param context      logback上下文
      * @param properties   日志属性配置
-     * @param fileAppender 归档文件appender
+     * @param appender 归档文件appender
      * @param loggerPath   日志文件路径
      * @return 基于时间和大小的策略
      */
-    RollingPolicy getSizeAndTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> fileAppender, String loggerPath) {
+    RollingPolicy getSizeAndTimeBasedRollingPolicy(Context context, LoggerProperties properties, RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         //文件归档大小和时间设置
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> policy = new SizeAndTimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -126,7 +126,7 @@ public class LogbackRollingPolicy {
         //是否在应用程序启动时删除存档，默认：false
         policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
-        policy.setParent(fileAppender);
+        policy.setParent(appender);
         //添加内部状态
         policy.addInfo("Build SizeAndTimeBasedRollingPolicy Policy Success");
         policy.start();

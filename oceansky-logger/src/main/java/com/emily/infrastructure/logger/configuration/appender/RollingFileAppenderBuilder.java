@@ -5,12 +5,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
+import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoderBuilder;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
 import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicyBuilder;
-import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
@@ -27,7 +27,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LogbackProperty property;
+    private final CommonKeys commonKeys;
     /**
      * 属性配置
      */
@@ -37,10 +37,10 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
      */
     private final LoggerContext loggerContext;
 
-    private RollingFileAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext, LogbackProperty property) {
+    private RollingFileAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext, CommonKeys commonKeys) {
         this.properties = properties;
         this.loggerContext = loggerContext;
-        this.property = property;
+        this.commonKeys = commonKeys;
     }
 
     /**
@@ -91,18 +91,18 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
-        String filePath = property.getFilePath();
+        String filePath = commonKeys.getFilePath();
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
         // 基础路径
         String loggerPath = StrUtils.join(basePath, filePath, File.separator);
         //基础日志、分组日志
-        if (LogbackType.ROOT.equals(property.getLogbackType()) || LogbackType.GROUP.equals(property.getLogbackType())) {
+        if (LogbackType.ROOT.equals(commonKeys.getLogbackType()) || LogbackType.GROUP.equals(commonKeys.getLogbackType())) {
             loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
         }
         //分模块日志
-        else if (LogbackType.MODULE.equals(property.getLogbackType())) {
-            loggerPath = StrUtils.join(loggerPath, property.getFileName());
+        else if (LogbackType.MODULE.equals(commonKeys.getLogbackType())) {
+            loggerPath = StrUtils.join(loggerPath, commonKeys.getFileName());
         } else {
             throw new UnsupportedOperationException("Unsupported log type");
         }
@@ -117,11 +117,11 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
     @Override
     protected String resolveFilePattern() {
         //基础日志
-        if (LogbackType.ROOT.equals(property.getLogbackType())) {
+        if (LogbackType.ROOT.equals(commonKeys.getLogbackType())) {
             return properties.getRoot().getPattern();
         }
         //分组
-        if (LogbackType.GROUP.equals(property.getLogbackType())) {
+        if (LogbackType.GROUP.equals(commonKeys.getLogbackType())) {
             return properties.getGroup().getPattern();
         }
         //分模块
@@ -137,15 +137,15 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
      */
     @Override
     protected String resolveName(Level level) {
-        String fileName = property.getFileName();
+        String fileName = commonKeys.getFileName();
         if (StrUtils.isEmpty(fileName)) {
             fileName = level.levelStr.toLowerCase();
         }
         //拼装appender name
-        return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
+        return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
-    public static RollingFileAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext, LogbackProperty property) {
-        return new RollingFileAppenderBuilder(properties, loggerContext, property);
+    public static RollingFileAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext, CommonKeys commonKeys) {
+        return new RollingFileAppenderBuilder(properties, loggerContext, commonKeys);
     }
 }

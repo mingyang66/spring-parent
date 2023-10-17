@@ -3,11 +3,11 @@ package com.emily.infrastructure.logger.configuration.classic;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logger.configuration.appender.AsyncAppenderBuilder;
 import com.emily.infrastructure.logger.configuration.appender.ConsoleAppenderBuilder;
 import com.emily.infrastructure.logger.configuration.appender.RollingFileAppenderBuilder;
-import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 import static com.emily.infrastructure.logger.configuration.appender.ConsoleAppenderBuilder.CONSOLE;
@@ -32,15 +32,15 @@ public class LogbackRootBuilder extends AbstractLogback {
      * 日志级别以及优先级排序: OFF &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt;ALL
      */
     @Override
-    public Logger getLogger(LogbackProperty property) {
+    public Logger getLogger(CommonKeys commonKeys) {
         // 获取logger对象
-        Logger logger = loggerContext.getLogger(property.getLoggerName());
+        Logger logger = loggerContext.getLogger(commonKeys.getLoggerName());
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, loggerContext, property);
+        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, loggerContext, commonKeys);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender

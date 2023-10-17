@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.configuration.property;
+package com.emily.infrastructure.logger.common;
 
 
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  * @author Emily
  * @since : 2021/07/07
  */
-public class LogbackProperty {
+public class CommonKeys {
     /**
      * logger name
      */

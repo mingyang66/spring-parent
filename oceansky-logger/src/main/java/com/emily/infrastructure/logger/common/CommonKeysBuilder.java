@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.configuration.property;
+package com.emily.infrastructure.logger.common;
 
 
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  * @author Emily
  * @since : 2021/07/07
  */
-public class LogbackPropertyBuilder {
+public class CommonKeysBuilder {
     /**
      * logger name
      */
@@ -27,32 +27,32 @@ public class LogbackPropertyBuilder {
      */
     private LogbackType logbackType;
 
-    public LogbackPropertyBuilder withLoggerName(String loggerName) {
+    public CommonKeysBuilder withLoggerName(String loggerName) {
         this.loggerName = loggerName;
         return this;
     }
 
-    public LogbackPropertyBuilder withFilePath(String filePath) {
+    public CommonKeysBuilder withFilePath(String filePath) {
         this.filePath = filePath;
         return this;
     }
 
-    public LogbackPropertyBuilder withFileName(String fileName) {
+    public CommonKeysBuilder withFileName(String fileName) {
         this.fileName = fileName;
         return this;
     }
 
-    public LogbackPropertyBuilder withLogbackType(LogbackType logbackType) {
+    public CommonKeysBuilder withLogbackType(LogbackType logbackType) {
         this.logbackType = logbackType;
         return this;
     }
 
-    public static LogbackPropertyBuilder create() {
-        return new LogbackPropertyBuilder();
+    public static CommonKeysBuilder create() {
+        return new CommonKeysBuilder();
     }
 
-    public LogbackProperty build() {
-        LogbackProperty property = new LogbackProperty();
+    public CommonKeys build() {
+        CommonKeys property = new CommonKeys();
         property.setLoggerName(this.loggerName);
         property.setFilePath(this.filePath);
         property.setFileName(this.fileName);

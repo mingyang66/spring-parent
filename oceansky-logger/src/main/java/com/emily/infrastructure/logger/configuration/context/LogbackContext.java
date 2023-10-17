@@ -1,22 +1,17 @@
 package com.emily.infrastructure.logger.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
+import com.emily.infrastructure.logger.common.CommonKeys;
+import com.emily.infrastructure.logger.common.CommonKeysBuilder;
+import com.emily.infrastructure.logger.common.CommonNames;
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.classic.AbstractLogback;
-import com.emily.infrastructure.logger.configuration.classic.LogbackGroupBuilder;
-import com.emily.infrastructure.logger.configuration.classic.LogbackModuleBuilder;
-import com.emily.infrastructure.logger.configuration.classic.LogbackRootBuilder;
+import com.emily.infrastructure.logger.configuration.classic.LoggerDirector;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
-import com.emily.infrastructure.logger.configuration.property.LogbackProperty;
-import com.emily.infrastructure.logger.configuration.property.LogbackPropertyBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
-import com.emily.infrastructure.logger.manager.LoggerCacheManager;
 import org.slf4j.Logger;
 
-import java.text.MessageFormat;
-
+import static com.emily.infrastructure.logger.manager.LoggerCacheManager.APPENDER;
 import static com.emily.infrastructure.logger.manager.LoggerCacheManager.LOGGER;
 
 /**
@@ -28,6 +23,7 @@ import static com.emily.infrastructure.logger.manager.LoggerCacheManager.LOGGER;
 public class LogbackContext implements Context {
     private LoggerProperties properties;
     private LoggerContext loggerContext;
+    private LoggerDirector loggerDirector;
 
     /**
      * ------------------------------------
@@ -44,6 +40,7 @@ public class LogbackContext implements Context {
     public void configure(LoggerProperties properties, LoggerContext context) {
         this.properties = properties;
         this.loggerContext = context;
+        this.loggerDirector = LoggerDirector.create(properties, context);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(properties, context);
         configuration.start();
@@ -87,25 +84,24 @@ public class LogbackContext implements Context {
      */
     @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
-        LogbackProperty property = LogbackPropertyBuilder.create()
-                // 文件保存路径
-                .withFilePath(PathUtils.normalizePath(filePath))
-                // 文件名
+        //格式化路径
+        filePath = PathUtils.normalizePath(filePath);
+        //logger name
+        String loggerName = CommonNames.resolveLoggerName(logbackType, filePath, fileName, clazz);
+        //通用参数
+        CommonKeys commonKeys = CommonKeysBuilder.create()
+                .withLoggerName(loggerName)
+                .withFilePath(filePath)
                 .withFileName(fileName)
-                // 日志类型
                 .withLogbackType(logbackType)
                 .build();
-        // 获取logger name
-        String loggerName = getLoggerName(clazz, property);
-        // 设置logger name
-        property.setLoggerName(loggerName);
         // 获取Logger对象
         Logger logger = LOGGER.get(loggerName);
         if (logger == null) {
             synchronized (LogbackContext.class) {
                 if (logger == null) {
                     // 获取logger日志对象
-                    logger = getLogger(property);
+                    logger = loggerDirector.getLogger(commonKeys);
                     // 存入缓存
                     LOGGER.putIfAbsent(loggerName, logger);
                 } else {
@@ -116,59 +112,20 @@ public class LogbackContext implements Context {
         return logger;
     }
 
-
-    /**
-     * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
-     *
-     * @param property 属性配置上下文传递类
-     */
-    Logger getLogger(LogbackProperty property) {
-        AbstractLogback logback;
-        if (property.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = LogbackModuleBuilder.create(properties, loggerContext);
-        } else if (property.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = LogbackGroupBuilder.create(properties, loggerContext);
-        } else {
-            logback = LogbackRootBuilder.create(properties, loggerContext);
-        }
-        return logback.getLogger(property);
-    }
-
-    /**
-     * 获取 logger name
-     * 拼接规则：分组.路径.文件名（可能不存在）.类名（包括包名）
-     *
-     * @param clazz    当前类实例
-     * @param property property属性名
-     * @return logger name
-     */
-    <T> String getLoggerName(Class<T> clazz, LogbackProperty property) {
-        if (property.getFileName() == null) {
-            property.setFileName(StrUtils.EMPTY);
-        }
-        //拼装logger name
-        return MessageFormat.format("{0}{1}.{2}.{3}", property.getLogbackType(), property.getFilePath(), property.getFileName(), clazz.getName())
-                .replace(PathUtils.SLASH, PathUtils.DOT)
-                .replace(StrUtils.join(PathUtils.DOT, PathUtils.DOT), PathUtils.DOT);
-    }
-
     /**
      * 启动上下文，初始化root logger对象
      */
     @Override
     public void start() {
-        // 初始化root logger
-        LogbackProperty property = new LogbackPropertyBuilder()
+        // 获取root logger对象
+        Logger rootLogger = loggerDirector.getLogger(new CommonKeysBuilder()
                 // logger name
-                .withLoggerName(Logger.ROOT_LOGGER_NAME)
+                .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path
                 .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
                 // logger type
                 .withLogbackType(LogbackType.ROOT)
-                .build();
-        // 获取root logger对象
-        Logger rootLogger = getLogger(property);
+                .build());
         // 将root添加到缓存
         LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
@@ -182,6 +139,6 @@ public class LogbackContext implements Context {
         loggerContext.stop();
         loggerContext.reset();
         LOGGER.clear();
-        LoggerCacheManager.APPENDER.clear();
+        APPENDER.clear();
     }
 }

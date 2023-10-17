@@ -9,7 +9,8 @@ Bug Fixes
 4. logger policy构建对象重构为builder模式；
 5. logger encode构建对象重构为builder模式；
 6. logger filter构建对象重构为builder模式；
-7. 
+7. 新增CommonKeys解析logger name工具类；
+8. LoggerContext类代码重构优化调整、修改获取loggerName方法、；
 
 -----
 基础库发布4.3.9

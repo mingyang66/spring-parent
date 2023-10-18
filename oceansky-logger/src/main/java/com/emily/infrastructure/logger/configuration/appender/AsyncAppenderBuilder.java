@@ -23,11 +23,11 @@ public class AsyncAppenderBuilder {
     /**
      * logger上下文
      */
-    private final LoggerContext loggerContext;
+    private final LoggerContext lc;
 
-    private AsyncAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext) {
+    private AsyncAppenderBuilder(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.lc = lc;
     }
 
     /**
@@ -43,7 +43,7 @@ public class AsyncAppenderBuilder {
         AsyncAppender appender = new AsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(loggerContext);
+        appender.setContext(lc);
         //appender的name属性
         appender.setName(String.join("", PREFIX, ref.getName()));
         //队列的最大容量，默认为 256
@@ -64,7 +64,7 @@ public class AsyncAppenderBuilder {
         return appender;
     }
 
-    public static AsyncAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext) {
-        return new AsyncAppenderBuilder(properties, loggerContext);
+    public static AsyncAppenderBuilder create(LoggerProperties properties, LoggerContext lc) {
+        return new AsyncAppenderBuilder(properties, lc);
     }
 }

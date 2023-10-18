@@ -35,11 +35,11 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
     /**
      * logger上下文
      */
-    private final LoggerContext loggerContext;
+    private final LoggerContext lc;
 
-    private RollingFileAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext, CommonKeys commonKeys) {
+    private RollingFileAppenderBuilder(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.lc = lc;
         this.commonKeys = commonKeys;
     }
 
@@ -52,7 +52,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
         //创建策略对象
-        LogbackRollingPolicyBuilder policy = LogbackRollingPolicyBuilder.create(loggerContext, properties.getAppender().getRollingPolicy());
+        LogbackRollingPolicyBuilder policy = LogbackRollingPolicyBuilder.create(lc, properties.getAppender().getRollingPolicy());
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
@@ -63,7 +63,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         appender.setRollingPolicy(policy.build(appender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(loggerContext);
+        appender.setContext(lc);
         //appender的name属性
         appender.setName(this.resolveName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
@@ -71,9 +71,9 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
-        appender.addFilter(LogbackFilterBuilder.create(loggerContext).buildLevelFilter(level));
+        appender.addFilter(LogbackFilterBuilder.create(lc).buildLevelFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogbackEncoderBuilder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogbackEncoderBuilder.create(lc).buildPatternLayoutEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();
@@ -106,7 +106,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         } else {
             throw new UnsupportedOperationException("Unsupported log type");
         }
-        return StrUtils.substVars(loggerContext, loggerPath, ".log");
+        return StrUtils.substVars(lc, loggerPath, ".log");
     }
 
     /**
@@ -145,7 +145,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
-    public static RollingFileAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext, CommonKeys commonKeys) {
-        return new RollingFileAppenderBuilder(properties, loggerContext, commonKeys);
+    public static RollingFileAppenderBuilder create(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+        return new RollingFileAppenderBuilder(properties, lc, commonKeys);
     }
 }

@@ -18,11 +18,11 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  */
 public class LogbackModuleBuilder extends AbstractLogback {
     private final LoggerProperties properties;
-    private final LoggerContext loggerContext;
+    private final LoggerContext lc;
 
-    private LogbackModuleBuilder(LoggerProperties properties, LoggerContext loggerContext) {
+    private LogbackModuleBuilder(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.lc = lc;
     }
 
     /**
@@ -35,17 +35,17 @@ public class LogbackModuleBuilder extends AbstractLogback {
     @Override
     public Logger getLogger(CommonKeys commonKeys) {
         // 获取Logger对象
-        Logger logger = loggerContext.getLogger(commonKeys.getLoggerName());
+        Logger logger = lc.getLogger(commonKeys.getLoggerName());
         // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getModule().getLevel().levelStr));
         // appender对象
-        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, loggerContext, commonKeys);
+        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, lc, commonKeys);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            AsyncAppenderBuilder asyncAppender = AsyncAppenderBuilder.create(properties, loggerContext);
+            AsyncAppenderBuilder asyncAppender = AsyncAppenderBuilder.create(properties, lc);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }
@@ -80,13 +80,13 @@ public class LogbackModuleBuilder extends AbstractLogback {
         }
         if (properties.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(ConsoleAppenderBuilder.create(properties, loggerContext).build(logger.getLevel()));
+            logger.addAppender(ConsoleAppenderBuilder.create(properties, lc).build(logger.getLevel()));
         }
 
         return logger;
     }
 
-    public static AbstractLogback create(LoggerProperties properties, LoggerContext loggerContext) {
-        return new LogbackModuleBuilder(properties, loggerContext);
+    public static AbstractLogback create(LoggerProperties properties, LoggerContext lc) {
+        return new LogbackModuleBuilder(properties, lc);
     }
 }

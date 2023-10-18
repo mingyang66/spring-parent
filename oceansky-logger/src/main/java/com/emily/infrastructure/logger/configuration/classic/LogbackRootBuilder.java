@@ -19,12 +19,12 @@ import static com.emily.infrastructure.logger.configuration.appender.ConsoleAppe
  * @since : 2021/07/08
  */
 public class LogbackRootBuilder extends AbstractLogback {
-    private final LoggerContext loggerContext;
+    private final LoggerContext lc;
     private final LoggerProperties properties;
 
-    private LogbackRootBuilder(LoggerProperties properties, LoggerContext loggerContext) {
+    private LogbackRootBuilder(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.lc = lc;
     }
 
     /**
@@ -34,17 +34,17 @@ public class LogbackRootBuilder extends AbstractLogback {
     @Override
     public Logger getLogger(CommonKeys commonKeys) {
         // 获取logger对象
-        Logger logger = loggerContext.getLogger(commonKeys.getLoggerName());
+        Logger logger = lc.getLogger(commonKeys.getLoggerName());
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
         // appender对象
-        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, loggerContext, commonKeys);
+        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, lc, commonKeys);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            AsyncAppenderBuilder asyncAppender = AsyncAppenderBuilder.create(properties, loggerContext);
+            AsyncAppenderBuilder asyncAppender = AsyncAppenderBuilder.create(properties, lc);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }
@@ -83,7 +83,7 @@ public class LogbackRootBuilder extends AbstractLogback {
             //基于springboot默认初始化的appender name默认大写
             logger.detachAppender(CONSOLE.toUpperCase());
             // 添加控制台appender
-            logger.addAppender(ConsoleAppenderBuilder.create(properties, loggerContext).build(logger.getLevel()));
+            logger.addAppender(ConsoleAppenderBuilder.create(properties, lc).build(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(CONSOLE);
@@ -93,7 +93,7 @@ public class LogbackRootBuilder extends AbstractLogback {
         return logger;
     }
 
-    public static AbstractLogback create(LoggerProperties properties, LoggerContext loggerContext) {
-        return new LogbackRootBuilder(properties, loggerContext);
+    public static AbstractLogback create(LoggerProperties properties, LoggerContext lc) {
+        return new LogbackRootBuilder(properties, lc);
     }
 }

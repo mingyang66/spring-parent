@@ -14,11 +14,11 @@ import org.slf4j.Logger;
  */
 public class LoggerDirector {
     private LoggerProperties properties;
-    private LoggerContext loggerContext;
+    private LoggerContext lc;
 
-    public LoggerDirector(LoggerProperties properties, LoggerContext loggerContext) {
+    public LoggerDirector(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.lc = lc;
     }
 
     /**
@@ -30,16 +30,16 @@ public class LoggerDirector {
     public Logger getLogger(CommonKeys commonKeys) {
         AbstractLogback logback;
         if (commonKeys.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = LogbackModuleBuilder.create(properties, loggerContext);
+            logback = LogbackModuleBuilder.create(properties, lc);
         } else if (commonKeys.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = LogbackGroupBuilder.create(properties, loggerContext);
+            logback = LogbackGroupBuilder.create(properties, lc);
         } else {
-            logback = LogbackRootBuilder.create(properties, loggerContext);
+            logback = LogbackRootBuilder.create(properties, lc);
         }
         return logback.getLogger(commonKeys);
     }
 
-    public static LoggerDirector create(LoggerProperties properties, LoggerContext loggerContext) {
-        return new LoggerDirector(properties, loggerContext);
+    public static LoggerDirector create(LoggerProperties properties, LoggerContext lc) {
+        return new LoggerDirector(properties, lc);
     }
 }

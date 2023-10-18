@@ -22,7 +22,7 @@ import static com.emily.infrastructure.logger.common.CommonCache.LOGGER;
  */
 public class LogbackContext implements Context {
     private LoggerProperties properties;
-    private LoggerContext loggerContext;
+    private LoggerContext lc;
     private LoggerDirector loggerDirector;
 
     /**
@@ -34,23 +34,23 @@ public class LogbackContext implements Context {
      * 5. 全局过滤器TurboFilter控制
      *
      * @param properties logback日志属性
-     * @param context    上下文
+     * @param lc    上下文
      */
     @Override
-    public void configure(LoggerProperties properties, LoggerContext context) {
+    public void configure(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.loggerContext = context;
-        this.loggerDirector = LoggerDirector.create(properties, context);
+        this.lc = lc;
+        this.loggerDirector = LoggerDirector.create(properties, lc);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
-        ConfigurationAction configuration = new ConfigurationAction(properties, context);
+        ConfigurationAction configuration = new ConfigurationAction(properties, lc);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> {
-            context.addTurboFilter(LogbackFilterBuilder.create(context).buildAcceptMarkerFilter(marker));
+            lc.addTurboFilter(LogbackFilterBuilder.create(lc).buildAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
         properties.getMarker().getDenyMarker().forEach((marker) -> {
-            context.addTurboFilter(LogbackFilterBuilder.create(context).buildDenyMarkerFilter(marker));
+            lc.addTurboFilter(LogbackFilterBuilder.create(lc).buildDenyMarkerFilter(marker));
         });
     }
 
@@ -136,8 +136,8 @@ public class LogbackContext implements Context {
      */
     @Override
     public void stopAndReset() {
-        loggerContext.stop();
-        loggerContext.reset();
+        lc.stop();
+        lc.reset();
         LOGGER.clear();
         APPENDER.clear();
     }

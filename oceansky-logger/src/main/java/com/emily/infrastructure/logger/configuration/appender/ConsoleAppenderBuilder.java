@@ -28,11 +28,11 @@ public class ConsoleAppenderBuilder extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LoggerContext loggerContext;
+    private final LoggerContext lc;
 
-    private ConsoleAppenderBuilder(LoggerProperties properties, LoggerContext loggerContext) {
+    private ConsoleAppenderBuilder(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.loggerContext = loggerContext;
+        this.lc = lc;
     }
 
     /**
@@ -47,13 +47,13 @@ public class ConsoleAppenderBuilder extends AbstractAppender {
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(loggerContext);
+        appender.setContext(lc);
         //appender的name属性
         appender.setName(this.resolveName(level));
         //添加过滤器
-        appender.addFilter(LogbackFilterBuilder.create(loggerContext).buildThresholdLevelFilter(level));
+        appender.addFilter(LogbackFilterBuilder.create(lc).buildThresholdLevelFilter(level));
         //设置编码
-        appender.setEncoder(LogbackEncoderBuilder.create(loggerContext).buildPatternLayoutEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogbackEncoderBuilder.create(lc).buildPatternLayoutEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(true);
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
@@ -78,7 +78,7 @@ public class ConsoleAppenderBuilder extends AbstractAppender {
         return CONSOLE;
     }
 
-    public static ConsoleAppenderBuilder create(LoggerProperties properties, LoggerContext loggerContext) {
-        return new ConsoleAppenderBuilder(properties, loggerContext);
+    public static ConsoleAppenderBuilder create(LoggerProperties properties, LoggerContext lc) {
+        return new ConsoleAppenderBuilder(properties, lc);
     }
 }

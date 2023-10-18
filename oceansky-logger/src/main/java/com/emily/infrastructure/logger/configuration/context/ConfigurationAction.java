@@ -28,9 +28,9 @@ public class ConfigurationAction extends ContextAwareBase {
     static final String DEBUG_SYSTEM_PROPERTY_KEY = "logback.debug";
     private LoggerProperties properties;
 
-    public ConfigurationAction(LoggerProperties properties, LoggerContext context) {
+    public ConfigurationAction(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
-        this.context = context;
+        this.context = lc;
     }
 
     /**

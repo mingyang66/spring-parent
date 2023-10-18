@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger;
 
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
-import com.emily.infrastructure.logger.manager.LoggerContextInitializer;
+import com.emily.infrastructure.logger.init.LoggerContextInitializer;
 import org.slf4j.Logger;
 
 /**

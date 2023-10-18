@@ -11,8 +11,8 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
-import static com.emily.infrastructure.logger.manager.LoggerCacheManager.APPENDER;
-import static com.emily.infrastructure.logger.manager.LoggerCacheManager.LOGGER;
+import static com.emily.infrastructure.logger.common.CommonCache.APPENDER;
+import static com.emily.infrastructure.logger.common.CommonCache.LOGGER;
 
 /**
  * 日志类 logback+slf4j

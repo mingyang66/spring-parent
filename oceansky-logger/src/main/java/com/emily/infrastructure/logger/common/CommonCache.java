@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.manager;
+package com.emily.infrastructure.logger.common;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Emily
  * @since :  Created in 2023/7/2 5:31 PM
  */
-public class LoggerCacheManager {
+public class CommonCache {
     /**
      * Logger对象容器
      */

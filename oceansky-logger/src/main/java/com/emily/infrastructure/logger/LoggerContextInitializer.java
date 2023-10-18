@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.init;
+package com.emily.infrastructure.logger;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ClassicEnvUtil;

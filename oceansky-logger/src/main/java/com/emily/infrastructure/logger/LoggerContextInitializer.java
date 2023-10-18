@@ -16,7 +16,7 @@ import java.util.List;
  * @since :  Created in 2023/7/2 11:16 AM
  */
 public class LoggerContextInitializer {
-    private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
+    private static final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
     private static final Logger logger = LoggerFactory.getLogger(LoggerContextInitializer.class);
     /**
      * logback sdk context
@@ -48,7 +48,7 @@ public class LoggerContextInitializer {
         //context = EnvUtil.loadFromServiceLoader(Context.class); // new version expire
         context = list.get(0);
         // 对属性进行设置
-        context.configure(properties, LOGGER_CONTEXT);
+        context.configure(properties, lc);
         // 初始化root logger对象
         context.start();
         if (isAlreadyInitialized()) {

@@ -34,7 +34,7 @@ public class LogbackContext implements Context {
      * 5. 全局过滤器TurboFilter控制
      *
      * @param properties logback日志属性
-     * @param lc    上下文
+     * @param lc         上下文
      */
     @Override
     public void configure(LoggerProperties properties, LoggerContext lc) {

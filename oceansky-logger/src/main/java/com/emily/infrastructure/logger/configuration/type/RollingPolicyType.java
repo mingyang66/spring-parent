@@ -14,5 +14,9 @@ public enum RollingPolicyType {
     /**
      * 基于时间的文件归档策略
      */
-    TIME_BASE
+    TIME_BASE,
+    /**
+     * 基于固定窗口大小的归档策略
+     */
+    FIXED_WINDOW
 }

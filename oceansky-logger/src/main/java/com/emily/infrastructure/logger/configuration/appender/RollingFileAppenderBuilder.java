@@ -10,7 +10,7 @@ import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoderBuilder;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
-import com.emily.infrastructure.logger.configuration.policy.LogbackRollingPolicyBuilder;
+import com.emily.infrastructure.logger.configuration.policy.RollingPolicyDirector;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
@@ -51,8 +51,10 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
      */
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
+        //归档策略属性配置
+        LoggerProperties.RollingPolicy rp = properties.getAppender().getRollingPolicy();
         //创建策略对象
-        LogbackRollingPolicyBuilder policy = LogbackRollingPolicyBuilder.create(lc, properties.getAppender().getRollingPolicy());
+        RollingPolicyDirector director = RollingPolicyDirector.create(lc, rp);
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
@@ -60,7 +62,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
-        appender.setRollingPolicy(policy.build(appender, loggerPath));
+        appender.setRollingPolicy(director.build(appender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(lc);

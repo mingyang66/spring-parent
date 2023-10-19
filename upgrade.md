@@ -10,7 +10,8 @@ Bug Fixes
 5. logger encode构建对象重构为builder模式；
 6. logger filter构建对象重构为builder模式；
 7. 新增CommonKeys解析logger name工具类；
-8. LoggerContext类代码重构优化调整、修改获取loggerName方法、；
+8. LoggerContext类代码重构优化调整、修改获取loggerName方法；
+9. 新增FixedWindow固定窗口大小归档策略类；
 
 -----
 基础库发布4.3.9

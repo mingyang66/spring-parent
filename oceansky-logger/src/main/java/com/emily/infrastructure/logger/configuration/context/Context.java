@@ -16,7 +16,7 @@ public interface Context {
      * 属性配置
      *
      * @param properties logback日志属性
-     * @param lc    上下文
+     * @param lc         上下文
      */
     void configure(LoggerProperties properties, LoggerContext lc);
 

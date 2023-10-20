@@ -841,4 +841,14 @@ public class StringUtils {
         }
         return str.split(separatorChars);
     }
+
+    /**
+     * 字符串拼接
+     *
+     * @param strings 字符串数组
+     * @return 拼接后的字符串
+     */
+    public static String join(String... strings) {
+        return String.join(EMPTY, strings);
+    }
 }

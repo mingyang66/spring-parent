@@ -24,24 +24,6 @@ public class RedisDbProperties {
      */
     private boolean enabled = true;
     /**
-     * 是否开启客户端监控
-     */
-    private boolean monitorEnabled = false;
-    /**
-     * 监控Redis数据库固定间隔时间，默认：30s
-     */
-    private Duration monitorFireRate = Duration.ofSeconds(30);
-    /**
-     * 是否开启共享本地物理连接校验，默认：false
-     * 如果校验失败，则新建连接
-     * 开启后会损耗部分性能，每次获取连接都要校验是否开启及调用ping方法
-     */
-    private boolean validateConnection = false;
-    /**
-     * 是否开启共享本地物理连接，默认：true
-     */
-    private boolean shareNativeConnection = true;
-    /**
      * 默认配置标识
      */
     private String defaultConfig;
@@ -88,37 +70,5 @@ public class RedisDbProperties {
 
     public RedisProperties getDefaultDataSource() {
         return this.config.get(this.getDefaultConfig());
-    }
-
-    public Duration getMonitorFireRate() {
-        return monitorFireRate;
-    }
-
-    public void setMonitorFireRate(Duration monitorFireRate) {
-        this.monitorFireRate = monitorFireRate;
-    }
-
-    public boolean isMonitorEnabled() {
-        return monitorEnabled;
-    }
-
-    public void setMonitorEnabled(boolean monitorEnabled) {
-        this.monitorEnabled = monitorEnabled;
-    }
-
-    public boolean isValidateConnection() {
-        return validateConnection;
-    }
-
-    public void setValidateConnection(boolean validateConnection) {
-        this.validateConnection = validateConnection;
-    }
-
-    public boolean isShareNativeConnection() {
-        return shareNativeConnection;
-    }
-
-    public void setShareNativeConnection(boolean shareNativeConnection) {
-        this.shareNativeConnection = shareNativeConnection;
     }
 }

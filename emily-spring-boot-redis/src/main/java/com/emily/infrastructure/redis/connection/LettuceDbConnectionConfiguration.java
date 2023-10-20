@@ -69,10 +69,9 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     @Bean
     @ConditionalOnMissingBean({RedisConnectionFactory.class})
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisConnectionDetails connectionDetails) {
-        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "默认标识不可为空");
-        Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.getProperties().getConfig(), "Redis连接配置不存在");
+        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
         LettuceConnectionFactory redisConnectionFactory = null;
-        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
             LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientResources, properties.getLettuce().getPool(), key);

@@ -47,9 +47,8 @@ public class RedisDbReactiveAutoConfiguration {
                 .hashValue(jdkSerializer)
                 .build();
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
-        Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveRedisTemplate reactiveRedisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {
                 reactiveRedisTemplate = new ReactiveRedisTemplate<>(redisConnectionFactory, serializationContext);
@@ -66,9 +65,8 @@ public class RedisDbReactiveAutoConfiguration {
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveStringRedisTemplate reactiveStringRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
-        Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveStringRedisTemplate reactiveStringRedisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {
                 reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(redisConnectionFactory);

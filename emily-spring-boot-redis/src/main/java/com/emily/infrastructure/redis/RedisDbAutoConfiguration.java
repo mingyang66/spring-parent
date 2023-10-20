@@ -52,10 +52,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(RedisConnectionDetails.class)
     PropertiesRedisDbConnectionDetails redisConnectionDetails() {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
-        Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         PropertiesRedisDbConnectionDetails redisConnectionDetails = null;
-        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
             PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
@@ -71,10 +70,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
-        Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             if (defaultConfig.equals(key)) {
@@ -93,10 +91,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
-        Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         StringRedisTemplate stringRedisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             if (defaultConfig.equals(key)) {

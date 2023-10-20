@@ -61,7 +61,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             if (defaultConfig.equals(key)) {
                 redisConnectionDetails = propertiesRedisDbConnectionDetails;
             } else {
-                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_CONNECT_DETAILS, propertiesRedisDbConnectionDetails);
+                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_CONNECT_DETAILS), propertiesRedisDbConnectionDetails);
             }
         }
         return redisConnectionDetails;
@@ -79,9 +79,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 redisTemplate = template;
             } else {
-                template.setConnectionFactory(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_TEMPLATE, template);
+                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_TEMPLATE), template);
             }
         }
 
@@ -100,9 +100,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 stringRedisTemplate = template;
             } else {
-                template.setConnectionFactory(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.STRING_REDIS_TEMPLATE, template);
+                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.STRING_REDIS_TEMPLATE), template);
             }
         }
 

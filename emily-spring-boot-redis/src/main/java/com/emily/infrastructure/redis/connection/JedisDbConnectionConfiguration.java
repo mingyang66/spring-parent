@@ -75,7 +75,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             if (defaultConfig.equals(key)) {
                 this.setConnectionDetails(connectionDetails);
             } else {
-                this.setConnectionDetails(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
+                this.setConnectionDetails(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
             }
             JedisConnectionFactory jedisConnectionFactory;
             if (getSentinelConfig() != null) {
@@ -89,7 +89,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
                 redisConnectionFactory = jedisConnectionFactory;
             } else {
                 jedisConnectionFactory.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, jedisConnectionFactory);
+                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
             }
         }
         return redisConnectionFactory;

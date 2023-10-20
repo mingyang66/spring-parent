@@ -53,8 +53,8 @@ public class RedisDbReactiveAutoConfiguration {
             if (defaultConfig.equals(key)) {
                 reactiveRedisTemplate = new ReactiveRedisTemplate<>(redisConnectionFactory, serializationContext);
             } else {
-                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REACTIVE_REDIS_TEMPLATE, new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
+                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REACTIVE_REDIS_TEMPLATE), new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
             }
         }
         return reactiveRedisTemplate;
@@ -71,8 +71,8 @@ public class RedisDbReactiveAutoConfiguration {
             if (defaultConfig.equals(key)) {
                 reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(redisConnectionFactory);
             } else {
-                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REACTIVE_STRING_REDIS_TEMPLATE, new ReactiveStringRedisTemplate(connectionFactory));
+                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REACTIVE_STRING_REDIS_TEMPLATE), new ReactiveStringRedisTemplate(connectionFactory));
             }
         }
         return reactiveStringRedisTemplate;

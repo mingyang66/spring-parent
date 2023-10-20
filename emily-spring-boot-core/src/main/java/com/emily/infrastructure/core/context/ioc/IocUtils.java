@@ -28,7 +28,7 @@ public class IocUtils {
     }
 
     public static void setApplicationContext(ApplicationContext applicationContext) {
-        applicationContext = applicationContext;
+        IocUtils.applicationContext = applicationContext;
     }
 
     /**

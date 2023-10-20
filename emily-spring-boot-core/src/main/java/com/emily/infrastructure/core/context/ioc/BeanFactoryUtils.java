@@ -11,7 +11,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 public class BeanFactoryUtils {
     private static DefaultListableBeanFactory defaultListableBeanFactory;
 
-    public static void registerDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
+    public static void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
         BeanFactoryUtils.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 

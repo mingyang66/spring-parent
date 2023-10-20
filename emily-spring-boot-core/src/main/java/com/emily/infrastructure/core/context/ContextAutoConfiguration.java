@@ -41,7 +41,7 @@ public class ContextAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         //设置IOC容器工厂类
-        BeanFactoryUtils.registerDefaultListableBeanFactory((DefaultListableBeanFactory) beanFactory);
+        BeanFactoryUtils.setDefaultListableBeanFactory((DefaultListableBeanFactory) beanFactory);
         if (beanFactory.containsBeanDefinition(BEANNAME)) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(BEANNAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

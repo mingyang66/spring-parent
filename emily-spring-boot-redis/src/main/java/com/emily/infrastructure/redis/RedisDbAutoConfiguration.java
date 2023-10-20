@@ -27,6 +27,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.emily.infrastructure.redis.common.SerializerBeanUtils.jackson2JsonRedisSerializer;
+import static com.emily.infrastructure.redis.common.SerializerBeanUtils.stringSerializer;
+
 /**
  * Redis多数据源配置，参考源码：LettuceConnectionConfiguration
  * {@link org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration}
@@ -75,6 +78,10 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
+            template.setKeySerializer(stringSerializer());
+            template.setValueSerializer(jackson2JsonRedisSerializer());
+            template.setHashKeySerializer(stringSerializer());
+            template.setHashValueSerializer(jackson2JsonRedisSerializer());
             if (defaultConfig.equals(key)) {
                 template.setConnectionFactory(redisConnectionFactory);
                 redisTemplate = template;
@@ -96,6 +103,10 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
+            template.setKeySerializer(stringSerializer());
+            template.setValueSerializer(stringSerializer());
+            template.setHashKeySerializer(stringSerializer());
+            template.setHashValueSerializer(stringSerializer());
             if (defaultConfig.equals(key)) {
                 template.setConnectionFactory(redisConnectionFactory);
                 stringRedisTemplate = template;

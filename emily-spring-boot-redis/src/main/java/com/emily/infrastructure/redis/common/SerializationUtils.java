@@ -14,7 +14,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author :  Emily
  * @since :  2023/10/21 9:21 PM
  */
-public class SerializerBeanUtils {
+public class SerializationUtils {
     /**
      * 初始化string序列化对象
      *

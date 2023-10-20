@@ -27,8 +27,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.redis.common.SerializerBeanUtils.jackson2JsonRedisSerializer;
-import static com.emily.infrastructure.redis.common.SerializerBeanUtils.stringSerializer;
+import static com.emily.infrastructure.redis.common.SerializationUtils.jackson2JsonRedisSerializer;
+import static com.emily.infrastructure.redis.common.SerializationUtils.stringSerializer;
 
 /**
  * Redis多数据源配置，参考源码：LettuceConnectionConfiguration

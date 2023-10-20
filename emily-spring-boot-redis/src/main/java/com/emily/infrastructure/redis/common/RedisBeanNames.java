@@ -4,7 +4,7 @@ package com.emily.infrastructure.redis.common;
  * @author :  Emily
  * @since :  2023/9/26 9:23 PM
  */
-public class RedisInfo {
+public class RedisBeanNames {
     public static final String REDIS_TEMPLATE = "RedisTemplate";
     public static final String DEFAULT_REDIS_TEMPLATE = "redisTemplate";
     public static final String STRING_REDIS_TEMPLATE = "StringRedisTemplate";

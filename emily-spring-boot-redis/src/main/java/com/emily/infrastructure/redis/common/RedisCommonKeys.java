@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
  * @author Emily
  * @since Created in 2022/8/18 2:05 下午
  */
-public class RedisDbHelper {
+public class RedisCommonKeys {
 
     /**
      * 获取Redis键key方法 A:B:C

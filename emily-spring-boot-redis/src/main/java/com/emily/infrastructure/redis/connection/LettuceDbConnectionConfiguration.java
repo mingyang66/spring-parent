@@ -1,8 +1,9 @@
 package com.emily.infrastructure.redis.connection;
 
 
+import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
-import com.emily.infrastructure.redis.common.RedisInfo;
+import com.emily.infrastructure.redis.common.RedisBeanNames;
 import io.lettuce.core.*;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
@@ -10,7 +11,6 @@ import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -49,11 +49,9 @@ import java.util.Objects;
         matchIfMissing = true
 )
 public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfiguration {
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    LettuceDbConnectionConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<SslBundles> sslBundles) {
+    LettuceDbConnectionConfiguration(RedisDbProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<SslBundles> sslBundles) {
         super(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, sslBundles);
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     @Bean(
@@ -82,10 +80,10 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 this.setConnectionDetails(connectionDetails);
                 redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
             } else {
-                this.setConnectionDetails(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
+                this.setConnectionDetails(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
                 LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
                 connectionFactory.afterPropertiesSet();
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECTION_FACTORY, connectionFactory);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, connectionFactory);
             }
         }
         return redisConnectionFactory;

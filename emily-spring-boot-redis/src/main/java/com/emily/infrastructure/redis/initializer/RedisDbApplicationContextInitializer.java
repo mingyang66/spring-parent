@@ -5,7 +5,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 
 /**
- * RedisAutoConfiguration自动化配置关闭
+ * 关闭springboot starter默认sdk LettuceConnectionConfiguration的自动化配置
  *
  * @author Emily
  * @since 2020/09/22

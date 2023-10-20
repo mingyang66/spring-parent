@@ -1,7 +1,7 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.redis.common.RedisInfo;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
+import com.emily.infrastructure.redis.common.RedisBeanNames;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -27,16 +27,14 @@ import java.util.Objects;
 @AutoConfiguration(after = RedisDbAutoConfiguration.class, before = RedisReactiveAutoConfiguration.class)
 @ConditionalOnClass({ReactiveRedisConnectionFactory.class, ReactiveRedisTemplate.class, Flux.class})
 public class RedisDbReactiveAutoConfiguration {
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
     private final RedisDbProperties redisDbProperties;
 
-    public RedisDbReactiveAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+    public RedisDbReactiveAutoConfiguration(RedisDbProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE)
+    @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory, ResourceLoader resourceLoader) {
         JdkSerializationRedisSerializer jdkSerializer = new JdkSerializationRedisSerializer(
@@ -48,7 +46,7 @@ public class RedisDbReactiveAutoConfiguration {
                 .hashKey(jdkSerializer)
                 .hashValue(jdkSerializer)
                 .build();
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveRedisTemplate reactiveRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
@@ -56,18 +54,18 @@ public class RedisDbReactiveAutoConfiguration {
             if (defaultConfig.equals(key)) {
                 reactiveRedisTemplate = new ReactiveRedisTemplate<>(redisConnectionFactory, serializationContext);
             } else {
-                ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REACTIVE_REDIS_TEMPLATE, new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
+                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REACTIVE_REDIS_TEMPLATE, new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
             }
         }
         return reactiveRedisTemplate;
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
+    @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveStringRedisTemplate reactiveStringRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.redisDbProperties.getConfig(), "Redis连接配置不存在");
         ReactiveStringRedisTemplate reactiveStringRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
@@ -75,8 +73,8 @@ public class RedisDbReactiveAutoConfiguration {
             if (defaultConfig.equals(key)) {
                 reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(redisConnectionFactory);
             } else {
-                ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REACTIVE_STRING_REDIS_TEMPLATE, new ReactiveStringRedisTemplate(connectionFactory));
+                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, ReactiveRedisConnectionFactory.class);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REACTIVE_STRING_REDIS_TEMPLATE, new ReactiveStringRedisTemplate(connectionFactory));
             }
         }
         return reactiveStringRedisTemplate;

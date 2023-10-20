@@ -1,11 +1,11 @@
 package com.emily.infrastructure.redis.connection;
 
 
+import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
-import com.emily.infrastructure.redis.common.RedisInfo;
+import com.emily.infrastructure.redis.common.RedisBeanNames;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -49,16 +49,13 @@ import java.util.Objects;
 )
 public class JedisDbConnectionConfiguration extends RedisDbConnectionConfiguration {
 
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
-
-    JedisDbConnectionConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties properties,
+    JedisDbConnectionConfiguration(RedisDbProperties properties,
                                    ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
                                    ObjectProvider<RedisSentinelConfiguration> sentinelConfiguration,
                                    ObjectProvider<RedisClusterConfiguration> clusterConfiguration,
                                    ObjectProvider<SslBundles> sslBundles) {
         super(properties, standaloneConfigurationProvider, sentinelConfiguration,
                 clusterConfiguration, sslBundles);
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     @Bean
@@ -69,7 +66,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
 
     private JedisConnectionFactory createJedisConnectionFactory(
             ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
-        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(),"默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(this.getProperties().getConfig(), "Redis连接配置不存在");
         JedisConnectionFactory redisConnectionFactory = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
@@ -79,7 +76,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             if (defaultConfig.equals(key)) {
                 this.setConnectionDetails(connectionDetails);
             } else {
-                this.setConnectionDetails(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
+                this.setConnectionDetails(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECT_DETAILS, RedisConnectionDetails.class));
             }
             JedisConnectionFactory jedisConnectionFactory;
             if (getSentinelConfig() != null) {
@@ -93,7 +90,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
                 redisConnectionFactory = jedisConnectionFactory;
             } else {
                 jedisConnectionFactory.afterPropertiesSet();
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECTION_FACTORY, jedisConnectionFactory);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, jedisConnectionFactory);
             }
         }
         return redisConnectionFactory;

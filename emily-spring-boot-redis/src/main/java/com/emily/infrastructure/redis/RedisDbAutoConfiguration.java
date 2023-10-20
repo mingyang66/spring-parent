@@ -1,7 +1,8 @@
 package com.emily.infrastructure.redis;
 
+import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.emily.infrastructure.redis.common.RedisInfo;
+import com.emily.infrastructure.redis.common.RedisBeanNames;
 import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
@@ -9,7 +10,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -43,18 +43,16 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
 
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
     private final RedisDbProperties redisDbProperties;
 
-    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+    public RedisDbAutoConfiguration(RedisDbProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
     }
 
     @Bean
     @ConditionalOnMissingBean(RedisConnectionDetails.class)
     PropertiesRedisDbConnectionDetails redisConnectionDetails() {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
         PropertiesRedisDbConnectionDetails redisConnectionDetails = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
@@ -64,16 +62,16 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             if (defaultConfig.equals(key)) {
                 redisConnectionDetails = propertiesRedisDbConnectionDetails;
             } else {
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_CONNECT_DETAILS, propertiesRedisDbConnectionDetails);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_CONNECT_DETAILS, propertiesRedisDbConnectionDetails);
             }
         }
         return redisConnectionDetails;
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_REDIS_TEMPLATE)
+    @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
         RedisTemplate<Object, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
@@ -83,9 +81,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 redisTemplate = template;
             } else {
-                template.setConnectionFactory(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.REDIS_TEMPLATE, template);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.REDIS_TEMPLATE, template);
             }
         }
 
@@ -93,9 +91,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisInfo.DEFAULT_STRING_REDIS_TEMPLATE)
+    @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(),"默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
         Map<String, RedisProperties> dataMap = Objects.requireNonNull(redisDbProperties.getConfig(), "Redis连接配置不存在");
         StringRedisTemplate stringRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : dataMap.entrySet()) {
@@ -105,9 +103,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 stringRedisTemplate = template;
             } else {
-                template.setConnectionFactory(defaultListableBeanFactory.getBean(key + RedisInfo.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryUtils.getBean(key + RedisBeanNames.REDIS_CONNECTION_FACTORY, RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                defaultListableBeanFactory.registerSingleton(key + RedisInfo.STRING_REDIS_TEMPLATE, template);
+                BeanFactoryUtils.registerSingleton(key + RedisBeanNames.STRING_REDIS_TEMPLATE, template);
             }
         }
 

@@ -12,6 +12,16 @@ Bug Fixes
 7. 新增CommonKeys解析logger name工具类；
 8. LoggerContext类代码重构优化调整、修改获取loggerName方法；
 9. 新增FixedWindow固定窗口大小归档策略类；
+10. RedisInfo常量类重命名为RedisCommonKeys;
+11. 新增IOC容器DefaultListableBeanFactory的工具类BeanFactoryUtils；
+12. 将Redis sdk中的所有DefaultListableBeanFactory容器工厂替换为BeanFactoryUtils类；
+13. 
+
+------
+
+Dependency Upgrades
+
+1. Upgrade to springboot 3.1.5
 
 -----
 基础库发布4.3.9

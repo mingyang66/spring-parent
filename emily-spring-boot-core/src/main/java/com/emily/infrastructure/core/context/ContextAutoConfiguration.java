@@ -1,5 +1,6 @@
 package com.emily.infrastructure.core.context;
 
+import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -38,6 +40,8 @@ public class ContextAutoConfiguration implements BeanFactoryPostProcessor, Initi
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        //设置IOC容器工厂类
+        BeanFactoryUtils.registerDefaultListableBeanFactory((DefaultListableBeanFactory) beanFactory);
         if (beanFactory.containsBeanDefinition(BEANNAME)) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(BEANNAME);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

@@ -54,6 +54,12 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
         super(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, sslBundles);
     }
 
+    /**
+     * 默认客户端资源配置，包括连接池、线程池、事件总线、DNS解析器、地址分组解析器等
+     *
+     * @param customizers 自定义客户端资源实现
+     * @return 客户端资源配置
+     */
     @Bean(
             destroyMethod = "shutdown"
     )

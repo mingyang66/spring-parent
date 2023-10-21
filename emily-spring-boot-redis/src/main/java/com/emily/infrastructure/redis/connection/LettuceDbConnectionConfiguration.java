@@ -59,6 +59,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
      *
      * @param customizers 自定义客户端资源实现
      * @return 客户端资源配置
+     * @see DefaultClientResources#shutdown() 方法是关闭和释放Redis客户端资源
      */
     @Bean(
             destroyMethod = "shutdown"

@@ -27,6 +27,18 @@ public class RedisDbProperties {
      */
     private String defaultConfig;
     /**
+     * 是否开启连接校验，默认：false
+     */
+    private boolean validateConnection = false;
+    /**
+     * 是否开启共享本地物理连接，默认：true
+     */
+    private boolean shareNativeConnection = true;
+    /**
+     * 是否提前初始化连接，默认：false
+     */
+    private boolean eagerInitialization = false;
+    /**
      * 客户端类型
      */
     private RedisProperties.ClientType clientType = RedisProperties.ClientType.LETTUCE;
@@ -69,5 +81,29 @@ public class RedisDbProperties {
 
     public RedisProperties getDefaultDataSource() {
         return this.config.get(this.getDefaultConfig());
+    }
+
+    public boolean isValidateConnection() {
+        return validateConnection;
+    }
+
+    public void setValidateConnection(boolean validateConnection) {
+        this.validateConnection = validateConnection;
+    }
+
+    public boolean isShareNativeConnection() {
+        return shareNativeConnection;
+    }
+
+    public void setShareNativeConnection(boolean shareNativeConnection) {
+        this.shareNativeConnection = shareNativeConnection;
+    }
+
+    public boolean isEagerInitialization() {
+        return eagerInitialization;
+    }
+
+    public void setEagerInitialization(boolean eagerInitialization) {
+        this.eagerInitialization = eagerInitialization;
     }
 }

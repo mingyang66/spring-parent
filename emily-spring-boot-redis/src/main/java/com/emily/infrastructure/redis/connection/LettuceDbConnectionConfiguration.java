@@ -77,18 +77,31 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     @Bean
     @ConditionalOnMissingBean({RedisConnectionFactory.class})
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisConnectionDetails connectionDetails) {
-        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
+        RedisDbProperties redisDbProperties = this.getProperties();
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         LettuceConnectionFactory redisConnectionFactory = null;
-        for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
             LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientResources, properties.getLettuce().getPool(), key);
             if (defaultConfig.equals(key)) {
                 this.setConnectionDetails(connectionDetails);
                 redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
+                //是否提前初始化连接，默认：false
+                redisConnectionFactory.setEagerInitialization(redisDbProperties.isEagerInitialization());
+                //是否开启共享本地物理连接，默认：true
+                redisConnectionFactory.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
+                //是否开启连接校验，默认：false
+                redisConnectionFactory.setValidateConnection(redisDbProperties.isValidateConnection());
             } else {
                 this.setConnectionDetails(BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
                 LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
+                //是否提前初始化连接，默认：false
+                connectionFactory.setEagerInitialization(redisDbProperties.isEagerInitialization());
+                //是否开启共享本地物理连接，默认：true
+                connectionFactory.setShareNativeConnection(redisDbProperties.isShareNativeConnection());
+                //是否开启连接校验，默认：false
+                connectionFactory.setValidateConnection(redisDbProperties.isValidateConnection());
                 connectionFactory.afterPropertiesSet();
                 BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
             }

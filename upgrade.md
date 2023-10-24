@@ -17,6 +17,7 @@ Bug Fixes
 12. 将Redis sdk中的所有DefaultListableBeanFactory容器工厂替换为BeanFactoryUtils类；
 13. 新增Redis序列化SerializationUtils工具，修改RedisTemplate和StringRedisTemplate实例bean的序列化方式；
 14. redis sdk beanname及join拼接字符串方法优化；
+15. redis sdk 新增validateConnection、shareNativeConnection、eagerInitialization三个属性配置，控制连接、初始化、校验；
 
 ------
 

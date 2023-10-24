@@ -16,6 +16,7 @@ Bug Fixes
 11. 新增IOC容器DefaultListableBeanFactory的工具类BeanFactoryUtils；
 12. 将Redis sdk中的所有DefaultListableBeanFactory容器工厂替换为BeanFactoryUtils类；
 13. 新增Redis序列化SerializationUtils工具，修改RedisTemplate和StringRedisTemplate实例bean的序列化方式；
+14. redis sdk beanname及join拼接字符串方法优化；
 
 ------
 

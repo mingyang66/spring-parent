@@ -23,4 +23,8 @@ public class HeaderInfo {
      * 包版本
      */
     public static final String APP_VERSION = "appVersion";
+    /**
+     * 内容类型
+     */
+    public static final String CONTENT_TYPE = "Content-Type";
 }

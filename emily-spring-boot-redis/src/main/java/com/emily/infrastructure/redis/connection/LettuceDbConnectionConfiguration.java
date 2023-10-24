@@ -3,7 +3,6 @@ package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
-import com.emily.infrastructure.redis.common.RedisBeanNames;
 import io.lettuce.core.*;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
@@ -34,6 +33,8 @@ import org.springframework.util.StringUtils;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 
 /**
  * @author :  Emily
@@ -86,10 +87,10 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 this.setConnectionDetails(connectionDetails);
                 redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
             } else {
-                this.setConnectionDetails(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
+                this.setConnectionDetails(BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
                 LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, key);
                 connectionFactory.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), connectionFactory);
+                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
             }
         }
         return redisConnectionFactory;

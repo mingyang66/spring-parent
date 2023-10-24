@@ -2,7 +2,6 @@ package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.emily.infrastructure.redis.common.RedisBeanNames;
 import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
@@ -27,6 +26,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 import static com.emily.infrastructure.redis.common.SerializationUtils.jackson2JsonRedisSerializer;
 import static com.emily.infrastructure.redis.common.SerializationUtils.stringSerializer;
 
@@ -64,14 +64,14 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             if (defaultConfig.equals(key)) {
                 redisConnectionDetails = propertiesRedisDbConnectionDetails;
             } else {
-                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_CONNECT_DETAILS), propertiesRedisDbConnectionDetails);
+                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECT_DETAILS), propertiesRedisDbConnectionDetails);
             }
         }
         return redisConnectionDetails;
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_REDIS_TEMPLATE)
+    @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
@@ -86,9 +86,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 redisTemplate = template;
             } else {
-                template.setConnectionFactory(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_TEMPLATE), template);
+                BeanFactoryUtils.registerSingleton(join(key, REDIS_TEMPLATE), template);
             }
         }
 
@@ -96,7 +96,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = RedisBeanNames.DEFAULT_STRING_REDIS_TEMPLATE)
+    @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         StringRedisTemplate stringRedisTemplate = null;
@@ -111,9 +111,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 stringRedisTemplate = template;
             } else {
-                template.setConnectionFactory(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.STRING_REDIS_TEMPLATE), template);
+                BeanFactoryUtils.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
             }
         }
 

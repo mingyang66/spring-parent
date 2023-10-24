@@ -3,7 +3,6 @@ package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
-import com.emily.infrastructure.redis.common.RedisBeanNames;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -32,6 +31,8 @@ import redis.clients.jedis.JedisPoolConfig;
 import javax.net.ssl.SSLParameters;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 
 /**
  * @author :  Emily
@@ -75,7 +76,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             if (defaultConfig.equals(key)) {
                 this.setConnectionDetails(connectionDetails);
             } else {
-                this.setConnectionDetails(BeanFactoryUtils.getBean(String.join("", key, RedisBeanNames.REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
+                this.setConnectionDetails(BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
             }
             JedisConnectionFactory jedisConnectionFactory;
             if (getSentinelConfig() != null) {
@@ -89,7 +90,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
                 redisConnectionFactory = jedisConnectionFactory;
             } else {
                 jedisConnectionFactory.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(String.join("", key, RedisBeanNames.REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
+                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
             }
         }
         return redisConnectionFactory;

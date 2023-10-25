@@ -3,6 +3,7 @@ package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
+import com.emily.infrastructure.redis.RedisProperties;
 import io.lettuce.core.*;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
@@ -16,7 +17,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.ClientResourcesBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.annotation.Bean;
@@ -88,20 +88,20 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 this.setConnectionDetails(connectionDetails);
                 redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, properties);
                 //是否提前初始化连接，默认：false
-                redisConnectionFactory.setEagerInitialization(redisDbProperties.getLettuce().isEagerInitialization());
+                redisConnectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
                 //是否开启共享本地物理连接，默认：true
-                redisConnectionFactory.setShareNativeConnection(redisDbProperties.getLettuce().isShareNativeConnection());
+                redisConnectionFactory.setShareNativeConnection(properties.getLettuce().isShareNativeConnection());
                 //是否开启连接校验，默认：false
-                redisConnectionFactory.setValidateConnection(redisDbProperties.getLettuce().isValidateConnection());
+                redisConnectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
             } else {
                 this.setConnectionDetails(BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
                 LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties);
                 //是否提前初始化连接，默认：false
-                connectionFactory.setEagerInitialization(redisDbProperties.getLettuce().isEagerInitialization());
+                connectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
                 //是否开启共享本地物理连接，默认：true
-                connectionFactory.setShareNativeConnection(redisDbProperties.getLettuce().isShareNativeConnection());
+                connectionFactory.setShareNativeConnection(properties.getLettuce().isShareNativeConnection());
                 //是否开启连接校验，默认：false
-                connectionFactory.setValidateConnection(redisDbProperties.getLettuce().isValidateConnection());
+                connectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
                 connectionFactory.afterPropertiesSet();
                 BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
             }
@@ -231,6 +231,8 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
             if (properties.getMaxWait() != null) {
                 config.setMaxWait(properties.getMaxWait());
             }
+            //自定义连接空闲时长
+            config.setMinEvictableIdleTime(properties.getMinEvictableIdleDuration());
             return config;
         }
     }

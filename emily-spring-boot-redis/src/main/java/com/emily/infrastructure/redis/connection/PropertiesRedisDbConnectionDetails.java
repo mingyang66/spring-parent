@@ -1,7 +1,7 @@
 package com.emily.infrastructure.redis.connection;
 
+import com.emily.infrastructure.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 
 import java.util.List;
 

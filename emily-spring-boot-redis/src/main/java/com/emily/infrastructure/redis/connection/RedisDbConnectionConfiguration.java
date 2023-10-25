@@ -1,9 +1,9 @@
 package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.redis.RedisDbProperties;
+import com.emily.infrastructure.redis.RedisProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.data.redis.connection.*;
 import org.springframework.util.ClassUtils;

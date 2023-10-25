@@ -3,6 +3,7 @@ package com.emily.infrastructure.redis;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,21 +28,13 @@ public class RedisDbProperties {
      */
     private String defaultConfig;
     /**
-     * 是否开启连接校验，默认：false
-     */
-    private boolean validateConnection = false;
-    /**
-     * 是否开启共享本地物理连接，默认：true
-     */
-    private boolean shareNativeConnection = true;
-    /**
-     * 是否提前初始化连接，默认：false
-     */
-    private boolean eagerInitialization = false;
-    /**
      * 客户端类型
      */
     private RedisProperties.ClientType clientType = RedisProperties.ClientType.LETTUCE;
+    /**
+     * 基于lettuce-core的客户端属性配置
+     */
+    private Lettuce lettuce = new Lettuce();
     /**
      * 多数据源配置
      */
@@ -79,31 +72,68 @@ public class RedisDbProperties {
         this.enabled = enabled;
     }
 
+    public Lettuce getLettuce() {
+        return lettuce;
+    }
+
+    public void setLettuce(Lettuce lettuce) {
+        this.lettuce = lettuce;
+    }
+
     public RedisProperties getDefaultDataSource() {
         return this.config.get(this.getDefaultConfig());
     }
 
-    public boolean isValidateConnection() {
-        return validateConnection;
-    }
+    public static class Lettuce {
+        /**
+         * 是否开启连接校验，默认：false
+         */
+        private boolean validateConnection = false;
+        /**
+         * 是否开启共享本地物理连接，默认：true
+         */
+        private boolean shareNativeConnection = true;
+        /**
+         * 是否提前初始化连接，默认：false
+         * 属性shareNativeConnection为true时才生效
+         */
+        private boolean eagerInitialization = false;
+        /**
+         * 对象在池中最小可空闲时间的属性
+         * 它指定了一个对象在池中保持空闲的最小时间，超过这个时间后，如果池中的对象数量超过了BaseObjectPoolConfig.minIdle设置的最小空闲对象数量，就会触发空闲对象的逐出操作
+         */
+        private Duration minEvictableIdleDuration = Duration.ofMinutes(30);
 
-    public void setValidateConnection(boolean validateConnection) {
-        this.validateConnection = validateConnection;
-    }
+        public boolean isValidateConnection() {
+            return validateConnection;
+        }
 
-    public boolean isShareNativeConnection() {
-        return shareNativeConnection;
-    }
+        public void setValidateConnection(boolean validateConnection) {
+            this.validateConnection = validateConnection;
+        }
 
-    public void setShareNativeConnection(boolean shareNativeConnection) {
-        this.shareNativeConnection = shareNativeConnection;
-    }
+        public boolean isShareNativeConnection() {
+            return shareNativeConnection;
+        }
 
-    public boolean isEagerInitialization() {
-        return eagerInitialization;
-    }
+        public void setShareNativeConnection(boolean shareNativeConnection) {
+            this.shareNativeConnection = shareNativeConnection;
+        }
 
-    public void setEagerInitialization(boolean eagerInitialization) {
-        this.eagerInitialization = eagerInitialization;
+        public boolean isEagerInitialization() {
+            return eagerInitialization;
+        }
+
+        public void setEagerInitialization(boolean eagerInitialization) {
+            this.eagerInitialization = eagerInitialization;
+        }
+
+        public Duration getMinEvictableIdleDuration() {
+            return minEvictableIdleDuration;
+        }
+
+        public void setMinEvictableIdleDuration(Duration minEvictableIdleDuration) {
+            this.minEvictableIdleDuration = minEvictableIdleDuration;
+        }
     }
 }

@@ -72,7 +72,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
-            JedisClientConfiguration clientConfiguration = getJedisClientConfiguration(builderCustomizers, properties, key);
+            JedisClientConfiguration clientConfiguration = getJedisClientConfiguration(builderCustomizers, properties);
             if (defaultConfig.equals(key)) {
                 this.setConnectionDetails(connectionDetails);
             } else {
@@ -81,8 +81,8 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             JedisConnectionFactory jedisConnectionFactory;
             if (getSentinelConfig() != null) {
                 jedisConnectionFactory = new JedisConnectionFactory(getSentinelConfig(), clientConfiguration);
-            } else if (getClusterConfiguration(key) != null) {
-                jedisConnectionFactory = new JedisConnectionFactory(getClusterConfiguration(key), clientConfiguration);
+            } else if (getClusterConfiguration(properties) != null) {
+                jedisConnectionFactory = new JedisConnectionFactory(getClusterConfiguration(properties), clientConfiguration);
             } else {
                 jedisConnectionFactory = new JedisConnectionFactory(getStandaloneConfig(), clientConfiguration);
             }
@@ -97,9 +97,9 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
     }
 
     private JedisClientConfiguration getJedisClientConfiguration(
-            ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisProperties properties, String key) {
+            ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisProperties properties) {
         JedisClientConfiguration.JedisClientConfigurationBuilder builder = applyProperties(JedisClientConfiguration.builder(), properties);
-        if (isSslEnabled(key)) {
+        if (isSslEnabled(properties)) {
             applySsl(builder, properties);
         }
         RedisProperties.Pool pool = properties.getJedis().getPool();
@@ -107,7 +107,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             applyPooling(pool, builder);
         }
         if (StringUtils.hasText(properties.getUrl())) {
-            customizeConfigurationFromUrl(builder, key);
+            customizeConfigurationFromUrl(builder, properties);
         }
         builderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
         return builder.build();
@@ -154,8 +154,8 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
         return config;
     }
 
-    private void customizeConfigurationFromUrl(JedisClientConfiguration.JedisClientConfigurationBuilder builder, String key) {
-        if (urlUsesSsl(key)) {
+    private void customizeConfigurationFromUrl(JedisClientConfiguration.JedisClientConfigurationBuilder builder, RedisProperties properties) {
+        if (urlUsesSsl(properties)) {
             builder.useSsl();
         }
     }

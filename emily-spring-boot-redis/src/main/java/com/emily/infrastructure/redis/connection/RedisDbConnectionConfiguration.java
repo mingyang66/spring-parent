@@ -75,11 +75,11 @@ public class RedisDbConnectionConfiguration {
         }
     }
 
-    protected final RedisClusterConfiguration getClusterConfiguration(String key) {
+    protected final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties) {
         if (this.clusterConfiguration != null) {
             return this.clusterConfiguration;
         } else {
-            RedisProperties.Cluster clusterProperties = this.redisDbProperties.getConfig().get(key).getCluster();
+            RedisProperties.Cluster clusterProperties = properties.getCluster();
             if (this.connectionDetails.getCluster() != null) {
                 RedisClusterConfiguration config = new RedisClusterConfiguration(this.getNodes(this.connectionDetails.getCluster()));
                 if (clusterProperties != null && clusterProperties.getMaxRedirects() != null) {
@@ -113,8 +113,8 @@ public class RedisDbConnectionConfiguration {
         return this.sslBundles;
     }
 
-    protected boolean isSslEnabled(String key) {
-        return this.getProperties().getConfig().get(key).getSsl().isEnabled();
+    protected boolean isSslEnabled(RedisProperties properties) {
+        return properties.getSsl().isEnabled();
     }
 
     protected boolean isPoolEnabled(RedisProperties.Pool pool) {
@@ -134,8 +134,8 @@ public class RedisDbConnectionConfiguration {
         return nodes;
     }
 
-    protected final boolean urlUsesSsl(String key) {
-        return parseUrl(this.redisDbProperties.getConfig().get(key).getUrl()).isUseSsl();
+    protected final boolean urlUsesSsl(RedisProperties properties) {
+        return parseUrl(properties.getUrl()).isUseSsl();
     }
 
     protected final RedisConnectionDetails getConnectionDetails() {

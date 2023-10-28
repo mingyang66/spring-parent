@@ -24,10 +24,13 @@ public class RedisDbConnectionConfiguration {
     private final RedisStandaloneConfiguration standaloneConfiguration;
     private final RedisSentinelConfiguration sentinelConfiguration;
     private final RedisClusterConfiguration clusterConfiguration;
-    private RedisConnectionDetails connectionDetails;
     private final SslBundles sslBundles;
 
-    protected RedisDbConnectionConfiguration(RedisDbProperties redisDbProperties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<SslBundles> sslBundles) {
+    protected RedisDbConnectionConfiguration(RedisDbProperties redisDbProperties,
+                                             ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
+                                             ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
+                                             ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
+                                             ObjectProvider<SslBundles> sslBundles) {
         this.redisDbProperties = redisDbProperties;
         this.standaloneConfiguration = (RedisStandaloneConfiguration) standaloneConfigurationProvider.getIfAvailable();
         this.sentinelConfiguration = (RedisSentinelConfiguration) sentinelConfigurationProvider.getIfAvailable();
@@ -35,59 +38,59 @@ public class RedisDbConnectionConfiguration {
         this.sslBundles = (SslBundles) sslBundles.getIfAvailable();
     }
 
-    protected final RedisStandaloneConfiguration getStandaloneConfig() {
+    protected final RedisStandaloneConfiguration getStandaloneConfig(RedisConnectionDetails connectionDetails) {
         if (this.standaloneConfiguration != null) {
             return this.standaloneConfiguration;
         } else {
             RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-            config.setHostName(this.connectionDetails.getStandalone().getHost());
-            config.setPort(this.connectionDetails.getStandalone().getPort());
-            config.setUsername(this.connectionDetails.getUsername());
-            config.setPassword(RedisPassword.of(this.connectionDetails.getPassword()));
-            config.setDatabase(this.connectionDetails.getStandalone().getDatabase());
+            config.setHostName(connectionDetails.getStandalone().getHost());
+            config.setPort(connectionDetails.getStandalone().getPort());
+            config.setUsername(connectionDetails.getUsername());
+            config.setPassword(RedisPassword.of(connectionDetails.getPassword()));
+            config.setDatabase(connectionDetails.getStandalone().getDatabase());
             return config;
         }
     }
 
-    protected final RedisSentinelConfiguration getSentinelConfig() {
+    protected final RedisSentinelConfiguration getSentinelConfig(RedisConnectionDetails connectionDetails) {
         if (this.sentinelConfiguration != null) {
             return this.sentinelConfiguration;
-        } else if (this.connectionDetails.getSentinel() != null) {
+        } else if (connectionDetails.getSentinel() != null) {
             RedisSentinelConfiguration config = new RedisSentinelConfiguration();
-            config.master(this.connectionDetails.getSentinel().getMaster());
-            config.setSentinels(this.createSentinels(this.connectionDetails.getSentinel()));
-            config.setUsername(this.connectionDetails.getUsername());
-            String password = this.connectionDetails.getPassword();
+            config.master(connectionDetails.getSentinel().getMaster());
+            config.setSentinels(this.createSentinels(connectionDetails.getSentinel()));
+            config.setUsername(connectionDetails.getUsername());
+            String password = connectionDetails.getPassword();
             if (password != null) {
                 config.setPassword(RedisPassword.of(password));
             }
 
-            config.setSentinelUsername(this.connectionDetails.getSentinel().getUsername());
-            String sentinelPassword = this.connectionDetails.getSentinel().getPassword();
+            config.setSentinelUsername(connectionDetails.getSentinel().getUsername());
+            String sentinelPassword = connectionDetails.getSentinel().getPassword();
             if (sentinelPassword != null) {
                 config.setSentinelPassword(RedisPassword.of(sentinelPassword));
             }
 
-            config.setDatabase(this.connectionDetails.getSentinel().getDatabase());
+            config.setDatabase(connectionDetails.getSentinel().getDatabase());
             return config;
         } else {
             return null;
         }
     }
 
-    protected final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties) {
+    protected final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties, RedisConnectionDetails connectionDetails) {
         if (this.clusterConfiguration != null) {
             return this.clusterConfiguration;
         } else {
             RedisProperties.Cluster clusterProperties = properties.getCluster();
-            if (this.connectionDetails.getCluster() != null) {
-                RedisClusterConfiguration config = new RedisClusterConfiguration(this.getNodes(this.connectionDetails.getCluster()));
+            if (connectionDetails.getCluster() != null) {
+                RedisClusterConfiguration config = new RedisClusterConfiguration(this.getNodes(connectionDetails.getCluster()));
                 if (clusterProperties != null && clusterProperties.getMaxRedirects() != null) {
                     config.setMaxRedirects(clusterProperties.getMaxRedirects());
                 }
 
-                config.setUsername(this.connectionDetails.getUsername());
-                String password = this.connectionDetails.getPassword();
+                config.setUsername(connectionDetails.getUsername());
+                String password = connectionDetails.getPassword();
                 if (password != null) {
                     config.setPassword(RedisPassword.of(password));
                 }
@@ -136,14 +139,6 @@ public class RedisDbConnectionConfiguration {
 
     protected final boolean urlUsesSsl(RedisProperties properties) {
         return parseUrl(properties.getUrl()).isUseSsl();
-    }
-
-    protected final RedisConnectionDetails getConnectionDetails() {
-        return this.connectionDetails;
-    }
-
-    public void setConnectionDetails(RedisConnectionDetails connectionDetails) {
-        this.connectionDetails = connectionDetails;
     }
 
     static ConnectionInfo parseUrl(String url) {

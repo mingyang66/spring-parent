@@ -73,18 +73,14 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
             JedisClientConfiguration clientConfiguration = getJedisClientConfiguration(builderCustomizers, properties);
-            if (defaultConfig.equals(key)) {
-                this.setConnectionDetails(connectionDetails);
-            } else {
-                this.setConnectionDetails(BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
-            }
+            RedisConnectionDetails redisConnectionDetails = defaultConfig.equals(key) ? connectionDetails : BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class);
             JedisConnectionFactory jedisConnectionFactory;
-            if (getSentinelConfig() != null) {
-                jedisConnectionFactory = new JedisConnectionFactory(getSentinelConfig(), clientConfiguration);
-            } else if (getClusterConfiguration(properties) != null) {
-                jedisConnectionFactory = new JedisConnectionFactory(getClusterConfiguration(properties), clientConfiguration);
+            if (getSentinelConfig(redisConnectionDetails) != null) {
+                jedisConnectionFactory = new JedisConnectionFactory(getSentinelConfig(redisConnectionDetails), clientConfiguration);
+            } else if (getClusterConfiguration(properties, redisConnectionDetails) != null) {
+                jedisConnectionFactory = new JedisConnectionFactory(getClusterConfiguration(properties, redisConnectionDetails), clientConfiguration);
             } else {
-                jedisConnectionFactory = new JedisConnectionFactory(getStandaloneConfig(), clientConfiguration);
+                jedisConnectionFactory = new JedisConnectionFactory(getStandaloneConfig(redisConnectionDetails), clientConfiguration);
             }
             if (defaultConfig.equals(key)) {
                 redisConnectionFactory = jedisConnectionFactory;

@@ -20,6 +20,7 @@ Bug Fixes
 15. redis sdk 新增validateConnection、shareNativeConnection、eagerInitialization三个属性配置，控制连接、初始化、校验；
 16. redis sdk core code modify;
 17. 新增RedisProperties配置类继承官方的RedisProperties配置类，添加自定义属性配置，修改自定义sdk代码；
+18. redis sdk RedisConnectionDetails属性修改传递对象模式；
 
 ------
 

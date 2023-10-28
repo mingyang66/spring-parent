@@ -55,7 +55,11 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 )
 public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfiguration {
 
-    LettuceDbConnectionConfiguration(RedisDbProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<SslBundles> sslBundles) {
+    LettuceDbConnectionConfiguration(RedisDbProperties properties,
+                                     ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
+                                     ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
+                                     ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
+                                     ObjectProvider<SslBundles> sslBundles) {
         super(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, sslBundles);
     }
 
@@ -89,8 +93,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
             RedisProperties properties = entry.getValue();
             LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientResources, properties);
             if (defaultConfig.equals(key)) {
-                this.setConnectionDetails(connectionDetails);
-                redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, properties);
+                redisConnectionFactory = this.createLettuceConnectionFactory(clientConfig, properties, connectionDetails);
                 //是否提前初始化连接，默认：false
                 redisConnectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
                 //是否开启共享本地物理连接，默认：true
@@ -98,8 +101,8 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 //是否开启连接校验，默认：false
                 redisConnectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
             } else {
-                this.setConnectionDetails(BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class));
-                LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties);
+                RedisConnectionDetails redisConnectionDetails = BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class);
+                LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties, redisConnectionDetails);
                 //是否提前初始化连接，默认：false
                 connectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
                 //是否开启共享本地物理连接，默认：true
@@ -113,12 +116,14 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
         return redisConnectionFactory;
     }
 
-    private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfiguration, RedisProperties properties) {
-        if (this.getSentinelConfig() != null) {
-            return new LettuceConnectionFactory(this.getSentinelConfig(), clientConfiguration);
-        } else {
-            return this.getClusterConfiguration(properties) != null ? new LettuceConnectionFactory(this.getClusterConfiguration(properties), clientConfiguration) : new LettuceConnectionFactory(this.getStandaloneConfig(), clientConfiguration);
+    private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfiguration, RedisProperties properties, RedisConnectionDetails connectionDetails) {
+        if (getSentinelConfig(connectionDetails) != null) {
+            return new LettuceConnectionFactory(getSentinelConfig(connectionDetails), clientConfiguration);
         }
+        if (getClusterConfiguration(properties, connectionDetails) != null) {
+            return new LettuceConnectionFactory(getClusterConfiguration(properties, connectionDetails), clientConfiguration);
+        }
+        return new LettuceConnectionFactory(getStandaloneConfig(connectionDetails), clientConfiguration);
     }
 
     private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers, ClientResources clientResources, RedisProperties properties) {

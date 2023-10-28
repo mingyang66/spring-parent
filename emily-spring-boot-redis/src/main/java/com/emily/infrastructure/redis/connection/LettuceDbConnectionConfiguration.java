@@ -4,7 +4,10 @@ package com.emily.infrastructure.redis.connection;
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.RedisProperties;
-import io.lettuce.core.*;
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.SocketOptions;
+import io.lettuce.core.TimeoutOptions;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.resource.ClientResources;
@@ -19,6 +22,7 @@ import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurat
 import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.ssl.SslBundles;
+import org.springframework.boot.ssl.SslOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
@@ -167,10 +171,10 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
 
         if (this.isSslEnabled(properties) && properties.getSsl().getBundle() != null) {
             SslBundle sslBundle = this.getSslBundles().getBundle(properties.getSsl().getBundle());
-            SslOptions.Builder sslOptionsBuilder = SslOptions.builder();
+            io.lettuce.core.SslOptions.Builder sslOptionsBuilder = io.lettuce.core.SslOptions.builder();
             sslOptionsBuilder.keyManager(sslBundle.getManagers().getKeyManagerFactory());
             sslOptionsBuilder.trustManager(sslBundle.getManagers().getTrustManagerFactory());
-            org.springframework.boot.ssl.SslOptions sslOptions = sslBundle.getOptions();
+            SslOptions sslOptions = sslBundle.getOptions();
             if (sslOptions.getCiphers() != null) {
                 sslOptionsBuilder.cipherSuites(sslOptions.getCiphers());
             }

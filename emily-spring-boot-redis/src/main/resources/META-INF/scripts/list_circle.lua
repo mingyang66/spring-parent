@@ -44,6 +44,7 @@ local success, result = pcall(function(key, value, threshold, expire)
     return redis.call('LLEN', key)
 end, key, value, threshold, expire)
 
+-- 执行成功，直接返回列表长度
 if success then
     return result
 else

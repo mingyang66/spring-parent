@@ -36,11 +36,11 @@ public class LuaTools {
      * @param redisTemplate redis 模板工具
      * @param key           环的键值
      * @param value         列表值
-     * @param len           列表长度，即环上数据个数
+     * @param threshold     阀值，列表长度，即环上数据个数
      * @return 当前环（列表）长度
      */
-    public static long circle(RedisTemplate redisTemplate, String key, Object value, long len) {
-        return circle(redisTemplate, key, value, len, Duration.ZERO);
+    public static long circle(RedisTemplate redisTemplate, String key, Object value, long threshold) {
+        return circle(redisTemplate, key, value, threshold, Duration.ZERO);
     }
 
     /**
@@ -51,15 +51,15 @@ public class LuaTools {
      * @param redisTemplate redis 模板工具
      * @param key           环的键值
      * @param value         列表值
-     * @param len           列表长度，即环上数据个数
+     * @param threshold     阀值，列表长度，即环上数据个数
      * @param expire        有效时长, 为null则永久有效
      * @return 当前环（列表）长度
      */
-    public static long circle(RedisTemplate redisTemplate, String key, Object value, long len, Duration expire) {
+    public static long circle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
         RedisScript<Long> script = RedisScript.of(new ClassPathResource("META-INF/scripts/list_circle.lua"), Long.class);
         if (expire == null) {
             expire = Duration.ZERO;
         }
-        return (Long) redisTemplate.execute(script, Arrays.asList(key), value, len, expire.getSeconds());
+        return (Long) redisTemplate.execute(script, Arrays.asList(key), value, threshold, expire.getSeconds());
     }
 }

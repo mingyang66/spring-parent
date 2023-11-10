@@ -7,6 +7,8 @@ import org.springframework.data.redis.core.script.RedisScript;
 import java.time.Duration;
 import java.util.Arrays;
 
+import static java.util.Collections.singletonList;
+
 /**
  * 基于lua脚本的相关组件
  *
@@ -26,7 +28,7 @@ public class LuaTools {
     public static boolean limit(RedisTemplate redisTemplate, String key, int threshold, int expire) {
         RedisScript<Long> script = RedisScript.of(new ClassPathResource("META-INF/scripts/limit.lua"), Long.class);
         // 0：超过阀值 1：访问有效
-        Long count = (Long) redisTemplate.execute(script, Arrays.asList(key), threshold, expire);
+        Long count = (Long) redisTemplate.execute(script, singletonList(key), threshold, expire);
         return count == 1 ? true : false;
     }
 
@@ -60,6 +62,6 @@ public class LuaTools {
         if (expire == null) {
             expire = Duration.ZERO;
         }
-        return (Long) redisTemplate.execute(script, Arrays.asList(key), value, threshold, expire.getSeconds());
+        return (Long) redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
     }
 }

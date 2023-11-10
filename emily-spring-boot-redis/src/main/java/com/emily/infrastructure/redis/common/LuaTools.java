@@ -19,14 +19,14 @@ public class LuaTools {
      *
      * @param redisTemplate redis模板工具类
      * @param key           限流键名
-     * @param limit         限流阀值
+     * @param threshold         限流阀值
      * @param expire        限流的时间窗口
      * @return true-访问有效，false-超过阀值
      */
-    public static boolean limit(RedisTemplate redisTemplate, String key, int limit, int expire) {
+    public static boolean limit(RedisTemplate redisTemplate, String key, int threshold, int expire) {
         RedisScript<Long> script = RedisScript.of(new ClassPathResource("META-INF/scripts/limit.lua"), Long.class);
         // 0：超过阀值 1：访问有效
-        Long count = (Long) redisTemplate.execute(script, Arrays.asList(key), limit, expire);
+        Long count = (Long) redisTemplate.execute(script, Arrays.asList(key), threshold, expire);
         return count == 1 ? true : false;
     }
 
@@ -45,7 +45,7 @@ public class LuaTools {
 
     /**
      * 基于列表（List）的环
-     * 1. 支持一直有效，interval 设置为<=0或null
+     * 1. 支持一直有效，threshold 设置为<=0或null
      * 2. 支持设置有效时长，动态刷新，interval大于0
      *
      * @param redisTemplate redis 模板工具

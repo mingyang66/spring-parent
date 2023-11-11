@@ -9,7 +9,13 @@ import java.time.Duration;
  * @since :  2023/10/25 11:11 PM
  */
 public class RedisProperties extends org.springframework.boot.autoconfigure.data.redis.RedisProperties {
+    /**
+     * 基于jedis连接配置
+     */
     private Jedis jedis = new Jedis();
+    /**
+     * 基于lettuce连接配置
+     */
     private Lettuce lettuce = new Lettuce();
 
     @Override
@@ -47,6 +53,9 @@ public class RedisProperties extends org.springframework.boot.autoconfigure.data
     }
 
     public static class Jedis extends org.springframework.boot.autoconfigure.data.redis.RedisProperties.Jedis {
+        /**
+         * 连接池配置
+         */
         private Pool pool = new Pool();
 
         @Override

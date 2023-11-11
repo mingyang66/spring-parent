@@ -8,7 +8,7 @@
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-redis</artifactId>
-    <version>4.3.9</version>
+    <version>4.4.0</version>
 </dependency>
 ```
 

@@ -6,6 +6,7 @@ package com.emily.infrastructure.core.constant;
  * @author Emily
  * @since 2020/05/18
  */
+@SuppressWarnings("all")
 public class CharacterInfo {
     public static final String EQUAL_SIGN = "=";
     public static final String ASK_SIGN_EN = "?";

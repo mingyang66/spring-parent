@@ -1,5 +1,12 @@
 ###
 -----
+基础库发布4.4.1
+Bug Fixes
+
+1. d
+2.
+
+-----
 基础库发布4.4.0
 Bug Fixes
 
@@ -21,6 +28,7 @@ Bug Fixes
 16. redis sdk core code modify;
 17. 新增RedisProperties配置类继承官方的RedisProperties配置类，添加自定义属性配置，修改自定义sdk代码；
 18. redis sdk RedisConnectionDetails属性修改传递对象模式；
+19. redis sdk 新增LuaScriptTool工具类包含限流、环形节点结构；
 
 ------
 

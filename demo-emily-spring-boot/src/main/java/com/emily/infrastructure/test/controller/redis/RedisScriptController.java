@@ -39,7 +39,7 @@ public class RedisScriptController {
         if (StringUtils.isNotBlank(RequestUtils.getHeader("value"))) {
             value = RequestUtils.getHeader("value");
         }
-        boolean count = LuaScriptTools.circle(redisTemplate, "test-script-list", value, 3, Duration.ofSeconds(20));
+        boolean count = LuaScriptTools.listCircle(redisTemplate, "test-script-list", value, 3, Duration.ofSeconds(20));
         System.out.println("结果：" + count);
         return count;
     }

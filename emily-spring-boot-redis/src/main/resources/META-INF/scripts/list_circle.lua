@@ -21,7 +21,7 @@ local threshold = tonumber(ARGV[2])
 local expire = tonumber(ARGV[3] or '0')
 
 -- pcall函数捕获多条指令执行时的异常
-local success, result = pcall(function(key, value, threshold, expire)
+local success, error = pcall(function(key, value, threshold, expire)
     -- 判定列表中是否包含value
     if not contains_value(key, value) then
         -- 获取列表长度
@@ -43,8 +43,8 @@ end, key, value, threshold, expire)
 
 -- 执行成功，直接返回列表长度
 if success then
-    return true
+    return 1
 else
     -- 异常，则直接将异常信息返回
-    return false
+    return error
 end

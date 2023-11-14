@@ -3,7 +3,7 @@
 基础库发布4.4.1
 Bug Fixes
 
-1. d
+1. LuaScriptTools新增基于ZSET有序集合的环形节点；
 2.
 
 -----

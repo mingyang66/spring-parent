@@ -9,7 +9,7 @@ local threshold = tonumber(ARGV[3])
 -- 超时时间
 local expire = tonumber(ARGV[4])
 
-local success, result = pcall(function(key, score, value, threshold, expire)
+local success, error = pcall(function(key, score, value, threshold, expire)
     -- 返回有序成员的分数
     local exists = redis.call('ZSCORE', key, value)
     if not exists then
@@ -22,13 +22,16 @@ local success, result = pcall(function(key, score, value, threshold, expire)
         -- 向有序集合添加一个或多个成员，或者更新已存在成员的分数
         redis.call('ZADD', key, score, value)
     end
-    -- 设置过期时间
-    redis.call('EXPIRE', key, expire)
+    -- 超时时间必须大于0，否则永久有效
+    if expire > 0 then
+        -- 设置超时时间
+        redis.call('EXPIRE', key, expire)
+    end
 end, key, score, value, threshold, expire)
 
 -- 判定脚本是否执行成功
 if success then
-    return true
+    return 1
 else
-    return false
+    return error
 end

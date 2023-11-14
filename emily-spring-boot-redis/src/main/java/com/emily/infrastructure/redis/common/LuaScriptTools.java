@@ -66,18 +66,19 @@ public class LuaScriptTools {
      * @param value         列表值
      * @param threshold     阀值，列表长度，即环上数据个数
      * @param expire        有效时长, 为null则永久有效
-     * @return 当前环（列表）长度
+     * @return true-执行成功 false-执行失败
      */
-    public static boolean circle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
+    public static boolean listCircle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_LIST_CIRCLE)) {
                 LUA_SCRIPT_LIST_CIRCLE = getLuaScript("META-INF/scripts/list_circle.lua");
             }
-            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LIST_CIRCLE, Boolean.class);
+            RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_LIST_CIRCLE, Long.class);
             if (expire == null) {
                 expire = Duration.ZERO;
             }
-            return (Boolean) redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
+            redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
+            return true;
         } catch (Throwable ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
@@ -92,7 +93,7 @@ public class LuaScriptTools {
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
             logger.info(JsonUtils.toJSONString(baseLogger));
-            throw ex;
+            return false;
         }
     }
 
@@ -110,16 +111,17 @@ public class LuaScriptTools {
      * @param expire        过期时间
      * @return true-执行成功 false-执行失败
      */
-    public static Boolean zSetCircle(RedisTemplate redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
+    public static boolean zSetCircle(RedisTemplate redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_ZSET_CIRCLE)) {
                 LUA_SCRIPT_ZSET_CIRCLE = getLuaScript("META-INF/scripts/zset_circle.lua");
             }
-            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_ZSET_CIRCLE, Boolean.class);
+            RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_ZSET_CIRCLE, Long.class);
             if (expire == null) {
                 expire = Duration.ZERO;
             }
-            return (Boolean) redisTemplate.execute(script, singletonList(key), score, value, threshold, expire.getSeconds());
+            redisTemplate.execute(script, singletonList(key), score, value, threshold, expire.getSeconds());
+            return true;
         } catch (Throwable ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
@@ -135,7 +137,7 @@ public class LuaScriptTools {
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
             logger.info(JsonUtils.toJSONString(baseLogger));
-            throw ex;
+            return false;
         }
     }
 

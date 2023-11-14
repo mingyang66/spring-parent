@@ -22,11 +22,10 @@ local expire = tonumber(ARGV[3] or '0')
 
 -- pcall函数捕获多条指令执行时的异常
 local success, result = pcall(function(key, value, threshold, expire)
-    -- 获取列表长度
-    local len = tonumber(redis.call('LLEN', key))
-
     -- 判定列表中是否包含value
     if not contains_value(key, value) then
+        -- 获取列表长度
+        local len = tonumber(redis.call('LLEN', key))
         -- 根据列表长度与阀值比较
         if len >= threshold then
             -- 移出并获取列表的第一个元素
@@ -40,14 +39,12 @@ local success, result = pcall(function(key, value, threshold, expire)
         -- 设置超时时间
         redis.call('EXPIRE', key, expire)
     end
-    -- 返回列表长度
-    return redis.call('LLEN', key)
 end, key, value, threshold, expire)
 
 -- 执行成功，直接返回列表长度
 if success then
-    return result
+    return true
 else
     -- 异常，则直接将异常信息返回
-    return result
+    return false
 end

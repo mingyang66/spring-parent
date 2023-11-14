@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.controller.redis;
 
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.LuaScriptTools;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,18 +33,20 @@ public class RedisScriptController {
 
     }
 
-    @GetMapping("extest")
-    public long extest() {
+    @GetMapping("list")
+    public boolean list() {
         String value = "list" + RandomUtils.nextInt();
         if (StringUtils.isNotBlank(RequestUtils.getHeader("value"))) {
             value = RequestUtils.getHeader("value");
         }
-        long count = LuaScriptTools.circle(redisTemplate, "set_expire:test", value, 3, Duration.ofSeconds(20));
+        boolean count = LuaScriptTools.circle(redisTemplate, "test-script-list", value, 3, Duration.ofSeconds(20));
         System.out.println("结果：" + count);
         return count;
     }
 
-    public static void main(String[] args) {
-        System.out.println(JsonUtils.toJSONString("2332"));
+    @GetMapping("zset")
+    public boolean zset() {
+        String value = RequestUtils.getHeader("value");
+        return LuaScriptTools.zSetCircle(redisTemplate, "test-script-zset", System.currentTimeMillis(), value, 3, Duration.ofSeconds(60));
     }
 }

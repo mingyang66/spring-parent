@@ -34,7 +34,11 @@ public class LuaScriptTools {
     /**
      * 基于lua列表的环形结构实现脚本
      */
-    public static String LUA_SCRIPT_CIRCLE;
+    public static String LUA_SCRIPT_LIST_CIRCLE;
+    /**
+     * 基于redis ZSET有序集合的环形结构脚本
+     */
+    public static String LUA_SCRIPT_ZSET_CIRCLE;
 
     /**
      * 基于lua脚本的限流工具
@@ -53,19 +57,6 @@ public class LuaScriptTools {
     }
 
     /**
-     * 基于列表（List）的环, 列表永久有效
-     *
-     * @param redisTemplate redis 模板工具
-     * @param key           环的键值
-     * @param value         列表值
-     * @param threshold     阀值，列表长度，即环上数据个数
-     * @return 当前环（列表）长度
-     */
-    public static long circle(RedisTemplate redisTemplate, String key, Object value, long threshold) {
-        return circle(redisTemplate, key, value, threshold, Duration.ZERO);
-    }
-
-    /**
      * 基于列表（List）的环
      * 1. 支持一直有效，threshold 设置为<=0或null
      * 2. 支持设置有效时长，动态刷新，interval大于0
@@ -77,16 +68,16 @@ public class LuaScriptTools {
      * @param expire        有效时长, 为null则永久有效
      * @return 当前环（列表）长度
      */
-    public static long circle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
+    public static boolean circle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_CIRCLE)) {
-                LUA_SCRIPT_CIRCLE = getLuaScript("META-INF/scripts/list_circle.lua");
+            if (StringUtils.isEmpty(LUA_SCRIPT_LIST_CIRCLE)) {
+                LUA_SCRIPT_LIST_CIRCLE = getLuaScript("META-INF/scripts/list_circle.lua");
             }
-            RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_CIRCLE, Long.class);
+            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LIST_CIRCLE, Boolean.class);
             if (expire == null) {
                 expire = Duration.ZERO;
             }
-            return (Long) redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
+            return (Boolean) redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
         } catch (Throwable ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
@@ -96,6 +87,49 @@ public class LuaScriptTools {
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withUrl("Redis")
                     .withRequestParams(key, value)
+                    .withRequestParams("threshold", threshold)
+                    .withRequestParams("expire", expire.getSeconds())
+                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .build();
+            logger.info(JsonUtils.toJSONString(baseLogger));
+            throw ex;
+        }
+    }
+
+    /**
+     * 基于ZSET有序集合构建环形结构
+     * 1. 环上有一个阀值上线；
+     * 2. 环可以设置有效期；
+     * 3. 环上节点达到上限后移除分数最低的成员
+     *
+     * @param redisTemplate redis模板工具类
+     * @param key           键名
+     * @param score         分数, 可以使用时间戳做为分值
+     * @param value         成员值
+     * @param threshold     阀值
+     * @param expire        过期时间
+     * @return true-执行成功 false-执行失败
+     */
+    public static Boolean zSetCircle(RedisTemplate redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
+        try {
+            if (StringUtils.isEmpty(LUA_SCRIPT_ZSET_CIRCLE)) {
+                LUA_SCRIPT_ZSET_CIRCLE = getLuaScript("META-INF/scripts/zset_circle.lua");
+            }
+            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_ZSET_CIRCLE, Boolean.class);
+            if (expire == null) {
+                expire = Duration.ZERO;
+            }
+            return (Boolean) redisTemplate.execute(script, singletonList(key), score, value, threshold, expire.getSeconds());
+        } catch (Throwable ex) {
+            BaseLogger baseLogger = BaseLoggerBuilder.create()
+                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
+                    .withTraceId(UUIDUtils.randomSimpleUUID())
+                    .withClientIp(RequestUtils.getClientIp())
+                    .withServerIp(RequestUtils.getServerIp())
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .withUrl("Redis")
+                    .withRequestParams(key, value)
+                    .withRequestParams("score", score)
                     .withRequestParams("threshold", threshold)
                     .withRequestParams("expire", expire.getSeconds())
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))

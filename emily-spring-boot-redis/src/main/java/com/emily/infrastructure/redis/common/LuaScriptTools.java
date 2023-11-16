@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 
@@ -39,6 +40,10 @@ public class LuaScriptTools {
      * 基于redis ZSET有序集合的环形结构脚本
      */
     public static String LUA_SCRIPT_ZSET_CIRCLE;
+    /**
+     * 查询永久有效的key
+     */
+    public static String LUA_SCRIPT_TTL_KEYS;
 
     /**
      * 基于lua脚本的限流工具
@@ -139,6 +144,18 @@ public class LuaScriptTools {
             logger.info(JsonUtils.toJSONString(baseLogger));
             return false;
         }
+    }
+
+    /**
+     * @param redisTemplate redis 模板工具类
+     * @return TTL为-1的键集合列表
+     */
+    public static List<String> ttlKeys(RedisTemplate redisTemplate) {
+        if (StringUtils.isEmpty(LUA_SCRIPT_TTL_KEYS)) {
+            LUA_SCRIPT_TTL_KEYS = getLuaScript("META-INF/scripts/ttl_keys.lua");
+        }
+        RedisScript<List> script = RedisScript.of(LUA_SCRIPT_TTL_KEYS, List.class);
+        return (List<String>) redisTemplate.execute(script, SerializationUtils.stringSerializer(), SerializationUtils.stringSerializer(), null);
     }
 
     /**

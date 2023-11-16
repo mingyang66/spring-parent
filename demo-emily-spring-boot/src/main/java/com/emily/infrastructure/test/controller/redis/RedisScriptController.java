@@ -2,6 +2,7 @@ package com.emily.infrastructure.test.controller.redis;
 
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.redis.common.LuaScriptTools;
+import com.emily.infrastructure.redis.common.SerializationUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 /**
  * @author :  Emily
@@ -48,5 +53,11 @@ public class RedisScriptController {
     public boolean zset() {
         String value = RequestUtils.getHeader("value");
         return LuaScriptTools.zSetCircle(redisTemplate, "test-script-zset", System.currentTimeMillis(), value, 3, Duration.ofSeconds(60));
+    }
+
+    @GetMapping("ttl")
+    public List<String> ttl(){
+        List<String> list = LuaScriptTools.ttlKeys(redisTemplate);
+        return list;
     }
 }

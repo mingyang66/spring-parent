@@ -50,6 +50,28 @@ public class LuaScriptTools {
      * 批量查询永久有效的key
      */
     public static String LUA_SCRIPT_TTL_SCAN_KEYS;
+    /**
+     * 基于SET指令的锁脚本
+     */
+    public static String LUA_SCRIPT_LOCK_TTL;
+    /**
+     * 释放锁脚本
+     */
+    public static String LUA_SCRIPT_LOCK_DEL;
+
+    /**
+     * 获取lua脚本
+     *
+     * @param filePath 脚本路径
+     * @return lua字符串脚本
+     */
+    public static String getLuaScript(String filePath) {
+        try {
+            return new ClassPathResource(filePath).getContentAsString(StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * 基于lua脚本的限流工具
@@ -153,6 +175,9 @@ public class LuaScriptTools {
     }
 
     /**
+     * 通过redis的keys指令一次性获取所有TTL是永久有效的key列表
+     * 如果数据量过大会阻塞redis服务器
+     *
      * @param redisTemplate redis 模板工具类
      * @return TTL为-1的键集合列表
      */
@@ -164,7 +189,10 @@ public class LuaScriptTools {
         return (List<String>) redisTemplate.execute(script, SerializationUtils.stringSerializer(), SerializationUtils.stringSerializer(), null);
     }
 
+
     /**
+     * 使用redis的scan指令批量从redis中获取TTL是永久有效的key列表
+     *
      * @param redisTemplate redis 模板工具类
      * @return TTL为-1的键集合列表
      */
@@ -201,16 +229,66 @@ public class LuaScriptTools {
     }
 
     /**
-     * 获取lua脚本
+     * 对指定的key加锁
+     * 只有在key不存在的时候才可以加锁成功
      *
-     * @param filePath 脚本路径
-     * @return lua字符串脚本
+     * @param redisTemplate redis 模板工具类
+     * @param key           键名
+     * @param value         键值
+     * @param expire        过期时间
+     * @return true-加锁成功 false-加锁失败
      */
-    public static String getLuaScript(String filePath) {
+    public static Boolean tryLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
         try {
-            return new ClassPathResource(filePath).getContentAsString(StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_TTL)) {
+                LUA_SCRIPT_LOCK_TTL = getLuaScript("META-INF/scripts/lock_ttl.lua");
+            }
+            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_TTL, Boolean.class);
+            return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
+        } catch (Exception ex) {
+            BaseLogger baseLogger = BaseLoggerBuilder.create()
+                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
+                    .withTraceId(UUIDUtils.randomSimpleUUID())
+                    .withClientIp(RequestUtils.getClientIp())
+                    .withServerIp(RequestUtils.getServerIp())
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .withUrl("Redis")
+                    .withRequestParams(key, value)
+                    .withRequestParams("expire", expire.getSeconds())
+                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .build();
+            logger.info(JsonUtils.toJSONString(baseLogger));
+            return false;
+        }
+    }
+
+    /**
+     * 释放指定的锁，如果锁不存在，则忽略
+     *
+     * @param redisTemplate redis 模板工具类
+     * @param key           键名
+     * @return true-加锁成功 false-加锁失败
+     */
+    public static Boolean releaseLock(RedisTemplate redisTemplate, String key) {
+        try {
+            if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_DEL)) {
+                LUA_SCRIPT_LOCK_DEL = getLuaScript("META-INF/scripts/lock_del.lua");
+            }
+            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_DEL, Boolean.class);
+            return (Boolean) redisTemplate.execute(script, singletonList(key));
+        } catch (Exception ex) {
+            BaseLogger baseLogger = BaseLoggerBuilder.create()
+                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
+                    .withTraceId(UUIDUtils.randomSimpleUUID())
+                    .withClientIp(RequestUtils.getClientIp())
+                    .withServerIp(RequestUtils.getServerIp())
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .withUrl("Redis")
+                    .withRequestParams("key", key)
+                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .build();
+            logger.info(JsonUtils.toJSONString(baseLogger));
+            return false;
         }
     }
 }

@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -44,6 +46,10 @@ public class LuaScriptTools {
      * 查询永久有效的key
      */
     public static String LUA_SCRIPT_TTL_KEYS;
+    /**
+     * 批量查询永久有效的key
+     */
+    public static String LUA_SCRIPT_TTL_SCAN_KEYS;
 
     /**
      * 基于lua脚本的限流工具
@@ -156,6 +162,43 @@ public class LuaScriptTools {
         }
         RedisScript<List> script = RedisScript.of(LUA_SCRIPT_TTL_KEYS, List.class);
         return (List<String>) redisTemplate.execute(script, SerializationUtils.stringSerializer(), SerializationUtils.stringSerializer(), null);
+    }
+
+    /**
+     * @param redisTemplate redis 模板工具类
+     * @return TTL为-1的键集合列表
+     */
+    public static List<String> ttlScanKeys(RedisTemplate redisTemplate, long count) {
+        try {
+
+            if (StringUtils.isEmpty(LUA_SCRIPT_TTL_SCAN_KEYS)) {
+                LUA_SCRIPT_TTL_SCAN_KEYS = getLuaScript("META-INF/scripts/ttl_scan_keys.lua");
+            }
+            RedisScript<List> script = RedisScript.of(LUA_SCRIPT_TTL_SCAN_KEYS, List.class);
+            List<String> result = new ArrayList<>();
+            long cursor = 0;
+            do {
+                List<Object> list = (List<Object>) redisTemplate.execute(script, SerializationUtils.jackson2JsonRedisSerializer(), SerializationUtils.stringSerializer(), null, cursor, count);
+                // 游标
+                cursor = Long.valueOf(list.get(0).toString());
+                // 符合条件的键值
+                result.addAll(JsonUtils.toJavaBean(JsonUtils.toJSONString(list.get(1)), List.class, String.class));
+            } while (cursor != 0);
+            return result;
+        } catch (Exception ex) {
+            BaseLogger baseLogger = BaseLoggerBuilder.create()
+                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
+                    .withTraceId(UUIDUtils.randomSimpleUUID())
+                    .withClientIp(RequestUtils.getClientIp())
+                    .withServerIp(RequestUtils.getServerIp())
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .withUrl("Redis")
+                    .withRequestParams("count", count)
+                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .build();
+            logger.info(JsonUtils.toJSONString(baseLogger));
+            return Collections.emptyList();
+        }
     }
 
     /**

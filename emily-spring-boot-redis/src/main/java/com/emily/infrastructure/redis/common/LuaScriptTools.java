@@ -104,7 +104,7 @@ public class LuaScriptTools {
     public static boolean listCircle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_LIST_CIRCLE)) {
-                LUA_SCRIPT_LIST_CIRCLE = getLuaScript("META-INF/scripts/list_circle.lua");
+                LUA_SCRIPT_LIST_CIRCLE = getLuaScript("META-INF/scripts/circle_list.lua");
             }
             RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_LIST_CIRCLE, Long.class);
             if (expire == null) {
@@ -147,7 +147,7 @@ public class LuaScriptTools {
     public static boolean zSetCircle(RedisTemplate redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_ZSET_CIRCLE)) {
-                LUA_SCRIPT_ZSET_CIRCLE = getLuaScript("META-INF/scripts/zset_circle.lua");
+                LUA_SCRIPT_ZSET_CIRCLE = getLuaScript("META-INF/scripts/circle_zset.lua");
             }
             RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_ZSET_CIRCLE, Long.class);
             if (expire == null) {

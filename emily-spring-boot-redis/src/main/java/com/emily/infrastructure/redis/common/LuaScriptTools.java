@@ -53,7 +53,7 @@ public class LuaScriptTools {
     /**
      * 基于SET指令的锁脚本
      */
-    public static String LUA_SCRIPT_LOCK_TTL;
+    public static String LUA_SCRIPT_LOCK_GET;
     /**
      * 释放锁脚本
      */
@@ -229,7 +229,7 @@ public class LuaScriptTools {
     }
 
     /**
-     * 对指定的key加锁
+     * 尝试获取锁
      * 只有在key不存在的时候才可以加锁成功
      *
      * @param redisTemplate redis 模板工具类
@@ -238,12 +238,12 @@ public class LuaScriptTools {
      * @param expire        过期时间
      * @return true-加锁成功 false-加锁失败
      */
-    public static Boolean tryLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
+    public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_TTL)) {
-                LUA_SCRIPT_LOCK_TTL = getLuaScript("META-INF/scripts/lock_ttl.lua");
+            if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_GET)) {
+                LUA_SCRIPT_LOCK_GET = getLuaScript("META-INF/scripts/lock_get.lua");
             }
-            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_TTL, Boolean.class);
+            RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_GET, Boolean.class);
             return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
         } catch (Exception ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()

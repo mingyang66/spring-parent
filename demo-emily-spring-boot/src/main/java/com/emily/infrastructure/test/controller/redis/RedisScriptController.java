@@ -62,9 +62,9 @@ public class RedisScriptController {
         return LuaScriptTools.ttlScanKeys(redisTemplate, 100);
     }
 
-    @GetMapping("tryLock")
-    public boolean tryLock() {
-        return LuaScriptTools.tryLock(redisTemplate, "mykey", "123", Duration.ofSeconds(60));
+    @GetMapping("tryGetLock")
+    public boolean tryGetLock() {
+        return LuaScriptTools.tryGetLock(redisTemplate, "mykey", "123", Duration.ofSeconds(60));
     }
 
     @GetMapping("releaseLock")

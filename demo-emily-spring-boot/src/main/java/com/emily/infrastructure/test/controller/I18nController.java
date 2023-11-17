@@ -13,9 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  多语言
- * @author  Emily
- * @since  Created in 2023/4/18 9:58 AM
+ * 多语言
+ *
+ * @author Emily
+ * @since Created in 2023/4/18 9:58 AM
  */
 @RestController
 @RequestMapping("api/i18n")

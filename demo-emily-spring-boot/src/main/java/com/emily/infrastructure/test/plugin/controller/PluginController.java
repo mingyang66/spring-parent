@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- *  控制器插件
- * @author  Emily
- * @since  Created in 2023/4/26 1:54 PM
+ * 控制器插件
+ *
+ * @author Emily
+ * @since Created in 2023/4/26 1:54 PM
  */
 @EnablePluginRegistries(value = PeoplePlugin.class)
 @RestController

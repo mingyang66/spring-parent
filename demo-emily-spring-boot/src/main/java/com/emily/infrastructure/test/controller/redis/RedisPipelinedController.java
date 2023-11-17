@@ -54,10 +54,10 @@ public class RedisPipelinedController {
         stringRedisTemplate.executePipelined(new SessionCallback<String>() {
             @Override
             public String execute(RedisOperations operations) throws DataAccessException {
-                operations.opsForValue().set("test","t",10,TimeUnit.SECONDS);
-                operations.opsForValue().set("test","t",10,TimeUnit.SECONDS);
-                operations.opsForValue().set("test","t",10,TimeUnit.SECONDS);
-                operations.opsForValue().set("test","t",10,TimeUnit.SECONDS);
+                operations.opsForValue().set("test", "t", 10, TimeUnit.SECONDS);
+                operations.opsForValue().set("test", "t", 10, TimeUnit.SECONDS);
+                operations.opsForValue().set("test", "t", 10, TimeUnit.SECONDS);
+                operations.opsForValue().set("test", "t", 10, TimeUnit.SECONDS);
                 return null;
             }
         });

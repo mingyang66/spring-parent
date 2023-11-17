@@ -19,11 +19,13 @@
 
     <select id="getMysql" resultType="com.emily.infrastructure.test.po.World">
         SELECT *
-        FROM world w where w.username=#{username} and w.password=#{password}
+        FROM world w
+        where w.username = #{username}
+          and w.password = #{password}
     </select>
 
     <insert id="insertMysql" parameterType="java.lang.String">
-        INSERT INTO world(username,password,insert_time,update_time)
+        INSERT INTO world(username, password, insert_time, update_time)
         VALUES (#{username}, #{password}, now(), now())
     </insert>
 

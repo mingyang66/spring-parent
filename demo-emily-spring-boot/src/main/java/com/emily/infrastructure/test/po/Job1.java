@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @author Emily
- *  Description
+ * Description
  * @since 1.0
  */
 public class Job1<T> implements Serializable {

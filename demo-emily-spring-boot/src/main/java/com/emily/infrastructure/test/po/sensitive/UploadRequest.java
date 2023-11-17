@@ -5,9 +5,10 @@ import com.emily.infrastructure.sensitive.JsonSensitive;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- *  文件上传
- * @author  Emily
- * @since  Created in 2023/5/14 4:44 PM
+ * 文件上传
+ *
+ * @author Emily
+ * @since Created in 2023/5/14 4:44 PM
  */
 @JsonSensitive
 public class UploadRequest {

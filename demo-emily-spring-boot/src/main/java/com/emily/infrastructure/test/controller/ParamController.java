@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @program: spring-parent
- *  参数控制器
  * @author Emily
+ * @program: spring-parent
+ * 参数控制器
  * @since 2021/10/30
  */
 @Validated
@@ -62,7 +62,7 @@ public class ParamController {
     }
 
     @PostMapping("validParam")
-    public String validParam(@Validated @NotEmpty(message = "不可为空") String username){
+    public String validParam(@Validated @NotEmpty(message = "不可为空") String username) {
         return username;
     }
 }

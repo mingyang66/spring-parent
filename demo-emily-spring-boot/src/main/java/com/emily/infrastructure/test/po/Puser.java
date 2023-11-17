@@ -1,9 +1,8 @@
 package com.emily.infrastructure.test.po;
 
 /**
- * @program: spring-parent
- * 
  * @author Emily
+ * @program: spring-parent
  * @since 2021/08/17
  */
 public class Puser {

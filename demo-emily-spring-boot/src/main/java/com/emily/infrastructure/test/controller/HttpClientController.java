@@ -23,9 +23,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * @program: spring-parent
- *  http控制器
  * @author Emily
+ * @program: spring-parent
+ * http控制器
  * @since 2021/11/11
  */
 @RequestMapping("api/http")
@@ -39,10 +39,10 @@ public class HttpClientController {
         String timeout = request.getParameter("timeout");
         BaseResponse<String> result;
         try {
-         //   HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
+            //   HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
             result = restTemplate.getForObject("https://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
         } finally {
-          //  HttpContextHolder.unbind();
+            //  HttpContextHolder.unbind();
         }
         return result;
     }
@@ -78,7 +78,7 @@ public class HttpClientController {
         Map<String, String> body = Maps.newHashMap();
         body.put("param1", "value1");
         body.put("param2", "value2");
-        ResponseEntity<String> entity = new RestTemplateBuilder().build().postForEntity(url,new HttpEntity<>(body, headers), String.class);
+        ResponseEntity<String> entity = new RestTemplateBuilder().build().postForEntity(url, new HttpEntity<>(body, headers), String.class);
         return entity.getBody();
     }
 

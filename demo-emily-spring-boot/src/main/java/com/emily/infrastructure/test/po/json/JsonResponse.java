@@ -8,9 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *
- * @author  Emily
- * @since  Created in 2022/10/27 10:53 上午
+ * @author Emily
+ * @since Created in 2022/10/27 10:53 上午
  */
 @JsonSensitive
 public class JsonResponse {

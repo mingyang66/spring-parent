@@ -4,7 +4,7 @@ local function contains_value(key, value)
     local elements = redis.call('LRANGE', key, 0, -1)
     -- 泛型for迭代器
     for k, v in pairs(elements) do
-        if  v == value then
+        if v == value then
             return true
         end
     end

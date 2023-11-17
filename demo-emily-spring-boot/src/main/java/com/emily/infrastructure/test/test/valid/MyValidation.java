@@ -17,6 +17,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = MyValidator.class)
 public @interface MyValidation {
     String message() default "Invalid input";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

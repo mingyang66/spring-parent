@@ -8,9 +8,10 @@ import com.emily.infrastructure.test.po.i18n.Student;
 import com.emily.infrastructure.test.po.i18n.Teacher;
 
 /**
- *  多语言测试
- * @author  Emily
- * @since  Created in 2023/4/17 3:36 PM
+ * 多语言测试
+ *
+ * @author Emily
+ * @since Created in 2023/4/17 3:36 PM
  */
 public class I18nTest {
     public static void main(String[] args) throws IllegalAccessException {

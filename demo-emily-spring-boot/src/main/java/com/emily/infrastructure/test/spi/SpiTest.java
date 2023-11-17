@@ -3,9 +3,8 @@ package com.emily.infrastructure.test.spi;
 import java.util.ServiceLoader;
 
 /**
- * @program: spring-parent
- * 
  * @author Emily
+ * @program: spring-parent
  * @since 2021/11/30
  */
 public class SpiTest {

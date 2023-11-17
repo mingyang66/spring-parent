@@ -3,9 +3,9 @@ package com.emily.infrastructure.test.test;
 import com.emily.infrastructure.test.po.User;
 
 /**
- * @program: spring-parent
- *  弱引用测试
  * @author Emily
+ * @program: spring-parent
+ * 弱引用测试
  * @since 2021/11/13
  */
 public class WeakReferenceTest {

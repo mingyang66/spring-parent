@@ -11,9 +11,8 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- *
- * @author  Emily
- * @since  Created in 2022/10/27 10:53 上午
+ * @author Emily
+ * @since Created in 2022/10/27 10:53 上午
  */
 @JsonSensitive
 public class JsonRequest extends Animal {

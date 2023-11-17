@@ -23,6 +23,7 @@ public class RabbitConfig {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }
     }
+
     @RabbitListener(queues = "topic.test.queue", priority = "3", containerFactory = "rabbitListenerContainerFactory")
     public void handlerEmily(Channel channel, Message message) throws IOException {
         try {

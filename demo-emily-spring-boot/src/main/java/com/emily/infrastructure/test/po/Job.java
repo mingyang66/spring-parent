@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * @author Emily
- *  Description
+ * Description
  * @since 1.0
  */
 public class Job implements Serializable {

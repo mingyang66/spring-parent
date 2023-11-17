@@ -6,9 +6,8 @@ import com.emily.infrastructure.sensitive.SensitiveType;
 import org.springframework.core.Ordered;
 
 /**
- * @program: spring-parent
- * 
  * @author Emily
+ * @program: spring-parent
  * @since 2021/08/08
  */
 @JsonSensitive

@@ -6,9 +6,9 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
 /**
- * @program: spring-parent
- *  弱引用
  * @author Emily
+ * @program: spring-parent
+ * 弱引用
  * @since 2021/11/13
  */
 public class UserWeakReference extends WeakReference<User> {

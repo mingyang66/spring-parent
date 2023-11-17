@@ -5,9 +5,9 @@ import com.emily.infrastructure.test.po.User;
 import java.lang.ref.ReferenceQueue;
 
 /**
- * @program: spring-parent
- *  弱引用测试
  * @author Emily
+ * @program: spring-parent
+ * 弱引用测试
  * @since 2021/11/13
  */
 public class WeakReferenceQueueTest {

@@ -6,9 +6,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- * @author  Emily
- * @since  Created in 2022/5/31 11:21 上午
+ * @author Emily
+ * @since Created in 2022/5/31 11:21 上午
  */
 public class CafeineTest {
     private static final Cache<String, Boolean> CACHE = Caffeine.newBuilder()

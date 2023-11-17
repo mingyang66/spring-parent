@@ -2,14 +2,12 @@ package com.emily.infrastructure.test.test;
 
 import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
- *
- * @author  Emily
- * @since  Created in 2022/8/2 7:28 下午
+ * @author Emily
+ * @since Created in 2022/8/2 7:28 下午
  */
 @Service
 public class TestTimeout {

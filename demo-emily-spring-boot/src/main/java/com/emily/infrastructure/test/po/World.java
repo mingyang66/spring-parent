@@ -1,9 +1,10 @@
 package com.emily.infrastructure.test.po;
 
 /**
- *  平凡的世界
- * @author  Emily
- * @since  Created in 2023/2/14 5:36 PM
+ * 平凡的世界
+ *
+ * @author Emily
+ * @since Created in 2023/2/14 5:36 PM
  */
 public class World {
     public String username;

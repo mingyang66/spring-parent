@@ -14,7 +14,7 @@ import java.util.List;
  * org.apache.ibatis.reflection.ParamNameResolver#getNamedParams(java.lang.Object[])
  *
  * @author Emily
- *  Description
+ * Description
  * @since 1.0
  */
 @Mapper

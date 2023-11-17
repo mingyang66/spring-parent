@@ -1,9 +1,9 @@
 package com.emily.infrastructure.test.spi;
 
 /**
- * @program: spring-parent
- *  学生
  * @author Emily
+ * @program: spring-parent
+ * 学生
  * @since 2021/11/30
  */
 public class Student implements People {

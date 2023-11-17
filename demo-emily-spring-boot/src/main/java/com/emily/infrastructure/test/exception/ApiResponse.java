@@ -3,9 +3,9 @@ package com.emily.infrastructure.test.exception;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @program: spring-parent
- *  响应数据
  * @author Emily
+ * @program: spring-parent
+ * 响应数据
  * @since 2021/09/12
  */
 public class ApiResponse {

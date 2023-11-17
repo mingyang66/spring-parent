@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author Emily
  * @program: spring-parent
- *  路径映射信息
+ * 路径映射信息
  * @since 2020/07/10
  */
 public class UrlMappingInfo {

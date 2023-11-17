@@ -1,9 +1,7 @@
 package com.emily.infrastructure.test.controller.redis;
 
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.LuaScriptTools;
-import com.emily.infrastructure.redis.common.SerializationUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,17 +59,6 @@ public class RedisScriptController {
 
     @GetMapping("ttlBatch")
     public List<String> batch() {
-       /* List<String> result = new ArrayList<>();
-        RedisScript<List> script = RedisScript.of(new ClassPathResource("META-INF/scripts/ttl_scan.lua"), List.class);
-        long cursor = 0;
-        do {
-            List<Object> list = (List<Object>) redisTemplate.execute(script, SerializationUtils.jackson2JsonRedisSerializer(), SerializationUtils.stringSerializer(), null, cursor, 100);
-            List<String> d = JsonUtils.toJavaBean(JsonUtils.toJSONString(list.get(1)), List.class, String.class);
-            System.out.println("数量是：" + d.size());
-            result.addAll(d);
-            cursor = Long.valueOf(list.get(0).toString());
-        } while (cursor != 0);*/
-
         return LuaScriptTools.ttlScanKeys(redisTemplate, 100);
     }
 }

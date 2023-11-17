@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisExecuteController {
     @Autowired
     private RedisTemplate redisTemplate;
+
     @GetMapping("ex")
     public void ex() {
         String s = RedisDbFactory.getStringRedisTemplate().execute(new RedisCallback<String>() {
@@ -38,16 +39,17 @@ public class RedisExecuteController {
             }
         });
     }
+
     @GetMapping("trans")
-    public void trans(){
+    public void trans() {
         List<Object> list1 = (List<Object>) redisTemplate.execute(new SessionCallback<List<Object>>() {
             @Override
             public List<Object> execute(RedisOperations operations) throws DataAccessException {
-               // operations.multi();
-                operations.opsForValue().set("test","12",10, TimeUnit.SECONDS);
-                operations.opsForValue().set("test1","12",10, TimeUnit.SECONDS);
-                operations.opsForValue().set("test2","12",10, TimeUnit.SECONDS);
-               // return operations.exec();
+                // operations.multi();
+                operations.opsForValue().set("test", "12", 10, TimeUnit.SECONDS);
+                operations.opsForValue().set("test1", "12", 10, TimeUnit.SECONDS);
+                operations.opsForValue().set("test2", "12", 10, TimeUnit.SECONDS);
+                // return operations.exec();
                 return null;
             }
         });

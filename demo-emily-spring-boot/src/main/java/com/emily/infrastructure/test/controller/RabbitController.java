@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 消息中间件控制器
+ *
  * @author :  Emily
  * @since :  2023/8/25 10:49 PM
  */
@@ -21,10 +22,11 @@ public class RabbitController {
     @Autowired
     @Qualifier("emilyRabbitTemplate")
     private RabbitTemplate rabbitTemplateEmily;
+
     @GetMapping("send")
-    public void send(){
+    public void send() {
         rabbitTemplate.convertAndSend("emily.test", "", "测试故障恢复");
-        rabbitTemplateEmily.convertAndSend("exchange_emily", "exchange.#","测试故障恢复");
+        rabbitTemplateEmily.convertAndSend("exchange_emily", "exchange.#", "测试故障恢复");
         RabbitMqFactory.getRabbitTemplate("emily").convertAndSend("exchange_emily", "exchange.#", "测试故障恢复");
     }
 }

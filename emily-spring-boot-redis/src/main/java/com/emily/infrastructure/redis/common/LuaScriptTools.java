@@ -170,7 +170,6 @@ public class LuaScriptTools {
      */
     public static List<String> ttlScanKeys(RedisTemplate redisTemplate, long count) {
         try {
-
             if (StringUtils.isEmpty(LUA_SCRIPT_TTL_SCAN_KEYS)) {
                 LUA_SCRIPT_TTL_SCAN_KEYS = getLuaScript("META-INF/scripts/ttl_scan_keys.lua");
             }

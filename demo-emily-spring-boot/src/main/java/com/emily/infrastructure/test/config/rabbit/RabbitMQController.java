@@ -13,9 +13,10 @@ import java.nio.charset.Charset;
 
 */
 /**
- *  消息中间件
- * @author  Emily
- * @since  Created in 2022/6/6 11:38 上午
+ * 消息中间件
+ *
+ * @author Emily
+ * @since Created in 2022/6/6 11:38 上午
  *//*
 
 

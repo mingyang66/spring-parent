@@ -5,9 +5,8 @@ import com.emily.infrastructure.sensitive.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveType;
 
 /**
- *
- * @author  Emily
- * @since  Created in 2022/10/27 2:51 下午
+ * @author Emily
+ * @since Created in 2022/10/27 2:51 下午
  */
 public class MapperIgnore {
     @JsonSimField(SensitiveType.USERNAME)

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 */
 /**
  * @author Emily
- *  RabbitMQ消息消费者
+ * RabbitMQ消息消费者
  * @since 1.0
  *//*
 

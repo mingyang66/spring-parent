@@ -1,6 +1,6 @@
 local success, result = pcall(function()
     -- 获取所有键
-    local keys = redis.call('KEYS','*')
+    local keys = redis.call('KEYS', '*')
     -- 初始化表
     local result = {}
     for i, key in ipairs(keys) do

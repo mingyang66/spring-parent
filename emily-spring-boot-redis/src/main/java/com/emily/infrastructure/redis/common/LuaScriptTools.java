@@ -234,17 +234,16 @@ public class LuaScriptTools {
      *
      * @param redisTemplate redis 模板工具类
      * @param key           键名
-     * @param value         键值
      * @param expire        过期时间
      * @return true-加锁成功 false-加锁失败
      */
-    public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
+    public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Duration expire) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_GET)) {
                 LUA_SCRIPT_LOCK_GET = getLuaScript("META-INF/scripts/lock_get.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_GET, Boolean.class);
-            return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
+            return (Boolean) redisTemplate.execute(script, singletonList(key), "1", expire.getSeconds());
         } catch (Exception ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
@@ -253,7 +252,7 @@ public class LuaScriptTools {
                     .withServerIp(RequestUtils.getServerIp())
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withUrl("Redis")
-                    .withRequestParams(key, value)
+                    .withRequestParams("key", key)
                     .withRequestParams("expire", expire.getSeconds())
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();

@@ -5,7 +5,10 @@ Bug Fixes
 
 1. LuaScriptTools新增基于ZSET有序集合的环形节点；
 2. LuaScriptTools新增基于TTL查询永久有效的key的lua脚本及方法；
-3. 
+3. LuaScriptTools新增基于list列表有序环形结构及lua脚本；
+4. LuaScriptTools新增基于redis lua脚本的加锁解锁脚本及逻辑；
+5. LuaScriptTools新增基于redis scan指令的批量获取数据lua脚本及指令；
+6. 
 
 -----
 基础库发布4.4.0

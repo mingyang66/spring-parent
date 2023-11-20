@@ -64,11 +64,12 @@ public class RedisScriptController {
 
     @GetMapping("tryGetLock")
     public boolean tryGetLock() {
-        return LuaScriptTools.tryGetLock(redisTemplate, "mykey", Duration.ofSeconds(60));
+        return LuaScriptTools.tryGetLock(redisTemplate, "mykey", "123", Duration.ofSeconds(60));
     }
 
     @GetMapping("releaseLock")
     public boolean releaseLock() {
-        return LuaScriptTools.releaseLock(redisTemplate, "mykey");
+        String value = RequestUtils.getHeader("value");
+        return LuaScriptTools.releaseLock(redisTemplate, "mykey", value);
     }
 }

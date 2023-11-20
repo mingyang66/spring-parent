@@ -8,7 +8,8 @@ Bug Fixes
 3. LuaScriptTools新增基于list列表有序环形结构及lua脚本；
 4. LuaScriptTools新增基于redis lua脚本的加锁解锁脚本及逻辑；
 5. LuaScriptTools新增基于redis scan指令的批量获取数据lua脚本及指令；
-6. 
+6. LuaScriptTools中tryGetLock、releaseLock获取和释放锁方法及lua脚本优化调整，解决A线程可能会释放B线程持有的锁问题；
+7. 
 
 -----
 基础库发布4.4.0

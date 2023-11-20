@@ -231,19 +231,24 @@ public class LuaScriptTools {
     /**
      * 尝试获取锁
      * 只有在key不存在的时候才可以加锁成功
+     * 解决问题：
+     * 1. 死锁问题，try catch finally无论是否发生异常都执行释放锁操作，给锁设定一个过期时间；
+     * 2. 锁被其它线程释放问题，A线程获取锁，锁过期时间5S, 由于某些原因5S结束A线程还未执行完成，锁自动过期了；B线程获取锁，此时A线程执行完成，释放锁，但是释放的是B线程的锁；
+     * 可以给每个锁设置一个标识，如UUID
      *
      * @param redisTemplate redis 模板工具类
      * @param key           键名
+     * @param value         锁标识
      * @param expire        过期时间
      * @return true-加锁成功 false-加锁失败
      */
-    public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Duration expire) {
+    public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_GET)) {
                 LUA_SCRIPT_LOCK_GET = getLuaScript("META-INF/scripts/lock_get.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_GET, Boolean.class);
-            return (Boolean) redisTemplate.execute(script, singletonList(key), "1", expire.getSeconds());
+            return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
         } catch (Exception ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
@@ -266,15 +271,16 @@ public class LuaScriptTools {
      *
      * @param redisTemplate redis 模板工具类
      * @param key           键名
+     * @param value         锁标识
      * @return true-加锁成功 false-加锁失败
      */
-    public static Boolean releaseLock(RedisTemplate redisTemplate, String key) {
+    public static Boolean releaseLock(RedisTemplate redisTemplate, String key, Object value) {
         try {
             if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_DEL)) {
                 LUA_SCRIPT_LOCK_DEL = getLuaScript("META-INF/scripts/lock_del.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_DEL, Boolean.class);
-            return (Boolean) redisTemplate.execute(script, singletonList(key));
+            return (Boolean) redisTemplate.execute(script, singletonList(key), value);
         } catch (Exception ex) {
             BaseLogger baseLogger = BaseLoggerBuilder.create()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())

@@ -20,7 +20,7 @@
         <spring-boot.version>3.2.0</spring-boot.version>
         <spring.cloud.version>4.0.3</spring.cloud.version>
         <spring.consul.version>4.0.3</spring.consul.version>
-        <spring.mybatis.version>3.0.2</spring.mybatis.version>
+        <spring.mybatis.version>3.0.3</spring.mybatis.version>
         <alibaba.druid.version>1.2.20</alibaba.druid.version>
     </properties>
 

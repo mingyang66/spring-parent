@@ -2,7 +2,7 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
-import org.springframework.retry.listener.RetryListenerSupport;
+import org.springframework.retry.RetryListener;
 
 /**
  * 生产端发布重试监听器
@@ -10,7 +10,7 @@ import org.springframework.retry.listener.RetryListenerSupport;
  * @author :  Emily
  * @since :  2023/9/20 21:10 PM
  */
-public class PublisherRetryListener extends RetryListenerSupport {
+public class PublisherRetryListener implements RetryListener {
     /**
      * 在重试操作完成后执行的逻辑
      *

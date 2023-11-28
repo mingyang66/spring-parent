@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 测试配置文件
  *
- * @author  Emily
+ * @author Emily
  * @since :  Created in 2023/7/6 7:50 PM
  */
 @ConfigurationProperties(prefix = LogbackProperties.PREFIX)

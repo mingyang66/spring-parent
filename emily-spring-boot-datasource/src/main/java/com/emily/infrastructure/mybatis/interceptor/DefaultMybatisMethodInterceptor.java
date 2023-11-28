@@ -2,6 +2,7 @@ package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -34,7 +35,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         //开始时间
         Instant start = Instant.now();
 
-        BaseLoggerBuilder builder = BaseLoggerBuilder.create();
+        BaseLoggerBuilder builder = BaseLogger.newBuilder();
         try {
             Object response = invocation.proceed();
             builder.withBody(SensitiveUtils.acquireElseGet(response));

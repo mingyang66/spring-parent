@@ -3,6 +3,7 @@ package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -46,7 +47,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
         //设置事务标识
         request.getHeaders().set(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //创建拦截日志信息
-        BaseLoggerBuilder builder = BaseLoggerBuilder.create()
+        BaseLoggerBuilder builder = BaseLogger.newBuilder()
                 //系统编号
                 .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                 //生成事物流水号

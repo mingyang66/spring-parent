@@ -47,10 +47,6 @@ public class CommonKeysBuilder {
         return this;
     }
 
-    public static CommonKeysBuilder create() {
-        return new CommonKeysBuilder();
-    }
-
     public CommonKeys build() {
         CommonKeys property = new CommonKeys();
         property.setLoggerName(this.loggerName);

@@ -3,7 +3,6 @@ package com.emily.cloud.test.fegin;
 /**
  * @author Emily
  * @program: spring-parent
- *
  * @since 2021/03/24
  */
 public class Store {

@@ -7,7 +7,7 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
-import com.emily.infrastructure.core.entity.BaseResponseBuilder;
+import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestHelper;
@@ -76,7 +76,7 @@ public class GlobalExceptionCustomizer {
                 return message;
             }
         }
-        return BaseResponseBuilder.create().withStatus(status).withMessage(message).build();
+        return BaseResponse.newBuilder().withStatus(status).withMessage(message).build();
     }
 
     /**
@@ -96,7 +96,7 @@ public class GlobalExceptionCustomizer {
                 || ex instanceof HttpRequestMethodNotSupportedException)) {
             return;
         }
-        BaseLoggerBuilder builder = BaseLoggerBuilder.create()
+        BaseLoggerBuilder builder = BaseLogger.newBuilder()
                 //系统编号
                 .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                 //事务唯一编号

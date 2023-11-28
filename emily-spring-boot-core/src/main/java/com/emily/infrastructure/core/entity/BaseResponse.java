@@ -65,4 +65,8 @@ public class BaseResponse<T> implements Serializable {
     public void setSpentTime(long spentTime) {
         this.spentTime = spentTime;
     }
+
+    public static <T> BaseResponseBuilder<T> newBuilder() {
+        return new BaseResponseBuilder<T>();
+    }
 }

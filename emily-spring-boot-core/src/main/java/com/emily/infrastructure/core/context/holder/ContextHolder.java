@@ -143,4 +143,8 @@ public class ContextHolder {
     public void setServlet(boolean servlet) {
         this.servlet = servlet;
     }
+
+    public static ContextHolderBuilder newBuilder() {
+        return new ContextHolderBuilder();
+    }
 }

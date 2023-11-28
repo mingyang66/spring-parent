@@ -1,9 +1,9 @@
 package com.emily.infrastructure.logger.test;
 
+import com.emily.infrastructure.logger.LoggerContextInitializer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
-import com.emily.infrastructure.logger.LoggerContextInitializer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

@@ -13,8 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * 加载顺序：loback-test.xml-&gt;logback.xml-&gt;SPI com.qos.logback.classic.spi.Configurator模式-&gt;BasicConfigurator打印控制台
  *
  * @author Emily
- * @since : 2020/08/08
  * @see <a href="https://logback.qos.ch/manual/configuration.html">...</a>
+ * @since : 2020/08/08
  */
 @AutoConfiguration
 @EnableConfigurationProperties(LogbackProperties.class)

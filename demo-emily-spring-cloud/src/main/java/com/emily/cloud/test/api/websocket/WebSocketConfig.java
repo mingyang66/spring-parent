@@ -7,7 +7,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 /**
  * @author Emily
  * @program: spring-parent
- *
  * @since 2021/03/06
  */
 @Configuration(proxyBeanMethods = false)

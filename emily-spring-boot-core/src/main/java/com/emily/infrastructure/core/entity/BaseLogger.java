@@ -174,4 +174,8 @@ public class BaseLogger implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public static BaseLoggerBuilder newBuilder() {
+        return new BaseLoggerBuilder();
+    }
 }

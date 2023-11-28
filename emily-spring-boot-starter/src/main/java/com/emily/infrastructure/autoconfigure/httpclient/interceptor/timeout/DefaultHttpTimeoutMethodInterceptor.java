@@ -16,16 +16,26 @@ import java.lang.reflect.Method;
  * Http请求超时设置拦截器，即方法上标注@TargetHttpTimeout注解才会生效
  *
  * @author Emily
+ * @param invocation 反射方法对象
+ * <p>
+ * 拦截器调用方法
+ * @param invocation 反射方法对象
+ * @return 方法调用结果
+ * @throws Throwable 异常
+ * <p>
+ * 拦截器后置处理方法
  * @since 4.1.3
+ * <p>
+ * 拦截器前置方法
  *//*
 
 public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomizer {
     */
 /**
-     * 拦截器前置方法
-     *
-     * @param invocation 反射方法对象
-     *//*
+ * 拦截器前置方法
+ *
+ * @param invocation 反射方法对象
+ *//*
 
     @Override
     public void before(MethodInvocation invocation) {
@@ -43,12 +53,12 @@ public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomize
 
     */
 /**
-     * 拦截器调用方法
-     *
-     * @param invocation 反射方法对象
-     * @return 方法调用结果
-     * @throws Throwable 异常
-     *//*
+ * 拦截器调用方法
+ *
+ * @param invocation 反射方法对象
+ * @return 方法调用结果
+ * @throws Throwable 异常
+ *//*
 
     @Nullable
     @Override
@@ -63,8 +73,8 @@ public class DefaultHttpTimeoutMethodInterceptor implements HttpTimeoutCustomize
 
     */
 /**
-     * 拦截器后置处理方法
-     *//*
+ * 拦截器后置处理方法
+ *//*
 
     @Override
     public void after() {

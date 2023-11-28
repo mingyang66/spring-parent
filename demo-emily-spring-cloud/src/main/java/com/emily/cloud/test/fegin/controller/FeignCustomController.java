@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- *  自定义Feign控制器
- * @author  Emily
- * @since  Created in 2022/8/4 10:48 上午
+ * 自定义Feign控制器
+ *
+ * @author Emily
+ * @since Created in 2022/8/4 10:48 上午
  */
 @RestController
 @RequestMapping("api/feign")

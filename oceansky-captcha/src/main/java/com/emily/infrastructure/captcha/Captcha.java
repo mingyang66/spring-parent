@@ -1,9 +1,10 @@
 package com.emily.infrastructure.captcha;
 
 /**
- *  图形验证码
- * @author  Emily
- * @since  Created in 2023/5/3 10:16 AM
+ * 图形验证码
+ *
+ * @author Emily
+ * @since Created in 2023/5/3 10:16 AM
  */
 public class Captcha {
     /**

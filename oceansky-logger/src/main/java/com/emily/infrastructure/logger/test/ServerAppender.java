@@ -5,7 +5,7 @@ import ch.qos.logback.classic.net.SimpleSocketServer;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2023/10/18 1:44 PM
  */
 public class ServerAppender {

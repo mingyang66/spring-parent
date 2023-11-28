@@ -9,7 +9,6 @@ import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
@@ -52,7 +51,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         //备份、设置当前阶段标识
         ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
         //封装异步日志信息
-        BaseLoggerBuilder builder = BaseLoggerBuilder.create();
+        BaseLoggerBuilder builder = BaseLogger.newBuilder();
         try {
             //系统编号
             builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
@@ -131,7 +130,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         builder.withUrl(dataMap.get("path").toString())
                 .withStatus(entity.getStatusCode().value())
                 .withMessage(dataMap.get("error").toString());
-        BaseResponse baseResponse = BaseResponseBuilder.create()
+        BaseResponse baseResponse = BaseResponse.newBuilder()
                 .withStatus(entity.getStatusCode().value())
                 .withMessage(dataMap.get("error").toString())
                 .build();

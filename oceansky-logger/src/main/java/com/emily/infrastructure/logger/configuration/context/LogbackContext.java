@@ -89,7 +89,7 @@ public class LogbackContext implements Context {
         //logger name
         String loggerName = CommonNames.resolveLoggerName(logbackType, filePath, fileName, clazz);
         //通用参数
-        CommonKeys commonKeys = CommonKeysBuilder.create()
+        CommonKeys commonKeys = CommonKeys.newBuilder()
                 .withLoggerName(loggerName)
                 .withFilePath(filePath)
                 .withFileName(fileName)

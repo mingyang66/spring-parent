@@ -2,7 +2,6 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -27,7 +26,7 @@ public class DefaultMqExceptionHandler extends StrictExceptionHandler {
     @Override
     public void handleUnexpectedConnectionDriverException(Connection conn, Throwable exception) {
         super.handleUnexpectedConnectionDriverException(conn, exception);
-        BaseLogger baseLogger = BaseLoggerBuilder.create()
+        BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
                 .withClientIp(RequestUtils.getClientIp())

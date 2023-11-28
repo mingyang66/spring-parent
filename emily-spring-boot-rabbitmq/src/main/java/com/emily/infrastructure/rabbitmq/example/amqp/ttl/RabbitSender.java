@@ -4,7 +4,6 @@ import com.emily.infrastructure.common.UUIDUtils;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
-import org.springframework.amqp.rabbit.connection.PublisherCallbackChannel;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -134,7 +133,7 @@ public class RabbitSender {
             /**
              * 设置此相关数据的返回消息
              */
-           // correlationData.setReturned(returnedMessage);
+            // correlationData.setReturned(returnedMessage);
             /**
              * 如果msg是org.springframework.amqp.core.Message对象的实例，则直接返回，否则转化为Message对象
              */

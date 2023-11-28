@@ -18,7 +18,7 @@ public class RabbitMqRetryTemplateCustomizer implements RabbitRetryTemplateCusto
             retryTemplate.registerListener(new PublisherRetryListener());
         }
         //表示RetryTemplate应用于AbstractMessageListenerContainer。这是在接收消息时使用的目标
-        if(target.equals(Target.LISTENER)){
+        if (target.equals(Target.LISTENER)) {
 
         }
     }

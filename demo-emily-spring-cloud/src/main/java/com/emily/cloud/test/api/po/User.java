@@ -1,9 +1,8 @@
 package com.emily.cloud.test.api.po;
 
 /**
- * @program: consul-demo
- *
  * @author
+ * @program: consul-demo
  * @since 2021/01/25
  */
 public class User {

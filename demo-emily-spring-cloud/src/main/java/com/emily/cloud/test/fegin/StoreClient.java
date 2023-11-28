@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author Emily
  * @program: spring-parent
- *  fegin
+ * fegin
  * @since 2021/03/24
  */
 @FeignClient(value = "stores", url = "http://10.10.181.116:8150/")

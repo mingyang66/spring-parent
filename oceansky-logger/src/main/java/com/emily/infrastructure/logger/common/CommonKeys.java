@@ -60,5 +60,7 @@ public class CommonKeys {
         this.logbackType = logbackType;
     }
 
-
+    public static CommonKeysBuilder newBuilder() {
+        return new CommonKeysBuilder();
+    }
 }

@@ -1,6 +1,5 @@
 package com.emily.infrastructure.core.context.ioc;
 
-import com.emily.infrastructure.core.context.ioc.IocUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

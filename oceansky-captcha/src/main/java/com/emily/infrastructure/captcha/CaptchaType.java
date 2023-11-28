@@ -1,9 +1,10 @@
 package com.emily.infrastructure.captcha;
 
 /**
- *  验证码类型
- * @author  Emily
- * @since  Created in 2023/5/4 1:11 PM
+ * 验证码类型
+ *
+ * @author Emily
+ * @since Created in 2023/5/4 1:11 PM
  */
 public enum CaptchaType {
     ALPHANUMERIC("0", "字母数字"),

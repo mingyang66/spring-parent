@@ -19,7 +19,7 @@ public class BeanFactoryUtils {
         defaultListableBeanFactory.registerSingleton(beanName, singletonObject);
     }
 
-    public static  <T> T getBean(String name, Class<T> requiredType) {
+    public static <T> T getBean(String name, Class<T> requiredType) {
         return defaultListableBeanFactory.getBean(name, requiredType);
     }
 }

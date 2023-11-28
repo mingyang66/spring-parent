@@ -2,7 +2,6 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
@@ -40,7 +39,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
      */
     @Override
     public void onCreate(Connection connection) {
-        BaseLogger baseLogger = BaseLoggerBuilder.create()
+        BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
                 .withClientIp(RequestUtils.getClientIp())
@@ -60,7 +59,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
     @Override
     public void onClose(Connection connection) {
         ConnectionListener.super.onClose(connection);
-        BaseLogger baseLogger = BaseLoggerBuilder.create()
+        BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
                 .withClientIp(RequestUtils.getClientIp())
@@ -80,7 +79,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
     @Override
     public void onShutDown(ShutdownSignalException signal) {
         ConnectionListener.super.onShutDown(signal);
-        BaseLogger baseLogger = BaseLoggerBuilder.create()
+        BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
                 .withClientIp(RequestUtils.getClientIp())
@@ -100,7 +99,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
     @Override
     public void onFailed(Exception exception) {
         ConnectionListener.super.onFailed(exception);
-        BaseLogger baseLogger = BaseLoggerBuilder.create()
+        BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
                 .withClientIp(RequestUtils.getClientIp())

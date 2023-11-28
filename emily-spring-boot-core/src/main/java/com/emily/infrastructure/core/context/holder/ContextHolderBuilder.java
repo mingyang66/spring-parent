@@ -143,8 +143,4 @@ public class ContextHolderBuilder {
         holder.setServletStage(Objects.isNull(servletStage) ? ServletStage.OTHER : servletStage);
         return holder;
     }
-
-    public static ContextHolderBuilder create() {
-        return new ContextHolderBuilder();
-    }
 }

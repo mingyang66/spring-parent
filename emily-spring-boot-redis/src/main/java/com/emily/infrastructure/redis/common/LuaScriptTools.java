@@ -3,7 +3,6 @@ package com.emily.infrastructure.redis.common;
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
@@ -113,7 +112,7 @@ public class LuaScriptTools {
             redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
             return true;
         } catch (Throwable ex) {
-            BaseLogger baseLogger = BaseLoggerBuilder.create()
+            BaseLogger baseLogger = BaseLogger.newBuilder()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
                     .withTraceId(UUIDUtils.randomSimpleUUID())
                     .withClientIp(RequestUtils.getClientIp())
@@ -156,7 +155,7 @@ public class LuaScriptTools {
             redisTemplate.execute(script, singletonList(key), score, value, threshold, expire.getSeconds());
             return true;
         } catch (Throwable ex) {
-            BaseLogger baseLogger = BaseLoggerBuilder.create()
+            BaseLogger baseLogger = BaseLogger.newBuilder()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
                     .withTraceId(UUIDUtils.randomSimpleUUID())
                     .withClientIp(RequestUtils.getClientIp())
@@ -213,7 +212,7 @@ public class LuaScriptTools {
             } while (cursor != 0);
             return result;
         } catch (Exception ex) {
-            BaseLogger baseLogger = BaseLoggerBuilder.create()
+            BaseLogger baseLogger = BaseLogger.newBuilder()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
                     .withTraceId(UUIDUtils.randomSimpleUUID())
                     .withClientIp(RequestUtils.getClientIp())
@@ -253,7 +252,7 @@ public class LuaScriptTools {
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_GET, Boolean.class);
             return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
         } catch (Exception ex) {
-            BaseLogger baseLogger = BaseLoggerBuilder.create()
+            BaseLogger baseLogger = BaseLogger.newBuilder()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
                     .withTraceId(UUIDUtils.randomSimpleUUID())
                     .withClientIp(RequestUtils.getClientIp())
@@ -285,7 +284,7 @@ public class LuaScriptTools {
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_DEL, Boolean.class);
             return (Boolean) redisTemplate.execute(script, singletonList(key), value);
         } catch (Exception ex) {
-            BaseLogger baseLogger = BaseLoggerBuilder.create()
+            BaseLogger baseLogger = BaseLogger.newBuilder()
                     .withSystemNumber(SystemNumberHelper.getSystemNumber())
                     .withTraceId(UUIDUtils.randomSimpleUUID())
                     .withClientIp(RequestUtils.getClientIp())

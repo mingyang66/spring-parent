@@ -1,9 +1,12 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.core.context.ioc.IocUtils;
+import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +46,16 @@ public class ThreadPoolController {
         map.put("Queue（队列中线程数）", executor.getQueue().size());
         map.put("RemainingCapacity（队列大小）", executor.getQueue().remainingCapacity());
         return map;
+    }
+
+    @GetMapping("test")
+    public void test() {
+        ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> System.out.println("------runing..."));
+    }
+
+    @GetMapping("test1")
+    public void test1() {
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = IocUtils.getBean(ThreadPoolTaskScheduler.class);
+        System.out.println(threadPoolTaskScheduler);
     }
 }

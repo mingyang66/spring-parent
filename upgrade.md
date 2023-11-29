@@ -11,6 +11,8 @@ Bug Fixes
 6. LuaScriptTools中tryGetLock、releaseLock获取和释放锁方法及lua脚本优化调整，解决A线程可能会释放B线程持有的锁问题；
 7. 基础库中的所有建造者模式类的create方法都更改为对应实体类的newBuilder();
 8. CaptchaBuilder类建造方法优化调整；
+9. emily-spring-boot-parent默认引入spring-boot-starter-test单元测试依赖；
+10. 
 
 ------
 Dependency Upgrades

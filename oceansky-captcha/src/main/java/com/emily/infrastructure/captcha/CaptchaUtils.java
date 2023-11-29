@@ -184,7 +184,7 @@ public class CaptchaUtils {
         }
         ByteArrayOutputStream bas = new ByteArrayOutputStream();
         ImageIO.write(image, FORMAT_NAME, bas);
-        return new CaptchaBuilder().withCode(String.join("", code)).withImage(bas.toByteArray()).build();
+        return Captcha.newBuilder().withCode(String.join("", code)).withImage(bas.toByteArray()).build();
 
     }
 

@@ -39,4 +39,8 @@ public class Captcha {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+    public static CaptchaBuilder newBuilder() {
+        return new CaptchaBuilder();
+    }
 }

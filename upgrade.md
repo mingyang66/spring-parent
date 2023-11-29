@@ -10,7 +10,7 @@ Bug Fixes
 5. LuaScriptTools新增基于redis scan指令的批量获取数据lua脚本及指令；
 6. LuaScriptTools中tryGetLock、releaseLock获取和释放锁方法及lua脚本优化调整，解决A线程可能会释放B线程持有的锁问题；
 7. 基础库中的所有建造者模式类的create方法都更改为对应实体类的newBuilder();
-8.
+8. CaptchaBuilder类建造方法优化调整；
 
 ------
 Dependency Upgrades

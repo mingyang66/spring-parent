@@ -6,7 +6,7 @@ import com.emily.infrastructure.core.constant.CharsetInfo;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
-import com.emily.infrastructure.sensitive.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.google.common.collect.Maps;
 import jakarta.servlet.http.HttpServletRequest;

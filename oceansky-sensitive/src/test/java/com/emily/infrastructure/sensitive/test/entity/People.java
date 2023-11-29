@@ -1,6 +1,10 @@
 package com.emily.infrastructure.sensitive.test.entity;
 
 import com.emily.infrastructure.sensitive.*;
+import com.emily.infrastructure.sensitive.annotation.JsonFlexField;
+import com.emily.infrastructure.sensitive.annotation.JsonNullField;
+import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
+import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 
 /**
  *  人

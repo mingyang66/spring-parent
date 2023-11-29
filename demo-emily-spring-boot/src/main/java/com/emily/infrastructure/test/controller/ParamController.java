@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.sensitive.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveType;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;

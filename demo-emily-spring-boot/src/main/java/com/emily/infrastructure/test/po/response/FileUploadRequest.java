@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.po.response;
 
-import com.emily.infrastructure.sensitive.JsonNullField;
-import com.emily.infrastructure.sensitive.JsonSensitive;
+import com.emily.infrastructure.sensitive.annotation.JsonNullField;
+import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

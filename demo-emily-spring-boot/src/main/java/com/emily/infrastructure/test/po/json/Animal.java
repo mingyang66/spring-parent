@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.po.json;
 
 
-import com.emily.infrastructure.sensitive.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 
 /**
  * 动物

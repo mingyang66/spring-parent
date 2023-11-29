@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sensitive.test.entity;
 
-import com.emily.infrastructure.sensitive.JsonSensitive;
+import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

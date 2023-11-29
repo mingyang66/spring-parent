@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.po.sensitive;
 
 
-import com.emily.infrastructure.sensitive.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 import com.emily.infrastructure.sensitive.SensitiveType;
 
 /**

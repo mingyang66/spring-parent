@@ -17,8 +17,11 @@ Bug Fixes
 ------
 Dependency Upgrades
 
-1. Upgrade to springboot 3.2.0
-2. Upgrade to mybatis-spring-boot-starter 3.0.3
+1. Upgrade to springboot 3.2.0;
+2. Upgrade to mybatis-spring-boot-starter 3.0.3;
+3. Upgrade to jackson 2.14.3;
+4. Upgrade to common-langs 3.13.0;
+5. 
 
 -----
 基础库发布4.4.0

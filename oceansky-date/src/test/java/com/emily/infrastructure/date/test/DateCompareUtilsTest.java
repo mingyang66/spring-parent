@@ -76,4 +76,13 @@ public class DateCompareUtilsTest {
         Assert.assertEquals(instant1.toEpochMilli(), 1684596838093l);
 
     }
+
+    @Test
+    public void isBefore() {
+        LocalDateTime date1 = DateConvertUtils.toLocalDateTime("2023-05-14 12:56:29", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
+        LocalDateTime date2 = DateConvertUtils.toLocalDateTime("2023-05-14 12:56:28", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
+        Assert.assertEquals(DateCompareUtils.isBefore(date1, date2), false);
+        Assert.assertEquals(DateCompareUtils.isAfter(date1, date2), true);
+        Assert.assertEquals(DateCompareUtils.isEqual(date1, date2), false);
+    }
 }

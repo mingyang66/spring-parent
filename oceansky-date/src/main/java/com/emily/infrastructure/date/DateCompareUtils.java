@@ -62,6 +62,48 @@ public class DateCompareUtils {
     }
 
     /**
+     * 比较两个日期的大小
+     * 如：2023-05-14 12:56:28比2023-05-14 12:56:29小
+     *
+     * @param date1 日期对象
+     * @param date2 日期对象
+     * @return true-date1小于date2,false-date1小于date2
+     */
+    public static boolean isBefore(LocalDateTime date1, LocalDateTime date2) {
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
+        return date1.isBefore(date2);
+    }
+
+    /**
+     * 比较两个日期的大小
+     * 如：2023-05-14 12:56:29比2023-05-14 12:56:28大
+     *
+     * @param date1 日期对象
+     * @param date2 日期对象
+     * @return true-date1大于date2, false-date1小于date2
+     */
+    public static boolean isAfter(LocalDateTime date1, LocalDateTime date2) {
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
+        return date1.isAfter(date2);
+    }
+
+    /**
+     * 比较两个日期是否相等
+     * 如：2023-05-14 12:56:29 和 2023-05-14 12:56:29 两个日期相等
+     *
+     * @param date1 日期对象
+     * @param date2 日期对象
+     * @return true-date1等于date2,false-date1不等于date2
+     */
+    public static boolean isEqual(LocalDateTime date1, LocalDateTime date2) {
+        DateAssert.illegalArgument(date1, "非法参数");
+        DateAssert.illegalArgument(date2, "非法参数");
+        return date1.isEqual(date2);
+    }
+
+    /**
      * 日期大小比较
      *
      * @param date1 日期对象

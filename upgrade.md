@@ -12,7 +12,7 @@ Bug Fixes
 7. 基础库中的所有建造者模式类的create方法都更改为对应实体类的newBuilder();
 8. CaptchaBuilder类建造方法优化调整；
 9. emily-spring-boot-parent默认引入spring-boot-starter-test单元测试依赖；
-10. 
+10. DateCompareUtils工具类新增isAfter、isBefore、isEqual方法；
 
 ------
 Dependency Upgrades
@@ -21,7 +21,7 @@ Dependency Upgrades
 2. Upgrade to mybatis-spring-boot-starter 3.0.3;
 3. Upgrade to jackson 2.14.3;
 4. Upgrade to common-langs 3.13.0;
-5. 
+5.
 
 -----
 基础库发布4.4.0

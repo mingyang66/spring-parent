@@ -46,6 +46,7 @@
         <alibaba-ttl.version>2.14.3</alibaba-ttl.version>
         <jackson.version>2.15.3</jackson.version>
         <junit-test.version>4.13.2</junit-test.version>
+        <junit5-test.version>5.10.1</junit5-test.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <logback.version>1.4.11</logback.version>
@@ -98,6 +99,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit-test.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit5-test.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.auth0</groupId>

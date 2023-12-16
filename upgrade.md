@@ -13,6 +13,8 @@ Bug Fixes
 8. CaptchaBuilder类建造方法优化调整；
 9. emily-spring-boot-parent默认引入spring-boot-starter-test单元测试依赖；
 10. DateCompareUtils工具类新增isAfter、isBefore、isEqual方法；
+11. oceansky-sensitive脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
+12. oceansky-sensitive单元测试工具升级到junit5;
 
 ------
 Dependency Upgrades

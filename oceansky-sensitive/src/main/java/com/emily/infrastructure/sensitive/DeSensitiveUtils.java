@@ -1,9 +1,6 @@
 package com.emily.infrastructure.sensitive;
 
-import com.emily.infrastructure.sensitive.annotation.JsonFlexField;
-import com.emily.infrastructure.sensitive.annotation.JsonNullField;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
@@ -12,7 +9,7 @@ import java.util.*;
 /**
  * 对实体类进行脱敏，返回原来的实体类对象
  *
- * @author  Emily
+ * @author Emily
  * @since :  Created in 2023/4/21 1:50 PM
  */
 public class DeSensitiveUtils {
@@ -194,11 +191,25 @@ public class DeSensitiveUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
-            } else {
-                acquire(value);
+            if (v instanceof String) {
+                if (field.isAnnotationPresent(JsonSimField.class)) {
+                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                    continue;
+                } else if (field.isAnnotationPresent(JsonMapField.class)) {
+                    JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
+                    int index = Arrays.asList(jsonMapField.fieldKeys()).indexOf(key);
+                    if (index < 0) {
+                        continue;
+                    }
+                    SensitiveType type = SensitiveType.DEFAULT;
+                    if (index <= jsonMapField.types().length - 1) {
+                        type = jsonMapField.types()[index];
+                    }
+                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, type));
+                    continue;
+                }
             }
+            acquire(value);
         }
     }
 
@@ -258,11 +269,10 @@ public class DeSensitiveUtils {
             if (index < 0) {
                 return;
             }
-            SensitiveType type;
-            if (index >= jsonFlexField.types().length) {
-                type = SensitiveType.DEFAULT;
-            } else {
+            SensitiveType type = SensitiveType.DEFAULT;
+            if (index <= jsonFlexField.types().length - 1) {
                 type = jsonFlexField.types()[index];
+            } else {
             }
             flexField.set(entity, DataMaskUtils.doGetProperty((String) flexValue, type));
         }

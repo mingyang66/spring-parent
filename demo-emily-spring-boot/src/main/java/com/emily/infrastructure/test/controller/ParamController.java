@@ -52,7 +52,7 @@ public class ParamController {
     }
 
     @GetMapping("getParam")
-    public String getParam(@NotEmpty(message = "用户名不可为空") @JsonSimField(SensitiveType.USERNAME) String username) {
+    public String getParam(@NotEmpty(message = "用户名不可为空") String username) {
         return username;
     }
 

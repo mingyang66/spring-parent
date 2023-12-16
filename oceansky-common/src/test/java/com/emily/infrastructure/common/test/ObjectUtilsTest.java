@@ -1,8 +1,8 @@
 package com.emily.infrastructure.common.test;
 
 import com.emily.infrastructure.common.ObjectUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
@@ -15,35 +15,35 @@ import java.util.Collections;
 public class ObjectUtilsTest {
     @Test
     public void isNull() {
-        Assert.assertTrue(ObjectUtils.isNull(null));
-        Assert.assertFalse(ObjectUtils.isNull(""));
-        Assert.assertFalse(ObjectUtils.isNull("a"));
-        Assert.assertFalse(ObjectUtils.isNull(new Object()));
+        Assertions.assertTrue(ObjectUtils.isNull(null));
+        Assertions.assertFalse(ObjectUtils.isNull(""));
+        Assertions.assertFalse(ObjectUtils.isNull("a"));
+        Assertions.assertFalse(ObjectUtils.isNull(new Object()));
 
-        Assert.assertFalse(ObjectUtils.isNotNull(null));
-        Assert.assertTrue(ObjectUtils.isNotNull(""));
-        Assert.assertTrue(ObjectUtils.isNotNull("a"));
-        Assert.assertTrue(ObjectUtils.isNotNull(new Object()));
+        Assertions.assertFalse(ObjectUtils.isNotNull(null));
+        Assertions.assertTrue(ObjectUtils.isNotNull(""));
+        Assertions.assertTrue(ObjectUtils.isNotNull("a"));
+        Assertions.assertTrue(ObjectUtils.isNotNull(new Object()));
     }
 
     @Test
     public void isEmpty() {
-        Assert.assertTrue(ObjectUtils.isEmpty(null));
-        Assert.assertTrue(ObjectUtils.isEmpty(""));
-        Assert.assertTrue(ObjectUtils.isEmpty(new String[]{}));
-        Assert.assertTrue(ObjectUtils.isEmpty(Collections.emptyMap()));
-        Assert.assertTrue(ObjectUtils.isEmpty(Collections.emptyList()));
+        Assertions.assertTrue(ObjectUtils.isEmpty(null));
+        Assertions.assertTrue(ObjectUtils.isEmpty(""));
+        Assertions.assertTrue(ObjectUtils.isEmpty(new String[]{}));
+        Assertions.assertTrue(ObjectUtils.isEmpty(Collections.emptyMap()));
+        Assertions.assertTrue(ObjectUtils.isEmpty(Collections.emptyList()));
 
-        Assert.assertFalse(ObjectUtils.isNotEmpty(null));
-        Assert.assertFalse(ObjectUtils.isNotEmpty(""));
-        Assert.assertFalse(ObjectUtils.isNotEmpty(new String[]{}));
-        Assert.assertFalse(ObjectUtils.isNotEmpty(Collections.emptyMap()));
-        Assert.assertFalse(ObjectUtils.isNotEmpty(Collections.emptyList()));
+        Assertions.assertFalse(ObjectUtils.isNotEmpty(null));
+        Assertions.assertFalse(ObjectUtils.isNotEmpty(""));
+        Assertions.assertFalse(ObjectUtils.isNotEmpty(new String[]{}));
+        Assertions.assertFalse(ObjectUtils.isNotEmpty(Collections.emptyMap()));
+        Assertions.assertFalse(ObjectUtils.isNotEmpty(Collections.emptyList()));
     }
 
     @Test
     public void defaultIfNull() {
-        Assert.assertEquals(ObjectUtils.defaultIfNull(null, "a"), "a");
-        Assert.assertEquals(ObjectUtils.defaultIfNull("b", "a"), "b");
+        Assertions.assertEquals(ObjectUtils.defaultIfNull(null, "a"), "a");
+        Assertions.assertEquals(ObjectUtils.defaultIfNull("b", "a"), "b");
     }
 }

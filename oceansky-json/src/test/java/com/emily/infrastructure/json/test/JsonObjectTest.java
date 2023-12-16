@@ -1,6 +1,7 @@
 package com.emily.infrastructure.json.test;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  *  json对象单元测试

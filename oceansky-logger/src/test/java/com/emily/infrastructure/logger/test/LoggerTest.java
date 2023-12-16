@@ -4,8 +4,8 @@ import com.emily.infrastructure.logger.LoggerContextInitializer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 /**
@@ -31,11 +31,11 @@ public class LoggerTest {
 
     @Test
     public void pathTest() {
-        Assert.assertEquals(PathUtils.normalizePath(null), "");
-        Assert.assertEquals(PathUtils.normalizePath(""), "");
-        Assert.assertEquals(PathUtils.normalizePath("a/"), "/a");
-        Assert.assertEquals(PathUtils.normalizePath("/a/"), "/a");
-        Assert.assertEquals(PathUtils.normalizePath("/a/b"), "/a/b");
-        Assert.assertEquals(PathUtils.normalizePath("/a/b/"), "/a/b");
+        Assertions.assertEquals(PathUtils.normalizePath(null), "");
+        Assertions.assertEquals(PathUtils.normalizePath(""), "");
+        Assertions.assertEquals(PathUtils.normalizePath("a/"), "/a");
+        Assertions.assertEquals(PathUtils.normalizePath("/a/"), "/a");
+        Assertions.assertEquals(PathUtils.normalizePath("/a/b"), "/a/b");
+        Assertions.assertEquals(PathUtils.normalizePath("/a/b/"), "/a/b");
     }
 }

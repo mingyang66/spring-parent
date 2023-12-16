@@ -3,8 +3,8 @@ package com.emily.infrastructure.date.test;
 import com.emily.infrastructure.date.DateCompareUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -21,9 +21,9 @@ public class DateCompareUtilsTest {
     public void compareTest() {
         Date date1 = DateConvertUtils.toDate("2023-05-14 12:56:28", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
         Date date2 = DateConvertUtils.toDate("2023-05-14 12:56:26", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
-        Assert.assertEquals(DateCompareUtils.compareTo(date1, date2), 1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(date1, date2), 1);
 
-        Assert.assertEquals(DateCompareUtils.compareTo("2023-05-14 12:56:28", "2023-05-14 12:56:29", DatePatternInfo.YYYY_MM_DD_HH_MM_SS), -1);
+        Assertions.assertEquals(DateCompareUtils.compareTo("2023-05-14 12:56:28", "2023-05-14 12:56:29", DatePatternInfo.YYYY_MM_DD_HH_MM_SS), -1);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class DateCompareUtilsTest {
         LocalDateTime date1 = DateConvertUtils.toLocalDateTime("2023-05-14 12:56:28", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
         LocalDateTime date2 = DateConvertUtils.toLocalDateTime("2023-05-14 12:56:29", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
 
-        Assert.assertEquals(DateCompareUtils.compareTo(date1, date2), -1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(date1, date2), -1);
 
     }
 
@@ -40,7 +40,7 @@ public class DateCompareUtilsTest {
         LocalDate date1 = DateConvertUtils.toLocalDate("2023-05-14", DatePatternInfo.YYYY_MM_DD);
         LocalDate date2 = DateConvertUtils.toLocalDate("2023-05-14", DatePatternInfo.YYYY_MM_DD);
 
-        Assert.assertEquals(DateCompareUtils.compareTo(date1, date2), 0);
+        Assertions.assertEquals(DateCompareUtils.compareTo(date1, date2), 0);
 
     }
 
@@ -49,15 +49,15 @@ public class DateCompareUtilsTest {
         LocalTime date1 = DateConvertUtils.toLocalTime("12:56:28", DatePatternInfo.HH_MM_SS);
         LocalTime date2 = DateConvertUtils.toLocalTime("12:56:29", DatePatternInfo.HH_MM_SS);
 
-        Assert.assertEquals(DateCompareUtils.compareTo(date1, date2), -1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(date1, date2), -1);
 
     }
 
     @Test
     public void compareDuration() {
-        Assert.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(9)), 1);
-        Assert.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(10)), 0);
-        Assert.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(11)), -1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(9)), 1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(10)), 0);
+        Assertions.assertEquals(DateCompareUtils.compareTo(Duration.ofDays(10), Duration.ofDays(11)), -1);
     }
 
     @Test
@@ -66,14 +66,14 @@ public class DateCompareUtilsTest {
         System.out.println(s1);
         Instant instant1 = Instant.parse("2023-05-20T15:33:58.093Z");
         Instant instant2 = Instant.parse("2023-05-20T15:34:58.093Z");
-        Assert.assertEquals(DateCompareUtils.compareTo(instant1, instant2), -1);
-        Assert.assertEquals(DateCompareUtils.compareTo(instant2, instant1), 1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(instant1, instant2), -1);
+        Assertions.assertEquals(DateCompareUtils.compareTo(instant2, instant1), 1);
         //秒
-        Assert.assertEquals(instant1.getEpochSecond(), 1684596838);
+        Assertions.assertEquals(instant1.getEpochSecond(), 1684596838);
         //纳秒
-        Assert.assertEquals(instant1.getNano(), 93000000);
+        Assertions.assertEquals(instant1.getNano(), 93000000);
         //毫秒
-        Assert.assertEquals(instant1.toEpochMilli(), 1684596838093l);
+        Assertions.assertEquals(instant1.toEpochMilli(), 1684596838093l);
 
     }
 
@@ -81,8 +81,8 @@ public class DateCompareUtilsTest {
     public void isBefore() {
         LocalDateTime date1 = DateConvertUtils.toLocalDateTime("2023-05-14 12:56:29", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
         LocalDateTime date2 = DateConvertUtils.toLocalDateTime("2023-05-14 12:56:28", DatePatternInfo.YYYY_MM_DD_HH_MM_SS);
-        Assert.assertEquals(DateCompareUtils.isBefore(date1, date2), false);
-        Assert.assertEquals(DateCompareUtils.isAfter(date1, date2), true);
-        Assert.assertEquals(DateCompareUtils.isEqual(date1, date2), false);
+        Assertions.assertEquals(DateCompareUtils.isBefore(date1, date2), false);
+        Assertions.assertEquals(DateCompareUtils.isAfter(date1, date2), true);
+        Assertions.assertEquals(DateCompareUtils.isEqual(date1, date2), false);
     }
 }

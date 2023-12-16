@@ -1,8 +1,9 @@
 package com.emily.infrastructure.common.test;
 
 import com.emily.infrastructure.common.PathUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 
 /**
  *  路径规范化单元测试类
@@ -12,11 +13,11 @@ import org.junit.Test;
 public class PathUtilsTest {
     @Test
     public void normalizePath() {
-        Assert.assertEquals(PathUtils.normalizePath(null), null);
-        Assert.assertEquals(PathUtils.normalizePath(""), "");
-        Assert.assertEquals(PathUtils.normalizePath("a"), "/a");
-        Assert.assertEquals(PathUtils.normalizePath("a/b"), "/a/b");
-        Assert.assertEquals(PathUtils.normalizePath("a/b/c/"), "/a/b/c");
-        Assert.assertEquals(PathUtils.normalizePath("/a/b/c/"), "/a/b/c");
+        Assertions.assertEquals(PathUtils.normalizePath(null), null);
+        Assertions.assertEquals(PathUtils.normalizePath(""), "");
+        Assertions.assertEquals(PathUtils.normalizePath("a"), "/a");
+        Assertions.assertEquals(PathUtils.normalizePath("a/b"), "/a/b");
+        Assertions.assertEquals(PathUtils.normalizePath("a/b/c/"), "/a/b/c");
+        Assertions.assertEquals(PathUtils.normalizePath("/a/b/c/"), "/a/b/c");
     }
 }

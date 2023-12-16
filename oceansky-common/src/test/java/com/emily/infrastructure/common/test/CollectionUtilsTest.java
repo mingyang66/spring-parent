@@ -1,8 +1,8 @@
 package com.emily.infrastructure.common.test;
 
 import com.emily.infrastructure.common.CollectionUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -15,29 +15,29 @@ public class CollectionUtilsTest {
     @Test
     public void collection() {
         List list = null;
-        Assert.assertTrue(CollectionUtils.isEmpty(list));
-        Assert.assertTrue(CollectionUtils.isEmpty(Arrays.asList()));
-        Assert.assertTrue(CollectionUtils.isEmpty(new HashSet<>()));
-        Assert.assertTrue(CollectionUtils.isEmpty(new ArrayList<>()));
+        Assertions.assertTrue(CollectionUtils.isEmpty(list));
+        Assertions.assertTrue(CollectionUtils.isEmpty(Arrays.asList()));
+        Assertions.assertTrue(CollectionUtils.isEmpty(new HashSet<>()));
+        Assertions.assertTrue(CollectionUtils.isEmpty(new ArrayList<>()));
 
-        Assert.assertTrue(CollectionUtils.isNotEmpty(Arrays.asList("12")));
-        Assert.assertFalse(CollectionUtils.isNotEmpty(Arrays.asList()));
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(Arrays.asList("12")));
+        Assertions.assertFalse(CollectionUtils.isNotEmpty(Arrays.asList()));
     }
     @Test
     public void map(){
         Map map = null;
-        Assert.assertTrue(CollectionUtils.isEmpty(map));
-        Assert.assertFalse(CollectionUtils.isNotEmpty(new HashMap<>()));
+        Assertions.assertTrue(CollectionUtils.isEmpty(map));
+        Assertions.assertFalse(CollectionUtils.isNotEmpty(new HashMap<>()));
 
         List<String> list = CollectionUtils.newArrayList();
         list.add("a");
-        Assert.assertNotNull(list);
-        Assert.assertNotNull(CollectionUtils.newArrayList(list));
+        Assertions.assertNotNull(list);
+        Assertions.assertNotNull(CollectionUtils.newArrayList(list));
     }
     @Test
     public void contains(){
         List<String> list = CollectionUtils.newArrayList("1","2");
-        Assert.assertEquals(CollectionUtils.contains(list,"1"), true);
-        Assert.assertEquals(CollectionUtils.contains(list,"0"), false);
+        Assertions.assertEquals(CollectionUtils.contains(list,"1"), true);
+        Assertions.assertEquals(CollectionUtils.contains(list,"0"), false);
     }
 }

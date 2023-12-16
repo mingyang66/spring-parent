@@ -71,7 +71,17 @@
             <artifactId>spring-plugin-core</artifactId>
             <version>3.0.0</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.eatthepath/java-otp -->
+        <dependency>
+            <groupId>com.eatthepath</groupId>
+            <artifactId>java-otp</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.warrenstrange</groupId>
+            <artifactId>googleauth</artifactId>
+            <version>1.5.0</version>
+        </dependency>
     </dependencies>
     <build>
         <!--指定jar包名-->

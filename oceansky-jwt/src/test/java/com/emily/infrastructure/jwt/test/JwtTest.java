@@ -6,8 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.emily.infrastructure.jwt.JwtFactory;
 import com.emily.infrastructure.jwt.RsaAlgorithmFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
@@ -90,14 +90,14 @@ public class JwtTest {
                 //JWT过期时间 exp
                 .withExpiresAt(LocalDateTime.now().plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant());
         String jwtToken = JwtFactory.createJwtToken(builder, Algorithm.RSA256(publicKey, privateKey));
-        Assert.assertNotNull(jwtToken);
+        Assertions.assertNotNull(jwtToken);
 
         DecodedJWT jwt = JwtFactory.verifyJwtToken(jwtToken, Algorithm.RSA256(publicKey, privateKey));
-        Assert.assertEquals(jwt.getClaim("username").asString(), "田润叶");
-        Assert.assertEquals(jwt.getClaim("password").asString(), "不喜欢");
-        Assert.assertEquals(jwt.getHeaderClaim("ip").asString(), "123.12.123.25.12");
-        Assert.assertEquals(jwt.getIssuer(), "顾养民");
-        Assert.assertEquals(jwt.getAudience().get(0), "田海民");
-        Assert.assertEquals(jwt.getAudience().get(1), "孙玉婷");
+        Assertions.assertEquals(jwt.getClaim("username").asString(), "田润叶");
+        Assertions.assertEquals(jwt.getClaim("password").asString(), "不喜欢");
+        Assertions.assertEquals(jwt.getHeaderClaim("ip").asString(), "123.12.123.25.12");
+        Assertions.assertEquals(jwt.getIssuer(), "顾养民");
+        Assertions.assertEquals(jwt.getAudience().get(0), "田海民");
+        Assertions.assertEquals(jwt.getAudience().get(1), "孙玉婷");
     }
 }

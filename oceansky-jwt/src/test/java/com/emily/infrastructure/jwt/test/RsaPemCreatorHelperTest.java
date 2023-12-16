@@ -1,7 +1,7 @@
 package com.emily.infrastructure.jwt.test;
 
 import com.emily.infrastructure.jwt.RsaPemCreatorFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

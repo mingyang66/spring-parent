@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.rolling.RollingFileAppender;
 import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
@@ -23,7 +22,7 @@ import java.text.MessageFormat;
  * @author Emily
  * @since : 2020/08/04
  */
-public class RollingFileAppenderBuilder extends AbstractAppender {
+public class RollingFileAppender extends AbstractAppender {
     /**
      * 属性配置
      */
@@ -37,7 +36,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
      */
     private final LoggerContext lc;
 
-    private RollingFileAppenderBuilder(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+    private RollingFileAppender(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
         this.properties = properties;
         this.lc = lc;
         this.commonKeys = commonKeys;
@@ -58,7 +57,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
+        ch.qos.logback.core.rolling.RollingFileAppender<ILoggingEvent> appender = new ch.qos.logback.core.rolling.RollingFileAppender<>();
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
@@ -147,7 +146,7 @@ public class RollingFileAppenderBuilder extends AbstractAppender {
         return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
-    public static RollingFileAppenderBuilder create(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
-        return new RollingFileAppenderBuilder(properties, lc, commonKeys);
+    public static RollingFileAppender create(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+        return new RollingFileAppender(properties, lc, commonKeys);
     }
 }

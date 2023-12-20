@@ -5,12 +5,12 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
-import com.emily.infrastructure.logger.configuration.appender.AsyncAppenderBuilder;
-import com.emily.infrastructure.logger.configuration.appender.ConsoleAppenderBuilder;
-import com.emily.infrastructure.logger.configuration.appender.RollingFileAppenderBuilder;
+import com.emily.infrastructure.logger.configuration.appender.AsyncAppender;
+import com.emily.infrastructure.logger.configuration.appender.ConsoleAppender;
+import com.emily.infrastructure.logger.configuration.appender.RollingFileAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
-import static com.emily.infrastructure.logger.configuration.appender.ConsoleAppenderBuilder.CONSOLE;
+import static com.emily.infrastructure.logger.configuration.appender.ConsoleAppender.CONSOLE;
 
 /**
  * 日志组件抽象类
@@ -18,11 +18,11 @@ import static com.emily.infrastructure.logger.configuration.appender.ConsoleAppe
  * @author Emily
  * @since : 2021/07/08
  */
-public class LogbackRootBuilder extends AbstractLogback {
+public class LogbackRoot extends AbstractLogback {
     private final LoggerContext lc;
     private final LoggerProperties properties;
 
-    private LogbackRootBuilder(LoggerProperties properties, LoggerContext lc) {
+    private LogbackRoot(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }
@@ -40,11 +40,11 @@ public class LogbackRootBuilder extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = RollingFileAppenderBuilder.create(properties, lc, commonKeys);
+        AbstractAppender appender = RollingFileAppender.create(properties, lc, commonKeys);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            AsyncAppenderBuilder asyncAppender = AsyncAppenderBuilder.create(properties, lc);
+            AsyncAppender asyncAppender = AsyncAppender.create(properties, lc);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }
@@ -83,7 +83,7 @@ public class LogbackRootBuilder extends AbstractLogback {
             //基于springboot默认初始化的appender name默认大写
             logger.detachAppender(CONSOLE.toUpperCase());
             // 添加控制台appender
-            logger.addAppender(ConsoleAppenderBuilder.create(properties, lc).build(logger.getLevel()));
+            logger.addAppender(ConsoleAppender.create(properties, lc).build(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(CONSOLE);
@@ -94,6 +94,6 @@ public class LogbackRootBuilder extends AbstractLogback {
     }
 
     public static AbstractLogback create(LoggerProperties properties, LoggerContext lc) {
-        return new LogbackRootBuilder(properties, lc);
+        return new LogbackRoot(properties, lc);
     }
 }

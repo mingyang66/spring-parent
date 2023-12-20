@@ -30,11 +30,11 @@ public class LoggerDirector {
     public Logger getLogger(CommonKeys commonKeys) {
         AbstractLogback logback;
         if (commonKeys.getLogbackType().equals(LogbackType.MODULE)) {
-            logback = LogbackModuleBuilder.create(properties, lc);
+            logback = LogbackModule.create(properties, lc);
         } else if (commonKeys.getLogbackType().equals(LogbackType.GROUP)) {
-            logback = LogbackGroupBuilder.create(properties, lc);
+            logback = LogbackGroup.create(properties, lc);
         } else {
-            logback = LogbackRootBuilder.create(properties, lc);
+            logback = LogbackRoot.create(properties, lc);
         }
         return logback.getLogger(commonKeys);
     }

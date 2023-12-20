@@ -2,8 +2,8 @@ package com.emily.infrastructure.logger.configuration.property;
 
 
 import com.emily.infrastructure.logger.common.CompressionMode;
-import com.emily.infrastructure.logger.configuration.type.LevelType;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
+import org.slf4j.event.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +127,7 @@ public class LoggerProperties {
         /**
          * 日志级别，OFF > ERROR > WARN > INFO > DEBUG >TRACE > ALL, 默认：DEBUG
          */
-        private LevelType level = LevelType.INFO;
+        private Level level = Level.INFO;
         /**
          * 记录文件格式-不带颜色
          */
@@ -143,11 +143,11 @@ public class LoggerProperties {
          */
         private boolean withJansi = false;
 
-        public LevelType getLevel() {
+        public Level getLevel() {
             return level;
         }
 
-        public void setLevel(LevelType level) {
+        public void setLevel(Level level) {
             this.level = level;
         }
 
@@ -200,17 +200,17 @@ public class LoggerProperties {
         /**
          * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
          */
-        private LevelType level = LevelType.INFO;
+        private Level level = Level.INFO;
         /**
          * 模块日志输出格式，默认：%msg%n
          */
         private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36}:%-4.4line : %msg %n";
 
-        public LevelType getLevel() {
+        public Level getLevel() {
             return level;
         }
 
-        public void setLevel(LevelType level) {
+        public void setLevel(Level level) {
             this.level = level;
         }
 
@@ -239,17 +239,17 @@ public class LoggerProperties {
         /**
          * 模块输出的日志级别，ERROR > WARN > INFO > DEBUG >TRACE, 默认：DEBUG
          */
-        private LevelType level = LevelType.INFO;
+        private Level level = Level.INFO;
         /**
          * 模块日志输出格式，默认：%msg%n
          */
         private String pattern = "%msg%n";
 
-        public LevelType getLevel() {
+        public Level getLevel() {
             return level;
         }
 
-        public void setLevel(LevelType level) {
+        public void setLevel(Level level) {
             this.level = level;
         }
 

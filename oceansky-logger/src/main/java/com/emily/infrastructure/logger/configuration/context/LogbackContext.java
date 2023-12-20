@@ -84,28 +84,24 @@ public class LogbackContext implements Context {
      */
     @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
-        //格式化路径
-        filePath = PathUtils.normalizePath(filePath);
-        //logger name
-        String loggerName = CommonNames.resolveLoggerName(logbackType, filePath, fileName, clazz);
         //通用参数
         CommonKeys commonKeys = CommonKeys.newBuilder()
-                .withLoggerName(loggerName)
-                .withFilePath(filePath)
+                .withLoggerName(CommonNames.resolveLoggerName(logbackType, filePath, fileName, clazz))
+                .withFilePath(PathUtils.normalizePath(filePath))
                 .withFileName(fileName)
                 .withLogbackType(logbackType)
                 .build();
         // 获取Logger对象
-        Logger logger = LOGGER.get(loggerName);
+        Logger logger = LOGGER.get(commonKeys.getLoggerName());
         if (logger == null) {
             synchronized (LogbackContext.class) {
                 if (logger == null) {
                     // 获取logger日志对象
                     logger = loggerDirector.getLogger(commonKeys);
                     // 存入缓存
-                    LOGGER.putIfAbsent(loggerName, logger);
+                    LOGGER.putIfAbsent(commonKeys.getLoggerName(), logger);
                 } else {
-                    logger = LOGGER.get(loggerName);
+                    logger = LOGGER.get(commonKeys.getLoggerName());
                 }
             }
         }

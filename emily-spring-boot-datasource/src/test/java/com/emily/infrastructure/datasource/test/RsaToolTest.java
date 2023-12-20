@@ -1,6 +1,7 @@
 package com.emily.infrastructure.datasource.test;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import static com.alibaba.druid.filter.config.ConfigTools.encrypt;
 import static com.alibaba.druid.filter.config.ConfigTools.genKeyPair;

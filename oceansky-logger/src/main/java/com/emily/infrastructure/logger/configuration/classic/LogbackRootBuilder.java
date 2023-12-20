@@ -38,7 +38,7 @@ public class LogbackRootBuilder extends AbstractLogback {
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
-        logger.setLevel(Level.toLevel(properties.getRoot().getLevel().levelStr));
+        logger.setLevel(Level.toLevel(properties.getRoot().getLevel().toString()));
         // appender对象
         AbstractAppender appender = RollingFileAppenderBuilder.create(properties, lc, commonKeys);
         // 是否开启异步日志

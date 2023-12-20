@@ -15,6 +15,8 @@ Bug Fixes
 10. DateCompareUtils工具类新增isAfter、isBefore、isEqual方法；
 11. oceansky-sensitive脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
 12. oceansky-sensitive单元测试工具升级到junit5;
+13. 移除com.emily.infrastructure.logger.configuration.type.LevelType枚举类，并由org.slf4j.event.Level替换；
+14. 
 
 ------
 Dependency Upgrades
@@ -23,7 +25,7 @@ Dependency Upgrades
 2. Upgrade to mybatis-spring-boot-starter 3.0.3;
 3. Upgrade to jackson 2.14.3;
 4. Upgrade to common-langs 3.13.0;
-5.
+5. Upgrade to logback 1.4.14;
 
 -----
 基础库发布4.4.0

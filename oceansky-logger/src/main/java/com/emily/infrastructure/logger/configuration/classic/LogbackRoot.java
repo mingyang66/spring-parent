@@ -9,6 +9,7 @@ import com.emily.infrastructure.logger.configuration.appender.AsyncAppender;
 import com.emily.infrastructure.logger.configuration.appender.ConsoleAppender;
 import com.emily.infrastructure.logger.configuration.appender.RollingFileAppender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 import static com.emily.infrastructure.logger.configuration.appender.ConsoleAppender.CONSOLE;
 
@@ -22,9 +23,14 @@ public class LogbackRoot extends AbstractLogback {
     private final LoggerContext lc;
     private final LoggerProperties properties;
 
-    private LogbackRoot(LoggerProperties properties, LoggerContext lc) {
+    public LogbackRoot(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
+    }
+
+    @Override
+    public boolean supports(LogbackType logbackType) {
+        return LogbackType.ROOT.equals(logbackType);
     }
 
     /**
@@ -91,9 +97,5 @@ public class LogbackRoot extends AbstractLogback {
             logger.detachAppender(CONSOLE.toUpperCase());
         }
         return logger;
-    }
-
-    public static AbstractLogback create(LoggerProperties properties, LoggerContext lc) {
-        return new LogbackRoot(properties, lc);
     }
 }

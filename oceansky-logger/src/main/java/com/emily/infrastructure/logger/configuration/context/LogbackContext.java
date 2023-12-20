@@ -2,10 +2,9 @@ package com.emily.infrastructure.logger.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.CommonKeys;
-import com.emily.infrastructure.logger.common.CommonKeysBuilder;
 import com.emily.infrastructure.logger.common.CommonNames;
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.configuration.classic.LoggerDirector;
+import com.emily.infrastructure.logger.configuration.classic.LogbackAdvice;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
@@ -23,7 +22,7 @@ import static com.emily.infrastructure.logger.common.CommonCache.LOGGER;
 public class LogbackContext implements Context {
     private LoggerProperties properties;
     private LoggerContext lc;
-    private LoggerDirector loggerDirector;
+    private LogbackAdvice logbackAdvice;
 
     /**
      * ------------------------------------
@@ -40,7 +39,7 @@ public class LogbackContext implements Context {
     public void configure(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
-        this.loggerDirector = LoggerDirector.create(properties, lc);
+        this.logbackAdvice = new LogbackAdvice(properties, lc);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(properties, lc);
         configuration.start();
@@ -97,7 +96,7 @@ public class LogbackContext implements Context {
             synchronized (LogbackContext.class) {
                 if (logger == null) {
                     // 获取logger日志对象
-                    logger = loggerDirector.getLogger(commonKeys);
+                    logger = logbackAdvice.processLogger(commonKeys);
                     // 存入缓存
                     LOGGER.putIfAbsent(commonKeys.getLoggerName(), logger);
                 } else {
@@ -114,7 +113,7 @@ public class LogbackContext implements Context {
     @Override
     public void start() {
         // 获取root logger对象
-        Logger rootLogger = loggerDirector.getLogger(new CommonKeysBuilder()
+        Logger rootLogger = logbackAdvice.processLogger(CommonKeys.newBuilder()
                 // logger name
                 .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path

@@ -1,5 +1,6 @@
 package com.emily.infrastructure.logger.configuration.appender;
 
+import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
@@ -10,7 +11,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2020/08/04
  */
-public class AsyncAppender {
+public class LogbackAsyncAppender {
     /**
      * 前缀
      */
@@ -24,7 +25,7 @@ public class AsyncAppender {
      */
     private final LoggerContext lc;
 
-    private AsyncAppender(LoggerProperties properties, LoggerContext lc) {
+    private LogbackAsyncAppender(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }
@@ -35,11 +36,11 @@ public class AsyncAppender {
      * @param ref 附件appender的引用
      * @return 异步appender对象
      */
-    public ch.qos.logback.classic.AsyncAppender getAppender(Appender ref) {
+    public AsyncAppender getAppender(Appender ref) {
         //异步属性配置
         LoggerProperties.Async async = properties.getAppender().getAsync();
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        ch.qos.logback.classic.AsyncAppender appender = new ch.qos.logback.classic.AsyncAppender();
+        AsyncAppender appender = new AsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(lc);
@@ -63,7 +64,7 @@ public class AsyncAppender {
         return appender;
     }
 
-    public static AsyncAppender create(LoggerProperties properties, LoggerContext lc) {
-        return new AsyncAppender(properties, lc);
+    public static LogbackAsyncAppender create(LoggerProperties properties, LoggerContext lc) {
+        return new LogbackAsyncAppender(properties, lc);
     }
 }

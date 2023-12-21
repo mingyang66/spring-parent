@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoderBuilder;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
@@ -14,7 +15,7 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2020/08/04
  */
-public class ConsoleAppender extends AbstractAppender {
+public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 控制台appender name
      * 必须小写，否则会出现多个控制台appender
@@ -29,7 +30,7 @@ public class ConsoleAppender extends AbstractAppender {
      */
     private final LoggerContext lc;
 
-    private ConsoleAppender(LoggerProperties properties, LoggerContext lc) {
+    private LogbackConsoleAppender(LoggerProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }
@@ -43,7 +44,7 @@ public class ConsoleAppender extends AbstractAppender {
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        ch.qos.logback.core.ConsoleAppender<ILoggingEvent> appender = new ch.qos.logback.core.ConsoleAppender<>();
+        ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(lc);
@@ -77,7 +78,7 @@ public class ConsoleAppender extends AbstractAppender {
         return CONSOLE;
     }
 
-    public static ConsoleAppender create(LoggerProperties properties, LoggerContext lc) {
-        return new ConsoleAppender(properties, lc);
+    public static LogbackConsoleAppender create(LoggerProperties properties, LoggerContext lc) {
+        return new LogbackConsoleAppender(properties, lc);
     }
 }

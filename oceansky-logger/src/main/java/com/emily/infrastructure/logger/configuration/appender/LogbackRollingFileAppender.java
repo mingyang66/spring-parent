@@ -22,7 +22,7 @@ import java.text.MessageFormat;
  * @author Emily
  * @since : 2020/08/04
  */
-public class RollingFileAppender extends AbstractAppender {
+public class LogbackRollingFileAppender extends AbstractAppender {
     /**
      * 属性配置
      */
@@ -36,7 +36,7 @@ public class RollingFileAppender extends AbstractAppender {
      */
     private final LoggerContext lc;
 
-    private RollingFileAppender(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+    private LogbackRollingFileAppender(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
         this.properties = properties;
         this.lc = lc;
         this.commonKeys = commonKeys;
@@ -146,7 +146,7 @@ public class RollingFileAppender extends AbstractAppender {
         return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
-    public static RollingFileAppender create(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
-        return new RollingFileAppender(properties, lc, commonKeys);
+    public static LogbackRollingFileAppender create(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+        return new LogbackRollingFileAppender(properties, lc, commonKeys);
     }
 }

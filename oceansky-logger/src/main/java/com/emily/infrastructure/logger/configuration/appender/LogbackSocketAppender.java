@@ -8,13 +8,13 @@ import ch.qos.logback.core.Appender;
  * @author :  Emily
  * @since :  2023/10/18 9:47 PM
  */
-public class SocketAppender {
+public class LogbackSocketAppender {
     /**
      * logger上下文
      */
     private final LoggerContext lc;
 
-    public SocketAppender(LoggerContext lc) {
+    public LogbackSocketAppender(LoggerContext lc) {
         this.lc = lc;
     }
 

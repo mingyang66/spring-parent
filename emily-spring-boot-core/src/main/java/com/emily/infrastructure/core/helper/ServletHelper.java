@@ -27,7 +27,7 @@ import java.util.*;
  * @author Emily
  * @since 4.0.7
  */
-public class RequestHelper {
+public class ServletHelper {
 
     /**
      * 获取请求入参, 给API请求控制器获取入参

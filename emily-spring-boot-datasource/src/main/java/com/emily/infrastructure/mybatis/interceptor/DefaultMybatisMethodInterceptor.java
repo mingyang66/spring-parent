@@ -5,7 +5,7 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -48,7 +48,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .withTraceId(LocalContextHolder.current().getTraceId())
                     .withClientIp(LocalContextHolder.current().getClientIp())
                     .withServerIp(LocalContextHolder.current().getServerIp())
-                    .withRequestParams(RequestHelper.getMethodArgs(invocation))
+                    .withRequestParams(ServletHelper.getMethodArgs(invocation))
                     .withUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start));

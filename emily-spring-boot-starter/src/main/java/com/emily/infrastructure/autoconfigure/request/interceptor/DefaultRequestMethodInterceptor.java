@@ -12,7 +12,7 @@ import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
@@ -62,7 +62,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //请求url
                     .withUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
                     //请求参数
-                    .withRequestParams(RequestHelper.getApiArgs(invocation));
+                    .withRequestParams(ServletHelper.getApiArgs(invocation));
             //调用真实的action方法
             Object response = invocation.proceed();
             //返回数据不存在

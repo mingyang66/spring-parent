@@ -10,7 +10,7 @@ import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
@@ -145,12 +145,12 @@ public class GlobalExceptionCustomizer {
             BindingResult bindingResult = ((BindException) ex).getBindingResult();
             if (Objects.nonNull(bindingResult.getTarget())) {
                 paramsMap = Maps.newLinkedHashMap();
-                paramsMap.put(AttributeInfo.HEADERS, RequestHelper.getHeaders(request));
+                paramsMap.put(AttributeInfo.HEADERS, ServletHelper.getHeaders(request));
                 paramsMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquireElseGet(bindingResult.getTarget()));
             }
         }
         if (CollectionUtils.isEmpty(paramsMap)) {
-            paramsMap = RequestHelper.getApiArgs(request);
+            paramsMap = ServletHelper.getApiArgs(request);
         }
         return paramsMap;
     }

@@ -6,7 +6,7 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.RequestHelper;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -55,14 +55,14 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
                 //请求URL
                 .withUrl(request.getURI().toString())
                 //请求参数
-                .withRequestParams(RequestHelper.getHttpClientArgs(request.getHeaders(), body));
+                .withRequestParams(ServletHelper.getHttpClientArgs(request.getHeaders(), body));
         //开始计时
         Instant start = Instant.now();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
             //响应数据
-            Object responseBody = RequestHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(response.getBody()));
+            Object responseBody = ServletHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(response.getBody()));
             //响应结果
             builder.withBody(responseBody);
 

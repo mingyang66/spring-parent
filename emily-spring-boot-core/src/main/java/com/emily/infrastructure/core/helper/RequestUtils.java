@@ -1,5 +1,6 @@
 package com.emily.infrastructure.core.helper;
 
+import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
@@ -30,6 +31,10 @@ public class RequestUtils {
      */
     private static final String LOCAL_IP = "127.0.0.1";
     /**
+     * IP地址0:0:0:0:0:0:0:1是一个IPv6地址，通常用于表示本地回环地址（localhost）
+     */
+    private static final String LOCAL_HOST = "0:0:0:0:0:0:0:1";
+    /**
      * 服务器IP
      */
     private static String SERVER_IP = null;
@@ -58,28 +63,28 @@ public class RequestUtils {
      */
     public static String getClientIp(HttpServletRequest request) {
         try {
-            String ip = request.getHeader("x-forwarded-for");
+            String ip = request.getHeader(HeaderInfo.X_FORWARDED_FOR);
             if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader("Proxy-Client-IP");
+                ip = request.getHeader(HeaderInfo.PROXY_CLIENT_IP);
             }
             if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader("WL-Proxy-Client-IP");
+                ip = request.getHeader(HeaderInfo.WL_PROXY_CLIENT_IP);
             }
             if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader("HTTP_CLIENT_IP");
+                ip = request.getHeader(HeaderInfo.HTTP_CLIENT_IP);
             }
             if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+                ip = request.getHeader(HeaderInfo.HTTP_X_FORWARDED_FOR);
             }
             if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
-            if (StringUtils.equalsIgnoreCase("0:0:0:0:0:0:0:1", ip)) {
+            if (StringUtils.equalsIgnoreCase(LOCAL_HOST, ip)) {
                 ip = LOCAL_IP;
             }
             return ip;
         } catch (Exception exception) {
-            return "";
+            return StringUtils.EMPTY;
         }
     }
 
@@ -93,7 +98,7 @@ public class RequestUtils {
         if (StringUtils.isEmpty(ip)) {
             return false;
         }
-        if (StringUtils.equals("0:0:0:0:0:0:0:1", ip)) {
+        if (StringUtils.equals(LOCAL_HOST, ip)) {
             return true;
         }
         Pattern reg = Pattern.compile(INTERNET);

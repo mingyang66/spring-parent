@@ -16,7 +16,8 @@ Bug Fixes
 11. oceansky-sensitive脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
 12. oceansky-sensitive单元测试工具升级到junit5;
 13. 移除com.emily.infrastructure.logger.configuration.type.LevelType枚举类，并由org.slf4j.event.Level替换；
-14. 
+14. HeaderInfo新增IP相关请求头，RequestUtils工具类方法优化并新增相关单元测试类；
+15. 
 
 ------
 Dependency Upgrades

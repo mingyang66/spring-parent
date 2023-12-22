@@ -29,7 +29,8 @@ Dependency Upgrades
 4. Upgrade to common-langs 3.13.0;
 5. Upgrade to logback 1.4.14;
 6. Upgrade to transmittable-thread-local 2.14.4;
-7. 
+7. Upgrade to SpringCloud 4.1.0;
+8. Upgrade to springboot 3.2.1;
 
 -----
 基础库发布4.4.0

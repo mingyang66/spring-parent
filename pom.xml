@@ -43,7 +43,7 @@
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <google-guava.version>32.1.0-jre</google-guava.version>
-        <alibaba-ttl.version>2.14.4</alibaba-ttl.version>
+        <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
         <jackson.version>2.15.3</jackson.version>
         <junit5-test.version>5.10.1</junit5-test.version>
         <java-jwt.version>4.4.0</java-jwt.version>

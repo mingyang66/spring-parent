@@ -28,13 +28,9 @@ public class HttpClientProperties {
      */
     private Duration connectTimeOut = Duration.ofMillis(10000);
     /**
-     * 开启调用接口拦截器
-     */
-    private boolean interceptor = true;
-    /**
      * 是否开启SSL，默认：true
      */
-    private boolean ssl = true;
+    private boolean ssl = false;
 
     public Duration getReadTimeOut() {
         return readTimeOut;
@@ -60,13 +56,6 @@ public class HttpClientProperties {
         this.enabled = enabled;
     }
 
-    public boolean isInterceptor() {
-        return interceptor;
-    }
-
-    public void setInterceptor(boolean interceptor) {
-        this.interceptor = interceptor;
-    }
 
     public boolean isSsl() {
         return ssl;

@@ -17,6 +17,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Role;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -49,25 +50,22 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
      * @param properties            属性配置
      * @return http请求对象
      */
-    //@Primary
-    //@Bean(name = "restTemplate")
-    //@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, SslBundles sslBundles, HttpClientProperties properties) {
-        RestTemplateBuilder builder = new RestTemplateBuilder()
-                .setReadTimeout(properties.getReadTimeOut())
+    @Primary
+    @Bean(name = "restTemplate")
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    public RestTemplate restTemplate(ObjectProvider<HttpClientCustomizer> httpClientCustomizers, RestTemplateBuilder restTemplateBuilder, SslBundles sslBundles, HttpClientProperties properties) {
+        restTemplateBuilder = restTemplateBuilder.setReadTimeout(properties.getReadTimeOut())
                 .setConnectTimeout(properties.getConnectTimeOut())
                 .detectRequestFactory(true)
-                .errorHandler(new CustomResponseErrorHandler());
-        if (properties.isInterceptor()) {
-            builder = builder.interceptors(Collections.singletonList(httpClientCustomizers.orderedStream().findFirst().get()));
-        }
+                .errorHandler(new CustomResponseErrorHandler())
+                .interceptors(Collections.singletonList(httpClientCustomizers.orderedStream().findFirst().get()));
         //开启HTTPS请求支持
         if (properties.isSsl()) {
-            //builder = builder.setSslBundle(sslBundles.getBundle("client"));
+            restTemplateBuilder = restTemplateBuilder.setSslBundle(sslBundles.getBundle("client"));
         }
-        RestTemplate restTemplate = builder.build();
+        RestTemplate restTemplate = restTemplateBuilder.build();
         //设置BufferingClientHttpRequestFactory将输入流和输出流保存到内存中，允许多次读取
-        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(builder.buildRequestFactory()));
+        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplateBuilder.buildRequestFactory()));
         return restTemplate;
     }
 

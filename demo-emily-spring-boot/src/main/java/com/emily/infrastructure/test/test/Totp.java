@@ -1,12 +1,15 @@
+/*
 package com.emily.infrastructure.test.test;
 
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
 
+*/
 /**
  * @author :  Emily
  * @since :  2023/12/9 10:35 AM
- */
+ *//*
+
 public class Totp {
     public static void main(String[] args) {
         GoogleAuthenticator gAuth = new GoogleAuthenticator();
@@ -25,3 +28,4 @@ public class Totp {
         }
     }
 }
+*/

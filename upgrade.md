@@ -31,6 +31,7 @@ Dependency Upgrades
 6. Upgrade to transmittable-thread-local 2.14.4;
 7. Upgrade to SpringCloud 4.1.0;
 8. Upgrade to springboot 3.2.1;
+9. Upgrade to transmittable-thread-local 2.14.5;
 
 -----
 基础库发布4.4.0

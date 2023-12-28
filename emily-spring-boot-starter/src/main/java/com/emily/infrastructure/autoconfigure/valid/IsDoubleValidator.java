@@ -43,8 +43,9 @@ public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> 
             Double.parseDouble(value);
             return true;
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
 }

@@ -43,8 +43,9 @@ public class IsLongValidator implements ConstraintValidator<IsLong, String> {
             Long.parseLong(value);
             return true;
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
 }

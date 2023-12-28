@@ -52,8 +52,9 @@ public class IsLocalTimeValidator implements ConstraintValidator<IsLocalTime, St
             LocalTime.parse(value, DateTimeFormatter.ofPattern(pattern));
             return true;
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
 }

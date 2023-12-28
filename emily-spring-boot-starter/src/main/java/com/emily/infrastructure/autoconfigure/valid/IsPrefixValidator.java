@@ -1,24 +1,26 @@
 package com.emily.infrastructure.autoconfigure.valid;
 
-import com.emily.infrastructure.autoconfigure.valid.annotation.IsBigDecimal;
+import com.emily.infrastructure.autoconfigure.valid.annotation.IsPrefix;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
- * BigDecimal 校验
+ * 前缀 校验
  *
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class IsBigDecimalValidator implements ConstraintValidator<IsBigDecimal, String> {
+public class IsPrefixValidator implements ConstraintValidator<IsPrefix, String> {
     private boolean required;
+    private String[] prefixes;
 
     @Override
-    public void initialize(IsBigDecimal annotation) {
+    public void initialize(IsPrefix annotation) {
         required = annotation.required();
+        prefixes = annotation.prefixes();
     }
 
     /**
@@ -41,9 +43,9 @@ public class IsBigDecimalValidator implements ConstraintValidator<IsBigDecimal, 
             }
         }
         try {
-            // 格式校验
-            new BigDecimal(value);
-            return true;
+            if (Arrays.asList(prefixes).contains(value)) {
+                return true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

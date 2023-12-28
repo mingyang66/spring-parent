@@ -48,14 +48,18 @@ public class IsIncludeValidator implements ConstraintValidator<IsInclude, Object
                 return true;
             }
         }
-        if (value instanceof String) {
-            return Arrays.asList(includeString).contains((String) value);
-        } else if (value instanceof Integer) {
-            return Arrays.stream(includeInt).anyMatch(i -> i == (int) value);
-        } else if (value instanceof Long) {
-            return Arrays.stream(includeLong).anyMatch(i -> i == (long) value);
-        } else if (value instanceof Double) {
-            return Arrays.stream(includeDouble).anyMatch(i -> i == (double) value);
+        try {
+            if (value instanceof String) {
+                return Arrays.asList(includeString).contains((String) value);
+            } else if (value instanceof Integer) {
+                return Arrays.stream(includeInt).anyMatch(i -> i == (int) value);
+            } else if (value instanceof Long) {
+                return Arrays.stream(includeLong).anyMatch(i -> i == (long) value);
+            } else if (value instanceof Double) {
+                return Arrays.stream(includeDouble).anyMatch(i -> i == (double) value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

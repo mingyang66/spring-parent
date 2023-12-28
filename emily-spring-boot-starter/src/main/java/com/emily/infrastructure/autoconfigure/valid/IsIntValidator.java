@@ -43,8 +43,9 @@ public class IsIntValidator implements ConstraintValidator<IsInt, String> {
             Integer.parseInt(value);
             return true;
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
 }

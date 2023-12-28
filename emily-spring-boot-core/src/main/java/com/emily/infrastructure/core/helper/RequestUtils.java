@@ -1,5 +1,6 @@
 package com.emily.infrastructure.core.helper;
 
+import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
@@ -42,6 +43,16 @@ public class RequestUtils {
      * 是否是内网正则表达式
      */
     private static String INTERNET = "^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$";
+
+    /**
+     * 获取请求真实IP,支持代理，如：179.156.81.168, 10.171.10.12，则取第一个IP 179.156.81.168
+     *
+     * @return 真实IP
+     */
+    public static String getRealClientIp() {
+        String ip = getClientIp();
+        return StringUtils.contains(ip, CharacterInfo.COMMA_EN) ? StringUtils.split(ip, CharacterInfo.COMMA_EN)[0] : ip;
+    }
 
     /**
      * 获取客户端IP

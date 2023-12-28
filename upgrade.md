@@ -18,7 +18,9 @@ Bug Fixes
 13. 移除com.emily.infrastructure.logger.configuration.type.LevelType枚举类，并由org.slf4j.event.Level替换；
 14. HeaderInfo新增IP相关请求头，RequestUtils工具类方法优化并新增相关单元测试类；
 15. RequestHelper重名名为ServletHelper;
-16. 
+16. com.emily.infrastructure.core.helper.RequestUtils.getRealClientIp方法新增获取请求真实IP地址；
+17. emis-spring-boot-starter SDK新增参数校验注解@IsInclude、@IsLocalDate、@IsLocalDateTime、@IsLocalTime;
+18. 
 
 ------
 Dependency Upgrades

@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  * @author :  Emily
  * @since :  2023/12/24 1:35 PM
  */
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(validatedBy = {IsLocalDateValidator.class})

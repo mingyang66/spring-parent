@@ -21,7 +21,8 @@ Bug Fixes
 16. com.emily.infrastructure.core.helper.RequestUtils.getRealClientIp方法新增获取请求真实IP地址；
 17. emis-spring-boot-starter SDK新增参数校验注解@IsInclude、@IsLocalDate、@IsLocalDateTime、@IsLocalTime;
 18. emis-spring-boot-starter SDK新增参数校验注解@IsInt、@IsLong、@IsDouble、@IsBigDecimal;
-19. 
+19. 全局异常捕获新增ErrorResponseException异常类，统一处理异常信息；
+20. 
 
 ------
 Dependency Upgrades

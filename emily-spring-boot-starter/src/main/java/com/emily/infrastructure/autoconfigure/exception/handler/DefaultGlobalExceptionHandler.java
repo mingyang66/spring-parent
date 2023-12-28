@@ -10,6 +10,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.web.ErrorResponseException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -245,6 +246,14 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
             message = ((ConstraintViolationException) e).getConstraintViolations().stream().findFirst().get().getMessageTemplate();
         }
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(ErrorResponseException.class)
+    public Object errorResponseException(ErrorResponseException e, HttpServletRequest request, HandlerMethod handlerMethod) {
+        recordErrorMsg(e, request);
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**

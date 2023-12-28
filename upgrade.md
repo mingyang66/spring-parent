@@ -20,7 +20,7 @@ Bug Fixes
 15. RequestHelper重名名为ServletHelper;
 16. com.emily.infrastructure.core.helper.RequestUtils.getRealClientIp方法新增获取请求真实IP地址；
 17. emis-spring-boot-starter SDK新增参数校验注解@IsInclude、@IsLocalDate、@IsLocalDateTime、@IsLocalTime;
-18. emis-spring-boot-starter SDK新增参数校验注解@IsInt、@IsLong、@IsDouble;
+18. emis-spring-boot-starter SDK新增参数校验注解@IsInt、@IsLong、@IsDouble、@IsBigDecimal;
 19. 
 
 ------

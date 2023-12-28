@@ -3,6 +3,8 @@ package com.emily.infrastructure.test.plugin.valid;
 import com.emily.infrastructure.autoconfigure.valid.annotation.*;
 import com.emily.infrastructure.date.DatePatternInfo;
 
+import java.math.BigDecimal;
+
 /**
  * @author :  Emily
  * @since :  2023/12/24 1:41 PM
@@ -24,6 +26,16 @@ public class ValidReq {
     private String buyAmount;
     @IsLong(message = "总金额不正确", required = false)
     private String totalAmount;
+    @IsBigDecimal(message = "金额不正确", required = false)
+    private String bigDecimal;
+
+    public String getBigDecimal() {
+        return bigDecimal;
+    }
+
+    public void setBigDecimal(String bigDecimal) {
+        this.bigDecimal = bigDecimal;
+    }
 
     public String getTotalAmount() {
         return totalAmount;

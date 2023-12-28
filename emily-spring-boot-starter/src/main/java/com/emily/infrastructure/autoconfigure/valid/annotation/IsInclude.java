@@ -1,5 +1,6 @@
-package com.emily.infrastructure.autoconfigure.valid;
+package com.emily.infrastructure.autoconfigure.valid.annotation;
 
+import com.emily.infrastructure.autoconfigure.valid.IsIncludeValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -19,7 +20,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsListIncludeValidator.class})
+@Constraint(validatedBy = {IsIncludeValidator.class})
 public @interface IsInclude {
     /**
      * 提示信息
@@ -32,6 +33,11 @@ public @interface IsInclude {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    /**
+     * 值是否必须，true为必须，false为非必须
+     */
+    boolean required() default true;
 
     String[] includeString() default {};
 

@@ -1,9 +1,11 @@
 package com.emily.infrastructure.autoconfigure.valid;
 
+import com.emily.infrastructure.autoconfigure.valid.annotation.IsInclude;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * 自定义LocalDate校验注解
@@ -11,7 +13,8 @@ import java.util.Arrays;
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class IsListIncludeValidator implements ConstraintValidator<IsInclude, Object> {
+public class IsIncludeValidator implements ConstraintValidator<IsInclude, Object> {
+    private boolean required;
     private String[] includeString;
     private int[] includeInt;
     private long[] includeLong;
@@ -19,6 +22,7 @@ public class IsListIncludeValidator implements ConstraintValidator<IsInclude, Ob
 
     @Override
     public void initialize(IsInclude annotation) {
+        required = annotation.required();
         includeString = annotation.includeString();
         includeInt = annotation.includeInt();
         includeLong = annotation.includeLong();
@@ -34,9 +38,15 @@ public class IsListIncludeValidator implements ConstraintValidator<IsInclude, Ob
      */
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // 空校验
-        if (value == null) {
-            return false;
+        // 必传校验
+        if (required) {
+            if (Objects.isNull(value)) {
+                return false;
+            }
+        } else {
+            if (Objects.isNull(value)) {
+                return true;
+            }
         }
         if (value instanceof String) {
             return Arrays.asList(includeString).contains((String) value);

@@ -1,27 +1,22 @@
 package com.emily.infrastructure.autoconfigure.valid;
 
-import com.emily.infrastructure.autoconfigure.valid.annotation.IsLocalDateTime;
+import com.emily.infrastructure.autoconfigure.valid.annotation.IsLong;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 /**
- * 自定义LocalDateTime校验注解
+ * long 校验
  *
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class IsLocalDateTimeValidator implements ConstraintValidator<IsLocalDateTime, String> {
+public class IsLongValidator implements ConstraintValidator<IsLong, String> {
     private boolean required;
-    private String pattern;
 
     @Override
-    public void initialize(IsLocalDateTime annotation) {
+    public void initialize(IsLong annotation) {
         required = annotation.required();
-        pattern = annotation.pattern();
     }
 
     /**
@@ -43,13 +38,9 @@ public class IsLocalDateTimeValidator implements ConstraintValidator<IsLocalDate
                 return true;
             }
         }
-        // 格式校验
-        if (StringUtils.isBlank(pattern)) {
-            return false;
-        }
         try {
             // 格式校验
-            LocalDateTime.parse(value, DateTimeFormatter.ofPattern(pattern));
+            Long.parseLong(value);
             return true;
         } catch (Exception e) {
             return false;

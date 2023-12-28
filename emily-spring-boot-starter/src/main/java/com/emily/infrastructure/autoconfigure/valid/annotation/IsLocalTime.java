@@ -1,5 +1,6 @@
-package com.emily.infrastructure.autoconfigure.valid;
+package com.emily.infrastructure.autoconfigure.valid.annotation;
 
+import com.emily.infrastructure.autoconfigure.valid.IsLocalTimeValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -14,8 +15,8 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsLocalDateTimeValidator.class})
-public @interface IsLocalDateTime {
+@Constraint(validatedBy = {IsLocalTimeValidator.class})
+public @interface IsLocalTime {
     /**
      * 提示信息
      */

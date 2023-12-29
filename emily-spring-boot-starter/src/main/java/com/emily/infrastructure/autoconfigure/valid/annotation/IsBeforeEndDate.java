@@ -52,6 +52,12 @@ public @interface IsBeforeEndDate {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    /**
+     * 指定的开始结束日期字段是否必须，默认：true
+     *
+     * @return true-必须，false-非必须
+     */
     boolean required() default true;
 
     String startField();

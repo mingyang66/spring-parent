@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.plugin.valid;
 
-import com.emily.infrastructure.autoconfigure.valid.annotation.IsLong;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,7 @@ public class ValidController {
     }
 
     @PostMapping("test2")
-    public void testValid2(@Validated @RequestBody TaskForm strAn) {
+    public void testValid2(@Validated @RequestBody BeforeDate strAn) {
         System.out.println("---" + RequestUtils.getClientIp());
     }
 }

@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.plugin.valid;
 
-import jakarta.validation.constraints.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.emily.infrastructure.autoconfigure.valid.annotation.IsBeforeEndDate;
 
 import java.time.LocalDate;
 
@@ -9,14 +8,10 @@ import java.time.LocalDate;
  * @author :  Emily
  * @since :  2023/12/28 7:44 PM
  */
-@EndDateAfterStartDate(message = "日期大小不符合要求")
-public class TaskForm {
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+@IsBeforeEndDate(startField = "startDate", endField = "endDate", message = "日期大小不符合要求", inclusive = false)
+public class BeforeDate {
     private LocalDate startDate;
 
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     public LocalDate getStartDate() {

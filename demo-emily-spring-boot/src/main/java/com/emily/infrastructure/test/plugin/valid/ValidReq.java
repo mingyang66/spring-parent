@@ -31,6 +31,7 @@ public class ValidReq {
     @IsPrefix(prefixes = {"10", "20"}, message = "账号不正确", required = false)
     private String accountCode;
 
+
     public String getAccountCode() {
         return accountCode;
     }

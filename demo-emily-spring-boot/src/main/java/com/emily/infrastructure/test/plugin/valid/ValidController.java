@@ -22,8 +22,7 @@ public class ValidController {
     }
 
     @PostMapping("test2")
-    public void testValid2(@Validated @IsLong String date) {
-        System.out.println("---");
-        System.out.println("---");
+    public void testValid2(@Validated @RequestBody TaskForm strAn) {
+        System.out.println("---" + RequestUtils.getClientIp());
     }
 }

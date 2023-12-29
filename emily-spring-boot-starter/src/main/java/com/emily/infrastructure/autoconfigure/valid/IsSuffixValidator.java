@@ -43,7 +43,7 @@ public class IsSuffixValidator implements ConstraintValidator<IsSuffix, String> 
             }
         }
         try {
-            if (Arrays.asList(suffixes).contains(value)) {
+            if (StringUtils.endsWithAny(value, suffixes)) {
                 return true;
             }
         } catch (Exception e) {

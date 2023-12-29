@@ -10,6 +10,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -217,7 +218,19 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler({BindException.class})
     public Object bindException(BindException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), e.getFieldError().getDefaultMessage());
+        String message = HttpStatusType.ILLEGAL_ARGUMENT.getMessage();
+        try {
+            FieldError fieldError = e.getFieldError();
+            if (fieldError == null) {
+                // 实体类上注解错误消息
+                message = e.getGlobalError().getDefaultMessage();
+            } else {
+                // 字段注解错误消息
+                message = fieldError.getDefaultMessage();
+            }
+        } catch (Exception ex) {
+        }
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
     }
 
     /**

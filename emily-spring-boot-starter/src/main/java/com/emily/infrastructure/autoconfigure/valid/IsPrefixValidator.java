@@ -43,7 +43,7 @@ public class IsPrefixValidator implements ConstraintValidator<IsPrefix, String> 
             }
         }
         try {
-            if (Arrays.asList(prefixes).contains(value)) {
+            if (StringUtils.startsWithAny(value, prefixes)) {
                 return true;
             }
         } catch (Exception e) {

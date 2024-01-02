@@ -10,13 +10,13 @@ import com.emily.infrastructure.date.DatePatternInfo;
 public class ValidReq {
     @IsLocalTime(message = "日期格式不正确1", pattern = DatePatternInfo.HH_MM_SS, required = false)
     private String name;
-    @IsInclude(includeString = {"1", "2", "3", ""}, message = "年龄不正确", required = false)
+    @IsIncludeString(includes = {"1", "2", "3", ""}, message = "年龄不正确", required = false)
     private String age;
-    @IsInclude(includeInt = {4, 5, 6, 2147483647}, message = "高度不正确")
+    @IsIncludeInt(includes = {4, 5, 6, 2147483647}, message = "高度不正确")
     private int height;
-    @IsInclude(includeLong = {1, 2147483648L}, message = "id不正确")
+    @IsIncludeLong(includes = {1, 2147483648L}, message = "id不正确")
     private long id;
-    @IsInclude(includeDouble = {1.0, 2.0}, message = "价格不正确")
+    @IsIncludeDouble(includes = {1.0, 2.0}, message = "价格不正确")
     private double price;
     @IsDouble(message = "交易价格不正确", required = false)
     private String tradePrice;

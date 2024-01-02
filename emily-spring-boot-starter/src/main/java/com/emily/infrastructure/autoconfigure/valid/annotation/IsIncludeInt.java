@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.valid.annotation;
 
-import com.emily.infrastructure.autoconfigure.valid.IsIncludeValidator;
+import com.emily.infrastructure.autoconfigure.valid.IsIncludeIntValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * 校验是值否为符合指定日期格式要求
+ * 校验是否包含指定值
  * 1. ElementType.ANNOTATION_TYPE 用户其它约束的约束注解
  * 2. ElementType.FIELD 受约束的属性字段
  * 3. ElementType.PARAMETER 用于受约束的方法和构造函数参数
@@ -24,8 +24,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsIncludeValidator.class})
-public @interface IsInclude {
+@Constraint(validatedBy = {IsIncludeIntValidator.class})
+public @interface IsIncludeInt {
     /**
      * 提示信息
      */
@@ -43,11 +43,6 @@ public @interface IsInclude {
      */
     boolean required() default true;
 
-    String[] includeString() default {};
+    int[] includes() default {};
 
-    int[] includeInt() default {};
-
-    long[] includeLong() default {};
-
-    double[] includeDouble() default {};
 }

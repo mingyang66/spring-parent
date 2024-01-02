@@ -2,6 +2,8 @@ package com.emily.infrastructure.test.plugin.valid;
 
 import com.emily.infrastructure.autoconfigure.valid.annotation.*;
 import com.emily.infrastructure.date.DatePatternInfo;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * @author :  Emily
@@ -30,7 +32,26 @@ public class ValidReq {
     private String username;
     @IsPrefix(prefixes = {"10", "20"}, message = "账号不正确", required = false)
     private String accountCode;
+    @Length(min = 1, max = 5, message = "长度不正确")
+    private String len;
+    @Range(min = 1, max = 5, message = "范围不正确")
+    private String range;
 
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
+    public String getLen() {
+        return len;
+    }
+
+    public void setLen(String len) {
+        this.len = len;
+    }
 
     public String getAccountCode() {
         return accountCode;

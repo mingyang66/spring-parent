@@ -43,26 +43,18 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = {
+            Exception.class,
+            RuntimeException.class,
+            IOException.class,
+    })
     public Object exceptionHandler(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION.getStatus(), e.getMessage());
-    }
-
-    /**
-     * 运行时异常
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(value = RuntimeException.class)
-    public Object runtimeExceptionHandler(RuntimeException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION.getStatus(), e.getMessage());
+        String message = e.getMessage();
+        if (e instanceof IOException) {
+            message = HttpStatusType.EXCEPTION.getMessage();
+        }
+        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -98,103 +90,6 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     }
 
     /**
-     * 空指针异常
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(NullPointerException.class)
-    public Object nullPointerExceptionHandler(NullPointerException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
-    }
-
-    /**
-     * 类型转换异常
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(ClassCastException.class)
-    public Object classCastExceptionHandler(ClassCastException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
-    }
-
-    /**
-     * IO异常
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(IOException.class)
-    public Object ioExceptionHandler(IOException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION);
-    }
-
-    /**
-     * 数组越界异常
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(IndexOutOfBoundsException.class)
-    public Object indexOutOfBoundsException(IndexOutOfBoundsException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
-    }
-
-    /**
-     * API-参数类型不匹配
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(TypeMismatchException.class)
-    public Object requestTypeMismatch(TypeMismatchException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
-    }
-
-    /**
-     * API-缺少参数，如Get请求@RequestParam注解
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(MissingRequestValueException.class)
-    public Object missingRequestValueException(MissingRequestValueException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
-    }
-
-
-    /**
      * API-控制器方法参数Validated参数绑定异常
      * 1. BindException[MethodArgumentNotValidException]示例如下：
      * <pre>{@code
@@ -222,8 +117,16 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler({BindException.class, ValidationException.class})
-    public Object bindException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
+    @ExceptionHandler(value = {
+            IllegalArgumentException.class,
+            HttpMessageNotReadableException.class,
+            ErrorResponseException.class,
+            MissingRequestValueException.class,
+            TypeMismatchException.class,
+            BindException.class,
+            ValidationException.class
+    })
+    public Object illegalArgumentException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
         String message = HttpStatusType.ILLEGAL_ARGUMENT.getMessage();
         try {
@@ -244,46 +147,6 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         } catch (Exception ex) {
         }
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
-    }
-
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(ErrorResponseException.class)
-    public Object errorResponseException(ErrorResponseException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
-    }
-
-    /**
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public Object httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
-    }
-
-
-    /**
-     * 非法参数异常捕获
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public Object illegalArgumentException(IllegalArgumentException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT);
     }
 
     /**
@@ -312,24 +175,14 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(NumberFormatException.class)
-    public Object numberFormatException(NumberFormatException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
-    }
-
-    /**
-     * 非法计算异常
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(ArithmeticException.class)
-    public Object arithmeticException(ArithmeticException e, HttpServletRequest request, HandlerMethod handlerMethod) {
+    @ExceptionHandler(value = {
+            NumberFormatException.class,
+            ArithmeticException.class,
+            IndexOutOfBoundsException.class,
+            NullPointerException.class,
+            ClassCastException.class
+    })
+    public Object numberFormatException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
     }
@@ -344,24 +197,11 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(UnknownContentTypeException.class)
-    public Object unknownContentTypeException(UnknownContentTypeException e, HttpServletRequest request, HandlerMethod handlerMethod) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ACCESS);
-    }
-
-    /**
-     * 非法访问
-     *
-     * @param e             异常
-     * @param request       请求对象
-     * @param handlerMethod 方法对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(ResourceAccessException.class)
-    public Object resourceAccessException(ResourceAccessException e, HttpServletRequest request, HandlerMethod handlerMethod) {
+    @ExceptionHandler(value = {
+            UnknownContentTypeException.class,
+            ResourceAccessException.class
+    })
+    public Object unknownContentTypeException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
         return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ACCESS);
     }

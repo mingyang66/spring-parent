@@ -6,14 +6,11 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.helper.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
@@ -30,8 +27,6 @@ import java.time.LocalDateTime;
  * @since 2020/08/17
  */
 public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
-
-    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultHttpClientInterceptor.class, "api", "request");
 
     /**
      * RestTemplate拦截方法
@@ -85,7 +80,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
                     //响应时间
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
+            PrintLoggerUtils.printThirdParty(builder.build());
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

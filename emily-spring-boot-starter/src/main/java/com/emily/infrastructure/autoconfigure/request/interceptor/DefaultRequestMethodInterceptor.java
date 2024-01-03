@@ -12,18 +12,16 @@ import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.ServletHelper;
+import com.emily.infrastructure.core.helper.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 
 import javax.annotation.Nonnull;
@@ -38,8 +36,6 @@ import java.util.Map;
  * @since 1.0
  */
 public class DefaultRequestMethodInterceptor implements RequestCustomizer {
-
-    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultRequestMethodInterceptor.class, "api", "request");
 
     /**
      * 拦截接口日志
@@ -112,7 +108,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //API耗时
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
+            PrintLoggerUtils.printRequest(baseLogger);
 
         }
 

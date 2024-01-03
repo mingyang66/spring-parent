@@ -6,22 +6,18 @@ import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.ServletHelper;
+import com.emily.infrastructure.core.helper.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.google.common.collect.Maps;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -43,7 +39,6 @@ import java.util.Objects;
  */
 public class GlobalExceptionCustomizer {
 
-    private static final Logger logger = LoggerFactory.getModuleLogger(GlobalExceptionCustomizer.class, "api", "request");
 
     /**
      * 对API请求异常处理，
@@ -123,7 +118,7 @@ public class GlobalExceptionCustomizer {
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件
-        ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> logger.info(JsonUtils.toJSONString(baseLogger)));
+        PrintLoggerUtils.printRequest(baseLogger);
         //--------------------------后通知特殊条件判断-------------------------
         if (ex instanceof HttpRequestMethodNotSupportedException) {
             LocalContextHolder.unbind(true);

@@ -4,20 +4,17 @@ import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
+import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.helper.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -29,8 +26,6 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 public class DefaultFeignMethodInterceptor implements FeignCustomizer {
-
-    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultFeignMethodInterceptor.class, "api", "request");
 
     /**
      * 拦截接口日志
@@ -59,7 +54,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
             throw e;
         } finally {
             //封装异步日志信息
-            BaseLoggerBuilder builder = FeignContextHolder.current()
+            BaseLogger baseLogger = FeignContextHolder.current()
                     //客户端IP
                     .withClientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
@@ -75,9 +70,10 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //响应结果
                     .withBody(SensitiveUtils.acquireElseGet(response))
                     //请求参数
-                    .withRequestParams(AttributeInfo.PARAMS, ServletHelper.getMethodArgs(invocation));
+                    .withRequestParams(AttributeInfo.PARAMS, ServletHelper.getMethodArgs(invocation))
+                    .build();
             //异步记录接口响应信息
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> logger.info(JsonUtils.toJSONString(builder.build())));
+            PrintLoggerUtils.printThirdParty(baseLogger);
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据

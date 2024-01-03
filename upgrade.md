@@ -23,6 +23,7 @@ Bug Fixes
 18. emis-spring-boot-starter SDK新增参数校验注解@IsInt、@IsLong、@IsDouble、@IsBigDecimal、@IsPrefix、@IsSuffix;
 19. 全局异常捕获新增ErrorResponseException异常类，统一处理异常信息；
 20. emi-spring-boot-starter SDK新增@IsBeforeEndDate日期大小比较注解；
+21. 新增PrintLoggerUtils打印全局日志工具类，方便开发人员调试；
 
 ------
 Dependency Upgrades

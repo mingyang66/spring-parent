@@ -3,14 +3,12 @@ package com.emily.infrastructure.rabbitmq.listener;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.helper.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
 import com.rabbitmq.client.ShutdownSignalException;
-import org.slf4j.Logger;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionListener;
@@ -25,7 +23,6 @@ import java.time.LocalDateTime;
  */
 public class DefaultMqConnectionListener implements ConnectionListener {
 
-    private static final Logger logger = LoggerFactory.getModuleLogger(DefaultMqConnectionListener.class, "api", "request");
     private final CachingConnectionFactory connectionFactory;
 
     public DefaultMqConnectionListener(CachingConnectionFactory connectionFactory) {
@@ -48,7 +45,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .withUrl("RabbitMQ")
                 .withBody("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection)
                 .build();
-        logger.info(JsonUtils.toJSONString(baseLogger));
+        PrintLoggerUtils.printThirdParty(baseLogger);
     }
 
     /**
@@ -68,7 +65,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .withUrl("RabbitMQ")
                 .withBody("Close [Called when a connection is closed]: " + connection)
                 .build();
-        logger.info(JsonUtils.toJSONString(baseLogger));
+        PrintLoggerUtils.printThirdParty(baseLogger);
     }
 
     /**
@@ -88,7 +85,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .withUrl("RabbitMQ")
                 .withBody("ShutDown [Called when a connection is force closed] " + signal.getMessage())
                 .build();
-        logger.info(JsonUtils.toJSONString(baseLogger));
+        PrintLoggerUtils.printThirdParty(baseLogger);
     }
 
     /**
@@ -108,6 +105,6 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .withUrl("RabbitMQ")
                 .withBody("Failed [Called when a connection couldn't be established] " + PrintExceptionInfo.printErrorInfo(exception))
                 .build();
-        logger.info(JsonUtils.toJSONString(baseLogger));
+        PrintLoggerUtils.printThirdParty(baseLogger);
     }
 }

@@ -4,13 +4,12 @@ import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.core.helper.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -32,7 +31,6 @@ import static java.util.Collections.singletonList;
  * @since :  2023/11/9 11:07 PM
  */
 public class LuaScriptTools {
-    private static final Logger logger = LoggerFactory.getModuleLogger(LuaScriptTools.class, "api", "request");
     /**
      * 基于lua列表的环形结构实现脚本
      */
@@ -124,7 +122,7 @@ public class LuaScriptTools {
                     .withRequestParams("expire", expire.getSeconds())
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
-            logger.info(JsonUtils.toJSONString(baseLogger));
+            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }
@@ -168,7 +166,7 @@ public class LuaScriptTools {
                     .withRequestParams("expire", expire.getSeconds())
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
-            logger.info(JsonUtils.toJSONString(baseLogger));
+            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }
@@ -222,7 +220,7 @@ public class LuaScriptTools {
                     .withRequestParams("count", count)
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
-            logger.info(JsonUtils.toJSONString(baseLogger));
+            PrintLoggerUtils.printThirdParty(baseLogger);
             return Collections.emptyList();
         }
     }
@@ -263,7 +261,7 @@ public class LuaScriptTools {
                     .withRequestParams("expire", expire.getSeconds())
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
-            logger.info(JsonUtils.toJSONString(baseLogger));
+            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }
@@ -294,7 +292,7 @@ public class LuaScriptTools {
                     .withRequestParams("key", key)
                     .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
                     .build();
-            logger.info(JsonUtils.toJSONString(baseLogger));
+            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }

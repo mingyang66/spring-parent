@@ -96,7 +96,7 @@ public class GlobalExceptionCustomizer {
                 || ex instanceof HttpRequestMethodNotSupportedException)) {
             return;
         }
-        BaseLoggerBuilder builder = BaseLogger.newBuilder()
+        BaseLogger baseLogger = BaseLogger.newBuilder()
                 //系统编号
                 .withSystemNumber(LocalContextHolder.current().getSystemNumber())
                 //事务唯一编号
@@ -118,9 +118,8 @@ public class GlobalExceptionCustomizer {
                 //响应体
                 .withBody(PrintExceptionInfo.printErrorInfo(ex))
                 //耗时(未处理任何逻辑)
-                .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()));
-        //日志
-        BaseLogger baseLogger = builder.build();
+                .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()))
+                .build();
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件

@@ -18,10 +18,10 @@ import com.emily.infrastructure.logger.common.StrUtils;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackFilterBuilder {
+public class LogbackFilter {
     private final Context context;
 
-    private LogbackFilterBuilder(Context context) {
+    public LogbackFilter(Context context) {
         this.context = context;
     }
 
@@ -31,7 +31,7 @@ public class LogbackFilterBuilder {
      * @param level 日志级别
      * @return 日志级别过滤器对象
      */
-    public LevelFilter buildLevelFilter(Level level) {
+    public LevelFilter getLevelFilter(Level level) {
         LevelFilter filter = new LevelFilter();
         //过滤器名称
         filter.setName(StrUtils.join("LevelFilter-", level.levelStr));
@@ -56,7 +56,7 @@ public class LogbackFilterBuilder {
      * @param level 日志级别
      * @return 日志阀值过滤器对象
      */
-    public ThresholdFilter buildThresholdLevelFilter(Level level) {
+    public ThresholdFilter getThresholdLevelFilter(Level level) {
         ThresholdFilter filter = new ThresholdFilter();
         //过滤器名称
         filter.setName(StrUtils.join("ThresholdFilter-", level.levelStr));
@@ -77,7 +77,7 @@ public class LogbackFilterBuilder {
      * @param marker marker标识
      * @return 标记过滤器，将会接受被标记的日志记录到文件中
      */
-    public MarkerFilter buildAcceptMarkerFilter(String marker) {
+    public MarkerFilter getAcceptMarkerFilter(String marker) {
         MarkerFilter filter = new MarkerFilter();
         //过滤器名称
         filter.setName(StrUtils.join("AcceptMarkerFilter-", marker));
@@ -102,7 +102,7 @@ public class LogbackFilterBuilder {
      * @param marker marker标识
      * @return 标记过滤器，将会拒绝被标记的日志记录到文件中
      */
-    public MarkerFilter buildDenyMarkerFilter(String marker) {
+    public MarkerFilter getDenyMarkerFilter(String marker) {
         MarkerFilter filter = new MarkerFilter();
         //过滤器名称
         filter.setName(StrUtils.join("DenyMarkerFilter-", marker));
@@ -127,7 +127,7 @@ public class LogbackFilterBuilder {
      * @param context logger context上下文
      * @return 评估过滤器实例
      */
-    public EvaluatorFilter buildEvaluatorFilter(Context context) {
+    public EvaluatorFilter getEvaluatorFilter(Context context) {
         EvaluatorFilter filter = new EvaluatorFilter();
         EventEvaluator evaluator = new JaninoEventEvaluator();
         try {
@@ -141,9 +141,5 @@ public class LogbackFilterBuilder {
         filter.setOnMismatch(FilterReply.DENY);
         filter.start();
         return filter;
-    }
-
-    public static LogbackFilterBuilder create(Context context) {
-        return new LogbackFilterBuilder(context);
     }
 }

@@ -4,7 +4,6 @@ import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.CommonNames;
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
 import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
@@ -38,17 +37,17 @@ public class LogbackContext implements Context {
         this.config = config;
         this.lc = lc;
         // 注册日志对象
-        DefaultLogbackBeanFactory.registerBean(config, lc);
+        LogbackBeanFactory.registerBean(config, lc);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(config, lc);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         config.getMarker().getAcceptMarker().forEach((marker) -> {
-            lc.addTurboFilter(LogbackFilterBuilder.create(lc).buildAcceptMarkerFilter(marker));
+            lc.addTurboFilter(LogbackBeanFactory.getFilter().getAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
         config.getMarker().getDenyMarker().forEach((marker) -> {
-            lc.addTurboFilter(LogbackFilterBuilder.create(lc).buildDenyMarkerFilter(marker));
+            lc.addTurboFilter(LogbackBeanFactory.getFilter().getDenyMarkerFilter(marker));
         });
     }
 
@@ -95,7 +94,7 @@ public class LogbackContext implements Context {
             synchronized (LogbackContext.class) {
                 if (logger == null) {
                     // 获取logger日志对象
-                    logger = DefaultLogbackBeanFactory.getBean(commonKeys);
+                    logger = LogbackBeanFactory.getLogger(commonKeys);
                     // 存入缓存
                     LOGGER.putIfAbsent(commonKeys.getLoggerName(), logger);
                 } else {
@@ -112,7 +111,7 @@ public class LogbackContext implements Context {
     @Override
     public void start() {
         // 获取root logger对象
-        Logger rootLogger = DefaultLogbackBeanFactory.getBean(CommonKeys.newBuilder()
+        Logger rootLogger = LogbackBeanFactory.getLogger(CommonKeys.newBuilder()
                 // logger name
                 .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path

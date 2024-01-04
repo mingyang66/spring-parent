@@ -8,9 +8,7 @@ import ch.qos.logback.core.rolling.RollingFileAppender;
 import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.context.DefaultLogbackBeanFactory;
-import com.emily.infrastructure.logger.configuration.encoder.LogbackEncoderBuilder;
-import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
+import com.emily.infrastructure.logger.configuration.context.LogbackBeanFactory;
 import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
@@ -60,7 +58,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
-        appender.setRollingPolicy(DefaultLogbackBeanFactory.getBean(appender, loggerPath, rp));
+        appender.setRollingPolicy(LogbackBeanFactory.getRollingPolicy(appender, loggerPath, rp));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(lc);
@@ -71,9 +69,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(config.getAppender().isPrudent());
         //设置过滤器
-        appender.addFilter(LogbackFilterBuilder.create(lc).buildLevelFilter(level));
+        appender.addFilter(LogbackBeanFactory.getFilter().getLevelFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogbackEncoderBuilder.create(lc).buildPatternLayoutEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogbackBeanFactory.getEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(config.getAppender().isImmediateFlush());
         appender.start();

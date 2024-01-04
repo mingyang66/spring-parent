@@ -4,9 +4,8 @@ import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.CommonNames;
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.configuration.classic.LogbackAdvice;
 import com.emily.infrastructure.logger.configuration.filter.LogbackFilterBuilder;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -20,9 +19,8 @@ import static com.emily.infrastructure.logger.common.CommonCache.LOGGER;
  * @since : 2020/08/04
  */
 public class LogbackContext implements Context {
-    private LoggerProperties properties;
+    private LoggerConfig config;
     private LoggerContext lc;
-    private LogbackAdvice logbackAdvice;
 
     /**
      * ------------------------------------
@@ -32,23 +30,24 @@ public class LogbackContext implements Context {
      * 4. packagingData异常堆栈拼接所属jar包控制
      * 5. 全局过滤器TurboFilter控制
      *
-     * @param properties logback日志属性
-     * @param lc         上下文
+     * @param config logback日志属性
+     * @param lc     上下文
      */
     @Override
-    public void configure(LoggerProperties properties, LoggerContext lc) {
-        this.properties = properties;
+    public void configure(LoggerConfig config, LoggerContext lc) {
+        this.config = config;
         this.lc = lc;
-        this.logbackAdvice = new LogbackAdvice(properties, lc);
+        // 注册日志对象
+        DefaultLogbackBeanFactory.registerBean(config, lc);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
-        ConfigurationAction configuration = new ConfigurationAction(properties, lc);
+        ConfigurationAction configuration = new ConfigurationAction(config, lc);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
-        properties.getMarker().getAcceptMarker().forEach((marker) -> {
+        config.getMarker().getAcceptMarker().forEach((marker) -> {
             lc.addTurboFilter(LogbackFilterBuilder.create(lc).buildAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
-        properties.getMarker().getDenyMarker().forEach((marker) -> {
+        config.getMarker().getDenyMarker().forEach((marker) -> {
             lc.addTurboFilter(LogbackFilterBuilder.create(lc).buildDenyMarkerFilter(marker));
         });
     }
@@ -96,7 +95,7 @@ public class LogbackContext implements Context {
             synchronized (LogbackContext.class) {
                 if (logger == null) {
                     // 获取logger日志对象
-                    logger = logbackAdvice.processLogger(commonKeys);
+                    logger = DefaultLogbackBeanFactory.getBean(commonKeys);
                     // 存入缓存
                     LOGGER.putIfAbsent(commonKeys.getLoggerName(), logger);
                 } else {
@@ -113,11 +112,11 @@ public class LogbackContext implements Context {
     @Override
     public void start() {
         // 获取root logger对象
-        Logger rootLogger = logbackAdvice.processLogger(CommonKeys.newBuilder()
+        Logger rootLogger = DefaultLogbackBeanFactory.getBean(CommonKeys.newBuilder()
                 // logger name
                 .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path
-                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
+                .withFilePath(PathUtils.normalizePath(config.getRoot().getFilePath()))
                 // logger type
                 .withLogbackType(LogbackType.ROOT)
                 .build());

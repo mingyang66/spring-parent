@@ -6,7 +6,7 @@ import ch.qos.logback.core.status.InfoStatus;
 import ch.qos.logback.core.status.OnConsoleStatusListener;
 import ch.qos.logback.core.util.StatusListenerConfigHelper;
 import ch.qos.logback.core.util.StatusPrinter;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
 
 /**
  * -------------------------------------------
@@ -26,10 +26,10 @@ public class ConfigurationAction extends ContextAwareBase {
     //static final String SCAN_ATTR = "scan";
     //static final String SCAN_PERIOD_ATTR = "scanPeriod";
     static final String DEBUG_SYSTEM_PROPERTY_KEY = "logback.debug";
-    private LoggerProperties properties;
+    private LoggerConfig config;
 
-    public ConfigurationAction(LoggerProperties properties, LoggerContext lc) {
-        this.properties = properties;
+    public ConfigurationAction(LoggerConfig config, LoggerContext lc) {
+        this.config = config;
         this.context = lc;
     }
 
@@ -38,7 +38,7 @@ public class ConfigurationAction extends ContextAwareBase {
      * 2.控制是否开启debug模式
      */
     public void start() {
-        if (Boolean.getBoolean(DEBUG_SYSTEM_PROPERTY_KEY) || Boolean.getBoolean(INTERNAL_DEBUG_ATTR) || properties.isDebug()) {
+        if (Boolean.getBoolean(DEBUG_SYSTEM_PROPERTY_KEY) || Boolean.getBoolean(INTERNAL_DEBUG_ATTR) || config.isDebug()) {
             //是否报告logback内部状态信息
             StatusPrinter.print(context);
             //开启内部debug模式
@@ -46,7 +46,7 @@ public class ConfigurationAction extends ContextAwareBase {
         } else {
             addInfo(INTERNAL_DEBUG_ATTR + " attribute not set");
         }
-        if (properties.isPackagingData()) {
+        if (config.isPackagingData()) {
             ((LoggerContext) context).setPackagingDataEnabled(true);
         } else {
             ((LoggerContext) context).setPackagingDataEnabled(false);
@@ -57,7 +57,7 @@ public class ConfigurationAction extends ContextAwareBase {
         addStatus(new InfoStatus(msg, getDeclaredOrigin()));
     }
 
-    public void setProperties(LoggerProperties properties) {
-        this.properties = properties;
+    public void setProperties(LoggerConfig config) {
+        this.config = config;
     }
 }

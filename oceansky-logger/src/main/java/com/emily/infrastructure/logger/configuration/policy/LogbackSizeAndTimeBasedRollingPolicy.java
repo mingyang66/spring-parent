@@ -4,10 +4,11 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
  * logback归档策略
@@ -15,27 +16,31 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2022/01/10
  */
-public class LogbackTimeBasedRollingPolicyBuilder extends AbstractRollingPolicy {
+public class LogbackSizeAndTimeBasedRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private final LoggerProperties.RollingPolicy rollingPolicy;
+    private LoggerConfig config;
 
-    private LogbackTimeBasedRollingPolicyBuilder(LoggerContext lc, LoggerProperties.RollingPolicy rollingPolicy) {
+    public LogbackSizeAndTimeBasedRollingPolicy(LoggerConfig config, LoggerContext lc) {
+        this.config = config;
         this.lc = lc;
-        this.rollingPolicy = rollingPolicy;
     }
 
+    @Override
+    public boolean support(RollingPolicyType type) {
+        return RollingPolicyType.SIZE_AND_TIME_BASED.equals(type);
+    }
 
     /**
-     * 获取基于时间的文件归档策略
+     * 获取基于时间和大小的日志文件归档策略
      *
      * @param appender   归档文件appender
      * @param loggerPath 日志文件路径
-     * @return 基于时间的滚动策略
+     * @return 基于时间和大小的策略
      */
     @Override
-    protected RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
+    public RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         //文件归档大小和时间设置
-        TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
+        SizeAndTimeBasedRollingPolicy<ILoggingEvent> policy = new SizeAndTimeBasedRollingPolicy<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         policy.setContext(lc);
@@ -50,24 +55,22 @@ public class LogbackTimeBasedRollingPolicyBuilder extends AbstractRollingPolicy 
          /info/foo%d{yyyy-MM-dd_HH-mm}.log 每分钟归档
          /info/info.%d 每天轮转
          */
-        String fp = StrUtils.substVars(lc, loggerPath, "%d{yyyy-MM-dd}.log");
+        String fp = StrUtils.substVars(lc, loggerPath, ".%d{yyyy-MM-dd}.%i.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, rollingPolicy.getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, config.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
+        //最大日志文件大小 KB,MB,GB
+        policy.setMaxFileSize(FileSize.valueOf(config.getAppender().getRollingPolicy().getMaxFileSize()));
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(rollingPolicy.getMaxHistory());
-        //控制所有归档文件总大小 KB、MB、GB，默认:0
-        policy.setTotalSizeCap(FileSize.valueOf(rollingPolicy.getTotalSizeCap()));
+        policy.setMaxHistory(config.getAppender().getRollingPolicy().getMaxHistory());
+        //文件总大小限制 KB,MB,G
+        policy.setTotalSizeCap(FileSize.valueOf(config.getAppender().getRollingPolicy().getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(rollingPolicy.isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(config.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(appender);
         //添加内部状态
-        policy.addInfo("Build TimeBasedRollingPolicy Success");
+        policy.addInfo("Build SizeAndTimeBasedRollingPolicy Policy Success");
         policy.start();
         return policy;
-    }
-
-    public static LogbackTimeBasedRollingPolicyBuilder create(LoggerContext lc, LoggerProperties.RollingPolicy rollingPolicy) {
-        return new LogbackTimeBasedRollingPolicyBuilder(lc, rollingPolicy);
     }
 }

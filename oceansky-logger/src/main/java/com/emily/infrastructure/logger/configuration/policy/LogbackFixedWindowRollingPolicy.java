@@ -6,7 +6,8 @@ import ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
  * logback归档策略
@@ -14,15 +15,19 @@ import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
  * @author Emily
  * @since : 2022/01/10
  */
-public class LogbackFixedWindowRollingPolicyBuilder extends AbstractRollingPolicy {
+public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private final LoggerProperties.RollingPolicy rollingPolicy;
+    private LoggerConfig config;
 
-    private LogbackFixedWindowRollingPolicyBuilder(LoggerContext lc, LoggerProperties.RollingPolicy rollingPolicy) {
+    public LogbackFixedWindowRollingPolicy(LoggerConfig config, LoggerContext lc) {
+        this.config = config;
         this.lc = lc;
-        this.rollingPolicy = rollingPolicy;
     }
 
+    @Override
+    public boolean support(RollingPolicyType type) {
+        return RollingPolicyType.FIXED_WINDOW.equals(type);
+    }
 
     /**
      * 获取基于时间的文件归档策略
@@ -32,7 +37,7 @@ public class LogbackFixedWindowRollingPolicyBuilder extends AbstractRollingPolic
      * @return 基于时间的滚动策略
      */
     @Override
-    protected RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
+    public RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
         //文件归档大小和时间设置
         FixedWindowRollingPolicy policy = new FixedWindowRollingPolicy();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -51,7 +56,7 @@ public class LogbackFixedWindowRollingPolicyBuilder extends AbstractRollingPolic
          */
         String fp = StrUtils.substVars(lc, loggerPath, "%d{yyyy-MM-dd}%i.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, rollingPolicy.getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, config.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         policy.setMinIndex(1);
         policy.setMaxIndex(10);
         //设置父节点是appender
@@ -60,9 +65,5 @@ public class LogbackFixedWindowRollingPolicyBuilder extends AbstractRollingPolic
         policy.addInfo("Build FixedWindowRollingPolicy Success");
         policy.start();
         return policy;
-    }
-
-    public static LogbackFixedWindowRollingPolicyBuilder create(LoggerContext lc, LoggerProperties.RollingPolicy rollingPolicy) {
-        return new LogbackFixedWindowRollingPolicyBuilder(lc, rollingPolicy);
     }
 }

@@ -8,7 +8,7 @@ import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 /**
@@ -18,11 +18,11 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  * @since : 2021/12/12
  */
 public class LogbackModule extends AbstractLogback {
-    private final LoggerProperties properties;
+    private final LoggerConfig config;
     private final LoggerContext lc;
 
-    public LogbackModule(LoggerProperties properties, LoggerContext lc) {
-        this.properties = properties;
+    public LogbackModule(LoggerConfig config, LoggerContext lc) {
+        this.config = config;
         this.lc = lc;
     }
 
@@ -45,13 +45,13 @@ public class LogbackModule extends AbstractLogback {
         // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
-        logger.setLevel(Level.toLevel(properties.getModule().getLevel().toString()));
+        logger.setLevel(Level.toLevel(config.getModule().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = LogbackRollingFileAppender.create(properties, lc, commonKeys);
+        AbstractAppender appender = LogbackRollingFileAppender.create(config, lc, commonKeys);
         // 是否开启异步日志
-        if (properties.getAppender().getAsync().isEnabled()) {
+        if (config.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(properties, lc);
+            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(config, lc);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }
@@ -84,9 +84,9 @@ public class LogbackModule extends AbstractLogback {
                 logger.addAppender(appender.build(Level.TRACE));
             }
         }
-        if (properties.getModule().isConsole()) {
+        if (config.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(LogbackConsoleAppender.create(properties, lc).build(logger.getLevel()));
+            logger.addAppender(LogbackConsoleAppender.create(config, lc).build(logger.getLevel()));
         }
 
         return logger;

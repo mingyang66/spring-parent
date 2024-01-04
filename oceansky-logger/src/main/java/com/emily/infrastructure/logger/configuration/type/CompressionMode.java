@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.common;
+package com.emily.infrastructure.logger.configuration.type;
 
 /**
  * ---------------------------------------------

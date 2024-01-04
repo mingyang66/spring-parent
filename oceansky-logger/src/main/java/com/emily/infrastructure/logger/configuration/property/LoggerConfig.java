@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger.configuration.property;
 
 
-import com.emily.infrastructure.logger.common.CompressionMode;
+import com.emily.infrastructure.logger.configuration.type.CompressionMode;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 import org.slf4j.event.Level;
 

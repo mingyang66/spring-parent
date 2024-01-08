@@ -4,7 +4,6 @@ import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.entity.BaseResponseBuilder;
 import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.emily.infrastructure.json.JsonUtils;
 import org.springframework.core.MethodParameter;
@@ -97,7 +96,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
         }
 
         //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
-        BaseResponseBuilder<Object> builder = new BaseResponseBuilder<>()
+        BaseResponse.Builder<Object> builder = BaseResponse.newBuilder()
                 .withStatus(HttpStatusType.OK.getStatus())
                 .withMessage(HttpStatusType.OK.getMessage());
         // 如果返回值是void类型，则直接返回BaseResponse空对象

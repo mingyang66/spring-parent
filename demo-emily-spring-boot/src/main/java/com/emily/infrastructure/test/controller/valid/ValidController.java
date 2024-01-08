@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.plugin.valid;
+package com.emily.infrastructure.test.controller.valid;
 
 import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +22,11 @@ public class ValidController {
 
     @PostMapping("test2")
     public void testValid2(@Validated @RequestBody BeforeDate strAn) {
+        System.out.println("---" + RequestUtils.getClientIp());
+    }
+
+    @PostMapping("length")
+    public void testLength(@Validated @RequestBody LengthReq strAn) {
         System.out.println("---" + RequestUtils.getClientIp());
     }
 }

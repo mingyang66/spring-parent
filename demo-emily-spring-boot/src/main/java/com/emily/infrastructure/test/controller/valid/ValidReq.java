@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.plugin.valid;
+package com.emily.infrastructure.test.controller.valid;
 
 import com.emily.infrastructure.autoconfigure.valid.annotation.*;
 import com.emily.infrastructure.date.DatePatternInfo;

@@ -6,7 +6,6 @@ import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import feign.RequestInterceptor;
@@ -31,7 +30,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         //请求header设置事务ID
         template.header(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //封装异步日志信息
-        BaseLoggerBuilder builder = BaseLogger.newBuilder()
+        BaseLogger.Builder builder = BaseLogger.newBuilder()
                 //事务唯一编号
                 .withTraceId(LocalContextHolder.current().getTraceId())
                 //时间

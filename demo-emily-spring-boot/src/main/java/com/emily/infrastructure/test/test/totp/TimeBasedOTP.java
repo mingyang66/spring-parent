@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.test;
+package com.emily.infrastructure.test.test.totp;
 
 
 import com.eatthepath.otp.TimeBasedOneTimePasswordGenerator;
@@ -76,8 +76,7 @@ public class TimeBasedOTP {
         String key = "p3000002059";
         for (int i = 0; i < 60; i++) {
             String code = util.createTotp(key, Instant.now());
-            System.out.println(i + " " + DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS) + ":" + code);
-            System.out.println(i + " " + DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS) + ":" + util.validateTotp(key, code));
+            System.out.println(i + " " + DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS) + ":" + " " + util.validateTotp(key, code));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

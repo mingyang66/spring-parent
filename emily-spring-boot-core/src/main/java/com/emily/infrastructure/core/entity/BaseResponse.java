@@ -1,5 +1,11 @@
 package com.emily.infrastructure.core.entity;
 
+import com.emily.infrastructure.core.constant.HeaderInfo;
+import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.language.convert.LanguageMap;
+import com.emily.infrastructure.language.convert.LanguageType;
+
 import java.io.Serializable;
 
 /**
@@ -13,26 +19,6 @@ public class BaseResponse<T> implements Serializable {
     private String message;
     private T data;
     private long spentTime;
-
-    public BaseResponse() {
-        super();
-    }
-
-    public BaseResponse(int status, String message) {
-        this.status = status;
-        this.message = message;
-    }
-
-    public BaseResponse(int status, String message, T data) {
-        this(status, message);
-        this.data = data;
-    }
-
-    public BaseResponse(int status, String message, T data, long spentTime) {
-        this(status, message, data);
-        this.spentTime = spentTime;
-    }
-
 
     public int getStatus() {
         return status;
@@ -66,7 +52,47 @@ public class BaseResponse<T> implements Serializable {
         this.spentTime = spentTime;
     }
 
-    public static <T> BaseResponseBuilder<T> newBuilder() {
-        return new BaseResponseBuilder<T>();
+    public static class Builder<T> {
+        private int status;
+        private String message;
+        private T data;
+        private long spentTime;
+
+        public Builder<T> withStatus(int status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder<T> withMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder<T> withData(T data) {
+            this.data = data;
+            return this;
+        }
+
+        public Builder<T> withSpentTime(long spentTime) {
+            this.spentTime = spentTime;
+            return this;
+        }
+
+        public BaseResponse<T> build() {
+            if (RequestUtils.isServlet()) {
+                this.spentTime = LocalContextHolder.current().getSpentTime();
+                this.message = LanguageMap.acquire(message, LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)));
+            }
+            BaseResponse response = new BaseResponse();
+            response.setStatus(status);
+            response.setMessage(message);
+            response.setData(data);
+            response.setSpentTime(spentTime);
+            return response;
+        }
+    }
+
+    public static <T> Builder<T> newBuilder() {
+        return new Builder<T>();
     }
 }

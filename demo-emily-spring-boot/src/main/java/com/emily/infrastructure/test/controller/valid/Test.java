@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.plugin.valid;
+package com.emily.infrastructure.test.controller.valid;
 
 /**
  * @author :  姚明洋

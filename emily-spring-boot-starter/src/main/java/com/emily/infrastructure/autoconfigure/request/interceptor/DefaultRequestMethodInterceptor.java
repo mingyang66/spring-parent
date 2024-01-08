@@ -7,7 +7,6 @@ import com.emily.infrastructure.core.context.holder.ContextTransmitter;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseLoggerBuilder;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.BasicException;
 import com.emily.infrastructure.core.exception.HttpStatusType;
@@ -47,7 +46,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         //备份、设置当前阶段标识
         ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
         //封装异步日志信息
-        BaseLoggerBuilder builder = BaseLogger.newBuilder();
+        BaseLogger.Builder builder = BaseLogger.newBuilder();
         try {
             //系统编号
             builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
@@ -117,7 +116,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     /**
      * 对返回是ResponseEntity类型异常类型特殊处理，如：404 Not Fund接口处理
      */
-    private Object handleException(Object response, BaseLoggerBuilder builder) {
+    private Object handleException(Object response, BaseLogger.Builder builder) {
         ResponseEntity<?> entity = ((ResponseEntity<?>) response);
         if (entity.getStatusCode().is2xxSuccessful()) {
             return entity;

@@ -14,12 +14,11 @@ import java.util.Objects;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsIncludeDoubleValidator implements ConstraintValidator<IsIncludeDouble, Object> {
-    private boolean required;
+
     private double[] includes;
 
     @Override
     public void initialize(IsIncludeDouble annotation) {
-        required = annotation.required();
         includes = annotation.includes();
     }
 
@@ -32,15 +31,8 @@ public class IsIncludeDoubleValidator implements ConstraintValidator<IsIncludeDo
      */
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (Objects.isNull(value)) {
-                return false;
-            }
-        } else {
-            if (Objects.isNull(value)) {
-                return true;
-            }
+        if (Objects.isNull(value)) {
+            return true;
         }
         try {
             if (value instanceof Double) {

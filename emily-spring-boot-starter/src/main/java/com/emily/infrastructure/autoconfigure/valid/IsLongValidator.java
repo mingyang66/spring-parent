@@ -12,11 +12,10 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsLongValidator implements ConstraintValidator<IsLong, String> {
-    private boolean required;
 
     @Override
     public void initialize(IsLong annotation) {
-        required = annotation.required();
+
     }
 
     /**
@@ -28,15 +27,8 @@ public class IsLongValidator implements ConstraintValidator<IsLong, String> {
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (StringUtils.isBlank(value)) {
-                return false;
-            }
-        } else {
-            if (StringUtils.isBlank(value)) {
-                return true;
-            }
+        if (StringUtils.isBlank(value)) {
+            return true;
         }
         try {
             // 格式校验

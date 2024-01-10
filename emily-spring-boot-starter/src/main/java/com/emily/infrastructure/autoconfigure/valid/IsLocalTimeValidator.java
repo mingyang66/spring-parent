@@ -15,12 +15,10 @@ import java.time.format.DateTimeFormatter;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsLocalTimeValidator implements ConstraintValidator<IsLocalTime, String> {
-    private boolean required;
     private String pattern;
 
     @Override
     public void initialize(IsLocalTime annotation) {
-        required = annotation.required();
         pattern = annotation.pattern();
     }
 
@@ -33,15 +31,8 @@ public class IsLocalTimeValidator implements ConstraintValidator<IsLocalTime, St
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (StringUtils.isBlank(value)) {
-                return false;
-            }
-        } else {
-            if (StringUtils.isBlank(value)) {
-                return true;
-            }
+        if (StringUtils.isBlank(value)) {
+            return true;
         }
         // 格式校验
         if (StringUtils.isBlank(pattern)) {

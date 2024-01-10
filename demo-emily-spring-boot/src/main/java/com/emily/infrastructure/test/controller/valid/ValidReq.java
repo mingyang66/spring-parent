@@ -10,9 +10,9 @@ import org.hibernate.validator.constraints.Range;
  * @since :  2023/12/24 1:41 PM
  */
 public class ValidReq {
-    @IsLocalTime(message = "日期格式不正确1", pattern = DatePatternInfo.HH_MM_SS, required = false)
+    @IsLocalTime(message = "日期格式不正确1", pattern = DatePatternInfo.HH_MM_SS)
     private String name;
-    @IsIncludeString(includes = {"1", "2", "3", ""}, message = "年龄不正确", required = false)
+    @IsIncludeString(includes = {"1", "2", "3", ""}, message = "年龄不正确")
     private String age;
     @IsIncludeInt(includes = {4, 5, 6, 2147483647}, message = "高度不正确")
     private int height;
@@ -20,17 +20,17 @@ public class ValidReq {
     private long id;
     @IsIncludeDouble(includes = {1.0, 2.0}, message = "价格不正确")
     private double price;
-    @IsDouble(message = "交易价格不正确", required = false)
+    @IsDouble(message = "交易价格不正确")
     private String tradePrice;
-    @IsInt(message = "购买数量不正确", required = false)
+    @IsInt(message = "购买数量不正确")
     private String buyAmount;
-    @IsLong(message = "总金额不正确", required = false)
+    @IsLong(message = "总金额不正确")
     private String totalAmount;
-    @IsBigDecimal(message = "金额不正确", required = false)
+    @IsBigDecimal(message = "金额不正确")
     private String bigDecimal;
-    @IsSuffix(suffixes = {"21", "22"}, message = "用户名不正确", required = false)
+    @IsSuffix(suffixes = {"21", "22"}, message = "用户名不正确")
     private String username;
-    @IsPrefix(prefixes = {"10", "20"}, message = "账号不正确", required = false)
+    @IsPrefix(prefixes = {"10", "20"}, message = "账号不正确")
     private String accountCode;
     @Length(min = 1, max = 5, message = "长度不正确")
     private String len;

@@ -34,11 +34,6 @@ public @interface IsLocalDateTime {
     Class<? extends Payload>[] payload() default {};
 
     /**
-     * 值是否必须，true为必须，false为非必须
-     */
-    boolean required() default true;
-
-    /**
      * 验证日期格式
      */
     String pattern() default "";

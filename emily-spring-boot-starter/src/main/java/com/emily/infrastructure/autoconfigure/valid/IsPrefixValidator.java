@@ -12,12 +12,10 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsPrefixValidator implements ConstraintValidator<IsPrefix, String> {
-    private boolean required;
     private String[] prefixes;
 
     @Override
     public void initialize(IsPrefix annotation) {
-        required = annotation.required();
         prefixes = annotation.prefixes();
     }
 
@@ -30,15 +28,8 @@ public class IsPrefixValidator implements ConstraintValidator<IsPrefix, String> 
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (StringUtils.isBlank(value)) {
-                return false;
-            }
-        } else {
-            if (StringUtils.isBlank(value)) {
-                return true;
-            }
+        if (StringUtils.isBlank(value)) {
+            return true;
         }
         try {
             if (StringUtils.startsWithAny(value, prefixes)) {

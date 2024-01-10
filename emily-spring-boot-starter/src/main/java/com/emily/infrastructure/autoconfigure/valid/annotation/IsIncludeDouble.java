@@ -38,10 +38,5 @@ public @interface IsIncludeDouble {
 
     Class<? extends Payload>[] payload() default {};
 
-    /**
-     * 值是否必须，true为必须，false为非必须
-     */
-    boolean required() default true;
-
     double[] includes() default {};
 }

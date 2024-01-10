@@ -12,11 +12,9 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> {
-    private boolean required;
 
     @Override
     public void initialize(IsDouble annotation) {
-        required = annotation.required();
     }
 
     /**
@@ -28,15 +26,8 @@ public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> 
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (StringUtils.isBlank(value)) {
-                return false;
-            }
-        } else {
-            if (StringUtils.isBlank(value)) {
-                return true;
-            }
+        if (StringUtils.isBlank(value)) {
+            return true;
         }
         try {
             // 格式校验

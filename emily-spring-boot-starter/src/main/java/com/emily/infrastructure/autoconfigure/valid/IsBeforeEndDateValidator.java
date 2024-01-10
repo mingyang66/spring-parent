@@ -24,7 +24,6 @@ public class IsBeforeEndDateValidator implements ConstraintValidator<IsBeforeEnd
     private String pattern;
     private boolean inclusive;
     private IsBeforeEndDate.DateType dateType;
-    private boolean required;
 
     @Override
     public void initialize(IsBeforeEndDate annotation) {
@@ -33,7 +32,6 @@ public class IsBeforeEndDateValidator implements ConstraintValidator<IsBeforeEnd
         pattern = annotation.pattern();
         inclusive = annotation.inclusive();
         dateType = annotation.dateType();
-        required = annotation.required();
     }
 
     @Override
@@ -50,14 +48,8 @@ public class IsBeforeEndDateValidator implements ConstraintValidator<IsBeforeEnd
                     endDate = field.get(obj);
                 }
             }
-            if (required) {
-                if (startDate == null || endDate == null) {
-                    return false;
-                }
-            } else {
-                if (startDate == null || endDate == null) {
-                    return true;
-                }
+            if (startDate == null || endDate == null) {
+                return true;
             }
 
             if (startDate instanceof LocalDate && endDate instanceof LocalDate) {

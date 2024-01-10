@@ -12,12 +12,10 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsSuffixValidator implements ConstraintValidator<IsSuffix, String> {
-    private boolean required;
     private String[] suffixes;
 
     @Override
     public void initialize(IsSuffix annotation) {
-        required = annotation.required();
         suffixes = annotation.suffixes();
     }
 
@@ -30,15 +28,8 @@ public class IsSuffixValidator implements ConstraintValidator<IsSuffix, String> 
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (StringUtils.isBlank(value)) {
-                return false;
-            }
-        } else {
-            if (StringUtils.isBlank(value)) {
-                return true;
-            }
+        if (StringUtils.isBlank(value)) {
+            return true;
         }
         try {
             if (StringUtils.endsWithAny(value, suffixes)) {

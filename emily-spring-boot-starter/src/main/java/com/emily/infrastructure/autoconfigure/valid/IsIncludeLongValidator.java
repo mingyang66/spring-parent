@@ -14,12 +14,10 @@ import java.util.Objects;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsIncludeLongValidator implements ConstraintValidator<IsIncludeLong, Object> {
-    private boolean required;
     private long[] includes;
 
     @Override
     public void initialize(IsIncludeLong annotation) {
-        required = annotation.required();
         includes = annotation.includes();
     }
 
@@ -32,15 +30,8 @@ public class IsIncludeLongValidator implements ConstraintValidator<IsIncludeLong
      */
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // 必传校验
-        if (required) {
-            if (Objects.isNull(value)) {
-                return false;
-            }
-        } else {
-            if (Objects.isNull(value)) {
-                return true;
-            }
+        if (Objects.isNull(value)) {
+            return true;
         }
         try {
             if (value instanceof Long) {

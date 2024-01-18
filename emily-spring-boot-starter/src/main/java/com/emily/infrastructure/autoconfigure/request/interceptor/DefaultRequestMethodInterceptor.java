@@ -46,18 +46,8 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         //备份、设置当前阶段标识
         ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
         //封装异步日志信息
-        BaseLogger.Builder builder = BaseLogger.newBuilder();
+        BaseLogger.Builder builder = BaseLogger.newBuilder().withRequestParams(ServletHelper.getApiArgs(invocation));
         try {
-            //系统编号
-            builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
-                    //事务唯一编号
-                    .withTraceId(LocalContextHolder.current().getTraceId())
-                    //时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    //请求url
-                    .withUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
-                    //请求参数
-                    .withRequestParams(ServletHelper.getApiArgs(invocation));
             //调用真实的action方法
             Object response = invocation.proceed();
             //返回数据不存在
@@ -66,10 +56,12 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             }
             if (response instanceof ResponseEntity) {
                 response = handleException(response, builder);
+                // 获取响应体
+                builder.withBody(SensitiveUtils.acquireElseGet(((ResponseEntity) response).getBody()));
+            } else {
+                // 获取响应体
+                builder.withBody(SensitiveUtils.acquireElseGet(response));
             }
-            //设置响应结果
-            builder.withBody(SensitiveUtils.acquireElseGet(response));
-
             return response;
         } catch (Exception ex) {
             if (ex instanceof BasicException) {
@@ -90,21 +82,26 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             }
             throw ex;
         } finally {
-            //客户端IP
-            builder.withClientIp(LocalContextHolder.current().getClientIp())
+            builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
+                    //事务唯一编号
+                    .withTraceId(LocalContextHolder.current().getTraceId())
+                    //时间
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    //客户端IP
+                    .withClientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
                     .withServerIp(LocalContextHolder.current().getServerIp())
+                    //请求URL
+                    .withUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
                     //版本类型
                     .withAppType(LocalContextHolder.current().getAppType())
                     //版本号
                     .withAppVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()))
-                    //时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
+                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()));
 
             BaseLogger baseLogger = builder.build();
-            //API耗时
+            //API耗时--用于返回值耗时字段设置
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
             PrintLoggerUtils.printRequest(baseLogger);

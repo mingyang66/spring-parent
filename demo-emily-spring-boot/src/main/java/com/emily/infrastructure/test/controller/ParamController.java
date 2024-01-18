@@ -2,12 +2,11 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.core.helper.RequestUtils;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
-import com.emily.infrastructure.sensitive.SensitiveType;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +33,12 @@ public class ParamController {
         return job;
     }
 
+    @PostMapping("test2")
+    public ResponseEntity<Job> test2(@Validated @RequestBody Job job) {
+
+        return ResponseEntity.ok(job);
+    }
+
     @PostMapping("postList")
     public int postList(@RequestBody List<User> list) {
         System.out.println(JsonUtils.toJSONPrettyString(list));
@@ -58,6 +63,7 @@ public class ParamController {
 
     @PostMapping("getBody")
     public String getParam(@Validated @RequestBody Job job) {
+        job.setJobDesc("我修改了入参值");
         return "sdf";
     }
 

@@ -81,28 +81,10 @@ public class ServletHelper {
         // 请求参数&请求头
         Map<String, Object> dataMap = new LinkedHashMap<>();
         // 获取请求头
-        dataMap.put(AttributeInfo.HEADERS, getHeaders(request));
+        dataMap.put(AttributeInfo.HEADERS, RequestUtils.getHeaders(request));
         // 参数
         dataMap.put(AttributeInfo.PARAMS, paramMap);
         return dataMap;
-    }
-
-    /**
-     * @param request 请求servlet对象
-     * @return 请求头集合对象
-     * 获取请求头
-     */
-    public static Map<String, Object> getHeaders(HttpServletRequest request) {
-        Map<String, Object> headers = new LinkedHashMap<>();
-        Enumeration<String> headerNames = request.getHeaderNames();
-        Optional.ofNullable(headerNames).ifPresent(headerName -> {
-            while (headerNames.hasMoreElements()) {
-                String name = headerNames.nextElement();
-                String value = request.getHeader(name);
-                headers.put(name, value);
-            }
-        });
-        return headers;
     }
 
     /**

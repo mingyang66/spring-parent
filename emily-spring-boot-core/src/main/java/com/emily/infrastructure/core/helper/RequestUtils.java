@@ -14,6 +14,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -221,5 +224,24 @@ public class RequestUtils {
             throw new IllegalArgumentException(HttpStatusType.ILLEGAL_ARGUMENT.getMessage());
         }
         return value;
+    }
+
+    /**
+     * 获取请求头
+     *
+     * @param request 请求servlet对象
+     * @return 请求头集合对象
+     */
+    public static Map<String, Object> getHeaders(HttpServletRequest request) {
+        Map<String, Object> headers = new LinkedHashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        Optional.ofNullable(headerNames).ifPresent(headerName -> {
+            while (headerNames.hasMoreElements()) {
+                String name = headerNames.nextElement();
+                String value = request.getHeader(name);
+                headers.put(name, value);
+            }
+        });
+        return headers;
     }
 }

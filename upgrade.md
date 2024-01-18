@@ -4,7 +4,7 @@
 Bug Fixes
 
 1. com.emily.infrastructure.core.helper.ServletHelper.getMethodArgs方法参数脱敏注解处理优化；
-2.
+2. com.emily.infrastructure.core.helper.RequestUtils.getHeaders方法新增获取请求头信息；
 
 -----
 基础库发布4.4.1

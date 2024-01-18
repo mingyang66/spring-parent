@@ -139,7 +139,7 @@ public class GlobalExceptionCustomizer {
             BindingResult bindingResult = ((BindException) ex).getBindingResult();
             if (Objects.nonNull(bindingResult.getTarget())) {
                 paramsMap = Maps.newLinkedHashMap();
-                paramsMap.put(AttributeInfo.HEADERS, ServletHelper.getHeaders(request));
+                paramsMap.put(AttributeInfo.HEADERS, RequestUtils.getHeaders(request));
                 paramsMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquireElseGet(bindingResult.getTarget()));
             }
         }

@@ -1,5 +1,12 @@
 ###
 -----
+基础库发布4.4.2
+Bug Fixes
+
+1. com.emily.infrastructure.core.helper.ServletHelper.getMethodArgs方法参数脱敏注解处理优化；
+2.
+
+-----
 基础库发布4.4.1
 Bug Fixes
 

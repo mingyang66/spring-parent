@@ -206,6 +206,7 @@ public class ServletHelper {
             Object value = args[i];
             if (Objects.isNull(value)) {
                 paramMap.put(name, null);
+                continue;
             }
             if (checkServletStream(value)) {
                 continue;

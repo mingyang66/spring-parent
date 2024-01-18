@@ -2,6 +2,7 @@ package com.emily.infrastructure.test.mapper.mysql;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
+import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 import com.emily.infrastructure.test.po.World;
 import com.emily.infrastructure.test.po.json.PubResponse;
 import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
@@ -33,7 +34,7 @@ public interface MysqlMapper {
      * 查询接口
      */
     @TargetDataSource("mysql")
-    List<World> getMysql(String username, String password);
+    List<World> getMysql(@JsonSimField String username, String password);
 
     /**
      * 新增接口

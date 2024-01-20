@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.test;
+package com.emily.infrastructure.test.test.caffeine;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * @author Emily
  * @since Created in 2022/5/31 11:21 上午
  */
-public class CafeineTest {
+public class CaffeineTest {
     private static final Cache<String, Boolean> CACHE = Caffeine.newBuilder()
             .expireAfterWrite(60, TimeUnit.SECONDS)
             .build();

@@ -8,6 +8,11 @@ Bug Fixes
 3. DefaultRequestMethodInterceptor全局拦截器优化调整；
 4. DefaultMybatisMethodInterceptor全局拦截器优化调整，对获取参数先后数据做调整；
 
+------
+Dependency Upgrades
+
+1. Upgrade to springboot 3.2.2;
+
 -----
 基础库发布4.4.1
 Bug Fixes

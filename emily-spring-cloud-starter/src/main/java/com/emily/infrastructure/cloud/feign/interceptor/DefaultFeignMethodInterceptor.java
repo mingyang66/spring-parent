@@ -55,6 +55,10 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
         } finally {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.current()
+                    //事务唯一编号
+                    .withTraceId(LocalContextHolder.current().getTraceId())
+                    //时间
+                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //客户端IP
                     .withClientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP

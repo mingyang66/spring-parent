@@ -12,6 +12,7 @@ Bug Fixes
 Dependency Upgrades
 
 1. Upgrade to springboot 3.2.2;
+2. Upgrade to druid-spring-boot-3-starter 1.2.21;
 
 -----
 基础库发布4.4.1

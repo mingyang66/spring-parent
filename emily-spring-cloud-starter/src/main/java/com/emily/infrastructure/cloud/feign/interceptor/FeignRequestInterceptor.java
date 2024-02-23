@@ -31,10 +31,6 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
         template.header(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //封装异步日志信息
         BaseLogger.Builder builder = BaseLogger.newBuilder()
-                //事务唯一编号
-                .withTraceId(LocalContextHolder.current().getTraceId())
-                //时间
-                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求url
                 .withUrl(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")))
                 //请求参数

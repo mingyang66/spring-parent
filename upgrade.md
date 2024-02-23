@@ -16,6 +16,7 @@ Dependency Upgrades
 2. Upgrade to druid-spring-boot-3-starter 1.2.21;
 3. Upgrade to logback 1.5.0;
 4. Upgrade to slf4j-api 2.21.1;
+5. Upgrade to jackson 2.15.4;
 
 -----
 基础库发布4.4.1

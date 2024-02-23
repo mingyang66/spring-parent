@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.controller.valid;
 
+import com.emily.infrastructure.autoconfigure.valid.annotation.IsAccountCode;
 import com.emily.infrastructure.core.helper.RequestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +29,15 @@ public class ValidController {
     @PostMapping("length")
     public void testLength(@Validated @RequestBody LengthReq strAn) {
         System.out.println("---" + RequestUtils.getClientIp());
+    }
+
+    @PostMapping("accountCode")
+    public AccountCodeEntity testAccountCode(@Validated @RequestBody AccountCodeEntity entity) {
+        return entity;
+    }
+
+    @PostMapping("accountCodeGet")
+    public String testAccountCodeGet(@Validated @IsAccountCode(minLength = 8, type = Long.class) String accountCode) {
+        return accountCode;
     }
 }

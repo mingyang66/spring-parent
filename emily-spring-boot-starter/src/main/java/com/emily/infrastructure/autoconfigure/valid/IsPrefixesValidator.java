@@ -1,22 +1,22 @@
 package com.emily.infrastructure.autoconfigure.valid;
 
-import com.emily.infrastructure.autoconfigure.valid.annotation.IsSuffix;
+import com.emily.infrastructure.autoconfigure.valid.annotation.IsPrefixes;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 后缀 校验
+ * 前缀 校验
  *
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class IsSuffixValidator implements ConstraintValidator<IsSuffix, String> {
-    private String[] suffixes;
+public class IsPrefixesValidator implements ConstraintValidator<IsPrefixes, String> {
+    private String[] prefixes;
 
     @Override
-    public void initialize(IsSuffix annotation) {
-        suffixes = annotation.suffixes();
+    public void initialize(IsPrefixes annotation) {
+        prefixes = annotation.prefixes();
     }
 
     /**
@@ -32,7 +32,7 @@ public class IsSuffixValidator implements ConstraintValidator<IsSuffix, String> 
             return true;
         }
         try {
-            if (StringUtils.endsWithAny(value, suffixes)) {
+            if (StringUtils.startsWithAny(value, prefixes)) {
                 return true;
             }
         } catch (Exception e) {

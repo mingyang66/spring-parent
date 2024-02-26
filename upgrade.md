@@ -8,6 +8,8 @@ Bug Fixes
 3. DefaultRequestMethodInterceptor全局拦截器优化调整；
 4. DefaultMybatisMethodInterceptor全局拦截器优化调整，对获取参数先后数据做调整；
 5. 新增@IsAccountCode判定是否符合指定条件的账号参数校验注解；
+6. 注解@IsPrefix重命名为@IsPrefixes;
+7. 注解@IsSuffix重命名为@IsSuffixes;
 
 ------
 Dependency Upgrades

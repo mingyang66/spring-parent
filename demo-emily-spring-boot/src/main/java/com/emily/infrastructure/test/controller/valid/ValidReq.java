@@ -28,9 +28,9 @@ public class ValidReq {
     private String totalAmount;
     @IsBigDecimal(message = "金额不正确")
     private String bigDecimal;
-    @IsSuffix(suffixes = {"21", "22"}, message = "用户名不正确")
+    @IsSuffixes(suffixes = {"21", "22"}, message = "用户名不正确")
     private String username;
-    @IsPrefix(prefixes = {"10", "20"}, message = "账号不正确")
+    @IsPrefixes(prefixes = {"10", "20"}, message = "账号不正确")
     private String accountCode;
     @Length(min = 1, max = 5, message = "长度不正确")
     private String len;

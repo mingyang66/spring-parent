@@ -1,13 +1,13 @@
 package com.emily.infrastructure.autoconfigure.valid.annotation;
 
-import com.emily.infrastructure.autoconfigure.valid.IsPrefixValidator;
+import com.emily.infrastructure.autoconfigure.valid.IsSuffixesValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 /**
- * 校验前缀
+ * 校验后缀
  * 1. ElementType.ANNOTATION_TYPE 用户其它约束的约束注解
  * 2. ElementType.FIELD 受约束的属性字段
  * 3. ElementType.PARAMETER 用于受约束的方法和构造函数参数
@@ -19,12 +19,12 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsPrefixValidator.class})
-public @interface IsPrefix {
+@Constraint(validatedBy = {IsSuffixesValidator.class})
+public @interface IsSuffixes {
     /**
      * 提示信息
      */
-    String message() default "非法前缀";
+    String message() default "非法后缀";
 
     /**
      * 校验分组
@@ -33,5 +33,5 @@ public @interface IsPrefix {
 
     Class<? extends Payload>[] payload() default {};
 
-    String[] prefixes() default {};
+    String[] suffixes() default {};
 }

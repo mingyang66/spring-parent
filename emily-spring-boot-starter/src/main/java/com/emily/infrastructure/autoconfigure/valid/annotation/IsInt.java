@@ -33,4 +33,14 @@ public @interface IsInt {
 
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 最小值
+     */
+    int min() default Integer.MIN_VALUE;
+
+    /**
+     * 最大值
+     */
+    int max() default Integer.MAX_VALUE;
+
 }

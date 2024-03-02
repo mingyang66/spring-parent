@@ -32,4 +32,14 @@ public @interface IsLong {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    /**
+     * 最小值
+     */
+    long min() default Long.MIN_VALUE;
+
+    /**
+     * 最大值
+     */
+    long max() default Long.MAX_VALUE;
 }

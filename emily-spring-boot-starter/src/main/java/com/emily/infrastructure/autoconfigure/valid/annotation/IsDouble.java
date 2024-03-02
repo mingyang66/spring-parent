@@ -32,4 +32,14 @@ public @interface IsDouble {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    /**
+     * 最小值
+     */
+    double min() default Double.MIN_VALUE;
+
+    /**
+     * 最大值
+     */
+    double max() default Double.MAX_VALUE;
 }

@@ -12,10 +12,13 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsLongValidator implements ConstraintValidator<IsLong, String> {
+    private long min;
+    private long max;
 
     @Override
     public void initialize(IsLong annotation) {
-
+        min = annotation.min();
+        max = annotation.max();
     }
 
     /**
@@ -32,12 +35,14 @@ public class IsLongValidator implements ConstraintValidator<IsLong, String> {
         }
         try {
             // 格式校验
-            Long.parseLong(value);
+            long v = Long.parseLong(value);
+            if (v < min || v > max) {
+                return false;
+            }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
 }

@@ -20,11 +20,11 @@ public class ValidReq {
     private long id;
     @IsIncludeDouble(includes = {1.0, 2.0}, message = "价格不正确")
     private double price;
-    @IsDouble(message = "交易价格不正确")
+    @IsDouble(min = 1.1, max = 20.2, message = "交易价格不正确")
     private String tradePrice;
-    @IsInt(message = "购买数量不正确")
+    @IsInt(min = -10, max = 20, message = "购买数量不正确")
     private String buyAmount;
-    @IsLong(message = "总金额不正确")
+    @IsLong(min = 10, max = 20, message = "总金额不正确")
     private String totalAmount;
     @IsBigDecimal(message = "金额不正确")
     private String bigDecimal;

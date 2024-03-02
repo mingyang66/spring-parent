@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.test.totp;
+package com.emily.infrastructure.test.controller.otp;
 
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;

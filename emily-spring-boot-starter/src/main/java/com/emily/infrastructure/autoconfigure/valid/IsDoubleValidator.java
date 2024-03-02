@@ -12,9 +12,13 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> {
+    private double min;
+    private double max;
 
     @Override
     public void initialize(IsDouble annotation) {
+        this.min = annotation.min();
+        this.max = annotation.max();
     }
 
     /**
@@ -31,12 +35,14 @@ public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> 
         }
         try {
             // 格式校验
-            Double.parseDouble(value);
+            double v = Double.parseDouble(value);
+            if (v < min || v > max) {
+                return false;
+            }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
 }

@@ -574,6 +574,42 @@ public class DateConvertUtils {
         return LocalTime.parse(str, DateTimeFormatter.ofPattern(pattern));
     }
 
+    /**
+     * ISO-8601 格式的日期时间字符串
+     * String isoDateTimeString = "2023-01-01T12:00:00Z";
+     *
+     * @param text 日期字符串
+     * @return 日期对象
+     */
+    public static Instant toInstant(final CharSequence text) {
+        DateAssert.illegalArgument(text, "非法参数");
+        // 解析字符串为 Instant 对象
+        Instant instant = Instant.parse(text);
+        return instant;
+    }
+
+    /**
+     * 将LocalDateTime对象转换为Instant对象
+     *
+     * @param localDateTime 日期对象
+     * @return 日期对象
+     */
+    public static Instant toInstant(final LocalDateTime localDateTime) {
+        return toInstant(localDateTime, ZoneId.systemDefault());
+    }
+
+    /**
+     * 将LocalDateTime对象转换为Instant对象
+     *
+     * @param localDateTime 日期对象
+     * @param zoneId        时区ID
+     * @return 日期对象
+     */
+    public static Instant toInstant(final LocalDateTime localDateTime, ZoneId zoneId) {
+        DateAssert.illegalArgument(localDateTime, "非法参数");
+        DateAssert.illegalArgument(zoneId, "非法参数");
+        return localDateTime.atZone(zoneId).toInstant();
+    }
     //----------------------------------------------------------------combine----------------------------------------------------------------------------
 
     /**

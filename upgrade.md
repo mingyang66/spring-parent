@@ -10,6 +10,8 @@ Bug Fixes
 5. 新增@IsAccountCode判定是否符合指定条件的账号参数校验注解；
 6. 注解@IsPrefix重命名为@IsPrefixes;
 7. 注解@IsSuffix重命名为@IsSuffixes;
+8. DateConvertUtils工具类新增toInstant方法；
+9. DatePatterInfo新增常量YYYY_MM_DD_T_HH_MM_SS_Z支持ISO-8601
 
 ------
 Dependency Upgrades

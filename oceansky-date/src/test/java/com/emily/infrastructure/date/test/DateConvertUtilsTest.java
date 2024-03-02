@@ -5,10 +5,7 @@ import com.emily.infrastructure.date.DatePatternInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -152,9 +149,19 @@ public class DateConvertUtilsTest {
     @Test
     public void zoneId() {
         LocalDateTime localDateTime = LocalDateTime.of(2023, 05, 12, 13, 12, 12);
-        System.out.println(DateConvertUtils.format(localDateTime, DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
+        //System.out.println(DateConvertUtils.format(localDateTime, DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
         String s = DateConvertUtils.toLocalDateTime(localDateTime, ZoneId.of("America/New_York")).format(DateTimeFormatter.ofPattern(DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
         Assertions.assertEquals(s, "2023-05-12 01:12:12");
 
+    }
+
+    @Test
+    public void toInstant() {
+        Instant instant = DateConvertUtils.toInstant("2023-01-01T12:00:00Z");
+        Assertions.assertEquals(instant.toEpochMilli(), 1672574400000L);
+
+        LocalDateTime localDateTime = LocalDateTime.of(2023, 05, 12, 13, 12, 12);
+        Instant instant1 = DateConvertUtils.toInstant(localDateTime, ZoneId.of("America/New_York"));
+        Assertions.assertEquals(instant1.toEpochMilli(), 1683911532000L);
     }
 }

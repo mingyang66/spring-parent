@@ -13,6 +13,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -130,19 +131,17 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         recordErrorMsg(e, request);
         String message = HttpStatusType.ILLEGAL_ARGUMENT.getMessage();
         try {
-            if (e instanceof BindException ex) {
-                FieldError fieldError = ex.getFieldError();
-                if (fieldError == null) {
-                    // 实体类上注解错误消息
-                    message = ex.getGlobalError().getDefaultMessage();
-                } else {
-                    // 字段注解错误消息
-                    message = fieldError.getDefaultMessage();
-                }
-                // ValidationException的子类
+            //当用@Valid注释的参数验证失败时引发异常。从5.3起扩展BindException。
+            if (e instanceof MethodArgumentNotValidException ex) {
+                // ex.getFieldError() == null时，表示校验参数的注解标注在类上，否则就在实体类字段上
+                message = ex.getFieldError() == null ? ex.getGlobalError().getDefaultMessage() : ex.getFieldError().getDefaultMessage();
+            } else if (e instanceof BindException ex) {
+                message = ex.getFieldError() == null ? ex.getGlobalError().getDefaultMessage() : ex.getFieldError().getDefaultMessage();
             } else if (e instanceof ConstraintViolationException ex) {
-                //
+                // ValidationException的子类
                 message = ex.getConstraintViolations().stream().findFirst().get().getMessageTemplate();
+            } else if (e instanceof IllegalArgumentException ex) {
+                message = ex.getMessage();
             }
         } catch (Exception ex) {
         }

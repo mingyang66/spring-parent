@@ -2,11 +2,9 @@ package com.emily.infrastructure.test.controller.valid;
 
 import com.emily.infrastructure.autoconfigure.valid.annotation.IsAccountCode;
 import com.emily.infrastructure.core.helper.RequestUtils;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author :  Emily
@@ -39,5 +37,10 @@ public class ValidController {
     @PostMapping("accountCodeGet")
     public String testAccountCodeGet(@Validated @IsAccountCode(minLength = 8, type = Long.class) String accountCode) {
         return accountCode;
+    }
+
+    @GetMapping("testIllegally")
+    public void testIllegally(@Validated @NotEmpty(message = "账号不可为空") String accountCode) {
+        throw new IllegalArgumentException("非法用户数据");
     }
 }

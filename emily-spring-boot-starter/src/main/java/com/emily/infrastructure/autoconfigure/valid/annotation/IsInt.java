@@ -43,4 +43,11 @@ public @interface IsInt {
      */
     int max() default Integer.MAX_VALUE;
 
+    /**
+     * 允许特殊的值
+     *
+     * @return 特殊值列表
+     */
+    String[] allows() default {};
+
 }

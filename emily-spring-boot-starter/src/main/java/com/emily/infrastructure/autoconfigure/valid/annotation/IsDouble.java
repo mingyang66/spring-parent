@@ -42,4 +42,11 @@ public @interface IsDouble {
      * 最大值
      */
     double max() default Double.MAX_VALUE;
+
+    /**
+     * 允许特殊的值
+     *
+     * @return 特殊值列表
+     */
+    String[] allows() default {};
 }

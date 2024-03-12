@@ -5,6 +5,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * long 校验
  *
@@ -14,11 +17,13 @@ import org.apache.commons.lang3.StringUtils;
 public class IsLongValidator implements ConstraintValidator<IsLong, String> {
     private long min;
     private long max;
+    private List<String> allows;
 
     @Override
     public void initialize(IsLong annotation) {
         min = annotation.min();
         max = annotation.max();
+        this.allows = Arrays.asList(annotation.allows());
     }
 
     /**
@@ -34,6 +39,10 @@ public class IsLongValidator implements ConstraintValidator<IsLong, String> {
             return true;
         }
         try {
+            long count = allows.stream().filter(f -> f.equals(value)).count();
+            if (count > 0) {
+                return true;
+            }
             // 格式校验
             long v = Long.parseLong(value);
             if (v < min || v > max) {

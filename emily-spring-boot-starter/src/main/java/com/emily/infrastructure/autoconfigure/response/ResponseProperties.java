@@ -11,8 +11,8 @@ import java.util.List;
  * @author Emily
  * @since 2020/03/25
  */
-@ConfigurationProperties(prefix = ResponseWrapperProperties.PREFIX)
-public class ResponseWrapperProperties {
+@ConfigurationProperties(prefix = ResponseProperties.PREFIX)
+public class ResponseProperties {
     /**
      * 属性配置
      */

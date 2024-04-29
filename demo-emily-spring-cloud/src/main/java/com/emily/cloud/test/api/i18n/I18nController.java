@@ -1,6 +1,6 @@
 package com.emily.cloud.test.api.i18n;
 
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -18,7 +18,7 @@ public class I18nController {
     @Autowired
     private MessageSource messageSource;
 
-    @ApiResponseWrapperIgnore
+    @ApiResponsePackIgnore
     @GetMapping("/i18n/test")
     public String test2() {
         return "success-" + messageSource.getMessage("spring.emily.username", new String[]{"1", "2"}, LocaleContextHolder.getLocale());

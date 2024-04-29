@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.response.handler;
 
-import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.ResponseProperties;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseResponse;
@@ -24,10 +24,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
     private HandlerMethodReturnValueHandler proxyObject;
-    private ResponseWrapperProperties properties;
+    private ResponseProperties properties;
     //private PathMatcher pathMatcher;
 
-    public ResponseMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ResponseWrapperProperties properties) {
+    public ResponseMethodReturnValueHandler(HandlerMethodReturnValueHandler proxyObject, ResponseProperties properties) {
         this.proxyObject = proxyObject;
         this.properties = properties;
         //this.pathMatcher = new PathMatcher(ArrayUtils.addAll(this.returnValueProperties.getExclude().toArray(new String[]{}), PathUrls.DEFAULT_EXCLUDE_URL));
@@ -44,8 +44,8 @@ public class ResponseMethodReturnValueHandler implements HandlerMethodReturnValu
         //标注该请求已经在当前处理程序处理过
         mavContainer.setRequestHandled(true);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)
-                || returnType.getContainingClass().isAnnotationPresent(ApiResponseWrapperIgnore.class)
+        if (returnType.hasMethodAnnotation(ApiResponsePackIgnore.class)
+                || returnType.getContainingClass().isAnnotationPresent(ApiResponsePackIgnore.class)
                 || RegexPathMatcher.matcherAny(properties.getExclude(), request.getRequestURI())) {
             proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else if (null != returnValue && (returnValue instanceof BaseResponse)) {

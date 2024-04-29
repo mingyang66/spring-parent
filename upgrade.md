@@ -14,11 +14,12 @@ Bug Fixes
 9. DatePatterInfo新增常量YYYY_MM_DD_T_HH_MM_SS_Z支持ISO-8601;
 10. springboot自定义注解@IsInt、@IsLong、@IsDouble新增min、max参数，支持最小值和最大值；
 11. 注解@IsInt、@IsLong、@IsDouble新增allows参数，支持特例值；
+12. 修改返回值包装类名及注解名；
 
 ------
 Dependency Upgrades
 
-1. Upgrade to springboot 3.2.3;
+1. Upgrade to springboot 3.2.5;
 2. Upgrade to druid-spring-boot-3-starter 1.2.21;
 3. Upgrade to logback 1.5.0;
 4. Upgrade to slf4j-api 2.21.1;

@@ -1,5 +1,5 @@
 com.emily.infrastructure.autoconfigure.request.RequestAutoConfiguration
-com.emily.infrastructure.autoconfigure.response.ResponseWrapperAutoConfiguration
+com.emily.infrastructure.autoconfigure.response.ResponseAutoConfiguration
 com.emily.infrastructure.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration
 com.emily.infrastructure.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration
 com.emily.infrastructure.autoconfigure.servlet.ServletAutoConfiguration

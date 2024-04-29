@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.PropertiesUtils;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.helper.RequestUtils;
@@ -38,13 +38,13 @@ public class ResponseController {
     }
 
     @GetMapping("ignore")
-    @ApiResponseWrapperIgnore
+    @ApiResponsePackIgnore
     public String ignore() {
         return "ignore";
     }
 
     @GetMapping("ignoreException")
-    @ApiResponseWrapperIgnore
+    @ApiResponsePackIgnore
     public String ignoreException() {
         throw new IllegalArgumentException("非法参数");
     }

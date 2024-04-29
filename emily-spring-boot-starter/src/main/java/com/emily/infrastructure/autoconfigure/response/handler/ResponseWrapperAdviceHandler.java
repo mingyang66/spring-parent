@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.response.handler;
 
-import com.emily.infrastructure.autoconfigure.response.ResponseWrapperProperties;
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.ResponseProperties;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.core.exception.HttpStatusType;
@@ -38,9 +38,9 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
      */
     public static final String APPLICATION_ACTUATOR_JSON = "application/vnd.spring-boot.actuator.v3+json";
 
-    private final ResponseWrapperProperties properties;
+    private final ResponseProperties properties;
 
-    public ResponseWrapperAdviceHandler(ResponseWrapperProperties properties) {
+    public ResponseWrapperAdviceHandler(ResponseProperties properties) {
         this.properties = properties;
     }
 
@@ -78,7 +78,7 @@ public class ResponseWrapperAdviceHandler implements ResponseBodyAdvice<Object> 
             return body;
         }
         // 如果控制器上标注类忽略包装注解，则直接返回
-        else if (returnType.hasMethodAnnotation(ApiResponseWrapperIgnore.class)) {
+        else if (returnType.hasMethodAnnotation(ApiResponsePackIgnore.class)) {
             return body;
         }
         // 如果请求URL在指定的排除URL集合，则直接返回

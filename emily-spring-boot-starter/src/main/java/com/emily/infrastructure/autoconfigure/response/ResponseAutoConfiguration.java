@@ -31,11 +31,11 @@ import java.util.stream.Collectors;
  * @since 1.0
  */
 @AutoConfiguration(after = WebMvcAutoConfiguration.class)
-@EnableConfigurationProperties(ResponseWrapperProperties.class)
-@ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class ResponseWrapperAutoConfiguration implements InitializingBean, DisposableBean {
+@EnableConfigurationProperties(ResponseProperties.class)
+@ConditionalOnProperty(prefix = ResponseProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class ResponseAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(ResponseWrapperAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResponseAutoConfiguration.class);
     /**
      * 默认排除路由地址
      */
@@ -54,8 +54,8 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
      * @return 自定义字符串对象
      */
     @Bean
-    @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-adapter", havingValue = "true")
-    public Object initResponseWrapper(RequestMappingHandlerAdapter handlerAdapter, ResponseWrapperProperties properties) {
+    @ConditionalOnProperty(prefix = ResponseProperties.PREFIX, name = "enabled-adapter", havingValue = "true")
+    public Object initResponseWrapper(RequestMappingHandlerAdapter handlerAdapter, ResponseProperties properties) {
         properties.getExclude().addAll(defaultExclude);
         List<HandlerMethodReturnValueHandler> handlers = handlerAdapter.getReturnValueHandlers().stream().map(valueHandler -> {
             if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
@@ -81,8 +81,8 @@ public class ResponseWrapperAutoConfiguration implements InitializingBean, Dispo
      * @return 请求响应AOP切面
      */
     @Bean
-    @ConditionalOnProperty(prefix = ResponseWrapperProperties.PREFIX, name = "enabled-advice", havingValue = "true", matchIfMissing = true)
-    public ResponseWrapperAdviceHandler responseWrapperAdviceHandler(ResponseWrapperProperties properties) {
+    @ConditionalOnProperty(prefix = ResponseProperties.PREFIX, name = "enabled-advice", havingValue = "true", matchIfMissing = true)
+    public ResponseWrapperAdviceHandler responseWrapperAdviceHandler(ResponseProperties properties) {
         properties.getExclude().addAll(defaultExclude);
         return new ResponseWrapperAdviceHandler(properties);
     }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponseWrapperIgnore;
+import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.autoconfigure.servlet.interceptor.ParameterInterceptor;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
@@ -67,7 +67,7 @@ public class GlobalExceptionCustomizer {
         if (Objects.nonNull(handlerMethod)) {
             // 获取控制器方法
             Method method = handlerMethod.getMethod();
-            if (method.isAnnotationPresent(ApiResponseWrapperIgnore.class)) {
+            if (method.isAnnotationPresent(ApiResponsePackIgnore.class)) {
                 return message;
             }
         }

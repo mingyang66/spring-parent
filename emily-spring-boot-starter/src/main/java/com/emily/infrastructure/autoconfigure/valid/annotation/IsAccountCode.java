@@ -30,6 +30,8 @@ import java.lang.annotation.*;
 public @interface IsAccountCode {
     /**
      * 提示信息
+     *
+     * @return 提示信息
      */
     String message() default "非法账号";
 
@@ -42,21 +44,29 @@ public @interface IsAccountCode {
 
     /**
      * 前缀
+     *
+     * @return 前缀
      */
     String[] prefixes() default {};
 
     /**
      * 后缀
+     *
+     * @return 后缀
      */
     String[] suffixes() default {};
 
     /**
      * 最小长度
+     *
+     * @return 最小长度
      */
     int minLength() default 0;
 
     /**
      * 最大长度
+     *
+     * @return 最大长度
      */
     int maxLength() default 0;
 

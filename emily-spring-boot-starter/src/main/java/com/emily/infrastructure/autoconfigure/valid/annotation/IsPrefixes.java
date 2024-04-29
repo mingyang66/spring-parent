@@ -33,5 +33,10 @@ public @interface IsPrefixes {
 
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 校验前缀
+     *
+     * @return 前缀数组
+     */
     String[] prefixes() default {};
 }

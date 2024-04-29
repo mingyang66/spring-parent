@@ -36,7 +36,7 @@ public @interface IsDouble {
     /**
      * 最小值
      */
-    double min() default Double.MIN_VALUE;
+    double min() default -Double.MAX_VALUE;
 
     /**
      * 最大值

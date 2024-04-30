@@ -20,7 +20,7 @@ public class ValidReq {
     private long id;
     @IsIncludeDouble(values = {1.0, 2.0}, message = "价格不正确")
     private double price;
-    @IsDouble(min = 1.1, max = 20.2, allows = {"市价"}, message = "交易价格不正确")
+    @IsDouble(min = 1.1, max = 20.2, values = {"市价"}, message = "交易价格不正确")
     private String tradePrice;
     @IsInt(min = -10, max = 20, values = {"特例"}, message = "购买数量不正确")
     private String buyAmount;
@@ -28,9 +28,9 @@ public class ValidReq {
     private String totalAmount;
     @IsBigDecimal(message = "金额不正确")
     private String bigDecimal;
-    @IsSuffixes(suffixes = {"21", "22"}, message = "用户名不正确")
+    @IsSuffixes(values = {"21", "22"}, message = "用户名不正确")
     private String username;
-    @IsPrefixes(prefixes = {"10", "20"}, message = "账号不正确")
+    @IsPrefixes(values = {"10", "20"}, message = "账号不正确")
     private String accountCode;
     @Length(min = 1, max = 5, message = "长度不正确")
     private String len;

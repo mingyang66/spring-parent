@@ -14,11 +14,11 @@ import java.util.Objects;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsIncludeIntValidator implements ConstraintValidator<IsIncludeInt, Object> {
-    private int[] includes;
+    private int[] values;
 
     @Override
     public void initialize(IsIncludeInt annotation) {
-        includes = annotation.includes();
+        values = annotation.values();
     }
 
     /**
@@ -35,7 +35,7 @@ public class IsIncludeIntValidator implements ConstraintValidator<IsIncludeInt, 
         }
         try {
             if (value instanceof Integer) {
-                return Arrays.stream(includes).anyMatch(i -> i == (int) value);
+                return Arrays.stream(values).anyMatch(i -> i == (int) value);
             }
         } catch (Exception e) {
             e.printStackTrace();

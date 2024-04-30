@@ -48,5 +48,5 @@ public @interface IsDouble {
      *
      * @return 特殊值列表
      */
-    String[] allows() default {};
+    String[] values() default {};
 }

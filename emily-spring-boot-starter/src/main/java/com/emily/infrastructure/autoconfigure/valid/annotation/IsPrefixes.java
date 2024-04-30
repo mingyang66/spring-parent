@@ -38,5 +38,5 @@ public @interface IsPrefixes {
      *
      * @return 前缀数组
      */
-    String[] prefixes() default {};
+    String[] values() default {};
 }

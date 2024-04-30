@@ -15,6 +15,7 @@ Bug Fixes
 10. springboot自定义注解@IsInt、@IsLong、@IsDouble新增min、max参数，支持最小值和最大值；
 11. 注解@IsInt、@IsLong、@IsDouble新增allows参数，支持特例值；
 12. 修改返回值包装类名及注解名；
+13. 自定义注解优化调整；
 
 ------
 Dependency Upgrades

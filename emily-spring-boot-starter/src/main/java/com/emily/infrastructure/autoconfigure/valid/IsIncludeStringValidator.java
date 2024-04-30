@@ -14,11 +14,11 @@ import java.util.Objects;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsIncludeStringValidator implements ConstraintValidator<IsIncludeString, Object> {
-    private String[] includes;
+    private String[] values;
 
     @Override
     public void initialize(IsIncludeString annotation) {
-        includes = annotation.includes();
+        values = annotation.values();
     }
 
     /**
@@ -35,7 +35,7 @@ public class IsIncludeStringValidator implements ConstraintValidator<IsIncludeSt
         }
         try {
             if (value instanceof String) {
-                return Arrays.asList(includes).contains((String) value);
+                return Arrays.asList(values).contains((String) value);
             }
         } catch (Exception e) {
             e.printStackTrace();

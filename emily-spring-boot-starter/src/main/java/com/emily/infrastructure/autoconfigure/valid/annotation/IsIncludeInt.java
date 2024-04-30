@@ -38,6 +38,11 @@ public @interface IsIncludeInt {
 
     Class<? extends Payload>[] payload() default {};
 
-    int[] includes() default {};
+    /**
+     * 包含的值
+     *
+     * @return 包含的值
+     */
+    int[] values() default {};
 
 }

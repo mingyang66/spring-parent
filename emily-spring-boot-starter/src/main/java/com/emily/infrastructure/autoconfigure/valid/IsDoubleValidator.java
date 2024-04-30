@@ -17,13 +17,13 @@ import java.util.List;
 public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> {
     private double min;
     private double max;
-    private List<String> allows;
+    private List<String> values;
 
     @Override
     public void initialize(IsDouble annotation) {
         this.min = annotation.min();
         this.max = annotation.max();
-        this.allows = Arrays.asList(annotation.allows());
+        this.values = Arrays.asList(annotation.values());
     }
 
     /**
@@ -39,7 +39,7 @@ public class IsDoubleValidator implements ConstraintValidator<IsDouble, String> 
             return true;
         }
         try {
-            long count = allows.stream().filter(f -> f.equals(value)).count();
+            long count = values.stream().filter(f -> f.equals(value)).count();
             if (count > 0) {
                 return true;
             }

@@ -12,11 +12,11 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsSuffixesValidator implements ConstraintValidator<IsSuffixes, String> {
-    private String[] suffixes;
+    private String[] values;
 
     @Override
     public void initialize(IsSuffixes annotation) {
-        suffixes = annotation.suffixes();
+        values = annotation.values();
     }
 
     /**
@@ -32,7 +32,7 @@ public class IsSuffixesValidator implements ConstraintValidator<IsSuffixes, Stri
             return true;
         }
         try {
-            if (StringUtils.endsWithAny(value, suffixes)) {
+            if (StringUtils.endsWithAny(value, values)) {
                 return true;
             }
         } catch (Exception e) {

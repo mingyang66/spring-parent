@@ -14,11 +14,11 @@ import java.util.Objects;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsIncludeLongValidator implements ConstraintValidator<IsIncludeLong, Object> {
-    private long[] includes;
+    private long[] values;
 
     @Override
     public void initialize(IsIncludeLong annotation) {
-        includes = annotation.includes();
+        values = annotation.values();
     }
 
     /**
@@ -35,7 +35,7 @@ public class IsIncludeLongValidator implements ConstraintValidator<IsIncludeLong
         }
         try {
             if (value instanceof Long) {
-                return Arrays.stream(includes).anyMatch(i -> i == (long) value);
+                return Arrays.stream(values).anyMatch(i -> i == (long) value);
             }
         } catch (Exception e) {
             e.printStackTrace();

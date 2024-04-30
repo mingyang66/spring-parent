@@ -38,5 +38,10 @@ public @interface IsIncludeString {
 
     Class<? extends Payload>[] payload() default {};
 
-    String[] includes() default {};
+    /**
+     * 包含的值
+     *
+     * @return 包含的值
+     */
+    String[] values() default {};
 }

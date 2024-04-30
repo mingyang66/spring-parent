@@ -38,5 +38,10 @@ public @interface IsIncludeDouble {
 
     Class<? extends Payload>[] payload() default {};
 
-    double[] includes() default {};
+    /**
+     * 包含的值
+     *
+     * @return 包含的值
+     */
+    double[] values() default {};
 }

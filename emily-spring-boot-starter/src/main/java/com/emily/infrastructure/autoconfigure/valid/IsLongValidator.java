@@ -17,13 +17,13 @@ import java.util.List;
 public class IsLongValidator implements ConstraintValidator<IsLong, String> {
     private long min;
     private long max;
-    private List<String> allows;
+    private List<String> values;
 
     @Override
     public void initialize(IsLong annotation) {
         min = annotation.min();
         max = annotation.max();
-        this.allows = Arrays.asList(annotation.allows());
+        this.values = Arrays.asList(annotation.values());
     }
 
     /**
@@ -39,7 +39,7 @@ public class IsLongValidator implements ConstraintValidator<IsLong, String> {
             return true;
         }
         try {
-            long count = allows.stream().filter(f -> f.equals(value)).count();
+            long count = values.stream().filter(f -> f.equals(value)).count();
             if (count > 0) {
                 return true;
             }

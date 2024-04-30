@@ -38,6 +38,11 @@ public @interface IsIncludeLong {
 
     Class<? extends Payload>[] payload() default {};
 
-    long[] includes() default {};
+    /**
+     * 包含的值
+     *
+     * @return 包含的值
+     */
+    long[] values() default {};
 
 }

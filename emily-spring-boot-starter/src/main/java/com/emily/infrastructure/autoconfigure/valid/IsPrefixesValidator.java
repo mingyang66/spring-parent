@@ -12,11 +12,11 @@ import org.apache.commons.lang3.StringUtils;
  * @since :  2023/12/24 1:32 PM
  */
 public class IsPrefixesValidator implements ConstraintValidator<IsPrefixes, String> {
-    private String[] prefixes;
+    private String[] values;
 
     @Override
     public void initialize(IsPrefixes annotation) {
-        prefixes = annotation.prefixes();
+        values = annotation.values();
     }
 
     /**
@@ -32,7 +32,7 @@ public class IsPrefixesValidator implements ConstraintValidator<IsPrefixes, Stri
             return true;
         }
         try {
-            if (StringUtils.startsWithAny(value, prefixes)) {
+            if (StringUtils.startsWithAny(value, values)) {
                 return true;
             }
         } catch (Exception e) {

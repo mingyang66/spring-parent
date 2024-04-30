@@ -33,5 +33,5 @@ public @interface IsSuffixes {
 
     Class<? extends Payload>[] payload() default {};
 
-    String[] suffixes() default {};
+    String[] values() default {};
 }

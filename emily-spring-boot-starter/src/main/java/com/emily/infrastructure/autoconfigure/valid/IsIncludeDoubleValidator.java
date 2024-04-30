@@ -15,11 +15,11 @@ import java.util.Objects;
  */
 public class IsIncludeDoubleValidator implements ConstraintValidator<IsIncludeDouble, Object> {
 
-    private double[] includes;
+    private double[] values;
 
     @Override
     public void initialize(IsIncludeDouble annotation) {
-        includes = annotation.includes();
+        values = annotation.values();
     }
 
     /**
@@ -36,7 +36,7 @@ public class IsIncludeDoubleValidator implements ConstraintValidator<IsIncludeDo
         }
         try {
             if (value instanceof Double) {
-                return Arrays.stream(includes).anyMatch(i -> i == (double) value);
+                return Arrays.stream(values).anyMatch(i -> i == (double) value);
             }
         } catch (Exception e) {
             e.printStackTrace();

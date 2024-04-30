@@ -12,19 +12,19 @@ import org.hibernate.validator.constraints.Range;
 public class ValidReq {
     @IsLocalTime(message = "日期格式不正确1", pattern = DatePatternInfo.HH_MM_SS)
     private String name;
-    @IsIncludeString(includes = {"1", "2", "3", ""}, message = "年龄不正确")
+    @IsIncludeString(values = {"1", "2", "3", ""}, message = "年龄不正确")
     private String age;
-    @IsIncludeInt(includes = {4, 5, 6, 2147483647}, message = "高度不正确")
+    @IsIncludeInt(values = {4, 5, 6, 2147483647}, message = "高度不正确")
     private int height;
-    @IsIncludeLong(includes = {1, 2147483648L}, message = "id不正确")
+    @IsIncludeLong(values = {1, 2147483648L}, message = "id不正确")
     private long id;
-    @IsIncludeDouble(includes = {1.0, 2.0}, message = "价格不正确")
+    @IsIncludeDouble(values = {1.0, 2.0}, message = "价格不正确")
     private double price;
     @IsDouble(min = 1.1, max = 20.2, allows = {"市价"}, message = "交易价格不正确")
     private String tradePrice;
-    @IsInt(min = -10, max = 20, allows = {"特例"}, message = "购买数量不正确")
+    @IsInt(min = -10, max = 20, values = {"特例"}, message = "购买数量不正确")
     private String buyAmount;
-    @IsLong(min = 10, max = 20, allows = {"特例"}, message = "总金额不正确")
+    @IsLong(min = 10, max = 20, values = {"特例"}, message = "总金额不正确")
     private String totalAmount;
     @IsBigDecimal(message = "金额不正确")
     private String bigDecimal;

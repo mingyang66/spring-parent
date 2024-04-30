@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.response;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpEntityMethodReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseHttpHeadersReturnValueHandler;
 import com.emily.infrastructure.autoconfigure.response.handler.ResponseMethodReturnValueHandler;
-import com.emily.infrastructure.autoconfigure.response.handler.ResponseWrapperAdviceHandler;
+import com.emily.infrastructure.autoconfigure.response.handler.ResponseAdviceHandler;
 import com.emily.infrastructure.logger.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -82,9 +82,9 @@ public class ResponseAutoConfiguration implements InitializingBean, DisposableBe
      */
     @Bean
     @ConditionalOnProperty(prefix = ResponseProperties.PREFIX, name = "enabled-advice", havingValue = "true", matchIfMissing = true)
-    public ResponseWrapperAdviceHandler responseWrapperAdviceHandler(ResponseProperties properties) {
+    public ResponseAdviceHandler responseAdviceHandler(ResponseProperties properties) {
         properties.getExclude().addAll(defaultExclude);
-        return new ResponseWrapperAdviceHandler(properties);
+        return new ResponseAdviceHandler(properties);
     }
 
     @Override

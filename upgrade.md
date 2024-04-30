@@ -1,5 +1,11 @@
 ###
 -----
+基础库发布4.4.3
+Bug Fixes
+
+1. 新增ComputeUtils.getEffectiveValue获取字符串数字有效位数工具方法；
+
+-----
 基础库发布4.4.2
 Bug Fixes
 

@@ -16,6 +16,7 @@ Bug Fixes
 11. 注解@IsInt、@IsLong、@IsDouble新增allows参数，支持特例值；
 12. 修改返回值包装类名及注解名；
 13. 自定义注解优化调整；
+14. 请求拦截器代码逻辑优化调整；
 
 ------
 Dependency Upgrades

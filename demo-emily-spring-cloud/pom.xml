@@ -5,11 +5,11 @@
     <parent>
         <artifactId>emily-spring-boot-parent</artifactId>
         <groupId>io.github.mingyang66</groupId>
-        <version>4.4.1</version>
+        <version>4.4.2</version>
         <relativePath>../emily-spring-boot-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>4.4.1</version>
+    <version>4.4.2</version>
     <name>demo-emily-spring-cloud</name>
     <artifactId>demo-emily-spring-cloud</artifactId>
 
@@ -17,17 +17,17 @@
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>4.4.1</version>
+            <version>4.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-cloud-starter</artifactId>
-            <version>4.4.1</version>
+            <version>4.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>4.4.1</version>
+            <version>4.4.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
         <dependency>

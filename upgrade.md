@@ -4,6 +4,7 @@
 Bug Fixes
 
 1. 新增ComputeUtils.getEffectiveValue获取字符串数字有效位数工具方法；
+2. 图形验证码组件Captcha建造者模式优化，支持获取Base64图形验证码；
 
 -----
 基础库发布4.4.2

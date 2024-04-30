@@ -1,8 +1,11 @@
 package com.emily.infrastructure.captcha.test;
 
+import com.emily.infrastructure.captcha.Captcha;
+import com.emily.infrastructure.captcha.CaptchaUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
+import java.io.IOException;
 
 /**
  * 单元测试类
@@ -11,14 +14,10 @@ import java.util.Random;
  * @since Created in 2023/5/28 2:23 PM
  */
 public class CaptchaUtilsTest {
-    private static final Random RANDOM = new Random();
 
     @Test
-    public void random() {
-        for (int i = 0; i < 100; i++) {
-            int b = RANDOM.nextInt(255);
-            System.out.println(b);
-
-        }
+    public void createDigit() throws IOException {
+        Captcha s = CaptchaUtils.createDigit(120, 45, 6, 30);
+        Assertions.assertEquals(s.getCode().length(), 6);
     }
 }

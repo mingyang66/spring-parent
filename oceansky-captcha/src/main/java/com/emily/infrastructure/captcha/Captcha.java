@@ -1,8 +1,5 @@
 package com.emily.infrastructure.captcha;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 /**
  * 图形验证码
  *
@@ -18,10 +15,6 @@ public class Captcha {
      * 验证码图片
      */
     private byte[] image;
-    /**
-     * Base64 编码后的验证码图片
-     */
-    private String imageBase64;
 
     public Captcha() {
     }
@@ -45,10 +38,6 @@ public class Captcha {
 
     public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    public String getImageBase64(String imageFormat) {
-        return String.format("data:image/image/%s;base64,%s", imageFormat, new String(Base64.getEncoder().encode(this.image), StandardCharsets.UTF_8));
     }
 
 

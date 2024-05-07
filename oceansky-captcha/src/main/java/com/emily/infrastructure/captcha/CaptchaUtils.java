@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -153,6 +155,8 @@ public class CaptchaUtils {
     }
 
     /**
+     * 绘制图形验证码
+     *
      * @param width     画板宽度
      * @param height    画板高度
      * @param code      验证码
@@ -205,16 +209,16 @@ public class CaptchaUtils {
         /**
          *
          *  文本高度=lead+ascent+descent
-         ***************************************************************
+         *  **************************************************************
          *  lead 字体前导|行间距
-         ***************************************************************
+         *  **************************************************************
          *
          *
          *  ascent 字体升序
+         * <p>
          *
-         *
-         **************************************************************** baseline
-         *
+         *  *************************************************************** baseline
+         * <p>
          *  descent 字体降序
          *
          ****************************************************************
@@ -244,16 +248,9 @@ public class CaptchaUtils {
         Random ran = new Random();
         for (int i = 0; i < count; i++) {
             switch (type) {
-                case DIGIT:
-                    code[i] = DIGIT[ran.nextInt(DIGIT.length)];
-                    break;
-                case LETTER:
-                    code[i] = LETTER[ran.nextInt(LETTER.length)];
-                    break;
-                default:
-                    code[i] = ALPHANUMERIC[ran.nextInt(ALPHANUMERIC.length)];
-                    break;
-
+                case DIGIT -> code[i] = DIGIT[ran.nextInt(DIGIT.length)];
+                case LETTER -> code[i] = LETTER[ran.nextInt(LETTER.length)];
+                default -> code[i] = ALPHANUMERIC[ran.nextInt(ALPHANUMERIC.length)];
             }
         }
         return code;
@@ -274,5 +271,16 @@ public class CaptchaUtils {
             // 随机画线
             graphic.drawLine(RANDOM.nextInt(width), RANDOM.nextInt(height), RANDOM.nextInt(width), RANDOM.nextInt(height));
         }
+    }
+
+    /**
+     * 将图片字节数组转换成base64字符串
+     *
+     * @param bytes  图片字节数组
+     * @param format 图片格式，如png,jpg,gif,jpeg等
+     * @return 图片base64字符串
+     */
+    public static String convertStreamToBase64(byte[] bytes, String format) {
+        return String.format("data:image/image/%s;base64,%s", format, new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8));
     }
 }

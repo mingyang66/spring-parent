@@ -6,6 +6,12 @@ Bug Fixes
 1. 新增ComputeUtils.getEffectiveValue获取字符串数字有效位数工具方法；
 2. com.emily.infrastructure.captcha.CaptchaUtils.convertStreamToBase64新增将图形验证码图片流转换为Base64字符串方法；
 
+------
+Dependency Upgrades
+
+1. Upgrade to logback 1.5.6;
+2. Upgrade to slf4j-api 2.0.13;
+
 -----
 基础库发布4.4.2
 Bug Fixes

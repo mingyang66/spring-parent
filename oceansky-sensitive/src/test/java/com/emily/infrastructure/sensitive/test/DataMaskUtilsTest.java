@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- *   字符串脱敏
- * @author  Emily
+ * 字符串脱敏
+ *
+ * @author Emily
  * @since :  Created in 2023/5/27 3:18 PM
  */
 public class DataMaskUtilsTest {

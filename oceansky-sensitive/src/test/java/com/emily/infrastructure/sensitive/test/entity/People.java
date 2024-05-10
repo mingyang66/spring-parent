@@ -1,14 +1,15 @@
 package com.emily.infrastructure.sensitive.test.entity;
 
-import com.emily.infrastructure.sensitive.*;
+import com.emily.infrastructure.sensitive.SensitiveType;
 import com.emily.infrastructure.sensitive.annotation.JsonFlexField;
 import com.emily.infrastructure.sensitive.annotation.JsonNullField;
 import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
 import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 
 /**
- *  人
- * @author  Emily
+ * 人
+ *
+ * @author Emily
  * @since :  Created in 2023/5/14 4:50 PM
  */
 @JsonSensitive

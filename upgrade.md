@@ -5,6 +5,7 @@ Bug Fixes
 
 1. 新增ComputeUtils.getEffectiveValue获取字符串数字有效位数工具方法；
 2. com.emily.infrastructure.captcha.CaptchaUtils.convertStreamToBase64新增将图形验证码图片流转换为Base64字符串方法；
+3. ocean-sensitive组件对脱敏工具类SensitiveUtils、DeSensitiveUtils新增指定外层包装未标记脱敏注解但是会对内层标记脱敏注解的类字段进行脱敏；
 
 ------
 Dependency Upgrades

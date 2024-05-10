@@ -20,7 +20,22 @@ public class SensitiveUtils {
      * @return 脱敏后的数据
      */
     public static Object acquireElseGet(final Object entity) {
+        return acquireElseGet(entity, null);
+    }
+
+    /**
+     * 支持指定外层包装类为标记脱敏标记的类对内层标记了敏感字段的类进行脱敏
+     * 脱敏过程中如果发生异常，则原样返回
+     *
+     * @param entity    脱敏实体类对象
+     * @param packClass 需脱敏的实体类对象外层包装类
+     * @return 脱敏后的数据
+     */
+    public static Object acquireElseGet(final Object entity, final Class packClass) {
         try {
+            if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
+                return doSetField(entity);
+            }
             return acquire(entity);
         } catch (Exception exception) {
             return entity;

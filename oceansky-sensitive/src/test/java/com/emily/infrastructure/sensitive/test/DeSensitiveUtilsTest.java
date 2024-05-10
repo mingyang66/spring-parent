@@ -1,14 +1,19 @@
 package com.emily.infrastructure.sensitive.test;
 
 import com.emily.infrastructure.sensitive.DeSensitiveUtils;
+import com.emily.infrastructure.sensitive.test.entity.BaseResponse;
 import com.emily.infrastructure.sensitive.test.entity.People;
 import com.emily.infrastructure.sensitive.test.entity.PeopleMap;
+import com.emily.infrastructure.sensitive.test.entity.PubResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 /**
- *  实体类对象脱敏单元测试
- * @author  Emily
+ * 实体类对象脱敏单元测试
+ *
+ * @author Emily
  * @since :  Created in 2023/5/31 3:34 PM
  */
 public class DeSensitiveUtilsTest {
@@ -52,13 +57,37 @@ public class DeSensitiveUtilsTest {
         Assertions.assertEquals(s.getS(), (short) 0);
         Assertions.assertEquals(s.getL(), 0l);
     }
+
     @Test
-    public void testFieldMap(){
+    public void testFieldMap() {
         PeopleMap peopleMap = new PeopleMap();
-        peopleMap.getParams().put("password","12345");
-        peopleMap.getParams().put("username","田晓霞");
-        peopleMap.getParams().put("phone","15645562587");
+        peopleMap.getParams().put("password", "12345");
+        peopleMap.getParams().put("username", "田晓霞");
+        peopleMap.getParams().put("phone", "15645562587");
         PeopleMap p = DeSensitiveUtils.acquireElseGet(peopleMap);
         System.out.println(p);
+    }
+
+    @Test
+    public void test11() {
+        PubResponse response = new PubResponse();
+        response.password = "32433";
+        response.username = "条消息";
+        response.email = "1393619859@qq.com";
+        response.idCard = "321455188625645686";
+        response.bankCard = "325648956125656666";
+        response.phone = "18254452658";
+        response.mobile = "1234567";
+        PubResponse.Job job = new PubResponse.Job();
+        job.email = "1393619859@qq.com";
+        job.work = "呵呵哈哈哈";
+        response.job = job;
+        response.jobs = new PubResponse.Job[]{job};
+        response.jobList = Arrays.asList(job);
+        BaseResponse<PubResponse> r = BaseResponse.<PubResponse>newBuilder().withData(response).build();
+        BaseResponse<PubResponse> response1 = DeSensitiveUtils.acquireElseGet(r);
+        Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");
+        BaseResponse<PubResponse> response2 = DeSensitiveUtils.acquireElseGet(r, BaseResponse.class);
+        Assertions.assertEquals(response2.getData().email, "1***9@qq.com");
     }
 }

@@ -22,11 +22,7 @@ public class DeSensitiveUtils {
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
     public static <T> T acquireElseGet(final T entity) {
-        try {
-            return acquire(entity);
-        } catch (Exception exception) {
-            return entity;
-        }
+        return acquireElseGet(entity, null);
     }
 
     /**
@@ -39,41 +35,40 @@ public class DeSensitiveUtils {
      */
     public static <T> T acquireElseGet(final T entity, final Class packClass) {
         try {
-            if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
-                doSetField(entity);
-                return entity;
-            }
-            return acquire(entity);
+            return acquire(entity, packClass);
         } catch (Exception exception) {
             return entity;
         }
     }
 
     /**
-     * @param entity 实体类|普通对象
-     * @param <T>    实体类类型
+     * @param entity    实体类|普通对象
+     * @param packClass 需脱敏的实体类对象外层包装类
+     * @param <T>       实体类类型
      * @return 对实体类进行脱敏，返回原来的实体类对象
      * @throws IllegalAccessException 非法访问异常
      */
-    public static <T> T acquire(final T entity) throws IllegalAccessException {
+    public static <T> T acquire(final T entity, final Class packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
             for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
-                acquire(it.next());
+                acquire(it.next(), packClass);
             }
         } else if (entity instanceof Map) {
             for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
-                acquire(entry.getValue());
+                acquire(entry.getValue(), packClass);
             }
         } else if (entity.getClass().isArray()) {
             if (!entity.getClass().getComponentType().isPrimitive()) {
                 for (Object v : (Object[]) entity) {
-                    acquire(v);
+                    acquire(v, packClass);
                 }
             }
         } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+            doSetField(entity);
+        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
             doSetField(entity);
         }
         return entity;
@@ -107,7 +102,7 @@ public class DeSensitiveUtils {
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, entity, value);
             } else {
-                acquire(value);
+                acquire(value, null);
             }
         }
         doGetEntityFlex(entity);
@@ -163,7 +158,7 @@ public class DeSensitiveUtils {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value()));
         } else {
-            acquire(value);
+            acquire(value, null);
         }
     }
 
@@ -188,7 +183,7 @@ public class DeSensitiveUtils {
                 list = (list == null) ? new ArrayList<>() : list;
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
-                acquire(v);
+                acquire(v, null);
             }
         }
         if (Objects.nonNull(list)) {
@@ -231,7 +226,7 @@ public class DeSensitiveUtils {
                     continue;
                 }
             }
-            acquire(value);
+            acquire(value, null);
         }
     }
 
@@ -257,7 +252,7 @@ public class DeSensitiveUtils {
             if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
                 arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value());
             } else {
-                acquire(value);
+                acquire(value, null);
             }
         }
     }

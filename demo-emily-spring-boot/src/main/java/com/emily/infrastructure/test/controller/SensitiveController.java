@@ -55,7 +55,7 @@ public class SensitiveController {
         response.setArr(arr);
         List<BaseResponse<JsonResponse>> list = Lists.newArrayList(BaseResponse.<JsonResponse>newBuilder().withData(response).build());
         //return list;
-        return DeSensitiveUtils.acquireElseGet(list);
+        return DeSensitiveUtils.acquireElseGet(list, BaseResponse.class);
     }
 
     @PostMapping("test1")

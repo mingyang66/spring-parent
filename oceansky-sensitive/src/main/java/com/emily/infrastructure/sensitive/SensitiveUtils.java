@@ -33,10 +33,7 @@ public class SensitiveUtils {
      */
     public static Object acquireElseGet(final Object entity, final Class packClass) {
         try {
-            if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
-                return doSetField(entity);
-            }
-            return acquire(entity);
+            return acquire(entity, packClass);
         } catch (Exception exception) {
             return entity;
         }
@@ -45,18 +42,19 @@ public class SensitiveUtils {
     /**
      * 对实体类镜像脱敏，返回结构相同的非同一个对象
      *
-     * @param entity 需要脱敏的实体类对象，如果是数据值类型则直接返回
+     * @param entity    需要脱敏的实体类对象，如果是数据值类型则直接返回
+     * @param packClass 需脱敏的实体类对象外层包装类
      * @return 脱敏后的实体类对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    public static Object acquire(final Object entity) throws IllegalAccessException {
+    protected static Object acquire(final Object entity, final Class packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
             Collection<Object> coll = new ArrayList<>();
             for (Object o : (Collection<Object>) entity) {
-                coll.add(acquire(o));
+                coll.add(acquire(o, packClass));
             }
             return coll;
         } else if (entity instanceof Map) {
@@ -64,7 +62,7 @@ public class SensitiveUtils {
             for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
                 Object key = entry.getKey();
                 Object value = entry.getValue();
-                dMap.put(key, acquire(value));
+                dMap.put(key, acquire(value, packClass));
             }
             return dMap;
         } else if (entity.getClass().isArray()) {
@@ -74,11 +72,13 @@ public class SensitiveUtils {
                 Object[] v = (Object[]) entity;
                 Object[] t = new Object[v.length];
                 for (int i = 0; i < v.length; i++) {
-                    t[i] = acquire(v[i]);
+                    t[i] = acquire(v[i], packClass);
                 }
                 return t;
             }
         } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+            return doSetField(entity);
+        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
             return doSetField(entity);
         }
         return entity;
@@ -90,7 +90,7 @@ public class SensitiveUtils {
      * @param entity 需要脱敏的实体类对象
      * @return 实体类属性脱敏后的集合对象
      */
-    private static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
+    protected static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
         Map<String, Object> fieldMap = new HashMap<>();
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
@@ -113,7 +113,7 @@ public class SensitiveUtils {
             } else if (value.getClass().isArray()) {
                 fieldMap.put(name, doGetEntityArray(field, value));
             } else {
-                fieldMap.put(name, acquire(value));
+                fieldMap.put(name, acquire(value, null));
             }
         }
         fieldMap.putAll(doGetEntityFlex(entity));
@@ -155,7 +155,7 @@ public class SensitiveUtils {
         if (field.isAnnotationPresent(JsonSimField.class)) {
             return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
         } else {
-            return acquire(value);
+            return acquire(value, null);
         }
     }
 
@@ -174,7 +174,7 @@ public class SensitiveUtils {
             } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
             } else {
-                list.add(acquire(v));
+                list.add(acquire(v, null));
             }
         }
         return list;
@@ -201,7 +201,7 @@ public class SensitiveUtils {
                     JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
                     int index = Arrays.asList(jsonMapField.fieldKeys()).indexOf(key);
                     if (index < 0) {
-                        dMap.put(key, acquire(v));
+                        dMap.put(key, acquire(v, null));
                         continue;
                     }
                     SensitiveType type = SensitiveType.DEFAULT;
@@ -212,7 +212,7 @@ public class SensitiveUtils {
                     continue;
                 }
             }
-            dMap.put(key, acquire(v));
+            dMap.put(key, acquire(v, null));
         }
         return dMap;
     }
@@ -235,7 +235,7 @@ public class SensitiveUtils {
                 } else if ((v[i] instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
                     t[i] = DataMaskUtils.doGetProperty((String) v[i], field.getAnnotation(JsonSimField.class).value());
                 } else {
-                    t[i] = acquire(v[i]);
+                    t[i] = acquire(v[i], null);
                 }
             }
             return t;

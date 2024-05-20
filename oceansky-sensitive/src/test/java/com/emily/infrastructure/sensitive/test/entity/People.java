@@ -17,7 +17,7 @@ public class People {
     @JsonSimField
     private String username;
     private String password;
-    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "value", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    @JsonFlexField(keys = {"email", "phone"}, value = "value", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String key;
     private String value;
     @JsonNullField

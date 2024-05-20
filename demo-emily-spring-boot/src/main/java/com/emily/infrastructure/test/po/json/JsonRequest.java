@@ -16,10 +16,10 @@ import java.util.Map;
  */
 @JsonSensitive
 public class JsonRequest extends Animal {
-    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
     private String fieldKey;
     private String fieldValue;
-    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue1")
+    @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue1")
     private String fieldKey1;
     private String fieldValue1;
     @NotEmpty
@@ -178,7 +178,7 @@ public class JsonRequest extends Animal {
         private String work;
         @JsonSimField(SensitiveType.EMAIL)
         private String email;
-        @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+        @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
         private String fieldKey;
         private String fieldValue;
 

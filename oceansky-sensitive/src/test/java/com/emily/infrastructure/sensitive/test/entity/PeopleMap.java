@@ -20,7 +20,7 @@ public class PeopleMap {
     private String password;
     private LocalDateTime localDateTime;
     private Map<String, SubMap> subMapMap = new HashMap<>();
-    @JsonMapField(fieldKeys = {"password", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
+    @JsonMapField(value = {"password", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
     private Map<String, String> params = new HashMap<>();
 
     public Map<String, String> getParams() {

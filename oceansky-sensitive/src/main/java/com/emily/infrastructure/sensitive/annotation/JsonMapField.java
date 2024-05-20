@@ -9,6 +9,12 @@ import java.lang.annotation.Target;
 
 /**
  * 自定义jackson注解，标注在属性上，实例如下：
+ * <pre>
+ *     {@code
+ *     @JsonMapField(value = {"password", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
+ *     private Map<String, String> params = new HashMap<>();
+ *     }
+ * </pre>
  *
  * @author Emily
  * @since :  Created in 2022/7/19 5:22 下午
@@ -21,7 +27,7 @@ public @interface JsonMapField {
      *
      * @return 复杂类型字段名
      */
-    String[] fieldKeys() default {};
+    String[] value() default {};
 
     /**
      * 脱敏类型，见枚举类型{@link SensitiveType}

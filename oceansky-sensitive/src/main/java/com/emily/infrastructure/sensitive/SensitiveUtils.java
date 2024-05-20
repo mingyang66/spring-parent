@@ -199,7 +199,7 @@ public class SensitiveUtils {
                     dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
                 } else if (field.isAnnotationPresent(JsonMapField.class)) {
                     JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
-                    int index = Arrays.asList(jsonMapField.fieldKeys()).indexOf(key);
+                    int index = Arrays.asList(jsonMapField.value()).indexOf(key);
                     if (index < 0) {
                         dMap.put(key, acquire(v, null));
                         continue;
@@ -259,10 +259,10 @@ public class SensitiveUtils {
                 continue;
             }
             JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
-            if (Objects.isNull(jsonFlexField.fieldValue())) {
+            if (Objects.isNull(jsonFlexField.value())) {
                 continue;
             }
-            Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.fieldValue(), true);
+            Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.value(), true);
             if (Objects.isNull(flexField)) {
                 continue;
             }
@@ -270,7 +270,7 @@ public class SensitiveUtils {
             if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
                 continue;
             }
-            int index = Arrays.asList(jsonFlexField.fieldKeys()).indexOf((String) value);
+            int index = Arrays.asList(jsonFlexField.keys()).indexOf((String) value);
             if (index < 0) {
                 continue;
             }
@@ -279,7 +279,7 @@ public class SensitiveUtils {
                 type = jsonFlexField.types()[index];
             }
             flexFieldMap = Objects.isNull(flexFieldMap) ? new HashMap<>() : flexFieldMap;
-            flexFieldMap.put(jsonFlexField.fieldValue(), DataMaskUtils.doGetProperty((String) flexValue, type));
+            flexFieldMap.put(jsonFlexField.value(), DataMaskUtils.doGetProperty((String) flexValue, type));
         }
         return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;
     }

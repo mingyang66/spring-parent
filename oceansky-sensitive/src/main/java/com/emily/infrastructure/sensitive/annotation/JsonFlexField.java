@@ -12,10 +12,10 @@ import java.lang.annotation.Target;
  * <pre>{@code
  * @JsonSensitive
  * public class JsonRequest extends Animal {
- *     @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+ *     @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
  *     private String fieldKey;
  *     private String fieldValue;
- *     @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue1")
+ *     @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue1")
  *     private String fieldKey1;
  *     private String fieldValue1;
  *     }
@@ -32,14 +32,14 @@ public @interface JsonFlexField {
      *
      * @return 复杂类型字段名
      */
-    String[] fieldKeys() default {};
+    String[] keys() default {};
 
     /**
      * 要隐藏的参数值的key名称
      *
      * @return 值字段名
      */
-    String fieldValue();
+    String value();
 
     /**
      * 脱敏类型，见枚举类型{@link SensitiveType}

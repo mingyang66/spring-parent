@@ -1,7 +1,4 @@
-package com.emily.infrastructure.core.exception;
-
-import com.emily.infrastructure.core.constant.CharacterInfo;
-import org.apache.commons.lang3.StringUtils;
+package com.emily.infrastructure.common;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -12,7 +9,8 @@ import java.util.Objects;
  * @author Emily
  * @since 2020/08/24
  */
-public class PrintExceptionInfo {
+public class PrintExceptionUtils {
+    public static final String ENTER = "\n";
     /**
      * 打印错误日志信息
      *
@@ -35,7 +33,7 @@ public class PrintExceptionInfo {
             if (i == 0) {
                 message = MessageFormat.format("{0}{1}{2}", element.toString(), " ", message);
             } else {
-                message = MessageFormat.format("{0}{1}{2}", message, CharacterInfo.ENTER, element.toString());
+                message = MessageFormat.format("{0}{1}{2}", message, ENTER, element.toString());
             }
         }
         return message;
@@ -53,7 +51,7 @@ public class PrintExceptionInfo {
         }
         String message = "";
         for (int i = 0; i < ex.length; i++) {
-            message = MessageFormat.format("{0}{1}{2}", message, CharacterInfo.ENTER, printErrorInfo(ex[i]));
+            message = MessageFormat.format("{0}{1}{2}", message, ENTER, printErrorInfo(ex[i]));
         }
         return message;
     }

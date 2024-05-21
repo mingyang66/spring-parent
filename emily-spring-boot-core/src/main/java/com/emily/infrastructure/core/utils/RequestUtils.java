@@ -1,10 +1,8 @@
-package com.emily.infrastructure.core.helper;
+package com.emily.infrastructure.core.utils;
 
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.exception.BasicException;
-import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.PrintExceptionUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -173,7 +171,7 @@ public class RequestUtils {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getRequest();
         } catch (Exception ex) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
         }
     }
 
@@ -187,7 +185,7 @@ public class RequestUtils {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             return attributes.getResponse();
         } catch (Exception ex) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
         }
     }
 
@@ -221,7 +219,7 @@ public class RequestUtils {
             return value;
         }
         if (value == null || value.length() == 0) {
-            throw new IllegalArgumentException(HttpStatusType.ILLEGAL_ARGUMENT.getMessage());
+            throw new IllegalArgumentException("非法参数");
         }
         return value;
     }

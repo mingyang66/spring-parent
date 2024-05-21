@@ -1,8 +1,6 @@
 package com.emily.infrastructure.core.servlet.filter;
 
-import com.emily.infrastructure.core.exception.BasicException;
-import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.PrintExceptionUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -29,10 +27,8 @@ public class RequestChannelFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (Exception ex) {
-            throw new BasicException(HttpStatusType.EXCEPTION.getStatus(), PrintExceptionInfo.printErrorInfo(ex));
+            throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
         }
-
-
     }
 
     @Override

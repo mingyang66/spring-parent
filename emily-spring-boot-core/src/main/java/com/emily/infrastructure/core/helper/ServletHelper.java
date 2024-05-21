@@ -4,6 +4,7 @@ import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.constant.CharsetInfo;
 import com.emily.infrastructure.core.servlet.filter.DelegateRequestWrapper;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;

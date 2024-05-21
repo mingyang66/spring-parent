@@ -3,9 +3,9 @@ package com.emily.infrastructure.redis.common;
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
-import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -120,7 +120,7 @@ public class LuaScriptTools {
                     .withRequestParams(key, value)
                     .withRequestParams("threshold", threshold)
                     .withRequestParams("expire", expire.getSeconds())
-                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
                     .build();
             PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
@@ -164,7 +164,7 @@ public class LuaScriptTools {
                     .withRequestParams("score", score)
                     .withRequestParams("threshold", threshold)
                     .withRequestParams("expire", expire.getSeconds())
-                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
                     .build();
             PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
@@ -218,7 +218,7 @@ public class LuaScriptTools {
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withUrl("Redis")
                     .withRequestParams("count", count)
-                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
                     .build();
             PrintLoggerUtils.printThirdParty(baseLogger);
             return Collections.emptyList();
@@ -259,7 +259,7 @@ public class LuaScriptTools {
                     .withUrl("Redis")
                     .withRequestParams("key", key)
                     .withRequestParams("expire", expire.getSeconds())
-                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
                     .build();
             PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
@@ -290,7 +290,7 @@ public class LuaScriptTools {
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .withUrl("Redis")
                     .withRequestParams("key", key)
-                    .withBody(PrintExceptionInfo.printErrorInfo(ex.getCause()))
+                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
                     .build();
             PrintLoggerUtils.printThirdParty(baseLogger);
             return false;

@@ -3,8 +3,8 @@ package com.emily.infrastructure.mybatis.interceptor;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -39,7 +39,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             result = SensitiveUtils.acquireElseGet(response);
             return response;
         } catch (Throwable ex) {
-            result = PrintExceptionInfo.printErrorInfo(ex);
+            result = PrintExceptionUtils.printErrorInfo(ex);
             throw ex;
         } finally {
             BaseLogger baseLogger = BaseLogger.newBuilder()

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.exception;
+package com.emily.infrastructure.autoconfigure.exception.type;
 
 /**
  * 自定义状态码异常枚举类
@@ -6,7 +6,7 @@ package com.emily.infrastructure.core.exception;
  * @author Emily
  * @since 1.0
  */
-public enum HttpStatusType {
+public enum AppStatusType {
     OK(0, "SUCCESS"),
     EXCEPTION(100000, "网络异常，请稍后再试"),
     ILLEGAL_ARGUMENT(100001, "非法参数"),
@@ -24,7 +24,7 @@ public enum HttpStatusType {
      */
     private String message;
 
-    HttpStatusType(int status, String message) {
+    AppStatusType(int status, String message) {
         this.status = status;
         this.message = message;
     }

@@ -5,7 +5,7 @@ import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePac
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.exception.HttpStatusType;
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
@@ -72,10 +72,10 @@ public class ResponseHttpEntityMethodReturnValueHandler implements HandlerMethod
              */
             boolean flag = (type.equals(ResponseEntity.class)) || ((type instanceof ParameterizedType) && (((ParameterizedType) type).getActualTypeArguments()[0]).equals(Void.class));
             if (flag) {
-                BaseResponse baseResponse = BaseResponse.newBuilder().withStatus(HttpStatusType.OK.getStatus()).withMessage(HttpStatusType.OK.getMessage()).build();
+                BaseResponse baseResponse = BaseResponse.newBuilder().withStatus(AppStatusType.OK.getStatus()).withMessage(AppStatusType.OK.getMessage()).build();
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             } else {
-                BaseResponse baseResponse = BaseResponse.newBuilder().withStatus(HttpStatusType.OK.getStatus()).withMessage(HttpStatusType.OK.getMessage()).withData(body).build();
+                BaseResponse baseResponse = BaseResponse.newBuilder().withStatus(AppStatusType.OK.getStatus()).withMessage(AppStatusType.OK.getMessage()).withData(body).build();
                 proxyObject.handleReturnValue(ResponseEntity.ok(baseResponse), returnType, mavContainer, webRequest);
             }
         }

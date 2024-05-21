@@ -1,7 +1,6 @@
 package com.emily.infrastructure.redis.common;
 
 import com.emily.infrastructure.core.constant.CharacterInfo;
-import com.emily.infrastructure.core.exception.HttpStatusType;
 import org.springframework.util.Assert;
 
 /**
@@ -20,7 +19,7 @@ public class RedisCommonKeys {
      * @return redis建值
      */
     public static String getKey(String prefix, String... keys) {
-        Assert.notNull(prefix, HttpStatusType.ILLEGAL_ARGUMENT.getMessage());
+        Assert.notNull(prefix, "非法参数");
         StringBuffer sb = new StringBuffer(prefix);
         for (int i = 0; i < keys.length; i++) {
             sb.append(CharacterInfo.COLON_EN);

@@ -2,7 +2,7 @@ package com.emily.infrastructure.datasource.interceptor;
 
 import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
+import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.holder.DataSourceContextHolder;
@@ -76,7 +76,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             //调用TargetDataSource标记的切换数据源方法
             return invocation.proceed();
         } catch (Throwable ex) {
-            logger.error(PrintExceptionInfo.printErrorInfo(ex));
+            logger.error(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             this.after(method);

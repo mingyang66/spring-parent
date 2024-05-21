@@ -4,7 +4,7 @@ import com.emily.infrastructure.autoconfigure.response.ResponseProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.exception.HttpStatusType;
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import com.emily.infrastructure.json.JsonUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -97,8 +97,8 @@ public class ResponseAdviceHandler implements ResponseBodyAdvice<Object> {
 
         //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
         BaseResponse.Builder<Object> builder = BaseResponse.newBuilder()
-                .withStatus(HttpStatusType.OK.getStatus())
-                .withMessage(HttpStatusType.OK.getMessage());
+                .withStatus(AppStatusType.OK.getStatus())
+                .withMessage(AppStatusType.OK.getMessage());
         // 如果返回值是void类型，则直接返回BaseResponse空对象
         if (returnType.getParameterType().equals(Void.class)) {
             return builder.build();

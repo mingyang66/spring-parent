@@ -4,8 +4,8 @@ import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -63,7 +63,7 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
             return response;
         } catch (IOException ex) {
             //响应结果
-            builder.withBody(PrintExceptionInfo.printErrorInfo(ex));
+            builder.withBody(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP

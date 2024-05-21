@@ -1,9 +1,7 @@
 package com.emily.infrastructure.core.entity;
 
-import com.emily.infrastructure.core.exception.HttpStatusType;
 import com.google.common.collect.Maps;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -12,7 +10,7 @@ import java.util.Map;
  * @author Emily
  * @since 2020/11/14
  */
-public class BaseLogger implements Serializable {
+public class BaseLogger {
     /**
      * 系统编号
      */
@@ -65,11 +63,6 @@ public class BaseLogger implements Serializable {
      * 响应结果
      */
     private Object body;
-
-    public BaseLogger() {
-        this.status = HttpStatusType.OK.getStatus();
-        this.message = HttpStatusType.OK.getMessage();
-    }
 
     public String getAppType() {
         return appType;

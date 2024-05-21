@@ -1,8 +1,8 @@
 package com.emily.infrastructure.autoconfigure.exception.handler;
 
 
-import com.emily.infrastructure.core.exception.BasicException;
-import com.emily.infrastructure.core.exception.HttpStatusType;
+import com.emily.infrastructure.autoconfigure.exception.entity.BasicException;
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
@@ -52,9 +52,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         recordErrorMsg(e, request);
         String message = e.getMessage();
         if (e instanceof IOException) {
-            message = HttpStatusType.EXCEPTION.getMessage();
+            message = AppStatusType.EXCEPTION.getMessage();
         }
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.EXCEPTION.getStatus(), message);
+        return getApiResponseWrapper(handlerMethod, AppStatusType.EXCEPTION.getStatus(), message);
     }
 
     /**
@@ -86,7 +86,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public Object undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_PROXY);
+        return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_PROXY);
     }
 
     /**
@@ -128,7 +128,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     })
     public Object illegalArgumentException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        String message = HttpStatusType.ILLEGAL_ARGUMENT.getMessage();
+        String message = AppStatusType.ILLEGAL_ARGUMENT.getMessage();
         try {
             //当用@Valid注释的参数验证失败时引发异常。从5.3起扩展BindException。
             if (e instanceof MethodArgumentNotValidException ex) {
@@ -144,7 +144,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
             }
         } catch (Exception ex) {
         }
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
+        return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
     }
 
     /**
@@ -160,7 +160,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Object httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(null, HttpStatusType.METHOD_NOT_ALLOWED);
+        return getApiResponseWrapper(null, AppStatusType.METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -182,7 +182,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     })
     public Object numberFormatException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_DATA);
+        return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_DATA);
     }
 
     /**
@@ -201,7 +201,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     })
     public Object unknownContentTypeException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
-        return getApiResponseWrapper(handlerMethod, HttpStatusType.ILLEGAL_ACCESS);
+        return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_ACCESS);
     }
 }
 

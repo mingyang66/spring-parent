@@ -1,4 +1,6 @@
-package com.emily.infrastructure.core.exception;
+package com.emily.infrastructure.autoconfigure.exception.entity;
+
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 
 /**
  * 业务异常
@@ -8,10 +10,10 @@ package com.emily.infrastructure.core.exception;
  */
 public class BusinessException extends BasicException {
     public BusinessException() {
-        super(HttpStatusType.EXCEPTION);
+        super(AppStatusType.EXCEPTION);
     }
 
-    public BusinessException(HttpStatusType httpStatus) {
+    public BusinessException(AppStatusType httpStatus) {
         super(httpStatus);
     }
 

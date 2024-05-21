@@ -2,11 +2,9 @@ package com.emily.infrastructure.core.entity;
 
 import com.emily.infrastructure.core.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.language.convert.LanguageType;
-
-import java.io.Serializable;
 
 /**
  * 控制器返回结果
@@ -14,7 +12,7 @@ import java.io.Serializable;
  * @author Emily
  * @since 1.0
  */
-public class BaseResponse<T> implements Serializable {
+public class BaseResponse<T> {
     private int status;
     private String message;
     private T data;

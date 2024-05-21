@@ -2,7 +2,7 @@ package com.emily.infrastructure.core.context.holder;
 
 import com.alibaba.ttl.TtlRunnable;
 import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import org.springframework.util.Assert;
 

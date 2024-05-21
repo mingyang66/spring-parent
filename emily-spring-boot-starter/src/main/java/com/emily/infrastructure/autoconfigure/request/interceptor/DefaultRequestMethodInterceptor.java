@@ -8,11 +8,11 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.exception.BasicException;
-import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
-import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.autoconfigure.exception.entity.BasicException;
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -56,11 +56,11 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             return handleResponse(response, builder);
         } catch (Exception ex) {
             //响应码
-            builder.withStatus((ex instanceof BasicException) ? ((BasicException) ex).getStatus() : HttpStatusType.EXCEPTION.getStatus())
+            builder.withStatus((ex instanceof BasicException) ? ((BasicException) ex).getStatus() : AppStatusType.EXCEPTION.getStatus())
                     //响应描述
-                    .withMessage((ex instanceof BasicException) ? ex.getMessage() : HttpStatusType.EXCEPTION.getMessage())
+                    .withMessage((ex instanceof BasicException) ? ex.getMessage() : AppStatusType.EXCEPTION.getMessage())
                     //异常响应体
-                    .withBody(PrintExceptionInfo.printErrorInfo(ex));
+                    .withBody(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             BaseLogger baseLogger = builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())

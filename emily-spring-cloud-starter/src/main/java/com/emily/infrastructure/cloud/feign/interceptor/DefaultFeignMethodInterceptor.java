@@ -6,16 +6,14 @@ import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.exception.BasicException;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -46,12 +44,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
             response = invocation.proceed();
             return response;
         } catch (Exception e) {
-            if (e instanceof BasicException) {
-                BasicException exception = (BasicException) e;
-                response = StringUtils.join(e, " 【statusCode】", exception.getStatus(), ", 【errorMessage】", exception.getMessage());
-            } else {
-                response = PrintExceptionInfo.printErrorInfo(e);
-            }
+            response = PrintExceptionUtils.printErrorInfo(e);
             throw e;
         } finally {
             //封装异步日志信息

@@ -1,5 +1,7 @@
-package com.emily.infrastructure.core.exception;
+package com.emily.infrastructure.autoconfigure.exception.entity;
 
+
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 
 /**
  * 业务异常
@@ -24,7 +26,7 @@ public class BasicException extends RuntimeException {
     public BasicException() {
     }
 
-    public BasicException(HttpStatusType httpStatus) {
+    public BasicException(AppStatusType httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
         this.message = httpStatus.getMessage();

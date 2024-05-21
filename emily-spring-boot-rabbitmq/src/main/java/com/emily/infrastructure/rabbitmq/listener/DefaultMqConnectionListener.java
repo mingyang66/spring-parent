@@ -2,9 +2,9 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
-import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -103,7 +103,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .withServerIp(RequestUtils.getServerIp())
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .withUrl("RabbitMQ")
-                .withBody("Failed [Called when a connection couldn't be established] " + PrintExceptionInfo.printErrorInfo(exception))
+                .withBody("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception))
                 .build();
         PrintLoggerUtils.printThirdParty(baseLogger);
     }

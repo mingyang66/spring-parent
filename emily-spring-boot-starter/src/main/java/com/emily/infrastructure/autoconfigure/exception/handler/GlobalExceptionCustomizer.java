@@ -7,10 +7,10 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.core.exception.HttpStatusType;
-import com.emily.infrastructure.core.exception.PrintExceptionInfo;
-import com.emily.infrastructure.core.helper.PrintLoggerUtils;
-import com.emily.infrastructure.core.helper.RequestUtils;
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
+import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -49,7 +49,7 @@ public class GlobalExceptionCustomizer {
      * @param httpStatusType 异常状态枚举
      * @return 包装或为包装的结果
      */
-    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, HttpStatusType httpStatusType) {
+    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, AppStatusType httpStatusType) {
         return getApiResponseWrapper(handlerMethod, httpStatusType.getStatus(), httpStatusType.getMessage());
     }
 
@@ -111,7 +111,7 @@ public class GlobalExceptionCustomizer {
                 //请求参数
                 .withRequestParams(getRequestParams(ex, request))
                 //响应体
-                .withBody(PrintExceptionInfo.printErrorInfo(ex))
+                .withBody(PrintExceptionUtils.printErrorInfo(ex))
                 //耗时(未处理任何逻辑)
                 .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()))
                 .build();

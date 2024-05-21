@@ -289,7 +289,6 @@ public class DeSensitiveUtils {
             SensitiveType type = SensitiveType.DEFAULT;
             if (index <= jsonFlexField.types().length - 1) {
                 type = jsonFlexField.types()[index];
-            } else {
             }
             flexField.set(entity, DataMaskUtils.doGetProperty((String) flexValue, type));
         }

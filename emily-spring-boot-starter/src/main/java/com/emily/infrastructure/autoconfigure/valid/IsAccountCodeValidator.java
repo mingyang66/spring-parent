@@ -43,18 +43,16 @@ public class IsAccountCodeValidator implements ConstraintValidator<IsAccountCode
             return true;
         }
         // 类型验证
-        if (type.equals(Long.class)) {
-            try {
+        try {
+            if (type.equals(Long.class)) {
                 Long.parseLong(value);
-            } catch (Exception e) {
-                return false;
-            }
-        } else if (type.equals(Integer.class)) {
-            try {
+                return true;
+            } else if (type.equals(Integer.class)) {
                 Integer.parseInt(value);
-            } catch (Exception e) {
-                return false;
+                return true;
             }
+        } catch (Exception e) {
+            return false;
         }
         // 长度验证
         if (minLength > 0 && value.length() < minLength) {

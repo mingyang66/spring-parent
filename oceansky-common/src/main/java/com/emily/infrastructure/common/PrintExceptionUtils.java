@@ -11,6 +11,7 @@ import java.util.Objects;
  */
 public class PrintExceptionUtils {
     public static final String ENTER = "\n";
+
     /**
      * 打印错误日志信息
      *

@@ -25,11 +25,10 @@ public class ComputeUtilsTest {
 
     @Test
     public void round() {
-        String s = ComputeUtils.round("", 2, RoundingMode.HALF_UP, "0.00");
-        System.out.println(s);
         Assertions.assertEquals(ComputeUtils.round(null, 2, RoundingMode.HALF_UP, "0.00"), "0.00");
         Assertions.assertEquals(ComputeUtils.round("", 2, RoundingMode.HALF_UP, "0.00"), "0.00");
-        Assertions.assertEquals(ComputeUtils.round("", 2, RoundingMode.HALF_UP, null), "");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.round("", 2, RoundingMode.HALF_UP, ""));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.round("", 2, RoundingMode.HALF_UP, null));
         Assertions.assertEquals(ComputeUtils.round(" ", 2, RoundingMode.HALF_UP, "0.00"), "0.00");
         Assertions.assertEquals(ComputeUtils.round("3.230000", 2, RoundingMode.HALF_UP, "0.00"), "3.23");
         Assertions.assertEquals(ComputeUtils.round("3.230000", 4, RoundingMode.HALF_UP, "0.00"), "3.2300");

@@ -41,11 +41,15 @@ public class ComputeUtils {
      * @return 保留小数后的值
      */
     public static String round(String value, int newScale, RoundingMode roundingMode, String defaultValue) {
-        if (StringUtils.isBlank(value)) {
-            return StringUtils.isBlank(defaultValue) ? value : defaultValue;
+        try {
+            BigDecimal decimal = new BigDecimal(value.trim());
+            return decimal.setScale(newScale, roundingMode).toPlainString();
+        } catch (Exception e) {
+            if (StringUtils.isBlank(defaultValue)) {
+                throw new IllegalArgumentException("非法参数");
+            }
+            return defaultValue;
         }
-        BigDecimal decimal = new BigDecimal(value.trim());
-        return decimal.setScale(newScale, roundingMode).toPlainString();
     }
 
     /**

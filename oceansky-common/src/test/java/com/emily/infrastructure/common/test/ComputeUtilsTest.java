@@ -15,12 +15,15 @@ import java.math.RoundingMode;
 public class ComputeUtilsTest {
     @Test
     public void getEffectiveValue() {
-        Assertions.assertNull(ComputeUtils.getEffectiveValue(null));
-        Assertions.assertEquals(ComputeUtils.getEffectiveValue(""), "");
-        Assertions.assertEquals(ComputeUtils.getEffectiveValue(" "), " ");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.getEffectiveValue(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.getEffectiveValue(""), "");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.getEffectiveValue(" "), " ");
         Assertions.assertEquals(ComputeUtils.getEffectiveValue("3.14159265777777"), "3.14159265777777");
         Assertions.assertEquals(ComputeUtils.getEffectiveValue("3.141590000000"), "3.14159");
         Assertions.assertEquals(ComputeUtils.getEffectiveValue("3.0000"), "3");
+        Assertions.assertEquals(ComputeUtils.getEffectiveValue("3"), "3");
+        Assertions.assertEquals(ComputeUtils.getEffectiveValue("", "0.00"), "0.00");
+        Assertions.assertEquals(ComputeUtils.getEffectiveValue("abc", "0.00"), "0.00");
     }
 
     @Test

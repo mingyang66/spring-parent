@@ -12,22 +12,44 @@ import java.math.RoundingMode;
 public class ComputeUtils {
     /**
      * 获取有效值
-     * 1. 如果为空字符串，则返回原值
+     * 1. 如果为空字符串，则抛出异常
      * 2. 如果为数字，则返回原值
      * 3. 如果为小数，则返回原值; 3.120000 返回 3.12
+     * 4. 如果为非数字，则抛出异常
      *
      * @param value 值
      * @return 有效值
      */
     public static String getEffectiveValue(String value) {
-        if (StringUtils.isBlank(value)) {
-            return value;
-        }
+        return getEffectiveValue(value, null);
+    }
+
+    /**
+     * 获取有效值
+     * 1. 如果为空字符串，并且默认值为空，则抛出异常
+     * 2. 如果为空字符串，并且默认值不为空，则返回默认值
+     * 3. 如果为数字，则返回原值
+     * 4. 如果为小数，则返回原值; 3.120000 返回 3.12
+     * 5. 如果为非数字，并且默认值不为空，则返回默认值
+     * 6. 如果为非数字，并且默认值为空，则抛出异常
+     *
+     * @param value        值
+     * @param defaultValue 默认值
+     * @return 有效值
+     */
+    public static String getEffectiveValue(String value, String defaultValue) {
         try {
             return Long.valueOf(value).toString();
         } catch (Exception e) {
-            BigDecimal decimal = new BigDecimal(value);
-            return decimal.stripTrailingZeros().toPlainString();
+            try {
+                BigDecimal decimal = new BigDecimal(value);
+                return decimal.stripTrailingZeros().toPlainString();
+            } catch (Exception e1) {
+                if (StringUtils.isBlank(defaultValue)) {
+                    throw new IllegalArgumentException("非法参数");
+                }
+                return defaultValue;
+            }
         }
     }
 

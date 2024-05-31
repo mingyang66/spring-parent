@@ -109,6 +109,9 @@ public class ComputeUtils {
         try {
             return toPercentage(Double.parseDouble(value), scale);
         } catch (Exception e) {
+            if (StringUtils.isBlank(defaultValue)) {
+                throw new IllegalArgumentException("非法参数");
+            }
             return defaultValue;
         }
     }

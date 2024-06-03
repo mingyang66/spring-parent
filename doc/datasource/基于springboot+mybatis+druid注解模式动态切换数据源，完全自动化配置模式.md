@@ -8,7 +8,7 @@
 ##### 一、创建基于AbstractRoutingDataSource抽象类动态切换数据源的实现类
 
 ```java
-package com.emily.infrastructure.datasource.holder;
+package com.emily.infrastructure.datasource.context;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -75,7 +75,7 @@ public class DynamicMultipleDataSources extends AbstractRoutingDataSource {
 ##### 二、创建持有当前线程上下文数据源标识类
 
 ```java
-package com.emily.infrastructure.datasource.holder;
+package com.emily.infrastructure.datasource.context;
 
 /**
  *  线程持有数据源上线文
@@ -132,7 +132,7 @@ package com.emily.infrastructure.datasource.interceptor;
 import com.emily.infrastructure.common.exception.PrintExceptionInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.datasource.holder.DataSourceContextHolder;
+import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -263,7 +263,7 @@ import com.emily.infrastructure.common.type.AopOrderEnum;
 import com.emily.infrastructure.common.type.AppHttpStatus;
 import com.emily.infrastructure.common.exception.BusinessException;
 import com.emily.infrastructure.autoconfigure.logger.common.LoggerUtils;
-import com.emily.infrastructure.datasource.holder.DynamicMultipleDataSources;
+import com.emily.infrastructure.datasource.context.DynamicMultipleDataSources;
 import com.emily.infrastructure.datasource.interceptor.DataSourceMethodInterceptor;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;

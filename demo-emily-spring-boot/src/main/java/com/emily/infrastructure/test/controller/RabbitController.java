@@ -1,3 +1,4 @@
+/*
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
@@ -8,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+*/
 /**
  * 消息中间件控制器
  *
  * @author :  Emily
  * @since :  2023/8/25 10:49 PM
- */
+ *//*
+
 @RestController
 @RequestMapping("api/rabbit")
 public class RabbitController {
@@ -30,3 +33,4 @@ public class RabbitController {
         RabbitMqFactory.getRabbitTemplate("emily").convertAndSend("exchange_emily", "exchange.#", "测试故障恢复");
     }
 }
+*/

@@ -72,7 +72,7 @@ public class RabbitDelaySender {
             /**
              * Set the x-delay header.
              */
-            properties.setDelay(10000);
+           // properties.setDelay(10000);
             /**
              * 或设置x延迟header
              */

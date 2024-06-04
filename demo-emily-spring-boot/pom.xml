@@ -34,11 +34,11 @@
             <artifactId>emily-spring-boot-redis</artifactId>
             <version>4.4.2</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-rabbitmq</artifactId>
             <version>4.4.2</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>

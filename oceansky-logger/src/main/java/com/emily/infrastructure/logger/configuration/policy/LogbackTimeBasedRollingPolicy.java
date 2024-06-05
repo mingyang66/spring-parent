@@ -7,7 +7,7 @@ import ch.qos.logback.core.rolling.RollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
@@ -18,9 +18,9 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
  */
 public class LogbackTimeBasedRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private LoggerProperties properties;
+    private LogbackProperties properties;
 
-    public LogbackTimeBasedRollingPolicy(LoggerProperties properties, LoggerContext lc) {
+    public LogbackTimeBasedRollingPolicy(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }

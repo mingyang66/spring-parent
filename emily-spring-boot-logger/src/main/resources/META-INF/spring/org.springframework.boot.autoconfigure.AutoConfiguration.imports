@@ -1,1 +1,1 @@
-com.emily.infrastructure.logback.LogbackAutoConfiguration
+com.emily.infrastructure.logger.LoggerAutoConfiguration

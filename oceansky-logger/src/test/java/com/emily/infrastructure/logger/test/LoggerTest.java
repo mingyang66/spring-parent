@@ -1,9 +1,9 @@
 package com.emily.infrastructure.logger.test;
 
-import com.emily.infrastructure.logger.LoggerContextInitializer;
+import com.emily.infrastructure.logger.LogbackContextInitializer;
 import com.emily.infrastructure.logger.LoggerFactory;
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -20,8 +20,8 @@ public class LoggerTest {
 
     @Test
     public void test1() {
-        LoggerContextInitializer.init(new LoggerProperties());
-        LoggerContextInitializer.init(new LoggerProperties());
+        LogbackContextInitializer.init(new LogbackProperties());
+        LogbackContextInitializer.init(new LogbackProperties());
         logger.info("info test ----------------");
         logger.error("info test ----------------");
         logger.warn("warn test ----------------");

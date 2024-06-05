@@ -6,7 +6,7 @@ import ch.qos.logback.core.status.InfoStatus;
 import ch.qos.logback.core.status.OnConsoleStatusListener;
 import ch.qos.logback.core.util.StatusListenerConfigHelper;
 import ch.qos.logback.core.util.StatusPrinter;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 
 /**
  * -------------------------------------------
@@ -26,9 +26,9 @@ public class ConfigurationAction extends ContextAwareBase {
     static final String SCAN_ATTR = "scan";
     static final String SCAN_PERIOD_ATTR = "scanPeriod";
     static final String PACKAGING_DATA_ATTR = "packagingData";
-    private LoggerProperties properties;
+    private LogbackProperties properties;
 
-    public ConfigurationAction(LoggerProperties properties, LoggerContext lc) {
+    public ConfigurationAction(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.context = lc;
     }
@@ -57,7 +57,7 @@ public class ConfigurationAction extends ContextAwareBase {
         addStatus(new InfoStatus(msg, getDeclaredOrigin()));
     }
 
-    public void setProperties(LoggerProperties properties) {
+    public void setProperties(LogbackProperties properties) {
         this.properties = properties;
     }
 }

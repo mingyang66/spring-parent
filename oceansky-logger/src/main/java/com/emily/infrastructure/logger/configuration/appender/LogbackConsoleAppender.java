@@ -6,7 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logger.configuration.context.LogbackBeanFactory;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 
 /**
  * 通过名字和级别设置Appender
@@ -23,13 +23,13 @@ public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LoggerProperties properties;
+    private final LogbackProperties properties;
     /**
      * 属性配置
      */
     private final LoggerContext lc;
 
-    private LogbackConsoleAppender(LoggerProperties properties, LoggerContext lc) {
+    private LogbackConsoleAppender(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }
@@ -77,7 +77,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         return CONSOLE;
     }
 
-    public static LogbackConsoleAppender create(LoggerProperties properties, LoggerContext lc) {
+    public static LogbackConsoleAppender create(LogbackProperties properties, LoggerContext lc) {
         return new LogbackConsoleAppender(properties, lc);
     }
 }

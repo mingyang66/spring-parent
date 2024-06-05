@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger.configuration.appender;
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 
 /**
  * 通过名字和级别设置异步Appender
@@ -19,13 +19,13 @@ public class LogbackAsyncAppender {
     /**
      * 属性配置
      */
-    private final LoggerProperties properties;
+    private final LogbackProperties properties;
     /**
      * logger上下文
      */
     private final LoggerContext lc;
 
-    private LogbackAsyncAppender(LoggerProperties properties, LoggerContext lc) {
+    private LogbackAsyncAppender(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }
@@ -62,7 +62,7 @@ public class LogbackAsyncAppender {
         return appender;
     }
 
-    public static LogbackAsyncAppender create(LoggerProperties properties, LoggerContext lc) {
+    public static LogbackAsyncAppender create(LogbackProperties properties, LoggerContext lc) {
         return new LogbackAsyncAppender(properties, lc);
     }
 }

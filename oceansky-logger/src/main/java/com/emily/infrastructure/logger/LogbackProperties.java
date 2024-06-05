@@ -14,7 +14,7 @@ import java.util.List;
  * @author Emily
  * @since : 2020/08/08
  */
-public class LoggerProperties {
+public class LogbackProperties {
     /**
      * 是否开启日志组件，默认：true
      */

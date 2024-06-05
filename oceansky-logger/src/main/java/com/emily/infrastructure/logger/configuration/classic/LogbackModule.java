@@ -8,7 +8,7 @@ import com.emily.infrastructure.logger.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logger.configuration.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 /**
@@ -18,10 +18,10 @@ import com.emily.infrastructure.logger.configuration.type.LogbackType;
  * @since : 2021/12/12
  */
 public class LogbackModule extends AbstractLogback {
-    private final LoggerProperties properties;
+    private final LogbackProperties properties;
     private final LoggerContext lc;
 
-    public LogbackModule(LoggerProperties properties, LoggerContext lc) {
+    public LogbackModule(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }

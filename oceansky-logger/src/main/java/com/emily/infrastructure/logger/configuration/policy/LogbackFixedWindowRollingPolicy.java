@@ -6,7 +6,7 @@ import ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
@@ -17,9 +17,9 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
  */
 public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private LoggerProperties properties;
+    private LogbackProperties properties;
 
-    public LogbackFixedWindowRollingPolicy(LoggerProperties properties, LoggerContext lc) {
+    public LogbackFixedWindowRollingPolicy(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
     }

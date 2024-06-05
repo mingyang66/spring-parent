@@ -1,6 +1,5 @@
-package com.emily.infrastructure.logback;
+package com.emily.infrastructure.logger;
 
-import com.emily.infrastructure.logger.LoggerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -9,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Emily
  * @since :  Created in 2023/7/6 7:50 PM
  */
-@ConfigurationProperties(prefix = LogbackProperties.PREFIX)
-public class LogbackProperties extends LoggerProperties {
+@ConfigurationProperties(prefix = LoggerProperties.PREFIX)
+public class LoggerProperties extends LogbackProperties {
     /**
      * 前缀
      */

@@ -16,14 +16,14 @@ mybatis:
 ```java
 package com.emily.infrastructure.mybatis.log;
 
-import com.emily.infrastructure.logback.factory.LogbackFactory;
+import com.emily.infrastructure.logger.factory.LogbackFactory;
 import org.apache.ibatis.logging.Log;
 
 /**
-*  将mybatis sql语句记录到日志文件中实现类，是org.apache.ibatis.logging.stdout.StdOutImpl类的替换
-* @author Emily
-* @create: 2021/8/22
-*/
+ *  将mybatis sql语句记录到日志文件中实现类，是org.apache.ibatis.logging.stdout.StdOutImpl类的替换
+ * @author Emily
+ * @create: 2021/8/22
+ */
 public class LogBackImpl implements Log {
     public LogBackImpl(String clazz) {
         // Do Nothing

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
-import com.emily.infrastructure.logger.LoggerProperties;
+import com.emily.infrastructure.logger.LogbackProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -18,7 +18,7 @@ public interface Context {
      * @param properties logback日志属性
      * @param lc     上下文
      */
-    void configure(LoggerProperties properties, LoggerContext lc);
+    void configure(LogbackProperties properties, LoggerContext lc);
 
     /**
      * 获取logger日志对象

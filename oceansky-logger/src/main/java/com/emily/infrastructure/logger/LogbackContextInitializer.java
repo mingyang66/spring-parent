@@ -14,9 +14,9 @@ import java.util.List;
  * @author Emily
  * @since :  Created in 2023/7/2 11:16 AM
  */
-public class LoggerContextInitializer {
+public class LogbackContextInitializer {
     private static final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-    private static final Logger logger = LoggerFactory.getLogger(LoggerContextInitializer.class);
+    private static final Logger logger = LoggerFactory.getLogger(LogbackContextInitializer.class);
     /**
      * logback sdk context
      */
@@ -31,7 +31,7 @@ public class LoggerContextInitializer {
      *
      * @param properties 日志属性配置
      */
-    public static void init(LoggerProperties properties) {
+    public static void init(LogbackProperties properties) {
         if (!properties.isEnabled()) {
             return;
         }

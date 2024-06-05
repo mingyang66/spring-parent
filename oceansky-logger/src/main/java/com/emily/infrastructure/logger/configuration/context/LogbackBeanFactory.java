@@ -35,14 +35,14 @@ public class LogbackBeanFactory {
     private static final List<LogbackPatternLayoutEncoder> ENCODERS = new ArrayList<>(1);
     private static final List<LogbackFilter> FILTERS = new ArrayList<>(1);
 
-    public static void registerBean(LoggerProperties config, LoggerContext lc) {
-        POLICIES.add(new LogbackSizeAndTimeBasedRollingPolicy(config, lc));
-        POLICIES.add(new LogbackTimeBasedRollingPolicy(config, lc));
-        POLICIES.add(new LogbackFixedWindowRollingPolicy(config, lc));
+    public static void registerBean(LoggerProperties properties, LoggerContext lc) {
+        POLICIES.add(new LogbackSizeAndTimeBasedRollingPolicy(properties, lc));
+        POLICIES.add(new LogbackTimeBasedRollingPolicy(properties, lc));
+        POLICIES.add(new LogbackFixedWindowRollingPolicy(properties, lc));
 
-        LOGGERS.add(new LogbackGroup(config, lc));
-        LOGGERS.add(new LogbackModule(config, lc));
-        LOGGERS.add(new LogbackRoot(config, lc));
+        LOGGERS.add(new LogbackGroup(properties, lc));
+        LOGGERS.add(new LogbackModule(properties, lc));
+        LOGGERS.add(new LogbackRoot(properties, lc));
 
         ENCODERS.add(new LogbackPatternLayoutEncoder(lc));
 

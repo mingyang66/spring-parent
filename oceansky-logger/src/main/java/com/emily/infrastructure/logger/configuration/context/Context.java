@@ -15,10 +15,10 @@ public interface Context {
     /**
      * 属性配置
      *
-     * @param config logback日志属性
+     * @param properties logback日志属性
      * @param lc     上下文
      */
-    void configure(LoggerProperties config, LoggerContext lc);
+    void configure(LoggerProperties properties, LoggerContext lc);
 
     /**
      * 获取logger日志对象

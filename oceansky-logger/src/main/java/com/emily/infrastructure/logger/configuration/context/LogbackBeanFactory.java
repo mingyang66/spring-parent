@@ -16,7 +16,7 @@ import com.emily.infrastructure.logger.configuration.policy.AbstractRollingPolic
 import com.emily.infrastructure.logger.configuration.policy.LogbackFixedWindowRollingPolicy;
 import com.emily.infrastructure.logger.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
 import com.emily.infrastructure.logger.configuration.policy.LogbackTimeBasedRollingPolicy;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.LoggerProperties;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;

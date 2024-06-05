@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.context.LogbackBeanFactory;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 import java.io.File;

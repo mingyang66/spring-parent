@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger.configuration.appender;
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.Appender;
-import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
+import com.emily.infrastructure.logger.LoggerProperties;
 
 /**
  * 通过名字和级别设置异步Appender

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.configuration.property;
+package com.emily.infrastructure.logger;
 
 
 import com.emily.infrastructure.logger.configuration.type.CompressionMode;

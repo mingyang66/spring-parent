@@ -14,7 +14,7 @@ Bug Fixes
 Dependency Upgrades
 
 1. Upgrade to logback 1.5.6;
-2. Upgrade to slf4j-api 2.0.13;
+2. Upgrade to slf4j-api 2.0.9;
 3. Upgrade to spring-boot 3.3.0;
 4. Upgrade to druid-spring-boot-3-starter 1.2.23;
 

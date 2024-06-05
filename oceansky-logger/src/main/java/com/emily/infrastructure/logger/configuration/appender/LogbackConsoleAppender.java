@@ -6,7 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logger.configuration.context.LogbackBeanFactory;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 
 /**
  * 通过名字和级别设置Appender
@@ -23,14 +23,14 @@ public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LoggerConfig config;
+    private final LoggerProperties properties;
     /**
      * 属性配置
      */
     private final LoggerContext lc;
 
-    private LogbackConsoleAppender(LoggerConfig config, LoggerContext lc) {
-        this.config = config;
+    private LogbackConsoleAppender(LoggerProperties properties, LoggerContext lc) {
+        this.properties = properties;
         this.lc = lc;
     }
 
@@ -56,7 +56,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(true);
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
-        appender.setWithJansi(config.getRoot().isWithJansi());
+        appender.setWithJansi(properties.getRoot().isWithJansi());
         appender.start();
         return appender;
 
@@ -69,7 +69,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
 
     @Override
     protected String resolveFilePattern() {
-        return config.getRoot().getConsolePattern();
+        return properties.getRoot().getConsolePattern();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         return CONSOLE;
     }
 
-    public static LogbackConsoleAppender create(LoggerConfig config, LoggerContext lc) {
-        return new LogbackConsoleAppender(config, lc);
+    public static LogbackConsoleAppender create(LoggerProperties properties, LoggerContext lc) {
+        return new LogbackConsoleAppender(properties, lc);
     }
 }

@@ -3,7 +3,7 @@ package com.emily.infrastructure.logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ClassicEnvUtil;
 import com.emily.infrastructure.logger.configuration.context.Context;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +30,10 @@ public class LoggerContextInitializer {
     /**
      * 日志组件SDK初始化
      *
-     * @param config 日志属性配置
+     * @param properties 日志属性配置
      */
-    public static void init(LoggerConfig config) {
-        if (!config.isEnabled()) {
+    public static void init(LoggerProperties properties) {
+        if (!properties.isEnabled()) {
             return;
         }
         if (isAlreadyInitialized()) {
@@ -48,7 +48,7 @@ public class LoggerContextInitializer {
         //context = EnvUtil.loadFromServiceLoader(Context.class); // new version expire
         context = list.get(0);
         // 对属性进行设置
-        context.configure(config, lc);
+        context.configure(properties, lc);
         // 初始化root logger对象
         context.start();
         if (isAlreadyInitialized()) {

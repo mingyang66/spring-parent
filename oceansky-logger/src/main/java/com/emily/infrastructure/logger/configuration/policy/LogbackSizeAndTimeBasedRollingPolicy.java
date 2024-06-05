@@ -7,7 +7,7 @@ import ch.qos.logback.core.rolling.RollingPolicy;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
@@ -18,10 +18,10 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
  */
 public class LogbackSizeAndTimeBasedRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private LoggerConfig config;
+    private LoggerProperties properties;
 
-    public LogbackSizeAndTimeBasedRollingPolicy(LoggerConfig config, LoggerContext lc) {
-        this.config = config;
+    public LogbackSizeAndTimeBasedRollingPolicy(LoggerProperties properties, LoggerContext lc) {
+        this.properties = properties;
         this.lc = lc;
     }
 
@@ -57,15 +57,15 @@ public class LogbackSizeAndTimeBasedRollingPolicy extends AbstractRollingPolicy 
          */
         String fp = StrUtils.substVars(lc, loggerPath, ".%d{yyyy-MM-dd}.%i.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, config.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         //最大日志文件大小 KB,MB,GB
-        policy.setMaxFileSize(FileSize.valueOf(config.getAppender().getRollingPolicy().getMaxFileSize()));
+        policy.setMaxFileSize(FileSize.valueOf(properties.getAppender().getRollingPolicy().getMaxFileSize()));
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(config.getAppender().getRollingPolicy().getMaxHistory());
+        policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
         //文件总大小限制 KB,MB,G
-        policy.setTotalSizeCap(FileSize.valueOf(config.getAppender().getRollingPolicy().getTotalSizeCap()));
+        policy.setTotalSizeCap(FileSize.valueOf(properties.getAppender().getRollingPolicy().getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(config.getAppender().getRollingPolicy().isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(appender);
         //添加内部状态

@@ -9,7 +9,7 @@ import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.PathUtils;
 import com.emily.infrastructure.logger.common.StrUtils;
 import com.emily.infrastructure.logger.configuration.context.LogbackBeanFactory;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 
 import java.io.File;
@@ -29,14 +29,14 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LoggerConfig config;
+    private final LoggerProperties properties;
     /**
      * logger上下文
      */
     private final LoggerContext lc;
 
-    private LogbackRollingFileAppender(LoggerConfig config, LoggerContext lc, CommonKeys commonKeys) {
-        this.config = config;
+    private LogbackRollingFileAppender(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+        this.properties = properties;
         this.lc = lc;
         this.commonKeys = commonKeys;
     }
@@ -50,7 +50,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
         //归档策略属性配置
-        LoggerConfig.RollingPolicy rp = config.getAppender().getRollingPolicy();
+        LoggerProperties.RollingPolicy rp = properties.getAppender().getRollingPolicy();
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
@@ -65,15 +65,15 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //appender的name属性
         appender.setName(this.resolveName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
-        appender.setAppend(config.getAppender().isAppend());
+        appender.setAppend(properties.getAppender().isAppend());
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
-        appender.setPrudent(config.getAppender().isPrudent());
+        appender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
         appender.addFilter(LogbackBeanFactory.getFilter().getLevelFilter(level));
         //设置附加器编码
         appender.setEncoder(LogbackBeanFactory.getEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
-        appender.setImmediateFlush(config.getAppender().isImmediateFlush());
+        appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();
         return appender;
     }
@@ -87,7 +87,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     @Override
     protected String resolveFilePath(Level level) {
         //基础相对路径
-        String basePath = config.getAppender().getPath();
+        String basePath = properties.getAppender().getPath();
         //文件路径
         String filePath = commonKeys.getFilePath();
         //日志级别
@@ -116,14 +116,14 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     protected String resolveFilePattern() {
         //基础日志
         if (LogbackType.ROOT.equals(commonKeys.getLogbackType())) {
-            return config.getRoot().getPattern();
+            return properties.getRoot().getPattern();
         }
         //分组
         if (LogbackType.GROUP.equals(commonKeys.getLogbackType())) {
-            return config.getGroup().getPattern();
+            return properties.getGroup().getPattern();
         }
         //分模块
-        return config.getModule().getPattern();
+        return properties.getModule().getPattern();
     }
 
     /**
@@ -143,7 +143,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
-    public static LogbackRollingFileAppender create(LoggerConfig config, LoggerContext lc, CommonKeys commonKeys) {
-        return new LogbackRollingFileAppender(config, lc, commonKeys);
+    public static LogbackRollingFileAppender create(LoggerProperties properties, LoggerContext lc, CommonKeys commonKeys) {
+        return new LogbackRollingFileAppender(properties, lc, commonKeys);
     }
 }

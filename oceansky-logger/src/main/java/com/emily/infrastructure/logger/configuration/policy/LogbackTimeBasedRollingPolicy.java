@@ -7,7 +7,7 @@ import ch.qos.logback.core.rolling.RollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
@@ -18,10 +18,10 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
  */
 public class LogbackTimeBasedRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private LoggerConfig config;
+    private LoggerProperties properties;
 
-    public LogbackTimeBasedRollingPolicy(LoggerConfig config, LoggerContext lc) {
-        this.config = config;
+    public LogbackTimeBasedRollingPolicy(LoggerProperties properties, LoggerContext lc) {
+        this.properties = properties;
         this.lc = lc;
     }
 
@@ -58,13 +58,13 @@ public class LogbackTimeBasedRollingPolicy extends AbstractRollingPolicy {
          */
         String fp = StrUtils.substVars(lc, loggerPath, "%d{yyyy-MM-dd}.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, config.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         //设置要保留的最大存档文件数
-        policy.setMaxHistory(config.getAppender().getRollingPolicy().getMaxHistory());
+        policy.setMaxHistory(properties.getAppender().getRollingPolicy().getMaxHistory());
         //控制所有归档文件总大小 KB、MB、GB，默认:0
-        policy.setTotalSizeCap(FileSize.valueOf(config.getAppender().getRollingPolicy().getTotalSizeCap()));
+        policy.setTotalSizeCap(FileSize.valueOf(properties.getAppender().getRollingPolicy().getTotalSizeCap()));
         //是否在应用程序启动时删除存档，默认：false
-        policy.setCleanHistoryOnStart(config.getAppender().getRollingPolicy().isCleanHistoryOnStart());
+        policy.setCleanHistoryOnStart(properties.getAppender().getRollingPolicy().isCleanHistoryOnStart());
         //设置父节点是appender
         policy.setParent(appender);
         //添加内部状态

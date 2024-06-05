@@ -6,7 +6,7 @@ import ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
 import com.emily.infrastructure.logger.common.StrUtils;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
 
 /**
@@ -17,10 +17,10 @@ import com.emily.infrastructure.logger.configuration.type.RollingPolicyType;
  */
 public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
     private final LoggerContext lc;
-    private LoggerConfig config;
+    private LoggerProperties properties;
 
-    public LogbackFixedWindowRollingPolicy(LoggerConfig config, LoggerContext lc) {
-        this.config = config;
+    public LogbackFixedWindowRollingPolicy(LoggerProperties properties, LoggerContext lc) {
+        this.properties = properties;
         this.lc = lc;
     }
 
@@ -56,7 +56,7 @@ public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
          */
         String fp = StrUtils.substVars(lc, loggerPath, "%d{yyyy-MM-dd}%i.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ
-        policy.setFileNamePattern(StrUtils.join(fp, config.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
+        policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         policy.setMinIndex(1);
         policy.setMaxIndex(10);
         //设置父节点是appender

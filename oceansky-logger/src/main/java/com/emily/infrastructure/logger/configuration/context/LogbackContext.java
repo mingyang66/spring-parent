@@ -4,7 +4,7 @@ import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logger.common.CommonKeys;
 import com.emily.infrastructure.logger.common.CommonNames;
 import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.configuration.property.LoggerConfig;
+import com.emily.infrastructure.logger.configuration.property.LoggerProperties;
 import com.emily.infrastructure.logger.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -18,7 +18,7 @@ import static com.emily.infrastructure.logger.common.CommonCache.LOGGER;
  * @since : 2020/08/04
  */
 public class LogbackContext implements Context {
-    private LoggerConfig config;
+    private LoggerProperties properties;
     private LoggerContext lc;
 
     /**
@@ -29,24 +29,24 @@ public class LogbackContext implements Context {
      * 4. packagingData异常堆栈拼接所属jar包控制
      * 5. 全局过滤器TurboFilter控制
      *
-     * @param config logback日志属性
+     * @param properties logback日志属性
      * @param lc     上下文
      */
     @Override
-    public void configure(LoggerConfig config, LoggerContext lc) {
-        this.config = config;
+    public void configure(LoggerProperties properties, LoggerContext lc) {
+        this.properties = properties;
         this.lc = lc;
         // 注册日志对象
-        LogbackBeanFactory.registerBean(config, lc);
+        LogbackBeanFactory.registerBean(properties, lc);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
-        ConfigurationAction configuration = new ConfigurationAction(config, lc);
+        ConfigurationAction configuration = new ConfigurationAction(properties, lc);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
-        config.getMarker().getAcceptMarker().forEach((marker) -> {
+        properties.getMarker().getAcceptMarker().forEach((marker) -> {
             lc.addTurboFilter(LogbackBeanFactory.getFilter().getAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
-        config.getMarker().getDenyMarker().forEach((marker) -> {
+        properties.getMarker().getDenyMarker().forEach((marker) -> {
             lc.addTurboFilter(LogbackBeanFactory.getFilter().getDenyMarkerFilter(marker));
         });
     }
@@ -115,7 +115,7 @@ public class LogbackContext implements Context {
                 // logger name
                 .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path
-                .withFilePath(PathUtils.normalizePath(config.getRoot().getFilePath()))
+                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
                 // logger type
                 .withLogbackType(LogbackType.ROOT)
                 .build());

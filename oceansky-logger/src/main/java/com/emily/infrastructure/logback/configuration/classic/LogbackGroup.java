@@ -3,13 +3,13 @@ package com.emily.infrastructure.logback.configuration.classic;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
-import com.emily.infrastructure.logback.LogbackProperties;
 
 /**
  * 分组记录日志
@@ -21,14 +21,14 @@ public class LogbackGroup extends AbstractLogback {
     private final LogbackProperties properties;
     private final LoggerContext lc;
 
-    public LogbackGroup(LogbackProperties properties, LoggerContext lc) {
-        this.properties = properties;
+    public LogbackGroup(LoggerContext lc, LogbackProperties properties) {
         this.lc = lc;
+        this.properties = properties;
     }
 
     @Override
     public boolean supports(LogbackType logbackType) {
-        return LogbackType.GROUP.equals(logbackType);
+        return LogbackType.GROUP == logbackType;
     }
 
     /**
@@ -47,7 +47,7 @@ public class LogbackGroup extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getGroup().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = LogbackRollingFileAppender.create(properties, lc, commonKeys);
+        AbstractAppender appender = LogbackRollingFileAppender.create(lc, properties, commonKeys);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
@@ -86,7 +86,7 @@ public class LogbackGroup extends AbstractLogback {
         }
         if (properties.getGroup().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(LogbackConsoleAppender.create(properties, lc).build(logger.getLevel()));
+            logger.addAppender(LogbackConsoleAppender.create(lc, properties).build(logger.getLevel()));
         }
 
         return logger;

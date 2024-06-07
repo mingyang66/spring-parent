@@ -5,18 +5,18 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
+import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
-import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
-import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
-import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
-import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
 import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
+import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
+import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
 import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackFixedWindowRollingPolicy;
-import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
+import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -35,14 +35,14 @@ public class LogbackBeanFactory {
     private static final List<LogbackPatternLayoutEncoder> ENCODERS = new ArrayList<>(1);
     private static final List<LogbackFilter> FILTERS = new ArrayList<>(1);
 
-    public static void registerBean(LogbackProperties properties, LoggerContext lc) {
-        POLICIES.add(new LogbackSizeAndTimeBasedRollingPolicy(properties, lc));
-        POLICIES.add(new LogbackTimeBasedRollingPolicy(properties, lc));
-        POLICIES.add(new LogbackFixedWindowRollingPolicy(properties, lc));
+    public static void registerBean(LoggerContext lc, LogbackProperties properties) {
+        POLICIES.add(new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
+        POLICIES.add(new LogbackTimeBasedRollingPolicy(lc, properties));
+        POLICIES.add(new LogbackFixedWindowRollingPolicy(lc, properties));
 
-        LOGGERS.add(new LogbackGroup(properties, lc));
-        LOGGERS.add(new LogbackModule(properties, lc));
-        LOGGERS.add(new LogbackRoot(properties, lc));
+        LOGGERS.add(new LogbackGroup(lc, properties));
+        LOGGERS.add(new LogbackModule(lc, properties));
+        LOGGERS.add(new LogbackRoot(lc, properties));
 
         ENCODERS.add(new LogbackPatternLayoutEncoder(lc));
 

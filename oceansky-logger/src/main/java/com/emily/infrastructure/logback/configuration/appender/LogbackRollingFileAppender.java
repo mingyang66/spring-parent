@@ -5,12 +5,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
+import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.common.StrUtils;
-import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.configuration.context.LogbackBeanFactory;
-import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.type.LogbackType;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -23,21 +23,21 @@ import java.text.MessageFormat;
  */
 public class LogbackRollingFileAppender extends AbstractAppender {
     /**
-     * 属性配置
+     * logger上下文
      */
-    private final CommonKeys commonKeys;
+    private final LoggerContext lc;
     /**
      * 属性配置
      */
     private final LogbackProperties properties;
     /**
-     * logger上下文
+     * 属性配置
      */
-    private final LoggerContext lc;
+    private final CommonKeys commonKeys;
 
-    private LogbackRollingFileAppender(LogbackProperties properties, LoggerContext lc, CommonKeys commonKeys) {
-        this.properties = properties;
+    private LogbackRollingFileAppender(LoggerContext lc, LogbackProperties properties, CommonKeys commonKeys) {
         this.lc = lc;
+        this.properties = properties;
         this.commonKeys = commonKeys;
     }
 
@@ -143,7 +143,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 
-    public static LogbackRollingFileAppender create(LogbackProperties properties, LoggerContext lc, CommonKeys commonKeys) {
-        return new LogbackRollingFileAppender(properties, lc, commonKeys);
+    public static LogbackRollingFileAppender create(LoggerContext lc, LogbackProperties properties, CommonKeys commonKeys) {
+        return new LogbackRollingFileAppender(lc, properties, commonKeys);
     }
 }

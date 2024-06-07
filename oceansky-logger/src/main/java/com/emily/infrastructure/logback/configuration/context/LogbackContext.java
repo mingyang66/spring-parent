@@ -1,11 +1,11 @@
 package com.emily.infrastructure.logback.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
+import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.CommonNames;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
-import com.emily.infrastructure.logback.LogbackProperties;
 import org.slf4j.Logger;
 
 import static com.emily.infrastructure.logback.common.CommonCache.APPENDER;
@@ -30,16 +30,16 @@ public class LogbackContext implements Context {
      * 5. 全局过滤器TurboFilter控制
      *
      * @param properties logback日志属性
-     * @param lc     上下文
+     * @param lc         上下文
      */
     @Override
     public void configure(LogbackProperties properties, LoggerContext lc) {
         this.properties = properties;
         this.lc = lc;
         // 注册日志对象
-        LogbackBeanFactory.registerBean(properties, lc);
+        LogbackBeanFactory.registerBean(lc, properties);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
-        ConfigurationAction configuration = new ConfigurationAction(properties, lc);
+        ConfigurationAction configuration = new ConfigurationAction(lc, properties);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> {

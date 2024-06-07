@@ -3,13 +3,13 @@ package com.emily.infrastructure.logback.configuration.classic;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
-import com.emily.infrastructure.logback.LogbackProperties;
 
 /**
  * 日志组件抽象类
@@ -21,14 +21,14 @@ public class LogbackRoot extends AbstractLogback {
     private final LoggerContext lc;
     private final LogbackProperties config;
 
-    public LogbackRoot(LogbackProperties config, LoggerContext lc) {
-        this.config = config;
+    public LogbackRoot(LoggerContext lc, LogbackProperties config) {
         this.lc = lc;
+        this.config = config;
     }
 
     @Override
     public boolean supports(LogbackType logbackType) {
-        return LogbackType.ROOT.equals(logbackType);
+        return LogbackType.ROOT == logbackType;
     }
 
     /**
@@ -44,7 +44,7 @@ public class LogbackRoot extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(config.getRoot().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = LogbackRollingFileAppender.create(config, lc, commonKeys);
+        AbstractAppender appender = LogbackRollingFileAppender.create(lc, config, commonKeys);
         // 是否开启异步日志
         if (config.getAppender().getAsync().isEnabled()) {
             //异步appender
@@ -87,7 +87,7 @@ public class LogbackRoot extends AbstractLogback {
             //基于springboot默认初始化的appender name默认大写
             logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
             // 添加控制台appender
-            logger.addAppender(LogbackConsoleAppender.create(config, lc).build(logger.getLevel()));
+            logger.addAppender(LogbackConsoleAppender.create(lc, config).build(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE);

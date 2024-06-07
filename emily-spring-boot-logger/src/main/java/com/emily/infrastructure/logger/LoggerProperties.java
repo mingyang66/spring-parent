@@ -1,5 +1,6 @@
 package com.emily.infrastructure.logger;
 
+import com.emily.infrastructure.logback.LogbackProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

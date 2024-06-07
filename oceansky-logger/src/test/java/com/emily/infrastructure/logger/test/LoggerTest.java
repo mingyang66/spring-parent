@@ -1,9 +1,9 @@
 package com.emily.infrastructure.logger.test;
 
-import com.emily.infrastructure.logger.LogbackContextInitializer;
+import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logger.LoggerFactory;
-import com.emily.infrastructure.logger.common.PathUtils;
-import com.emily.infrastructure.logger.LogbackProperties;
+import com.emily.infrastructure.logback.common.PathUtils;
+import com.emily.infrastructure.logback.LogbackProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

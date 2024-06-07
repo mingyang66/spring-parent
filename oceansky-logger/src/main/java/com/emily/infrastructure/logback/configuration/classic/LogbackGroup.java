@@ -18,8 +18,8 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
  * @since : 2021/12/12
  */
 public class LogbackGroup extends AbstractLogback {
-    private final LogbackProperties properties;
     private final LoggerContext lc;
+    private final LogbackProperties properties;
 
     public LogbackGroup(LoggerContext lc, LogbackProperties properties) {
         this.lc = lc;
@@ -51,7 +51,7 @@ public class LogbackGroup extends AbstractLogback {
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(properties, lc);
+            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(lc, properties);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }

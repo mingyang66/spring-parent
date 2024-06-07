@@ -48,7 +48,7 @@ public class LogbackRoot extends AbstractLogback {
         // 是否开启异步日志
         if (config.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(config, lc);
+            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(lc, config);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }

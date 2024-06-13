@@ -4,6 +4,7 @@ import com.emily.infrastructure.common.ComputeUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
@@ -47,5 +48,18 @@ public class ComputeUtilsTest {
         Assertions.assertEquals(ComputeUtils.toPercentage(null, 3, "0.1"), "0.1");
         Assertions.assertEquals(ComputeUtils.toPercentage("1.23", 3, "0.1"), "123.000%");
         Assertions.assertEquals(ComputeUtils.toPercentage("1.23", 0, "0.1"), "123%");
+    }
+
+    @Test
+    public void rounding() {
+        Assertions.assertEquals(ComputeUtils.rounding(null, 2, RoundingMode.HALF_UP, "0.00"), "0.00");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.rounding(null, 2, RoundingMode.HALF_UP, ""));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.rounding(null, 2, RoundingMode.HALF_UP, null));
+        Assertions.assertEquals(ComputeUtils.rounding(null, 4, "0.00"), "0.00");
+        Assertions.assertEquals(ComputeUtils.rounding(null, 2, RoundingMode.HALF_UP, "0.00"), "0.00");
+        Assertions.assertEquals(ComputeUtils.rounding(new BigDecimal("3.230000"), 2, RoundingMode.HALF_UP, "0.00"), "3.23");
+        Assertions.assertEquals(ComputeUtils.rounding(new BigDecimal("3.230000"), 4, RoundingMode.HALF_UP, "0.00"), "3.2300");
+        Assertions.assertEquals(ComputeUtils.rounding(new BigDecimal("3.230000"), 4), "3.2300");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ComputeUtils.rounding(null, 4));
     }
 }

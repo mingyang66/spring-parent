@@ -56,6 +56,49 @@ public class ComputeUtils {
     /**
      * 保留小数
      *
+     * @param decimal      原始值
+     * @param newScale     保留小数位数
+     * @param roundingMode 保留小数模式
+     * @param defaultValue 默认值
+     * @return 保留小数后的值
+     */
+    public static String rounding(BigDecimal decimal, int newScale, RoundingMode roundingMode, String defaultValue) {
+        try {
+            return decimal.setScale(newScale, roundingMode).toPlainString();
+        } catch (Exception e) {
+            if (StringUtils.isBlank(defaultValue)) {
+                throw new IllegalArgumentException("非法参数");
+            }
+            return defaultValue;
+        }
+    }
+
+    /**
+     * 保留小数，默认四舍五入
+     *
+     * @param decimal      原始值
+     * @param newScale     保留小数位数
+     * @param defaultValue 默认值
+     * @return 保留小数后的值
+     */
+    public static String rounding(BigDecimal decimal, int newScale, String defaultValue) {
+        return rounding(decimal, newScale, RoundingMode.HALF_UP, defaultValue);
+    }
+
+    /**
+     * 保留小数，默认四舍五入，如果原始值为null，则抛出异常
+     *
+     * @param decimal  原始值
+     * @param newScale 保留小数位数
+     * @return 保留小数后的值
+     */
+    public static String rounding(BigDecimal decimal, int newScale) {
+        return rounding(decimal, newScale, RoundingMode.HALF_UP, null);
+    }
+
+    /**
+     * 保留小数
+     *
      * @param value        原始值
      * @param newScale     保留小数位数
      * @param roundingMode 保留小数模式
@@ -75,7 +118,7 @@ public class ComputeUtils {
     }
 
     /**
-     * 保留小数
+     * 保留小数，默认四舍五入
      *
      * @param value        原始值
      * @param newScale     保留小数位数
@@ -87,7 +130,7 @@ public class ComputeUtils {
     }
 
     /**
-     * 保留小数
+     * 保留小数，默认四舍五入，如果原始值为null，则抛出异常
      *
      * @param value    原始值
      * @param newScale 保留小数位数

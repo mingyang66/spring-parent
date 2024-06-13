@@ -9,6 +9,7 @@ Bug Fixes
 4. SensitiveUtils、DeSensitiveUtils 脱敏工具类支持对指定包装外层包了Map、List、Collection、Array等集合类型的数据进行脱敏；
 5. ComputeUtils工具类新增round、toPercentage保留小数位数及转换为百分比方法；
 6. 新增自带默认值ComputeUtils.getEffectiveValue(java.lang.String, java.lang.String)小数位数工具方法；
+7. ComputeUtils工具类新增rounding相关方法对BigDecimal进行舍入处理；
 
 ------
 Dependency Upgrades

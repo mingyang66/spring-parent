@@ -10,6 +10,7 @@ Bug Fixes
 5. ComputeUtils工具类新增round、toPercentage保留小数位数及转换为百分比方法；
 6. 新增自带默认值ComputeUtils.getEffectiveValue(java.lang.String, java.lang.String)小数位数工具方法；
 7. ComputeUtils工具类新增rounding相关方法对BigDecimal进行舍入处理；
+8. PrintLoggerUtils打印日志类对Logger对象的初始化修改为静态内部类模式延迟加载。
 
 ------
 Dependency Upgrades

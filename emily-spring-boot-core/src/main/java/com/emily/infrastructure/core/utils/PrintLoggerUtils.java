@@ -12,9 +12,6 @@ import org.slf4j.Logger;
  * @since :  2024/1/1 4:12 PM
  */
 public class PrintLoggerUtils {
-    private static final Logger logger = LoggerFactory.getModuleLogger(PrintLoggerUtils.class, "api", "request");
-    private static final Logger loggerThirdParty = LoggerFactory.getModuleLogger(PrintLoggerUtils.class, "api", "thirdParty");
-
     /**
      * 记录请求日志
      *
@@ -22,7 +19,7 @@ public class PrintLoggerUtils {
      */
     public static void printRequest(Object message) {
         ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {
-            logger.info(JsonUtils.toJSONString(message));
+            LogHolder.LOG.info(JsonUtils.toJSONString(message));
         });
     }
 
@@ -33,7 +30,12 @@ public class PrintLoggerUtils {
      */
     public static void printThirdParty(Object message) {
         ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> {
-            loggerThirdParty.info(JsonUtils.toJSONString(message));
+            LogHolder.LOGTHIRDPARTY.info(JsonUtils.toJSONString(message));
         });
+    }
+
+    public static class LogHolder {
+        private static final Logger LOG = LoggerFactory.getModuleLogger(PrintLoggerUtils.class, "api", "request");
+        private static final Logger LOGTHIRDPARTY = LoggerFactory.getModuleLogger(PrintLoggerUtils.class, "api", "thirdParty");
     }
 }

@@ -112,7 +112,7 @@ public class DataSourceProperties {
      * @return 数据源映射
      */
     public Map<Object, Object> getTargetDataSources() {
-        Map<Object, Object> dsMap = new HashMap(5);
+        Map<Object, Object> dsMap = new HashMap<>(5);
         if (!CollectionUtils.isEmpty(this.druid)) {
             dsMap.putAll(this.druid);
         }

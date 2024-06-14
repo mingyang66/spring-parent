@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 过滤器注册自动化配置
@@ -46,7 +47,7 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
         FilterRegistrationBean<RequestChannelFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setName("requestChannelFilter");
         filterRegistrationBean.setFilter(new RequestChannelFilter());
-        filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
+        filterRegistrationBean.setUrlPatterns(List.of("/*"));
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return filterRegistrationBean;
     }

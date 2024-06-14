@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.servlet;
 import com.emily.infrastructure.autoconfigure.servlet.annotation.ApiPathPrefixIgnore;
 import com.emily.infrastructure.autoconfigure.servlet.interceptor.ParameterInterceptor;
 import com.emily.infrastructure.core.constant.CharacterInfo;
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;

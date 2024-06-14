@@ -9,7 +9,7 @@ import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import com.emily.infrastructure.datasource.interceptor.DefaultDataSourceMethodInterceptor;
 import com.emily.infrastructure.datasource.lookup.DynamicMultiRoutingDataSource;
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
 import org.springframework.aop.Advisor;

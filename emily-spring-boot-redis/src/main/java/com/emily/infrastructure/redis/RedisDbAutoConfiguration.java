@@ -1,7 +1,7 @@
 package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;

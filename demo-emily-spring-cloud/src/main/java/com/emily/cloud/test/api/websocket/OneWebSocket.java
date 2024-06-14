@@ -1,6 +1,6 @@
 package com.emily.cloud.test.api.websocket;
 
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;

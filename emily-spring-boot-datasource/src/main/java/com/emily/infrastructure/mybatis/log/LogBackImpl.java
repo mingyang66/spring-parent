@@ -1,6 +1,6 @@
 package com.emily.infrastructure.mybatis.log;
 
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.ibatis.logging.Log;
 
 /**

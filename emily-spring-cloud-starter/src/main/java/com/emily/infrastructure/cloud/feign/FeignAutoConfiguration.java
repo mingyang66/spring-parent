@@ -7,7 +7,7 @@ import com.emily.infrastructure.cloud.feign.loadbalancer.FeignLoggerLoadBalancer
 import com.emily.infrastructure.cloud.feign.logger.FeignLogger;
 import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import feign.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;

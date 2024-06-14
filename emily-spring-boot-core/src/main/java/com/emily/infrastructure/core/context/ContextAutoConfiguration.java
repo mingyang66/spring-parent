@@ -1,7 +1,7 @@
 package com.emily.infrastructure.core.context;
 
 import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
-import com.emily.infrastructure.logger.LoggerFactory;
+import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;

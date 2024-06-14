@@ -6,5 +6,6 @@ module oceansky.logger {
     requires org.slf4j;
     requires ch.qos.logback.classic;
     requires ch.qos.logback.core;
-    exports com.emily.infrastructure.logger;
+    exports com.emily.infrastructure.logback;
+    exports com.emily.infrastructure.logback.factory;
 }

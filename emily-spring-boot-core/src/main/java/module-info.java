@@ -29,4 +29,9 @@ module emily.spring.boot.core {
     exports com.emily.infrastructure.core.constant;
     exports com.emily.infrastructure.core.aop.advisor;
     exports com.emily.infrastructure.core.aop.pointcut;
+    exports com.emily.infrastructure.core.context.holder;
+    exports com.emily.infrastructure.core.condition;
+    exports com.emily.infrastructure.core.servlet.filter;
+    exports com.emily.infrastructure.core.servlet;
+    exports com.emily.infrastructure.core.context.ioc;
 }

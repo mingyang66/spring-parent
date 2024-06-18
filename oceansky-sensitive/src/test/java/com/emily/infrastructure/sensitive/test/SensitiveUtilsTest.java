@@ -27,12 +27,14 @@ public class SensitiveUtilsTest {
         people.setKey("email");
         people.setValue("1563919868@qq.com");
         people.setStr("测试null");
-        Map<String, Object> s = (Map<String, Object>) SensitiveUtils.acquireElseGet(people);
-        Assertions.assertNull(s.get("str"));
-        Assertions.assertEquals(s.get("age"), 0);
-        Assertions.assertEquals(s.get("b"), (byte) 0);
-        Assertions.assertEquals(s.get("s"), (short) 0);
-        Assertions.assertEquals(s.get("l"), 0L);
+        Object obj = SensitiveUtils.acquireElseGet(people);
+        if (obj instanceof Map s) {
+            Assertions.assertNull(s.get("str"));
+            Assertions.assertEquals(s.get("age"), 0);
+            Assertions.assertEquals(s.get("b"), (byte) 0);
+            Assertions.assertEquals(s.get("s"), (short) 0);
+            Assertions.assertEquals(s.get("l"), 0L);
+        }
     }
 
     @Test

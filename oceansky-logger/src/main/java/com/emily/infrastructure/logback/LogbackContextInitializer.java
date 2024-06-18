@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.util.ClassicEnvUtil;
+import com.emily.infrastructure.logback.common.ClassicEnvUtil;
 import com.emily.infrastructure.logback.configuration.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,7 @@ import java.util.List;
  * @since :  Created in 2023/7/2 11:16 AM
  */
 public class LogbackContextInitializer {
-    private static final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-    private static final Logger logger = LoggerFactory.getLogger(LogbackContextInitializer.class);
+
     /**
      * logback sdk context
      */
@@ -47,13 +46,13 @@ public class LogbackContextInitializer {
         //context = EnvUtil.loadFromServiceLoader(Context.class); // new version expire
         context = list.get(0);
         // 对属性进行设置
-        context.configure(properties, lc);
+        context.configure(properties, LogHolder.lc);
         // 初始化root logger对象
         context.start();
         if (isAlreadyInitialized()) {
-            logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
+            LogHolder.logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         } else {
-            logger.info("Log sdk initialized");
+            LogHolder.logger.info("Log sdk initialized");
         }
         // 设置为已初始化
         markAsInitialized();
@@ -82,4 +81,8 @@ public class LogbackContextInitializer {
         initialized = true;
     }
 
+    public static class LogHolder {
+        private static final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        private static final Logger logger = LoggerFactory.getLogger(LogbackContextInitializer.class);
+    }
 }

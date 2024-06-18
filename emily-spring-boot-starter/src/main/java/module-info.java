@@ -30,5 +30,6 @@ module emily.spring.boot.starter {
     exports com.emily.infrastructure.autoconfigure.response.annotation;
     exports com.emily.infrastructure.autoconfigure.exception.entity;
     exports com.emily.infrastructure.autoconfigure.exception.type;
+    exports com.emily.infrastructure.autoconfigure.exception.handler;
 
 }

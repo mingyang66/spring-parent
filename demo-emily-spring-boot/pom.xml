@@ -27,7 +27,7 @@
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>4.4.2</version>
+            <version>4.4.1</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

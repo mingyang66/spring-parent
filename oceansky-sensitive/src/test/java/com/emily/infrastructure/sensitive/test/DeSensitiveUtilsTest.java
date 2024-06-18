@@ -51,11 +51,11 @@ public class DeSensitiveUtilsTest {
         people.setValue("1563919868@qq.com");
         people.setStr("测试null");
         People s = DeSensitiveUtils.acquireElseGet(people);
-        Assertions.assertEquals(s.getStr(), null);
+        Assertions.assertNull(s.getStr());
         Assertions.assertEquals(s.getAge(), 0);
         Assertions.assertEquals(s.getB(), (byte) 0);
         Assertions.assertEquals(s.getS(), (short) 0);
-        Assertions.assertEquals(s.getL(), 0l);
+        Assertions.assertEquals(s.getL(), 0L);
     }
 
     @Test

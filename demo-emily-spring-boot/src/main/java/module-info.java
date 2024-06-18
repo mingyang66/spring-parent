@@ -2,7 +2,6 @@
  * @author :  Emily
  * @since :  2024/6/14 下午6:45
  */
-/*
 module demo.emily.spring.boot {
     requires jakarta.validation;
     requires oceansky.common;
@@ -36,4 +35,5 @@ module demo.emily.spring.boot {
     requires oceansky.captcha;
     requires jsr305;
     requires spring.aop;
-}*/
+    requires emily.spring.boot.datasource;
+}

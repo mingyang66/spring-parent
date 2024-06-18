@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logger.test;
+package com.logback.test;
 
 import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.factory.LoggerFactory;

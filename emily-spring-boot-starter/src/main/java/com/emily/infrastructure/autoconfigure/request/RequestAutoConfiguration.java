@@ -91,11 +91,11 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
 
     @Override
     public void destroy() {
-        logger.info("<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----RequestLogger日志记录组件【RequestAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestLoggerAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----RequestLogger日志记录组件【RequestAutoConfiguration】");
     }
 }

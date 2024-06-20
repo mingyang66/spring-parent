@@ -2,7 +2,7 @@ package com.emily.infrastructure.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.common.ClassicEnvUtil;
-import com.emily.infrastructure.logback.configuration.context.Context;
+import com.emily.infrastructure.logback.configuration.spi.ContextProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +15,10 @@ import java.util.List;
  * @since :  Created in 2023/7/2 11:16 AM
  */
 public class LogbackContextInitializer {
-
     /**
      * logback sdk context
      */
-    private static Context context;
+    private static ContextProvider context;
     /**
      * 是否已经初始化，默认：false
      */
@@ -38,27 +37,25 @@ public class LogbackContextInitializer {
             context.stopAndReset();
         }
         // 初始化日志上下文
-        List<Context> list = ClassicEnvUtil.loadFromServiceLoader(Context.class, Context.class.getClassLoader());
+        List<ContextProvider> list = ClassicEnvUtil.loadFromServiceLoader(ContextProvider.class, ContextProvider.class.getClassLoader());
         if (list.isEmpty()) {
             System.out.println("Non existing log context");
             return;
         }
-        //context = EnvUtil.loadFromServiceLoader(Context.class); // new version expire
         context = list.get(0);
-        // 对属性进行设置
-        context.configure(properties, LogHolder.lc);
-        // 初始化root logger对象
-        context.start();
+        // 初始化
+        context.initialize(LogHolder.LC, properties);
+
         if (isAlreadyInitialized()) {
-            LogHolder.logger.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
+            LogHolder.LOG.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         } else {
-            LogHolder.logger.info("Log sdk initialized");
+            LogHolder.LOG.info("Log sdk initialized");
         }
         // 设置为已初始化
         markAsInitialized();
     }
 
-    public static Context getContext() {
+    public static ContextProvider getContextProvider() {
         if (isAlreadyInitialized()) {
             return context;
         }
@@ -82,7 +79,7 @@ public class LogbackContextInitializer {
     }
 
     public static class LogHolder {
-        private static final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-        private static final Logger logger = LoggerFactory.getLogger(LogbackContextInitializer.class);
+        private static final LoggerContext LC = (LoggerContext) LoggerFactory.getILoggerFactory();
+        private static final Logger LOG = LoggerFactory.getLogger(LogbackContextInitializer.class);
     }
 }

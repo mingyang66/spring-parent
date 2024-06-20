@@ -35,7 +35,7 @@ public class LoggerFactory {
      * @return logger实例对象
      */
     public static <T> Logger getGroupLogger(Class<T> clazz, String filePath) {
-        return LogbackContextInitializer.getContext().getLogger(clazz, filePath, null, LogbackType.GROUP);
+        return LogbackContextInitializer.getContextProvider().getLogger(clazz, filePath, null, LogbackType.GROUP);
     }
 
     /**
@@ -49,6 +49,6 @@ public class LoggerFactory {
      * @return logger实例对象
      */
     public static <T> Logger getModuleLogger(Class<T> clazz, String filePath, String fileName) {
-        return LogbackContextInitializer.getContext().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
+        return LogbackContextInitializer.getContextProvider().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
     }
 }

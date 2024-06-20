@@ -1,10 +1,12 @@
-package com.emily.infrastructure.logback.configuration.context;
+package com.emily.infrastructure.logback.configuration.spi;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.CommonNames;
 import com.emily.infrastructure.logback.common.PathUtils;
+import com.emily.infrastructure.logback.configuration.context.ConfigurationAction;
+import com.emily.infrastructure.logback.configuration.context.LogbackBeanFactory;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -17,7 +19,7 @@ import static com.emily.infrastructure.logback.common.CommonCache.LOGGER;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackContext implements Context {
+public class ContextServiceProvider implements ContextProvider {
     private LogbackProperties properties;
     private LoggerContext lc;
 
@@ -29,13 +31,13 @@ public class LogbackContext implements Context {
      * 4. packagingData异常堆栈拼接所属jar包控制
      * 5. 全局过滤器TurboFilter控制
      *
-     * @param properties logback日志属性
      * @param lc         上下文
+     * @param properties logback日志属性
      */
     @Override
-    public void configure(LogbackProperties properties, LoggerContext lc) {
-        this.properties = properties;
+    public void initialize(LoggerContext lc, LogbackProperties properties) {
         this.lc = lc;
+        this.properties = properties;
         // 注册日志对象
         LogbackBeanFactory.registerBean(lc, properties);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
@@ -49,6 +51,7 @@ public class LogbackContext implements Context {
         properties.getMarker().getDenyMarker().forEach((marker) -> {
             lc.addTurboFilter(LogbackBeanFactory.getFilter().getDenyMarkerFilter(marker));
         });
+        start();
     }
 
     /**
@@ -91,7 +94,7 @@ public class LogbackContext implements Context {
         // 获取Logger对象
         Logger logger = LOGGER.get(commonKeys.getLoggerName());
         if (logger == null) {
-            synchronized (LogbackContext.class) {
+            synchronized (ContextServiceProvider.class) {
                 if (logger == null) {
                     // 获取logger日志对象
                     logger = LogbackBeanFactory.getLogger(commonKeys);

@@ -11,6 +11,7 @@ Bug Fixes
 6. 新增自带默认值ComputeUtils.getEffectiveValue(java.lang.String, java.lang.String)小数位数工具方法；
 7. ComputeUtils工具类新增rounding相关方法对BigDecimal进行舍入处理；
 8. PrintLoggerUtils打印日志类对Logger对象的初始化修改为静态内部类模式延迟加载。
+9. 各个模块新增module-info.java模块系统支持；。、
 
 ------
 Dependency Upgrades

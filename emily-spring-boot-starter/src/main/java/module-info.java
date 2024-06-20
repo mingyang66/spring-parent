@@ -25,11 +25,25 @@ module emily.spring.boot.starter {
     requires oceansky.logger;
     requires oceansky.date;
 
-    exports com.emily.infrastructure.autoconfigure.valid.annotation;
+    exports com.emily.infrastructure.autoconfigure.bean.factory;
+    exports com.emily.infrastructure.autoconfigure.bean.registry;
     exports com.emily.infrastructure.autoconfigure.httpclient.annotation;
-    exports com.emily.infrastructure.autoconfigure.response.annotation;
+    exports com.emily.infrastructure.autoconfigure.httpclient;
+    exports com.emily.infrastructure.autoconfigure.httpclient.handler;
+    exports com.emily.infrastructure.autoconfigure.exception;
     exports com.emily.infrastructure.autoconfigure.exception.entity;
     exports com.emily.infrastructure.autoconfigure.exception.type;
     exports com.emily.infrastructure.autoconfigure.exception.handler;
+    exports com.emily.infrastructure.autoconfigure.listener;
+    exports com.emily.infrastructure.autoconfigure.request;
+    exports com.emily.infrastructure.autoconfigure.request.interceptor;
+    exports com.emily.infrastructure.autoconfigure.response;
+    exports com.emily.infrastructure.autoconfigure.response.handler;
+    exports com.emily.infrastructure.autoconfigure.response.annotation;
+    exports com.emily.infrastructure.autoconfigure.servlet;
+    exports com.emily.infrastructure.autoconfigure.servlet.annotation;
+    exports com.emily.infrastructure.autoconfigure.servlet.interceptor;
+    exports com.emily.infrastructure.autoconfigure.valid;
+    exports com.emily.infrastructure.autoconfigure.valid.annotation;
 
 }

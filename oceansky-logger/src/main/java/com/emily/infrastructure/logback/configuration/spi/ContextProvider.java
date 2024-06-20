@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.configuration.context;
+package com.emily.infrastructure.logback.configuration.spi;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
@@ -11,14 +11,14 @@ import org.slf4j.Logger;
  * @author Emily
  * @since :  Created in 2023/7/10 11:11 AM
  */
-public interface Context {
+public interface ContextProvider {
     /**
      * 属性配置
      *
-     * @param properties logback日志属性
      * @param lc         上下文
+     * @param properties logback日志属性
      */
-    void configure(LogbackProperties properties, LoggerContext lc);
+    void initialize(LoggerContext lc, LogbackProperties properties);
 
     /**
      * 获取logger日志对象

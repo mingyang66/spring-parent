@@ -2,7 +2,7 @@
  * @author :  Emily
  * @since :  2024/6/14 下午5:40
  */
-module emily.spring.boot.logger {
+open module emily.spring.boot.logger {
     requires spring.boot;
     requires spring.context;
     requires spring.core;
@@ -10,4 +10,7 @@ module emily.spring.boot.logger {
     requires spring.beans;
     requires spring.boot.autoconfigure;
     requires oceansky.logger;
+
+    exports com.emily.infrastructure.logger;
+    exports com.emily.infrastructure.logger.initializer;
 }

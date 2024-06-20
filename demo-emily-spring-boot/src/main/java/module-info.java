@@ -2,7 +2,7 @@
  * @author :  Emily
  * @since :  2024/6/14 下午6:45
  */
-module demo.emily.spring.boot {
+open module demo.emily.spring.boot {
     requires jakarta.validation;
     requires oceansky.common;
     requires org.apache.tomcat.embed.core;
@@ -22,7 +22,6 @@ module demo.emily.spring.boot {
     requires com.github.benmanes.caffeine;
     requires oceansky.language;
     requires spring.plugin.core;
-    requires emily.spring.boot.redis;
     requires org.apache.commons.lang3;
     requires spring.core;
     requires spring.data.redis;
@@ -35,5 +34,9 @@ module demo.emily.spring.boot {
     requires oceansky.captcha;
     requires jsr305;
     requires spring.aop;
+    requires spring.boot;
     requires emily.spring.boot.datasource;
+    requires emily.spring.boot.redis;
+    exports com.emily.infrastructure.test;
+    exports com.emily.infrastructure.test.test;
 }

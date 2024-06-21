@@ -1,5 +1,16 @@
 ###
 -----
+基础库发布4.4.4
+Bug Fixes
+
+1. xx
+
+------
+Dependency Upgrades
+
+1. Upgrade to springboot 3.3.1;
+
+-----
 基础库发布4.4.3
 Bug Fixes
 
@@ -495,17 +506,18 @@ Bug Fixes
 2. 对请求参数日志记录为数组类型的做兼容，如下：
 
 ```java
-    @PostMapping("postList")
-public int postList(@RequestBody List<User> list){
-        System.out.println(JSONUtils.toJSONPrettyString(list));
-        return 0;
-        }
+
+@PostMapping("postList")
+public int postList(@RequestBody List<User> list) {
+    System.out.println(JSONUtils.toJSONPrettyString(list));
+    return 0;
+}
 
 @PostMapping("postArray")
-public int postList(@RequestBody User[]list){
-        System.out.println(JSONUtils.toJSONPrettyString(list));
-        return 0;
-        }
+public int postList(@RequestBody User[] list) {
+    System.out.println(JSONUtils.toJSONPrettyString(list));
+    return 0;
+}
 ```
 
 3. 新增获取实际参数名工具类ParamNameUtils；

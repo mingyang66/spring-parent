@@ -1,8 +1,6 @@
 package com.emily.infrastructure.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
@@ -23,8 +21,8 @@ import java.util.Objects;
  */
 public class JsonUtils {
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
-    public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     static {
         //对象的所有字段全部序列化
@@ -131,10 +129,6 @@ public class JsonUtils {
     public static <T> T toJavaBean(File file, Class<T> responseType) {
         try {
             return objectMapper.readValue(file, responseType);
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonParseException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -152,10 +146,6 @@ public class JsonUtils {
     public static <T> T toJavaBean(String jsonString, Class<T> responseType) {
         try {
             return objectMapper.readValue(jsonString, responseType);
-        } catch (JsonParseException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -193,10 +183,6 @@ public class JsonUtils {
         try {
             JavaType javaType = javaType(parametrized, parameterClasses);
             return objectMapper.readValue(jsonString, javaType);
-        } catch (JsonParseException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -223,10 +209,6 @@ public class JsonUtils {
     public static <T> T toJavaBean(String jsonString, JavaType javaType) {
         try {
             return objectMapper.readValue(jsonString, javaType);
-        } catch (JsonParseException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -249,10 +231,6 @@ public class JsonUtils {
     public static <T> T toJavaBean(String jsonString, TypeReference<T> typeReference) {
         try {
             return objectMapper.readValue(jsonString, typeReference);
-        } catch (JsonParseException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -296,10 +274,6 @@ public class JsonUtils {
     public static void writeToFile(File file, Object o) {
         try {
             objectMapper.writeValue(file, o);
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonGenerationException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -315,10 +289,6 @@ public class JsonUtils {
     public static void writeToFilePretty(File file, Object o) {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, o);
-        } catch (JsonMappingException e) {
-            throw new IllegalArgumentException("非法数据");
-        } catch (JsonGenerationException e) {
-            throw new IllegalArgumentException("非法数据");
         } catch (IOException e) {
             throw new IllegalArgumentException("非法数据");
         }
@@ -407,6 +377,34 @@ public class JsonUtils {
             return toJavaBean(toJSONString(obj), responseType);
         } catch (Exception exception) {
             return responseType.cast(obj);
+        }
+    }
+
+    /**
+     * 将字符串转换为JsonNode对象
+     *
+     * @param value 入参
+     * @return 转换后的对象
+     */
+    public static JsonNode readTree(String value) {
+        try {
+            return objectMapper.readTree(value);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("非法参数");
+        }
+    }
+
+    /**
+     * 将字符串转换为JsonNode对象
+     *
+     * @param value 入参
+     * @return 转换后的对象
+     */
+    public static JsonNode readTree(byte[] value) {
+        try {
+            return objectMapper.readTree(value);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("非法参数");
         }
     }
 }

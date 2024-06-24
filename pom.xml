@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-sdk</artifactId>
-    <version>4.4.3</version>
+    <version>4.4.4</version>
     <name>emily-sdk</name>
     <description>emily-sdk基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>
@@ -202,12 +202,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>3.3.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
                                 <goals>
-                                    <goal>jar-no-fork</goal>
+                                    <goal>jar</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -219,7 +219,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.11.0</version>
+                        <version>3.13.0</version>
                         <configuration>
                             <!--Maven编译后保留方法名-->
                             <parameters>true</parameters>
@@ -239,7 +239,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>3.7.0</version>
                         <configuration>
                             <!--控制构建过程中如果出现错误是否停止构建-->
                             <failOnError>false</failOnError>
@@ -270,7 +270,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.2.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

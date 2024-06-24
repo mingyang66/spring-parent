@@ -9,6 +9,10 @@ Bug Fixes
 Dependency Upgrades
 
 1. Upgrade to springboot 3.3.1;
+2. Upgrade to maven-gpg-plugin 3.2.4;
+3. Upgrade to maven-javadoc-plugin 3.7.0;
+4. Upgrade to maven-compiler-plugin 3.13.0;
+5. Upgrade to maven-source-plugin 3.3.1;
 
 -----
 基础库发布4.4.3

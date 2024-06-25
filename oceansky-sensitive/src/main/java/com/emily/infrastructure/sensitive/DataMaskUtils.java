@@ -20,7 +20,7 @@ public class DataMaskUtils {
      * @return 脱敏后的姓名
      */
     public static String maskChineseName(final String name) {
-        if (name == null || name.length() == 0) {
+        if (name == null || name.isEmpty()) {
             return name;
         }
         if (name.length() == 1) {
@@ -48,7 +48,7 @@ public class DataMaskUtils {
      * @return 脱敏后的身份证信息
      */
     public static String maskIdCard(final String idCard) {
-        if (idCard == null || idCard.length() == 0) {
+        if (idCard == null || idCard.isEmpty()) {
             return idCard;
         }
         if (idCard.length() == 15) {
@@ -72,7 +72,7 @@ public class DataMaskUtils {
      * @return 脱敏后的手机号
      */
     public static String maskPhoneNumber(final String phone) {
-        if (phone == null || phone.length() == 0) {
+        if (phone == null || phone.isEmpty()) {
             return phone;
         }
         if (phone.length() == 11) {
@@ -126,7 +126,7 @@ public class DataMaskUtils {
      * @return 脱敏后的地址信息
      */
     public static String maskAddress(final String address, int len) {
-        if (address == null || address.length() == 0) {
+        if (address == null || address.isEmpty()) {
             return address;
         }
         if (address.length() < 3) {
@@ -159,7 +159,7 @@ public class DataMaskUtils {
      * @return 脱敏后的邮箱
      */
     public static String maskEmail(final String email) {
-        if (email == null || email.length() == 0) {
+        if (email == null || email.isEmpty()) {
             return email;
         }
         int index = email.indexOf('@');
@@ -191,7 +191,7 @@ public class DataMaskUtils {
      * @return 脱敏后的银行卡号
      */
     public static String maskBankCard(final String cardNo) {
-        if (cardNo == null || cardNo.length() == 0) {
+        if (cardNo == null || cardNo.isEmpty()) {
             return cardNo;
         }
         if (cardNo.length() <= 10) {

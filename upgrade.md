@@ -6,6 +6,7 @@ Bug Fixes
 1. JsonUtils新增readTree工具方法；
 2. DeSensitiveUtils脱敏工具类优化调整；
 3. 脱敏工具类中提示Unchecked cast使用@SuppressWarnings("unchecked")注解处理；
+4. DataMaskUtils脱敏隐藏工具类判定字符串长度由"abc".length==0修改为”abc“.isEmpty()方法；
 
 ------
 Dependency Upgrades

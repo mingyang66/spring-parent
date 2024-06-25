@@ -31,7 +31,7 @@ public class SensitiveUtils {
      * @param packClass 需脱敏的实体类对象外层包装类
      * @return 脱敏后的数据
      */
-    public static Object acquireElseGet(final Object entity, final Class packClass) {
+    public static Object acquireElseGet(final Object entity, final Class<?> packClass) {
         try {
             return acquire(entity, packClass);
         } catch (Exception exception) {
@@ -47,19 +47,19 @@ public class SensitiveUtils {
      * @return 脱敏后的实体类对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static Object acquire(final Object entity, final Class packClass) throws IllegalAccessException {
+    protected static Object acquire(final Object entity, final Class<?> packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
             Collection<Object> coll = new ArrayList<>();
-            for (Object o : (Collection<Object>) entity) {
+            for (Object o : (Collection<?>) entity) {
                 coll.add(acquire(o, packClass));
             }
             return coll;
         } else if (entity instanceof Map) {
             Map<Object, Object> dMap = new HashMap<>();
-            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) entity).entrySet()) {
                 Object key = entry.getKey();
                 Object value = entry.getValue();
                 dMap.put(key, acquire(value, packClass));
@@ -138,11 +138,7 @@ public class SensitiveUtils {
             return true;
         } else if (field.getType().isPrimitive()) {
             return false;
-        } else if (field.isAnnotationPresent(JsonNullField.class)) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return field.isAnnotationPresent(JsonNullField.class);
     }
 
     /**
@@ -167,7 +163,7 @@ public class SensitiveUtils {
      */
     protected static Object doGetEntityColl(final Field field, final Object value) throws IllegalAccessException {
         Collection<Object> list = new ArrayList<>();
-        Collection collection = (Collection) value;
+        Collection<?> collection = (Collection<?>) value;
         for (Object v : collection) {
             if (Objects.isNull(v)) {
                 list.add(null);

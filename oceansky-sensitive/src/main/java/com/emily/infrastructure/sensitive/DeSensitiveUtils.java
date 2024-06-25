@@ -197,9 +197,9 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
-        Map<String, Object> dMap = (Map<String, Object>) value;
-        for (Map.Entry<String, Object> entry : dMap.entrySet()) {
-            String key = entry.getKey();
+        Map<Object, Object> dMap = (Map<Object, Object>) value;
+        for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
+            Object key = entry.getKey();
             Object v = entry.getValue();
             if (Objects.isNull(v)) {
                 continue;

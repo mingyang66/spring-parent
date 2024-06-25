@@ -138,6 +138,7 @@ public class DeSensitiveUtils {
      * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
+    @SuppressWarnings("unused")
     protected static <T> void doGetEntityNull(final Field field, final T entity, final Object value) throws IllegalAccessException {
         field.set(entity, null);
     }
@@ -196,6 +197,7 @@ public class DeSensitiveUtils {
      * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
+    @SuppressWarnings("unused")
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
         @SuppressWarnings("unchecked")
         Map<Object, Object> dMap = (Map<Object, Object>) value;
@@ -236,6 +238,7 @@ public class DeSensitiveUtils {
      * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
+    @SuppressWarnings("unused")
     protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;

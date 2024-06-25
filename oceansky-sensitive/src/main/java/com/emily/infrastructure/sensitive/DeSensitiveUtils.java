@@ -33,7 +33,7 @@ public class DeSensitiveUtils {
      * @param <T>       实体类类型
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
-    public static <T> T acquireElseGet(final T entity, final Class packClass) {
+    public static <T> T acquireElseGet(final T entity, final Class<?> packClass) {
         try {
             return acquire(entity, packClass);
         } catch (Exception exception) {
@@ -48,16 +48,16 @@ public class DeSensitiveUtils {
      * @return 对实体类进行脱敏，返回原来的实体类对象
      * @throws IllegalAccessException 非法访问异常
      */
-    public static <T> T acquire(final T entity, final Class packClass) throws IllegalAccessException {
+    public static <T> T acquire(final T entity, final Class<?> packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
-            for (Iterator it = ((Collection) entity).iterator(); it.hasNext(); ) {
-                acquire(it.next(), packClass);
+            for (Object o : (Collection<?>) entity) {
+                acquire(o, packClass);
             }
         } else if (entity instanceof Map) {
-            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) entity).entrySet()) {
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) entity).entrySet()) {
                 acquire(entry.getValue(), packClass);
             }
         } else if (entity.getClass().isArray()) {
@@ -126,10 +126,7 @@ public class DeSensitiveUtils {
             return true;
         } else if (field.getType().isPrimitive()) {
             return false;
-        } else if (field.isAnnotationPresent(JsonNullField.class)) {
-            return true;
-        }
-        return false;
+        } else return field.isAnnotationPresent(JsonNullField.class);
     }
 
     /**
@@ -173,9 +170,8 @@ public class DeSensitiveUtils {
      */
     protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value) throws IllegalAccessException {
         Collection<Object> list = null;
-        Collection collection = ((Collection) value);
-        for (Iterator it = collection.iterator(); it.hasNext(); ) {
-            Object v = it.next();
+        Collection<?> collection = ((Collection<?>) value);
+        for (Object v : collection) {
             if (Objects.isNull(v)) {
                 continue;
             }
@@ -201,9 +197,9 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
-        Map<Object, Object> dMap = ((Map<Object, Object>) value);
-        for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
-            Object key = entry.getKey();
+        Map<String, Object> dMap = (Map<String, Object>) value;
+        for (Map.Entry<String, Object> entry : dMap.entrySet()) {
+            String key = entry.getKey();
             Object v = entry.getValue();
             if (Objects.isNull(v)) {
                 continue;

@@ -4,6 +4,7 @@
 Bug Fixes
 
 1. JsonUtils新增readTree工具方法；
+2. DeSensitiveUtils脱敏工具类优化调整；
 
 ------
 Dependency Upgrades

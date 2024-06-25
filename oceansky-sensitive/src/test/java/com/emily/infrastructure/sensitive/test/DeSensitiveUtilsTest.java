@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 实体类对象脱敏单元测试
@@ -83,7 +84,7 @@ public class DeSensitiveUtilsTest {
         job.work = "呵呵哈哈哈";
         response.job = job;
         response.jobs = new PubResponse.Job[]{job};
-        response.jobList = Arrays.asList(job);
+        response.jobList = List.of(job);
         BaseResponse<PubResponse> r = BaseResponse.<PubResponse>newBuilder().withData(response).build();
         BaseResponse<PubResponse> response1 = DeSensitiveUtils.acquireElseGet(r);
         Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");

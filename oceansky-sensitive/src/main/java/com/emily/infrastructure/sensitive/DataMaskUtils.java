@@ -208,27 +208,20 @@ public class DataMaskUtils {
      * @return 脱敏后的字段值
      */
     public static String doGetProperty(String value, SensitiveType type) {
-        if (value == null || value.length() == 0) {
+        if (value == null || value.isEmpty()) {
             return value;
         }
         if (type == null) {
             type = SensitiveType.DEFAULT;
         }
-        switch (type) {
-            case PHONE:
-                return DataMaskUtils.maskPhoneNumber(value);
-            case ID_CARD:
-                return DataMaskUtils.maskIdCard(value);
-            case BANK_CARD:
-                return DataMaskUtils.maskBankCard(value);
-            case EMAIL:
-                return DataMaskUtils.maskEmail(value);
-            case USERNAME:
-                return DataMaskUtils.maskChineseName(value);
-            case ADDRESS:
-                return DataMaskUtils.maskAddress(value, 0);
-            default:
-                return PLACE_HOLDER;
-        }
+        return switch (type) {
+            case PHONE -> DataMaskUtils.maskPhoneNumber(value);
+            case ID_CARD -> DataMaskUtils.maskIdCard(value);
+            case BANK_CARD -> DataMaskUtils.maskBankCard(value);
+            case EMAIL -> DataMaskUtils.maskEmail(value);
+            case USERNAME -> DataMaskUtils.maskChineseName(value);
+            case ADDRESS -> DataMaskUtils.maskAddress(value, 0);
+            default -> PLACE_HOLDER;
+        };
     }
 }

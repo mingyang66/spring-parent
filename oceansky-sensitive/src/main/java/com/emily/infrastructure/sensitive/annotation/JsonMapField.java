@@ -15,6 +15,8 @@ import java.lang.annotation.Target;
  *     private Map<String, String> params = new HashMap<>();
  *     }
  * </pre>
+ * 1. Map的key必须为字符串，否则忽略
+ * 2. Map的value值必须为字符串或对象类型；
  *
  * @author Emily
  * @since :  Created in 2022/7/19 5:22 下午

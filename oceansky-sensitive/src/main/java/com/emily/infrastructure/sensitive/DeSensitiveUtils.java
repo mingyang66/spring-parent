@@ -197,6 +197,7 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
+        @SuppressWarnings("unchecked")
         Map<Object, Object> dMap = (Map<Object, Object>) value;
         for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
             Object key = entry.getKey();
@@ -210,7 +211,7 @@ public class DeSensitiveUtils {
                     continue;
                 } else if (field.isAnnotationPresent(JsonMapField.class)) {
                     JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
-                    int index = Arrays.asList(jsonMapField.value()).indexOf(key);
+                    int index = (key instanceof String) ? Arrays.asList(jsonMapField.value()).indexOf(key) : -1;
                     if (index < 0) {
                         continue;
                     }

@@ -184,7 +184,9 @@ public class SensitiveUtils {
      */
     protected static Object doGetEntityMap(final Field field, final Object value) throws IllegalAccessException {
         Map<Object, Object> dMap = new HashMap<>();
-        for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
+        @SuppressWarnings("unchecked")
+        Map<Object, Object> entryMap = ((Map<Object, Object>) value);
+        for (Map.Entry<Object, Object> entry : entryMap.entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
             if (Objects.isNull(v)) {
@@ -195,7 +197,7 @@ public class SensitiveUtils {
                     dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
                 } else if (field.isAnnotationPresent(JsonMapField.class)) {
                     JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
-                    int index = Arrays.asList(jsonMapField.value()).indexOf(key);
+                    int index = (key instanceof String) ? Arrays.asList(jsonMapField.value()).indexOf(key) : -1;
                     if (index < 0) {
                         dMap.put(key, acquire(v, null));
                         continue;

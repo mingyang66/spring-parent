@@ -22,6 +22,16 @@ public class PeopleMap {
     private Map<String, SubMap> subMapMap = new HashMap<>();
     @JsonMapField(value = {"password", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
     private Map<String, String> params = new HashMap<>();
+    @JsonMapField(value = {"age", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
+    private Map<Integer, String> ages = new HashMap<>();
+
+    public Map<Integer, String> getAges() {
+        return ages;
+    }
+
+    public void setAges(Map<Integer, String> ages) {
+        this.ages = ages;
+    }
 
     public Map<String, String> getParams() {
         return params;

@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +28,7 @@ public class SensitiveUtilsTest {
         people.setValue("1563919868@qq.com");
         people.setStr("测试null");
         Object obj = SensitiveUtils.acquireElseGet(people);
-        if (obj instanceof Map s) {
+        if (obj instanceof Map<?, ?> s) {
             Assertions.assertNull(s.get("str"));
             Assertions.assertEquals(s.get("age"), 0);
             Assertions.assertEquals(s.get("b"), (byte) 0);
@@ -64,6 +64,16 @@ public class SensitiveUtilsTest {
     }
 
     @Test
+    public void testFieldMap1() {
+        PeopleMap peopleMap = new PeopleMap();
+        peopleMap.getAges().put(12, "12345");
+        peopleMap.getAges().put(13, "田晓霞");
+        peopleMap.getAges().put(14, "15645562587");
+        Object p = SensitiveUtils.acquireElseGet(peopleMap);
+        Assertions.assertNotNull(p);
+    }
+
+    @Test
     public void test11() {
         PubResponse response = new PubResponse();
         response.password = "32433";
@@ -78,7 +88,7 @@ public class SensitiveUtilsTest {
         job.work = "呵呵哈哈哈";
         response.job = job;
         response.jobs = new PubResponse.Job[]{job};
-        response.jobList = Arrays.asList(job);
+        response.jobList = List.of(job);
         BaseResponse<PubResponse> r = BaseResponse.<PubResponse>newBuilder().withData(response).build();
         BaseResponse<PubResponse> response1 = (BaseResponse<PubResponse>) SensitiveUtils.acquireElseGet(r);
         Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");

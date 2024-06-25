@@ -1,6 +1,9 @@
 package com.emily.infrastructure.autoconfigure.request.interceptor;
 
+import com.emily.infrastructure.autoconfigure.exception.entity.BasicException;
+import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import com.emily.infrastructure.common.ObjectUtils;
+import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.CharacterInfo;
 import com.emily.infrastructure.core.context.holder.ContextTransmitter;
@@ -8,12 +11,9 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseResponse;
-import com.emily.infrastructure.autoconfigure.exception.entity.BasicException;
-import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
-import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.core.utils.PrintLoggerUtils;
 import com.emily.infrastructure.core.utils.RequestUtils;
-import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -103,17 +103,16 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         if (ObjectUtils.isEmpty(response)) {
             return response;
         }
-        if (response instanceof ResponseEntity) {
-            ResponseEntity<?> entity = ((ResponseEntity<?>) response);
+        if (response instanceof ResponseEntity<?> entity) {
             if (entity.getStatusCode().is2xxSuccessful()) {
                 builder.withBody(SensitiveUtils.acquireElseGet(entity.getBody(), BaseResponse.class));
                 return entity;
             }
-            Map dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(entity.getBody()), Map.class);
+            Map<?, ?> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(entity.getBody()), Map.class);
             builder.withUrl(dataMap.get("path").toString())
                     .withStatus(entity.getStatusCode().value())
                     .withMessage(dataMap.get("error").toString());
-            BaseResponse baseResponse = BaseResponse.newBuilder()
+            BaseResponse<Object> baseResponse = BaseResponse.newBuilder()
                     .withStatus(entity.getStatusCode().value())
                     .withMessage(dataMap.get("error").toString())
                     .build();

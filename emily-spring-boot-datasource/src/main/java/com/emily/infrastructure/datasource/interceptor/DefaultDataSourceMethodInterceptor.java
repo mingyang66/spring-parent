@@ -1,8 +1,8 @@
 package com.emily.infrastructure.datasource.interceptor;
 
 import com.emily.infrastructure.common.ObjectUtils;
-import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
@@ -53,7 +53,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             //返回当前类或父类或接口上标注的注解对象
             targetDataSource = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(), TargetDataSource.class);
         }
-        if (ObjectUtils.isEmpty(targetDataSource.value())) {
+        if (targetDataSource == null || ObjectUtils.isEmpty(targetDataSource.value())) {
             return properties.getDefaultConfig();
         }
         //获取注解标注的数据源

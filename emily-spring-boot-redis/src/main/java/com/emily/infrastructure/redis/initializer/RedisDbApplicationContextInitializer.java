@@ -4,7 +4,6 @@ import jakarta.annotation.Nonnull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
-import org.springframework.lang.NonNullApi;
 
 /**
  * 关闭springboot starter默认sdk LettuceConnectionConfiguration的自动化配置

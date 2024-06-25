@@ -13,26 +13,29 @@
     <artifactId>demo-emily-spring-boot</artifactId>
     <version>4.4.4</version>
     <name>demo-emily-spring-boot</name>
+    <properties>
+        <emily.sdk>4.4.3</emily.sdk>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-captcha</artifactId>
-            <version>4.4.4</version>
+            <version>${emily.sdk}</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>4.4.4</version>
+            <version>${emily.sdk}</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>4.4.4</version>
+            <version>${emily.sdk}</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
-            <version>4.4.4</version>
+            <version>${emily.sdk}</version>
         </dependency>
 <!--        <dependency>
             <groupId>io.github.mingyang66</groupId>

@@ -1,9 +1,9 @@
 package com.emily.infrastructure.redis.connection;
 
 
-import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.RedisProperties;
+import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.SocketOptions;

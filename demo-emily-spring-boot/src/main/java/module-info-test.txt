@@ -4,21 +4,15 @@
  */
 open module demo.emily.spring.boot {
     requires jakarta.validation;
-    requires oceansky.common;
     requires org.apache.tomcat.embed.core;
-    requires emily.spring.boot.core;
     requires spring.boot.autoconfigure;
     requires spring.context;
     requires com.google.common;
-    requires oceansky.json;
     requires spring.beans;
     requires emily.spring.boot.starter;
     requires org.hibernate.validator;
     requires spring.web;
-    requires oceansky.date;
-    requires oceansky.sensitive;
     requires com.fasterxml.jackson.databind;
-    requires org.mybatis;
     requires com.github.benmanes.caffeine;
     requires oceansky.language;
     requires spring.plugin.core;
@@ -31,12 +25,18 @@ open module demo.emily.spring.boot {
     requires com.eatthepath.otp;
     requires oceansky.logger;
     requires org.slf4j;
-    requires oceansky.captcha;
     requires jsr305;
     requires spring.aop;
     requires spring.boot;
-    requires emily.spring.boot.datasource;
+    requires oceansky.captcha;
+    requires oceansky.common;
+    requires oceansky.json;
+    requires oceansky.date;
+    requires oceansky.sensitive;
+    requires emily.spring.boot.core;
     requires emily.spring.boot.redis;
+    requires emily.spring.boot.datasource;
+    requires org.mybatis;
     exports com.emily.infrastructure.test;
     exports com.emily.infrastructure.test.test;
 }

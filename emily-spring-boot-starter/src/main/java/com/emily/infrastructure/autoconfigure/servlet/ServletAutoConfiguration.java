@@ -146,6 +146,5 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("==> 【初始化--自动化配置】----WebMvc组件【WebMvcAutoConfiguration】");
-
     }
 }

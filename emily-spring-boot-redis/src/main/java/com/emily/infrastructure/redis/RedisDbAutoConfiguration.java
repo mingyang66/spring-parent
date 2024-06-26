@@ -1,14 +1,15 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
 import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
+import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -44,11 +45,11 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
-
     private final RedisDbProperties redisDbProperties;
 
-    public RedisDbAutoConfiguration(RedisDbProperties redisDbProperties) {
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
+        BeanFactoryUtils.setDefaultListableBeanFactory(defaultListableBeanFactory);
     }
 
     @Bean

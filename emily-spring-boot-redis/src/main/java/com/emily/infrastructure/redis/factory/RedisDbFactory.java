@@ -1,8 +1,7 @@
 package com.emily.infrastructure.redis.factory;
 
-import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.core.context.ioc.IocUtils;
 import com.emily.infrastructure.redis.RedisDbProperties;
+import com.emily.infrastructure.redis.utils.IocUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -32,7 +31,7 @@ public class RedisDbFactory {
      * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate(String key) {
-        if (StringUtils.isBlank(key) || IocUtils.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
+        if (key == null || key.isBlank() || IocUtils.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
             return IocUtils.getBean(DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
         } else {
             return IocUtils.getBean(join(key, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
@@ -55,7 +54,7 @@ public class RedisDbFactory {
      * @return redis操作模板对象
      */
     public static RedisTemplate getRedisTemplate(String key) {
-        if (StringUtils.isBlank(key) || IocUtils.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
+        if (key == null || key.isBlank() || IocUtils.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
             return IocUtils.getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
         } else {
             return IocUtils.getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);

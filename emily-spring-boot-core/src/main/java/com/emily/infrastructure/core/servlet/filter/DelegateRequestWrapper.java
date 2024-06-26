@@ -29,7 +29,7 @@ public class DelegateRequestWrapper extends HttpServletRequestWrapper {
     /**
      * Http请求对象
      */
-    private HttpServletRequest delegate;
+    private final HttpServletRequest delegate;
 
     public DelegateRequestWrapper(HttpServletRequest request) {
         super(request);

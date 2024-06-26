@@ -14,7 +14,7 @@
     <version>4.4.4</version>
     <name>demo-emily-spring-boot</name>
     <properties>
-        <emily.sdk>4.4.3</emily.sdk>
+        <emily.sdk>4.4.4</emily.sdk>
     </properties>
     <dependencies>
         <dependency>

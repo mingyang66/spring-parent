@@ -1,6 +1,5 @@
 package com.emily.infrastructure.redis.common;
 
-import com.emily.infrastructure.date.DatePatternInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +17,11 @@ import java.text.SimpleDateFormat;
  * @since :  2023/10/21 9:21 PM
  */
 public class SerializationUtils {
+    /**
+     * 日期格式
+     */
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     /**
      * 初始化string序列化对象
      *
@@ -39,7 +43,7 @@ public class SerializationUtils {
         //取消默认转换timestamps
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DatePatternInfo.YYYY_MM_DD_HH_MM_SS));
+        objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         //忽略空Bean转json的错误
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         //忽略，在json字符串中存在但是在java对象中不存在的属性

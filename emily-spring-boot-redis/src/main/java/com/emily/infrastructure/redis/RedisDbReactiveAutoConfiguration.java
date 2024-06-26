@@ -1,6 +1,7 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
+import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -29,8 +30,9 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 public class RedisDbReactiveAutoConfiguration {
     private final RedisDbProperties redisDbProperties;
 
-    public RedisDbReactiveAutoConfiguration(RedisDbProperties redisDbProperties) {
+    public RedisDbReactiveAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
+        BeanFactoryUtils.setDefaultListableBeanFactory(defaultListableBeanFactory);
     }
 
     @Bean

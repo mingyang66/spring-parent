@@ -1,6 +1,5 @@
 package com.emily.infrastructure.redis.common;
 
-import com.emily.infrastructure.core.constant.CharacterInfo;
 import org.springframework.util.Assert;
 
 /**
@@ -10,6 +9,7 @@ import org.springframework.util.Assert;
  * @since Created in 2022/8/18 2:05 下午
  */
 public class RedisCommonKeys {
+    private static final String COLON_EN = ":";
 
     /**
      * 获取Redis键key方法 A:B:C
@@ -20,10 +20,10 @@ public class RedisCommonKeys {
      */
     public static String getKey(String prefix, String... keys) {
         Assert.notNull(prefix, "非法参数");
-        StringBuffer sb = new StringBuffer(prefix);
-        for (int i = 0; i < keys.length; i++) {
-            sb.append(CharacterInfo.COLON_EN);
-            sb.append(keys[i]);
+        StringBuilder sb = new StringBuilder(prefix);
+        for (String key : keys) {
+            sb.append(COLON_EN);
+            sb.append(key);
         }
         return sb.toString();
     }

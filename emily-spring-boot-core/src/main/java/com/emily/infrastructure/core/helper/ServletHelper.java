@@ -151,7 +151,7 @@ public class ServletHelper {
                 pMap.put(array[0], array[1]);
             }
         }
-        if (pMap.size() == 0) {
+        if (pMap.isEmpty()) {
             pMap.put(AttributeInfo.PARAMS, toObject(param));
         }
         return pMap;

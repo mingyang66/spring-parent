@@ -1,15 +1,5 @@
 package com.emily.infrastructure.redis.common;
 
-import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.common.UUIDUtils;
-import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.common.PrintExceptionUtils;
-import com.emily.infrastructure.core.utils.PrintLoggerUtils;
-import com.emily.infrastructure.core.utils.RequestUtils;
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
-import com.emily.infrastructure.date.DateConvertUtils;
-import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -17,7 +7,6 @@ import org.springframework.data.redis.core.script.RedisScript;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,7 +89,7 @@ public class LuaScriptTools {
      */
     public static boolean listCircle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_LIST_CIRCLE)) {
+            if (LUA_SCRIPT_LIST_CIRCLE == null || LUA_SCRIPT_LIST_CIRCLE.isBlank()) {
                 LUA_SCRIPT_LIST_CIRCLE = getLuaScript("META-INF/scripts/circle_list.lua");
             }
             RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_LIST_CIRCLE, Long.class);
@@ -110,19 +99,6 @@ public class LuaScriptTools {
             redisTemplate.execute(script, singletonList(key), value, threshold, expire.getSeconds());
             return true;
         } catch (Throwable ex) {
-            BaseLogger baseLogger = BaseLogger.newBuilder()
-                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                    .withTraceId(UUIDUtils.randomSimpleUUID())
-                    .withClientIp(RequestUtils.getClientIp())
-                    .withServerIp(RequestUtils.getServerIp())
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    .withUrl("Redis")
-                    .withRequestParams(key, value)
-                    .withRequestParams("threshold", threshold)
-                    .withRequestParams("expire", expire.getSeconds())
-                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
-                    .build();
-            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }
@@ -143,7 +119,7 @@ public class LuaScriptTools {
      */
     public static boolean zSetCircle(RedisTemplate redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_ZSET_CIRCLE)) {
+            if (LUA_SCRIPT_ZSET_CIRCLE == null || LUA_SCRIPT_ZSET_CIRCLE.isBlank()) {
                 LUA_SCRIPT_ZSET_CIRCLE = getLuaScript("META-INF/scripts/circle_zset.lua");
             }
             RedisScript<Long> script = RedisScript.of(LUA_SCRIPT_ZSET_CIRCLE, Long.class);
@@ -153,20 +129,6 @@ public class LuaScriptTools {
             redisTemplate.execute(script, singletonList(key), score, value, threshold, expire.getSeconds());
             return true;
         } catch (Throwable ex) {
-            BaseLogger baseLogger = BaseLogger.newBuilder()
-                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                    .withTraceId(UUIDUtils.randomSimpleUUID())
-                    .withClientIp(RequestUtils.getClientIp())
-                    .withServerIp(RequestUtils.getServerIp())
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    .withUrl("Redis")
-                    .withRequestParams(key, value)
-                    .withRequestParams("score", score)
-                    .withRequestParams("threshold", threshold)
-                    .withRequestParams("expire", expire.getSeconds())
-                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
-                    .build();
-            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }
@@ -179,7 +141,7 @@ public class LuaScriptTools {
      * @return TTL为-1的键集合列表
      */
     public static List<String> ttlKeys(RedisTemplate redisTemplate) {
-        if (StringUtils.isEmpty(LUA_SCRIPT_TTL_KEYS)) {
+        if (LUA_SCRIPT_TTL_KEYS == null || LUA_SCRIPT_TTL_KEYS.isBlank()) {
             LUA_SCRIPT_TTL_KEYS = getLuaScript("META-INF/scripts/ttl_keys.lua");
         }
         RedisScript<List> script = RedisScript.of(LUA_SCRIPT_TTL_KEYS, List.class);
@@ -195,7 +157,7 @@ public class LuaScriptTools {
      */
     public static List<String> ttlScanKeys(RedisTemplate redisTemplate, long count) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_TTL_SCAN_KEYS)) {
+            if (LUA_SCRIPT_TTL_SCAN_KEYS == null || LUA_SCRIPT_TTL_SCAN_KEYS.isBlank()) {
                 LUA_SCRIPT_TTL_SCAN_KEYS = getLuaScript("META-INF/scripts/ttl_scan_keys.lua");
             }
             RedisScript<List> script = RedisScript.of(LUA_SCRIPT_TTL_SCAN_KEYS, List.class);
@@ -205,22 +167,11 @@ public class LuaScriptTools {
                 List<Object> list = (List<Object>) redisTemplate.execute(script, SerializationUtils.jackson2JsonRedisSerializer(), SerializationUtils.stringSerializer(), null, cursor, count);
                 // 游标
                 cursor = Long.valueOf(list.get(0).toString());
-                // 符合条件的键值
-                result.addAll(JsonUtils.toJavaBean(JsonUtils.toJSONString(list.get(1)), List.class, String.class));
+                // 符合条件的键值 todo 使用时修改序列化
+                //result.addAll(JsonUtils.toJavaBean(JsonUtils.toJSONString(list.get(1)), List.class, String.class));
             } while (cursor != 0);
             return result;
         } catch (Exception ex) {
-            BaseLogger baseLogger = BaseLogger.newBuilder()
-                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                    .withTraceId(UUIDUtils.randomSimpleUUID())
-                    .withClientIp(RequestUtils.getClientIp())
-                    .withServerIp(RequestUtils.getServerIp())
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    .withUrl("Redis")
-                    .withRequestParams("count", count)
-                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
-                    .build();
-            PrintLoggerUtils.printThirdParty(baseLogger);
             return Collections.emptyList();
         }
     }
@@ -244,24 +195,12 @@ public class LuaScriptTools {
      */
     public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_GET)) {
+            if (LUA_SCRIPT_LOCK_GET == null || LUA_SCRIPT_LOCK_GET.isBlank()) {
                 LUA_SCRIPT_LOCK_GET = getLuaScript("META-INF/scripts/lock_get.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_GET, Boolean.class);
             return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
         } catch (Exception ex) {
-            BaseLogger baseLogger = BaseLogger.newBuilder()
-                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                    .withTraceId(UUIDUtils.randomSimpleUUID())
-                    .withClientIp(RequestUtils.getClientIp())
-                    .withServerIp(RequestUtils.getServerIp())
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    .withUrl("Redis")
-                    .withRequestParams("key", key)
-                    .withRequestParams("expire", expire.getSeconds())
-                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
-                    .build();
-            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }
@@ -276,23 +215,12 @@ public class LuaScriptTools {
      */
     public static Boolean releaseLock(RedisTemplate redisTemplate, String key, Object value) {
         try {
-            if (StringUtils.isEmpty(LUA_SCRIPT_LOCK_DEL)) {
+            if (LUA_SCRIPT_LOCK_DEL == null || LUA_SCRIPT_LOCK_DEL.isBlank()) {
                 LUA_SCRIPT_LOCK_DEL = getLuaScript("META-INF/scripts/lock_del.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_DEL, Boolean.class);
             return (Boolean) redisTemplate.execute(script, singletonList(key), value);
         } catch (Exception ex) {
-            BaseLogger baseLogger = BaseLogger.newBuilder()
-                    .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                    .withTraceId(UUIDUtils.randomSimpleUUID())
-                    .withClientIp(RequestUtils.getClientIp())
-                    .withServerIp(RequestUtils.getServerIp())
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    .withUrl("Redis")
-                    .withRequestParams("key", key)
-                    .withBody(PrintExceptionUtils.printErrorInfo(ex.getCause()))
-                    .build();
-            PrintLoggerUtils.printThirdParty(baseLogger);
             return false;
         }
     }

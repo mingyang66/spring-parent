@@ -77,8 +77,10 @@ public class LuaScriptTools {
 
     /**
      * 基于列表（List）的环
-     * 1. 支持一直有效，threshold 设置为<=0或null
+     * <pre>
+     * 1. 支持一直有效，threshold 设置为小于等于0或null
      * 2. 支持设置有效时长，动态刷新，interval大于0
+     * </pre>
      *
      * @param redisTemplate redis 模板工具
      * @param key           环的键值
@@ -105,9 +107,11 @@ public class LuaScriptTools {
 
     /**
      * 基于ZSET有序集合构建环形结构
+     * <pre>
      * 1. 环上有一个阀值上线；
      * 2. 环可以设置有效期；
      * 3. 环上节点达到上限后移除分数最低的成员
+     * </pre>
      *
      * @param redisTemplate redis模板工具类
      * @param key           键名

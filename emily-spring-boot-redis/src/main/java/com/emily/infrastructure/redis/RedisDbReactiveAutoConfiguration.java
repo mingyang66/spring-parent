@@ -12,8 +12,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import reactor.core.publisher.Flux;
 
 import java.util.Map;
@@ -39,17 +39,16 @@ public class RedisDbReactiveAutoConfiguration {
     @ConditionalOnMissingBean(name = DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate(ReactiveRedisConnectionFactory redisConnectionFactory, ResourceLoader resourceLoader) {
-        JdkSerializationRedisSerializer jdkSerializer = new JdkSerializationRedisSerializer(
-                resourceLoader.getClassLoader());
+        RedisSerializer<Object> javaSerializer = RedisSerializer.java(resourceLoader.getClassLoader());
         RedisSerializationContext<Object, Object> serializationContext = RedisSerializationContext
                 .newSerializationContext()
-                .key(jdkSerializer)
-                .value(jdkSerializer)
-                .hashKey(jdkSerializer)
-                .hashValue(jdkSerializer)
+                .key(javaSerializer)
+                .value(javaSerializer)
+                .hashKey(javaSerializer)
+                .hashValue(javaSerializer)
                 .build();
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
-        ReactiveRedisTemplate reactiveRedisTemplate = null;
+        ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {

@@ -9,14 +9,17 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnThreading;
 import org.springframework.boot.autoconfigure.data.redis.JedisClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
+import org.springframework.boot.autoconfigure.thread.Threading;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.boot.ssl.SslOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
@@ -60,9 +63,33 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
     }
 
     @Bean
+    @ConditionalOnThreading(Threading.PLATFORM)
     JedisConnectionFactory redisConnectionFactory(
             ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
         return createJedisConnectionFactory(builderCustomizers, connectionDetails);
+    }
+
+    @Bean
+    @ConditionalOnThreading(Threading.VIRTUAL)
+    JedisConnectionFactory redisConnectionFactoryVirtualThreads(
+            ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
+        JedisConnectionFactory factory = createJedisConnectionFactory(builderCustomizers, connectionDetails);
+        for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
+            String key = entry.getKey();
+            if (this.getProperties().getDefaultConfig().equals(key)) {
+                factory.setExecutor(createTaskExecutor());
+            } else {
+                JedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), JedisConnectionFactory.class);
+                connectionFactory.setExecutor(createTaskExecutor());
+            }
+        }
+        return factory;
+    }
+
+    private SimpleAsyncTaskExecutor createTaskExecutor() {
+        SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor("redis-");
+        executor.setVirtualThreads(true);
+        return executor;
     }
 
     private JedisConnectionFactory createJedisConnectionFactory(

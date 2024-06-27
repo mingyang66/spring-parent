@@ -44,7 +44,7 @@ public class RedisDbFactory {
      *
      * @return redis操作对象
      */
-    public static RedisTemplate<?, ?> getRedisTemplate() {
+    public static RedisTemplate getRedisTemplate() {
         return getRedisTemplate(null);
     }
 
@@ -54,7 +54,7 @@ public class RedisDbFactory {
      * @param key 数据源标识
      * @return redis操作模板对象
      */
-    public static RedisTemplate<?, ?> getRedisTemplate(String key) {
+    public static RedisTemplate getRedisTemplate(String key) {
         if (key == null || key.isBlank() || CONTEXT.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
             return CONTEXT.getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
         } else {

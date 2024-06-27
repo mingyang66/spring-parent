@@ -20,7 +20,7 @@ public class PropertiesRedisDbConnectionDetails implements RedisConnectionDetail
     @Override
     public String getUsername() {
         if (this.properties.getUrl() != null) {
-            RedisDbConnectionConfiguration.ConnectionInfo connectionInfo = connectionInfo(this.properties.getUrl());
+            RedisDbConnectionConfiguration.ConnectionDbInfo connectionInfo = connectionInfo(this.properties.getUrl());
             return connectionInfo.getUsername();
         }
         return this.properties.getUsername();
@@ -29,7 +29,7 @@ public class PropertiesRedisDbConnectionDetails implements RedisConnectionDetail
     @Override
     public String getPassword() {
         if (this.properties.getUrl() != null) {
-            RedisDbConnectionConfiguration.ConnectionInfo connectionInfo = connectionInfo(this.properties.getUrl());
+            RedisDbConnectionConfiguration.ConnectionDbInfo connectionInfo = connectionInfo(this.properties.getUrl());
             return connectionInfo.getPassword();
         }
         return this.properties.getPassword();
@@ -38,14 +38,14 @@ public class PropertiesRedisDbConnectionDetails implements RedisConnectionDetail
     @Override
     public Standalone getStandalone() {
         if (this.properties.getUrl() != null) {
-            RedisDbConnectionConfiguration.ConnectionInfo connectionInfo = connectionInfo(this.properties.getUrl());
+            RedisDbConnectionConfiguration.ConnectionDbInfo connectionInfo = connectionInfo(this.properties.getUrl());
             return Standalone.of(connectionInfo.getUri().getHost(), connectionInfo.getUri().getPort(),
                     this.properties.getDatabase());
         }
         return Standalone.of(this.properties.getHost(), this.properties.getPort(), this.properties.getDatabase());
     }
 
-    private RedisDbConnectionConfiguration.ConnectionInfo connectionInfo(String url) {
+    private RedisDbConnectionConfiguration.ConnectionDbInfo connectionInfo(String url) {
         return (url != null) ? RedisDbConnectionConfiguration.parseUrl(url) : null;
     }
 

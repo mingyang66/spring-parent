@@ -11,14 +11,13 @@ import org.springframework.util.ClassUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * @author :  Emily
  * @since :  2023/9/23 21:36 PM
  */
-public class RedisDbConnectionConfiguration {
+abstract class RedisDbConnectionConfiguration {
     private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", RedisDbConnectionConfiguration.class.getClassLoader());
     private final RedisDbProperties redisDbProperties;
     private final RedisStandaloneConfiguration standaloneConfiguration;
@@ -41,21 +40,21 @@ public class RedisDbConnectionConfiguration {
     protected final RedisStandaloneConfiguration getStandaloneConfig(RedisConnectionDetails connectionDetails) {
         if (this.standaloneConfiguration != null) {
             return this.standaloneConfiguration;
-        } else {
-            RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-            config.setHostName(connectionDetails.getStandalone().getHost());
-            config.setPort(connectionDetails.getStandalone().getPort());
-            config.setUsername(connectionDetails.getUsername());
-            config.setPassword(RedisPassword.of(connectionDetails.getPassword()));
-            config.setDatabase(connectionDetails.getStandalone().getDatabase());
-            return config;
         }
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(connectionDetails.getStandalone().getHost());
+        config.setPort(connectionDetails.getStandalone().getPort());
+        config.setUsername(connectionDetails.getUsername());
+        config.setPassword(RedisPassword.of(connectionDetails.getPassword()));
+        config.setDatabase(connectionDetails.getStandalone().getDatabase());
+        return config;
     }
 
     protected final RedisSentinelConfiguration getSentinelConfig(RedisConnectionDetails connectionDetails) {
         if (this.sentinelConfiguration != null) {
             return this.sentinelConfiguration;
-        } else if (connectionDetails.getSentinel() != null) {
+        }
+        if (connectionDetails.getSentinel() != null) {
             RedisSentinelConfiguration config = new RedisSentinelConfiguration();
             config.master(connectionDetails.getSentinel().getMaster());
             config.setSentinels(this.createSentinels(connectionDetails.getSentinel()));
@@ -64,48 +63,44 @@ public class RedisDbConnectionConfiguration {
             if (password != null) {
                 config.setPassword(RedisPassword.of(password));
             }
-
             config.setSentinelUsername(connectionDetails.getSentinel().getUsername());
             String sentinelPassword = connectionDetails.getSentinel().getPassword();
             if (sentinelPassword != null) {
                 config.setSentinelPassword(RedisPassword.of(sentinelPassword));
             }
-
             config.setDatabase(connectionDetails.getSentinel().getDatabase());
             return config;
-        } else {
-            return null;
         }
+        return null;
     }
 
     protected final RedisClusterConfiguration getClusterConfiguration(RedisProperties properties, RedisConnectionDetails connectionDetails) {
         if (this.clusterConfiguration != null) {
             return this.clusterConfiguration;
-        } else {
-            RedisProperties.Cluster clusterProperties = properties.getCluster();
-            if (connectionDetails.getCluster() != null) {
-                RedisClusterConfiguration config = new RedisClusterConfiguration(this.getNodes(connectionDetails.getCluster()));
-                if (clusterProperties != null && clusterProperties.getMaxRedirects() != null) {
-                    config.setMaxRedirects(clusterProperties.getMaxRedirects());
-                }
-
-                config.setUsername(connectionDetails.getUsername());
-                String password = connectionDetails.getPassword();
-                if (password != null) {
-                    config.setPassword(RedisPassword.of(password));
-                }
-
-                return config;
-            } else {
-                return null;
-            }
         }
+        RedisProperties.Cluster clusterProperties = properties.getCluster();
+        if (connectionDetails.getCluster() != null) {
+            RedisClusterConfiguration config = new RedisClusterConfiguration();
+            config.setClusterNodes(getNodes(connectionDetails.getCluster()));
+            if (clusterProperties != null && clusterProperties.getMaxRedirects() != null) {
+                config.setMaxRedirects(clusterProperties.getMaxRedirects());
+            }
+            config.setUsername(connectionDetails.getUsername());
+            String password = connectionDetails.getPassword();
+            if (password != null) {
+                config.setPassword(RedisPassword.of(password));
+            }
+            return config;
+        }
+        return null;
     }
 
-    private List<String> getNodes(RedisConnectionDetails.Cluster cluster) {
-        return cluster.getNodes().stream().map((node) -> {
-            return "%s:%d".formatted(node.host(), node.port());
-        }).toList();
+    private List<RedisNode> getNodes(RedisConnectionDetails.Cluster cluster) {
+        return cluster.getNodes().stream().map(this::asRedisNode).toList();
+    }
+
+    private RedisNode asRedisNode(RedisConnectionDetails.Node node) {
+        return new RedisNode(node.host(), node.port());
     }
 
     protected final RedisDbProperties getProperties() {
@@ -122,18 +117,14 @@ public class RedisDbConnectionConfiguration {
 
     protected boolean isPoolEnabled(RedisProperties.Pool pool) {
         Boolean enabled = pool.getEnabled();
-        return enabled != null ? enabled : COMMONS_POOL2_AVAILABLE;
+        return (enabled != null) ? enabled : COMMONS_POOL2_AVAILABLE;
     }
 
     private List<RedisNode> createSentinels(RedisConnectionDetails.Sentinel sentinel) {
-        List<RedisNode> nodes = new ArrayList();
-        Iterator var3 = sentinel.getNodes().iterator();
-
-        while (var3.hasNext()) {
-            RedisConnectionDetails.Node node = (RedisConnectionDetails.Node) var3.next();
-            nodes.add(new RedisNode(node.host(), node.port()));
+        List<RedisNode> nodes = new ArrayList<>();
+        for (RedisConnectionDetails.Node node : sentinel.getNodes()) {
+            nodes.add(asRedisNode(node));
         }
-
         return nodes;
     }
 
@@ -141,7 +132,7 @@ public class RedisDbConnectionConfiguration {
         return parseUrl(properties.getUrl()).isUseSsl();
     }
 
-    static ConnectionInfo parseUrl(String url) {
+    static ConnectionDbInfo parseUrl(String url) {
         try {
             URI uri = new URI(url);
             String scheme = uri.getScheme();
@@ -153,7 +144,7 @@ public class RedisDbConnectionConfiguration {
                 String password = null;
                 if (uri.getUserInfo() != null) {
                     String candidate = uri.getUserInfo();
-                    int index = candidate.indexOf(58);
+                    int index = candidate.indexOf(':');
                     if (index >= 0) {
                         username = candidate.substring(0, index);
                         password = candidate.substring(index + 1);
@@ -162,20 +153,20 @@ public class RedisDbConnectionConfiguration {
                     }
                 }
 
-                return new ConnectionInfo(uri, useSsl, username, password);
+                return new ConnectionDbInfo(uri, useSsl, username, password);
             }
         } catch (URISyntaxException var8) {
             throw new RedisDbUrlSyntaxException(url, var8);
         }
     }
 
-    static class ConnectionInfo {
+    public static class ConnectionDbInfo {
         private final URI uri;
         private final boolean useSsl;
         private final String username;
         private final String password;
 
-        ConnectionInfo(URI uri, boolean useSsl, String username, String password) {
+        ConnectionDbInfo(URI uri, boolean useSsl, String username, String password) {
             this.uri = uri;
             this.useSsl = useSsl;
             this.username = username;

@@ -44,22 +44,22 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 @Import({LettuceDbConnectionConfiguration.class, JedisDbConnectionConfiguration.class})
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private final RedisDbProperties properties;
+    private final RedisDbProperties redisDbProperties;
 
-    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties properties) {
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
         BeanFactoryUtils.setDefaultListableBeanFactory(defaultListableBeanFactory);
-        this.properties = properties;
+        this.redisDbProperties = redisDbProperties;
     }
 
     @Bean
     @ConditionalOnMissingBean(RedisConnectionDetails.class)
     PropertiesRedisDbConnectionDetails redisConnectionDetails() {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         PropertiesRedisDbConnectionDetails redisConnectionDetails = null;
-        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
-            RedisProperties redisProperties = entry.getValue();
-            PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(redisProperties);
+            RedisProperties properties = entry.getValue();
+            PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
             if (defaultConfig.equals(key)) {
                 redisConnectionDetails = propertiesRedisDbConnectionDetails;
             } else {
@@ -72,9 +72,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             template.setKeySerializer(stringSerializer());
@@ -97,9 +97,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         StringRedisTemplate stringRedisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());

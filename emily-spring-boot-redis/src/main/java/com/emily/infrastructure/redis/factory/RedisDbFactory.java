@@ -14,7 +14,16 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
  * @since 2021/07/11
  */
 public class RedisDbFactory {
-    public static ApplicationContext CONTEXT;
+
+    private static ApplicationContext context;
+
+    public static ApplicationContext getContext() {
+        return context;
+    }
+
+    public static void setContext(ApplicationContext context) {
+        RedisDbFactory.context = context;
+    }
 
     /**
      * 获取Redis默认字符串模板
@@ -32,10 +41,10 @@ public class RedisDbFactory {
      * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate(String key) {
-        if (key == null || key.isBlank() || CONTEXT.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
-            return CONTEXT.getBean(DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
+        if (key == null || key.isBlank() || getContext().getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
+            return getContext().getBean(DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
         } else {
-            return CONTEXT.getBean(join(key, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
+            return getContext().getBean(join(key, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
         }
     }
 
@@ -44,7 +53,7 @@ public class RedisDbFactory {
      *
      * @return redis操作对象
      */
-    public static RedisTemplate getRedisTemplate() {
+    public static RedisTemplate<Object, Object> getRedisTemplate() {
         return getRedisTemplate(null);
     }
 
@@ -54,11 +63,12 @@ public class RedisDbFactory {
      * @param key 数据源标识
      * @return redis操作模板对象
      */
-    public static RedisTemplate getRedisTemplate(String key) {
-        if (key == null || key.isBlank() || CONTEXT.getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
-            return CONTEXT.getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
+    @SuppressWarnings("unchecked")
+    public static RedisTemplate<Object, Object> getRedisTemplate(String key) {
+        if (key == null || key.isBlank() || getContext().getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
+            return getContext().getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
         } else {
-            return CONTEXT.getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);
+            return getContext().getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);
         }
     }
 }

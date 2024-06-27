@@ -1,9 +1,5 @@
 package com.emily.infrastructure.core.context.holder;
 
-import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.common.UUIDUtils;
-import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.language.convert.LanguageType;
 
@@ -120,25 +116,25 @@ public class ContextHolderBuilder {
     public ContextHolder build() {
         ContextHolder holder = new ContextHolder();
         //事务流水号
-        holder.setTraceId(Objects.isNull(traceId) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.TRACE_ID), UUIDUtils.randomSimpleUUID()) : UUIDUtils.randomSimpleUUID()) : traceId);
+        holder.setTraceId(traceId);
         //系统编号
         holder.setSystemNumber(Objects.isNull(systemNumber) ? SystemNumberHelper.getSystemNumber() : systemNumber);
         //servlet上下文
-        holder.setServlet(servlet ? true : RequestUtils.isServlet());
+        holder.setServlet(servlet);
         //语言
-        holder.setLanguageType(Objects.isNull(languageType) ? (RequestUtils.isServlet() ? LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)) : LanguageType.ZH_CN) : languageType);
+        holder.setLanguageType(languageType);
         //版本类型，com.emily.android
-        holder.setAppType(Objects.isNull(appType) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_TYPE), appType) : appType) : appType);
+        holder.setAppType(appType);
         //版本号，4.1.4
-        holder.setAppVersion(Objects.isNull(appVersion) ? (RequestUtils.isServlet() ? StringUtils.defaultString(RequestUtils.getHeader(HeaderInfo.APP_VERSION), appVersion) : appVersion) : appVersion);
+        holder.setAppVersion(appVersion);
         //servlet请求开始时间
         holder.setStartTime(Objects.isNull(startTime) ? Instant.now() : startTime);
         //API耗时
         holder.setSpentTime(spentTime);
         //客户端IP
-        holder.setClientIp(Objects.isNull(clientIp) ? RequestUtils.getClientIp() : clientIp);
+        holder.setClientIp(clientIp);
         //服务端IP
-        holder.setServerIp(Objects.isNull(serverIp) ? RequestUtils.getServerIp() : serverIp);
+        holder.setServerIp(serverIp);
         //设置当前请求阶段标识
         holder.setServletStage(Objects.isNull(servletStage) ? ServletStage.OTHER : servletStage);
         return holder;

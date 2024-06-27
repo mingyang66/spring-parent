@@ -1,8 +1,8 @@
-package com.emily.infrastructure.core.servlet;
+package com.emily.infrastructure.autoconfigure.filter;
 
-import com.emily.infrastructure.core.servlet.filter.RequestChannelFilter;
-import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
-import com.emily.infrastructure.core.servlet.filter.RoutingRedirectFilter;
+import com.emily.infrastructure.autoconfigure.filter.filter.RequestChannelFilter;
+import com.emily.infrastructure.autoconfigure.filter.filter.RoutingRedirectCustomizer;
+import com.emily.infrastructure.autoconfigure.filter.filter.RoutingRedirectFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.servlet.filter;
+package com.emily.infrastructure.autoconfigure.filter.filter;
 
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import jakarta.servlet.*;

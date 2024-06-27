@@ -6,14 +6,12 @@ module emily.spring.boot.core {
     requires spring.context;
     requires org.apache.commons.lang3;
     requires spring.core;
-    requires org.apache.tomcat.embed.core;
     requires org.slf4j;
     requires spring.beans;
     requires spring.boot.autoconfigure;
     requires spring.boot;
     requires transmittable.thread.local;
     requires oceansky.language;
-    requires spring.web;
     requires spring.aop;
     requires com.google.common;
     requires org.apache.commons.io;
@@ -31,7 +29,5 @@ module emily.spring.boot.core {
     exports com.emily.infrastructure.core.aop.pointcut;
     exports com.emily.infrastructure.core.context.holder;
     exports com.emily.infrastructure.core.condition;
-    exports com.emily.infrastructure.core.servlet.filter;
-    exports com.emily.infrastructure.core.servlet;
     exports com.emily.infrastructure.core.context.ioc;
 }

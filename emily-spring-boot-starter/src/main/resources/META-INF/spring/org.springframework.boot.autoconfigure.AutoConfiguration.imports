@@ -6,3 +6,4 @@ com.emily.infrastructure.autoconfigure.servlet.ServletAutoConfiguration
 com.emily.infrastructure.autoconfigure.exception.GlobalExceptionAutoConfiguration
 com.emily.infrastructure.autoconfigure.tomcat.TomcatAutoConfiguration
 com.emily.infrastructure.autoconfigure.httpclient.HttpClientAutoConfiguration
+com.emily.infrastructure.autoconfigure.filter.FilterAutoConfiguration

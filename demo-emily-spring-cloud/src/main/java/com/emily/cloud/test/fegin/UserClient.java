@@ -1,6 +1,6 @@
 package com.emily.cloud.test.fegin;
 
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.PathVariable;

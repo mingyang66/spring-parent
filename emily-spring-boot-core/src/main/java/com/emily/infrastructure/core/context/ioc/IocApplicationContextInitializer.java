@@ -1,6 +1,5 @@
 package com.emily.infrastructure.core.context.ioc;
 
-import jakarta.annotation.Nonnull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,7 +14,7 @@ import org.springframework.core.Ordered;
  */
 public class IocApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     @Override
-    public void initialize(@Nonnull ConfigurableApplicationContext applicationContext) {
+    public void initialize(ConfigurableApplicationContext applicationContext) {
         IocUtils.setApplicationContext(applicationContext);
     }
 

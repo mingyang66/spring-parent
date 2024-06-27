@@ -2,9 +2,8 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.utils.PrintLoggerUtils;
-import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import com.emily.infrastructure.core.utils.PrintLoggerUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.rabbitmq.client.Connection;
@@ -25,8 +24,8 @@ public class DefaultMqExceptionHandler extends StrictExceptionHandler {
         BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
-                .withClientIp(RequestUtils.getClientIp())
-                .withServerIp(RequestUtils.getServerIp())
+                //.withClientIp(RequestUtils.getClientIp())
+                //.withServerIp(RequestUtils.getServerIp())
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .withUrl("RabbitMQ")
                 .withBody("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")")

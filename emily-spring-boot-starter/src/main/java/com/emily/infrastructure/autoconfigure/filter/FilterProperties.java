@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.servlet;
+package com.emily.infrastructure.autoconfigure.filter;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -4,7 +4,7 @@ import com.emily.infrastructure.autoconfigure.response.ResponseProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
 import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;

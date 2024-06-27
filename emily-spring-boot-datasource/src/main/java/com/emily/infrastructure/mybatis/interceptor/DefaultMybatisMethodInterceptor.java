@@ -5,13 +5,14 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.core.utils.PrintLoggerUtils;
-import com.emily.infrastructure.core.helper.ServletHelper;
+import com.emily.infrastructure.core.helper.MethodHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import org.aopalliance.intercept.MethodInvocation;
 
+import javax.annotation.Nonnull;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -26,11 +27,11 @@ import java.util.Map;
 public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
 
     @Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
+    public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //开始时间
         Instant start = Instant.now();
         //获取请求参数--请求入参必须在调用方法之前获取，避免被拦截器修改
-        Map<String, Object> params = ServletHelper.getMethodArgs(invocation);
+        Map<String, Object> params = MethodHelper.getMethodArgs(invocation);
         //方法调用结果
         Object result = null;
         try {

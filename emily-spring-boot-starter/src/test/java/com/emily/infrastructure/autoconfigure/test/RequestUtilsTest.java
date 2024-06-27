@@ -1,8 +1,8 @@
-package com.emily.infrastructure.core.helper;
+package com.emily.infrastructure.autoconfigure.test;
 
 
+import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
 import com.emily.infrastructure.core.constant.HeaderInfo;
-import com.emily.infrastructure.core.utils.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

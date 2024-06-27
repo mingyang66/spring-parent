@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.response.handler;
 import com.emily.infrastructure.autoconfigure.response.ResponseProperties;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
 import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import com.emily.infrastructure.json.JsonUtils;
 import org.springframework.core.MethodParameter;

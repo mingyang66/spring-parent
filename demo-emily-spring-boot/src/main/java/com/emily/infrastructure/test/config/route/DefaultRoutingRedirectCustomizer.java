@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.config.route;
 
-import com.emily.infrastructure.core.servlet.filter.RoutingRedirectCustomizer;
+import com.emily.infrastructure.autoconfigure.filter.filter.RoutingRedirectCustomizer;
 import jakarta.servlet.http.HttpServletRequest;
 
 

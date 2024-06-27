@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.utils.RequestUtils;
+import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.test.po.Job;
 import com.emily.infrastructure.test.po.User;

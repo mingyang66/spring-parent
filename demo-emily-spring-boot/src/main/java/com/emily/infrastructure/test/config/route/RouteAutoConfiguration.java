@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.config.route;
 
-import com.emily.infrastructure.core.servlet.FilterAutoConfiguration;
+import com.emily.infrastructure.autoconfigure.filter.FilterAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 

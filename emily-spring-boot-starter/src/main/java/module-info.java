@@ -24,6 +24,7 @@ module emily.spring.boot.starter {
     requires oceansky.json;
     requires oceansky.logger;
     requires oceansky.date;
+    requires org.apache.commons.io;
 
     exports com.emily.infrastructure.autoconfigure.bean.factory;
     exports com.emily.infrastructure.autoconfigure.bean.registry;

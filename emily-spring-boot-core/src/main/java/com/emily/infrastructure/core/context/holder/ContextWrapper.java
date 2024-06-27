@@ -2,9 +2,7 @@ package com.emily.infrastructure.core.context.holder;
 
 import com.alibaba.ttl.TtlRunnable;
 import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
-import org.springframework.util.Assert;
 
 /**
  * 新增对非servlet上下文请求入口
@@ -50,7 +48,6 @@ public class ContextWrapper {
      * @param traceId  事务流水号
      */
     public static void run(Runnable runnable, String traceId) {
-        Assert.isTrue(!RequestUtils.isServlet(), "不可用在servlet上下文环境");
         try {
             //事务流水号
             if (StringUtils.isNotBlank(traceId)) {

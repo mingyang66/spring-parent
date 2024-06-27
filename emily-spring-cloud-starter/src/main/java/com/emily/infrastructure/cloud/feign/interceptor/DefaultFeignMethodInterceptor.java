@@ -5,10 +5,10 @@ import com.emily.infrastructure.core.constant.AopOrderInfo;
 import com.emily.infrastructure.core.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
 import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.core.helper.MethodHelper;
 import com.emily.infrastructure.core.utils.PrintLoggerUtils;
-import com.emily.infrastructure.core.helper.ServletHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -68,7 +68,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //响应结果
                     .withBody(SensitiveUtils.acquireElseGet(response, BaseResponse.class))
                     //请求参数
-                    .withRequestParams(AttributeInfo.PARAMS, ServletHelper.getMethodArgs(invocation))
+                    .withRequestParams(AttributeInfo.PARAMS, MethodHelper.getMethodArgs(invocation))
                     .build();
             //异步记录接口响应信息
             PrintLoggerUtils.printThirdParty(baseLogger);

@@ -40,6 +40,12 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!--maven项目源代码编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+        <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <google-guava.version>32.1.0-jre</google-guava.version>
@@ -173,7 +179,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.7.0</version>
+                <version>${nexus-staging-maven-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -185,7 +191,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -203,7 +209,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>${maven-source-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -220,7 +226,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.13.0</version>
+                        <version>${maven-compiler-plugin.version}</version>
                         <configuration>
                             <!--Maven编译后保留方法名-->
                             <parameters>true</parameters>
@@ -240,7 +246,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.7.0</version>
+                        <version>${maven-javadoc-plugin.version}</version>
                         <configuration>
                             <!--控制构建过程中如果出现错误是否停止构建-->
                             <failOnError>false</failOnError>
@@ -271,7 +277,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.4</version>
+                        <version>${maven-gpg-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

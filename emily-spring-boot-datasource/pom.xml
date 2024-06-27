@@ -41,12 +41,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
+<!--    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version> <!-- 请检查并使用适合你的Maven版本的版本 -->
+                <version>3.2.0</version> &lt;!&ndash; 请检查并使用适合你的Maven版本的版本 &ndash;&gt;
                 <configuration>
                     <archive>
                         <index>true</index>
@@ -63,5 +63,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

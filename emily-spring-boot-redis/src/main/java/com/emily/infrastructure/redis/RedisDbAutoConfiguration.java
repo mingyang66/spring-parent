@@ -44,23 +44,22 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 @Import({LettuceDbConnectionConfiguration.class, JedisDbConnectionConfiguration.class})
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
-    private final RedisDbProperties redisDbProperties;
+    private final RedisDbProperties properties;
 
-    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
-        this.redisDbProperties = redisDbProperties;
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties properties) {
         BeanFactoryUtils.setDefaultListableBeanFactory(defaultListableBeanFactory);
+        this.properties = properties;
     }
 
     @Bean
     @ConditionalOnMissingBean(RedisConnectionDetails.class)
     PropertiesRedisDbConnectionDetails redisConnectionDetails() {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         PropertiesRedisDbConnectionDetails redisConnectionDetails = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             String key = entry.getKey();
-            RedisProperties properties = entry.getValue();
-            PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
+            RedisProperties redisProperties = entry.getValue();
+            PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(redisProperties);
             if (defaultConfig.equals(key)) {
                 redisConnectionDetails = propertiesRedisDbConnectionDetails;
             } else {
@@ -73,9 +72,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             template.setKeySerializer(stringSerializer());
@@ -98,9 +97,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @Bean
     @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         StringRedisTemplate stringRedisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());
@@ -123,11 +122,15 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
 
     @Override
     public void destroy() {
-        logger.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
+        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
+        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
+    }
+
+    private static class LogHolder {
+        private static final Logger LOG = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
     }
 }

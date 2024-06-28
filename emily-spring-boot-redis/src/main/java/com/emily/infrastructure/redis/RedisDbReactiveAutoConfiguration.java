@@ -85,12 +85,12 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
 
     @Override
     public void destroy() {
-        RedisDbReactiveAutoConfiguration.LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDbReactiveAutoConfiguration】");
+        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDbReactiveAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        RedisDbReactiveAutoConfiguration.LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbReactiveAutoConfiguration】");
+        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbReactiveAutoConfiguration】");
     }
 
     private static class LogHolder {

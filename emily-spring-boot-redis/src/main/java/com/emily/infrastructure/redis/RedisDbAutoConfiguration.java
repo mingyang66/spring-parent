@@ -59,11 +59,11 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
-            PropertiesRedisDbConnectionDetails propertiesRedisDbConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
             if (defaultConfig.equals(key)) {
-                redisConnectionDetails = propertiesRedisDbConnectionDetails;
+                redisConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
+                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECT_DETAILS), redisConnectionDetails);
             } else {
-                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECT_DETAILS), propertiesRedisDbConnectionDetails);
+                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECT_DETAILS), new PropertiesRedisDbConnectionDetails(properties));
             }
         }
         return redisConnectionDetails;

@@ -95,8 +95,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
         return executor;
     }
 
-    private JedisConnectionFactory createJedisConnectionFactory(
-            ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
+    private JedisConnectionFactory createJedisConnectionFactory(ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
         String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
         JedisConnectionFactory redisConnectionFactory = null;
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
@@ -116,8 +115,8 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
                 redisConnectionFactory = jedisConnectionFactory;
             } else {
                 jedisConnectionFactory.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
             }
+            BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
         }
         return redisConnectionFactory;
     }

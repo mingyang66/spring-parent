@@ -27,6 +27,7 @@ import org.springframework.boot.ssl.SslBundles;
 import org.springframework.boot.ssl.SslOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -82,6 +83,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     }
 
     @Bean
+    @Primary
     @ConditionalOnMissingBean({RedisConnectionFactory.class})
     @ConditionalOnThreading(Threading.PLATFORM)
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
@@ -91,6 +93,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     }
 
     @Bean
+    @Primary
     @ConditionalOnMissingBean(RedisConnectionFactory.class)
     @ConditionalOnThreading(Threading.VIRTUAL)
     LettuceConnectionFactory redisConnectionFactoryVirtualThreads(

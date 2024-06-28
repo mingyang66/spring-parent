@@ -19,6 +19,7 @@ import org.springframework.boot.ssl.SslBundles;
 import org.springframework.boot.ssl.SslOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -63,6 +64,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
     }
 
     @Bean
+    @Primary
     @ConditionalOnThreading(Threading.PLATFORM)
     JedisConnectionFactory redisConnectionFactory(
             ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {
@@ -70,6 +72,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
     }
 
     @Bean
+    @Primary
     @ConditionalOnThreading(Threading.VIRTUAL)
     JedisConnectionFactory redisConnectionFactoryVirtualThreads(
             ObjectProvider<JedisClientConfigurationBuilderCustomizer> builderCustomizers, RedisConnectionDetails connectionDetails) {

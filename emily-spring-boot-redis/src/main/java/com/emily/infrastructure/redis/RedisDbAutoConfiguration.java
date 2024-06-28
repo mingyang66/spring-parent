@@ -87,8 +87,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             } else {
                 template.setConnectionFactory(BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(join(key, REDIS_TEMPLATE), template);
             }
+            BeanFactoryUtils.registerSingleton(join(key, REDIS_TEMPLATE), template);
         }
 
         return redisTemplate;
@@ -112,8 +112,8 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             } else {
                 template.setConnectionFactory(BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
             }
+            BeanFactoryUtils.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
         }
 
         return stringRedisTemplate;

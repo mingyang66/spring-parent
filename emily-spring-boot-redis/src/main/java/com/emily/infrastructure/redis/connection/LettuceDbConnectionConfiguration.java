@@ -29,10 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
@@ -153,13 +150,14 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     }
 
     private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfiguration, RedisProperties properties, RedisConnectionDetails connectionDetails) {
-        if (getSentinelConfig(connectionDetails) != null) {
-            return new LettuceConnectionFactory(getSentinelConfig(connectionDetails), clientConfiguration);
+        RedisConfiguration redisConfiguration = getSentinelConfig(connectionDetails);
+        if (redisConfiguration == null) {
+            redisConfiguration = getClusterConfiguration(properties, connectionDetails);
         }
-        if (getClusterConfiguration(properties, connectionDetails) != null) {
-            return new LettuceConnectionFactory(getClusterConfiguration(properties, connectionDetails), clientConfiguration);
+        if (redisConfiguration == null) {
+            redisConfiguration = getStandaloneConfig(connectionDetails);
         }
-        return new LettuceConnectionFactory(getStandaloneConfig(connectionDetails), clientConfiguration);
+        return new LettuceConnectionFactory(redisConfiguration, clientConfiguration);
     }
 
     private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,

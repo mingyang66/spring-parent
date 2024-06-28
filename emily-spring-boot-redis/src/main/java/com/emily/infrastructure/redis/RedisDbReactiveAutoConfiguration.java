@@ -1,13 +1,13 @@
 package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
@@ -25,14 +25,14 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
  * @author :  Emily
  * @since :  2023/9/25 21:51 PM
  */
-@AutoConfiguration(after = RedisDbAutoConfiguration.class, before = RedisReactiveAutoConfiguration.class)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@AutoConfiguration(after = {RedisDbAutoConfiguration.class})
 @ConditionalOnClass({ReactiveRedisConnectionFactory.class, ReactiveRedisTemplate.class, Flux.class})
 public class RedisDbReactiveAutoConfiguration {
     private final RedisDbProperties redisDbProperties;
 
-    public RedisDbReactiveAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
+    public RedisDbReactiveAutoConfiguration(RedisDbProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
-        BeanFactoryUtils.setDefaultListableBeanFactory(defaultListableBeanFactory);
     }
 
     @Bean

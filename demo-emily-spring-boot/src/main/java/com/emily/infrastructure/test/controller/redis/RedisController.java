@@ -8,6 +8,7 @@ import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -38,11 +39,11 @@ public class RedisController {
     @Autowired
     @Qualifier("test1RedisTemplate")
     private RedisTemplate testRedisTemplate;
-    //@Autowired
-    //private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
-    //@Autowired
-    //@Qualifier("testReactiveStringRedisTemplate")
-    //private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
+    @Autowired
+    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
+    @Autowired
+    @Qualifier("test1ReactiveStringRedisTemplate")
+    private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
 
     @GetMapping("test")
     public String test() {

@@ -7,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 
 /**
- * 关闭springboot starter默认sdk LettuceConnectionConfiguration的自动化配置
+ *  关闭springboot starter默认sdk LettuceConnectionConfiguration、JedisConnectionConfiguration的自动化配置
  *
  * @author Emily
  * @since 2020/09/22
@@ -20,8 +20,9 @@ public class RedisDbApplicationContextInitializer implements ApplicationContextI
 
     @Override
     public void initialize(@Nonnull ConfigurableApplicationContext applicationContext) {
-        // 关闭LettuceConnectionConfiguration自动化配置类，并级联关闭RedisAutoConfiguration自动化配置
+        // 关闭LettuceConnectionConfiguration自动化配置类
         System.getProperties().put("spring.data.redis.client-type", "");
+        // 初始化容器应用程序上下文
         RedisDbFactory.setContext(applicationContext);
     }
 }

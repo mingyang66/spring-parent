@@ -9,7 +9,7 @@ Bug Fixes
 4. DataMaskUtils脱敏隐藏工具类判定字符串长度由"abc".length==0修改为”abc“.isEmpty()方法；
 5. redis sdk 依赖优化调整，RedisTemplate、StringRedisTemplate、ReactiveRedisTemplate、ReactiveStringRedisTemplate
     四个模板对象支持默认对象注入容器，支持配置标识+模板名称模式获取实例对象；
-6. 
+6. RedisDbFactory新增ReactiveRedisTemplate、ReactiveStringRedisTemplate模板对象支持，优化方法获取默认模板相关代码；
 
 ------
 Dependency Upgrades

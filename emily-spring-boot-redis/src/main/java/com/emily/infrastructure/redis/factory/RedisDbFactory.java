@@ -1,7 +1,8 @@
 package com.emily.infrastructure.redis.factory;
 
-import com.emily.infrastructure.redis.RedisDbProperties;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -17,11 +18,7 @@ public class RedisDbFactory {
 
     private static ApplicationContext context;
 
-    public static ApplicationContext getContext() {
-        return context;
-    }
-
-    public static void setContext(ApplicationContext context) {
+    public static void registerApplicationContext(ApplicationContext context) {
         RedisDbFactory.context = context;
     }
 
@@ -31,7 +28,7 @@ public class RedisDbFactory {
      * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate() {
-        return getStringRedisTemplate(null);
+        return context.getBean(DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
     }
 
     /**
@@ -41,11 +38,10 @@ public class RedisDbFactory {
      * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate(String key) {
-        if (key == null || key.isBlank() || getContext().getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
-            return getContext().getBean(DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
-        } else {
-            return getContext().getBean(join(key, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
+        if (key == null || key.isBlank()) {
+            return getStringRedisTemplate();
         }
+        return context.getBean(join(key, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
     }
 
     /**
@@ -53,8 +49,9 @@ public class RedisDbFactory {
      *
      * @return redis操作对象
      */
+    @SuppressWarnings("unchecked")
     public static RedisTemplate<Object, Object> getRedisTemplate() {
-        return getRedisTemplate(null);
+        return context.getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
     }
 
     /**
@@ -65,10 +62,56 @@ public class RedisDbFactory {
      */
     @SuppressWarnings("unchecked")
     public static RedisTemplate<Object, Object> getRedisTemplate(String key) {
-        if (key == null || key.isBlank() || getContext().getBean(RedisDbProperties.class).getDefaultConfig().equals(key)) {
-            return getContext().getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
+        if (key == null || key.isBlank()) {
+            return getRedisTemplate();
         } else {
-            return getContext().getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);
+            return context.getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);
         }
+    }
+
+    /**
+     * 获取响应式Redis模板对象
+     *
+     * @return redis响应是模板对象
+     */
+    @SuppressWarnings("unchecked")
+    public static ReactiveRedisTemplate<Object, Object> getReactiveRedisTemplate() {
+        return context.getBean(DEFAULT_REACTIVE_REDIS_TEMPLATE, ReactiveRedisTemplate.class);
+    }
+
+    /**
+     * 获取响应式Redis模板对象
+     *
+     * @param key 数据库标识
+     * @return redis响应是模板对象
+     */
+    @SuppressWarnings("unchecked")
+    public static ReactiveRedisTemplate<Object, Object> getReactiveRedisTemplate(String key) {
+        if (key == null || key.isBlank()) {
+            return getReactiveRedisTemplate();
+        }
+        return context.getBean(join(key, REACTIVE_REDIS_TEMPLATE), ReactiveRedisTemplate.class);
+    }
+
+    /**
+     * 获取响应式Redis模板对象
+     *
+     * @return redis响应是模板对象
+     */
+    public static ReactiveStringRedisTemplate getReactiveStringRedisTemplate() {
+        return context.getBean(DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE, ReactiveStringRedisTemplate.class);
+    }
+
+    /**
+     * 获取响应式Redis模板对象
+     *
+     * @param key 数据库标识
+     * @return redis响应是模板对象
+     */
+    public static ReactiveStringRedisTemplate getReactiveStringRedisTemplate(String key) {
+        if (key == null || key.isBlank()) {
+            return getReactiveStringRedisTemplate();
+        }
+        return context.getBean(join(key, REACTIVE_STRING_REDIS_TEMPLATE), ReactiveStringRedisTemplate.class);
     }
 }

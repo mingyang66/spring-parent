@@ -3,7 +3,7 @@ package com.emily.infrastructure.redis;
 import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
-import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
+import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -47,7 +47,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     private final RedisDbProperties redisDbProperties;
 
     public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
-        BeanFactoryUtils.setDefaultListableBeanFactory(defaultListableBeanFactory);
+        BeanFactoryProvider.registerDefaultListableBeanFactory(defaultListableBeanFactory);
         this.redisDbProperties = redisDbProperties;
     }
 
@@ -61,9 +61,9 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
             RedisProperties properties = entry.getValue();
             if (defaultConfig.equals(key)) {
                 redisConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
-                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECT_DETAILS), redisConnectionDetails);
+                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), redisConnectionDetails);
             } else {
-                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECT_DETAILS), new PropertiesRedisDbConnectionDetails(properties));
+                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), new PropertiesRedisDbConnectionDetails(properties));
             }
         }
         return redisConnectionDetails;
@@ -85,10 +85,10 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 redisTemplate = template;
             } else {
-                template.setConnectionFactory(BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
             }
-            BeanFactoryUtils.registerSingleton(join(key, REDIS_TEMPLATE), template);
+            BeanFactoryProvider.registerSingleton(join(key, REDIS_TEMPLATE), template);
         }
 
         return redisTemplate;
@@ -110,10 +110,10 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
                 template.setConnectionFactory(redisConnectionFactory);
                 stringRedisTemplate = template;
             } else {
-                template.setConnectionFactory(BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                template.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
             }
-            BeanFactoryUtils.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
+            BeanFactoryProvider.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
         }
 
         return stringRedisTemplate;

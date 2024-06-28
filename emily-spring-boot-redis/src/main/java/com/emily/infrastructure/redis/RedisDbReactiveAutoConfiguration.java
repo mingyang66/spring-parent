@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
+import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -56,10 +56,10 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {
-                BeanFactoryUtils.registerSingleton(join(key, REACTIVE_REDIS_TEMPLATE), reactiveRedisTemplate);
+                BeanFactoryProvider.registerSingleton(join(key, REACTIVE_REDIS_TEMPLATE), reactiveRedisTemplate);
             } else {
-                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
-                BeanFactoryUtils.registerSingleton(join(key, REACTIVE_REDIS_TEMPLATE), new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
+                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+                BeanFactoryProvider.registerSingleton(join(key, REACTIVE_REDIS_TEMPLATE), new ReactiveRedisTemplate<>(connectionFactory, serializationContext));
             }
         }
         return reactiveRedisTemplate;
@@ -74,10 +74,10 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {
-                BeanFactoryUtils.registerSingleton(join(key, REACTIVE_STRING_REDIS_TEMPLATE), reactiveStringRedisTemplate);
+                BeanFactoryProvider.registerSingleton(join(key, REACTIVE_STRING_REDIS_TEMPLATE), reactiveStringRedisTemplate);
             } else {
-                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
-                BeanFactoryUtils.registerSingleton(join(key, REACTIVE_STRING_REDIS_TEMPLATE), new ReactiveStringRedisTemplate(connectionFactory));
+                ReactiveRedisConnectionFactory connectionFactory = BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+                BeanFactoryProvider.registerSingleton(join(key, REACTIVE_STRING_REDIS_TEMPLATE), new ReactiveStringRedisTemplate(connectionFactory));
             }
         }
         return reactiveStringRedisTemplate;

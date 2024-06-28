@@ -3,7 +3,7 @@ package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.RedisProperties;
-import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
+import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.SocketOptions;
@@ -106,7 +106,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
             if (this.getProperties().getDefaultConfig().equals(key)) {
                 factory.setExecutor(createTaskExecutor());
             } else {
-                LettuceConnectionFactory connectionFactory = BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
+                LettuceConnectionFactory connectionFactory = BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
                 connectionFactory.setExecutor(createTaskExecutor());
             }
         }
@@ -137,7 +137,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 //是否开启连接校验，默认：false
                 redisConnectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
             } else {
-                RedisConnectionDetails redisConnectionDetails = BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class);
+                RedisConnectionDetails redisConnectionDetails = BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class);
                 LettuceConnectionFactory connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties, redisConnectionDetails);
                 //是否提前初始化连接，默认：false
                 connectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
@@ -146,7 +146,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
                 //是否开启连接校验，默认：false
                 connectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
                 connectionFactory.afterPropertiesSet();
-                BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
+                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
             }
         }
         return redisConnectionFactory;

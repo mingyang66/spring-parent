@@ -1,4 +1,4 @@
-package com.emily.infrastructure.redis.utils;
+package com.emily.infrastructure.redis.factory;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * @author :  Emily
  * @since :  2023/10/20 9:35 PM
  */
-public class BeanFactoryUtils {
+public class BeanFactoryProvider {
     /**
      * 容器对象
      */
@@ -19,8 +19,8 @@ public class BeanFactoryUtils {
      *
      * @param defaultListableBeanFactory 容器对象
      */
-    public static void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
-        BeanFactoryUtils.defaultListableBeanFactory = defaultListableBeanFactory;
+    public static void registerDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
+        BeanFactoryProvider.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     /**

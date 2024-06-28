@@ -3,7 +3,7 @@ package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.RedisProperties;
-import com.emily.infrastructure.redis.utils.BeanFactoryUtils;
+import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -82,7 +82,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             if (this.getProperties().getDefaultConfig().equals(key)) {
                 factory.setExecutor(createTaskExecutor());
             } else {
-                JedisConnectionFactory connectionFactory = BeanFactoryUtils.getBean(join(key, REDIS_CONNECTION_FACTORY), JedisConnectionFactory.class);
+                JedisConnectionFactory connectionFactory = BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), JedisConnectionFactory.class);
                 connectionFactory.setExecutor(createTaskExecutor());
             }
         }
@@ -102,7 +102,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
             JedisClientConfiguration clientConfiguration = getJedisClientConfiguration(builderCustomizers, properties);
-            RedisConnectionDetails redisConnectionDetails = defaultConfig.equals(key) ? connectionDetails : BeanFactoryUtils.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class);
+            RedisConnectionDetails redisConnectionDetails = defaultConfig.equals(key) ? connectionDetails : BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), RedisConnectionDetails.class);
             JedisConnectionFactory jedisConnectionFactory;
             if (getSentinelConfig(redisConnectionDetails) != null) {
                 jedisConnectionFactory = new JedisConnectionFactory(getSentinelConfig(redisConnectionDetails), clientConfiguration);
@@ -116,7 +116,7 @@ public class JedisDbConnectionConfiguration extends RedisDbConnectionConfigurati
             } else {
                 jedisConnectionFactory.afterPropertiesSet();
             }
-            BeanFactoryUtils.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
+            BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), jedisConnectionFactory);
         }
         return redisConnectionFactory;
     }

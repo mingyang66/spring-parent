@@ -1,7 +1,6 @@
 package com.emily.infrastructure.redis.initializer;
 
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
-import jakarta.annotation.Nonnull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
@@ -19,8 +18,8 @@ public class RedisDbApplicationContextInitializer implements ApplicationContextI
     }
 
     @Override
-    public void initialize(@Nonnull ConfigurableApplicationContext applicationContext) {
-        // 关闭LettuceConnectionConfiguration自动化配置类
+    public void initialize(ConfigurableApplicationContext applicationContext) {
+        // 关闭LettuceConnectionConfiguration、JedisConnectionConfiguration自动化配置类
         System.getProperties().put("spring.data.redis.client-type", "");
         // 初始化容器应用程序上下文
         RedisDbFactory.registerApplicationContext(applicationContext);

@@ -89,11 +89,11 @@ public class ResponseAutoConfiguration implements InitializingBean, DisposableBe
 
     @Override
     public void destroy() throws Exception {
-        logger.info("<== 【销毁--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Response返回值包装组件【ResponseAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("==> 【初始化--自动化配置】----Response返回值包装组件【ResponseWrapperAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Response返回值包装组件【ResponseAutoConfiguration】");
     }
 }

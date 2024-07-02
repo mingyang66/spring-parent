@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
- * LogBack日志组件，加载配置文件优先级：https://logback.qos.ch/manual/configuration.html
- * 加载顺序：loback-test.xml-&gt;logback.xml-&gt;SPI com.qos.logback.classic.spi.Configurator模式-&gt;BasicConfigurator打印控制台
+ * LogBack日志组件，加载配置文件优先级：<a href="https://logback.qos.ch/manual/configuration.html">...</a>
+ * 加载顺序：logback-test.xml-&gt;logback.xml-&gt;SPI com.qos.logback.classic.spi.Configurator模式-&gt;BasicConfigurator打印控制台
  *
  * @author Emily
  * @see <a href="https://logback.qos.ch/manual/configuration.html">...</a>

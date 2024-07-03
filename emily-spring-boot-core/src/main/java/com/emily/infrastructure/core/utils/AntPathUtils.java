@@ -32,7 +32,7 @@ public class AntPathUtils {
         }
         boolean isMatch = false;
         for (String excludeRoute : routes) {
-            if (isMatch = matcher.match(excludeRoute, route)) {
+            if (isMatch == matcher.match(excludeRoute, route)) {
                 break;
             }
         }

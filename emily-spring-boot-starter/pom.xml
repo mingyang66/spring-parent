@@ -10,7 +10,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-starter</artifactId>
     <name>emily-spring-boot-starter</name>
     <description>基于springboot的公用组件SDK</description>

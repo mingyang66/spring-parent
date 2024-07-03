@@ -1,6 +1,8 @@
 package com.emily.infrastructure.redis.common;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.connection.ReturnType;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 
@@ -10,7 +12,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
+import static com.emily.infrastructure.redis.common.SerializationUtils.jackson2JsonRedisSerializer;
+import static com.emily.infrastructure.redis.common.SerializationUtils.stringSerializer;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 /**
@@ -68,11 +74,11 @@ public class LuaScriptTools {
      * @param expire        限流的时间窗口
      * @return true-访问有效，false-超过阀值
      */
-    public static boolean limit(RedisTemplate redisTemplate, String key, int threshold, int expire) {
+    public static boolean limit(RedisTemplate<Object, Object> redisTemplate, String key, int threshold, int expire) {
         RedisScript<Long> script = RedisScript.of(new ClassPathResource("META-INF/scripts/limit.lua"), Long.class);
         // 0：超过阀值 1：访问有效
-        Long count = (Long) redisTemplate.execute(script, singletonList(key), threshold, expire);
-        return count == 1 ? true : false;
+        Long count = redisTemplate.execute(script, singletonList(key), threshold, expire);
+        return count != null && count == 1L;
     }
 
     /**
@@ -89,7 +95,7 @@ public class LuaScriptTools {
      * @param expire        有效时长, 为null则永久有效
      * @return true-执行成功 false-执行失败
      */
-    public static boolean listCircle(RedisTemplate redisTemplate, String key, Object value, long threshold, Duration expire) {
+    public static boolean listCircle(RedisTemplate<Object, Object> redisTemplate, String key, Object value, long threshold, Duration expire) {
         try {
             if (LUA_SCRIPT_LIST_CIRCLE == null || LUA_SCRIPT_LIST_CIRCLE.isBlank()) {
                 LUA_SCRIPT_LIST_CIRCLE = getLuaScript("META-INF/scripts/circle_list.lua");
@@ -121,7 +127,7 @@ public class LuaScriptTools {
      * @param expire        过期时间
      * @return true-执行成功 false-执行失败
      */
-    public static boolean zSetCircle(RedisTemplate redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
+    public static boolean zSetCircle(RedisTemplate<Object, Object> redisTemplate, String key, long score, Object value, long threshold, Duration expire) {
         try {
             if (LUA_SCRIPT_ZSET_CIRCLE == null || LUA_SCRIPT_ZSET_CIRCLE.isBlank()) {
                 LUA_SCRIPT_ZSET_CIRCLE = getLuaScript("META-INF/scripts/circle_zset.lua");
@@ -144,12 +150,16 @@ public class LuaScriptTools {
      * @param redisTemplate redis 模板工具类
      * @return TTL为-1的键集合列表
      */
-    public static List<String> ttlKeys(RedisTemplate redisTemplate) {
+    public static List<String> ttlKeys(RedisTemplate<Object, Object> redisTemplate) {
         if (LUA_SCRIPT_TTL_KEYS == null || LUA_SCRIPT_TTL_KEYS.isBlank()) {
             LUA_SCRIPT_TTL_KEYS = getLuaScript("META-INF/scripts/ttl_keys.lua");
         }
         RedisScript<List> script = RedisScript.of(LUA_SCRIPT_TTL_KEYS, List.class);
-        return (List<String>) redisTemplate.execute(script, SerializationUtils.stringSerializer(), SerializationUtils.stringSerializer(), null);
+        return Objects.requireNonNull(redisTemplate.execute((RedisCallback<List<String>>) connection -> {
+            List<byte[]> list = connection.scriptingCommands().evalSha(script.getSha1(), ReturnType.fromJavaType(script.getResultType()), 0);
+            if (list == null) return emptyList();
+            return list.stream().map(f -> stringSerializer().deserialize(f)).toList();
+        }));
     }
 
 
@@ -159,7 +169,7 @@ public class LuaScriptTools {
      * @param redisTemplate redis 模板工具类
      * @return TTL为-1的键集合列表
      */
-    public static List<String> ttlScanKeys(RedisTemplate redisTemplate, long count) {
+    public static List<String> ttlScanKeys(RedisTemplate<Object, Object> redisTemplate, long count) {
         try {
             if (LUA_SCRIPT_TTL_SCAN_KEYS == null || LUA_SCRIPT_TTL_SCAN_KEYS.isBlank()) {
                 LUA_SCRIPT_TTL_SCAN_KEYS = getLuaScript("META-INF/scripts/ttl_scan_keys.lua");
@@ -168,11 +178,21 @@ public class LuaScriptTools {
             List<String> result = new ArrayList<>();
             long cursor = 0;
             do {
-                List<Object> list = (List<Object>) redisTemplate.execute(script, SerializationUtils.jackson2JsonRedisSerializer(), SerializationUtils.stringSerializer(), null, cursor, count);
+                byte[] cursorBytes = jackson2JsonRedisSerializer().serialize(cursor);
+                List<byte[]> list = redisTemplate.execute((RedisCallback<List<byte[]>>) connection -> {
+                    List<byte[]> list1 = connection.scriptingCommands().eval(script.getScriptAsString().getBytes(StandardCharsets.UTF_8), ReturnType.fromJavaType(script.getResultType()), 0, cursorBytes, jackson2JsonRedisSerializer().serialize(count));
+                    if (list1 == null) return emptyList();
+                    return list1;
+                });
                 // 游标
-                cursor = Long.valueOf(list.get(0).toString());
-                // 符合条件的键值 todo 使用时修改序列化
-                //result.addAll(JsonUtils.toJavaBean(JsonUtils.toJSONString(list.get(1)), List.class, String.class));
+                cursor = Long.parseLong(Objects.requireNonNull(stringSerializer().deserialize(list.get(0))).toString());
+                Object s11 = list.get(1);
+                if (s11 instanceof List listResult) {
+                    for (Object obj : listResult) {
+                        result.add(stringSerializer().deserialize((byte[]) obj));
+                    }
+                }
+
             } while (cursor != 0);
             return result;
         } catch (Exception ex) {
@@ -197,13 +217,13 @@ public class LuaScriptTools {
      * @param expire        过期时间
      * @return true-加锁成功 false-加锁失败
      */
-    public static Boolean tryGetLock(RedisTemplate redisTemplate, String key, Object value, Duration expire) {
+    public static Boolean tryGetLock(RedisTemplate<Object, Object> redisTemplate, String key, Object value, Duration expire) {
         try {
             if (LUA_SCRIPT_LOCK_GET == null || LUA_SCRIPT_LOCK_GET.isBlank()) {
                 LUA_SCRIPT_LOCK_GET = getLuaScript("META-INF/scripts/lock_get.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_GET, Boolean.class);
-            return (Boolean) redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
+            return redisTemplate.execute(script, singletonList(key), value, expire.getSeconds());
         } catch (Exception ex) {
             return false;
         }
@@ -217,13 +237,13 @@ public class LuaScriptTools {
      * @param value         锁标识
      * @return true-加锁成功 false-加锁失败
      */
-    public static Boolean releaseLock(RedisTemplate redisTemplate, String key, Object value) {
+    public static Boolean releaseLock(RedisTemplate<Object, Object> redisTemplate, String key, Object value) {
         try {
             if (LUA_SCRIPT_LOCK_DEL == null || LUA_SCRIPT_LOCK_DEL.isBlank()) {
                 LUA_SCRIPT_LOCK_DEL = getLuaScript("META-INF/scripts/lock_del.lua");
             }
             RedisScript<Boolean> script = RedisScript.of(LUA_SCRIPT_LOCK_DEL, Boolean.class);
-            return (Boolean) redisTemplate.execute(script, singletonList(key), value);
+            return redisTemplate.execute(script, singletonList(key), value);
         } catch (Exception ex) {
             return false;
         }

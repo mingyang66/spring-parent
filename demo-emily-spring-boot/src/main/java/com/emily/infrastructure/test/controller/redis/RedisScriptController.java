@@ -4,7 +4,6 @@ import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
 import com.emily.infrastructure.redis.common.LuaScriptTools;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,13 +22,16 @@ import java.util.List;
 @RequestMapping("api/redis")
 public class RedisScriptController {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
+
+    public RedisScriptController(RedisTemplate<Object, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @GetMapping("scr")
     public void scr() {
         RedisScript<Boolean> script = RedisScript.of(new ClassPathResource("META-INF/scripts/checkandset.lua"), Boolean.class);
-        redisTemplate.execute(script, Arrays.asList("test-script"), "1", "2");
+        redisTemplate.execute(script, List.of("test-script"), "1", "2");
 
     }
 

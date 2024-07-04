@@ -9,7 +9,6 @@
         <relativePath>../emily-spring-boot-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>emily-spring-boot-redis</artifactId>
     <url>https://github.com/mingyang66/spring-parent</url>
 

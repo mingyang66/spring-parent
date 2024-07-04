@@ -29,6 +29,7 @@
         <module>oceansky-date</module>
         <module>oceansky-common</module>
         <module>oceansky-logger</module>
+        <module>emily-spring</module>
     </modules>
 
     <properties>

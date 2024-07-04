@@ -2,6 +2,7 @@ package com.emily.infrastructure.resource;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.util.PathMatcher;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author :  Emily
  * @since :  2024/7/3 下午23:26
  */
-public class ClassPathResourceSupport {
+public class PathMatchingResourceSupport {
 
     private static final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
@@ -33,5 +34,19 @@ public class ClassPathResourceSupport {
             resources.addAll(List.of(resolver.getResources(path)));
         }
         return resources;
+    }
+
+    /**
+     * 基于AntPathMatcher的路径匹配
+     * 支持ant表达式
+     * ?:匹配单个字符
+     * *:匹配0或多个字符
+     * **:匹配0或多个目录
+     * {param}:参数
+     *
+     * @return AntPathMatcher 对象
+     */
+    public PathMatcher getPathMatcher() {
+        return resolver.getPathMatcher();
     }
 }

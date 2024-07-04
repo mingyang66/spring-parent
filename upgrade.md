@@ -13,7 +13,7 @@ Bug Fixes
 7. Redis SDK新增package-info.java支持；
 8. Redis SDK新增服务启动故障分析类RedisIdentifierFailureAnalyzer.java；
 9. Logger SDK新增自动化配置类元数据生成支持spring-boot-configuration-processor依赖，只在编译阶段存在；
-10. 新增emily-spring-resource模块，添加ClassPathResourceSupport类对类路径、系统文件路径下文件解析；
+10. 新增emily-spring模块，添加ClassPathResourceSupport类对类路径、系统文件路径下文件解析；
 
 ------
 Dependency Upgrades

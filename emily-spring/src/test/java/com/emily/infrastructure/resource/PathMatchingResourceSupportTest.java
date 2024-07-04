@@ -71,6 +71,7 @@ public class PathMatchingResourceSupportTest {
         Assertions.assertEquals(matcher.extractPathWithinPattern("*","/docs/cvs/commit.html"),"/docs/cvs/commit.html");
         Assertions.assertEquals(matcher.extractPathWithinPattern("/a/b?","/a/bc/d"),"bc/d");
 
+        // 提取Ant风格url中变量
         Map<String,String> uriTemplate = matcher.extractUriTemplateVariables("api/{userid}/{id}","api/1002356/11");
         Assertions.assertEquals(uriTemplate.get("userid"),"1002356");
         Assertions.assertEquals(uriTemplate.get("id"),"11");

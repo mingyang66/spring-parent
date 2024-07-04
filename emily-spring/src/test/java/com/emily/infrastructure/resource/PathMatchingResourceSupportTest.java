@@ -7,6 +7,7 @@ import org.springframework.util.PathMatcher;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -75,5 +76,25 @@ public class PathMatchingResourceSupportTest {
         Map<String,String> uriTemplate = matcher.extractUriTemplateVariables("api/{userid}/{id}","api/1002356/11");
         Assertions.assertEquals(uriTemplate.get("userid"),"1002356");
         Assertions.assertEquals(uriTemplate.get("id"),"11");
+
+        // 将两个URL拼接成一个新的url
+        Assertions.assertEquals(matcher.combine(null, null),"");
+        Assertions.assertEquals(matcher.combine("/hotels", null),"/hotels");
+        Assertions.assertEquals(matcher.combine(null, "/hotels"),"/hotels");
+        Assertions.assertEquals(matcher.combine("/hotels", "/bookings"),"/hotels/bookings");
+        Assertions.assertEquals(matcher.combine("/hotels", "bookings"),"/hotels/bookings");
+        Assertions.assertEquals(matcher.combine("/hotels/*", "bookings"),"/hotels/bookings");
+        Assertions.assertEquals(matcher.combine("/hotels/**", "/bookings"),"/hotels/**/bookings");
+        Assertions.assertEquals(matcher.combine("/hotels", "{hotel}"),"/hotels/{hotel}");
+        Assertions.assertEquals(matcher.combine("/hotels/*", "{hotel}"),"/hotels/{hotel}");
+        Assertions.assertEquals(matcher.combine("/hotels/**", "{hotel}"),"/hotels/**/{hotel}");
+        Assertions.assertEquals(matcher.combine("/*.html", "/hotels.html"),"/hotels.html");
+        Assertions.assertEquals(matcher.combine("/*.html", "/hotels"),"/hotels.html");
+        Assertions.assertThrows(IllegalArgumentException.class,()->matcher.combine("/*.html", "/*.txt"));
+
+        // 给定一个url返回一个可以按照显式顺序排序的Comparator对象
+        Comparator<String> comparator1 = matcher.getPatternComparator("/hotels/new");
+        Comparator<String> comparator2 = matcher.getPatternComparator("/hotels/{hotel}");
+        Comparator<String> comparator3 = matcher.getPatternComparator("/hotels/*");
     }
 }

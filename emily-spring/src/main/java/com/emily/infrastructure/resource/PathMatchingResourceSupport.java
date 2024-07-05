@@ -36,6 +36,10 @@ public class PathMatchingResourceSupport {
         return resources;
     }
 
+    public Resource getResource(String location) {
+        return resolver.getResource(location);
+    }
+
     /**
      * 基于AntPathMatcher的路径匹配
      * 支持ant表达式

@@ -36,6 +36,15 @@ public class PathMatchingResourceSupport {
         return resources;
     }
 
+    /**
+     * 获取文件资源对象
+     * 必须支持全路径，e. g. "file:C:/ test. dat".
+     * 必须支持基于classpath的路径，e. g. "classpath:test. dat".
+     * 应该支持相对路径，e. g. "WEB-INF/ test. dat"
+     *
+     * @param location 文件url
+     * @return 文件资源对象
+     */
     public Resource getResource(String location) {
         return resolver.getResource(location);
     }

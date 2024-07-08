@@ -44,4 +44,12 @@ public class BeanFactoryProvider {
     public static <T> T getBean(String name, Class<T> requiredType) {
         return defaultListableBeanFactory.getBean(name, requiredType);
     }
+
+    public static boolean containsBean(String name) {
+        return defaultListableBeanFactory.containsBean(name);
+    }
+
+    public static <T> T getBean(Class<T> requiredType) {
+        return defaultListableBeanFactory.getBean(requiredType);
+    }
 }

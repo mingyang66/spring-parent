@@ -215,13 +215,14 @@
                             <execution>
                                 <id>attach-sources</id>
                                 <goals>
-                                    <goal>jar</goal>
+                                    <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
                             <!--构建过程中生成源码包，并将其附加到maven项目中-->
-                            <attach>true</attach>
+                           <!-- <attach>true</attach>-->
+                            <!--<classifier>tests</classifier>-->
                         </configuration>
                     </plugin>
                     <plugin>

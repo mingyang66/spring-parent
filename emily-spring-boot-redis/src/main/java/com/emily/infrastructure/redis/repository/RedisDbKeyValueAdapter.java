@@ -710,16 +710,8 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
     }
 
     private void initMessageListenerContainer() {
-        RedisMessageListenerContainer redisMessageListenerContainer = BeanFactoryProvider.getBean(RedisMessageListenerContainer.class);
-        if (redisMessageListenerContainer == null) {
-            this.messageListenerContainer = new RedisMessageListenerContainer();
-            this.messageListenerContainer.setConnectionFactory(((RedisTemplate<?, ?>) redisOps).getConnectionFactory());
-            this.messageListenerContainer.afterPropertiesSet();
-            this.messageListenerContainer.start();
-        } else {
-            this.messageListenerContainer = redisMessageListenerContainer;
-            this.messageListenerContainer.start();
-        }
+        this.messageListenerContainer = BeanFactoryProvider.getBean(RedisMessageListenerContainer.class);
+        this.messageListenerContainer.start();
     }
 
     private void initKeyExpirationListener() {

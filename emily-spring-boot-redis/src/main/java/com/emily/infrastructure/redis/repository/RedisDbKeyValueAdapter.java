@@ -718,6 +718,7 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
             this.messageListenerContainer.start();
         } else {
             this.messageListenerContainer = redisMessageListenerContainer;
+            this.messageListenerContainer.start();
         }
     }
 

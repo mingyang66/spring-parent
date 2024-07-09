@@ -15,14 +15,14 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 public class RedisConfig {
 
     @Bean
-    public String register1(@Qualifier("test1RedisMessageListenerContainer") RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
+    public String register(RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
         factory.addMessageListener(messageListenerAdapter, new PatternTopic("test"));
         factory.addMessageListener(messageListenerAdapter, new PatternTopic("test1"));
         return "success";
     }
 
     @Bean
-    public String register(RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
+    public String register1(@Qualifier("test1RedisMessageListenerContainer") RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
         factory.addMessageListener(messageListenerAdapter, new PatternTopic("test"));
         factory.addMessageListener(messageListenerAdapter, new PatternTopic("test1"));
         return "success";

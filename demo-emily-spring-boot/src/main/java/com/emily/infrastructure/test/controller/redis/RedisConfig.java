@@ -3,6 +3,7 @@ package com.emily.infrastructure.test.controller.redis;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -16,15 +17,15 @@ public class RedisConfig {
 
     @Bean
     public String register(RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
-        factory.addMessageListener(messageListenerAdapter, new PatternTopic("test"));
-        factory.addMessageListener(messageListenerAdapter, new PatternTopic("test1"));
+        factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test"));
+        factory.addMessageListener(messageListenerAdapter, ChannelTopic.of("test1"));
         return "success";
     }
 
     @Bean
     public String register1(@Qualifier("test1RedisMessageListenerContainer") RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
-        factory.addMessageListener(messageListenerAdapter, new PatternTopic("test"));
-        factory.addMessageListener(messageListenerAdapter, new PatternTopic("test1"));
+        factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test"));
+        factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test1"));
         return "success";
     }
 

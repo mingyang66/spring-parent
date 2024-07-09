@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.controller;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
-import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
+import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.test.test.TestTimeout;
 import com.google.common.collect.Maps;
 import jakarta.annotation.PostConstruct;
@@ -83,7 +83,7 @@ public class HttpClientController {
         Map<String, String> body = Maps.newHashMap();
         body.put("param1", "value1");
         body.put("param2", "value2");
-       // ResponseEntity<BaseResponse> entity = new RestTemplateBuilder().build().postForEntity(url, new HttpEntity<>(body, headers), BaseResponse.class);
+        // ResponseEntity<BaseResponse> entity = new RestTemplateBuilder().build().postForEntity(url, new HttpEntity<>(body, headers), BaseResponse.class);
         ResponseEntity<BaseResponse> entity = new RestTemplateBuilder().build().exchange(url, HttpMethod.GET, new HttpEntity<>(body, headers), BaseResponse.class);
         return entity.getBody();
     }

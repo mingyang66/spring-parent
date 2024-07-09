@@ -5,7 +5,10 @@ import com.emily.infrastructure.date.DatePatternInfo;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorConfig;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -37,7 +40,7 @@ public class TotpControllerV1 {
         System.out.println("VerificationCode" + key.getVerificationCode());
         List<Integer> list = key.getScratchCodes();
         System.out.println("ScratchCodes:" + list.contains(key.getVerificationCode()));
-        return key.getVerificationCode() + "|" + secretKey+"|" + otpAuthURL;
+        return key.getVerificationCode() + "|" + secretKey + "|" + otpAuthURL;
     }
 
 
@@ -49,7 +52,6 @@ public class TotpControllerV1 {
         // 验证身份验证令牌
         return gAuth.authorize(key, code);
     }
-
 
 
     private static GoogleAuthenticatorConfig generateConfig() {

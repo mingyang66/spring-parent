@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.po.json;
 
+import com.emily.infrastructure.sensitive.SensitiveType;
 import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
 import com.emily.infrastructure.sensitive.annotation.JsonSimField;
-import com.emily.infrastructure.sensitive.SensitiveType;
 
 import java.util.Map;
 import java.util.Set;

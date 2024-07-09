@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class SensitiveTest {
     public static void main(String[] args) throws IOException {
-        List<String> list = List.of("classpath*:mapper/mysql/*.xml", "classpath:mapper/oracle/*.xml","classpath:*.properties");
+        List<String> list = List.of("classpath*:mapper/mysql/*.xml", "classpath:mapper/oracle/*.xml", "classpath:*.properties");
         List<Resource> resources = getResources(list);
         System.out.println(resources.size());
     }

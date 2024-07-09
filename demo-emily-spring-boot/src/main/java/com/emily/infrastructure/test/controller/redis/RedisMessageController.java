@@ -1,17 +1,9 @@
 package com.emily.infrastructure.test.controller.redis;
 
-import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
-import jakarta.annotation.PostConstruct;
-import org.springframework.data.redis.connection.Message;
-import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.Topic;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author :  Emily

@@ -27,7 +27,7 @@ public class TotpControllerV2 {
     public String generatorCode() {
         TOTPGenerator totp = getTOTPGenerator();
         System.out.println(new String(secret));
-        return totp.at(Instant.now().plusSeconds(30*3));
+        return totp.at(Instant.now().plusSeconds(30 * 3));
     }
 
     @GetMapping("verify")
@@ -35,7 +35,7 @@ public class TotpControllerV2 {
         TOTPGenerator totp = getTOTPGenerator();
         //return totp.verify(code);
         // 验证延迟几个窗口时间有效
-        return totp.verify(code,1);
+        return totp.verify(code, 1);
     }
 
     @GetMapping("getUrl")

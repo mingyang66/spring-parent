@@ -1,17 +1,17 @@
 package com.emily.infrastructure.redis.repository;
 
-import org.springframework.boot.autoconfigure.data.AbstractRepositoryConfigurationSourceSupport;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.repository.configuration.RedisRepositoryConfigurationExtension;
+import org.springframework.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
 import org.springframework.data.repository.config.RepositoryConfigurationExtension;
 
 import java.lang.annotation.Annotation;
 
 /**
- * ImportBeanDefinitionRegistrar used to auto-configure Spring Data Redis Repositories.
- *
  * @author :  Emily
- * @since :  2024/7/8 上午19:39
+ * @since :  2024/7/9 下午9:40
  */
-public class RedisDbRepositoriesRegistrar extends AbstractRepositoryConfigurationSourceSupport {
+public class RedisDbRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupport {
 
     @Override
     protected Class<? extends Annotation> getAnnotation() {
@@ -19,18 +19,7 @@ public class RedisDbRepositoriesRegistrar extends AbstractRepositoryConfiguratio
     }
 
     @Override
-    protected Class<?> getConfiguration() {
-        return EnableRedisDbRepositoriesConfiguration.class;
-    }
-
-    @Override
-    protected RepositoryConfigurationExtension getRepositoryConfigurationExtension() {
+    protected RepositoryConfigurationExtension getExtension() {
         return new RedisDbRepositoryConfigurationExtension();
     }
-
-    @EnableRedisDbRepositories
-    private static final class EnableRedisDbRepositoriesConfiguration {
-
-    }
-
 }

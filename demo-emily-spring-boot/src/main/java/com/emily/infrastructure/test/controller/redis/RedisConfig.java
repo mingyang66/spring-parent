@@ -1,5 +1,7 @@
 package com.emily.infrastructure.test.controller.redis;
 
+import com.emily.infrastructure.redis.repository.EnableRedisDbRepositories;
+import com.emily.infrastructure.redis.repository.RedisDbKeyValueAdapter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
  * @since :  2024/7/1 下午3:56
  */
 @Configuration
+@EnableRedisDbRepositories(basePackages = {"com.emily.infrastructure.test.controller.redis"}, enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig {
 
     @Bean

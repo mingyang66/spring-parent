@@ -1,9 +1,10 @@
-package com.emily.infrastructure.redis.repository;
+package com.emily.infrastructure.redis.repository.data;
 
 import com.emily.infrastructure.redis.RedisDbAutoConfiguration;
 import com.emily.infrastructure.redis.RedisDbProperties;
 import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
+import com.emily.infrastructure.redis.repository.EnableRedisDbRepositories;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.repository.support.RedisRepositoryFactoryBean;
 
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.Objects;
  * @since :  2024/7/8 上午19:57
  */
 @AutoConfiguration(after = RedisDbAutoConfiguration.class)
-@ConditionalOnClass(EnableRedisRepositories.class)
+@ConditionalOnClass(EnableRedisDbRepositories.class)
 @ConditionalOnBean(RedisConnectionFactory.class)
 @ConditionalOnProperty(prefix = "spring.emily.redis.repositories", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnMissingBean(RedisRepositoryFactoryBean.class)

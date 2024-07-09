@@ -2,7 +2,6 @@ package com.emily.infrastructure.redis.repository;
 
 
 import com.emily.infrastructure.redis.RedisDbProperties;
-import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -14,7 +13,10 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.keyvalue.core.AbstractKeyValueAdapter;
 import org.springframework.data.keyvalue.core.KeyValueAdapter;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
-import org.springframework.data.redis.connection.*;
+import org.springframework.data.redis.connection.DataType;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.PartialUpdate.PropertyUpdate;
 import org.springframework.data.redis.core.PartialUpdate.UpdateCommand;
@@ -708,18 +710,14 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
     }
 
     private void initMessageListenerContainer() {
-        RedisDbProperties redisDbProperties = BeanFactoryProvider.getBean(RedisDbProperties.class);
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
-            String key = entry.getKey();
-            RedisMessageListenerContainer messageListenerContainer = new RedisMessageListenerContainer();
-            messageListenerContainer.setConnectionFactory(BeanFactoryProvider.getBean(key + "RedisConnectionFactory", RedisConnectionFactory.class));
-            messageListenerContainer.afterPropertiesSet();
-            messageListenerContainer.start();
-            if (defaultConfig.equals(key)) {
-                this.messageListenerContainer = messageListenerContainer;
-            }
-            BeanFactoryProvider.registerSingleton(key + "RedisMessageListenerContainer", messageListenerContainer);
+        RedisMessageListenerContainer redisMessageListenerContainer = BeanFactoryProvider.getBean(RedisMessageListenerContainer.class);
+        if (redisMessageListenerContainer == null) {
+            this.messageListenerContainer = new RedisMessageListenerContainer();
+            this.messageListenerContainer.setConnectionFactory(((RedisTemplate<?, ?>) redisOps).getConnectionFactory());
+            this.messageListenerContainer.afterPropertiesSet();
+            this.messageListenerContainer.start();
+        } else {
+            this.messageListenerContainer = redisMessageListenerContainer;
         }
     }
 

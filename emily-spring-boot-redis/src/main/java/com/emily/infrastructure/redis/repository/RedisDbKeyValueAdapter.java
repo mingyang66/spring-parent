@@ -164,6 +164,14 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
     protected RedisDbKeyValueAdapter() {
     }
 
+    public RedisOperations<?, ?> getRedisOps() {
+        return redisOps;
+    }
+
+    public AtomicReference<KeyExpirationEventMessageListener> getExpirationListener() {
+        return expirationListener;
+    }
+
     @Override
     public Object put(Object id, Object item, String keyspace) {
 
@@ -652,6 +660,11 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         this.keyspaceNotificationsConfigParameter = keyspaceNotificationsConfigParameter;
     }
 
+    @Nullable
+    public String getKeyspaceNotificationsConfigParameter() {
+        return keyspaceNotificationsConfigParameter;
+    }
+
     /**
      * Configure storage of phantom keys (shadow copies) of expiring entities.
      *
@@ -679,23 +692,16 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
     }
 
     public void destroy() throws Exception {
-
+        if (BeanFactoryProvider.getBean(RedisDbProperties.class).isListener()) {
+            return;
+        }
         if (this.expirationListener.get() != null) {
             this.expirationListener.get().destroy();
         }
 
         if (this.managedListenerContainer && this.messageListenerContainer != null) {
-            RedisDbProperties redisDbProperties = BeanFactoryProvider.getBean(RedisDbProperties.class);
-            String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-            for (String key : redisDbProperties.getConfig().keySet()) {
-                if (defaultConfig.equals(key)) {
-                    this.messageListenerContainer.destroy();
-                    this.messageListenerContainer = null;
-                } else {
-                    RedisMessageListenerContainer redisMessageListenerContainer = BeanFactoryProvider.getBean(key + "RedisMessageListenerContainer", RedisMessageListenerContainer.class);
-                    redisMessageListenerContainer.destroy();
-                }
-            }
+            this.messageListenerContainer.destroy();
+            this.messageListenerContainer = null;
         }
     }
 
@@ -709,13 +715,25 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         this.eventPublisher = applicationContext;
     }
 
+    @Nullable
+    public ApplicationEventPublisher getEventPublisher() {
+        return eventPublisher;
+    }
+
     private void initMessageListenerContainer() {
-        this.messageListenerContainer = BeanFactoryProvider.getBean(RedisMessageListenerContainer.class);
+        if (BeanFactoryProvider.getBean(RedisDbProperties.class).isListener()) {
+            return;
+        }
+        this.messageListenerContainer = new RedisMessageListenerContainer();
+        this.messageListenerContainer.setConnectionFactory(((RedisTemplate<?, ?>) redisOps).getConnectionFactory());
+        this.messageListenerContainer.afterPropertiesSet();
         this.messageListenerContainer.start();
     }
 
     private void initKeyExpirationListener() {
-
+        if (BeanFactoryProvider.getBean(RedisDbProperties.class).isListener()) {
+            return;
+        }
         if (this.expirationListener.get() == null) {
 
             RedisDbKeyValueAdapter.MappingExpirationListener listener = new RedisDbKeyValueAdapter.MappingExpirationListener(this.messageListenerContainer, this.redisOps,
@@ -741,7 +759,7 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
      * @author Christoph Strobl
      * @since 1.7
      */
-    static class MappingExpirationListener extends KeyExpirationEventMessageListener {
+    public static class MappingExpirationListener extends KeyExpirationEventMessageListener {
 
         private final RedisOperations<?, ?> ops;
         private final RedisConverter converter;
@@ -749,8 +767,8 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         /**
          * Creates new {@link RedisDbKeyValueAdapter.MappingExpirationListener}.
          */
-        MappingExpirationListener(RedisMessageListenerContainer listenerContainer, RedisOperations<?, ?> ops,
-                                  RedisConverter converter) {
+        public MappingExpirationListener(RedisMessageListenerContainer listenerContainer, RedisOperations<?, ?> ops,
+                                         RedisConverter converter) {
 
             super(listenerContainer);
             this.ops = ops;

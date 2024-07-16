@@ -22,6 +22,10 @@ public class RedisDbProperties {
      */
     private boolean enabled = true;
     /**
+     * 是否开启容器监听器功能，默认：false
+     */
+    private boolean listener;
+    /**
      * 默认配置标识
      */
     private String defaultConfig;
@@ -71,4 +75,11 @@ public class RedisDbProperties {
         return this.config.get(this.getDefaultConfig());
     }
 
+    public boolean isListener() {
+        return listener;
+    }
+
+    public void setListener(boolean listener) {
+        this.listener = listener;
+    }
 }

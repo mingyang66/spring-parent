@@ -1,7 +1,5 @@
 package com.emily.infrastructure.redis.repository;
 
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.repository.configuration.RedisRepositoryConfigurationExtension;
 import org.springframework.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
 import org.springframework.data.repository.config.RepositoryConfigurationExtension;
 

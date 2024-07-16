@@ -1,4 +1,4 @@
-package com.emily.infrastructure.test.controller.redis;
+package com.emily.infrastructure.test.controller.redis.container;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

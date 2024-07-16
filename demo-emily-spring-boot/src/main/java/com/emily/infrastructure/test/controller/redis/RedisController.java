@@ -5,6 +5,8 @@ import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.RedisCommonKeys;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.repository.EnableRedisDbRepositories;
+import com.emily.infrastructure.redis.repository.RedisDbKeyValueAdapter;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -52,7 +52,7 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
     }
 
     @Primary
-    @Bean(destroyMethod = "destroy")
+    @Bean
     public RedisMessageListenerContainer messageListenerContainer(RedisConnectionFactory connectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisDbKeyValueAdapter redisKeyValueAdapter = BeanFactoryProvider.getBean(RedisDbKeyValueAdapter.class);
@@ -81,7 +81,7 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
     }
 
 
-    @Bean(destroyMethod = "destroy")
+    @Bean
     public KeyExpirationEventMessageListener keyExpirationEventMessageListener(RedisMessageListenerContainer messageListenerContainer) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisDbKeyValueAdapter redisKeyValueAdapter = BeanFactoryProvider.getBean(RedisDbKeyValueAdapter.class);

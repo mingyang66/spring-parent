@@ -2,6 +2,7 @@ package com.emily.infrastructure.redis.repository;
 
 
 import com.emily.infrastructure.redis.RedisDbProperties;
+import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -40,6 +41,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 
 /**
  * Redis specific {@link KeyValueAdapter} implementation. Uses binary codec to read/write data from/to Redis. Objects
@@ -693,7 +696,16 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
     }
 
     public void destroy() throws Exception {
-        if (BeanFactoryProvider.getBean(RedisDbProperties.class).isListener()) {
+        RedisDbProperties properties = BeanFactoryProvider.getBean(RedisDbProperties.class);
+        if (properties.isListener()) {
+            for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
+                String key = entry.getKey();
+                KeyExpirationEventMessageListener keyExpirationEventMessageListener = BeanFactoryProvider.getBean(join(key, KEY_EXPIRATION_EVENT_MESSAGE_LISTENER), KeyExpirationEventMessageListener.class);
+                keyExpirationEventMessageListener.destroy();
+                RedisMessageListenerContainer container = BeanFactoryProvider.getBean(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), RedisMessageListenerContainer.class);
+                container.destroy();
+                this.messageListenerContainer = null;
+            }
             return;
         }
         if (this.expirationListener.get() != null) {

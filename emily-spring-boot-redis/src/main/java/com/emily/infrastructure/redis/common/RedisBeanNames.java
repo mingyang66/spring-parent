@@ -17,6 +17,8 @@ public class RedisBeanNames {
     public static final String DEFAULT_REACTIVE_REDIS_TEMPLATE = "reactiveRedisTemplate";
     public static final String REACTIVE_STRING_REDIS_TEMPLATE = "ReactiveStringRedisTemplate";
     public static final String DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE = "reactiveStringRedisTemplate";
+    public static final String KEY_EXPIRATION_EVENT_MESSAGE_LISTENER = "KeyExpirationEventMessageListener";
+    public static final String REDIS_MESSAGE_LISTENER_CONTAINER = "RedisMessageListenerContainer";
 
     public static String join(String key, String suffix) {
         return String.join("", key, suffix);

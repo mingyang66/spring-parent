@@ -48,7 +48,7 @@ public class RedisConfig {
 
 
     @EventListener
-    public void handleRedisKeyExpiredEvent(RedisKeyExpiredEvent event) {
+    public void handleRedisKeyExpiredEvent(RedisKeyExpiredEvent<String> event) {
         Object expiredSession = event.getValue();
         assert expiredSession != null;
         System.out.printf("Channel %s,Session with key={%s} has expired%n", event.getChannel(), new String(event.getSource()));

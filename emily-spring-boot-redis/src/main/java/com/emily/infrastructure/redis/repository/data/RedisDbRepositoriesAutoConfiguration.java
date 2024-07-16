@@ -28,6 +28,8 @@ import org.springframework.data.redis.repository.support.RedisRepositoryFactoryB
 import java.util.Map;
 import java.util.Objects;
 
+import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
+
 /**
  * Redis仓储类
  * {@link org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration}
@@ -43,8 +45,6 @@ import java.util.Objects;
 @ConditionalOnMissingBean(RedisRepositoryFactoryBean.class)
 @Import(RedisDbRepositoriesRegistrar.class)
 public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, DisposableBean {
-    private static final String REDIS_CONVERTER_BEAN_NAME = "redisConverter";
-    private static final String REDIS_ADAPTER_BEAN_NAME = "redisKeyValueAdapter";
     private final RedisDbProperties redisDbProperties;
 
     RedisDbRepositoriesAutoConfiguration(RedisDbProperties redisDbProperties) {
@@ -70,12 +70,12 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
                 redisKeyValueAdapter.setMessageListenerContainer(redisMessageListenerContainer);
             } else {
                 // 设置连接工厂类
-                messageListenerContainer.setConnectionFactory(BeanFactoryProvider.getBean(key + "RedisConnectionFactory", RedisConnectionFactory.class));
+                messageListenerContainer.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 messageListenerContainer.afterPropertiesSet();
                 messageListenerContainer.start();
             }
             // 注册redis消息监听容器
-            BeanFactoryProvider.registerSingleton(key + "RedisMessageListenerContainer", messageListenerContainer);
+            BeanFactoryProvider.registerSingleton(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
         }
         return redisMessageListenerContainer;
     }
@@ -89,13 +89,13 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
         for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             // 获取Redis异步消息监听容器
-            RedisMessageListenerContainer redisMessageListenerContainer = defaultConfig.equals(key) ? messageListenerContainer : BeanFactoryProvider.getBean(key + "RedisMessageListenerContainer", RedisMessageListenerContainer.class);
+            RedisMessageListenerContainer redisMessageListenerContainer = defaultConfig.equals(key) ? messageListenerContainer : BeanFactoryProvider.getBean(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), RedisMessageListenerContainer.class);
             // 获取Redis操作对象
-            RedisOperations<?, ?> redisOps = BeanFactoryProvider.getBean(key + "RedisTemplate", RedisTemplate.class);
+            RedisOperations<?, ?> redisOps = BeanFactoryProvider.getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);
             // 获取Redis key过期事件监听器
             KeyExpirationEventMessageListener listener = getKeyExpirationEventMessageListener(redisMessageListenerContainer, redisOps, redisKeyValueAdapter);
             // 监听器注入容器
-            BeanFactoryProvider.registerSingleton(key + "KeyExpirationEventMessageListener", listener);
+            BeanFactoryProvider.registerSingleton(join(key, KEY_EXPIRATION_EVENT_MESSAGE_LISTENER), listener);
             if (defaultConfig.equals(key)) {
                 // 默认监听器
                 keyExpirationListener = listener;

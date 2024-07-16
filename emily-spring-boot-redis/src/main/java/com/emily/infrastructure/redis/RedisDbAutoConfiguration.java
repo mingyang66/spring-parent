@@ -130,7 +130,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
     }
 
-    private static class LogHolder {
+    static class LogHolder {
         private static final Logger LOG = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
     }
 }

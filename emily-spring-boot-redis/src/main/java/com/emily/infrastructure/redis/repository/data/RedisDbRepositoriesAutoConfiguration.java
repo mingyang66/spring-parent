@@ -6,6 +6,9 @@ import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import com.emily.infrastructure.redis.repository.EnableRedisDbRepositories;
 import com.emily.infrastructure.redis.repository.RedisDbKeyValueAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -27,6 +30,7 @@ import java.util.Objects;
 
 /**
  * Redis仓储类
+ * {@link org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration}
  *
  * @author :  Emily
  * @since :  2024/7/8 上午19:57
@@ -38,7 +42,7 @@ import java.util.Objects;
 @ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "listener", havingValue = "true")
 @ConditionalOnMissingBean(RedisRepositoryFactoryBean.class)
 @Import(RedisDbRepositoriesRegistrar.class)
-public class RedisDbRepositoriesAutoConfiguration implements InitializingBean {
+public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, DisposableBean {
     private static final String REDIS_CONVERTER_BEAN_NAME = "redisConverter";
     private static final String REDIS_ADAPTER_BEAN_NAME = "redisKeyValueAdapter";
     private final RedisDbProperties redisDbProperties;
@@ -95,6 +99,8 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean {
             if (defaultConfig.equals(key)) {
                 // 默认监听器
                 keyExpirationListener = listener;
+                // 启动的时候开启keyExpirationListener开关
+                redisKeyValueAdapter.setEnableKeyspaceEvents(RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP);
                 // 初始化过期监听器
                 redisKeyValueAdapter.getExpirationListener().compareAndSet(null, keyExpirationListener);
             }
@@ -116,5 +122,15 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库监听器组件【RedisDbRepositoriesAutoConfiguration】");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库监听器组件【RedisDbRepositoriesAutoConfiguration】");
+    }
+
+    static class LogHolder {
+        private static final Logger LOG = LoggerFactory.getLogger(RedisDbRepositoriesAutoConfiguration.class);
     }
 }

@@ -19,7 +19,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
  * @since :  2024/7/1 下午3:56
  */
 @Configuration
-@EnableRedisDbRepositories(basePackages = {"com.emily.infrastructure.test.controller.redis.container"}, enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
+//@EnableRedisDbRepositories(basePackages = {"com.emily.infrastructure.test.controller.redis.container"}, enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig {
 
    // @Bean

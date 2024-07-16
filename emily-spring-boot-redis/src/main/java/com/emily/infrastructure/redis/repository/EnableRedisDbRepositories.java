@@ -17,6 +17,9 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 
 import java.lang.annotation.*;
 
+/**
+ * {@link org.springframework.data.redis.repository.configuration.EnableRedisRepositories}
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

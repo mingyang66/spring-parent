@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -809,9 +810,10 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
             RedisKeyExpiredEvent<?> event = new RedisKeyExpiredEvent<>(channel, key, value);
 
             ops.execute((RedisCallback<Void>) connection -> {
-
-                connection.sRem(converter.getConversionService().convert(event.getKeyspace(), byte[].class), event.getId());
-                new IndexDbWriter(connection, converter).removeKeyFromIndexes(event.getKeyspace(), event.getId());
+                if (StringUtils.hasText(event.getKeyspace())) {
+                    connection.sRem(converter.getConversionService().convert(event.getKeyspace(), byte[].class), event.getId());
+                    new IndexDbWriter(connection, converter).removeKeyFromIndexes(event.getKeyspace(), event.getId());
+                }
                 return null;
             });
 
@@ -819,7 +821,8 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         }
 
         private boolean isKeyExpirationMessage(Message message) {
-            return BinaryKeyspaceIdentifier.isValid(message.getBody());
+            //return BinaryKeyspaceIdentifier.isValid(message.getBody());
+            return true;
         }
     }
 

@@ -28,6 +28,7 @@ import org.springframework.data.redis.core.mapping.RedisMappingContext;
 import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 import org.springframework.data.redis.core.mapping.RedisPersistentProperty;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
+import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.util.ByteUtils;
 import org.springframework.data.util.CloseableIterator;
@@ -773,9 +774,9 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
      * @since 1.7
      */
     public static class MappingExpirationListener extends KeyExpirationEventMessageListener {
-
         private final RedisOperations<?, ?> ops;
         private final RedisConverter converter;
+        private RedisProperties redisProperties;
 
         /**
          * Creates new {@link RedisDbKeyValueAdapter.MappingExpirationListener}.
@@ -786,6 +787,15 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
             super(listenerContainer);
             this.ops = ops;
             this.converter = converter;
+        }
+
+        @Override
+        protected void doRegister(RedisMessageListenerContainer listenerContainer) {
+            if (redisProperties == null) {
+                super.doRegister(listenerContainer);
+            } else {
+                listenerContainer.addMessageListener(this, new PatternTopic(String.format("__keyevent@%s__:expired", redisProperties.getDatabase())));
+            }
         }
 
         @Override
@@ -835,6 +845,14 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         private boolean isKeyExpirationMessage(Message message) {
             //return BinaryKeyspaceIdentifier.isValid(message.getBody());
             return true;
+        }
+
+        public RedisProperties getRedisProperties() {
+            return redisProperties;
+        }
+
+        public void setRedisProperties(RedisProperties redisProperties) {
+            this.redisProperties = redisProperties;
         }
     }
 

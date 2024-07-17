@@ -3,10 +3,8 @@ package com.emily.infrastructure.test.controller.redis;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.redis.common.RedisCommonKeys;
+import com.emily.infrastructure.redis.common.RedisKeyspace;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
-import com.emily.infrastructure.redis.repository.EnableRedisDbRepositories;
-import com.emily.infrastructure.redis.repository.RedisDbKeyValueAdapter;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -133,21 +131,21 @@ public class RedisController {
 
     @GetMapping("hash")
     public void hash(@RequestParam("code") String code) {
-        String key = RedisCommonKeys.getKey(SystemNumberHelper.getSystemNumber(), code);
+        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), code);
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         stringRedisTemplate.opsForHash().put(key, "accountCode" + code, code);
     }
 
     @GetMapping("lock")
     public Boolean lock(@RequestParam("code") String code) {
-        String key = RedisCommonKeys.getKey(SystemNumberHelper.getSystemNumber(), "123");
+        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "123");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         return stringRedisTemplate.opsForValue().setIfAbsent(key, code, 10, TimeUnit.SECONDS);
     }
 
     @GetMapping("setBit")
     public Long setBit(@RequestParam("accountCode") Long accountCode, @RequestParam("date") String date, @RequestParam("offset") Long offset) {
-        String key = RedisCommonKeys.getKey(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
+        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         Boolean flag = stringRedisTemplate.opsForValue().setBit(key, offset, true);
         System.out.println(flag);
@@ -156,14 +154,14 @@ public class RedisController {
 
     @GetMapping("getBit")
     public Boolean getBit(@RequestParam("accountCode") Long accountCode, @RequestParam("date") String date, @RequestParam("offset") Long offset) {
-        String key = RedisCommonKeys.getKey(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
+        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         return stringRedisTemplate.execute((RedisCallback<Boolean>) connection -> connection.getBit(key.getBytes(), offset));
     }
 
     @GetMapping("batch")
     public void batchBit(@RequestParam("accountCode") Long accountCode) {
-        String key = RedisCommonKeys.getKey(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
+        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         for (int i = 0; i < 10000; i++) {
             // stringRedisTemplate.opsForValue().bitField(key, new BitFieldSubCommands(sd));

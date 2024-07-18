@@ -3,9 +3,9 @@ package com.emily.infrastructure.test.mapper.mysql;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.sensitive.annotation.JsonSimField;
-import com.emily.infrastructure.test.po.World;
-import com.emily.infrastructure.test.po.json.PubResponse;
-import com.emily.infrastructure.test.po.sensitive.MapperIgnore;
+import com.emily.infrastructure.test.entity.World;
+import com.emily.infrastructure.test.entity.json.PubResponse;
+import com.emily.infrastructure.test.entity.sensitive.MapperIgnore;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

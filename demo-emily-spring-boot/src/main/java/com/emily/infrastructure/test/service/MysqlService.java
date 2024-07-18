@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.service;
 
-import com.emily.infrastructure.test.po.World;
+import com.emily.infrastructure.test.entity.World;
 
 import java.util.List;
 

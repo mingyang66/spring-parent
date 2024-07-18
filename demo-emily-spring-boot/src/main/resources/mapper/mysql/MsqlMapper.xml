@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.emily.infrastructure.test.mapper.mysql.MysqlMapper">
-    <resultMap id="nodeMap" type="com.emily.infrastructure.test.po.QuartzJob">
+    <resultMap id="nodeMap" type="com.emily.infrastructure.test.entity.QuartzJob">
         <result column="JOB_NAME" property="jobName"/>
         <result column="JOB_GROUP" property="jobGroup"/>
     </resultMap>
@@ -17,7 +17,7 @@
         WHERE ql.LOCK_NAME = #{lockName}
     </delete>
 
-    <select id="getMysql" resultType="com.emily.infrastructure.test.po.World">
+    <select id="getMysql" resultType="com.emily.infrastructure.test.entity.World">
         SELECT *
         FROM world w
         where w.username = #{username}
@@ -29,7 +29,7 @@
         VALUES (#{username}, #{password}, now(), now())
     </insert>
 
-    <select id="getMapperIgnore" resultType="com.emily.infrastructure.test.po.sensitive.MapperIgnore">
+    <select id="getMapperIgnore" resultType="com.emily.infrastructure.test.entity.sensitive.MapperIgnore">
         SELECT *
         FROM sgrain.endpoint_relation_sla ers
         WHERE ers.id = '20220825_VXNlcg==.0-VXNlcg==-ZGVtb3NreXdhbGtpbmc=.1-R0VUOi9hcGkvcmVkaXMvZ2V0MQ=='

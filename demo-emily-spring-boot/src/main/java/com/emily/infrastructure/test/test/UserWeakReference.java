@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.test;
 
-import com.emily.infrastructure.test.po.User;
+import com.emily.infrastructure.test.entity.User;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;

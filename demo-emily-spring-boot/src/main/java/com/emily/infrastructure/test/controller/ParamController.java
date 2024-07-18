@@ -2,8 +2,8 @@ package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.test.po.Job;
-import com.emily.infrastructure.test.po.User;
+import com.emily.infrastructure.test.entity.Job;
+import com.emily.infrastructure.test.entity.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;

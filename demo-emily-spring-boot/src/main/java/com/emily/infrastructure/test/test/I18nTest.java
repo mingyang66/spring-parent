@@ -4,8 +4,8 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.language.convert.I18nConvertHelper;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.language.convert.LanguageType;
-import com.emily.infrastructure.test.po.i18n.Student;
-import com.emily.infrastructure.test.po.i18n.Teacher;
+import com.emily.infrastructure.test.entity.i18n.Student;
+import com.emily.infrastructure.test.entity.i18n.Teacher;
 
 /**
  * 多语言测试

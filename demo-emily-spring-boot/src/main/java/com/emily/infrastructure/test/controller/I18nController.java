@@ -1,8 +1,8 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.language.convert.LanguageMap;
-import com.emily.infrastructure.test.po.i18n.Student;
-import com.emily.infrastructure.test.po.i18n.Teacher;
+import com.emily.infrastructure.test.entity.i18n.Student;
+import com.emily.infrastructure.test.entity.i18n.Teacher;
 import com.google.common.collect.Maps;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

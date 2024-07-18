@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.test.ttl;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.alibaba.ttl.threadpool.TtlExecutors;
-import com.emily.infrastructure.test.po.User;
+import com.emily.infrastructure.test.entity.User;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;

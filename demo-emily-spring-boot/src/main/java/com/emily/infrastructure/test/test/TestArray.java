@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.test;
 
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.test.po.Node;
+import com.emily.infrastructure.test.entity.Node;
 
 import java.util.List;
 

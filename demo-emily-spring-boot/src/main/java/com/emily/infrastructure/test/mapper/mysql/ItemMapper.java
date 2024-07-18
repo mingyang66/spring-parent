@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.mapper.mysql;
 
-import com.emily.infrastructure.test.po.Item;
+import com.emily.infrastructure.test.entity.Item;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,5 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
+import com.emily.infrastructure.test.entity.cache.CacheUser;
+import com.emily.infrastructure.test.service.CacheService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
@@ -18,8 +20,8 @@ import java.time.Duration;
  * @since 2021/08/28
  */
 @RestController
-@RequestMapping("api/caffeine")
-public class CaffeineController {
+@RequestMapping("api/cache")
+public class CacheController {
 
     public static final Cache<Object, String> caffeine = Caffeine.newBuilder()
             .maximumSize(10)
@@ -31,6 +33,11 @@ public class CaffeineController {
                 }
             })
             .build();
+    private final CacheService cacheService;
+
+    public CacheController(CacheService cacheService) {
+        this.cacheService = cacheService;
+    }
 
     @GetMapping("getCache")
     public void getCache() throws InterruptedException {
@@ -39,5 +46,14 @@ public class CaffeineController {
             System.out.println(caffeine.getIfPresent("test"));
             Thread.sleep(1000);
         }
+    }
+
+    @GetMapping("cache")
+    public String cache() {
+        CacheUser user = new CacheUser();
+        user.setId("987654321");
+        user.setName("沃伯格");
+        user.setPassword("159357");
+        return this.cacheService.cache(user);
     }
 }

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller.redis.container;
 
-import com.emily.infrastructure.redis.repository.EnableRedisDbRepositories;
-import com.emily.infrastructure.redis.repository.RedisDbKeyValueAdapter;
+import com.emily.infrastructure.date.DateConvertUtils;
+import com.emily.infrastructure.date.DatePatternInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,43 +14,41 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
+import java.time.LocalDateTime;
+
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/7/1 下午3:56
  */
 @Configuration
 //@EnableRedisDbRepositories(basePackages = {"com.emily.infrastructure.test.controller.redis.container"}, enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig {
 
-   // @Bean
+     @Bean
     public String register(RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
         factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test"));
         factory.addMessageListener(messageListenerAdapter, ChannelTopic.of("test1"));
         return "success";
     }
 
-    //@Bean
+    @Bean
     public String register1(@Qualifier("test1RedisMessageListenerContainer") RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
         factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test"));
         factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test1"));
         return "success";
     }
 
-    //@Bean
+    @Bean
     public MessageListenerAdapter messageListenerAdapter() {
         return new MessageListenerAdapter(new Receiver(), "receiveMessage");
     }
 
-    //@Bean
-    public KeyExpirationEventMessageListener keyExpirationEventMessageListener(RedisMessageListenerContainer factory, RedisConverter redisConverter) {
-        return new KeyExpirationEventMessageListener(factory);
-    }
 
 
     @EventListener
     public void handleRedisKeyExpiredEvent(RedisKeyExpiredEvent<String> event) {
         Object expiredSession = event.getValue();
         assert expiredSession != null;
-        System.out.printf("Channel %s,Session with key={%s} has expired%n", event.getChannel(), new String(event.getSource()));
+        System.out.printf(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_EN) + "：Channel %s,Session with key={%s} has expired%n", event.getChannel(), new String(event.getSource()));
     }
 }

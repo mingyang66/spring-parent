@@ -27,7 +27,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/7/8 上午11:17
  */
 public class RedisDbQueryEngine extends QueryEngine<RedisKeyValueAdapter, RedisOperationChain, Comparator<?>> {

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/7/8 下午4:37
  */
 public class Receiver {

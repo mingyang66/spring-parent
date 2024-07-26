@@ -33,5 +33,6 @@ public class CharacterInfo {
     public static final String STAR_DOUBLE = "**";
     public static final String LEFT_SQ = "[";
     public static final String RIGHT_SQ = "]";
+    public static final String VERTICAL = "|";
 
 }

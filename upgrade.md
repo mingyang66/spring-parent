@@ -8,17 +8,18 @@ Bug Fixes
 3. 脱敏工具类中提示Unchecked cast使用@SuppressWarnings("unchecked")注解处理；
 4. DataMaskUtils脱敏隐藏工具类判定字符串长度由"abc".length==0修改为”abc“.isEmpty()方法；
 5. redis sdk 依赖优化调整，RedisTemplate、StringRedisTemplate、ReactiveRedisTemplate、ReactiveStringRedisTemplate
-    四个模板对象支持默认对象注入容器，支持配置标识+模板名称模式获取实例对象；
+   四个模板对象支持默认对象注入容器，支持配置标识+模板名称模式获取实例对象；
 6. RedisDbFactory新增ReactiveRedisTemplate、ReactiveStringRedisTemplate模板对象支持，优化方法获取默认模板相关代码；
 7. Redis SDK新增package-info.java支持；
 8. Redis SDK新增服务启动故障分析类RedisIdentifierFailureAnalyzer.java；
 9. Logger SDK新增自动化配置类元数据生成支持spring-boot-configuration-processor依赖，只在编译阶段存在；
 10. 新增emily-spring模块，添加ClassPathResourceSupport类对类路径、系统文件路径下文件解析；
+11. CharacterInfo新增竖线常量VERTICAL;
 
 ------
 Dependency Upgrades
 
-1. Upgrade to springboot 3.3.1;
+1. Upgrade to springboot 3.3.2;
 2. Upgrade to maven-gpg-plugin 3.2.4;
 3. Upgrade to maven-javadoc-plugin 3.7.0;
 4. Upgrade to maven-compiler-plugin 3.13.0;

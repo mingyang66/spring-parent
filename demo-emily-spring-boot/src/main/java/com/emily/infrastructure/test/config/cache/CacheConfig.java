@@ -43,11 +43,9 @@ public class CacheConfig {
 
     /**
      * 默认配置中进行了序列化的配置
-     * @param second
-     * @return
      */
     private RedisCacheConfiguration defaultCacheConfig(Integer second) {
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
         //解决查询缓存转换异常的问题
         ObjectMapper om = new ObjectMapper();

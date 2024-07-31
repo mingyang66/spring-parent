@@ -1,21 +1,17 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
-import com.emily.infrastructure.core.constant.AttributeInfo;
-import com.emily.infrastructure.core.constant.CharacterInfo;
-import com.emily.infrastructure.core.constant.HeaderInfo;
+import com.emily.infrastructure.common.constant.AttributeInfo;
+import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
-import com.emily.infrastructure.date.DateConvertUtils;
-import com.emily.infrastructure.date.DatePatternInfo;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
-
-import java.time.LocalDateTime;
 
 /**
  * feign请求日志拦截

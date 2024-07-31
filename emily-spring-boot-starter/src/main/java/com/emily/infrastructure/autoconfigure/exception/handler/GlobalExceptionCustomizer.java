@@ -3,7 +3,7 @@ package com.emily.infrastructure.autoconfigure.exception.handler;
 import com.emily.infrastructure.autoconfigure.filter.helper.ServletHelper;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.autoconfigure.servlet.interceptor.ParameterInterceptor;
-import com.emily.infrastructure.core.constant.AttributeInfo;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.core.entity.BaseLogger;

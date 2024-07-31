@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.constant;
+package com.emily.infrastructure.common.constant;
 
 /**
  * 特殊字符集工具类

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.constant;
+package com.emily.infrastructure.common.constant;
 
 /**
  * 属性字段名常量

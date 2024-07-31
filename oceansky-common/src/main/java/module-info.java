@@ -4,4 +4,6 @@
  */
 module oceansky.common {
     exports com.emily.infrastructure.common;
+    exports com.emily.infrastructure.common.constant;
+    exports com.emily.infrastructure.common.charset;
 }

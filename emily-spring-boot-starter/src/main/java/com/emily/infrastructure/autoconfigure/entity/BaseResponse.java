@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.entity;
 
 import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
-import com.emily.infrastructure.core.constant.HeaderInfo;
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.language.convert.LanguageMap;
 import com.emily.infrastructure.language.convert.LanguageType;

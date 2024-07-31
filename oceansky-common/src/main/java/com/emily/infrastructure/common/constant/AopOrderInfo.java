@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.constant;
+package com.emily.infrastructure.common.constant;
 
 /**
  * 定义优先级顺序

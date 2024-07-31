@@ -1,9 +1,9 @@
 package com.emily.infrastructure.autoconfigure.filter.helper;
 
 import com.emily.infrastructure.autoconfigure.filter.filter.DelegateRequestWrapper;
-import com.emily.infrastructure.core.constant.AttributeInfo;
-import com.emily.infrastructure.core.constant.CharacterInfo;
-import com.emily.infrastructure.core.constant.CharsetInfo;
+import com.emily.infrastructure.common.constant.AttributeInfo;
+import com.emily.infrastructure.common.constant.CharacterInfo;
+import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;

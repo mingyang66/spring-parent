@@ -24,7 +24,6 @@ module emily.spring.boot.core {
     exports com.emily.infrastructure.core.helper;
     exports com.emily.infrastructure.core.entity;
     exports com.emily.infrastructure.core.context;
-    exports com.emily.infrastructure.core.constant;
     exports com.emily.infrastructure.core.aop.advisor;
     exports com.emily.infrastructure.core.aop.pointcut;
     exports com.emily.infrastructure.core.context.holder;

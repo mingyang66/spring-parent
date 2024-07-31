@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.request;
 
 import com.emily.infrastructure.autoconfigure.request.interceptor.DefaultRequestMethodInterceptor;
 import com.emily.infrastructure.autoconfigure.request.interceptor.RequestCustomizer;
-import com.emily.infrastructure.core.constant.AopOrderInfo;
+import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

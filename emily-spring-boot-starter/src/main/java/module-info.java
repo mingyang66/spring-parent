@@ -12,7 +12,6 @@ module emily.spring.boot.starter {
     requires spring.boot.autoconfigure;
     requires spring.core;
     requires spring.webmvc;
-    requires org.apache.tomcat.embed.core;
     requires spring.web;
     requires jsr305;
     requires spring.context;
@@ -25,6 +24,8 @@ module emily.spring.boot.starter {
     requires oceansky.logger;
     requires oceansky.date;
     requires org.apache.commons.io;
+    requires tomcat.embed.core;
+    requires jakarta.annotation;
 
     exports com.emily.infrastructure.autoconfigure.bean.factory;
     exports com.emily.infrastructure.autoconfigure.bean.registry;

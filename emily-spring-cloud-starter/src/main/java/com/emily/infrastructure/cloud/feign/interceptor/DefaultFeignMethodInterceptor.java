@@ -1,8 +1,8 @@
 package com.emily.infrastructure.cloud.feign.interceptor;
 
 import com.emily.infrastructure.cloud.feign.context.FeignContextHolder;
-import com.emily.infrastructure.core.constant.AopOrderInfo;
-import com.emily.infrastructure.core.constant.AttributeInfo;
+import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.entity.BaseLogger;
 import com.emily.infrastructure.autoconfigure.entity.BaseResponse;

@@ -28,3 +28,7 @@ echo '#########emily-spring-boot-datasource打包完成...'
 echo '#########emily-spring-boot-redis打包完成...'
 ./mvnw clean install -pl emily-spring-boot-rabbitmq
 echo '#########emily-spring-boot-rabbitmq打包完成...'
+./mvnw clean install -pl emily-spring
+echo '#########emily-spring打包完成...'
+./mvnw clean install -pl emily-bom
+echo '#########emily-bom...'

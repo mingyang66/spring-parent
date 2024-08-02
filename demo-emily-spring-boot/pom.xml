@@ -20,27 +20,22 @@
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-captcha</artifactId>
-            <version>${emily.sdk}</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-starter</artifactId>
-            <version>${emily.sdk}</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
-            <version>${emily.sdk}</version>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
-            <version>${emily.sdk}</version>
         </dependency>
 <!--        <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-rabbitmq</artifactId>
-            <version>4.4.2</version>
         </dependency>-->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
@@ -107,6 +102,17 @@
             <version>2.0.3</version>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-bom</artifactId>
+                <version>${emily.sdk}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <!--指定jar包名-->
         <finalName>demo-sdk</finalName>

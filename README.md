@@ -2,6 +2,24 @@
 
 > master分支是基于java17及springboot 3.x.x的版本，源基于java11及springboot2.7.x版本的代码在java11分支
 
+#### 新增bom物料清单支持
+
+```xml
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-bom</artifactId>
+                <version>4.4.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
+
+
+
 #### 原生Java开源pom依赖引用
 
 ```xml

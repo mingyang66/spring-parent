@@ -30,6 +30,7 @@
         <module>oceansky-common</module>
         <module>oceansky-logger</module>
         <module>emily-spring</module>
+        <module>emily-bom</module>
     </modules>
 
     <properties>

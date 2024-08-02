@@ -15,6 +15,7 @@ Bug Fixes
 9. Logger SDK新增自动化配置类元数据生成支持spring-boot-configuration-processor依赖，只在编译阶段存在；
 10. 新增emily-spring模块，添加ClassPathResourceSupport类对类路径、系统文件路径下文件解析；
 11. CharacterInfo新增竖线常量VERTICAL;
+12. 新增emily-bom物料清单module;
 
 ------
 Dependency Upgrades

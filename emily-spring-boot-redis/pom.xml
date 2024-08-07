@@ -3,10 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>emily-spring-boot-parent</artifactId>
         <groupId>io.github.mingyang66</groupId>
-        <version>4.4.4</version>
-        <relativePath>../emily-spring-boot-parent/pom.xml</relativePath>
+        <artifactId>emily-parent</artifactId>
+        <version>4.4.5</version>
+        <relativePath>../emily-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>emily-spring-boot-redis</artifactId>
@@ -49,27 +49,4 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-<!--    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
-                <configuration>
-                    <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>false</addClasspath>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addExtensions>false</addExtensions>
-                        </manifest>
-                        <manifestEntries>
-                            <Automatic-Module-Name>emily.spring.boot.redis</Automatic-Module-Name>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>-->
 </project>

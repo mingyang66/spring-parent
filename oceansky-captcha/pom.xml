@@ -3,8 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.mingyang66</groupId>
-        <artifactId>emily-sdk</artifactId>
-        <version>4.4.4</version>
+        <artifactId>emily-parent</artifactId>
+        <version>4.4.5</version>
+        <relativePath>../emily-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>oceansky-captcha</artifactId>

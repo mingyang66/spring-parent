@@ -1,4 +1,4 @@
-./mvnw versions:set -DnewVersion=4.4.4
+./mvnw versions:set -DnewVersion=4.4.5
 echo '修改版本号'
 ./mvnw versions:commit
 echo '提交修改'
@@ -12,8 +12,8 @@ echo '#########oceansky-json打包完成...'
 ./mvnw clean install -pl oceansky-date
 ./mvnw clean install -pl oceansky-common
 echo '#########oceansky-json打包完成...'
-./mvnw clean install -pl emily-spring-boot-parent
-echo '#########emily-spring-boot-parent打包完成...'
+#./mvnw clean install -pl emily-spring-boot-parent
+#echo '#########emily-spring-boot-parent打包完成...'
 ./mvnw clean install -pl emily-spring-boot-logger
 echo '#########emily-spring-boot-logger打包完成...'
 ./mvnw clean install -pl emily-spring-boot-core
@@ -30,5 +30,7 @@ echo '#########emily-spring-boot-redis打包完成...'
 echo '#########emily-spring-boot-rabbitmq打包完成...'
 ./mvnw clean install -pl emily-spring
 echo '#########emily-spring打包完成...'
+./mvnw clean install -pl emily-parent
+echo '#########emily-parent...'
 ./mvnw clean install -pl emily-bom
 echo '#########emily-bom...'

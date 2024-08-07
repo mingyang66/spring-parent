@@ -1,101 +1,148 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>io.github.mingyang66</groupId>
+    <parent>
+        <groupId>io.github.mingyang66</groupId>
+        <artifactId>emily-build-parent</artifactId>
+        <version>4.4.5</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <artifactId>emily-bom</artifactId>
-    <version>4.4.4</version>
     <packaging>pom</packaging>
-
     <name>emily-bom</name>
     <url>https://github.com/mingyang66/spring-parent</url>
+    <description>Bill Of Material</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <emily.sdk>4.4.4</emily.sdk>
+        <emily.version>4.4.5</emily.version>
+        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring.cloud.version>4.1.0</spring.cloud.version>
+        <spring.consul.version>4.1.0</spring.consul.version>
+        <spring.mybatis.version>3.0.3</spring.mybatis.version>
+        <alibaba.druid.version>1.2.23</alibaba.druid.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <!-- Import dependency management from Spring Boot，参考：https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/ -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-captcha</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-common</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-date</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-json</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-jwt</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-language</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-logger</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-sensitive</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-core</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-datasource</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-logger</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-rabbitmq</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-redis</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-starter</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-cloud-starter</artifactId>
-                <version>${emily.sdk}</version>
+                <version>${emily.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
+                <version>${alibaba.druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${spring.mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-consul-config</artifactId>
+                <version>${spring.consul.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+                <version>${spring.consul.version}</version>
+            </dependency>
+            <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${spring.cloud.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

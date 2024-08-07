@@ -15,7 +15,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <emily.version>4.4.5</emily.version>
         <spring-boot.version>3.3.2</spring-boot.version>
         <spring.cloud.version>4.1.0</spring.cloud.version>
         <spring.consul.version>4.1.0</spring.consul.version>
@@ -36,82 +35,82 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-captcha</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-common</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-date</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-json</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-jwt</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-language</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-logger</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-sensitive</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-core</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-datasource</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-logger</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-rabbitmq</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-redis</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-starter</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-cloud-starter</artifactId>
-                <version>${emily.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

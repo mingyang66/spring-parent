@@ -23,7 +23,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-bom</artifactId>
-                <version>${project.version}</version>
+                <version>${parent.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

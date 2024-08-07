@@ -43,24 +43,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!--maven项目源代码编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>4.4.4</revision>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
-        <commons-io.version>2.11.0</commons-io.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
-        <google-guava.version>32.1.0-jre</google-guava.version>
-        <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
-        <jackson.version>2.17.1</jackson.version>
-        <junit5-test.version>5.10.1</junit5-test.version>
-        <java-jwt.version>4.4.0</java-jwt.version>
-        <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
-        <logback.version>1.5.6</logback.version>
-        <slf4j.version>2.0.13</slf4j.version>
-        <jansi.version>2.4.0</jansi.version>
-        <revision>4.4.4</revision>
     </properties>
 
     <developers>
@@ -71,85 +60,6 @@
             <organizationUrl>https://github.com/mingyang66/spring-parent</organizationUrl>
         </developer>
     </developers>
-
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId>
-                <version>${alibaba-ttl.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${google-guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit5-test.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit5-test.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${java-jwt.version}</version>
-            </dependency>
-            <!--JWT RSA秘钥对生成，非PKCS8转换-->
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15on</artifactId>
-                <version>${bcprov-jdk15on.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.fusesource.jansi</groupId>
-                <artifactId>jansi</artifactId>
-                <version>${jansi.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <!--开源协议...-->
     <licenses>

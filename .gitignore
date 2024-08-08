@@ -2,6 +2,7 @@ HELP.md
 /target/
 /**/target/
 /**/classes/
+/**/.flattened-pom.xml
 !.mvn/wrapper/maven-wrapper.jar
 
 

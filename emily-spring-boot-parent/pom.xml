@@ -9,7 +9,7 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-build-parent</artifactId>
-        <version>4.4.5</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

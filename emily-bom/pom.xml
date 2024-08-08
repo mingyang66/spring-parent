@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-build-parent</artifactId>
-        <version>4.4.5</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>emily-bom</artifactId>
@@ -45,82 +45,82 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-captcha</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-common</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-date</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-json</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-jwt</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-language</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-logger</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-sensitive</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-core</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-datasource</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-logger</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-rabbitmq</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-redis</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-starter</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-cloud-starter</artifactId>
-                <version>${parent.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

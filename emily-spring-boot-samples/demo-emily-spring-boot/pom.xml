@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>io.github.mingyang66</groupId>
+        <artifactId>emily-spring-boot-samples</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../emily-spring-boot-samples/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>demo-emily-spring-boot</artifactId>
+    <version>${revision}</version>
+    <name>demo-emily-spring-boot</name>
+    <properties>
+        <emily.sdk>4.4.4</emily.sdk>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-captcha</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-redis</artifactId>
+        </dependency>
+<!--        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-rabbitmq</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>21.5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.nls</groupId>
+            <artifactId>orai18n</artifactId>
+            <version>21.5.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.plugin/spring-plugin-core -->
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.eatthepath/java-otp -->
+        <dependency>
+            <groupId>com.eatthepath</groupId>
+            <artifactId>java-otp</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.warrenstrange</groupId>
+            <artifactId>googleauth</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+        <!-- 用于二维码生成 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.bastiaanjansen/otp-java -->
+        <dependency>
+            <groupId>com.github.bastiaanjansen</groupId>
+            <artifactId>otp-java</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <!--指定jar包名-->
+        <finalName>demo-sdk</finalName>
+        <!--指定资源目录，参考：https://maven.apache.org/plugins/maven-resources-plugin/index.html-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--资源文件中可以包含变量，表示为${...}或@...@，可以是系统变量，项目变量、过滤器资源、命令行
+                参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html
+                -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.14</version>
+                <configuration>
+                    <!--用于指定应用程序的主类，如果未指定，则将使用找到的包含主方法的第一个编译类-->
+                    <mainClass>com.emily.infrastructure.test.TestBootStrap</mainClass>
+                </configuration>
+                <!--如果依赖的父节点是spring-boot-starter-parent，已经预先配置了一个重新打包的执行ID，因此只应添加插件定义；
+                参考：https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/
+                -->
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--资源处理插件，用于将项目中的资源文件（如：配置文件、模板文件等）复制到目标目录中。在复制过程中，插件可以对资源文件进行过滤和替换，
+            例如：将${variable}替换为实际值。默认情况下会对所有资源文件进行过滤和替换。
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <!--插件将默认使用project.build.sourceEncoding设置的系统编码，有时为了不同的目的需要显式指定编码，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
+                    <encoding>utf-8</encoding>
+                    <!-- 解决Spring boot引起的profile失效问题 -->
+                    <useDefaultDelimiters>true</useDefaultDelimiters>
+                    <!-- 用于指定哪些文件不需要过滤和替换，可以提高构建效率，减少不必要的文件处理操作，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/binaries-filtering.html -->
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>cer</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

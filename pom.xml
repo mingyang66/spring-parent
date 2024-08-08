@@ -11,31 +11,15 @@
     <url>https://github.com/mingyang66/spring-parent</url>
     <!--模块聚合-->
     <modules>
-        <module>emily-spring-boot-logger</module>
-        <module>emily-spring-boot-core</module>
-        <module>emily-spring-boot-redis</module>
-        <module>emily-spring-boot-datasource</module>
-        <module>emily-spring-boot-starter</module>
-        <module>emily-spring-cloud-starter</module>
-        <module>emily-spring-boot-rabbitmq</module>
-        <module>demo-emily-spring-cloud</module>
-        <module>demo-emily-spring-boot</module>
-        <module>emily-spring-boot-parent</module>
-        <module>oceansky-json</module>
-        <module>oceansky-language</module>
-        <module>oceansky-sensitive</module>
-        <module>oceansky-captcha</module>
-        <module>oceansky-jwt</module>
-        <module>oceansky-date</module>
-        <module>oceansky-common</module>
-        <module>oceansky-logger</module>
-        <module>emily-spring</module>
-        <module>emily-bom</module>
+        <module>emily-dependencies</module>
         <module>emily-parent</module>
+        <module>emily-project</module>
+        <module>emily-spring-boot-project</module>
+        <module>emily-spring-boot-samples</module>
     </modules>
 
     <properties>
-        <revision>4.4.7</revision>
+        <revision>4.4.8</revision>
     </properties>
 
     <developers>
@@ -102,7 +86,17 @@
             </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+            <id>include-modules</id>
+            <modules>
+                <module>emily-dependencies</module>
+                <module>emily-parent</module>
+                <module>emily-project</module>
+                <module>emily-spring-boot-project</module>
+            </modules>
+        </profile>
+    </profiles>
 
 
 </project>

@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.mingyang66</groupId>
-        <artifactId>emily-bom</artifactId>
+        <artifactId>emily-dependencies</artifactId>
         <version>${revision}</version>
-        <relativePath>../emily-bom/pom.xml</relativePath>
+        <relativePath>../emily-dependencies/pom.xml</relativePath>
     </parent>
 
     <artifactId>emily-parent</artifactId>
@@ -35,7 +35,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-bom</artifactId>
+                <artifactId>emily-dependencies</artifactId>
                 <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>

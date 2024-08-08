@@ -1,6 +1,6 @@
 ###
 -----
-基础库发布4.4.4
+基础库发布4.4.8
 Bug Fixes
 
 1. JsonUtils新增readTree工具方法；
@@ -15,7 +15,11 @@ Bug Fixes
 9. Logger SDK新增自动化配置类元数据生成支持spring-boot-configuration-processor依赖，只在编译阶段存在；
 10. 新增emily-spring模块，添加ClassPathResourceSupport类对类路径、系统文件路径下文件解析；
 11. CharacterInfo新增竖线常量VERTICAL;
-12. 新增emily-bom物料清单module;
+12. 新增emily-dependencies物料清单module;
+13. 新增emily-parent父module;
+14. 新增emily-project module将oceansky相关java module归类到此模块下；
+15. 新增emily-spring-boot-project 模块，将spring-boot相关模块归类到此模块下；
+16. 新增emily-spring-boot-sample模块，将demo相关模块归类到此模块下；
 
 ------
 Dependency Upgrades

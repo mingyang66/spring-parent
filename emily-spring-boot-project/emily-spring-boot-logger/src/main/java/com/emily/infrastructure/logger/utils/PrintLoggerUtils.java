@@ -1,6 +1,5 @@
-package com.emily.infrastructure.core.utils;
+package com.emily.infrastructure.logger.utils;
 
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;

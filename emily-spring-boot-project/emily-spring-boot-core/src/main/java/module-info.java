@@ -11,16 +11,13 @@ module emily.spring.boot.core {
     requires spring.boot.autoconfigure;
     requires spring.boot;
     requires transmittable.thread.local;
-    requires oceansky.language;
     requires spring.aop;
-    requires com.google.common;
     requires org.apache.commons.io;
-    requires oceansky.logger;
     requires oceansky.common;
     requires oceansky.json;
     requires oceansky.sensitive;
+    requires com.google.common;
 
-    exports com.emily.infrastructure.core.utils;
     exports com.emily.infrastructure.core.helper;
     exports com.emily.infrastructure.core.entity;
     exports com.emily.infrastructure.core.context;

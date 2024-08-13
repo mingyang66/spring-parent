@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <revision>4.4.8</revision>
+        <revision>4.4.9</revision>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
 

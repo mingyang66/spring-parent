@@ -1,7 +1,6 @@
 package com.emily.infrastructure.core.context.holder;
 
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
-import com.emily.infrastructure.language.convert.LanguageType;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -24,7 +23,7 @@ public class ContextHolderBuilder {
     /**
      * 语言
      */
-    private LanguageType languageType;
+    private String languageType;
     /**
      * 开启时间
      */
@@ -68,7 +67,7 @@ public class ContextHolderBuilder {
         return this;
     }
 
-    public ContextHolderBuilder withLanguageType(LanguageType languageType) {
+    public ContextHolderBuilder withLanguageType(String languageType) {
         this.languageType = languageType;
         return this;
     }

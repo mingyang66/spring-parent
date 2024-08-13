@@ -1,7 +1,5 @@
 package com.emily.infrastructure.core.context.holder;
 
-import com.emily.infrastructure.language.convert.LanguageType;
-
 import java.time.Instant;
 
 /**
@@ -22,7 +20,7 @@ public class ContextHolder {
     /**
      * 语言
      */
-    private LanguageType languageType;
+    private String languageType;
     /**
      * 开启时间
      */
@@ -128,11 +126,11 @@ public class ContextHolder {
         this.systemNumber = systemNumber;
     }
 
-    public LanguageType getLanguageType() {
+    public String getLanguageType() {
         return languageType;
     }
 
-    public void setLanguageType(LanguageType languageType) {
+    public void setLanguageType(String languageType) {
         this.languageType = languageType;
     }
 

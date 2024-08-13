@@ -19,13 +19,14 @@ module emily.spring.boot.starter {
     requires spring.aop;
     requires oceansky.common;
     requires oceansky.sensitive;
-    requires oceansky.language;
     requires oceansky.json;
     requires oceansky.logger;
     requires oceansky.date;
     requires org.apache.commons.io;
     requires tomcat.embed.core;
     requires jakarta.annotation;
+    requires emily.spring.boot.logger;
+    requires oceansky.language;
 
     exports com.emily.infrastructure.autoconfigure.bean.factory;
     exports com.emily.infrastructure.autoconfigure.bean.registry;

@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-language</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-sensitive</artifactId>
         </dependency>
         <dependency>
@@ -41,6 +37,10 @@
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

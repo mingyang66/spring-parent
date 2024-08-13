@@ -2,7 +2,7 @@
 
 > master分支是基于java17及springboot 3.x.x的版本，源基于java11及springboot2.7.x版本的代码在java11分支
 
-#### 新增bom物料清单支持
+#### Maven’s Bill of Material (BOM)
 
 ```xml
     <dependencyManagement>

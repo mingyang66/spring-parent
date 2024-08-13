@@ -8,7 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @author Emily
  * @since 2021/09/12
  */
-public class ThreadPoolHelper {
+class ThreadPoolHelper {
     /**
      * 获取线程池
      *

@@ -43,10 +43,6 @@
             <artifactId>oceansky-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-logger</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>

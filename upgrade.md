@@ -1,4 +1,9 @@
-###
+###-----
+基础库发布4.4.9
+Bug Fixes
+1. 新增emily-spring-boot-transfer模块；
+2. emily-spring-boot-core模块移除emily-spring-boot-logger日志依赖引用；
+
 -----
 基础库发布4.4.8
 Bug Fixes

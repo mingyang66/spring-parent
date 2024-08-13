@@ -3,6 +3,7 @@
 Bug Fixes
 1. 新增emily-spring-boot-transfer模块；
 2. emily-spring-boot-core模块移除emily-spring-boot-logger日志依赖引用；
+3. 移除BeanFactoryUtils工具类；
 
 -----
 基础库发布4.4.8

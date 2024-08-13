@@ -1,15 +1,10 @@
 package com.emily.infrastructure.core.context;
 
-import com.emily.infrastructure.core.context.ioc.BeanFactoryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,25 +23,8 @@ import org.springframework.core.Ordered;
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(ContextProperties.class)
 @ConditionalOnProperty(prefix = ContextProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class ContextAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
-    public static final String BEANNAME = "advisor";
+public class ContextAutoConfiguration implements InitializingBean, DisposableBean {
     private static final Logger logger = LoggerFactory.getLogger(ContextAutoConfiguration.class);
-
-    /**
-     * 将指定的bean 角色标记为基础设施类型，相关提示类在 org.springframework.context.support.PostProcessorRegistrationDelegate
-     *
-     * @param beanFactory 工厂类
-     * @throws BeansException 异常
-     */
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        //设置IOC容器工厂类
-        BeanFactoryUtils.setDefaultListableBeanFactory((DefaultListableBeanFactory) beanFactory);
-        if (beanFactory.containsBeanDefinition(BEANNAME)) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(BEANNAME);
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-    }
 
     @Override
     public void destroy() {

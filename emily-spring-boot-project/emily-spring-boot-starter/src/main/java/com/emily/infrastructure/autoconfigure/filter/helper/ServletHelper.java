@@ -16,7 +16,6 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.InputStreamSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Parameter;
@@ -88,33 +87,6 @@ public class ServletHelper {
         return dataMap;
     }
 
-    /**
-     * HttpClient 获取返回结果对象
-     *
-     * @param body 返回结果字节数组
-     * @return 请求响应结果
-     */
-    public static Object getHttpClientResponseBody(byte[] body) {
-        try {
-            return JsonUtils.toObject(body, Object.class);
-        } catch (Exception e) {
-            return IOUtils.toString(body, CharsetInfo.UTF_8);
-        }
-    }
-
-    /**
-     * HttpClient 获取参数对象及请求header
-     *
-     * @param headers 请求头
-     * @param params  字节数组参数
-     * @return 参数集合
-     */
-    public static Map<String, Object> getHttpClientArgs(HttpHeaders headers, byte[] params) {
-        Map<String, Object> dataMap = Maps.newLinkedHashMap();
-        dataMap.put(AttributeInfo.HEADERS, headers);
-        dataMap.put(AttributeInfo.PARAMS, byteArgToMap(params));
-        return dataMap;
-    }
 
     /**
      * 将byte[]转换为Map对象
@@ -122,7 +94,7 @@ public class ServletHelper {
      * @param params 字节数组参数
      * @return 转换后的Map参数集合
      */
-    protected static Map byteArgToMap(byte[] params) {
+    protected static Map<String, Object> byteArgToMap(byte[] params) {
         if (params == null) {
             return Collections.emptyMap();
         }

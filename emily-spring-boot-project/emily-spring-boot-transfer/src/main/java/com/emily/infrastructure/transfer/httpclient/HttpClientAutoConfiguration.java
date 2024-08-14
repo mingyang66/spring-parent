@@ -1,9 +1,10 @@
-package com.emily.infrastructure.autoconfigure.httpclient;
+package com.emily.infrastructure.transfer.httpclient;
 
-import com.emily.infrastructure.autoconfigure.httpclient.handler.CustomResponseErrorHandler;
-import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.DefaultHttpClientInterceptor;
-import com.emily.infrastructure.autoconfigure.httpclient.interceptor.client.HttpClientCustomizer;
+
 import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.transfer.httpclient.handler.CustomResponseErrorHandler;
+import com.emily.infrastructure.transfer.httpclient.interceptor.client.DefaultHttpClientInterceptor;
+import com.emily.infrastructure.transfer.httpclient.interceptor.client.HttpClientCustomizer;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -80,7 +81,6 @@ public class HttpClientAutoConfiguration implements InitializingBean, Disposable
     /**
      * RestTemplate请求超时切面（单个请求）
      *
-     * @param httpTimeoutCustomizers 扩展点方法
      * @return 切面对象
      */
  /*   @Bean

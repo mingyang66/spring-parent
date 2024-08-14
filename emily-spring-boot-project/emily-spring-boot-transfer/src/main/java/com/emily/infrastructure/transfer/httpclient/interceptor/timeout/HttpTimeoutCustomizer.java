@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.httpclient.interceptor.timeout;
+package com.emily.infrastructure.transfer.httpclient.interceptor.timeout;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

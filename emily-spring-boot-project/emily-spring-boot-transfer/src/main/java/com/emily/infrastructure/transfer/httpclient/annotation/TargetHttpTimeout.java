@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.httpclient.annotation;
+package com.emily.infrastructure.transfer.httpclient.annotation;
 
 
 import java.lang.annotation.*;

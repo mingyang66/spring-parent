@@ -1,10 +1,12 @@
 ###-----
 基础库发布4.4.9
 Bug Fixes
+
 1. 新增emily-spring-boot-transfer模块，提供对feign的支持；
 2. emily-spring-boot-core模块移除emily-spring-boot-logger日志依赖引用；
 3. 移除BeanFactoryUtils工具类；
-4. 
+4. 新增spring-cloud-dependencies依赖管理，去掉consul相关依赖管理；
+5. emily-spring-boot-starter中RestTemplate拦截器迁移到emily-spring-boot-transfer
 
 -----
 基础库发布4.4.8

@@ -1,15 +1,15 @@
-package com.emily.infrastructure.autoconfigure.httpclient.interceptor.client;
+package com.emily.infrastructure.transfer.httpclient.interceptor.client;
 
-import com.emily.infrastructure.autoconfigure.filter.helper.ServletHelper;
+import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.common.PrintExceptionUtils;
-import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
+import com.emily.infrastructure.logback.entity.BaseLogger;
+import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
+import com.emily.infrastructure.transfer.httpclient.factory.HttpRequestFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
@@ -49,14 +49,14 @@ public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
                 //请求URL
                 .withUrl(request.getURI().toString())
                 //请求参数
-                .withRequestParams(ServletHelper.getHttpClientArgs(request.getHeaders(), body));
+                .withRequestParams(HttpRequestFactory.getArgs(request.getHeaders(), body));
         //开始计时
         Instant start = Instant.now();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
             //响应数据
-            Object responseBody = ServletHelper.getHttpClientResponseBody(StreamUtils.copyToByteArray(response.getBody()));
+            Object responseBody = HttpRequestFactory.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
             //响应结果
             builder.withBody(responseBody);
 

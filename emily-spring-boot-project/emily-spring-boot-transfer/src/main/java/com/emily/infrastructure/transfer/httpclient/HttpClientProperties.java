@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.httpclient;
+package com.emily.infrastructure.transfer.httpclient;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

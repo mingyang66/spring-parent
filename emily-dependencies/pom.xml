@@ -16,7 +16,6 @@
     <properties>
         <spring-boot.version>3.3.2</spring-boot.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <spring.consul.version>4.1.0</spring.consul.version>
         <spring.mybatis.version>3.0.3</spring.mybatis.version>
         <alibaba.druid.version>1.2.23</alibaba.druid.version>
         <commons-io.version>2.11.0</commons-io.version>
@@ -35,7 +34,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <!-- Import dependency management from Spring Boot，参考：https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/ -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
@@ -143,16 +141,6 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring.mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-config</artifactId>
-                <version>${spring.consul.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-                <version>${spring.consul.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>

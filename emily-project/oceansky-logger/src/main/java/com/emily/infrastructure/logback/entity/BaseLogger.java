@@ -1,7 +1,6 @@
-package com.emily.infrastructure.core.entity;
+package com.emily.infrastructure.logback.entity;
 
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -50,7 +49,7 @@ public class BaseLogger {
     /**
      * 请求参数
      */
-    private Map<String, Object> requestParams = Maps.newHashMap();
+    private Map<String, Object> requestParams = new HashMap<>();
     /**
      * 触发时间
      */
@@ -208,7 +207,7 @@ public class BaseLogger {
         /**
          * 请求参数
          */
-        private Map<String, Object> requestParams = Maps.newHashMap();
+        private Map<String, Object> requestParams = new HashMap<>();
         /**
          * 触发时间
          */

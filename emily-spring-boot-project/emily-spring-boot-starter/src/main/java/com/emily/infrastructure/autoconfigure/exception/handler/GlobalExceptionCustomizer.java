@@ -6,7 +6,7 @@ import com.emily.infrastructure.autoconfigure.servlet.interceptor.ParameterInter
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.core.context.holder.ServletStage;
-import com.emily.infrastructure.core.entity.BaseLogger;
+import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
 import com.emily.infrastructure.autoconfigure.exception.type.AppStatusType;
 import com.emily.infrastructure.common.PrintExceptionUtils;

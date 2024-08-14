@@ -17,4 +17,5 @@ open module oceansky.logger {
     exports com.emily.infrastructure.logback.configuration.context;
     exports com.emily.infrastructure.logback.configuration.type;
     exports com.emily.infrastructure.logback.configuration.spi;
+    exports com.emily.infrastructure.logback.entity;
 }

@@ -17,6 +17,8 @@ module emily.spring.boot.core {
     requires oceansky.json;
     requires oceansky.sensitive;
     requires com.google.common;
+    requires tomcat.embed.core;
+    requires spring.web;
 
     exports com.emily.infrastructure.core.helper;
     exports com.emily.infrastructure.core.context;
@@ -25,4 +27,5 @@ module emily.spring.boot.core {
     exports com.emily.infrastructure.core.context.holder;
     exports com.emily.infrastructure.core.condition;
     exports com.emily.infrastructure.core.context.ioc;
+    exports com.emily.infrastructure.core.utils;
 }

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller;
 
 import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
-import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.PropertiesUtils;
 import com.emily.infrastructure.test.entity.response.FileUploadRequest;

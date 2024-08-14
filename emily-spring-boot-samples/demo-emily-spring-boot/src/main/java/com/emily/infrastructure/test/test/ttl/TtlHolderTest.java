@@ -1,7 +1,6 @@
 package com.emily.infrastructure.test.test.ttl;
 
 import com.emily.infrastructure.core.context.holder.ContextHolder;
-import com.emily.infrastructure.core.context.holder.ContextHolderBuilder;
 import com.emily.infrastructure.json.JsonUtils;
 
 /**
@@ -10,7 +9,7 @@ import com.emily.infrastructure.json.JsonUtils;
  */
 public class TtlHolderTest {
     public static void main(String[] args) {
-        ContextHolder holder = new ContextHolderBuilder().build();
+        ContextHolder holder = ContextHolder.newBuilder().build();
         System.out.println(JsonUtils.toJSONPrettyString(holder));
     }
 }

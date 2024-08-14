@@ -13,9 +13,7 @@
     <artifactId>demo-emily-spring-boot</artifactId>
     <version>${revision}</version>
     <name>demo-emily-spring-boot</name>
-    <properties>
-        <emily.sdk>4.4.4</emily.sdk>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
@@ -32,6 +30,10 @@
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-transfer</artifactId>
         </dependency>
 <!--        <dependency>
             <groupId>io.github.mingyang66</groupId>

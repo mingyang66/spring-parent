@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller.valid;
 
-import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.autoconfigure.valid.annotation.IsAccountCode;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;

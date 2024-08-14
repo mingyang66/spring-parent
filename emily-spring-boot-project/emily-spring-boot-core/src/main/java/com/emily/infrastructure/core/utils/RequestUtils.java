@@ -1,4 +1,4 @@
-package com.emily.infrastructure.autoconfigure.filter.utils;
+package com.emily.infrastructure.core.utils;
 
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.constant.CharacterInfo;
@@ -43,7 +43,7 @@ public class RequestUtils {
     /**
      * 是否是内网正则表达式
      */
-    private static String INTERNET = "^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$";
+    private static final String INTERNET = "^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$";
 
     /**
      * 获取请求真实IP,支持代理，如：179.156.81.168, 10.171.10.12，则取第一个IP 179.156.81.168
@@ -76,19 +76,19 @@ public class RequestUtils {
     public static String getClientIp(HttpServletRequest request) {
         try {
             String ip = request.getHeader(HeaderInfo.X_FORWARDED_FOR);
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            if (ip == null || ip.isEmpty() || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader(HeaderInfo.PROXY_CLIENT_IP);
             }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            if (ip == null || ip.isEmpty() || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader(HeaderInfo.WL_PROXY_CLIENT_IP);
             }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            if (ip == null || ip.isEmpty() || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader(HeaderInfo.HTTP_CLIENT_IP);
             }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            if (ip == null || ip.isEmpty() || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader(HeaderInfo.HTTP_X_FORWARDED_FOR);
             }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            if (ip == null || ip.isEmpty() || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
             if (StringUtils.equalsIgnoreCase(LOCAL_HOST, ip)) {
@@ -158,7 +158,7 @@ public class RequestUtils {
      * @return 是否servlet上下文
      */
     public static boolean isServlet() {
-        return RequestContextHolder.getRequestAttributes() == null ? false : true;
+        return RequestContextHolder.getRequestAttributes() != null;
     }
 
     /**
@@ -169,6 +169,7 @@ public class RequestUtils {
     public static HttpServletRequest getRequest() {
         try {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+            assert attributes != null;
             return attributes.getRequest();
         } catch (Exception ex) {
             throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
@@ -183,6 +184,7 @@ public class RequestUtils {
     public static HttpServletResponse getResponse() {
         try {
             ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+            assert attributes != null;
             return attributes.getResponse();
         } catch (Exception ex) {
             throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
@@ -211,14 +213,14 @@ public class RequestUtils {
      * @return 请求头结果
      */
     public static String getHeader(String header, boolean required) {
-        if (header == null || header.length() == 0) {
+        if (header == null || header.isEmpty()) {
             return header;
         }
         String value = getRequest().getHeader(header);
         if (!required) {
             return value;
         }
-        if (value == null || value.length() == 0) {
+        if (value == null || value.isEmpty()) {
             throw new IllegalArgumentException("非法参数");
         }
         return value;

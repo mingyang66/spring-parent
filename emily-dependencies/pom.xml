@@ -15,7 +15,7 @@
 
     <properties>
         <spring-boot.version>3.3.2</spring-boot.version>
-        <spring.cloud.version>4.1.0</spring.cloud.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
         <spring.consul.version>4.1.0</spring.consul.version>
         <spring.mybatis.version>3.0.3</spring.mybatis.version>
         <alibaba.druid.version>1.2.23</alibaba.druid.version>
@@ -39,6 +39,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -123,6 +130,11 @@
                 <version>${revision}</version>
             </dependency>
             <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-spring-boot-transfer</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${alibaba.druid.version}</version>
@@ -141,17 +153,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-consul-discovery</artifactId>
                 <version>${spring.consul.version}</version>
-            </dependency>
-            <!-- boostrap 标记启动类 org.springframework.cloud.bootstrap.BootstrapApplicationListener -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-bootstrap</artifactId>
-                <version>${spring.cloud.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${spring.cloud.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>

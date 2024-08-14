@@ -1,7 +1,7 @@
 package com.emily.infrastructure.autoconfigure.test;
 
 
-import com.emily.infrastructure.autoconfigure.filter.utils.RequestUtils;
+import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Assertions;

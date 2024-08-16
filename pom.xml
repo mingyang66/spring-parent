@@ -14,6 +14,7 @@
         <module>emily-dependencies</module>
         <module>emily-parent</module>
         <module>emily-project</module>
+        <module>emily-spring-project</module>
         <module>emily-spring-boot-project</module>
         <module>emily-spring-boot-samples</module>
     </modules>

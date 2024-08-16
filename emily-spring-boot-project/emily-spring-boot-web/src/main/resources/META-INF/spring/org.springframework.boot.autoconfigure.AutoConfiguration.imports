@@ -1,0 +1,5 @@
+com.emily.infrastructure.web.request.RequestAutoConfiguration
+com.emily.infrastructure.web.response.ResponseAutoConfiguration
+com.emily.infrastructure.web.servlet.ServletAutoConfiguration
+com.emily.infrastructure.web.exception.GlobalExceptionAutoConfiguration
+com.emily.infrastructure.web.filter.FilterAutoConfiguration

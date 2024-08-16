@@ -17,11 +17,15 @@
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-captcha</artifactId>
+            <artifactId>emily-spring-boot-web</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-starter</artifactId>
+            <artifactId>emily-spring-boot-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-captcha</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
@@ -35,10 +39,6 @@
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-transfer</artifactId>
         </dependency>
-<!--        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-rabbitmq</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
@@ -103,10 +103,7 @@
             <artifactId>otp-java</artifactId>
             <version>2.0.3</version>
         </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-validation</artifactId>
-        </dependency>
+
     </dependencies>
     <build>
         <!--指定jar包名-->

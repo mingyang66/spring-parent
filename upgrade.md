@@ -10,6 +10,7 @@ Bug Fixes
 6. 新增emily-spring-boot-validation模块并将emily-spring-boot-starter中valid校验迁移到此模块；
 7. emily-spring-boot-core deleted common-io dependency;
 8. emily-spring-boot-starter add common-io dependency;
+9. 新增emily-spring-boot-web module并且将emily-spring-boot-starter中请求响应全局处理迁移过来；
 
 -----
 基础库发布4.4.8

@@ -1,11 +1,11 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
-import com.emily.infrastructure.core.utils.RequestUtils;
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
+import com.emily.infrastructure.core.entity.BaseResponse;
 import com.emily.infrastructure.common.PropertiesUtils;
 import com.emily.infrastructure.test.entity.response.FileUploadRequest;
 import com.emily.infrastructure.test.entity.response.Wrapper;
+import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
+import com.otter.infrastructure.servlet.RequestUtils;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

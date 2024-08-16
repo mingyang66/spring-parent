@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller.valid;
 
-import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.validation.annotation.IsAccountCode;
+import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

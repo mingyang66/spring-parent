@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
@@ -12,6 +11,7 @@ import com.emily.infrastructure.test.entity.World;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.OracleService;
 import com.google.common.collect.Lists;
+import com.otter.infrastructure.servlet.RequestUtils;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;

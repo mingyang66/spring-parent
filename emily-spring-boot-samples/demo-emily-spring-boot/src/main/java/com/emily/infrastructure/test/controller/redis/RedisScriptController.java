@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.controller.redis;
 
-import com.emily.infrastructure.core.utils.RequestUtils;
 import com.emily.infrastructure.redis.common.LuaScriptTools;
+import com.otter.infrastructure.servlet.RequestUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;

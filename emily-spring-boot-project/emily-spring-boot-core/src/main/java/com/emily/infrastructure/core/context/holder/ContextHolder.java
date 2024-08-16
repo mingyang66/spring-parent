@@ -4,7 +4,7 @@ import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.core.helper.SystemNumberHelper;
-import com.emily.infrastructure.core.utils.RequestUtils;
+import com.otter.infrastructure.servlet.RequestUtils;
 
 import java.time.Instant;
 import java.util.Objects;

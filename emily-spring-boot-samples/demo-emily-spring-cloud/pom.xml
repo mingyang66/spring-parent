@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-starter</artifactId>
+            <artifactId>emily-spring-boot-web</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

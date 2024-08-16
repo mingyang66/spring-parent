@@ -22,7 +22,7 @@
         <module>emily-spring-boot-rabbitmq</module>
         <module>emily-spring-boot-transfer</module>
         <module>emily-spring-boot-validation</module>
-        <module>emily-spring</module>
+        <module>emily-spring-boot-web</module>
     </modules>
 
 </project>

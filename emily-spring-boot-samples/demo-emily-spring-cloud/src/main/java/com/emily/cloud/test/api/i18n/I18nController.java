@@ -1,6 +1,6 @@
 package com.emily.cloud.test.api.i18n;
 
-import com.emily.infrastructure.autoconfigure.response.annotation.ApiResponsePackIgnore;
+import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

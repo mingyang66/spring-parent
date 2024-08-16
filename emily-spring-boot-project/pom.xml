@@ -18,7 +18,6 @@
         <module>emily-spring-boot-redis</module>
         <module>emily-spring-boot-datasource</module>
         <module>emily-spring-boot-starter</module>
-        <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-rabbitmq</module>
         <module>emily-spring-boot-transfer</module>
         <module>emily-spring-boot-validation</module>

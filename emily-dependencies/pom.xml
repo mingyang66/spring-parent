@@ -47,6 +47,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- emily-project -->
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>oceansky-captcha</artifactId>
@@ -87,6 +88,7 @@
                 <artifactId>oceansky-sensitive</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- emily-spring-project -->
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>otter-spring-resource</artifactId>
@@ -97,6 +99,7 @@
                 <artifactId>otter-spring-servlet</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- emily-spring-boot-project -->
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-web</artifactId>
@@ -134,11 +137,6 @@
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-spring-cloud-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-transfer</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -147,6 +145,7 @@
                 <artifactId>emily-spring-boot-validation</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 第三方依赖 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-3-starter</artifactId>
@@ -156,21 +155,6 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring.mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>

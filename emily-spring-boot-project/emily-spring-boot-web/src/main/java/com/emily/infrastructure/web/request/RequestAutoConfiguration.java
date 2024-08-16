@@ -86,7 +86,9 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        BeanDefinition beanDefinition = beanFactory.getBeanDefinition("advisor");
+        beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
     }
 
     @Override

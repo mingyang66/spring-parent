@@ -1,2 +1,0 @@
-# Application Listener
-org.springframework.context.ApplicationListener=com.emily.infrastructure.cloud.listener.EnvironmentChangeApplicationListener

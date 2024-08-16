@@ -12,7 +12,6 @@ module emily.spring.boot.core {
     requires spring.boot;
     requires transmittable.thread.local;
     requires spring.aop;
-    requires org.apache.commons.io;
     requires oceansky.common;
     requires oceansky.json;
     requires oceansky.sensitive;

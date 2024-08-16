@@ -107,7 +107,7 @@
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-spring-boot-core</artifactId>
+                <artifactId>emily-spring-boot-aop</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

@@ -29,15 +29,19 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-tracing</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-language</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-date</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-sensitive</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>

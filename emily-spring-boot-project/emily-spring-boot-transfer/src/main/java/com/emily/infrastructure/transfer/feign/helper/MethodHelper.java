@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.helper;
+package com.emily.infrastructure.transfer.feign.helper;
 
 import com.emily.infrastructure.sensitive.DataMaskUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;

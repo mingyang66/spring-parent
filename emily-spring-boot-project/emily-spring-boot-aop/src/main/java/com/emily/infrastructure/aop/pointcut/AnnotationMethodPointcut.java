@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.aop.pointcut;
+package com.emily.infrastructure.aop.pointcut;
 
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;

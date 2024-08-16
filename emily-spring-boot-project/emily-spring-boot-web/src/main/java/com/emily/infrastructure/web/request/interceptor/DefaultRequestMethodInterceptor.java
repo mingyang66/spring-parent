@@ -5,7 +5,7 @@ import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.web.entity.BaseResponse;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;

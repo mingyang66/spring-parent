@@ -2,13 +2,14 @@ package com.emily.infrastructure.transfer.feign;
 
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.core.aop.advisor.AnnotationPointcutAdvisor;
+import com.emily.infrastructure.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.transfer.feign.interceptor.DefaultFeignMethodInterceptor;
 import com.emily.infrastructure.transfer.feign.interceptor.FeignCustomizer;
 import com.emily.infrastructure.transfer.feign.interceptor.FeignRequestInterceptor;
 import com.emily.infrastructure.transfer.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.transfer.feign.logger.FeignLogger;
 import feign.Logger;
+import jakarta.annotation.Nonnull;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -30,7 +31,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 /**

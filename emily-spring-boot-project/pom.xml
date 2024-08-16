@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>emily-spring-boot-logger</module>
-        <module>emily-spring-boot-core</module>
+        <module>emily-spring-boot-aop</module>
         <module>emily-spring-boot-redis</module>
         <module>emily-spring-boot-datasource</module>
         <module>emily-spring-boot-starter</module>

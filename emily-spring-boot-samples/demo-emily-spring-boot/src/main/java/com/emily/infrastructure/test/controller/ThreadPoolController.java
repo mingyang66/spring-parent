@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.tracing.ioc.IocUtils;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;

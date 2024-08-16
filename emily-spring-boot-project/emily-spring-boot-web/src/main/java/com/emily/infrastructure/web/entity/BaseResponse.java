@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.entity;
+package com.emily.infrastructure.web.entity;
 
 /**
  * 控制器返回结果

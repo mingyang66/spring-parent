@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.aop.advisor;
+package com.emily.infrastructure.aop.advisor;
 
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;

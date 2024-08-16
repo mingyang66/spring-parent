@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>emily-spring-boot-rabbitmq</artifactId>
+    <artifactId>emily-spring-boot-aop</artifactId>
     <url>https://github.com/mingyang66/spring-parent</url>
 
     <!--开源协议...-->
@@ -23,24 +23,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-logger</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-tracing</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-date</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
 

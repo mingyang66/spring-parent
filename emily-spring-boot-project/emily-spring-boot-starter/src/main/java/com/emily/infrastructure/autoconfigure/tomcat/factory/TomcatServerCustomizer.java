@@ -15,7 +15,7 @@ public class TomcatServerCustomizer implements WebServerFactoryCustomizer<Tomcat
     /**
      * 属性配置
      */
-    private TomcatProperties properties;
+    private final TomcatProperties properties;
 
     public TomcatServerCustomizer(TomcatProperties properties) {
         this.properties = properties;

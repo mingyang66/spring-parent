@@ -5,7 +5,7 @@ import com.emily.infrastructure.web.exception.type.AppStatusType;
 import com.emily.infrastructure.web.response.ResponseProperties;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.common.RegexPathMatcher;
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.web.entity.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;

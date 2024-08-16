@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.web.entity.BaseResponse;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DeSensitiveUtils;

@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-core</artifactId>
+            <artifactId>emily-spring-boot-aop</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
@@ -34,6 +34,18 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-date</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-sensitive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 </project>

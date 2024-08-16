@@ -1,7 +1,6 @@
-package com.emily.infrastructure.core.condition;
+package com.emily.infrastructure.autoconfigure.condition;
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -12,7 +11,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  * @author Emily
  * @since 2020/12/04
  */
-public class MacOsCondition implements Condition {
+public class WindowsCondition implements Condition {
     /**
      * 匹配操作系统类型
      *
@@ -23,7 +22,7 @@ public class MacOsCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String osName = context.getEnvironment().getProperty("os.name");
-        if (StringUtils.equalsIgnoreCase(osName, "Mac OS X")) {
+        if ("Windows".equalsIgnoreCase(osName)) {
             return true;
         }
         return false;

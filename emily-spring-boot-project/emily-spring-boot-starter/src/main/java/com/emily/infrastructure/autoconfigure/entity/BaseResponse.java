@@ -81,7 +81,7 @@ public class BaseResponse<T> {
                 this.spentTime = LocalContextHolder.current().getSpentTime();
                 this.message = LanguageMap.acquire(message, LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE)));
             }
-            BaseResponse response = new BaseResponse();
+            BaseResponse<T> response = new BaseResponse<>();
             response.setStatus(status);
             response.setMessage(message);
             response.setData(data);

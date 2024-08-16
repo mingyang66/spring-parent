@@ -7,6 +7,7 @@ Bug Fixes
 3. 移除BeanFactoryUtils工具类；
 4. 新增spring-cloud-dependencies依赖管理，去掉consul相关依赖管理；
 5. emily-spring-boot-starter中RestTemplate拦截器迁移到emily-spring-boot-transfer
+6. 新增emily-spring-boot-validation模块并将emily-spring-boot-starter中valid校验迁移到此模块；
 
 -----
 基础库发布4.4.8

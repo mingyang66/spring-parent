@@ -21,6 +21,7 @@
         <module>emily-spring-cloud-starter</module>
         <module>emily-spring-boot-rabbitmq</module>
         <module>emily-spring-boot-transfer</module>
+        <module>emily-spring-boot-validation</module>
         <module>emily-spring</module>
     </modules>
 

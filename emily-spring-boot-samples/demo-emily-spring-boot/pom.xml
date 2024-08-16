@@ -103,6 +103,10 @@
             <artifactId>otp-java</artifactId>
             <version>2.0.3</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-validation</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <!--指定jar包名-->

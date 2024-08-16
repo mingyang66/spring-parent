@@ -133,6 +133,11 @@
                 <version>${revision}</version>
             </dependency>
             <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-spring-boot-validation</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${alibaba.druid.version}</version>

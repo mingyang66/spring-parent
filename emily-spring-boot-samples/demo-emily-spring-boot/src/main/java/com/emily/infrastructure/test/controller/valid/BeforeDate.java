@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller.valid;
 
-import com.emily.infrastructure.autoconfigure.valid.annotation.IsBeforeEndDate;
+import com.emily.infrastructure.validation.annotation.IsBeforeEndDate;
 
 import java.time.LocalDate;
 

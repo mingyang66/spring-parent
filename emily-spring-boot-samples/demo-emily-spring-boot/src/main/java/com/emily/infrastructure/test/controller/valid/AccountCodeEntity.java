@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.controller.valid;
 
-import com.emily.infrastructure.autoconfigure.valid.annotation.IsAccountCode;
+
+import com.emily.infrastructure.validation.annotation.IsAccountCode;
 
 /**
  * @author :  Emily

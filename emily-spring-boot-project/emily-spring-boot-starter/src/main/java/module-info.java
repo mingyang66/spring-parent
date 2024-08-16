@@ -3,7 +3,6 @@
  * @since :  2024/6/14 下午5:55
  */
 module emily.spring.boot.starter {
-    requires jakarta.validation;
     requires org.apache.commons.lang3;
     requires spring.boot;
     requires emily.spring.boot.core;
@@ -27,12 +26,10 @@ module emily.spring.boot.starter {
     requires jakarta.annotation;
     requires emily.spring.boot.logger;
     requires oceansky.language;
+    requires jakarta.validation;
 
     exports com.emily.infrastructure.autoconfigure.bean.factory;
     exports com.emily.infrastructure.autoconfigure.bean.registry;
-    exports com.emily.infrastructure.autoconfigure.httpclient.annotation;
-    exports com.emily.infrastructure.autoconfigure.httpclient;
-    exports com.emily.infrastructure.autoconfigure.httpclient.handler;
     exports com.emily.infrastructure.autoconfigure.exception;
     exports com.emily.infrastructure.autoconfigure.exception.entity;
     exports com.emily.infrastructure.autoconfigure.exception.type;
@@ -46,7 +43,5 @@ module emily.spring.boot.starter {
     exports com.emily.infrastructure.autoconfigure.servlet;
     exports com.emily.infrastructure.autoconfigure.servlet.annotation;
     exports com.emily.infrastructure.autoconfigure.servlet.interceptor;
-    exports com.emily.infrastructure.autoconfigure.valid;
-    exports com.emily.infrastructure.autoconfigure.valid.annotation;
 
 }

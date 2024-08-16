@@ -22,5 +22,6 @@ cd ../emily-spring-boot-project
 ../mvnw clean install -pl emily-spring-boot-redis
 ../mvnw clean install -pl emily-spring-boot-rabbitmq
 ../mvnw clean install -pl emily-spring-boot-transfer
+../mvnw clean install -pl emily-spring-boot-validation
 ../mvnw clean install -pl emily-spring
 echo '#########打包完成...'

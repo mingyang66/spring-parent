@@ -2,8 +2,8 @@ package com.emily.infrastructure.test.controller;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.emily.infrastructure.autoconfigure.entity.BaseResponse;
-import com.emily.infrastructure.autoconfigure.httpclient.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.test.test.TestTimeout;
+import com.emily.infrastructure.transfer.httpclient.annotation.TargetHttpTimeout;
 import com.google.common.collect.Maps;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;

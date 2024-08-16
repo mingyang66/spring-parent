@@ -1,11 +1,11 @@
 package com.emily.infrastructure.test.config;
 
 import com.emily.infrastructure.common.UUIDUtils;
-import com.emily.infrastructure.core.context.holder.ContextWrapper;
-import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.json.JsonUtils;
+import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.test.service.MysqlService;
+import com.emily.infrastructure.tracing.holder.ContextWrapper;
+import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class TtlConfig {
     public void doSchedule() {
         String traceId = UUIDUtils.randomSimpleUUID();
         System.out.println("父节点的ID是：" + traceId);
-        ContextWrapper.run(() -> {
+        ContextWrapper.run(null, () -> {
             BaseLogger.Builder builder = BaseLogger.newBuilder();
             builder.withTraceId(LocalContextHolder.current().getTraceId());
             builder.withSystemNumber("emis-schedule");

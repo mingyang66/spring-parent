@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context.ioc;
+package com.emily.infrastructure.tracing.ioc;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -22,6 +22,7 @@
         <module>emily-spring-boot-transfer</module>
         <module>emily-spring-boot-validation</module>
         <module>emily-spring-boot-web</module>
+        <module>emily-spring-boot-tracing</module>
     </modules>
 
 </project>

@@ -23,12 +23,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-logger</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-tracing</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

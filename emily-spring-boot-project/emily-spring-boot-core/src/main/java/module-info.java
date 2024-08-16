@@ -19,11 +19,8 @@ module emily.spring.boot.core {
     requires otter.spring.servlet;
 
     exports com.emily.infrastructure.core.helper;
-    exports com.emily.infrastructure.core.context;
     exports com.emily.infrastructure.core.aop.advisor;
     exports com.emily.infrastructure.core.aop.pointcut;
-    exports com.emily.infrastructure.core.context.holder;
     exports com.emily.infrastructure.core.condition;
-    exports com.emily.infrastructure.core.context.ioc;
     exports com.emily.infrastructure.core.entity;
 }

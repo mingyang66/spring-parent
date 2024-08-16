@@ -1,8 +1,5 @@
 package com.emily.infrastructure.core.entity;
 
-import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.otter.infrastructure.servlet.RequestUtils;
-
 /**
  * 控制器返回结果
  *
@@ -74,9 +71,6 @@ public class BaseResponse<T> {
         }
 
         public BaseResponse<T> build() {
-            if (RequestUtils.isServlet()) {
-                this.spentTime = LocalContextHolder.current().getSpentTime();
-            }
             BaseResponse<T> response = new BaseResponse<>();
             response.setStatus(status);
             response.setMessage(message);

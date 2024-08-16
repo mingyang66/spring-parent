@@ -1,6 +1,5 @@
 package com.emily.infrastructure.datasource.helper;
 
-import com.emily.infrastructure.core.context.ioc.IocUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -16,8 +15,7 @@ public class SqlSessionFactoryHelper {
      *
      * @return SqlSessionFactory
      */
-    public static SqlSessionFactory getSqlSessionFactory() {
-        SqlSessionTemplate sqlSessionTemplate = IocUtils.getBean(SqlSessionTemplate.class);
+    public static SqlSessionFactory getSqlSessionFactory(SqlSessionTemplate sqlSessionTemplate) {
         return sqlSessionTemplate.getSqlSessionFactory();
     }
 }

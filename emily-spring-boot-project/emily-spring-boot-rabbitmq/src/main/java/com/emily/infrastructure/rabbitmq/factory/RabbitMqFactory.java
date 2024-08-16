@@ -1,6 +1,5 @@
 package com.emily.infrastructure.rabbitmq.factory;
 
-import com.emily.infrastructure.core.context.ioc.IocUtils;
 import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -11,6 +10,7 @@ import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
 import java.util.Objects;
@@ -24,13 +24,18 @@ import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
  * @since Created in 2022/6/6 11:31 上午
  */
 public class RabbitMqFactory {
+    private static ApplicationContext context;
+
+    public static void registerApplicationContext(ApplicationContext context) {
+        RabbitMqFactory.context = context;
+    }
     /**
      * 获取RabbitTemplate对象
      *
      * @return RabbitTemplate对象
      */
     public static RabbitTemplate getRabbitTemplate() {
-        return IocUtils.getBean(DEFAULT_RABBIT_TEMPLATE, RabbitTemplate.class);
+        return context.getBean(DEFAULT_RABBIT_TEMPLATE, RabbitTemplate.class);
     }
 
     /**
@@ -41,11 +46,11 @@ public class RabbitMqFactory {
      */
     public static RabbitTemplate getRabbitTemplate(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
-        RabbitMqProperties properties = IocUtils.getBean(RabbitMqProperties.class);
+        RabbitMqProperties properties = context.getBean(RabbitMqProperties.class);
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitTemplate();
         }
-        return IocUtils.getBean(join(key, RABBIT_TEMPLATE), RabbitTemplate.class);
+        return context.getBean(join(key, RABBIT_TEMPLATE), RabbitTemplate.class);
     }
 
     /**
@@ -61,7 +66,7 @@ public class RabbitMqFactory {
      * @return AmqpAdmin对象
      */
     public static AmqpAdmin getAmqpAdmin() {
-        return IocUtils.getBean(DEFAULT_AMQP_ADMIN, AmqpAdmin.class);
+        return context.getBean(DEFAULT_AMQP_ADMIN, AmqpAdmin.class);
     }
 
     /**
@@ -79,11 +84,11 @@ public class RabbitMqFactory {
      */
     public static AmqpAdmin getAmqpAdmin(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
-        RabbitMqProperties properties = IocUtils.getBean(RabbitMqProperties.class);
+        RabbitMqProperties properties = context.getBean(RabbitMqProperties.class);
         if (properties.getDefaultConfig().equals(key)) {
             return getAmqpAdmin();
         }
-        return IocUtils.getBean(join(key, AMQP_ADMIN), AmqpAdmin.class);
+        return context.getBean(join(key, AMQP_ADMIN), AmqpAdmin.class);
     }
 
     /**
@@ -92,7 +97,7 @@ public class RabbitMqFactory {
      * @return RabbitMessagingTemplate对象
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate() {
-        return IocUtils.getBean(DEFAULT_RABBIT_MESSAGING_TEMPLATE, RabbitMessagingTemplate.class);
+        return context.getBean(DEFAULT_RABBIT_MESSAGING_TEMPLATE, RabbitMessagingTemplate.class);
     }
 
     /**
@@ -103,11 +108,11 @@ public class RabbitMqFactory {
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
-        RabbitMqProperties properties = IocUtils.getBean(RabbitMqProperties.class);
+        RabbitMqProperties properties = context.getBean(RabbitMqProperties.class);
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitMessagingTemplate();
         }
-        return IocUtils.getBean(join(key, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
+        return context.getBean(join(key, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
     }
 
     /**
@@ -131,7 +136,7 @@ public class RabbitMqFactory {
      */
     public static void declare(String key, Queue queue, Exchange exchange, Binding binding) {
         if (Objects.isNull(key)) {
-            key = IocUtils.getBean(RabbitMqProperties.class).getDefaultConfig();
+            key = context.getBean(RabbitMqProperties.class).getDefaultConfig();
         }
         AmqpAdmin amqpAdmin = getAmqpAdmin(key);
         amqpAdmin.declareExchange(exchange);

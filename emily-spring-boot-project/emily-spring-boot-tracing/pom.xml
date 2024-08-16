@@ -8,10 +8,10 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-spring-boot-web</artifactId>
+    <artifactId>emily-spring-boot-tracing</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-web</name>
+    <name>emily-spring-boot-tracing</name>
     <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>
@@ -21,31 +21,20 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-logger</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-tracing</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-language</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
+            <artifactId>otter-spring-servlet</artifactId>
         </dependency>
     </dependencies>
 </project>

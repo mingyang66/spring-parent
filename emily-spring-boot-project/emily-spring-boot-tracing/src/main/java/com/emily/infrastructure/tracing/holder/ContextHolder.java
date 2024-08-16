@@ -1,9 +1,9 @@
-package com.emily.infrastructure.core.context.holder;
+package com.emily.infrastructure.tracing.holder;
 
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.otter.infrastructure.servlet.RequestUtils;
 
 import java.time.Instant;
@@ -259,7 +259,7 @@ public class ContextHolder {
             }
             holder.setTraceId(StringUtils.isBlank(this.traceId) ? UUIDUtils.randomSimpleUUID() : this.traceId);
             //系统编号
-            holder.setSystemNumber(Objects.isNull(systemNumber) ? SystemNumberHelper.getSystemNumber() : systemNumber);
+            holder.setSystemNumber(StringUtils.isBlank(systemNumber) ? SystemNumberHelper.getSystemNumber() : systemNumber);
             //servlet上下文
             holder.setServlet(servlet);
             //语言

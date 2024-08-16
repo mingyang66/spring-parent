@@ -1,8 +1,8 @@
-package com.emily.infrastructure.core.context.holder;
+package com.emily.infrastructure.tracing.holder;
 
 import com.alibaba.ttl.TtlRunnable;
 import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.core.helper.ThreadPoolHelper;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * 新增对非servlet上下文请求入口
@@ -34,8 +34,8 @@ public class ContextWrapper {
      *
      * @param runnable 线程
      */
-    public static void run(Runnable runnable) {
-        run(runnable, null);
+    public static void run(ThreadPoolTaskExecutor task, Runnable runnable) {
+        run(task, runnable, null);
     }
 
 
@@ -47,7 +47,7 @@ public class ContextWrapper {
      * @param runnable 线程
      * @param traceId  事务流水号
      */
-    public static void run(Runnable runnable, String traceId) {
+    public static void run(ThreadPoolTaskExecutor task, Runnable runnable, String traceId) {
         try {
             //事务流水号
             if (StringUtils.isNotBlank(traceId)) {
@@ -56,7 +56,7 @@ public class ContextWrapper {
             //初始化上下文
             LocalContextHolder.current().setServlet(true);
             //执行具体代码
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(TtlRunnable.get(runnable));
+            task.execute(TtlRunnable.get(runnable));
         } finally {
             //移除上下文值设置
             LocalContextHolder.unbind(true);

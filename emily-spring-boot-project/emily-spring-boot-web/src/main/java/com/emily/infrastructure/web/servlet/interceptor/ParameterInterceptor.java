@@ -1,7 +1,7 @@
 package com.emily.infrastructure.web.servlet.interceptor;
 
-import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.core.context.holder.ServletStage;
+import com.emily.infrastructure.tracing.holder.LocalContextHolder;
+import com.emily.infrastructure.tracing.holder.ServletStage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;

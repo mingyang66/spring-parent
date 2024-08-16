@@ -1,7 +1,6 @@
 package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
@@ -10,6 +9,7 @@ import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
+import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
 
 import javax.annotation.Nonnull;

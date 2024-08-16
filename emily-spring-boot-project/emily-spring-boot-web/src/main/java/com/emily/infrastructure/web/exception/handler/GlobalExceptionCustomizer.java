@@ -1,10 +1,10 @@
 package com.emily.infrastructure.web.exception.handler;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.core.context.holder.LocalContextHolder;
-import com.emily.infrastructure.core.context.holder.ServletStage;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.core.entity.BaseResponse;
+import com.emily.infrastructure.tracing.holder.LocalContextHolder;
+import com.emily.infrastructure.tracing.holder.ServletStage;
 import com.emily.infrastructure.web.exception.type.AppStatusType;
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;

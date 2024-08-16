@@ -16,6 +16,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +37,19 @@ import java.util.List;
 @RequestMapping("api")
 public class DataSourceController {
 
-    @Autowired
-    private JobMapper jobMapper;
-    @Autowired
-    private ItemMapper itemMapper;
-    @Autowired
-    private OracleService oracleService;
-    @Autowired
-    private MysqlService mysqlService;
+    private final JobMapper jobMapper;
+    private final ItemMapper itemMapper;
+    private final OracleService oracleService;
+    private final MysqlService mysqlService;
+    private final SqlSessionTemplate sqlSessionTemplate;
+
+    public DataSourceController(JobMapper jobMapper, ItemMapper itemMapper, OracleService oracleService, MysqlService mysqlService, SqlSessionTemplate sqlSessionTemplate) {
+        this.jobMapper = jobMapper;
+        this.itemMapper = itemMapper;
+        this.oracleService = oracleService;
+        this.mysqlService = mysqlService;
+        this.sqlSessionTemplate = sqlSessionTemplate;
+    }
 
     /**
      * foreach 模式批量插入数据库
@@ -77,7 +83,7 @@ public class DataSourceController {
     @Transactional(rollbackFor = Exception.class)
     public long getBatch(@PathVariable Integer num) {
         Instant start = Instant.now();
-        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory();
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory(sqlSessionTemplate);
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try {
             ItemMapper itemMapper = sqlSession.getMapper(ItemMapper.class);
@@ -152,7 +158,7 @@ public class DataSourceController {
 
     @GetMapping("getSql")
     public String getSql() {
-        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory();
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryHelper.getSqlSessionFactory(sqlSessionTemplate);
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
 
         String id = "com.emily.infrastructure.test.mapper.mysql.MysqlMapper.insertMysql";

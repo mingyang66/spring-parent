@@ -1,8 +1,8 @@
-package com.emily.infrastructure.core.helper;
+package com.emily.infrastructure.tracing.helper;
 
 import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.core.context.ContextProperties;
-import com.emily.infrastructure.core.context.ioc.IocUtils;
+import com.emily.infrastructure.tracing.ContextProperties;
+import com.emily.infrastructure.tracing.ioc.IocUtils;
 
 /**
  * 系统编号帮助类

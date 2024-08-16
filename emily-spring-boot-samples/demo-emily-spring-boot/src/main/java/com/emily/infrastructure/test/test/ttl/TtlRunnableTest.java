@@ -1,7 +1,8 @@
 package com.emily.infrastructure.test.test.ttl;
 
-import com.emily.infrastructure.core.context.holder.ContextWrapper;
-import com.emily.infrastructure.core.context.holder.LocalContextHolder;
+
+import com.emily.infrastructure.tracing.holder.ContextWrapper;
+import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 
 /**
  * @author :  Emily
@@ -10,6 +11,6 @@ import com.emily.infrastructure.core.context.holder.LocalContextHolder;
 public class TtlRunnableTest {
 
     public static void main(String[] args) {
-        ContextWrapper.run(() -> System.out.println(Thread.currentThread().getName() + "-" + LocalContextHolder.current().getTraceId()));
+        ContextWrapper.run(null, () -> System.out.println(Thread.currentThread().getName() + "-" + LocalContextHolder.current().getTraceId()));
     }
 }

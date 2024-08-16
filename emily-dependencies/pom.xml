@@ -145,6 +145,11 @@
                 <artifactId>emily-spring-boot-validation</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-spring-boot-tracing</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- 第三方依赖 -->
             <dependency>
                 <groupId>com.alibaba</groupId>

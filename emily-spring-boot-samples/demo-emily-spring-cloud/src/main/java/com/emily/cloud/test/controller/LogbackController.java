@@ -1,7 +1,7 @@
 package com.emily.cloud.test.controller;
 
-import com.emily.infrastructure.core.context.ioc.IocUtils;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
+import com.emily.infrastructure.tracing.ioc.IocUtils;
 import org.slf4j.Logger;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context;
+package com.emily.infrastructure.tracing;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

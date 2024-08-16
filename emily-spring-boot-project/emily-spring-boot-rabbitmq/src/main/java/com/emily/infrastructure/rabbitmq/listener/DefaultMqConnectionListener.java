@@ -2,11 +2,12 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.UUIDUtils;
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
+import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
+import com.otter.infrastructure.servlet.RequestUtils;
 import com.rabbitmq.client.ShutdownSignalException;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
@@ -38,8 +39,8 @@ public class DefaultMqConnectionListener implements ConnectionListener {
         BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
-                //.withClientIp(RequestUtils.getClientIp())
-                //.withServerIp(RequestUtils.getServerIp())
+                .withClientIp(RequestUtils.getClientIp())
+                .withServerIp(RequestUtils.getServerIp())
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .withUrl("RabbitMQ")
                 .withBody("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection)
@@ -58,8 +59,8 @@ public class DefaultMqConnectionListener implements ConnectionListener {
         BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
-                //.withClientIp(RequestUtils.getClientIp())
-                //.withServerIp(RequestUtils.getServerIp())
+                .withClientIp(RequestUtils.getClientIp())
+                .withServerIp(RequestUtils.getServerIp())
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .withUrl("RabbitMQ")
                 .withBody("Close [Called when a connection is closed]: " + connection)
@@ -78,8 +79,8 @@ public class DefaultMqConnectionListener implements ConnectionListener {
         BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
-                //.withClientIp(RequestUtils.getClientIp())
-                //.withServerIp(RequestUtils.getServerIp())
+                .withClientIp(RequestUtils.getClientIp())
+                .withServerIp(RequestUtils.getServerIp())
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .withUrl("RabbitMQ")
                 .withBody("ShutDown [Called when a connection is force closed] " + signal.getMessage())
@@ -98,8 +99,8 @@ public class DefaultMqConnectionListener implements ConnectionListener {
         BaseLogger baseLogger = BaseLogger.newBuilder()
                 .withSystemNumber(SystemNumberHelper.getSystemNumber())
                 .withTraceId(UUIDUtils.randomSimpleUUID())
-                //.withClientIp(RequestUtils.getClientIp())
-                //.withServerIp(RequestUtils.getServerIp())
+                .withClientIp(RequestUtils.getClientIp())
+                .withServerIp(RequestUtils.getServerIp())
                 .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .withUrl("RabbitMQ")
                 .withBody("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception))

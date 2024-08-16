@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller.redis;
 
-import com.emily.infrastructure.core.helper.SystemNumberHelper;
+import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.emily.infrastructure.core.helper.ThreadPoolHelper;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.RedisKeyspace;

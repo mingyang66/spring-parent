@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context.ioc;
+package com.emily.infrastructure.tracing.ioc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContextInitializer;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.core.context;
+package com.emily.infrastructure.tracing;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

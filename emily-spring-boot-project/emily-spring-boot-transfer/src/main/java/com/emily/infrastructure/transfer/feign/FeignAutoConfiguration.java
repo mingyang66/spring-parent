@@ -21,6 +21,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration;
@@ -29,6 +30,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.function.Supplier;
@@ -39,7 +41,7 @@ import java.util.function.Supplier;
  * @author Emily
  * @since 1.0
  */
-@Configuration
+@AutoConfiguration
 @EnableConfigurationProperties(FeignProperties.class)
 @ConditionalOnProperty(prefix = FeignProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class FeignAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
@@ -49,17 +51,18 @@ public class FeignAutoConfiguration implements BeanFactoryPostProcessor, Initial
     /**
      * 定义接口拦截器切点
      *
-     * @param feignCustomizers 扩展点对象
+     * @param customizers 扩展点对象
      * @return 切面对象
      * @since 1.0
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor feignAdvisor(ObjectProvider<FeignCustomizer> feignCustomizers) {
+    public Advisor feignAdvisor(ObjectProvider<FeignCustomizer> customizers) {
+        Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), "Feign拦截器必须存在");
         //限定类|方法级别的切点
         Pointcut pointcut = new AnnotationMatchingPointcut(FeignClient.class, RequestMapping.class, true);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(feignCustomizers.orderedStream().findFirst().get(), pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderInfo.FEIGN);
         return advisor;
@@ -126,11 +129,11 @@ public class FeignAutoConfiguration implements BeanFactoryPostProcessor, Initial
 
     @Override
     public void destroy() throws Exception {
-        logger.info("<== 【销毁--自动化配置】----Feign日志记录组件【FeignAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----Feign拦截器组件【FeignAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("==> 【初始化--自动化配置】----Feign日志记录组件【FeignAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----Feign拦截器组件【FeignAutoConfiguration】");
     }
 }

@@ -13,8 +13,8 @@ public enum LanguageType {
     ZH_TW("zh-TW", "繁体"),
     EN_US("en-US", "英文");
 
-    private String code;
-    private String name;
+    private final String code;
+    private final String name;
 
     LanguageType(String code, String name) {
         this.code = code;

@@ -17,11 +17,11 @@ public class LanguageMap {
     /**
      * 简体-繁体
      */
-    private static Map<String, String> zhMap = Maps.newHashMap();
+    private static final Map<String, String> zhMap = Maps.newHashMap();
     /**
      * 简体-英文
      */
-    private static Map<String, String> enMap = Maps.newHashMap();
+    private static final Map<String, String> enMap = Maps.newHashMap();
 
     /**
      * 简体-繁体 绑定

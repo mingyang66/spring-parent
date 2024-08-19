@@ -15,14 +15,8 @@ public enum AppStatusType {
     ILLEGAL_PROXY(100004, "非法代理"),
     METHOD_NOT_ALLOWED(405, "方法不允许");
 
-    /**
-     * 状态码
-     */
-    private int status;
-    /**
-     * 描述字段
-     */
-    private String message;
+    private final int status;
+    private final String message;
 
     AppStatusType(int status, String message) {
         this.status = status;

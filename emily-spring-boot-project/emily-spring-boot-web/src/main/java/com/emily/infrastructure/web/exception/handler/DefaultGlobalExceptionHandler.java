@@ -142,7 +142,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
             } else if (e instanceof IllegalArgumentException ex) {
                 message = ex.getMessage();
             }
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
         return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_ARGUMENT.getStatus(), message);
     }

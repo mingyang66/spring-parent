@@ -21,9 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- *
- * @author  Emily
- * @since  Created in 2023/5/14 1:52 PM
+ * @author Emily
+ * @since Created in 2023/5/14 1:52 PM
  */
 public class JwtTest {
     public static final String publicKey1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkBpftIcwYL0qm0ecwdBX\n" +

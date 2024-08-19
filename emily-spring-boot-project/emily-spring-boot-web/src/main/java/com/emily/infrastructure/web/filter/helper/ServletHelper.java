@@ -1,6 +1,5 @@
 package com.emily.infrastructure.web.filter.helper;
 
-import com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.CharsetInfo;
@@ -8,6 +7,7 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper;
 import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;

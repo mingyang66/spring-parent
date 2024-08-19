@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- *  测试类
- * @author  Emily
- * @since  Created in 2023/5/14 19:18 PM
+ * 测试类
+ *
+ * @author Emily
+ * @since Created in 2023/5/14 19:18 PM
  */
 public class I18nChineseHelperTest {
 
@@ -74,6 +75,6 @@ public class I18nChineseHelperTest {
         Assertions.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("發行人有權自行決定"), "发行人有权自行决定");
         Assertions.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("上市發行人可否取消其中一種幣值櫃台？"), "上市发行人可否取消其中一种币值柜台？");
         Assertions.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("若某證券有兩個以港幣和人民幣計價、用於交易和交收的櫃台，可否自動成爲「雙櫃台」證券？"), "若某证券有两个以港币和人民币计价、用于交易和交收的柜台，可否自动成为“双柜台”证券？");
-        Assertions.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("某些有港幣及人民幣櫃台的特定證券，將在雙櫃台模式推出後由交易所不時指定並公佈。"),"某些有港币及人民币柜台的特定证券，将在双柜台模式推出后由交易所不时指定并公布。");
+        Assertions.assertEquals(I18nChineseHelper.convertToSimplifiedChinese("某些有港幣及人民幣櫃台的特定證券，將在雙櫃台模式推出後由交易所不時指定並公佈。"), "某些有港币及人民币柜台的特定证券，将在双柜台模式推出后由交易所不时指定并公布。");
     }
 }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.web.entity.BaseResponse;
+import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.common.PropertiesUtils;
 import com.emily.infrastructure.test.entity.response.FileUploadRequest;
 import com.emily.infrastructure.test.entity.response.Wrapper;

@@ -15,7 +15,7 @@ public class RedisKeyspace {
      * 获取Redis键key方法 A:B:C
      *
      * @param keyspace key的开头
-     * @param keys   可以指定多个key
+     * @param keys     可以指定多个key
      * @return redis建值
      */
     public static String of(String keyspace, String... keys) {

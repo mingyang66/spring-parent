@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.test;
 
-import com.emily.infrastructure.web.entity.BaseResponse;
+import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.transfer.httpclient.annotation.TargetHttpTimeout;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

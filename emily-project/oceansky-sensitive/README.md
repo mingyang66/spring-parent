@@ -8,8 +8,6 @@
 </dependency>
 ```
 
-
-
 ##### 新增JsonNullField注解，可将指定的字段值置为null，注解定义如下：
 
 ```java
@@ -30,11 +28,7 @@ public @interface JsonNullField {
 }
 ```
 
-
-
 ------
-
-
 
 #### 解锁新技能《Java基于注解的脱敏实现组件SDK》
 

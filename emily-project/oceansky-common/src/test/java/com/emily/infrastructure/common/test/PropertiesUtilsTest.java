@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Properties;
 
 /**
- *  读取资源文件单元测试类
- * @author  Emily
- * @since  Created in 2023/5/28 4:46 PM
+ * 读取资源文件单元测试类
+ *
+ * @author Emily
+ * @since Created in 2023/5/28 4:46 PM
  */
 public class PropertiesUtilsTest {
     @Test

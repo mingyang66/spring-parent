@@ -1,7 +1,7 @@
 package com.emily.cloud.test.fegin.handler;
 
 import com.emily.cloud.test.fegin.Custom;
-import com.emily.infrastructure.web.entity.BaseResponse;
+import com.emily.infrastructure.web.response.entity.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

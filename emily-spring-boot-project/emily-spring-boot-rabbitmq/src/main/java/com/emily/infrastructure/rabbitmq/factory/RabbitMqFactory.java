@@ -29,6 +29,7 @@ public class RabbitMqFactory {
     public static void registerApplicationContext(ApplicationContext context) {
         RabbitMqFactory.context = context;
     }
+
     /**
      * 获取RabbitTemplate对象
      *

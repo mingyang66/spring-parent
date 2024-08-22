@@ -16,17 +16,17 @@ public class ThreadPoolHelper {
      */
     public static ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor() {
         //try {
-            //return IocUtils.getBean(ThreadPoolTaskExecutor.class);
-       // } catch (Exception exception) {
-            int poolSize = 8;
-            int maxPoolSize = 64;
-            int queueCapacity = 10000;
-            ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-            threadPoolTaskExecutor.setCorePoolSize(poolSize);
-            threadPoolTaskExecutor.setMaxPoolSize(maxPoolSize);
-            threadPoolTaskExecutor.setQueueCapacity(queueCapacity);
-            threadPoolTaskExecutor.initialize();
-            return threadPoolTaskExecutor;
-       // }
+        //return IocUtils.getBean(ThreadPoolTaskExecutor.class);
+        // } catch (Exception exception) {
+        int poolSize = 8;
+        int maxPoolSize = 64;
+        int queueCapacity = 10000;
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        threadPoolTaskExecutor.setCorePoolSize(poolSize);
+        threadPoolTaskExecutor.setMaxPoolSize(maxPoolSize);
+        threadPoolTaskExecutor.setQueueCapacity(queueCapacity);
+        threadPoolTaskExecutor.initialize();
+        return threadPoolTaskExecutor;
+        // }
     }
 }

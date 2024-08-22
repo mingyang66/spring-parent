@@ -1,6 +1,5 @@
 package com.emily.infrastructure.test.controller.feign;
 
-import org.springframework.cloud.context.named.NamedContextFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

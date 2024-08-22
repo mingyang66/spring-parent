@@ -4,12 +4,9 @@ import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisKeyExpiredEvent;
-import org.springframework.data.redis.core.convert.RedisConverter;
 import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -20,11 +17,11 @@ import java.time.LocalDateTime;
  * @author :  Emily
  * @since :  2024/7/1 下午3:56
  */
-@Configuration
+//@Configuration
 //@EnableRedisDbRepositories(basePackages = {"com.emily.infrastructure.test.controller.redis.container"}, enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig {
 
-     @Bean
+    @Bean
     public String register(RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
         factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test"));
         factory.addMessageListener(messageListenerAdapter, ChannelTopic.of("test1"));
@@ -42,7 +39,6 @@ public class RedisConfig {
     public MessageListenerAdapter messageListenerAdapter() {
         return new MessageListenerAdapter(new Receiver(), "receiveMessage");
     }
-
 
 
     @EventListener

@@ -28,7 +28,6 @@ import org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappings
 import org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;

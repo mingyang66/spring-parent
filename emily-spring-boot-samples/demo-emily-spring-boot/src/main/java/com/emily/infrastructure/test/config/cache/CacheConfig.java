@@ -31,10 +31,10 @@ public class CacheConfig {
      * cacheDefaults 默认配置
      */
     //@Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(defaultCacheConfig(10000))
-               // .withInitialCacheConfigurations(initCacheConfigMap())
+                // .withInitialCacheConfigurations(initCacheConfigMap())
                 .transactionAware()
                 .build();
 
@@ -64,15 +64,16 @@ public class CacheConfig {
 
     /**
      * 针对不同的redis的key 有不同的过期时间
+     *
      * @return
      */
-    private Map<String,RedisCacheConfiguration> initCacheConfigMap() {
+    private Map<String, RedisCacheConfiguration> initCacheConfigMap() {
 
-        Map<String,RedisCacheConfiguration> configMap = new HashMap<>();
-        configMap.put("User",this.defaultCacheConfig(1000));
-        configMap.put("User1",this.defaultCacheConfig(1000));
-        configMap.put("User2",this.defaultCacheConfig(1000));
-        configMap.put("User3",this.defaultCacheConfig(1000));
+        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+        configMap.put("User", this.defaultCacheConfig(1000));
+        configMap.put("User1", this.defaultCacheConfig(1000));
+        configMap.put("User2", this.defaultCacheConfig(1000));
+        configMap.put("User3", this.defaultCacheConfig(1000));
         return configMap;
     }
 

@@ -3,11 +3,11 @@ package com.emily.infrastructure.test.controller;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
-import com.emily.infrastructure.test.mapper.mysql.ItemMapper;
-import com.emily.infrastructure.test.mapper.mysql.JobMapper;
 import com.emily.infrastructure.test.entity.Item;
 import com.emily.infrastructure.test.entity.Job;
 import com.emily.infrastructure.test.entity.World;
+import com.emily.infrastructure.test.mapper.mysql.ItemMapper;
+import com.emily.infrastructure.test.mapper.mysql.JobMapper;
 import com.emily.infrastructure.test.service.MysqlService;
 import com.emily.infrastructure.test.service.OracleService;
 import com.google.common.collect.Lists;
@@ -17,7 +17,6 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -131,8 +130,9 @@ public class DataSourceController {
 
     @GetMapping("getJob")
     public Job getJob() {
-        Job job = jobMapper.findJob();
-        return job;
+        //Job job = jobMapper.findJob();
+        //return job;
+        return null;
     }
 
 

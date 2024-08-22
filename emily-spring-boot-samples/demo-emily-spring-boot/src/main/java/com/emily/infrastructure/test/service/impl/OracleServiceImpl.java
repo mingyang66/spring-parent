@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class OracleServiceImpl implements OracleService {
 
     private final OracleMapper oracleMapper;
+
     public OracleServiceImpl(OracleMapper oracleMapper) {
         this.oracleMapper = oracleMapper;
     }

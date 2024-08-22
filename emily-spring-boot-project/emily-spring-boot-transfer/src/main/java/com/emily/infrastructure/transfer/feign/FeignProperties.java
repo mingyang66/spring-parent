@@ -13,7 +13,7 @@ public class FeignProperties {
     /**
      * 属性配置前缀
      */
-    public static final String PREFIX = "spring.emily.feign";
+    public static final String PREFIX = "spring.emily.transfer.feign";
     /**
      * 组件开关
      */

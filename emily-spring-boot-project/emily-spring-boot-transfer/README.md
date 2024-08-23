@@ -123,3 +123,68 @@ spring.cloud.openfeign.httpclient.hc5.pool-reuse-policy=fifo
 spring.cloud.openfeign.httpclient.hc5.pool-concurrency-policy=strict
 ```
 
+- @SpringQueryMap注解
+
+将GetMapping请求对应的多个请求参数映射为POJO类或Map对象：
+
+```java
+@FeignClient(name = "test", url = "http://127.0.0.1:8080/", contextId = "test")
+public interface FeignRequestHandler {
+    @GetMapping(value = "api/feign/test")
+    String get(@SpringQueryMap Map<String, Object> params);
+}
+```
+
+- @RequestParam指定单个请求参数
+
+```java
+@FeignClient(name = "test", url = "http://127.0.0.1:8080/", contextId = "test")
+public interface FeignRequestHandler {
+    @GetMapping(value = "api/feign/test")
+    String get(@RequestParam("name") String name);
+}
+```
+
+- @RequestHeader注解指定请求头
+
+```java
+@FeignClient(name = "test", url = "http://127.0.0.1:8080/", contextId = "test")
+public interface FeignRequestHandler {
+    @GetMapping(value = "api/feign/test")
+    String get(@RequestHeader HttpHeaders headers, @RequestParam("name") String name);
+}
+
+```
+
+- @PathVariable指定路径变量
+
+```java
+@FeignClient(name = "test", url = "http://127.0.0.1:8080/", contextId = "test")
+public interface FeignRequestHandler {
+    @GetMapping(value = "api/feign/test/{name}")
+    String get(@PathVariable String name);
+}
+```
+
+- @MatrixVariable指定接收矩阵变量
+
+```java
+@FeignClient(name = "test", url = "http://127.0.0.1:8080/", contextId = "test")
+public interface FeignRequestHandler {
+    @GetMapping(value = "api/feign/test/{name}")
+    String get(@MatrixVariable Map<String, List<String>> params);
+}
+```
+
+请求url如：api/feign/test/myname,key1=value1a,value1b;key2=value2
+
+- @ReqeustPart支持请求为multipart/form-data的请求变量
+
+```java
+@FeignClient(name = "test", url = "http://127.0.0.1:8080/", contextId = "test")
+public interface FeignRequestHandler {
+    @GetMapping(value = "api/feign/test/{name}")
+    String get(@RequestPart MultipartFile params, @PathVariable("name") String name);
+}
+```
+

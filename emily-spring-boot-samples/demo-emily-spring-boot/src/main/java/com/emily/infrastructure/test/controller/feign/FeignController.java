@@ -3,6 +3,8 @@ package com.emily.infrastructure.test.controller.feign;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author :  Emily
  * @since :  2024/8/14 下午1:18

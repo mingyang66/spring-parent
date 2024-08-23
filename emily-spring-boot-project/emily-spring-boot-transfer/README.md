@@ -2,7 +2,7 @@
 
 官方地址：[https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html](https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html)
 
-核心初始化类：FeignClientFactoryBean、FeignAutoConfiguration
+核心初始化类：FeignClientFactoryBean、FeignAutoConfiguration、FeignClientsConfiguration、HttpClient5FeignConfiguration
 
 - 开关配置
 
@@ -51,5 +51,75 @@ public interface CustomFeignHandler {
     @GetMapping("custom")
     BaseResponse<String> getCustom(@RequestParam("timeout")  int timeout);
 }
+```
+
+- 调用三方接口默认采用HttpURLConnection
+
+```tex
+调用链路(倒序)：
+Client的默认实现类Default
+org.springframework.cloud.openfeign.FeignCachingInvocationHandlerFactory#create
+```
+
+- Spring Cloud OpenFeign 4不在支持Apache HttpClient 4
+
+[https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html](https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html)
+
+> Starting with Spring Cloud OpenFeign 4, the Feign Apache HttpClient 4 is no longer supported. We suggest using Apache HttpClient 5 instead.
+
+- Appache HttpClient 5使用
+
+添加依赖：
+
+```xml
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-hc5</artifactId>
+        </dependency>
+```
+
+org.springframework.cloud.openfeign.FeignAutoConfiguration.HttpClient5FeignConfiguration对应配置类开关打开：
+
+```
+spring.cloud.openfeign.httpclient.hc5.enabled=true
+```
+
+> 开关默认就是打开的，只要引用依赖包自动生效；Client的默认实现类是feign.hc5.ApacheHttp5Client
+
+官方介绍：
+
+> When it comes to the Apache HttpClient 5-backed Feign clients, it’s enough to ensure HttpClient 5 is on the classpath, but you can still disable its use for Feign Clients by setting `spring.cloud.openfeign.httpclient.hc5.enabled` to `false`. You can customize the HTTP client used by providing a bean of either `org.apache.hc.client5.http.impl.classic.CloseableHttpClient` when using Apache HC5.
+
+连接池及连接 相关配置(初始化配置类在HttpClient5FeignConfiguration)：
+
+```properties
+# 连接池最大连接数，默认：200
+spring.cloud.openfeign.httpclient.max-connections=200
+# 每条路由的最大连接数，默认:50
+spring.cloud.openfeign.httpclient.max-connections-per-route=50
+# 连接池中空闲连接存活时间，默认：900
+spring.cloud.openfeign.httpclient.time-to-live=900
+# 连接池中空闲连接存活时间单位，默认：seconds
+spring.cloud.openfeign.httpclient.time-to-live-unit=seconds
+# 是否禁用SSL验证，默认：false
+spring.cloud.openfeign.httpclient.disable-ssl-validation=false
+# 连接超时时间，默认：2000  --会被feign的设置覆盖
+spring.cloud.openfeign.httpclient.connection-timeout=2000
+
+
+# 开启Apache HttpClient 5，默认：true
+spring.cloud.openfeign.httpclient.hc5.enabled=true
+# 连接请求超时时间，默认：3 --从请求连接池中获取连接等待的超时时间
+spring.cloud.openfeign.httpclient.hc5.connection-request-timeout=3
+# 连接请求超时时间单位，默认：分钟
+spring.cloud.openfeign.httpclient.hc5.connection-request-timeout-unit=minutes
+# socket超时时间，默认：5 --等待服务器响应超时时间
+spring.cloud.openfeign.httpclient.hc5.socket-timeout=5
+# socket超时时间单位，默认：seconds
+spring.cloud.openfeign.httpclient.hc5.socket-timeout-unit=seconds
+# 连接池重用策略，默认：fifo
+spring.cloud.openfeign.httpclient.hc5.pool-reuse-policy=fifo
+# 连接池并发策略，默认：strict
+spring.cloud.openfeign.httpclient.hc5.pool-concurrency-policy=strict
 ```
 

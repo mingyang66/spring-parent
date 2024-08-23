@@ -1,4 +1,4 @@
-##### 一、Feign组件
+##### 一、Spring Cloud OpenFeign 4组件
 
 官方地址：[https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html](https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html)
 
@@ -20,11 +20,15 @@ spring.cloud.openfeign.client.default-config=default
 spring.cloud.openfeign.client.config.default.connect-timeout=60000
 # 读取超时时间，默认：10000毫秒
 spring.cloud.openfeign.client.config.default.read-timeout=10000
+# 日志级别，默认：none
+spring.cloud.openfeign.client.config.default.logger-level=full
 
 # 连接超时时间，默认：60000毫秒
-spring.cloud.openfeign.client.config.custom.connect-timeout=5000
+spring.cloud.openfeign.client.config.test.connect-timeout=5000
 # 读取超时时间，默认：10000毫秒
-spring.cloud.openfeign.client.config.custom.read-timeout=1000
+spring.cloud.openfeign.client.config.test.read-timeout=1000
+# 日志级别，默认：none
+spring.cloud.openfeign.client.config.test.logger-level=full
 ```
 
 - 默认全局超时FeignClient使用示例：
@@ -57,7 +61,7 @@ public interface CustomFeignHandler {
 
 ```tex
 调用链路(倒序)：
-Client的默认实现类Default
+feign.Client的默认实现类feign.Client.Default
 org.springframework.cloud.openfeign.FeignCachingInvocationHandlerFactory#create
 ```
 

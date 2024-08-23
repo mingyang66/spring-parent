@@ -40,10 +40,9 @@ logs/
 out/
 .DS_Store
 venv/
-/demo-emily-spring-boot/src/main/resources/application-database.yml
-/demo-emily-spring-boot/src/main/resources/application-oracle.properties
-/demo-emily-spring-boot/src/main/resources/bak/application-database.yml.bak
-/demo-emily-spring-cloud/src/main/resources/application-redis.properties
-/demo-emily-spring-cloud/src/main/resources/application-database.properties
-/demo-emily-spring-boot/src/main/resources/application-rabbit.properties
-/demo-emily-spring-boot/src/main/resources/application-redis.properties
+/**/application-database.yml
+/**/application-oracle.properties
+/**/bak/application-database.yml.bak
+/**/application-redis.properties
+/**/application-database.properties
+/**/application-rabbit.properties

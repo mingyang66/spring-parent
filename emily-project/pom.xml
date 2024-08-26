@@ -19,5 +19,6 @@
         <module>oceansky-date</module>
         <module>oceansky-common</module>
         <module>oceansky-logger</module>
+        <module>oceansky-image</module>
     </modules>
 </project>

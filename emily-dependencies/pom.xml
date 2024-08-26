@@ -88,6 +88,11 @@
                 <artifactId>oceansky-sensitive</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>oceansky-image</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- emily-spring-project -->
             <dependency>
                 <groupId>io.github.mingyang66</groupId>

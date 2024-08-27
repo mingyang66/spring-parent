@@ -23,7 +23,8 @@ public class FeignController {
     }
 
     @GetMapping("api/feign/test")
-    public String test() {
+    public String test() throws InterruptedException {
+        Thread.sleep(60000);
         return "test";
     }
 }

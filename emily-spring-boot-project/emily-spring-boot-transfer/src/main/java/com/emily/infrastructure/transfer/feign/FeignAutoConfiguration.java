@@ -6,6 +6,7 @@ import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.transfer.feign.interceptor.DefaultFeignMethodInterceptor;
 import com.emily.infrastructure.transfer.feign.interceptor.FeignCustomizer;
 import com.emily.infrastructure.transfer.feign.interceptor.FeignRequestInterceptor;
+import com.emily.infrastructure.transfer.feign.interceptor.FeignResponseInterceptor;
 import com.emily.infrastructure.transfer.feign.loadbalancer.FeignLoggerLoadBalancerLifecycle;
 import com.emily.infrastructure.transfer.feign.logger.FeignLogger;
 import feign.Logger;
@@ -82,6 +83,14 @@ public class FeignAutoConfiguration implements BeanFactoryPostProcessor, Initial
     public FeignRequestInterceptor feignRequestInterceptor() {
         Supplier<FeignRequestInterceptor> supplier = FeignRequestInterceptor::new;
         return supplier.get();
+    }
+
+    /**
+     * 请求响应拦截器
+     */
+    @Bean
+    public FeignResponseInterceptor feignResponseInterceptor() {
+        return new FeignResponseInterceptor();
     }
 
     /**

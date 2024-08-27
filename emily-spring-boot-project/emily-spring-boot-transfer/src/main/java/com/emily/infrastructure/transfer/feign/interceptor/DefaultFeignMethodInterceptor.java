@@ -10,6 +10,7 @@ import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
+import com.emily.infrastructure.transfer.entity.TransferResponse;
 import com.emily.infrastructure.transfer.feign.context.FeignContextHolder;
 import com.emily.infrastructure.transfer.feign.helper.MethodHelper;
 import jakarta.annotation.Nonnull;
@@ -68,7 +69,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //触发时间
                     .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //响应结果
-                    .withBody(SensitiveUtils.acquireElseGet(response))
+                    .withBody(SensitiveUtils.acquireElseGet(response, TransferResponse.class))
                     //请求参数
                     .withRequestParams(AttributeInfo.PARAMS, MethodHelper.getMethodArgs(invocation))
                     .build();

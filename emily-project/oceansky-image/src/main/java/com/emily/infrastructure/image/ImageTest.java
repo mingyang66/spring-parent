@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/8/20 下午7:12
  */
 public class ImageTest {

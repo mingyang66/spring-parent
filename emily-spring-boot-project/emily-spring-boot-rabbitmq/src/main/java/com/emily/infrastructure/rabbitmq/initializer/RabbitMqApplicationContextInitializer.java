@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/8/16 下午5:03
  */
 public class RabbitMqApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {

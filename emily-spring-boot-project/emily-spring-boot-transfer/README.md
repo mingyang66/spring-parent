@@ -192,3 +192,56 @@ public interface FeignRequestHandler {
 }
 ```
 
+- RequestInterceptor和ResponseInterceptor如何初始化
+
+  org.springframework.cloud.openfeign.FeignClientFactoryBean#configureUsingConfiguration
+
+```java
+	protected void configureUsingConfiguration(FeignClientFactory context, Feign.Builder builder) {
+		...
+		Map<String, RequestInterceptor> requestInterceptors = getInheritedAwareInstances(context,
+				RequestInterceptor.class);
+		if (requestInterceptors != null) {
+			List<RequestInterceptor> interceptors = new ArrayList<>(requestInterceptors.values());
+			AnnotationAwareOrderComparator.sort(interceptors);
+			builder.requestInterceptors(interceptors);
+		}
+		ResponseInterceptor responseInterceptor = getInheritedAwareOptional(context, ResponseInterceptor.class);
+		if (responseInterceptor != null) {
+			builder.responseInterceptor(responseInterceptor);
+		}
+    ...
+	}
+```
+
+拦截器具体调用在feign.SynchronousMethodHandler#executeAndDecode方法：
+
+```java
+    Object executeAndDecode(RequestTemplate template, Request.Options options) throws Throwable {
+      	//调用请求拦截器
+        Request request = this.targetRequest(template);
+        if (this.logLevel != Level.NONE) {
+            this.logger.logRequest(this.metadata.configKey(), this.logLevel, request);
+        }
+
+        long start = System.nanoTime();
+
+        Response response;
+        try {
+            response = this.client.execute(request, options);
+            response = response.toBuilder().request(request).requestTemplate(template).build();
+        } catch (IOException var9) {
+            IOException e = var9;
+            if (this.logLevel != Level.NONE) {
+                this.logger.logIOException(this.metadata.configKey(), this.logLevel, e, this.elapsedTime(start));
+            }
+
+            throw FeignException.errorExecuting(request, e);
+        }
+
+        long elapsedTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+        //调用响应拦截器
+        return this.responseHandler.handleResponse(this.metadata.configKey(), response, this.metadata.returnType(), elapsedTime);
+    }
+```
+

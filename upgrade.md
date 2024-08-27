@@ -14,6 +14,11 @@ Bug Fixes
 10. 新增emily-spring-boot-tracing链路追踪模块；
 11. 将emily-spring-boot-core重命名为emily-spring-boot-aop;
 
+------
+Dependency Upgrades
+
+1. Upgrade to springboot 3.3.3;
+
 -----
 基础库发布4.4.8
 Bug Fixes

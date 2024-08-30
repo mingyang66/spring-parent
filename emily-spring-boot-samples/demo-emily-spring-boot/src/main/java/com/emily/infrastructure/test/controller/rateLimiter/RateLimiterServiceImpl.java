@@ -4,7 +4,7 @@ import com.emily.infrastructure.rateLimiter.annotation.RateLimiter;
 import org.springframework.stereotype.Service;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/8/30 上午11:12
  */
 @Service

@@ -6,7 +6,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import java.lang.reflect.Method;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/8/29 下午5:37
  */
 public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomizer {

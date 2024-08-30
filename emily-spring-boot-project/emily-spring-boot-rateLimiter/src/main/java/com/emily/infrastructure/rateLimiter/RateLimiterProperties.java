@@ -3,7 +3,7 @@ package com.emily.infrastructure.rateLimiter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/8/29 下午5:45
  */
 @ConfigurationProperties(prefix = RateLimiterProperties.PREFIX)

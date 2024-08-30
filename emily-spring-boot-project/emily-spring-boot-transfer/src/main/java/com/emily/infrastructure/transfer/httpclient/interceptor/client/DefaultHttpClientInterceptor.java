@@ -1,7 +1,7 @@
 package com.emily.infrastructure.transfer.httpclient.interceptor.client;
 
+import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.PrintExceptionUtils;
-import com.emily.infrastructure.common.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;

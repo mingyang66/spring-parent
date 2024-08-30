@@ -2,7 +2,7 @@ package com.emily.infrastructure.transfer.feign;
 
 
 import com.emily.infrastructure.aop.advisor.AnnotationPointcutAdvisor;
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.transfer.feign.interceptor.DefaultFeignMethodInterceptor;
 import com.emily.infrastructure.transfer.feign.interceptor.FeignCustomizer;
 import com.emily.infrastructure.transfer.feign.interceptor.FeignRequestInterceptor;

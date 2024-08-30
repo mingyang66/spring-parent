@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.config.interceptor;
 
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.config.BeanDefinition;

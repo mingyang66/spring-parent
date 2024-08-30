@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RateLimiterServiceImpl implements RateLimiterService {
     @Override
-    @RateLimiter(prefix="SDK:limiter", expire = 1000)
+    @RateLimiter(prefix="SDK:limiter", expired = 1000)
     public void rateLimiter() {
         System.out.println("---------------");
     }

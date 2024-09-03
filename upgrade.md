@@ -15,6 +15,7 @@ Bug Fixes
 11. 将emily-spring-boot-core重命名为emily-spring-boot-aop;
 12. emily-dependencies添加knife4j-openapi2-spring-boot-starter依赖管理；
 13. 新增emily-spring-boot-rateLimiter限流组件模块；
+14. emily-spring-boot-web中新增emily-spring-boot-aop依赖；
 
 ------
 Dependency Upgrades

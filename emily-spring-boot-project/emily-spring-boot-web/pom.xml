@@ -33,6 +33,10 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-language</artifactId>
         </dependency>
         <dependency>

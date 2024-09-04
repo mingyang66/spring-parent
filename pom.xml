@@ -6,6 +6,7 @@
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-build-parent</artifactId>
     <version>${revision}</version>
+
     <name>emily-build-parent</name>
     <description>emily-build-parent基础框架</description>
     <url>https://github.com/mingyang66/spring-parent</url>

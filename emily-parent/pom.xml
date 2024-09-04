@@ -23,6 +23,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!--maven项目源代码编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--指定maven的输出报告的编码格式（测试报告，javadoc等）-->
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>

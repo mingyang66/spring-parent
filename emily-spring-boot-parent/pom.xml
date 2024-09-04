@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.mingyang66</groupId>
+        <artifactId>emily-dependencies</artifactId>
+        <version>${revision}</version>
+        <relativePath>../emily-dependencies/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>emily-spring-boot-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>emily-spring-boot-parent</name>
+    <url>https://github.com/mingyang66/spring-parent</url>
+
+    <properties>
+        <java.version>17</java.version>
+        <resource.delimiter>@</resource.delimiter>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-boot.run.main-class>${start-class}</spring-boot.run.main-class>
+    </properties>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <id>repackage</id>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <mainClass>${spring-boot.run.main-class}</mainClass>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

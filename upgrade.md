@@ -2,7 +2,7 @@
 基础库发布5.0.1
 Bug Fixes
 
-1.
+1. 新增emily-spring-boot-parent module定义插件管理；
 
 ###-----
 基础库发布5.0.0

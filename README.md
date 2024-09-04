@@ -11,7 +11,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-dependencies</artifactId>
-                <version>4.4.8</version>
+                <version>5.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

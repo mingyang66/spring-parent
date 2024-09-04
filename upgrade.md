@@ -1,5 +1,11 @@
 ###-----
-基础库发布4.4.9
+基础库发布5.0.1
+Bug Fixes
+
+1.
+
+###-----
+基础库发布5.0.0
 Bug Fixes
 
 1. 新增emily-spring-boot-transfer模块，提供对feign的支持；

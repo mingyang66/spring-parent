@@ -38,7 +38,15 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <!-- 主方法main所在的类 -->
                         <mainClass>${spring-boot.run.main-class}</mainClass>
+                        <!--
+                        layout默认属性配置Jar，用来控制MANIFEST.MF清单文件中的Main-Class和Start-Class
+                        枚举类：org.springframework.boot.maven.AbstractPackagerMojo.LayoutType
+                        -->
+                        <layout>JAR</layout>
+                        <!-- 是否跳过该插件的执行，默认：false -->
+                        <skip>false</skip>
                     </configuration>
                 </plugin>
             </plugins>

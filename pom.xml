@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-        <revision>5.0.1</revision>
+        <revision>5.0.0</revision>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
 

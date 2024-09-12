@@ -4,6 +4,7 @@ import com.emily.infrastructure.redis.common.LuaScriptTools;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -24,7 +25,7 @@ public class RedisScriptController {
 
     private final RedisTemplate<Object, Object> redisTemplate;
 
-    public RedisScriptController(RedisTemplate<Object, Object> redisTemplate) {
+    public RedisScriptController(@Qualifier("redisTemplate") RedisTemplate<Object, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

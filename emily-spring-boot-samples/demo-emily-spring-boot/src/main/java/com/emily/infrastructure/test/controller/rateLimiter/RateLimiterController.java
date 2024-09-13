@@ -1,6 +1,7 @@
 package com.emily.infrastructure.test.controller.rateLimiter;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,7 +17,7 @@ public class RateLimiterController {
     }
 
     @GetMapping("api/rate/limiter")
-    public void rate() {
-        rateLimiterService.rateLimiter();
+    public void rate(@RequestParam("key1") String key1, @RequestParam("key2") String key2) {
+        rateLimiterService.rateLimiter(key1, key2);
     }
 }

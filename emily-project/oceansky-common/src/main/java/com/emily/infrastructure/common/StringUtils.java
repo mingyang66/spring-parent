@@ -851,4 +851,23 @@ public class StringUtils {
     public static String join(String... strings) {
         return String.join(EMPTY, strings);
     }
+
+    /**
+     * 计算字符串中 `%s` 出现的次数。
+     *
+     * @param str 需要检查的字符串
+     * @return `%s` 出现的次数
+     */
+    public static int countOfContains(String str, String searchStr) {
+        if (str == null) {
+            return 0;
+        }
+        int count = 0;
+        int index = 0;
+        while ((index = str.indexOf(searchStr, index)) != -1) {
+            count++;
+            index++; // 移动到下一个字符，避免重复计数
+        }
+        return count;
+    }
 }

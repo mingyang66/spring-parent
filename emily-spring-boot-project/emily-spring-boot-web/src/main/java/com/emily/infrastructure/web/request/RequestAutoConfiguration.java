@@ -60,9 +60,9 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
      * @return 切面对象
      * @since 1.0
      */
-    @Bean
+    @Bean("apiAdvisor")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor apiAdvisor(ObjectProvider<RequestCustomizer> requestCustomizers) {
+    public Advisor apiAdvisor(ObjectProvider<RequestCustomizer> customizers) {
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -72,7 +72,7 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
         //设置切点
         advisor.setPointcut(pointcut);
         //设置增强（Advice）
-        advisor.setAdvice(requestCustomizers.orderedStream().findFirst().get());
+        advisor.setAdvice(customizers.orderedStream().findFirst().get());
         //设置增强拦截器执行顺序
         advisor.setOrder(AopOrderInfo.REQUEST);
         return advisor;
@@ -87,7 +87,8 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        BeanDefinition beanDefinition = beanFactory.getBeanDefinition("apiAdvisor");
+        //消除系统提前初始化告警
+        BeanDefinition beanDefinition = beanFactory.getBeanDefinition("advisor");
         beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
     }
 

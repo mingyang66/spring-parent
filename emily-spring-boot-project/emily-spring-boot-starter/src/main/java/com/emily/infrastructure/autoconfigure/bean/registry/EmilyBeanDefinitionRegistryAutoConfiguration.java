@@ -27,7 +27,7 @@ public class EmilyBeanDefinitionRegistryAutoConfiguration implements Initializin
      * @return 后置处理器对象
      */
     @Bean
-    public EmilyBeanDefinitionRegistryPostProcessor smallEmilyBeanDefinitionRegistryPostProcessor() {
+    public EmilyBeanDefinitionRegistryPostProcessor emilyBeanDefinitionRegistryPostProcessor() {
         return new EmilyBeanDefinitionRegistryPostProcessor();
     }
 

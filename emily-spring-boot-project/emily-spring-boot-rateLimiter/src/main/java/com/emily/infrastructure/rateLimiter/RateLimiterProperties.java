@@ -11,7 +11,7 @@ public class RateLimiterProperties {
     /**
      * 前缀
      */
-    public static final String PREFIX = "spring.emily.threshold";
+    public static final String PREFIX = "spring.emily.limiter";
     /**
      * 是否开启限流组件, 默认：true
      */

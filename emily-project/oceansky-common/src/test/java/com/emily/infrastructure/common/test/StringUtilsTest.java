@@ -251,4 +251,13 @@ public class StringUtilsTest {
         Assertions.assertEquals(StringUtils.split("ab,cd", ",").length, 2);
         Assertions.assertEquals(StringUtils.split("abcd", "c").length, 2);
     }
+
+    @Test
+    public void countOfContains() {
+        Assertions.assertEquals(StringUtils.countOfContains("", "%s"), 0);
+        Assertions.assertEquals(StringUtils.countOfContains("%s", "%s"), 1);
+        Assertions.assertEquals(StringUtils.countOfContains("a%s", "%s"), 1);
+        Assertions.assertEquals(StringUtils.countOfContains("a%sb", "%s"), 1);
+        Assertions.assertEquals(StringUtils.countOfContains("a%sb%s", "%s"), 2);
+    }
 }

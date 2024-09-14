@@ -57,6 +57,15 @@ public class RateLimiterAutoConfiguration implements BeanFactoryPostProcessor, I
     }
 
     @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        String[] beanNames = beanFactory.getBeanNamesForType(RateLimiterProperties.class);
+        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
+    }
+
+    @Override
     public void destroy() {
         logger.info("<== 【销毁--自动化配置】----限流组件【RateLimiterAutoConfiguration】");
     }
@@ -64,14 +73,5 @@ public class RateLimiterAutoConfiguration implements BeanFactoryPostProcessor, I
     @Override
     public void afterPropertiesSet() {
         logger.info("==> 【初始化--自动化配置】----限流组件【RateLimiterAutoConfiguration】");
-    }
-
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        String[] beanNames = beanFactory.getBeanNamesForType(RateLimiterProperties.class);
-        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
     }
 }

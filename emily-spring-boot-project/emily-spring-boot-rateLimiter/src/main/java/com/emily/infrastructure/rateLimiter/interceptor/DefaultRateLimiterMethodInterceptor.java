@@ -3,15 +3,11 @@ package com.emily.infrastructure.rateLimiter.interceptor;
 import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.rateLimiter.annotation.RateLimiter;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 限流默认拦截器
@@ -20,9 +16,6 @@ import java.util.concurrent.TimeUnit;
  * @since :  2024/8/29 下午5:37
  */
 public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomizer {
-    private static final Cache<String, Set<String>> LIMITER = Caffeine.newBuilder()
-            .expireAfterWrite(5, TimeUnit.MINUTES)
-            .build();
 
     /**
      * 解析缓存key
@@ -58,13 +51,11 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
 
     @Override
     public void addVisitedTimes(String key, RateLimiter rateLimiter) {
-        long timeout = rateLimiter.timeout();
-        TimeUnit timeUnit = rateLimiter.timeunit();
+
     }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        System.out.println("------------限流");
         Method method = invocation.getMethod();
         if (method.isAnnotationPresent(RateLimiter.class)) {
             RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);

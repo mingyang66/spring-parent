@@ -40,6 +40,7 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory, ResourceLoader resourceLoader) {
@@ -66,6 +67,7 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveStringRedisTemplate reactiveStringRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {

@@ -52,6 +52,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(RedisConnectionDetails.class)
     PropertiesRedisDbConnectionDetails redisConnectionDetails() {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
@@ -70,6 +71,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
@@ -95,6 +97,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");

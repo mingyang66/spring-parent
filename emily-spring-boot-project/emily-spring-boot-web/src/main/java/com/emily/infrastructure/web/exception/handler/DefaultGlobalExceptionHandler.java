@@ -86,6 +86,10 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public Object undeclaredThrowableException(UndeclaredThrowableException e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
+        Throwable throwable = e.getUndeclaredThrowable();
+        if (throwable != null) {
+            return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_PROXY.getStatus(), throwable.getMessage());
+        }
         return getApiResponseWrapper(handlerMethod, AppStatusType.ILLEGAL_PROXY);
     }
 

@@ -5,6 +5,7 @@ Bug Fixes
 1. 新增emily-spring-boot-parent module定义插件管理；
 2. StringUtils新增countOfContains方法计算字符串包含数量；
 3. emily-spring-boot-rateLimiter限流组件添加限流支撑能力；
+4. 全局异常处理组件对UndeclaredThrowableException捕获处理受检查异常抛出真实异常信息；
 
 ###-----
 基础库发布5.0.0

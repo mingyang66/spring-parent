@@ -88,8 +88,10 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         //消除系统提前初始化告警
-        BeanDefinition beanDefinition = beanFactory.getBeanDefinition("advisor");
-        beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        if (beanFactory.containsBean("advisor")) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition("advisor");
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
     }
 
     @Override

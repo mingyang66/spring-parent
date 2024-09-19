@@ -15,6 +15,7 @@
     <modules>
         <module>demo-emily-spring-cloud</module>
         <module>demo-emily-spring-boot</module>
+        <module>sqlite-spring-boot-sample</module>
     </modules>
 
 </project>

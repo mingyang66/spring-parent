@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.mingyang66</groupId>
+        <artifactId>emily-spring-boot-samples</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../emily-spring-boot-samples/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>sqlite-spring-boot-sample</artifactId>
+    <packaging>jar</packaging>
+
+    <name>sqlite-spring-boot-samples</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-web</artifactId>
+        </dependency>
+    </dependencies>
+</project>

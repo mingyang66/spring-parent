@@ -58,11 +58,11 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
 
     @Override
     public void destroy() throws Exception {
-        logger.info("<== 【销毁--自动化配置】----GlobalException捕获组件【GlobalExceptionAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】---全局异常组件【GlobalExceptionAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("==> 【初始化--自动化配置】----GlobalException捕获组件【GlobalExceptionAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】---全局异常组件【GlobalExceptionAutoConfiguration】");
     }
 }

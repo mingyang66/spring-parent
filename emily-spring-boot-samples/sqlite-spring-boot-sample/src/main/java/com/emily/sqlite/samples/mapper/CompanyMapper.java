@@ -3,7 +3,7 @@ package com.emily.sqlite.samples.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/9/18 下午7:02
  */
 @Mapper

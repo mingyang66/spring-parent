@@ -3,6 +3,7 @@
 #./mvnw versions:commit
 #echo '提交修改'
 ./mvnw clean deploy -pl emily-project -am
+./mvnw clean deploy -pl emily-dependencies -am
 echo '#########emily-parent...'
 cd emily-project
 ../mvnw clean deploy -pl oceansky-json
@@ -13,6 +14,7 @@ cd emily-project
 ../mvnw clean deploy -pl oceansky-jwt
 ../mvnw clean deploy -pl oceansky-date
 ../mvnw clean deploy -pl oceansky-common
+../mvnw clean deploy -pl emily-spring-boot-parent
 cd ../emily-spring-project
 ../mvnw clean deploy -pl otter-spring-resource -am
 ../mvnw clean deploy -pl otter-spring-servlet
@@ -29,5 +31,6 @@ cd ../emily-spring-boot-project
 ../mvnw clean deploy -pl emily-spring-boot-starter
 ../mvnw clean deploy -pl emily-spring-boot-transfer
 ../mvnw clean deploy -pl emily-spring-boot-web
+../mvnw clean deploy -pl emily-spring-boot-rateLimiter
 
 echo '#########打包完成...'

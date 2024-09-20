@@ -9,6 +9,7 @@
     </parent>
     <artifactId>emily-dependencies</artifactId>
     <packaging>pom</packaging>
+
     <name>emily-dependencies</name>
     <url>https://github.com/mingyang66/spring-parent</url>
     <description>Bill Of Material</description>

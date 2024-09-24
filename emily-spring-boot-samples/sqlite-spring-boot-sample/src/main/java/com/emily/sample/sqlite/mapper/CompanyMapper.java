@@ -1,4 +1,4 @@
-package com.emily.sqlite.samples.mapper;
+package com.emily.sample.sqlite.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,5 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CompanyMapper {
     void insertCompany(long id);
+
     long getCompanyId();
 }

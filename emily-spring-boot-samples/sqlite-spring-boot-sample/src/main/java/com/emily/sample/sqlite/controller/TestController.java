@@ -1,6 +1,6 @@
-package com.emily.sqlite.samples.controller;
+package com.emily.sample.sqlite.controller;
 
-import com.emily.sqlite.samples.mapper.CompanyMapper;
+import com.emily.sample.sqlite.mapper.CompanyMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 

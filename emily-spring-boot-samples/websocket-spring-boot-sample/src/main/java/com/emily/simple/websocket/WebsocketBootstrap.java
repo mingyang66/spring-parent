@@ -1,16 +1,13 @@
-package com.emily.sqlite.samples;
+package com.emily.simple.websocket;
 
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * @author Emily
- */
 @SpringBootApplication
-public class SqliteBootStrap {
-    public static void main(String[] args) {
-        SpringApplication.run(SqliteBootStrap.class, args);
-    }
+public class WebsocketBootstrap {
 
+    public static void main(String[] args) {
+        SpringApplication.run(WebsocketBootstrap.class, args);
+    }
 }

@@ -57,8 +57,13 @@ public class ParamController {
     }
 
     @GetMapping("getParam")
-    public String getParam(@NotEmpty(message = "用户名不可为空") String username) {
+    public String getParam(@RequestParam(value = "name", required = false, defaultValue = "liming") String username) {
         return username;
+    }
+
+    @GetMapping("getParam1")
+    public String getParam1(@Validated @RequestBody Job job) {
+        return "";
     }
 
     @PostMapping("getBody")

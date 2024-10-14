@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>ChatRoom</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="/main.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
@@ -17,6 +18,25 @@
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
+                    <label for="sender">Sender</label>
+                    <input type="text" id="sender" class="form-control" placeholder="Your name here...">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="receiver">Receiver</label>
+                    <input type="text" id="receiver" class="form-control" placeholder="receiver...">
+                </div>
+                <button id="login" class="btn btn-default" type="button">Login</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
                     <label for="connect">WebSocket connection:</label>
                     <button id="connect" class="btn btn-default" type="submit">Connect</button>
                     <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
@@ -27,8 +47,8 @@
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                    <label for="content">Content</label>
+                    <input type="text" id="content" class="form-control" placeholder="content...">
                 </div>
                 <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>

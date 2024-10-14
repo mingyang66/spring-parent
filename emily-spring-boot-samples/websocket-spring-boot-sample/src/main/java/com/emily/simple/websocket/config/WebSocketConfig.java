@@ -18,7 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 注册STOMP端点，指定端点的路径
-        registry.addEndpoint("/gs-guide-websocket");
+        registry.addEndpoint("/gs-guide-websocket/{userid}")
+                .setHandshakeHandler(new ChatHandshakeHandler());
     }
 
     /**

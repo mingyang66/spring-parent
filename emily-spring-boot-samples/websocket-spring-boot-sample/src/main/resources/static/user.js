@@ -14,7 +14,7 @@ function init(userid) {
         stompClient.subscribe('/user/queue/chat', (message) => {
             console.log('订阅消息：' + message)
             let user = JSON.parse(message.body)
-            $("#greetings").append("<tr><td style='text-align: right'>" + user.sender + " Reply:" + user.content + "</td></tr>");
+            $("#greetings").append("<tr><td style='text-align: right'>" + user.content + " :Reply" + user.sender + "</td></tr>");
         });
     };
 
@@ -68,6 +68,11 @@ function login() {
     const receiver = $("#receiver").val();
     if (!sender || !receiver) {
         alert('Sender or Receiver cannot be empty');
+    } else{
+        $("#sender").prop("disabled", true);
+        $("#receiver").prop("disabled", true);
+        $("#login").prop("disabled", true);
+        alert('Login Success')
     }
     init(sender)
 }

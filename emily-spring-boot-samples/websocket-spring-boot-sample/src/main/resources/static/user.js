@@ -2,7 +2,7 @@ let stompClient
 
 function init(userid) {
     stompClient = new StompJs.Client({
-        brokerURL: 'ws://localhost:8080/gs-guide-websocket/' + userid,
+        brokerURL: 'ws://localhost:8080/chatroom/' + userid,
         debug: function (str) {
             console.log('debug:' + str);
         }
@@ -63,7 +63,6 @@ function sendName() {
 }
 
 function login() {
-    console.log("login");
     const sender = $("#sender").val();
     const receiver = $("#receiver").val();
     if (!sender || !receiver) {

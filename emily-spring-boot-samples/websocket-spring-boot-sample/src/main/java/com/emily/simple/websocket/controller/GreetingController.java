@@ -30,8 +30,8 @@ public class GreetingController {
     @MessageMapping("/send")
     //@SendToUser(destinations = "/queue/chat")
     public void chat(@Payload ReceiverMessage message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        messagingTemplate.convertAndSendToUser(message.getReceiver(),"/queue/chat", message);
+        //Thread.sleep(1000); // simulated delay
+        messagingTemplate.convertAndSendToUser(message.getReceiver(), "/queue/chat", message);
         //return new Greeting("一对一聊天： " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
 

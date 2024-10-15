@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class ChatMessageBrokerAutoConfiguration implements WebSocketMessageBrokerConfigurer {
     /**
      * 注册STOMP端点，每个端点映射到特定的URL,并（可选）启用和配置SockJS回退选项
      *

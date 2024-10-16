@@ -2,7 +2,7 @@
 基础库发布5.0.2
 Bug Fixes
 
-1.
+1. JsonUtils新增对对象或字符串转为JsonNode对象的支持方法readTree、valueToTree；
 
 ###-----
 基础库发布5.0.1

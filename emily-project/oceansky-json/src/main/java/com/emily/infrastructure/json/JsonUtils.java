@@ -407,4 +407,15 @@ public class JsonUtils {
             throw new IllegalArgumentException("非法参数");
         }
     }
+
+    /**
+     * 将对象类型转换为JsonNode
+     *
+     * @param value 对象数据类型
+     * @param <T>   泛型类型
+     * @return JsonNode
+     */
+    public static <T> JsonNode valueToTree(T value) {
+        return objectMapper.valueToTree(value);
+    }
 }

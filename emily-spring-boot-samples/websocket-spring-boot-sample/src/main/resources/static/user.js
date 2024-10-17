@@ -4,8 +4,12 @@ function init(userid) {
     stompClient = new StompJs.Client({
         brokerURL: 'ws://localhost:8080/chatroom/' + userid,
         debug: function (str) {
-            console.log('debug:' + str);
-        }
+            let date = new Date();
+            console.log(date.toDateString() + '-debug:' + str);
+        },
+        reconnectDelay: 5000,
+        heartbeatOutgoing: 2000,  //客户端发送到服务器端的心跳间隔（单位：毫秒）
+        heartbeatIncoming: 1000 //服务器发送到客户端的心跳间隔（单位：毫秒）
     });
 
     stompClient.onConnect = (frame) => {
@@ -67,7 +71,7 @@ function login() {
     const receiver = $("#receiver").val();
     if (!sender || !receiver) {
         alert('Sender or Receiver cannot be empty');
-    } else{
+    } else {
         $("#sender").prop("disabled", true);
         $("#receiver").prop("disabled", true);
         $("#login").prop("disabled", true);

@@ -33,19 +33,12 @@ public class ChatMessageBrokerAutoConfiguration implements WebSocketMessageBroke
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        //定义心跳任务调度器
-        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.setPoolSize(10);
-        taskScheduler.setThreadNamePrefix("WebSocketChat--");
-        taskScheduler.setDaemon(true);
-        taskScheduler.initialize();
-
         //启用一个简单的消息代理，并配置一个或多个前缀来过滤以代理目标的目的地（例如：前缀为“/topic”的目的地）
         registry.enableSimpleBroker("/topic", "/queue")
                 //配置心跳，第一个数字表示服务器写入或发送心跳的频率，第二个数字代表客户端应该写入的频率；0代表没有心跳，默认：“0，0”，设置taskScheduler后默认是“10000，10000”
                 .setHeartbeatValue(new long[]{10000, 10000})
                 //设置心跳任务调度器
-                .setTaskScheduler(taskScheduler);
+                .setTaskScheduler(initDefaultHeartbeatTaskScheduler());
         //指定用户（一对一）的前缀
         registry.setUserDestinationPrefix("/user");
         //设置订阅destination的缓存最大数量，默认：1024
@@ -54,4 +47,16 @@ public class ChatMessageBrokerAutoConfiguration implements WebSocketMessageBroke
         registry.setApplicationDestinationPrefixes("/app");
     }
 
+    protected ThreadPoolTaskScheduler initDefaultHeartbeatTaskScheduler() {
+        //定义心跳任务调度器
+        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+        taskScheduler.setPoolSize(Runtime.getRuntime().availableProcessors());
+        taskScheduler.setThreadNamePrefix("ChatHeartbeat--");
+        taskScheduler.setDaemon(true);
+        // true-当任务被取消时，如果任务尚未开始执行，则会被从队列中移除。如果任务已经开始执行，则不会立即中断任务，但一旦任务完成，用于执行该任务的线程可能会被回收（取决于线程池的配置），
+        // false- 即使任务被取消，它也不会从队列中移除，除非它正常完成或线程池关闭。
+        taskScheduler.setRemoveOnCancelPolicy(true);
+        taskScheduler.initialize();
+        return taskScheduler;
+    }
 }

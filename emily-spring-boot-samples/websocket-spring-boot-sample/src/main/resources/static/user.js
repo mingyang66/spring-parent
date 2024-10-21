@@ -9,9 +9,12 @@ function init(userid) {
         heartbeatIncoming: 10000,//服务器端发送到客户端的心跳间隔，默认:10000 设置为0为禁用（单位：毫秒）
         debug: function (str) {
             console.log(printCurrentDateTime() + '-debug:' + str);
+        },
+        beforeConnect: function () {
+            console.log('before function')
         }
     });
-
+    // 在每次成功连接到STOMP代理时调用，实际的iframe帧将作为参数传递给回调函数
     stompClient.onConnect = (frame) => {
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -21,6 +24,7 @@ function init(userid) {
             $("#greetings").append("<tr><td style='text-align: right'>" + user.content + " :Reply" + user.sender + "</td></tr>");
         });
     };
+    // 在每次成功断开与STOMP代理的连接时调用。如果STOMP代理由于错误而断开连接，则不会调用它。
     stompClient.onDisconnect = (frame) => {
         console.log('Disconnected: ' + frame.body);
         console.log('Disconnected: ' + frame.headers['message']);

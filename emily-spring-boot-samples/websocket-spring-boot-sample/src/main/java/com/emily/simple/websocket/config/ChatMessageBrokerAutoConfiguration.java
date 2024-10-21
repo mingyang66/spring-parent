@@ -22,6 +22,7 @@ public class ChatMessageBrokerAutoConfiguration implements WebSocketMessageBroke
         registry.addEndpoint("/chatroom", "/chatroom/{userid}")
                 // 配置websocket握手请求
                 .setHandshakeHandler(new ChatHandshakeHandler())
+                // 设置跨域请求
                 .setAllowedOriginPatterns("*");
     }
 

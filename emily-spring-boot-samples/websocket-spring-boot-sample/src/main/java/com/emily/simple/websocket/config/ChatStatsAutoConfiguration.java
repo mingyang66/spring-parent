@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
  * @since :  2024/10/15 下午4:14
  */
 @Configuration
-public class ChatAutoConfiguration {
+public class ChatStatsAutoConfiguration {
     private final WebSocketMessageBrokerStats stats;
 
-    public ChatAutoConfiguration(WebSocketMessageBrokerStats stats) {
+    public ChatStatsAutoConfiguration(WebSocketMessageBrokerStats stats) {
         this.stats = stats;
     }
 

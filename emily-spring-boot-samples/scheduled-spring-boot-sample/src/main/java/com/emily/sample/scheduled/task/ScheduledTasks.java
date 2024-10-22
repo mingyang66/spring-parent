@@ -1,4 +1,4 @@
-package com.emily.simple.scheduled.task;
+package com.emily.sample.scheduled.task;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

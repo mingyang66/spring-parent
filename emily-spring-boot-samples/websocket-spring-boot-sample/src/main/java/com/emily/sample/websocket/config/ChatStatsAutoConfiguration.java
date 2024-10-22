@@ -1,4 +1,4 @@
-package com.emily.simple.websocket.config;
+package com.emily.sample.websocket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

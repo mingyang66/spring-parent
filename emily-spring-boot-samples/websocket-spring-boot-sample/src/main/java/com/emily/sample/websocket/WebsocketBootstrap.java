@@ -1,4 +1,4 @@
-package com.emily.simple.websocket;
+package com.emily.sample.websocket;
 
 
 import org.springframework.boot.SpringApplication;

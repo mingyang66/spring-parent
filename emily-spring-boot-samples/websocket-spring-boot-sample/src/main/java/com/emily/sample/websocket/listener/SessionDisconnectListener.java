@@ -1,4 +1,4 @@
-package com.emily.simple.websocket.listener;
+package com.emily.sample.websocket.listener;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

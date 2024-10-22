@@ -1,4 +1,4 @@
-package com.emily.simple.websocket.entity;
+package com.emily.sample.websocket.entity;
 
 public class ReceiverMessage {
 

@@ -1,9 +1,9 @@
-package com.emily.simple.websocket.controller;
+package com.emily.sample.websocket.controller;
 
 
-import com.emily.simple.websocket.entity.Greeting;
-import com.emily.simple.websocket.entity.HelloMessage;
-import com.emily.simple.websocket.entity.ReceiverMessage;
+import com.emily.sample.websocket.entity.HelloMessage;
+import com.emily.sample.websocket.entity.ReceiverMessage;
+import com.emily.sample.websocket.entity.Greeting;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;

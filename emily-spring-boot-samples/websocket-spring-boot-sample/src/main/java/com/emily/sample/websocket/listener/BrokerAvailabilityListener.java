@@ -1,9 +1,8 @@
-package com.emily.simple.websocket.listener;
+package com.emily.sample.websocket.listener;
 
 import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.simp.broker.BrokerAvailabilityEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionSubscribeEvent;
-import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 /**
  *
@@ -11,9 +10,9 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
  * @since :  2024/10/17 下午2:17
  */
 @Component
-public class SessionUnSubscribeListener implements ApplicationListener<SessionUnsubscribeEvent> {
+public class BrokerAvailabilityListener implements ApplicationListener<BrokerAvailabilityEvent> {
     @Override
-    public void onApplicationEvent(SessionUnsubscribeEvent event) {
+    public void onApplicationEvent(BrokerAvailabilityEvent event) {
         System.out.println(event.toString());
     }
 

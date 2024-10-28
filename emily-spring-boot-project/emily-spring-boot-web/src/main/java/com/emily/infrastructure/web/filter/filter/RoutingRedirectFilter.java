@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class RoutingRedirectFilter implements Filter {
 
-    private RoutingRedirectCustomizer routingRedirectCustomizer;
+    private final RoutingRedirectCustomizer routingRedirectCustomizer;
 
     public RoutingRedirectFilter(RoutingRedirectCustomizer routingRedirectCustomizer) {
         this.routingRedirectCustomizer = routingRedirectCustomizer;

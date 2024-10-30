@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.controller;
 
-import com.emily.infrastructure.language.convert.LanguageMap;
+import com.emily.infrastructure.language.convert.LanguageCache;
 import com.emily.infrastructure.test.entity.i18n.Student;
 import com.emily.infrastructure.test.entity.i18n.Teacher;
 import com.google.common.collect.Maps;
@@ -22,14 +22,14 @@ import java.util.Map;
 @RequestMapping("api/i18n")
 public class I18nController {
     static {
-        LanguageMap.bindEn("田晓霞", "tianxiaoxia");
-        LanguageMap.bindEn("李老师", "li teacher");
-        LanguageMap.bindEn("孙少平", "sun shao ping");
-        LanguageMap.bindEn("孙少安", "sun shao an");
-        LanguageMap.bindEn("红薯", "sweet potato");
-        LanguageMap.bindEn("看书", "book");
-        LanguageMap.bindEn("电影", "movie");
-        LanguageMap.bindEn("刷抖音", "Tiktok");
+        LanguageCache.bindEn("田晓霞", "tianxiaoxia");
+        LanguageCache.bindEn("李老师", "li teacher");
+        LanguageCache.bindEn("孙少平", "sun shao ping");
+        LanguageCache.bindEn("孙少安", "sun shao an");
+        LanguageCache.bindEn("红薯", "sweet potato");
+        LanguageCache.bindEn("看书", "book");
+        LanguageCache.bindEn("电影", "movie");
+        LanguageCache.bindEn("刷抖音", "Tiktok");
     }
 
     @GetMapping("test1")

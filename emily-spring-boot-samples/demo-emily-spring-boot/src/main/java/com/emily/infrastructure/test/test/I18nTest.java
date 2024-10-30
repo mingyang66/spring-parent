@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.test;
 
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.language.convert.I18nConvertHelper;
-import com.emily.infrastructure.language.convert.LanguageMap;
+import com.emily.infrastructure.language.convert.LanguageCache;
 import com.emily.infrastructure.language.convert.LanguageType;
 import com.emily.infrastructure.test.entity.i18n.Student;
 import com.emily.infrastructure.test.entity.i18n.Teacher;
@@ -15,10 +15,10 @@ import com.emily.infrastructure.test.entity.i18n.Teacher;
  */
 public class I18nTest {
     public static void main(String[] args) throws IllegalAccessException {
-        LanguageMap.bindEn("田晓霞", "tianxiaoxia");
-        LanguageMap.bindEn("李老师", "li teacher");
-        LanguageMap.bindEn("孙少平", "sun shao ping");
-        LanguageMap.bindEn("孙少安", "sun shao an");
+        LanguageCache.bindEn("田晓霞", "tianxiaoxia");
+        LanguageCache.bindEn("李老师", "li teacher");
+        LanguageCache.bindEn("孙少平", "sun shao ping");
+        LanguageCache.bindEn("孙少安", "sun shao an");
         Student student = new Student();
         student.setAge(18);
         student.setName("田晓霞");

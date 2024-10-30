@@ -1,11 +1,12 @@
 package com.emily.infrastructure.language.convert;
 
 import com.emily.infrastructure.language.i18n.I18nChineseHelper;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 异常多语言缓存
@@ -13,15 +14,15 @@ import java.util.Objects;
  * @author Emily
  * @since Created in 2022/8/9 7:38 下午
  */
-public class LanguageMap {
+public class LanguageCache {
     /**
      * 简体-繁体
      */
-    private static final Map<String, String> zhMap = Maps.newHashMap();
+    private static final ConcurrentMap<String, String> zhMap = new ConcurrentHashMap<>();
     /**
      * 简体-英文
      */
-    private static final Map<String, String> enMap = Maps.newHashMap();
+    private static final ConcurrentMap<String, String> enMap = new ConcurrentHashMap<>();
 
     /**
      * 简体-繁体 绑定
@@ -91,7 +92,7 @@ public class LanguageMap {
             return zhMap.containsKey(simple) ? zhMap.get(simple) : I18nChineseHelper.convertToTraditionalChinese(simple);
         }
         if (languageType.equals(LanguageType.EN_US)) {
-            return enMap.containsKey(simple) ? enMap.get(simple) : simple;
+            return enMap.getOrDefault(simple, simple);
         }
         return simple;
     }

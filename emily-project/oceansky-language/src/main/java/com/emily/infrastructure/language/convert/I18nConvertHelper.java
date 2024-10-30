@@ -192,6 +192,6 @@ public class I18nConvertHelper {
      * @return 翻译后的结果
      */
     public static String doGetProperty(String value, LanguageType languageType) {
-        return LanguageMap.acquire(value, languageType);
+        return LanguageCache.acquire(value, languageType);
     }
 }

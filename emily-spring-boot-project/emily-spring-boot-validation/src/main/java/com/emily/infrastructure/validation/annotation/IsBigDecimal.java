@@ -24,7 +24,7 @@ public @interface IsBigDecimal {
     /**
      * 提示信息
      */
-    String message() default "数据类型不正确";
+    String message() default "{jakarta.validation.constraints.IsBigDecimal.message}";
 
     /**
      * 校验分组

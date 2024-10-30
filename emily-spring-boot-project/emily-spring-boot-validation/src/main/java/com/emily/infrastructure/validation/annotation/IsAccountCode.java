@@ -33,7 +33,7 @@ public @interface IsAccountCode {
      *
      * @return 提示信息
      */
-    String message() default "非法账号";
+    String message() default "{jakarta.validation.constraints.IsAccountCode.message}";
 
     /**
      * 校验分组

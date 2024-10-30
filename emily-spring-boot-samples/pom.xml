@@ -19,6 +19,7 @@
         <module>websocket-spring-boot-sample</module>
         <module>scheduled-spring-boot-sample</module>
         <module>request-spring-boot-sample</module>
+        <module>validation-spring-boot-sample</module>
     </modules>
 
 </project>

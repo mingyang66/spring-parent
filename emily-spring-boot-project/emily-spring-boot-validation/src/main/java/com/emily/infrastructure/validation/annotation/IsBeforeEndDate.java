@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = IsBeforeEndDateValidator.class)
 public @interface IsBeforeEndDate {
-    String message() default "End date must be after start date";
+    String message() default "{jakarta.validation.constraints.IsBeforeEndDate.message}";
 
     Class<?>[] groups() default {};
 

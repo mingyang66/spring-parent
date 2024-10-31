@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author Emily
  * @since Created in 2023/4/15 5:15 PM
  */
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface I18nModel {
 }

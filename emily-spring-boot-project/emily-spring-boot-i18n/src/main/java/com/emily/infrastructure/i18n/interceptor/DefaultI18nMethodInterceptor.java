@@ -22,10 +22,17 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
         if (method.isAnnotationPresent(I18nOperation.class)) {
             //执行结果
             Object response = invocation.proceed();
+            if (response == null) {
+                return null;
+            }
             //语言类型
             LanguageType languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
+            // 如果是字符串直接转换
+            if (response instanceof String value) {
+                return I18nUtils.doGetProperty(value, languageType);
+            }
             //将结果翻译为指定语言类型
-            return I18nUtils.acquire(response, languageType);
+            return I18nUtils.translate(response, languageType);
         }
         return invocation.proceed();
     }

@@ -13,6 +13,15 @@ public class Bank {
     private String name;
     @I18nProperty
     private String code;
+    private SubBank subBank;
+
+    public SubBank getSubBank() {
+        return subBank;
+    }
+
+    public void setSubBank(SubBank subBank) {
+        this.subBank = subBank;
+    }
 
     public String getName() {
         return name;
@@ -28,5 +37,19 @@ public class Bank {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @I18nModel
+    public static class SubBank {
+        @I18nProperty
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

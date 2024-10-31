@@ -17,6 +17,9 @@ public class BankController {
         Bank bank = new Bank();
         bank.setCode("古北");
         bank.setName("渣渣银行");
+        Bank.SubBank subBank = new Bank.SubBank();
+        subBank.setName("渣渣银行");
+        bank.setSubBank(subBank);
         return bank;
     }
 

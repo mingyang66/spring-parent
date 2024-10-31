@@ -32,5 +32,5 @@ cd ../emily-spring-boot-project
 ../mvnw clean deploy -pl emily-spring-boot-transfer
 ../mvnw clean deploy -pl emily-spring-boot-web
 ../mvnw clean deploy -pl emily-spring-boot-rateLimiter
-
+../mvnw clean deploy -pl emily-spring-boot-i18n
 echo '#########打包完成...'

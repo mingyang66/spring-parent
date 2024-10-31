@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Emily
  * @since Created in 2022/8/9 7:38 下午
  */
-public class LanguageCache {
+public class I18nCache {
     /**
      * 简体-繁体
      */

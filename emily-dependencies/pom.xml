@@ -162,6 +162,11 @@
                 <artifactId>emily-spring-boot-rateLimiter</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-spring-boot-i18n</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- 第三方依赖 -->
             <dependency>
                 <groupId>com.alibaba</groupId>

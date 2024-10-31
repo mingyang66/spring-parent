@@ -1,5 +1,7 @@
 package com.emily.infrastructure.language.convert;
 
+import com.emily.infrastructure.language.annotation.I18nModel;
+import com.emily.infrastructure.language.annotation.I18nProperty;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
@@ -15,7 +17,7 @@ import java.util.Objects;
  * @author Emily
  * @since Created in 2023/4/15 5:42 PM
  */
-public class I18nConvertHelper {
+public class I18nUtils {
 
     /**
      * 对实体类进行多语言翻译
@@ -45,7 +47,7 @@ public class I18nConvertHelper {
                     acquire(v, languageType);
                 }
             }
-        } else if (entity.getClass().isAnnotationPresent(JsonI18n.class)) {
+        } else if (entity.getClass().isAnnotationPresent(I18nModel.class)) {
             doSetField(entity, languageType);
         }
         return entity;
@@ -95,7 +97,7 @@ public class I18nConvertHelper {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
-        if (field.isAnnotationPresent(JsonI18nField.class)) {
+        if (field.isAnnotationPresent(I18nProperty.class)) {
             field.set(entity, doGetProperty((String) value, languageType));
         }
     }
@@ -118,7 +120,7 @@ public class I18nConvertHelper {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(JsonI18nField.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
                 list = (list == null) ? Lists.newArrayList() : list;
                 list.add(doGetProperty((String) v, languageType));
             } else {
@@ -148,7 +150,7 @@ public class I18nConvertHelper {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(JsonI18nField.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
                 dMap.put(key, doGetProperty((String) v, languageType));
             } else {
                 acquire(value, languageType);
@@ -176,7 +178,7 @@ public class I18nConvertHelper {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(JsonI18nField.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
                 arrays[i] = doGetProperty((String) v, languageType);
             } else {
                 acquire(value, languageType);
@@ -192,6 +194,6 @@ public class I18nConvertHelper {
      * @return 翻译后的结果
      */
     public static String doGetProperty(String value, LanguageType languageType) {
-        return LanguageCache.acquire(value, languageType);
+        return I18nCache.acquire(value, languageType);
     }
 }

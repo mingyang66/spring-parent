@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.exception;
 
-import com.emily.infrastructure.language.convert.LanguageCache;
+import com.emily.infrastructure.language.convert.I18nCache;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import com.emily.infrastructure.web.exception.handler.DefaultGlobalExceptionHandler;
 import com.emily.infrastructure.web.exception.handler.GlobalExceptionCustomizer;
@@ -35,12 +35,12 @@ public class GlobalExceptionAutoConfiguration implements InitializingBean, Dispo
      */
     @PostConstruct
     public void init() {
-        LanguageCache.bindEn("网络异常，请稍后再试", "Network exception, please try again later");
-        LanguageCache.bindEn("方法不允许", "Method Not Allowed");
-        LanguageCache.bindEn("非法参数", "Illegal parameter");
-        LanguageCache.bindEn("非法数据", "invalid data");
-        LanguageCache.bindEn("非法访问", "Illegal access");
-        LanguageCache.bindEn("非法代理", "Illegal agency");
+        I18nCache.bindEn("网络异常，请稍后再试", "Network exception, please try again later");
+        I18nCache.bindEn("方法不允许", "Method Not Allowed");
+        I18nCache.bindEn("非法参数", "Illegal parameter");
+        I18nCache.bindEn("非法数据", "invalid data");
+        I18nCache.bindEn("非法访问", "Illegal access");
+        I18nCache.bindEn("非法代理", "Illegal agency");
     }
 
     /**

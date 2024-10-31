@@ -40,11 +40,7 @@ class JavaBeanUtils {
             return true;
         } else if (value instanceof Number) {
             return true;
-        } else if (value.getClass().isEnum()) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return value.getClass().isEnum();
     }
 
     /**

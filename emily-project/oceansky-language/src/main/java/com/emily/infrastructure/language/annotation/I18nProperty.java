@@ -1,4 +1,4 @@
-package com.emily.infrastructure.language.convert;
+package com.emily.infrastructure.language.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonI18nField {
+public @interface I18nProperty {
 }

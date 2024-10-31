@@ -24,6 +24,7 @@
         <module>emily-spring-boot-web</module>
         <module>emily-spring-boot-tracing</module>
         <module>emily-spring-boot-rateLimiter</module>
+        <module>emily-spring-boot-i18n</module>
     </modules>
 
 </project>

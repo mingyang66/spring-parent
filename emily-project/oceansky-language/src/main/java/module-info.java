@@ -7,4 +7,5 @@ module oceansky.language {
     requires org.apache.commons.lang3;
     exports com.emily.infrastructure.language.convert;
     exports com.emily.infrastructure.language.i18n;
+    exports com.emily.infrastructure.language.annotation;
 }

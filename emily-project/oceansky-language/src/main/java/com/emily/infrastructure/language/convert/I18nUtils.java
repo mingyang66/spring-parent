@@ -80,7 +80,11 @@ public class I18nUtils {
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, entity, value, languageType);
             } else {
-                translate(value, languageType);
+                if (field.isAnnotationPresent(I18nModel.class)) {
+                    doSetField(value, languageType);
+                } else {
+                    translate(value, languageType);
+                }
             }
         }
     }

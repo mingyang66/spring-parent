@@ -19,6 +19,7 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
+        //判断是否需要多语言处理
         if (method.isAnnotationPresent(I18nOperation.class)) {
             //执行结果
             Object response = invocation.proceed();

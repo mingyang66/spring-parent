@@ -5,6 +5,11 @@ Bug Fixes
 1. JsonUtils新增对对象或字符串转为JsonNode对象的支持方法readTree、valueToTree；
 2. 新增emily-spring-boot-i18n多语言转换module;
 
+------
+Dependency Upgrades
+
+1. Upgrade to springboot 3.3.5;
+
 ###-----
 基础库发布5.0.1
 Bug Fixes

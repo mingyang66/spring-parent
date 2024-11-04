@@ -21,6 +21,7 @@
         <module>request-spring-boot-sample</module>
         <module>validation-spring-boot-sample</module>
         <module>i18n-spring-boot-sample</module>
+        <module>lua-spring-boot-sample</module>
     </modules>
 
 </project>

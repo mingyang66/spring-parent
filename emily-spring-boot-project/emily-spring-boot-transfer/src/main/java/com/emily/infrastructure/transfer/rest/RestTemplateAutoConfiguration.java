@@ -90,14 +90,14 @@ public class RestTemplateAutoConfiguration implements InitializingBean, Disposab
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient());
+    public ClientHttpRequestFactory clientHttpRequestFactory(HttpClient httpClient) {
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
         //设置HTTP进程执行状态工厂类
         factory.setHttpContextFactory(new HttpContextFactory());
         return factory;
     }
 
-    @Bean
+    @Bean("httpClient")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public HttpClient httpClient() {
         Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
@@ -114,9 +114,9 @@ public class RestTemplateAutoConfiguration implements InitializingBean, Disposab
 
         RequestConfig requestConfig = RequestConfig.custom()
                 // 响应超时时间
-                .setResponseTimeout(Timeout.of(properties.getReadTimeOut().getSeconds(), TimeUnit.SECONDS))
+                .setResponseTimeout(properties.getReadTimeOut().getSeconds(), TimeUnit.SECONDS)
                 //从连接池中获取连接的超时时间
-                .setConnectionRequestTimeout(Timeout.of(properties.getConnectTimeOut().getSeconds(), TimeUnit.SECONDS))
+                .setConnectionRequestTimeout(properties.getConnectTimeOut().getSeconds(), TimeUnit.SECONDS)
                 .build();
 
         return HttpClientBuilder.create().setDefaultRequestConfig(requestConfig)

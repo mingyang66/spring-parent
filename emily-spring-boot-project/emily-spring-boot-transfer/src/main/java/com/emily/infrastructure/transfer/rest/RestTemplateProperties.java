@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient;
+package com.emily.infrastructure.transfer.rest;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,12 +9,12 @@ import java.time.Duration;
  *
  * @author Emily
  */
-@ConfigurationProperties(prefix = HttpClientProperties.PREFIX)
-public class HttpClientProperties {
+@ConfigurationProperties(prefix = RestTemplateProperties.PREFIX)
+public class RestTemplateProperties {
     /**
      * 属性配置前缀
      */
-    public static final String PREFIX = "spring.emily.http-client";
+    public static final String PREFIX = "spring.emily.rest-template";
     /**
      * 组件开关
      */

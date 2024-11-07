@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient.interceptor.client;
+package com.emily.infrastructure.transfer.rest.interceptor.client;
 
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpRequest;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Emily
  * @since 4.0.7
  */
-public interface HttpClientCustomizer extends ClientHttpRequestInterceptor, Ordered {
+public interface RestTemplateCustomizer extends ClientHttpRequestInterceptor, Ordered {
     /**
      * RestTemplate拦截方法
      *
@@ -31,5 +31,5 @@ public interface HttpClientCustomizer extends ClientHttpRequestInterceptor, Orde
      *
      * @return 执行顺序
      */
-    public int getOrder();
+    int getOrder();
 }

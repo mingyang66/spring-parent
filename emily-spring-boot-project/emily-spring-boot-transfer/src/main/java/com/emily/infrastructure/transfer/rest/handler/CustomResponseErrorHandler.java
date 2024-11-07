@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient.handler;
+package com.emily.infrastructure.transfer.rest.handler;
 
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient.interceptor.client;
+package com.emily.infrastructure.transfer.rest.interceptor.client;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.PrintExceptionUtils;
@@ -9,7 +9,7 @@ import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
-import com.emily.infrastructure.transfer.httpclient.factory.HttpRequestFactory;
+import com.emily.infrastructure.transfer.rest.factory.HttpRequestFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
  * @author Emily
  * @since 2020/08/17
  */
-public class DefaultHttpClientInterceptor implements HttpClientCustomizer {
+public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
 
     /**
      * RestTemplate拦截方法

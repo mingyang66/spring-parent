@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient.annotation;
+package com.emily.infrastructure.transfer.rest.annotation;
 
 
 import java.lang.annotation.*;
@@ -15,17 +15,17 @@ import java.lang.annotation.*;
 @Inherited
 public @interface TargetHttpTimeout {
     /**
-     * 读取超时时间，默认：-1
+     * 读取超时时间，默认：5000毫秒
      *
      * @return 连接超时时间
      */
-    int readTimeout() default -1;
+    int readTimeout() default 5000;
 
     /**
-     * 连接超时时间，默认：-1
+     * 连接超时时间，默认：10000毫秒
      *
      * @return 连接超时时间
      */
-    int connectTimeout() default -1;
+    int connectTimeout() default 10000;
 }
 

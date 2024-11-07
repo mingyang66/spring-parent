@@ -1,14 +1,9 @@
-package com.emily.infrastructure.test.controller;
+package com.emily.sample.httpclient;
 
-import com.alibaba.ttl.threadpool.TtlExecutors;
-import com.emily.infrastructure.test.test.TestTimeout;
 import com.emily.infrastructure.transfer.rest.annotation.TargetHttpTimeout;
-import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.google.common.collect.Maps;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,45 +15,57 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
-/**
- * @author Emily
- * @program: spring-parent
- * http控制器
- * @since 2021/11/11
- */
-@RequestMapping("api/http")
+
+@RequestMapping("api/rest")
 @RestController
 public class HttpClientController {
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private RestTemplateBuilder restTemplateBuilder;
+    private final RestTemplate restTemplate;
+    private final RestTemplateBuilder restTemplateBuilder;
 
-    @GetMapping("get1")
+    public HttpClientController(RestTemplate restTemplate, RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplate;
+        this.restTemplateBuilder = restTemplateBuilder;
+    }
+
+    @GetMapping("http")
     public BaseResponse get1(HttpServletRequest request) {
-        String timeout = request.getParameter("timeout");
-        BaseResponse<String> result;
+        BaseResponse result = restTemplate.getForObject("http://tradecenter.hafoo.app/query/api/spread/getFullCode", BaseResponse.class);
+        return result;
+    }
+
+    @GetMapping("https")
+    public BaseResponse https(HttpServletRequest request) {
+        BaseResponse result = restTemplate.getForObject("https://tradecenter.hafoo.app/query/api/spread/getFullCode", BaseResponse.class);
+        return result;
+    }
+
+    @GetMapping("getSleep")
+    public String getSleep(HttpServletRequest request) {
+        long timeout = Long.parseLong(request.getParameter("timeout"));
+        String result = restTemplate.getForObject("http://127.0.0.1:8080/api/rest/sleep?timeout=" + timeout, String.class);
+        return result;
+    }
+
+    @GetMapping("getTimeout")
+    @TargetHttpTimeout(readTimeout = 6000, connectTimeout = 10000)
+    public String getTimeout(HttpServletRequest request) {
+        long timeout = Long.parseLong(request.getParameter("timeout"));
+        String result = restTemplate.getForObject("http://127.0.0.1:8080/api/rest/sleep?timeout=" + timeout, String.class);
+        return result;
+    }
+
+    @GetMapping("sleep")
+    public String sleep(HttpServletRequest request) {
+        long timeout = Long.parseLong(request.getParameter("timeout"));
         try {
-            //   HttpContextHolder.bind(RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(-1).build());
-            result = restTemplate.getForObject("http://127.0.0.1:8080/api/http/testResponse?timeout=" + timeout, BaseResponse.class);
-        } finally {
-            //  HttpContextHolder.unbind();
+            Thread.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return "timeout:" + timeout;
         }
-        return result;
+        return "success";
     }
-
-    @GetMapping("get2")
-    @TargetHttpTimeout(readTimeout = 2000, connectTimeout = -1)
-    public String get2(HttpServletRequest request) {
-        String timeout = request.getParameter("timeout");
-        String result = restTemplate.getForObject("https://127.0.0.1:8080/api/http/testResponse?timeout=1000", String.class);
-
-        return result;
-    }
-
 
     @RequestMapping(value = "testResponse")
     public String testResponse(HttpServletRequest request) {
@@ -86,22 +93,6 @@ public class HttpClientController {
         // ResponseEntity<BaseResponse> entity = new RestTemplateBuilder().build().postForEntity(url, new HttpEntity<>(body, headers), BaseResponse.class);
         ResponseEntity<BaseResponse> entity = new RestTemplateBuilder().build().exchange(url, HttpMethod.GET, new HttpEntity<>(body, headers), BaseResponse.class);
         return entity.getBody();
-    }
-
-    @Autowired
-    private TestTimeout testTimeout;
-
-    @PostConstruct
-    public void init() {
-        //获取环境变量，初始化服务器端IP
-        ScheduledExecutorService service = TtlExecutors.getTtlScheduledExecutorService(Executors.newScheduledThreadPool(2));
-       /* service.scheduleAtFixedRate(() -> {
-            try {
-                // testTimeout.loadStr();
-            } catch (Exception e) {
-            }
-
-        }, 5, 5, TimeUnit.SECONDS);*/
     }
 
 

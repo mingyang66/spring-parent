@@ -45,6 +45,6 @@ public class StrUtils {
      * @return true-是 false-否
      */
     public static boolean isEmpty(final String str) {
-        return str == null || str.length() == 0;
+        return str == null || str.isEmpty();
     }
 }

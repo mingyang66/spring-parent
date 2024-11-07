@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient.factory;
+package com.emily.infrastructure.transfer.rest.factory;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;

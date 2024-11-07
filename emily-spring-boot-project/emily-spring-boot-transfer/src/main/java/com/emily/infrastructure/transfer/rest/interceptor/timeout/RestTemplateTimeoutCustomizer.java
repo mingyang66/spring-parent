@@ -1,4 +1,4 @@
-package com.emily.infrastructure.transfer.httpclient.interceptor.timeout;
+package com.emily.infrastructure.transfer.rest.interceptor.timeout;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -10,7 +10,7 @@ import org.springframework.core.Ordered;
  * @author Emily
  * @since 4.1.3
  */
-public interface HttpTimeoutCustomizer extends MethodInterceptor, Ordered {
+public interface RestTemplateTimeoutCustomizer extends MethodInterceptor, Ordered {
     /**
      * 拦截器前置方法
      *

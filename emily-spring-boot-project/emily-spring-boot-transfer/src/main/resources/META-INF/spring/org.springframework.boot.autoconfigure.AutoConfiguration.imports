@@ -1,2 +1,2 @@
 com.emily.infrastructure.transfer.feign.FeignAutoConfiguration
-com.emily.infrastructure.transfer.httpclient.HttpClientAutoConfiguration
+com.emily.infrastructure.transfer.rest.RestTemplateAutoConfiguration

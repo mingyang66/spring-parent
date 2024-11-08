@@ -5,6 +5,7 @@ Bug Fixes
 1. JsonUtils新增对对象或字符串转为JsonNode对象的支持方法readTree、valueToTree；
 2. 新增emily-spring-boot-i18n多语言转换module;
 3. 对emily-spring-boot-transfer模块中RestTemplate拦截器支持http、https及单个请求timeout超时时间代码重构；
+4. knife4j-openapi3-jakarta-spring-boot-starter包版本更新；
 
 ------
 Dependency Upgrades

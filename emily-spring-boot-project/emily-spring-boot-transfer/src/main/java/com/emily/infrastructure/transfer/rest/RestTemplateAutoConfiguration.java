@@ -14,21 +14,18 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
-import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
-import org.apache.hc.core5.http.config.Registry;
-import org.apache.hc.core5.http.config.RegistryBuilder;
-import org.apache.hc.core5.util.Timeout;
 import org.slf4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.ComposablePointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -61,13 +58,8 @@ import java.util.concurrent.TimeUnit;
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @EnableConfigurationProperties(RestTemplateProperties.class)
 @ConditionalOnProperty(prefix = RestTemplateProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class RestTemplateAutoConfiguration implements InitializingBean, DisposableBean {
+public class RestTemplateAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
     private static final Logger logger = LoggerFactory.getLogger(RestTemplateAutoConfiguration.class);
-    private final RestTemplateProperties properties;
-
-    public RestTemplateAutoConfiguration(RestTemplateProperties properties) {
-        this.properties = properties;
-    }
 
     @Primary
     @Bean("restTemplate")
@@ -99,7 +91,7 @@ public class RestTemplateAutoConfiguration implements InitializingBean, Disposab
 
     @Bean("httpClient")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public HttpClient httpClient() {
+    public HttpClient httpClient(RestTemplateProperties properties) {
         //构造函数内明确支持http、https
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         //指定连接池中的最大连接数，默认：25
@@ -144,6 +136,15 @@ public class RestTemplateAutoConfiguration implements InitializingBean, Disposab
     @ConditionalOnMissingBean
     public RestTemplateTimeoutCustomizer httpTimeoutCustomizer() {
         return new DefaultRestTemplateTimeoutMethodInterceptor();
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        String[] beanNames = beanFactory.getBeanNamesForType(RestTemplateProperties.class);
+        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        }
     }
 
     @Override

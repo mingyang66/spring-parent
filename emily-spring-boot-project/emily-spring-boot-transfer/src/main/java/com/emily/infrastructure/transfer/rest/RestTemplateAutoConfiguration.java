@@ -92,7 +92,7 @@ public class RestTemplateAutoConfiguration implements InitializingBean, Disposab
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public ClientHttpRequestFactory clientHttpRequestFactory(HttpClient httpClient) {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        //设置HTTP进程执行状态工厂类
+        //设置HTTP进程执行状态工厂类（设置单个请求超时时间）
         factory.setHttpContextFactory(new HttpContextFactory());
         return factory;
     }
@@ -100,17 +100,12 @@ public class RestTemplateAutoConfiguration implements InitializingBean, Disposab
     @Bean("httpClient")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public HttpClient httpClient() {
-        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", PlainConnectionSocketFactory.getSocketFactory())
-                .register("https", SSLConnectionSocketFactory.getSocketFactory())
-                .build();
-
-        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
-        //设置连接池最大是500个连接
-        connectionManager.setMaxTotal(500);
-        //每个主机请求一个域名的最大并发为300
-        //每个主机请求多个域名的并发和最大为500
-        connectionManager.setDefaultMaxPerRoute(300);
+        //构造函数内明确支持http、https
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+        //指定连接池中的最大连接数，默认：25
+        connectionManager.setMaxTotal(25);
+        //指定每个HTTP路由的最大连接数（所有指向同一主机的请求可以使用相同的连接路由），默认：5
+        connectionManager.setDefaultMaxPerRoute(5);
 
         RequestConfig requestConfig = RequestConfig.custom()
                 // 响应超时时间

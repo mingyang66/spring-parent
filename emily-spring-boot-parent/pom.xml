@@ -2,13 +2,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.github.mingyang66</groupId>
-        <artifactId>emily-dependencies</artifactId>
-        <version>${revision}</version>
-        <relativePath>../emily-dependencies/pom.xml</relativePath>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.5</version>
+        <relativePath/>
     </parent>
 
+    <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-parent</artifactId>
+    <version>5.0.2</version>
     <packaging>pom</packaging>
 
     <name>emily-spring-boot-parent</name>
@@ -16,40 +18,18 @@
 
     <properties>
         <java.version>17</java.version>
-        <resource.delimiter>@</resource.delimiter>
-        <maven.compiler.release>${java.version}</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.run.main-class>${start-class}</spring-boot.run.main-class>
+        <maven.compiler.release>17</maven.compiler.release>
+        <revision>5.0.2</revision>
     </properties>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                    <executions>
-                        <execution>
-                            <id>repackage</id>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <!-- 主方法main所在的类 -->
-                        <mainClass>${spring-boot.run.main-class}</mainClass>
-                        <!--
-                        layout默认属性配置Jar，用来控制MANIFEST.MF清单文件中的Main-Class和Start-Class
-                        枚举类：org.springframework.boot.maven.AbstractPackagerMojo.LayoutType
-                        -->
-                        <layout>JAR</layout>
-                        <!-- 是否跳过该插件的执行，默认：false -->
-                        <skip>false</skip>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.mingyang66</groupId>
+                <artifactId>emily-dependencies</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

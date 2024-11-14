@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>io.github.mingyang66</groupId>
-        <artifactId>emily-spring-boot-parent</artifactId>
+        <artifactId>emily-spring-boot-samples</artifactId>
         <version>${revision}</version>
-        <relativePath>../../emily-spring-boot-parent/pom.xml</relativePath>
+        <relativePath>../../emily-spring-boot-samples/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

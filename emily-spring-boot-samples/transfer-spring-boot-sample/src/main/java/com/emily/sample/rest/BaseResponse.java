@@ -1,4 +1,4 @@
-package com.emily.sample.httpclient;
+package com.emily.sample.rest;
 
 /**
  * 控制器返回结果

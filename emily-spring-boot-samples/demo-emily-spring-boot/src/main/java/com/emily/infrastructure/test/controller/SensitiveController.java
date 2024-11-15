@@ -29,6 +29,9 @@ import java.util.List;
 @RequestMapping("api/json")
 public class SensitiveController {
 
+    @Autowired
+    private MysqlMapper mysqlMapper;
+
     @PostMapping("test")
     @JsonSerialize
     public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
@@ -100,10 +103,6 @@ public class SensitiveController {
     public String test4(String name, @RequestParam("phone") String phone, @RequestParam String username) {
         return phone + "-" + username;
     }
-
-    @Autowired
-    private MysqlMapper mysqlMapper;
-
 
     @GetMapping("testMapper")
     public MapperIgnore testMapper() {

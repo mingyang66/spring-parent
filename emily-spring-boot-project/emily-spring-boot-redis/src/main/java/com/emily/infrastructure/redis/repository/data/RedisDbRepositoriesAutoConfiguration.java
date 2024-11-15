@@ -51,6 +51,19 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
         this.redisDbProperties = redisDbProperties;
     }
 
+    private static KeyExpirationEventMessageListener getKeyExpirationEventMessageListener(RedisMessageListenerContainer redisMessageListenerContainer, RedisOperations<?, ?> redisOps, RedisDbKeyValueAdapter redisKeyValueAdapter, RedisProperties properties) {
+        RedisDbKeyValueAdapter.MappingExpirationListener listener = new RedisDbKeyValueAdapter.MappingExpirationListener(redisMessageListenerContainer, redisOps, redisKeyValueAdapter.getConverter());
+        if (redisKeyValueAdapter.getKeyspaceNotificationsConfigParameter() != null) {
+            listener.setKeyspaceNotificationsConfigParameter(redisKeyValueAdapter.getKeyspaceNotificationsConfigParameter());
+        }
+        if (redisKeyValueAdapter.getEventPublisher() != null) {
+            listener.setApplicationEventPublisher(redisKeyValueAdapter.getEventPublisher());
+        }
+        listener.setRedisProperties(properties);
+        listener.init();
+        return listener;
+    }
+
     @Primary
     @Bean
     public RedisMessageListenerContainer messageListenerContainer(RedisConnectionFactory connectionFactory) {
@@ -80,7 +93,6 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
         return redisMessageListenerContainer;
     }
 
-
     @Bean
     public KeyExpirationEventMessageListener keyExpirationEventMessageListener(RedisMessageListenerContainer messageListenerContainer) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
@@ -107,19 +119,6 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
             }
         }
         return keyExpirationListener;
-    }
-
-    private static KeyExpirationEventMessageListener getKeyExpirationEventMessageListener(RedisMessageListenerContainer redisMessageListenerContainer, RedisOperations<?, ?> redisOps, RedisDbKeyValueAdapter redisKeyValueAdapter, RedisProperties properties) {
-        RedisDbKeyValueAdapter.MappingExpirationListener listener = new RedisDbKeyValueAdapter.MappingExpirationListener(redisMessageListenerContainer, redisOps, redisKeyValueAdapter.getConverter());
-        if (redisKeyValueAdapter.getKeyspaceNotificationsConfigParameter() != null) {
-            listener.setKeyspaceNotificationsConfigParameter(redisKeyValueAdapter.getKeyspaceNotificationsConfigParameter());
-        }
-        if (redisKeyValueAdapter.getEventPublisher() != null) {
-            listener.setApplicationEventPublisher(redisKeyValueAdapter.getEventPublisher());
-        }
-        listener.setRedisProperties(properties);
-        listener.init();
-        return listener;
     }
 
     @Override

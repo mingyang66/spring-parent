@@ -23,13 +23,13 @@ import java.io.*;
  */
 public class DelegateRequestWrapper extends HttpServletRequestWrapper {
     /**
-     * 参数字节数组
-     */
-    private byte[] requestBody;
-    /**
      * Http请求对象
      */
     private final HttpServletRequest delegate;
+    /**
+     * 参数字节数组
+     */
+    private byte[] requestBody;
 
     public DelegateRequestWrapper(HttpServletRequest request) {
         super(request);

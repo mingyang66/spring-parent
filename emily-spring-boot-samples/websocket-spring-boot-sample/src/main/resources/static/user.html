@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>ChatRoom</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <script src="/js/jquery-3.1.1.min.js"></script>
     <script src="/js/stomp.umd.min.js"></script>
@@ -13,13 +13,13 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
     enabled. Please enable
     Javascript and reload this page!</h2></noscript>
-<div id="main-content" class="container">
+<div class="container" id="main-content">
     <div class="row">
         <div class="col-md-12">
             <form class="form-inline">
                 <div class="form-group">
                     <label for="sender">Sender</label>
-                    <input type="text" id="sender" class="form-control" placeholder="Your name here...">
+                    <input class="form-control" id="sender" placeholder="Your name here..." type="text">
                 </div>
             </form>
         </div>
@@ -29,9 +29,9 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label for="receiver">Receiver</label>
-                    <input type="text" id="receiver" class="form-control" placeholder="receiver...">
+                    <input class="form-control" id="receiver" placeholder="receiver..." type="text">
                 </div>
-                <button id="login" class="btn btn-default" type="button">Simulate Login</button>
+                <button class="btn btn-default" id="login" type="button">Simulate Login</button>
             </form>
         </div>
     </div>
@@ -40,8 +40,8 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    <button class="btn btn-default" id="connect" type="submit">Connect</button>
+                    <button class="btn btn-default" disabled="disabled" id="disconnect" type="submit">Disconnect
                     </button>
                 </div>
             </form>
@@ -52,15 +52,15 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label for="content">Content</label>
-                    <input type="text" id="content" class="form-control" placeholder="content...">
+                    <input class="form-control" id="content" placeholder="content..." type="text">
                 </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
+                <button class="btn btn-default" id="send" type="submit">Send</button>
             </form>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
+            <table class="table table-striped" id="conversation">
                 <thead>
                 <tr>
                     <th>Greetings</th>

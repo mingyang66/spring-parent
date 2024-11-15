@@ -5,7 +5,6 @@ import org.springframework.messaging.simp.broker.BrokerAvailabilityEvent;
 import org.springframework.stereotype.Component;
 
 /**
- *
  * @author :  Emily
  * @since :  2024/10/17 下午2:17
  */

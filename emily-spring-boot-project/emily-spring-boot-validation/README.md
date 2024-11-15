@@ -1,4 +1,5 @@
-Resource Bundle：[https://www.jetbrains.com/help/idea/resource-bundle.html](https://www.jetbrains.com/help/idea/resource-bundle.html)
+Resource
+Bundle：[https://www.jetbrains.com/help/idea/resource-bundle.html](https://www.jetbrains.com/help/idea/resource-bundle.html)
 
 - 读取Resource Bundle属性配置文件
 

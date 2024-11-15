@@ -27,8 +27,6 @@ import org.springframework.web.servlet.config.annotation.*;
 public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ServletAutoConfiguration.class);
-
-    private final ServletProperties properties;
     /**
      * 忽略URL前缀的控制器类
      */
@@ -36,6 +34,7 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
             "springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"
     };
+    private final ServletProperties properties;
 
     public ServletAutoConfiguration(ServletProperties properties) {
         this.properties = properties;

@@ -27,6 +27,10 @@ public class CommonKeys {
      */
     private LogbackType logbackType;
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public String getLoggerName() {
         return loggerName;
     }
@@ -51,7 +55,6 @@ public class CommonKeys {
         this.fileName = fileName;
     }
 
-
     public LogbackType getLogbackType() {
         return logbackType;
     }
@@ -59,7 +62,6 @@ public class CommonKeys {
     public void setLogbackType(LogbackType logbackType) {
         this.logbackType = logbackType;
     }
-
 
     public static class Builder {
         /**
@@ -107,9 +109,5 @@ public class CommonKeys {
             property.setLogbackType(this.logbackType);
             return property;
         }
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 }

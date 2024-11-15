@@ -69,7 +69,8 @@ org.springframework.cloud.openfeign.FeignCachingInvocationHandlerFactory#create
 
 [https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html](https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html)
 
-> Starting with Spring Cloud OpenFeign 4, the Feign Apache HttpClient 4 is no longer supported. We suggest using Apache HttpClient 5 instead.
+> Starting with Spring Cloud OpenFeign 4, the Feign Apache HttpClient 4 is no longer supported. We suggest using Apache
+> HttpClient 5 instead.
 
 - Appache HttpClient 5使用
 
@@ -92,7 +93,10 @@ spring.cloud.openfeign.httpclient.hc5.enabled=true
 
 官方介绍：
 
-> When it comes to the Apache HttpClient 5-backed Feign clients, it’s enough to ensure HttpClient 5 is on the classpath, but you can still disable its use for Feign Clients by setting `spring.cloud.openfeign.httpclient.hc5.enabled` to `false`. You can customize the HTTP client used by providing a bean of either `org.apache.hc.client5.http.impl.classic.CloseableHttpClient` when using Apache HC5.
+> When it comes to the Apache HttpClient 5-backed Feign clients, it’s enough to ensure HttpClient 5 is on the classpath,
+> but you can still disable its use for Feign Clients by setting `spring.cloud.openfeign.httpclient.hc5.enabled`
+> to `false`. You can customize the HTTP client used by providing a bean of
+> either `org.apache.hc.client5.http.impl.classic.CloseableHttpClient` when using Apache HC5.
 
 连接池及连接 相关配置(初始化配置类在HttpClient5FeignConfiguration)：
 

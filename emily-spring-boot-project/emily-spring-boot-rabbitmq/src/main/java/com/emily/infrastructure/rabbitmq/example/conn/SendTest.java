@@ -21,15 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SuppressWarnings("all")
 public class SendTest implements Runnable {
     /**
-     * {@link Connection}的工厂类
-     */
-    private static ConnectionFactory factory = new ConnectionFactory();
-    private static List<Address> addresses = Lists.newArrayList();
-    /**
-     * 队列名称
-     */
-    private static final String QUEUE_NAME = "test_queue";
-    /**
      * 交换器
      */
     public static final String EXCHANGE_NAME = "test_exchange";
@@ -42,6 +33,15 @@ public class SendTest implements Runnable {
      */
     public static final String BINDING_KEY = "*.routing.key";
     public static final AtomicInteger atom = new AtomicInteger();
+    /**
+     * 队列名称
+     */
+    private static final String QUEUE_NAME = "test_queue";
+    /**
+     * {@link Connection}的工厂类
+     */
+    private static ConnectionFactory factory = new ConnectionFactory();
+    private static List<Address> addresses = Lists.newArrayList();
 
     static {
 
@@ -69,6 +69,33 @@ public class SendTest implements Runnable {
         addresses.add(new Address("127.0.0.1", 5672));
         addresses.add(new Address("127.0.0.1", 5673));
         addresses.add(new Address("127.0.0.1", 5674));
+    }
+
+    public static void main(String[] args) throws Exception {
+        /*ExecutorService service = Executors.newFixedThreadPool(100000000);
+        service.submit(new SendTest());*/
+     /*   while (true){
+            System.out.println("----start---------");
+            Thread.sleep(10);
+        }*/
+        SortedSet<Integer> confirmSet = Collections.synchronizedSortedSet(new TreeSet<>());
+        confirmSet.add(1);
+        confirmSet.add(2);
+        confirmSet.add(3);
+        confirmSet.add(4);
+        confirmSet.add(5);
+        confirmSet.add(6);
+        confirmSet.add(7);
+        confirmSet.add(8);
+        confirmSet.add(9);
+        System.out.println(confirmSet);
+        System.out.println(confirmSet.first());
+        confirmSet.headSet(4).clear();
+        System.out.println(confirmSet);
+        System.out.println(confirmSet.last());
+        System.out.println(confirmSet.subSet(3, 5));
+        System.out.println(confirmSet.tailSet(5));
+
     }
 
     @Override
@@ -238,32 +265,5 @@ public class SendTest implements Runnable {
         } catch (Exception e) {
 
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        /*ExecutorService service = Executors.newFixedThreadPool(100000000);
-        service.submit(new SendTest());*/
-     /*   while (true){
-            System.out.println("----start---------");
-            Thread.sleep(10);
-        }*/
-        SortedSet<Integer> confirmSet = Collections.synchronizedSortedSet(new TreeSet<>());
-        confirmSet.add(1);
-        confirmSet.add(2);
-        confirmSet.add(3);
-        confirmSet.add(4);
-        confirmSet.add(5);
-        confirmSet.add(6);
-        confirmSet.add(7);
-        confirmSet.add(8);
-        confirmSet.add(9);
-        System.out.println(confirmSet);
-        System.out.println(confirmSet.first());
-        confirmSet.headSet(4).clear();
-        System.out.println(confirmSet);
-        System.out.println(confirmSet.last());
-        System.out.println(confirmSet.subSet(3, 5));
-        System.out.println(confirmSet.tailSet(5));
-
     }
 }

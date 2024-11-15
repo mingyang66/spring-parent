@@ -25,6 +25,7 @@ public class Student extends People {
     private Map<String, String> data = Maps.newHashMap();
     @I18nProperty
     private String[] s = {"红薯", "电影"};
+    private int[] array = new int[]{1, 2, 3};
 
     public String[] getS() {
         return s;
@@ -41,8 +42,6 @@ public class Student extends People {
     public void setData(Map<String, String> data) {
         this.data = data;
     }
-
-    private int[] array = new int[]{1, 2, 3};
 
     public List<String> getLike() {
         return like;

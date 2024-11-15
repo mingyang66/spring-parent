@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("all")
 @Component
 public class RabbitSender {
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
     /**
      * 创建一个消息是否投递成功的回调方法
      */
@@ -82,6 +80,8 @@ public class RabbitSender {
             return message;
         }
     };
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 发送消息

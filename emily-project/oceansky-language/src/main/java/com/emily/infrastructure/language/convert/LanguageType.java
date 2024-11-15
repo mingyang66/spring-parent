@@ -21,14 +21,6 @@ public enum LanguageType {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public static LanguageType getByCode(String code) {
         if (StringUtils.isEmpty(code)) {
             return ZH_CN;
@@ -51,6 +43,14 @@ public enum LanguageType {
             }
         }
         return ZH_CN;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

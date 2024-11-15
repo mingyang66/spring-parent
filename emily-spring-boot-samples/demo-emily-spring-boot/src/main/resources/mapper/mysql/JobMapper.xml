@@ -9,14 +9,11 @@
     </resultMap>
 
     <select id="findJob" resultMap="jobMap">
-        SELECT
-            s.id as id,
-            s.name as jobDesc,
-            s.colour as a
-        from
-            sailboat s
-        where
-            s.id = 52
+        SELECT s.id     as id,
+               s.name   as jobDesc,
+               s.colour as a
+        from sailboat s
+        where s.id = 52
     </select>
 
 

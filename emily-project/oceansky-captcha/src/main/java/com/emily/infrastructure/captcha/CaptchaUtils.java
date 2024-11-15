@@ -26,6 +26,10 @@ import java.util.Random;
  */
 public class CaptchaUtils {
 
+    /**
+     * 图片格式
+     */
+    public static final String FORMAT_NAME = "JPEG";
     private static final Random RANDOM = new Random();
     /**
      * 数字
@@ -48,10 +52,6 @@ public class CaptchaUtils {
             "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
             "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    /**
-     * 图片格式
-     */
-    public static final String FORMAT_NAME = "JPEG";
 
     /**
      * @param width    画板宽度

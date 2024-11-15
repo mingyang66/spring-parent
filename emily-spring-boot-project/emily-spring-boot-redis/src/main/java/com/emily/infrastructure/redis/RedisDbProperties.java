@@ -43,6 +43,10 @@ public class RedisDbProperties {
         return config;
     }
 
+    public void setConfig(Map<String, RedisProperties> config) {
+        this.config = config;
+    }
+
     public RedisProperties.ClientType getClientType() {
         return clientType;
     }
@@ -57,10 +61,6 @@ public class RedisDbProperties {
 
     public void setDefaultConfig(String defaultConfig) {
         this.defaultConfig = defaultConfig;
-    }
-
-    public void setConfig(Map<String, RedisProperties> config) {
-        this.config = config;
     }
 
     public boolean isEnabled() {

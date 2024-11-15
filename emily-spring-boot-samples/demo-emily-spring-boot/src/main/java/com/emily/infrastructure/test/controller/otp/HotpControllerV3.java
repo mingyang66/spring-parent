@@ -24,6 +24,18 @@ public class HotpControllerV3 {
     //private static byte[] secret = SecretGenerator.generate();
     private static byte[] secret = "lixiaoyanxians".getBytes(StandardCharsets.UTF_8);
 
+    private static String internalURLEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException var2) {
+            throw new IllegalArgumentException("UTF-8 encoding is not supported by URLEncoder.", var2);
+        }
+    }
+
+    public static String getOtpAuthURL(String url) {
+        return String.format("https://api.qrserver.com/v1/create-qr-code/?data=%s&size=300x300&ecc=M&margin=1", internalURLEncode(url));
+    }
+
     @GetMapping("generatorCode")
     public String generatorCode(@RequestParam("counter") int counter) throws URISyntaxException {
         HOTPGenerator hotp = new HOTPGenerator.Builder(secret)
@@ -48,17 +60,5 @@ public class HotpControllerV3 {
         // delayWindow=2 意思是counter值在[counter-2, counter+2]之间都认为是有效的
         boolean isValid = hotp.verify(code, counter, 2);
         return isValid;
-    }
-
-    private static String internalURLEncode(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException var2) {
-            throw new IllegalArgumentException("UTF-8 encoding is not supported by URLEncoder.", var2);
-        }
-    }
-
-    public static String getOtpAuthURL(String url) {
-        return String.format("https://api.qrserver.com/v1/create-qr-code/?data=%s&size=300x300&ecc=M&margin=1", internalURLEncode(url));
     }
 }

@@ -24,6 +24,10 @@ public class Captcha {
         this.image = image;
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public String getCode() {
         return code;
     }
@@ -39,7 +43,6 @@ public class Captcha {
     public void setImage(byte[] image) {
         this.image = image;
     }
-
 
     public static class Builder {
         /**
@@ -64,9 +67,5 @@ public class Captcha {
         public Captcha build() {
             return new Captcha(this.code, this.image);
         }
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 }

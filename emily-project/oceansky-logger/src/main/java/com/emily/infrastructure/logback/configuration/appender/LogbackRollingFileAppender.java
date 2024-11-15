@@ -41,6 +41,10 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         this.commonKeys = commonKeys;
     }
 
+    public static LogbackRollingFileAppender create(LoggerContext lc, LogbackProperties properties, CommonKeys commonKeys) {
+        return new LogbackRollingFileAppender(lc, properties, commonKeys);
+    }
+
     /**
      * 获取按照时间归档文件附加器对象
      *
@@ -141,9 +145,5 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         }
         //拼装appender name
         return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
-    }
-
-    public static LogbackRollingFileAppender create(LoggerContext lc, LogbackProperties properties, CommonKeys commonKeys) {
-        return new LogbackRollingFileAppender(lc, properties, commonKeys);
     }
 }

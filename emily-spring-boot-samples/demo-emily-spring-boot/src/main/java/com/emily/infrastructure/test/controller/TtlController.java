@@ -25,15 +25,8 @@ import java.util.concurrent.*;
 @RequestMapping("api/ttl/")
 public class TtlController {
 
-    @GetMapping("test")
-    public String get() throws ExecutionException, InterruptedException {
-        System.out.println("-----上下文ID:" + LocalContextHolder.current().getTraceId());
-        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(TtlWrappers.wrapSupplier(() -> {
-            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + LocalContextHolder.current().getTraceId());
-            return LocalContextHolder.current().getTraceId();
-        }));
-        return future1.get();
-    }
+    @Autowired
+    private MysqlMapper mysqlMapper;
 
     public static void getParentChild() {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -87,8 +80,15 @@ public class TtlController {
         System.out.println(future.get());
     }
 
-    @Autowired
-    private MysqlMapper mysqlMapper;
+    @GetMapping("test")
+    public String get() throws ExecutionException, InterruptedException {
+        System.out.println("-----上下文ID:" + LocalContextHolder.current().getTraceId());
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(TtlWrappers.wrapSupplier(() -> {
+            System.out.println("子线程1：" + Thread.currentThread().getName() + ":" + LocalContextHolder.current().getTraceId());
+            return LocalContextHolder.current().getTraceId();
+        }));
+        return future1.get();
+    }
 
     @GetMapping("context")
     public void context() {

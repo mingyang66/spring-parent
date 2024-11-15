@@ -12,9 +12,8 @@ import java.util.concurrent.Executors;
  * @since :  2023/8/10 1:07 PM
  */
 public class TtlFactoryTest {
-    private static final TransmittableThreadLocal<User> context = new TransmittableThreadLocal<>();
-
     static final ExecutorService service = Executors.newFixedThreadPool(2, TtlExecutors.getDefaultDisableInheritableThreadFactory());
+    private static final TransmittableThreadLocal<User> context = new TransmittableThreadLocal<>();
 
     public static void main(String[] args) {
         User user = new User();

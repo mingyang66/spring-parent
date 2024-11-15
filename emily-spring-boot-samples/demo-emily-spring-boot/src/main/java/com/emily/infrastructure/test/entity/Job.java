@@ -11,12 +11,12 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class Job implements Serializable {
+    public String a;
     @NotNull(message = "不可为空")
     private Long id;
     private Long jobNumber;
     @NotEmpty(message = "描述不可以为空")
     private String jobDesc;
-    public String a;
 
     public String getA() {
         return a;

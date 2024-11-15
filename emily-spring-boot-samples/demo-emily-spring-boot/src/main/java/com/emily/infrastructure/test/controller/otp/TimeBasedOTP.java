@@ -47,6 +47,20 @@ public class TimeBasedOTP {
         }
     }
 
+    public static void main(String[] args) {
+        TimeBasedOTP util = new TimeBasedOTP();
+        String key = "p3000002059";
+        for (int i = 0; i < 60; i++) {
+            String code = util.createTotp(key, Instant.now());
+            System.out.println(i + " " + DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS) + ":" + " " + util.validateTotp(key, code));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     /**
      * @param time 用于生成 TOTP 的时间
      * @return 一次性验证码
@@ -69,19 +83,5 @@ public class TimeBasedOTP {
     public boolean validateTotp(final String strKey, final String code) {
         Instant now = Instant.now().plusSeconds(10);
         return createTotp(strKey, now).equals(code);
-    }
-
-    public static void main(String[] args) {
-        TimeBasedOTP util = new TimeBasedOTP();
-        String key = "p3000002059";
-        for (int i = 0; i < 60; i++) {
-            String code = util.createTotp(key, Instant.now());
-            System.out.println(i + " " + DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS) + ":" + " " + util.validateTotp(key, code));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 }

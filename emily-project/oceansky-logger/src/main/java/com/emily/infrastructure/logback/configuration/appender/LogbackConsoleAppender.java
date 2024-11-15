@@ -34,6 +34,10 @@ public class LogbackConsoleAppender extends AbstractAppender {
         this.properties = properties;
     }
 
+    public static LogbackConsoleAppender create(LoggerContext lc, LogbackProperties properties) {
+        return new LogbackConsoleAppender(lc, properties);
+    }
+
     /**
      * 控制台打印appender
      *
@@ -75,9 +79,5 @@ public class LogbackConsoleAppender extends AbstractAppender {
     @Override
     protected String resolveName(Level level) {
         return CONSOLE;
-    }
-
-    public static LogbackConsoleAppender create(LoggerContext lc, LogbackProperties properties) {
-        return new LogbackConsoleAppender(lc, properties);
     }
 }

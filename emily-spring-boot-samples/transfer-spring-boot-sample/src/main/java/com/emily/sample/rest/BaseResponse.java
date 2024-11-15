@@ -12,6 +12,10 @@ public class BaseResponse<T> {
     private T data;
     private long spentTime;
 
+    public static <T> Builder<T> newBuilder() {
+        return new Builder<T>();
+    }
+
     public int getStatus() {
         return status;
     }
@@ -78,9 +82,5 @@ public class BaseResponse<T> {
             response.setSpentTime(spentTime);
             return response;
         }
-    }
-
-    public static <T> Builder<T> newBuilder() {
-        return new Builder<T>();
     }
 }

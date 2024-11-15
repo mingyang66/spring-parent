@@ -19,6 +19,10 @@ import java.security.NoSuchAlgorithmException;
  */
 public class RsaPemCreatorFactory {
     /**
+     * 算法
+     */
+    public static final String ALGORITHM = "RSA";
+    /**
      * 公钥文件名
      */
     private static final String PUBLIC_KEY_FILE = "publicKey.pem";
@@ -28,10 +32,6 @@ public class RsaPemCreatorFactory {
     private static final String PRIVATE_KEY_FILE = "privateKey.pem";
     private static final String publicKeyPrefix = "PUBLIC KEY";
     private static final String privateKeyPrefix = "PRIVATE KEY";
-    /**
-     * 算法
-     */
-    public static final String ALGORITHM = "RSA";
 
     public static void create(String directory) throws NoSuchAlgorithmException, IOException {
         // algorithm 指定算法为RSA

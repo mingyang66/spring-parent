@@ -29,6 +29,53 @@ public class RedisDbRepositoryConfigurationExtension extends KeyValueRepositoryC
     private static final String REDIS_CUSTOM_CONVERSIONS_BEAN_NAME = "redisCustomConversions";
     private static final String REDIS_MAPPING_CONFIG_BEAN_NAME = "redisMappingConfiguration";
 
+    private static AbstractBeanDefinition createRedisKeyValueAdapter(RepositoryConfigurationSource configuration) {
+
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(RedisDbKeyValueAdapter.class) //
+                .addConstructorArgReference(configuration.getRequiredAttribute("redisTemplateRef", String.class)) //
+                .addConstructorArgReference(REDIS_CONVERTER_BEAN_NAME) //
+                .addPropertyValue("enableKeyspaceEvents",
+                        configuration.getRequiredAttribute("enableKeyspaceEvents", RedisDbKeyValueAdapter.EnableKeyspaceEvents.class)) //
+                .addPropertyValue("keyspaceNotificationsConfigParameter",
+                        configuration.getAttribute("keyspaceNotificationsConfigParameter", String.class).orElse("")) //
+                .addPropertyValue("shadowCopy", configuration.getRequiredAttribute("shadowCopy", RedisDbKeyValueAdapter.ShadowCopy.class));
+
+        configuration.getAttribute("messageListenerContainerRef")
+                .ifPresent(it -> builder.addPropertyReference("messageListenerContainer", it));
+
+        return builder.getBeanDefinition();
+    }
+
+    private static AbstractBeanDefinition createRedisReferenceResolverDefinition(String redisTemplateRef) {
+
+        return BeanDefinitionBuilder.rootBeanDefinition("org.springframework.data.redis.core.convert.ReferenceResolverImpl") //
+                .addConstructorArgReference(redisTemplateRef) //
+                .getBeanDefinition();
+    }
+
+    private static AbstractBeanDefinition createRedisMappingContext(String mappingConfigRef) {
+
+        return BeanDefinitionBuilder.rootBeanDefinition(RedisMappingContext.class) //
+                .addConstructorArgReference(mappingConfigRef).getBeanDefinition();
+    }
+
+    private static AbstractBeanDefinition createMappingConfigBeanDef(String indexConfigRef, String keyspaceConfigRef) {
+
+        return BeanDefinitionBuilder.genericBeanDefinition(MappingConfiguration.class) //
+                .addConstructorArgReference(indexConfigRef) //
+                .addConstructorArgReference(keyspaceConfigRef) //
+                .getBeanDefinition();
+    }
+
+    private static AbstractBeanDefinition createRedisConverterDefinition() {
+
+        return BeanDefinitionBuilder.rootBeanDefinition(MappingRedisConverter.class) //
+                .addConstructorArgReference(MAPPING_CONTEXT_BEAN_NAME) //
+                .addPropertyReference("referenceResolver", REDIS_REFERENCE_RESOLVER_BEAN_NAME) //
+                .addPropertyReference("customConversions", REDIS_CUSTOM_CONVERSIONS_BEAN_NAME) //
+                .getBeanDefinition();
+    }
+
     @Override
     public String getModuleName() {
         return "Redis";
@@ -109,52 +156,5 @@ public class RedisDbRepositoryConfigurationExtension extends KeyValueRepositoryC
     @Override
     protected Collection<Class<? extends Annotation>> getIdentifyingAnnotations() {
         return Collections.singleton(RedisHash.class);
-    }
-
-    private static AbstractBeanDefinition createRedisKeyValueAdapter(RepositoryConfigurationSource configuration) {
-
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(RedisDbKeyValueAdapter.class) //
-                .addConstructorArgReference(configuration.getRequiredAttribute("redisTemplateRef", String.class)) //
-                .addConstructorArgReference(REDIS_CONVERTER_BEAN_NAME) //
-                .addPropertyValue("enableKeyspaceEvents",
-                        configuration.getRequiredAttribute("enableKeyspaceEvents", RedisDbKeyValueAdapter.EnableKeyspaceEvents.class)) //
-                .addPropertyValue("keyspaceNotificationsConfigParameter",
-                        configuration.getAttribute("keyspaceNotificationsConfigParameter", String.class).orElse("")) //
-                .addPropertyValue("shadowCopy", configuration.getRequiredAttribute("shadowCopy", RedisDbKeyValueAdapter.ShadowCopy.class));
-
-        configuration.getAttribute("messageListenerContainerRef")
-                .ifPresent(it -> builder.addPropertyReference("messageListenerContainer", it));
-
-        return builder.getBeanDefinition();
-    }
-
-    private static AbstractBeanDefinition createRedisReferenceResolverDefinition(String redisTemplateRef) {
-
-        return BeanDefinitionBuilder.rootBeanDefinition("org.springframework.data.redis.core.convert.ReferenceResolverImpl") //
-                .addConstructorArgReference(redisTemplateRef) //
-                .getBeanDefinition();
-    }
-
-    private static AbstractBeanDefinition createRedisMappingContext(String mappingConfigRef) {
-
-        return BeanDefinitionBuilder.rootBeanDefinition(RedisMappingContext.class) //
-                .addConstructorArgReference(mappingConfigRef).getBeanDefinition();
-    }
-
-    private static AbstractBeanDefinition createMappingConfigBeanDef(String indexConfigRef, String keyspaceConfigRef) {
-
-        return BeanDefinitionBuilder.genericBeanDefinition(MappingConfiguration.class) //
-                .addConstructorArgReference(indexConfigRef) //
-                .addConstructorArgReference(keyspaceConfigRef) //
-                .getBeanDefinition();
-    }
-
-    private static AbstractBeanDefinition createRedisConverterDefinition() {
-
-        return BeanDefinitionBuilder.rootBeanDefinition(MappingRedisConverter.class) //
-                .addConstructorArgReference(MAPPING_CONTEXT_BEAN_NAME) //
-                .addPropertyReference("referenceResolver", REDIS_REFERENCE_RESOLVER_BEAN_NAME) //
-                .addPropertyReference("customConversions", REDIS_CUSTOM_CONVERSIONS_BEAN_NAME) //
-                .getBeanDefinition();
     }
 }

@@ -37,13 +37,13 @@ public class RequestUtils {
      */
     private static final String LOCAL_HOST = "0:0:0:0:0:0:0:1";
     /**
-     * 服务器IP
-     */
-    private static String SERVER_IP = null;
-    /**
      * 是否是内网正则表达式
      */
     private static final String INTERNET = "^(127\\.0\\.0\\.1)|(localhost)|(10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|(172\\.((1[6-9])|(2\\d)|(3[01]))\\.\\d{1,3}\\.\\d{1,3})|(192\\.168\\.\\d{1,3}\\.\\d{1,3})$";
+    /**
+     * 服务器IP
+     */
+    private static String SERVER_IP = null;
 
     /**
      * 获取请求真实IP,支持代理，如：179.156.81.168, 10.171.10.12，则取第一个IP 179.156.81.168
@@ -152,6 +152,10 @@ public class RequestUtils {
         return SERVER_IP;
     }
 
+    public static void setServerIp(String serverIp) {
+        SERVER_IP = serverIp;
+    }
+
     /**
      * 是否存在servlet上下文
      *
@@ -189,10 +193,6 @@ public class RequestUtils {
         } catch (Exception ex) {
             throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
         }
-    }
-
-    public static void setServerIp(String serverIp) {
-        SERVER_IP = serverIp;
     }
 
     /**

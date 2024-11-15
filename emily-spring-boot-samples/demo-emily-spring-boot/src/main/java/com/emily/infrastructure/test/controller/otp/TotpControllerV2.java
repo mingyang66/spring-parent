@@ -23,6 +23,18 @@ import java.time.Instant;
 public class TotpControllerV2 {
     private static final byte[] secret = SecretGenerator.generate();
 
+    private static String internalURLEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException var2) {
+            throw new IllegalArgumentException("UTF-8 encoding is not supported by URLEncoder.", var2);
+        }
+    }
+
+    public static String getOtpAuthURL(String url) {
+        return String.format("https://api.qrserver.com/v1/create-qr-code/?data=%s&size=300x300&ecc=M&margin=1", internalURLEncode(url));
+    }
+
     @GetMapping("generatorCode")
     public String generatorCode() {
         TOTPGenerator totp = getTOTPGenerator();
@@ -56,17 +68,5 @@ public class TotpControllerV2 {
                 })
                 .withPeriod(Duration.ofSeconds(30))
                 .build();
-    }
-
-    private static String internalURLEncode(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException var2) {
-            throw new IllegalArgumentException("UTF-8 encoding is not supported by URLEncoder.", var2);
-        }
-    }
-
-    public static String getOtpAuthURL(String url) {
-        return String.format("https://api.qrserver.com/v1/create-qr-code/?data=%s&size=300x300&ecc=M&margin=1", internalURLEncode(url));
     }
 }

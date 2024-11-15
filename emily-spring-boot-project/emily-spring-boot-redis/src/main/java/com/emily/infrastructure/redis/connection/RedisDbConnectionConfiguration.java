@@ -37,6 +37,34 @@ abstract class RedisDbConnectionConfiguration {
         this.sslBundles = (SslBundles) sslBundles.getIfAvailable();
     }
 
+    static ConnectionDbInfo parseUrl(String url) {
+        try {
+            URI uri = new URI(url);
+            String scheme = uri.getScheme();
+            if (!"redis".equals(scheme) && !"rediss".equals(scheme)) {
+                throw new RedisDbUrlSyntaxException(url);
+            } else {
+                boolean useSsl = "rediss".equals(scheme);
+                String username = null;
+                String password = null;
+                if (uri.getUserInfo() != null) {
+                    String candidate = uri.getUserInfo();
+                    int index = candidate.indexOf(':');
+                    if (index >= 0) {
+                        username = candidate.substring(0, index);
+                        password = candidate.substring(index + 1);
+                    } else {
+                        password = candidate;
+                    }
+                }
+
+                return new ConnectionDbInfo(uri, useSsl, username, password);
+            }
+        } catch (URISyntaxException var8) {
+            throw new RedisDbUrlSyntaxException(url, var8);
+        }
+    }
+
     protected final RedisStandaloneConfiguration getStandaloneConfig(RedisConnectionDetails connectionDetails) {
         if (this.standaloneConfiguration != null) {
             return this.standaloneConfiguration;
@@ -130,34 +158,6 @@ abstract class RedisDbConnectionConfiguration {
 
     protected final boolean urlUsesSsl(RedisProperties properties) {
         return parseUrl(properties.getUrl()).isUseSsl();
-    }
-
-    static ConnectionDbInfo parseUrl(String url) {
-        try {
-            URI uri = new URI(url);
-            String scheme = uri.getScheme();
-            if (!"redis".equals(scheme) && !"rediss".equals(scheme)) {
-                throw new RedisDbUrlSyntaxException(url);
-            } else {
-                boolean useSsl = "rediss".equals(scheme);
-                String username = null;
-                String password = null;
-                if (uri.getUserInfo() != null) {
-                    String candidate = uri.getUserInfo();
-                    int index = candidate.indexOf(':');
-                    if (index >= 0) {
-                        username = candidate.substring(0, index);
-                        password = candidate.substring(index + 1);
-                    } else {
-                        password = candidate;
-                    }
-                }
-
-                return new ConnectionDbInfo(uri, useSsl, username, password);
-            }
-        } catch (URISyntaxException var8) {
-            throw new RedisDbUrlSyntaxException(url, var8);
-        }
     }
 
     public static class ConnectionDbInfo {

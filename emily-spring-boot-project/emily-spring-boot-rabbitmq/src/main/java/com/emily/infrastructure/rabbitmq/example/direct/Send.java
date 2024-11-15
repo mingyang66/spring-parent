@@ -18,10 +18,6 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("all")
 public class Send {
     /**
-     * 队列名称
-     */
-    private static final String QUEUE_NAME = "test_queue";
-    /**
      * 交换器
      */
     public static final String EXCHANGE_NAME = "test_exchange";
@@ -33,6 +29,10 @@ public class Send {
      * BindingKey
      */
     public static final String BINDING_KEY = "*.routing.key";
+    /**
+     * 队列名称
+     */
+    private static final String QUEUE_NAME = "test_queue";
 
     public static void main(String[] args) throws Exception {
         /**

@@ -61,6 +61,10 @@ public class ContextHolder {
      */
     private ServletStage servletStage;
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public long getSpentTime() {
         return spentTime;
     }
@@ -280,9 +284,5 @@ public class ContextHolder {
             holder.setServletStage(Objects.isNull(servletStage) ? ServletStage.OTHER : servletStage);
             return holder;
         }
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 }

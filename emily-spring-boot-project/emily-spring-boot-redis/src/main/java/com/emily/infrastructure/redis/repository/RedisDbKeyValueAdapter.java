@@ -88,12 +88,11 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
      * Time To Live in seconds that phantom keys should live longer than the actual key.
      */
     private static final int PHANTOM_KEY_TTL = 300;
-
+    private final AtomicReference<KeyExpirationEventMessageListener> expirationListener = new AtomicReference<>(null);
     private RedisOperations<?, ?> redisOps;
     private RedisConverter converter;
     private @Nullable RedisMessageListenerContainer messageListenerContainer;
     private boolean managedListenerContainer = true;
-    private final AtomicReference<KeyExpirationEventMessageListener> expirationListener = new AtomicReference<>(null);
     private @Nullable ApplicationEventPublisher eventPublisher;
 
     private RedisDbKeyValueAdapter.EnableKeyspaceEvents enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.OFF;
@@ -654,6 +653,11 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         this.messageListenerContainer = messageListenerContainer;
     }
 
+    @Nullable
+    public String getKeyspaceNotificationsConfigParameter() {
+        return keyspaceNotificationsConfigParameter;
+    }
+
     /**
      * Configure the {@literal notify-keyspace-events} property if not already set. Use an empty {@link String} or
      * {@literal null} to retain existing server settings.
@@ -663,11 +667,6 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
      */
     public void setKeyspaceNotificationsConfigParameter(String keyspaceNotificationsConfigParameter) {
         this.keyspaceNotificationsConfigParameter = keyspaceNotificationsConfigParameter;
-    }
-
-    @Nullable
-    public String getKeyspaceNotificationsConfigParameter() {
-        return keyspaceNotificationsConfigParameter;
     }
 
     /**
@@ -765,6 +764,62 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         }
     }
 
+    private boolean keepShadowCopy() {
+
+        return switch (shadowCopy) {
+            case OFF -> false;
+            case ON -> true;
+            default -> this.expirationListener.get() != null;
+        };
+    }
+
+    /**
+     * @author Christoph Strobl
+     * @since 1.8
+     */
+    public enum EnableKeyspaceEvents {
+
+        /**
+         * Initializes the {@link KeyExpirationEventMessageListener} on startup.
+         */
+        ON_STARTUP,
+
+        /**
+         * Initializes the {@link KeyExpirationEventMessageListener} on first insert having expiration time set.
+         */
+        ON_DEMAND,
+
+        /**
+         * Turn {@link KeyExpirationEventMessageListener} usage off. No expiration events will be received.
+         */
+        OFF
+    }
+
+    /**
+     * Configuration flag controlling storage of phantom keys (shadow copies) of expiring entities to read them later when
+     * publishing {@link RedisKeyspaceEvent}.
+     *
+     * @author Christoph Strobl
+     * @since 2.4
+     */
+    public enum ShadowCopy {
+
+        /**
+         * Store shadow copies of expiring entities depending on the {@link RedisDbKeyValueAdapter.EnableKeyspaceEvents}.
+         */
+        DEFAULT,
+
+        /**
+         * Store shadow copies of expiring entities.
+         */
+        ON,
+
+        /**
+         * Do not store shadow copies.
+         */
+        OFF
+    }
+
     /**
      * {@link MessageListener} implementation used to capture Redis keyspace notifications. Tries to read a previously
      * created phantom key {@code keyspace:id:phantom} to provide the expired object as part of the published
@@ -854,62 +909,6 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         public void setRedisProperties(RedisProperties redisProperties) {
             this.redisProperties = redisProperties;
         }
-    }
-
-    private boolean keepShadowCopy() {
-
-        return switch (shadowCopy) {
-            case OFF -> false;
-            case ON -> true;
-            default -> this.expirationListener.get() != null;
-        };
-    }
-
-    /**
-     * @author Christoph Strobl
-     * @since 1.8
-     */
-    public enum EnableKeyspaceEvents {
-
-        /**
-         * Initializes the {@link KeyExpirationEventMessageListener} on startup.
-         */
-        ON_STARTUP,
-
-        /**
-         * Initializes the {@link KeyExpirationEventMessageListener} on first insert having expiration time set.
-         */
-        ON_DEMAND,
-
-        /**
-         * Turn {@link KeyExpirationEventMessageListener} usage off. No expiration events will be received.
-         */
-        OFF
-    }
-
-    /**
-     * Configuration flag controlling storage of phantom keys (shadow copies) of expiring entities to read them later when
-     * publishing {@link RedisKeyspaceEvent}.
-     *
-     * @author Christoph Strobl
-     * @since 2.4
-     */
-    public enum ShadowCopy {
-
-        /**
-         * Store shadow copies of expiring entities depending on the {@link RedisDbKeyValueAdapter.EnableKeyspaceEvents}.
-         */
-        DEFAULT,
-
-        /**
-         * Store shadow copies of expiring entities.
-         */
-        ON,
-
-        /**
-         * Do not store shadow copies.
-         */
-        OFF
     }
 
     /**

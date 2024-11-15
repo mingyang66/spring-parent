@@ -30,6 +30,10 @@ public class LogbackAsyncAppender {
         this.properties = properties;
     }
 
+    public static LogbackAsyncAppender create(LoggerContext lc, LogbackProperties properties) {
+        return new LogbackAsyncAppender(lc, properties);
+    }
+
     /**
      * 控制台打印appender
      *
@@ -60,9 +64,5 @@ public class LogbackAsyncAppender {
         appender.addAppender(ref);
         appender.start();
         return appender;
-    }
-
-    public static LogbackAsyncAppender create(LoggerContext lc, LogbackProperties properties) {
-        return new LogbackAsyncAppender(lc, properties);
     }
 }

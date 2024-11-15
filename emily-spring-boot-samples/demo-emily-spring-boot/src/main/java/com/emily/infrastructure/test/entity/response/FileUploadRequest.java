@@ -23,16 +23,16 @@ public class FileUploadRequest {
         return file;
     }
 
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
     public MultipartFile getImageFile() {
         return imageFile;
     }
 
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
     }
 
     public String getAccountCode() {

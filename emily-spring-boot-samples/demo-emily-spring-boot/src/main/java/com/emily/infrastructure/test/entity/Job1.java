@@ -9,10 +9,10 @@ import java.util.List;
  * @since 1.0
  */
 public class Job1<T> implements Serializable {
+    public String a;
     private Long id;
     private Long jobNumber;
     private String jobDesc;
-    public String a;
     private List<T> list;
 
     public List<T> getList() {

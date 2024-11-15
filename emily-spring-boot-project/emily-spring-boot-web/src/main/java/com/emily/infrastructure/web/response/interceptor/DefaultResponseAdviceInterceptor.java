@@ -1,4 +1,4 @@
-package com.emily.infrastructure.web.response.handler;
+package com.emily.infrastructure.web.response.interceptor;
 
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.json.JsonUtils;
@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
  * @since Created in 2023/7/1 3:02 PM
  */
 @RestControllerAdvice
-public class ResponseAdviceHandler implements ResponseBodyAdvice<Object> {
+public class DefaultResponseAdviceInterceptor implements ResponseBodyAdvice<Object> {
     /**
      * 是 Spring Boot 2.2 版本及以上版本中引入的 Actuator V3 版本的媒体类型，用于获取应用程序运行时的信息和指标
      */
@@ -40,7 +40,7 @@ public class ResponseAdviceHandler implements ResponseBodyAdvice<Object> {
 
     private final ResponseProperties properties;
 
-    public ResponseAdviceHandler(ResponseProperties properties) {
+    public DefaultResponseAdviceInterceptor(ResponseProperties properties) {
         this.properties = properties;
     }
 

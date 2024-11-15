@@ -22,33 +22,9 @@ public class ResponseProperties {
      */
     private boolean enabled = true;
     /**
-     * 开启切面模式包装处理，默认：true
-     */
-    private boolean enabledAdvice = true;
-    /**
-     * 开启适配器模式包装处理，默认：false
-     */
-    private boolean enabledAdapter;
-    /**
      * 忽略包装指定URL
      */
     private List<String> exclude = new ArrayList<>();
-
-    public boolean isEnabledAdapter() {
-        return enabledAdapter;
-    }
-
-    public void setEnabledAdapter(boolean enabledAdapter) {
-        this.enabledAdapter = enabledAdapter;
-    }
-
-    public boolean isEnabledAdvice() {
-        return enabledAdvice;
-    }
-
-    public void setEnabledAdvice(boolean enabledAdvice) {
-        this.enabledAdvice = enabledAdvice;
-    }
 
     public boolean isEnabled() {
         return enabled;

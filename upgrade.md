@@ -8,6 +8,7 @@ Bug Fixes
 4. knife4j-openapi3-jakarta-spring-boot-starter包版本更新；
 5. 更新emily-spring-boot-parent module模块；
 6. com.emily.infrastructure.logback.entity.BaseLogger建造者模式实现方案修改；
+7. 移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
 
 ------
 Dependency Upgrades

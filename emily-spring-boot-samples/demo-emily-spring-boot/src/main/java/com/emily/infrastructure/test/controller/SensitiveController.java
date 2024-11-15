@@ -56,7 +56,7 @@ public class SensitiveController {
         arr[0] = "test1";
         arr[1] = "test2";
         response.setArr(arr);
-        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(BaseResponse.<JsonResponse>newBuilder().withData(response).build());
+        List<BaseResponse<JsonResponse>> list = Lists.newArrayList(new BaseResponse<JsonResponse>().data(response));
         //return list;
         return DeSensitiveUtils.acquireElseGet(list, BaseResponse.class);
     }
@@ -77,7 +77,7 @@ public class SensitiveController {
         response.job = job;
         response.jobs = new PubResponse.Job[]{job};
         response.jobList = Arrays.asList(job);
-        BaseResponse<PubResponse> r = BaseResponse.<PubResponse>newBuilder().withData(response).build();
+        BaseResponse<PubResponse> r = new BaseResponse<PubResponse>().data(response);
         //return r;
         return DeSensitiveUtils.acquireElseGet(r);
     }

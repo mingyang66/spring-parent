@@ -51,28 +51,27 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
             //封装异步日志信息
             BaseLogger baseLogger = FeignContextHolder.current()
                     //事务唯一编号
-                    .withTraceId(LocalContextHolder.current().getTraceId())
+                    .traceId(LocalContextHolder.current().getTraceId())
                     //系统标识
-                    .withSystemNumber(LocalContextHolder.current().getSystemNumber())
+                    .systemNumber(LocalContextHolder.current().getSystemNumber())
                     //时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //客户端IP
-                    .withClientIp(LocalContextHolder.current().getClientIp())
+                    .clientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
-                    .withServerIp(LocalContextHolder.current().getServerIp())
+                    .serverIp(LocalContextHolder.current().getServerIp())
                     //版本类型
-                    .withAppType(LocalContextHolder.current().getAppType())
+                    .appType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(LocalContextHolder.current().getAppVersion())
+                    .appVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
+                    .spentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //触发时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //响应结果
-                    .withBody(SensitiveUtils.acquireElseGet(response, TransferResponse.class))
+                    .body(SensitiveUtils.acquireElseGet(response, TransferResponse.class))
                     //请求参数
-                    .withRequestParams(AttributeInfo.PARAMS, MethodHelper.getMethodArgs(invocation))
-                    .build();
+                    .requestParams(AttributeInfo.PARAMS, MethodHelper.getMethodArgs(invocation));
             //异步记录接口响应信息
             PrintLoggerUtils.printThirdParty(baseLogger);
             //删除线程上下文中的数据，防止内存溢出

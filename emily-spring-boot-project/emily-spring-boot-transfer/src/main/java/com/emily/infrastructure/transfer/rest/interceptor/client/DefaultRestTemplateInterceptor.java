@@ -41,45 +41,43 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
         //设置事务标识
         request.getHeaders().set(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
         //创建拦截日志信息
-        BaseLogger.Builder builder = BaseLogger.newBuilder()
+        BaseLogger baseLogger = new BaseLogger()
                 //系统编号
-                .withSystemNumber(LocalContextHolder.current().getSystemNumber())
+                .systemNumber(LocalContextHolder.current().getSystemNumber())
                 //生成事物流水号
-                .withTraceId(LocalContextHolder.current().getTraceId())
+                .traceId(LocalContextHolder.current().getTraceId())
                 //请求URL
-                .withUrl(request.getURI().toString())
+                .url(request.getURI().toString())
                 //请求参数
-                .withRequestParams(HttpRequestFactory.getArgs(request.getHeaders(), body));
+                .requestParams(HttpRequestFactory.getArgs(request.getHeaders(), body));
         //开始计时
         Instant start = Instant.now();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
-            //响应数据
-            Object responseBody = HttpRequestFactory.getResponseBody(StreamUtils.copyToByteArray(response.getBody()));
             //响应结果
-            builder.withBody(responseBody);
+            baseLogger.body(HttpRequestFactory.getResponseBody(StreamUtils.copyToByteArray(response.getBody())));
 
             return response;
         } catch (IOException ex) {
             //响应结果
-            builder.withBody(PrintExceptionUtils.printErrorInfo(ex));
+            baseLogger.body(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP
-            builder.withClientIp(LocalContextHolder.current().getClientIp())
+            baseLogger.clientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
-                    .withServerIp(LocalContextHolder.current().getServerIp())
+                    .serverIp(LocalContextHolder.current().getServerIp())
                     //版本类型
-                    .withAppType(LocalContextHolder.current().getAppType())
+                    .appType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(LocalContextHolder.current().getAppVersion())
+                    .appVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
+                    .spentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //响应时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
-            PrintLoggerUtils.printThirdParty(builder.build());
+            PrintLoggerUtils.printThirdParty(baseLogger);
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

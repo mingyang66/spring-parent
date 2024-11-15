@@ -36,15 +36,14 @@ public class DefaultMqConnectionListener implements ConnectionListener {
      */
     @Override
     public void onCreate(Connection connection) {
-        BaseLogger baseLogger = BaseLogger.newBuilder()
-                .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                .withTraceId(UUIDUtils.randomSimpleUUID())
-                .withClientIp(RequestUtils.getClientIp())
-                .withServerIp(RequestUtils.getServerIp())
-                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                .withUrl("RabbitMQ")
-                .withBody("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection)
-                .build();
+        BaseLogger baseLogger = new BaseLogger()
+                .systemNumber(SystemNumberHelper.getSystemNumber())
+                .traceId(UUIDUtils.randomSimpleUUID())
+                .clientIp(RequestUtils.getClientIp())
+                .serverIp(RequestUtils.getServerIp())
+                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                .url("RabbitMQ")
+                .body("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection);
         PrintLoggerUtils.printThirdParty(baseLogger);
     }
 
@@ -56,15 +55,14 @@ public class DefaultMqConnectionListener implements ConnectionListener {
     @Override
     public void onClose(Connection connection) {
         ConnectionListener.super.onClose(connection);
-        BaseLogger baseLogger = BaseLogger.newBuilder()
-                .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                .withTraceId(UUIDUtils.randomSimpleUUID())
-                .withClientIp(RequestUtils.getClientIp())
-                .withServerIp(RequestUtils.getServerIp())
-                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                .withUrl("RabbitMQ")
-                .withBody("Close [Called when a connection is closed]: " + connection)
-                .build();
+        BaseLogger baseLogger = new BaseLogger()
+                .systemNumber(SystemNumberHelper.getSystemNumber())
+                .traceId(UUIDUtils.randomSimpleUUID())
+                .clientIp(RequestUtils.getClientIp())
+                .serverIp(RequestUtils.getServerIp())
+                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                .url("RabbitMQ")
+                .body("Close [Called when a connection is closed]: " + connection);
         PrintLoggerUtils.printThirdParty(baseLogger);
     }
 
@@ -76,15 +74,14 @@ public class DefaultMqConnectionListener implements ConnectionListener {
     @Override
     public void onShutDown(ShutdownSignalException signal) {
         ConnectionListener.super.onShutDown(signal);
-        BaseLogger baseLogger = BaseLogger.newBuilder()
-                .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                .withTraceId(UUIDUtils.randomSimpleUUID())
-                .withClientIp(RequestUtils.getClientIp())
-                .withServerIp(RequestUtils.getServerIp())
-                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                .withUrl("RabbitMQ")
-                .withBody("ShutDown [Called when a connection is force closed] " + signal.getMessage())
-                .build();
+        BaseLogger baseLogger = new BaseLogger()
+                .systemNumber(SystemNumberHelper.getSystemNumber())
+                .traceId(UUIDUtils.randomSimpleUUID())
+                .clientIp(RequestUtils.getClientIp())
+                .serverIp(RequestUtils.getServerIp())
+                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                .url("RabbitMQ")
+                .body("ShutDown [Called when a connection is force closed] " + signal.getMessage());
         PrintLoggerUtils.printThirdParty(baseLogger);
     }
 
@@ -96,15 +93,14 @@ public class DefaultMqConnectionListener implements ConnectionListener {
     @Override
     public void onFailed(Exception exception) {
         ConnectionListener.super.onFailed(exception);
-        BaseLogger baseLogger = BaseLogger.newBuilder()
-                .withSystemNumber(SystemNumberHelper.getSystemNumber())
-                .withTraceId(UUIDUtils.randomSimpleUUID())
-                .withClientIp(RequestUtils.getClientIp())
-                .withServerIp(RequestUtils.getServerIp())
-                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                .withUrl("RabbitMQ")
-                .withBody("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception))
-                .build();
+        BaseLogger baseLogger = new BaseLogger()
+                .systemNumber(SystemNumberHelper.getSystemNumber())
+                .traceId(UUIDUtils.randomSimpleUUID())
+                .clientIp(RequestUtils.getClientIp())
+                .serverIp(RequestUtils.getServerIp())
+                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                .url("RabbitMQ")
+                .body("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception));
         PrintLoggerUtils.printThirdParty(baseLogger);
     }
 }

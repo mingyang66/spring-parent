@@ -11,15 +11,15 @@ import org.springframework.core.NamedThreadLocal;
  * @since 2021/09/27
  */
 public class FeignContextHolder {
-    private static final ThreadLocal<BaseLogger.Builder> CONTEXT = new NamedThreadLocal<>("Feign Logger Context");
+    private static final ThreadLocal<BaseLogger> CONTEXT = new NamedThreadLocal<>("Feign Logger Context");
 
     /**
      * 设置当前线程持有的数据源
      *
-     * @param builder 日志构建对象
+     * @param baseLogger 日志构建对象
      */
-    public static void bind(BaseLogger.Builder builder) {
-        CONTEXT.set(builder);
+    public static void bind(BaseLogger baseLogger) {
+        CONTEXT.set(baseLogger);
     }
 
     /**
@@ -27,7 +27,7 @@ public class FeignContextHolder {
      *
      * @return 日志对象
      */
-    public static BaseLogger.Builder current() {
+    public static BaseLogger current() {
         return CONTEXT.get();
     }
 

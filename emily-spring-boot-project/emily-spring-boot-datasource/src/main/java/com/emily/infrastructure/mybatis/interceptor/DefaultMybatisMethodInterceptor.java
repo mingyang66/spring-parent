@@ -43,17 +43,16 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
             result = PrintExceptionUtils.printErrorInfo(ex);
             throw ex;
         } finally {
-            BaseLogger baseLogger = BaseLogger.newBuilder()
-                    .withSystemNumber(LocalContextHolder.current().getSystemNumber())
-                    .withTraceId(LocalContextHolder.current().getTraceId())
-                    .withClientIp(LocalContextHolder.current().getClientIp())
-                    .withServerIp(LocalContextHolder.current().getServerIp())
-                    .withRequestParams(params)
-                    .withBody(result)
-                    .withUrl(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), start))
-                    .build();
+            BaseLogger baseLogger = new BaseLogger()
+                    .systemNumber(LocalContextHolder.current().getSystemNumber())
+                    .traceId(LocalContextHolder.current().getTraceId())
+                    .clientIp(LocalContextHolder.current().getClientIp())
+                    .serverIp(LocalContextHolder.current().getServerIp())
+                    .requestParams(params)
+                    .body(result)
+                    .url(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .spentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //打印日志
             PrintLoggerUtils.printThirdParty(baseLogger);
             //非servlet上下文移除数据

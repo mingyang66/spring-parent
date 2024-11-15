@@ -48,41 +48,40 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         //获取请求参数
         Map<String, Object> paramsMap = ServletHelper.getApiArgs(invocation);
         //封装异步日志信息
-        BaseLogger.Builder builder = BaseLogger.newBuilder();
+        BaseLogger baseLogger = new BaseLogger();
         try {
             //调用真实的action方法
             Object response = invocation.proceed();
             // 返回值类型为ResponseEntity时，特殊处理
-            return handleResponse(response, builder);
+            return handleResponse(response, baseLogger);
         } catch (Exception ex) {
             //响应码
-            builder.withStatus((ex instanceof BasicException) ? ((BasicException) ex).getStatus() : AppStatusType.EXCEPTION.getStatus())
+            baseLogger.status((ex instanceof BasicException) ? ((BasicException) ex).getStatus() : AppStatusType.EXCEPTION.getStatus())
                     //响应描述
-                    .withMessage((ex instanceof BasicException) ? ex.getMessage() : AppStatusType.EXCEPTION.getMessage())
+                    .message((ex instanceof BasicException) ? ex.getMessage() : AppStatusType.EXCEPTION.getMessage())
                     //异常响应体
-                    .withBody(PrintExceptionUtils.printErrorInfo(ex));
+                    .body(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
-            BaseLogger baseLogger = builder.withSystemNumber(LocalContextHolder.current().getSystemNumber())
+            baseLogger.systemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号
-                    .withTraceId(LocalContextHolder.current().getTraceId())
+                    .traceId(LocalContextHolder.current().getTraceId())
                     //请求参数
-                    .withRequestParams(paramsMap)
+                    .requestParams(paramsMap)
                     //时间
-                    .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //客户端IP
-                    .withClientIp(LocalContextHolder.current().getClientIp())
+                    .clientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
-                    .withServerIp(LocalContextHolder.current().getServerIp())
+                    .serverIp(LocalContextHolder.current().getServerIp())
                     //请求URL
-                    .withUrl(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
+                    .url(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
                     //版本类型
-                    .withAppType(LocalContextHolder.current().getAppType())
+                    .appType(LocalContextHolder.current().getAppType())
                     //版本号
-                    .withAppVersion(LocalContextHolder.current().getAppVersion())
+                    .appVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
-                    .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()))
-                    .build();
+                    .spentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()));
             //API耗时--用于返回值耗时字段设置
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
@@ -95,32 +94,32 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     /**
      * 对返回是ResponseEntity类型异常类型特殊处理，如：404 Not Fund接口处理
      *
-     * @param response 接口返回值
-     * @param builder  日志信息封装器
+     * @param response   接口返回值
+     * @param baseLogger 日志信息封装器
      * @return 接口返回值
      */
-    private Object handleResponse(Object response, BaseLogger.Builder builder) {
+    private Object handleResponse(Object response, BaseLogger baseLogger) {
         if (ObjectUtils.isEmpty(response)) {
             return response;
         }
         if (response instanceof ResponseEntity<?> entity) {
             if (entity.getStatusCode().is2xxSuccessful()) {
-                builder.withBody(SensitiveUtils.acquireElseGet(entity.getBody(), BaseResponse.class));
+                baseLogger.body(SensitiveUtils.acquireElseGet(entity.getBody(), BaseResponse.class));
                 return entity;
             }
             Map<?, ?> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(entity.getBody()), Map.class);
-            builder.withUrl(dataMap.get("path").toString())
-                    .withStatus(entity.getStatusCode().value())
-                    .withMessage(dataMap.get("error").toString());
+            baseLogger.url(dataMap.get("path").toString())
+                    .status(entity.getStatusCode().value())
+                    .message(dataMap.get("error").toString());
             BaseResponse<Object> baseResponse = BaseResponse.newBuilder()
                     .withStatus(entity.getStatusCode().value())
                     .withMessage(dataMap.get("error").toString())
                     .build();
-            builder.withBody(baseResponse);
+            baseLogger.body(baseResponse);
             return new ResponseEntity<>(baseResponse, entity.getHeaders(), entity.getStatusCode());
         }
         // 设置响应体
-        builder.withBody(SensitiveUtils.acquireElseGet(response, BaseResponse.class));
+        baseLogger.body(SensitiveUtils.acquireElseGet(response, BaseResponse.class));
         return response;
     }
 

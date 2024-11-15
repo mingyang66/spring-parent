@@ -91,30 +91,29 @@ public class GlobalExceptionCustomizer {
                 || !(ex instanceof HttpRequestMethodNotSupportedException)) {
             return;
         }
-        BaseLogger baseLogger = BaseLogger.newBuilder()
+        BaseLogger baseLogger = new BaseLogger()
                 //系统编号
-                .withSystemNumber(LocalContextHolder.current().getSystemNumber())
+                .systemNumber(LocalContextHolder.current().getSystemNumber())
                 //事务唯一编号
-                .withTraceId(LocalContextHolder.current().getTraceId())
+                .traceId(LocalContextHolder.current().getTraceId())
                 //请求URL
-                .withUrl(request.getRequestURI())
+                .url(request.getRequestURI())
                 //客户端IP
-                .withClientIp(RequestUtils.getClientIp())
+                .clientIp(RequestUtils.getClientIp())
                 //服务端IP
-                .withServerIp(RequestUtils.getServerIp())
+                .serverIp(RequestUtils.getServerIp())
                 //版本类型
-                .withAppType(LocalContextHolder.current().getAppType())
+                .appType(LocalContextHolder.current().getAppType())
                 //版本号
-                .withAppVersion(LocalContextHolder.current().getAppVersion())
+                .appVersion(LocalContextHolder.current().getAppVersion())
                 //触发时间
-                .withTriggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求参数
-                .withRequestParams(getRequestParams(ex, request))
+                .requestParams(getRequestParams(ex, request))
                 //响应体
-                .withBody(PrintExceptionUtils.printErrorInfo(ex))
+                .body(PrintExceptionUtils.printErrorInfo(ex))
                 //耗时(未处理任何逻辑)
-                .withSpentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()))
-                .build();
+                .spentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()));
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件

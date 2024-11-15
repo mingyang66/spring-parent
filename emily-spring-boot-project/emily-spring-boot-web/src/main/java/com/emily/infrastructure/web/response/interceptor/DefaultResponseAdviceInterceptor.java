@@ -96,20 +96,20 @@ public class DefaultResponseAdviceInterceptor implements ResponseBodyAdvice<Obje
         }
 
         //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
-        BaseResponse.Builder<Object> builder = BaseResponse.newBuilder()
-                .withStatus(AppStatusType.OK.getStatus())
-                .withMessage(AppStatusType.OK.getMessage());
+        BaseResponse<Object> baseResponse = new BaseResponse<>()
+                .status(AppStatusType.OK.getStatus())
+                .message(AppStatusType.OK.getMessage());
         // 如果返回值是void类型，则直接返回BaseResponse空对象
         if (returnType.getParameterType().equals(Void.class)) {
-            return builder.build();
+            return baseResponse;
         }
         // 如果是字符串类型，将其包装成BaseResponse类型
         // 如果是字符串类型，外层有ResponseEntity包装，将其包装成BaseResponse类型
         else if (MediaType.TEXT_PLAIN.equals(selectedContentType)) {
             response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            return JsonUtils.toJSONString(builder.withData(body).build());
+            return JsonUtils.toJSONString(baseResponse.data(body));
         }
 
-        return builder.withData(body).build();
+        return baseResponse.data(body);
     }
 }

@@ -71,7 +71,7 @@ public class GlobalExceptionCustomizer {
                 return message;
             }
         }
-        return BaseResponse.newBuilder().withStatus(status).withMessage(message).build();
+        return new BaseResponse<>().status(status).message(message);
     }
 
     /**
@@ -119,9 +119,7 @@ public class GlobalExceptionCustomizer {
         //记录日志到文件
         PrintLoggerUtils.printRequest(baseLogger);
         //--------------------------后通知特殊条件判断-------------------------
-        if (ex instanceof HttpRequestMethodNotSupportedException) {
-            LocalContextHolder.unbind(true);
-        }
+        LocalContextHolder.unbind(true);
     }
 
     /**

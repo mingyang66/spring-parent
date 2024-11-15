@@ -44,43 +44,23 @@ public class BaseResponse<T> {
         this.spentTime = spentTime;
     }
 
-    public static class Builder<T> {
-        private int status;
-        private String message;
-        private T data;
-        private long spentTime;
-
-        public Builder<T> withStatus(int status) {
-            this.status = status;
-            return this;
-        }
-
-        public Builder<T> withMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Builder<T> withData(T data) {
-            this.data = data;
-            return this;
-        }
-
-        public Builder<T> withSpentTime(long spentTime) {
-            this.spentTime = spentTime;
-            return this;
-        }
-
-        public BaseResponse<T> build() {
-            BaseResponse<T> response = new BaseResponse<>();
-            response.setStatus(status);
-            response.setMessage(message);
-            response.setData(data);
-            response.setSpentTime(spentTime);
-            return response;
-        }
+    public BaseResponse<T> status(int status) {
+        this.status = status;
+        return this;
     }
 
-    public static <T> Builder<T> newBuilder() {
-        return new Builder<T>();
+    public BaseResponse<T> message(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public BaseResponse<T> data(T data) {
+        this.data = data;
+        return this;
+    }
+
+    public BaseResponse<T> spentTime(long spentTime) {
+        this.spentTime = spentTime;
+        return this;
     }
 }

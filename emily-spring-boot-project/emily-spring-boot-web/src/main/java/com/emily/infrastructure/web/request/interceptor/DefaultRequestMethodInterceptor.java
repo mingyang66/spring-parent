@@ -111,10 +111,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             baseLogger.url(dataMap.get("path").toString())
                     .status(entity.getStatusCode().value())
                     .message(dataMap.get("error").toString());
-            BaseResponse<Object> baseResponse = BaseResponse.newBuilder()
-                    .withStatus(entity.getStatusCode().value())
-                    .withMessage(dataMap.get("error").toString())
-                    .build();
+            BaseResponse<Object> baseResponse = new BaseResponse<>()
+                    .status(entity.getStatusCode().value())
+                    .message(dataMap.get("error").toString());
             baseLogger.body(baseResponse);
             return new ResponseEntity<>(baseResponse, entity.getHeaders(), entity.getStatusCode());
         }

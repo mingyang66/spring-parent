@@ -25,7 +25,7 @@ public class LocalContextHolder {
          * ----------------------------------------------------------------------
          * @param parentValue 父线程的值对象
          * @return 子线程的初始值对象
-         * @see {@link <a href="https://github.com/alibaba/transmittable-thread-local/issues/521">...</a>}
+         * @see <a href="https://github.com/alibaba/transmittable-thread-local/issues/521">...</a>
          */
         @Override
         protected TracingHolder childValue(TracingHolder parentValue) {

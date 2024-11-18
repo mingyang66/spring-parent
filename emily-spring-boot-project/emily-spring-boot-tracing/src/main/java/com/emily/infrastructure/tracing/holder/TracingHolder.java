@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Emily
  * @since Created in 2023/4/22 3:51 PM
  */
-public class ContextHolder {
+public class TracingHolder {
     /**
      * 事务唯一编号
      */
@@ -254,8 +254,8 @@ public class ContextHolder {
             return this;
         }
 
-        public ContextHolder build() {
-            ContextHolder holder = new ContextHolder();
+        public TracingHolder build() {
+            TracingHolder holder = new TracingHolder();
             //事务流水号
             if (RequestUtils.isServlet()) {
                 this.traceId = RequestUtils.getHeader(HeaderInfo.TRACE_ID);

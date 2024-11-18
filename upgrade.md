@@ -10,6 +10,7 @@ Bug Fixes
 6. com.emily.infrastructure.logback.entity.BaseLogger建造者模式实现方案修改；
 7. 移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
 8. com.emily.infrastructure.web.response.entity.BaseResponse类建造者模式实现方案修改；
+9. ContextHolder重命名为TracingHolder；
 
 ------
 Dependency Upgrades

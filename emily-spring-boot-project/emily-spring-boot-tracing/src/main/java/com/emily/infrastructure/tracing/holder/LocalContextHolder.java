@@ -10,10 +10,10 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  */
 public class LocalContextHolder {
 
-    private static final ThreadLocal<ContextHolder> CONTEXT = new TransmittableThreadLocal<>() {
+    private static final ThreadLocal<TracingHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override
-        protected ContextHolder initialValue() {
-            return ContextHolder.newBuilder().build();
+        protected TracingHolder initialValue() {
+            return TracingHolder.newBuilder().build();
         }
 
         /**
@@ -28,7 +28,7 @@ public class LocalContextHolder {
          * @see {@link <a href="https://github.com/alibaba/transmittable-thread-local/issues/521">...</a>}
          */
         @Override
-        protected ContextHolder childValue(ContextHolder parentValue) {
+        protected TracingHolder childValue(TracingHolder parentValue) {
             //调用父类的初始化方法可以确保子类初始化为null
             return super.initialValue();
         }
@@ -39,7 +39,7 @@ public class LocalContextHolder {
      *
      * @param holder 上下文对象
      */
-    public static void bind(ContextHolder holder) {
+    public static void bind(TracingHolder holder) {
         CONTEXT.set(holder);
     }
 
@@ -48,7 +48,7 @@ public class LocalContextHolder {
      *
      * @return 上下文对象
      */
-    public static ContextHolder current() {
+    public static TracingHolder current() {
         return CONTEXT.get();
     }
 

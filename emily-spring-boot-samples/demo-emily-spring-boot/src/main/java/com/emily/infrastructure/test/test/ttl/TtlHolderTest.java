@@ -1,7 +1,7 @@
 package com.emily.infrastructure.test.test.ttl;
 
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.tracing.holder.ContextHolder;
+import com.emily.infrastructure.tracing.holder.TracingHolder;
 
 /**
  * @author :  Emily
@@ -9,7 +9,7 @@ import com.emily.infrastructure.tracing.holder.ContextHolder;
  */
 public class TtlHolderTest {
     public static void main(String[] args) {
-        ContextHolder holder = ContextHolder.newBuilder().build();
+        TracingHolder holder = TracingHolder.newBuilder().build();
         System.out.println(JsonUtils.toJSONPrettyString(holder));
     }
 }

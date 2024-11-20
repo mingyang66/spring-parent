@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sample.web.controller;
 
-import com.emily.infrastructure.test.entity.cache.CacheUser;
-import com.emily.infrastructure.test.service.CacheService;
+import com.emily.infrastructure.sample.web.entity.cache.CacheUser;
+import com.emily.infrastructure.sample.web.service.CacheService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;

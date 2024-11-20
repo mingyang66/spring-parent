@@ -1,8 +1,8 @@
 package com.emily.infrastructure.sample.web.controller;
 
 import com.emily.infrastructure.common.PropertiesUtils;
-import com.emily.infrastructure.test.entity.response.FileUploadRequest;
-import com.emily.infrastructure.test.entity.response.Wrapper;
+import com.emily.infrastructure.sample.web.entity.response.FileUploadRequest;
+import com.emily.infrastructure.sample.web.entity.response.Wrapper;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.otter.infrastructure.servlet.RequestUtils;

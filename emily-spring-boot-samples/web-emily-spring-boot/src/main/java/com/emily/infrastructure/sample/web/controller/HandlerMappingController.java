@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sample.web.controller;
 
-import com.emily.infrastructure.test.entity.UrlMappingInfo;
+import com.emily.infrastructure.sample.web.entity.UrlMappingInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

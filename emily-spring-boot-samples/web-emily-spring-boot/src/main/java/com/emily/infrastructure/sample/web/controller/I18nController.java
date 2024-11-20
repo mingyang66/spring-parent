@@ -1,8 +1,8 @@
 package com.emily.infrastructure.sample.web.controller;
 
 import com.emily.infrastructure.language.convert.I18nCache;
-import com.emily.infrastructure.test.entity.i18n.Student;
-import com.emily.infrastructure.test.entity.i18n.Teacher;
+import com.emily.infrastructure.sample.web.entity.i18n.Student;
+import com.emily.infrastructure.sample.web.entity.i18n.Teacher;
 import com.google.common.collect.Maps;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

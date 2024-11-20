@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sample.web.service;
 
-import com.emily.infrastructure.test.entity.cache.CacheUser;
+import com.emily.infrastructure.sample.web.entity.cache.CacheUser;
 
 /**
  * @author :  Emily

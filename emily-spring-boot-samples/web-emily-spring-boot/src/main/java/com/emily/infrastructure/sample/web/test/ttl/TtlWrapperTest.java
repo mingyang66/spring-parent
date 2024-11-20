@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sample.web.test.ttl;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
-import com.emily.infrastructure.test.entity.User;
+import com.emily.infrastructure.sample.web.entity.User;
 
 /**
  * @author :  Emily

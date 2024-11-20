@@ -2,6 +2,7 @@ package com.emily.infrastructure.web.servlet.interceptor;
 
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -24,7 +25,7 @@ public class ParameterInterceptor implements HandlerInterceptor {
      * @throws Exception 异常
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) throws Exception {
         //标记阶段标识
         LocalContextHolder.current().setServletStage(ServletStage.BEFORE_PARAMETER);
         return true;
@@ -40,7 +41,7 @@ public class ParameterInterceptor implements HandlerInterceptor {
      * @throws Exception 抛出异常
      */
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler, Exception ex) throws Exception {
         //移除线程上下文数据
         LocalContextHolder.unbind(true);
     }

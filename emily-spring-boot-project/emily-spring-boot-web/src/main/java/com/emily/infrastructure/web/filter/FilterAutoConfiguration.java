@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.filter;
 
-import com.emily.infrastructure.web.filter.filter.RequestChannelFilter;
+import com.emily.infrastructure.web.filter.filter.ContentCachingWrapper;
 import com.emily.infrastructure.web.filter.filter.RoutingRedirectCustomizer;
 import com.emily.infrastructure.web.filter.filter.RoutingRedirectFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,11 +41,10 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    @ConditionalOnProperty(prefix = FilterProperties.PREFIX, name = "global-switch", havingValue = "true", matchIfMissing = true)
-    public FilterRegistrationBean<RequestChannelFilter> filterRegistrationBean() {
-        FilterRegistrationBean<RequestChannelFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setName("requestChannelFilter");
-        filterRegistrationBean.setFilter(new RequestChannelFilter());
+    public FilterRegistrationBean<ContentCachingWrapper> filterRegistrationBean() {
+        FilterRegistrationBean<ContentCachingWrapper> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setName("contentCachingWrapper");
+        filterRegistrationBean.setFilter(new ContentCachingWrapper());
         filterRegistrationBean.setUrlPatterns(List.of("/*"));
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return filterRegistrationBean;
@@ -60,8 +59,8 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnProperty(prefix = FilterProperties.PREFIX, name = "route-switch", havingValue = "true", matchIfMissing = false)
-    public FilterRegistrationBean routeRegistrationBean(RoutingRedirectCustomizer routingRedirectCustomizer) {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
+    public FilterRegistrationBean<RoutingRedirectFilter> routeRegistrationBean(RoutingRedirectCustomizer routingRedirectCustomizer) {
+        FilterRegistrationBean<RoutingRedirectFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new RoutingRedirectFilter(routingRedirectCustomizer));
         registration.addUrlPatterns("/*");
         registration.setName("UrlFilter");

@@ -11,6 +11,7 @@ Bug Fixes
 7. 移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
 8. com.emily.infrastructure.web.response.entity.BaseResponse类建造者模式实现方案修改；
 9. ContextHolder重命名为TracingHolder；
+10. 移除com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper并由ContentCachingRequestWrapper代替；
 
 ------
 Dependency Upgrades

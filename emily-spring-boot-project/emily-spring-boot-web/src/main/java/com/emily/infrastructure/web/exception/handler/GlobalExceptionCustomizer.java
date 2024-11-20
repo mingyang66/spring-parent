@@ -87,8 +87,7 @@ public class GlobalExceptionCustomizer {
      */
     public static void recordErrorMsg(Throwable ex, HttpServletRequest request) {
         //----------------------前置条件判断------------------------
-        if (ServletStage.BEFORE_PARAMETER != LocalContextHolder.current().getServletStage()
-                || !(ex instanceof HttpRequestMethodNotSupportedException)) {
+        if (ServletStage.BEFORE_PARAMETER != LocalContextHolder.current().getServletStage()) {
             return;
         }
         BaseLogger baseLogger = new BaseLogger()

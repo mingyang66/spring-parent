@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>demo-emily-spring-cloud</module>
-        <module>demo-emily-spring-boot</module>
+        <module>web-emily-spring-boot</module>
         <module>sqlite-spring-boot-sample</module>
         <module>websocket-spring-boot-sample</module>
         <module>scheduled-spring-boot-sample</module>

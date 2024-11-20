@@ -7,7 +7,6 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.sensitive.annotation.JsonSimField;
-import com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper;
 import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.util.Assert;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -64,8 +64,8 @@ public class ServletHelper {
         //请求参数
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (Objects.isNull(invocation)) {
-            if (request instanceof DelegateRequestWrapper requestWrapper) {
-                paramMap.putAll(byteArgToMap(requestWrapper.getRequestBody()));
+            if (request instanceof ContentCachingRequestWrapper requestWrapper) {
+                paramMap.putAll(byteArgToMap(requestWrapper.getContentAsByteArray()));
             }
         } else {
             paramMap.putAll(getMethodArgs(invocation));

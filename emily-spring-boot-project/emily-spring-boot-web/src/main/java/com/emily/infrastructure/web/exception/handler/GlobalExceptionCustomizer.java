@@ -14,7 +14,6 @@ import com.emily.infrastructure.web.exception.type.AppStatusType;
 import com.emily.infrastructure.web.filter.helper.ServletHelper;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
-import com.emily.infrastructure.web.servlet.interceptor.ParameterInterceptor;
 import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Method;
@@ -81,7 +79,6 @@ public class GlobalExceptionCustomizer {
      * ----------------------------------------------------------------------
      * 打印错误日志的场景：
      * 1.请求阶段标识为ServletStage.BEFORE_PARAMETER，即：参数校验异常；
-     * 2.抛出的错误异常为HttpRequestMethodNotSupportedException，此异常不会进入{@link ParameterInterceptor}，即：405 Method Not Allowed
      * ----------------------------------------------------------------------
      *
      * @param ex      异常对象
@@ -92,12 +89,7 @@ public class GlobalExceptionCustomizer {
             LOG.warn("全局异常拦截器：START============>>{}", request.getRequestURI());
         }
         //----------------------前置条件判断------------------------
-        boolean isReturn = true;
-        if (ex instanceof HttpRequestMethodNotSupportedException) {
-            isReturn = false;
-        } else if (ServletStage.BEFORE_PARAMETER == LocalContextHolder.current().getServletStage()) {
-            isReturn = false;
-        }
+        boolean isReturn = ServletStage.BEFORE_PARAMETER != LocalContextHolder.current().getServletStage();
         if (isReturn) {
             if (LOG.isDebugEnabled()) {
                 LOG.warn("全局异常拦截器-不记录日志：END<<============{}", request.getRequestURI());

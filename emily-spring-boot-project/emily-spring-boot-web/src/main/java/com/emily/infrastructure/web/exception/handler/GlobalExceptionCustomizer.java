@@ -18,6 +18,8 @@ import com.emily.infrastructure.web.servlet.interceptor.ParameterInterceptor;
 import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -38,7 +40,7 @@ import java.util.Objects;
  * @since Created in 2022/7/8 1:43 下午
  */
 public class GlobalExceptionCustomizer {
-
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionCustomizer.class);
 
     /**
      * 对API请求异常处理，
@@ -78,7 +80,7 @@ public class GlobalExceptionCustomizer {
      * 记录错误日志
      * ----------------------------------------------------------------------
      * 打印错误日志的场景：
-     * 1.请求阶段标识为ServletStage.BEFORE_PARAMETER，即：部分参数校验异常；
+     * 1.请求阶段标识为ServletStage.BEFORE_PARAMETER，即：参数校验异常；
      * 2.抛出的错误异常为HttpRequestMethodNotSupportedException，此异常不会进入{@link ParameterInterceptor}，即：405 Method Not Allowed
      * ----------------------------------------------------------------------
      *
@@ -86,8 +88,20 @@ public class GlobalExceptionCustomizer {
      * @param request 请求对象
      */
     public static void recordErrorMsg(Throwable ex, HttpServletRequest request) {
+        if (LOG.isDebugEnabled()) {
+            LOG.warn("全局异常拦截器：START============>>{}", request.getRequestURI());
+        }
         //----------------------前置条件判断------------------------
-        if (ServletStage.BEFORE_PARAMETER != LocalContextHolder.current().getServletStage()) {
+        boolean isReturn = true;
+        if (ex instanceof HttpRequestMethodNotSupportedException) {
+            isReturn = false;
+        } else if (ServletStage.BEFORE_PARAMETER == LocalContextHolder.current().getServletStage()) {
+            isReturn = false;
+        }
+        if (isReturn) {
+            if (LOG.isDebugEnabled()) {
+                LOG.warn("全局异常拦截器-不记录日志：END<<============{}", request.getRequestURI());
+            }
             return;
         }
         BaseLogger baseLogger = new BaseLogger()
@@ -119,6 +133,9 @@ public class GlobalExceptionCustomizer {
         PrintLoggerUtils.printRequest(baseLogger);
         //--------------------------后通知特殊条件判断-------------------------
         LocalContextHolder.unbind(true);
+        if (LOG.isDebugEnabled()) {
+            LOG.warn("全局异常拦截器-记录日志：END<<============{}", request.getRequestURI());
+        }
     }
 
     /**

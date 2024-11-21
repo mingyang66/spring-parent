@@ -11,7 +11,6 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
-import com.emily.infrastructure.tracing.holder.ContextTransmitter;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
 import com.emily.infrastructure.web.exception.entity.BasicException;
@@ -21,6 +20,8 @@ import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import javax.annotation.Nonnull;
@@ -30,11 +31,14 @@ import java.util.Map;
 
 /**
  * 在接口到达具体的目标即控制器方法之前获取方法的调用权限，可以在接口方法之前或者之后做Advice(增强)处理
+ * 1. 在进入拦截器后首先设置单签上下文标识是控制器阶段，在此后发生的异常都会在拦截器中记录；
+ * 2. 控制器参数校验异常不会进入此拦截器，具体的参数异常日志在全局异常AOP切面中记录；
  *
  * @author Emily
  * @since 1.0
  */
 public class DefaultRequestMethodInterceptor implements RequestCustomizer {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultRequestMethodInterceptor.class);
 
     /**
      * 拦截接口日志
@@ -43,13 +47,16 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
      */
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
-        //备份、设置当前阶段标识，标记后如果发生异常，全局异常处理控制器不会记录日志
-        ContextTransmitter.replay(ServletStage.BEFORE_CONTROLLER);
+        //设置当前阶段标识，标记后如果发生异常，全局异常处理控制器不会记录日志
+        LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
         //获取请求参数
         Map<String, Object> paramsMap = ServletHelper.getApiArgs(invocation);
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger();
         try {
+            if (LOG.isDebugEnabled()) {
+                LOG.warn("接口日志记录拦截器：START============>>{}", RequestUtils.getRequest().getRequestURL());
+            }
             //调用真实的action方法
             Object response = invocation.proceed();
             // 返回值类型为ResponseEntity时，特殊处理
@@ -86,7 +93,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
             PrintLoggerUtils.printRequest(baseLogger);
-
+            if (LOG.isDebugEnabled()) {
+                LOG.warn("接口日志记录拦截器：END<<============{}", RequestUtils.getRequest().getRequestURL());
+            }
         }
 
     }

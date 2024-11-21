@@ -1,9 +1,12 @@
 package com.emily.infrastructure.web.filter.filter;
 
 import jakarta.annotation.Nonnull;
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
@@ -18,13 +21,19 @@ import java.io.IOException;
  */
 public class ContentCachingWrapper extends OncePerRequestFilter {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ContentCachingWrapper.class);
 
     @Override
-    protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
         //创建ContentCachingRequestWrapper对象用于缓存请求体
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+        if (LOG.isDebugEnabled()) {
+            LOG.warn("请求接口缓存拦截器：START============>>{}", request.getRequestURI());
+        }
         //继续执行过滤器链，并传递包装后的请求对象
         filterChain.doFilter(requestWrapper, response);
-        System.out.println("---");
+        if (LOG.isDebugEnabled()) {
+            LOG.warn("请求接口缓存拦截器：END<<============{}", request.getRequestURI());
+        }
     }
 }

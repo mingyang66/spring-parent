@@ -5,6 +5,8 @@ import com.emily.infrastructure.tracing.holder.ServletStage;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * @since :  2023/8/18 11:03 AM
  */
 public class ParameterInterceptor implements HandlerInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(ParameterInterceptor.class);
+
     /**
      * 初始化上下文，并标记当前阶段标识
      *
@@ -26,6 +30,9 @@ public class ParameterInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) throws Exception {
+        if (LOG.isDebugEnabled()) {
+            LOG.warn("上下文阶段标识设置：START============>>{}", request.getRequestURI());
+        }
         //标记阶段标识
         LocalContextHolder.current().setServletStage(ServletStage.BEFORE_PARAMETER);
         return true;
@@ -42,6 +49,9 @@ public class ParameterInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler, Exception ex) throws Exception {
+        if (LOG.isDebugEnabled()) {
+            LOG.warn("上下文阶段标识移除：END<<============{}", request.getRequestURI());
+        }
         //移除线程上下文数据
         LocalContextHolder.unbind(true);
     }

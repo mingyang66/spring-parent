@@ -6,7 +6,7 @@ title 基于springboot API请求处理流程
 /'
 API控制器正常处理
 '/
-==API控制器正常处理==
+==场景一：API控制器正常处理==
 autonumber 1 1 "步骤："
 ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
 ParameterInterceptor -> DefaultRequestMethodInterceptor:添加上下文阶段标记
@@ -18,7 +18,7 @@ ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
 /'
 API控制器参数校验异常
 '/
-==API控制器参数校验异常==
+==场景二：API控制器参数校验异常==
 autonumber 1 1 "步骤："
 ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
 ParameterInterceptor -[#red]> DefaultGlobalExceptionHandler:参数校验失败全局异常处理
@@ -28,7 +28,7 @@ ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
 /'
 API控制器内部异常
 '/
-==API控制器内部异常==
+==场景三：API控制器内部异常==
 autonumber 1 1 "步骤："
 ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
 ParameterInterceptor -> DefaultRequestMethodInterceptor:添加上下文阶段标记
@@ -37,4 +37,12 @@ DefaultGlobalExceptionHandler <[#red]- ApiController:API内部执行异常
 DefaultResponseAdviceInterceptor <[#red]-- DefaultGlobalExceptionHandler:API异常返回值包装
 ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
 ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
+/'
+API请求METHOD错误
+'/
+==场景四：API请求METHOD错误==
+autonumber 1 1 "步骤："
+ContentCachingWrapper -[#red]> DefaultGlobalExceptionHandler:API请求METHOD错误，如：正确是GET，错误使用POST方式
+DefaultResponseAdviceInterceptor <-- DefaultGlobalExceptionHandler:API处理HttpRequestMethodNotSupportedException异常
+ContentCachingWrapper <-- DefaultResponseAdviceInterceptor:API异常数据返回包装处理后的值
 @enduml

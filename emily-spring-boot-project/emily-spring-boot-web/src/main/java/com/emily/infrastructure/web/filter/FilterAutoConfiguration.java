@@ -14,9 +14,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
+import org.springframework.web.filter.RequestContextFilter;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
 
     /**
      * 注册HTTP请求拦截器注册BEAN
+     * 1. 过滤器执行优先级必须在{@link RequestContextFilter}({@link OrderedRequestContextFilter} -105) 之后，否则拿不到HttpServletRequest对象；
      *
      * @return 过滤器注册对象
      */
@@ -46,7 +49,7 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
         filterRegistrationBean.setName("contentCachingWrapper");
         filterRegistrationBean.setFilter(new ContentCachingWrapper());
         filterRegistrationBean.setUrlPatterns(List.of("/*"));
-        filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        filterRegistrationBean.setOrder(-104);
         return filterRegistrationBean;
     }
 

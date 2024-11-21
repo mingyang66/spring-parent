@@ -3,7 +3,6 @@ package com.emily.infrastructure.web.servlet;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import com.emily.infrastructure.web.servlet.annotation.ApiPathPrefixIgnore;
-import com.emily.infrastructure.web.servlet.interceptor.ParameterInterceptor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
@@ -13,7 +12,10 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * webmvc自动化配置
@@ -130,11 +132,6 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
         }
         //设置多长时间内不需要发送预检验请求，可以缓存该结果，默认1800秒
         registration.maxAge(properties.getCors().getMaxAge());
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ParameterInterceptor()).addPathPatterns("/**");
     }
 
     @Override

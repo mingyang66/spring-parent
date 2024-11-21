@@ -8,41 +8,34 @@ API控制器正常处理
 '/
 ==场景一：API控制器正常处理==
 autonumber 1 1 "步骤："
-ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
-ParameterInterceptor -> DefaultRequestMethodInterceptor:添加上下文阶段标记
-DefaultRequestMethodInterceptor -> ApiController:API接口日志记录
+actor -> ContentCachingWrapper:发送API请求
+ContentCachingWrapper -> DefaultRequestMethodInterceptor:全局请求缓存|阶段标识Parameter设置
+DefaultRequestMethodInterceptor -> ApiController:API接口日志记录开始|设置阶段标识Controller
 DefaultRequestMethodInterceptor <-- ApiController:API接口执行完成
 DefaultResponseAdviceInterceptor <- DefaultRequestMethodInterceptor:API返回值包装
-ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
-ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
+ContentCachingWrapper <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
+actor <- ContentCachingWrapper: API返回结果
 /'
 API控制器参数校验异常
 '/
 ==场景二：API控制器参数校验异常==
 autonumber 1 1 "步骤："
-ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
-ParameterInterceptor -[#red]> DefaultGlobalExceptionHandler:参数校验失败全局异常处理
-DefaultResponseAdviceInterceptor <-[#red]- DefaultGlobalExceptionHandler:异常返回值包装处理
-ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
-ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
+actor -> ContentCachingWrapper:发送API请求
+ContentCachingWrapper -[#red]> DefaultGlobalExceptionHandler:全局请求缓存|阶段标识Parameter设置-参数或Method异常
+DefaultResponseAdviceInterceptor <-[#red]- DefaultGlobalExceptionHandler:API异常返回值包装处理
+ContentCachingWrapper <-[#red]- DefaultResponseAdviceInterceptor:移除上下文阶段标记
+actor <- ContentCachingWrapper: API返回结果
 /'
 API控制器内部异常
 '/
 ==场景三：API控制器内部异常==
 autonumber 1 1 "步骤："
-ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
-ParameterInterceptor -> DefaultRequestMethodInterceptor:添加上下文阶段标记
-DefaultRequestMethodInterceptor -> ApiController:API接口日志记录
-DefaultGlobalExceptionHandler <[#red]- ApiController:API内部执行异常
-DefaultResponseAdviceInterceptor <[#red]-- DefaultGlobalExceptionHandler:API异常返回值包装
-ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
-ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
-/'
-API请求METHOD错误
-'/
-==场景四：API请求METHOD错误==
-autonumber 1 1 "步骤："
-ContentCachingWrapper -[#red]> DefaultGlobalExceptionHandler:API请求METHOD错误，如：正确是GET，错误使用POST方式
-DefaultResponseAdviceInterceptor <-- DefaultGlobalExceptionHandler:API处理HttpRequestMethodNotSupportedException异常
-ContentCachingWrapper <-- DefaultResponseAdviceInterceptor:API异常数据返回包装处理后的值
+actor -> ContentCachingWrapper:发送API请求
+ContentCachingWrapper -> DefaultRequestMethodInterceptor:全局请求缓存|阶段标识Parameter设置
+DefaultRequestMethodInterceptor -> ApiController:API接口日志记录开始|设置阶段标识Controller
+DefaultRequestMethodInterceptor <-[#red]- ApiController:API内部发生异常
+DefaultGlobalExceptionHandler <[#red]- DefaultRequestMethodInterceptor:API拦截器记录日志结束，抛出控制器返回的异常
+DefaultResponseAdviceInterceptor <-[#red]- DefaultGlobalExceptionHandler:API异常返回值包装处理
+ContentCachingWrapper <-[#red]- DefaultResponseAdviceInterceptor:执行完成返回
+actor <- ContentCachingWrapper: API返回结果
 @enduml

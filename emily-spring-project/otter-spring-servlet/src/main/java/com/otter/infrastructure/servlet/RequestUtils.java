@@ -1,6 +1,5 @@
 package com.otter.infrastructure.servlet;
 
-import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -171,13 +170,9 @@ public class RequestUtils {
      * @return 请求对象
      */
     public static HttpServletRequest getRequest() {
-        try {
-            ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-            assert attributes != null;
-            return attributes.getRequest();
-        } catch (Exception ex) {
-            throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
-        }
+        ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        assert attributes != null;
+        return attributes.getRequest();
     }
 
     /**
@@ -186,13 +181,9 @@ public class RequestUtils {
      * @return 响应对象
      */
     public static HttpServletResponse getResponse() {
-        try {
-            ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-            assert attributes != null;
-            return attributes.getResponse();
-        } catch (Exception ex) {
-            throw new RuntimeException(PrintExceptionUtils.printErrorInfo(ex));
-        }
+        ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        assert attributes != null;
+        return attributes.getResponse();
     }
 
     /**

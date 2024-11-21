@@ -13,6 +13,7 @@ Bug Fixes
 9. ContextHolder重命名为TracingHolder；
 10. 移除com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper并由ContentCachingRequestWrapper代替；
 11. 移除com.emily.infrastructure.tracing.holder.ContextTransmitter；
+12. 移除ParameterInterceptor拦截器，内部的设置阶段标识功能迁移到ContentCachingWrapper过滤器类中；
 
 ------
 Dependency Upgrades

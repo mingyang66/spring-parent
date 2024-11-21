@@ -11,7 +11,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-dependencies</artifactId>
-                <version>5.0.1</version>
+                <version>5.0.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -19,6 +19,19 @@
         </dependencies>
     </dependencyManagement>
 ```
+
+基于继承关系的Maven父依赖：
+
+```xml
+    <parent>
+        <groupId>io.github.mingyang66</groupId>
+        <artifactId>emily-spring-boot-parent</artifactId>
+        <version>5.0.2</version>
+        <relativePath/>
+    </parent>
+```
+
+
 
 ### maven父pom和子pom的版本号批量修改
 

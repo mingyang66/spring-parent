@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title 基于springboot API请求处理流程
+/'
+API控制器正常处理
+'/
+==API控制器正常处理==
+autonumber 1 1 "步骤："
+ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
+ParameterInterceptor -> DefaultRequestMethodInterceptor:添加上下文阶段标记
+DefaultRequestMethodInterceptor -> ApiController:API接口日志记录
+DefaultRequestMethodInterceptor <-- ApiController:API接口执行完成
+DefaultResponseAdviceInterceptor <- DefaultRequestMethodInterceptor:API返回值包装
+ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
+ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
+/'
+API控制器参数校验异常
+'/
+==API控制器参数校验异常==
+autonumber 1 1 "步骤："
+ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
+ParameterInterceptor -[#red]> DefaultGlobalExceptionHandler:参数校验失败全局异常处理
+DefaultResponseAdviceInterceptor <-[#red]- DefaultGlobalExceptionHandler:异常返回值包装处理
+ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
+ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
+/'
+API控制器内部异常
+'/
+==API控制器内部异常==
+autonumber 1 1 "步骤："
+ContentCachingWrapper -> ParameterInterceptor:全局缓存过滤器
+ParameterInterceptor -> DefaultRequestMethodInterceptor:添加上下文阶段标记
+DefaultRequestMethodInterceptor -> ApiController:API接口日志记录
+DefaultGlobalExceptionHandler <[#red]- ApiController:API内部执行异常
+DefaultResponseAdviceInterceptor <[#red]-- DefaultGlobalExceptionHandler:API异常返回值包装
+ParameterInterceptor <-- DefaultResponseAdviceInterceptor:移除上下文阶段标记
+ContentCachingWrapper <-- ParameterInterceptor:执行完成返回
+@enduml

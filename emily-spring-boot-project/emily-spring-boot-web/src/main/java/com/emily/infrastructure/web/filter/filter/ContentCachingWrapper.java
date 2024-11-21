@@ -25,5 +25,6 @@ public class ContentCachingWrapper extends OncePerRequestFilter {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
         //继续执行过滤器链，并传递包装后的请求对象
         filterChain.doFilter(requestWrapper, response);
+        System.out.println("---");
     }
 }

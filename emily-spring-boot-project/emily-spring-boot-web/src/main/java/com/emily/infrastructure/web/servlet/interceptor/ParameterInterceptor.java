@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 
 /**
- * 异常处理前置拦截器，用于初始化上下文、移除上下文
+ * 前置拦截器，用于初始化上下文、移除上下文
  *
  * @author :  Emily
  * @since :  2023/8/18 11:03 AM

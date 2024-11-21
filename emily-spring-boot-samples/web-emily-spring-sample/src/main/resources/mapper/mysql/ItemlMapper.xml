@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emily.infrastructure.sample.web.mapper.mysql.ItemMapper">
+
+    <insert id="inertByBatch" parameterType="java.util.List">
+        insert into item values
+        <foreach collection="list" item="item" index="" separator=",">
+            (#{item.scheName},#{item.lockName})
+        </foreach>
+    </insert>
+    <insert id="insertItem" parameterType="java.lang.String">
+        insert into item
+        values (#{scheName}, #{lockName})
+    </insert>
+</mapper>

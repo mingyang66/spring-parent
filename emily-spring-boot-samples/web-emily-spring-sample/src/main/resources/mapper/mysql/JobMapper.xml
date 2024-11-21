@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emily.infrastructure.sample.web.mapper.mysql.JobMapper">
+    <resultMap id="jobMap" type="com.emily.infrastructure.sample.web.entity.Job">
+        <id column="ID" property="id"/>
+        <result column="ID" property="id"/>
+        <result column="job_group" property="jobNumber"/>
+        <result column="JOB_DESC" property="jobDesc"/>
+    </resultMap>
+
+    <select id="findJob" resultMap="jobMap">
+        SELECT s.id     as id,
+               s.name   as jobDesc,
+               s.colour as a
+        from sailboat s
+        where s.id = 52
+    </select>
+
+
+</mapper>

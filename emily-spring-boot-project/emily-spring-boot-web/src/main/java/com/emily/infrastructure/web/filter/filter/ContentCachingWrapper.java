@@ -33,7 +33,7 @@ public class ContentCachingWrapper extends OncePerRequestFilter {
             LOG.warn("请求接口缓存拦截器：START============>>{}", request.getRequestURI());
         }
         //标记阶段标识
-        LocalContextHolder.current().setServletStage(ServletStage.BEFORE_PARAMETER);
+        LocalContextHolder.current().setServletStage(ServletStage.PARAMETER);
         //继续执行过滤器链，并传递包装后的请求对象
         filterChain.doFilter(requestWrapper, response);
         //移除线程上下文数据

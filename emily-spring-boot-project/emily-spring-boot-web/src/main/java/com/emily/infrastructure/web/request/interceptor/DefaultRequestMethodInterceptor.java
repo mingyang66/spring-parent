@@ -48,7 +48,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //设置当前阶段标识，标记后如果发生异常，全局异常处理控制器不会记录日志
-        LocalContextHolder.current().setServletStage(ServletStage.BEFORE_CONTROLLER);
+        LocalContextHolder.current().setServletStage(ServletStage.CONTROLLER);
         //获取请求参数
         Map<String, Object> paramsMap = ServletHelper.getApiArgs(invocation);
         //封装异步日志信息

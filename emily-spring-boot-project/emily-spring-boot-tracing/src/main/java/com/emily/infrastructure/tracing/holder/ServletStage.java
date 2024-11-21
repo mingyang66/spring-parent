@@ -8,8 +8,8 @@ package com.emily.infrastructure.tracing.holder;
  */
 public enum ServletStage {
     //参数校验之前
-    BEFORE_PARAMETER,
+    PARAMETER,
     //控制器方法调用之前
-    BEFORE_CONTROLLER,
+    CONTROLLER,
     OTHER;
 }

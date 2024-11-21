@@ -89,7 +89,7 @@ public class GlobalExceptionCustomizer {
             LOG.warn("全局异常拦截器：START============>>{}", request.getRequestURI());
         }
         //----------------------前置条件判断------------------------
-        boolean isReturn = ServletStage.BEFORE_PARAMETER != LocalContextHolder.current().getServletStage();
+        boolean isReturn = ServletStage.PARAMETER != LocalContextHolder.current().getServletStage();
         if (isReturn) {
             if (LOG.isDebugEnabled()) {
                 LOG.warn("全局异常拦截器-不记录日志：END<<============{}", request.getRequestURI());

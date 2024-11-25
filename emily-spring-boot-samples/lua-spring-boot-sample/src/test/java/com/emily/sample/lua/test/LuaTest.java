@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/11/1 下午3:54
  */
 public class LuaTest {

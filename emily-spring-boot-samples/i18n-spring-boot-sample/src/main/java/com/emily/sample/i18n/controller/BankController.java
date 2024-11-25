@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/10/31 下午1:52
  */
 @RestController

@@ -4,7 +4,7 @@ import com.emily.infrastructure.language.convert.I18nCache;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/10/31 下午1:58
  */
 @Configuration

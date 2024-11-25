@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.filter;
 
-import com.emily.infrastructure.web.filter.filter.ContentCachingWrapper;
+import com.emily.infrastructure.web.filter.filter.ContentCachingWrapperFilter;
 import com.emily.infrastructure.web.filter.filter.RoutingRedirectCustomizer;
 import com.emily.infrastructure.web.filter.filter.RoutingRedirectFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,10 +44,10 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public FilterRegistrationBean<ContentCachingWrapper> filterRegistrationBean() {
-        FilterRegistrationBean<ContentCachingWrapper> filterRegistrationBean = new FilterRegistrationBean<>();
+    public FilterRegistrationBean<ContentCachingWrapperFilter> filterRegistrationBean() {
+        FilterRegistrationBean<ContentCachingWrapperFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setName("contentCachingWrapper");
-        filterRegistrationBean.setFilter(new ContentCachingWrapper());
+        filterRegistrationBean.setFilter(new ContentCachingWrapperFilter());
         filterRegistrationBean.setUrlPatterns(List.of("/*"));
         filterRegistrationBean.setOrder(-104);
         return filterRegistrationBean;

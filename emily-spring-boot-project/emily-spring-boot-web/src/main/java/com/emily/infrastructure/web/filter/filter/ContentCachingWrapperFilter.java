@@ -21,9 +21,9 @@ import java.io.IOException;
  * @author Emily
  * @since 2020/8/19
  */
-public class ContentCachingWrapper extends OncePerRequestFilter {
+public class ContentCachingWrapperFilter extends OncePerRequestFilter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContentCachingWrapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContentCachingWrapperFilter.class);
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {

@@ -27,6 +27,5 @@
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-transfer</artifactId>
         </dependency>
-
     </dependencies>
 </project>

@@ -15,19 +15,19 @@
     <description>Bill Of Material</description>
 
     <properties>
-        <spring-boot.version>3.3.5</spring-boot.version>
+        <spring-boot.version>3.4.0</spring-boot.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <spring.mybatis.version>3.0.3</spring.mybatis.version>
         <alibaba.druid.version>1.2.23</alibaba.druid.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
         <google-guava.version>32.1.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
-        <jackson.version>2.17.2</jackson.version>
-        <junit-jupiter.version>5.10.1</junit-jupiter.version>
+        <jackson.version>2.18.1</jackson.version>
+        <junit-jupiter.version>5.11.3</junit-jupiter.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
-        <logback.version>1.5.7</logback.version>
+        <logback.version>1.5.12</logback.version>
         <slf4j.version>2.0.16</slf4j.version>
         <jansi.version>2.4.0</jansi.version>
         <knife4j.version>4.5.0</knife4j.version>

@@ -18,7 +18,7 @@ Bug Fixes
 ------
 Dependency Upgrades
 
-1. Upgrade to springboot 3.3.5;
+1. Upgrade to springboot 3.4.0;
 
 ###-----
 基础库发布5.0.1

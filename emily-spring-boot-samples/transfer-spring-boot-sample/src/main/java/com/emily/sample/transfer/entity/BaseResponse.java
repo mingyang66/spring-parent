@@ -1,4 +1,4 @@
-package com.emily.sample.rest;
+package com.emily.sample.transfer.entity;
 
 /**
  * 控制器返回结果

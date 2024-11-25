@@ -1,6 +1,7 @@
-package com.emily.sample.rest;
+package com.emily.sample.transfer.rest;
 
 import com.emily.infrastructure.transfer.rest.annotation.TargetHttpTimeout;
+import com.emily.sample.transfer.entity.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

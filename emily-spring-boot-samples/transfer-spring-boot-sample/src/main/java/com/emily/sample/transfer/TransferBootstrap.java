@@ -1,4 +1,4 @@
-package com.emily.sample.rest;
+package com.emily.sample.transfer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

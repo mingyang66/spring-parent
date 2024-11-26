@@ -5,6 +5,8 @@ import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * 日志工具类
  *
@@ -47,6 +49,7 @@ public class PrintLoggerUtils {
         threadPoolTaskExecutor.setCorePoolSize(poolSize);
         threadPoolTaskExecutor.setMaxPoolSize(maxPoolSize);
         threadPoolTaskExecutor.setQueueCapacity(queueCapacity);
+        threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
         threadPoolTaskExecutor.initialize();
         return threadPoolTaskExecutor;
     }

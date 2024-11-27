@@ -6,8 +6,9 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
+import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.transfer.entity.TransferResponse;
@@ -73,7 +74,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //请求参数
                     .requestParams(AttributeInfo.PARAMS, MethodHelper.getMethodArgs(invocation));
             //异步记录接口响应信息
-            PrintLoggerUtils.printThirdParty(baseLogger);
+            PrintLogUtils.printThirdParty(JsonUtils.toJSONString(baseLogger));
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据

@@ -5,8 +5,9 @@ import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
+import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.mybatis.helper.MethodHelper;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
@@ -54,7 +55,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //打印日志
-            PrintLoggerUtils.printThirdParty(baseLogger);
+            PrintLogUtils.printThirdParty(JsonUtils.toJSONString(baseLogger));
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

@@ -37,9 +37,5 @@
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-logger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-json</artifactId>
-        </dependency>
     </dependencies>
 </project>

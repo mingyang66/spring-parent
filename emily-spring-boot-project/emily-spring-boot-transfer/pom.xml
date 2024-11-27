@@ -52,6 +52,10 @@
             <artifactId>oceansky-sensitive</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>oceansky-json</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>

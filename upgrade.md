@@ -1,4 +1,13 @@
 ###-----
+基础库发布5.0.3
+Bug Fixes
+
+1. PrintLogUtils工具类打印日志入参修改为String,线程池的初始化优先取系统自带线程池；
+
+Dependency Upgrades
+
+------
+###-----
 基础库发布5.0.2
 Bug Fixes
 
@@ -8,7 +17,8 @@ Bug Fixes
 4. knife4j-openapi3-jakarta-spring-boot-starter包版本更新；
 5. 更新emily-spring-boot-parent module模块；
 6. com.emily.infrastructure.logback.entity.BaseLogger建造者模式实现方案修改；
-7. 移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
+7.
+移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
 8. com.emily.infrastructure.web.response.entity.BaseResponse类建造者模式实现方案修改；
 9. ContextHolder重命名为TracingHolder；
 10. 移除com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper并由ContentCachingRequestWrapper代替；

@@ -51,8 +51,8 @@ public class PrintExceptionUtils {
             return "";
         }
         String message = "";
-        for (int i = 0; i < ex.length; i++) {
-            message = MessageFormat.format("{0}{1}{2}", message, ENTER, printErrorInfo(ex[i]));
+        for (Throwable throwable : ex) {
+            message = MessageFormat.format("{0}{1}{2}", message, ENTER, printErrorInfo(throwable));
         }
         return message;
     }

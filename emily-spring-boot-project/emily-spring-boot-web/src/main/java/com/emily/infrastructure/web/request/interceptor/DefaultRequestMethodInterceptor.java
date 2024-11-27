@@ -9,7 +9,7 @@ import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLoggerUtils;
+import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
@@ -92,7 +92,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //API耗时--用于返回值耗时字段设置
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
-            PrintLoggerUtils.printRequest(baseLogger);
+            PrintLogUtils.printRequest(JsonUtils.toJSONString(baseLogger));
             if (LOG.isDebugEnabled()) {
                 LOG.warn("接口日志记录拦截器：END<<============{}", RequestUtils.getRequest().getRequestURL());
             }

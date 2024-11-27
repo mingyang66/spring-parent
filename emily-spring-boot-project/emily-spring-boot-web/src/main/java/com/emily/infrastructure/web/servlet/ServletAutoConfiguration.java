@@ -33,7 +33,6 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
      * 忽略URL前缀的控制器类
      */
     private static String[] ignoreUrlPrefixController = new String[]{
-            "springfox.documentation.swagger.web.ApiResourceController",
             "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController"
     };
     private final ServletProperties properties;
@@ -66,13 +65,7 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
         //忽略URL前缀的控制器类
         ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, properties.getPath().getExclude().toArray(new String[]{}));
         //给所有的接口统一添加前缀
-        configurer.addPathPrefix(properties.getPath().getPrefix(), c -> {
-            if (c.isAnnotationPresent(ApiPathPrefixIgnore.class) || ArrayUtils.contains(ignoreUrlPrefixController, c.getName())) {
-                return false;
-            } else {
-                return true;
-            }
-        });
+        configurer.addPathPrefix(properties.getPath().getPrefix(), c -> !c.isAnnotationPresent(ApiPathPrefixIgnore.class) && !ArrayUtils.contains(ignoreUrlPrefixController, c.getName()));
     }
 
     /**

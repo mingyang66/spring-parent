@@ -2,7 +2,7 @@ package com.emily.infrastructure.web.response.interceptor;
 
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.web.exception.type.AppStatusType;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.emily.infrastructure.web.response.ResponseProperties;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
@@ -97,8 +97,8 @@ public class DefaultResponseAdviceInterceptor implements ResponseBodyAdvice<Obje
 
         //------------------------------------------对返回值进行包装处理分割线-----------------------------------------------------------------
         BaseResponse<Object> baseResponse = new BaseResponse<>()
-                .status(AppStatusType.OK.getStatus())
-                .message(AppStatusType.OK.getMessage());
+                .status(ApplicationStatus.OK.getStatus())
+                .message(ApplicationStatus.OK.getMessage());
         // 如果返回值是void类型，则直接返回BaseResponse空对象
         if (returnType.getParameterType().equals(Void.class)) {
             return baseResponse;

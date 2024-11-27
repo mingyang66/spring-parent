@@ -14,7 +14,7 @@ import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
 import com.emily.infrastructure.web.exception.entity.BasicException;
-import com.emily.infrastructure.web.exception.type.AppStatusType;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.emily.infrastructure.web.filter.helper.ServletHelper;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.otter.infrastructure.servlet.RequestUtils;
@@ -63,9 +63,9 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             return handleResponse(response, baseLogger);
         } catch (Exception ex) {
             //响应码
-            baseLogger.status((ex instanceof BasicException) ? ((BasicException) ex).getStatus() : AppStatusType.EXCEPTION.getStatus())
+            baseLogger.status((ex instanceof BasicException) ? ((BasicException) ex).getStatus() : ApplicationStatus.EXCEPTION.getStatus())
                     //响应描述
-                    .message((ex instanceof BasicException) ? ex.getMessage() : AppStatusType.EXCEPTION.getMessage())
+                    .message((ex instanceof BasicException) ? ex.getMessage() : ApplicationStatus.EXCEPTION.getMessage())
                     //异常响应体
                     .body(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;

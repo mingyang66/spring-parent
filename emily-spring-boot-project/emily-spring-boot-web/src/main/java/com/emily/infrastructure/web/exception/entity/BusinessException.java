@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.exception.entity;
 
-import com.emily.infrastructure.web.exception.type.AppStatusType;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 
 /**
  * 业务异常
@@ -10,10 +10,10 @@ import com.emily.infrastructure.web.exception.type.AppStatusType;
  */
 public class BusinessException extends BasicException {
     public BusinessException() {
-        super(AppStatusType.EXCEPTION);
+        super(ApplicationStatus.EXCEPTION);
     }
 
-    public BusinessException(AppStatusType httpStatus) {
+    public BusinessException(ApplicationStatus httpStatus) {
         super(httpStatus);
     }
 

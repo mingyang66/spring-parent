@@ -1,7 +1,7 @@
 package com.emily.infrastructure.web.exception.entity;
 
 
-import com.emily.infrastructure.web.exception.type.AppStatusType;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 
 /**
  * 业务异常
@@ -26,7 +26,7 @@ public class BasicException extends RuntimeException {
     public BasicException() {
     }
 
-    public BasicException(AppStatusType httpStatus) {
+    public BasicException(ApplicationStatus httpStatus) {
         super(httpStatus.getMessage());
         this.status = httpStatus.getStatus();
         this.message = httpStatus.getMessage();

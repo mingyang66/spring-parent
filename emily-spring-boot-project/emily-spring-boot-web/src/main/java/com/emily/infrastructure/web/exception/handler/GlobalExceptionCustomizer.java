@@ -11,7 +11,7 @@ import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
-import com.emily.infrastructure.web.exception.type.AppStatusType;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.emily.infrastructure.web.filter.helper.ServletHelper;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
@@ -50,7 +50,7 @@ public class GlobalExceptionCustomizer {
      * @param httpStatusType 异常状态枚举
      * @return 包装或为包装的结果
      */
-    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, AppStatusType httpStatusType) {
+    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, ApplicationStatus httpStatusType) {
         return getApiResponseWrapper(handlerMethod, httpStatusType.getStatus(), httpStatusType.getMessage());
     }
 

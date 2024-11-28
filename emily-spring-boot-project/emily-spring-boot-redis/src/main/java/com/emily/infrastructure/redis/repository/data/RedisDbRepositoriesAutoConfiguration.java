@@ -52,7 +52,7 @@ public class RedisDbRepositoriesAutoConfiguration implements InitializingBean, D
     }
 
     private static KeyExpirationEventMessageListener getKeyExpirationEventMessageListener(RedisMessageListenerContainer redisMessageListenerContainer, RedisOperations<?, ?> redisOps, RedisDbKeyValueAdapter redisKeyValueAdapter, RedisProperties properties) {
-        RedisDbKeyValueAdapter.MappingExpirationListener listener = new RedisDbKeyValueAdapter.MappingExpirationListener(redisMessageListenerContainer, redisOps, redisKeyValueAdapter.getConverter());
+        RedisDbKeyValueAdapter.MappingExpirationListener listener = new RedisDbKeyValueAdapter.MappingExpirationListener(redisMessageListenerContainer, redisOps, redisKeyValueAdapter.getConverter(), RedisDbKeyValueAdapter.ShadowCopy.DEFAULT);
         if (redisKeyValueAdapter.getKeyspaceNotificationsConfigParameter() != null) {
             listener.setKeyspaceNotificationsConfigParameter(redisKeyValueAdapter.getKeyspaceNotificationsConfigParameter());
         }

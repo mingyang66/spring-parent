@@ -36,7 +36,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -750,7 +749,7 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
         if (this.expirationListener.get() == null) {
 
             RedisDbKeyValueAdapter.MappingExpirationListener listener = new RedisDbKeyValueAdapter.MappingExpirationListener(this.messageListenerContainer, this.redisOps,
-                    this.converter);
+                    this.converter, shadowCopy);
 
             listener.setKeyspaceNotificationsConfigParameter(keyspaceNotificationsConfigParameter);
 
@@ -831,17 +830,19 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
     public static class MappingExpirationListener extends KeyExpirationEventMessageListener {
         private final RedisOperations<?, ?> ops;
         private final RedisConverter converter;
+        private final ShadowCopy shadowCopy;
         private RedisProperties redisProperties;
 
         /**
          * Creates new {@link RedisDbKeyValueAdapter.MappingExpirationListener}.
          */
         public MappingExpirationListener(RedisMessageListenerContainer listenerContainer, RedisOperations<?, ?> ops,
-                                         RedisConverter converter) {
+                                         RedisConverter converter, ShadowCopy shadowCopy) {
 
             super(listenerContainer);
             this.ops = ops;
             this.converter = converter;
+            this.shadowCopy = shadowCopy;
         }
 
         @Override
@@ -861,6 +862,40 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
             }
 
             byte[] key = message.getBody();
+            Object value = readShadowCopyIfEnabled(key);
+            byte[] channelAsBytes = message.getChannel();
+
+            String channel = !ObjectUtils.isEmpty(channelAsBytes)
+                    ? converter.getConversionService().convert(channelAsBytes, String.class)
+                    : null;
+
+            RedisKeyExpiredEvent<?> event = new RedisKeyExpiredEvent<>(channel, key, value);
+
+            ops.execute((RedisCallback<Void>) connection -> {
+                System.out.println("--------" + event.getKeyspace() + "--" + new String(event.getId()));
+                if (event.getKeyspace() == null) {
+                    connection.sRem(converter.getConversionService().convert("", byte[].class), event.getId());
+                } else {
+                    connection.sRem(converter.getConversionService().convert(event.getKeyspace(), byte[].class), event.getId());
+                }
+                new IndexDbWriter(connection, converter).removeKeyFromIndexes(event.getKeyspace(), event.getId());
+                return null;
+            });
+
+            publishEvent(event);
+        }
+
+        @Nullable
+        private Object readShadowCopyIfEnabled(byte[] key) {
+
+            if (shadowCopy == ShadowCopy.OFF) {
+                return null;
+            }
+            return readShadowCopy(key);
+        }
+
+        @Nullable
+        private Object readShadowCopy(byte[] key) {
 
             byte[] phantomKey = ByteUtils.concat(key,
                     converter.getConversionService().convert(KeyspaceIdentifier.PHANTOM_SUFFIX, byte[].class));
@@ -876,25 +911,7 @@ public class RedisDbKeyValueAdapter extends AbstractKeyValueAdapter
                 return phantomValue;
             });
 
-            Object value = CollectionUtils.isEmpty(hash) ? null : converter.read(Object.class, new RedisData(hash));
-
-            byte[] channelAsBytes = message.getChannel();
-
-            String channel = !ObjectUtils.isEmpty(channelAsBytes)
-                    ? converter.getConversionService().convert(channelAsBytes, String.class)
-                    : null;
-
-            RedisKeyExpiredEvent<?> event = new RedisKeyExpiredEvent<>(channel, key, value);
-
-            ops.execute((RedisCallback<Void>) connection -> {
-                if (StringUtils.hasText(event.getKeyspace())) {
-                    connection.sRem(converter.getConversionService().convert(event.getKeyspace(), byte[].class), event.getId());
-                    new IndexDbWriter(connection, converter).removeKeyFromIndexes(event.getKeyspace(), event.getId());
-                }
-                return null;
-            });
-
-            publishEvent(event);
+            return CollectionUtils.isEmpty(hash) ? null : converter.read(Object.class, new RedisData(hash));
         }
 
         private boolean isKeyExpirationMessage(Message message) {

@@ -1,9 +1,10 @@
-package com.emily.infrastructure.sample.web.controller.redis.container;
+package com.emily.sample.redis.config;
 
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisKeyExpiredEvent;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
  * @author :  Emily
  * @since :  2024/7/1 下午3:56
  */
-//@Configuration
+@Configuration
 //@EnableRedisDbRepositories(basePackages = {"com.emily.infrastructure.test.controller.redis.container"}, enableKeyspaceEvents = RedisDbKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig {
 
@@ -28,7 +29,7 @@ public class RedisConfig {
         return "success";
     }
 
-    @Bean
+   // @Bean
     public String register1(@Qualifier("test1RedisMessageListenerContainer") RedisMessageListenerContainer factory, MessageListenerAdapter messageListenerAdapter) {
         factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test"));
         factory.addMessageListener(messageListenerAdapter, PatternTopic.of("test1"));

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.controller.redis;
+package com.emily.sample.redis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.controller.redis.container;
+package com.emily.sample.redis.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

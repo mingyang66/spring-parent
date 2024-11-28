@@ -23,6 +23,7 @@
         <module>i18n-spring-boot-sample</module>
         <module>lua-spring-boot-sample</module>
         <module>transfer-spring-boot-sample</module>
+        <module>redis-spring-boot-sample</module>
     </modules>
 
 </project>

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.controller.redis;
+package com.emily.sample.redis.controller;
 
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import org.springframework.web.bind.annotation.GetMapping;

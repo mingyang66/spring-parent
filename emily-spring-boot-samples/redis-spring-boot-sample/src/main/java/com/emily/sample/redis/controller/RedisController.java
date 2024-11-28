@@ -1,9 +1,8 @@
-package com.emily.infrastructure.sample.web.controller.redis;
+package com.emily.sample.redis.controller;
 
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.RedisKeyspace;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
-import com.emily.infrastructure.sample.web.controller.ThreadPoolHelper;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,30 +20,28 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Emily
- * @program: spring-parent
- * 缓存测试
- * @since 2021/07/14
- */
+
+
 @RestController
 @RequestMapping("api/redis")
 public class RedisController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
-    @Qualifier("test1StringRedisTemplate")
+   // @Qualifier("test1StringRedisTemplate")
     private StringRedisTemplate testStringRedisTemplate;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    @Qualifier("test1RedisTemplate")
+    //@Qualifier("test1RedisTemplate")
     private RedisTemplate testRedisTemplate;
     @Autowired
     private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
     @Autowired
-    @Qualifier("test1ReactiveStringRedisTemplate")
+   // @Qualifier("test1ReactiveStringRedisTemplate")
     private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @GetMapping("test")
     public String test() {
@@ -88,23 +86,23 @@ public class RedisController {
     @GetMapping("getCn")
     public Object get2() {
         for (int i = 0; i < 1000; i++) {
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> {
+            threadPoolTaskExecutor.execute(() -> {
                 RedisDbFactory.getRedisTemplate("test").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
             });
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> {
+            threadPoolTaskExecutor.execute(() -> {
                 RedisDbFactory.getRedisTemplate("test1").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
             });
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> {
+            threadPoolTaskExecutor.execute(() -> {
                 RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
             });
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> {
+            threadPoolTaskExecutor.execute(() -> {
                 Map<String, Object> dataMap = Maps.newHashMap();
                 dataMap.put("te", 12);
                 dataMap.put("te2", 12);
                 dataMap.put("te3", "年好吗");
                 RedisDbFactory.getRedisTemplate("test").opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
             });
-            ThreadPoolHelper.defaultThreadPoolTaskExecutor().execute(() -> {
+            threadPoolTaskExecutor.execute(() -> {
                 RedisDbFactory.getStringRedisTemplate("test1").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
             });
 

@@ -70,7 +70,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
         return redisConnectionDetails;
     }
 
-    @Bean
+    @Bean(name = DEFAULT_REDIS_TEMPLATE)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {

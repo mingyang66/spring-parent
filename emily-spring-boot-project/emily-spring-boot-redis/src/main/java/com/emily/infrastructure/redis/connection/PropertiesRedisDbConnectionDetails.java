@@ -51,13 +51,8 @@ public class PropertiesRedisDbConnectionDetails implements RedisConnectionDetail
 
     @Override
     public Sentinel getSentinel() {
-        org.springframework.boot.autoconfigure.data.redis.RedisProperties.Sentinel sentinel = this.properties
-                .getSentinel();
-        if (sentinel == null) {
-            return null;
-        }
-        return new Sentinel() {
-
+        RedisProperties.Sentinel sentinel = this.properties.getSentinel();
+        return sentinel == null ? null : new Sentinel() {
             @Override
             public int getDatabase() {
                 return PropertiesRedisDbConnectionDetails.this.properties.getDatabase();
@@ -82,20 +77,20 @@ public class PropertiesRedisDbConnectionDetails implements RedisConnectionDetail
             public String getPassword() {
                 return sentinel.getPassword();
             }
-
         };
     }
 
     @Override
     public Cluster getCluster() {
         RedisProperties.Cluster cluster = this.properties.getCluster();
-        List<Node> nodes = (cluster != null) ? cluster.getNodes().stream().map(this::asNode).toList() : null;
+        List<Node> nodes = cluster != null ? cluster.getNodes().stream().map(this::asNode).toList() : null;
         return (nodes != null) ? () -> nodes : null;
     }
 
-    private Node asNode(String node) {
-        String[] components = node.split(":");
-        return new Node(components[0], Integer.parseInt(components[1]));
+    private RedisConnectionDetails.Node asNode(String node) {
+        int portSeparatorIndex = node.lastIndexOf(58);
+        String host = node.substring(0, portSeparatorIndex);
+        int port = Integer.parseInt(node.substring(portSeparatorIndex + 1));
+        return new RedisConnectionDetails.Node(host, port);
     }
-
 }

@@ -20,6 +20,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnThreading;
 import org.springframework.boot.autoconfigure.data.redis.ClientResourcesBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
+import org.springframework.boot.autoconfigure.data.redis.LettuceClientOptionsBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
 import org.springframework.boot.autoconfigure.thread.Threading;
 import org.springframework.boot.ssl.SslBundle;
@@ -87,9 +88,10 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     @ConditionalOnMissingBean({RedisConnectionFactory.class})
     @ConditionalOnThreading(Threading.PLATFORM)
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+                                                    ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                     ClientResources clientResources,
                                                     RedisConnectionDetails connectionDetails) {
-        return createConnectionFactory(builderCustomizers, clientResources, connectionDetails);
+        return createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, connectionDetails);
     }
 
     @Bean
@@ -98,9 +100,10 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     @ConditionalOnThreading(Threading.VIRTUAL)
     LettuceConnectionFactory redisConnectionFactoryVirtualThreads(
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+            ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
             ClientResources clientResources,
             RedisConnectionDetails connectionDetails) {
-        LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientResources, connectionDetails);
+        LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, connectionDetails);
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             String key = entry.getKey();
             if (this.getProperties().getDefaultConfig().equals(key)) {
@@ -120,6 +123,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     }
 
     private LettuceConnectionFactory createConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+                                                             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                              ClientResources clientResources,
                                                              RedisConnectionDetails connectionDetails) {
         String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
@@ -127,7 +131,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             String key = entry.getKey();
             RedisProperties properties = entry.getValue();
-            LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientResources, properties);
+            LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, properties);
             LettuceConnectionFactory connectionFactory;
             if (defaultConfig.equals(key)) {
                 connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties, connectionDetails);
@@ -166,6 +170,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
     }
 
     private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+                                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                                      ClientResources clientResources,
                                                                      RedisProperties properties) {
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = this.createBuilder(properties.getLettuce().getPool());
@@ -173,17 +178,14 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
         if (StringUtils.hasText(properties.getUrl())) {
             customizeConfigurationFromUrl(builder, properties);
         }
-        builder.clientOptions(createClientOptions(properties));
+        builder.clientOptions(createClientOptions(clientOptionsBuilderCustomizers, properties));
         builder.clientResources(clientResources);
         builderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
         return builder.build();
     }
 
     private LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool pool) {
-        if (this.isPoolEnabled(pool)) {
-            new PoolBuilderFactory().createBuilder(pool);
-        }
-        return LettuceClientConfiguration.builder();
+        return this.isPoolEnabled(pool) ? (new PoolBuilderFactory()).createBuilder(pool) : LettuceClientConfiguration.builder();
     }
 
     private void applyProperties(LettuceClientConfiguration.LettuceClientConfigurationBuilder builder, RedisProperties properties) {
@@ -204,7 +206,7 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
         }
     }
 
-    private ClientOptions createClientOptions(RedisProperties properties) {
+    private ClientOptions createClientOptions(ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientConfigurationBuilderCustomizers, RedisProperties properties) {
         ClientOptions.Builder builder = this.initializeClientOptionsBuilder(properties);
         Duration connectTimeout = properties.getConnectTimeout();
         if (connectTimeout != null) {
@@ -225,7 +227,11 @@ public class LettuceDbConnectionConfiguration extends RedisDbConnectionConfigura
             builder.sslOptions(sslOptionsBuilder.build());
         }
 
-        return builder.timeoutOptions(TimeoutOptions.enabled()).build();
+        builder.timeoutOptions(TimeoutOptions.enabled());
+        clientConfigurationBuilderCustomizers.orderedStream().forEach((customizer) -> {
+            customizer.customize(builder);
+        });
+        return builder.build();
     }
 
     private ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {

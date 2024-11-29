@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 
 /**
@@ -25,12 +26,30 @@ public class PrintLogUtils {
     }
 
     /**
+     * 记录请求日志
+     *
+     * @param supplier 日志信息
+     */
+    public static void printRequest(Supplier<String> supplier) {
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOG.info(supplier.get()));
+    }
+
+    /**
      * 记录三方请求日志
      *
      * @param message 日志信息
      */
     public static void printThirdParty(String message) {
         ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOGTHIRDPARTY.info(message));
+    }
+
+    /**
+     * 记录三方请求日志
+     *
+     * @param supplier 日志信息
+     */
+    public static void printThirdParty(Supplier<String> supplier) {
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOGTHIRDPARTY.info(supplier.get()));
     }
 
     static class LogHolder {

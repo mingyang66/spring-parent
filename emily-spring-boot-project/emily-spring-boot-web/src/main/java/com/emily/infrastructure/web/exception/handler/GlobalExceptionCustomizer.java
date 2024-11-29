@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * 异常处理基础类
@@ -123,7 +124,7 @@ public class GlobalExceptionCustomizer {
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件
-        PrintLogUtils.printRequest(JsonUtils.toJSONString(baseLogger));
+        PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(baseLogger));
         //--------------------------后通知特殊条件判断-------------------------
         LocalContextHolder.unbind(true);
         if (LOG.isDebugEnabled()) {

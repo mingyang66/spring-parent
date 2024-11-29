@@ -55,7 +55,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //打印日志
-            PrintLogUtils.printThirdParty(JsonUtils.toJSONString(baseLogger));
+            PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

@@ -14,9 +14,9 @@ import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
 import com.emily.infrastructure.web.exception.entity.BasicException;
-import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.emily.infrastructure.web.filter.helper.ServletHelper;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
@@ -92,7 +92,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //API耗时--用于返回值耗时字段设置
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
-            PrintLogUtils.printRequest(JsonUtils.toJSONString(baseLogger));
+            PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(baseLogger));
             if (LOG.isDebugEnabled()) {
                 LOG.warn("接口日志记录拦截器：END<<============{}", RequestUtils.getRequest().getRequestURL());
             }

@@ -78,7 +78,7 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
                     //响应时间
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
-            PrintLogUtils.printThirdParty(JsonUtils.toJSONString(baseLogger));
+            PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

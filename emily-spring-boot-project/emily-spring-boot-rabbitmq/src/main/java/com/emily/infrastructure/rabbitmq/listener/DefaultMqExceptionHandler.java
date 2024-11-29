@@ -30,6 +30,6 @@ public class DefaultMqExceptionHandler extends StrictExceptionHandler {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
-        PrintLogUtils.printThirdParty(JsonUtils.toJSONString(baseLogger));
+        PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
     }
 }

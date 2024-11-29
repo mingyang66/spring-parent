@@ -5,6 +5,7 @@ Bug Fixes
 1. PrintLogUtils工具类打印日志入参修改为String,线程池的初始化优先取系统自带线程池；
 2. Redis SDK移除仓储相关源码，新增消息监听器配置类，新增redis-spring-boot-sample示例模块，验证消息订阅发布；
 3. 新增com.otter.infrastructure.servlet.RequestUtils.getHeaderOrDefault获取请求头方法；
+4. 移除IocUtils、IocApplicationContextInitializer初始化上下文类，SystemNumberHelper类获取系统编号更改为通过TracingAutoConfiguration设置；
 
 Dependency Upgrades
 

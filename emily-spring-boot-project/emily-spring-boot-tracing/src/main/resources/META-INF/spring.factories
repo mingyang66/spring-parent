@@ -1,2 +1,0 @@
-#Initializers
-org.springframework.context.ApplicationContextInitializer=com.emily.infrastructure.tracing.ioc.IocApplicationContextInitializer

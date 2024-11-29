@@ -1,5 +1,6 @@
 package com.emily.infrastructure.tracing;
 
+import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -21,18 +22,22 @@ import org.springframework.core.Ordered;
 @AutoConfiguration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@EnableConfigurationProperties(ContextProperties.class)
-@ConditionalOnProperty(prefix = ContextProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class ContextAutoConfiguration implements InitializingBean, DisposableBean {
-    private static final Logger logger = LoggerFactory.getLogger(ContextAutoConfiguration.class);
+@EnableConfigurationProperties(TracingProperties.class)
+@ConditionalOnProperty(prefix = TracingProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class TracingAutoConfiguration implements InitializingBean, DisposableBean {
+    private static final Logger logger = LoggerFactory.getLogger(TracingAutoConfiguration.class);
+
+    public TracingAutoConfiguration(TracingProperties properties) {
+        SystemNumberHelper.setSystemNumber(properties.getSystemNumber());
+    }
 
     @Override
     public void destroy() {
-        logger.info("<== 【销毁--自动化配置】----全链路日志追踪组件【ContextAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----全链路日志追踪组件【TracingAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("==> 【初始化--自动化配置】----全链路日志追踪组件【ContextAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----全链路日志追踪组件【TracingAutoConfiguration】");
     }
 }

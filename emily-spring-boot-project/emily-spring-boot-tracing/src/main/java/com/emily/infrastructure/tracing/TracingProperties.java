@@ -8,12 +8,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Emily
  * @since 2021/11/27
  */
-@ConfigurationProperties(prefix = ContextProperties.PREFIX)
-public class ContextProperties {
+@ConfigurationProperties(prefix = TracingProperties.PREFIX)
+public class TracingProperties {
     /**
      * 前缀
      */
-    public static final String PREFIX = "spring.emily.context";
+    public static final String PREFIX = "spring.emily.tracing";
     /**
      * 系统编号
      */

@@ -6,7 +6,6 @@ import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,14 +20,13 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 
-
 @RestController
 @RequestMapping("api/redis")
 public class RedisController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
-   // @Qualifier("test1StringRedisTemplate")
+    // @Qualifier("test1StringRedisTemplate")
     private StringRedisTemplate testStringRedisTemplate;
     @Autowired
     private RedisTemplate redisTemplate;
@@ -38,7 +36,7 @@ public class RedisController {
     @Autowired
     private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
     @Autowired
-   // @Qualifier("test1ReactiveStringRedisTemplate")
+    // @Qualifier("test1ReactiveStringRedisTemplate")
     private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;

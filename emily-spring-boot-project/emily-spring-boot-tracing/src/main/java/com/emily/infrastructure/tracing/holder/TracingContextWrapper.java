@@ -14,7 +14,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @author :  Emily
  * @since :  2023/8/7 4:59 PM
  */
-public class ContextWrapper {
+public class TracingContextWrapper {
     /**
      * 通过Ttl修饰运行指定的线程
      * 默认业务逻辑上的servlet上下文

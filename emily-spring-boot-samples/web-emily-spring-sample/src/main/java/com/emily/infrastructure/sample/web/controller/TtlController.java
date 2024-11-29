@@ -6,7 +6,7 @@ import com.alibaba.ttl.TtlRunnable;
 import com.alibaba.ttl.TtlWrappers;
 import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.emily.infrastructure.sample.web.mapper.mysql.MysqlMapper;
-import com.emily.infrastructure.tracing.holder.ContextWrapper;
+import com.emily.infrastructure.tracing.holder.TracingContextWrapper;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,7 +92,7 @@ public class TtlController {
 
     @GetMapping("context")
     public void context() {
-        ContextWrapper.run(null, () -> {
+        TracingContextWrapper.run(null, () -> {
             mysqlMapper.getMysql("sd", "sdf");
             mysqlMapper.getMysql("田晓霞", "520");
         });

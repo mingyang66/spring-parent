@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.UnknownContentTypeException;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
@@ -151,21 +152,6 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         return getApiResponseWrapper(handlerMethod, ApplicationStatus.ILLEGAL_ARGUMENT.getStatus(), message);
     }
 
-    /**
-     * API-请求method不匹配
-     * 不支持HandlerMethod handlerMethod参数
-     *
-     * @param e       异常
-     * @param request 请求对象
-     * @return 异常处理后返回给用户的对象
-     */
-    @ResponseBody
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Object httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
-        recordErrorMsg(e, request);
-        return getApiResponseWrapper(null, ApplicationStatus.METHOD_NOT_ALLOWED);
-    }
 
     /**
      * 数字格式异常
@@ -206,6 +192,38 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
     public Object unknownContentTypeException(Exception e, HttpServletRequest request, HandlerMethod handlerMethod) {
         recordErrorMsg(e, request);
         return getApiResponseWrapper(handlerMethod, ApplicationStatus.ILLEGAL_ACCESS);
+    }
+
+    /**
+     * API-请求method不匹配
+     * 不支持HandlerMethod handlerMethod参数
+     *
+     * @param e       异常
+     * @param request 请求对象
+     * @return 异常处理后返回给用户的对象
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Object httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return getApiResponseWrapper(null, ApplicationStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * API-接口资源不存在
+     * 不支持HandlerMethod handlerMethod参数
+     *
+     * @param e       异常
+     * @param request 请求对象
+     * @return 异常处理后返回给用户的对象
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoResourceFoundException.class)
+    public Object noResourceFoundException(NoResourceFoundException e, HttpServletRequest request) {
+        recordErrorMsg(e, request);
+        return getApiResponseWrapper(null, ApplicationStatus.NOT_FOUND);
     }
 }
 

@@ -13,7 +13,8 @@ public enum ApplicationStatus {
     ILLEGAL_DATA(100002, "非法数据"),
     ILLEGAL_ACCESS(100003, "非法访问"),
     ILLEGAL_PROXY(100004, "非法代理"),
-    METHOD_NOT_ALLOWED(405, "方法不允许");
+    METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+    NOT_FOUND(404, "Not Found");
 
     private final int status;
     private final String message;

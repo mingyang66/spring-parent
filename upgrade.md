@@ -4,6 +4,7 @@ Bug Fixes
 
 1. PrintLogUtils工具类打印日志入参修改为String,线程池的初始化优先取系统自带线程池；
 2. Redis SDK移除仓储相关源码，新增消息监听器配置类，新增redis-spring-boot-sample示例模块，验证消息订阅发布；
+3. 新增com.otter.infrastructure.servlet.RequestUtils.getHeaderOrDefault获取请求头方法；
 
 Dependency Upgrades
 
@@ -19,7 +20,9 @@ Bug Fixes
 5. 更新emily-spring-boot-parent module模块；
 6. com.emily.infrastructure.logback.entity.BaseLogger建造者模式实现方案修改；
 7.
+
 移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
+
 8. com.emily.infrastructure.web.response.entity.BaseResponse类建造者模式实现方案修改；
 9. ContextHolder重命名为TracingHolder；
 10. 移除com.emily.infrastructure.web.filter.filter.DelegateRequestWrapper并由ContentCachingRequestWrapper代替；

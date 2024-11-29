@@ -197,6 +197,21 @@ public class RequestUtils {
     }
 
     /**
+     * 获取请求头，请求头不存在则返回默认值
+     *
+     * @param header       请求头名
+     * @param defaultValue 默认值
+     * @return 请求头
+     */
+    public static String getHeaderOrDefault(String header, String defaultValue) {
+        String value = getHeader(header, false);
+        if (value == null || value.isEmpty() || value.isBlank()) {
+            return defaultValue;
+        }
+        return value;
+    }
+
+    /**
      * 获取请求头
      *
      * @param header   请求头

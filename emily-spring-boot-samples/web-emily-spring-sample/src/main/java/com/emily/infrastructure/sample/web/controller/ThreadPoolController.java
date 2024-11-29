@@ -1,6 +1,5 @@
 package com.emily.infrastructure.sample.web.controller;
 
-import com.emily.infrastructure.tracing.ioc.IocUtils;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -52,9 +51,4 @@ public class ThreadPoolController {
         ThreadPoolHelper.defaultThreadPoolTaskExecutor().submit(() -> System.out.println("------runing..."));
     }
 
-    @GetMapping("test1")
-    public void test1() {
-        ThreadPoolTaskScheduler threadPoolTaskScheduler = IocUtils.getBean(ThreadPoolTaskScheduler.class);
-        System.out.println(threadPoolTaskScheduler);
-    }
 }

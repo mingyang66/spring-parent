@@ -6,6 +6,7 @@ Bug Fixes
 2. Redis SDK移除仓储相关源码，新增消息监听器配置类，新增redis-spring-boot-sample示例模块，验证消息订阅发布；
 3. 新增com.otter.infrastructure.servlet.RequestUtils.getHeaderOrDefault获取请求头方法；
 4. 移除IocUtils、IocApplicationContextInitializer初始化上下文类，SystemNumberHelper类获取系统编号更改为通过TracingAutoConfiguration设置；
+5. PrintLogUtils打印日志工具类中printRequest、printThirdParty方法提供基于Supplier函数参数的方法，并将使用到的地方全部更改为此类方法；
 
 Dependency Upgrades
 
@@ -20,7 +21,6 @@ Bug Fixes
 4. knife4j-openapi3-jakarta-spring-boot-starter包版本更新；
 5. 更新emily-spring-boot-parent module模块；
 6. com.emily.infrastructure.logback.entity.BaseLogger建造者模式实现方案修改；
-7. PrintLogUtils打印日志工具类中printRequest、printThirdParty方法提供基于Supplier函数参数的方法，并将使用到的地方全部更改为此类方法；
 
 移除ResponseHttpEntityMethodReturnValueHandler、ResponseHttpHeadersReturnValueHandler、ResponseMethodReturnValueHandler返回值包装类；
 

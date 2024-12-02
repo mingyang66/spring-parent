@@ -39,8 +39,8 @@ public class RegexPathMatcher {
      * @return 如果有一个正则表达式匹配，则返回true；否则返回false
      */
     public static boolean matcherAny(List<String> patterns, String path) {
-        for (int i = 0; i < patterns.size(); i++) {
-            if (matcher(patterns.get(i), path).matches()) {
+        for (String pattern : patterns) {
+            if (matcher(pattern, path).matches()) {
                 return true;
             }
         }

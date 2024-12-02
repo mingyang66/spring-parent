@@ -3,7 +3,6 @@ package com.emily.infrastructure.web.request.interceptor;
 import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.constant.AopOrderInfo;
-import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -19,7 +18,7 @@ import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +54,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         BaseLogger baseLogger = new BaseLogger();
         try {
             if (LOG.isDebugEnabled()) {
-                LOG.warn("接口日志记录拦截器：START============>>{}", RequestUtils.getRequest().getRequestURL());
+                LOG.debug("接口日志记录拦截器：START============>>{}", FilterUtil.getRequestPath(RequestUtils.getRequest()));
             }
             //调用真实的action方法
             Object response = invocation.proceed();
@@ -82,7 +81,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //服务端IP
                     .serverIp(LocalContextHolder.current().getServerIp())
                     //请求URL
-                    .url(StringUtils.substringBefore(String.valueOf(RequestUtils.getRequest().getRequestURL()), CharacterInfo.ASK_SIGN_EN))
+                    .url(FilterUtil.getRequestPath(RequestUtils.getRequest()))
                     //版本类型
                     .appType(LocalContextHolder.current().getAppType())
                     //版本号
@@ -94,7 +93,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //异步记录接口响应信息
             PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(baseLogger));
             if (LOG.isDebugEnabled()) {
-                LOG.warn("接口日志记录拦截器：END<<============{}", RequestUtils.getRequest().getRequestURL());
+                LOG.debug("接口日志记录拦截器：END<<============{}", FilterUtil.getRequestPath(RequestUtils.getRequest()));
             }
         }
 

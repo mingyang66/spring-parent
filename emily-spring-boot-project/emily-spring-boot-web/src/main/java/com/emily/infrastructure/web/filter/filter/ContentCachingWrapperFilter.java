@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,7 +31,7 @@ public class ContentCachingWrapperFilter extends OncePerRequestFilter {
         //创建ContentCachingRequestWrapper对象用于缓存请求体
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
         if (LOG.isDebugEnabled()) {
-            LOG.warn("请求接口缓存拦截器：START============>>{}", request.getRequestURI());
+            LOG.debug("请求接口缓存拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }
         //标记阶段标识
         LocalContextHolder.current().setServletStage(ServletStage.PARAMETER);
@@ -39,7 +40,7 @@ public class ContentCachingWrapperFilter extends OncePerRequestFilter {
         //移除线程上下文数据
         LocalContextHolder.unbind(true);
         if (LOG.isDebugEnabled()) {
-            LOG.warn("请求接口缓存拦截器：END<<============{}", request.getRequestURI());
+            LOG.debug("请求接口缓存拦截器：END<<============{}", FilterUtil.getRequestPath(request));
         }
     }
 }

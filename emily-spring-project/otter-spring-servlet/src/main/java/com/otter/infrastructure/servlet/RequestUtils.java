@@ -5,6 +5,7 @@ import com.emily.infrastructure.common.constant.HeaderInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -239,6 +240,7 @@ public class RequestUtils {
      * @return 请求头集合对象
      */
     public static Map<String, Object> getHeaders(HttpServletRequest request) {
+        Assert.notNull(request, "Illegal Parameter: request must not be null");
         Map<String, Object> headers = new LinkedHashMap<>();
         Enumeration<String> headerNames = request.getHeaderNames();
         Optional.ofNullable(headerNames).ifPresent(headerName -> {

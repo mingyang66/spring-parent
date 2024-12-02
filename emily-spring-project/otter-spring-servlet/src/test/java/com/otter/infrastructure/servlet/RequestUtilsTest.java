@@ -11,6 +11,9 @@ import org.mockito.Mockito;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Enumeration;
+import java.util.Map;
+
 import static org.mockito.Mockito.when;
 
 // 假设这是一个使用JUnit和Mockito的测试类
@@ -63,5 +66,32 @@ public class RequestUtilsTest {
 
         when(RequestUtils.getHeader(HeaderInfo.LANGUAGE, false)).thenReturn(null);
         Assertions.assertEquals(RequestUtils.getHeaderOrDefault(HeaderInfo.LANGUAGE, "zh-CN"), "zh-CN");
+    }
+
+    @Test
+    public void getHeaders() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RequestUtils.getHeaders(null));
+        Assertions.assertEquals(RequestUtils.getHeaders(request).size(), 0);
+
+        when(request.getHeaderNames()).thenReturn(new Enumeration<String>() {
+            private final String[] headers = {"x-forwarded-for", "language"};
+            private int index = 0;
+
+            @Override
+            public boolean hasMoreElements() {
+                return index < headers.length;
+            }
+
+            @Override
+            public String nextElement() {
+                return headers[index++];
+            }
+        });
+        when(request.getHeader(HeaderInfo.X_FORWARDED_FOR)).thenReturn("127.0.0.1");
+        when(request.getHeader(HeaderInfo.LANGUAGE)).thenReturn("en");
+        Map<String, Object> headers = RequestUtils.getHeaders(request);
+        Assertions.assertEquals(headers.size(), 2);
+        Assertions.assertEquals(headers.get(HeaderInfo.LANGUAGE), "en");
+        Assertions.assertEquals(headers.get(HeaderInfo.X_FORWARDED_FOR), "127.0.0.1");
     }
 }

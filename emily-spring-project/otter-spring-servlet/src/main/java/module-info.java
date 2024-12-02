@@ -7,5 +7,6 @@ module otter.spring.servlet {
     requires org.apache.commons.lang3;
     requires spring.web;
     requires oceansky.common;
+    requires spring.core;
     exports com.otter.infrastructure.servlet;
 }

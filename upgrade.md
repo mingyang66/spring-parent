@@ -8,6 +8,8 @@ Bug Fixes
 4. 移除IocUtils、IocApplicationContextInitializer初始化上下文类，SystemNumberHelper类获取系统编号更改为通过TracingAutoConfiguration设置；
 5. PrintLogUtils打印日志工具类中printRequest、printThirdParty方法提供基于Supplier函数参数的方法，并将使用到的地方全部更改为此类方法；
 6. 对404 NoResourceFoundException、405 HttpRequestMethodNotSupportedException返回的异常处理，响应头分别标记为404 405异常状态；
+7. 新增RequestUtils.getHeaders方法及对应的单元测试；
+8. 过滤器、API日志拦截器、全局异常捕获获取URL方式更改为通过FilterUtil.getRequestPath方法；
 
 Dependency Upgrades
 

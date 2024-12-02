@@ -11,13 +11,14 @@ import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
-import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.emily.infrastructure.web.filter.helper.ServletHelper;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
+import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -31,7 +32,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 /**
  * 异常处理基础类
@@ -80,7 +80,7 @@ public class GlobalExceptionCustomizer {
      * 记录错误日志
      * ----------------------------------------------------------------------
      * 打印错误日志的场景：
-     * 1.请求阶段标识为ServletStage.BEFORE_PARAMETER，即：参数校验异常；
+     * 1.请求阶段标识为ServletStage.PARAMETER，即：参数校验异常；
      * ----------------------------------------------------------------------
      *
      * @param ex      异常对象
@@ -88,13 +88,13 @@ public class GlobalExceptionCustomizer {
      */
     public static void recordErrorMsg(Throwable ex, HttpServletRequest request) {
         if (LOG.isDebugEnabled()) {
-            LOG.warn("全局异常拦截器：START============>>{}", request.getRequestURI());
+            LOG.debug("全局异常拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }
         //----------------------前置条件判断------------------------
         boolean isReturn = ServletStage.PARAMETER != LocalContextHolder.current().getServletStage();
         if (isReturn) {
             if (LOG.isDebugEnabled()) {
-                LOG.warn("全局异常拦截器-不记录日志：END<<============{}", request.getRequestURI());
+                LOG.debug("全局异常拦截器-不记录日志：END<<============{}", FilterUtil.getRequestPath(request));
             }
             return;
         }
@@ -104,7 +104,7 @@ public class GlobalExceptionCustomizer {
                 //事务唯一编号
                 .traceId(LocalContextHolder.current().getTraceId())
                 //请求URL
-                .url(request.getRequestURI())
+                .url(FilterUtil.getRequestPath(request))
                 //客户端IP
                 .clientIp(RequestUtils.getClientIp())
                 //服务端IP
@@ -128,7 +128,7 @@ public class GlobalExceptionCustomizer {
         //--------------------------后通知特殊条件判断-------------------------
         LocalContextHolder.unbind(true);
         if (LOG.isDebugEnabled()) {
-            LOG.warn("全局异常拦截器-记录日志：END<<============{}", request.getRequestURI());
+            LOG.debug("全局异常拦截器-记录日志：END<<============{}", FilterUtil.getRequestPath(request));
         }
     }
 

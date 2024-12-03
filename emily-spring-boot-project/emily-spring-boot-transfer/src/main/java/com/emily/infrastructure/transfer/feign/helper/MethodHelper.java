@@ -6,6 +6,7 @@ import com.emily.infrastructure.sensitive.annotation.JsonSimField;
 import com.google.common.collect.Maps;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.io.InputStreamSource;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.Parameter;
 import java.util.Collections;
@@ -20,11 +21,14 @@ import java.util.Objects;
  */
 public class MethodHelper {
     /**
+     * 1. 支持参数为实体类的脱敏处理；
+     * 2. 支持单个参数的脱敏处理；
+     *
      * @param invocation 方法切面对象
      * @return 返回调用方法的参数及参数值
-     * 获取方法参数，支持指定字段脱敏处理
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
+        Assert.notNull(invocation, () -> "MethodInvocation must not be null");
         if (invocation.getArguments().length == 0) {
             return Collections.emptyMap();
         }
@@ -39,7 +43,7 @@ public class MethodHelper {
                 paramMap.put(name, null);
                 continue;
             }
-            if (checkServletStream(value)) {
+            if (value instanceof InputStreamSource) {
                 continue;
             }
             if (value instanceof String valueStr) {
@@ -53,16 +57,6 @@ public class MethodHelper {
             }
         }
         return paramMap;
-    }
-
-    /**
-     * 是否继续下一步
-     *
-     * @param value 对象值
-     * @return 校验参数类型是否需要处理
-     */
-    protected static boolean checkServletStream(Object value) {
-        return value instanceof InputStreamSource;
     }
 
 }

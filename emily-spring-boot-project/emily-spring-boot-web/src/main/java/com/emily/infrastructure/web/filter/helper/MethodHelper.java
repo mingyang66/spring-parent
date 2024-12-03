@@ -34,8 +34,8 @@ public class MethodHelper {
      * @return 请求入参
      */
     public static Map<String, Object> getApiArgs(MethodInvocation invocation, HttpServletRequest request) {
-        Assert.notNull(invocation, "MethodInvocation must not be null");
-        Assert.notNull(request, "HttpServletRequest must not be null");
+        Assert.notNull(invocation, () -> "MethodInvocation must not be null");
+        Assert.notNull(request, () -> "HttpServletRequest must not be null");
         return new LinkedHashMap<>(Map.ofEntries(
                 //获取请求头
                 Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
@@ -53,7 +53,7 @@ public class MethodHelper {
      * @return 请求入参
      */
     public static Map<String, Object> getApiArgs(HttpServletRequest request) {
-        Assert.notNull(request, "HttpServletRequest must not be null");
+        Assert.notNull(request, () -> "HttpServletRequest must not be null");
         //请求参数
         Map<String, Object> paramMap = new LinkedHashMap<>();
         if (request instanceof ContentCachingRequestWrapper requestWrapper) {
@@ -121,7 +121,7 @@ public class MethodHelper {
      * @return 转换后的对象
      */
     protected static Object toObject(String param) {
-        Assert.notNull(param, "非法参数");
+        Assert.notNull(param, () -> "非法参数");
         if (param.startsWith(CharacterInfo.LEFT_SQ)) {
             return JsonUtils.toJavaBean(param, List.class);
         }
@@ -129,11 +129,14 @@ public class MethodHelper {
     }
 
     /**
+     * 1. 支持参数为实体类的脱敏处理；
+     * 2. 支持单个参数的脱敏处理；
+     *
      * @param invocation 方法切面对象
      * @return 返回调用方法的参数及参数值
-     * 获取方法参数，支持指定字段脱敏处理
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
+        Assert.notNull(invocation, () -> "MethodInvocation must not be null");
         if (invocation.getArguments().length == 0) {
             return Collections.emptyMap();
         }
@@ -153,9 +156,9 @@ public class MethodHelper {
                     || value instanceof InputStreamSource) {
                 continue;
             }
-            if (value instanceof String valueStr) {
+            if (value instanceof String str) {
                 if (parameter.isAnnotationPresent(JsonSimField.class)) {
-                    paramMap.put(name, DataMaskUtils.doGetProperty(valueStr, parameter.getAnnotation(JsonSimField.class).value()));
+                    paramMap.put(name, DataMaskUtils.doGetProperty(str, parameter.getAnnotation(JsonSimField.class).value()));
                 } else {
                     paramMap.put(name, value);
                 }

@@ -196,7 +196,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-请求method不匹配
-     * 不支持HandlerMethod handlerMethod参数
+     * 1. 不支持HandlerMethod handlerMethod参数
      *
      * @param e       异常
      * @param request 请求对象
@@ -212,7 +212,7 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
 
     /**
      * API-接口资源不存在
-     * 不支持HandlerMethod handlerMethod参数
+     * 1.不支持HandlerMethod handlerMethod参数
      *
      * @param e       异常
      * @param request 请求对象

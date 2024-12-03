@@ -11,25 +11,22 @@ import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
-import com.emily.infrastructure.web.filter.helper.ServletHelper;
+import com.emily.infrastructure.web.filter.helper.MethodHelper;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
-import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Method;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -134,25 +131,30 @@ public class GlobalExceptionCustomizer {
 
     /**
      * 获取请求参数
+     * 1. 参数校验异常，抛出BindException异常对参数处理-可以获取参数；
+     * 2. Get请求方式，传递Body类型参数，参数校验不通过时会触发MethodArgumentNotValidException（BindException的子类）异常-可以获取参数
+     * 3. HttpRequestMethodNotSupportedException Method Not Allowed-无法获取参数
+     * 4. NoResourceFoundException 接口404 Not Found-无法获取参数
      *
      * @param ex      异常对象
      * @param request servlet对象
      * @return 请求参数
      */
     private static Map<String, Object> getRequestParams(Throwable ex, HttpServletRequest request) {
-        Map<String, Object> paramsMap = Collections.emptyMap();
-        //请求参数
-        if (ex instanceof BindException) {
-            BindingResult bindingResult = ((BindException) ex).getBindingResult();
-            if (Objects.nonNull(bindingResult.getTarget())) {
-                paramsMap = Maps.newLinkedHashMap();
-                paramsMap.put(AttributeInfo.HEADERS, RequestUtils.getHeaders(request));
-                paramsMap.put(AttributeInfo.PARAMS, SensitiveUtils.acquireElseGet(bindingResult.getTarget()));
+        //1.参数校验异常，抛出BindException异常对参数处理
+        if (ex instanceof BindException bindException) {
+            if (Objects.nonNull(bindException.getTarget())) {
+                return new LinkedHashMap<>(Map.ofEntries(
+                        //获取请求头
+                        Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
+                        //获取Body请求参数
+                        Map.entry(AttributeInfo.PARAMS_BODY, SensitiveUtils.acquireElseGet(bindException.getTarget())),
+                        //获取Get、POST等URL后缀请求参数
+                        Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
+                ));
             }
         }
-        if (CollectionUtils.isEmpty(paramsMap)) {
-            paramsMap = ServletHelper.getApiArgs(request);
-        }
-        return paramsMap;
+        //2. HttpRequestMethodNotSupportedException Method Not Allowed，3. NoResourceFoundException 接口404 Not Found
+        return MethodHelper.getApiArgs(request);
     }
 }

@@ -11,10 +11,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -251,5 +248,27 @@ public class RequestUtils {
             }
         });
         return headers;
+    }
+
+    /**
+     * 获取Get、POST等URL后缀请求参数
+     *
+     * @param request 请求上下文
+     * @return 参数集合
+     */
+    public static Map<String, Object> getParameters(HttpServletRequest request) {
+        Assert.notNull(request, "Illegal Parameter: request must not be null");
+        Enumeration<String> names = request.getParameterNames();
+        if (names == null) {
+            return Collections.emptyMap();
+        }
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        while (names.hasMoreElements()) {
+            String key = names.nextElement();
+            if (!paramMap.containsKey(key)) {
+                paramMap.put(key, request.getParameter(key));
+            }
+        }
+        return paramMap;
     }
 }

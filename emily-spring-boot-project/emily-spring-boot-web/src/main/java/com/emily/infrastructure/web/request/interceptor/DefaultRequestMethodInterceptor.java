@@ -13,7 +13,7 @@ import com.emily.infrastructure.sensitive.SensitiveUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
 import com.emily.infrastructure.web.exception.entity.BasicException;
-import com.emily.infrastructure.web.filter.helper.ServletHelper;
+import com.emily.infrastructure.web.filter.helper.MethodHelper;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.otter.infrastructure.servlet.RequestUtils;
@@ -48,10 +48,8 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //设置当前阶段标识，标记后如果发生异常，全局异常处理控制器不会记录日志
         LocalContextHolder.current().setServletStage(ServletStage.CONTROLLER);
-        //获取请求参数
-        Map<String, Object> paramsMap = ServletHelper.getApiArgs(invocation);
         //封装异步日志信息
-        BaseLogger baseLogger = new BaseLogger();
+        BaseLogger baseLogger = new BaseLogger().requestParams(MethodHelper.getApiArgs(invocation, RequestUtils.getRequest()));
         try {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("接口日志记录拦截器：START============>>{}", FilterUtil.getRequestPath(RequestUtils.getRequest()));
@@ -72,8 +70,6 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             baseLogger.systemNumber(LocalContextHolder.current().getSystemNumber())
                     //事务唯一编号
                     .traceId(LocalContextHolder.current().getTraceId())
-                    //请求参数
-                    .requestParams(paramsMap)
                     //时间
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //客户端IP

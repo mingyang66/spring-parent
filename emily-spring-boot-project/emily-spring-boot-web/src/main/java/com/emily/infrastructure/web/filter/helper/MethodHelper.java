@@ -2,7 +2,6 @@ package com.emily.infrastructure.web.filter.helper;
 
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.common.constant.CharsetInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
 import com.emily.infrastructure.sensitive.SensitiveUtils;
@@ -12,7 +11,6 @@ import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.util.Assert;
@@ -27,7 +25,7 @@ import java.util.*;
  * @author Emily
  * @since 4.0.7
  */
-public class ServletHelper {
+public class MethodHelper {
 
     /**
      * 获取请求入参, 给API请求控制器获取入参
@@ -35,11 +33,17 @@ public class ServletHelper {
      * @param invocation 方法反射对象
      * @return 请求入参
      */
-    public static Map<String, Object> getApiArgs(MethodInvocation invocation) {
-        if (RequestUtils.isServlet()) {
-            return getArgs(invocation, RequestUtils.getRequest());
-        }
-        return Collections.emptyMap();
+    public static Map<String, Object> getApiArgs(MethodInvocation invocation, HttpServletRequest request) {
+        Assert.notNull(invocation, "MethodInvocation must not be null");
+        Assert.notNull(request, "HttpServletRequest must not be null");
+        return new LinkedHashMap<>(Map.ofEntries(
+                //获取请求头
+                Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
+                //获取Body请求参数
+                Map.entry(AttributeInfo.PARAMS_BODY, getMethodArgs(invocation)),
+                //获取Get、POST等URL后缀请求参数
+                Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
+        ));
     }
 
     /**
@@ -49,59 +53,40 @@ public class ServletHelper {
      * @return 请求入参
      */
     public static Map<String, Object> getApiArgs(HttpServletRequest request) {
-        if (RequestUtils.isServlet()) {
-            return getArgs(null, request);
-        }
-        return Collections.emptyMap();
-    }
-
-    /**
-     * @param request servlet请求对象
-     * @return 请求入参
-     * 获取请求入参
-     */
-    private static Map<String, Object> getArgs(MethodInvocation invocation, HttpServletRequest request) {
+        Assert.notNull(request, "HttpServletRequest must not be null");
         //请求参数
         Map<String, Object> paramMap = new LinkedHashMap<>();
-        if (Objects.isNull(invocation)) {
-            if (request instanceof ContentCachingRequestWrapper requestWrapper) {
-                paramMap.putAll(byteArgToMap(requestWrapper.getContentAsByteArray()));
-            }
-        } else {
-            paramMap.putAll(getMethodArgs(invocation));
+        if (request instanceof ContentCachingRequestWrapper requestWrapper) {
+            paramMap.putAll(strArgToMap(requestWrapper.getContentAsString()));
         }
-
-        Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements()) {
-            String key = names.nextElement();
-            if (!paramMap.containsKey(key)) {
-                paramMap.put(key, request.getParameter(key));
-            }
-        }
-        // 请求参数&请求头
-        Map<String, Object> dataMap = new LinkedHashMap<>();
-        // 获取请求头
-        dataMap.put(AttributeInfo.HEADERS, RequestUtils.getHeaders(request));
-        // 参数
-        dataMap.put(AttributeInfo.PARAMS, paramMap);
-        return dataMap;
+        return new LinkedHashMap<>(Map.ofEntries(
+                //获取请求头
+                Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
+                //获取Body请求参数
+                Map.entry(AttributeInfo.PARAMS_BODY, paramMap),
+                //获取Get、POST等URL后缀请求参数
+                Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
+        ));
     }
 
 
     /**
      * 将byte[]转换为Map对象
+     * 1. POST传递实体类参数转Map对象；
+     * 2. GET传递实体类参数转Map对象，不建议，但是存在这种场景
      *
-     * @param params 字节数组参数
+     * @param value 字节数组参数
      * @return 转换后的Map参数集合
      */
-    protected static Map<String, Object> byteArgToMap(byte[] params) {
-        if (params == null) {
+    protected static Map<String, Object> strArgToMap(String value) {
+        if (value == null || value.isEmpty() || value.isBlank()) {
             return Collections.emptyMap();
         }
         try {
-            return JsonUtils.toObject(params, Map.class);
+            return JsonUtils.toJavaBean(value, Map.class, String.class, Object.class);
         } catch (Exception e) {
-            return strToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
+            // return strToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
+            return Collections.emptyMap();
         }
     }
 
@@ -124,7 +109,7 @@ public class ServletHelper {
             }
         }
         if (pMap.isEmpty()) {
-            pMap.put(AttributeInfo.PARAMS, toObject(param));
+            pMap.put(AttributeInfo.PARAMS_URL, toObject(param));
         }
         return pMap;
     }
@@ -163,7 +148,9 @@ public class ServletHelper {
                 paramMap.put(name, null);
                 continue;
             }
-            if (checkServletStream(value)) {
+            if (value instanceof HttpServletRequest
+                    || value instanceof HttpServletResponse
+                    || value instanceof InputStreamSource) {
                 continue;
             }
             if (value instanceof String valueStr) {
@@ -177,18 +164,6 @@ public class ServletHelper {
             }
         }
         return paramMap;
-    }
-
-    /**
-     * 是否继续下一步
-     *
-     * @param value 对象值
-     * @return 校验参数类型是否需要处理
-     */
-    protected static boolean checkServletStream(Object value) {
-        return (value instanceof HttpServletRequest)
-                || (value instanceof HttpServletResponse)
-                || (value instanceof InputStreamSource);
     }
 
 }

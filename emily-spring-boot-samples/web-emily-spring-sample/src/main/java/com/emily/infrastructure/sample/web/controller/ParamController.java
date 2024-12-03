@@ -18,16 +18,12 @@ import java.util.List;
  * 参数控制器
  * @since 2021/10/30
  */
-@Validated
 @RestController
 @RequestMapping("api/param")
 public class ParamController {
-    @GetMapping("test")
-    public String test() {
-        String header = RequestUtils.getHeader("tesT");
-        return header;
-    }
-
+    /**
+     *
+     */
     @PostMapping("test1")
     public Job test1(@Validated @RequestBody Job job) {
         return job;
@@ -66,7 +62,10 @@ public class ParamController {
         return "";
     }
 
-    @PostMapping("getBody")
+    /**
+     * 1. Get请求方式，传递Body类型参数，参数校验不通过时会触发MethodArgumentNotValidException（BindException的子类）异常
+     */
+    @GetMapping("getBody")
     public String getParam(@Validated @RequestBody Job job) {
         job.setJobDesc("我修改了入参值");
         return "sdf";

@@ -20,8 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-web</artifactId>
         </dependency>
     </dependencies>
 </project>

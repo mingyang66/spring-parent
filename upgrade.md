@@ -10,6 +10,8 @@ Bug Fixes
 6. 对404 NoResourceFoundException、405 HttpRequestMethodNotSupportedException返回的异常处理，响应头分别标记为404 405异常状态；
 7. 新增RequestUtils.getHeaders方法及对应的单元测试；
 8. 过滤器、API日志拦截器、全局异常捕获获取URL方式更改为通过FilterUtil.getRequestPath方法；
+9. MethodHelper方法中通过通过MethodInvocation和HttpServletRequest获取入参方案优化调整；
+10. 新增com.otter.infrastructure.servlet.RequestUtils.getParameters方法；
 
 Dependency Upgrades
 

@@ -1,7 +1,8 @@
-package com.otter.infrastructure.servlet;
+package com.otter.test.servlet;
 
 
 import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

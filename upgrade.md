@@ -12,6 +12,7 @@ Bug Fixes
 8. 过滤器、API日志拦截器、全局异常捕获获取URL方式更改为通过FilterUtil.getRequestPath方法；
 9. MethodHelper方法中通过通过MethodInvocation和HttpServletRequest获取入参方案优化调整；
 10. 新增com.otter.infrastructure.servlet.RequestUtils.getParameters方法；
+11. 新增com.emily.infrastructure.aop.utils.MethodInvocationUtils.getMethodArgs方法及对应的单元测试类；
 
 Dependency Upgrades
 

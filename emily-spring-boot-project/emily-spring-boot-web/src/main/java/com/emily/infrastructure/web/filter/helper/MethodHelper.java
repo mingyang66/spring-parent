@@ -1,5 +1,6 @@
 package com.emily.infrastructure.web.filter.helper;
 
+import com.emily.infrastructure.aop.utils.MethodInvocationUtils;
 import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.json.JsonUtils;
@@ -12,12 +13,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.util.Assert;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
-import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 请求服务类
@@ -136,37 +138,18 @@ public class MethodHelper {
      * @return 返回调用方法的参数及参数值
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
-        Assert.notNull(invocation, () -> "MethodInvocation must not be null");
-        if (invocation.getArguments().length == 0) {
-            return Collections.emptyMap();
-        }
-        Object[] args = invocation.getArguments();
-        Parameter[] parameters = invocation.getMethod().getParameters();
-        Map<String, Object> paramMap = Maps.newLinkedHashMap();
-        for (int i = 0; i < parameters.length; i++) {
-            Parameter parameter = parameters[i];
-            String name = parameter.getName();
-            Object value = args[i];
-            if (Objects.isNull(value)) {
-                paramMap.put(name, null);
-                continue;
-            }
-            if (value instanceof HttpServletRequest
-                    || value instanceof HttpServletResponse
-                    || value instanceof InputStreamSource) {
-                continue;
-            }
-            if (value instanceof String str) {
-                if (parameter.isAnnotationPresent(JsonSimField.class)) {
-                    paramMap.put(name, DataMaskUtils.doGetProperty(str, parameter.getAnnotation(JsonSimField.class).value()));
-                } else {
-                    paramMap.put(name, value);
-                }
-            } else {
-                paramMap.put(name, SensitiveUtils.acquireElseGet(value));
-            }
-        }
-        return paramMap;
+        return MethodInvocationUtils.getMethodArgs(invocation, value -> value instanceof HttpServletRequest || value instanceof HttpServletResponse,
+                (parameter, value) -> {
+                    if (value instanceof String str) {
+                        if (parameter.isAnnotationPresent(JsonSimField.class)) {
+                            return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(JsonSimField.class).value());
+                        } else {
+                            return value;
+                        }
+                    } else {
+                        return SensitiveUtils.acquireElseGet(value);
+                    }
+                });
     }
 
 }

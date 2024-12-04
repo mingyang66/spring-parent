@@ -47,7 +47,7 @@ public class HttpRequestFactory {
     public static Map<String, Object> getArgs(HttpHeaders headers, byte[] params) {
         Map<String, Object> dataMap = Maps.newLinkedHashMap();
         dataMap.put(AttributeInfo.HEADERS, headers);
-        dataMap.put(AttributeInfo.PARAMS, byteArgToMap(params));
+        dataMap.put(AttributeInfo.PARAMS_BODY, byteArgToMap(params));
         return dataMap;
     }
 
@@ -87,7 +87,7 @@ public class HttpRequestFactory {
             }
         }
         if (pMap.isEmpty()) {
-            pMap.put(AttributeInfo.PARAMS, toObject(param));
+            pMap.put(AttributeInfo.PARAMS_BODY, toObject(param));
         }
         return pMap;
     }

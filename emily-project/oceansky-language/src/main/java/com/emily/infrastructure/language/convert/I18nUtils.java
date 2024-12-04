@@ -76,9 +76,11 @@ public class I18nUtils {
             } else if (value instanceof Collection) {
                 doGetEntityColl(field, entity, value, languageType);
             } else if (value instanceof Map<?, ?>) {
-                doGetEntityMap(field, (Map) value, languageType);
+                @SuppressWarnings("unchecked")
+                Map<Object, Object> v = (Map<Object, Object>) value;
+                doGetEntityMap(field, v, languageType);
             } else if (value.getClass().isArray()) {
-                doGetEntityArray(field, entity, value, languageType);
+                doGetEntityArray(field, value, languageType);
             } else {
                 if (field.isAnnotationPresent(I18nModel.class)) {
                     doSetField(value, languageType);
@@ -140,10 +142,9 @@ public class I18nUtils {
      * @param field        实体类属性对象
      * @param value        属性值对象
      * @param languageType 语言类型
-     * @param <T>          实体类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static <T> void doGetEntityMap(final Field field, final Map<Object, Object> value, final LanguageType languageType) throws IllegalAccessException {
+    protected static void doGetEntityMap(final Field field, final Map<Object, Object> value, final LanguageType languageType) throws IllegalAccessException {
         for (Map.Entry<?, ?> entry : value.entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
@@ -162,13 +163,11 @@ public class I18nUtils {
      * 对数组中存储是字符串、实体对象进行多语言支持
      *
      * @param field        实体类属性对象
-     * @param entity       实体类对象
      * @param value        属性值对象
      * @param languageType 语言类型
-     * @param <T>          实体对象类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value, final LanguageType languageType) throws IllegalAccessException {
+    protected static void doGetEntityArray(final Field field, final Object value, final LanguageType languageType) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;
         }

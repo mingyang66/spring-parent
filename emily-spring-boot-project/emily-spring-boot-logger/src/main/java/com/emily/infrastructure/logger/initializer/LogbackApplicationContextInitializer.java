@@ -31,10 +31,13 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
     public void initialize(ConfigurableApplicationContext context) {
         // 将属性配置绑定到配置类上
         LoggerProperties properties = Binder.get(context.getEnvironment()).bindOrCreate(LoggerProperties.PREFIX, LoggerProperties.class);
-        // 初始化日志SDK上下文
-        LogbackContextInitializer.init(properties);
-        // 初始化线程池对象
-        PrintLogUtils.ThreadPoolLogHelper.init(context);
+        // SDK组件开关打开时才会初始化日志组件、线程池
+        if (properties.isEnabled()) {
+            // 初始化日志SDK上下文
+            LogbackContextInitializer.init(properties);
+            // 初始化线程池对象
+            PrintLogUtils.ThreadPoolLogHelper.init(context);
+        }
     }
 
     /**

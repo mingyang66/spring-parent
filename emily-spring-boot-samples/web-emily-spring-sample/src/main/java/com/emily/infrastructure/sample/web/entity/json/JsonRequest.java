@@ -1,10 +1,10 @@
 package com.emily.infrastructure.sample.web.entity.json;
 
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonFlexField;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeComplexProperty;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
@@ -14,34 +14,34 @@ import java.util.Map;
  * @author Emily
  * @since Created in 2022/10/27 10:53 上午
  */
-@JsonSensitive
+@DesensitizeModel
 public class JsonRequest extends Animal {
-    @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
     private String fieldKey;
     private String fieldValue;
-    @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue1")
+    @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue1")
     private String fieldKey1;
     private String fieldValue1;
     @NotEmpty
-    @JsonSimField(SensitiveType.USERNAME)
+    @DesensitizeProperty(DesensitizeType.USERNAME)
     private String username;
-    @JsonSimField
+    @DesensitizeProperty
     private String password;
-    @JsonSimField(SensitiveType.EMAIL)
+    @DesensitizeProperty(DesensitizeType.EMAIL)
     private String email;
-    @JsonSimField(SensitiveType.ID_CARD)
+    @DesensitizeProperty(DesensitizeType.ID_CARD)
     private String idCard;
-    @JsonSimField(SensitiveType.BANK_CARD)
+    @DesensitizeProperty(DesensitizeType.BANK_CARD)
     private String bankCard;
-    @JsonSimField(SensitiveType.PHONE)
+    @DesensitizeProperty(DesensitizeType.PHONE)
     private String phone;
-    @JsonSimField(SensitiveType.PHONE)
+    @DesensitizeProperty(DesensitizeType.PHONE)
     private String mobile;
     private int zs;
     private char c = 1;
     private BigDecimal d = new BigDecimal(4);
     private Job job;
-    @JsonSimField
+    @DesensitizeProperty
     private Map<String, Object> work;
 
     public String getFieldKey1() {
@@ -172,13 +172,13 @@ public class JsonRequest extends Animal {
         this.password = password;
     }
 
-    @JsonSensitive
+    @DesensitizeModel
     public static class Job {
-        @JsonSimField(SensitiveType.DEFAULT)
+        @DesensitizeProperty(DesensitizeType.DEFAULT)
         private String work;
-        @JsonSimField(SensitiveType.EMAIL)
+        @DesensitizeProperty(DesensitizeType.EMAIL)
         private String email;
-        @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+        @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
         private String fieldKey;
         private String fieldValue;
 

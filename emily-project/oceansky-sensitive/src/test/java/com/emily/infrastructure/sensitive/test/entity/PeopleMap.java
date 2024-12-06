@@ -1,8 +1,8 @@
 package com.emily.infrastructure.sensitive.test.entity;
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonMapField;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeMapProperty;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -14,15 +14,15 @@ import java.util.Map;
  * @author Emily
  * @since :  Created in 2023/5/28 2:45 PM
  */
-@JsonSensitive
+@DesensitizeModel
 public class PeopleMap {
     private String username;
     private String password;
     private LocalDateTime localDateTime;
     private Map<String, SubMap> subMapMap = new HashMap<>();
-    @JsonMapField(value = {"password", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
+    @DesensitizeMapProperty(value = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
     private Map<String, String> params = new HashMap<>();
-    @JsonMapField(value = {"age", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
+    @DesensitizeMapProperty(value = {"age", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
     private Map<Integer, String> ages = new HashMap<>();
 
     public Map<Integer, String> getAges() {

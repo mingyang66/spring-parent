@@ -1,19 +1,19 @@
 package com.emily.infrastructure.sample.web.entity.sensitive;
 
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 
 /**
  * @author Emily
  * @since Created in 2022/10/27 2:51 下午
  */
 public class MapperIgnore {
-    @JsonSimField(SensitiveType.USERNAME)
+    @DesensitizeProperty(DesensitizeType.USERNAME)
     private String id;
 
     private String total;
-    @JsonSimField
+    @DesensitizeProperty
     private String entity_id;
     private String percentage;
 

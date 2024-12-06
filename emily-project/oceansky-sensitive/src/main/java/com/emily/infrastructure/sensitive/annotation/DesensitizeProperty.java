@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sensitive.annotation;
 
-import com.emily.infrastructure.sensitive.SensitiveType;
+import com.emily.infrastructure.sensitive.DesensitizeType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,11 +15,11 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonSimField {
+public @interface DesensitizeProperty {
     /**
-     * 脱敏类型，见枚举类型{@link SensitiveType}
+     * 脱敏类型，见枚举类型{@link DesensitizeType}
      *
      * @return 脱敏类型
      */
-    SensitiveType value() default SensitiveType.DEFAULT;
+    DesensitizeType value() default DesensitizeType.DEFAULT;
 }

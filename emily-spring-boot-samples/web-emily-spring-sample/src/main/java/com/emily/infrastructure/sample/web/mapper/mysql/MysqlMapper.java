@@ -5,7 +5,7 @@ import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.sample.web.entity.World;
 import com.emily.infrastructure.sample.web.entity.json.PubResponse;
 import com.emily.infrastructure.sample.web.entity.sensitive.MapperIgnore;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,7 +34,7 @@ public interface MysqlMapper {
      * 查询接口
      */
     @TargetDataSource("mysql")
-    List<World> getMysql(@JsonSimField String username, String password);
+    List<World> getMysql(@DesensitizeProperty String username, String password);
 
     /**
      * 新增接口

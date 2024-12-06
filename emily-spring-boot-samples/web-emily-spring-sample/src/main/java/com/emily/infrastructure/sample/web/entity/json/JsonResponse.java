@@ -1,8 +1,8 @@
 package com.emily.infrastructure.sample.web.entity.json;
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,30 +11,30 @@ import java.util.Set;
  * @author Emily
  * @since Created in 2022/10/27 10:53 上午
  */
-@JsonSensitive
+@DesensitizeModel
 public class JsonResponse {
     private int a;
     private byte[] b;
-    @JsonSimField(SensitiveType.USERNAME)
+    @DesensitizeProperty(DesensitizeType.USERNAME)
     private String username;
-    @JsonSimField
+    @DesensitizeProperty
     private String password;
-    @JsonSimField(SensitiveType.EMAIL)
+    @DesensitizeProperty(DesensitizeType.EMAIL)
     private String email;
-    @JsonSimField(SensitiveType.ID_CARD)
+    @DesensitizeProperty(DesensitizeType.ID_CARD)
     private String idCard;
-    @JsonSimField(SensitiveType.BANK_CARD)
+    @DesensitizeProperty(DesensitizeType.BANK_CARD)
     private String bankCard;
-    @JsonSimField(SensitiveType.PHONE)
+    @DesensitizeProperty(DesensitizeType.PHONE)
     private String phone;
-    @JsonSimField(SensitiveType.PHONE)
+    @DesensitizeProperty(DesensitizeType.PHONE)
     private String mobile;
     private Job job;
     private Job[] jobs;
     private String[] arr;
     private Set<Job> list;
     private String dateFormat;
-    @JsonSimField
+    @DesensitizeProperty
     private Map<String, Object> work;
 
     public int getA() {
@@ -157,11 +157,11 @@ public class JsonResponse {
         this.password = password;
     }
 
-    @JsonSensitive
+    @DesensitizeModel
     public static class Job {
-        @JsonSimField(SensitiveType.DEFAULT)
+        @DesensitizeProperty(DesensitizeType.DEFAULT)
         private String work;
-        @JsonSimField(SensitiveType.EMAIL)
+        @DesensitizeProperty(DesensitizeType.EMAIL)
         private String email;
 
         public String getWork() {

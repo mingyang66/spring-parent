@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sample.web.entity.json;
 
 
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 
 /**
  * 动物
@@ -10,6 +10,6 @@ import com.emily.infrastructure.sensitive.annotation.JsonSimField;
  * @since Created in 2023/4/19 4:06 PM
  */
 public class Animal {
-    @JsonSimField
+    @DesensitizeProperty
     public String animalType;
 }

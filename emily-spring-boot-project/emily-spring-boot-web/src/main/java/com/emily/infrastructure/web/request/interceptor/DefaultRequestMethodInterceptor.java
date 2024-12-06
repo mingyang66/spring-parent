@@ -9,7 +9,7 @@ import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLogUtils;
-import com.emily.infrastructure.sensitive.SensitiveUtils;
+import com.emily.infrastructure.sensitive.SensitizeUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.ServletStage;
 import com.emily.infrastructure.web.exception.entity.BasicException;
@@ -108,7 +108,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         }
         if (response instanceof ResponseEntity<?> entity) {
             if (entity.getStatusCode().is2xxSuccessful()) {
-                baseLogger.body(SensitiveUtils.acquireElseGet(entity.getBody(), BaseResponse.class));
+                baseLogger.body(SensitizeUtils.acquireElseGet(entity.getBody(), BaseResponse.class));
                 return entity;
             }
             Map<?, ?> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(entity.getBody()), Map.class);
@@ -122,7 +122,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             return new ResponseEntity<>(baseResponse, entity.getHeaders(), entity.getStatusCode());
         }
         // 设置响应体
-        baseLogger.body(SensitiveUtils.acquireElseGet(response, BaseResponse.class));
+        baseLogger.body(SensitizeUtils.acquireElseGet(response, BaseResponse.class));
         return response;
     }
 

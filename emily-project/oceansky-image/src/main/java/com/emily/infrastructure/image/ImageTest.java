@@ -1,5 +1,6 @@
 package com.emily.infrastructure.image;
 
+
 import net.coobird.thumbnailator.Thumbnails;
 
 import java.io.File;

@@ -24,6 +24,7 @@
         <module>lua-spring-boot-sample</module>
         <module>transfer-spring-boot-sample</module>
         <module>redis-spring-boot-sample</module>
+        <module>desensitize-spring-boot-sample</module>
     </modules>
 
 </project>

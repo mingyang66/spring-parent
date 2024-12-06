@@ -12,7 +12,7 @@ import java.util.*;
  * @author Emily
  * @since :  Created in 2023/4/21 1:50 PM
  */
-public class DeSensitiveUtils {
+public class DeSensitizeUtils {
 
     /**
      * 对指定实体类中标记类脱敏注解的字段进行脱敏；
@@ -66,7 +66,7 @@ public class DeSensitiveUtils {
                     acquire(v, packClass);
                 }
             }
-        } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+        } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
             doSetField(entity);
         } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
             doSetField(entity);
@@ -126,7 +126,7 @@ public class DeSensitiveUtils {
             return true;
         } else if (field.getType().isPrimitive()) {
             return false;
-        } else return field.isAnnotationPresent(JsonNullField.class);
+        } else return field.isAnnotationPresent(DesensitizeNullProperty.class);
     }
 
     /**
@@ -153,8 +153,8 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value) throws IllegalAccessException {
-        if (field.isAnnotationPresent(JsonSimField.class)) {
-            field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value()));
+        if (field.isAnnotationPresent(DesensitizeProperty.class)) {
+            field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value()));
         } else {
             acquire(value, null);
         }
@@ -176,9 +176,9 @@ public class DeSensitiveUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
+            if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
                 list = (list == null) ? new ArrayList<>() : list;
-                list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
             } else {
                 acquire(v, null);
             }
@@ -208,16 +208,16 @@ public class DeSensitiveUtils {
                 continue;
             }
             if (v instanceof String) {
-                if (field.isAnnotationPresent(JsonSimField.class)) {
-                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+                if (field.isAnnotationPresent(DesensitizeProperty.class)) {
+                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
                     continue;
-                } else if (field.isAnnotationPresent(JsonMapField.class)) {
-                    JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
+                } else if (field.isAnnotationPresent(DesensitizeMapProperty.class)) {
+                    DesensitizeMapProperty jsonMapField = field.getAnnotation(DesensitizeMapProperty.class);
                     int index = (key instanceof String) ? Arrays.asList(jsonMapField.value()).indexOf(key) : -1;
                     if (index < 0) {
                         continue;
                     }
-                    SensitiveType type = SensitiveType.DEFAULT;
+                    DesensitizeType type = DesensitizeType.DEFAULT;
                     if (index <= jsonMapField.types().length - 1) {
                         type = jsonMapField.types()[index];
                     }
@@ -249,8 +249,8 @@ public class DeSensitiveUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value());
+            if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
+                arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value());
             } else {
                 acquire(value, null);
             }
@@ -263,14 +263,14 @@ public class DeSensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static <T> void doGetEntityFlex(final T entity) throws IllegalAccessException {
-        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), JsonFlexField.class);
+        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeComplexProperty.class);
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(entity);
             if (Objects.isNull(value)) {
                 continue;
             }
-            JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
+            DesensitizeComplexProperty jsonFlexField = field.getAnnotation(DesensitizeComplexProperty.class);
             if (Objects.isNull(jsonFlexField.value())) {
                 return;
             }
@@ -286,7 +286,7 @@ public class DeSensitiveUtils {
             if (index < 0) {
                 return;
             }
-            SensitiveType type = SensitiveType.DEFAULT;
+            DesensitizeType type = DesensitizeType.DEFAULT;
             if (index <= jsonFlexField.types().length - 1) {
                 type = jsonFlexField.types()[index];
             }

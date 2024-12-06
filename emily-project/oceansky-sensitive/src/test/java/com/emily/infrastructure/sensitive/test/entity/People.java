@@ -1,10 +1,10 @@
 package com.emily.infrastructure.sensitive.test.entity;
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonFlexField;
-import com.emily.infrastructure.sensitive.annotation.JsonNullField;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeComplexProperty;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeNullProperty;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 
 /**
  * 人
@@ -12,29 +12,29 @@ import com.emily.infrastructure.sensitive.annotation.JsonSimField;
  * @author Emily
  * @since :  Created in 2023/5/14 4:50 PM
  */
-@JsonSensitive
+@DesensitizeModel
 public class People {
-    @JsonSimField
+    @DesensitizeProperty
     private String username;
     private String password;
-    @JsonFlexField(keys = {"email", "phone"}, value = "value", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+    @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "value", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
     private String key;
     private String value;
-    @JsonNullField
+    @DesensitizeNullProperty
     private int age;
-    @JsonNullField
+    @DesensitizeNullProperty
     private byte b;
-    @JsonNullField
+    @DesensitizeNullProperty
     private short s;
-    @JsonNullField
+    @DesensitizeNullProperty
     private long l;
-    @JsonNullField
+    @DesensitizeNullProperty
     private double d;
-    @JsonNullField
+    @DesensitizeNullProperty
     private float f;
-    @JsonNullField
+    @DesensitizeNullProperty
     private char c;
-    @JsonNullField
+    @DesensitizeNullProperty
     private String str;
 
     public String getStr() {

@@ -9,7 +9,7 @@ import com.emily.infrastructure.sample.web.entity.json.PubResponse;
 import com.emily.infrastructure.sample.web.entity.sensitive.MapperIgnore;
 import com.emily.infrastructure.sample.web.entity.sensitive.UploadRequest;
 import com.emily.infrastructure.sample.web.mapper.mysql.MysqlMapper;
-import com.emily.infrastructure.sensitive.DeSensitiveUtils;
+import com.emily.infrastructure.sensitive.DeSensitizeUtils;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
@@ -35,7 +35,7 @@ public class SensitiveController {
     @PostMapping("test")
     @JsonSerialize
     public List<BaseResponse<JsonResponse>> test(@Validated @RequestBody List<JsonRequest> request) {
-        List<JsonRequest> S = DeSensitiveUtils.acquireElseGet(request);
+        List<JsonRequest> S = DeSensitizeUtils.acquireElseGet(request);
         System.out.println(JsonUtils.toJSONPrettyString(S));
         JsonResponse response = new JsonResponse();
         response.setPassword("123");
@@ -58,7 +58,7 @@ public class SensitiveController {
         response.setArr(arr);
         List<BaseResponse<JsonResponse>> list = Lists.newArrayList(new BaseResponse<JsonResponse>().data(response));
         //return list;
-        return DeSensitiveUtils.acquireElseGet(list, BaseResponse.class);
+        return DeSensitizeUtils.acquireElseGet(list, BaseResponse.class);
     }
 
     @PostMapping("test1")
@@ -79,7 +79,7 @@ public class SensitiveController {
         response.jobList = Arrays.asList(job);
         BaseResponse<PubResponse> r = new BaseResponse<PubResponse>().data(response);
         //return r;
-        return DeSensitiveUtils.acquireElseGet(r);
+        return DeSensitizeUtils.acquireElseGet(r);
     }
 
     @GetMapping("test3")

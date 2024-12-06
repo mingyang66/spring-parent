@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sample.web.entity.sensitive;
 
-import com.emily.infrastructure.sensitive.annotation.JsonNullField;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeNullProperty;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -10,15 +10,15 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Emily
  * @since Created in 2023/5/14 4:44 PM
  */
-@JsonSensitive
+@DesensitizeModel
 public class UploadRequest {
-    @JsonNullField
+    @DesensitizeNullProperty
     private MultipartFile file;
-    @JsonNullField
+    @DesensitizeNullProperty
     private String fileName;
-    @JsonNullField
+    @DesensitizeNullProperty
     private int age;
-    @JsonNullField
+    @DesensitizeNullProperty
     private Integer ageW;
 
     public int getAge() {

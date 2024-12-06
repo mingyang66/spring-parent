@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sensitive.annotation;
 
-import com.emily.infrastructure.sensitive.SensitiveType;
+import com.emily.infrastructure.sensitive.DesensitizeType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonFlexField {
+public @interface DesensitizeComplexProperty {
     /**
      * 要隐藏的参数key名称
      *
@@ -42,9 +42,9 @@ public @interface JsonFlexField {
     String value();
 
     /**
-     * 脱敏类型，见枚举类型{@link SensitiveType}
+     * 脱敏类型，见枚举类型{@link DesensitizeType}
      *
      * @return 脱敏类型
      */
-    SensitiveType[] types() default {};
+    DesensitizeType[] types() default {};
 }

@@ -1,9 +1,9 @@
 package com.emily.infrastructure.sample.web.entity.json;
 
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 
 import java.util.List;
 import java.util.Map;
@@ -12,32 +12,32 @@ import java.util.Map;
  * @author Emily
  * @since Created in 2022/10/27 10:53 上午
  */
-@JsonSensitive
+@DesensitizeModel
 public class PubResponse {
-    @JsonSimField(SensitiveType.USERNAME)
+    @DesensitizeProperty(DesensitizeType.USERNAME)
     public String username;
-    @JsonSimField
+    @DesensitizeProperty
     public String password;
-    @JsonSimField(SensitiveType.EMAIL)
+    @DesensitizeProperty(DesensitizeType.EMAIL)
     public String email;
-    @JsonSimField(SensitiveType.ID_CARD)
+    @DesensitizeProperty(DesensitizeType.ID_CARD)
     public String idCard;
-    @JsonSimField(SensitiveType.BANK_CARD)
+    @DesensitizeProperty(DesensitizeType.BANK_CARD)
     public String bankCard;
-    @JsonSimField(SensitiveType.PHONE)
+    @DesensitizeProperty(DesensitizeType.PHONE)
     public String phone;
-    @JsonSimField(SensitiveType.PHONE)
+    @DesensitizeProperty(DesensitizeType.PHONE)
     public String mobile;
     public Job job;
     public Map<String, Object> work;
     public List<PubResponse.Job> jobList;
     public PubResponse.Job[] jobs;
 
-    @JsonSensitive
+    @DesensitizeModel
     public static class Job {
-        @JsonSimField(SensitiveType.DEFAULT)
+        @DesensitizeProperty(DesensitizeType.DEFAULT)
         public String work;
-        @JsonSimField(SensitiveType.EMAIL)
+        @DesensitizeProperty(DesensitizeType.EMAIL)
         public String email;
 
     }

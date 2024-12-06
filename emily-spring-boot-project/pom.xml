@@ -25,6 +25,7 @@
         <module>emily-spring-boot-tracing</module>
         <module>emily-spring-boot-rateLimiter</module>
         <module>emily-spring-boot-i18n</module>
+        <module>emily-spring-boot-desensitive</module>
     </modules>
 
 </project>

@@ -12,7 +12,7 @@ import java.util.*;
  * @author Emily
  * @since :  Created in 2022/7/19 3:13 下午
  */
-public class SensitiveUtils {
+public class SensitizeUtils {
     /**
      * 脱敏过程中如果发生异常，则原样返回
      *
@@ -76,7 +76,7 @@ public class SensitiveUtils {
                 }
                 return t;
             }
-        } else if (entity.getClass().isAnnotationPresent(JsonSensitive.class)) {
+        } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
             return doSetField(entity);
         } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
             return doSetField(entity);
@@ -138,7 +138,7 @@ public class SensitiveUtils {
             return true;
         } else if (field.getType().isPrimitive()) {
             return false;
-        } else return field.isAnnotationPresent(JsonNullField.class);
+        } else return field.isAnnotationPresent(DesensitizeNullProperty.class);
     }
 
     /**
@@ -148,8 +148,8 @@ public class SensitiveUtils {
      * @throws IllegalAccessException 抛出非法访问异常
      */
     protected static Object doGetEntityStr(final Field field, final Object value) throws IllegalAccessException {
-        if (field.isAnnotationPresent(JsonSimField.class)) {
-            return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(JsonSimField.class).value());
+        if (field.isAnnotationPresent(DesensitizeProperty.class)) {
+            return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value());
         } else {
             return acquire(value, null);
         }
@@ -167,8 +167,8 @@ public class SensitiveUtils {
         for (Object v : collection) {
             if (Objects.isNull(v)) {
                 list.add(null);
-            } else if ((v instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
+            } else if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
+                list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
             } else {
                 list.add(acquire(v, null));
             }
@@ -193,16 +193,16 @@ public class SensitiveUtils {
                 dMap.put(key, null);
                 continue;
             } else if (v instanceof String) {
-                if (field.isAnnotationPresent(JsonSimField.class)) {
-                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(JsonSimField.class).value()));
-                } else if (field.isAnnotationPresent(JsonMapField.class)) {
-                    JsonMapField jsonMapField = field.getAnnotation(JsonMapField.class);
+                if (field.isAnnotationPresent(DesensitizeProperty.class)) {
+                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
+                } else if (field.isAnnotationPresent(DesensitizeMapProperty.class)) {
+                    DesensitizeMapProperty jsonMapField = field.getAnnotation(DesensitizeMapProperty.class);
                     int index = (key instanceof String) ? Arrays.asList(jsonMapField.value()).indexOf(key) : -1;
                     if (index < 0) {
                         dMap.put(key, acquire(v, null));
                         continue;
                     }
-                    SensitiveType type = SensitiveType.DEFAULT;
+                    DesensitizeType type = DesensitizeType.DEFAULT;
                     if (index <= jsonMapField.types().length - 1) {
                         type = jsonMapField.types()[index];
                     }
@@ -230,8 +230,8 @@ public class SensitiveUtils {
             for (int i = 0; i < v.length; i++) {
                 if (Objects.isNull(v[i])) {
                     t[i] = null;
-                } else if ((v[i] instanceof String) && field.isAnnotationPresent(JsonSimField.class)) {
-                    t[i] = DataMaskUtils.doGetProperty((String) v[i], field.getAnnotation(JsonSimField.class).value());
+                } else if ((v[i] instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
+                    t[i] = DataMaskUtils.doGetProperty((String) v[i], field.getAnnotation(DesensitizeProperty.class).value());
                 } else {
                     t[i] = acquire(v[i], null);
                 }
@@ -249,14 +249,14 @@ public class SensitiveUtils {
      */
     protected static Map<String, Object> doGetEntityFlex(final Object entity) throws IllegalAccessException {
         Map<String, Object> flexFieldMap = null;
-        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), JsonFlexField.class);
+        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeComplexProperty.class);
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(entity);
             if (Objects.isNull(value)) {
                 continue;
             }
-            JsonFlexField jsonFlexField = field.getAnnotation(JsonFlexField.class);
+            DesensitizeComplexProperty jsonFlexField = field.getAnnotation(DesensitizeComplexProperty.class);
             if (Objects.isNull(jsonFlexField.value())) {
                 continue;
             }
@@ -272,7 +272,7 @@ public class SensitiveUtils {
             if (index < 0) {
                 continue;
             }
-            SensitiveType type = SensitiveType.DEFAULT;
+            DesensitizeType type = DesensitizeType.DEFAULT;
             if (index <= jsonFlexField.types().length - 1) {
                 type = jsonFlexField.types()[index];
             }

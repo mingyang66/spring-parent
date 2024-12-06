@@ -18,6 +18,6 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonNullField {
+public @interface DesensitizeNullProperty {
 
 }

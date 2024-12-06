@@ -5,8 +5,8 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
-import com.emily.infrastructure.sensitive.SensitiveUtils;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.SensitizeUtils;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 import com.google.common.collect.Maps;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -141,13 +141,13 @@ public class MethodHelper {
         return MethodInvocationUtils.getMethodArgs(invocation, value -> value instanceof HttpServletRequest || value instanceof HttpServletResponse,
                 (parameter, value) -> {
                     if (value instanceof String str) {
-                        if (parameter.isAnnotationPresent(JsonSimField.class)) {
-                            return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(JsonSimField.class).value());
+                        if (parameter.isAnnotationPresent(DesensitizeProperty.class)) {
+                            return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(DesensitizeProperty.class).value());
                         } else {
                             return value;
                         }
                     } else {
-                        return SensitiveUtils.acquireElseGet(value);
+                        return SensitizeUtils.acquireElseGet(value);
                     }
                 });
     }

@@ -2,8 +2,8 @@ package com.emily.infrastructure.transfer.feign.helper;
 
 import com.emily.infrastructure.aop.utils.MethodInvocationUtils;
 import com.emily.infrastructure.sensitive.DataMaskUtils;
-import com.emily.infrastructure.sensitive.SensitiveUtils;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.SensitizeUtils;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Map;
@@ -26,13 +26,13 @@ public class MethodHelper {
         return MethodInvocationUtils.getMethodArgs(invocation, o -> true,
                 (parameter, value) -> {
                     if (value instanceof String str) {
-                        if (parameter.isAnnotationPresent(JsonSimField.class)) {
-                            return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(JsonSimField.class).value());
+                        if (parameter.isAnnotationPresent(DesensitizeProperty.class)) {
+                            return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(DesensitizeProperty.class).value());
                         } else {
                             return value;
                         }
                     } else {
-                        return SensitiveUtils.acquireElseGet(value);
+                        return SensitizeUtils.acquireElseGet(value);
                     }
                 });
     }

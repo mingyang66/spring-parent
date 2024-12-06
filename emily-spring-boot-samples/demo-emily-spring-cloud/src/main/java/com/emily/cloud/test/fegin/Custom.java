@@ -1,17 +1,17 @@
 package com.emily.cloud.test.fegin;
 
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 
 /**
  * @author Emily
  * @since Created in 2022/10/27 3:29 下午
  */
 public class Custom {
-    @JsonSimField
+    @DesensitizeProperty
     private String username;
-    @JsonSimField(SensitiveType.EMAIL)
+    @DesensitizeProperty(DesensitizeType.EMAIL)
     private String email;
 
     public String getUsername() {

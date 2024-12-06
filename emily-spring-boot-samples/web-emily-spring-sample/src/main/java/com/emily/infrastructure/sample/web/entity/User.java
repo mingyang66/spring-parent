@@ -1,8 +1,8 @@
 package com.emily.infrastructure.sample.web.entity;
 
-import com.emily.infrastructure.sensitive.SensitiveType;
-import com.emily.infrastructure.sensitive.annotation.JsonSensitive;
-import com.emily.infrastructure.sensitive.annotation.JsonSimField;
+import com.emily.infrastructure.sensitive.DesensitizeType;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
 import org.springframework.core.Ordered;
 
 /**
@@ -10,10 +10,10 @@ import org.springframework.core.Ordered;
  * @program: spring-parent
  * @since 2021/08/08
  */
-@JsonSensitive
+@DesensitizeModel
 public class User implements Ordered {
     private String username;
-    @JsonSimField(SensitiveType.DEFAULT)
+    @DesensitizeProperty(DesensitizeType.DEFAULT)
     private String password;
     private Job job;
     private int order;

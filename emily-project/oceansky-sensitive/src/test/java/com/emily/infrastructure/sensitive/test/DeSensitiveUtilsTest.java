@@ -1,6 +1,6 @@
 package com.emily.infrastructure.sensitive.test;
 
-import com.emily.infrastructure.sensitive.DeSensitiveUtils;
+import com.emily.infrastructure.sensitive.DeSensitizeUtils;
 import com.emily.infrastructure.sensitive.test.entity.BaseResponse;
 import com.emily.infrastructure.sensitive.test.entity.People;
 import com.emily.infrastructure.sensitive.test.entity.PeopleMap;
@@ -22,7 +22,7 @@ public class DeSensitiveUtilsTest {
         People people = new People();
         people.setUsername("孙少平");
         people.setPassword("ssp");
-        People p = DeSensitiveUtils.acquireElseGet(people);
+        People p = DeSensitizeUtils.acquireElseGet(people);
         Assertions.assertEquals(p, people);
         Assertions.assertEquals(p.getUsername(), "--隐藏--");
     }
@@ -32,14 +32,14 @@ public class DeSensitiveUtilsTest {
         People people = new People();
         people.setKey("email");
         people.setValue("1563919868@qq.com");
-        People p = DeSensitiveUtils.acquireElseGet(people);
+        People p = DeSensitizeUtils.acquireElseGet(people);
         Assertions.assertEquals(p, people);
         Assertions.assertEquals(p.getKey(), "email");
         Assertions.assertEquals(p.getValue(), "1***8@qq.com");
 
         people.setKey("phone");
         people.setValue("1563919868");
-        p = DeSensitiveUtils.acquireElseGet(people);
+        p = DeSensitizeUtils.acquireElseGet(people);
         Assertions.assertEquals(p.getKey(), "phone");
         Assertions.assertEquals(people.getValue(), "15****9868");
     }
@@ -50,7 +50,7 @@ public class DeSensitiveUtilsTest {
         people.setKey("email");
         people.setValue("1563919868@qq.com");
         people.setStr("测试null");
-        People s = DeSensitiveUtils.acquireElseGet(people);
+        People s = DeSensitizeUtils.acquireElseGet(people);
         Assertions.assertNull(s.getStr());
         Assertions.assertEquals(s.getAge(), 0);
         Assertions.assertEquals(s.getB(), (byte) 0);
@@ -64,7 +64,7 @@ public class DeSensitiveUtilsTest {
         peopleMap.getParams().put("password", "12345");
         peopleMap.getParams().put("username", "田晓霞");
         peopleMap.getParams().put("phone", "15645562587");
-        PeopleMap p = DeSensitiveUtils.acquireElseGet(peopleMap);
+        PeopleMap p = DeSensitizeUtils.acquireElseGet(peopleMap);
         System.out.println(p);
     }
 
@@ -85,9 +85,9 @@ public class DeSensitiveUtilsTest {
         response.jobs = new PubResponse.Job[]{job};
         response.jobList = List.of(job);
         BaseResponse<PubResponse> r = BaseResponse.<PubResponse>newBuilder().withData(response).build();
-        BaseResponse<PubResponse> response1 = DeSensitiveUtils.acquireElseGet(r);
+        BaseResponse<PubResponse> response1 = DeSensitizeUtils.acquireElseGet(r);
         Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");
-        BaseResponse<PubResponse> response2 = DeSensitiveUtils.acquireElseGet(r, BaseResponse.class);
+        BaseResponse<PubResponse> response2 = DeSensitizeUtils.acquireElseGet(r, BaseResponse.class);
         Assertions.assertEquals(response2.getData().email, "1***9@qq.com");
     }
 }

@@ -207,12 +207,12 @@ public class DataMaskUtils {
      * @param type  脱敏类型
      * @return 脱敏后的字段值
      */
-    public static String doGetProperty(String value, SensitiveType type) {
+    public static String doGetProperty(String value, DesensitizeType type) {
         if (value == null || value.isEmpty()) {
             return value;
         }
         if (type == null) {
-            type = SensitiveType.DEFAULT;
+            type = DesensitizeType.DEFAULT;
         }
         return switch (type) {
             case PHONE -> DataMaskUtils.maskPhoneNumber(value);

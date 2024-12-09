@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.request;
 
-import com.emily.infrastructure.common.constant.AopOrderInfo;
+import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import com.emily.infrastructure.web.request.interceptor.DefaultRequestMethodInterceptor;
 import com.emily.infrastructure.web.request.interceptor.RequestCustomizer;
@@ -56,7 +56,7 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
     /**
      * 定义接口拦截器切点
      *
-     * @param requestCustomizers 扩展点对象
+     * @param customizers 扩展点对象
      * @return 切面对象
      * @since 1.0
      */

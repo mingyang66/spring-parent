@@ -1,6 +1,7 @@
 package com.emily.infrastructure.desensitize;
 
 import com.emily.infrastructure.aop.advisor.AnnotationPointcutAdvisor;
+import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.desensitize.annotation.DesensitizeOperation;
 import com.emily.infrastructure.desensitize.interceptor.DefaultDesensitizeMethodInterceptor;
 import com.emily.infrastructure.desensitize.interceptor.DesensitizeCustomizer;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Role;
 import org.springframework.util.Assert;
 
 /**
+ * 对请求响应结果进行脱敏处理
+ *
  * @author :  Emily
  * @since :  2024/12/7 下午3:47
  */
@@ -29,7 +32,7 @@ import org.springframework.util.Assert;
 public class DesensitizeAutoConfiguration {
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor dataSourcePointCutAdvice(ObjectProvider<DesensitizeCustomizer> customizers, DesensitizeProperties properties) {
+    public Advisor dataSourcePointCutAdvice(ObjectProvider<DesensitizeCustomizer> customizers) {
         Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), () -> "DesensitizeCustomizer must not be null");
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(DesensitizeOperation.class, false);
@@ -40,7 +43,7 @@ public class DesensitizeAutoConfiguration {
         //切面增强类
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
-        advisor.setOrder(0);
+        advisor.setOrder(AopOrderInfo.DESENSITIZE);
         return advisor;
     }
 

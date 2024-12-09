@@ -1,6 +1,7 @@
 package com.emily.sample.desensitize.controller;
 
 import com.emily.infrastructure.desensitize.annotation.DesensitizeOperation;
+import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.sample.desensitize.entity.Company;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,5 +35,18 @@ public class DesensitizeController {
         company.setPhone("18888888888");
         company.setEmail("18888888888@qq.com");
         return ResponseEntity.ok(company);
+    }
+
+    @DesensitizeOperation(removePackClass = BaseResponse.class)
+    @GetMapping("getCompany2")
+    public BaseResponse<Company> getCompany2() {
+        Company company = new Company();
+        company.setCompanyName("魔方科技");
+        company.setAddress("古北市南京路1688号50号楼106");
+        company.setPhone("18888888888");
+        company.setEmail("18888888888@qq.com");
+        BaseResponse<Company> baseResponse = new BaseResponse<>();
+        baseResponse.setData(company);
+        return baseResponse;
     }
 }

@@ -16,6 +16,14 @@ public class AopOrderInfo {
      */
     public static final int REQUEST_INTERCEPTOR = 410;
     /**
+     * api脱敏请求切面
+     */
+    public static final int DESENSITIZE = 500;
+    /**
+     * api返回值脱敏
+     */
+    public static final int DESENSITIZE_INTERCEPTOR = 510;
+    /**
      * feign正常日志
      */
     public static final int FEIGN = 800;

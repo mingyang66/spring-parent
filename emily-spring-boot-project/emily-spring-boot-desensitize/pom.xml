@@ -11,7 +11,7 @@
     <artifactId>emily-spring-boot-desensitize</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-desensitive</name>
+    <name>emily-spring-boot-desensitize</name>
     <description>Java基于注解的脱敏组件SDK</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

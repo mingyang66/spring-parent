@@ -1,14 +1,13 @@
 package com.emily.infrastructure.sensitize.test;
 
 import com.emily.infrastructure.sensitize.DeSensitizeUtils;
-import com.emily.infrastructure.sensitize.test.entity.BaseResponse;
-import com.emily.infrastructure.sensitize.test.entity.People;
-import com.emily.infrastructure.sensitize.test.entity.PeopleMap;
-import com.emily.infrastructure.sensitize.test.entity.PubResponse;
+import com.emily.infrastructure.sensitize.test.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 实体类对象脱敏单元测试
@@ -89,5 +88,47 @@ public class DeSensitizeUtilsTest {
         Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");
         BaseResponse<PubResponse> response2 = DeSensitizeUtils.acquireElseGet(r, BaseResponse.class);
         Assertions.assertEquals(response2.getData().email, "1***9@qq.com");
+    }
+
+    @Test
+    public void wrapperClass() {
+        Company company = new Company();
+        company.setId(123L);
+        company.setName("尤五");
+        company.setAddress("湖州");
+        Company.Worker worker = new Company.Worker();
+        worker.setId(456L);
+        worker.setName("甥王爷");
+        company.setWorker(worker);
+        Company company1 = DeSensitizeUtils.acquireElseGet(company, Company.class);
+        Assertions.assertEquals(company1.getWorker().getName(), "--隐藏--");
+    }
+
+    @Test
+    public void wrapperClassList() {
+        Company company = new Company();
+        company.setId(123L);
+        company.setName("尤五");
+        company.setAddress("湖州");
+        Company.Worker worker = new Company.Worker();
+        worker.setId(456L);
+        worker.setName("甥王爷");
+        company.setList(List.of(worker));
+        Company company1 = DeSensitizeUtils.acquireElseGet(company, Company.class);
+        Assertions.assertEquals(company1.getList().get(0).getName(), "--隐藏--");
+    }
+
+    @Test
+    public void wrapperClassMap() {
+        Company company = new Company();
+        company.setId(123L);
+        company.setName("尤五");
+        company.setAddress("湖州");
+        Company.Worker worker = new Company.Worker();
+        worker.setId(456L);
+        worker.setName("甥王爷");
+        company.setDataMap(new HashMap<>(Map.of("test", worker)));
+        Company company1 = DeSensitizeUtils.acquireElseGet(company, Company.class);
+        Assertions.assertEquals(company1.getDataMap().get("test").getName(), "--隐藏--");
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/11/28 下午7:07
  */
 @Component

@@ -5,7 +5,7 @@
 ```xml
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-spring-boot-desensitive</artifactId>
+                <artifactId>emily-spring-boot-desensitize</artifactId>
                 <version>${revision}</version>
             </dependency>
 ```
@@ -21,7 +21,7 @@
 | @DesensitizeMapProperty     | 标记在实体类Map数据类型上，按照指定的key字段及类型进行脱敏。 |
 | @DesensitizeComplexProperty | 标记在实体类属性字段上，需两个字段配合使用                   |
 
-- @DesensitizeOperation注解标记在类、方法上，方法上优先级最高；
+- @DesensitizeOperation注解标记在类、方法上，方法上优先级最高，removePackClass属性指定忽略外层包装只对内层进行脱敏处理；
 - @DesensitizeModel标记在实体类上，标识对当前实体类进行脱敏
 - @DesensitizeNullProperty标记在任何引用数据类型上，字段值会被设置为null，优先级最高；
 - @DesensitizeMapProperty标记在Map类型字段上，根据属性指定字段进行脱敏，优先级高于@DesensitizeProperty；

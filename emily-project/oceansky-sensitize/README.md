@@ -3,7 +3,7 @@
 ```xml
 <dependency>
   <groupId>io.github.mingyang66</groupId>
-  <artifactId>oceansky-sensitive</artifactId>
+  <artifactId>oceansky-sensitize</artifactId>
   <version>4.3.2</version>
 </dependency>
 ```

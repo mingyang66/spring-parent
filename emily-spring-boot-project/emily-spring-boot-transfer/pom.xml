@@ -49,7 +49,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-sensitive</artifactId>
+            <artifactId>oceansky-sensitize</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

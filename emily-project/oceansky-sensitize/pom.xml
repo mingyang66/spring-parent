@@ -8,9 +8,9 @@
         <relativePath>../../emily-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>oceansky-sensitive</artifactId>
+    <artifactId>oceansky-sensitize</artifactId>
     <packaging>jar</packaging>
-    <name>oceansky-sensitive</name>
+    <name>oceansky-sensitize</name>
     <description>Java实体类脱敏SDK</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

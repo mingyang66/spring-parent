@@ -10,7 +10,7 @@ cd emily-project
 ../mvnw clean deploy -pl oceansky-logger
 ../mvnw clean deploy -pl oceansky-captcha
 ../mvnw clean deploy -pl oceansky-language
-../mvnw clean deploy -pl oceansky-sensitive
+../mvnw clean deploy -pl oceansky-sensitize
 ../mvnw clean deploy -pl oceansky-jwt
 ../mvnw clean deploy -pl oceansky-date
 ../mvnw clean deploy -pl oceansky-common

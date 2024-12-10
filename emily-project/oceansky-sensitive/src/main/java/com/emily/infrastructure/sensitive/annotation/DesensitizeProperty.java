@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 
 /**
  * 自定义jackson注解，标注在属性上，字段必须是字符串类型
+ * 1. 可以标记在String上、Map字段类型；
+ * 2. 如果标记在Map字段上优先级低于{@link DesensitizeMapProperty}
  *
  * @author Emily
  * @since :  Created in 2022/7/19 5:22 下午

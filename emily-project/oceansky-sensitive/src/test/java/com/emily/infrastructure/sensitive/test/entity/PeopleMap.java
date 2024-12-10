@@ -20,9 +20,9 @@ public class PeopleMap {
     private String password;
     private LocalDateTime localDateTime;
     private Map<String, SubMap> subMapMap = new HashMap<>();
-    @DesensitizeMapProperty(value = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
+    @DesensitizeMapProperty(keys = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
     private Map<String, String> params = new HashMap<>();
-    @DesensitizeMapProperty(value = {"age", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
+    @DesensitizeMapProperty(keys = {"age", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
     private Map<Integer, String> ages = new HashMap<>();
 
     public Map<Integer, String> getAges() {

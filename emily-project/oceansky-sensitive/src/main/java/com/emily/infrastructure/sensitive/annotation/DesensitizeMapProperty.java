@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * 自定义jackson注解，标注在属性上，实例如下：
  * <pre>
  *     {@code
- *     @JsonMapField(value = {"password", "username"}, types = {SensitiveType.DEFAULT, SensitiveType.USERNAME})
+ *     @DesensitizeMapProperty(keys = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
  *     private Map<String, String> params = new HashMap<>();
  *     }
  * </pre>
@@ -29,7 +29,7 @@ public @interface DesensitizeMapProperty {
      *
      * @return 复杂类型字段名
      */
-    String[] value() default {};
+    String[] keys() default {};
 
     /**
      * 脱敏类型，见枚举类型{@link DesensitizeType}

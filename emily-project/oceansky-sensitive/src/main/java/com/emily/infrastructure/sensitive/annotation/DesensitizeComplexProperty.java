@@ -10,12 +10,12 @@ import java.lang.annotation.Target;
 /**
  * 自定义jackson注解，标注在属性上，实例如下：
  * <pre>{@code
- * @JsonSensitive
+ * @DesensitizeModel
  * public class JsonRequest extends Animal {
- *     @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
+ *     @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
  *     private String fieldKey;
  *     private String fieldValue;
- *     @JsonFlexField(keys = {"email", "phone"}, value = "fieldValue1")
+ *     @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue1")
  *     private String fieldKey1;
  *     private String fieldValue1;
  *     }

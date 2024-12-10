@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * ---------------------------------------------
  * 生效规则：
  * 1.非int、double、float、byte、short、long、boolean、char八种基本数据类型字段才会生效；
- * 2.
+ * 2.任何引用类型字段的值都会被设置为null,且优先级最高；
  * ---------------------------------------------
  *
  * @author Emily

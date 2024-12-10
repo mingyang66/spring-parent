@@ -116,7 +116,7 @@ public class SensitizeUtils {
                 fieldMap.put(name, acquire(value, null));
             }
         }
-        fieldMap.putAll(doGetEntityFlex(entity));
+        fieldMap.putAll(doGetEntityComplex(entity));
         return fieldMap;
     }
 
@@ -192,22 +192,23 @@ public class SensitizeUtils {
             if (Objects.isNull(v)) {
                 dMap.put(key, null);
                 continue;
-            } else if (v instanceof String) {
-                if (field.isAnnotationPresent(DesensitizeProperty.class)) {
-                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
-                } else if (field.isAnnotationPresent(DesensitizeMapProperty.class)) {
-                    DesensitizeMapProperty jsonMapField = field.getAnnotation(DesensitizeMapProperty.class);
-                    int index = (key instanceof String) ? Arrays.asList(jsonMapField.value()).indexOf(key) : -1;
+            }
+            if (v instanceof String) {
+                if (field.isAnnotationPresent(DesensitizeMapProperty.class)) {
+                    DesensitizeMapProperty desensitizeMapProperty = field.getAnnotation(DesensitizeMapProperty.class);
+                    int index = (key instanceof String) ? Arrays.asList(desensitizeMapProperty.keys()).indexOf(key) : -1;
                     if (index < 0) {
                         dMap.put(key, acquire(v, null));
                         continue;
                     }
                     DesensitizeType type = DesensitizeType.DEFAULT;
-                    if (index <= jsonMapField.types().length - 1) {
-                        type = jsonMapField.types()[index];
+                    if (index <= desensitizeMapProperty.types().length - 1) {
+                        type = desensitizeMapProperty.types()[index];
                     }
                     dMap.put(key, DataMaskUtils.doGetProperty((String) v, type));
                     continue;
+                } else if (field.isAnnotationPresent(DesensitizeProperty.class)) {
+                    dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
                 }
             }
             dMap.put(key, acquire(v, null));
@@ -247,7 +248,7 @@ public class SensitizeUtils {
      * @return 复杂类型字段脱敏后的数据集合
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static Map<String, Object> doGetEntityFlex(final Object entity) throws IllegalAccessException {
+    protected static Map<String, Object> doGetEntityComplex(final Object entity) throws IllegalAccessException {
         Map<String, Object> flexFieldMap = null;
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeComplexProperty.class);
         for (Field field : fields) {
@@ -256,11 +257,11 @@ public class SensitizeUtils {
             if (Objects.isNull(value)) {
                 continue;
             }
-            DesensitizeComplexProperty jsonFlexField = field.getAnnotation(DesensitizeComplexProperty.class);
-            if (Objects.isNull(jsonFlexField.value())) {
+            DesensitizeComplexProperty desensitizeComplexProperty = field.getAnnotation(DesensitizeComplexProperty.class);
+            if (Objects.isNull(desensitizeComplexProperty.value())) {
                 continue;
             }
-            Field flexField = FieldUtils.getField(entity.getClass(), jsonFlexField.value(), true);
+            Field flexField = FieldUtils.getField(entity.getClass(), desensitizeComplexProperty.value(), true);
             if (Objects.isNull(flexField)) {
                 continue;
             }
@@ -268,16 +269,16 @@ public class SensitizeUtils {
             if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
                 continue;
             }
-            int index = Arrays.asList(jsonFlexField.keys()).indexOf((String) value);
+            int index = Arrays.asList(desensitizeComplexProperty.keys()).indexOf((String) value);
             if (index < 0) {
                 continue;
             }
             DesensitizeType type = DesensitizeType.DEFAULT;
-            if (index <= jsonFlexField.types().length - 1) {
-                type = jsonFlexField.types()[index];
+            if (index <= desensitizeComplexProperty.types().length - 1) {
+                type = desensitizeComplexProperty.types()[index];
             }
             flexFieldMap = Objects.isNull(flexFieldMap) ? new HashMap<>() : flexFieldMap;
-            flexFieldMap.put(jsonFlexField.value(), DataMaskUtils.doGetProperty((String) flexValue, type));
+            flexFieldMap.put(desensitizeComplexProperty.value(), DataMaskUtils.doGetProperty((String) flexValue, type));
         }
         return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;
     }

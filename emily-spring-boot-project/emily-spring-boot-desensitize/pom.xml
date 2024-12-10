@@ -8,7 +8,7 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-spring-boot-desensitive</artifactId>
+    <artifactId>emily-spring-boot-desensitize</artifactId>
     <packaging>jar</packaging>
 
     <name>emily-spring-boot-desensitive</name>

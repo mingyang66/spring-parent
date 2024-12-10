@@ -5,7 +5,7 @@ import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.sample.web.entity.World;
 import com.emily.infrastructure.sample.web.entity.json.PubResponse;
 import com.emily.infrastructure.sample.web.entity.sensitive.MapperIgnore;
-import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

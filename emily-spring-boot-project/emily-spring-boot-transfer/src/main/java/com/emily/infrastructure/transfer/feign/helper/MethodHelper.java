@@ -1,9 +1,9 @@
 package com.emily.infrastructure.transfer.feign.helper;
 
 import com.emily.infrastructure.aop.utils.MethodInvocationUtils;
-import com.emily.infrastructure.sensitive.DataMaskUtils;
-import com.emily.infrastructure.sensitive.SensitizeUtils;
-import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
+import com.emily.infrastructure.sensitize.DataMaskUtils;
+import com.emily.infrastructure.sensitize.SensitizeUtils;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Map;

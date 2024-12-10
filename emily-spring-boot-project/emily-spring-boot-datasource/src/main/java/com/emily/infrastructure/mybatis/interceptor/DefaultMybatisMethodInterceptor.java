@@ -9,7 +9,7 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.mybatis.helper.MethodHelper;
-import com.emily.infrastructure.sensitive.SensitizeUtils;
+import com.emily.infrastructure.sensitize.SensitizeUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
 

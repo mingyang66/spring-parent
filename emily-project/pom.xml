@@ -13,7 +13,7 @@
     <modules>
         <module>oceansky-json</module>
         <module>oceansky-language</module>
-        <module>oceansky-sensitive</module>
+        <module>oceansky-sensitize</module>
         <module>oceansky-captcha</module>
         <module>oceansky-jwt</module>
         <module>oceansky-date</module>

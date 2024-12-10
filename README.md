@@ -31,7 +31,7 @@
     </parent>
 ```
 
-- [emily-spring-boot-desensize](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-desensitive)
+- [emily-spring-boot-desensize SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-desensitize)
 
 
 ### maven父pom和子pom的版本号批量修改

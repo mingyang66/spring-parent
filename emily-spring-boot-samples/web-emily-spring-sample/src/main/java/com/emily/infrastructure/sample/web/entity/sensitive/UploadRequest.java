@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sample.web.entity.sensitive;
 
-import com.emily.infrastructure.sensitive.annotation.DesensitizeNullProperty;
-import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeNullProperty;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

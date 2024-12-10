@@ -9,7 +9,7 @@ import com.emily.infrastructure.sample.web.entity.json.PubResponse;
 import com.emily.infrastructure.sample.web.entity.sensitive.MapperIgnore;
 import com.emily.infrastructure.sample.web.entity.sensitive.UploadRequest;
 import com.emily.infrastructure.sample.web.mapper.mysql.MysqlMapper;
-import com.emily.infrastructure.sensitive.DeSensitizeUtils;
+import com.emily.infrastructure.sensitize.DeSensitizeUtils;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;

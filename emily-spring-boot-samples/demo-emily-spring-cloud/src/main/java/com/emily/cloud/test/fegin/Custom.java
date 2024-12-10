@@ -1,8 +1,8 @@
 package com.emily.cloud.test.fegin;
 
 
-import com.emily.infrastructure.sensitive.DesensitizeType;
-import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
+import com.emily.infrastructure.sensitize.DesensitizeType;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 
 /**
  * @author Emily

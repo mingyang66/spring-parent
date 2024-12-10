@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sample.web.entity.json;
 
 
-import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 
 /**
  * 动物

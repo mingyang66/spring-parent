@@ -1,9 +1,9 @@
 package com.emily.infrastructure.sample.web.entity.json;
 
 
-import com.emily.infrastructure.sensitive.DesensitizeType;
-import com.emily.infrastructure.sensitive.annotation.DesensitizeModel;
-import com.emily.infrastructure.sensitive.annotation.DesensitizeProperty;
+import com.emily.infrastructure.sensitize.DesensitizeType;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 
 import java.util.List;
 import java.util.Map;

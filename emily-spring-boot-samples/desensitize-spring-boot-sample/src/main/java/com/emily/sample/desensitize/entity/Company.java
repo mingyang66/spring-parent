@@ -1,7 +1,7 @@
 package com.emily.sample.desensitize.entity;
 
-import com.emily.infrastructure.sensitive.DesensitizeType;
-import com.emily.infrastructure.sensitive.annotation.*;
+import com.emily.infrastructure.sensitize.DesensitizeType;
+import com.emily.infrastructure.sensitize.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;

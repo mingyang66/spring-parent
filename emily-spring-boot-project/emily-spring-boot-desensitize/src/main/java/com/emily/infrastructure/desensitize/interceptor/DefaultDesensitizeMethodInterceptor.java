@@ -2,7 +2,7 @@ package com.emily.infrastructure.desensitize.interceptor;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.desensitize.annotation.DesensitizeOperation;
-import com.emily.infrastructure.sensitive.DeSensitizeUtils;
+import com.emily.infrastructure.sensitize.DeSensitizeUtils;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;

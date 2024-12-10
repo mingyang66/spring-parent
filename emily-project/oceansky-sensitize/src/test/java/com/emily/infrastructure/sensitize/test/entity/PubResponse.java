@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.entity.json;
+package com.emily.infrastructure.sensitize.test.entity;
 
 
 import com.emily.infrastructure.sensitize.DesensitizeType;
@@ -30,8 +30,8 @@ public class PubResponse {
     public String mobile;
     public Job job;
     public Map<String, Object> work;
-    public List<PubResponse.Job> jobList;
-    public PubResponse.Job[] jobs;
+    public List<Job> jobList;
+    public Job[] jobs;
 
     @DesensitizeModel
     public static class Job {

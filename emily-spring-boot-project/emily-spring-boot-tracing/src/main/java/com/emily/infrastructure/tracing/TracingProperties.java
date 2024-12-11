@@ -15,9 +15,21 @@ public class TracingProperties {
      */
     public static final String PREFIX = "spring.emily.tracing";
     /**
+     * 组件开关，默认：true
+     */
+    private boolean enabled = true;
+    /**
      * 系统编号
      */
     private String systemNumber;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getSystemNumber() {
         return systemNumber;

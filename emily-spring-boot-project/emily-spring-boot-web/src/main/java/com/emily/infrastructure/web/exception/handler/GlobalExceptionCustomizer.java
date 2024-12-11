@@ -88,7 +88,7 @@ public class GlobalExceptionCustomizer {
             LOG.debug("全局异常拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }
         //----------------------前置条件判断------------------------
-        boolean isReturn = TracingStage.PARAMETER != LocalContextHolder.current().getServletStage();
+        boolean isReturn = TracingStage.PARAMETER != LocalContextHolder.current().getTracingStage();
         if (isReturn) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("全局异常拦截器-不记录日志：END<<============{}", FilterUtil.getRequestPath(request));

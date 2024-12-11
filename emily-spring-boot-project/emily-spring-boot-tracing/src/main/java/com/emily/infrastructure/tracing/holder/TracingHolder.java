@@ -59,7 +59,7 @@ public class TracingHolder {
     /**
      * 当前上下文所处阶段标识
      */
-    private ServletStage servletStage;
+    private TracingStage servletStage;
 
     public static Builder newBuilder() {
         return new Builder();
@@ -73,11 +73,11 @@ public class TracingHolder {
         this.spentTime = spentTime;
     }
 
-    public ServletStage getServletStage() {
+    public TracingStage getServletStage() {
         return servletStage;
     }
 
-    public void setServletStage(ServletStage servletStage) {
+    public void setServletStage(TracingStage servletStage) {
         this.servletStage = servletStage;
     }
 
@@ -197,7 +197,7 @@ public class TracingHolder {
         /**
          * 当前上下文所处阶段标识
          */
-        private ServletStage servletStage;
+        private TracingStage servletStage;
 
         public Builder withTraceId(String traceId) {
             this.traceId = traceId;
@@ -244,7 +244,7 @@ public class TracingHolder {
             return this;
         }
 
-        public Builder withServletStage(ServletStage servletStage) {
+        public Builder withServletStage(TracingStage servletStage) {
             this.servletStage = servletStage;
             return this;
         }
@@ -281,7 +281,7 @@ public class TracingHolder {
             //服务端IP
             holder.setServerIp(RequestUtils.getServerIp());
             //设置当前请求阶段标识
-            holder.setServletStage(Objects.isNull(servletStage) ? ServletStage.OTHER : servletStage);
+            holder.setServletStage(Objects.isNull(servletStage) ? TracingStage.OTHER : servletStage);
             return holder;
         }
     }

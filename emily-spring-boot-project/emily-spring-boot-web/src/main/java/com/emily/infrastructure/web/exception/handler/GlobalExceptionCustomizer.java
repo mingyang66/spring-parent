@@ -10,7 +10,7 @@ import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.sensitize.SensitizeUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
-import com.emily.infrastructure.tracing.holder.ServletStage;
+import com.emily.infrastructure.tracing.holder.TracingStage;
 import com.emily.infrastructure.web.filter.helper.MethodHelper;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
@@ -88,7 +88,7 @@ public class GlobalExceptionCustomizer {
             LOG.debug("全局异常拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }
         //----------------------前置条件判断------------------------
-        boolean isReturn = ServletStage.PARAMETER != LocalContextHolder.current().getServletStage();
+        boolean isReturn = TracingStage.PARAMETER != LocalContextHolder.current().getServletStage();
         if (isReturn) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("全局异常拦截器-不记录日志：END<<============{}", FilterUtil.getRequestPath(request));

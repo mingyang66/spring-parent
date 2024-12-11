@@ -6,7 +6,7 @@ package com.emily.infrastructure.tracing.holder;
  * @author Emily
  * @since Created in 2023/4/22 3:53 PM
  */
-public enum ServletStage {
+public enum TracingStage {
     //参数校验之前
     PARAMETER,
     //控制器方法调用之前

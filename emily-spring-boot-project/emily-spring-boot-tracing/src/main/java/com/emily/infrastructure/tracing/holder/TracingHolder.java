@@ -267,11 +267,11 @@ public class TracingHolder {
             //servlet上下文
             holder.setServlet(servlet);
             //语言
-            holder.setLanguage(StringUtils.isBlank(language) ? RequestUtils.getHeader(HeaderInfo.LANGUAGE) : language);
+           // holder.setLanguage(StringUtils.isBlank(language) ? RequestUtils.getHeader(HeaderInfo.LANGUAGE) : language);
             //版本类型，com.emily.android
-            holder.setAppType(StringUtils.isBlank(appType) ? RequestUtils.getHeader(HeaderInfo.APP_TYPE) : appType);
+           // holder.setAppType(StringUtils.isBlank(appType) ? RequestUtils.getHeader(HeaderInfo.APP_TYPE) : appType);
             //版本号，4.1.4
-            holder.setAppVersion(StringUtils.isBlank(appVersion) ? RequestUtils.getHeader(HeaderInfo.APP_VERSION) : appVersion);
+          //  holder.setAppVersion(StringUtils.isBlank(appVersion) ? RequestUtils.getHeader(HeaderInfo.APP_VERSION) : appVersion);
             //servlet请求开始时间
             holder.setStartTime(Objects.isNull(startTime) ? Instant.now() : startTime);
             //API耗时

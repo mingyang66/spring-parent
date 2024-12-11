@@ -1,5 +1,6 @@
 package com.emily.infrastructure.i18n.interceptor;
 
+import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.i18n.annotation.I18nOperation;
 import com.emily.infrastructure.language.convert.I18nUtils;
@@ -40,6 +41,6 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
 
     @Override
     public int getOrder() {
-        return 1000;
+        return AopOrderInfo.I18N + 1;
     }
 }

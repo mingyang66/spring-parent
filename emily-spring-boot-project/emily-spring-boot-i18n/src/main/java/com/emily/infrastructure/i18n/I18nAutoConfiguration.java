@@ -17,8 +17,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
+import org.springframework.util.Assert;
 
 /**
+ * 多语言翻译拦截器配置类
+ *
  * @author :  Emily
  * @since :  2024/10/31 上午10:12
  */
@@ -30,7 +33,7 @@ public class I18nAutoConfiguration {
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor i18nAdvisor(ObjectProvider<I18nCustomizer> customizers) {
-        // Assert.isTrue(customizers.orderedStream().findFirst().isEmpty(), "拦截器必须存在");
+        Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), () -> "I18n customizers must not be null");
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(null, I18nOperation.class, true);
         //组合切面(并集)，即只要有一个切点的条件符合，则就拦截

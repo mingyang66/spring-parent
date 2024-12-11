@@ -2,8 +2,8 @@
  * @author :  Emily
  * @since :  2024/6/18 上午9:35
  */
-module oceansky.sensitive.test {
-    requires oceansky.sensitive;
+module oceansky.sensitize.test {
+    requires oceansky.sensitize;
     requires org.junit.jupiter.api;
     requires org.junit.platform.engine;
     requires org.junit.platform.commons;

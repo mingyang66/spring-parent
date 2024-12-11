@@ -24,6 +24,14 @@ public class AopOrderInfo {
      */
     public static final int DESENSITIZE_INTERCEPTOR = 510;
     /**
+     * 多语言翻译拦截器
+     */
+    public static final int I18N = 500;
+    /**
+     * 链路日志追踪
+     */
+    public static final int TRACING = 600;
+    /**
      * feign正常日志
      */
     public static final int FEIGN = 800;

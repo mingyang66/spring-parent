@@ -14,6 +14,7 @@ Bug Fixes
 10. 新增com.otter.infrastructure.servlet.RequestUtils.getParameters方法；
 11. 新增com.emily.infrastructure.aop.utils.MethodInvocationUtils.getMethodArgs方法及对应的单元测试类；
 12. Logger SDK支持关闭组件开关后整个系统不在打印任何日志到文件中，所有日志都打印到控制台上，LogbackApplicationContextInitializer初始化新增开关控制、LoggerFactory对未初始化场景返回默认Logger对象；
+13. 新增@TracingOperation链路追踪注解，解决非servlet上下文执行完成任务后移除上下文；
 
 Dependency Upgrades
 

@@ -10,8 +10,8 @@ public enum CaptchaType {
     ALPHANUMERIC("0", "字母数字"),
     DIGIT("1", "数字"),
     LETTER("2", "字母");
-    private String code;
-    private String name;
+    private final String code;
+    private final String name;
 
     CaptchaType(String code, String name) {
         this.code = code;

@@ -280,7 +280,7 @@ public class CaptchaUtils {
      * @param format 图片格式，如png,jpg,gif,jpeg等
      * @return 图片base64字符串
      */
-    public static String convertStreamToBase64(byte[] bytes, String format) {
+    public static String toBase64Image(byte[] bytes, String format) {
         return String.format("data:image/image/%s;base64,%s", format, new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8));
     }
 }

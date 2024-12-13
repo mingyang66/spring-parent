@@ -22,9 +22,9 @@ public class CaptchaController {
 
     @GetMapping("createDigit")
     public void createDigit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int width = Integer.valueOf(request.getParameter("width"));
-        int height = Integer.valueOf(request.getParameter("height"));
-        int fontSize = Integer.valueOf(request.getParameter("fontSize"));
+        int width = Integer.parseInt(request.getParameter("width"));
+        int height = Integer.parseInt(request.getParameter("height"));
+        int fontSize = Integer.parseInt(request.getParameter("fontSize"));
 
         Captcha s = CaptchaUtils.createDigit(width, height, 6, fontSize);
         response.getOutputStream().write(s.getImage());
@@ -32,9 +32,9 @@ public class CaptchaController {
 
     @GetMapping("createDigit1")
     public void createDigit1(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int width = Integer.valueOf(request.getParameter("width"));
-        int height = Integer.valueOf(request.getParameter("height"));
-        int fontSize = Integer.valueOf(request.getParameter("fontSize"));
+        int width = Integer.parseInt(request.getParameter("width"));
+        int height = Integer.parseInt(request.getParameter("height"));
+        int fontSize = Integer.parseInt(request.getParameter("fontSize"));
 
         Captcha s = CaptchaUtils.createDigit(width, height, 6, fontSize, true, 5);
         response.getOutputStream().write(s.getImage());
@@ -42,9 +42,9 @@ public class CaptchaController {
 
     @GetMapping("createLetter")
     public void createLetter(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int width = Integer.valueOf(request.getParameter("width"));
-        int height = Integer.valueOf(request.getParameter("height"));
-        int fontSize = Integer.valueOf(request.getParameter("fontSize"));
+        int width = Integer.parseInt(request.getParameter("width"));
+        int height = Integer.parseInt(request.getParameter("height"));
+        int fontSize = Integer.parseInt(request.getParameter("fontSize"));
 
         Captcha s = CaptchaUtils.createLetter(width, height, 6, fontSize);
         response.getOutputStream().write(s.getImage());
@@ -52,9 +52,9 @@ public class CaptchaController {
 
     @GetMapping("createLetter1")
     public void createLetter1(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int width = Integer.valueOf(request.getParameter("width"));
-        int height = Integer.valueOf(request.getParameter("height"));
-        int fontSize = Integer.valueOf(request.getParameter("fontSize"));
+        int width = Integer.parseInt(request.getParameter("width"));
+        int height = Integer.parseInt(request.getParameter("height"));
+        int fontSize = Integer.parseInt(request.getParameter("fontSize"));
 
         Captcha s = CaptchaUtils.createLetter(width, height, 6, fontSize, true, 6);
         response.getOutputStream().write(s.getImage());
@@ -62,9 +62,9 @@ public class CaptchaController {
 
     @GetMapping("createAlph")
     public void createAlph(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int width = Integer.valueOf(request.getParameter("width"));
-        int height = Integer.valueOf(request.getParameter("height"));
-        int fontSize = Integer.valueOf(request.getParameter("fontSize"));
+        int width = Integer.parseInt(request.getParameter("width"));
+        int height = Integer.parseInt(request.getParameter("height"));
+        int fontSize = Integer.parseInt(request.getParameter("fontSize"));
 
         Captcha s = CaptchaUtils.createAlphanumeric(width, height, 6, fontSize);
         response.getOutputStream().write(s.getImage());
@@ -72,9 +72,9 @@ public class CaptchaController {
 
     @GetMapping("createAlph1")
     public void createAlph1(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int width = Integer.valueOf(request.getParameter("width"));
-        int height = Integer.valueOf(request.getParameter("height"));
-        int fontSize = Integer.valueOf(request.getParameter("fontSize"));
+        int width = Integer.parseInt(request.getParameter("width"));
+        int height = Integer.parseInt(request.getParameter("height"));
+        int fontSize = Integer.parseInt(request.getParameter("fontSize"));
 
         Captcha s = CaptchaUtils.createAlphanumeric(width, height, 6, fontSize, true, 6);
         response.getOutputStream().write(s.getImage());

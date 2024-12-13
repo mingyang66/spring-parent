@@ -1,4 +1,4 @@
-package com.emily.infrastructure.captcha.test;
+package com.emily.test.captcha;
 
 import com.emily.infrastructure.captcha.Captcha;
 import com.emily.infrastructure.captcha.CaptchaUtils;

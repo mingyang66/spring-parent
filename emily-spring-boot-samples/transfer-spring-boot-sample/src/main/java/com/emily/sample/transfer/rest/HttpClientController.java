@@ -1,7 +1,7 @@
 package com.emily.sample.transfer.rest;
 
 import com.emily.infrastructure.transfer.rest.annotation.TargetHttpTimeout;
-import com.emily.sample.transfer.entity.BaseResponse;
+import com.emily.sample.transfer.entity.TransferSampleResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +19,14 @@ public class HttpClientController {
     }
 
     @GetMapping("http")
-    public BaseResponse http(HttpServletRequest request) {
-        BaseResponse result = restTemplate.getForObject("http://tradecenter.hafoo.work/query/api/spread/getFullCode", BaseResponse.class);
+    public TransferSampleResponse http(HttpServletRequest request) {
+        TransferSampleResponse result = restTemplate.getForObject("http://tradecenter.hafoo.work/query/api/spread/getFullCode", TransferSampleResponse.class);
         return result;
     }
 
     @GetMapping("https")
-    public BaseResponse https(HttpServletRequest request) {
-        BaseResponse result = restTemplate.getForObject("https://tradecenter.hafoo.work/query/api/spread/getFullCode", BaseResponse.class);
+    public TransferSampleResponse https(HttpServletRequest request) {
+        TransferSampleResponse result = restTemplate.getForObject("https://tradecenter.hafoo.work/query/api/spread/getFullCode", TransferSampleResponse.class);
         return result;
     }
 

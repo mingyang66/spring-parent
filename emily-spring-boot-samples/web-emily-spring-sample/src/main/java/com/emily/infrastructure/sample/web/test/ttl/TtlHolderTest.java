@@ -1,6 +1,7 @@
 package com.emily.infrastructure.sample.web.test.ttl;
 
 import com.emily.infrastructure.json.JsonUtils;
+import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.TracingHolder;
 
 /**
@@ -9,7 +10,7 @@ import com.emily.infrastructure.tracing.holder.TracingHolder;
  */
 public class TtlHolderTest {
     public static void main(String[] args) {
-        TracingHolder holder = TracingHolder.newBuilder().build();
+        TracingHolder holder = LocalContextHolder.current();
         System.out.println(JsonUtils.toJSONPrettyString(holder));
     }
 }

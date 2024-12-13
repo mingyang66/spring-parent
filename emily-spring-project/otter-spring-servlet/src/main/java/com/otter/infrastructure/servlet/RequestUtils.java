@@ -217,8 +217,8 @@ public class RequestUtils {
      * @return 请求头结果
      */
     public static String getHeader(String header, boolean required) {
-        if (header == null || header.isEmpty()) {
-            return header;
+        if (header == null || header.isEmpty() || !isServlet()) {
+            return null;
         }
         String value = getRequest().getHeader(header);
         if (!required) {

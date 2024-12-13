@@ -1,6 +1,13 @@
 package com.emily.infrastructure.tracing.holder;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import com.emily.infrastructure.common.StringUtils;
+import com.emily.infrastructure.common.UUIDUtils;
+import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
+import com.otter.infrastructure.servlet.RequestUtils;
+
+import java.time.Instant;
 
 /**
  * 全链路追踪上下文
@@ -13,7 +20,17 @@ public class LocalContextHolder {
     private static final ThreadLocal<TracingHolder> CONTEXT = new TransmittableThreadLocal<>() {
         @Override
         protected TracingHolder initialValue() {
-            return TracingHolder.newBuilder().build();
+            return new TracingHolder()
+                    .systemNumber(SystemNumberHelper.getSystemNumber())
+                    .traceId(StringUtils.isNotBlank(RequestUtils.getHeader(HeaderInfo.TRACE_ID)) ? RequestUtils.getHeader(HeaderInfo.TRACE_ID) : UUIDUtils.randomSimpleUUID())
+                    .servlet(RequestUtils.isServlet())
+                    .appType(RequestUtils.getHeader(HeaderInfo.APP_TYPE))
+                    .appVersion(RequestUtils.getHeader(HeaderInfo.APP_VERSION))
+                    .clientIp(RequestUtils.getClientIp())
+                    .serverIp(RequestUtils.getServerIp())
+                    .tracingStage(TracingStage.OTHER)
+                    .startTime(Instant.now())
+                    ;
         }
 
         /**

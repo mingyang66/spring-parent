@@ -31,7 +31,7 @@
     </parent>
 ```
 
-- [oceansky-image图形验证码组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-project/oceansky-image)
+- [oceansky-image图形验证码组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-project/oceansky-captcha)
 - [emily-spring-boot-desensitize方法返回值和日志脱敏组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-desensitize)
 - [emily-spring-boot-tracing全链路日志追踪组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-tracing)
 

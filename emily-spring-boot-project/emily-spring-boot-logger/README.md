@@ -1,6 +1,6 @@
 #### 解锁新技能《基于logback的纯java版本SDK实现》
 
-开源SDK：
+### 一、POM依赖
 
 ```xml
 <!--Java通用日志组件SDK-->
@@ -20,12 +20,12 @@
 >
 在项目开发过程中通常会使用logback作为日志记录的依赖工具，使用方式是引入logback相关jar包，然后配置logback.xml配置文件的方式来实现；xml的配置方案如果是一个两个项目还好，那如果是几十个项目呢？每个项目都要写一遍配置文件也是一键很繁琐的事情，而且配置文件还容易出错，那我们有没有办法将其改造成一个纯java版本的SDK组件呢？如果我们需要用的时候只需要将其依赖引入项目中开箱即用是不是很方便。
 
-##### 一、开源SDK项目规划
+##### 二、开源SDK项目规划
 
 - 新建oceansky-logger sdk，不依赖任何三方组件，不依赖任何web容器；
-- 新建emily-spring-boot-logger sdk，为基于springboot的项目提供开箱即用的starter;
+- 新建emily-spring-boot-logger sdk，为基于springboot的项目提供开箱即用的starte，关闭开关后自动退化为springboot自带日志系统r;
 
-##### 二、oceansky-logger基础库SDK支持哪些功能
+##### 三、oceansky-logger基础库SDK支持哪些功能
 
 - 支持基础日志打印；
 
@@ -91,10 +91,10 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "s" is n
   LoggerContextInitializer.init(new LoggerProperties())
   ```
 
-##### 三、emis-spring-boot-logger基础库SDK支持哪些功能
+##### 三、emily-spring-boot-logger基础库SDK支持哪些功能
 
 - 完全基于oceansky-logger sdk组件为springboot提供的starter组件；
-- 提供基于自动化配置的开箱即用的组件模式，只需在pom.xml引入starter既可以按照ocean-logger中指定的使用方案使用；
+- 提供基于自动化配置的开箱即用的组件模式，只需在pom.xml引入starter既可以按照oceansky-logger中指定的使用方案使用；
 - 自动化配置属性控制root、group、module、appender、滚动策略等，具体配置如下：
 
 ```properties
@@ -174,5 +174,3 @@ LoggerContextInitializer.init(properties);
 ```
 
 - emily-spring-boot-logger是一个基于springboot自动化配置，开箱即用的组件，只需要引入组件既可以使用；
-
-如果对源码感兴趣，可以查看GitHub源码：[https://github.com/mingyang66/spring-parent](https://github.com/mingyang66/spring-parent)

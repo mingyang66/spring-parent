@@ -7,13 +7,13 @@
 <dependency>
   <groupId>io.github.mingyang66</groupId>
   <artifactId>oceansky-logger</artifactId>
-  <version>4.4.0</version>
+  <version>${revision}</version>
 </dependency>
 <!-- Java基于logback的日志组件SDK -->
 <dependency>
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-logger</artifactId>
-    <version>4.3.5</version>
+    <version>${revision}</version>
 </dependency>
 ```
 

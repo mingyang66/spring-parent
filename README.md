@@ -152,76 +152,6 @@ spring.emily.redis.config.test.lettuce.pool.min-idle=0
 spring.emily.redis.config.test.lettuce.pool.max-wait=-1
 ```
 
-#### 四、logback日志组件
-
-- 属性配置
-
-```properties
-#日志组件
-#启动日志访问组件，默认：true
-spring.emily.logback.enabled=true
-
-#日志文件存放路径，默认是:./logs
-spring.emily.logback.appender.path=./logs
-#如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
-spring.emily.logback.appender.append=true
-#如果是 true，日志会被安全的写入文件，即使其他的FileAppender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
-spring.emily.logback.appender.prudent=false
-#设置是否将输出流刷新，确保日志信息不丢失，默认：true
-spring.emily.logback.appender.immediate-flush=true
-#是否报告内部状态信息，默认；false
-spring.emily.logback.appender.report-state=false
-
-#是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
-#默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
-spring.emily.logback.appender.rolling-policy.type=size_and_time_based
-#设置要保留的最大存档文件数量，以异步方式删除旧文件,默认 7
-spring.emily.logback.appender.rolling-policy.max-history=2
-#最大日志文件大小 KB、MB、GB，默认:500MB
-spring.emily.logback.appender.rolling-policy.max-file-size=10KB
-#控制所有归档文件总大小 KB、MB、GB，默认:5GB
-spring.emily.logback.appender.rolling-policy.total-size-cap=5GB
-#设置重启服务后是否清除历史日志文件，默认：false
-spring.emily.logback.appender.rolling-policy.clean-history-on-start=true
-
-#是否开启异步记录Appender，默认：false
-spring.emily.logback.appender.async.enabled=false
-#队列的最大容量，默认为 256
-spring.emily.logback.appender.async.queue-size=256
-#默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
-spring.emily.logback.appender.async.discarding-threshold=0
-# 根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。
-# 当 LoggerContext 被停止时， AsyncAppender stop 方法会等待工作线程指定的时间来完成。
-# 使用 maxFlushTime 来指定最大的刷新时间，单位为毫秒。在指定时间内没有被处理完的事件将会被丢弃。这个属性的值的含义与 Thread.join(long)) 相同
-# 默认是 1000毫秒
-spring.emily.logback.appender.async.max-flush-time=1000
-# 在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃，默认为 false
-spring.emily.logback.appender.async.never-block=false
-
-#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：INFO
-spring.emily.logback.root.level=info
-#通用日志输出格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
-spring.emily.logback.root.pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
-#基础日志文件路径,默认：""
-spring.emily.logback.root.file-path=base
-#是否将日志信息输出到控制台，默认：true
-spring.emily.logback.root.console=true
-
-#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：INFO
-spring.emily.logback.group.level=info
-#模块日志输出格式，默认：%msg%n
-spring.emily.logback.group.pattern=[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%-36.36logger{36}:%-4.4line] : %msg%n
-#是否将模块日志输出到控制台，默认：false
-spring.emily.logback.group.console=true
-
-#日志级别,即该等级之上才会输出，ERROR > WARN > INFO > DEBUG > TRACE >ALL, 默认：DEBUG
-spring.emily.logback.module.level=info
-#模块日志输出格式，默认：%msg%n
-spring.emily.logback.module.pattern=%msg%n
-#是否将模块日志输出到控制台，默认：false
-spring.emily.logback.module.console=true
-```
-
 #### 五、RestTemplate请求组件
 
 - 扩展点HttpClientCustomizer，AOP根据拦截器的优先级判定使用优先级最高者
@@ -417,40 +347,6 @@ spring.emily.filter.enabled=true
 spring.emily.filter.global-switch=true
 # 控制路由重定向开关，默认：false
 spring.emily.filter.route-switch=false
-```
-
-#### 十、实体类数据脱敏组件
-
-- @JsonSensitive注解标注在实体类上；
-- @JsonSimField注解标注在字符串属性上，可以指定隐藏的类型；
-- @JsonFlexField注解标注在复杂脱敏数据类型上；
-- 支持对父类的属性进行脱敏；
-
-```java
-@JsonSensitive
-public class JsonRequest extends Animal{
-    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue", types = {SensitiveType.EMAIL, SensitiveType.PHONE})
-    private String fieldKey;
-    private String fieldValue;
-    @JsonFlexField(fieldKeys = {"email", "phone"}, fieldValue = "fieldValue1")
-    private String fieldKey1;
-    private String fieldValue1;
-    @NotEmpty
-    @JsonSimField(SensitiveType.USERNAME)
-    private String username;
-    @JsonSimField
-    private String password;
-    @JsonSimField(SensitiveType.EMAIL)
-    private String email;
-    @JsonSimField(SensitiveType.ID_CARD)
-    private String idCard;
-    @JsonSimField(SensitiveType.BANK_CARD)
-    private String bankCard;
-    @JsonSimField(SensitiveType.PHONE)
-    private String phone;
-    @JsonSimField(SensitiveType.PHONE)
-    private String mobile;
-    }
 ```
 
 #### 十一、I18n多语言支持组件

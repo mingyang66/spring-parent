@@ -1,8 +1,9 @@
-# emily-sdk
+# 基础框架SDK
 
 > master分支是基于java17及springboot 3.x.x的版本，原来基于java11及springboot2.7.x版本的代码在java11分支
 
-#### Maven’s Bill of Material (BOM)
+- #### Maven’s Bill of Material (BOM)
+
 
 ```xml
     <dependencyManagement>
@@ -20,7 +21,8 @@
     </dependencyManagement>
 ```
 
-基于继承关系的Maven父依赖：
+- 基于继承关系的Maven父依赖：
+
 
 ```xml
     <parent>

@@ -1,6 +1,6 @@
 ##### 脱敏SDK组件
 
-- pom依赖
+##### 一、pom依赖
 
 ```xml
             <dependency>
@@ -10,25 +10,23 @@
             </dependency>
 ```
 
-- 注解列表
+##### 二、注解列表
 
 | 注解                        | 作用域                                                       |
 | --------------------------- | ------------------------------------------------------------ |
-| @DesensitizeOperation       | 标记在类、方法上，表示对方法返回值进行脱敏处理，拦截器会对方法访问进行拦截 |
+| @DesensitizeOperation       | 标记在类、方法上，方法上优先级最高，removePackClass属性指定忽略外层包装只对内层进行脱敏处理； |
 | @DesensitizeModel           | 标记在实体类上，只有标记了此注解的实体类才会进行脱敏处理     |
 | @DesensitizeProperty        | 标记在实体类字符串、Map属性字段，标记了次注解的字段会按照指定类型进行脱敏； |
 | @DesensitizeNullProperty    | 标记在实体类引用数据类型上                                   |
 | @DesensitizeMapProperty     | 标记在实体类Map数据类型上，按照指定的key字段及类型进行脱敏。 |
 | @DesensitizeComplexProperty | 标记在实体类属性字段上，需两个字段配合使用                   |
 
-- @DesensitizeOperation注解标记在类、方法上，方法上优先级最高，removePackClass属性指定忽略外层包装只对内层进行脱敏处理；
-- @DesensitizeModel标记在实体类上，标识对当前实体类进行脱敏
-- @DesensitizeNullProperty标记在任何引用数据类型上，字段值会被设置为null，优先级最高；
-- @DesensitizeMapProperty标记在Map类型字段上，根据属性指定字段进行脱敏，优先级高于@DesensitizeProperty；
-- @DesensitizeProperty标记在字符串类型字段上，对字段进行脱敏处理；也可以标记在Map类型字段上，对value为String的进行脱敏处理；也可以标记在Collection集合上对集合进行脱敏；也可以标记在数组上，对数组进行脱敏处理；
-- @DesensitizeComplexProperty标记在复杂字段上，对当前字段值符合指定值的，对指定的另外一个字段值进行脱敏处理，具体使用方法可以看下面的案例；
+##### 三、应用场景
 
-#### 案例如下：
+- 类、方法上标记了@DesensitizeOperation注解的返回值对象会根据其它注解的标注情况进行脱敏处理；
+- 除@DesensitizeOperation注解外，其它注解标注在入参、返回值实体类对象上日志系统会对这些进行脱敏处理，不会影响到具体的返回对象和入参对象；
+
+##### 四、案例如下：
 
 - 实体类Company
 
@@ -67,7 +65,7 @@ public class Company {
     }
 ```
 
-- 控制器
+- 控制器（返回值对象脱敏处理）
 
 ```java
 @DesensitizeOperation(removePackClass = ResponseEntity.class)

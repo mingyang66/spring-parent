@@ -145,21 +145,7 @@ spring.emily.filter.global-switch=true
 spring.emily.filter.route-switch=false
 ```
 
-#### 十一、I18n多语言支持组件
 
-- @ApiI18n注解标注在实体类上；
-- @ApiI18nProperty注解标注在实体类字符串属性上；
-- 支持对父类属性进行多语言支持；
-
-```java
-@ApiI18n
-public class Student extends People {
-    @ApiI18nProperty
-    private String name;
-    @ApiI18nProperty
-    private int age;
-    }
-```
 
 #### 十二、返回值包装组件
 

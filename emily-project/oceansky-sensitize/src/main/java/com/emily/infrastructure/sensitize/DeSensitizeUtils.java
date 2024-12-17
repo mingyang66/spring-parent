@@ -1,6 +1,7 @@
 package com.emily.infrastructure.sensitize;
 
 import com.emily.infrastructure.sensitize.annotation.*;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
@@ -33,7 +34,7 @@ public class DeSensitizeUtils {
      * @param <T>       实体类类型
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
-    public static <T> T acquireElseGet(final T entity, final Class<?> packClass) {
+    public static <T> T acquireElseGet(final T entity, final Class<?>... packClass) {
         try {
             return acquire(entity, packClass);
         } catch (Exception exception) {
@@ -48,7 +49,7 @@ public class DeSensitizeUtils {
      * @return 对实体类进行脱敏，返回原来的实体类对象
      * @throws IllegalAccessException 非法访问异常
      */
-    public static <T> T acquire(final T entity, final Class<?> packClass) throws IllegalAccessException {
+    protected static <T> T acquire(final T entity, final Class<?>... packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
@@ -68,8 +69,8 @@ public class DeSensitizeUtils {
             }
         } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
             doSetField(entity);
-        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
-            doSetField(entity);
+        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass[0])) {
+            doSetField(entity, ArrayUtils.remove(packClass, 0));
         }
         return entity;
     }
@@ -81,7 +82,7 @@ public class DeSensitizeUtils {
      * @param <T>    实体类类型
      * @throws IllegalAccessException 非法访问异常
      */
-    protected static <T> void doSetField(final T entity) throws IllegalAccessException {
+    protected static <T> void doSetField(final T entity, final Class<?>... packClass) throws IllegalAccessException {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
@@ -102,7 +103,7 @@ public class DeSensitizeUtils {
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, entity, value);
             } else {
-                acquire(value, null);
+                acquire(value, packClass);
             }
         }
         doGetEntityComplex(entity);
@@ -156,7 +157,7 @@ public class DeSensitizeUtils {
         if (field.isAnnotationPresent(DesensitizeProperty.class)) {
             field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value()));
         } else {
-            acquire(value, null);
+            acquire(value);
         }
     }
 
@@ -180,7 +181,7 @@ public class DeSensitizeUtils {
                 list = (list == null) ? new ArrayList<>() : list;
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
             } else {
-                acquire(v, null);
+                acquire(v);
             }
         }
         if (Objects.nonNull(list)) {
@@ -225,7 +226,7 @@ public class DeSensitizeUtils {
                     continue;
                 }
             }
-            acquire(value, null);
+            acquire(value);
         }
     }
 
@@ -252,7 +253,7 @@ public class DeSensitizeUtils {
             if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
                 arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value());
             } else {
-                acquire(value, null);
+                acquire(value);
             }
         }
     }

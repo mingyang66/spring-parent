@@ -3,6 +3,7 @@
 Bug Fixes
 
 1. @I18nOperation注解新增removePackClass属性，对指定的外层类进行剥离，不进行多语言处理；
+2. @DesensitizeOperation注解新增removePackClass属性，对指定的外层类进行剥离,不进行脱敏处理；
 
 ###-----
 基础库发布5.0.3

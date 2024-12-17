@@ -8,7 +8,7 @@ import com.emily.infrastructure.language.convert.LanguageType;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInvocation;
 
-import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * 多语言拦截器
@@ -19,13 +19,12 @@ import java.lang.reflect.Method;
 public class DefaultI18nMethodInterceptor implements I18nCustomizer {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        Method method = invocation.getMethod();
         //执行结果
         Object response = invocation.proceed();
-        if (response == null) {
+        if (Objects.isNull(response)) {
             return null;
         }
-        I18nOperation annotation = method.getAnnotation(I18nOperation.class);
+        I18nOperation annotation = invocation.getMethod().getAnnotation(I18nOperation.class);
         //语言类型
         LanguageType languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
         // 如果是字符串直接转换

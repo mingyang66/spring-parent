@@ -20,10 +20,6 @@ public class AopOrderInfo {
      */
     public static final int DESENSITIZE = 500;
     /**
-     * api返回值脱敏
-     */
-    public static final int DESENSITIZE_INTERCEPTOR = 510;
-    /**
      * 多语言翻译拦截器
      */
     public static final int I18N = 600;

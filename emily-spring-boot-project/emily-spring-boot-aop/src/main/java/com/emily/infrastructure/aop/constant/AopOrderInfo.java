@@ -26,11 +26,11 @@ public class AopOrderInfo {
     /**
      * 多语言翻译拦截器
      */
-    public static final int I18N = 500;
+    public static final int I18N = 600;
     /**
      * 链路日志追踪
      */
-    public static final int TRACING = 600;
+    public static final int TRACING = 700;
     /**
      * feign正常日志
      */

@@ -16,6 +16,9 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface I18nOperation {
-
+    /**
+     * 外层包装类不进行条件判断、不进行多语言处理、只对内层数据进行处理
+     */
+    Class<?>[] removePackClass() default void.class;
 }
 

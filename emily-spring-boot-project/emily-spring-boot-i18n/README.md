@@ -17,7 +17,7 @@ spring.emily.i18n.enabled=true
 
 ##### 三、注释
 
-- @I18nOperation 标记在控制器返回方法上，只有标记了此注解的方法拦截器才会处理，才会对返回值的字段进行多语言翻译；如果返回值为Collection、Map、数组都支持会自动解析内层实体类；
+- @I18nOperation 标记在控制器返回方法上，只有标记了此注解的方法拦截器才会处理，才会对返回值的字段进行多语言翻译；如果返回值为Collection、Map、数组都支持会自动解析内层实体类，removePackClass属性标识外层包装类不进行条件判断、不进行多语言处理、只对内层数据进行处理；
 - @I18nModel 标记在返回值实体类上，如果有嵌套的实体类也需要标记此注解，否则不会进行翻译；
 - @I18nProperty 标记在实体类的String属性字段上，只有字符串有效，其它类型无效；
 
@@ -193,6 +193,22 @@ public class BankController {
     @GetMapping("api/i18n/getBankArrayStr")
     public String[] getBankArrayStr() {
         return new String[]{"古北", "渣渣银行"};
+    }
+```
+
+- 返回值外层包装剥离不进行多语言处理，一定要按照剥离的顺序
+
+```java
+    @I18nOperation(removePackClass = {BaseResponse.class, ResponseEntity.class})
+    @GetMapping("api/i18n/getBankPack")
+    public BaseResponse<ResponseEntity<Bank>> getBankPack() {
+        Bank bank = new Bank();
+        bank.setCode("古北");
+        bank.setName("渣渣银行");
+        Bank.SubBank subBank = new Bank.SubBank();
+        subBank.setName("渣渣银行");
+        bank.setSubBank(subBank);
+        return new BaseResponse<ResponseEntity<Bank>>().data(ResponseEntity.ok(bank));
     }
 ```
 

@@ -1,7 +1,9 @@
 package com.emily.sample.i18n.controller;
 
 import com.emily.infrastructure.i18n.annotation.I18nOperation;
+import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.sample.i18n.entity.Bank;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -93,5 +95,17 @@ public class BankController {
     @GetMapping("api/i18n/getBankArrayStr")
     public String[] getBankArrayStr() {
         return new String[]{"古北", "渣渣银行"};
+    }
+
+    @I18nOperation(removePackClass = {BaseResponse.class, ResponseEntity.class})
+    @GetMapping("api/i18n/getBankPack")
+    public BaseResponse<ResponseEntity<Bank>> getBankPack() {
+        Bank bank = new Bank();
+        bank.setCode("古北");
+        bank.setName("渣渣银行");
+        Bank.SubBank subBank = new Bank.SubBank();
+        subBank.setName("渣渣银行");
+        bank.setSubBank(subBank);
+        return new BaseResponse<ResponseEntity<Bank>>().data(ResponseEntity.ok(bank));
     }
 }

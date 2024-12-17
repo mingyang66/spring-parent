@@ -3,6 +3,7 @@ package com.emily.infrastructure.language.convert;
 import com.emily.infrastructure.language.annotation.I18nModel;
 import com.emily.infrastructure.language.annotation.I18nProperty;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
@@ -27,27 +28,29 @@ public class I18nUtils {
      * @return 翻译后的实体类对象
      * @throws IllegalAccessException 非法访问异常
      */
-    public static <T> T translate(final T entity, LanguageType languageType) throws IllegalAccessException {
+    public static <T> T translate(final T entity, LanguageType languageType, final Class<?>... packClass) throws IllegalAccessException {
         Objects.requireNonNull(languageType, "languageType must not be null");
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
             for (Object o : (Collection<?>) entity) {
-                translate(o, languageType);
+                translate(o, languageType, packClass);
             }
         } else if (entity instanceof Map) {
             for (Map.Entry<?, ?> entry : ((Map<?, ?>) entity).entrySet()) {
-                translate(entry.getValue(), languageType);
+                translate(entry.getValue(), languageType, packClass);
             }
         } else if (entity.getClass().isArray()) {
             if (!entity.getClass().getComponentType().isPrimitive()) {
                 for (Object v : (Object[]) entity) {
-                    translate(v, languageType);
+                    translate(v, languageType, packClass);
                 }
             }
         } else if (entity.getClass().isAnnotationPresent(I18nModel.class)) {
             doSetField(entity, languageType);
+        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass[0])) {
+            doSetField(entity, languageType, ArrayUtils.remove(packClass, 0));
         }
         return entity;
     }
@@ -60,7 +63,7 @@ public class I18nUtils {
      * @param <T>          实体对象
      * @throws IllegalAccessException 非法访问异常
      */
-    protected static <T> void doSetField(final T entity, final LanguageType languageType) throws IllegalAccessException {
+    protected static <T> void doSetField(final T entity, final LanguageType languageType, final Class<?>... packClass) throws IllegalAccessException {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
@@ -82,7 +85,7 @@ public class I18nUtils {
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, value, languageType);
             } else {
-                translate(value, languageType);
+                translate(value, languageType, packClass);
             }
         }
     }

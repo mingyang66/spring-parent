@@ -61,8 +61,7 @@ class JavaBeanUtils {
     }
 
     protected static boolean checkModifierFinalStaticTransVol(int modifiers) {
-        return Modifier.isFinal(modifiers)
-                || Modifier.isStatic(modifiers)
+        return Modifier.isStatic(modifiers)
                 || Modifier.isTransient(modifiers)
                 || Modifier.isVolatile(modifiers);
     }

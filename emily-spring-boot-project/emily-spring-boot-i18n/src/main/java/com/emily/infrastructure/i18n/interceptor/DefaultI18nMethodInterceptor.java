@@ -2,10 +2,13 @@ package com.emily.infrastructure.i18n.interceptor;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
+import com.emily.infrastructure.i18n.annotation.I18nOperation;
 import com.emily.infrastructure.language.convert.I18nUtils;
 import com.emily.infrastructure.language.convert.LanguageType;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInvocation;
+
+import java.lang.reflect.Method;
 
 /**
  * 多语言拦截器
@@ -16,11 +19,13 @@ import org.aopalliance.intercept.MethodInvocation;
 public class DefaultI18nMethodInterceptor implements I18nCustomizer {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        Method method = invocation.getMethod();
         //执行结果
         Object response = invocation.proceed();
         if (response == null) {
             return null;
         }
+        I18nOperation annotation = method.getAnnotation(I18nOperation.class);
         //语言类型
         LanguageType languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
         // 如果是字符串直接转换
@@ -28,7 +33,7 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
             return I18nUtils.doGetProperty(value, languageType);
         }
         //将结果翻译为指定语言类型
-        return I18nUtils.translate(response, languageType);
+        return I18nUtils.translate(response, languageType, annotation.removePackClass());
 
     }
 

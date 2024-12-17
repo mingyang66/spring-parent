@@ -34,12 +34,10 @@ public class DesensitizeAutoConfiguration {
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor dataSourcePointCutAdvice(ObjectProvider<DesensitizeCustomizer> customizers) {
         Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), () -> "DesensitizeCustomizer must not be null");
-        //限定类级别的切点
-        Pointcut cpc = new AnnotationMatchingPointcut(DesensitizeOperation.class, false);
         //限定方法级别的切点
         Pointcut mpc = new AnnotationMatchingPointcut(null, DesensitizeOperation.class, false);
         //组合切面(并集)，即只要有一个切点的条件符合，则就拦截
-        Pointcut pointcut = new ComposablePointcut(cpc).union(mpc);
+        Pointcut pointcut = new ComposablePointcut(mpc);
         //切面增强类
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序

@@ -28,10 +28,10 @@ public class I18nUtils {
      * @throws IllegalAccessException 非法访问异常
      */
     public static <T> T translate(final T entity, LanguageType languageType) throws IllegalAccessException {
+        Objects.requireNonNull(languageType, "languageType must not be null");
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
-        languageType = Objects.requireNonNullElse(languageType, LanguageType.ZH_CN);
         if (entity instanceof Collection) {
             for (Object o : (Collection<?>) entity) {
                 translate(o, languageType);
@@ -82,11 +82,7 @@ public class I18nUtils {
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, value, languageType);
             } else {
-                if (field.isAnnotationPresent(I18nModel.class)) {
-                    doSetField(value, languageType);
-                } else {
-                    translate(value, languageType);
-                }
+                translate(value, languageType);
             }
         }
     }
@@ -193,6 +189,7 @@ public class I18nUtils {
      * @return 翻译后的结果
      */
     public static String doGetProperty(String value, LanguageType languageType) {
+        Objects.requireNonNull(languageType, "languageType must not be null");
         return I18nCache.acquire(value, languageType);
     }
 }

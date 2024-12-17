@@ -39,6 +39,7 @@
 - [emily-spring-boot-datasource数据库多数据源SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-datasource)
 - [emily-spring-boot-logger日志组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-logger)
 - [emily-spring-boot-transfer调用三方接口组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-transfer/README.md)
+- [emily-spring-boot-i18n多语言翻译组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-i18n)
 
 
 ### maven父pom和子pom的版本号批量修改

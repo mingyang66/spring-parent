@@ -13,7 +13,7 @@ public class Bank {
     private String name;
     @I18nProperty
     private String code;
-    @I18nModel
+
     private SubBank subBank;
 
     public SubBank getSubBank() {
@@ -40,7 +40,7 @@ public class Bank {
         this.code = code;
     }
 
-
+    @I18nModel
     public static class SubBank {
         @I18nProperty
         private String name;

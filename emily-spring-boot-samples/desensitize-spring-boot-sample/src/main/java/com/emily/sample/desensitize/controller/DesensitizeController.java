@@ -132,4 +132,9 @@ public class DesensitizeController {
         return baseResponse;
     }
 
+    @DesensitizeOperation(removePackClass = ResponseEntity.class)
+    @GetMapping("api/desensitize/getCompanyArrayVoid")
+    public void getCompanyArrayVoid() {
+        ///return ResponseEntity.ok(new String[]{"魔方科技"});
+    }
 }

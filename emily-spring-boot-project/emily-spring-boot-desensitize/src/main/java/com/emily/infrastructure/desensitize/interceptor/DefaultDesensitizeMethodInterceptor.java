@@ -18,9 +18,9 @@ public class DefaultDesensitizeMethodInterceptor implements DesensitizeCustomize
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Object response = invocation.proceed();
-        if (Objects.isNull(response)) {
+        /*if (Objects.isNull(response)) {
             return null;
-        }
+        }*/
         DesensitizeOperation annotation = invocation.getMethod().getAnnotation(DesensitizeOperation.class);
         return DeSensitizeUtils.acquireElseGet(invocation.proceed(), annotation.removePackClass());
 

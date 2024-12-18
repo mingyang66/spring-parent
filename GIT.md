@@ -12,9 +12,37 @@ git tag -a version1.0 -m 'first version'
 git push origin --tags
 ```
 
-其它tag操作参考：[tag操作指南](https://blog.csdn.net/Emily/article/details/78839295?ops_request_misc=%7B%22request%5Fid%22%3A%22158685673019724835840750%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158685673019724835840750&biz_id=0&utm_source=distribute.pc_search_result.none-task-blog-blog_SOOPENSEARCH-1)
+##### 3.查看tag
 
-3.如果文件已被Git跟踪（已经在版本控制中），则需要使用如下命令，然后在.gitignore文件中添加
+- 列出所有的tag（按照字符排序，和创建时间没有关系）
+
+```sh
+git tag
+```
+
+- 列出符合规则的tag（只会列出指定版本的tag，如1.x）
+
+```sh
+git tag -l version.*
+```
+
+##### 4.删除tag
+
+- 删除本地tag
+
+```sh
+git tag -d version
+```
+
+- 删除远程分支tag
+
+```sh
+git push origin --delete version
+```
+
+其它tag操作参考：[操作指南](https://blog.csdn.net/yaomingyang/article/details/78839295)
+
+##### 5.如果文件已被Git跟踪（已经在版本控制中），则需要使用如下命令，然后在.gitignore文件中添加
 
 ```sh
 git rm --cached 文件路径

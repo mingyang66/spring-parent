@@ -18,6 +18,21 @@ import java.util.Objects;
  * @since Created in 2023/4/15 5:42 PM
  */
 public class I18nUtils {
+    /**
+     * 对实体类进行多语言翻译
+     *
+     * @param entity       实体类|普通对象
+     * @param languageType 语言类型
+     * @param <T>          实体对象
+     * @return 翻译后的实体类对象
+     */
+    public static <T> T translateElseGet(final T entity, LanguageType languageType, final Class<?>... packClass) {
+        try {
+            return translate(entity, languageType, packClass);
+        } catch (Exception ex) {
+            return entity;
+        }
+    }
 
     /**
      * 对实体类进行多语言翻译

@@ -16,17 +16,6 @@ import java.util.*;
 public class DeSensitizeUtils {
 
     /**
-     * 对指定实体类中标记类脱敏注解的字段进行脱敏；
-     *
-     * @param entity 实体类|普通对象 如果发生异常则源对象返回
-     * @param <T>    实体类类型
-     * @return 对实体类进行脱敏，返回原来的实体类对象
-     */
-    public static <T> T acquireElseGet(final T entity) {
-        return acquireElseGet(entity, null);
-    }
-
-    /**
      * 对指定实体类中标记类脱敏注解的字段进行脱敏；支持指定外层包装类未标记类脱敏注解的字段，但对内层进行脱敏
      *
      * @param entity    实体类|普通对象 如果发生异常则源对象返回

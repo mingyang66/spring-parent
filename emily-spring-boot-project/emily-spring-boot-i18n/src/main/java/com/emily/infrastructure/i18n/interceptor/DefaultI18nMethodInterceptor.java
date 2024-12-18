@@ -32,7 +32,7 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
             return I18nUtils.doGetProperty(value, languageType);
         }
         //将结果翻译为指定语言类型
-        return I18nUtils.translate(response, languageType, annotation.removePackClass());
+        return I18nUtils.translateElseGet(response, languageType, annotation.removePackClass());
 
     }
 

@@ -35,13 +35,13 @@
 
 - [maven相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/MAVEN.md)
 - [git相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/GIT.md)
-- [oceansky-image图形验证码组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-project/oceansky-captcha)
-- [emily-spring-boot-desensitize方法返回值和日志脱敏组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-desensitize)
-- [emily-spring-boot-tracing全链路日志追踪组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-tracing)
-- [emily-spring-boot-datasource数据库多数据源SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-datasource)
-- [emily-spring-boot-logger日志组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-logger)
+- [oceansky-image图形验证码组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-project/oceansky-captcha/README.md)
+- [emily-spring-boot-desensitize方法返回值和日志脱敏组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-desensitize/README.md)
+- [emily-spring-boot-tracing全链路日志追踪组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-tracing/README.md)
+- [emily-spring-boot-datasource数据库多数据源SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-datasource/README.md)
+- [emily-spring-boot-logger日志组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-logger/README.md)
 - [emily-spring-boot-transfer调用三方接口组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-transfer/README.md)
-- [emily-spring-boot-i18n多语言翻译组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-i18n)
+- [emily-spring-boot-i18n多语言翻译组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-i18n/README.md)
 - [emily-spring-boot-rateLimiter限流组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-rateLimiter/README.md)
 
 

@@ -1,9 +1,10 @@
 package com.emily.infrastructure.sample.web.controller.rateLimiter.config;
 
-import com.emily.infrastructure.rateLimiter.annotation.RateLimiter;
 import com.emily.infrastructure.rateLimiter.interceptor.DefaultRateLimiterMethodInterceptor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author :  Emily
@@ -18,14 +19,14 @@ public class CustomRateLimiterInterceptor extends DefaultRateLimiterMethodInterc
     }
 
     @Override
-    public int getVisitedTimes(String key) {
+    public int before(String key) {
         String countStr = stringRedisTemplate.opsForValue().get(key);
         return countStr == null ? 0 : Integer.parseInt(countStr);
     }
 
     @Override
-    public void addVisitedTimes(String key, RateLimiter rateLimiter) {
+    public void after(String key, long timeout, TimeUnit timeunit) {
         stringRedisTemplate.opsForValue().increment(key);
-        stringRedisTemplate.expire(key, rateLimiter.timeout(), rateLimiter.timeunit());
+        stringRedisTemplate.expire(key, timeout, timeunit);
     }
 }

@@ -4,6 +4,8 @@ import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 限流注解
+ *
  * @author :  Emily
  * @since :  2024/8/30 上午9:37
  */
@@ -11,11 +13,11 @@ import java.util.concurrent.TimeUnit;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface RateLimiter {
+public @interface RateLimiterOperation {
     /**
      * 缓存key前缀
      */
-    String key();
+    String value();
 
     /**
      * 缓存过期时间，单位：秒
@@ -30,7 +32,7 @@ public @interface RateLimiter {
     /**
      * 最大限流次数，默认：10
      */
-    int maxPermits() default 10;
+    int threshold() default 10;
 
     /**
      * 超过限流次数提醒消息

@@ -2,7 +2,7 @@ package com.emily.infrastructure.rateLimiter;
 
 import com.emily.infrastructure.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
-import com.emily.infrastructure.rateLimiter.annotation.RateLimiter;
+import com.emily.infrastructure.rateLimiter.annotation.RateLimiterOperation;
 import com.emily.infrastructure.rateLimiter.interceptor.DefaultRateLimiterMethodInterceptor;
 import com.emily.infrastructure.rateLimiter.interceptor.RateLimiterCustomizer;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class RateLimiterAutoConfiguration implements BeanFactoryPostProcessor, I
     public Advisor rateLimiterAdvisor(ObjectProvider<RateLimiterCustomizer> customizers, RateLimiterProperties properties) {
         Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), "限流拦截器必须存在");
         //限定方法级别的切点
-        Pointcut cpc = new AnnotationMatchingPointcut(null, RateLimiter.class, properties.isCheckInherited());
+        Pointcut cpc = new AnnotationMatchingPointcut(null, RateLimiterOperation.class, properties.isCheckInherited());
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), cpc);
         advisor.setOrder(AopOrderInfo.RATE_LIMITER);
         return advisor;

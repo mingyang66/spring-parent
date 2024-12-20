@@ -1,8 +1,9 @@
 package com.emily.infrastructure.rateLimiter.interceptor;
 
-import com.emily.infrastructure.rateLimiter.annotation.RateLimiter;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 限流拦截器接口
@@ -22,12 +23,14 @@ public interface RateLimiterCustomizer extends MethodInterceptor {
      * @param key 缓存key
      * @return 访问次数
      */
-    int getVisitedTimes(String key);
+    int before(String key);
 
     /**
      * 当前用户已访问次数+1
      *
-     * @param key 缓存key
+     * @param key      缓存key
+     * @param timeout  超时时间
+     * @param timeunit 单位
      */
-    void addVisitedTimes(String key, RateLimiter rateLimiter);
+    void after(String key, long timeout, TimeUnit timeunit);
 }

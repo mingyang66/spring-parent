@@ -94,6 +94,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.DATASOURCE_INTERCEPTOR;
+        return AopOrderInfo.DATASOURCE + 1;
     }
 }

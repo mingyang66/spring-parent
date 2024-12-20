@@ -128,6 +128,6 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.REQUEST_INTERCEPTOR;
+        return AopOrderInfo.REQUEST;
     }
 }

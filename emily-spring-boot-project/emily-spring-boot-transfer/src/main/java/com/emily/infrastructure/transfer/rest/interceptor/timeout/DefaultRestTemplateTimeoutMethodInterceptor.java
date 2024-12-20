@@ -65,6 +65,6 @@ public class DefaultRestTemplateTimeoutMethodInterceptor implements RestTemplate
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.HTTP_CLIENT;
+        return AopOrderInfo.REST + 1;
     }
 }

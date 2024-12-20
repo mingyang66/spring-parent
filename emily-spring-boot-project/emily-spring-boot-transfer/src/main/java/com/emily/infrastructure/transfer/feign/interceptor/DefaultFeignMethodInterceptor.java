@@ -84,6 +84,6 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.FEIGN_INTERCEPTOR;
+        return AopOrderInfo.FEIGN + 1;
     }
 }

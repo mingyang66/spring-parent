@@ -127,7 +127,7 @@ public class RestTemplateAutoConfiguration implements BeanFactoryPostProcessor, 
         //切面增强类
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
-        advisor.setOrder(AopOrderInfo.HTTP_CLIENT);
+        advisor.setOrder(AopOrderInfo.REST);
         return advisor;
     }
 

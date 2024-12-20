@@ -63,6 +63,6 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.MYBATIS_INTERCEPTOR;
+        return AopOrderInfo.MYBATIS + 1;
     }
 }

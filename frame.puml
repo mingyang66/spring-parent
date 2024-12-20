@@ -1,0 +1,75 @@
+@startjson
+{
+"emily-project":
+  {
+  "oceansky-captcha": "图形验证码SDK",
+  "oceansky-common": "通用工具SDK",
+  "oceansky-date": "日期SDK",
+  "oceansky-image": "图片SDK",
+  "oceansky-json": "json序列化SDK",
+  "oceansky-jwt": "JWT组件SDK",
+  "oceansky-language": "多语言SDK",
+  "oceansky-logger":"日志组件SDK",
+  "oceansky-sensitize":"脱敏SDK"
+  },
+"emily-spring-project":
+ {
+ "otter-spring-resource": "资源读取SDK",
+ "otter-spring-servlet":"请求上下文SDK"
+ },
+"emily-spring-boot-project":
+  {
+  "emily-spring-boot-redis": "Redis多数据源SDK",
+  "emily-spring-boot-validation": "自定义参数校验SDK",
+  "emily-spring-boot-aop": "AOP切面SDK",
+  "emily-spring-boot-logger": [{
+        "oceansky-logger":"日志组件SDK"
+  }],
+  "emily-spring-boot-tracing": [{
+        "emily-spring-boot-aop":"AOP切面SDK",
+        "otter-spring-servlet":"请求上下文SDK"
+  }],
+  "emily-spring-boot-desensitize": [{
+        "emily-spring-boot-aop":"AOP切面SDK",
+        "oceansky-sensitize":"脱敏SDK"
+  }],
+  "emily-spring-boot-rateLimiter": [{
+        "emily-spring-boot-aop":"AOP切面SDK",
+        "oceansky-common":"通用工具SDK"
+  }],
+  "emily-spring-boot-i18n": [{
+        "emily-spring-boot-aop":"AOP切面SDK",
+        "otter-spring-servlet":"请求上下文SDK",
+        "oceansky-language":"多语言SDK"
+  }],
+  "emily-spring-boot-datasource": [{
+        "emily-spring-boot-logger":"日志组件SDK",
+        "emily-spring-boot-tracing":"链路追踪SDK",
+        "oceansky-sensitize":"脱敏SDK",
+        "oceansky-date":"日期SDK",
+        "oceansky-json":"json序列化SDK"
+  }],
+  "emily-spring-boot-rabbitmq": [{
+        "emily-spring-boot-logger":"日志组件SDK",
+        "emily-spring-boot-tracing":"链路追踪SDK",
+        "oceansky-date":"日期SDK",
+        "oceansky-json":"json序列化SDK"
+  }],
+  "emily-spring-boot-transfer": [{
+          "emily-spring-boot-logger":"日志组件SDK",
+          "emily-spring-boot-tracing":"链路追踪SDK",
+          "oceansky-sensitize":"脱敏SDK",
+          "oceansky-date":"日期SDK",
+          "oceansky-json":"json序列化SDK"
+  }],
+  "emily-spring-boot-web": [{
+           "emily-spring-boot-logger":"日志组件SDK",
+           "emily-spring-boot-tracing":"链路追踪SDK",
+           "oceansky-sensitize":"脱敏SDK",
+           "oceansky-date":"日期SDK",
+           "oceansky-json":"json序列化SDK",
+           "oceansky-language":"多语言SDK"
+  }]
+  }
+}
+@endjson

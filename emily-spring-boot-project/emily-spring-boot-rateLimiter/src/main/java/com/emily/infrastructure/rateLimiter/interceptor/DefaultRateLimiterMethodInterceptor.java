@@ -57,20 +57,18 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
-        if (method.isAnnotationPresent(RateLimiter.class)) {
-            RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);
-            // 解析key，替换变量
-            String key = resolveKey(invocation, rateLimiter.key());
-            // 获取已访问次数
-            int count = getVisitedTimes(key);
-            // 获取最大访问次数
-            int maxPermits = rateLimiter.maxPermits();
-            if (count >= maxPermits) {
-                throw new IllegalAccessException(rateLimiter.message());
-            }
-            // 当前访问次数+1
-            addVisitedTimes(key, rateLimiter);
+        RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);
+        // 解析key，替换变量
+        String key = resolveKey(invocation, rateLimiter.key());
+        // 获取已访问次数
+        int count = getVisitedTimes(key);
+        // 获取最大访问次数
+        int maxPermits = rateLimiter.maxPermits();
+        if (count >= maxPermits) {
+            throw new IllegalAccessException(rateLimiter.message());
         }
+        // 当前访问次数+1
+        addVisitedTimes(key, rateLimiter);
         return invocation.proceed();
     }
 }

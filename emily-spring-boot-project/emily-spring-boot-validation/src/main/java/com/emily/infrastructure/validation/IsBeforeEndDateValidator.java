@@ -1,7 +1,5 @@
 package com.emily.infrastructure.validation;
 
-import com.emily.infrastructure.date.DateCompareUtils;
-import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.validation.annotation.IsBeforeEndDate;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -11,6 +9,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 验证一个日期是否小于等于另外一个日期
@@ -52,23 +51,23 @@ public class IsBeforeEndDateValidator implements ConstraintValidator<IsBeforeEnd
                 return true;
             }
 
-            if (startDate instanceof LocalDate && endDate instanceof LocalDate) {
+            if (startDate instanceof LocalDate startDate1 && endDate instanceof LocalDate endDate1) {
                 if (inclusive) {
-                    return DateCompareUtils.compareTo((LocalDate) startDate, (LocalDate) endDate) <= 0;
+                    return !startDate1.isAfter(endDate1);
                 } else {
-                    return DateCompareUtils.compareTo((LocalDate) startDate, (LocalDate) endDate) < 0;
+                    return startDate1.isBefore(endDate1);
                 }
-            } else if (startDate instanceof LocalDateTime && endDate instanceof LocalDateTime) {
+            } else if (startDate instanceof LocalDateTime startDate1 && endDate instanceof LocalDateTime endDate1) {
                 if (inclusive) {
-                    return DateCompareUtils.compareTo((LocalDateTime) startDate, (LocalDateTime) endDate) <= 0;
+                    return !startDate1.isAfter(endDate1);
                 } else {
-                    return DateCompareUtils.compareTo((LocalDateTime) startDate, (LocalDateTime) endDate) < 0;
+                    return startDate1.isBefore(endDate1);
                 }
-            } else if (startDate instanceof LocalTime && endDate instanceof LocalTime) {
+            } else if (startDate instanceof LocalTime startDate1 && endDate instanceof LocalTime endDate1) {
                 if (inclusive) {
-                    return DateCompareUtils.compareTo((LocalTime) startDate, (LocalTime) endDate) <= 0;
+                    return !startDate1.isAfter(endDate1);
                 } else {
-                    return DateCompareUtils.compareTo((LocalTime) startDate, (LocalTime) endDate) < 0;
+                    return startDate1.isBefore(endDate1);
                 }
             } else if (startDate instanceof Integer && endDate instanceof Integer) {
                 if (inclusive) {
@@ -87,28 +86,29 @@ public class IsBeforeEndDateValidator implements ConstraintValidator<IsBeforeEnd
                     return false;
                 }
                 if (IsBeforeEndDate.DateType.DATE.equals(dateType)) {
-                    LocalDate localStartDate = DateConvertUtils.toLocalDate(startDate.toString(), pattern);
-                    LocalDate localEndDate = DateConvertUtils.toLocalDate(endDate.toString(), pattern);
+
+                    LocalDate localStartDate = LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern(pattern));
+                    LocalDate localEndDate = LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern(pattern));
                     if (inclusive) {
-                        return DateCompareUtils.compareTo(localStartDate, localEndDate) <= 0;
+                        return !localStartDate.isAfter(localEndDate);
                     } else {
-                        return DateCompareUtils.compareTo(localStartDate, localEndDate) < 0;
+                        return localStartDate.isBefore(localEndDate);
                     }
                 } else if (IsBeforeEndDate.DateType.DATE_TIME.equals(dateType)) {
-                    LocalDateTime localStartDate = DateConvertUtils.toLocalDateTime(startDate.toString(), pattern);
-                    LocalDateTime localEndDate = DateConvertUtils.toLocalDateTime(endDate.toString(), pattern);
+                    LocalDateTime localStartDate = LocalDateTime.parse(startDate.toString(), DateTimeFormatter.ofPattern(pattern));
+                    LocalDateTime localEndDate = LocalDateTime.parse(endDate.toString(), DateTimeFormatter.ofPattern(pattern));
                     if (inclusive) {
-                        return DateCompareUtils.compareTo(localStartDate, localEndDate) <= 0;
+                        return !localStartDate.isAfter(localEndDate);
                     } else {
-                        return DateCompareUtils.compareTo(localStartDate, localEndDate) < 0;
+                        return localStartDate.isBefore(localEndDate);
                     }
                 } else if (IsBeforeEndDate.DateType.TIME.equals(dateType)) {
-                    LocalTime localStartDate = DateConvertUtils.toLocalTime(startDate.toString(), pattern);
-                    LocalTime localEndDate = DateConvertUtils.toLocalTime(endDate.toString(), pattern);
+                    LocalTime localStartDate = LocalTime.parse(startDate.toString(), DateTimeFormatter.ofPattern(pattern));
+                    LocalTime localEndDate = LocalTime.parse(endDate.toString(), DateTimeFormatter.ofPattern(pattern));
                     if (inclusive) {
-                        return DateCompareUtils.compareTo(localStartDate, localEndDate) <= 0;
+                        return !localStartDate.isAfter(localEndDate);
                     } else {
-                        return DateCompareUtils.compareTo(localStartDate, localEndDate) < 0;
+                        return localStartDate.isBefore(localEndDate);
                     }
                 }
             }

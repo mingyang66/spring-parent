@@ -1,6 +1,5 @@
 package com.emily.infrastructure.validation.annotation;
 
-import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.validation.IsBeforeEndDateValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -62,7 +61,7 @@ public @interface IsBeforeEndDate {
      *
      * @return 格式化字符串
      */
-    String pattern() default DatePatternInfo.YYYY_MM_DD;
+    String pattern() default "yyyy-MM-dd";
 
     /**
      * 日期类型

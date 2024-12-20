@@ -22,7 +22,7 @@ public class PrintLogUtils {
      * @param message 日志信息
      */
     public static void printRequest(String message) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOG.info(message));
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.REQUEST.info(message));
     }
 
     /**
@@ -31,7 +31,7 @@ public class PrintLogUtils {
      * @param supplier 日志信息
      */
     public static void printRequest(Supplier<String> supplier) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOG.info(supplier.get()));
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.REQUEST.info(supplier.get()));
     }
 
     /**
@@ -40,7 +40,7 @@ public class PrintLogUtils {
      * @param message 日志信息
      */
     public static void printThirdParty(String message) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOGTHIRDPARTY.info(message));
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.THIRDPARTY.info(message));
     }
 
     /**
@@ -49,12 +49,31 @@ public class PrintLogUtils {
      * @param supplier 日志信息
      */
     public static void printThirdParty(Supplier<String> supplier) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.LOGTHIRDPARTY.info(supplier.get()));
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.THIRDPARTY.info(supplier.get()));
+    }
+
+    /**
+     * 记录应用程序请求日志
+     *
+     * @param message 日志信息
+     */
+    public static void printPlatform(String message) {
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.PLATFORM.info(message));
+    }
+
+    /**
+     * 记录应用程序请求日志
+     *
+     * @param supplier 日志信息
+     */
+    public static void printPlatform(Supplier<String> supplier) {
+        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.PLATFORM.info(supplier.get()));
     }
 
     static class LogHolder {
-        private static final Logger LOG = LoggerFactory.getModuleLogger(PrintLogUtils.class, "api", "request");
-        private static final Logger LOGTHIRDPARTY = LoggerFactory.getModuleLogger(PrintLogUtils.class, "api", "thirdParty");
+        private static final Logger REQUEST = LoggerFactory.getModuleLogger(PrintLogUtils.class, "request", "request");
+        private static final Logger THIRDPARTY = LoggerFactory.getModuleLogger(PrintLogUtils.class, "thirdParty", "thirdParty");
+        private static final Logger PLATFORM = LoggerFactory.getModuleLogger(PrintLogUtils.class, "platform", "platform");
     }
 
     public static class ThreadPoolLogHelper {

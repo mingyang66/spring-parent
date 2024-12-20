@@ -174,3 +174,21 @@ LoggerContextInitializer.init(properties);
 ```
 
 - emily-spring-boot-logger是一个基于springboot自动化配置，开箱即用的组件，只需要引入组件既可以使用；
+- 日志组件开关如果关闭，则自动退化到springboot自带日志打印功能
+
+```properties
+#启动日志访问组件，默认：true
+spring.emily.logger.enabled=true
+```
+
+##### 五、提供打印PrintLogUtils方法，打印控制器、三方、应用服务三种日志
+
+```java
+// 打印日志到request/request.log文件中
+PrintLogUtils.printRequest(message)
+// 打印日志到thirdParty/thirdParty.log文件中
+PrintLogUtils.printThirdParty(message)
+// 打印日志到platform/platform.log文件中
+PrintLogUtils.printPlatform(message)
+```
+

@@ -7,6 +7,7 @@ Bug Fixes
 3. @RateLimiterOperation注解对应的限流组件逻辑优化调整，新增使用案例文档说明；
 4. 新增PrintLogUtils.printPlatform打印业务日志；
 5. com.emily.infrastructure.sensitize.SensitizeUtils脱敏工具类支持剥离n层外层包装类；
+6. emily-spring-boot-desensitize脱敏SDK其它模块对其的依赖根据当前项目是否引入，未引用则自动返回原值，做到物理分离；
 
 Dependency Upgrades
 
@@ -187,8 +188,8 @@ Bug Fixes
 8. CaptchaBuilder类建造方法优化调整；
 9. emily-spring-boot-parent默认引入spring-boot-starter-test单元测试依赖；
 10. DateCompareUtils工具类新增isAfter、isBefore、isEqual方法；
-11. oceansky-sensitize脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
-12. oceansky-sensitize单元测试工具升级到junit5;
+11. oceansky-desensitize脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
+12. oceansky-desensitize单元测试工具升级到junit5;
 13. 移除com.emily.infrastructure.logger.configuration.type.LevelType枚举类，并由org.slf4j.event.Level替换；
 14. HeaderInfo新增IP相关请求头，RequestUtils工具类方法优化并新增相关单元测试类；
 15. RequestHelper重名名为ServletHelper;
@@ -338,7 +339,7 @@ spring.emily.logger.marker.deny-marker=
 4. 升级maven-javadoc-plugin插件版本到3.3.2版本，并修改如果遇到文档错误不暂停构建参数为failOnError；
 5. oceansky-logger、emily-spring-boot-starter sdk的javadoc文档优化；
 6. emily-spring-boot-datasource SDK的javadoc文档优化；
-7. oceansky-sensitize SDK的javadoc文档优化；
+7. oceansky-desensitize SDK的javadoc文档优化；
 8. sdk对javadoc文档注解优化调整；
 
 -----
@@ -370,7 +371,7 @@ Bug Fixes
 
 1. emily-spring-cloud-starter组件删除httpclient对自定义负载均衡支持；
 2. oceansky-date组件新增将时间戳转换为Date对象方法；
-3. oceansky-sensitize实体类脱敏组件抛出异常方式优化，新增acquireElseGet方法;
+3. oceansky-desensitize实体类脱敏组件抛出异常方式优化，新增acquireElseGet方法;
 4. 新增oceansky-common组件，新增PropertiesUtils工具类用于读取各种路径下的配置文件，支持properties、xml、yaml;
 5. 删除demo实例程序中的FileHelper相关代码；
 6. common组件新增CollectionUtils工具类；
@@ -409,7 +410,7 @@ Bug Fixes
 7. 日期SDK新增DateComputeUtils.getRemainTimeOfDay()方法；
 8. RequestUtils工具类新增getHeader请求方法获取请求头；
 9. DataMaskUtils脱敏手机号、邮箱、银行卡、身份证等工具方法重构；
-10. oceansky-sensitize脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
+10. oceansky-desensitize脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
 11. oceansky-date日期组件SDK去除掉commons-lang3依赖引用，将Date类型日期转换调整为使用SimpleDateFormat;
 12. oceansky-captcha图形验证码组件去掉commons-lang3依赖引用；
 13. 删除掉oceansky-commons包，并修改其依赖；
@@ -452,7 +453,7 @@ Bug Fixes
 7. 将emily-spring-boot-common组件更改为oceansky-commons,变更为完全纯java版本；
 8. 新增oceansky-json组件SDK;
 9. 抽离commons包中的简繁体翻译SDK;
-10. 抽离出oceansky-sensitize脱敏SDK;
+10. 抽离出oceansky-desensitize脱敏SDK;
 11. 抽离出oceansky-captcha图形验证码SDK;
 
 -----

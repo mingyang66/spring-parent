@@ -13,7 +13,7 @@
   "oceansky-jwt": "JWT组件SDK",
   "oceansky-language": "多语言SDK",
   "oceansky-logger":"日志组件SDK",
-  "oceansky-sensitize":"脱敏SDK"
+  "oceansky-desensitize":"脱敏SDK"
   },
 "emily-spring-project":
  {
@@ -34,7 +34,7 @@
   }],
   "emily-spring-boot-desensitize": [{
         "emily-spring-boot-aop":"AOP切面SDK",
-        "oceansky-sensitize":"脱敏SDK"
+        "oceansky-desensitize":"脱敏SDK"
   }],
   "emily-spring-boot-rateLimiter": [{
         "emily-spring-boot-aop":"AOP切面SDK",

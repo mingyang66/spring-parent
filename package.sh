@@ -11,7 +11,7 @@ cd emily-project
 ../mvnw clean install -pl oceansky-logger
 ../mvnw clean install -pl oceansky-captcha
 ../mvnw clean install -pl oceansky-language
-../mvnw clean install -pl oceansky-sensitize
+../mvnw clean install -pl oceansky-desensitize
 ../mvnw clean install -pl oceansky-jwt
 ../mvnw clean install -pl oceansky-date
 ../mvnw clean install -pl oceansky-common

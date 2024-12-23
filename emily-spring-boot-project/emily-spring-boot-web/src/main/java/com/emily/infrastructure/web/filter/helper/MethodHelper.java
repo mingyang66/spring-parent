@@ -2,24 +2,23 @@ package com.emily.infrastructure.web.filter.helper;
 
 import com.emily.infrastructure.aop.utils.MethodInvocationUtils;
 import com.emily.infrastructure.common.constant.AttributeInfo;
-import com.emily.infrastructure.common.constant.CharacterInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.sensitize.DataMaskUtils;
 import com.emily.infrastructure.sensitize.SensitizeUtils;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
-import com.google.common.collect.Maps;
+import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 请求服务类
@@ -28,6 +27,7 @@ import java.util.Map;
  * @since 4.0.7
  */
 public class MethodHelper {
+    private static final boolean COMMONS_SENSITIZE_AVAILABLE = ClassUtils.isPresent("com.emily.infrastructure.sensitize.SensitizeUtils", MethodHelper.class.getClassLoader());
 
     /**
      * 获取请求入参, 给API请求控制器获取入参
@@ -87,48 +87,10 @@ public class MethodHelper {
         try {
             return JsonUtils.toJavaBean(value, Map.class, String.class, Object.class);
         } catch (Exception e) {
-            // return strToMap(IOUtils.toString(params, CharsetInfo.UTF_8));
             return Collections.emptyMap();
         }
     }
 
-    /**
-     * 将参数转换为Map类型
-     *
-     * @param param 字符串参数
-     * @return 转换后的参数集合
-     */
-    protected static Map<String, Object> strToMap(String param) {
-        if (StringUtils.isEmpty(param)) {
-            return Collections.emptyMap();
-        }
-        Map<String, Object> pMap = Maps.newLinkedHashMap();
-        String[] pArray = StringUtils.split(param, CharacterInfo.AND_AIGN);
-        for (String arr : pArray) {
-            String[] array = StringUtils.split(arr, CharacterInfo.EQUAL_SIGN);
-            if (array.length == 2) {
-                pMap.put(array[0], array[1]);
-            }
-        }
-        if (pMap.isEmpty()) {
-            pMap.put(AttributeInfo.PARAMS_URL, toObject(param));
-        }
-        return pMap;
-    }
-
-    /**
-     * 将参数转为对象
-     *
-     * @param param 字符串参数
-     * @return 转换后的对象
-     */
-    protected static Object toObject(String param) {
-        Assert.notNull(param, () -> "非法参数");
-        if (param.startsWith(CharacterInfo.LEFT_SQ)) {
-            return JsonUtils.toJavaBean(param, List.class);
-        }
-        return param;
-    }
 
     /**
      * 1. 支持参数为实体类的脱敏处理；
@@ -140,16 +102,29 @@ public class MethodHelper {
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
         return MethodInvocationUtils.getMethodArgs(invocation, value -> value instanceof HttpServletRequest || value instanceof HttpServletResponse,
                 (parameter, value) -> {
-                    if (value instanceof String str) {
-                        if (parameter.isAnnotationPresent(DesensitizeProperty.class)) {
-                            return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(DesensitizeProperty.class).value());
+                    if (COMMONS_SENSITIZE_AVAILABLE) {
+                        if (value instanceof String str) {
+                            if (parameter.isAnnotationPresent(DesensitizeProperty.class)) {
+                                return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(DesensitizeProperty.class).value());
+                            } else {
+                                return value;
+                            }
                         } else {
-                            return value;
+                            return SensitizeUtils.acquireElseGet(value);
                         }
                     } else {
-                        return SensitizeUtils.acquireElseGet(value);
+                        return value;
                     }
                 });
     }
 
+    /**
+     * 判定是否对返回值进行脱敏处理
+     */
+    public static Object getResult(Object response) {
+        if (Objects.isNull(response)) {
+            return null;
+        }
+        return COMMONS_SENSITIZE_AVAILABLE ? SensitizeUtils.acquireElseGet(response, BaseResponse.class) : response;
+    }
 }

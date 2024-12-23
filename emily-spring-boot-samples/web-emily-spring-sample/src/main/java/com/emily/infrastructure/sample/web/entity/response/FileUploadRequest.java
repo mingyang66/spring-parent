@@ -1,7 +1,5 @@
 package com.emily.infrastructure.sample.web.entity.response;
 
-import com.emily.infrastructure.sensitize.annotation.DesensitizeNullProperty;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -10,11 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Emily
  * @since Created in 2023/7/2 1:21 PM
  */
-@DesensitizeModel
 public class FileUploadRequest {
-    @DesensitizeNullProperty
     private MultipartFile file;
-    @DesensitizeNullProperty
     private MultipartFile imageFile;
     private String accountCode;
     private String address;

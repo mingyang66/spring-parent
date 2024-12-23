@@ -9,7 +9,6 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import com.emily.infrastructure.mybatis.helper.MethodHelper;
-import com.emily.infrastructure.sensitize.SensitizeUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -38,7 +37,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
         try {
             Object response = invocation.proceed();
             //获取脱敏后的数据结果
-            result = SensitizeUtils.acquireElseGet(response);
+            result = MethodHelper.getResult(response);
             return response;
         } catch (Throwable ex) {
             result = PrintExceptionUtils.printErrorInfo(ex);

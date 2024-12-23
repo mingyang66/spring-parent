@@ -1,4 +1,7 @@
 @startjson
+#highlight "emily-spring-boot-project" / "emily-spring-boot-datasource" / "0" /"emily-spring-boot-desensitize"
+#highlight "emily-spring-boot-project" / "emily-spring-boot-transfer" / "0" /"emily-spring-boot-desensitize"
+#highlight "emily-spring-boot-project" / "emily-spring-boot-web" / "0" /"emily-spring-boot-desensitize"
 {
 "emily-project":
   {
@@ -45,7 +48,7 @@
   "emily-spring-boot-datasource": [{
         "emily-spring-boot-logger":"日志组件SDK",
         "emily-spring-boot-tracing":"链路追踪SDK",
-        "oceansky-sensitize":"脱敏SDK",
+        "emily-spring-boot-desensitize":"脱敏SDK",
         "oceansky-date":"日期SDK",
         "oceansky-json":"json序列化SDK"
   }],
@@ -58,14 +61,14 @@
   "emily-spring-boot-transfer": [{
           "emily-spring-boot-logger":"日志组件SDK",
           "emily-spring-boot-tracing":"链路追踪SDK",
-          "oceansky-sensitize":"脱敏SDK",
+          "emily-spring-boot-desensitize":"脱敏SDK",
           "oceansky-date":"日期SDK",
           "oceansky-json":"json序列化SDK"
   }],
   "emily-spring-boot-web": [{
            "emily-spring-boot-logger":"日志组件SDK",
            "emily-spring-boot-tracing":"链路追踪SDK",
-           "oceansky-sensitize":"脱敏SDK",
+           "emily-spring-boot-desensitize":"脱敏SDK",
            "oceansky-date":"日期SDK",
            "oceansky-json":"json序列化SDK",
            "oceansky-language":"多语言SDK"

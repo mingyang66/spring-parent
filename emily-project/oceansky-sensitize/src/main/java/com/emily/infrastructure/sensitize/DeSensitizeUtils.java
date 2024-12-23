@@ -58,7 +58,7 @@ public class DeSensitizeUtils {
             }
         } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
             doSetField(entity);
-        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass[0])) {
+        } else if (packClass.length > 0 && entity.getClass().isAssignableFrom(packClass[0])) {
             doSetField(entity, ArrayUtils.remove(packClass, 0));
         }
         return entity;

@@ -87,6 +87,6 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.HTTP_CLIENT_INTERCEPTOR;
+        return AopOrderInfo.REST + 1;
     }
 }

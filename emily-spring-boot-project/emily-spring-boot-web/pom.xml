@@ -38,15 +38,16 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-desensitize</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-language</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-date</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-sensitize</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

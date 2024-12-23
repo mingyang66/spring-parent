@@ -8,7 +8,6 @@ import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.utils.PrintLogUtils;
-import com.emily.infrastructure.sensitize.SensitizeUtils;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.TracingStage;
 import com.emily.infrastructure.web.filter.helper.MethodHelper;
@@ -148,7 +147,7 @@ public class GlobalExceptionCustomizer {
                         //获取请求头
                         Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
                         //获取Body请求参数
-                        Map.entry(AttributeInfo.PARAMS_BODY, SensitizeUtils.acquireElseGet(bindException.getTarget())),
+                        Map.entry(AttributeInfo.PARAMS_BODY, MethodHelper.getResult(bindException.getTarget())),
                         //获取Get、POST等URL后缀请求参数
                         Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
                 ));

@@ -1,8 +1,5 @@
 package com.emily.infrastructure.sample.web.entity;
 
-import com.emily.infrastructure.sensitize.DesensitizeType;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 import org.springframework.core.Ordered;
 
 /**
@@ -10,10 +7,8 @@ import org.springframework.core.Ordered;
  * @program: spring-parent
  * @since 2021/08/08
  */
-@DesensitizeModel
 public class User implements Ordered {
     private String username;
-    @DesensitizeProperty(DesensitizeType.DEFAULT)
     private String password;
     private Job job;
     private int order;

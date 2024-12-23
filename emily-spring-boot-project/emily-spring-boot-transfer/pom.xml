@@ -36,16 +36,17 @@
             <artifactId>emily-spring-boot-tracing</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-desensitize</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-hc5</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-date</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-sensitize</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

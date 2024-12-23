@@ -8,6 +8,11 @@ Bug Fixes
 4. 新增PrintLogUtils.printPlatform打印业务日志；
 5. com.emily.infrastructure.sensitize.SensitizeUtils脱敏工具类支持剥离n层外层包装类；
 
+Dependency Upgrades
+
+1. Upgrade to springboot 3.4.1;
+2. Upgrade to springcloud 2024.0.0;
+
 ###-----
 基础库发布5.0.3
 Bug Fixes

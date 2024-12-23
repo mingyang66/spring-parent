@@ -24,9 +24,4 @@
         VALUES (#{username}, #{password}, now(), now())
     </insert>
 
-    <select id="getMapperIgnore" resultType="com.emily.infrastructure.sample.web.entity.sensitive.MapperIgnore">
-        SELECT *
-        FROM sgrain.endpoint_relation_sla ers
-        WHERE ers.id = '20220825_VXNlcg==.0-VXNlcg==-ZGVtb3NreXdhbGtpbmc=.1-R0VUOi9hcGkvcmVkaXMvZ2V0MQ=='
-    </select>
 </mapper>

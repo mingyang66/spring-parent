@@ -43,10 +43,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-language</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
             <artifactId>oceansky-date</artifactId>
         </dependency>
         <dependency>

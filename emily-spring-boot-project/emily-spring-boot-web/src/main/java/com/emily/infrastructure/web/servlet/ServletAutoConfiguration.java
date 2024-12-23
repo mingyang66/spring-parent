@@ -1,7 +1,7 @@
 package com.emily.infrastructure.web.servlet;
 
 import com.emily.infrastructure.common.constant.CharacterInfo;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import com.emily.infrastructure.web.servlet.annotation.ApiPathPrefixIgnore;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;

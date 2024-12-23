@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger;
 
-import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -21,15 +21,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @ConditionalOnProperty(prefix = LoggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class LoggerAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggerAutoConfiguration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LoggerAutoConfiguration.class);
 
     @Override
     public void destroy() {
-        logger.info("<== 【销毁--自动化配置】----Logger日志组件【LoggerAutoConfiguration】");
+        LOG.info("<== 【销毁--自动化配置】----Logger日志组件【LoggerAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("==> 【初始化--自动化配置】----Logger日志组件【LoggerAutoConfiguration】");
+        LOG.info("==> 【初始化--自动化配置】----Logger日志组件【LoggerAutoConfiguration】");
     }
 }

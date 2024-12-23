@@ -4,7 +4,6 @@ import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.RedisKeyspace;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisCallback;
@@ -14,6 +13,7 @@ import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -72,7 +72,7 @@ public class RedisController {
 
         RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
         RedisDbFactory.getStringRedisTemplate().opsForValue().set("test66", "123", 12);
-        Map<String, Object> dataMap = Maps.newHashMap();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("te", 12);
         dataMap.put("te2", 12);
         dataMap.put("te3", "哈哈");
@@ -94,7 +94,7 @@ public class RedisController {
                 RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
             });
             threadPoolTaskExecutor.execute(() -> {
-                Map<String, Object> dataMap = Maps.newHashMap();
+                Map<String, Object> dataMap = new HashMap<>();
                 dataMap.put("te", 12);
                 dataMap.put("te2", 12);
                 dataMap.put("te3", "年好吗");

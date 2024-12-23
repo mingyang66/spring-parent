@@ -5,10 +5,16 @@ import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.i18n.annotation.I18nOperation;
 import com.emily.infrastructure.i18n.interceptor.DefaultI18nMethodInterceptor;
 import com.emily.infrastructure.i18n.interceptor.I18nCustomizer;
+import com.emily.infrastructure.language.convert.I18nCache;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.ComposablePointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -29,7 +35,9 @@ import org.springframework.util.Assert;
 @AutoConfiguration
 @EnableConfigurationProperties(I18nProperties.class)
 @ConditionalOnProperty(prefix = I18nProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class I18nAutoConfiguration {
+public class I18nAutoConfiguration implements InitializingBean, DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(I18nAutoConfiguration.class);
+
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor i18nAdvisor(ObjectProvider<I18nCustomizer> customizers) {
@@ -50,5 +58,15 @@ public class I18nAutoConfiguration {
     @ConditionalOnMissingBean
     public DefaultI18nMethodInterceptor defaultI18nMethodInterceptor() {
         return new DefaultI18nMethodInterceptor();
+    }
+
+    @Override
+    public void destroy() {
+        LOG.info("<== 【销毁--自动化配置】----I18n多语言组件【I18nAutoConfiguration】");
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        LOG.info("==> 【初始化--自动化配置】----I18n多语言组件【I18nAutoConfiguration】");
     }
 }

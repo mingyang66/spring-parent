@@ -6,6 +6,7 @@ import com.emily.infrastructure.web.response.ResponseProperties;
 import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
+import jakarta.annotation.Nonnull;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,7 +15,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import javax.annotation.Nonnull;
 
 /**
  * ---------------------------------------------------------------

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.web.request;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import com.emily.infrastructure.web.request.interceptor.DefaultRequestMethodInterceptor;
 import com.emily.infrastructure.web.request.interceptor.RequestCustomizer;
 import org.apache.commons.lang3.StringUtils;

@@ -1,10 +1,8 @@
 package com.emily.infrastructure.web.exception;
 
-import com.emily.infrastructure.language.convert.I18nCache;
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import com.emily.infrastructure.web.exception.handler.DefaultGlobalExceptionHandler;
 import com.emily.infrastructure.web.exception.handler.GlobalExceptionCustomizer;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,19 +27,6 @@ import org.springframework.context.annotation.Role;
 public class GlobalExceptionAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionAutoConfiguration.class);
-
-    /**
-     * 初始化异常多语言
-     */
-    @PostConstruct
-    public void init() {
-        I18nCache.bindEn("网络异常，请稍后再试", "Network exception, please try again later");
-        I18nCache.bindEn("方法不允许", "Method Not Allowed");
-        I18nCache.bindEn("非法参数", "Illegal parameter");
-        I18nCache.bindEn("非法数据", "invalid data");
-        I18nCache.bindEn("非法访问", "Illegal access");
-        I18nCache.bindEn("非法代理", "Illegal agency");
-    }
 
     /**
      * 异常抛出拦截bean初始化

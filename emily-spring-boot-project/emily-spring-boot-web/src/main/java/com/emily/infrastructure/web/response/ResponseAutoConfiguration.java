@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.response;
 
-import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import com.emily.infrastructure.web.response.interceptor.DefaultResponseAdviceInterceptor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;

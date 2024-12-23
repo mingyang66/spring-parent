@@ -1,6 +1,7 @@
 package com.emily.infrastructure.sensitize;
 
 import com.emily.infrastructure.sensitize.annotation.*;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
@@ -13,15 +14,6 @@ import java.util.*;
  * @since :  Created in 2022/7/19 3:13 下午
  */
 public class SensitizeUtils {
-    /**
-     * 脱敏过程中如果发生异常，则原样返回
-     *
-     * @param entity 脱敏实体类对象
-     * @return 脱敏后的数据
-     */
-    public static Object acquireElseGet(final Object entity) {
-        return acquireElseGet(entity, null);
-    }
 
     /**
      * 支持指定外层包装类为标记脱敏标记的类对内层标记了敏感字段的类进行脱敏
@@ -31,7 +23,7 @@ public class SensitizeUtils {
      * @param packClass 需脱敏的实体类对象外层包装类
      * @return 脱敏后的数据
      */
-    public static Object acquireElseGet(final Object entity, final Class<?> packClass) {
+    public static Object acquireElseGet(final Object entity, final Class<?>... packClass) {
         try {
             return acquire(entity, packClass);
         } catch (Exception exception) {
@@ -47,7 +39,7 @@ public class SensitizeUtils {
      * @return 脱敏后的实体类对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static Object acquire(final Object entity, final Class<?> packClass) throws IllegalAccessException {
+    protected static Object acquire(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
@@ -78,8 +70,8 @@ public class SensitizeUtils {
             }
         } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
             return doSetField(entity);
-        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass)) {
-            return doSetField(entity);
+        } else if (Objects.nonNull(packClass) && entity.getClass().isAssignableFrom(packClass[0])) {
+            doSetField(entity, ArrayUtils.remove(packClass, 0));
         }
         return entity;
     }
@@ -90,7 +82,7 @@ public class SensitizeUtils {
      * @param entity 需要脱敏的实体类对象
      * @return 实体类属性脱敏后的集合对象
      */
-    protected static Map<String, Object> doSetField(final Object entity) throws IllegalAccessException {
+    protected static Map<String, Object> doSetField(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
         Map<String, Object> fieldMap = new HashMap<>();
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
@@ -113,7 +105,7 @@ public class SensitizeUtils {
             } else if (value.getClass().isArray()) {
                 fieldMap.put(name, doGetEntityArray(field, value));
             } else {
-                fieldMap.put(name, acquire(value, null));
+                fieldMap.put(name, acquire(value, packClass));
             }
         }
         fieldMap.putAll(doGetEntityComplex(entity));
@@ -151,7 +143,7 @@ public class SensitizeUtils {
         if (field.isAnnotationPresent(DesensitizeProperty.class)) {
             return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value());
         } else {
-            return acquire(value, null);
+            return acquire(value);
         }
     }
 
@@ -170,7 +162,7 @@ public class SensitizeUtils {
             } else if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
             } else {
-                list.add(acquire(v, null));
+                list.add(acquire(v));
             }
         }
         return list;
@@ -198,7 +190,7 @@ public class SensitizeUtils {
                     DesensitizeMapProperty desensitizeMapProperty = field.getAnnotation(DesensitizeMapProperty.class);
                     int index = (key instanceof String) ? Arrays.asList(desensitizeMapProperty.keys()).indexOf(key) : -1;
                     if (index < 0) {
-                        dMap.put(key, acquire(v, null));
+                        dMap.put(key, acquire(v));
                         continue;
                     }
                     DesensitizeType type = DesensitizeType.DEFAULT;
@@ -211,7 +203,7 @@ public class SensitizeUtils {
                     dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
                 }
             }
-            dMap.put(key, acquire(v, null));
+            dMap.put(key, acquire(v));
         }
         return dMap;
     }
@@ -234,7 +226,7 @@ public class SensitizeUtils {
                 } else if ((v[i] instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
                     t[i] = DataMaskUtils.doGetProperty((String) v[i], field.getAnnotation(DesensitizeProperty.class).value());
                 } else {
-                    t[i] = acquire(v[i], null);
+                    t[i] = acquire(v[i]);
                 }
             }
             return t;

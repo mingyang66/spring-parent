@@ -35,7 +35,6 @@ public class I18nUtils {
         try {
             return translate(entity, languageType, packClass);
         } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
             return entity;
         }
     }

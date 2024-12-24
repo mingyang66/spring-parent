@@ -27,7 +27,7 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nProperty() {
+    public void testI18nProperty() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         teacher.setName("田晓霞");
         teacher.setAge(18);
@@ -35,7 +35,7 @@ public class I18nUtilsTest {
         teacher.setTitles(new String[]{"孙少平"});
         //teacher.setStringMap(Map.of("name","田润叶"));
         teacher.setStringMap(new HashMap<>(Map.ofEntries(Map.entry("name", "田润叶"))));
-        Teacher teacher1 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getName(), "xiaoxia tian");
         Assertions.assertEquals(teacher1.getStringList().get(0), "shaoan sun");
         Assertions.assertEquals(teacher1.getTitles()[0], "shaoping sun");
@@ -43,63 +43,63 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nPropertyNestArray() {
+    public void testI18nPropertyNestArray() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         Course course = new Course();
         course.setCode("123456789");
         course.setName("郝红梅");
         teacher.setCourses(new Course[]{course});
-        Teacher teacher1 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getCourses()[0].getName(), "hongmei hao");
     }
 
     @Test
-    public void testI18nPropertyNestList() {
+    public void testI18nPropertyNestList() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         Student student = new Student();
         student.setName("郝红梅");
         teacher.setStudents(List.of(student));
-        Teacher teacher1 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getStudents().get(0).getName(), "hongmei hao");
     }
 
     @Test
-    public void testI18nPropertyNestMap() {
+    public void testI18nPropertyNestMap() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         User user = new User();
         user.setUsername("郝红梅");
         teacher.setUsers(new HashMap<>(Map.ofEntries(Map.entry("test", user))));
-        Teacher teacher1 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getUsers().get("test").getUsername(), "hongmei hao");
     }
     @Test
-    public void testI18nMapProperty() {
+    public void testI18nMapProperty() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         Map<String,Object> data = new HashMap<>();
         data.put("test1","田润叶");
         data.put("test2","田晓霞");
         data.put("test3",12);
         teacher.setMapObj(data);
-        Teacher teacher1 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getMapObj().get("test1"), "runye tian");
         Assertions.assertEquals(teacher1.getMapObj().get("test2"), "田晓霞");
     }
 
     @Test
-    public void testI18nFlexibleProperty() {
+    public void testI18nFlexibleProperty() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         FlexibleField flexibleField = new FlexibleField();
         flexibleField.setKey1("username");
         flexibleField.setKey2("田晓霞");
         teacher.setFlexibleField(flexibleField);
-        Teacher teacher1 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getFlexibleField().getKey2(), "xiaoxia tian");
 
         FlexibleField flexibleField1 = new FlexibleField();
         flexibleField1.setKey1("username1");
         flexibleField1.setKey2("田晓霞");
         teacher.setFlexibleField(flexibleField1);
-        Teacher teacher2 = I18nUtils.translateElseGet(teacher, LanguageType.EN_US);
+        Teacher teacher2 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher2.getFlexibleField().getKey2(), "田晓霞");
     }
 }

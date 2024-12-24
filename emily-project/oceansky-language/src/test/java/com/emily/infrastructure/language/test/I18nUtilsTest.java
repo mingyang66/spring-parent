@@ -72,13 +72,14 @@ public class I18nUtilsTest {
         Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getUsers().get("test").getUsername(), "hongmei hao");
     }
+
     @Test
     public void testI18nMapProperty() throws IllegalAccessException {
         Teacher teacher = new Teacher();
-        Map<String,Object> data = new HashMap<>();
-        data.put("test1","田润叶");
-        data.put("test2","田晓霞");
-        data.put("test3",12);
+        Map<String, Object> data = new HashMap<>();
+        data.put("test1", "田润叶");
+        data.put("test2", "田晓霞");
+        data.put("test3", 12);
         teacher.setMapObj(data);
         Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getMapObj().get("test1"), "runye tian");
@@ -89,17 +90,37 @@ public class I18nUtilsTest {
     public void testI18nFlexibleProperty() throws IllegalAccessException {
         Teacher teacher = new Teacher();
         FlexibleField flexibleField = new FlexibleField();
+        flexibleField.setKey7("address");
+        flexibleField.setValue7("田晓霞");
+        flexibleField.setKey0("username");
         flexibleField.setKey1("username");
-        flexibleField.setKey2("田晓霞");
+        flexibleField.setValue1("田晓霞");
+        flexibleField.setKey2("email");
+        flexibleField.setValue2("田晓霞");
+        flexibleField.setKey3("email");
+       // flexibleField.setValue3("田晓霞");
+        flexibleField.setKey4("email");
+        flexibleField.setValue4("田晓霞");
+        flexibleField.setKey5("email");
+        flexibleField.setKey6("email");
+        flexibleField.setValue6("田晓霞");
         teacher.setFlexibleField(flexibleField);
         Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
-        Assertions.assertEquals(teacher1.getFlexibleField().getKey2(), "xiaoxia tian");
+        Assertions.assertEquals(teacher1.getFlexibleField().getValue7(), "田晓霞");
+        Assertions.assertEquals(teacher1.getFlexibleField().getValue1(), "xiaoxia tian");
+        Assertions.assertEquals(teacher1.getFlexibleField().getValue2(), "田晓霞");
+        Assertions.assertNull(teacher1.getFlexibleField().getValue3());
+        Assertions.assertEquals(teacher1.getFlexibleField().getValue4(), "田晓霞");
+        Assertions.assertEquals(teacher1.getFlexibleField().getValue6(), "xiaoxia tian");
 
         FlexibleField flexibleField1 = new FlexibleField();
         flexibleField1.setKey1("username1");
-        flexibleField1.setKey2("田晓霞");
+        flexibleField1.setValue1("田晓霞");
+        flexibleField1.setKey3("username1");
+        flexibleField1.setValue3("田晓霞");
         teacher.setFlexibleField(flexibleField1);
         Teacher teacher2 = I18nUtils.translate(teacher, LanguageType.EN_US);
-        Assertions.assertEquals(teacher2.getFlexibleField().getKey2(), "田晓霞");
+        Assertions.assertEquals(teacher2.getFlexibleField().getValue1(), "田晓霞");
     }
+
 }

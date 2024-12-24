@@ -10,6 +10,7 @@ Bug Fixes
 6. emily-spring-boot-desensitize脱敏SDK其它模块对其的依赖根据当前项目是否引入，未引用则自动返回原值，做到物理分离；
 7. I18n多语言工具SDK新增对Map集合指定key翻译注解@I18nMapProperty；
 8. I18n多语言工具SDK新增对两个字段灵活定义传入不同key value场景对指定的key对应的value进行多语言处理注解@I18nFlexibleProperty；
+9. 修复@@I18nFlexibleProperty注解多语言处理逻辑bug;
 
 Dependency Upgrades
 

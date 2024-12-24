@@ -247,22 +247,25 @@ public class I18nUtils {
                 continue;
             }
             I18nFlexibleProperty i18nFlexibleProperty = field.getAnnotation(I18nFlexibleProperty.class);
+            //当前字段和目标字段不存在，继续执行
             if (ObjectUtils.isEmpty(i18nFlexibleProperty.value()) || StringUtils.isBlank(i18nFlexibleProperty.target())) {
-                return;
+                continue;
             }
             Field flexibleField = FieldUtils.getField(entity.getClass(), i18nFlexibleProperty.target(), true);
+            //目标字段不存在，继续执行下一个字段
             if (Objects.isNull(flexibleField)) {
-                return;
+                continue;
             }
-            Object flexValue = flexibleField.get(entity);
-            if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
-                return;
+            Object flexibleValue = flexibleField.get(entity);
+            //目标字段存在，但是值或者类型不匹配，则继续下一个字段
+            if (Objects.isNull(flexibleValue) || !(flexibleValue instanceof String)) {
+                continue;
             }
             int index = Arrays.asList(i18nFlexibleProperty.value()).indexOf((String) value);
             if (index < 0) {
-                return;
+                continue;
             }
-            flexibleField.set(entity, doGetProperty((String) flexValue, languageType));
+            flexibleField.set(entity, doGetProperty((String) flexibleValue, languageType));
         }
     }
 }

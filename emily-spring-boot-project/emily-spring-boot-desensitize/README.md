@@ -21,14 +21,14 @@ spring.emily.desensitize.enabled=true
 
 ##### 三、注解列表
 
-| 注解                        | 作用域                                                       |
-| --------------------------- | ------------------------------------------------------------ |
-| @DesensitizeOperation       | 标记在方法上，只有标记了此注解的返回值才会进行脱敏处理，removePackClass属性指定要剥离的外层类，可以指定多个剥离的外层类，只有最内层的类才会进行脱敏处理； |
-| @DesensitizeModel           | 标记在实体类上，只有标记了此注解的实体类才会进行脱敏处理     |
-| @DesensitizeProperty        | 标记在实体类字符串、Map属性字段，标记了次注解的字段会按照指定类型进行脱敏； |
-| @DesensitizeNullProperty    | 标记在实体类引用数据类型上                                   |
-| @DesensitizeMapProperty     | 标记在实体类Map数据类型上，按照指定的key字段及类型进行脱敏。 |
-| @DesensitizeComplexProperty | 标记在实体类属性字段上，需两个字段配合使用                   |
+| 注解                         | 作用域                                                       |
+| ---------------------------- | ------------------------------------------------------------ |
+| @DesensitizeOperation        | 标记在方法上，只有标记了此注解的返回值才会进行脱敏处理，removePackClass属性指定要剥离的外层类，可以指定多个剥离的外层类，只有最内层的类才会进行脱敏处理； |
+| @DesensitizeModel            | 标记在实体类上，只有标记了此注解的实体类才会进行脱敏处理     |
+| @DesensitizeProperty         | 标记在实体类字符串、Map属性字段，标记了次注解的字段会按照指定类型进行脱敏； |
+| @DesensitizeNullProperty     | 标记在实体类引用数据类型上                                   |
+| @DesensitizeMapProperty      | 标记在实体类Map数据类型上，按照指定的key字段及类型进行脱敏。 |
+| @DesensitizeFlexibleProperty | 标记在实体类属性字段上，需两个字段配合使用                   |
 
 ##### 四、应用场景
 
@@ -68,7 +68,7 @@ public class Company {
     /**
      * 复杂字段脱敏处理，根据传入的字段key值判断对应字段value是否进行脱敏处理
      */
-    @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
+    @DesensitizeFlexibleProperty(value = {"email", "phone"}, target = "fieldValue", desensitizeType = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
     private String fieldKey;
     private String fieldValue;
     }

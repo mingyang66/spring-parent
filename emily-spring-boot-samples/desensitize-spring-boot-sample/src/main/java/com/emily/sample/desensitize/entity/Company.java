@@ -25,7 +25,7 @@ public class Company {
      * {@link DesensitizeMapProperty}注解优先级高于{@link DesensitizeProperty}注解
      */
     @DesensitizeProperty
-    @DesensitizeMapProperty(keys = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
+    @DesensitizeMapProperty(value = {"password", "username"}, desensitizeType = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
     private Map<String, Object> dataMap = new HashMap<>();
     @DesensitizeProperty
     private List<String> list;

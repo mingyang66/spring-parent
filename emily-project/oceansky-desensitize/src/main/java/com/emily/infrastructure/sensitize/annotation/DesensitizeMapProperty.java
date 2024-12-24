@@ -8,10 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 自定义jackson注解，标注在属性上，实例如下：
+ * 实体类Map集合字符串对象脱敏处理，优先级高于{@link DesensitizeProperty}：
  * <pre>
  *     {@code
- *     @DesensitizeMapProperty(keys = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
+ *     @DesensitizeMapProperty(value = {"password", "username"}, desensitizeType = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
  *     private Map<String, String> params = new HashMap<>();
  *     }
  * </pre>
@@ -29,12 +29,12 @@ public @interface DesensitizeMapProperty {
      *
      * @return 复杂类型字段名
      */
-    String[] keys() default {};
+    String[] value() default {};
 
     /**
      * 脱敏类型，见枚举类型{@link DesensitizeType}
      *
      * @return 脱敏类型
      */
-    DesensitizeType[] types() default {};
+    DesensitizeType[] desensitizeType() default {};
 }

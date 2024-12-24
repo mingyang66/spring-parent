@@ -8,9 +8,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 自定义jackson注解，标注在属性上，字段必须是字符串类型
- * 1. 可以标记在String上、Map字段类型；
- * 2. 如果标记在Map字段上优先级低于{@link DesensitizeMapProperty}
+ * 脱敏字符串字段注解，如果标记在Map字段上优先级低于{@link DesensitizeMapProperty}
+ * 1. 标记在实体类String上
+ * <pre>{@code
+ *  @DesensitizeModel
+ * public class People {
+ *     @DesensitizeProperty
+ *     private String username;
+ * }
+ * }</pre>
  *
  * @author Emily
  * @since :  Created in 2022/7/19 5:22 下午

@@ -193,14 +193,14 @@ public class SensitizeUtils {
             if (v instanceof String) {
                 if (field.isAnnotationPresent(DesensitizeMapProperty.class)) {
                     DesensitizeMapProperty desensitizeMapProperty = field.getAnnotation(DesensitizeMapProperty.class);
-                    int index = (key instanceof String) ? Arrays.asList(desensitizeMapProperty.keys()).indexOf(key) : -1;
+                    int index = (key instanceof String) ? Arrays.asList(desensitizeMapProperty.value()).indexOf(key) : -1;
                     if (index < 0) {
                         dMap.put(key, acquire(v));
                         continue;
                     }
                     DesensitizeType type = DesensitizeType.DEFAULT;
-                    if (index <= desensitizeMapProperty.types().length - 1) {
-                        type = desensitizeMapProperty.types()[index];
+                    if (index <= desensitizeMapProperty.desensitizeType().length - 1) {
+                        type = desensitizeMapProperty.desensitizeType()[index];
                     }
                     dMap.put(key, DataMaskUtils.doGetProperty((String) v, type));
                     continue;

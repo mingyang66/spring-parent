@@ -32,8 +32,99 @@ spring.emily.desensitize.enabled=true
 
 ##### 四、应用场景
 
-- 方法上标记了@DesensitizeOperation注解的返回值对象会根据其它注解的标注情况进行脱敏处理；
-- 除@DesensitizeOperation注解外，其它注解标注在入参、返回值实体类对象上日志系统会对这些进行脱敏处理，不会影响到具体的返回对象和入参对象；
+- @DesensitizeOperation 标记在方法上，可以对出入参根据其它注解标注情况进行脱敏处理；
+- @DesensitizeProperty 标记在实体类的String属性字段上，只有字符串有效，其它类型无效；
+
+标记到实体类字符串属性上：
+
+```java
+@DesensitizeModel
+public class People {
+    @DesensitizeProperty
+    private String username;
+}
+```
+
+标记到 实体类List字符串属性上：
+
+```java
+@DesensitizeModel
+public class People {
+    @DesensitizeProperty
+    private List<String> username;
+}
+```
+
+标记到实体类Map字符串集合属性上：
+
+```java
+@DesensitizeModel
+public class People {
+    @DesensitizeProperty
+    private Map<String, String> stringMap;
+}
+```
+
+标记到实体类字符串数组上：
+
+```java
+@DesensitizeModel
+public class People {
+    @DesensitizeProperty
+    private String[] stringArrays;
+}
+```
+
+- @DesensitizeMapProperty注解标注到实体类的Map集合上，其中key、value都必须是字符串，否则无效
+
+```java
+@DesensitizeModel
+public class People {
+  	/**
+  	* @DesensitizeMapProperty优先级高于@DesensitizeProperty
+  	**/
+    @DesensitizeProperty
+    @DesensitizeMapProperty(value = {"password", "username"}, desensitizeType = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
+    private Map<String, String> params = new HashMap<>();
+}
+```
+
+- @DesensitizeFlexibleProperty注解标记到实体类的字段上，灵活指定当前字段作为key，对目标字段值做脱敏处理
+
+```java
+@DesensitizeModel
+public class People {
+    @DesensitizeFlexibleProperty(value = {"email", "phone"}, target = "value", desensitizeType = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
+    private String key;
+    private String value;
+}
+```
+
+- @DesensitizeNullProperty注解标注到实体类的引用字段类型，对基本数据类型无效
+
+```java
+@DesensitizeModel
+public class People {
+    @DesensitizeNullProperty
+    private int age;
+    @DesensitizeNullProperty
+    private byte b;
+    @DesensitizeNullProperty
+    private short s;
+    @DesensitizeNullProperty
+    private long l;
+    @DesensitizeNullProperty
+    private double d;
+    @DesensitizeNullProperty
+    private float f;
+    @DesensitizeNullProperty
+    private char c;
+    @DesensitizeNullProperty
+    private String str;
+}
+```
+
+
 
 ##### 五、案例如下：
 
@@ -54,7 +145,7 @@ public class Company {
      * {@link DesensitizeMapProperty}注解优先级高于{@link DesensitizeProperty}注解
      */
     @DesensitizeProperty
-    @DesensitizeMapProperty(keys = {"password", "username"}, types = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
+    @DesensitizeMapProperty(value = {"password", "username"}, desensitizeType = {DesensitizeType.DEFAULT, DesensitizeType.USERNAME})
     private Map<String, Object> dataMap = new HashMap<>();
     @DesensitizeProperty
     private List<String> list;

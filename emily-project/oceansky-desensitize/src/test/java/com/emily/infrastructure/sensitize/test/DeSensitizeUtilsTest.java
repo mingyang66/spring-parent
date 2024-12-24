@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class DeSensitizeUtilsTest {
     @Test
-    public void simpleFieldTest() throws IllegalAccessException {
+    public void testDesensitizeProperty() throws IllegalAccessException {
         People people = new People();
         people.setUsername("孙少平");
         people.setPassword("ssp");
@@ -27,7 +27,35 @@ public class DeSensitizeUtilsTest {
     }
 
     @Test
-    public void flexFieldTest() throws IllegalAccessException {
+    public void testDesensitizePropertyList() throws IllegalAccessException {
+        People people = new People();
+        people.setStringList(List.of("田润叶"));
+        People p = DeSensitizeUtils.acquire(people);
+        Assertions.assertEquals(p, people);
+        Assertions.assertEquals(p.getStringList().get(0), "--隐藏--");
+    }
+
+    @Test
+    public void testDesensitizePropertyMap() throws IllegalAccessException {
+        People people = new People();
+        people.setStringMap(new HashMap<>(Map.ofEntries(Map.entry("username", "田晓霞"))));
+        People p = DeSensitizeUtils.acquire(people);
+        Assertions.assertEquals(p, people);
+        Assertions.assertEquals(p.getStringMap().get("username"), "--隐藏--");
+    }
+
+    @Test
+    public void testDesensitizePropertyArray() throws IllegalAccessException {
+        People people = new People();
+        people.setStringArrays(new String[]{"孙少安", "贺秀莲"});
+        People p = DeSensitizeUtils.acquire(people);
+        Assertions.assertEquals(p, people);
+        Assertions.assertEquals(p.getStringArrays()[0], "--隐藏--");
+        Assertions.assertEquals(p.getStringArrays()[1], "--隐藏--");
+    }
+
+    @Test
+    public void testDesensitizeFlexibleProperty() throws IllegalAccessException {
         People people = new People();
         people.setKey("email");
         people.setValue("1563919868@qq.com");
@@ -38,13 +66,13 @@ public class DeSensitizeUtilsTest {
 
         people.setKey("phone");
         people.setValue("1563919868");
-        p = DeSensitizeUtils.acquire(people);
-        Assertions.assertEquals(p.getKey(), "phone");
-        Assertions.assertEquals(people.getValue(), "15****9868");
+        People p1 = DeSensitizeUtils.acquire(people);
+        Assertions.assertEquals(p1.getKey(), "phone");
+        Assertions.assertEquals(p1.getValue(), "15****9868");
     }
 
     @Test
-    public void jsonNullFieldTest1() throws IllegalAccessException {
+    public void testDesensitizeNullProperty() throws IllegalAccessException {
         People people = new People();
         people.setKey("email");
         people.setValue("1563919868@qq.com");
@@ -58,17 +86,18 @@ public class DeSensitizeUtilsTest {
     }
 
     @Test
-    public void testFieldMap() throws IllegalAccessException {
+    public void testDesensitizeMapProperty() throws IllegalAccessException {
         PeopleMap peopleMap = new PeopleMap();
         peopleMap.getParams().put("password", "12345");
         peopleMap.getParams().put("username", "田晓霞");
         peopleMap.getParams().put("phone", "15645562587");
         PeopleMap p = DeSensitizeUtils.acquire(peopleMap);
-        System.out.println(p);
+        Assertions.assertEquals(p.getParams().get("password"), "--隐藏--");
+        Assertions.assertEquals(p.getParams().get("phone"), "15645562587");
     }
 
     @Test
-    public void test11() throws IllegalAccessException {
+    public void testRemovePackClass() throws IllegalAccessException {
         PubResponse response = new PubResponse();
         response.password = "32433";
         response.username = "条消息";
@@ -91,7 +120,7 @@ public class DeSensitizeUtilsTest {
     }
 
     @Test
-    public void wrapperClass() throws IllegalAccessException {
+    public void testNestClass() throws IllegalAccessException {
         Company company = new Company();
         company.setId(123L);
         company.setName("尤五");
@@ -105,7 +134,7 @@ public class DeSensitizeUtilsTest {
     }
 
     @Test
-    public void wrapperClassList() throws IllegalAccessException {
+    public void testNestListClass() throws IllegalAccessException {
         Company company = new Company();
         company.setId(123L);
         company.setName("尤五");
@@ -119,7 +148,7 @@ public class DeSensitizeUtilsTest {
     }
 
     @Test
-    public void wrapperClassMap() throws IllegalAccessException {
+    public void testNestMapClass() throws IllegalAccessException {
         Company company = new Company();
         company.setId(123L);
         company.setName("尤五");

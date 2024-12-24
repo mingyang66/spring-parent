@@ -1,4 +1,3 @@
-
 package com.emily.infrastructure.language.annotation;
 
 import java.lang.annotation.ElementType;

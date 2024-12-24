@@ -2,9 +2,12 @@ package com.emily.infrastructure.sensitize.test.entity;
 
 import com.emily.infrastructure.sensitize.DesensitizeType;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeFlexibleProperty;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeNullProperty;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeNullProperty;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 人
@@ -16,6 +19,12 @@ import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
 public class People {
     @DesensitizeProperty
     private String username;
+    @DesensitizeProperty()
+    private List<String> stringList;
+    @DesensitizeProperty
+    private Map<String, String> stringMap;
+    @DesensitizeProperty
+    private String[] stringArrays;
     private String password;
     @DesensitizeFlexibleProperty(value = {"email", "phone"}, target = "value", desensitizeType = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
     private String key;
@@ -36,6 +45,30 @@ public class People {
     private char c;
     @DesensitizeNullProperty
     private String str;
+
+    public String[] getStringArrays() {
+        return stringArrays;
+    }
+
+    public void setStringArrays(String[] stringArrays) {
+        this.stringArrays = stringArrays;
+    }
+
+    public Map<String, String> getStringMap() {
+        return stringMap;
+    }
+
+    public void setStringMap(Map<String, String> stringMap) {
+        this.stringMap = stringMap;
+    }
+
+    public List<String> getStringList() {
+        return stringList;
+    }
+
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
+    }
 
     public String getStr() {
         return str;

@@ -203,8 +203,8 @@ public class DataMaskUtils {
     }
 
     /**
-     * @param value 字段值
-     * @param desensitizeType  脱敏类型
+     * @param value           字段值
+     * @param desensitizeType 脱敏类型
      * @return 脱敏后的字段值
      */
     public static String doGetProperty(String value, DesensitizeType desensitizeType) {

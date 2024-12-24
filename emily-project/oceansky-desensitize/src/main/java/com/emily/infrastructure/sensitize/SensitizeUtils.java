@@ -2,10 +2,13 @@ package com.emily.infrastructure.sensitize;
 
 import com.emily.infrastructure.sensitize.annotation.*;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * 对实体类镜像脱敏，返回结构相同的非同一个对象
@@ -20,13 +23,15 @@ public class SensitizeUtils {
      * 脱敏过程中如果发生异常，则原样返回
      *
      * @param entity    脱敏实体类对象
+     * @param consumer  异常信息暴露处理接口
      * @param packClass 需脱敏的实体类对象外层包装类
      * @return 脱敏后的数据
      */
-    public static Object acquireElseGet(final Object entity, final Class<?>... packClass) {
+    public static Object acquireElseGet(final Object entity, Consumer<IllegalAccessException> consumer, final Class<?>... packClass) {
         try {
             return acquire(entity, packClass);
-        } catch (Exception exception) {
+        } catch (IllegalAccessException ex) {
+            consumer.accept(ex);
             return entity;
         }
     }
@@ -39,7 +44,7 @@ public class SensitizeUtils {
      * @return 脱敏后的实体类对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static Object acquire(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
+    public static Object acquire(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
@@ -242,35 +247,35 @@ public class SensitizeUtils {
      */
     protected static Map<String, Object> doGetEntityComplex(final Object entity) throws IllegalAccessException {
         Map<String, Object> flexFieldMap = null;
-        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeComplexProperty.class);
+        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeFlexibleProperty.class);
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(entity);
             if (Objects.isNull(value)) {
                 continue;
             }
-            DesensitizeComplexProperty desensitizeComplexProperty = field.getAnnotation(DesensitizeComplexProperty.class);
-            if (Objects.isNull(desensitizeComplexProperty.value())) {
+            DesensitizeFlexibleProperty desensitizeFlexibleProperty = field.getAnnotation(DesensitizeFlexibleProperty.class);
+            if (ObjectUtils.isEmpty(desensitizeFlexibleProperty.value()) || StringUtils.isBlank(desensitizeFlexibleProperty.target())) {
                 continue;
             }
-            Field flexField = FieldUtils.getField(entity.getClass(), desensitizeComplexProperty.value(), true);
-            if (Objects.isNull(flexField)) {
+            Field flexibleField = FieldUtils.getField(entity.getClass(), desensitizeFlexibleProperty.target(), true);
+            if (Objects.isNull(flexibleField)) {
                 continue;
             }
-            Object flexValue = flexField.get(entity);
-            if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
+            Object flexibleValue = flexibleField.get(entity);
+            if (Objects.isNull(flexibleValue) || !(flexibleValue instanceof String)) {
                 continue;
             }
-            int index = Arrays.asList(desensitizeComplexProperty.keys()).indexOf((String) value);
+            int index = Arrays.asList(desensitizeFlexibleProperty.value()).indexOf((String) value);
             if (index < 0) {
                 continue;
             }
-            DesensitizeType type = DesensitizeType.DEFAULT;
-            if (index <= desensitizeComplexProperty.types().length - 1) {
-                type = desensitizeComplexProperty.types()[index];
+            DesensitizeType desensitizeType = DesensitizeType.DEFAULT;
+            if (index <= desensitizeFlexibleProperty.desensitizeType().length - 1) {
+                desensitizeType = desensitizeFlexibleProperty.desensitizeType()[index];
             }
             flexFieldMap = Objects.isNull(flexFieldMap) ? new HashMap<>() : flexFieldMap;
-            flexFieldMap.put(desensitizeComplexProperty.value(), DataMaskUtils.doGetProperty((String) flexValue, type));
+            flexFieldMap.put(desensitizeFlexibleProperty.target(), DataMaskUtils.doGetProperty((String) flexibleValue, desensitizeType));
         }
         return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;
     }

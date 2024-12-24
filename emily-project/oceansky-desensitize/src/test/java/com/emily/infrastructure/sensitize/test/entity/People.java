@@ -1,7 +1,7 @@
 package com.emily.infrastructure.sensitize.test.entity;
 
 import com.emily.infrastructure.sensitize.DesensitizeType;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeComplexProperty;
+import com.emily.infrastructure.sensitize.annotation.DesensitizeFlexibleProperty;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeNullProperty;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
 import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
@@ -17,7 +17,7 @@ public class People {
     @DesensitizeProperty
     private String username;
     private String password;
-    @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "value", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
+    @DesensitizeFlexibleProperty(value = {"email", "phone"}, target = "value", desensitizeType = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
     private String key;
     private String value;
     @DesensitizeNullProperty

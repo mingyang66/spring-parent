@@ -39,7 +39,7 @@ public class Company {
     /**
      * 复杂字段脱敏处理，根据传入的字段key值判断对应字段value是否进行脱敏处理
      */
-    @DesensitizeComplexProperty(keys = {"email", "phone"}, value = "fieldValue", types = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
+    @DesensitizeFlexibleProperty(value = {"email", "phone"}, target = "fieldValue", desensitizeType = {DesensitizeType.EMAIL, DesensitizeType.PHONE})
     private String fieldKey;
     private String fieldValue;
 

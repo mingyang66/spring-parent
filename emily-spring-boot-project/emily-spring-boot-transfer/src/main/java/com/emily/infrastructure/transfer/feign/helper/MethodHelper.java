@@ -38,7 +38,9 @@ public class MethodHelper {
                                 return value;
                             }
                         } else {
-                            return SensitizeUtils.acquireElseGet(value);
+                            return SensitizeUtils.acquireElseGet(value, e -> {
+                                //todo 异常处理
+                            });
                         }
                     } else {
                         return value;
@@ -53,6 +55,8 @@ public class MethodHelper {
         if (Objects.isNull(response)) {
             return null;
         }
-        return COMMONS_SENSITIZE_AVAILABLE ? SensitizeUtils.acquireElseGet(response, TransferResponse.class) : response;
+        return COMMONS_SENSITIZE_AVAILABLE ? SensitizeUtils.acquireElseGet(response, e -> {
+            //todo 异常处理
+        }, TransferResponse.class) : response;
     }
 }

@@ -28,20 +28,16 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
         if (Objects.isNull(response)) {
             return null;
         }
-        try {
-            I18nOperation annotation = invocation.getMethod().getAnnotation(I18nOperation.class);
-            //语言类型
-            LanguageType languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
-            // 如果是字符串直接转换
-            if (response instanceof String value) {
-                return I18nUtils.doGetProperty(value, languageType);
-            }
-            //将结果翻译为指定语言类型
-            return I18nUtils.translate(response, languageType, annotation.removePackClass());
-        } catch (IllegalAccessException ex) {
-            LOG.error(ex.getMessage(), ex);
-            return response;
+        I18nOperation annotation = invocation.getMethod().getAnnotation(I18nOperation.class);
+        //语言类型
+        LanguageType languageType = LanguageType.getByCode(RequestUtils.getHeader(HeaderInfo.LANGUAGE));
+        // 如果是字符串直接转换
+        if (response instanceof String value) {
+            return I18nUtils.doGetProperty(value, languageType);
         }
+        //todo 异常处理
+        //将结果翻译为指定语言类型
+        return I18nUtils.translateElseGet(response, languageType, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
     }
 
     @Override

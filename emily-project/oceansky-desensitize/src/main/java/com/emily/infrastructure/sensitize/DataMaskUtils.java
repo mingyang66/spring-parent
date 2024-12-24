@@ -204,17 +204,17 @@ public class DataMaskUtils {
 
     /**
      * @param value 字段值
-     * @param type  脱敏类型
+     * @param desensitizeType  脱敏类型
      * @return 脱敏后的字段值
      */
-    public static String doGetProperty(String value, DesensitizeType type) {
+    public static String doGetProperty(String value, DesensitizeType desensitizeType) {
         if (value == null || value.isEmpty()) {
             return value;
         }
-        if (type == null) {
-            type = DesensitizeType.DEFAULT;
+        if (desensitizeType == null) {
+            desensitizeType = DesensitizeType.DEFAULT;
         }
-        return switch (type) {
+        return switch (desensitizeType) {
             case PHONE -> DataMaskUtils.maskPhoneNumber(value);
             case ID_CARD -> DataMaskUtils.maskIdCard(value);
             case BANK_CARD -> DataMaskUtils.maskBankCard(value);

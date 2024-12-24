@@ -100,7 +100,7 @@ public class DeSensitizeUtils {
                 acquire(value, packClass);
             }
         }
-        doGetEntityComplex(entity);
+        doGetEntityFlexible(entity);
     }
 
     /**
@@ -253,11 +253,13 @@ public class DeSensitizeUtils {
     }
 
     /**
+     * 通过两个字段key、value指定传递不同的值，灵活指定哪些字段值进行脱敏处理
+     *
      * @param entity 实体类对象
      * @param <T>    实体类类型
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static <T> void doGetEntityComplex(final T entity) throws IllegalAccessException {
+    protected static <T> void doGetEntityFlexible(final T entity) throws IllegalAccessException {
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeFlexibleProperty.class);
         for (Field field : fields) {
             field.setAccessible(true);
@@ -266,20 +268,24 @@ public class DeSensitizeUtils {
                 continue;
             }
             DesensitizeFlexibleProperty desensitizeFlexibleProperty = field.getAnnotation(DesensitizeFlexibleProperty.class);
+            //原字段和目标字段为空，则继续执行下一个字段
             if (ObjectUtils.isEmpty(desensitizeFlexibleProperty.value()) || StringUtils.isBlank(desensitizeFlexibleProperty.target())) {
-                return;
+                continue;
             }
             Field flexibleField = FieldUtils.getField(entity.getClass(), desensitizeFlexibleProperty.target(), true);
+            //目标字段不存在
             if (Objects.isNull(flexibleField)) {
-                return;
+                continue;
             }
             Object flexibleValue = flexibleField.get(entity);
+            //目标字段值为null或者字段类型非字符串
             if (Objects.isNull(flexibleValue) || !(flexibleValue instanceof String)) {
-                return;
+                continue;
             }
+            //传递的字段key是否在指定脱敏字段范围内
             int index = Arrays.asList(desensitizeFlexibleProperty.value()).indexOf((String) value);
             if (index < 0) {
-                return;
+                continue;
             }
             DesensitizeType desensitizeType = DesensitizeType.DEFAULT;
             if (index <= desensitizeFlexibleProperty.desensitizeType().length - 1) {

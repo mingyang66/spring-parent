@@ -113,7 +113,7 @@ public class SensitizeUtils {
                 fieldMap.put(name, acquire(value, packClass));
             }
         }
-        fieldMap.putAll(doGetEntityComplex(entity));
+        fieldMap.putAll(doGetEntityFlexible(entity));
         return fieldMap;
     }
 
@@ -239,13 +239,13 @@ public class SensitizeUtils {
     }
 
     /**
-     * 灵活复杂类型字段脱敏
+     * 通过两个字段key、value指定传递不同的值，灵活指定哪些字段值进行脱敏处理
      *
      * @param entity 实体类
      * @return 复杂类型字段脱敏后的数据集合
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static Map<String, Object> doGetEntityComplex(final Object entity) throws IllegalAccessException {
+    protected static Map<String, Object> doGetEntityFlexible(final Object entity) throws IllegalAccessException {
         Map<String, Object> flexFieldMap = null;
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeFlexibleProperty.class);
         for (Field field : fields) {

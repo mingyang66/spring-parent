@@ -54,22 +54,6 @@ public class DeSensitizeUtilsTest {
         Assertions.assertEquals(p.getStringArrays()[1], "--隐藏--");
     }
 
-    @Test
-    public void testDesensitizeFlexibleProperty() throws IllegalAccessException {
-        People people = new People();
-        people.setKey("email");
-        people.setValue("1563919868@qq.com");
-        People p = DeSensitizeUtils.acquire(people);
-        Assertions.assertEquals(p, people);
-        Assertions.assertEquals(p.getKey(), "email");
-        Assertions.assertEquals(p.getValue(), "1***8@qq.com");
-
-        people.setKey("phone");
-        people.setValue("1563919868");
-        People p1 = DeSensitizeUtils.acquire(people);
-        Assertions.assertEquals(p1.getKey(), "phone");
-        Assertions.assertEquals(p1.getValue(), "15****9868");
-    }
 
     @Test
     public void testDesensitizeNullProperty() throws IllegalAccessException {
@@ -160,4 +144,32 @@ public class DeSensitizeUtilsTest {
         Company company1 = DeSensitizeUtils.acquire(company, Company.class);
         Assertions.assertEquals(company1.getDataMap().get("test").getName(), "--隐藏--");
     }
+
+    @Test
+    public void testDesensitizeFlexibleProperty() throws IllegalAccessException {
+        FlexibleField flexibleField = new FlexibleField();
+        flexibleField.setKey1("username");
+        flexibleField.setValue1("贺秀莲");
+        flexibleField.setKey2("username");
+        flexibleField.setValue2("贺秀莲");
+        flexibleField.setKey3("email");
+        flexibleField.setValue3("1564548965@qq.com");
+        flexibleField.setKey4("email");
+        flexibleField.setValue4(null);
+        flexibleField.setKey5("email");
+        flexibleField.setValue5("1564548965@qq.com");
+        flexibleField.setKey6("address");
+        flexibleField.setValue6("1564548965@qq.com");
+        flexibleField.setKey7("email");
+        flexibleField.setValue7("1564548965@qq.com");
+        FlexibleField field = DeSensitizeUtils.acquire(flexibleField);
+        Assertions.assertEquals(field.getValue1(),"贺秀莲");
+        Assertions.assertEquals(field.getValue2(),"贺秀莲");
+        Assertions.assertEquals(field.getValue3(),"1564548965@qq.com");
+        Assertions.assertNull(field.getValue4());
+        Assertions.assertEquals(field.getValue5(),"1***5@qq.com");
+        Assertions.assertEquals(field.getValue6(),"1564548965@qq.com");
+        Assertions.assertEquals(field.getValue7(),"1***5@qq.com");
+    }
+
 }

@@ -8,6 +8,8 @@ Bug Fixes
 4. 新增PrintLogUtils.printPlatform打印业务日志；
 5. com.emily.infrastructure.sensitize.SensitizeUtils脱敏工具类支持剥离n层外层包装类；
 6. emily-spring-boot-desensitize脱敏SDK其它模块对其的依赖根据当前项目是否引入，未引用则自动返回原值，做到物理分离；
+7. I18n多语言工具SDK新增对Map集合指定key翻译注解@I18nMapProperty；
+8. I18n多语言工具SDK新增对两个字段灵活定义传入不同key value场景对指定的key对应的value进行多语言处理注解@I18nFlexibleProperty；
 
 Dependency Upgrades
 

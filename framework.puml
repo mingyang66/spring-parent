@@ -70,8 +70,7 @@
            "emily-spring-boot-tracing":"链路追踪SDK",
            "emily-spring-boot-desensitize":"脱敏SDK",
            "oceansky-date":"日期SDK",
-           "oceansky-json":"json序列化SDK",
-           "oceansky-language":"多语言SDK"
+           "oceansky-json":"json序列化SDK"
   }]
   }
 }

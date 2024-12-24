@@ -1,12 +1,17 @@
 package com.emily.infrastructure.language.convert;
 
+import com.emily.infrastructure.language.annotation.I18nFlexibleProperty;
+import com.emily.infrastructure.language.annotation.I18nMapProperty;
 import com.emily.infrastructure.language.annotation.I18nModel;
 import com.emily.infrastructure.language.annotation.I18nProperty;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +34,8 @@ public class I18nUtils {
     public static <T> T translateElseGet(final T entity, LanguageType languageType, final Class<?>... packClass) {
         try {
             return translate(entity, languageType, packClass);
-        } catch (Exception ex) {
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
             return entity;
         }
     }
@@ -103,6 +109,7 @@ public class I18nUtils {
                 translate(value, languageType, packClass);
             }
         }
+        doGetEntityFlexible(entity, languageType);
     }
 
     /**
@@ -165,11 +172,22 @@ public class I18nUtils {
             if (Objects.isNull(v)) {
                 continue;
             }
-            if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
-                value.put(key, doGetProperty((String) v, languageType));
-            } else {
-                translate(value, languageType);
+            if (v instanceof String) {
+                if (field.isAnnotationPresent(I18nMapProperty.class)) {
+                    I18nMapProperty i18nMapProperty = field.getAnnotation(I18nMapProperty.class);
+                    int index = (key instanceof String) ? Arrays.asList(i18nMapProperty.value()).indexOf(key) : -1;
+                    if (index < 0) {
+                        continue;
+                    }
+                    value.put(key, doGetProperty((String) v, languageType));
+                    continue;
+                }
+                if (field.isAnnotationPresent(I18nProperty.class)) {
+                    value.put(key, doGetProperty((String) v, languageType));
+                    continue;
+                }
             }
+            translate(value, languageType);
         }
     }
 
@@ -209,5 +227,40 @@ public class I18nUtils {
     public static String doGetProperty(String value, LanguageType languageType) {
         Objects.requireNonNull(languageType, "languageType must not be null");
         return I18nCache.acquire(value, languageType);
+    }
+
+    /**
+     * 获取通过两个字段进行灵活传递的参数进行脱敏
+     *
+     * @param entity 实体类对象
+     * @param <T>    实体类类型
+     * @throws IllegalAccessException 抛出非法访问异常
+     */
+    protected static <T> void doGetEntityFlexible(final T entity, LanguageType languageType) throws IllegalAccessException {
+        Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), I18nFlexibleProperty.class);
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Object value = field.get(entity);
+            if (Objects.isNull(value)) {
+                continue;
+            }
+            I18nFlexibleProperty i18nFlexibleProperty = field.getAnnotation(I18nFlexibleProperty.class);
+            if (ObjectUtils.isEmpty(i18nFlexibleProperty.value()) || StringUtils.isBlank(i18nFlexibleProperty.target())) {
+                return;
+            }
+            Field flexibleField = FieldUtils.getField(entity.getClass(), i18nFlexibleProperty.target(), true);
+            if (Objects.isNull(flexibleField)) {
+                return;
+            }
+            Object flexValue = flexibleField.get(entity);
+            if (Objects.isNull(flexValue) || !(flexValue instanceof String)) {
+                return;
+            }
+            int index = Arrays.asList(i18nFlexibleProperty.value()).indexOf((String) value);
+            if (index < 0) {
+                return;
+            }
+            flexibleField.set(entity, doGetProperty((String) flexValue, languageType));
+        }
     }
 }

@@ -21,6 +21,74 @@ spring.emily.i18n.enabled=true
 - @I18nModel 标记在返回值实体类上，如果有嵌套的实体类也需要标记此注解，否则不会进行翻译；
 - @I18nProperty 标记在实体类的String属性字段上，只有字符串有效，其它类型无效；
 
+标记到实体类字符串上：
+
+```java
+@I18nModel
+public class Teacher {
+    @I18nProperty
+    private String name;
+}
+```
+
+标记到实体类List<String>上：
+
+```java
+@I18nModel
+public class Teacher {
+    @I18nProperty
+    private List<String> name;
+}
+```
+
+标记到是实体类字符串数组上：
+
+```java
+@I18nModel
+public class Teacher {
+    @I18nProperty
+    private String[] names;
+}
+```
+
+标记到实体类Map<String,String>集合上对value进行翻译：
+
+```java
+@I18nModel
+public class Teacher {
+   /**
+   * Map集合必须是可变的，不可变集合不支持如Map.of(k, v)
+   **/
+    @I18nProperty
+    private Map<String,String> names;
+}
+```
+
+- @I18nMapProperty 标记到Map集合上，key必须为字符串，value为字符串类型的才可以被翻译，优先级高于 @I18nProperty注解
+
+```java
+@I18nModel
+public class Teacher {
+		//优先级高于 @I18nProperty注解
+    @I18nProperty
+    @I18nMapProperty(value = {"test1"})
+    private Map<String, Object> mapObj;
+}
+```
+
+- I18nFlexibleProperty灵活定义通过两个字段允许传入不同的key、value，并指定约定的key对应的value值进行多语言翻译；
+
+```java
+@I18nModel
+public class FlexibleField {
+    @I18nFlexibleProperty(value = {"username", "email"}, target = "key2")
+    private String key1;
+    private String key2;
+}
+```
+
+
+
 ##### 四、案例
 
 - 实体类定义

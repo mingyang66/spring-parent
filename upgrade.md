@@ -12,6 +12,7 @@ Bug Fixes
 8. I18n多语言工具SDK新增对两个字段灵活定义传入不同key value场景对指定的key对应的value进行多语言处理注解@I18nFlexibleProperty；
 9. 修复@I18nFlexibleProperty注解多语言处理逻辑bug;
 10. 修复@DesensitizeFlexibleProperty注解脱敏处理逻辑bug;
+11. I18n多语言工具SDK新增@I18nPluginProperty自定义多语言翻译插件；
 
 Dependency Upgrades
 

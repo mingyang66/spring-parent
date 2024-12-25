@@ -27,7 +27,7 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nProperty() throws IllegalAccessException {
+    public void testI18nProperty() throws Throwable {
         Teacher teacher = new Teacher();
         teacher.setName("田晓霞");
         teacher.setAge(18);
@@ -38,12 +38,13 @@ public class I18nUtilsTest {
         Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
         Assertions.assertEquals(teacher1.getName(), "xiaoxia tian");
         Assertions.assertEquals(teacher1.getStringList().get(0), "shaoan sun");
+        Assertions.assertEquals(teacher1.getStringList().get(1), "shaoping sun");
         Assertions.assertEquals(teacher1.getTitles()[0], "shaoping sun");
         Assertions.assertEquals(teacher1.getStringMap().get("name"), "runye tian");
     }
 
     @Test
-    public void testI18nPropertyNestArray() throws IllegalAccessException {
+    public void testI18nPropertyNestArray() throws Throwable {
         Teacher teacher = new Teacher();
         Course course = new Course();
         course.setCode("123456789");
@@ -54,7 +55,7 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nPropertyNestList() throws IllegalAccessException {
+    public void testI18nPropertyNestList() throws Throwable {
         Teacher teacher = new Teacher();
         Student student = new Student();
         student.setName("郝红梅");
@@ -64,7 +65,7 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nPropertyNestMap() throws IllegalAccessException {
+    public void testI18nPropertyNestMap() throws Throwable {
         Teacher teacher = new Teacher();
         User user = new User();
         user.setUsername("郝红梅");
@@ -74,7 +75,7 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nMapProperty() throws IllegalAccessException {
+    public void testI18nMapProperty() throws Throwable {
         Teacher teacher = new Teacher();
         Map<String, Object> data = new HashMap<>();
         data.put("test1", "田润叶");
@@ -87,7 +88,7 @@ public class I18nUtilsTest {
     }
 
     @Test
-    public void testI18nFlexibleProperty() throws IllegalAccessException {
+    public void testI18nFlexibleProperty() throws Throwable {
         Teacher teacher = new Teacher();
         FlexibleField flexibleField = new FlexibleField();
         flexibleField.setKey7("address");
@@ -98,7 +99,7 @@ public class I18nUtilsTest {
         flexibleField.setKey2("email");
         flexibleField.setValue2("田晓霞");
         flexibleField.setKey3("email");
-       // flexibleField.setValue3("田晓霞");
+        // flexibleField.setValue3("田晓霞");
         flexibleField.setKey4("email");
         flexibleField.setValue4("田晓霞");
         flexibleField.setKey5("email");
@@ -123,4 +124,18 @@ public class I18nUtilsTest {
         Assertions.assertEquals(teacher2.getFlexibleField().getValue1(), "田晓霞");
     }
 
+    @Test
+    public void testI18nPluginProperty() throws Throwable {
+        PluginStudent student = new PluginStudent();
+        student.setUsername("贺秀莲");
+        PluginStudent student1 = I18nUtils.translate(student, LanguageType.EN_US);
+        Assertions.assertEquals(student1.getUsername(), "xiulian he");
+    }
+
+    @Test
+    public void testI18nPluginPropertySupport() throws Throwable {
+        PluginStudent student = new PluginStudent();
+        student.setList(List.of("孙少安"));
+        Assertions.assertThrowsExactly(UnsupportedOperationException.class, () -> I18nUtils.translate(student, LanguageType.EN_US));
+    }
 }

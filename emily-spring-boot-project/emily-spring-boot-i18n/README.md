@@ -76,7 +76,7 @@ public class Teacher {
 }
 ```
 
-- I18nFlexibleProperty灵活定义通过两个字段允许传入不同的key、value，并指定约定的key对应的value值进行多语言翻译；
+- @I18nFlexibleProperty灵活定义通过两个字段允许传入不同的key、value，并指定约定的key对应的value值进行多语言翻译；
 
 ```java
 @I18nModel
@@ -84,6 +84,33 @@ public class FlexibleField {
     @I18nFlexibleProperty(value = {"username", "email"}, target = "key2")
     private String key1;
     private String key2;
+}
+```
+
+- @I18nPluginProperty注解指定自定义插件对字段进行多语言翻译；
+
+```java
+@I18nModel
+public class PluginStudent {
+    @I18nPluginProperty(value = DefaultI18nPlugin.class)
+    private String username;
+    private List<String> list;
+}
+```
+
+自定义插件：
+
+```java
+public class DefaultI18nPlugin implements I18nPlugin<String> {
+    @Override
+    public boolean support(Object value) {
+        return value instanceof String;
+    }
+
+    @Override
+    public String getPlugin(String value, LanguageType languageType) {
+        return "xiulian he";
+    }
 }
 ```
 

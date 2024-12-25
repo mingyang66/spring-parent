@@ -5,7 +5,7 @@ import com.emily.infrastructure.sensitize.annotation.DesensitizeFlexibleProperty
 import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/12/24 下午10:31
  */
 @DesensitizeModel

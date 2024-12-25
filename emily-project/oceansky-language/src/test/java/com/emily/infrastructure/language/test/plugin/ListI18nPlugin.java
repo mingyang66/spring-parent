@@ -6,7 +6,7 @@ import com.emily.infrastructure.language.plugin.I18nPlugin;
 import java.util.List;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/12/25 上午10:53
  */
 public class ListI18nPlugin implements I18nPlugin<List<String>> {

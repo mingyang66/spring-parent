@@ -4,7 +4,7 @@ import com.emily.infrastructure.language.convert.LanguageType;
 import com.emily.infrastructure.language.plugin.I18nPlugin;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/12/25 上午10:53
  */
 public class DefaultI18nPlugin implements I18nPlugin<String> {

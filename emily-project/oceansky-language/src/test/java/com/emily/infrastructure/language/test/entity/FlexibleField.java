@@ -4,7 +4,7 @@ import com.emily.infrastructure.language.annotation.I18nFlexibleProperty;
 import com.emily.infrastructure.language.annotation.I18nModel;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/12/24 下午1:36
  */
 @I18nModel

@@ -7,7 +7,7 @@ import com.emily.infrastructure.language.test.plugin.DefaultI18nPlugin;
 import java.util.List;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/12/25 下午11:48
  */
 @I18nModel

@@ -4,7 +4,7 @@ package com.emily.infrastructure.sensitize;
  * 脱敏类型
  *
  * @author Emily
- * @since :  Created in 2022/10/27 10:03 上午
+ * @since :  Created in 2022/10/27 10:03 下午
  */
 public enum DesensitizeType {
     DEFAULT,

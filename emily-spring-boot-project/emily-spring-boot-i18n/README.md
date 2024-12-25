@@ -98,7 +98,7 @@ public class PluginStudent {
 }
 ```
 
-自定义插件：
+自定义插件（如果在spring、springboot环境使用可以标记@Component注解自动注册到插件注册中心，解析时自动使用此插件对象，不会再重新创建对象）：
 
 ```java
 public class DefaultI18nPlugin implements I18nPlugin<String> {

@@ -5,12 +5,15 @@ import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.i18n.annotation.I18nOperation;
 import com.emily.infrastructure.i18n.interceptor.DefaultI18nMethodInterceptor;
 import com.emily.infrastructure.i18n.interceptor.I18nCustomizer;
+import com.emily.infrastructure.language.i18n.plugin.I18nPlugin;
+import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.ComposablePointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
@@ -19,6 +22,8 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.util.Assert;
@@ -33,7 +38,7 @@ import org.springframework.util.Assert;
 @AutoConfiguration
 @EnableConfigurationProperties(I18nProperties.class)
 @ConditionalOnProperty(prefix = I18nProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class I18nAutoConfiguration implements InitializingBean, DisposableBean {
+public class I18nAutoConfiguration implements InitializingBean, DisposableBean, ApplicationContextAware {
     private static final Logger LOG = LoggerFactory.getLogger(I18nAutoConfiguration.class);
 
     @Bean
@@ -56,6 +61,11 @@ public class I18nAutoConfiguration implements InitializingBean, DisposableBean {
     @ConditionalOnMissingBean
     public DefaultI18nMethodInterceptor defaultI18nMethodInterceptor() {
         return new DefaultI18nMethodInterceptor();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        I18nPluginRegistry.registerPlugins(context.getBeansOfType(I18nPlugin.class));
     }
 
     @Override

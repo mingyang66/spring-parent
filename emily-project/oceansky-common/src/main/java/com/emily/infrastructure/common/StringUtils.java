@@ -71,7 +71,7 @@ public class StringUtils {
      * @return 转换后的字符串
      */
     public static String toLowerFirstCase(String str) {
-        if (str == null || str.length() == 0) {
+        if (str == null || str.isEmpty()) {
             return str;
         }
         if (str.length() == 1) {
@@ -99,7 +99,7 @@ public class StringUtils {
      * @return true-为空 false-不为空
      */
     public static boolean isEmpty(final CharSequence cs) {
-        return cs == null || cs.length() == 0;
+        return cs == null || cs.isEmpty();
     }
 
     /**

@@ -1,8 +1,8 @@
 package com.emily.infrastructure.language.i18n;
 
-import com.emily.infrastructure.language.annotation.*;
 import com.emily.infrastructure.language.i18n.annotation.*;
 import com.emily.infrastructure.language.i18n.plugin.I18nPlugin;
+import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -286,13 +286,30 @@ public class I18nUtils {
         if (i18nPluginProperty.value().isInterface()) {
             return;
         }
-        @SuppressWarnings("unchecked")
-        I18nPlugin<Object> plugin = i18nPluginProperty.value().getDeclaredConstructor().newInstance();
+        String pluginId = doGetFirstCharIsLowerCase(i18nPluginProperty.value().getSimpleName());
+        if (!I18nPluginRegistry.containsPlugin(pluginId)) {
+            I18nPluginRegistry.registerPlugin(pluginId, i18nPluginProperty.value().getDeclaredConstructor().newInstance());
+        }
+        I18nPlugin<Object> plugin = I18nPluginRegistry.getPlugin(pluginId);
         if (plugin.support(value)) {
             Object result = plugin.getPlugin(value, languageType);
             field.set(entity, Objects.isNull(result) ? value : result);
         } else {
             throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), i18nPluginProperty.value()));
         }
+    }
+
+    /**
+     * 将输入字符串的首字母转换为小写。
+     *
+     * @param input 需要转换的字符串
+     * @return 首字母小写后的新字符串
+     */
+    static String doGetFirstCharIsLowerCase(String input) {
+        if (StringUtils.isBlank(input)) {
+            return input;
+        }
+        // 获取首字母并转换为小写，然后拼接剩余部分
+        return String.format("%s%s", Character.toLowerCase(input.charAt(0)), input.substring(1));
     }
 }

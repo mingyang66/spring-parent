@@ -3,6 +3,7 @@ package com.emily.infrastructure.language.test;
 import com.emily.infrastructure.language.i18n.I18nCache;
 import com.emily.infrastructure.language.i18n.I18nUtils;
 import com.emily.infrastructure.language.i18n.LanguageType;
+import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
 import com.emily.infrastructure.language.test.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -137,5 +138,9 @@ public class I18nUtilsTest {
         PluginStudent student = new PluginStudent();
         student.setList(List.of("孙少安"));
         Assertions.assertThrowsExactly(UnsupportedOperationException.class, () -> I18nUtils.translate(student, LanguageType.EN_US));
+    }
+    @Test
+    public void testI18nPluginRegistry(){
+        I18nPluginRegistry.registerPlugin(null,null);
     }
 }

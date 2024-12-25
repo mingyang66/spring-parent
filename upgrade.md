@@ -13,6 +13,7 @@ Bug Fixes
 9. 修复@I18nFlexibleProperty注解多语言处理逻辑bug;
 10. 修复@DesensitizeFlexibleProperty注解脱敏处理逻辑bug;
 11. I18n多语言工具SDK新增@I18nPluginProperty自定义多语言翻译插件；
+12. I18n新增I18nPluginRegistry插件注册中心，允许spring启动的时候自动将bean注册到注册中心；
 
 Dependency Upgrades
 

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.language.annotation;
+package com.emily.infrastructure.language.i18n.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.language.test.plugin;
 
-import com.emily.infrastructure.language.convert.LanguageType;
-import com.emily.infrastructure.language.plugin.I18nPlugin;
+import com.emily.infrastructure.language.i18n.LanguageType;
+import com.emily.infrastructure.language.i18n.plugin.I18nPlugin;
 
 /**
  * @author :  Emily

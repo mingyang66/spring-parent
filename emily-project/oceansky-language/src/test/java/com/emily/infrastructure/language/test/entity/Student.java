@@ -1,7 +1,7 @@
 package com.emily.infrastructure.language.test.entity;
 
-import com.emily.infrastructure.language.annotation.I18nModel;
-import com.emily.infrastructure.language.annotation.I18nProperty;
+import com.emily.infrastructure.language.i18n.annotation.I18nModel;
+import com.emily.infrastructure.language.i18n.annotation.I18nProperty;
 
 /**
  * @author :  Emily

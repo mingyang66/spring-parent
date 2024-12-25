@@ -1,4 +1,4 @@
-package com.emily.infrastructure.language.convert;
+package com.emily.infrastructure.language.i18n;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

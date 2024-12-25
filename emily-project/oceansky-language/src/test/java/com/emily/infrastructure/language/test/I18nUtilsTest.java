@@ -1,8 +1,8 @@
 package com.emily.infrastructure.language.test;
 
-import com.emily.infrastructure.language.convert.I18nCache;
-import com.emily.infrastructure.language.convert.I18nUtils;
-import com.emily.infrastructure.language.convert.LanguageType;
+import com.emily.infrastructure.language.i18n.I18nCache;
+import com.emily.infrastructure.language.i18n.I18nUtils;
+import com.emily.infrastructure.language.i18n.LanguageType;
 import com.emily.infrastructure.language.test.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,6 +1,6 @@
-package com.emily.infrastructure.language.plugin;
+package com.emily.infrastructure.language.i18n.plugin;
 
-import com.emily.infrastructure.language.convert.LanguageType;
+import com.emily.infrastructure.language.i18n.LanguageType;
 
 /**
  * 多语言基于插件实现自定义多语言翻译

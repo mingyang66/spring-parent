@@ -1,6 +1,6 @@
 package com.emily.sample.i18n.config;
 
-import com.emily.infrastructure.language.convert.I18nCache;
+import com.emily.infrastructure.language.i18n.I18nCache;
 import org.springframework.context.annotation.Configuration;
 
 /**

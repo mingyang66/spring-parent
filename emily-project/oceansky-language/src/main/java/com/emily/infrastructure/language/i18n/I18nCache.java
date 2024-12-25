@@ -1,6 +1,6 @@
-package com.emily.infrastructure.language.convert;
+package com.emily.infrastructure.language.i18n;
 
-import com.emily.infrastructure.language.i18n.I18nChineseHelper;
+import com.emily.infrastructure.language.convert1.I18nChineseHelper;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;

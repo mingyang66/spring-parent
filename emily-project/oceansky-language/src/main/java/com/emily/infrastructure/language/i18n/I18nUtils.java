@@ -1,7 +1,8 @@
-package com.emily.infrastructure.language.convert;
+package com.emily.infrastructure.language.i18n;
 
 import com.emily.infrastructure.language.annotation.*;
-import com.emily.infrastructure.language.plugin.I18nPlugin;
+import com.emily.infrastructure.language.i18n.annotation.*;
+import com.emily.infrastructure.language.i18n.plugin.I18nPlugin;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;

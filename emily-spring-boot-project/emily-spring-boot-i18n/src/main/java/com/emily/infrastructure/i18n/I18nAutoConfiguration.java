@@ -5,8 +5,6 @@ import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.i18n.annotation.I18nOperation;
 import com.emily.infrastructure.i18n.interceptor.DefaultI18nMethodInterceptor;
 import com.emily.infrastructure.i18n.interceptor.I18nCustomizer;
-import com.emily.infrastructure.language.convert.I18nCache;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;

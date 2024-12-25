@@ -1,7 +1,7 @@
 package com.emily.infrastructure.language.test.entity;
 
-import com.emily.infrastructure.language.annotation.I18nModel;
-import com.emily.infrastructure.language.annotation.I18nPluginProperty;
+import com.emily.infrastructure.language.i18n.annotation.I18nModel;
+import com.emily.infrastructure.language.i18n.annotation.I18nPluginProperty;
 import com.emily.infrastructure.language.test.plugin.DefaultI18nPlugin;
 
 import java.util.List;

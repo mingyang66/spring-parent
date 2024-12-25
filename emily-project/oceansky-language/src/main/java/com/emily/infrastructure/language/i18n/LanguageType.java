@@ -1,4 +1,4 @@
-package com.emily.infrastructure.language.convert;
+package com.emily.infrastructure.language.i18n;
 
 import org.apache.commons.lang3.StringUtils;
 

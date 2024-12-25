@@ -1,4 +1,4 @@
-package com.emily.infrastructure.language.convert1;
+package com.emily.infrastructure.language.convert;
 
 /**
  * 简繁体多语言帮助类

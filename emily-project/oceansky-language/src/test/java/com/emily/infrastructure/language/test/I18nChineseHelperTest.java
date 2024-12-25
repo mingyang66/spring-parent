@@ -1,6 +1,6 @@
 package com.emily.infrastructure.language.test;
 
-import com.emily.infrastructure.language.convert1.I18nChineseHelper;
+import com.emily.infrastructure.language.convert.I18nChineseHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

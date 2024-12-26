@@ -3,6 +3,7 @@ package com.emily.infrastructure.language.i18n;
 import com.emily.infrastructure.language.i18n.annotation.*;
 import com.emily.infrastructure.language.i18n.plugin.I18nPlugin;
 import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
+import com.emily.infrastructure.language.i18n.registry.I18nSimpleRegistry;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -293,7 +294,7 @@ public class I18nUtils {
      */
     public static String doGetProperty(String value, LanguageType languageType) {
         Objects.requireNonNull(languageType, "languageType must not be null");
-        return I18nCache.acquire(value, languageType);
+        return I18nSimpleRegistry.acquire(value, languageType);
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.language.test;
 
-import com.emily.infrastructure.language.i18n.I18nCache;
+import com.emily.infrastructure.language.i18n.registry.I18nSimpleRegistry;
 import com.emily.infrastructure.language.i18n.I18nUtils;
 import com.emily.infrastructure.language.i18n.LanguageType;
 import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class I18nUtilsTest {
     @BeforeAll
     public static void setUp() {
-        I18nCache.bindEn("田晓霞", "xiaoxia tian");
-        I18nCache.bindEn("孙少安", "shaoan sun");
-        I18nCache.bindEn("孙少平", "shaoping sun");
-        I18nCache.bindEn("田润叶", "runye tian");
-        I18nCache.bindEn("郝红梅", "hongmei hao");
+        I18nSimpleRegistry.bindEn("田晓霞", "xiaoxia tian");
+        I18nSimpleRegistry.bindEn("孙少安", "shaoan sun");
+        I18nSimpleRegistry.bindEn("孙少平", "shaoping sun");
+        I18nSimpleRegistry.bindEn("田润叶", "runye tian");
+        I18nSimpleRegistry.bindEn("郝红梅", "hongmei hao");
     }
 
     @Test
@@ -36,7 +36,7 @@ public class I18nUtilsTest {
         teacher.setTitles(new String[]{"孙少平"});
         //teacher.setStringMap(Map.of("name","田润叶"));
         teacher.setStringMap(new HashMap<>(Map.ofEntries(Map.entry("name", "田润叶"))));
-        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher1.getName(), "xiaoxia tian");
         Assertions.assertEquals(teacher1.getStringList().get(0), "shaoan sun");
         Assertions.assertEquals(teacher1.getStringList().get(1), "shaoping sun");
@@ -51,7 +51,7 @@ public class I18nUtilsTest {
         course.setCode("123456789");
         course.setName("郝红梅");
         teacher.setCourses(new Course[]{course});
-        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher1.getCourses()[0].getName(), "hongmei hao");
     }
 
@@ -61,7 +61,7 @@ public class I18nUtilsTest {
         Student student = new Student();
         student.setName("郝红梅");
         teacher.setStudents(List.of(student));
-        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher1.getStudents().get(0).getName(), "hongmei hao");
     }
 
@@ -71,7 +71,7 @@ public class I18nUtilsTest {
         User user = new User();
         user.setUsername("郝红梅");
         teacher.setUsers(new HashMap<>(Map.ofEntries(Map.entry("test", user))));
-        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher1.getUsers().get("test").getUsername(), "hongmei hao");
     }
 
@@ -83,7 +83,7 @@ public class I18nUtilsTest {
         data.put("test2", "田晓霞");
         data.put("test3", 12);
         teacher.setMapObj(data);
-        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher1.getMapObj().get("test1"), "runye tian");
         Assertions.assertEquals(teacher1.getMapObj().get("test2"), "田晓霞");
     }
@@ -107,7 +107,7 @@ public class I18nUtilsTest {
         flexibleField.setKey6("email");
         flexibleField.setValue6("田晓霞");
         teacher.setFlexibleField(flexibleField);
-        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher1 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher1.getFlexibleField().getValue7(), "田晓霞");
         Assertions.assertEquals(teacher1.getFlexibleField().getValue1(), "xiaoxia tian");
         Assertions.assertEquals(teacher1.getFlexibleField().getValue2(), "田晓霞");
@@ -121,7 +121,7 @@ public class I18nUtilsTest {
         flexibleField1.setKey3("username1");
         flexibleField1.setValue3("田晓霞");
         teacher.setFlexibleField(flexibleField1);
-        Teacher teacher2 = I18nUtils.translate(teacher, LanguageType.EN_US);
+        Teacher teacher2 = I18nUtils.translate(teacher, LanguageType.EN);
         Assertions.assertEquals(teacher2.getFlexibleField().getValue1(), "田晓霞");
     }
 
@@ -129,7 +129,7 @@ public class I18nUtilsTest {
     public void testI18nPluginProperty() throws Throwable {
         PluginStudent student = new PluginStudent();
         student.setUsername("贺秀莲");
-        PluginStudent student1 = I18nUtils.translate(student, LanguageType.EN_US);
+        PluginStudent student1 = I18nUtils.translate(student, LanguageType.EN);
         Assertions.assertEquals(student1.getUsername(), "xiulian he");
     }
 
@@ -137,7 +137,7 @@ public class I18nUtilsTest {
     public void testI18nPluginPropertySupport() throws Throwable {
         PluginStudent student = new PluginStudent();
         student.setList(List.of("孙少安"));
-        Assertions.assertThrowsExactly(UnsupportedOperationException.class, () -> I18nUtils.translate(student, LanguageType.EN_US));
+        Assertions.assertThrowsExactly(UnsupportedOperationException.class, () -> I18nUtils.translate(student, LanguageType.EN));
     }
     @Test
     public void testI18nPluginRegistry(){

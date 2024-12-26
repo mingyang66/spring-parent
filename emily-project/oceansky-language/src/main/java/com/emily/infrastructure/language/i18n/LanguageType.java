@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 public enum LanguageType {
     ZH_CN("zh-CN", "简体"),
     ZH_TW("zh-TW", "繁体"),
-    EN_US("en-US", "英文");
+    EN("en", "英文");
 
     private final String code;
     private final String name;

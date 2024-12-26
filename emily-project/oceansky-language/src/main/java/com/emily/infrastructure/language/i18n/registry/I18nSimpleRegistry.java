@@ -1,6 +1,7 @@
-package com.emily.infrastructure.language.i18n;
+package com.emily.infrastructure.language.i18n.registry;
 
 import com.emily.infrastructure.language.convert.I18nChineseHelper;
+import com.emily.infrastructure.language.i18n.LanguageType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Emily
  * @since Created in 2022/8/9 7:38 下午
  */
-public class I18nCache {
+public class I18nSimpleRegistry {
     /**
      * 简体-繁体
      */
@@ -91,7 +92,7 @@ public class I18nCache {
         if (languageType.equals(LanguageType.ZH_TW)) {
             return zhMap.containsKey(simple) ? zhMap.get(simple) : I18nChineseHelper.convertToTraditionalChinese(simple);
         }
-        if (languageType.equals(LanguageType.EN_US)) {
+        if (languageType.equals(LanguageType.EN)) {
             return enMap.getOrDefault(simple, simple);
         }
         return simple;

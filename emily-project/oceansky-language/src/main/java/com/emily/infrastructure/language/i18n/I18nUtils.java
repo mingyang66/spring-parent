@@ -115,6 +115,33 @@ public class I18nUtils {
     }
 
     /**
+     * 对基于插件注解标记的属性进行多语言翻译
+     *
+     * @param field        实体类属性对象
+     * @param entity       实体类对象
+     * @param value        属性值对象
+     * @param languageType 语言类型
+     * @throws Throwable 抛出非法访问异常
+     */
+    protected static <T> void doGetEntityPlugin(final Field field, final T entity, final Object value, final LanguageType languageType) throws Throwable {
+        I18nPluginProperty i18nPluginProperty = field.getAnnotation(I18nPluginProperty.class);
+        if (i18nPluginProperty.value().isInterface()) {
+            return;
+        }
+        String pluginId = doGetFirstCharIsLowerCase(i18nPluginProperty.value().getSimpleName());
+        if (!I18nPluginRegistry.containsPlugin(pluginId)) {
+            I18nPluginRegistry.registerPlugin(pluginId, i18nPluginProperty.value().getDeclaredConstructor().newInstance());
+        }
+        I18nPlugin<Object> plugin = I18nPluginRegistry.getPlugin(pluginId);
+        if (plugin.support(value)) {
+            Object result = plugin.getPlugin(value, languageType);
+            field.set(entity, Objects.isNull(result) ? value : result);
+        } else {
+            throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), i18nPluginProperty.value()));
+        }
+    }
+
+    /**
      * 对字符串进行多语言支持
      *
      * @param field        实体类属性对象
@@ -144,7 +171,7 @@ public class I18nUtils {
         Collection<Object> list = null;
         Collection<?> collection = ((Collection<?>) value);
         for (Object v : collection) {
-            if (Objects.isNull(v)) {
+            if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if (v instanceof String) {
@@ -175,7 +202,7 @@ public class I18nUtils {
         for (Map.Entry<?, ?> entry : dMap.entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
-            if (Objects.isNull(v)) {
+            if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if (v instanceof String) {
@@ -212,7 +239,7 @@ public class I18nUtils {
         Object[] arrays = ((Object[]) value);
         for (int i = 0; i < arrays.length; i++) {
             Object v = arrays[i];
-            if (Objects.isNull(v)) {
+            if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
@@ -221,18 +248,6 @@ public class I18nUtils {
                 translate(value, languageType);
             }
         }
-    }
-
-    /**
-     * 获取根据语言类型翻译后的属性结果
-     *
-     * @param value        属性值
-     * @param languageType 语言类型
-     * @return 翻译后的结果
-     */
-    public static String doGetProperty(String value, LanguageType languageType) {
-        Objects.requireNonNull(languageType, "languageType must not be null");
-        return I18nCache.acquire(value, languageType);
     }
 
     /**
@@ -247,7 +262,7 @@ public class I18nUtils {
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(entity);
-            if (Objects.isNull(value)) {
+            if (ObjectUtils.isEmpty(value)) {
                 continue;
             }
             I18nFlexibleProperty i18nFlexibleProperty = field.getAnnotation(I18nFlexibleProperty.class);
@@ -274,30 +289,15 @@ public class I18nUtils {
     }
 
     /**
-     * 对基于插件注解标记的属性进行多语言翻译
+     * 获取根据语言类型翻译后的属性结果
      *
-     * @param field        实体类属性对象
-     * @param entity       实体类对象
-     * @param value        属性值对象
+     * @param value        属性值
      * @param languageType 语言类型
-     * @throws Throwable 抛出非法访问异常
+     * @return 翻译后的结果
      */
-    protected static <T> void doGetEntityPlugin(final Field field, final T entity, final Object value, final LanguageType languageType) throws Throwable {
-        I18nPluginProperty i18nPluginProperty = field.getAnnotation(I18nPluginProperty.class);
-        if (i18nPluginProperty.value().isInterface()) {
-            return;
-        }
-        String pluginId = doGetFirstCharIsLowerCase(i18nPluginProperty.value().getSimpleName());
-        if (!I18nPluginRegistry.containsPlugin(pluginId)) {
-            I18nPluginRegistry.registerPlugin(pluginId, i18nPluginProperty.value().getDeclaredConstructor().newInstance());
-        }
-        I18nPlugin<Object> plugin = I18nPluginRegistry.getPlugin(pluginId);
-        if (plugin.support(value)) {
-            Object result = plugin.getPlugin(value, languageType);
-            field.set(entity, Objects.isNull(result) ? value : result);
-        } else {
-            throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), i18nPluginProperty.value()));
-        }
+    public static String doGetProperty(String value, LanguageType languageType) {
+        Objects.requireNonNull(languageType, "languageType must not be null");
+        return I18nCache.acquire(value, languageType);
     }
 
     /**

@@ -99,9 +99,9 @@ public class DesensitizeUtils {
             } else if (value instanceof Collection) {
                 doGetEntityColl(field, entity, value);
             } else if (value instanceof Map) {
-                doGetEntityMap(field, entity, value);
+                doGetEntityMap(field, value);
             } else if (value.getClass().isArray()) {
-                doGetEntityArray(field, entity, value);
+                doGetEntityArray(field, value);
             } else {
                 acquire(value, packClass);
             }
@@ -120,6 +120,32 @@ public class DesensitizeUtils {
     protected static <T> void doGetEntityNull(final Field field, final T entity) throws Throwable {
         if (!field.getType().isPrimitive()) {
             field.set(entity, null);
+        }
+    }
+
+    /**
+     * 对基于插件注解标记的属性进行脱敏
+     *
+     * @param field  实体类属性对象
+     * @param entity 实体类对象
+     * @param value  属性值对象
+     * @throws Throwable 抛出非法访问异常
+     */
+    protected static <T> void doGetEntityPlugin(final Field field, final T entity, final Object value) throws Throwable {
+        DesensitizePluginProperty desensitizePluginProperty = field.getAnnotation(DesensitizePluginProperty.class);
+        if (desensitizePluginProperty.value().isInterface()) {
+            return;
+        }
+        String pluginId = doGetFirstCharIsLowerCase(desensitizePluginProperty.value().getSimpleName());
+        if (!DesensitizePluginRegistry.containsPlugin(pluginId)) {
+            DesensitizePluginRegistry.registerPlugin(pluginId, desensitizePluginProperty.value().getDeclaredConstructor().newInstance());
+        }
+        DesensitizePlugin<Object> plugin = DesensitizePluginRegistry.getPlugin(pluginId);
+        if (plugin.support(value)) {
+            Object result = plugin.getPlugin(value, desensitizePluginProperty.desensitizeType());
+            field.set(entity, Objects.isNull(result) ? value : result);
+        } else {
+            throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), desensitizePluginProperty.value()));
         }
     }
 
@@ -153,7 +179,7 @@ public class DesensitizeUtils {
         Collection<Object> list = null;
         Collection<?> collection = ((Collection<?>) value);
         for (Object v : collection) {
-            if (Objects.isNull(v)) {
+            if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
@@ -171,20 +197,17 @@ public class DesensitizeUtils {
     /**
      * 对Map集合中存储是字符串、实体对象进行脱敏支持
      *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
+     * @param field 实体类属性对象
+     * @param value 属性值对象
      * @throws Throwable 抛出非法访问异常
      */
-    @SuppressWarnings("unused")
-    protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws Throwable {
+    protected static void doGetEntityMap(final Field field, final Object value) throws Throwable {
         @SuppressWarnings("unchecked")
         Map<Object, Object> dMap = (Map<Object, Object>) value;
         for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
-            if (Objects.isNull(v)) {
+            if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if (v instanceof String) {
@@ -212,21 +235,18 @@ public class DesensitizeUtils {
     /**
      * 对数组中存储是字符串、实体对象进行脱敏支持
      *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
+     * @param field 实体类属性对象
+     * @param value 属性值对象
      * @throws Throwable 抛出非法访问异常
      */
-    @SuppressWarnings("unused")
-    protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws Throwable {
+    protected static void doGetEntityArray(final Field field, final Object value) throws Throwable {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;
         }
         Object[] arrays = ((Object[]) value);
         for (int i = 0; i < arrays.length; i++) {
             Object v = arrays[i];
-            if (Objects.isNull(v)) {
+            if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
@@ -249,7 +269,7 @@ public class DesensitizeUtils {
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(entity);
-            if (Objects.isNull(value)) {
+            if (ObjectUtils.isEmpty(value)) {
                 continue;
             }
             DesensitizeFlexibleProperty desensitizeFlexibleProperty = field.getAnnotation(DesensitizeFlexibleProperty.class);
@@ -277,32 +297,6 @@ public class DesensitizeUtils {
                 desensitizeType = desensitizeFlexibleProperty.desensitizeType()[index];
             }
             flexibleField.set(entity, DataMaskUtils.doGetProperty((String) flexibleValue, desensitizeType));
-        }
-    }
-
-    /**
-     * 对基于插件注解标记的属性进行脱敏
-     *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @throws Throwable 抛出非法访问异常
-     */
-    protected static <T> void doGetEntityPlugin(final Field field, final T entity, final Object value) throws Throwable {
-        DesensitizePluginProperty desensitizePluginProperty = field.getAnnotation(DesensitizePluginProperty.class);
-        if (desensitizePluginProperty.value().isInterface()) {
-            return;
-        }
-        String pluginId = doGetFirstCharIsLowerCase(desensitizePluginProperty.value().getSimpleName());
-        if (!DesensitizePluginRegistry.containsPlugin(pluginId)) {
-            DesensitizePluginRegistry.registerPlugin(pluginId, desensitizePluginProperty.value().getDeclaredConstructor().newInstance());
-        }
-        DesensitizePlugin<Object> plugin = DesensitizePluginRegistry.getPlugin(pluginId);
-        if (plugin.support(value)) {
-            Object result = plugin.getPlugin(value, desensitizePluginProperty.desensitizeType());
-            field.set(entity, Objects.isNull(result) ? value : result);
-        } else {
-            throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), desensitizePluginProperty.value()));
         }
     }
 

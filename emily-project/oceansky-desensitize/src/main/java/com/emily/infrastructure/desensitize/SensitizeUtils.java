@@ -1,6 +1,6 @@
-package com.emily.infrastructure.sensitize;
+package com.emily.infrastructure.desensitize;
 
-import com.emily.infrastructure.sensitize.annotation.*;
+import com.emily.infrastructure.desensitize.annotation.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,23 +11,23 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * 对实体类进行脱敏，返回原来的实体类对象
+ * 对实体类镜像脱敏，返回结构相同的非同一个对象
  *
  * @author Emily
- * @since :  Created in 2023/4/21 10:50 PM
+ * @since :  Created in 2022/7/19 11:13 下午
  */
-public class DeSensitizeUtils {
+public class SensitizeUtils {
 
     /**
-     * 对指定实体类中标记类脱敏注解的字段进行脱敏；支持指定外层包装类未标记类脱敏注解的字段，但对内层进行脱敏
+     * 支持指定外层包装类为标记脱敏标记的类对内层标记了敏感字段的类进行脱敏
+     * 脱敏过程中如果发生异常，则原样返回
      *
-     * @param entity    实体类|普通对象 如果发生异常则源对象返回
+     * @param entity    脱敏实体类对象
      * @param consumer  异常信息暴露处理接口
      * @param packClass 需脱敏的实体类对象外层包装类
-     * @param <T>       实体类类型
-     * @return 对实体类进行脱敏，返回原来的实体类对象
+     * @return 脱敏后的数据
      */
-    public static <T> T acquireElseGet(final T entity, Consumer<IllegalAccessException> consumer, final Class<?>... packClass) {
+    public static Object acquireElseGet(final Object entity, Consumer<IllegalAccessException> consumer, final Class<?>... packClass) {
         try {
             return acquire(entity, packClass);
         } catch (IllegalAccessException ex) {
@@ -37,70 +37,84 @@ public class DeSensitizeUtils {
     }
 
     /**
-     * @param entity    实体类|普通对象
+     * 对实体类镜像脱敏，返回结构相同的非同一个对象
+     *
+     * @param entity    需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @param packClass 需脱敏的实体类对象外层包装类
-     * @param <T>       实体类类型
-     * @return 对实体类进行脱敏，返回原来的实体类对象
-     * @throws IllegalAccessException 非法访问异常
+     * @return 脱敏后的实体类对象
+     * @throws IllegalAccessException 抛出非法访问异常
      */
-    public static <T> T acquire(final T entity, final Class<?>... packClass) throws IllegalAccessException {
+    public static Object acquire(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
+            Collection<Object> coll = new ArrayList<>();
             for (Object o : (Collection<?>) entity) {
-                acquire(o, packClass);
+                coll.add(acquire(o, packClass));
             }
+            return coll;
         } else if (entity instanceof Map) {
+            Map<Object, Object> dMap = new HashMap<>();
             for (Map.Entry<?, ?> entry : ((Map<?, ?>) entity).entrySet()) {
-                acquire(entry.getValue(), packClass);
+                Object key = entry.getKey();
+                Object value = entry.getValue();
+                dMap.put(key, acquire(value, packClass));
             }
+            return dMap;
         } else if (entity.getClass().isArray()) {
-            if (!entity.getClass().getComponentType().isPrimitive()) {
-                for (Object v : (Object[]) entity) {
-                    acquire(v, packClass);
+            if (entity.getClass().getComponentType().isPrimitive()) {
+                return entity;
+            } else {
+                Object[] v = (Object[]) entity;
+                Object[] t = new Object[v.length];
+                for (int i = 0; i < v.length; i++) {
+                    t[i] = acquire(v[i], packClass);
                 }
+                return t;
             }
         } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
-            doSetField(entity);
+            return doSetField(entity);
         } else if (packClass.length > 0 && entity.getClass().isAssignableFrom(packClass[0])) {
-            doSetField(entity, ArrayUtils.remove(packClass, 0));
+            return doSetField(entity, ArrayUtils.remove(packClass, 0));
         }
         return entity;
     }
 
     /**
-     * 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
+     * 获取实体类对象脱敏后的对象
      *
-     * @param entity 实体类对象
-     * @param <T>    实体类类型
-     * @throws IllegalAccessException 非法访问异常
+     * @param entity 需要脱敏的实体类对象
+     * @return 实体类属性脱敏后的集合对象
      */
-    protected static <T> void doSetField(final T entity, final Class<?>... packClass) throws IllegalAccessException {
+    protected static Map<String, Object> doSetField(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
+        Map<String, Object> fieldMap = new HashMap<>();
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
                 continue;
             }
             field.setAccessible(true);
+            String name = field.getName();
             Object value = field.get(entity);
             if (checkNullValue(field, value)) {
-                doGetEntityNull(field, entity, value);
+                fieldMap.put(name, null);
                 continue;
             }
             if (value instanceof String) {
-                doGetEntityStr(field, entity, value);
+                fieldMap.put(name, doGetEntityStr(field, value));
             } else if (value instanceof Collection) {
-                doGetEntityColl(field, entity, value);
+                fieldMap.put(name, doGetEntityColl(field, value));
             } else if (value instanceof Map) {
-                doGetEntityMap(field, entity, value);
+                fieldMap.put(name, doGetEntityMap(field, value));
             } else if (value.getClass().isArray()) {
-                doGetEntityArray(field, entity, value);
+                fieldMap.put(name, doGetEntityArray(field, value));
             } else {
-                acquire(value, packClass);
+                fieldMap.put(name, acquire(value, packClass));
             }
         }
-        doGetEntityFlexible(entity);
+        fieldMap.putAll(doGetEntityFlexible(entity));
+        return fieldMap;
     }
 
     /**
@@ -125,81 +139,55 @@ public class DeSensitizeUtils {
     }
 
     /**
-     * 将字段值置为null
-     *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    @SuppressWarnings("unused")
-    protected static <T> void doGetEntityNull(final Field field, final T entity, final Object value) throws IllegalAccessException {
-        field.set(entity, null);
-    }
-
-    /**
-     * 对字符串进行多语言支持
-     *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
-     * @throws IllegalAccessException 抛出非法访问异常
-     */
-    protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityStr(final Field field, final Object value) throws IllegalAccessException {
         if (field.isAnnotationPresent(DesensitizeProperty.class)) {
-            field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value()));
+            return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value());
         } else {
-            acquire(value);
+            return acquire(value);
         }
     }
 
     /**
-     * 对Collection集合中存储是字符串、实体对象进行多语言支持
-     *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value) throws IllegalAccessException {
-        Collection<Object> list = null;
-        Collection<?> collection = ((Collection<?>) value);
+    protected static Object doGetEntityColl(final Field field, final Object value) throws IllegalAccessException {
+        Collection<Object> list = new ArrayList<>();
+        Collection<?> collection = (Collection<?>) value;
         for (Object v : collection) {
             if (Objects.isNull(v)) {
-                continue;
-            }
-            if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
-                list = (list == null) ? new ArrayList<>() : list;
+                list.add(null);
+            } else if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
             } else {
-                acquire(v);
+                list.add(acquire(v));
             }
         }
-        if (Objects.nonNull(list)) {
-            field.set(entity, list);
-        }
+        return list;
     }
 
     /**
-     * 对Map集合中存储是字符串、实体对象进行脱敏支持
-     *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    @SuppressWarnings("unused")
-    protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityMap(final Field field, final Object value) throws IllegalAccessException {
+        Map<Object, Object> dMap = new HashMap<>();
         @SuppressWarnings("unchecked")
-        Map<Object, Object> dMap = (Map<Object, Object>) value;
-        for (Map.Entry<Object, Object> entry : dMap.entrySet()) {
+        Map<Object, Object> entryMap = ((Map<Object, Object>) value);
+        for (Map.Entry<Object, Object> entry : entryMap.entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
             if (Objects.isNull(v)) {
+                dMap.put(key, null);
                 continue;
             }
             if (v instanceof String) {
@@ -207,6 +195,7 @@ public class DeSensitizeUtils {
                     DesensitizeMapProperty desensitizeMapProperty = field.getAnnotation(DesensitizeMapProperty.class);
                     int index = (key instanceof String) ? Arrays.asList(desensitizeMapProperty.value()).indexOf(key) : -1;
                     if (index < 0) {
+                        dMap.put(key, acquire(v));
                         continue;
                     }
                     DesensitizeType type = DesensitizeType.DEFAULT;
@@ -217,49 +206,47 @@ public class DeSensitizeUtils {
                     continue;
                 } else if (field.isAnnotationPresent(DesensitizeProperty.class)) {
                     dMap.put(key, DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
-                    continue;
                 }
             }
-            acquire(value);
+            dMap.put(key, acquire(v));
         }
+        return dMap;
     }
 
     /**
-     * 对数组中存储是字符串、实体对象进行多语言支持
-     *
-     * @param field  实体类属性对象
-     * @param entity 实体类对象
-     * @param value  属性值对象
-     * @param <T>    实体类类型
+     * @param field 实体类属性对象
+     * @param value 属性值
+     * @return 脱敏后的数据对象
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    @SuppressWarnings("unused")
-    protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityArray(final Field field, final Object value) throws IllegalAccessException {
         if (value.getClass().getComponentType().isPrimitive()) {
-            return;
-        }
-        Object[] arrays = ((Object[]) value);
-        for (int i = 0; i < arrays.length; i++) {
-            Object v = arrays[i];
-            if (Objects.isNull(v)) {
-                continue;
+            return value;
+        } else {
+            Object[] v = (Object[]) value;
+            Object[] t = new Object[v.length];
+            for (int i = 0; i < v.length; i++) {
+                if (Objects.isNull(v[i])) {
+                    t[i] = null;
+                } else if ((v[i] instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
+                    t[i] = DataMaskUtils.doGetProperty((String) v[i], field.getAnnotation(DesensitizeProperty.class).value());
+                } else {
+                    t[i] = acquire(v[i]);
+                }
             }
-            if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
-                arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value());
-            } else {
-                acquire(value);
-            }
+            return t;
         }
     }
 
     /**
      * 通过两个字段key、value指定传递不同的值，灵活指定哪些字段值进行脱敏处理
      *
-     * @param entity 实体类对象
-     * @param <T>    实体类类型
+     * @param entity 实体类
+     * @return 复杂类型字段脱敏后的数据集合
      * @throws IllegalAccessException 抛出非法访问异常
      */
-    protected static <T> void doGetEntityFlexible(final T entity) throws IllegalAccessException {
+    protected static Map<String, Object> doGetEntityFlexible(final Object entity) throws IllegalAccessException {
+        Map<String, Object> flexFieldMap = null;
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeFlexibleProperty.class);
         for (Field field : fields) {
             field.setAccessible(true);
@@ -268,21 +255,17 @@ public class DeSensitizeUtils {
                 continue;
             }
             DesensitizeFlexibleProperty desensitizeFlexibleProperty = field.getAnnotation(DesensitizeFlexibleProperty.class);
-            //原字段和目标字段为空，则继续执行下一个字段
             if (ObjectUtils.isEmpty(desensitizeFlexibleProperty.value()) || StringUtils.isBlank(desensitizeFlexibleProperty.target())) {
                 continue;
             }
             Field flexibleField = FieldUtils.getField(entity.getClass(), desensitizeFlexibleProperty.target(), true);
-            //目标字段不存在
             if (Objects.isNull(flexibleField)) {
                 continue;
             }
             Object flexibleValue = flexibleField.get(entity);
-            //目标字段值为null或者字段类型非字符串
             if (Objects.isNull(flexibleValue) || !(flexibleValue instanceof String)) {
                 continue;
             }
-            //传递的字段key是否在指定脱敏字段范围内
             int index = Arrays.asList(desensitizeFlexibleProperty.value()).indexOf((String) value);
             if (index < 0) {
                 continue;
@@ -291,7 +274,9 @@ public class DeSensitizeUtils {
             if (index <= desensitizeFlexibleProperty.desensitizeType().length - 1) {
                 desensitizeType = desensitizeFlexibleProperty.desensitizeType()[index];
             }
-            flexibleField.set(entity, DataMaskUtils.doGetProperty((String) flexibleValue, desensitizeType));
+            flexFieldMap = Objects.isNull(flexFieldMap) ? new HashMap<>() : flexFieldMap;
+            flexFieldMap.put(desensitizeFlexibleProperty.target(), DataMaskUtils.doGetProperty((String) flexibleValue, desensitizeType));
         }
+        return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;
     }
 }

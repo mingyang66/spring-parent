@@ -1,10 +1,10 @@
-package com.emily.infrastructure.sensitize.test.entity;
+package com.emily.infrastructure.desensitize.test.entity;
 
-import com.emily.infrastructure.sensitize.DesensitizeType;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeFlexibleProperty;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeNullProperty;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
+import com.emily.infrastructure.desensitize.DesensitizeType;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeFlexibleProperty;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeModel;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeNullProperty;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeProperty;
 
 import java.util.List;
 import java.util.Map;

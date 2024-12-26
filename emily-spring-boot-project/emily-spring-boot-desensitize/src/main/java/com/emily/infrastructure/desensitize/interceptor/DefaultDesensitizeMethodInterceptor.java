@@ -2,7 +2,7 @@ package com.emily.infrastructure.desensitize.interceptor;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.desensitize.annotation.DesensitizeOperation;
-import com.emily.infrastructure.sensitize.DeSensitizeUtils;
+import com.emily.infrastructure.desensitize.DesensitizeUtils;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class DefaultDesensitizeMethodInterceptor implements DesensitizeCustomize
         }
         DesensitizeOperation annotation = invocation.getMethod().getAnnotation(DesensitizeOperation.class);
         //todo 异常处理
-        return DeSensitizeUtils.acquireElseGet(response, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
+        return DesensitizeUtils.acquireElseGet(response, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
     }
 
 

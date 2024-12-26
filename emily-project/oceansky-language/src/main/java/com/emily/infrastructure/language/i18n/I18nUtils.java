@@ -48,7 +48,7 @@ public class I18nUtils {
      * @param languageType 语言类型
      * @param <T>          实体对象
      * @return 翻译后的实体类对象
-     * @throws IllegalAccessException 非法访问异常
+     * @throws Throwable 非法访问异常
      */
     public static <T> T translate(final T entity, LanguageType languageType, final Class<?>... packClass) throws Throwable {
         Objects.requireNonNull(languageType, "languageType must not be null");
@@ -83,7 +83,7 @@ public class I18nUtils {
      * @param entity       实体类对象
      * @param languageType 语言类型
      * @param <T>          实体对象
-     * @throws IllegalAccessException 非法访问异常
+     * @throws Throwable 非法访问异常
      */
     protected static <T> void doSetField(final T entity, final LanguageType languageType, final Class<?>... packClass) throws Throwable {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
@@ -97,12 +97,12 @@ public class I18nUtils {
                 continue;
             }
             if (field.isAnnotationPresent(I18nPluginProperty.class)) {
-                doGetI18nPluginProperty(field, entity, value, languageType);
+                doGetEntityPlugin(field, entity, value, languageType);
             } else if (value instanceof String) {
                 doGetEntityStr(field, entity, value, languageType);
             } else if (value instanceof Collection) {
                 doGetEntityColl(field, entity, value, languageType);
-            } else if (value instanceof Map<?, ?>) {
+            } else if (value instanceof Map) {
                 @SuppressWarnings("unchecked")
                 Map<Object, Object> v = (Map<Object, Object>) value;
                 doGetEntityMap(field, v, languageType);
@@ -123,7 +123,7 @@ public class I18nUtils {
      * @param value        属性值对象
      * @param languageType 语言类型
      * @param <T>          实体对象
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityStr(final Field field, final T entity, final Object value, final LanguageType languageType) throws Throwable {
         if (field.isAnnotationPresent(I18nProperty.class)) {
@@ -139,7 +139,7 @@ public class I18nUtils {
      * @param value        属性值对象
      * @param languageType 语言类型
      * @param <T>          实体对象类型
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value, final LanguageType languageType) throws Throwable {
         Collection<Object> list = null;
@@ -168,7 +168,7 @@ public class I18nUtils {
      * @param field        实体类属性对象
      * @param value        属性值对象
      * @param languageType 语言类型
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
     protected static void doGetEntityMap(final Field field, final Map<Object, Object> value, final LanguageType languageType) throws Throwable {
         for (Map.Entry<?, ?> entry : value.entrySet()) {
@@ -202,7 +202,7 @@ public class I18nUtils {
      * @param field        实体类属性对象
      * @param value        属性值对象
      * @param languageType 语言类型
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
     protected static void doGetEntityArray(final Field field, final Object value, final LanguageType languageType) throws Throwable {
         if (value.getClass().getComponentType().isPrimitive()) {
@@ -239,7 +239,7 @@ public class I18nUtils {
      *
      * @param entity 实体类对象
      * @param <T>    实体类类型
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityFlexible(final T entity, LanguageType languageType) throws Throwable {
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), I18nFlexibleProperty.class);
@@ -279,9 +279,9 @@ public class I18nUtils {
      * @param entity       实体类对象
      * @param value        属性值对象
      * @param languageType 语言类型
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    protected static <T> void doGetI18nPluginProperty(final Field field, final T entity, final Object value, final LanguageType languageType) throws Throwable {
+    protected static <T> void doGetEntityPlugin(final Field field, final T entity, final Object value, final LanguageType languageType) throws Throwable {
         I18nPluginProperty i18nPluginProperty = field.getAnnotation(I18nPluginProperty.class);
         if (i18nPluginProperty.value().isInterface()) {
             return;

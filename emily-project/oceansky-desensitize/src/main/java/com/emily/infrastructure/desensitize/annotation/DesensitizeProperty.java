@@ -1,6 +1,6 @@
-package com.emily.infrastructure.sensitize.annotation;
+package com.emily.infrastructure.desensitize.annotation;
 
-import com.emily.infrastructure.sensitize.DesensitizeType;
+import com.emily.infrastructure.desensitize.DesensitizeType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

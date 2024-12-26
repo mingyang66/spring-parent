@@ -1,9 +1,9 @@
 package com.emily.infrastructure.transfer.feign.helper;
 
 import com.emily.infrastructure.aop.utils.MethodInvocationUtils;
-import com.emily.infrastructure.sensitize.DataMaskUtils;
-import com.emily.infrastructure.sensitize.SensitizeUtils;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeProperty;
+import com.emily.infrastructure.desensitize.DataMaskUtils;
+import com.emily.infrastructure.desensitize.SensitizeUtils;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeProperty;
 import com.emily.infrastructure.transfer.entity.TransferResponse;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.ClassUtils;

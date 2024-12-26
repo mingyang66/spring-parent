@@ -4,6 +4,7 @@
  */
 module oceansky.sensitize {
     requires org.apache.commons.lang3;
-    exports com.emily.infrastructure.sensitize;
-    exports com.emily.infrastructure.sensitize.annotation;
+    exports com.emily.infrastructure.desensitize;
+    exports com.emily.infrastructure.desensitize.annotation;
+    exports com.emily.infrastructure.desensitize.plugin;
 }

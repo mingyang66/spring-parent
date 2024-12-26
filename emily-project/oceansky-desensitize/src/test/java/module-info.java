@@ -7,6 +7,7 @@ module oceansky.sensitize.test {
     requires org.junit.jupiter.api;
     requires org.junit.platform.engine;
     requires org.junit.platform.commons;
-    opens com.emily.infrastructure.sensitize.test.entity;
-    exports com.emily.infrastructure.sensitize.test;
+    opens com.emily.infrastructure.desensitize.test.entity;
+    exports com.emily.infrastructure.desensitize.test;
+    exports com.emily.infrastructure.desensitize.test.plugin;
 }

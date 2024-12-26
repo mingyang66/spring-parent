@@ -1,10 +1,10 @@
-package com.emily.infrastructure.sensitize.test;
+package com.emily.infrastructure.desensitize.test;
 
-import com.emily.infrastructure.sensitize.SensitizeUtils;
-import com.emily.infrastructure.sensitize.test.entity.BaseResponse;
-import com.emily.infrastructure.sensitize.test.entity.People;
-import com.emily.infrastructure.sensitize.test.entity.PeopleMap;
-import com.emily.infrastructure.sensitize.test.entity.PubResponse;
+import com.emily.infrastructure.desensitize.SensitizeUtils;
+import com.emily.infrastructure.desensitize.test.entity.BaseResponse;
+import com.emily.infrastructure.desensitize.test.entity.People;
+import com.emily.infrastructure.desensitize.test.entity.PeopleMap;
+import com.emily.infrastructure.desensitize.test.entity.PubResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

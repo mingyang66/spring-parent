@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sensitize.test.entity;
+package com.emily.infrastructure.desensitize.test.entity;
 
 
 import java.io.Serializable;

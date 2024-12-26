@@ -1,6 +1,6 @@
-package com.emily.infrastructure.sensitize.test;
+package com.emily.infrastructure.desensitize.test;
 
-import com.emily.infrastructure.sensitize.DataMaskUtils;
+import com.emily.infrastructure.desensitize.DataMaskUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sensitize;
+package com.emily.infrastructure.desensitize;
 
 /**
  * 脱敏类型

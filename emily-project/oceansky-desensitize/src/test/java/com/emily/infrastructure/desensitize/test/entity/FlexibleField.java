@@ -1,8 +1,8 @@
-package com.emily.infrastructure.sensitize.test.entity;
+package com.emily.infrastructure.desensitize.test.entity;
 
-import com.emily.infrastructure.sensitize.DesensitizeType;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeFlexibleProperty;
-import com.emily.infrastructure.sensitize.annotation.DesensitizeModel;
+import com.emily.infrastructure.desensitize.DesensitizeType;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeFlexibleProperty;
+import com.emily.infrastructure.desensitize.annotation.DesensitizeModel;
 
 /**
  * @author :  Emily

@@ -33,6 +33,7 @@ public class I18nUtils {
      * @return 翻译后的实体类对象
      */
     public static <T> T translateElseGet(final T entity, LanguageType languageType, Consumer<Throwable> consumer, final Class<?>... packClass) {
+        Objects.requireNonNull(consumer, "consumer must not be null");
         try {
             return translate(entity, languageType, packClass);
         } catch (Throwable ex) {
@@ -103,9 +104,7 @@ public class I18nUtils {
             } else if (value instanceof Collection) {
                 doGetEntityColl(field, entity, value, languageType);
             } else if (value instanceof Map) {
-                @SuppressWarnings("unchecked")
-                Map<Object, Object> v = (Map<Object, Object>) value;
-                doGetEntityMap(field, v, languageType);
+                doGetEntityMap(field, value, languageType);
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, value, languageType);
             } else {
@@ -170,8 +169,10 @@ public class I18nUtils {
      * @param languageType 语言类型
      * @throws Throwable 抛出非法访问异常
      */
-    protected static void doGetEntityMap(final Field field, final Map<Object, Object> value, final LanguageType languageType) throws Throwable {
-        for (Map.Entry<?, ?> entry : value.entrySet()) {
+    protected static void doGetEntityMap(final Field field, final Object value, final LanguageType languageType) throws Throwable {
+        @SuppressWarnings("unchecked")
+        Map<Object, Object> dMap = (Map<Object, Object>) value;
+        for (Map.Entry<?, ?> entry : dMap.entrySet()) {
             Object key = entry.getKey();
             Object v = entry.getValue();
             if (Objects.isNull(v)) {
@@ -184,11 +185,11 @@ public class I18nUtils {
                     if (index < 0) {
                         continue;
                     }
-                    value.put(key, doGetProperty((String) v, languageType));
+                    dMap.put(key, doGetProperty((String) v, languageType));
                     continue;
                 }
                 if (field.isAnnotationPresent(I18nProperty.class)) {
-                    value.put(key, doGetProperty((String) v, languageType));
+                    dMap.put(key, doGetProperty((String) v, languageType));
                     continue;
                 }
             }

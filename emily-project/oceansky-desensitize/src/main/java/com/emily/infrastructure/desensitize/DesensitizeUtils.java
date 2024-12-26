@@ -30,6 +30,7 @@ public class DesensitizeUtils {
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
     public static <T> T acquireElseGet(final T entity, Consumer<Throwable> consumer, final Class<?>... packClass) {
+        Objects.requireNonNull(consumer, "consumer must not be null");
         try {
             return acquire(entity, packClass);
         } catch (Throwable ex) {

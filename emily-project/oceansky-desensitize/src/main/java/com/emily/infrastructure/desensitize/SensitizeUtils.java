@@ -30,6 +30,7 @@ public class SensitizeUtils {
      * @return 脱敏后的数据
      */
     public static Object acquireElseGet(final Object entity, Consumer<Throwable> consumer, final Class<?>... packClass) {
+        Objects.requireNonNull(consumer, "consumer must not be null");
         try {
             return acquire(entity, packClass);
         } catch (Throwable ex) {

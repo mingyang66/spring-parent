@@ -100,7 +100,7 @@ public class People {
 }
 ```
 
-- @DesensitizeNullProperty注解标注到实体类的引用字段类型，对基本数据类型无效
+- @DesensitizeNullProperty注解标注到实体类的引用字段类型，对基本数据类型无效，优先级最高
 
 ```java
 @DesensitizeModel
@@ -121,6 +121,52 @@ public class People {
     private char c;
     @DesensitizeNullProperty
     private String str;
+}
+```
+
+- @DesensitizePluginProperty基于插件的注解，优先级最高，仅低于@DesensitizeNullProperty
+
+```java
+@DesensitizeModel
+public class PluginField {
+    @DesensitizePluginProperty(value = StringDesensitizePlugin.class)
+    private String name;
+    @DesensitizePluginProperty(value = ListDesensitizePlugin.class)
+    private List<String> stringList;
+}
+```
+
+StringDesensitizePlugin插件：
+
+```java
+public class StringDesensitizePlugin implements DesensitizePlugin<String> {
+    @Override
+    public boolean support(Object value) {
+        return value instanceof String;
+    }
+
+    @Override
+    public String getPlugin(String value, DesensitizeType desensitizeType) {
+        return "**叶";
+    }
+}
+
+```
+
+ListDesensitizePlugin插件：
+
+```java
+public class ListDesensitizePlugin implements DesensitizePlugin<List<String>> {
+    @Override
+    public boolean support(Object value) {
+        return value instanceof List<?>;
+    }
+
+    @Override
+    public List<String> getPlugin(List<String> value, DesensitizeType desensitizeType) {
+        System.out.println(desensitizeType.name());
+        return List.of("**叶");
+    }
 }
 ```
 

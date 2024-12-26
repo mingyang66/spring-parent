@@ -3,7 +3,7 @@ package com.emily.infrastructure.desensitize.plugin;
 import com.emily.infrastructure.desensitize.DesensitizeType;
 
 /**
- * 多语言基于插件实现自定义多语言翻译
+ * 基于插件实现自定义脱敏注解插件
  *
  * @author :  Emily
  * @since :  2024/12/25 下午10:32

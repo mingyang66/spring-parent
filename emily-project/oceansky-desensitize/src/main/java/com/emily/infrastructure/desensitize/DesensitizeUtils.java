@@ -72,7 +72,7 @@ public class DesensitizeUtils {
     }
 
     /**
-     * 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
+     * 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行脱敏处理
      *
      * @param entity 实体类对象
      * @param <T>    实体类类型
@@ -92,7 +92,7 @@ public class DesensitizeUtils {
             if (field.isAnnotationPresent(DesensitizeNullProperty.class)) {
                 doGetEntityNull(field, entity);
             } else if (field.isAnnotationPresent(DesensitizePluginProperty.class)) {
-                doGetEntityPlugin(field,entity,value);
+                doGetEntityPlugin(field, entity, value);
             } else if (value instanceof String) {
                 doGetEntityStr(field, entity, value);
             } else if (value instanceof Collection) {
@@ -123,7 +123,7 @@ public class DesensitizeUtils {
     }
 
     /**
-     * 对字符串进行多语言支持
+     * 对字符串进行脱敏处理
      *
      * @param field  实体类属性对象
      * @param entity 实体类对象
@@ -140,7 +140,7 @@ public class DesensitizeUtils {
     }
 
     /**
-     * 对Collection集合中存储是字符串、实体对象进行多语言支持
+     * 对Collection集合中存储是字符串、实体对象进行脱敏处理
      *
      * @param field  实体类属性对象
      * @param entity 实体类对象
@@ -209,7 +209,7 @@ public class DesensitizeUtils {
     }
 
     /**
-     * 对数组中存储是字符串、实体对象进行多语言支持
+     * 对数组中存储是字符串、实体对象进行脱敏支持
      *
      * @param field  实体类属性对象
      * @param entity 实体类对象
@@ -280,11 +280,11 @@ public class DesensitizeUtils {
     }
 
     /**
-     * 对基于插件注解标记的属性进行多语言翻译
+     * 对基于插件注解标记的属性进行脱敏
      *
-     * @param field           实体类属性对象
-     * @param entity          实体类对象
-     * @param value           属性值对象
+     * @param field  实体类属性对象
+     * @param entity 实体类对象
+     * @param value  属性值对象
      * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityPlugin(final Field field, final T entity, final Object value) throws Throwable {

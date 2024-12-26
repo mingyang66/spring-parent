@@ -3,6 +3,7 @@ package com.emily.sample.desensitize.controller;
 import com.emily.infrastructure.desensitize.annotation.DesensitizeOperation;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.sample.desensitize.entity.Company;
+import com.emily.sample.desensitize.entity.PluginField;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -136,5 +137,14 @@ public class DesensitizeController {
     @GetMapping("api/desensitize/getCompanyArrayVoid")
     public void getCompanyArrayVoid() {
         ///return ResponseEntity.ok(new String[]{"魔方科技"});
+    }
+
+    @DesensitizeOperation
+    @GetMapping("api/desensitize/getPluginField")
+    public PluginField getPluginField() {
+        PluginField pluginField = new PluginField();
+        pluginField.setName("田润叶");
+        pluginField.setStringList(List.of("田润叶"));
+        return pluginField;
     }
 }

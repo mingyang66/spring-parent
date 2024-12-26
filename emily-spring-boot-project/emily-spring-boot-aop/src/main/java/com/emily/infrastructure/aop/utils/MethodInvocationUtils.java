@@ -24,15 +24,26 @@ public class MethodInvocationUtils {
      * 2. 支持单个参数的脱敏处理；
      * 函数表达式代码示例：
      * <pre>{@code
-     *             if (value instanceof String valueStr) {
-     *                 if (parameter.isAnnotationPresent(JsonSimField.class)) {
-     *                     paramMap.put(name, DataMaskUtils.doGetProperty(valueStr, parameter.getAnnotation(JsonSimField.class).value()));
-     *                 } else {
-     *                     paramMap.put(name, value);
-     *                 }
-     *             } else {
-     *                 paramMap.put(name, SensitiveUtils.acquireElseGet(value));
-     *             }
+     *   public static Map<String, Object> getMethodArgs(MethodInvocation invocation) {
+     *         return MethodInvocationUtils.getMethodArgs(invocation, o -> true,
+     *                 (parameter, value) -> {
+     *                     if (COMMONS_SENSITIZE_AVAILABLE) {
+     *                         if (value instanceof String str) {
+     *                             if (parameter.isAnnotationPresent(DesensitizeProperty.class)) {
+     *                                 return DataMaskUtils.doGetProperty(str, parameter.getAnnotation(DesensitizeProperty.class).value());
+     *                             } else {
+     *                                 return value;
+     *                             }
+     *                         } else {
+     *                             return SensitizeUtils.acquireElseGet(value, e -> {
+     *                                 //todo 异常处理
+     *                             });
+     *                         }
+     *                     } else {
+     *                         return value;
+     *                     }
+     *                 });
+     *     }
      * }</pre>
      *
      * @param invocation 方法切面对象

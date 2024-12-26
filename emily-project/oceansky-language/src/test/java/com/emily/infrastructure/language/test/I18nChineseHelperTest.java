@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  * @author Emily
  * @since Created in 2023/5/14 19:18 PM
  */
-public class I18nChineseHelperTest {
+class I18nChineseHelperTest {
 
     @Test
     public void test() {

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
  * @author :  Emily
  * @since :  2024/12/26 下午11:11
  */
-public class LanguageTpeTest {
+class LanguageTpeTest {
     @Test
     public void getByCode() {
         Assertions.assertEquals(LanguageType.getByCode("en"), LanguageType.EN);

@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * 异常多语言缓存
@@ -19,48 +18,24 @@ public class I18nSimpleRegistry {
     /**
      * 简体-繁体
      */
-    private static final ConcurrentMap<String, String> zhMap = new ConcurrentHashMap<>();
+    private static final Map<String, String> ZH_REGISTRY = new ConcurrentHashMap<>();
     /**
      * 简体-英文
      */
-    private static final ConcurrentMap<String, String> enMap = new ConcurrentHashMap<>();
+    private static final Map<String, String> EN_REGISTRY = new ConcurrentHashMap<>();
 
     /**
      * 简体-繁体 绑定
-     *
-     * @param simple      简体
-     * @param traditional 繁体
      */
-    public static void bindZh(String simple, String traditional) {
-        zhMap.put(simple, traditional);
-    }
-
-    /**
-     * 简体-繁体 绑定
-     *
-     * @param zhCache 语言映射关系对象
-     */
-    public static void bindZh(Map<String, String> zhCache) {
-        zhMap.putAll(zhCache);
+    public static Map<String, String> getZhRegistry() {
+        return ZH_REGISTRY;
     }
 
     /**
      * 简体-英文 绑定
-     *
-     * @param simple 简体
-     * @param en     英文
      */
-    public static void bindEn(String simple, String en) {
-        enMap.put(simple, en);
-    }
-
-    /**
-     * 简体-英文 绑定
-     *
-     * @param enCache 语言映射关系对象
-     */
-    public static void bindEn(Map<String, String> enCache) {
-        enMap.putAll(enCache);
+    public static Map<String, String> getEnRegistry() {
+        return EN_REGISTRY;
     }
 
     /**
@@ -90,10 +65,10 @@ public class I18nSimpleRegistry {
             return simple;
         }
         if (languageType.equals(LanguageType.ZH_TW)) {
-            return zhMap.containsKey(simple) ? zhMap.get(simple) : I18nChineseHelper.convertToTraditionalChinese(simple);
+            return getZhRegistry().containsKey(simple) ? getZhRegistry().get(simple) : I18nChineseHelper.convertToTraditionalChinese(simple);
         }
         if (languageType.equals(LanguageType.EN)) {
-            return enMap.getOrDefault(simple, simple);
+            return getEnRegistry().getOrDefault(simple, simple);
         }
         return simple;
     }

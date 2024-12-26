@@ -1,9 +1,9 @@
 package com.emily.infrastructure.language.test;
 
-import com.emily.infrastructure.language.i18n.registry.I18nSimpleRegistry;
 import com.emily.infrastructure.language.i18n.I18nUtils;
 import com.emily.infrastructure.language.i18n.LanguageType;
 import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
+import com.emily.infrastructure.language.i18n.registry.I18nSimpleRegistry;
 import com.emily.infrastructure.language.test.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,14 +17,14 @@ import java.util.Map;
  * @author :  Emily
  * @since :  2024/12/23 下午10:35
  */
-public class I18nUtilsTest {
+class I18nUtilsTest {
     @BeforeAll
     public static void setUp() {
-        I18nSimpleRegistry.bindEn("田晓霞", "xiaoxia tian");
-        I18nSimpleRegistry.bindEn("孙少安", "shaoan sun");
-        I18nSimpleRegistry.bindEn("孙少平", "shaoping sun");
-        I18nSimpleRegistry.bindEn("田润叶", "runye tian");
-        I18nSimpleRegistry.bindEn("郝红梅", "hongmei hao");
+        I18nSimpleRegistry.getEnRegistry().put("田晓霞", "xiaoxia tian");
+        I18nSimpleRegistry.getEnRegistry().put("孙少安", "shaoan sun");
+        I18nSimpleRegistry.getEnRegistry().put("孙少平", "shaoping sun");
+        I18nSimpleRegistry.getEnRegistry().put("田润叶", "runye tian");
+        I18nSimpleRegistry.getEnRegistry().put("郝红梅", "hongmei hao");
     }
 
     @Test
@@ -139,8 +139,9 @@ public class I18nUtilsTest {
         student.setList(List.of("孙少安"));
         Assertions.assertThrowsExactly(UnsupportedOperationException.class, () -> I18nUtils.translate(student, LanguageType.EN));
     }
+
     @Test
-    public void testI18nPluginRegistry(){
-        I18nPluginRegistry.registerPlugin(null,null);
+    public void testI18nPluginRegistry() {
+        I18nPluginRegistry.registerPlugin(null, null);
     }
 }

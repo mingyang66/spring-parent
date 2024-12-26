@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class I18nConfig {
     public I18nConfig() {
-        I18nSimpleRegistry.bindEn("古北", "gu bei");
-        I18nSimpleRegistry.bindEn("渣渣银行", "zha zha bank");
+        I18nSimpleRegistry.getEnRegistry().put("古北", "gu bei");
+        I18nSimpleRegistry.getEnRegistry().put("渣渣银行", "zha zha bank");
     }
 }

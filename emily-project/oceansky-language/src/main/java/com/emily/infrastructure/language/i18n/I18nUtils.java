@@ -3,17 +3,13 @@ package com.emily.infrastructure.language.i18n;
 import com.emily.infrastructure.language.i18n.annotation.*;
 import com.emily.infrastructure.language.i18n.plugin.I18nPlugin;
 import com.emily.infrastructure.language.i18n.plugin.I18nPluginRegistry;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -175,7 +171,7 @@ public class I18nUtils {
                 continue;
             }
             if (v instanceof String) {
-                list = (list == null) ? Lists.newArrayList() : list;
+                list = (list == null) ? new ArrayList<>() : list;
                 if (field.isAnnotationPresent(I18nProperty.class)) {
                     list.add(doGetProperty((String) v, languageType));
                     continue;

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 基于{@link DesensitizePluginProperty}注解的插件注册中心
+ *
  * @author :  Emily
  * @since :  2024/12/25 下午11:29
  */

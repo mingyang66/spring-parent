@@ -52,7 +52,7 @@ public class I18nAutoConfiguration implements InitializingBean, DisposableBean, 
         //切面增强类
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
-        advisor.setOrder(AopOrderInfo.DATASOURCE);
+        advisor.setOrder(AopOrderInfo.I18N);
         return advisor;
     }
 

@@ -1,10 +1,7 @@
 package com.emily.infrastructure.desensitize.test;
 
 import com.emily.infrastructure.desensitize.SensitizeUtils;
-import com.emily.infrastructure.desensitize.test.entity.BaseResponse;
-import com.emily.infrastructure.desensitize.test.entity.People;
-import com.emily.infrastructure.desensitize.test.entity.PeopleMap;
-import com.emily.infrastructure.desensitize.test.entity.PubResponse;
+import com.emily.infrastructure.desensitize.test.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +19,10 @@ import java.util.Map;
 public class SensitiveUtilsTest {
 
     @Test
-    public void jsonNullFieldTest() throws IllegalAccessException {
+    public void testDesensitizeNullProperty() throws Throwable {
         People people = new People();
-        people.setKey("email");
-        people.setValue("1563919868@qq.com");
         people.setStr("测试null");
+        people.setD(23);
         Object obj = SensitizeUtils.acquire(people);
         if (obj instanceof Map<?, ?> s) {
             Assertions.assertNull(s.get("str"));
@@ -34,11 +30,12 @@ public class SensitiveUtilsTest {
             Assertions.assertEquals(s.get("b"), (byte) 0);
             Assertions.assertEquals(s.get("s"), (short) 0);
             Assertions.assertEquals(s.get("l"), 0L);
+            Assertions.assertEquals(s.get("d"), 23D);
         }
     }
 
     @Test
-    public void map() throws IllegalAccessException {
+    public void map() throws Throwable {
         PeopleMap peopleMap = new PeopleMap();
         peopleMap.setUsername("田晓霞");
         peopleMap.setPassword("123456");
@@ -54,7 +51,7 @@ public class SensitiveUtilsTest {
     }
 
     @Test
-    public void testFieldMap() throws IllegalAccessException {
+    public void testFieldMap() throws Throwable {
         PeopleMap peopleMap = new PeopleMap();
         peopleMap.getParams().put("password", "12345");
         peopleMap.getParams().put("username", "田晓霞");
@@ -64,7 +61,7 @@ public class SensitiveUtilsTest {
     }
 
     @Test
-    public void testFieldMap1() throws IllegalAccessException {
+    public void testFieldMap1() throws Throwable {
         PeopleMap peopleMap = new PeopleMap();
         peopleMap.getAges().put(12, "12345");
         peopleMap.getAges().put(13, "田晓霞");
@@ -74,7 +71,7 @@ public class SensitiveUtilsTest {
     }
 
     @Test
-    public void test11() throws IllegalAccessException {
+    public void test11() throws Throwable {
         PubResponse response = new PubResponse();
         response.password = "32433";
         response.username = "条消息";
@@ -94,5 +91,22 @@ public class SensitiveUtilsTest {
         Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");
         Map<String, Object> response2 = (Map<String, Object>) SensitizeUtils.acquire(r, BaseResponse.class);
         Assertions.assertEquals(((Map<String, Object>) response2.get("data")).get("email"), "1***9@qq.com");
+    }
+
+    @Test
+    public void testDesensitizePluginProperty() throws Throwable {
+        PluginField field = new PluginField();
+        field.setName("田润叶");
+        Map<String, Object> pluginField = (Map<String, Object>) SensitizeUtils.acquire(field);
+        Assertions.assertEquals(pluginField.get("name"), "**叶");
+    }
+
+    @Test
+    public void testDesensitizePluginPropertyException() throws Throwable {
+        PluginField field = new PluginField();
+        field.setName("田润叶");
+        field.setStringList(List.of("田润叶"));
+        Map<String, Object> pluginField = (Map<String, Object>) SensitizeUtils.acquire(field);
+        Assertions.assertEquals(((List<String>) pluginField.get("stringList")).get(0), "**叶");
     }
 }

@@ -1,6 +1,8 @@
 package com.emily.infrastructure.desensitize;
 
 import com.emily.infrastructure.desensitize.annotation.*;
+import com.emily.infrastructure.desensitize.plugin.DesensitizePlugin;
+import com.emily.infrastructure.desensitize.plugin.DesensitizePluginRegistry;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,10 +29,10 @@ public class SensitizeUtils {
      * @param packClass 需脱敏的实体类对象外层包装类
      * @return 脱敏后的数据
      */
-    public static Object acquireElseGet(final Object entity, Consumer<IllegalAccessException> consumer, final Class<?>... packClass) {
+    public static Object acquireElseGet(final Object entity, Consumer<Throwable> consumer, final Class<?>... packClass) {
         try {
             return acquire(entity, packClass);
-        } catch (IllegalAccessException ex) {
+        } catch (Throwable ex) {
             consumer.accept(ex);
             return entity;
         }
@@ -42,9 +44,9 @@ public class SensitizeUtils {
      * @param entity    需要脱敏的实体类对象，如果是数据值类型则直接返回
      * @param packClass 需脱敏的实体类对象外层包装类
      * @return 脱敏后的实体类对象
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    public static Object acquire(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
+    public static Object acquire(final Object entity, final Class<?>... packClass) throws Throwable {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
@@ -87,7 +89,7 @@ public class SensitizeUtils {
      * @param entity 需要脱敏的实体类对象
      * @return 实体类属性脱敏后的集合对象
      */
-    protected static Map<String, Object> doSetField(final Object entity, final Class<?>... packClass) throws IllegalAccessException {
+    protected static Map<String, Object> doSetField(final Object entity, final Class<?>... packClass) throws Throwable {
         Map<String, Object> fieldMap = new HashMap<>();
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
         for (Field field : fields) {
@@ -97,11 +99,14 @@ public class SensitizeUtils {
             field.setAccessible(true);
             String name = field.getName();
             Object value = field.get(entity);
-            if (checkNullValue(field, value)) {
-                fieldMap.put(name, null);
+            if (ObjectUtils.isEmpty(value)) {
                 continue;
             }
-            if (value instanceof String) {
+            if (field.isAnnotationPresent(DesensitizeNullProperty.class)) {
+                fieldMap.put(name, doGetEntityNull(field, value));
+            } else if (field.isAnnotationPresent(DesensitizePluginProperty.class)) {
+                fieldMap.put(name, doGetEntityPlugin(field, value));
+            } else if (value instanceof String) {
                 fieldMap.put(name, doGetEntityStr(field, value));
             } else if (value instanceof Collection) {
                 fieldMap.put(name, doGetEntityColl(field, value));
@@ -118,33 +123,26 @@ public class SensitizeUtils {
     }
 
     /**
-     * 判定Field字段值是否置为null
-     * -------------------------------------------
-     * 1.value为null,则返回true
-     * 2.field字段类型为原始数据类型，如int、boolean、double等，则返回false
-     * 3.field被JsonNullField注解标注，则返回true
-     * 4.其它场景都返回false
-     * -------------------------------------------
+     * 判断是否将值设置为null
      *
      * @param field 字段对象
      * @param value 字段值
-     * @return true-置为null, false-按原值展示
+     * @return 字段值
      */
-    protected static boolean checkNullValue(Field field, Object value) {
-        if (value == null) {
-            return true;
-        } else if (field.getType().isPrimitive()) {
-            return false;
-        } else return field.isAnnotationPresent(DesensitizeNullProperty.class);
+    protected static Object doGetEntityNull(final Field field, final Object value) {
+        if (field.getType().isPrimitive()) {
+            return value;
+        }
+        return null;
     }
 
     /**
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    protected static Object doGetEntityStr(final Field field, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityStr(final Field field, final Object value) throws Throwable {
         if (field.isAnnotationPresent(DesensitizeProperty.class)) {
             return DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value());
         } else {
@@ -156,9 +154,9 @@ public class SensitizeUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    protected static Object doGetEntityColl(final Field field, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityColl(final Field field, final Object value) throws Throwable {
         Collection<Object> list = new ArrayList<>();
         Collection<?> collection = (Collection<?>) value;
         for (Object v : collection) {
@@ -177,9 +175,9 @@ public class SensitizeUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    protected static Object doGetEntityMap(final Field field, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityMap(final Field field, final Object value) throws Throwable {
         Map<Object, Object> dMap = new HashMap<>();
         @SuppressWarnings("unchecked")
         Map<Object, Object> entryMap = ((Map<Object, Object>) value);
@@ -217,9 +215,9 @@ public class SensitizeUtils {
      * @param field 实体类属性对象
      * @param value 属性值
      * @return 脱敏后的数据对象
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    protected static Object doGetEntityArray(final Field field, final Object value) throws IllegalAccessException {
+    protected static Object doGetEntityArray(final Field field, final Object value) throws Throwable {
         if (value.getClass().getComponentType().isPrimitive()) {
             return value;
         } else {
@@ -243,9 +241,9 @@ public class SensitizeUtils {
      *
      * @param entity 实体类
      * @return 复杂类型字段脱敏后的数据集合
-     * @throws IllegalAccessException 抛出非法访问异常
+     * @throws Throwable 抛出非法访问异常
      */
-    protected static Map<String, Object> doGetEntityFlexible(final Object entity) throws IllegalAccessException {
+    protected static Map<String, Object> doGetEntityFlexible(final Object entity) throws Throwable {
         Map<String, Object> flexFieldMap = null;
         Field[] fields = FieldUtils.getFieldsWithAnnotation(entity.getClass(), DesensitizeFlexibleProperty.class);
         for (Field field : fields) {
@@ -278,5 +276,44 @@ public class SensitizeUtils {
             flexFieldMap.put(desensitizeFlexibleProperty.target(), DataMaskUtils.doGetProperty((String) flexibleValue, desensitizeType));
         }
         return Objects.isNull(flexFieldMap) ? Collections.emptyMap() : flexFieldMap;
+    }
+
+    /**
+     * 对基于插件注解标记的属性进行脱敏
+     *
+     * @param field 实体类属性对象
+     * @param value 属性值对象
+     * @throws Throwable 抛出非法访问异常
+     */
+    protected static Object doGetEntityPlugin(final Field field, final Object value) throws Throwable {
+        DesensitizePluginProperty desensitizePluginProperty = field.getAnnotation(DesensitizePluginProperty.class);
+        if (desensitizePluginProperty.value().isInterface()) {
+            return value;
+        }
+        String pluginId = doGetFirstCharIsLowerCase(desensitizePluginProperty.value().getSimpleName());
+        if (!DesensitizePluginRegistry.containsPlugin(pluginId)) {
+            DesensitizePluginRegistry.registerPlugin(pluginId, desensitizePluginProperty.value().getDeclaredConstructor().newInstance());
+        }
+        DesensitizePlugin<Object> plugin = DesensitizePluginRegistry.getPlugin(pluginId);
+        if (plugin.support(value)) {
+            Object result = plugin.getPlugin(value, desensitizePluginProperty.desensitizeType());
+            return Objects.isNull(result) ? value : result;
+        } else {
+            throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), desensitizePluginProperty.value()));
+        }
+    }
+
+    /**
+     * 将输入字符串的首字母转换为小写。
+     *
+     * @param input 需要转换的字符串
+     * @return 首字母小写后的新字符串
+     */
+    static String doGetFirstCharIsLowerCase(String input) {
+        if (StringUtils.isBlank(input)) {
+            return input;
+        }
+        // 获取首字母并转换为小写，然后拼接剩余部分
+        return String.format("%s%s", Character.toLowerCase(input.charAt(0)), input.substring(1));
     }
 }

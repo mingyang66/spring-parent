@@ -58,15 +58,15 @@ public class DeSensitizeUtilsTest {
     @Test
     public void testDesensitizeNullProperty() throws Throwable {
         People people = new People();
-        people.setKey("email");
-        people.setValue("1563919868@qq.com");
         people.setStr("测试null");
+        people.setD(23D);
         People s = DesensitizeUtils.acquire(people);
         Assertions.assertNull(s.getStr());
         Assertions.assertEquals(s.getAge(), 0);
         Assertions.assertEquals(s.getB(), (byte) 0);
         Assertions.assertEquals(s.getS(), (short) 0);
         Assertions.assertEquals(s.getL(), 0L);
+        Assertions.assertEquals(s.getD(), 23D);
     }
 
     @Test

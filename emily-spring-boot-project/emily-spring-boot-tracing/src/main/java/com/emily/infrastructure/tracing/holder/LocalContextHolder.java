@@ -28,7 +28,7 @@ public class LocalContextHolder {
                     .appVersion(RequestUtils.getHeader(HeaderInfo.APP_VERSION))
                     .clientIp(RequestUtils.getClientIp())
                     .serverIp(RequestUtils.getServerIp())
-                    .tracingStage(TracingStage.OTHER)
+                    .tracingStage(TracingPhase.OTHER)
                     .startTime(Instant.now())
                     ;
         }

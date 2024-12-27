@@ -52,7 +52,7 @@ public class TracingHolder {
     /**
      * 当前上下文所处阶段标识
      */
-    private TracingStage tracingStage;
+    private TracingPhase tracingStage;
 
     public long getSpentTime() {
         return spentTime;
@@ -62,11 +62,11 @@ public class TracingHolder {
         this.spentTime = spentTime;
     }
 
-    public TracingStage getTracingStage() {
+    public TracingPhase getTracingStage() {
         return tracingStage;
     }
 
-    public void setTracingStage(TracingStage tracingStage) {
+    public void setTracingStage(TracingPhase tracingStage) {
         this.tracingStage = tracingStage;
     }
 
@@ -182,7 +182,7 @@ public class TracingHolder {
         return this;
     }
 
-    public TracingHolder tracingStage(TracingStage tracingStage) {
+    public TracingHolder tracingStage(TracingPhase tracingStage) {
         this.tracingStage = tracingStage;
         return this;
     }

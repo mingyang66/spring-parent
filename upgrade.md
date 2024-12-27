@@ -15,6 +15,7 @@ Bug Fixes
 11. I18n多语言工具SDK新增@I18nPluginProperty自定义多语言翻译插件；
 12. I18n新增I18nPluginRegistry插件注册中心，允许spring启动的时候自动将bean注册到注册中心；
 13. 脱敏SDK新增@DesensitizePluginProperty基于插件的脱敏注解；
+14. 重命名TracingStage为TracingPhase；
 
 Dependency Upgrades
 

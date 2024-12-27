@@ -1,7 +1,7 @@
 package com.emily.infrastructure.web.filter.filter;
 
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
-import com.emily.infrastructure.tracing.holder.TracingStage;
+import com.emily.infrastructure.tracing.holder.TracingPhase;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -34,7 +34,7 @@ public class ContentCachingWrapperFilter extends OncePerRequestFilter {
             LOG.debug("请求接口缓存拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }
         //标记阶段标识
-        LocalContextHolder.current().setTracingStage(TracingStage.PARAMETER);
+        LocalContextHolder.current().setTracingStage(TracingPhase.PARAMETER);
         //继续执行过滤器链，并传递包装后的请求对象
         filterChain.doFilter(requestWrapper, response);
         //移除线程上下文数据

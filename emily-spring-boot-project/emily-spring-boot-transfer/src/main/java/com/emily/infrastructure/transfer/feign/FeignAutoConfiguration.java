@@ -28,6 +28,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration;
 import org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.util.Assert;
@@ -70,8 +71,8 @@ public class FeignAutoConfiguration implements BeanFactoryPostProcessor, Initial
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public DefaultFeignMethodInterceptor defaultFeignMethodInterceptor() {
-        return new DefaultFeignMethodInterceptor();
+    public DefaultFeignMethodInterceptor defaultFeignMethodInterceptor(ApplicationContext context) {
+        return new DefaultFeignMethodInterceptor(context);
     }
 
     /**

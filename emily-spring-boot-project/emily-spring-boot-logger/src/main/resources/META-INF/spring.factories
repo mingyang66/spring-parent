@@ -1,3 +1,7 @@
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
   com.emily.infrastructure.logger.initializer.LogbackApplicationContextInitializer
+
+# Application Listeners
+org.springframework.context.ApplicationListener=\
+  com.emily.infrastructure.logger.event.LoggerPrintApplicationListener

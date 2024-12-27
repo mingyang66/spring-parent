@@ -13,6 +13,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.amqp.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
@@ -83,7 +84,8 @@ public class RabbitMqConnectionFactoryCreator {
     @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
     public CachingConnectionFactory rabbitConnectionFactory(RabbitMqProperties rabbitMqProperties,
-                                                            ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers) throws Exception {
+                                                            ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,
+                                                            ApplicationContext context) throws Exception {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMQ连接配置不存在");
         CachingConnectionFactory rabbitConnectionFactory = null;
@@ -117,9 +119,9 @@ public class RabbitMqConnectionFactoryCreator {
             //启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
             factory.getRabbitConnectionFactory().setTopologyRecoveryEnabled(rabbitMqProperties.getConnection().isTopologyRecovery());
             //替换默认异常处理DefaultExceptionHandler
-            factory.getRabbitConnectionFactory().setExceptionHandler(new DefaultMqExceptionHandler());
+            factory.getRabbitConnectionFactory().setExceptionHandler(new DefaultMqExceptionHandler(context));
             //添加连接监听器
-            factory.addConnectionListener(new DefaultMqConnectionListener(factory));
+            factory.addConnectionListener(new DefaultMqConnectionListener(factory, context));
             if (defaultConfig.equals(key)) {
                 rabbitConnectionFactory = factory;
             } else {

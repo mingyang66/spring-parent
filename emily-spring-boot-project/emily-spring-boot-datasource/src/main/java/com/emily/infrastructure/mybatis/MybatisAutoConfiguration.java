@@ -23,6 +23,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 
@@ -70,8 +71,8 @@ public class MybatisAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean
-    public MybatisCustomizer mybatisCustomizer() {
-        return new DefaultMybatisMethodInterceptor();
+    public MybatisCustomizer mybatisCustomizer(ApplicationContext context) {
+        return new DefaultMybatisMethodInterceptor(context);
     }
 
     /**

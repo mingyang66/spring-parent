@@ -5,9 +5,9 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.event.EventType;
+import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.TracingPhase;
 import com.emily.infrastructure.web.filter.helper.MethodHelper;
@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.validation.BindException;
 import org.springframework.web.method.HandlerMethod;
 
@@ -37,6 +38,11 @@ import java.util.Objects;
  */
 public class GlobalExceptionCustomizer {
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionCustomizer.class);
+    private final ApplicationContext context;
+
+    public GlobalExceptionCustomizer(ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
      * 对API请求异常处理，
@@ -47,7 +53,7 @@ public class GlobalExceptionCustomizer {
      * @param httpStatusType 异常状态枚举
      * @return 包装或为包装的结果
      */
-    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, ApplicationStatus httpStatusType) {
+    public Object getApiResponseWrapper(HandlerMethod handlerMethod, ApplicationStatus httpStatusType) {
         return getApiResponseWrapper(handlerMethod, httpStatusType.getStatus(), httpStatusType.getMessage());
     }
 
@@ -61,7 +67,7 @@ public class GlobalExceptionCustomizer {
      * @param message       异常提示消息
      * @return 包装或为包装的结果
      */
-    public static Object getApiResponseWrapper(HandlerMethod handlerMethod, int status, String message) {
+    public Object getApiResponseWrapper(HandlerMethod handlerMethod, int status, String message) {
         if (Objects.nonNull(handlerMethod)) {
             // 获取控制器方法
             Method method = handlerMethod.getMethod();
@@ -82,7 +88,7 @@ public class GlobalExceptionCustomizer {
      * @param ex      异常对象
      * @param request 请求对象
      */
-    public static void recordErrorMsg(Throwable ex, HttpServletRequest request) {
+    public void recordErrorMsg(Throwable ex, HttpServletRequest request) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("全局异常拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }
@@ -120,7 +126,7 @@ public class GlobalExceptionCustomizer {
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件
-        PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(baseLogger));
+        context.publishEvent(new LoggerPrintApplicationEvent(EventType.REQEUST, baseLogger));
         //--------------------------后通知特殊条件判断-------------------------
         LocalContextHolder.unbind(true);
         if (LOG.isDebugEnabled()) {
@@ -139,7 +145,7 @@ public class GlobalExceptionCustomizer {
      * @param request servlet对象
      * @return 请求参数
      */
-    private static Map<String, Object> getRequestParams(Throwable ex, HttpServletRequest request) {
+    private Map<String, Object> getRequestParams(Throwable ex, HttpServletRequest request) {
         //1.参数校验异常，抛出BindException异常对参数处理
         if (ex instanceof BindException bindException) {
             if (Objects.nonNull(bindException.getTarget())) {

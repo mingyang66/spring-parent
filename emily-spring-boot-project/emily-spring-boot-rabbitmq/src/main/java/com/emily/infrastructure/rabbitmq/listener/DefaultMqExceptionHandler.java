@@ -3,12 +3,13 @@ package com.emily.infrastructure.rabbitmq.listener;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.event.EventType;
+import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.impl.StrictExceptionHandler;
+import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,12 @@ import java.time.LocalDateTime;
  * @since :  2023/8/22 5:33 PM
  */
 public class DefaultMqExceptionHandler extends StrictExceptionHandler {
+    private final ApplicationContext context;
+
+    public DefaultMqExceptionHandler(ApplicationContext context) {
+        this.context = context;
+    }
+
     @Override
     public void handleUnexpectedConnectionDriverException(Connection conn, Throwable exception) {
         super.handleUnexpectedConnectionDriverException(conn, exception);
@@ -30,6 +37,6 @@ public class DefaultMqExceptionHandler extends StrictExceptionHandler {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
-        PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
     }
 }

@@ -16,6 +16,7 @@ Bug Fixes
 12. I18n新增I18nPluginRegistry插件注册中心，允许spring启动的时候自动将bean注册到注册中心；
 13. 脱敏SDK新增@DesensitizePluginProperty基于插件的脱敏注解；
 14. 重命名TracingStage为TracingPhase；
+15. logger SDK新增LoggerPrintApplicationEvent、LoggerPrintApplicationListener打印日志事件监听器，其它模块通过PrintLogUtils工具类打印日志全部更改为事件模式；
 
 Dependency Upgrades
 

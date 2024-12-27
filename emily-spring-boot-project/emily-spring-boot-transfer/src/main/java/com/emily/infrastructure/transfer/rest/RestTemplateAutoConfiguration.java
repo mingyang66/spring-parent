@@ -31,6 +31,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Role;
@@ -76,8 +77,8 @@ public class RestTemplateAutoConfiguration implements BeanFactoryPostProcessor, 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean
-    public DefaultRestTemplateInterceptor defaultRestTemplateInterceptor() {
-        return new DefaultRestTemplateInterceptor();
+    public DefaultRestTemplateInterceptor defaultRestTemplateInterceptor(ApplicationContext context) {
+        return new DefaultRestTemplateInterceptor(context);
     }
 
     @Bean

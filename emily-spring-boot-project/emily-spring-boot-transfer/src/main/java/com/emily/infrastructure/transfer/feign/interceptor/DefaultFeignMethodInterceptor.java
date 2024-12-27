@@ -6,14 +6,15 @@ import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.event.EventType;
+import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.transfer.feign.context.FeignContextHolder;
 import com.emily.infrastructure.transfer.feign.helper.MethodHelper;
 import jakarta.annotation.Nonnull;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.context.ApplicationContext;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -25,6 +26,11 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 public class DefaultFeignMethodInterceptor implements FeignCustomizer {
+    private final ApplicationContext context;
+
+    public DefaultFeignMethodInterceptor(ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
      * 拦截接口日志
@@ -72,7 +78,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //请求参数
                     .requestParams(AttributeInfo.PARAMS_BODY, MethodHelper.getMethodArgs(invocation));
             //异步记录接口响应信息
-            PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+            context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据

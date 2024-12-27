@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -34,6 +35,11 @@ import java.lang.reflect.UndeclaredThrowableException;
  */
 @RestControllerAdvice
 public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
+
+    public DefaultGlobalExceptionHandler(ApplicationContext context) {
+        super(context);
+    }
+
     /**
      * 未知异常
      *

@@ -26,7 +26,8 @@
   "emily-spring-boot-validation": "自定义参数校验SDK",
   "emily-spring-boot-aop": "AOP切面SDK",
   "emily-spring-boot-logger": [{
-        "oceansky-logger":"日志组件SDK"
+        "oceansky-logger":"日志组件SDK",
+        "oceansky-json":"json序列化SDK"
   }],
   "emily-spring-boot-tracing": [{
         "emily-spring-boot-aop":"AOP切面SDK",
@@ -49,28 +50,24 @@
         "emily-spring-boot-logger":"日志组件SDK",
         "emily-spring-boot-tracing":"链路追踪SDK",
         "emily-spring-boot-desensitize":"脱敏SDK",
-        "oceansky-date":"日期SDK",
-        "oceansky-json":"json序列化SDK"
+        "oceansky-date":"日期SDK"
   }],
   "emily-spring-boot-rabbitmq": [{
         "emily-spring-boot-logger":"日志组件SDK",
         "emily-spring-boot-tracing":"链路追踪SDK",
-        "oceansky-date":"日期SDK",
-        "oceansky-json":"json序列化SDK"
+        "oceansky-date":"日期SDK"
   }],
   "emily-spring-boot-transfer": [{
           "emily-spring-boot-logger":"日志组件SDK",
           "emily-spring-boot-tracing":"链路追踪SDK",
           "emily-spring-boot-desensitize":"脱敏SDK",
-          "oceansky-date":"日期SDK",
-          "oceansky-json":"json序列化SDK"
+          "oceansky-date":"日期SDK"
   }],
   "emily-spring-boot-web": [{
            "emily-spring-boot-logger":"日志组件SDK",
            "emily-spring-boot-tracing":"链路追踪SDK",
            "emily-spring-boot-desensitize":"脱敏SDK",
-           "oceansky-date":"日期SDK",
-           "oceansky-json":"json序列化SDK"
+           "oceansky-date":"日期SDK"
   }]
   }
 }

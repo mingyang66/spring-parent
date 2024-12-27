@@ -1,11 +1,11 @@
 package com.emily.infrastructure.web.request;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
-import org.slf4j.LoggerFactory;
 import com.emily.infrastructure.web.request.interceptor.DefaultRequestMethodInterceptor;
 import com.emily.infrastructure.web.request.interceptor.RequestCustomizer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -20,8 +20,10 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
+import org.springframework.util.Assert;
 
 /**
  * 请求日志拦截AOP切面
@@ -63,6 +65,7 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Bean("apiAdvisor")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor apiAdvisor(ObjectProvider<RequestCustomizer> customizers) {
+        Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), "RequestCustomizer must not be null");
         //声明一个AspectJ切点
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         //设置需要拦截的切点-用切点语言表达式
@@ -81,8 +84,8 @@ public class RequestAutoConfiguration implements BeanFactoryPostProcessor, Initi
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean
-    public RequestCustomizer requestCustomizer() {
-        return new DefaultRequestMethodInterceptor();
+    public RequestCustomizer requestCustomizer(ApplicationContext context) {
+        return new DefaultRequestMethodInterceptor(context);
     }
 
     @Override

@@ -6,11 +6,12 @@ import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.event.EventType;
+import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.transfer.rest.factory.HttpRequestFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
@@ -27,6 +28,11 @@ import java.time.LocalDateTime;
  * @since 2020/08/17
  */
 public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
+    private final ApplicationContext context;
+
+    public DefaultRestTemplateInterceptor(ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
      * RestTemplate拦截方法
@@ -78,7 +84,7 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
                     //响应时间
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
-            PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+            context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

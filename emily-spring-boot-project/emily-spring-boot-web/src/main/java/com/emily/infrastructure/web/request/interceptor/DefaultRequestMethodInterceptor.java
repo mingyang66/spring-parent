@@ -8,7 +8,8 @@ import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.event.EventType;
+import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.TracingPhase;
 import com.emily.infrastructure.web.exception.entity.BasicException;
@@ -21,6 +22,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
@@ -37,6 +39,11 @@ import java.util.Map;
  */
 public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultRequestMethodInterceptor.class);
+    private final ApplicationContext context;
+
+    public DefaultRequestMethodInterceptor(ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
      * 拦截接口日志
@@ -86,7 +93,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //API耗时--用于返回值耗时字段设置
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
-            PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(baseLogger));
+            context.publishEvent(new LoggerPrintApplicationEvent(EventType.REQEUST, baseLogger));
             if (LOG.isDebugEnabled()) {
                 LOG.debug("接口日志记录拦截器：END<<============{}", baseLogger.getUrl());
             }

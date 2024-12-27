@@ -3,7 +3,7 @@ package com.emily.infrastructure.sample.web.controller.event;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2024/12/27 上午10:44
  */
 public class LoggerApplicationEvent extends ApplicationEvent {

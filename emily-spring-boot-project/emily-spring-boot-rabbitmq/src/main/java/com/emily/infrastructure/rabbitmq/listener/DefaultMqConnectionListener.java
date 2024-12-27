@@ -4,15 +4,16 @@ import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
-import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.event.EventType;
+import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.otter.infrastructure.servlet.RequestUtils;
 import com.rabbitmq.client.ShutdownSignalException;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionListener;
+import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDateTime;
 
@@ -25,9 +26,11 @@ import java.time.LocalDateTime;
 public class DefaultMqConnectionListener implements ConnectionListener {
 
     private final CachingConnectionFactory connectionFactory;
+    private final ApplicationContext context;
 
-    public DefaultMqConnectionListener(CachingConnectionFactory connectionFactory) {
+    public DefaultMqConnectionListener(CachingConnectionFactory connectionFactory, ApplicationContext context) {
         this.connectionFactory = connectionFactory;
+        this.context = context;
     }
 
     /**
@@ -45,7 +48,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection);
-        PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -64,7 +67,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Close [Called when a connection is closed]: " + connection);
-        PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -83,7 +86,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("ShutDown [Called when a connection is force closed] " + signal.getMessage());
-        PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -102,6 +105,6 @@ public class DefaultMqConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception));
-        PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(baseLogger));
+        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
     }
 }

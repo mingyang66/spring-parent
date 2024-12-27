@@ -52,7 +52,7 @@ public class TracingHolder {
     /**
      * 当前上下文所处阶段标识
      */
-    private TracingPhase tracingStage;
+    private TracingPhase tracingPhase;
 
     public long getSpentTime() {
         return spentTime;
@@ -62,12 +62,12 @@ public class TracingHolder {
         this.spentTime = spentTime;
     }
 
-    public TracingPhase getTracingStage() {
-        return tracingStage;
+    public TracingPhase getTracingPhase() {
+        return tracingPhase;
     }
 
-    public void setTracingStage(TracingPhase tracingStage) {
-        this.tracingStage = tracingStage;
+    public void setTracingPhase(TracingPhase tracingPhase) {
+        this.tracingPhase = tracingPhase;
     }
 
     public String getAppType() {
@@ -182,8 +182,8 @@ public class TracingHolder {
         return this;
     }
 
-    public TracingHolder tracingStage(TracingPhase tracingStage) {
-        this.tracingStage = tracingStage;
+    public TracingHolder tracingPhase(TracingPhase tracingPhase) {
+        this.tracingPhase = tracingPhase;
         return this;
     }
 

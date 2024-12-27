@@ -46,7 +46,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
     @Override
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         //设置当前阶段标识，标记后如果发生异常，全局异常处理控制器不会记录日志
-        LocalContextHolder.current().setTracingStage(TracingPhase.CONTROLLER);
+        LocalContextHolder.current().setTracingPhase(TracingPhase.CONTROLLER);
         //封装异步日志信息
         BaseLogger baseLogger = new BaseLogger().requestParams(MethodHelper.getApiArgs(invocation, RequestUtils.getRequest()));
         try {
@@ -127,6 +127,6 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
 
     @Override
     public int getOrder() {
-        return AopOrderInfo.REQUEST;
+        return AopOrderInfo.REQUEST + 1;
     }
 }

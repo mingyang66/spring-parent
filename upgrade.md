@@ -22,6 +22,8 @@ Dependency Upgrades
 
 1. Upgrade to springboot 3.4.1;
 2. Upgrade to springcloud 2024.0.0;
+3. Upgrade to mybatis-spring-boot-starter 3.0.4;
+4. Upgrade to jackson 2.18.2;
 
 ###-----
 基础库发布5.0.3

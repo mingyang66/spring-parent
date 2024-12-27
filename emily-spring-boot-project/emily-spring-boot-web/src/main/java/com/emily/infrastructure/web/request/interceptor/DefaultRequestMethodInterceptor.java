@@ -88,7 +88,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //异步记录接口响应信息
             PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(baseLogger));
             if (LOG.isDebugEnabled()) {
-                LOG.debug("接口日志记录拦截器：END<<============{}", FilterUtil.getRequestPath(RequestUtils.getRequest()));
+                LOG.debug("接口日志记录拦截器：END<<============{}", baseLogger.getUrl());
             }
         }
 

@@ -11,6 +11,8 @@ import com.otter.infrastructure.servlet.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -27,6 +29,7 @@ import java.util.Objects;
  * @since 4.0.7
  */
 public class MethodHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(MethodHelper.class);
     private static final boolean COMMONS_SENSITIZE_AVAILABLE = ClassUtils.isPresent("com.emily.infrastructure.sensitize.SensitizeUtils", MethodHelper.class.getClassLoader());
 
     /**
@@ -111,7 +114,7 @@ public class MethodHelper {
                             }
                         } else {
                             return SensitizeUtils.acquireElseGet(value, e -> {
-                                //todo 异常处理
+                                LOG.error("脱敏处理异常", e);
                             });
                         }
                     } else {
@@ -128,7 +131,7 @@ public class MethodHelper {
             return null;
         }
         return COMMONS_SENSITIZE_AVAILABLE ? SensitizeUtils.acquireElseGet(response, e -> {
-            //todo 异常处理
+            LOG.error("脱敏处理异常", e);
         }, BaseResponse.class) : response;
     }
 }

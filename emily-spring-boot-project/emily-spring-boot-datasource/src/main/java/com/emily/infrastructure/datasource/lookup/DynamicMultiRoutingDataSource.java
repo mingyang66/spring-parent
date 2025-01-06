@@ -1,6 +1,7 @@
 package com.emily.infrastructure.datasource.lookup;
 
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
+import jakarta.annotation.Nonnull;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
@@ -19,8 +20,9 @@ public class DynamicMultiRoutingDataSource extends AbstractRoutingDataSource {
      * @param lookupKey 查找键
      * @return 转换后的查找键
      */
+    @Nonnull
     @Override
-    protected Object resolveSpecifiedLookupKey(Object lookupKey) {
+    protected Object resolveSpecifiedLookupKey(@Nonnull Object lookupKey) {
         return lookupKey;
     }
 

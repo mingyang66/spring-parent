@@ -1,5 +1,6 @@
 package com.emily.infrastructure.aop.advisor;
 
+import jakarta.annotation.Nonnull;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Pointcut;
@@ -25,11 +26,13 @@ public class AnnotationPointcutAdvisor extends AbstractPointcutAdvisor implement
         this.pointcut = pointcut;
     }
 
+    @Nonnull
     @Override
     public Pointcut getPointcut() {
         return this.pointcut;
     }
 
+    @Nonnull
     @Override
     public Advice getAdvice() {
         return this.advice;
@@ -37,7 +40,7 @@ public class AnnotationPointcutAdvisor extends AbstractPointcutAdvisor implement
 
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    public void setBeanFactory(@Nonnull BeanFactory beanFactory) throws BeansException {
         if (this.advice instanceof BeanFactoryAware adviceAware) {
             adviceAware.setBeanFactory(beanFactory);
         }

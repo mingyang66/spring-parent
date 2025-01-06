@@ -10,6 +10,7 @@ module emily.spring.boot.core {
     requires spring.boot.autoconfigure;
     requires spring.boot;
     requires spring.aop;
+    requires jakarta.annotation;
 
     exports com.emily.infrastructure.aop.advisor;
     exports com.emily.infrastructure.aop.pointcut;

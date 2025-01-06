@@ -1,5 +1,6 @@
 package com.emily.infrastructure.aop.pointcut;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
@@ -50,6 +51,7 @@ public class AnnotationMethodPointcut implements Pointcut {
      *
      * @return 返回匹配所有类|接口的类筛选器的规范实例
      */
+    @Nonnull
     @Override
     public ClassFilter getClassFilter() {
         return ClassFilter.TRUE;
@@ -60,6 +62,7 @@ public class AnnotationMethodPointcut implements Pointcut {
      *
      * @return 切点匹配对象
      */
+    @Nonnull
     @Override
     public MethodMatcher getMethodMatcher() {
         return new AnnotationMethodMatcher(annotationType, checkInherited);

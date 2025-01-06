@@ -69,7 +69,7 @@ public class MethodInvocationUtils {
                 paramMap.put(name, null);
                 continue;
             }
-            if (exclude.apply(value) || value instanceof InputStreamSource) {
+            if (exclude.apply(value) || value instanceof InputStreamSource || value instanceof InputStreamSource[]) {
                 continue;
             }
             paramMap.put(name, analysis.apply(parameter, value));

@@ -46,7 +46,7 @@
 
 
 
-![架构图](https://github.com/mingyang66/spring-parent/blob/master/doc/image/framework.png)
+![架构图](https://github.com/mingyang66/spring-parent/blob/master/framework.png)
 
 
 ------

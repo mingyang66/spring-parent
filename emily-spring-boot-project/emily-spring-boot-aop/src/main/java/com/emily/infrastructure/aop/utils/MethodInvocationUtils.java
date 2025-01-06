@@ -48,7 +48,7 @@ public class MethodInvocationUtils {
      *
      * @param invocation 方法切面对象
      * @param exclude    指定需要排除要解析的参数类型
-     * @param analysis   对参数值记性解析，如脱敏处理
+     * @param analysis   对参数值进行解析，如脱敏处理
      * @return 返回调用方法的参数及参数值
      */
     public static Map<String, Object> getMethodArgs(MethodInvocation invocation, Function<Object, Boolean> exclude, BiFunction<Parameter, Object, Object> analysis) {

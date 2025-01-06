@@ -35,7 +35,6 @@ public class DefaultI18nMethodInterceptor implements I18nCustomizer {
         if (response instanceof String value) {
             return I18nUtils.doGetProperty(value, languageType);
         }
-        //todo 异常处理
         //将结果翻译为指定语言类型
         return I18nUtils.translateElseGet(response, languageType, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
     }

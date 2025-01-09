@@ -1,4 +1,10 @@
 ###-----
+基础库发布5.0.5
+Bug Fixes
+
+1. OrderedContentCachingRequestFilter优先级顺序定义方案优化，注册到IOC容器方案改成直接注入，采用底层适配器模式；
+
+###-----
 基础库发布5.0.4
 Bug Fixes
 

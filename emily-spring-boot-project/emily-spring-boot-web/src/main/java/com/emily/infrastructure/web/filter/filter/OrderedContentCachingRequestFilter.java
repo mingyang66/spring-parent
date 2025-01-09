@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.filter.OrderedFilter;
+import org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
@@ -22,9 +24,13 @@ import java.io.IOException;
  * @author Emily
  * @since 2020/8/19
  */
-public class ContentCachingWrapperFilter extends OncePerRequestFilter {
+public class OrderedContentCachingRequestFilter extends OncePerRequestFilter implements OrderedFilter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContentCachingWrapperFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OrderedContentCachingRequestFilter.class);
+    /**
+     * 顺序必须在{@link OrderedRequestContextFilter}之后，否则拿不到HttpServletRequest对象
+     */
+    private int order = -104;
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
@@ -42,5 +48,14 @@ public class ContentCachingWrapperFilter extends OncePerRequestFilter {
         if (LOG.isDebugEnabled()) {
             LOG.debug("请求接口缓存拦截器：END<<============{}", FilterUtil.getRequestPath(request));
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

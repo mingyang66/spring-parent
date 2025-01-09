@@ -10,7 +10,7 @@
 
     <groupId>io.github.mingyang66</groupId>
     <artifactId>emily-spring-boot-parent</artifactId>
-    <version>5.0.4</version>
+    <version>5.0.5</version>
     <packaging>pom</packaging>
 
     <name>emily-spring-boot-parent</name>
@@ -33,7 +33,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-dependencies</artifactId>
-                <version>5.0.4</version>
+                <version>5.0.5</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

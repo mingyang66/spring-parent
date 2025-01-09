@@ -1,6 +1,6 @@
 package com.emily.infrastructure.web.filter;
 
-import com.emily.infrastructure.web.filter.filter.ContentCachingWrapperFilter;
+import com.emily.infrastructure.web.filter.filter.OrderedContentCachingRequestFilter;
 import com.emily.infrastructure.web.filter.filter.RoutingRedirectCustomizer;
 import com.emily.infrastructure.web.filter.filter.RoutingRedirectFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 import org.springframework.web.filter.RequestContextFilter;
-
-import java.util.List;
 
 /**
  * 过滤器注册自动化配置
@@ -43,14 +41,10 @@ public class FilterAutoConfiguration implements InitializingBean, DisposableBean
      * @return 过滤器注册对象
      */
     @Bean
+    @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public FilterRegistrationBean<ContentCachingWrapperFilter> filterRegistrationBean() {
-        FilterRegistrationBean<ContentCachingWrapperFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setName("contentCachingWrapper");
-        filterRegistrationBean.setFilter(new ContentCachingWrapperFilter());
-        filterRegistrationBean.setUrlPatterns(List.of("/*"));
-        filterRegistrationBean.setOrder(-104);
-        return filterRegistrationBean;
+    public OrderedContentCachingRequestFilter contentCachingRequestFilter() {
+        return new OrderedContentCachingRequestFilter();
     }
 
     /**

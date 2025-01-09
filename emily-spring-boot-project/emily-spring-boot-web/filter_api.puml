@@ -1,0 +1,128 @@
+@startuml
+alt#Gold #LightBlue 过滤器初始化到容器集合，为后续请求使用准备
+activate ServletWebServerApplicationContext #FFBBBB
+ServletWebServerApplicationContext -> ServletWebServerApplicationContext: 调用createWebServer方法
+ServletWebServerApplicationContext -> ServletWebServerApplicationContext: 通过createWebServer方法调用getSelfInitializer方法
+ServletWebServerApplicationContext -> ServletWebServerApplicationContext: 通过getSelfInitializer方法调用getServletContextInitializerBeans方法
+
+activate ServletContextInitializerBeans #FFBBBB
+ServletWebServerApplicationContext -> ServletContextInitializerBeans: 通过getSelfInitializer方法调用getServletContextInitializerBeans方法
+ServletContextInitializerBeans -> ServletContextInitializerBeans: 调用addServletContextInitializerBeans方法将基于FilterRegistrationBean配置过滤器添加到initializers集合
+ServletContextInitializerBeans -> ServletContextInitializerBeans: 调用addAdaptableBeans方法将基于Filter接口的过滤器添加到initializers集合
+ServletContextInitializerBeans -> ServletContextInitializerBeans: 将initializers集合中的过滤器按照优先级排序后存入sortedList集合
+ServletContextInitializerBeans -> ServletWebServerApplicationContext: 返回ServletContextInitializerBeans对象
+deactivate ServletContextInitializerBeans
+
+ServletWebServerApplicationContext -> ServletWebServerApplicationContext: 通过ServletContextInitializerBeans对象获取FilterRegistrationBean对象
+
+activate FilterRegistrationBean #FFBBBB
+ServletWebServerApplicationContext -> FilterRegistrationBean: 调用onStartup方法
+FilterRegistrationBean -> FilterRegistrationBean: 调用onStartup方法
+FilterRegistrationBean -> FilterRegistrationBean: 调用register方法-DynamicRegistrationBean
+FilterRegistrationBean -> FilterRegistrationBean: 调用addRegistration方法-AbstractFilterRegistrationBean
+||45||
+activate ApplicationContext #FFBBBB
+FilterRegistrationBean -> ApplicationContext: 调用ApplicationContext对象的addFilter方法将Filter对象引用添加到StandardContext集合中
+ApplicationContext -> ApplicationContext: 调用addFilter方法返回ApplicationFilterRegistration对象
+activate StandardContext #FFBBBB
+ApplicationContext -> StandardContext: 通过过滤器名调用findFilterDef方法查询FilterDef对象引用
+StandardContext -> ApplicationContext: 返回指定名称的FilterDef Filter过滤器引用对象
+ApplicationContext -> StandardContext: 调用addFilterDef方法添加FilterDef过滤器引用对象
+StandardContext -> ApplicationContext: 添加filterDef引用到集合filterDefs成功返回
+deactivate StandardContext
+ApplicationContext -> ApplicationContext: 调用addFilter方法返回ApplicationFilterRegistration对象
+ApplicationContext -> FilterRegistrationBean:调用addRegistration方法返回FilterRegistrationBean对象
+deactivate ApplicationContext
+||45||
+FilterRegistrationBean -> FilterRegistrationBean: 调用configure方法-DynamicRegistrationBean
+FilterRegistrationBean -> FilterRegistrationBean: 调用addMappingForUrlPatterns方法-ApplicationFilterRegistration
+activate StandardContext #FFBBBB
+FilterRegistrationBean -> StandardContext: 调用addFilterMap、addFilterMapBefore方法将FilterMap对象添加到filterMaps集合
+StandardContext -> FilterRegistrationBean: 添加成功，返回
+deactivate StandardContext
+FilterRegistrationBean -> ServletWebServerApplicationContext: FilterRegistrationBean启动初始化完成
+deactivate FilterRegistrationBean
+||45||
+deactivate ServletWebServerApplicationContext
+end
+
+alt#Gold #LightBlue HTTP Request Filter过滤器请求流程
+||45||
+activate StandardContext #FFBBBB
+StandardContext -> StandardContext: startInternal方法调用filterStart方法将过滤器filterDefs集合转为filterConfigs集合
+StandardContext -> StandardContext: 提供findFilterConfig方法通过过滤器名通过filterConfigs集合获取FilterConfig对象
+deactivate StandardContext
+||45||
+activate StandardWrapperValve #FFBBBB
+StandardWrapperValve -> StandardWrapperValve: invoke
+StandardWrapperValve -> ApplicationFilterFactory: createFilterChain
+activate ApplicationFilterFactory #FFBBBB
+ApplicationFilterFactory -> ApplicationFilterFactory: createFilterChain创建过滤器链
+activate StandardContext #FFBBBB
+ApplicationFilterFactory -> StandardContext: 调用findFilterMaps方法获取Filter集合
+StandardContext -> ApplicationFilterFactory: 返回Filter集合
+ApplicationFilterFactory -> StandardContext: 调用findFilterConfig方法获取ApplicationFilterConfig对象
+StandardContext -> ApplicationFilterFactory: 返回ApplicationFilterConfig Filter配置对象
+deactivate StandardContext
+||45||
+ApplicationFilterFactory -> ApplicationFilterChain: 调用addFilter将ApplicationFilterConfig Filter配置对象添加到过滤器链集合
+activate ApplicationFilterChain #FFBBBB
+ApplicationFilterChain -> ApplicationFilterChain: addFilter方法将过滤器添加到ApplicationFilterConfig[]
+ApplicationFilterChain -> ApplicationFilterFactory: 添加完过滤器返回void
+deactivate ApplicationFilterChain #FFBBBB
+
+ApplicationFilterFactory -> StandardWrapperValve: 返回ApplicationFilterChain Filter过滤器链对象
+deactivate ApplicationFilterFactory #FFBBBB
+||45||
+StandardWrapperValve -> ApplicationFilterChain: 调用ApplicationFilterChain Filter过滤器链对象的doFilter方法执行过滤器
+||45||
+ApplicationFilterChain -> ApplicationFilterChain: internalDoFilter方法按照顺序获取过去七
+activate ApplicationFilterChain #FFBBBB
+ApplicationFilterChain -> OrderedCharacterEncodingFilter: 1. 调用OrderedCharacterEncodingFilter doFilter方法，优先级(-2147483648)
+activate OrderedCharacterEncodingFilter #FFBBBB
+OrderedCharacterEncodingFilter -> OrderedCharacterEncodingFilter: doFilterInternal
+OrderedCharacterEncodingFilter -> ApplicationFilterChain: doFilter
+deactivate ApplicationFilterChain
+deactivate OrderedCharacterEncodingFilter
+||45||
+ApplicationFilterChain -> ApplicationFilterChain: internalDoFilter方法按照顺序获取过去七
+activate ApplicationFilterChain #FFBBBB
+ApplicationFilterChain -> OrderedFormContentFilter: 2. 调用OrderedFormContentFilter doFilter方法，优先级（-9900）
+activate OrderedFormContentFilter #FFBBBB
+OrderedFormContentFilter -> OrderedFormContentFilter: doFilterInternal
+OrderedFormContentFilter -> ApplicationFilterChain: doFilter
+deactivate ApplicationFilterChain
+deactivate OrderedFormContentFilter
+||45||
+ApplicationFilterChain -> ApplicationFilterChain: internalDoFilter方法按照顺序获取过去七
+activate ApplicationFilterChain #FFBBBB
+ApplicationFilterChain -> OrderedRequestContextFilter: 3. 调用OrderedRequestContextFilter doFilter方法，优先级（-105）
+activate OrderedRequestContextFilter #FFBBBB
+OrderedRequestContextFilter -> OrderedRequestContextFilter: doFilterInternal
+OrderedRequestContextFilter -> ApplicationFilterChain: doFilter
+deactivate ApplicationFilterChain
+deactivate OrderedRequestContextFilter
+||45||
+ApplicationFilterChain -> ApplicationFilterChain: internalDoFilter方法按照顺序获取过去七
+activate ApplicationFilterChain #FFBBBB
+ApplicationFilterChain -> OrderedContentCachingRequestFilter: 4. 调用OrderedContentCachingRequestFilter doFilter方法，优先级（-104）
+activate OrderedContentCachingRequestFilter #FFBBBB
+OrderedContentCachingRequestFilter -> OrderedContentCachingRequestFilter: doFilterInternal
+OrderedContentCachingRequestFilter -> ApplicationFilterChain: doFilter
+deactivate ApplicationFilterChain
+deactivate OrderedContentCachingRequestFilter
+||45||
+ApplicationFilterChain -> ApplicationFilterChain: internalDoFilter方法按照顺序获取过去七
+activate ApplicationFilterChain #FFBBBB
+ApplicationFilterChain -> WsFilter: 5. 调用WsFilter doFilter方法，优先级（2147483647）
+activate WsFilter #FFBBBB
+WsFilter -> WsFilter: doFilterInternal
+WsFilter -> ApplicationFilterChain: doFilter
+deactivate ApplicationFilterChain
+deactivate WsFilter
+||45||
+ApplicationFilterChain -> StandardWrapperValve: 调用ApplicationFilterChain  Filter过滤器链对象执行完成
+||45||
+deactivate StandardWrapperValve
+end
+@enduml

@@ -29,10 +29,10 @@ public class DesensitizeUtils {
      * @param <T>       实体类类型
      * @return 对实体类进行脱敏，返回原来的实体类对象
      */
-    public static <T> T acquireElseGet(final T entity, Consumer<Throwable> consumer, final Class<?>... packClass) {
+    public static <T> T desensitizeElseGet(final T entity, Consumer<Throwable> consumer, final Class<?>... packClass) {
         Objects.requireNonNull(consumer, "consumer must not be null");
         try {
-            return acquire(entity, packClass);
+            return desensitize(entity, packClass);
         } catch (Throwable ex) {
             consumer.accept(ex);
             return entity;
@@ -46,22 +46,22 @@ public class DesensitizeUtils {
      * @return 对实体类进行脱敏，返回原来的实体类对象
      * @throws Throwable 非法访问异常
      */
-    public static <T> T acquire(final T entity, final Class<?>... packClass) throws Throwable {
+    public static <T> T desensitize(final T entity, final Class<?>... packClass) throws Throwable {
         if (JavaBeanUtils.isFinal(entity)) {
             return entity;
         }
         if (entity instanceof Collection) {
             for (Object o : (Collection<?>) entity) {
-                acquire(o, packClass);
+                desensitize(o, packClass);
             }
         } else if (entity instanceof Map) {
             for (Map.Entry<?, ?> entry : ((Map<?, ?>) entity).entrySet()) {
-                acquire(entry.getValue(), packClass);
+                desensitize(entry.getValue(), packClass);
             }
         } else if (entity.getClass().isArray()) {
             if (!entity.getClass().getComponentType().isPrimitive()) {
                 for (Object v : (Object[]) entity) {
-                    acquire(v, packClass);
+                    desensitize(v, packClass);
                 }
             }
         } else if (entity.getClass().isAnnotationPresent(DesensitizeModel.class)) {
@@ -103,7 +103,7 @@ public class DesensitizeUtils {
             } else if (value.getClass().isArray()) {
                 doGetEntityArray(field, value);
             } else {
-                acquire(value, packClass);
+                desensitize(value, packClass);
             }
         }
         doGetEntityFlexible(entity);
@@ -162,7 +162,7 @@ public class DesensitizeUtils {
         if (field.isAnnotationPresent(DesensitizeProperty.class)) {
             field.set(entity, DataMaskUtils.doGetProperty((String) value, field.getAnnotation(DesensitizeProperty.class).value()));
         } else {
-            acquire(value);
+            desensitize(value);
         }
     }
 
@@ -186,7 +186,7 @@ public class DesensitizeUtils {
                 list = (list == null) ? new ArrayList<>() : list;
                 list.add(DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value()));
             } else {
-                acquire(v);
+                desensitize(v);
             }
         }
         if (Objects.nonNull(list)) {
@@ -228,7 +228,7 @@ public class DesensitizeUtils {
                     continue;
                 }
             }
-            acquire(value);
+            desensitize(v);
         }
     }
 
@@ -252,7 +252,7 @@ public class DesensitizeUtils {
             if ((v instanceof String) && field.isAnnotationPresent(DesensitizeProperty.class)) {
                 arrays[i] = DataMaskUtils.doGetProperty((String) v, field.getAnnotation(DesensitizeProperty.class).value());
             } else {
-                acquire(value);
+                desensitize(v);
             }
         }
     }

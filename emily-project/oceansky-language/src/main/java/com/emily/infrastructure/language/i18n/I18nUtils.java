@@ -217,7 +217,7 @@ public class I18nUtils {
                     continue;
                 }
             }
-            translate(value, languageType);
+            translate(v, languageType);
         }
     }
 
@@ -242,7 +242,7 @@ public class I18nUtils {
             if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
                 arrays[i] = doGetProperty((String) v, languageType);
             } else {
-                translate(value, languageType);
+                translate(v, languageType);
             }
         }
     }

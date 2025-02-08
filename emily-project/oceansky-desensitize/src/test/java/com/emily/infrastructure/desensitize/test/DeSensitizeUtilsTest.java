@@ -21,7 +21,7 @@ public class DeSensitizeUtilsTest {
         People people = new People();
         people.setUsername("孙少平");
         people.setPassword("ssp");
-        People p = DesensitizeUtils.acquire(people);
+        People p = DesensitizeUtils.desensitize(people);
         Assertions.assertEquals(p, people);
         Assertions.assertEquals(p.getUsername(), "--隐藏--");
     }
@@ -30,7 +30,7 @@ public class DeSensitizeUtilsTest {
     public void testDesensitizePropertyList() throws Throwable {
         People people = new People();
         people.setStringList(List.of("田润叶"));
-        People p = DesensitizeUtils.acquire(people);
+        People p = DesensitizeUtils.desensitize(people);
         Assertions.assertEquals(p, people);
         Assertions.assertEquals(p.getStringList().get(0), "--隐藏--");
     }
@@ -39,7 +39,7 @@ public class DeSensitizeUtilsTest {
     public void testDesensitizePropertyMap() throws Throwable {
         People people = new People();
         people.setStringMap(new HashMap<>(Map.ofEntries(Map.entry("username", "田晓霞"))));
-        People p = DesensitizeUtils.acquire(people);
+        People p = DesensitizeUtils.desensitize(people);
         Assertions.assertEquals(p, people);
         Assertions.assertEquals(p.getStringMap().get("username"), "--隐藏--");
     }
@@ -48,7 +48,7 @@ public class DeSensitizeUtilsTest {
     public void testDesensitizePropertyArray() throws Throwable {
         People people = new People();
         people.setStringArrays(new String[]{"孙少安", "贺秀莲"});
-        People p = DesensitizeUtils.acquire(people);
+        People p = DesensitizeUtils.desensitize(people);
         Assertions.assertEquals(p, people);
         Assertions.assertEquals(p.getStringArrays()[0], "--隐藏--");
         Assertions.assertEquals(p.getStringArrays()[1], "--隐藏--");
@@ -60,7 +60,7 @@ public class DeSensitizeUtilsTest {
         People people = new People();
         people.setStr("测试null");
         people.setD(23D);
-        People s = DesensitizeUtils.acquire(people);
+        People s = DesensitizeUtils.desensitize(people);
         Assertions.assertNull(s.getStr());
         Assertions.assertEquals(s.getAge(), 0);
         Assertions.assertEquals(s.getB(), (byte) 0);
@@ -75,7 +75,7 @@ public class DeSensitizeUtilsTest {
         peopleMap.getParams().put("password", "12345");
         peopleMap.getParams().put("username", "田晓霞");
         peopleMap.getParams().put("phone", "15645562587");
-        PeopleMap p = DesensitizeUtils.acquire(peopleMap);
+        PeopleMap p = DesensitizeUtils.desensitize(peopleMap);
         Assertions.assertEquals(p.getParams().get("password"), "--隐藏--");
         Assertions.assertEquals(p.getParams().get("phone"), "15645562587");
     }
@@ -97,9 +97,9 @@ public class DeSensitizeUtilsTest {
         response.jobs = new PubResponse.Job[]{job};
         response.jobList = List.of(job);
         BaseResponse<PubResponse> r = BaseResponse.<PubResponse>newBuilder().withData(response).build();
-        BaseResponse<PubResponse> response1 = DesensitizeUtils.acquire(r);
+        BaseResponse<PubResponse> response1 = DesensitizeUtils.desensitize(r);
         Assertions.assertEquals(response1.getData().email, "1393619859@qq.com");
-        BaseResponse<PubResponse> response2 = DesensitizeUtils.acquire(r, BaseResponse.class);
+        BaseResponse<PubResponse> response2 = DesensitizeUtils.desensitize(r, BaseResponse.class);
         Assertions.assertEquals(response2.getData().email, "1***9@qq.com");
     }
 
@@ -113,7 +113,7 @@ public class DeSensitizeUtilsTest {
         worker.setId(456L);
         worker.setName("甥王爷");
         company.setWorker(worker);
-        Company company1 = DesensitizeUtils.acquire(company, Company.class);
+        Company company1 = DesensitizeUtils.desensitize(company, Company.class);
         Assertions.assertEquals(company1.getWorker().getName(), "--隐藏--");
     }
 
@@ -127,7 +127,7 @@ public class DeSensitizeUtilsTest {
         worker.setId(456L);
         worker.setName("甥王爷");
         company.setList(List.of(worker));
-        Company company1 = DesensitizeUtils.acquire(company, Company.class);
+        Company company1 = DesensitizeUtils.desensitize(company, Company.class);
         Assertions.assertEquals(company1.getList().get(0).getName(), "--隐藏--");
     }
 
@@ -141,7 +141,7 @@ public class DeSensitizeUtilsTest {
         worker.setId(456L);
         worker.setName("甥王爷");
         company.setDataMap(new HashMap<>(Map.of("test", worker)));
-        Company company1 = DesensitizeUtils.acquire(company, Company.class);
+        Company company1 = DesensitizeUtils.desensitize(company, Company.class);
         Assertions.assertEquals(company1.getDataMap().get("test").getName(), "--隐藏--");
     }
 
@@ -162,7 +162,7 @@ public class DeSensitizeUtilsTest {
         flexibleField.setValue6("1564548965@qq.com");
         flexibleField.setKey7("email");
         flexibleField.setValue7("1564548965@qq.com");
-        FlexibleField field = DesensitizeUtils.acquire(flexibleField);
+        FlexibleField field = DesensitizeUtils.desensitize(flexibleField);
         Assertions.assertEquals(field.getValue1(), "贺秀莲");
         Assertions.assertEquals(field.getValue2(), "贺秀莲");
         Assertions.assertEquals(field.getValue3(), "1564548965@qq.com");
@@ -176,7 +176,7 @@ public class DeSensitizeUtilsTest {
     public void testDesensitizePluginProperty() throws Throwable {
         PluginField field = new PluginField();
         field.setName("田润叶");
-        PluginField pluginField = DesensitizeUtils.acquire(field);
+        PluginField pluginField = DesensitizeUtils.desensitize(field);
         Assertions.assertEquals(pluginField.getName(), "**叶");
     }
 
@@ -185,7 +185,7 @@ public class DeSensitizeUtilsTest {
         PluginField field = new PluginField();
         field.setName("田润叶");
         field.setStringList(List.of("田润叶"));
-        PluginField pluginField = DesensitizeUtils.acquire(field);
+        PluginField pluginField = DesensitizeUtils.desensitize(field);
         Assertions.assertEquals(pluginField.getName(), "**叶");
     }
 }

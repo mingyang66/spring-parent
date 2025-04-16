@@ -8,6 +8,10 @@ package com.emily.infrastructure.aop.constant;
  */
 public class AopOrderInfo {
     /**
+     * 加解密
+     */
+    public static final int Security = 300;
+    /**
      * API请求切面
      */
     public static final int REQUEST = 400;

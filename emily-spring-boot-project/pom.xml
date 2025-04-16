@@ -26,6 +26,7 @@
         <module>emily-spring-boot-rateLimiter</module>
         <module>emily-spring-boot-i18n</module>
         <module>emily-spring-boot-desensitize</module>
+        <module>emily-spring-boot-security</module>
     </modules>
 
 </project>

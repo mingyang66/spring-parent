@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * 标记实体类的字段需要加密
  *
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/2/7 下午7:42
  */
 @Target({ElementType.FIELD})

@@ -2,18 +2,17 @@ package com.emily.infrastructure.test.security.entity;
 
 import com.emily.infrastructure.security.annotation.SecurityModel;
 import com.emily.infrastructure.security.annotation.SecurityProperty;
-import com.emily.infrastructure.security.type.SecurityType;
 import com.emily.infrastructure.test.security.plugin.StringEncryptionPlugin;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/2/8 下午5:43
  */
 @SecurityModel
 public class Address {
-    @SecurityProperty(securityType = SecurityType.ENCRYPTION, value = StringEncryptionPlugin.class)
+    @SecurityProperty(value = StringEncryptionPlugin.class)
     private String city;
-    @SecurityProperty(securityType = SecurityType.ENCRYPTION, value = StringEncryptionPlugin.class)
+    @SecurityProperty(value = StringEncryptionPlugin.class)
     private String country;
     private long height;
 

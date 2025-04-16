@@ -2,18 +2,17 @@ package com.emily.infrastructure.test.security.entity;
 
 import com.emily.infrastructure.security.annotation.SecurityModel;
 import com.emily.infrastructure.security.annotation.SecurityProperty;
-import com.emily.infrastructure.security.type.SecurityType;
 import com.emily.infrastructure.test.security.plugin.StringEncryptionPlugin;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/2/8 下午4:32
  */
 @SecurityModel
 public class UserSimple {
-    @SecurityProperty(securityType = SecurityType.ENCRYPTION, value = StringEncryptionPlugin.class)
+    @SecurityProperty(value = StringEncryptionPlugin.class)
     private String username;
-    @SecurityProperty(securityType = SecurityType.ENCRYPTION, value = StringEncryptionPlugin.class)
+    @SecurityProperty(value = StringEncryptionPlugin.class)
     private String password;
     private int age;
     private Address address;

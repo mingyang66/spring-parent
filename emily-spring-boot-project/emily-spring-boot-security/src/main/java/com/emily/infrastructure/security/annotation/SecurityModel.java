@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 标注实体类是否需要加密或解密
  *
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/2/7 下午7:39
  */
 @Target({ElementType.TYPE})

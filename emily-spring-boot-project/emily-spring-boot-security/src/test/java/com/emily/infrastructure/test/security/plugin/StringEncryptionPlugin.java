@@ -3,7 +3,7 @@ package com.emily.infrastructure.test.security.plugin;
 import com.emily.infrastructure.security.plugin.SecurityPlugin;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/2/8 下午4:34
  */
 public class StringEncryptionPlugin implements SecurityPlugin<String> {

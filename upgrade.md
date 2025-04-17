@@ -5,6 +5,7 @@ Bug Fixes
 1. OrderedContentCachingRequestFilter优先级顺序定义方案优化，注册到IOC容器方案改成直接注入，采用底层适配器模式；
 2. 新增emily-spring-boot-security加解密模块；
 3. 新增ReversibleShufflerUtils混排字符串工具类；
+4. 新增ObfuscateUtils基于ASCII码混排字符串工具类；
 
 ###-----
 基础库发布5.0.4

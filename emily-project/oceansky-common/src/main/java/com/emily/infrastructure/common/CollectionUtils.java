@@ -19,7 +19,7 @@ public abstract class CollectionUtils {
      * @return true-是 false-否
      */
     public static boolean isEmpty(Collection<?> collection) {
-        return collection == null || collection.size() == 0;
+        return collection == null || collection.isEmpty();
     }
 
     /**
@@ -39,7 +39,7 @@ public abstract class CollectionUtils {
      * @return true-是 false-否
      */
     public static boolean isEmpty(Map<?, ?> map) {
-        return map == null || map.size() == 0;
+        return map == null || map.isEmpty();
     }
 
     /**

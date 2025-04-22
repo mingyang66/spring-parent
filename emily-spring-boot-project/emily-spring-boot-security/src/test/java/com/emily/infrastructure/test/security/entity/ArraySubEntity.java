@@ -5,7 +5,7 @@ import com.emily.infrastructure.security.annotation.SecurityProperty;
 import com.emily.infrastructure.test.security.plugin.ArraySubEntityEncryptionPlugin;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/4/22 下午1:49
  */
 @SecurityModel

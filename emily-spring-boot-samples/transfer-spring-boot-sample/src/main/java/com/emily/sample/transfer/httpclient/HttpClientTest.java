@@ -5,7 +5,7 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/1/6 下午1:56
  */
 public class HttpClientTest {

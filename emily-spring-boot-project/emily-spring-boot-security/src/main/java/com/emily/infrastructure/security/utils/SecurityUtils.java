@@ -100,7 +100,7 @@ public class SecurityUtils {
             } else if (value instanceof Map) {
                 doGetEntityMap(field, entity, value);
             } else if (value.getClass().isArray()) {
-                doGetEntityArray(field, value);
+                doGetEntityArray(field, entity, value);
             } else {
                 security(value, packClass);
             }
@@ -127,7 +127,7 @@ public class SecurityUtils {
             }
             SecurityPlugin<Object, Object> plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
             Object result = plugin.getPlugin(entity, value);
-            field.set(entity, Objects.isNull(result) ? value : result);
+            field.set(entity, result);
         }
     }
 
@@ -188,21 +188,19 @@ public class SecurityUtils {
      * @param value 属性值对象
      * @throws Throwable 抛出非法访问异常
      */
-    protected static void doGetEntityArray(final Field field, final Object value) throws Throwable {
+    protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws Throwable {
         if (value.getClass().getComponentType().isPrimitive()) {
             return;
         }
         Object[] arrays = ((Object[]) value);
-        for (int i = 0; i < arrays.length; i++) {
-            Object v = arrays[i];
+        if (arrays instanceof String[]) {
+            doGetSecurityPlugin(field, entity, value);
+        }
+        for (Object v : arrays) {
             if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
-           /* if ((v instanceof String) && field.isAnnotationPresent(I18nProperty.class)) {
-                arrays[i] = doGetProperty((String) v, languageType);
-            } else {
-                translate(value);
-            }*/
+            security(value);
         }
     }
 

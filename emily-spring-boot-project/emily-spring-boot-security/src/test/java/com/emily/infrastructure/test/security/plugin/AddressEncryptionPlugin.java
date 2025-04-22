@@ -2,7 +2,6 @@ package com.emily.infrastructure.test.security.plugin;
 
 import com.emily.infrastructure.security.plugin.SecurityPlugin;
 import com.emily.infrastructure.test.security.entity.Address;
-import com.emily.infrastructure.test.security.entity.UserSimple;
 
 /**
  * @author :  Emily

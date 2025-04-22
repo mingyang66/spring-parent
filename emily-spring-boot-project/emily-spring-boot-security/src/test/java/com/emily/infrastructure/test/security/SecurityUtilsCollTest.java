@@ -2,6 +2,8 @@ package com.emily.infrastructure.test.security;
 
 import com.emily.infrastructure.security.utils.SecurityUtils;
 import com.emily.infrastructure.test.security.entity.Address;
+import com.emily.infrastructure.test.security.entity.ArrayEntity;
+import com.emily.infrastructure.test.security.entity.ArraySubEntity;
 import com.emily.infrastructure.test.security.entity.UserSimple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -102,5 +104,19 @@ public class SecurityUtilsCollTest {
         Assertions.assertEquals(user2[0].getAddress().getCity(), "上海-加密后");
         Assertions.assertEquals(user2[0].getAddress().getCountry(), "中国-加密后");
         Assertions.assertEquals(user2[0].getAddress().getHeight(), 156);
+    }
+
+    @Test
+    public void arrayTest() {
+        ArraySubEntity subEntity = new ArraySubEntity();
+        subEntity.username = "窦建德";
+        ArrayEntity entity = new ArrayEntity();
+        entity.integers = new Integer[]{12, 56};
+        entity.usernames = new String[]{"李世民", "王世充"};
+        entity.arraySubEntity = new ArraySubEntity[]{subEntity};
+        ArrayEntity entity1 = SecurityUtils.securityElseGet(entity, throwable -> System.out.println("异常" + throwable.getMessage()));
+        Assertions.assertEquals(entity1.usernames[0], "李世民-加密后");
+        Assertions.assertEquals(entity1.usernames[1], "王世充-加密后");
+        Assertions.assertEquals(entity1.arraySubEntity[0].username, "窦建德-加密后");
     }
 }

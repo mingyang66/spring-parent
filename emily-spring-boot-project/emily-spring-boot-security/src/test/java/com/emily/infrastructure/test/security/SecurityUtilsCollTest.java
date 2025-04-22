@@ -50,6 +50,15 @@ public class SecurityUtilsCollTest {
         address.setCountry("中国");
         address.setHeight(156);
         user.setAddress(address);
+
+        user.setList(List.of("劳伦斯"));
+
+        Address address1 = new Address();
+        address1.setCity("上海1");
+        address1.setCountry("中国1");
+        address1.setHeight(1561);
+        user.setAddressList(List.of(address1));
+
         List<UserSimple> list = List.of(user);
         List<UserSimple> user2 = SecurityUtils.securityElseGet(list, throwable -> System.out.println("异常" + throwable.getMessage()));
         Assertions.assertEquals(user2.get(0).getUsername(), "test-加密后");
@@ -58,6 +67,12 @@ public class SecurityUtilsCollTest {
         Assertions.assertEquals(user2.get(0).getAddress().getCity(), "上海-加密后");
         Assertions.assertEquals(user2.get(0).getAddress().getCountry(), "中国-加密后");
         Assertions.assertEquals(user2.get(0).getAddress().getHeight(), 156);
+
+        Assertions.assertEquals(user2.get(0).getList().get(0), "劳伦斯-加密后");
+
+        Assertions.assertEquals(user2.get(0).getAddressList().get(0).getCity(), "上海1-加密后");
+        Assertions.assertEquals(user2.get(0).getAddressList().get(0).getCountry(), "中国1-加密后");
+        Assertions.assertEquals(user2.get(0).getAddressList().get(0).getHeight(), 1561);
     }
 
     @Test
@@ -72,8 +87,22 @@ public class SecurityUtilsCollTest {
         address.setCountry("中国");
         address.setHeight(156);
         user.setAddress(address);
+
+        Map<String, String> strMap = new HashMap<>();
+        strMap.put("username", "李渊");
+        user.setStrMap(strMap);
+
+        Map<String, Address> addressMap = new HashMap<>();
+        Address address1 = new Address();
+        address1.setCity("上海1");
+        address1.setCountry("中国1");
+        address1.setHeight(1561);
+        addressMap.put("address", address1);
+        user.setAddressMap(addressMap);
+
         Map<String, UserSimple> dataMap = new HashMap<>();
         dataMap.put("test", user);
+
 
         Map<String, UserSimple> user2 = SecurityUtils.securityElseGet(dataMap, throwable -> System.out.println("异常" + throwable.getMessage()));
         Assertions.assertEquals(user2.get("test").getUsername(), "test-加密后");
@@ -82,6 +111,10 @@ public class SecurityUtilsCollTest {
         Assertions.assertEquals(user2.get("test").getAddress().getCity(), "上海-加密后");
         Assertions.assertEquals(user2.get("test").getAddress().getCountry(), "中国-加密后");
         Assertions.assertEquals(user2.get("test").getAddress().getHeight(), 156);
+        Assertions.assertEquals(user2.get("test").getStrMap().get("username"), "李渊-加密后");
+        Assertions.assertEquals(user2.get("test").getAddressMap().get("address").getCity(), "上海1-加密后");
+        Assertions.assertEquals(user2.get("test").getAddressMap().get("address").getCountry(), "中国1-加密后");
+        Assertions.assertEquals(user2.get("test").getAddressMap().get("address").getHeight(), 1561);
     }
 
     @Test

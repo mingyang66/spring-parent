@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -142,17 +141,16 @@ public class SecurityUtils {
      * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityColl(final Field field, final T entity, final Object value) throws Throwable {
-        Collection<Object> list = null;
         Collection<?> collection = ((Collection<?>) value);
+        if (collection.stream().allMatch(o -> o instanceof String)) {
+            doGetSecurityPlugin(field, entity, value);
+            return;
+        }
         for (Object v : collection) {
             if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
-            list = (list == null) ? new ArrayList<>() : list;
-            list.add(security(v));
-        }
-        if (Objects.nonNull(list)) {
-            field.set(entity, list);
+            security(v);
         }
     }
 
@@ -166,16 +164,18 @@ public class SecurityUtils {
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws Throwable {
         @SuppressWarnings("unchecked")
         Map<Object, Object> dMap = (Map<Object, Object>) value;
+        if (dMap.values().stream().allMatch(o -> o instanceof String)) {
+            doGetSecurityPlugin(field, entity, value);
+            return;
+        }
         for (Map.Entry<?, ?> entry : dMap.entrySet()) {
-            Object key = entry.getKey();
+            //Object key = entry.getKey();
             Object v = entry.getValue();
             if (ObjectUtils.isEmpty(v)) {
                 continue;
             }
             if (v instanceof String) {
-                if (field.isAnnotationPresent(SecurityProperty.class)) {
-                    continue;
-                }
+                continue;
             }
             security(v);
         }
@@ -195,6 +195,7 @@ public class SecurityUtils {
         Object[] arrays = ((Object[]) value);
         if (arrays instanceof String[]) {
             doGetSecurityPlugin(field, entity, value);
+            return;
         }
         for (Object v : arrays) {
             if (ObjectUtils.isEmpty(v)) {

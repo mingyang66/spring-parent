@@ -4,6 +4,9 @@ import com.emily.infrastructure.security.annotation.SecurityModel;
 import com.emily.infrastructure.security.annotation.SecurityProperty;
 import com.emily.infrastructure.test.security.plugin.UserSimpleEncryptionPlugin;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author :  Emily
  * @since :  2025/2/8 下午4:32
@@ -16,6 +19,44 @@ public class UserSimple {
     private String password;
     private int age;
     private Address address;
+    @SecurityProperty(value = UserSimpleEncryptionPlugin.class)
+    private Map<String, String> strMap;
+    private Map<String, Address> addressMap;
+    @SecurityProperty(value = UserSimpleEncryptionPlugin.class)
+    private List<String> list;
+    private List<Address> addressList;
+
+    public List<String> getList() {
+        return list;
+    }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+
+    public List<Address> getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(List<Address> addressList) {
+        this.addressList = addressList;
+    }
+
+    public Map<String, String> getStrMap() {
+        return strMap;
+    }
+
+    public void setStrMap(Map<String, String> strMap) {
+        this.strMap = strMap;
+    }
+
+    public Map<String, Address> getAddressMap() {
+        return addressMap;
+    }
+
+    public void setAddressMap(Map<String, Address> addressMap) {
+        this.addressMap = addressMap;
+    }
 
     public Address getAddress() {
         return address;

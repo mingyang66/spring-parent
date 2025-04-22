@@ -129,9 +129,9 @@ public class I18nUtils {
         if (!I18nPluginRegistry.containsPlugin(pluginId)) {
             I18nPluginRegistry.registerPlugin(pluginId, i18nPluginProperty.value().getDeclaredConstructor().newInstance());
         }
-        I18nPlugin<Object> plugin = I18nPluginRegistry.getPlugin(pluginId);
+        I18nPlugin<Object, Object> plugin = I18nPluginRegistry.getPlugin(pluginId);
         if (plugin.support(value)) {
-            Object result = plugin.getPlugin(value, languageType);
+            Object result = plugin.getPlugin(entity, value, languageType);
             field.set(entity, Objects.isNull(result) ? value : result);
         } else {
             throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), i18nPluginProperty.value()));

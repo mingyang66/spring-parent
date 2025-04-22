@@ -7,6 +7,7 @@ Bug Fixes
 3. 新增ReversibleShufflerUtils混排字符串工具类；
 4. 新增ObfuscateUtils基于ASCII码混排字符串工具类；
 5. 加解密SDK插件实现方式调整优化；
+6. I18n多语言插件实现方案新增实体类入参；
 
 ###-----
 基础库发布5.0.4

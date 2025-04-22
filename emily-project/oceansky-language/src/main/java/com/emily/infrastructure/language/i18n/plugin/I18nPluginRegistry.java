@@ -17,14 +17,14 @@ public class I18nPluginRegistry {
 
     private static final Map<String, I18nPlugin> plugins = new ConcurrentHashMap<>();
 
-    public static I18nPlugin<Object> getPlugin(String pluginId) {
+    public static I18nPlugin<Object, Object> getPlugin(String pluginId) {
         if (ObjectUtils.isEmpty(pluginId)) {
             throw new IllegalArgumentException("pluginId is null");
         }
         return plugins.get(pluginId);
     }
 
-    public static void registerPlugin(String pluginId, I18nPlugin<?> plugin) {
+    public static void registerPlugin(String pluginId, I18nPlugin<?, ?> plugin) {
         if (StringUtils.isEmpty(pluginId) || ObjectUtils.isEmpty(plugin)) {
             return;
         }

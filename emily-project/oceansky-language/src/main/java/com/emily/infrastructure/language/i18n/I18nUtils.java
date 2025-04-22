@@ -132,7 +132,8 @@ public class I18nUtils {
         I18nPlugin<Object, Object> plugin = I18nPluginRegistry.getPlugin(pluginId);
         if (plugin.support(value)) {
             Object result = plugin.getPlugin(entity, value, languageType);
-            field.set(entity, Objects.isNull(result) ? value : result);
+            // 完全根据插件返回结果
+            field.set(entity, result);
         } else {
             throw new UnsupportedOperationException(String.format("字段%s和插件%s不匹配", field.getName(), i18nPluginProperty.value()));
         }

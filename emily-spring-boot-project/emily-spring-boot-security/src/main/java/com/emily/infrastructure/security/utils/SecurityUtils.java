@@ -125,8 +125,8 @@ public class SecurityUtils {
             if (!SecurityPluginRegistry.containsPlugin(pluginId)) {
                 SecurityPluginRegistry.registerSecurityPlugin(pluginId, encryptionProperty.value().getDeclaredConstructor().newInstance());
             }
-            SecurityPlugin<Object> plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
-            Object result = plugin.getPlugin(value);
+            SecurityPlugin<Object, Object> plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
+            Object result = plugin.getPlugin(entity, value);
             field.set(entity, Objects.isNull(result) ? value : result);
         }
     }

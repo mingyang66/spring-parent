@@ -6,6 +6,7 @@ Bug Fixes
 2. 新增emily-spring-boot-security加解密模块；
 3. 新增ReversibleShufflerUtils混排字符串工具类；
 4. 新增ObfuscateUtils基于ASCII码混排字符串工具类；
+5. 加解密SDK插件实现方式调整优化；
 
 ###-----
 基础库发布5.0.4

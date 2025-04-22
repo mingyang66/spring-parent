@@ -15,14 +15,14 @@ public class SecurityPluginRegistry {
 
     private static final Map<String, SecurityPlugin> securityPluginMap = new ConcurrentHashMap<>();
 
-    public static SecurityPlugin<Object> getSecurityPlugin(String pluginId) {
+    public static SecurityPlugin<Object, Object> getSecurityPlugin(String pluginId) {
         if (Objects.isNull(pluginId)) {
             throw new IllegalArgumentException("pluginId is null");
         }
         return securityPluginMap.get(pluginId);
     }
 
-    public static void registerSecurityPlugin(String pluginId, SecurityPlugin<?> plugin) {
+    public static void registerSecurityPlugin(String pluginId, SecurityPlugin<?, ?> plugin) {
         if (Objects.isNull(pluginId) || Objects.isNull(plugin)) {
             return;
         }

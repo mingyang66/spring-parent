@@ -2,7 +2,7 @@ package com.emily.infrastructure.test.security.entity;
 
 import com.emily.infrastructure.security.annotation.SecurityModel;
 import com.emily.infrastructure.security.annotation.SecurityProperty;
-import com.emily.infrastructure.test.security.plugin.StringEncryptionPlugin;
+import com.emily.infrastructure.test.security.plugin.AddressEncryptionPlugin;
 
 /**
  * @author :  Emily
@@ -10,9 +10,9 @@ import com.emily.infrastructure.test.security.plugin.StringEncryptionPlugin;
  */
 @SecurityModel
 public class Address {
-    @SecurityProperty(value = StringEncryptionPlugin.class)
+    @SecurityProperty(value = AddressEncryptionPlugin.class)
     private String city;
-    @SecurityProperty(value = StringEncryptionPlugin.class)
+    @SecurityProperty(value = AddressEncryptionPlugin.class)
     private String country;
     private long height;
 

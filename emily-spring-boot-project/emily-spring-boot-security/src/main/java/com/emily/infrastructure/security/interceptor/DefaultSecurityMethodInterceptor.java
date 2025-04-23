@@ -30,9 +30,6 @@ public class DefaultSecurityMethodInterceptor implements SecurityCustomizer {
         }
         //执行结果
         Object response = invocation.proceed();
-        if (Objects.isNull(response)) {
-            return null;
-        }
         if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.RESPONSE == securityType)) {
             //将结果翻译为指定语言类型
             return SecurityUtils.securityElseGet(response, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());

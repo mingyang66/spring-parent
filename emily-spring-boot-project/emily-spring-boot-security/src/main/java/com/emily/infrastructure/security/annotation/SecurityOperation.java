@@ -18,7 +18,7 @@ public @interface SecurityOperation {
     /**
      * 加解密类型，默认参数解密
      */
-    SecurityType[] value() default SecurityType.PARAM_DECRYPTION;
+    SecurityType[] value() default SecurityType.REQUEST;
 
     /**
      * 外层包装类不进行条件判断、不进行加解密处理、只对内层数据进行处理

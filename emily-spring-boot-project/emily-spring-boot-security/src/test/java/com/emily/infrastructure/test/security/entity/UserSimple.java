@@ -2,6 +2,7 @@ package com.emily.infrastructure.test.security.entity;
 
 import com.emily.infrastructure.security.annotation.SecurityModel;
 import com.emily.infrastructure.security.annotation.SecurityProperty;
+import com.emily.infrastructure.test.security.plugin.SimpleEncryptionPlugin;
 import com.emily.infrastructure.test.security.plugin.UserSimpleEncryptionPlugin;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.Map;
  */
 @SecurityModel
 public class UserSimple {
+    @SecurityProperty(SimpleEncryptionPlugin.class)
+    private String simple;
     @SecurityProperty(value = UserSimpleEncryptionPlugin.class)
     private String username;
     @SecurityProperty(value = UserSimpleEncryptionPlugin.class)
@@ -25,6 +28,14 @@ public class UserSimple {
     @SecurityProperty(value = UserSimpleEncryptionPlugin.class)
     private List<String> list;
     private List<Address> addressList;
+
+    public String getSimple() {
+        return simple;
+    }
+
+    public void setSimple(String simple) {
+        this.simple = simple;
+    }
 
     public List<String> getList() {
         return list;

@@ -22,7 +22,7 @@ public class DefaultSecurityMethodInterceptor implements SecurityCustomizer {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         SecurityOperation annotation = invocation.getMethod().getAnnotation(SecurityOperation.class);
-        if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.PARAM_DECRYPTION == securityType)) {
+        if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.REQUEST == securityType)) {
             Object[] args = invocation.getArguments();
             if (args.length > 0) {
                 SecurityUtils.securityElseGet(args[0], ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
@@ -33,7 +33,7 @@ public class DefaultSecurityMethodInterceptor implements SecurityCustomizer {
         if (Objects.isNull(response)) {
             return null;
         }
-        if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.RESPONSE_ENCRYPTION == securityType)) {
+        if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.RESPONSE == securityType)) {
             //将结果翻译为指定语言类型
             return SecurityUtils.securityElseGet(response, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
         }

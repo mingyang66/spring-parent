@@ -6,7 +6,7 @@ import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.security.annotation.SecurityOperation;
 import com.emily.infrastructure.security.interceptor.DefaultSecurityMethodInterceptor;
 import com.emily.infrastructure.security.interceptor.SecurityCustomizer;
-import com.emily.infrastructure.security.plugin.SecurityPlugin;
+import com.emily.infrastructure.security.plugin.ComplexSecurityPlugin;
 import com.emily.infrastructure.security.plugin.SecurityPluginRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +66,7 @@ public class SecurityAutoConfiguration implements InitializingBean, DisposableBe
 
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
-        SecurityPluginRegistry.registerSecurityPlugin(context.getBeansOfType(SecurityPlugin.class));
+        SecurityPluginRegistry.registerSecurityPlugin(context.getBeansOfType(ComplexSecurityPlugin.class));
     }
 
     @Override

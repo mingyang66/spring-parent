@@ -1,6 +1,6 @@
 package com.emily.infrastructure.security.annotation;
 
-import com.emily.infrastructure.security.plugin.SecurityPlugin;
+import com.emily.infrastructure.security.plugin.BasePlugin;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SecurityProperty {
 
-    Class<? extends SecurityPlugin> value() default SecurityPlugin.class;
+    Class<? extends BasePlugin> value();
 }

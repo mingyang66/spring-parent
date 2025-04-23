@@ -1,13 +1,13 @@
 package com.emily.infrastructure.test.security.plugin;
 
-import com.emily.infrastructure.security.plugin.SecurityPlugin;
+import com.emily.infrastructure.security.plugin.ComplexSecurityPlugin;
 import com.emily.infrastructure.test.security.entity.ArrayEntity;
 
 /**
  * @author :  Emily
  * @since :  2025/4/22 下午1:51
  */
-public class ArrayEntityEncryptionPlugin implements SecurityPlugin<ArrayEntity, Object> {
+public class ArrayEntityEncryptionPlugin implements ComplexSecurityPlugin<ArrayEntity, Object> {
     @Override
     public Object getPlugin(ArrayEntity entity, Object value) {
         if (value instanceof String[] strings) {

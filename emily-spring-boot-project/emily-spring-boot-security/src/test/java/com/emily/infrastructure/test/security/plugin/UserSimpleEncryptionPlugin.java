@@ -1,6 +1,6 @@
 package com.emily.infrastructure.test.security.plugin;
 
-import com.emily.infrastructure.security.plugin.SecurityPlugin;
+import com.emily.infrastructure.security.plugin.ComplexSecurityPlugin;
 import com.emily.infrastructure.test.security.entity.UserSimple;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * @author :  Emily
  * @since :  2025/2/8 下午4:34
  */
-public class UserSimpleEncryptionPlugin implements SecurityPlugin<UserSimple, Object> {
+public class UserSimpleEncryptionPlugin implements ComplexSecurityPlugin<UserSimple, Object> {
     @Override
     public Object getPlugin(UserSimple entity, Object value) {
         if (value == null) {
@@ -24,8 +24,8 @@ public class UserSimpleEncryptionPlugin implements SecurityPlugin<UserSimple, Ob
             });
             return map;
         }
-        if(value instanceof List<?> list) {
-            return list.stream().map(v->  v+"-加密后").collect(Collectors.toList());
+        if (value instanceof List<?> list) {
+            return list.stream().map(v -> v + "-加密后").collect(Collectors.toList());
         }
         return value + "-加密后";
     }

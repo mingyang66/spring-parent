@@ -41,6 +41,7 @@ public class SecurityUtilsCollTest {
     @Test
     public void simpleCollTest() {
         UserSimple user = new UserSimple();
+        user.setSimple("Simple通用");
         user.setAge(18);
         user.setUsername("test");
         user.setPassword("123456");
@@ -61,6 +62,7 @@ public class SecurityUtilsCollTest {
 
         List<UserSimple> list = List.of(user);
         List<UserSimple> user2 = SecurityUtils.securityElseGet(list, throwable -> System.out.println("异常" + throwable.getMessage()));
+        Assertions.assertEquals(user2.get(0).getSimple(), "Simple通用-加密后");
         Assertions.assertEquals(user2.get(0).getUsername(), "test-加密后");
         Assertions.assertEquals(user2.get(0).getPassword(), "123456-加密后");
         Assertions.assertEquals(user2.get(0).getAge(), 18);

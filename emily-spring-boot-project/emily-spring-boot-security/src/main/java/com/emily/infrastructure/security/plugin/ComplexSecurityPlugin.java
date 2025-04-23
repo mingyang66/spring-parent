@@ -6,6 +6,6 @@ package com.emily.infrastructure.security.plugin;
  * @author :  Emily
  * @since :  2025/2/7 下午7:45
  */
-public interface SecurityPlugin<Q, R> {
+public interface ComplexSecurityPlugin<Q, R> extends BasePlugin {
     R getPlugin(Q entity, R value);
 }

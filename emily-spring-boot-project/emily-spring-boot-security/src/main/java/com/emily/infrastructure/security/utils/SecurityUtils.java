@@ -2,8 +2,10 @@ package com.emily.infrastructure.security.utils;
 
 import com.emily.infrastructure.security.annotation.SecurityModel;
 import com.emily.infrastructure.security.annotation.SecurityProperty;
-import com.emily.infrastructure.security.plugin.SecurityPlugin;
+import com.emily.infrastructure.security.plugin.BasePlugin;
+import com.emily.infrastructure.security.plugin.ComplexSecurityPlugin;
 import com.emily.infrastructure.security.plugin.SecurityPluginRegistry;
+import com.emily.infrastructure.security.plugin.SimpleSecurityPlugin;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -114,6 +116,7 @@ public class SecurityUtils {
      * @param value  属性值对象
      * @throws Throwable 抛出非法访问异常
      */
+    @SuppressWarnings("unchecked")
     protected static <T> void doGetSecurityPlugin(final Field field, final T entity, final Object value) throws Throwable {
         if (field.isAnnotationPresent(SecurityProperty.class)) {
             SecurityProperty encryptionProperty = field.getAnnotation(SecurityProperty.class);
@@ -124,8 +127,13 @@ public class SecurityUtils {
             if (!SecurityPluginRegistry.containsPlugin(pluginId)) {
                 SecurityPluginRegistry.registerSecurityPlugin(pluginId, encryptionProperty.value().getDeclaredConstructor().newInstance());
             }
-            SecurityPlugin<Object, Object> plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
-            Object result = plugin.getPlugin(entity, value);
+            BasePlugin plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
+            Object result;
+            if (plugin instanceof ComplexSecurityPlugin) {
+                result = ((ComplexSecurityPlugin<Object, Object>) plugin).getPlugin(entity, value);
+            } else {
+                result = ((SimpleSecurityPlugin<Object>) plugin).getPlugin(value);
+            }
             field.set(entity, result);
         }
     }

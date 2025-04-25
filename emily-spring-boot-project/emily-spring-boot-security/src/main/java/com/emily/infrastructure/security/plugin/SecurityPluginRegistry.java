@@ -30,7 +30,7 @@ public class SecurityPluginRegistry {
     }
 
     public static void registerSecurityPlugin(Map<String, ComplexSecurityPlugin> encryptionPlugins) {
-        if (Objects.isNull(encryptionPlugins)) {
+        if (Objects.nonNull(encryptionPlugins)) {
             securityPluginMap.putAll(encryptionPlugins);
         }
     }

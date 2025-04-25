@@ -44,7 +44,7 @@ public class SecurityAutoConfiguration implements InitializingBean, DisposableBe
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor i18nAdvisor(ObjectProvider<SecurityCustomizer> customizers) {
+    public Advisor securityAdvisor(ObjectProvider<SecurityCustomizer> customizers) {
         Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), () -> "Security customizers must not be null");
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(null, SecurityOperation.class, true);

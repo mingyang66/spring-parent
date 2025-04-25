@@ -34,5 +34,6 @@ cd ../emily-spring-boot-project
 ../mvnw clean install -pl emily-spring-boot-desensitize
 ../mvnw clean install -pl emily-spring-boot-i18n
 ../mvnw clean install -pl emily-spring-boot-rateLimiter
+../mvnw clean install -pl emily-spring-boot-security
 ../mvnw clean install -pl emily-spring-boot-web
 echo '#########打包完成...'

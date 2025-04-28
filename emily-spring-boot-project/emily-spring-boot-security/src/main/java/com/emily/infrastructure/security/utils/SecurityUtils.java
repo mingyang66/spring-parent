@@ -124,13 +124,13 @@ public class SecurityUtils {
     @SuppressWarnings("unchecked")
     protected static <T> void doGetSecurityPlugin(final Field field, final T entity, final Object value) throws Throwable {
         if (field.isAnnotationPresent(SecurityProperty.class)) {
-            SecurityProperty encryptionProperty = field.getAnnotation(SecurityProperty.class);
-            if (encryptionProperty.value().isInterface()) {
+            SecurityProperty securityProperty = field.getAnnotation(SecurityProperty.class);
+            if (securityProperty.value().isInterface()) {
                 return;
             }
-            String pluginId = doGetFirstCharIsLowerCase(encryptionProperty.value().getSimpleName());
+            String pluginId = doGetFirstCharIsLowerCase(securityProperty.value().getSimpleName());
             if (!SecurityPluginRegistry.containsPlugin(pluginId)) {
-                SecurityPluginRegistry.registerSecurityPlugin(pluginId, encryptionProperty.value().getDeclaredConstructor().newInstance());
+                SecurityPluginRegistry.registerSecurityPlugin(pluginId, securityProperty.value().getDeclaredConstructor().newInstance());
             }
             BasePlugin plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
             Object result;
@@ -151,13 +151,13 @@ public class SecurityUtils {
     protected static int doGetSecurityPluginOrder(final Field field) {
         try {
             if (field.isAnnotationPresent(SecurityProperty.class)) {
-                SecurityProperty encryptionProperty = field.getAnnotation(SecurityProperty.class);
-                if (encryptionProperty.value().isInterface()) {
+                SecurityProperty securityProperty = field.getAnnotation(SecurityProperty.class);
+                if (securityProperty.value().isInterface()) {
                     return Ordered.LOWEST_PRECEDENCE;
                 }
-                String pluginId = doGetFirstCharIsLowerCase(encryptionProperty.value().getSimpleName());
+                String pluginId = doGetFirstCharIsLowerCase(securityProperty.value().getSimpleName());
                 if (!SecurityPluginRegistry.containsPlugin(pluginId)) {
-                    SecurityPluginRegistry.registerSecurityPlugin(pluginId, encryptionProperty.value().getDeclaredConstructor().newInstance());
+                    SecurityPluginRegistry.registerSecurityPlugin(pluginId, securityProperty.value().getDeclaredConstructor().newInstance());
                 }
                 BasePlugin plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
                 return plugin.getOrder();

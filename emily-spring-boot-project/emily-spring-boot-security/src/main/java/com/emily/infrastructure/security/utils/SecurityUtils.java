@@ -10,12 +10,15 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.core.Ordered;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * 多语言解析
@@ -85,6 +88,8 @@ public class SecurityUtils {
      */
     protected static <T> void doSetField(final T entity, final Class<?>... packClass) throws Throwable {
         Field[] fields = FieldUtils.getAllFields(entity.getClass());
+        //按照插件优先级排序
+        fields = Stream.of(fields).sorted(Comparator.comparingInt(field -> -doGetSecurityPluginOrder((Field) field)).reversed()).toArray(Field[]::new);
         for (Field field : fields) {
             if (JavaBeanUtils.isModifierFinal(field)) {
                 continue;
@@ -138,6 +143,29 @@ public class SecurityUtils {
         }
     }
 
+    /**
+     * 对基于插件注解标记的属性进行加密
+     *
+     * @param field 实体类属性对象
+     */
+    protected static int doGetSecurityPluginOrder(final Field field) {
+        try {
+            if (field.isAnnotationPresent(SecurityProperty.class)) {
+                SecurityProperty encryptionProperty = field.getAnnotation(SecurityProperty.class);
+                if (encryptionProperty.value().isInterface()) {
+                    return Ordered.LOWEST_PRECEDENCE;
+                }
+                String pluginId = doGetFirstCharIsLowerCase(encryptionProperty.value().getSimpleName());
+                if (!SecurityPluginRegistry.containsPlugin(pluginId)) {
+                    SecurityPluginRegistry.registerSecurityPlugin(pluginId, encryptionProperty.value().getDeclaredConstructor().newInstance());
+                }
+                BasePlugin plugin = SecurityPluginRegistry.getSecurityPlugin(pluginId);
+                return plugin.getOrder();
+            }
+        } catch (Throwable ignored) {
+        }
+        return Ordered.LOWEST_PRECEDENCE;
+    }
 
     /**
      * 对Collection集合中存储是字符串、实体对象进行多语言支持

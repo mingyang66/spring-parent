@@ -25,6 +25,8 @@
 | SimpleSecurityPlugin  | 简单字符串类型属性加解密 |
 | ComplexSecurityPlugin | 复杂实体类类型字段加解密 |
 
+> 上述两个插件实现了Ordered排序接口，可以通过实现getOrder方法修改插件的优先级，从而实现对实体类中字段加解密处理的顺序。
+
 - 枚举类SecurityType
 
 | 属性名   | 描述                           |
@@ -42,6 +44,9 @@ public class SimpleUserEncryPlugin implements SimpleSecurityPlugin<String> {
     @Override
     public String getPlugin(String value) {
         return value + "-加解";
+    }
+  	public int getOrder() {
+        return 1;
     }
 }
 ```
@@ -90,6 +95,9 @@ public class UserComplexSecurityPlugin implements ComplexSecurityPlugin<User, St
         user.setAge(28);
         user.setId(4567891233);
         return value + "-解密后";
+    }
+    public int getOrder() {
+        return 5;
     }
 }
 ```

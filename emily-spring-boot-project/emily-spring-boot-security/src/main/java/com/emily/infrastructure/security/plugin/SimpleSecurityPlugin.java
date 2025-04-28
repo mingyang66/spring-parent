@@ -8,4 +8,8 @@ package com.emily.infrastructure.security.plugin;
  */
 public interface SimpleSecurityPlugin<R> extends BasePlugin {
     R getPlugin(R value);
+
+    default int getOrder() {
+        return LOWEST_PRECEDENCE;
+    }
 }

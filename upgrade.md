@@ -12,6 +12,7 @@ Bug Fixes
 8. 加解密SDK对数组、集合、Map等类型对字符串及实体对象支持进行完善；
 9. I18nUtils工具类对基于插件方案返回null处理逻辑调整为根据插件结果为准；
 10. 加解密SDK新增SimpleSecurityPlugin、ComplexSecurityPlugin处理不同场景插件基类；
+11. 加解密SDK支持插件排序，从而控制实体类中字段的加解密顺序；
 
 ###-----
 基础库发布5.0.4

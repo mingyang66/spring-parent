@@ -4,11 +4,8 @@ import com.emily.infrastructure.security.annotation.SecurityOperation;
 import com.emily.infrastructure.security.type.SecurityType;
 import com.emily.infrastructure.security.utils.SecurityUtils;
 import org.aopalliance.intercept.MethodInvocation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * 多语言拦截器
@@ -17,7 +14,6 @@ import java.util.Objects;
  * @since :  2024/10/31 上午10:21
  */
 public class DefaultSecurityMethodInterceptor implements SecurityCustomizer {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultSecurityMethodInterceptor.class);
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -25,14 +21,14 @@ public class DefaultSecurityMethodInterceptor implements SecurityCustomizer {
         if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.REQUEST == securityType)) {
             Object[] args = invocation.getArguments();
             if (args.length > 0) {
-                SecurityUtils.securityElseGet(args[0], ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
+                SecurityUtils.security(args[0], annotation.removePackClass());
             }
         }
         //执行结果
         Object response = invocation.proceed();
         if (Arrays.stream(annotation.value()).anyMatch(securityType -> SecurityType.RESPONSE == securityType)) {
             //将结果翻译为指定语言类型
-            return SecurityUtils.securityElseGet(response, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
+            return SecurityUtils.security(response, annotation.removePackClass());
         }
         return response;
     }

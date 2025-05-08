@@ -6,7 +6,7 @@ import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.security.annotation.SecurityOperation;
 import com.emily.infrastructure.security.interceptor.DefaultSecurityMethodInterceptor;
 import com.emily.infrastructure.security.interceptor.SecurityCustomizer;
-import com.emily.infrastructure.security.plugin.ComplexSecurityPlugin;
+import com.emily.infrastructure.security.plugin.BasePlugin;
 import com.emily.infrastructure.security.plugin.SecurityPluginRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +35,8 @@ import org.springframework.util.Assert;
  * @author :  Emily
  * @since :  2024/10/31 上午10:12
  */
-@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @EnableConfigurationProperties(SecurityProperties.class)
 @ConditionalOnProperty(prefix = SecurityProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SecurityAutoConfiguration implements InitializingBean, DisposableBean, ApplicationContextAware {
@@ -53,7 +53,7 @@ public class SecurityAutoConfiguration implements InitializingBean, DisposableBe
         //切面增强类
         AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
-        advisor.setOrder(AopOrderInfo.Security);
+        advisor.setOrder(AopOrderInfo.SECURITY);
         return advisor;
     }
 
@@ -66,7 +66,7 @@ public class SecurityAutoConfiguration implements InitializingBean, DisposableBe
 
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
-        SecurityPluginRegistry.registerSecurityPlugin(context.getBeansOfType(ComplexSecurityPlugin.class));
+        SecurityPluginRegistry.registerSecurityPlugin(context.getBeansOfType(BasePlugin.class));
     }
 
     @Override

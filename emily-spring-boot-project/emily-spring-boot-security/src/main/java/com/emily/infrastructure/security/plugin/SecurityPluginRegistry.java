@@ -29,7 +29,7 @@ public class SecurityPluginRegistry {
         securityPluginMap.put(pluginId, plugin);
     }
 
-    public static void registerSecurityPlugin(Map<String, ComplexSecurityPlugin> encryptionPlugins) {
+    public static void registerSecurityPlugin(Map<String, BasePlugin> encryptionPlugins) {
         if (Objects.nonNull(encryptionPlugins)) {
             securityPluginMap.putAll(encryptionPlugins);
         }

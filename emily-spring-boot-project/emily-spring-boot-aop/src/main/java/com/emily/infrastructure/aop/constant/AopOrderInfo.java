@@ -10,7 +10,7 @@ public class AopOrderInfo {
     /**
      * 加解密
      */
-    public static final int Security = 300;
+    public static final int SECURITY = 300;
     /**
      * API请求切面
      */

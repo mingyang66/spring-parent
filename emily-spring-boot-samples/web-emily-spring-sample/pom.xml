@@ -12,7 +12,7 @@
 
     <artifactId>web-emily-spring-sample</artifactId>
     <version>${revision}</version>
-    <name>demo-emily-spring-boot</name>
+    <name>web-emily-spring-sample</name>
 
     <dependencies>
         <dependency>
@@ -93,7 +93,7 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.bastiaanjansen/otp-java -->
         <dependency>

@@ -26,12 +26,12 @@
         <jackson.version>2.18.2</jackson.version>
         <junit-jupiter.version>5.11.3</junit-jupiter.version>
         <java-jwt.version>4.4.0</java-jwt.version>
-        <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <logback.version>1.5.12</logback.version>
         <slf4j.version>2.0.16</slf4j.version>
         <jansi.version>2.4.0</jansi.version>
         <knife4j.version>4.5.0</knife4j.version>
-        <bcprov.jdk18on>1.79</bcprov.jdk18on>
+        <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+        <bcprov-jdk18on.version>1.79</bcprov-jdk18on.version>
     </properties>
 
     <dependencyManagement>
@@ -224,8 +224,8 @@
             <!--JWT RSA秘钥对生成，非PKCS8转换-->
             <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15on</artifactId>
-                <version>${bcprov-jdk15on.version}</version>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov-jdk18on.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
@@ -251,11 +251,6 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk18on</artifactId>
-                <version>${bcprov.jdk18on}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

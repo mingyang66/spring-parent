@@ -8,7 +8,6 @@
   "oceansky-captcha": "图形验证码SDK",
   "oceansky-common": "通用工具SDK",
   "oceansky-date": "日期SDK",
-  "oceansky-image": "图片SDK",
   "oceansky-json": "json序列化SDK",
   "oceansky-jwt": "JWT组件SDK",
   "oceansky-language": "多语言SDK",

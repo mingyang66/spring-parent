@@ -31,6 +31,7 @@
         <slf4j.version>2.0.16</slf4j.version>
         <jansi.version>2.4.0</jansi.version>
         <knife4j.version>4.5.0</knife4j.version>
+        <bcprov.jdk18on>1.79</bcprov.jdk18on>
     </properties>
 
     <dependencyManagement>
@@ -250,6 +251,11 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov.jdk18on}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

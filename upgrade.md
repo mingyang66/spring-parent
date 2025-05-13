@@ -13,6 +13,7 @@ Bug Fixes
 9. I18nUtils工具类对基于插件方案返回null处理逻辑调整为根据插件结果为准；
 10. 加解密SDK新增SimpleSecurityPlugin、ComplexSecurityPlugin处理不同场景插件基类；
 11. 加解密SDK支持插件排序，从而控制实体类中字段的加解密顺序；
+12. 加解密SDK新增RsaUtils加解密工具类；
 
 ###-----
 基础库发布5.0.4

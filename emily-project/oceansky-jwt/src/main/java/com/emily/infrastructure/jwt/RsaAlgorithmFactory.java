@@ -33,7 +33,7 @@ public class RsaAlgorithmFactory {
      * @throws NoSuchAlgorithmException 异常
      */
     public static RSAPublicKey getPublicKey(String publicKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        if (publicKey == null || publicKey.length() == 0) {
+        if (publicKey == null || publicKey.isEmpty()) {
             throw new IllegalArgumentException("非法参数");
         }
         byte[] keyBytes = Base64.getDecoder().decode(publicKey.replace(N, "").replace(R, "").getBytes(StandardCharsets.UTF_8));

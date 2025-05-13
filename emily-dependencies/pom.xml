@@ -30,8 +30,7 @@
         <slf4j.version>2.0.16</slf4j.version>
         <jansi.version>2.4.0</jansi.version>
         <knife4j.version>4.5.0</knife4j.version>
-        <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
-        <bcprov-jdk18on.version>1.79</bcprov-jdk18on.version>
+        <bcprov-jdk18on.version>1.80</bcprov-jdk18on.version>
     </properties>
 
     <dependencyManagement>

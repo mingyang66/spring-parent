@@ -72,8 +72,8 @@ public class DesUtils {
             Key secretKey = generateKey(password);
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
-            return new String(cipher.doFinal(Base64.getDecoder()
-                    .decode(data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
+            final byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8)));
+            return new String(bytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
             return data;
         }

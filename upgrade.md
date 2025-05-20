@@ -15,6 +15,7 @@ Bug Fixes
 11. 加解密SDK支持插件排序，从而控制实体类中字段的加解密顺序；
 12. 加解密SDK新增RsaUtils非对称加解密工具类；
 13. 加解密SDK新增DesUtils对称加解密工具类；
+14. BusinessException、RemoteInvokeException新增多语言翻译、基于占位符的message消息拼接；
 
 ###-----
 基础库发布5.0.4

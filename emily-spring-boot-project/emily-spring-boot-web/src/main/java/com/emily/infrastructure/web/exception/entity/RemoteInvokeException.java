@@ -15,23 +15,23 @@ import java.text.MessageFormat;
  * @author Emily
  * @since 2021/10/12
  */
-public class BusinessException extends BasicException {
-    public BusinessException() {
+public class RemoteInvokeException extends BasicException {
+    public RemoteInvokeException() {
         super(ApplicationStatus.EXCEPTION);
         this.setMessage(getMsg(ApplicationStatus.EXCEPTION.getMessage()));
     }
 
-    public BusinessException(ApplicationStatus applicationStatus) {
+    public RemoteInvokeException(ApplicationStatus applicationStatus) {
         super(applicationStatus);
         this.setMessage(getMsg(applicationStatus.getMessage()));
     }
 
-    public BusinessException(int status, String message) {
+    public RemoteInvokeException(int status, String message) {
         super(status, message);
         this.setMessage(getMsg(message));
     }
 
-    public BusinessException(int status, String message, boolean error, Object... args) {
+    public RemoteInvokeException(int status, String message, boolean error, Object... args) {
         super(status, message, error);
         this.setMessage(getMsg(message, args));
     }

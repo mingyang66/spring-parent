@@ -26,10 +26,10 @@ public class BasicException extends RuntimeException {
     public BasicException() {
     }
 
-    public BasicException(ApplicationStatus httpStatus) {
-        super(httpStatus.getMessage());
-        this.status = httpStatus.getStatus();
-        this.message = httpStatus.getMessage();
+    public BasicException(ApplicationStatus applicationStatus) {
+        super(applicationStatus.getMessage());
+        this.status = applicationStatus.getStatus();
+        this.message = applicationStatus.getMessage();
     }
 
     public BasicException(int status, String message) {
@@ -38,8 +38,8 @@ public class BasicException extends RuntimeException {
         this.message = message;
     }
 
-    public BasicException(int status, String errorMessage, boolean error) {
-        this(status, errorMessage);
+    public BasicException(int status, String message, boolean error) {
+        this(status, message);
         this.error = error;
     }
 

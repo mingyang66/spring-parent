@@ -20,10 +20,20 @@ public class SecurityProperties {
      */
     private boolean enabled = true;
 
+    /**
+     * 判断是否开启加解密组件
+     *
+     * @return true-是，false-否
+     */
     public boolean isEnabled() {
         return enabled;
     }
 
+    /**
+     * 设置是否开启加解密组件
+     *
+     * @param enabled 是否开启
+     */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

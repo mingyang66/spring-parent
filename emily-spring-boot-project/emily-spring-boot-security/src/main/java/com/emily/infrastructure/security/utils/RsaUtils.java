@@ -50,6 +50,10 @@ public class RsaUtils {
 
     /**
      * RSA加密 数据超长对数据分段加密
+     *
+     * @param data      待加密字符串
+     * @param publicKey 公钥
+     * @return 加密后的密文
      */
     public static String encrypt(String data, String publicKey) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -84,6 +88,10 @@ public class RsaUtils {
 
     /**
      * RSA解密  数据超长后对数据分段解密
+     *
+     * @param data       待解密的密文
+     * @param privateKey 私钥
+     * @return 解密后的明文
      */
     public static String decrypt(String data, String privateKey) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {

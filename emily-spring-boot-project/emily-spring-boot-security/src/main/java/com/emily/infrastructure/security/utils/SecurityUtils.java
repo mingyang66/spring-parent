@@ -30,9 +30,10 @@ public class SecurityUtils {
     /**
      * 对实体类进行多语言翻译
      *
-     * @param entity   实体类|普通对象
-     * @param consumer 异常错误信息捕获处理
-     * @param <T>      实体对象
+     * @param entity    实体类|普通对象
+     * @param consumer  异常错误信息捕获处理
+     * @param <T>       实体对象
+     * @param packClass 待移除包装类
      * @return 翻译后的实体类对象
      */
     public static <T> T securityElseGet(final T entity, Consumer<Throwable> consumer, final Class<?>... packClass) {
@@ -48,8 +49,9 @@ public class SecurityUtils {
     /**
      * 对实体类进行多语言翻译
      *
-     * @param entity 实体类|普通对象
-     * @param <T>    实体对象
+     * @param entity    实体类|普通对象
+     * @param <T>       实体对象
+     * @param packClass 待移除包装类
      * @return 翻译后的实体类对象
      * @throws Throwable 非法访问异常
      */
@@ -82,8 +84,9 @@ public class SecurityUtils {
     /**
      * 对实体类entity的属性及父类的属性遍历并对符合条件的属性进行多语言翻译
      *
-     * @param entity 实体类对象
-     * @param <T>    实体对象
+     * @param entity    实体类对象
+     * @param <T>       实体对象
+     * @param packClass 待移除包装类
      * @throws Throwable 非法访问异常
      */
     protected static <T> void doSetField(final T entity, final Class<?>... packClass) throws Throwable {
@@ -117,6 +120,7 @@ public class SecurityUtils {
      * 对基于插件注解标记的属性进行加密
      *
      * @param field  实体类属性对象
+     * @param <T>    实体对象类型
      * @param entity 实体类对象
      * @param value  属性值对象
      * @throws Throwable 抛出非法访问异常
@@ -147,6 +151,7 @@ public class SecurityUtils {
      * 对基于插件注解标记的属性进行加密
      *
      * @param field 实体类属性对象
+     * @return 插件优先级
      */
     protected static int doGetSecurityPluginOrder(final Field field) {
         try {
@@ -193,8 +198,10 @@ public class SecurityUtils {
     /**
      * 对Map集合中存储是字符串、实体对象进行多语言支持
      *
-     * @param field 实体类属性对象
-     * @param value 属性值对象
+     * @param field  实体类属性对象
+     * @param entity 实体类对象
+     * @param <T>    实体对象
+     * @param value  属性值对象
      * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityMap(final Field field, final T entity, final Object value) throws Throwable {
@@ -220,8 +227,10 @@ public class SecurityUtils {
     /**
      * 对数组中存储是字符串、实体对象进行多语言支持
      *
-     * @param field 实体类属性对象
-     * @param value 属性值对象
+     * @param field  实体类属性对象
+     * @param entity 实体类对象
+     * @param <T>    实体对象
+     * @param value  属性值对象
      * @throws Throwable 抛出非法访问异常
      */
     protected static <T> void doGetEntityArray(final Field field, final T entity, final Object value) throws Throwable {

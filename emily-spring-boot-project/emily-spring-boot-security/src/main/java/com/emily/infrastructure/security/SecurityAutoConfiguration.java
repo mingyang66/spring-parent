@@ -42,6 +42,10 @@ import org.springframework.util.Assert;
 public class SecurityAutoConfiguration implements InitializingBean, DisposableBean, ApplicationContextAware {
     private static final Logger LOG = LoggerFactory.getLogger(SecurityAutoConfiguration.class);
 
+    /**
+     * @param customizers 加解密组件集合
+     * @return 加解密AOP
+     */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public Advisor securityAdvisor(ObjectProvider<SecurityCustomizer> customizers) {
@@ -57,6 +61,11 @@ public class SecurityAutoConfiguration implements InitializingBean, DisposableBe
         return advisor;
     }
 
+    /**
+     * 加解密拦截器
+     *
+     * @return 默认加解密组件
+     */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean

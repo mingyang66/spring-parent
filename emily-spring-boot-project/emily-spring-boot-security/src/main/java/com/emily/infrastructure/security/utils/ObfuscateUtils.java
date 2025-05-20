@@ -9,6 +9,9 @@ package com.emily.infrastructure.security.utils;
 public class ObfuscateUtils {
     /**
      * 混淆：字符ASCII码+1
+     *
+     * @param input 需混淆的字符串
+     * @return 混淆后的字符串
      */
     public static String obfuscate(String input) {
         char[] chars = input.toCharArray();
@@ -20,6 +23,9 @@ public class ObfuscateUtils {
 
     /**
      * 恢复：字符ASCII码-1
+     *
+     * @param obfuscated 待回复的字符串
+     * @return 恢复后的字符串
      */
     public static String deobfuscate(String obfuscated) {
         char[] chars = obfuscated.toCharArray();

@@ -16,6 +16,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SecurityProperty {
-
+    /**
+     * 指定插件类
+     *
+     * @return 插件类
+     */
     Class<? extends BasePlugin> value();
 }

@@ -9,8 +9,8 @@ open module emily.spring.boot.logger {
     requires org.slf4j;
     requires spring.beans;
     requires spring.boot.autoconfigure;
-    requires oceansky.logger;
-    requires oceansky.json;
+    requires emily.logger;
+    requires emily.json;
 
     exports com.emily.infrastructure.logger;
     exports com.emily.infrastructure.logger.initializer;

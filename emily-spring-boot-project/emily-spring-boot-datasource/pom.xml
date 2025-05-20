@@ -46,7 +46,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-date</artifactId>
+            <artifactId>emily-date</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-language</artifactId>
+            <artifactId>emily-language</artifactId>
         </dependency>
     </dependencies>
 </project>

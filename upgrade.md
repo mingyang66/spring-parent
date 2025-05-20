@@ -141,7 +141,7 @@ Bug Fixes
 11. CharacterInfo新增竖线常量VERTICAL;
 12. 新增emily-dependencies物料清单module;
 13. 新增emily-parent父module;
-14. 新增emily-project module将oceansky相关java module归类到此模块下；
+14. 新增emily-project module将emily相关java module归类到此模块下；
 15. 新增emily-spring-boot-project 模块，将spring-boot相关模块归类到此模块下；
 16. 新增emily-spring-boot-sample模块，将demo相关模块归类到此模块下；
 
@@ -218,8 +218,8 @@ Bug Fixes
 8. CaptchaBuilder类建造方法优化调整；
 9. emily-spring-boot-parent默认引入spring-boot-starter-test单元测试依赖；
 10. DateCompareUtils工具类新增isAfter、isBefore、isEqual方法；
-11. oceansky-desensitize脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
-12. oceansky-desensitize单元测试工具升级到junit5;
+11. emily-desensitize脱敏工具类新增@JsonMapField注解专业对Map集合数据脱敏；
+12. emily-desensitize单元测试工具升级到junit5;
 13. 移除com.emily.infrastructure.logger.configuration.type.LevelType枚举类，并由org.slf4j.event.Level替换；
 14. HeaderInfo新增IP相关请求头，RequestUtils工具类方法优化并新增相关单元测试类；
 15. RequestHelper重名名为ServletHelper;
@@ -367,9 +367,9 @@ spring.emily.logger.marker.deny-marker=
 
 3. springboot版本升级到2.7.14；
 4. 升级maven-javadoc-plugin插件版本到3.3.2版本，并修改如果遇到文档错误不暂停构建参数为failOnError；
-5. oceansky-logger、emily-spring-boot-starter sdk的javadoc文档优化；
+5. emily-logger、emily-spring-boot-starter sdk的javadoc文档优化；
 6. emily-spring-boot-datasource SDK的javadoc文档优化；
-7. oceansky-desensitize SDK的javadoc文档优化；
+7. emily-desensitize SDK的javadoc文档优化；
 8. sdk对javadoc文档注解优化调整；
 
 -----
@@ -377,13 +377,13 @@ spring.emily.logger.marker.deny-marker=
 Bug Fixes
 
 1. 删除自动化配置类RouteWebMvcAutoConfiguration、LookupPathAutoConfiguration；
-2. oceansky-common工具类新增PathUtils格式化路径方法；
+2. emily-common工具类新增PathUtils格式化路径方法；
 3. 返回值包装类ResponseWrapperAdviceHandler支持application/vnd.spring-boot.actuator.v3+json媒体类型；
-4. 新增oceansky-logger基于logback的日志组件，并提供纯Java使用日志SDK的方法；
-5. emily-spring-boot-logger组件SDK重构为依赖oceansky-logger并进行starter化；
-6. oceansky-logger组件支持重复初始化时重置调原来LoggerContext上下文对象的初始化信息；
+4. 新增emily-logger基于logback的日志组件，并提供纯Java使用日志SDK的方法；
+5. emily-spring-boot-logger组件SDK重构为依赖emily-logger并进行starter化；
+6. emily-logger组件支持重复初始化时重置调原来LoggerContext上下文对象的初始化信息；
 7. emily-spring-boot-logger组件支持通过Binder类将Environment变量中的变量转换为一个实例变量；
-8. oceansky-logger SDK组件支持对归档日志文件进行压缩处理，支持GZ、ZIP格式压缩；
+8. emily-logger SDK组件支持对归档日志文件进行压缩处理，支持GZ、ZIP格式压缩；
 9. logger sdk新增ConfigurationAction类，支持debug、logback.debug调试信息，向LoggerContext中新增OnConsoleStatusListener监听器监听打印调试信息；
 10. logger sdk内部debug模式和是否开启内部状态信息合并，并优化代码；
 11. logger sdk对root logger中的console appender兼容大小写类型；
@@ -400,9 +400,9 @@ Bug Fixes
 Bug Fixes
 
 1. emily-spring-cloud-starter组件删除httpclient对自定义负载均衡支持；
-2. oceansky-date组件新增将时间戳转换为Date对象方法；
-3. oceansky-desensitize实体类脱敏组件抛出异常方式优化，新增acquireElseGet方法;
-4. 新增oceansky-common组件，新增PropertiesUtils工具类用于读取各种路径下的配置文件，支持properties、xml、yaml;
+2. emily-date组件新增将时间戳转换为Date对象方法；
+3. emily-desensitize实体类脱敏组件抛出异常方式优化，新增acquireElseGet方法;
+4. 新增emily-common组件，新增PropertiesUtils工具类用于读取各种路径下的配置文件，支持properties、xml、yaml;
 5. 删除demo实例程序中的FileHelper相关代码；
 6. common组件新增CollectionUtils工具类；
 7. 优化RequestUtils.getHeader方法参数；
@@ -420,7 +420,7 @@ Bug Fixes
 17. 新增正则表达式匹配帮种类RegexPathMatcher；
 18. 删除修改响应数据类型编码自动化配置类EmilyMappingJackson2HttpMessageConverterAutoConfiguration；
 19. WebMvcAutoConfiguration组件优化调整，@ApiPrefix注解更改为ApiPathPrefixIgnore并做逻辑处理；
-20. UUIDUtils工具类去除三方依赖并迁移到oceansky-common包；
+20. UUIDUtils工具类去除三方依赖并迁移到emily-common包；
 21. springboot版本升级到2.7.13；
 22. mybatis-spring-boot-starter升级到2.3.1；
 23. druid-spring-boot-starter升级到1.2.18；
@@ -440,16 +440,16 @@ Bug Fixes
 7. 日期SDK新增DateComputeUtils.getRemainTimeOfDay()方法；
 8. RequestUtils工具类新增getHeader请求方法获取请求头；
 9. DataMaskUtils脱敏手机号、邮箱、银行卡、身份证等工具方法重构；
-10. oceansky-desensitize脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
-11. oceansky-date日期组件SDK去除掉commons-lang3依赖引用，将Date类型日期转换调整为使用SimpleDateFormat;
-12. oceansky-captcha图形验证码组件去掉commons-lang3依赖引用；
-13. 删除掉oceansky-commons包，并修改其依赖；
+10. emily-desensitize脱敏组件去除掉guava依赖包引用，优化SDK组件代码；
+11. emily-date日期组件SDK去除掉commons-lang3依赖引用，将Date类型日期转换调整为使用SimpleDateFormat;
+12. emily-captcha图形验证码组件去掉commons-lang3依赖引用；
+13. 删除掉emily-commons包，并修改其依赖；
 
 -----
 基础库发布4.3.3
 Bug Fixes
 
-1. 新增oceansky-date SDK组件，新增DateUtils工具类，内部包含14个工具方法，涉及字符串转日期，日期转字符串；
+1. 新增emily-date SDK组件，新增DateUtils工具类，内部包含14个工具方法，涉及字符串转日期，日期转字符串；
 2. 新增DateConvertUtils日期相互转换工具类；
 3. 新增DateCompareUtils日期比大小工具类；
 4. 新增DateComputeUtils日期计算相关工具类；

@@ -6,7 +6,7 @@ module otter.spring.servlet {
     requires jakarta.servlet;
     requires org.apache.commons.lang3;
     requires spring.web;
-    requires oceansky.common;
+    requires emily.common;
     requires spring.core;
     exports com.otter.infrastructure.servlet;
 }

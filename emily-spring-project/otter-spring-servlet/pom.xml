@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-common</artifactId>
+            <artifactId>emily-common</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

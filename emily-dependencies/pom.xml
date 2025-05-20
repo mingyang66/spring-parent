@@ -53,42 +53,42 @@
             <!-- emily-project -->
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-captcha</artifactId>
+                <artifactId>emily-captcha</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-common</artifactId>
+                <artifactId>emily-common</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-date</artifactId>
+                <artifactId>emily-date</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-json</artifactId>
+                <artifactId>emily-json</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-jwt</artifactId>
+                <artifactId>emily-jwt</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-language</artifactId>
+                <artifactId>emily-language</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-logger</artifactId>
+                <artifactId>emily-logger</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>oceansky-desensitize</artifactId>
+                <artifactId>emily-desensitize</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- emily-spring-project -->

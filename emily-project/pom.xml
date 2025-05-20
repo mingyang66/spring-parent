@@ -11,13 +11,13 @@
     <artifactId>emily-project</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>oceansky-json</module>
-        <module>oceansky-language</module>
-        <module>oceansky-desensitize</module>
-        <module>oceansky-captcha</module>
-        <module>oceansky-jwt</module>
-        <module>oceansky-date</module>
-        <module>oceansky-common</module>
-        <module>oceansky-logger</module>
+        <module>emily-json</module>
+        <module>emily-language</module>
+        <module>emily-desensitize</module>
+        <module>emily-captcha</module>
+        <module>emily-jwt</module>
+        <module>emily-date</module>
+        <module>emily-common</module>
+        <module>emily-logger</module>
     </modules>
 </project>

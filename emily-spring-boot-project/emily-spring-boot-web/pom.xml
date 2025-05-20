@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-date</artifactId>
+            <artifactId>emily-date</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>oceansky-language</artifactId>
+            <artifactId>emily-language</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -4,7 +4,7 @@ Bug Fixes
 ###-----
 
 1. emily-spring-boot-web异常处理BusinessException、RemoteInvokeException根据是否引入emily-spring-boot-i18n包判定是否支持多语言翻译；
-2.
+2. Upgrade springboot 3.4.5;
 
 基础库发布5.0.5
 Bug Fixes

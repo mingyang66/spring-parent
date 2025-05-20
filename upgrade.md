@@ -1,4 +1,11 @@
 ###-----
+基础库发布5.0.6
+Bug Fixes
+###-----
+
+1. emily-spring-boot-web异常处理BusinessException、RemoteInvokeException根据是否引入emily-spring-boot-i18n包判定是否支持多语言翻译；
+2.
+
 基础库发布5.0.5
 Bug Fixes
 

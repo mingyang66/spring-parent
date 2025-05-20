@@ -1,13 +1,7 @@
 package com.emily.infrastructure.web.exception.entity;
 
-import com.emily.infrastructure.common.StringUtils;
-import com.emily.infrastructure.common.constant.HeaderInfo;
-import com.emily.infrastructure.language.i18n.LanguageType;
-import com.emily.infrastructure.language.i18n.registry.I18nSimpleRegistry;
+import com.emily.infrastructure.web.exception.helper.MessageHelper;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
-import com.otter.infrastructure.servlet.RequestUtils;
-
-import java.text.MessageFormat;
 
 /**
  * 业务异常
@@ -18,29 +12,21 @@ import java.text.MessageFormat;
 public class BusinessException extends BasicException {
     public BusinessException() {
         super(ApplicationStatus.EXCEPTION);
-        this.setMessage(getMsg(ApplicationStatus.EXCEPTION.getMessage()));
+        this.setMessage(MessageHelper.getMessage(ApplicationStatus.EXCEPTION.getMessage()));
     }
 
     public BusinessException(ApplicationStatus applicationStatus) {
         super(applicationStatus);
-        this.setMessage(getMsg(applicationStatus.getMessage()));
+        this.setMessage(MessageHelper.getMessage(applicationStatus.getMessage()));
     }
 
     public BusinessException(int status, String message) {
         super(status, message);
-        this.setMessage(getMsg(message));
+        this.setMessage(MessageHelper.getMessage(message));
     }
 
     public BusinessException(int status, String message, boolean error, Object... args) {
         super(status, message, error);
-        this.setMessage(getMsg(message, args));
-    }
-
-    private String getMsg(String message, Object... args) {
-        String msg = I18nSimpleRegistry.acquire(message, RequestUtils.getHeaderOrDefault(HeaderInfo.LANGUAGE, LanguageType.ZH_CN.getCode()));
-        if (StringUtils.isNotBlank(msg) && args.length > 0) {
-            return MessageFormat.format(msg, args);
-        }
-        return msg;
+        this.setMessage(MessageHelper.getMessage(message, args));
     }
 }

@@ -38,11 +38,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-desensitize</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-date</artifactId>
         </dependency>
         <dependency>
@@ -51,11 +46,13 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>otter-spring-servlet</artifactId>
+            <artifactId>emily-spring-boot-desensitize</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-language</artifactId>
+            <artifactId>emily-spring-boot-i18n</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -2,6 +2,7 @@
 #highlight "emily-spring-boot-project" / "emily-spring-boot-datasource" / "0" /"emily-spring-boot-desensitize"
 #highlight "emily-spring-boot-project" / "emily-spring-boot-transfer" / "0" /"emily-spring-boot-desensitize"
 #highlight "emily-spring-boot-project" / "emily-spring-boot-web" / "0" /"emily-spring-boot-desensitize"
+#highlight "emily-spring-boot-project" / "emily-spring-boot-web" / "0" /"emily-spring-boot-i18n"
 {
 "emily-project":
   {
@@ -67,8 +68,7 @@
            "emily-spring-boot-tracing":"链路追踪SDK",
            "emily-spring-boot-desensitize":"脱敏SDK",
            "emily-date":"日期SDK",
-           "emily-language":"多语言SDK",
-           "otter-spring-servlet":"请求上下文SDK"
+           "emily-spring-boot-i18n":"多语言SDK"
   }]
   }
 }

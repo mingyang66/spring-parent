@@ -26,7 +26,7 @@ public class DefaultDesensitizeMethodInterceptor implements DesensitizeCustomize
             return null;
         }
         DesensitizeOperation annotation = invocation.getMethod().getAnnotation(DesensitizeOperation.class);
-        //todo 异常处理
+        //响应结果进行脱敏
         return DesensitizeUtils.desensitizeElseGet(response, ex -> LOG.error(ex.getMessage(), ex), annotation.removePackClass());
     }
 

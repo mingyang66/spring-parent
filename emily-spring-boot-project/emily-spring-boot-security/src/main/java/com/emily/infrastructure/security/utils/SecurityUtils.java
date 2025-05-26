@@ -100,9 +100,8 @@ public class SecurityUtils {
             field.setAccessible(true);
             Object value = field.get(entity);
             if (ObjectUtils.isEmpty(value)) {
-                continue;
-            }
-            if (value instanceof String) {
+                doGetSecurityPlugin(field, entity, value);
+            } else if (value instanceof String) {
                 doGetSecurityPlugin(field, entity, value);
             } else if (value instanceof Collection) {
                 doGetEntityColl(field, entity, value);

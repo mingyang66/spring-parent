@@ -5,7 +5,9 @@ Bug Fixes
 
 1. emily-spring-boot-web异常处理BusinessException、RemoteInvokeException根据是否引入emily-spring-boot-i18n包判定是否支持多语言翻译；
 2. Upgrade springboot 3.4.5;
+3. SecurityUtils对实体类字段值为空时不触发对应插件问题修复；
 
+###-----
 基础库发布5.0.5
 Bug Fixes
 

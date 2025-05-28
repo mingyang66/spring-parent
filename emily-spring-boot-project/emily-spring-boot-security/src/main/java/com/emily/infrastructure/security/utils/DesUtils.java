@@ -34,7 +34,7 @@ public class DesUtils {
      */
     public static String encrypt(String data, String key, String iv) {
         try {
-            if (StringUtils.isEmpty(data) || StringUtils.isEmpty(key)) {
+            if (isEmpty(data, key, iv)) {
                 return data;
             }
             final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
@@ -59,7 +59,7 @@ public class DesUtils {
      */
     public static String decrypt(String data, String key, String iv) {
         try {
-            if (StringUtils.isEmpty(data) || StringUtils.isEmpty(key)) {
+            if (isEmpty(data, key, iv)) {
                 return data;
             }
             final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
@@ -72,6 +72,10 @@ public class DesUtils {
         } catch (Exception e) {
             return data;
         }
+    }
+
+    private static boolean isEmpty(String data, String key, String iv) {
+        return StringUtils.isEmpty(data) || StringUtils.isEmpty(key) || StringUtils.isEmpty(iv);
     }
 }
 

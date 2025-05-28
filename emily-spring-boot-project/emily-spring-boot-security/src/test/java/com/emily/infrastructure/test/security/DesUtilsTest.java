@@ -12,6 +12,6 @@ public class DesUtilsTest {
     @Test
     void testEncrypt() {
         Assertions.assertEquals("EgIOHMYk2mc=", DesUtils.encrypt("123", "12345678", "65432112"));
-        Assertions.assertEquals("123", DesUtils.decrypt("123", "12345678", "65432112"));
+        Assertions.assertEquals("123", DesUtils.decrypt("EgIOHMYk2mc=", "12345678", "65432112"));
     }
 }

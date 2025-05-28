@@ -25,15 +25,6 @@ public class DesUtils {
     private static final String TRANSFORMATION = "DES/CBC/PKCS5Padding";
 
     /**
-     * 生成key
-     */
-    private static Key generateKey(String password) throws Exception {
-        final DESKeySpec dks = new DESKeySpec(password.getBytes(StandardCharsets.UTF_8));
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
-        return keyFactory.generateSecret(dks);
-    }
-
-    /**
      * DES加密字符串
      *
      * @param data 待加密字符串

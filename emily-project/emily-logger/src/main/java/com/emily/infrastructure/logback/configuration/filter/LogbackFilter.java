@@ -1,14 +1,10 @@
 package com.emily.infrastructure.logback.configuration.filter;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.boolex.JaninoEventEvaluator;
 import ch.qos.logback.classic.filter.LevelFilter;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.classic.turbo.MarkerFilter;
 import ch.qos.logback.core.Context;
-import ch.qos.logback.core.boolex.EvaluationException;
-import ch.qos.logback.core.boolex.EventEvaluator;
-import ch.qos.logback.core.filter.EvaluatorFilter;
 import ch.qos.logback.core.spi.FilterReply;
 import com.emily.infrastructure.logback.common.StrUtils;
 
@@ -117,28 +113,6 @@ public class LogbackFilter {
         //添加内部状态信息
         filter.addError("Build DenyMarkerFilter Success");
         //标记为启用状态
-        filter.start();
-        return filter;
-    }
-
-    /**
-     * todo 待定
-     *
-     * @param context logger context上下文
-     * @return 评估过滤器实例
-     */
-    public EvaluatorFilter getEvaluatorFilter(Context context) {
-        EvaluatorFilter filter = new EvaluatorFilter();
-        EventEvaluator evaluator = new JaninoEventEvaluator();
-        try {
-            evaluator.evaluate("return message.contains('info')");
-        } catch (EvaluationException e) {
-            throw new RuntimeException(e);
-        }
-        filter.setEvaluator(evaluator);
-        filter.setContext(context);
-        filter.setOnMatch(FilterReply.ACCEPT);
-        filter.setOnMismatch(FilterReply.DENY);
         filter.start();
         return filter;
     }

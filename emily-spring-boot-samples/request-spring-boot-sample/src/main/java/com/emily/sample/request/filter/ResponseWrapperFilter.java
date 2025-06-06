@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author :  Emily
  * @since :  2024/10/25 上午10:42
  */
-@Component
+//@Component
 public class ResponseWrapperFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

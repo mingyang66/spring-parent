@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.mingyang66</groupId>
-        <artifactId>emily-spring-boot-samples</artifactId>
-        <version>${revision}</version>
-        <relativePath>../../emily-spring-boot-samples/pom.xml</relativePath>
+        <artifactId>emily-spring-boot-parent</artifactId>
+        <version>5.0.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>request-spring-boot-sample</artifactId>

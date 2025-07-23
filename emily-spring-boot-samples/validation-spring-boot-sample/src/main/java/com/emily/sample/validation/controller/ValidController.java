@@ -1,5 +1,6 @@
 package com.emily.sample.validation.controller;
 
+import com.emily.sample.validation.entity.NotBothEmptyEntity;
 import com.emily.sample.validation.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,4 +29,8 @@ public class ValidController {
 
     }
 
+    @PostMapping("api/valid/empty")
+    public void validNotBothEmpty(@Valid @RequestBody NotBothEmptyEntity entity) {
+        System.out.println(entity.username + ":" + entity.password);
+    }
 }

@@ -1,6 +1,6 @@
 package com.emily.infrastructure.validation;
 
-import com.emily.infrastructure.validation.annotation.NoneOrBothEmpty;
+import com.emily.infrastructure.validation.annotation.NotBothEmpty;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.ObjectUtils;
@@ -12,16 +12,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 字段对应的值全部为空或全部不为空
+ * 字段对应的值不可以全部为空
  *
  * @author :  Emily
  * @since :  2025/7/19 下午6:01
  */
-public class NoneOrBothEmptyValidator implements ConstraintValidator<NoneOrBothEmpty, Object> {
+public class NotBothEmptyValidator implements ConstraintValidator<NotBothEmpty, Object> {
     private String[] fieldNames;
 
     @Override
-    public void initialize(NoneOrBothEmpty annotation) {
+    public void initialize(NotBothEmpty annotation) {
         fieldNames = annotation.value();
     }
 
@@ -40,7 +40,7 @@ public class NoneOrBothEmptyValidator implements ConstraintValidator<NoneOrBothE
                     list.add(ObjectUtils.isNotEmpty(value));
                 }
             }
-            return list.stream().noneMatch(Boolean.FALSE::equals);
+            return list.stream().anyMatch(Boolean.TRUE::equals);
         } catch (Exception ex) {
             return false;
         }

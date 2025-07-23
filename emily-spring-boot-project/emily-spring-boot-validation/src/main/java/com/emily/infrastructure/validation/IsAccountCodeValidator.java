@@ -62,13 +62,10 @@ public class IsAccountCodeValidator implements ConstraintValidator<IsAccountCode
             return false;
         }
         // 前缀后缀验证
-        if (prefixes.size() > 0 && prefixes.stream().filter(prefix -> StringUtils.startsWith(value, prefix)).count() == 0) {
+        if (!prefixes.isEmpty() && prefixes.stream().noneMatch(prefix -> StringUtils.startsWith(value, prefix))) {
             return false;
         }
-        if (suffixes.size() > 0 && suffixes.stream().filter(suffix -> StringUtils.endsWith(value, suffix)).count() == 0) {
-            return false;
-        }
-        return true;
+        return suffixes.isEmpty() || suffixes.stream().anyMatch(suffix -> StringUtils.endsWith(value, suffix));
     }
 
 }

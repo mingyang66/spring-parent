@@ -131,10 +131,7 @@ public class SensitizeUtils {
      * @return 字段值
      */
     protected static Object doGetEntityNull(final Field field, final Object value) {
-        if (field.getType().isPrimitive()) {
-            return value;
-        }
-        return null;
+        return field.getType().isPrimitive() ? value : null;
     }
 
     /**

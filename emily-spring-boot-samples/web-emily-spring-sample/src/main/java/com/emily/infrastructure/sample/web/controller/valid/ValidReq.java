@@ -20,12 +20,12 @@ public class ValidReq {
     private long id;
     @IsIncludeDouble(values = {1.0, 2.0}, message = "价格不正确")
     private double price;
-    @IsDouble(min = 1.1, max = 20.2, values = {"市价"}, message = "交易价格不正确")
-    private String tradePrice;
+    @DoubleRange(min = 1.1, max = 20.2, message = "交易价格不正确")
+    private double tradePrice;
     @IntRange(min = -10, max = 20, message = "购买数量不正确")
     private Integer buyAmount;
-    @IsLong(min = 10, max = 20, values = {"特例"}, message = "总金额不正确")
-    private String totalAmount;
+    @LongRange(min = 10, max = 20, message = "总金额不正确")
+    private long totalAmount;
     @IsBigDecimal(message = "金额不正确")
     private String bigDecimal;
     @SuffixCheck(value = {"21", "22"}, message = "用户名不正确")
@@ -77,24 +77,29 @@ public class ValidReq {
         this.bigDecimal = bigDecimal;
     }
 
-    public String getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount;
-    }
 
     public Integer getBuyAmount() {
         return buyAmount;
     }
 
-    public String getTradePrice() {
+    public double getTradePrice() {
         return tradePrice;
     }
 
-    public void setTradePrice(String tradePrice) {
+    public void setTradePrice(double tradePrice) {
         this.tradePrice = tradePrice;
+    }
+
+    public void setBuyAmount(Integer buyAmount) {
+        this.buyAmount = buyAmount;
+    }
+
+    public long getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(long totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public long getId() {

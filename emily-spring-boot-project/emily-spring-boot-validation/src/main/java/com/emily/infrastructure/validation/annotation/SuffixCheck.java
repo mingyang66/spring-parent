@@ -1,6 +1,6 @@
 package com.emily.infrastructure.validation.annotation;
 
-import com.emily.infrastructure.validation.IsSuffixesValidator;
+import com.emily.infrastructure.validation.SuffixCheckValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -19,8 +19,9 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsSuffixesValidator.class})
-public @interface IsSuffixes {
+@Constraint(validatedBy = {SuffixCheckValidator.class})
+public @interface SuffixCheck {
+    String[] value() default {};
     /**
      * 提示信息
      */
@@ -33,5 +34,4 @@ public @interface IsSuffixes {
 
     Class<? extends Payload>[] payload() default {};
 
-    String[] values() default {};
 }

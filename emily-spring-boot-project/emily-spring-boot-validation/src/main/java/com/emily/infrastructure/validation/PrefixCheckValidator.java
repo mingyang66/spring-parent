@@ -1,6 +1,6 @@
 package com.emily.infrastructure.validation;
 
-import com.emily.infrastructure.validation.annotation.IsPrefixes;
+import com.emily.infrastructure.validation.annotation.PrefixCheck;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
@@ -11,12 +11,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class IsPrefixesValidator implements ConstraintValidator<IsPrefixes, String> {
-    private String[] values;
+public class PrefixCheckValidator implements ConstraintValidator<PrefixCheck, String> {
+    private String[] prefix;
 
     @Override
-    public void initialize(IsPrefixes annotation) {
-        values = annotation.values();
+    public void initialize(PrefixCheck annotation) {
+        prefix = annotation.value();
     }
 
     /**
@@ -31,14 +31,7 @@ public class IsPrefixesValidator implements ConstraintValidator<IsPrefixes, Stri
         if (StringUtils.isBlank(value)) {
             return true;
         }
-        try {
-            if (StringUtils.startsWithAny(value, values)) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return StringUtils.startsWithAny(value, prefix);
     }
 
 }

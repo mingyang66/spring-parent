@@ -1,6 +1,6 @@
 package com.emily.infrastructure.validation.annotation;
 
-import com.emily.infrastructure.validation.IsPrefixesValidator;
+import com.emily.infrastructure.validation.PrefixCheckValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -19,8 +19,9 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsPrefixesValidator.class})
-public @interface IsPrefixes {
+@Constraint(validatedBy = {PrefixCheckValidator.class})
+public @interface PrefixCheck {
+    String[] value() default {};
     /**
      * 提示信息
      */
@@ -32,11 +33,4 @@ public @interface IsPrefixes {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    /**
-     * 校验前缀
-     *
-     * @return 前缀数组
-     */
-    String[] values() default {};
 }

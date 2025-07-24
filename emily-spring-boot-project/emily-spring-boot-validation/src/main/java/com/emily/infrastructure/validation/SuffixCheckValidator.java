@@ -1,6 +1,6 @@
 package com.emily.infrastructure.validation;
 
-import com.emily.infrastructure.validation.annotation.IsSuffixes;
+import com.emily.infrastructure.validation.annotation.SuffixCheck;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
@@ -11,12 +11,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class IsSuffixesValidator implements ConstraintValidator<IsSuffixes, String> {
-    private String[] values;
+public class SuffixCheckValidator implements ConstraintValidator<SuffixCheck, String> {
+    private String[] suffix;
 
     @Override
-    public void initialize(IsSuffixes annotation) {
-        values = annotation.values();
+    public void initialize(SuffixCheck annotation) {
+        suffix = annotation.value();
     }
 
     /**
@@ -31,14 +31,7 @@ public class IsSuffixesValidator implements ConstraintValidator<IsSuffixes, Stri
         if (StringUtils.isBlank(value)) {
             return true;
         }
-        try {
-            if (StringUtils.endsWithAny(value, values)) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return StringUtils.endsWithAny(value, suffix);
     }
 
 }

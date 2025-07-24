@@ -1,13 +1,13 @@
 package com.emily.infrastructure.validation.annotation;
 
-import com.emily.infrastructure.validation.PrefixCheckValidator;
+import com.emily.infrastructure.validation.NumericRangeValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 /**
- * 校验前缀
+ * 判断是否为long类型，如果为空则不校验
  * 1. ElementType.ANNOTATION_TYPE 用户其它约束的约束注解
  * 2. ElementType.FIELD 受约束的属性字段
  * 3. ElementType.PARAMETER 用于受约束的方法和构造函数参数
@@ -19,14 +19,23 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {PrefixCheckValidator.class})
-public @interface PrefixCheck {
-    String[] value() default {};
+@Constraint(validatedBy = {NumericRangeValidator.class})
+public @interface NumericRange {
+
+    /**
+     * 最小值
+     */
+    long min() default Long.MIN_VALUE;
+
+    /**
+     * 最大值
+     */
+    long max() default Long.MAX_VALUE;
 
     /**
      * 提示信息
      */
-    String message() default "非法前缀";
+    String message() default "{jakarta.validation.constraints.NumericRange.message}";
 
     /**
      * 校验分组
@@ -34,4 +43,5 @@ public @interface PrefixCheck {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }

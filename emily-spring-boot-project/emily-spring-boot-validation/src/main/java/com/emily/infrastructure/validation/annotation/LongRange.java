@@ -35,7 +35,7 @@ public @interface LongRange {
     /**
      * 提示信息
      */
-    String message() default "{jakarta.validation.constraints.IsLong.message}";
+    String message() default "{jakarta.validation.constraints.LongRange.message}";
 
     /**
      * 校验分组

@@ -25,7 +25,7 @@ public @interface DoubleRange {
     /**
      * 最小值
      */
-    double min() default -Double.MAX_VALUE;
+    double min() default Double.NEGATIVE_INFINITY;
 
     /**
      * 最大值
@@ -35,7 +35,7 @@ public @interface DoubleRange {
     /**
      * 提示信息
      */
-    String message() default "{jakarta.validation.constraints.IsDouble.message}";
+    String message() default "{jakarta.validation.constraints.DoubleRange.message}";
 
     /**
      * 校验分组

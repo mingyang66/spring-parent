@@ -22,6 +22,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = {SuffixCheckValidator.class})
 public @interface SuffixCheck {
     String[] value() default {};
+
     /**
      * 提示信息
      */

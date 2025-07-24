@@ -30,6 +30,7 @@ public @interface IntRange {
      * 最大值
      */
     int max() default Integer.MAX_VALUE;
+
     /**
      * 提示信息
      */

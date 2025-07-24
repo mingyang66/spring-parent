@@ -1,5 +1,7 @@
 package com.emily.sample.validation.entity;
 
+import com.emily.infrastructure.validation.annotation.IntRange;
+import com.emily.infrastructure.validation.annotation.NumericRange;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +18,36 @@ public class User {
     @Valid
     @NotNull(message = "school不可为空")
     private School school;
+    @IntRange(min = 4, max = 8, message = "年龄不符合规定")
+    private int age;
+    @IntRange(min = 1, max = 4, message = "宽度不符合规定")
+    private Integer width;
+    @NumericRange(min = 2, max = 100, message = "身高不符合规定")
+    private String height;
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
 
     public String getId() {
         return id;

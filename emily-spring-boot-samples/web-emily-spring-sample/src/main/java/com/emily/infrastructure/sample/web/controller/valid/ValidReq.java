@@ -22,8 +22,8 @@ public class ValidReq {
     private double price;
     @IsDouble(min = 1.1, max = 20.2, values = {"市价"}, message = "交易价格不正确")
     private String tradePrice;
-    @IsInt(min = -10, max = 20, values = {"特例"}, message = "购买数量不正确")
-    private String buyAmount;
+    @IntRange(min = -10, max = 20, message = "购买数量不正确")
+    private Integer buyAmount;
     @IsLong(min = 10, max = 20, values = {"特例"}, message = "总金额不正确")
     private String totalAmount;
     @IsBigDecimal(message = "金额不正确")
@@ -85,12 +85,8 @@ public class ValidReq {
         this.totalAmount = totalAmount;
     }
 
-    public String getBuyAmount() {
+    public Integer getBuyAmount() {
         return buyAmount;
-    }
-
-    public void setBuyAmount(String buyAmount) {
-        this.buyAmount = buyAmount;
     }
 
     public String getTradePrice() {

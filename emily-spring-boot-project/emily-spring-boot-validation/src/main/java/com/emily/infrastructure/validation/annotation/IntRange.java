@@ -1,6 +1,6 @@
 package com.emily.infrastructure.validation.annotation;
 
-import com.emily.infrastructure.validation.IsIntValidator;
+import com.emily.infrastructure.validation.IntRangeValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -19,20 +19,8 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsIntValidator.class})
-public @interface IsInt {
-    /**
-     * 提示信息
-     */
-    String message() default "{jakarta.validation.constraints.IsInt.message}";
-
-    /**
-     * 校验分组
-     */
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
-
+@Constraint(validatedBy = {IntRangeValidator.class})
+public @interface IntRange {
     /**
      * 最小值
      */
@@ -42,12 +30,16 @@ public @interface IsInt {
      * 最大值
      */
     int max() default Integer.MAX_VALUE;
+    /**
+     * 提示信息
+     */
+    String message() default "{jakarta.validation.constraints.IntRange.message}";
 
     /**
-     * 允许特殊的值
-     *
-     * @return 特殊值列表
+     * 校验分组
      */
-    String[] values() default {};
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 
 }

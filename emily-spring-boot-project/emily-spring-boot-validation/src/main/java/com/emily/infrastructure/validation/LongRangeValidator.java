@@ -10,14 +10,18 @@ import jakarta.validation.ConstraintValidatorContext;
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class LongRangeValidator implements ConstraintValidator<LongRange, Long> {
+public class LongRangeValidator implements ConstraintValidator<LongRange, Object> {
     private long min;
     private long max;
+    private boolean minInclusive;
+    private boolean maxInclusive;
 
     @Override
     public void initialize(LongRange annotation) {
         min = annotation.min();
         max = annotation.max();
+        minInclusive = annotation.minInclusive();
+        maxInclusive = annotation.maxInclusive();
     }
 
     /**
@@ -28,9 +32,16 @@ public class LongRangeValidator implements ConstraintValidator<LongRange, Long> 
      * @return true if the object is valid, false otherwise
      */
     @Override
-    public boolean isValid(Long value, ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (value == null) return true; // 结合@NotNull处理空值
-        return value >= min && value <= max;
+        try {
+            long d = Long.parseLong(value.toString());
+            boolean minValid = minInclusive ? d >= min : d > min;
+            boolean maxValid = maxInclusive ? d <= max : d < max;
+            return minValid && maxValid;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }

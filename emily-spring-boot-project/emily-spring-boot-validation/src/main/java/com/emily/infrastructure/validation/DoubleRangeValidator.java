@@ -10,14 +10,18 @@ import jakarta.validation.ConstraintValidatorContext;
  * @author :  Emily
  * @since :  2023/12/24 1:32 PM
  */
-public class DoubleRangeValidator implements ConstraintValidator<DoubleRange, Double> {
+public class DoubleRangeValidator implements ConstraintValidator<DoubleRange, Object> {
     private double min;
     private double max;
+    private boolean minInclusive;
+    private boolean maxInclusive;
 
     @Override
     public void initialize(DoubleRange annotation) {
         this.min = annotation.min();
         this.max = annotation.max();
+        this.minInclusive = annotation.minInclusive();
+        this.maxInclusive = annotation.maxInclusive();
     }
 
     /**
@@ -28,9 +32,16 @@ public class DoubleRangeValidator implements ConstraintValidator<DoubleRange, Do
      * @return true if the object is valid, false otherwise
      */
     @Override
-    public boolean isValid(Double value, ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (value == null) return true; // 结合@NotNull处理空值
-        return value >= min && value <= max;
+        try {
+            double d = Double.parseDouble(value.toString());
+            boolean minValid = minInclusive ? d >= min : d > min;
+            boolean maxValid = maxInclusive ? d <= max : d < max;
+            return minValid && maxValid;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }

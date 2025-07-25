@@ -1,7 +1,8 @@
 package com.emily.sample.validation.entity;
 
+import com.emily.infrastructure.validation.annotation.DoubleRange;
 import com.emily.infrastructure.validation.annotation.IntRange;
-import com.emily.infrastructure.validation.annotation.NumericRange;
+import com.emily.infrastructure.validation.annotation.LongRange;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,11 +19,11 @@ public class User {
     @Valid
     @NotNull(message = "school不可为空")
     private School school;
-    @IntRange(min = 4, max = 8, message = "年龄不符合规定")
+    @IntRange(min = 4, max = 8, minInclusive = false, message = "年龄不符合规定")
     private int age;
-    @IntRange(min = 1, max = 4, message = "宽度不符合规定")
+    @LongRange(min = 1, max = 4, message = "宽度不符合规定")
     private Integer width;
-    @NumericRange(min = 2, max = 100, message = "身高不符合规定")
+    @DoubleRange(min = -365984, max = 100, minInclusive = false, maxInclusive = false, message = "身高不符合规定")
     private String height;
 
     public String getHeight() {

@@ -32,6 +32,16 @@ public @interface IntRange {
     int max() default Integer.MAX_VALUE;
 
     /**
+     * 是否包含最小值
+     */
+    boolean minInclusive() default true;
+
+    /**
+     * 是否包含最大值
+     */
+    boolean maxInclusive() default true;
+
+    /**
      * 提示信息
      */
     String message() default "{jakarta.validation.constraints.IntRange.message}";

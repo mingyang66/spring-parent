@@ -8,6 +8,12 @@ Bug Fixes
 3. SecurityUtils对实体类字段值为空时不触发对应插件问题修复；
 4. 新增参数校验注解@NoneOrBothEmpty标注字段全部不为空或全部为空；
 5. 新增参数校验注解@NotBothEmpty标注字段不全部为空；
+6. 
+   
+Dependency Upgrades
+
+1. Upgrade to druid 1.2.27;
+2. Upgrade to mybatis 3.0.5;
 
 ###-----
 基础库发布5.0.5

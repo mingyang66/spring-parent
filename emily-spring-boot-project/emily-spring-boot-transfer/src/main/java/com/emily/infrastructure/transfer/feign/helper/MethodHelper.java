@@ -41,9 +41,7 @@ public class MethodHelper {
                                 return value;
                             }
                         } else {
-                            return SensitizeUtils.acquireElseGet(value, e -> {
-                                LOG.error("脱敏处理异常", e);
-                            });
+                            return SensitizeUtils.acquireElseGet(value, e -> LOG.error("脱敏处理异常", e));
                         }
                     } else {
                         return value;

@@ -1,14 +1,16 @@
 package com.emily.infrastructure.rateLimiter.interceptor;
 
 import com.emily.infrastructure.common.ObjectUtils;
-import com.emily.infrastructure.common.StringUtils;
 import com.emily.infrastructure.rateLimiter.annotation.RateLimiterOperation;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.Assert;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 限流默认拦截器
@@ -41,7 +43,7 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
     @Override
     public String resolveKey(MethodInvocation invocation, String key) {
         Assert.notNull(key, "key must not be null");
-        int count = StringUtils.countOfContains(key, "%s");
+        int count = countPlaceholders(key);
         if (count < 1) {
             return key;
         }
@@ -61,7 +63,7 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
                 throw new IllegalArgumentException("非法限流入参");
             }
         }
-        return String.format(key, list.toArray());
+        return MessageFormat.format(key, list.toArray());
     }
 
     /**
@@ -85,5 +87,16 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
     @Override
     public void after(String key, long timeout, TimeUnit timeunit) {
 
+    }
+
+    public static int countPlaceholders(String format) {
+        // 匹配非单引号包围的{数字}格式
+        Pattern pattern = Pattern.compile("(?<!')\\{([0-9]+)(,[^}]*)?}(?!')");
+        Matcher matcher = pattern.matcher(format);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        return count;
     }
 }

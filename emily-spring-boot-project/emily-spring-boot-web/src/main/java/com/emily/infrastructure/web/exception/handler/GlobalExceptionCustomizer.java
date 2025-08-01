@@ -11,7 +11,7 @@ import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.TracingPhase;
 import com.emily.infrastructure.web.filter.helper.MethodHelper;
-import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
+import com.emily.infrastructure.web.response.annotation.RawResponse;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import com.otter.infrastructure.servlet.RequestUtils;
@@ -71,7 +71,7 @@ public class GlobalExceptionCustomizer {
         if (Objects.nonNull(handlerMethod)) {
             // 获取控制器方法
             Method method = handlerMethod.getMethod();
-            if (method.isAnnotationPresent(ApiResponsePackIgnore.class)) {
+            if (method.isAnnotationPresent(RawResponse.class)) {
                 return message;
             }
         }

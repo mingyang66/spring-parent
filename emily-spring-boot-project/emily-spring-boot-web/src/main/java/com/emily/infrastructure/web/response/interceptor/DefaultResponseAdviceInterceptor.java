@@ -3,7 +3,7 @@ package com.emily.infrastructure.web.response.interceptor;
 import com.emily.infrastructure.common.RegexPathMatcher;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.web.response.ResponseProperties;
-import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
+import com.emily.infrastructure.web.response.annotation.RawResponse;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.emily.infrastructure.web.response.enums.ApplicationStatus;
 import jakarta.annotation.Nonnull;
@@ -78,7 +78,7 @@ public class DefaultResponseAdviceInterceptor implements ResponseBodyAdvice<Obje
             return body;
         }
         // 如果控制器上标注类忽略包装注解，则直接返回
-        else if (returnType.hasMethodAnnotation(ApiResponsePackIgnore.class)) {
+        else if (returnType.hasMethodAnnotation(RawResponse.class)) {
             return body;
         }
         // 如果请求URL在指定的排除URL集合，则直接返回

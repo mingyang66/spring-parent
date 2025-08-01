@@ -3,7 +3,7 @@ package com.emily.infrastructure.sample.web.controller;
 import com.emily.infrastructure.common.PropertiesUtils;
 import com.emily.infrastructure.sample.web.entity.response.FileUploadRequest;
 import com.emily.infrastructure.sample.web.entity.response.Wrapper;
-import com.emily.infrastructure.web.response.annotation.ApiResponsePackIgnore;
+import com.emily.infrastructure.web.response.annotation.RawResponse;
 import com.emily.infrastructure.web.response.entity.BaseResponse;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.springframework.http.*;
@@ -38,13 +38,13 @@ public class ResponseController {
     }
 
     @GetMapping("ignore")
-    @ApiResponsePackIgnore
+    @RawResponse
     public String ignore() {
         return "ignore";
     }
 
     @GetMapping("ignoreException")
-    @ApiResponsePackIgnore
+    @RawResponse
     public String ignoreException() {
         throw new IllegalArgumentException("非法参数");
     }

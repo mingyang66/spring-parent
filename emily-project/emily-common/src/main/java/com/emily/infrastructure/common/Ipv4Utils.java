@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @author :  Emily
  * @since :  2025/8/2 下午7:41
  */
-public class IpUtils {
+public class Ipv4Utils {
 
     /**
      * IP地址正则验证（IPv4格式）

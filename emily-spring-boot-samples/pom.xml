@@ -26,6 +26,7 @@
         <module>redis-spring-boot-sample</module>
         <module>desensitize-spring-boot-sample</module>
         <module>tracing-spring-boot-sample</module>
+        <module>email-spring-boot-sample</module>
     </modules>
 
 </project>

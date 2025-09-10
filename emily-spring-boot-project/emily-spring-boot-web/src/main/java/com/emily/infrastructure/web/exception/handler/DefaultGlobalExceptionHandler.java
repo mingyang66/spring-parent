@@ -26,6 +26,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Objects;
 
 /**
  * 控制并统一处理异常类 @ExceptionHandler标注的方法优先级问题，它会找到异常的最近继承关系，也就是继承关系最浅的注解方法
@@ -144,9 +145,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
             //当用@Valid注释的参数验证失败时引发异常。从5.3起扩展BindException。
             if (e instanceof MethodArgumentNotValidException ex) {
                 // ex.getFieldError() == null时，表示校验参数的注解标注在类上，否则就在实体类字段上
-                message = ex.getFieldError() == null ? ex.getGlobalError().getDefaultMessage() : ex.getFieldError().getDefaultMessage();
+                message = ex.getFieldError() == null ? Objects.requireNonNull(ex.getGlobalError()).getDefaultMessage() : ex.getFieldError().getDefaultMessage();
             } else if (e instanceof BindException ex) {
-                message = ex.getFieldError() == null ? ex.getGlobalError().getDefaultMessage() : ex.getFieldError().getDefaultMessage();
+                message = ex.getFieldError() == null ? Objects.requireNonNull(ex.getGlobalError()).getDefaultMessage() : ex.getFieldError().getDefaultMessage();
             } else if (e instanceof ConstraintViolationException ex) {
                 // ValidationException的子类
                 message = ex.getConstraintViolations().stream().findFirst().get().getMessageTemplate();

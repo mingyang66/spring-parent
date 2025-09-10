@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/8/28 下午3:02
  */
 public class PooledJavaMailSender extends JavaMailSenderImpl {

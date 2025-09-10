@@ -15,8 +15,8 @@
     <description>Bill Of Material</description>
 
     <properties>
-        <spring-boot.version>3.5.3</spring-boot.version>
-        <spring-cloud.version>2024.0.1</spring-cloud.version>
+        <spring-boot.version>3.5.5</spring-boot.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring.mybatis.version>3.0.5</spring.mybatis.version>
         <alibaba.druid.version>1.2.27</alibaba.druid.version>
         <commons-io.version>2.11.0</commons-io.version>

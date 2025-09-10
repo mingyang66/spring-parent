@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/5/19 下午4:50
  */
 public class BusinessExceptionTest {

@@ -17,7 +17,7 @@ import java.util.Properties;
 /**
  * {@link org.springframework.boot.autoconfigure.mail.MailSenderPropertiesConfiguration}
  *
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/8/28 上午10:51
  */
 public class PooledMailConnectionFactory extends BasePooledObjectFactory<JavaMailSender> {

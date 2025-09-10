@@ -96,6 +96,9 @@ public class DefaultGlobalExceptionHandler extends GlobalExceptionCustomizer {
         recordErrorMsg(e, request);
         Throwable throwable = e.getUndeclaredThrowable();
         if (throwable != null) {
+            if(throwable instanceof IllegalAccessException ex) {
+                return getApiResponseWrapper(handlerMethod, ApplicationStatus.ILLEGAL_ACCESS.getStatus(), ex.getMessage());
+            }
             return getApiResponseWrapper(handlerMethod, ApplicationStatus.ILLEGAL_PROXY.getStatus(), throwable.getMessage());
         }
         return getApiResponseWrapper(handlerMethod, ApplicationStatus.ILLEGAL_PROXY);

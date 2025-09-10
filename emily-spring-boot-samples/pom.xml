@@ -28,6 +28,7 @@
         <module>tracing-spring-boot-sample</module>
         <module>email-spring-boot-sample</module>
         <module>graphql-spring-boot-sample</module>
+        <module>rateLimiter-spring-boot-sample</module>
     </modules>
 
 </project>

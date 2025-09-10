@@ -23,7 +23,7 @@ public interface RateLimiterCustomizer extends MethodInterceptor {
      * @param key 缓存key
      * @return 访问次数
      */
-    int before(String key);
+    long countAccess(String key);
 
     /**
      * 当前用户已访问次数+1
@@ -32,5 +32,5 @@ public interface RateLimiterCustomizer extends MethodInterceptor {
      * @param timeout  超时时间
      * @param timeunit 单位
      */
-    void after(String key, long timeout, TimeUnit timeunit);
+    void recordAccess(String key, long timeout, TimeUnit timeunit);
 }

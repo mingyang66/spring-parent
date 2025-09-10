@@ -2,13 +2,17 @@ package com.emily.infrastructure.rateLimiter.interceptor;
 
 import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.rateLimiter.annotation.RateLimiterOperation;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +23,9 @@ import java.util.regex.Pattern;
  * @since :  2024/8/29 下午5:37
  */
 public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomizer {
+    private static final Cache<String, AtomicLong> CACHE = Caffeine.newBuilder()
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build();
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -26,14 +33,14 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
         // 解析key，替换变量
         String key = resolveKey(invocation, rateLimiter.value());
         try {
-            int count = before(key);
+            long count = countAccess(key);
             if (count >= rateLimiter.threshold()) {
                 throw new IllegalAccessException(rateLimiter.message());
             }
             return invocation.proceed();
         } finally {
             // 当前访问次数+1
-            after(key, rateLimiter.timeout(), rateLimiter.timeunit());
+            recordAccess(key, rateLimiter.timeout(), rateLimiter.timeunit());
         }
     }
 
@@ -73,8 +80,8 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
      * @return 访问次数
      */
     @Override
-    public int before(String key) {
-        return 0;
+    public long countAccess(String key) {
+        return Optional.ofNullable(CACHE.getIfPresent(key)).orElse(new AtomicLong(0L)).get();
     }
 
     /**
@@ -85,11 +92,13 @@ public class DefaultRateLimiterMethodInterceptor implements RateLimiterCustomize
      * @param timeunit 单位
      */
     @Override
-    public void after(String key, long timeout, TimeUnit timeunit) {
-
+    public void recordAccess(String key, long timeout, TimeUnit timeunit) {
+        AtomicLong atomicLong = Optional.ofNullable(CACHE.getIfPresent(key)).orElse(new AtomicLong(0L));
+        atomicLong.incrementAndGet();
+        CACHE.put(key, atomicLong);
     }
 
-    public static int countPlaceholders(String format) {
+    int countPlaceholders(String format) {
         // 匹配非单引号包围的{数字}格式
         Pattern pattern = Pattern.compile("(?<!')\\{([0-9]+)(,[^}]*)?}(?!')");
         Matcher matcher = pattern.matcher(format);

@@ -36,10 +36,6 @@
             <artifactId>emily-spring-boot-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-rateLimiter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
         </dependency>

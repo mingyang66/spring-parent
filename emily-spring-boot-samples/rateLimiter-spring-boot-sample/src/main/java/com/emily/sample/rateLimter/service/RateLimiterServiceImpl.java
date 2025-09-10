@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.controller.rateLimiter;
+package com.emily.sample.rateLimter.service;
 
 import com.emily.infrastructure.rateLimiter.annotation.RateLimiterOperation;
 import org.springframework.stereotype.Service;

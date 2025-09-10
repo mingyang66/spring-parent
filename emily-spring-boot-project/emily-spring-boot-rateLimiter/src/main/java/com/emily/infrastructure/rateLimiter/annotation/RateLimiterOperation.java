@@ -32,7 +32,7 @@ public @interface RateLimiterOperation {
     /**
      * 最大限流次数，默认：10
      */
-    int threshold() default 10;
+    long threshold() default 10;
 
     /**
      * 超过限流次数提醒消息

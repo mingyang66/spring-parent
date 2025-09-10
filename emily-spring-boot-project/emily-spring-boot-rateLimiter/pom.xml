@@ -36,5 +36,9 @@
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
     </dependencies>
 </project>

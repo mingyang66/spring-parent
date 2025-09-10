@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.controller.rateLimiter;
+package com.emily.sample.rateLimter.service;
 
 /**
  * @author :  Emily

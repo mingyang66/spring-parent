@@ -30,6 +30,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.util.Objects;
@@ -52,14 +53,15 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
     /**
      * 数据源切面增强类，支持@TargetDataSource注解标注在父类、接口、父类或接口的方法上都可以拦截到
      *
-     * @param dataSourceCustomizers 切面|拦截器
-     * @param properties            属性配置
+     * @param customizers 切面|拦截器
+     * @param properties  属性配置
      * @return 切面增强类
      * @since(4.0.6)
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> dataSourceCustomizers, DataSourceProperties properties) {
+    public Advisor dataSourcePointCutAdvice(ObjectProvider<DataSourceCustomizer> customizers, DataSourceProperties properties) {
+        Assert.isTrue(customizers.orderedStream().findFirst().isPresent(), () -> "DataSourceCustomizer must not be null");
         //限定类级别的切点
         Pointcut cpc = new AnnotationMatchingPointcut(TargetDataSource.class, properties.isCheckInherited());
         //限定方法级别的切点
@@ -67,7 +69,7 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
         //组合切面(并集)，即只要有一个切点的条件符合，则就拦截
         Pointcut pointcut = new ComposablePointcut(cpc).union(mpc);
         //切面增强类
-        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(dataSourceCustomizers.orderedStream().findFirst().get(), pointcut);
+        AnnotationPointcutAdvisor advisor = new AnnotationPointcutAdvisor(customizers.orderedStream().findFirst().get(), pointcut);
         //切面优先级顺序
         advisor.setOrder(AopOrderInfo.DATASOURCE);
         return advisor;

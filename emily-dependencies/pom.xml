@@ -23,7 +23,7 @@
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <google-guava.version>33.4.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
-        <jackson.version>2.18.3</jackson.version>
+        <jackson.version>2.19.2</jackson.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <logback.version>1.5.18</logback.version>

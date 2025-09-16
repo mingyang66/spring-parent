@@ -19,18 +19,17 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
         <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
+            <groupId>io.github.mingyang66</groupId>
+            <artifactId>emily-spring-boot-web</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
             <artifactId>emily-spring-boot-datasource</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-spring-boot-web</artifactId>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
         </dependency>
     </dependencies>
 </project>

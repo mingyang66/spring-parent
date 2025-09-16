@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.emily.sample.sqlite.mapper.CompanyMapper">
     <insert id="insertCompany">
-        INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
-        VALUES (#{id}, 'Kim', 22, 'South-Hall', 45000.00);
+        INSERT INTO STUDENT (NAME,HEIGHT,CREDIT,ADDRESS,OPENING) VALUES('叶子农',185,98.6,'圣保罗大街6号',TRUE);
     </insert>
     <select id="getCompanyId" resultType="java.lang.Long">
         select max(id)
-        from COMPANY
+        from STUDENT
     </select>
 </mapper>

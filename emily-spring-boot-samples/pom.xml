@@ -29,6 +29,7 @@
         <module>email-spring-boot-sample</module>
         <module>graphql-spring-boot-sample</module>
         <module>rateLimiter-spring-boot-sample</module>
+        <module>shell-spring-boot-starter</module>
     </modules>
 
 </project>

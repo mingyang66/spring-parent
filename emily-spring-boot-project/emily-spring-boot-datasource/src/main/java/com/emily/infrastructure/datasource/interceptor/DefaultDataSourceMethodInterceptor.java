@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
  */
 public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultDataSourceMethodInterceptor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultDataSourceMethodInterceptor.class);
 
     private final DataSourceProperties properties;
 
@@ -76,7 +76,7 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             //调用TargetDataSource标记的切换数据源方法
             return invocation.proceed();
         } catch (Throwable ex) {
-            logger.error(PrintExceptionUtils.printErrorInfo(ex));
+            LOG.error(PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             this.after(method);

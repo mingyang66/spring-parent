@@ -1,0 +1,6 @@
+| [轻松命名](https://www.icanshock.fun/) | [AI检测器](https://decopy.ai/zh/ai-detector/)                | [JWT机密](https://www.orcc.top/tools/jwt) | [ExcaliDraw快速画图](https://excalidraw.com/) | [Base64图片](http://m.91tool.com/base64) | [工具集](https://tool.lu/tool) |
+| -------------------------------------- | ------------------------------------------------------------ | ----------------------------------------- | --------------------------------------------- | ---------------------------------------- | ------------------------------ |
+| [SDKMAN!](https://sdkman.io/sdks/)     | [Plantuml部署图](https://plantuml.com/zh/deployment-diagram) |                                           |                                               |                                          |                                |
+|                                        |                                                              |                                           |                                               |                                          |                                |
+|                                        |                                                              |                                           |                                               |                                          |                                |
+

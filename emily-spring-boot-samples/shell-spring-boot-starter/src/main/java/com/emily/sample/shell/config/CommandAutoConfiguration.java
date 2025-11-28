@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.shell.command.CommandRegistration;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/9/18 下午4:33
  */
 @AutoConfiguration

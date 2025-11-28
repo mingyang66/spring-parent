@@ -1,4 +1,4 @@
-package com.emily.infrastructure.json.test;
+package com.emily.infrastructure.test.json.entity;
 
 /**
  * @author :  Emily

@@ -1,17 +1,19 @@
 package com.emily.infrastructure.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * JSON工具类
@@ -21,23 +23,35 @@ import java.util.Objects;
  */
 public class JsonUtils {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final ObjectMapper objectMapper = JsonMapper.builder()
+            //对象的所有字段全部序列化 objectMapper.setSerializationInclusion(Include.ALWAYS);
+            .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(Include.ALWAYS))
+            //忽略空Bean转json的错误 objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+            ////取消默认转换timestamps objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            .configure(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            //时区
+            .defaultTimeZone(TimeZone.getTimeZone(ZoneId.of("GMT+8")))
+            //所有的java.util.Date、java.util.Calendar日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss objectMapper.setDateFormat(new SimpleDateFormat(DATE_PATTERN));
+            .defaultDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
+            //忽略，在json字符串中存在但是在java对象中不存在的属性 objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .build();
 
-    static {
-        //对象的所有字段全部序列化
-        objectMapper.setSerializationInclusion(Include.ALWAYS);
-        //取消默认转换timestamps
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DATE_PATTERN));
-        //忽略空Bean转json的错误
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        //忽略，在json字符串中存在但是在java对象中不存在的属性
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //序列化和反序列化java.Time时间对象
-        objectMapper.registerModule(new JavaTimeModule());
-    }
+    //static {
+    //对象的所有字段全部序列化
+    //objectMapper.setSerializationInclusion(Include.ALWAYS);
+    //取消默认转换timestamps
+    //objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
+    //objectMapper.setDateFormat(new SimpleDateFormat(DATE_PATTERN));
+    //忽略空Bean转json的错误
+    //objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    //忽略，在json字符串中存在但是在java对象中不存在的属性
+    //objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    //序列化和反序列化java.Time时间对象
+    //objectMapper.registerModule(new JavaTimeModule());
+    //}
 
     /**
      * 对象转换为json字符串, 支持List、Map、Collection、字符串
@@ -71,9 +85,10 @@ public class JsonUtils {
             if (null == include) {
                 include = Include.ALWAYS;
             }
-            objectMapper.setSerializationInclusion(include);
-            return objectMapper.writeValueAsString(o);
-        } catch (JsonProcessingException e) {
+            Include finalInclude = include;
+            return objectMapper.rebuild().changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(finalInclude)).build()
+                    .writeValueAsString(o);
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -110,9 +125,10 @@ public class JsonUtils {
             if (null == include) {
                 include = Include.ALWAYS;
             }
-            objectMapper.setSerializationInclusion(include);
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
-        } catch (JsonProcessingException e) {
+            Include finalInclude = include;
+            return objectMapper.rebuild().changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(finalInclude)).build()
+                    .writerWithDefaultPrettyPrinter().writeValueAsString(o);
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -129,7 +145,7 @@ public class JsonUtils {
     public static <T> T toJavaBean(File file, Class<T> responseType) {
         try {
             return objectMapper.readValue(file, responseType);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -146,7 +162,7 @@ public class JsonUtils {
     public static <T> T toJavaBean(String jsonString, Class<T> responseType) {
         try {
             return objectMapper.readValue(jsonString, responseType);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -183,7 +199,7 @@ public class JsonUtils {
         try {
             JavaType javaType = javaType(parametrized, parameterClasses);
             return objectMapper.readValue(jsonString, javaType);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -209,7 +225,7 @@ public class JsonUtils {
     public static <T> T toJavaBean(String jsonString, JavaType javaType) {
         try {
             return objectMapper.readValue(jsonString, javaType);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -231,7 +247,7 @@ public class JsonUtils {
     public static <T> T toJavaBean(String jsonString, TypeReference<T> typeReference) {
         try {
             return objectMapper.readValue(jsonString, typeReference);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -274,7 +290,7 @@ public class JsonUtils {
     public static void writeToFile(File file, Object o) {
         try {
             objectMapper.writeValue(file, o);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -289,7 +305,7 @@ public class JsonUtils {
     public static void writeToFilePretty(File file, Object o) {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, o);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -306,7 +322,7 @@ public class JsonUtils {
         }
         try {
             return objectMapper.writeValueAsBytes(value);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -341,7 +357,7 @@ public class JsonUtils {
         }
         try {
             return objectMapper.readValue(bytes, responseType);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
     }
@@ -355,7 +371,7 @@ public class JsonUtils {
     public static void writeValue(OutputStream outputStream, Object value) {
         try {
             objectMapper.writeValue(outputStream, value);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法数据");
         }
 
@@ -389,7 +405,7 @@ public class JsonUtils {
     public static JsonNode readTree(String value) {
         try {
             return objectMapper.readTree(value);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法参数");
         }
     }
@@ -403,7 +419,7 @@ public class JsonUtils {
     public static JsonNode readTree(byte[] value) {
         try {
             return objectMapper.readTree(value);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("非法参数");
         }
     }

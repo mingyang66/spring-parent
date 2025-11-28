@@ -1,4 +1,4 @@
-package com.emily.infrastructure.json.test;
+package com.emily.infrastructure.test.json.entity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +10,7 @@ import java.util.Map;
 public class User {
     private String username;
     private String password;
+
     private Like like;
     private List<Like> list;
     private Map<String, Like> dataMap;

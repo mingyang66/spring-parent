@@ -59,9 +59,9 @@ public class ServletAutoConfiguration implements WebMvcConfigurer, InitializingB
         //是否缓存匹配规则,默认null等于true
         matcher.setCachePatterns(properties.getPath().isCachePatterns());
         //设置路由匹配规则
-        configurer.setPathMatcher(matcher);
+        //configurer.setPathMatcher(matcher);
         //设置URL末尾是否支持斜杠，默认true,如/a/b/有效，/a/b也有效
-        configurer.setUseTrailingSlashMatch(properties.getPath().isUseTrailingSlashMatch());
+        //configurer.setUseTrailingSlashMatch(properties.getPath().isUseTrailingSlashMatch());
         //忽略URL前缀的控制器类
         ignoreUrlPrefixController = ArrayUtils.addAll(ignoreUrlPrefixController, properties.getPath().getExclude().toArray(new String[]{}));
         //给所有的接口统一添加前缀

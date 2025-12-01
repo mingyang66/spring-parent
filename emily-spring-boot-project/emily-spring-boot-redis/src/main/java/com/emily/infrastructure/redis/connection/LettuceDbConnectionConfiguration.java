@@ -81,9 +81,8 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
     @ConditionalOnThreading(Threading.PLATFORM)
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-                                                    ClientResources clientResources,
-                                                    DataRedisConnectionDetails connectionDetails) {
-        return createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, connectionDetails);
+                                                    ClientResources clientResources) {
+        return createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
     }
 
     @Bean
@@ -93,9 +92,8 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
     LettuceConnectionFactory redisConnectionFactoryVirtualThreads(
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-            ClientResources clientResources,
-            DataRedisConnectionDetails connectionDetails) {
-        LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, connectionDetails);
+            ClientResources clientResources) {
+        LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
         for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             String key = entry.getKey();
             if (this.getProperties().getDefaultConfig().equals(key)) {
@@ -163,8 +161,7 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
 
     private LettuceConnectionFactory createConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
                                                              ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-                                                             ClientResources clientResources,
-                                                             DataRedisConnectionDetails connectionDetails) {
+                                                             ClientResources clientResources) {
         String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
         LettuceConnectionFactory defaultConnectionFactory = null;
         for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
@@ -172,7 +169,7 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
             DataRedisProperties properties = entry.getValue();
             LettuceConnectionFactory connectionFactory;
             LettuceClientConfiguration clientConfiguration = this.getLettuceClientConfiguration(clientConfigurationBuilderCustomizers, clientOptionsBuilderCustomizers, clientResources, properties);
-            DataRedisConnectionDetails dataRedisConnectionDetails = defaultConfig.equals(key) ? connectionDetails : BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails dataRedisConnectionDetails =  BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             switch (this.mode) {
                 case STANDALONE:
                     connectionFactory = new LettuceConnectionFactory(this.getStandaloneConfig(dataRedisConnectionDetails), clientConfiguration);

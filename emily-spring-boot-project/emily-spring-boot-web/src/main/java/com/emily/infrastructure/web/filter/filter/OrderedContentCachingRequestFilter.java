@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.catalina.util.FilterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.filter.OrderedFilter;
-import org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter;
+import org.springframework.boot.servlet.filter.OrderedFilter;
+import org.springframework.boot.servlet.filter.OrderedRequestContextFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
@@ -35,7 +35,7 @@ public class OrderedContentCachingRequestFilter extends OncePerRequestFilter imp
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
         //创建ContentCachingRequestWrapper对象用于缓存请求体
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 1024);
         if (LOG.isDebugEnabled()) {
             LOG.debug("请求接口缓存拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }

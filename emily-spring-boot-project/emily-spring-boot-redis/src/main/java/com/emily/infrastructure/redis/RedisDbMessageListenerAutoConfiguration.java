@@ -27,12 +27,12 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
  */
 @SuppressWarnings("all")
 @AutoConfiguration(after = RedisDbAutoConfiguration.class)
-@ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "listener", havingValue = "true")
+@ConditionalOnProperty(prefix = DataRedisDbProperties.PREFIX, name = "listener", havingValue = "true")
 public class RedisDbMessageListenerAutoConfiguration implements InitializingBean, DisposableBean {
     private static final Logger LOG = LoggerFactory.getLogger(RedisDbMessageListenerAutoConfiguration.class);
-    private final RedisDbProperties redisDbProperties;
+    private final DataRedisDbProperties redisDbProperties;
 
-    RedisDbMessageListenerAutoConfiguration(RedisDbProperties redisDbProperties) {
+    RedisDbMessageListenerAutoConfiguration(DataRedisDbProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
     }
 
@@ -47,7 +47,7 @@ public class RedisDbMessageListenerAutoConfiguration implements InitializingBean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisMessageListenerContainer redisMessageListenerContainer = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             // 实例化消息监听容器
             RedisMessageListenerContainer messageListenerContainer = new RedisMessageListenerContainer();

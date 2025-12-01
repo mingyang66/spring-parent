@@ -8,7 +8,7 @@ import java.time.Duration;
  * @author :  Emily
  * @since :  2023/10/25 11:11 PM
  */
-public class RedisProperties extends org.springframework.boot.autoconfigure.data.redis.RedisProperties {
+public class DataRedisProperties extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties {
     /**
      * 基于jedis连接配置
      */
@@ -36,7 +36,7 @@ public class RedisProperties extends org.springframework.boot.autoconfigure.data
         this.lettuce = lettuce;
     }
 
-    public static class Pool extends org.springframework.boot.autoconfigure.data.redis.RedisProperties.Pool {
+    public static class Pool extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Pool {
         /**
          * 对象在池中最小可空闲时间, 默认：30分钟
          * 它指定了一个对象在池中保持空闲的最小时间，超过这个时间后，如果池中的对象数量超过了BaseObjectPoolConfig.minIdle设置的最小空闲对象数量，就会触发空闲对象的逐出操作
@@ -52,7 +52,7 @@ public class RedisProperties extends org.springframework.boot.autoconfigure.data
         }
     }
 
-    public static class Jedis extends org.springframework.boot.autoconfigure.data.redis.RedisProperties.Jedis {
+    public static class Jedis extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Jedis {
         /**
          * 连接池配置
          */
@@ -68,7 +68,7 @@ public class RedisProperties extends org.springframework.boot.autoconfigure.data
         }
     }
 
-    public static class Lettuce extends org.springframework.boot.autoconfigure.data.redis.RedisProperties.Lettuce {
+    public static class Lettuce extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Lettuce {
         /**
          * 是否开启连接校验，默认：false
          */

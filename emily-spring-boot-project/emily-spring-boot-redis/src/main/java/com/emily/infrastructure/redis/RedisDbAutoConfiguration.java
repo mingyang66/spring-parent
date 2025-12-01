@@ -1,21 +1,22 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.redis.connection.JedisDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
-import com.emily.infrastructure.redis.connection.PropertiesRedisDbConnectionDetails;
+import com.emily.infrastructure.redis.connection.PropertiesDataRedisDbConnectionDetails;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisConnectionDetails;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Role;
@@ -32,39 +33,39 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 
 /**
  * Redis多数据源配置，参考源码：LettuceConnectionConfiguration
- * {@link org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration}
+ * {@link DataRedisAutoConfiguration}
  *
  * @author Emily
  * @since 2021/07/11
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration(before = RedisAutoConfiguration.class)
-@EnableConfigurationProperties(RedisDbProperties.class)
-@ConditionalOnProperty(prefix = RedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Import({LettuceDbConnectionConfiguration.class, JedisDbConnectionConfiguration.class})
+@AutoConfiguration(before = DataRedisAutoConfiguration.class)
+@EnableConfigurationProperties(DataRedisDbProperties.class)
+@ConditionalOnProperty(prefix = DataRedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@Import({LettuceDbConnectionConfiguration.class})
 public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private final RedisDbProperties redisDbProperties;
+    private final DataRedisDbProperties redisDbProperties;
 
-    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, RedisDbProperties redisDbProperties) {
+    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRedisDbProperties redisDbProperties) {
         BeanFactoryProvider.registerDefaultListableBeanFactory(defaultListableBeanFactory);
         this.redisDbProperties = redisDbProperties;
     }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    @ConditionalOnMissingBean(RedisConnectionDetails.class)
-    PropertiesRedisDbConnectionDetails redisConnectionDetails() {
+    @ConditionalOnMissingBean(DataRedisConnectionDetails.class)
+    PropertiesDataRedisDbConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-        PropertiesRedisDbConnectionDetails redisConnectionDetails = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        PropertiesDataRedisDbConnectionDetails redisConnectionDetails = null;
+        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
-            RedisProperties properties = entry.getValue();
+            DataRedisProperties properties = entry.getValue();
             if (defaultConfig.equals(key)) {
-                redisConnectionDetails = new PropertiesRedisDbConnectionDetails(properties);
+                redisConnectionDetails = new PropertiesDataRedisDbConnectionDetails(properties, sslBundles.getIfAvailable());
                 BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), redisConnectionDetails);
             } else {
-                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), new PropertiesRedisDbConnectionDetails(properties));
+                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(properties, sslBundles.getIfAvailable()));
             }
         }
         return redisConnectionDetails;
@@ -76,7 +77,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             template.setKeySerializer(stringSerializer());
@@ -102,7 +103,7 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         StringRedisTemplate stringRedisTemplate = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());

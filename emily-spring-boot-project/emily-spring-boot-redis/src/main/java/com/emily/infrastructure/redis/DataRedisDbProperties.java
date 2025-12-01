@@ -11,8 +11,8 @@ import java.util.Map;
  * @author Emily
  * @since 2021/07/11
  */
-@ConfigurationProperties(prefix = RedisDbProperties.PREFIX)
-public class RedisDbProperties {
+@ConfigurationProperties(prefix = DataRedisDbProperties.PREFIX)
+public class DataRedisDbProperties {
     /**
      * 属性配置前缀
      */
@@ -32,26 +32,26 @@ public class RedisDbProperties {
     /**
      * 客户端类型
      */
-    private RedisProperties.ClientType clientType = RedisProperties.ClientType.LETTUCE;
+    private DataRedisProperties.ClientType clientType = DataRedisProperties.ClientType.LETTUCE;
 
     /**
      * 多数据源配置
      */
-    private Map<String, RedisProperties> config = new HashMap<>();
+    private Map<String, DataRedisProperties> config = new HashMap<>();
 
-    public Map<String, RedisProperties> getConfig() {
+    public Map<String, DataRedisProperties> getConfig() {
         return config;
     }
 
-    public void setConfig(Map<String, RedisProperties> config) {
+    public void setConfig(Map<String, DataRedisProperties> config) {
         this.config = config;
     }
 
-    public RedisProperties.ClientType getClientType() {
+    public DataRedisProperties.ClientType getClientType() {
         return clientType;
     }
 
-    public void setClientType(RedisProperties.ClientType clientType) {
+    public void setClientType(DataRedisProperties.ClientType clientType) {
         this.clientType = clientType;
     }
 
@@ -71,7 +71,7 @@ public class RedisDbProperties {
         this.enabled = enabled;
     }
 
-    public RedisProperties getDefaultDataSource() {
+    public DataRedisProperties getDefaultDataSource() {
         return this.config.get(this.getDefaultConfig());
     }
 

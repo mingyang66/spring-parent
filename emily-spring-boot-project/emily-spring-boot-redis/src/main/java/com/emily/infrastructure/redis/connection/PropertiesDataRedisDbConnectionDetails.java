@@ -1,8 +1,8 @@
 package com.emily.infrastructure.redis.connection;
 
+import com.emily.infrastructure.redis.DataRedisProperties;
 import org.jspecify.annotations.Nullable;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisConnectionDetails;
-import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.util.Assert;

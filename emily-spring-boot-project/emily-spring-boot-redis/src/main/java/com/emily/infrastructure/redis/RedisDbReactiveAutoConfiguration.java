@@ -30,7 +30,7 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
  * @since :  2023/9/25 21:51 PM
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration(after = {RedisDbAutoConfiguration.class})
+@AutoConfiguration(after = {DataRedisDbAutoConfiguration.class})
 @ConditionalOnClass({ReactiveRedisConnectionFactory.class, ReactiveRedisTemplate.class, Flux.class})
 public class RedisDbReactiveAutoConfiguration implements InitializingBean, DisposableBean {
     private final DataRedisDbProperties redisDbProperties;

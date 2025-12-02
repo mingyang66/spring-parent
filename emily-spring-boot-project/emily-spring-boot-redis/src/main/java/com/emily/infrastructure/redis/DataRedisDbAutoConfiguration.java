@@ -43,11 +43,11 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 @EnableConfigurationProperties(DataRedisDbProperties.class)
 @ConditionalOnProperty(prefix = DataRedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import({LettuceDbConnectionConfiguration.class})
-public class RedisDbAutoConfiguration implements InitializingBean, DisposableBean {
+public class DataRedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
     private final DataRedisDbProperties redisDbProperties;
 
-    public RedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRedisDbProperties redisDbProperties) {
+    public DataRedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRedisDbProperties redisDbProperties) {
         BeanFactoryProvider.registerDefaultListableBeanFactory(defaultListableBeanFactory);
         this.redisDbProperties = redisDbProperties;
     }
@@ -57,18 +57,10 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     @ConditionalOnMissingBean(DataRedisConnectionDetails.class)
     PropertiesDataRedisDbConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-        PropertiesDataRedisDbConnectionDetails redisConnectionDetails = null;
         for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
-            String key = entry.getKey();
-            DataRedisProperties properties = entry.getValue();
-            if (defaultConfig.equals(key)) {
-                redisConnectionDetails = new PropertiesDataRedisDbConnectionDetails(properties, sslBundles.getIfAvailable());
-                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), redisConnectionDetails);
-            } else {
-                BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(properties, sslBundles.getIfAvailable()));
-            }
+            BeanFactoryProvider.registerSingleton(join(entry.getKey(), REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
         }
-        return redisConnectionDetails;
+        return BeanFactoryProvider.getBean(join(defaultConfig, REDIS_CONNECT_DETAILS), PropertiesDataRedisDbConnectionDetails.class);
     }
 
     @Bean(name = DEFAULT_REDIS_TEMPLATE)
@@ -135,6 +127,6 @@ public class RedisDbAutoConfiguration implements InitializingBean, DisposableBea
     }
 
     static class LogHolder {
-        private static final Logger LOG = LoggerFactory.getLogger(RedisDbAutoConfiguration.class);
+        private static final Logger LOG = LoggerFactory.getLogger(DataRedisDbAutoConfiguration.class);
     }
 }

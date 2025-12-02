@@ -26,7 +26,7 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
  * @since :  2024/7/8 上午19:57
  */
 @SuppressWarnings("all")
-@AutoConfiguration(after = RedisDbAutoConfiguration.class)
+@AutoConfiguration(after = DataRedisDbAutoConfiguration.class)
 @ConditionalOnProperty(prefix = DataRedisDbProperties.PREFIX, name = "listener", havingValue = "true")
 public class RedisDbMessageListenerAutoConfiguration implements InitializingBean, DisposableBean {
     private static final Logger LOG = LoggerFactory.getLogger(RedisDbMessageListenerAutoConfiguration.class);

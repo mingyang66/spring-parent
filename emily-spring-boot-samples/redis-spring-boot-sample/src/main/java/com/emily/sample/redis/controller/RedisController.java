@@ -67,8 +67,8 @@ public class RedisController {
         return properties;
     }
 
-    @GetMapping("get1")
-    public String get1() {
+    @GetMapping("getTest")
+    public String getTest() {
 
         RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
         RedisDbFactory.getStringRedisTemplate().opsForValue().set("test66", "123", 12);
@@ -77,10 +77,22 @@ public class RedisController {
         dataMap.put("te2", 12);
         dataMap.put("te3", "哈哈");
         RedisDbFactory.getRedisTemplate().opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
-        //RedisDbFactory.getRedisTemplate("one").opsForValue().set("one", "adf", 1, TimeUnit.MINUTES);
-        return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
+        return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test") + "-" +
+                JsonUtils.toJSONPrettyString(RedisDbFactory.getRedisTemplate().opsForValue().get("test1"));
     }
+    @GetMapping("getTest1")
+    public String getTest1() {
 
+        RedisDbFactory.getStringRedisTemplate("test1").opsForValue().set("test", "123", 12, TimeUnit.MINUTES);
+        RedisDbFactory.getStringRedisTemplate("test1").opsForValue().set("test66", "123", 12);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("te", 122);
+        dataMap.put("te2", 12333);
+        dataMap.put("te3", "哈哈66666");
+        RedisDbFactory.getRedisTemplate("test1").opsForValue().set("test1", dataMap, 1, TimeUnit.MINUTES);
+        return RedisDbFactory.getStringRedisTemplate("test1").opsForValue().get("test") + "-" +
+                JsonUtils.toJSONPrettyString(RedisDbFactory.getRedisTemplate("test1").opsForValue().get("test1"));
+    }
     @GetMapping("getCn")
     public Object get2() {
         for (int i = 0; i < 1000; i++) {

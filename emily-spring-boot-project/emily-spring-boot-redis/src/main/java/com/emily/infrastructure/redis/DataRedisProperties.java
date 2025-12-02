@@ -1,5 +1,7 @@
 package com.emily.infrastructure.redis;
 
+import io.lettuce.core.protocol.ProtocolVersion;
+
 import java.time.Duration;
 
 /**
@@ -10,6 +12,10 @@ import java.time.Duration;
  */
 public class DataRedisProperties extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties {
     /**
+     * 协议版本
+     */
+    private ProtocolVersion protocolVersion = ProtocolVersion.RESP3;
+    /**
      * 基于jedis连接配置
      */
     private Jedis jedis = new Jedis();
@@ -17,6 +23,14 @@ public class DataRedisProperties extends org.springframework.boot.data.redis.aut
      * 基于lettuce连接配置
      */
     private Lettuce lettuce = new Lettuce();
+
+    public ProtocolVersion getProtocolVersion() {
+        return protocolVersion;
+    }
+
+    public void setProtocolVersion(ProtocolVersion protocolVersion) {
+        this.protocolVersion = protocolVersion;
+    }
 
     @Override
     public Jedis getJedis() {

@@ -8,6 +8,7 @@ import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
+import io.lettuce.core.protocol.ProtocolVersion;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import jakarta.annotation.Nullable;
@@ -256,6 +257,8 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
         clientConfigurationBuilderCustomizers.orderedStream().forEach((customizer) -> {
             customizer.customize(builder);
         });
+        //协议版本号
+        builder.protocolVersion(properties.getProtocolVersion());
         return builder.build();
     }
 

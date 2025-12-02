@@ -94,7 +94,6 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
     @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-        StringRedisTemplate stringRedisTemplate = null;
         for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
@@ -104,7 +103,6 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
             template.setHashValueSerializer(stringSerializer());
             if (defaultConfig.equals(key)) {
                 template.setConnectionFactory(redisConnectionFactory);
-                stringRedisTemplate = template;
             } else {
                 template.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 template.afterPropertiesSet();
@@ -112,7 +110,7 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
             BeanFactoryProvider.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
         }
 
-        return stringRedisTemplate;
+        return BeanFactoryProvider.getBean(join(defaultConfig, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
     }
 
 

@@ -112,64 +112,16 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
         return executor;
     }
 
-   /* private LettuceConnectionFactory createConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
-                                                             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-                                                             ClientResources clientResources,
-                                                             DataRedisConnectionDetails connectionDetails) {
-        String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
-        LettuceConnectionFactory redisConnectionFactory = null;
-        for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            String key = entry.getKey();
-            DataRedisProperties properties = entry.getValue();
-            LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, properties);
-            LettuceConnectionFactory connectionFactory;
-            if (defaultConfig.equals(key)) {
-                connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties, connectionDetails);
-                //是否提前初始化连接，默认：false
-                connectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
-                //是否开启共享本地物理连接，默认：true
-                connectionFactory.setShareNativeConnection(properties.getLettuce().isShareNativeConnection());
-                //是否开启连接校验，默认：false
-                connectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
-                //默认工厂
-                redisConnectionFactory = connectionFactory;
-            } else {
-                DataRedisConnectionDetails redisConnectionDetails = BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
-                connectionFactory = this.createLettuceConnectionFactory(clientConfig, properties, redisConnectionDetails);
-                //是否提前初始化连接，默认：false
-                connectionFactory.setEagerInitialization(properties.getLettuce().isEagerInitialization());
-                //是否开启共享本地物理连接，默认：true
-                connectionFactory.setShareNativeConnection(properties.getLettuce().isShareNativeConnection());
-                //是否开启连接校验，默认：false
-                connectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
-                connectionFactory.afterPropertiesSet();
-            }
-            BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
-        }
-        return redisConnectionFactory;
-    }
-*/
-/*    private LettuceConnectionFactory createLettuceConnectionFactory(LettuceClientConfiguration clientConfiguration, DataRedisProperties properties, DataRedisConnectionDetails connectionDetails) {
-        if (getSentinelConfig(connectionDetails) != null) {
-            return new LettuceConnectionFactory(getSentinelConfig(connectionDetails), clientConfiguration);
-        }
-        if (getClusterConfiguration(properties, connectionDetails) != null) {
-            return new LettuceConnectionFactory(getClusterConfiguration(properties, connectionDetails), clientConfiguration);
-        }
-        return new LettuceConnectionFactory(getStandaloneConfig(connectionDetails), clientConfiguration);
-    }*/
-
     private LettuceConnectionFactory createConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
                                                              ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                              ClientResources clientResources) {
         String defaultConfig = Objects.requireNonNull(this.getProperties().getDefaultConfig(), "Redis默认标识不可为空");
-        LettuceConnectionFactory defaultConnectionFactory = null;
         for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             String key = entry.getKey();
             DataRedisProperties properties = entry.getValue();
             LettuceConnectionFactory connectionFactory;
             LettuceClientConfiguration clientConfiguration = this.getLettuceClientConfiguration(clientConfigurationBuilderCustomizers, clientOptionsBuilderCustomizers, clientResources, properties);
-            DataRedisConnectionDetails dataRedisConnectionDetails =  BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails dataRedisConnectionDetails = BeanFactoryProvider.getBean(join(key, REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             switch (this.mode) {
                 case STANDALONE:
                     connectionFactory = new LettuceConnectionFactory(this.getStandaloneConfig(dataRedisConnectionDetails), clientConfiguration);
@@ -198,14 +150,12 @@ public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfi
             connectionFactory.setShareNativeConnection(properties.getLettuce().isShareNativeConnection());
             //是否开启连接校验，默认：false
             connectionFactory.setValidateConnection(properties.getLettuce().isValidateConnection());
-            if (defaultConfig.equals(key)) {
-                defaultConnectionFactory = connectionFactory;
-            } else {
+            if (!defaultConfig.equals(key)) {
                 connectionFactory.afterPropertiesSet();
             }
             BeanFactoryProvider.registerSingleton(join(key, REDIS_CONNECTION_FACTORY), connectionFactory);
         }
-        return defaultConnectionFactory;
+        return BeanFactoryProvider.getBean(join(defaultConfig, REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
     }
 
     private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,

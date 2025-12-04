@@ -45,19 +45,19 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 @Import({LettuceDbConnectionConfiguration.class})
 public class DataRedisDbAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private final DataRedisDbProperties redisDbProperties;
+    private final DataRedisDbProperties properties;
 
-    public DataRedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRedisDbProperties redisDbProperties) {
+    public DataRedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRedisDbProperties properties) {
         BeanFactoryProvider.registerDefaultListableBeanFactory(defaultListableBeanFactory);
-        this.redisDbProperties = redisDbProperties;
+        this.properties = properties;
     }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(DataRedisConnectionDetails.class)
     PropertiesDataRedisDbConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
             BeanFactoryProvider.registerSingleton(join(entry.getKey(), REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
         }
         return BeanFactoryProvider.getBean(join(defaultConfig, REDIS_CONNECT_DETAILS), PropertiesDataRedisDbConnectionDetails.class);
@@ -67,9 +67,9 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
-        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
             String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             template.setKeySerializer(stringSerializer());
@@ -85,7 +85,6 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
             }
             BeanFactoryProvider.registerSingleton(join(key, REDIS_TEMPLATE), template);
         }
-
         return redisTemplate;
     }
 
@@ -93,8 +92,8 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
-        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
             String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());
@@ -109,7 +108,6 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
             }
             BeanFactoryProvider.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
         }
-
         return BeanFactoryProvider.getBean(join(defaultConfig, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
     }
 

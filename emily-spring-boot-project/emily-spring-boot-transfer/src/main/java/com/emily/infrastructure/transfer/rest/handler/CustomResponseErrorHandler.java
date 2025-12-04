@@ -25,7 +25,4 @@ public class CustomResponseErrorHandler implements ResponseErrorHandler {
         return true;
     }
 
-    @Override
-    public void handleError(ClientHttpResponse response) throws IOException {
-    }
 }

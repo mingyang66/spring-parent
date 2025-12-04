@@ -30,7 +30,7 @@ import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
  * @since Created in 2022/6/6 10:08 上午
  */
 @Configuration(proxyBeanMethods = false)
-@Import(RabbitMqConnectionFactoryCreator.class)
+@Import(DataRabbitConnectionFactoryCreator.class)
 public class RabbitMqTemplateConfiguration {
 
     private final DefaultListableBeanFactory defaultListableBeanFactory;

@@ -62,6 +62,9 @@ public class RabbitMqUtils {
     public static final String DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "DirectRabbitListenerContainerFactoryConfigurer";
     public static final String DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "rabbitListenerContainerFactoryConfigurer";
 
+    public static final String RABBIT_CONNECT_DETAILS = "RabbitConnectionDetails";
+    public static final String DEFAULT_RABBIT_CONNECT_DETAILS = "rabbitConnectionDetails";
+
     /**
      * 拼接字符串
      *

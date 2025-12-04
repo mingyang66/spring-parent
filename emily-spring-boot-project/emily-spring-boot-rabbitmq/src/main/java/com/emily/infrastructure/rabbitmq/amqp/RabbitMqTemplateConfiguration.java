@@ -9,9 +9,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
-import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
-import org.springframework.boot.autoconfigure.amqp.RabbitTemplateConfigurer;
+import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
+import org.springframework.boot.amqp.autoconfigure.RabbitTemplateConfigurer;
+import org.springframework.boot.amqp.autoconfigure.RabbitTemplateRetrySettingsCustomizer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Import;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
 
@@ -44,23 +43,18 @@ public class RabbitMqTemplateConfiguration {
     @ConditionalOnMissingBean
     public RabbitTemplateConfigurer rabbitTemplateConfigurer(RabbitMqProperties rabbitMqProperties,
                                                              ObjectProvider<MessageConverter> messageConverter,
-                                                             ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers) {
+                                                             ObjectProvider<RabbitTemplateRetrySettingsCustomizer> retrySettingsCustomizers) {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMQ连接配置不存在");
-        RabbitTemplateConfigurer rabbitTemplateConfigurer = null;
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             String key = entry.getKey();
             RabbitProperties properties = entry.getValue();
             RabbitTemplateConfigurer configurer = new RabbitTemplateConfigurer(properties);
-            configurer.setMessageConverter(messageConverter.getIfUnique());
-            configurer.setRetryTemplateCustomizers(retryTemplateCustomizers.orderedStream().collect(Collectors.toList()));
-            if (defaultConfig.equals(key)) {
-                rabbitTemplateConfigurer = configurer;
-            } else {
-                defaultListableBeanFactory.registerSingleton(join(key, RABBIT_TEMPLATE_CONFIGURER), configurer);
-            }
+            configurer.setMessageConverter((MessageConverter) messageConverter.getIfUnique());
+            configurer.setRetrySettingsCustomizers(retrySettingsCustomizers.orderedStream().toList());
+            defaultListableBeanFactory.registerSingleton(join(key, RABBIT_TEMPLATE_CONFIGURER), configurer);
         }
-        return rabbitTemplateConfigurer;
+        return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
     }
 
     @Bean

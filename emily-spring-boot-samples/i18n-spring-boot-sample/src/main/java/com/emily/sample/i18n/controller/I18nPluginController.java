@@ -13,11 +13,6 @@ import java.util.List;
  */
 @RestController
 public class I18nPluginController {
-    @I18nOperation
-    @GetMapping("api/i18n/getField")
-    public PluginField getField() {
-        return new PluginField();
-    }
 
     @I18nOperation
     @GetMapping("api/i18n/getFieldStr")

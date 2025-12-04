@@ -36,8 +36,8 @@ public class DesensitizeController {
     }
 
     @DesensitizeOperation
-    @GetMapping("api/desensitize/getCompanyStr")
-    public String getCompanyStr() {
+    @GetMapping("api/desensitize/getCompanyDesc")
+    public String getCompanyDesc() {
         return "魔方科技";
     }
 

@@ -1,8 +1,9 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
 import com.emily.infrastructure.rabbitmq.listener.PublisherRetryListener;
-import org.springframework.boot.autoconfigure.amqp.RabbitRetryTemplateCustomizer;
-import org.springframework.retry.support.RetryTemplate;
+import org.springframework.core.retry.RetryTemplate;
+
+import java.lang.annotation.Target;
 
 /**
  * 自定义实现回调接口RabbitRetryTemplateCustomizer 作为RetryTemplate的一部分

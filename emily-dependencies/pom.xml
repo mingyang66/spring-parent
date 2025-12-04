@@ -31,7 +31,7 @@
         <slf4j.version>2.0.17</slf4j.version>
         <jansi.version>2.4.0</jansi.version>
         <knife4j.version>4.5.0</knife4j.version>
-        <bcprov-jdk18on.version>1.80</bcprov-jdk18on.version>
+        <bcprov-jdk18on.version>1.83</bcprov-jdk18on.version>
         <mockito.version>5.20.0</mockito.version>
     </properties>
 

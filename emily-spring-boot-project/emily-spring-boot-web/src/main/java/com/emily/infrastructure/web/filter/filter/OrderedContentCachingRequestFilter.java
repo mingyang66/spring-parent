@@ -35,7 +35,7 @@ public class OrderedContentCachingRequestFilter extends OncePerRequestFilter imp
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
         //创建ContentCachingRequestWrapper对象用于缓存请求体
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 1024);
+        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 0);
         if (LOG.isDebugEnabled()) {
             LOG.debug("请求接口缓存拦截器：START============>>{}", FilterUtil.getRequestPath(request));
         }

@@ -23,7 +23,7 @@ public class RequestWrapperFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //创建ContentCachingRequestWrapper对象用于缓存请求体
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 0);
         //创建ContentCachingResponseWrapper对象用于缓存响应体
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
         //继续执行过滤器链，并传递包装后的请求对象

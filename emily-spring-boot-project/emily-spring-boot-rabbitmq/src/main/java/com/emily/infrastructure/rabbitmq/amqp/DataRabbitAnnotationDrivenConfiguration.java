@@ -15,6 +15,7 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.amqp.autoconfigure.AbstractRabbitListenerContainerFactoryConfigurer;
+import org.springframework.boot.amqp.autoconfigure.RabbitListenerRetrySettingsCustomizer;
 import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -35,20 +36,20 @@ import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(EnableRabbit.class)
-public class RabbitMqAnnotationDrivenConfiguration {
+public class DataRabbitAnnotationDrivenConfiguration {
 
     private final ObjectProvider<MessageConverter> messageConverter;
     private final ObjectProvider<MessageRecoverer> messageRecoverer;
-    private final ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers;
+    private final ObjectProvider<RabbitListenerRetrySettingsCustomizer> retrySettingsCustomizers;
     private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    public RabbitMqAnnotationDrivenConfiguration(ObjectProvider<MessageConverter> messageConverter,
-                                                 ObjectProvider<MessageRecoverer> messageRecoverer,
-                                                 ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers,
-                                                 DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataRabbitAnnotationDrivenConfiguration(ObjectProvider<MessageConverter> messageConverter,
+                                                   ObjectProvider<MessageRecoverer> messageRecoverer,
+                                                   ObjectProvider<RabbitListenerRetrySettingsCustomizer> retrySettingsCustomizers,
+                                                   DefaultListableBeanFactory defaultListableBeanFactory) {
         this.messageConverter = messageConverter;
         this.messageRecoverer = messageRecoverer;
-        this.retryTemplateCustomizers = retryTemplateCustomizers;
+        this.retrySettingsCustomizers = retrySettingsCustomizers;
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 

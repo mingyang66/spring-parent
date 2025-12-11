@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Role;
 @AutoConfiguration(before = RabbitAutoConfiguration.class)
 @EnableConfigurationProperties(RabbitMqProperties.class)
 @ConditionalOnProperty(prefix = RabbitMqProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Import({RabbitMqAnnotationDrivenConfiguration.class, DataRabbitConnectionFactoryCreator.class, RabbitMqTemplateConfiguration.class, RabbitMqMessagingTemplateConfiguration.class})
+@Import({RabbitMqAnnotationDrivenConfiguration.class, DataRabbitConnectionFactoryCreator.class, DataRabbitTemplateConfiguration.class, RabbitMqMessagingTemplateConfiguration.class})
 public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqAutoConfiguration.class);

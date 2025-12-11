@@ -24,7 +24,7 @@ import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(RabbitMessagingTemplate.class)
 @ConditionalOnMissingBean(RabbitMessagingTemplate.class)
-@Import(RabbitMqTemplateConfiguration.class)
+@Import(DataRabbitTemplateConfiguration.class)
 public class RabbitMqMessagingTemplateConfiguration {
     private final DefaultListableBeanFactory defaultListableBeanFactory;
 

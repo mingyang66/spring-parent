@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -19,7 +20,7 @@ import java.util.Objects;
  * @author Emily
  * @since Created in 2022/11/17 10:34 上午
  */
-public final class DataSimpleRabbitListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<SimpleRabbitListenerContainerFactory> {
+public final class DataSimpleRabbitListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<@NonNull SimpleRabbitListenerContainerFactory> {
     public DataSimpleRabbitListenerContainerFactoryConfigurer(RabbitProperties rabbitProperties) {
         super(rabbitProperties);
     }
@@ -37,10 +38,10 @@ public final class DataSimpleRabbitListenerContainerFactoryConfigurer extends Ab
 
     @Override
     protected void setRetrySettingsCustomizers(@Nullable List<RabbitListenerRetrySettingsCustomizer> retrySettingsCustomizers) {
-       super.setRetrySettingsCustomizers(retrySettingsCustomizers);
+        super.setRetrySettingsCustomizers(retrySettingsCustomizers);
     }
 
-    public void configure(SimpleRabbitListenerContainerFactory factory, ConnectionFactory connectionFactory) {
+    public void configure(SimpleRabbitListenerContainerFactory factory, @NonNull ConnectionFactory connectionFactory) {
         PropertyMapper map = PropertyMapper.get();
         RabbitProperties.SimpleContainer config = this.getRabbitProperties().getListener().getSimple();
         this.configure(factory, connectionFactory, config);

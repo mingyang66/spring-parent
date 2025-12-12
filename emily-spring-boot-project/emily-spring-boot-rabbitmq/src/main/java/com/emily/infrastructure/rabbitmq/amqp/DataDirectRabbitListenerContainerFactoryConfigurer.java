@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.rabbit.config.DirectRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author Emily
  * @since Created in 2022/11/17 10:32 上午
  */
-public final class DataDirectRabbitListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<DirectRabbitListenerContainerFactory> {
+public final class DataDirectRabbitListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<@NonNull DirectRabbitListenerContainerFactory> {
 
     public DataDirectRabbitListenerContainerFactoryConfigurer(RabbitProperties rabbitProperties) {
         super(rabbitProperties);
@@ -39,7 +40,7 @@ public final class DataDirectRabbitListenerContainerFactoryConfigurer extends Ab
     }
 
     @Override
-    public void configure(DirectRabbitListenerContainerFactory factory, ConnectionFactory connectionFactory) {
+    public void configure(DirectRabbitListenerContainerFactory factory, @NonNull ConnectionFactory connectionFactory) {
         PropertyMapper map = PropertyMapper.get();
         RabbitProperties.DirectContainer config = getRabbitProperties().getListener().getDirect();
         configure(factory, connectionFactory, config);

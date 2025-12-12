@@ -85,23 +85,6 @@ public class DataRabbitConnectionFactoryCreator {
     }
 
     @Bean
-    @ConditionalOnMissingBean({ConnectionFactory.class})
-    CachingConnectionFactory rabbitConnectionFactory(RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer,
-                                                     CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer,
-                                                     ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers) throws Exception {
-        RabbitConnectionFactoryBean connectionFactoryBean = new DataSslBundleRabbitConnectionFactoryBean();
-        rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
-        connectionFactoryBean.afterPropertiesSet();
-        com.rabbitmq.client.ConnectionFactory connectionFactory = (com.rabbitmq.client.ConnectionFactory) connectionFactoryBean.getObject();
-        connectionFactoryCustomizers.orderedStream().forEach((customizer) -> {
-            customizer.customize(connectionFactory);
-        });
-        CachingConnectionFactory factory = new CachingConnectionFactory(connectionFactory);
-        rabbitCachingConnectionFactoryConfigurer.configure(factory);
-        return factory;
-    }
-
-    @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
     public CachingConnectionFactory rabbitConnectionFactory(DataRabbitProperties rabbitMqProperties,
                                                             ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,

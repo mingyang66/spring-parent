@@ -5,6 +5,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.amqp.autoconfigure.AbstractRabbitListenerContainerFactoryConfigurer;
+import org.springframework.boot.amqp.autoconfigure.RabbitListenerRetrySettingsCustomizer;
 import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 
@@ -16,9 +17,9 @@ import java.util.List;
  * @author Emily
  * @since Created in 2022/11/17 10:32 上午
  */
-public class DirectRabbitMqListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<DirectRabbitListenerContainerFactory> {
+public final class DataDirectRabbitListenerContainerFactoryConfigurer extends AbstractRabbitListenerContainerFactoryConfigurer<DirectRabbitListenerContainerFactory> {
 
-    public DirectRabbitMqListenerContainerFactoryConfigurer(RabbitProperties rabbitProperties) {
+    public DataDirectRabbitListenerContainerFactoryConfigurer(RabbitProperties rabbitProperties) {
         super(rabbitProperties);
     }
 
@@ -33,8 +34,8 @@ public class DirectRabbitMqListenerContainerFactoryConfigurer extends AbstractRa
     }
 
     @Override
-    protected void setRetryTemplateCustomizers(List<RabbitRetryTemplateCustomizer> retryTemplateCustomizers) {
-        super.setRetryTemplateCustomizers(retryTemplateCustomizers);
+    protected void setRetrySettingsCustomizers(List<RabbitListenerRetrySettingsCustomizer> retrySettingsCustomizers) {
+        super.setRetrySettingsCustomizers(retrySettingsCustomizers);
     }
 
     @Override
@@ -42,6 +43,6 @@ public class DirectRabbitMqListenerContainerFactoryConfigurer extends AbstractRa
         PropertyMapper map = PropertyMapper.get();
         RabbitProperties.DirectContainer config = getRabbitProperties().getListener().getDirect();
         configure(factory, connectionFactory, config);
-        map.from(config::getConsumersPerQueue).whenNonNull().to(factory::setConsumersPerQueue);
+        map.from(config::getConsumersPerQueue).to(factory::setConsumersPerQueue);
     }
 }

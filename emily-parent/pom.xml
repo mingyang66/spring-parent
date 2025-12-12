@@ -16,11 +16,11 @@
 
     <properties>
         <!--JDK版本-->
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <!--源代码使用的JDK版本-->
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.source>21</maven.compiler.source>
         <!--需要生成的目标class文件的编译版本-->
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.target>21</maven.compiler.target>
         <!--maven项目源代码编码格式，参考：https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--指定maven的输出报告的编码格式（测试报告，javadoc等）-->

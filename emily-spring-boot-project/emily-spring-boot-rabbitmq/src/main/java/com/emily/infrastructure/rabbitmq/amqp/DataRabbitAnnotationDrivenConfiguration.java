@@ -17,8 +17,11 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.amqp.autoconfigure.AbstractRabbitListenerContainerFactoryConfigurer;
 import org.springframework.boot.amqp.autoconfigure.RabbitListenerRetrySettingsCustomizer;
 import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
+import org.springframework.boot.amqp.autoconfigure.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnThreading;
+import org.springframework.boot.thread.Threading;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -70,20 +73,21 @@ public class DataRabbitAnnotationDrivenConfiguration {
             String key = entry.getKey();
             RabbitProperties properties = entry.getValue();
             if (properties.getListener().getType().equals(RabbitProperties.ContainerType.DIRECT)) {
-                DirectRabbitMqListenerContainerFactoryConfigurer configurer = new DirectRabbitMqListenerContainerFactoryConfigurer(properties);
+                DataDirectRabbitListenerContainerFactoryConfigurer configurer = new DataDirectRabbitListenerContainerFactoryConfigurer(properties);
                 configurer.setMessageConverter(this.messageConverter.getIfUnique());
                 configurer.setMessageRecoverer(this.messageRecoverer.getIfUnique());
-                configurer.setRetryTemplateCustomizers(this.retryTemplateCustomizers.orderedStream().collect(Collectors.toList()));
+                configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().collect(Collectors.toList()));
+                configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().toList());
                 if (defaultConfig.equals(key)) {
                     rabbitListenerContainerFactoryConfigurer = configurer;
                 } else {
                     defaultListableBeanFactory.registerSingleton(join(key, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), configurer);
                 }
             } else {
-                SimpleRabbitMqListenerContainerFactoryConfigurer configurer = new SimpleRabbitMqListenerContainerFactoryConfigurer(properties);
+                DataSimpleRabbitListenerContainerFactoryConfigurer configurer = new DataSimpleRabbitListenerContainerFactoryConfigurer(properties);
                 configurer.setMessageConverter(this.messageConverter.getIfUnique());
                 configurer.setMessageRecoverer(this.messageRecoverer.getIfUnique());
-                configurer.setRetryTemplateCustomizers(this.retryTemplateCustomizers.orderedStream().collect(Collectors.toList()));
+                configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().collect(Collectors.toList()));
                 if (defaultConfig.equals(key)) {
                     rabbitListenerContainerFactoryConfigurer = configurer;
                 } else {
@@ -122,9 +126,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
             } else {
                 connectionFactory = defaultListableBeanFactory.getBean(join(key, RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
                 if (RabbitProperties.ContainerType.DIRECT.equals(properties.getListener().getType())) {
-                    configurer = defaultListableBeanFactory.getBean(join(key, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DirectRabbitMqListenerContainerFactoryConfigurer.class);
+                    configurer = defaultListableBeanFactory.getBean(join(key, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
                 } else {
-                    configurer = defaultListableBeanFactory.getBean(join(key, SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), SimpleRabbitMqListenerContainerFactoryConfigurer.class);
+                    configurer = defaultListableBeanFactory.getBean(join(key, SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
                 }
             }
             AbstractRabbitListenerContainerFactory factory;
@@ -144,5 +148,28 @@ public class DataRabbitAnnotationDrivenConfiguration {
             }
         }
         return rabbitListenerContainerFactory;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnThreading(Threading.PLATFORM)
+    SimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurer() {
+        return this.simpleListenerConfigurer(null);
+    }
+
+    private DataSimpleRabbitListenerContainerFactoryConfigurer simpleListenerConfigurer(RabbitProperties rabbitProperties) {
+        DataSimpleRabbitListenerContainerFactoryConfigurer configurer = new DataSimpleRabbitListenerContainerFactoryConfigurer(rabbitProperties);
+        configurer.setMessageConverter((MessageConverter) this.messageConverter.getIfUnique());
+        configurer.setMessageRecoverer((MessageRecoverer) this.messageRecoverer.getIfUnique());
+        configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().toList());
+        return configurer;
+    }
+
+    private DataDirectRabbitListenerContainerFactoryConfigurer directListenerConfigurer(RabbitProperties rabbitProperties) {
+        DataDirectRabbitListenerContainerFactoryConfigurer configurer = new DataDirectRabbitListenerContainerFactoryConfigurer(rabbitProperties);
+        configurer.setMessageConverter((MessageConverter) this.messageConverter.getIfUnique());
+        configurer.setMessageRecoverer((MessageRecoverer) this.messageRecoverer.getIfUnique());
+        configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().toList());
+        return configurer;
     }
 }

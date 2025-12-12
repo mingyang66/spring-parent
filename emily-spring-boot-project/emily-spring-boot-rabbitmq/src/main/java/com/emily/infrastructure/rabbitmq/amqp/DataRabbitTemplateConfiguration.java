@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
-import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
+import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -42,7 +42,7 @@ public class DataRabbitTemplateConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RabbitTemplateConfigurer rabbitTemplateConfigurer(RabbitMqProperties properties,
+    public RabbitTemplateConfigurer rabbitTemplateConfigurer(DataRabbitProperties properties,
                                                              ObjectProvider<MessageConverter> messageConverter,
                                                              ObjectProvider<RabbitTemplateRetrySettingsCustomizer> retrySettingsCustomizers) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
@@ -59,7 +59,7 @@ public class DataRabbitTemplateConfiguration {
     @Bean
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
     @ConditionalOnMissingBean(RabbitOperations.class)
-    public RabbitTemplate rabbitTemplate(RabbitMqProperties properties) {
+    public RabbitTemplate rabbitTemplate(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -79,7 +79,7 @@ public class DataRabbitTemplateConfiguration {
             matchIfMissing = true
     )
     @ConditionalOnMissingBean
-    public AmqpAdmin amqpAdmin(RabbitMqProperties properties) {
+    public AmqpAdmin amqpAdmin(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {

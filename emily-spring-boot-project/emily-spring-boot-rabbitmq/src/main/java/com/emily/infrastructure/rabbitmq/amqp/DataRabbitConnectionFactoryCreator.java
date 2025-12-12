@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
-import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
+import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import com.emily.infrastructure.rabbitmq.listener.DefaultMqConnectionListener;
 import com.emily.infrastructure.rabbitmq.listener.DefaultMqExceptionHandler;
 import com.rabbitmq.client.impl.CredentialsProvider;
@@ -40,7 +40,7 @@ public class DataRabbitConnectionFactoryCreator {
 
     @Bean
     @ConditionalOnMissingBean
-    RabbitConnectionDetails rabbitConnectionDetails(RabbitMqProperties properties, ObjectProvider<SslBundles> sslBundles) {
+    RabbitConnectionDetails rabbitConnectionDetails(DataRabbitProperties properties, ObjectProvider<SslBundles> sslBundles) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -51,7 +51,7 @@ public class DataRabbitConnectionFactoryCreator {
 
     @Bean
     @ConditionalOnMissingBean
-    public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(RabbitMqProperties properties, ResourceLoader resourceLoader,
+    public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(DataRabbitProperties properties, ResourceLoader resourceLoader,
                                                                                        ObjectProvider<CredentialsProvider> credentialsProvider,
                                                                                        ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
@@ -70,7 +70,7 @@ public class DataRabbitConnectionFactoryCreator {
 
     @Bean
     @ConditionalOnMissingBean
-    public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(RabbitMqProperties properties, ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
+    public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(DataRabbitProperties properties, ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -103,7 +103,7 @@ public class DataRabbitConnectionFactoryCreator {
 
     @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
-    public CachingConnectionFactory rabbitConnectionFactory(RabbitMqProperties rabbitMqProperties,
+    public CachingConnectionFactory rabbitConnectionFactory(DataRabbitProperties rabbitMqProperties,
                                                             ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,
                                                             ApplicationContext context) throws Exception {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");

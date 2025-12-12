@@ -1,8 +1,7 @@
 package com.emily.infrastructure.rabbitmq.listener;
 
-import org.springframework.retry.RetryCallback;
-import org.springframework.retry.RetryContext;
-import org.springframework.retry.RetryListener;
+import com.rabbitmq.client.impl.recovery.RetryContext;
+import org.springframework.core.retry.RetryListener;
 
 /**
  * 生产端发布重试监听器

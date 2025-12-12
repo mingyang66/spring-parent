@@ -32,12 +32,12 @@ import org.springframework.context.annotation.Role;
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration(before = RabbitAutoConfiguration.class)
-@EnableConfigurationProperties(RabbitMqProperties.class)
-@ConditionalOnProperty(prefix = RabbitMqProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@EnableConfigurationProperties(DataRabbitProperties.class)
+@ConditionalOnProperty(prefix = DataRabbitProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import({DataRabbitAnnotationDrivenConfiguration.class, DataRabbitMessagingTemplateConfiguration.class})
-public class RabbitMqAutoConfiguration implements InitializingBean, DisposableBean {
+public class DataRabbitAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(RabbitMqAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataRabbitAutoConfiguration.class);
 
     @Override
     public void destroy() throws Exception {

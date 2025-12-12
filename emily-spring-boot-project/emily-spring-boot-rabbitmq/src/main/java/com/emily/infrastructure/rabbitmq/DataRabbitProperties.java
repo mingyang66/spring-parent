@@ -12,8 +12,8 @@ import java.util.Map;
  * @author Emily
  * @since Created in 2022/6/2 5:06 下午
  */
-@ConfigurationProperties(prefix = RabbitMqProperties.PREFIX)
-public class RabbitMqProperties {
+@ConfigurationProperties(prefix = DataRabbitProperties.PREFIX)
+public class DataRabbitProperties {
     /**
      * 前缀
      */

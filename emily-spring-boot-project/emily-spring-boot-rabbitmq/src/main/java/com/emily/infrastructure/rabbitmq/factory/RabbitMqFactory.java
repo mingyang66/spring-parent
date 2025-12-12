@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.factory;
 
-import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
+import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
@@ -47,7 +47,7 @@ public class RabbitMqFactory {
      */
     public static RabbitTemplate getRabbitTemplate(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
-        RabbitMqProperties properties = context.getBean(RabbitMqProperties.class);
+        DataRabbitProperties properties = context.getBean(DataRabbitProperties.class);
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitTemplate();
         }
@@ -85,7 +85,7 @@ public class RabbitMqFactory {
      */
     public static AmqpAdmin getAmqpAdmin(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
-        RabbitMqProperties properties = context.getBean(RabbitMqProperties.class);
+        DataRabbitProperties properties = context.getBean(DataRabbitProperties.class);
         if (properties.getDefaultConfig().equals(key)) {
             return getAmqpAdmin();
         }
@@ -109,7 +109,7 @@ public class RabbitMqFactory {
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate(String key) {
         Assert.hasText(key, "RabbitMQ标识不可为空");
-        RabbitMqProperties properties = context.getBean(RabbitMqProperties.class);
+        DataRabbitProperties properties = context.getBean(DataRabbitProperties.class);
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitMessagingTemplate();
         }
@@ -137,7 +137,7 @@ public class RabbitMqFactory {
      */
     public static void declare(String key, Queue queue, Exchange exchange, Binding binding) {
         if (Objects.isNull(key)) {
-            key = context.getBean(RabbitMqProperties.class).getDefaultConfig();
+            key = context.getBean(DataRabbitProperties.class).getDefaultConfig();
         }
         AmqpAdmin amqpAdmin = getAmqpAdmin(key);
         amqpAdmin.declareExchange(exchange);

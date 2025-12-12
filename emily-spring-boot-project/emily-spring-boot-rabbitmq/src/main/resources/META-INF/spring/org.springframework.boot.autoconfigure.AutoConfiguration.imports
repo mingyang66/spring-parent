@@ -1,1 +1,1 @@
-com.emily.infrastructure.rabbitmq.RabbitMqAutoConfiguration
+com.emily.infrastructure.rabbitmq.DataRabbitAutoConfiguration

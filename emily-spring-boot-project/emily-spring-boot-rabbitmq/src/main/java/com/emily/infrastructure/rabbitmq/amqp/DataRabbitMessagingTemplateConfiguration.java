@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
-import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
+import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -34,7 +34,7 @@ public class DataRabbitMessagingTemplateConfiguration {
 
     @Bean
     @ConditionalOnSingleCandidate(RabbitTemplate.class)
-    public RabbitMessagingTemplate rabbitMessagingTemplate(RabbitMqProperties properties) {
+    public RabbitMessagingTemplate rabbitMessagingTemplate(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {

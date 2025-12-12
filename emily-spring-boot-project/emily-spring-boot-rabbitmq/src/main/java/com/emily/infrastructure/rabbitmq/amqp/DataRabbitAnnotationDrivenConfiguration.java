@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
-import com.emily.infrastructure.rabbitmq.RabbitMqProperties;
+import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
@@ -57,7 +57,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.PLATFORM)
-    DataSimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurer(RabbitMqProperties properties) {
+    DataSimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurer(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -71,7 +71,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
     )
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.VIRTUAL)
-    DataSimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurerVirtualThreads(RabbitMqProperties properties) {
+    DataSimpleRabbitListenerContainerFactoryConfigurer simpleRabbitListenerContainerFactoryConfigurerVirtualThreads(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -93,7 +93,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
             havingValue = "simple",
             matchIfMissing = true
     )
-    SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(RabbitMqProperties properties, ObjectProvider<ContainerCustomizer<@NonNull SimpleMessageListenerContainer>> simpleContainerCustomizer) {
+    SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(DataRabbitProperties properties, ObjectProvider<ContainerCustomizer<@NonNull SimpleMessageListenerContainer>> simpleContainerCustomizer) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -112,7 +112,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.PLATFORM)
-    DataDirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer(RabbitMqProperties properties) {
+    DataDirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -126,7 +126,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
     )
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.VIRTUAL)
-    DataDirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurerVirtualThreads(RabbitMqProperties properties) {
+    DataDirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurerVirtualThreads(DataRabbitProperties properties) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
@@ -147,7 +147,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
             name = {"spring.rabbitmq.listener.type"},
             havingValue = "direct"
     )
-    DirectRabbitListenerContainerFactory directRabbitListenerContainerFactory(RabbitMqProperties properties, ObjectProvider<ContainerCustomizer<@NonNull DirectMessageListenerContainer>> directContainerCustomizer) {
+    DirectRabbitListenerContainerFactory directRabbitListenerContainerFactory(DataRabbitProperties properties, ObjectProvider<ContainerCustomizer<@NonNull DirectMessageListenerContainer>> directContainerCustomizer) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.redis.connection;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/11/28 下午4:16
  */
 public class DataDbRedisUrlSyntaxException extends RuntimeException {

@@ -8,7 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2025/11/28 下午4:12
  */
 record DataDbRedisUrl(URI uri, boolean useSsl, Credentials credentials, int database) {

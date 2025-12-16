@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnThreading;
 import org.springframework.boot.thread.Threading;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.task.VirtualThreadTaskExecutor;
 
 import java.util.Map;
@@ -93,6 +94,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
             havingValue = "simple",
             matchIfMissing = true
     )
+    @DependsOn(value = {DEFAULT_RABBIT_CONNECTION_FACTORY})
     SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(DataRabbitProperties properties, ObjectProvider<ContainerCustomizer<@NonNull SimpleMessageListenerContainer>> simpleContainerCustomizer) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");

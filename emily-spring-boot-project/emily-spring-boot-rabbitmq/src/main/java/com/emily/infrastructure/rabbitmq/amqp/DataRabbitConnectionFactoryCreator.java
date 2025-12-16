@@ -17,6 +17,7 @@ import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ResourceLoader;
 
 import java.util.Map;
@@ -51,6 +52,7 @@ public class DataRabbitConnectionFactoryCreator {
 
     @Bean
     @ConditionalOnMissingBean
+    @DependsOn(value = {DEFAULT_RABBIT_CONNECT_DETAILS})
     public RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer(DataRabbitProperties properties, ResourceLoader resourceLoader,
                                                                                        ObjectProvider<CredentialsProvider> credentialsProvider,
                                                                                        ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
@@ -61,15 +63,14 @@ public class DataRabbitConnectionFactoryCreator {
             RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader, entry.getValue(), connectionDetails);
             configurer.setCredentialsProvider((CredentialsProvider) credentialsProvider.getIfUnique());
             configurer.setCredentialsRefreshService((CredentialsRefreshService) credentialsRefreshService.getIfUnique());
-            if (!defaultConfig.equals(entry.getKey())) {
-                defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), configurer);
-            }
+            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), configurer);
         }
         return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
     }
 
     @Bean
     @ConditionalOnMissingBean
+    @DependsOn(value = {DEFAULT_RABBIT_CONNECT_DETAILS})
     public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(DataRabbitProperties properties, ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
@@ -77,15 +78,14 @@ public class DataRabbitConnectionFactoryCreator {
             RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
             CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(entry.getValue(), connectionDetails);
             configurer.setConnectionNameStrategy((ConnectionNameStrategy) connectionNameStrategy.getIfUnique());
-            if (!defaultConfig.equals(entry.getKey())) {
-                defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_CONFIGURER), configurer);
-            }
+            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_CONFIGURER), configurer);
         }
         return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
     }
 
     @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
+    @DependsOn(value = {DEFAULT_RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER, DEFAULT_RABBIT_CONNECTION_FACTORY_CONFIGURER})
     public CachingConnectionFactory rabbitConnectionFactory(DataRabbitProperties rabbitMqProperties,
                                                             ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,
                                                             ApplicationContext context) throws Exception {
@@ -98,7 +98,7 @@ public class DataRabbitConnectionFactoryCreator {
             RabbitConnectionFactoryBean connectionFactoryBean = new DataSslBundleRabbitConnectionFactoryBean();
             rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
             connectionFactoryBean.afterPropertiesSet();
-            com.rabbitmq.client.ConnectionFactory connectionFactory = (com.rabbitmq.client.ConnectionFactory)connectionFactoryBean.getObject();
+            com.rabbitmq.client.ConnectionFactory connectionFactory = (com.rabbitmq.client.ConnectionFactory) connectionFactoryBean.getObject();
             connectionFactoryCustomizers.orderedStream().forEach((customizer) -> {
                 customizer.customize(connectionFactory);
             });

@@ -41,11 +41,11 @@ public class DataRabbitAutoConfiguration implements InitializingBean, Disposable
 
     @Override
     public void destroy() throws Exception {
-        logger.info("<== 【销毁--自动化配置】----RabbitMQ消息中间件【RabbitMqAutoConfiguration】");
+        logger.info("<== 【销毁--自动化配置】----RabbitMQ消息中间件【DataRabbitAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("==> 【初始化--自动化配置】----RabbitMQ消息中间件件【RabbitMqAutoConfiguration】");
+        logger.info("==> 【初始化--自动化配置】----RabbitMQ消息中间件件【DataRabbitAutoConfiguration】");
     }
 }

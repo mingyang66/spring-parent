@@ -56,11 +56,12 @@ public class RabbitMqUtils {
      * RabbitMQ监听器工厂配置类，SIMPLE
      */
     public static final String SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "SimpleRabbitListenerContainerFactoryConfigurer";
+    public static final String DEFAULT_SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "simpleRabbitListenerContainerFactoryConfigurer";
     /**
      * RabbitMQ监听器工厂配置类，DIRECT
      */
     public static final String DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "DirectRabbitListenerContainerFactoryConfigurer";
-    public static final String DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "rabbitListenerContainerFactoryConfigurer";
+    public static final String DEFAULT_DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER = "directRabbitListenerContainerFactoryConfigurer";
 
     public static final String RABBIT_CONNECT_DETAILS = "RabbitConnectionDetails";
     public static final String DEFAULT_RABBIT_CONNECT_DETAILS = "rabbitConnectionDetails";

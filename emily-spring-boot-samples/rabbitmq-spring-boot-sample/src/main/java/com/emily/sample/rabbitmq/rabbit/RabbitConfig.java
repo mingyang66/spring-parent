@@ -3,10 +3,8 @@ package com.emily.sample.rabbitmq.rabbit;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.messaging.handler.annotation.Header;
 
 import java.io.IOException;
 
@@ -20,28 +18,38 @@ import java.io.IOException;
 @DependsOn(value = {"rabbitListenerContainerFactory"})
 public class RabbitConfig {
 
-    @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory")
+    @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory", ackMode = "MANUAL")
     public void handler(Channel channel, Message message) throws IOException {
-        long deliveryTag =message.getMessageProperties().getDeliveryTag();
-        try {
-            String contentType = message.getMessageProperties().getContentType();
-            System.out.println("EMILY-" + new String(message.getBody()));
-            channel.basicAck(deliveryTag, false);
-        } finally {
-            channel.basicReject(deliveryTag, false);
-        }
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        //try {
+        System.out.println("EMILY-" + new String(message.getBody()));
+        channel.basicAck(deliveryTag, false);
+        //} catch (IOException e) {
+        //  throw new RuntimeException(e);
+        //} finally {
+        // try {
+        //channel.basicReject(deliveryTag, false);
+        //} catch (IOException e) {
+        //   throw new RuntimeException(e);
+        //}
+        //}
     }
 
-    @RabbitListener(queues = "topic.test.queue")
+    @RabbitListener(queues = "topic.test.queue", ackMode = "MANUAL")
     public void handlerEmily(Channel channel, Message message) throws IOException {
-        long deliveryTag =message.getMessageProperties().getDeliveryTag();
-        try {
-            String contentType = message.getMessageProperties().getContentType();
-            System.out.println("TEST-" + new String(message.getBody()));
-            channel.basicAck(deliveryTag, false);
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        //try {
+        System.out.println("TEST-" + new String(message.getBody()));
+        channel.basicAck(deliveryTag, false);
+        /* } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
-            channel.basicReject(deliveryTag, false);
-        }
+            try {
+                channel.basicReject(deliveryTag, false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }*/
     }
 
 

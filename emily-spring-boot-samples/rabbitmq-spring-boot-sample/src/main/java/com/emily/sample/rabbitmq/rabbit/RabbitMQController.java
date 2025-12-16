@@ -4,6 +4,7 @@ import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,13 @@ import java.nio.charset.Charset;
 @RestController
 @RequestMapping("api/rabbit")
 public class RabbitMQController {
+    private final RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate emilyRabbitTemplate;
+
+    public RabbitMQController(RabbitTemplate rabbitTemplate, @Qualifier(value = "emilyRabbitTemplate") RabbitTemplate emilyRabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.emilyRabbitTemplate = emilyRabbitTemplate;
+    }
 
     @GetMapping("test")
     public void test() {
@@ -50,10 +58,10 @@ public class RabbitMQController {
 
     @GetMapping("send")
     public void send() {
-        RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
+        //RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
         rabbitTemplate.convertAndSend("emily.test", "topic.route", new Message("nihao".getBytes(Charset.defaultCharset())));
-        RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
-        rabbitTemplateEmily.convertAndSend("emily.test", "emily.route", new Message("nihao".getBytes(Charset.defaultCharset())));
+        //RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
+        emilyRabbitTemplate.convertAndSend("emily.test", "emily.route", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 
     @GetMapping("send1")

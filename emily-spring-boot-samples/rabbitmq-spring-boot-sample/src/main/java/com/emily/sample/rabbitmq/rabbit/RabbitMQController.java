@@ -1,5 +1,4 @@
-/*
-package com.emily.infrastructure.sample.web.controller.rabbit;
+package com.emily.sample.rabbitmq.rabbit;
 
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
 import org.springframework.amqp.core.*;
@@ -11,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
 
-*/
+
 /**
  * 消息中间件
  *
  * @author Emily
  * @since Created in 2022/6/6 11:38 上午
- *//*
+ */
 
 
 @RestController
@@ -52,9 +51,9 @@ public class RabbitMQController {
     @GetMapping("send")
     public void send() {
         RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
-        rabbitTemplate.convertAndSend("exchange", "topic.test", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplate.convertAndSend("emily.test", "topic.route", new Message("nihao".getBytes(Charset.defaultCharset())));
         RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
-        rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplateEmily.convertAndSend("emily.test", "emily.route", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 
     @GetMapping("send1")
@@ -63,4 +62,3 @@ public class RabbitMQController {
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 }
-*/

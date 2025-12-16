@@ -1,4 +1,4 @@
-/*
+package com.emily.sample.rabbitmq.rabbit;/*
 package com.emily.infrastructure.sample.web.config.rabbit;
 
 import com.rabbitmq.client.Channel;

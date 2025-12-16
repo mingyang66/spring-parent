@@ -1,4 +1,4 @@
-/*
+package com.emily.sample.rabbitmq.rabbit;/*
 package com.emily.infrastructure.sample.web.controller.rabbit;
 
 import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;

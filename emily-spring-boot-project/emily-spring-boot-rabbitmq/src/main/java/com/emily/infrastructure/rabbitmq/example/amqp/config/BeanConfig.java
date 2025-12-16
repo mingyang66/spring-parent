@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Scope;
  * @author Emily
  * @since 1.0
  */
-@Configuration
+//@Configuration
 public class BeanConfig {
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

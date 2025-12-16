@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@Component
+//@Component
 public class RabbitLazyReceiver {
     /**
      * @param channel 信道

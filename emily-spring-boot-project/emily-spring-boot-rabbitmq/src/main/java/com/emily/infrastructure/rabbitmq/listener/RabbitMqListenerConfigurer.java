@@ -25,7 +25,7 @@ public class RabbitMqListenerConfigurer implements RabbitListenerConfigurer {
     @Override
     public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar) {
         //使用适配器来处理消息，设置了order，pay队列的消息处理逻辑
-        SimpleRabbitListenerEndpoint endpoint = new SimpleRabbitListenerEndpoint();
+        /*SimpleRabbitListenerEndpoint endpoint = new SimpleRabbitListenerEndpoint();
         endpoint.setId(RandomUtils.nextInt(100, 200) + "");
         if (StringUtils.equals(key, "test")) {
             endpoint.setQueueNames("topic.test.queue");
@@ -35,6 +35,6 @@ public class RabbitMqListenerConfigurer implements RabbitListenerConfigurer {
         System.out.println("endpoint处理消息的逻辑");
         endpoint.setMessageListener(message -> System.out.println(new String(message.getBody())));
         //注册二个endpoint
-        registrar.registerEndpoint(endpoint, containerFactory);
+        registrar.registerEndpoint(endpoint, containerFactory);*/
     }
 }

@@ -19,9 +19,6 @@ import java.io.IOException;
 @Configuration
 @DependsOn(value = {"rabbitListenerContainerFactory"})
 public class RabbitConfig {
-    public RabbitConfig() {
-        System.out.println("------RabbitConfig-----");
-    }
 
     @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory")
     public void handler(Channel channel, Message message) throws IOException {

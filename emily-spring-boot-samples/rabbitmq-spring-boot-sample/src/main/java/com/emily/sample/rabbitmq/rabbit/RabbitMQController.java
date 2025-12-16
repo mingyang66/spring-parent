@@ -59,9 +59,9 @@ public class RabbitMQController {
     @GetMapping("send")
     public void send() {
         //RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
-        rabbitTemplate.convertAndSend("emily.test", "topic.route", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
         //RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
-        emilyRabbitTemplate.convertAndSend("emily.test", "emily.route", new Message("nihao".getBytes(Charset.defaultCharset())));
+        emilyRabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 
     @GetMapping("send1")

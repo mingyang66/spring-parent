@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@Component
+//@Component
 public class RabbitSender {
     /**
      * 创建一个消息是否投递成功的回调方法

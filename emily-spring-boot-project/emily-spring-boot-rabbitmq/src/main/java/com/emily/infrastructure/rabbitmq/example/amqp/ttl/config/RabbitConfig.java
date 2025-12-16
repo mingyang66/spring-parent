@@ -13,7 +13,7 @@ import java.util.Map;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@Configuration
+//@Configuration
 public class RabbitConfig {
     public static final String TTL_TOPIC_EXCHANGE = "ttl.topic.exchange";
     public static final String TTL_TOPIC_QUEUE = "ttl_topic_queue";

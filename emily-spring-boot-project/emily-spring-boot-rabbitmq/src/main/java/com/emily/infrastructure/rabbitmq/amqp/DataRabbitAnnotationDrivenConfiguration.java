@@ -5,6 +5,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.config.DirectRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.config.RabbitListenerConfigUtils;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.DirectMessageListenerContainer;
@@ -182,15 +183,11 @@ public class DataRabbitAnnotationDrivenConfiguration {
         return configurer;
     }
 
-    @Configuration(
-            proxyBeanMethods = false
-    )
-    @EnableRabbit
-    @ConditionalOnMissingBean(
-            name = {"org.springframework.amqp.rabbit.config.internalRabbitListenerAnnotationProcessor"}
-    )
-    static class EnableRabbitConfiguration {
-        EnableRabbitConfiguration() {
-        }
-    }
+
+    @Configuration(proxyBeanMethods = false)
+   	@EnableRabbit
+   	@ConditionalOnMissingBean(name = RabbitListenerConfigUtils.RABBIT_LISTENER_ANNOTATION_PROCESSOR_BEAN_NAME)
+   	static class EnableRabbitConfiguration {
+
+   	}
 }

@@ -13,7 +13,7 @@ import java.util.Map;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@Configuration
+//@Configuration
 public class RabbitLazyConfig {
     public static final String LAZY_TOPIC_EXCHANGE = "lazy.topic.exchange";
     public static final String LAZY_TOPIC_QUEUE = "lazy_topic_queue";

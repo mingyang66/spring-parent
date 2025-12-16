@@ -14,7 +14,7 @@ import java.util.Map;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@Configuration
+//@Configuration
 public class RabbitDelayConfig {
     /**
      * 交换器

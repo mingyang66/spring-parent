@@ -20,7 +20,7 @@ import java.util.Map;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@Component
+//@Component
 public class RabbitReceiver {
     /**
      * @param channel 信道

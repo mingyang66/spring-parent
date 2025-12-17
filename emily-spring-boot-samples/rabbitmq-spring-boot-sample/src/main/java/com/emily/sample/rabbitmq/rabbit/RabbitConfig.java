@@ -21,35 +21,16 @@ public class RabbitConfig {
     @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory", ackMode = "MANUAL")
     public void handler(Channel channel, Message message) throws IOException {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        //try {
         System.out.println("EMILY-" + new String(message.getBody()));
         channel.basicAck(deliveryTag, false);
-        //} catch (IOException e) {
-        //  throw new RuntimeException(e);
-        //} finally {
-        // try {
-        //channel.basicReject(deliveryTag, false);
-        //} catch (IOException e) {
-        //   throw new RuntimeException(e);
-        //}
-        //}
+
     }
 
     @RabbitListener(queues = "topic.test.queue", ackMode = "MANUAL")
     public void handlerEmily(Channel channel, Message message) throws IOException {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        //try {
         System.out.println("TEST-" + new String(message.getBody()));
         channel.basicAck(deliveryTag, false);
-        /* } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                channel.basicReject(deliveryTag, false);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }*/
     }
 
 

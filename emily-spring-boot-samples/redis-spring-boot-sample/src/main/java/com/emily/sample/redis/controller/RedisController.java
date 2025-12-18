@@ -5,10 +5,7 @@ import com.emily.infrastructure.redis.common.RedisKeyspace;
 import com.emily.infrastructure.redis.factory.DataRedisFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,22 +27,30 @@ public class RedisController {
     private final StringRedisTemplate testStringRedisTemplate;
     private final RedisTemplate<Object, Object> redisTemplate;
     private final RedisTemplate<Object, Object> testRedisTemplate;
-    @Autowired
-    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
-    @Autowired
-    // @Qualifier("test1ReactiveStringRedisTemplate")
-    private ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
+    private final ReactiveStringRedisTemplate reactiveStringRedisTemplate;
+    private final ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
+    private final ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate;
+    private final ReactiveRedisTemplate<Object, Object> testReactiveRedisTemplate;
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     public RedisController(StringRedisTemplate stringRedisTemplate,
                            @Qualifier("test1StringRedisTemplate") StringRedisTemplate testStringRedisTemplate,
                            RedisTemplate<Object, Object> redisTemplate,
-                           @Qualifier("test1RedisTemplate") RedisTemplate<Object, Object> testRedisTemplate) {
+                           @Qualifier("test1RedisTemplate") RedisTemplate<Object, Object> testRedisTemplate,
+                           ReactiveStringRedisTemplate reactiveStringRedisTemplate,
+                           @Qualifier("test1ReactiveStringRedisTemplate") ReactiveStringRedisTemplate testReactiveStringRedisTemplate,
+                           ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate,
+                           @Qualifier("test1ReactiveRedisTemplate") ReactiveRedisTemplate<Object, Object> testReactiveRedisTemplate
+    ) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.testStringRedisTemplate = testStringRedisTemplate;
         this.redisTemplate = redisTemplate;
         this.testRedisTemplate = testRedisTemplate;
+        this.reactiveStringRedisTemplate = reactiveStringRedisTemplate;
+        this.testReactiveStringRedisTemplate = testReactiveStringRedisTemplate;
+        this.reactiveRedisTemplate = reactiveRedisTemplate;
+        this.testReactiveRedisTemplate = testReactiveRedisTemplate;
     }
 
     @GetMapping("api/redis/test")
@@ -59,10 +65,15 @@ public class RedisController {
         return DataRedisFactory.getStringRedisTemplate().opsForValue().get("test");
     }
 
-    @GetMapping("info/{section}")
-    public Properties getInfo(@PathVariable("section") String section) {
-        Properties properties = DataRedisFactory.getStringRedisTemplate().getConnectionFactory().getConnection().info(section);
-        return properties;
+    @GetMapping("api/redis/reactive")
+    public String getInfo() {
+        DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().set("test", "你好", Duration.ofSeconds(100)).block();
+        DataRedisFactory.getReactiveStringRedisTemplate("test1").opsForValue().set("test", "你好", Duration.ofSeconds(100)).block();
+        reactiveStringRedisTemplate.opsForValue().set("test1", "你好1", Duration.ofSeconds(100)).block();
+        testReactiveStringRedisTemplate.opsForValue().set("test1", "你好2", Duration.ofSeconds(100)).block();
+        reactiveRedisTemplate.opsForValue().set("test3", "test3", Duration.ofSeconds(100)).block();
+        testReactiveRedisTemplate.opsForValue().set("test3", "test3", Duration.ofSeconds(100)).block();
+        return DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().get("test").subscribe().toString();
     }
 
     @GetMapping("getTest")

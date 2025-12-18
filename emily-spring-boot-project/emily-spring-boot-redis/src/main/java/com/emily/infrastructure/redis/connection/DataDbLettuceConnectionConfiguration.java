@@ -4,7 +4,6 @@ package com.emily.infrastructure.redis.connection;
 import com.emily.infrastructure.redis.DataDbRedisProperties;
 import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.common.DataRedisInfo;
-import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.cluster.ClusterClientOptions;
@@ -117,7 +116,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
             ClientResources clientResources) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails redisConnectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());

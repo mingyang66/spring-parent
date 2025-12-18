@@ -3,7 +3,6 @@ package com.emily.infrastructure.redis;
 import com.emily.infrastructure.redis.common.DataRedisInfo;
 import com.emily.infrastructure.redis.connection.DataDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.DataDbPropertiesDataRedisConnectionDetails;
-import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,6 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     private final DefaultListableBeanFactory defaultListableBeanFactory;
 
     public DataDbRedisAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
-        BeanFactoryProvider.registerDefaultListableBeanFactory(defaultListableBeanFactory);
         Assert.notNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         this.properties = properties;
         this.defaultListableBeanFactory = defaultListableBeanFactory;
@@ -79,7 +77,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
             template.setValueSerializer(jackson2JsonRedisSerializer());
             template.setHashKeySerializer(stringSerializer());
             template.setHashValueSerializer(jackson2JsonRedisSerializer());
-            template.setConnectionFactory(BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            template.setConnectionFactory(defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
             if (properties.getDefaultConfig().equals(entry.getKey())) {
                 redisTemplate = template;
             } else {
@@ -101,7 +99,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
             template.setValueSerializer(stringSerializer());
             template.setHashKeySerializer(stringSerializer());
             template.setHashValueSerializer(stringSerializer());
-            template.setConnectionFactory(BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            template.setConnectionFactory(defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
             if (!properties.getDefaultConfig().equals(entry.getKey())) {
                 template.afterPropertiesSet();
             }

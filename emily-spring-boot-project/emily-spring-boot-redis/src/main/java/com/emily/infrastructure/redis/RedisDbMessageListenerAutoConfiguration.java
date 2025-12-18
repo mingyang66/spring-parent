@@ -1,10 +1,10 @@
 package com.emily.infrastructure.redis;
 
-import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -30,10 +30,12 @@ import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 @ConditionalOnProperty(prefix = DataDbRedisProperties.PREFIX, name = "listener", havingValue = "true")
 public class RedisDbMessageListenerAutoConfiguration implements InitializingBean, DisposableBean {
     private static final Logger LOG = LoggerFactory.getLogger(RedisDbMessageListenerAutoConfiguration.class);
-    private final DataDbRedisProperties redisDbProperties;
+    private final DataDbRedisProperties properties;
+    private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    RedisDbMessageListenerAutoConfiguration(DataDbRedisProperties redisDbProperties) {
-        this.redisDbProperties = redisDbProperties;
+    public RedisDbMessageListenerAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
+        this.properties = properties;
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     /**
@@ -45,9 +47,9 @@ public class RedisDbMessageListenerAutoConfiguration implements InitializingBean
     @Primary
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
-        String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
+        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisMessageListenerContainer redisMessageListenerContainer = null;
-        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             String key = entry.getKey();
             // 实例化消息监听容器
             RedisMessageListenerContainer messageListenerContainer = new RedisMessageListenerContainer();
@@ -58,12 +60,12 @@ public class RedisDbMessageListenerAutoConfiguration implements InitializingBean
                 redisMessageListenerContainer = messageListenerContainer;
             } else {
                 // 设置连接工厂类
-                messageListenerContainer.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                messageListenerContainer.setConnectionFactory(defaultListableBeanFactory.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 messageListenerContainer.afterPropertiesSet();
                 messageListenerContainer.start();
             }
             // 注册redis消息监听容器
-            BeanFactoryProvider.registerSingleton(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
+            defaultListableBeanFactory.registerSingleton(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
         }
         return redisMessageListenerContainer;
     }

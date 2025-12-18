@@ -2,7 +2,7 @@ package com.emily.infrastructure.rabbitmq.amqp;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
-import com.emily.infrastructure.rabbitmq.listener.DefaultConnectionListener;
+import com.emily.infrastructure.rabbitmq.listener.DataRabbitConnectionListener;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitExceptionHandler;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
@@ -112,7 +112,7 @@ public class DataRabbitConnectionFactoryCreator {
             //替换默认异常处理DefaultExceptionHandler
             factory.getRabbitConnectionFactory().setExceptionHandler(new DataRabbitExceptionHandler(context));
             //添加连接监听器
-            factory.addConnectionListener(new DefaultConnectionListener(factory, context));
+            factory.addConnectionListener(new DataRabbitConnectionListener(factory, context));
 
             defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), factory);
         }

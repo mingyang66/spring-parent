@@ -10,7 +10,7 @@ import org.springframework.core.Ordered;
  * @author :  Emily
  * @since :  2024/8/16 下午5:03
  */
-public class RabbitMqApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
+public class DataRabbitApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         DataRabbitFactory.registerApplicationContext(applicationContext);

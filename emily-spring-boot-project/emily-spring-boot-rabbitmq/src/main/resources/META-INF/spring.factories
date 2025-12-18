@@ -1,3 +1,3 @@
 #Initializers
-org.springframework.context.ApplicationContextInitializer=com.emily.infrastructure.rabbitmq.initializer.RabbitMqApplicationContextInitializer
+org.springframework.context.ApplicationContextInitializer=com.emily.infrastructure.rabbitmq.initializer.DataRabbitApplicationContextInitializer
 org.springframework.boot.EnvironmentPostProcessor=com.emily.infrastructure.rabbitmq.processor.DataRabbitEnvironmentPostProcessor

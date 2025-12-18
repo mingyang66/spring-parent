@@ -24,12 +24,12 @@ import java.time.LocalDateTime;
  * @author :  Emily
  * @since :  2023/8/23 9:45 AM
  */
-public class DefaultConnectionListener implements ConnectionListener {
+public class DataRabbitConnectionListener implements ConnectionListener {
 
     private final CachingConnectionFactory connectionFactory;
     private final ApplicationContext context;
 
-    public DefaultConnectionListener(CachingConnectionFactory connectionFactory, ApplicationContext context) {
+    public DataRabbitConnectionListener(CachingConnectionFactory connectionFactory, ApplicationContext context) {
         this.connectionFactory = connectionFactory;
         this.context = context;
     }

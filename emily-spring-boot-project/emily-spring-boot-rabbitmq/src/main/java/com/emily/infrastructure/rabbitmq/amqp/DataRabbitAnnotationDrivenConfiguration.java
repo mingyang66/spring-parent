@@ -69,7 +69,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
     }
 
     @Bean(
-            name = {"simpleRabbitListenerContainerFactoryConfigurer"}
+            name = {DataRabbitInfo.DEFAULT_SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER}
     )
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.VIRTUAL)
@@ -85,10 +85,10 @@ public class DataRabbitAnnotationDrivenConfiguration {
     }
 
     @Bean(
-            name = {"rabbitListenerContainerFactory"}
+            name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnMissingBean(
-            name = {"rabbitListenerContainerFactory"}
+            name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnProperty(
             name = {"spring.rabbitmq.listener.type"},
@@ -107,9 +107,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
             configurer.configure(factory, connectionFactory);
             Objects.requireNonNull(factory);
             simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), "RabbitListenerContainerFactory"), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, "RabbitListenerContainerFactory"), SimpleRabbitListenerContainerFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), SimpleRabbitListenerContainerFactory.class);
     }
 
     @Bean
@@ -125,7 +125,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
     }
 
     @Bean(
-            name = {"directRabbitListenerContainerFactoryConfigurer"}
+            name = {DataRabbitInfo.DEFAULT_DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER}
     )
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.VIRTUAL)
@@ -141,10 +141,10 @@ public class DataRabbitAnnotationDrivenConfiguration {
     }
 
     @Bean(
-            name = {"rabbitListenerContainerFactory"}
+            name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnMissingBean(
-            name = {"rabbitListenerContainerFactory"}
+            name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnProperty(
             name = {"spring.rabbitmq.listener.type"},
@@ -162,9 +162,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
             configurer.configure(factory, connectionFactory);
             Objects.requireNonNull(factory);
             directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), "RabbitListenerContainerFactory"), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, "RabbitListenerContainerFactory"), DirectRabbitListenerContainerFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), DirectRabbitListenerContainerFactory.class);
     }
 
     private DataSimpleRabbitListenerContainerFactoryConfigurer simpleListenerConfigurer(RabbitProperties rabbitProperties) {
@@ -185,9 +185,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
 
 
     @Configuration(proxyBeanMethods = false)
-   	@EnableRabbit
-   	@ConditionalOnMissingBean(name = RabbitListenerConfigUtils.RABBIT_LISTENER_ANNOTATION_PROCESSOR_BEAN_NAME)
-   	static class EnableRabbitConfiguration {
+    @EnableRabbit
+    @ConditionalOnMissingBean(name = RabbitListenerConfigUtils.RABBIT_LISTENER_ANNOTATION_PROCESSOR_BEAN_NAME)
+    static class EnableRabbitConfiguration {
 
-   	}
+    }
 }

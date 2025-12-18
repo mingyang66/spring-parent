@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rabbitmq.factory;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
+import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
 import com.rabbitmq.client.Channel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -16,7 +17,6 @@ import org.springframework.util.Assert;
 
 import java.util.Objects;
 
-import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
 
 /**
  * RabbitMq消息中间件工厂类
@@ -27,7 +27,7 @@ import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
 public class DataRabbitFactory {
     private static ApplicationContext context;
 
-    public static void registerApplicationContext(ApplicationContext context) {
+    public static void register(ApplicationContext context) {
         DataRabbitFactory.context = context;
     }
 
@@ -37,7 +37,7 @@ public class DataRabbitFactory {
      * @return RabbitTemplate对象
      */
     public static RabbitTemplate getRabbitTemplate() {
-        return context.getBean(DEFAULT_RABBIT_TEMPLATE, RabbitTemplate.class);
+        return context.getBean(DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE, RabbitTemplate.class);
     }
 
     /**
@@ -52,7 +52,7 @@ public class DataRabbitFactory {
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitTemplate();
         }
-        return context.getBean(StringUtils.join(key, RABBIT_TEMPLATE), RabbitTemplate.class);
+        return context.getBean(StringUtils.join(key, DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
     }
 
     /**
@@ -68,7 +68,7 @@ public class DataRabbitFactory {
      * @return AmqpAdmin对象
      */
     public static AmqpAdmin getAmqpAdmin() {
-        return context.getBean(DEFAULT_AMQP_ADMIN, AmqpAdmin.class);
+        return context.getBean(DataRabbitInfo.DEFAULT_AMQP_ADMIN, AmqpAdmin.class);
     }
 
     /**
@@ -90,7 +90,7 @@ public class DataRabbitFactory {
         if (properties.getDefaultConfig().equals(key)) {
             return getAmqpAdmin();
         }
-        return context.getBean(StringUtils.join(key, AMQP_ADMIN), AmqpAdmin.class);
+        return context.getBean(StringUtils.join(key, DataRabbitInfo.AMQP_ADMIN), AmqpAdmin.class);
     }
 
     /**
@@ -99,7 +99,7 @@ public class DataRabbitFactory {
      * @return RabbitMessagingTemplate对象
      */
     public static RabbitMessagingTemplate getRabbitMessagingTemplate() {
-        return context.getBean(DEFAULT_RABBIT_MESSAGING_TEMPLATE, RabbitMessagingTemplate.class);
+        return context.getBean(DataRabbitInfo.DEFAULT_RABBIT_MESSAGING_TEMPLATE, RabbitMessagingTemplate.class);
     }
 
     /**
@@ -114,7 +114,7 @@ public class DataRabbitFactory {
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitMessagingTemplate();
         }
-        return context.getBean(StringUtils.join(key, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
+        return context.getBean(StringUtils.join(key, DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
     }
 
     /**

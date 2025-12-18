@@ -13,7 +13,7 @@ import org.springframework.core.Ordered;
 public class DataRabbitApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        DataRabbitFactory.registerApplicationContext(applicationContext);
+        DataRabbitFactory.register(applicationContext);
     }
 
     @Override

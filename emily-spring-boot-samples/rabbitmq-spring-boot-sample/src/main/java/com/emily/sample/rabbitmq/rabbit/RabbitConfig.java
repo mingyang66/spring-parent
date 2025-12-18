@@ -22,7 +22,6 @@ public class RabbitConfig {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         System.out.println("EMILY-" + new String(message.getBody()));
         channel.basicAck(deliveryTag, false);
-
     }
 
     @RabbitListener(queues = "topic.test.queue")

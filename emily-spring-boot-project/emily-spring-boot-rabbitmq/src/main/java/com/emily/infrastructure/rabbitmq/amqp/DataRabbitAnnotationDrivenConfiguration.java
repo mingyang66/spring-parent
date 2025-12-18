@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
@@ -29,7 +30,7 @@ import org.springframework.core.task.VirtualThreadTaskExecutor;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
+import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
 
 /**
  * 配置RabbitMQ  注解驱动端点
@@ -63,9 +64,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), this.simpleListenerConfigurer(entry.getValue()));
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), this.simpleListenerConfigurer(entry.getValue()));
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
     }
 
     @Bean(
@@ -79,9 +80,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             DataSimpleRabbitListenerContainerFactoryConfigurer configurer = this.simpleListenerConfigurer(entry.getValue());
             configurer.setTaskExecutor(new VirtualThreadTaskExecutor("rabbit-simple-"));
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), configurer);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
     }
 
     @Bean(
@@ -100,16 +101,16 @@ public class DataRabbitAnnotationDrivenConfiguration {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
-            DataSimpleRabbitListenerContainerFactoryConfigurer configurer = defaultListableBeanFactory.getBean(join(entry.getKey(), SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
+            ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
+            DataSimpleRabbitListenerContainerFactoryConfigurer configurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
 
             SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
             configurer.configure(factory, connectionFactory);
             Objects.requireNonNull(factory);
             simpleContainerCustomizer.ifUnique(factory::setContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), "RabbitListenerContainerFactory"), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), "RabbitListenerContainerFactory"), factory);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, "RabbitListenerContainerFactory"), SimpleRabbitListenerContainerFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, "RabbitListenerContainerFactory"), SimpleRabbitListenerContainerFactory.class);
     }
 
     @Bean
@@ -119,9 +120,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), this.directListenerConfigurer(entry.getValue()));
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), this.directListenerConfigurer(entry.getValue()));
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
     }
 
     @Bean(
@@ -135,9 +136,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
             DataDirectRabbitListenerContainerFactoryConfigurer configurer = this.directListenerConfigurer(entry.getValue());
             configurer.setTaskExecutor(new VirtualThreadTaskExecutor("rabbit-direct-"));
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), configurer);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
     }
 
     @Bean(
@@ -155,16 +156,16 @@ public class DataRabbitAnnotationDrivenConfiguration {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
-            DataDirectRabbitListenerContainerFactoryConfigurer configurer = defaultListableBeanFactory.getBean(join(entry.getKey(), DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
+            ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
+            DataDirectRabbitListenerContainerFactoryConfigurer configurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
 
             DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
             configurer.configure(factory, connectionFactory);
             Objects.requireNonNull(factory);
             directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), "RabbitListenerContainerFactory"), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), "RabbitListenerContainerFactory"), factory);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, "RabbitListenerContainerFactory"), DirectRabbitListenerContainerFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, "RabbitListenerContainerFactory"), DirectRabbitListenerContainerFactory.class);
     }
 
     private DataSimpleRabbitListenerContainerFactoryConfigurer simpleListenerConfigurer(RabbitProperties rabbitProperties) {

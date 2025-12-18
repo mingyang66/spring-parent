@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Import;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
+import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
 
 /**
  * @author Emily
@@ -38,9 +39,9 @@ public class DataRabbitMessagingTemplateConfiguration {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            RabbitTemplate rabbitTemplate = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_TEMPLATE), RabbitTemplate.class);
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_MESSAGING_TEMPLATE), new RabbitMessagingTemplate(rabbitTemplate));
+            RabbitTemplate rabbitTemplate = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_TEMPLATE), RabbitTemplate.class);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), RABBIT_MESSAGING_TEMPLATE), new RabbitMessagingTemplate(rabbitTemplate));
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
     }
 }

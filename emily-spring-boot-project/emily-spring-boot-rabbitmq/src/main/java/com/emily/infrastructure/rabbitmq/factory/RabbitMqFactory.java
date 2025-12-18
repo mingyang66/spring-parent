@@ -2,6 +2,7 @@ package com.emily.infrastructure.rabbitmq.factory;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import com.rabbitmq.client.Channel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
@@ -15,7 +16,7 @@ import org.springframework.util.Assert;
 
 import java.util.Objects;
 
-import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
+import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
 
 /**
  * RabbitMq消息中间件工厂类
@@ -51,7 +52,7 @@ public class RabbitMqFactory {
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitTemplate();
         }
-        return context.getBean(join(key, RABBIT_TEMPLATE), RabbitTemplate.class);
+        return context.getBean(StringUtils.join(key, RABBIT_TEMPLATE), RabbitTemplate.class);
     }
 
     /**
@@ -89,7 +90,7 @@ public class RabbitMqFactory {
         if (properties.getDefaultConfig().equals(key)) {
             return getAmqpAdmin();
         }
-        return context.getBean(join(key, AMQP_ADMIN), AmqpAdmin.class);
+        return context.getBean(StringUtils.join(key, AMQP_ADMIN), AmqpAdmin.class);
     }
 
     /**
@@ -113,7 +114,7 @@ public class RabbitMqFactory {
         if (properties.getDefaultConfig().equals(key)) {
             return getRabbitMessagingTemplate();
         }
-        return context.getBean(join(key, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
+        return context.getBean(StringUtils.join(key, RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
     }
 
     /**

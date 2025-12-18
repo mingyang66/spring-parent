@@ -5,6 +5,7 @@ import com.emily.infrastructure.rabbitmq.listener.DefaultMqConnectionListener;
 import com.emily.infrastructure.rabbitmq.listener.DefaultMqExceptionHandler;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy;
@@ -23,7 +24,7 @@ import org.springframework.core.io.ResourceLoader;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.rabbitmq.common.RabbitMqUtils.*;
+import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
 
 /**
  * Rabbit工厂创建器 参考：{@link RabbitAutoConfiguration}
@@ -45,9 +46,9 @@ public class DataRabbitConnectionFactoryCreator {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECT_DETAILS), new DataPropertiesRabbitConnectionDetails(entry.getValue(), (SslBundles) sslBundles.getIfAvailable()));
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), RABBIT_CONNECT_DETAILS), new DataPropertiesRabbitConnectionDetails(entry.getValue(), (SslBundles) sslBundles.getIfAvailable()));
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
     }
 
     @Bean
@@ -59,13 +60,13 @@ public class DataRabbitConnectionFactoryCreator {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
+            RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
             RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader, entry.getValue(), connectionDetails);
             configurer.setCredentialsProvider((CredentialsProvider) credentialsProvider.getIfUnique());
             configurer.setCredentialsRefreshService((CredentialsRefreshService) credentialsRefreshService.getIfUnique());
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), configurer);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
     }
 
     @Bean
@@ -75,12 +76,12 @@ public class DataRabbitConnectionFactoryCreator {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
+            RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
             CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(entry.getValue(), connectionDetails);
             configurer.setConnectionNameStrategy((ConnectionNameStrategy) connectionNameStrategy.getIfUnique());
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_CONFIGURER), configurer);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
     }
 
     @Bean
@@ -92,8 +93,8 @@ public class DataRabbitConnectionFactoryCreator {
         String defaultConfig = Objects.requireNonNull(rabbitMqProperties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Map<String, RabbitProperties> dataMap = Objects.requireNonNull(rabbitMqProperties.getConfig(), "RabbitMQ连接配置不存在");
         for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
-            RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
-            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer = defaultListableBeanFactory.getBean(join(entry.getKey(), RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
+            RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
+            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
 
             RabbitConnectionFactoryBean connectionFactoryBean = new DataSslBundleRabbitConnectionFactoryBean();
             rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
@@ -118,8 +119,8 @@ public class DataRabbitConnectionFactoryCreator {
             //添加连接监听器
             factory.addConnectionListener(new DefaultMqConnectionListener(factory, context));
 
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), RABBIT_CONNECTION_FACTORY), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), RABBIT_CONNECTION_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(join(defaultConfig, RABBIT_CONNECTION_FACTORY), CachingConnectionFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, RABBIT_CONNECTION_FACTORY), CachingConnectionFactory.class);
     }
 }

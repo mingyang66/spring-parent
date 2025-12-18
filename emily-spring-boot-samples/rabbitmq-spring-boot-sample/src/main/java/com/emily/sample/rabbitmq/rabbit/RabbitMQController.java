@@ -1,6 +1,6 @@
 package com.emily.sample.rabbitmq.rabbit;
 
-import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
+import com.emily.infrastructure.rabbitmq.factory.DataRabbitFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -36,21 +36,21 @@ public class RabbitMQController {
         TopicExchange exchange = ExchangeBuilder.topicExchange("exchange").build();
         Queue queue = QueueBuilder.durable("topic.test.queue").build();
         Binding binding = BindingBuilder.bind(queue).to(exchange).with("topic.#");
-        RabbitMqFactory.declare("test", queue, exchange, binding);
+        DataRabbitFactory.declare("test", queue, exchange, binding);
 
         TopicExchange exchange1 = ExchangeBuilder.topicExchange("exchange_emily").build();
         Queue queue1 = QueueBuilder.durable("topic.emily.queue").build();
         Binding binding1 = BindingBuilder.bind(queue1).to(exchange1).with("emily.#");
-        RabbitMqFactory.declare("emily", queue1, exchange1, binding1);
+        DataRabbitFactory.declare("emily", queue1, exchange1, binding1);
 
-        RabbitMessagingTemplate template = RabbitMqFactory.getRabbitMessagingTemplate();
-        RabbitMessagingTemplate template1 = RabbitMqFactory.getRabbitMessagingTemplate("emily");
+        RabbitMessagingTemplate template = DataRabbitFactory.getRabbitMessagingTemplate();
+        RabbitMessagingTemplate template1 = DataRabbitFactory.getRabbitMessagingTemplate("emily");
         //template.convertAndSend("exchange","topic.test",new Message("nihao".getBytes(Charset.defaultCharset())));
         //template.convertAndSend("exchange","topic.emily",new Message("nihao".getBytes(Charset.defaultCharset())));
         template1.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
 
-        RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
-        RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
+        RabbitTemplate rabbitTemplate = DataRabbitFactory.getRabbitTemplate();
+        RabbitTemplate rabbitTemplateEmily = DataRabbitFactory.getRabbitTemplate("emily");
         rabbitTemplate.convertAndSend("exchange", "topic.test", new Message("nihao".getBytes(Charset.defaultCharset())));
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
 
@@ -66,7 +66,7 @@ public class RabbitMQController {
 
     @GetMapping("send1")
     public void send1() {
-        RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
+        RabbitTemplate rabbitTemplateEmily = DataRabbitFactory.getRabbitTemplate("emily");
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 }

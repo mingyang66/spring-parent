@@ -1,6 +1,6 @@
 package com.emily.infrastructure.rabbitmq.initializer;
 
-import com.emily.infrastructure.rabbitmq.factory.RabbitMqFactory;
+import com.emily.infrastructure.rabbitmq.factory.DataRabbitFactory;
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,7 +13,7 @@ import org.springframework.core.Ordered;
 public class RabbitMqApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        RabbitMqFactory.registerApplicationContext(applicationContext);
+        DataRabbitFactory.registerApplicationContext(applicationContext);
     }
 
     @Override

@@ -24,11 +24,11 @@ import static com.emily.infrastructure.rabbitmq.common.DataRabbitInfo.*;
  * @author Emily
  * @since Created in 2022/6/6 11:31 上午
  */
-public class RabbitMqFactory {
+public class DataRabbitFactory {
     private static ApplicationContext context;
 
     public static void registerApplicationContext(ApplicationContext context) {
-        RabbitMqFactory.context = context;
+        DataRabbitFactory.context = context;
     }
 
     /**

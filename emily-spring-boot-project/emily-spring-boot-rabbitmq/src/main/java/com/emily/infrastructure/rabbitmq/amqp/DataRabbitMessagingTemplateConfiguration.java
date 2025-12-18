@@ -27,14 +27,14 @@ import java.util.Map;
 @ConditionalOnMissingBean(RabbitMessagingTemplate.class)
 @Import(DataRabbitTemplateConfiguration.class)
 public class DataRabbitMessagingTemplateConfiguration {
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
     private final DataRabbitProperties properties;
+    private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    public DataRabbitMessagingTemplateConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRabbitProperties properties) {
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
-        this.properties = properties;
+    public DataRabbitMessagingTemplateConfiguration(DataRabbitProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
+        this.properties = properties;
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     @Bean

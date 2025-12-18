@@ -45,21 +45,21 @@ public class DataRabbitAnnotationDrivenConfiguration {
     private final ObjectProvider<MessageConverter> messageConverter;
     private final ObjectProvider<MessageRecoverer> messageRecoverer;
     private final ObjectProvider<RabbitListenerRetrySettingsCustomizer> retrySettingsCustomizers;
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
     private final DataRabbitProperties properties;
+    private final DefaultListableBeanFactory defaultListableBeanFactory;
 
     public DataRabbitAnnotationDrivenConfiguration(ObjectProvider<MessageConverter> messageConverter,
                                                    ObjectProvider<MessageRecoverer> messageRecoverer,
                                                    ObjectProvider<RabbitListenerRetrySettingsCustomizer> retrySettingsCustomizers,
-                                                   DefaultListableBeanFactory defaultListableBeanFactory,
-                                                   DataRabbitProperties properties) {
+                                                   DataRabbitProperties properties,
+                                                   DefaultListableBeanFactory defaultListableBeanFactory) {
+        Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
+        Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         this.messageConverter = messageConverter;
         this.messageRecoverer = messageRecoverer;
         this.retrySettingsCustomizers = retrySettingsCustomizers;
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
         this.properties = properties;
-        Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
-        Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     @Bean

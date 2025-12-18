@@ -34,14 +34,14 @@ import java.util.Map;
  */
 @Configuration(proxyBeanMethods = false)
 public class DataRabbitConnectionFactoryCreator {
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
     private final DataRabbitProperties properties;
+    private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    public DataRabbitConnectionFactoryCreator(DefaultListableBeanFactory defaultListableBeanFactory, DataRabbitProperties properties) {
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
-        this.properties = properties;
+    public DataRabbitConnectionFactoryCreator(DataRabbitProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
+        this.properties = properties;
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     @Bean

@@ -5,7 +5,6 @@ import com.rabbitmq.client.Channel;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
 
 /**
  * RabbitMQ消息消费者

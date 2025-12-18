@@ -3,7 +3,6 @@ package com.emily.infrastructure.rabbitmq.example.amqp.lazy.config;
 import com.google.common.collect.Maps;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 

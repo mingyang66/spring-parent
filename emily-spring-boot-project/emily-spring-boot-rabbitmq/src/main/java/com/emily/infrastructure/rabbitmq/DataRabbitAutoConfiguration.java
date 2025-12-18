@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rabbitmq;
 
-import com.emily.infrastructure.rabbitmq.amqp.*;
+import com.emily.infrastructure.rabbitmq.amqp.DataRabbitAnnotationDrivenConfiguration;
+import com.emily.infrastructure.rabbitmq.amqp.DataRabbitMessagingTemplateConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.MultiRabbitBootstrapConfiguration;

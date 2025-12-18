@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis.connection;
 
-import com.emily.infrastructure.redis.DataRedisProperties;
+import com.emily.infrastructure.redis.RedisProperties;
 import org.jspecify.annotations.Nullable;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisConnectionDetails;
 import org.springframework.boot.ssl.SslBundle;
@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class DataDbPropertiesDataRedisConnectionDetails implements DataRedisConnectionDetails {
 
-    private final DataRedisProperties properties;
+    private final RedisProperties properties;
     private final @Nullable SslBundles sslBundles;
 
-    public DataDbPropertiesDataRedisConnectionDetails(DataRedisProperties properties, SslBundles sslBundles) {
+    public DataDbPropertiesDataRedisConnectionDetails(RedisProperties properties, SslBundles sslBundles) {
         this.properties = properties;
         this.sslBundles = sslBundles;
     }
@@ -57,17 +57,17 @@ public class DataDbPropertiesDataRedisConnectionDetails implements DataRedisConn
     }
 
     public DataRedisConnectionDetails.@Nullable Sentinel getSentinel() {
-        DataRedisProperties.Sentinel sentinel = this.properties.getSentinel();
+        RedisProperties.Sentinel sentinel = this.properties.getSentinel();
         return sentinel != null ? new PropertiesSentinel(this.getStandalone().getDatabase(), sentinel) : null;
     }
 
     public DataRedisConnectionDetails.@Nullable Cluster getCluster() {
-        DataRedisProperties.Cluster cluster = this.properties.getCluster();
+        RedisProperties.Cluster cluster = this.properties.getCluster();
         return cluster != null ? new PropertiesCluster(cluster) : null;
     }
 
     public DataRedisConnectionDetails.@Nullable MasterReplica getMasterReplica() {
-        DataRedisProperties.Masterreplica masterreplica = this.properties.getMasterreplica();
+        RedisProperties.Masterreplica masterreplica = this.properties.getMasterreplica();
         return masterreplica != null ? new PropertiesMasterReplica(masterreplica) : null;
     }
 
@@ -89,9 +89,9 @@ public class DataDbPropertiesDataRedisConnectionDetails implements DataRedisConn
 
     private class PropertiesSentinel implements DataRedisConnectionDetails.Sentinel {
         private final int database;
-        private final DataRedisProperties.Sentinel properties;
+        private final RedisProperties.Sentinel properties;
 
-        PropertiesSentinel(int database, DataRedisProperties.Sentinel properties) {
+        PropertiesSentinel(int database, RedisProperties.Sentinel properties) {
             this.database = database;
             this.properties = properties;
         }
@@ -122,7 +122,7 @@ public class DataDbPropertiesDataRedisConnectionDetails implements DataRedisConn
     private class PropertiesCluster implements DataRedisConnectionDetails.Cluster {
         private final List<DataRedisConnectionDetails.Node> nodes;
 
-        PropertiesCluster(DataRedisProperties.Cluster properties) {
+        PropertiesCluster(RedisProperties.Cluster properties) {
             this.nodes = DataDbPropertiesDataRedisConnectionDetails.this.asNodes(properties.getNodes());
         }
 
@@ -134,7 +134,7 @@ public class DataDbPropertiesDataRedisConnectionDetails implements DataRedisConn
     private class PropertiesMasterReplica implements DataRedisConnectionDetails.MasterReplica {
         private final List<DataRedisConnectionDetails.Node> nodes;
 
-        PropertiesMasterReplica(DataRedisProperties.Masterreplica properties) {
+        PropertiesMasterReplica(RedisProperties.Masterreplica properties) {
             this.nodes = DataDbPropertiesDataRedisConnectionDetails.this.asNodes(properties.getNodes());
         }
 

@@ -47,7 +47,7 @@ public class RedisDbMessageListenerAutoConfiguration implements InitializingBean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisMessageListenerContainer redisMessageListenerContainer = null;
-        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             // 实例化消息监听容器
             RedisMessageListenerContainer messageListenerContainer = new RedisMessageListenerContainer();

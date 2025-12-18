@@ -1,7 +1,7 @@
 package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.redis.DataDbRedisProperties;
-import com.emily.infrastructure.redis.DataRedisProperties;
+import com.emily.infrastructure.redis.RedisProperties;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.data.redis.autoconfigure.DataRedisConnectionDetails;
@@ -84,11 +84,11 @@ abstract class DataDbRedisConnectionConfiguration {
     }
 
 
-    protected final @Nullable RedisClusterConfiguration getClusterConfiguration(DataRedisProperties properties, DataRedisConnectionDetails connectionDetails) {
+    protected final @Nullable RedisClusterConfiguration getClusterConfiguration(RedisProperties properties, DataRedisConnectionDetails connectionDetails) {
         if (this.clusterConfiguration != null) {
             return this.clusterConfiguration;
         } else {
-            DataRedisProperties.Cluster clusterProperties = properties.getCluster();
+            RedisProperties.Cluster clusterProperties = properties.getCluster();
             if (connectionDetails.getCluster() != null) {
                 RedisClusterConfiguration config = new RedisClusterConfiguration();
                 config.setClusterNodes(this.getNodes(connectionDetails.getCluster()));
@@ -143,11 +143,11 @@ abstract class DataDbRedisConnectionConfiguration {
         return this.connectionDetails.getSslBundle();
     }
 
-    protected boolean isSslEnabled(DataRedisProperties properties) {
+    protected boolean isSslEnabled(RedisProperties properties) {
         return properties.getSsl().isEnabled();
     }
 
-    protected boolean isPoolEnabled(DataRedisProperties.Pool pool) {
+    protected boolean isPoolEnabled(RedisProperties.Pool pool) {
         Boolean enabled = pool.getEnabled();
         return (enabled != null) ? enabled : COMMONS_POOL2_AVAILABLE;
     }
@@ -173,7 +173,7 @@ abstract class DataDbRedisConnectionConfiguration {
     }
 
 
-    private Mode determineMode(DataRedisProperties properties, DataRedisConnectionDetails connectionDetails) {
+    private Mode determineMode(RedisProperties properties, DataRedisConnectionDetails connectionDetails) {
         if (this.getSentinelConfig(connectionDetails) != null) {
             return Mode.SENTINEL;
         } else if (this.getClusterConfiguration(properties, connectionDetails) != null) {

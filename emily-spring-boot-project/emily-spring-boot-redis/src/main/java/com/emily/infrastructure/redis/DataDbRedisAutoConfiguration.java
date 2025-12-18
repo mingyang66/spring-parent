@@ -61,7 +61,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(DataRedisConnectionDetails.class)
     DataDbPropertiesDataRedisConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
-        for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), new DataDbPropertiesDataRedisConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
         }
         return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataDbPropertiesDataRedisConnectionDetails.class);
@@ -73,7 +73,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     @DependsOn(value = {DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY})
     public RedisTemplate<Object, Object> redisTemplate() {
         RedisTemplate<Object, Object> redisTemplate = null;
-        for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             template.setKeySerializer(stringSerializer());
             template.setValueSerializer(jackson2JsonRedisSerializer());
@@ -95,7 +95,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_STRING_REDIS_TEMPLATE)
     @DependsOn(value = {DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY})
     public StringRedisTemplate stringRedisTemplate() {
-        for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());
             template.setValueSerializer(stringSerializer());

@@ -54,7 +54,7 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
                 .hashValue(javaSerializer)
                 .build();
         ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate = new ReactiveRedisTemplate<>(reactiveRedisConnectionFactory, serializationContext);
-        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {
                 BeanFactoryProvider.registerSingleton(join(key, REACTIVE_REDIS_TEMPLATE), reactiveRedisTemplate);
@@ -73,7 +73,7 @@ public class RedisDbReactiveAutoConfiguration implements InitializingBean, Dispo
     public ReactiveStringRedisTemplate reactiveStringRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
         String defaultConfig = Objects.requireNonNull(redisDbProperties.getDefaultConfig(), "默认标识不可为空");
         ReactiveStringRedisTemplate reactiveStringRedisTemplate = new ReactiveStringRedisTemplate(reactiveRedisConnectionFactory);
-        for (Map.Entry<String, DataRedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : redisDbProperties.getConfig().entrySet()) {
             String key = entry.getKey();
             if (defaultConfig.equals(key)) {
                 BeanFactoryProvider.registerSingleton(join(key, REACTIVE_STRING_REDIS_TEMPLATE), reactiveStringRedisTemplate);

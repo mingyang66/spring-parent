@@ -2,7 +2,7 @@ package com.emily.infrastructure.redis.connection;
 
 
 import com.emily.infrastructure.redis.DataDbRedisProperties;
-import com.emily.infrastructure.redis.DataRedisProperties;
+import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.common.DataRedisInfo;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import io.lettuce.core.*;
@@ -91,7 +91,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                     ClientResources clientResources) {
-        for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             DataRedisConnectionDetails redisConnectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
@@ -116,7 +116,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
             ClientResources clientResources) {
-        for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
+        for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
             DataRedisConnectionDetails redisConnectionDetails = BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
@@ -135,7 +135,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     }
 
     private LettuceConnectionFactory createConnectionFactory(
-            DataRedisProperties properties,
+            RedisProperties properties,
             DataRedisConnectionDetails redisConnectionDetails,
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
@@ -168,7 +168,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             (ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
              ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
              ClientResources clientResources,
-             DataRedisProperties properties) {
+             RedisProperties properties) {
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = this.createBuilder(properties.getLettuce().getPool());
         SslBundle sslBundle = this.getSslBundle();
         this.applyProperties(builder, sslBundle, properties);
@@ -185,14 +185,14 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         return builder.build();
     }
 
-    private LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(DataRedisProperties.Pool
+    private LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool
                                                                                                pool) {
         return this.isPoolEnabled(pool) ? (new PoolBuilderFactory()).createBuilder(pool) : LettuceClientConfiguration.builder();
     }
 
 
     private void applyProperties(LettuceClientConfiguration.LettuceClientConfigurationBuilder
-                                         builder, @Nullable SslBundle sslBundle, DataRedisProperties properties) {
+                                         builder, @Nullable SslBundle sslBundle, RedisProperties properties) {
         if (sslBundle != null) {
             builder.useSsl();
         }
@@ -202,7 +202,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         }
 
         if (properties.getLettuce() != null) {
-            DataRedisProperties.Lettuce lettuce = properties.getLettuce();
+            RedisProperties.Lettuce lettuce = properties.getLettuce();
             if (lettuce.getShutdownTimeout() != null && !lettuce.getShutdownTimeout().isZero()) {
                 builder.shutdownTimeout(properties.getLettuce().getShutdownTimeout());
             }
@@ -240,7 +240,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
 
     private ClientOptions createClientOptions
             (ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientConfigurationBuilderCustomizers, @Nullable SslBundle
-                    sslBundle, DataRedisProperties properties) {
+                    sslBundle, RedisProperties properties) {
         ClientOptions.Builder builder = this.initializeClientOptionsBuilder(properties);
         Duration connectTimeout = properties.getConnectTimeout();
         if (connectTimeout != null) {
@@ -272,10 +272,10 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         return builder.build();
     }
 
-    private ClientOptions.Builder initializeClientOptionsBuilder(DataRedisProperties properties) {
+    private ClientOptions.Builder initializeClientOptionsBuilder(RedisProperties properties) {
         if (properties.getCluster() != null) {
             ClusterClientOptions.Builder builder = ClusterClientOptions.builder();
-            DataRedisProperties.Lettuce.Cluster.Refresh refreshProperties = properties.getLettuce().getCluster().getRefresh();
+            RedisProperties.Lettuce.Cluster.Refresh refreshProperties = properties.getLettuce().getCluster().getRefresh();
             ClusterTopologyRefreshOptions.Builder refreshBuilder = ClusterTopologyRefreshOptions.builder().dynamicRefreshSources(refreshProperties.isDynamicRefreshSources());
             if (refreshProperties.getPeriod() != null) {
                 refreshBuilder.enablePeriodicRefresh(refreshProperties.getPeriod());
@@ -290,7 +290,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     }
 
     private void customizeConfigurationFromUrl(LettuceClientConfiguration.LettuceClientConfigurationBuilder
-                                                       builder, DataRedisProperties properties) {
+                                                       builder, RedisProperties properties) {
         if (this.urlUsesSsl(properties.getUrl())) {
             builder.useSsl();
         }
@@ -302,11 +302,11 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     }
 
     private static final class PoolBuilderFactory {
-        LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(DataRedisProperties.Pool properties) {
+        LettuceClientConfiguration.LettuceClientConfigurationBuilder createBuilder(RedisProperties.Pool properties) {
             return LettucePoolingClientConfiguration.builder().poolConfig(this.getPoolConfig(properties));
         }
 
-        private GenericObjectPoolConfig<StatefulConnection<?, ?>> getPoolConfig(DataRedisProperties.Pool properties) {
+        private GenericObjectPoolConfig<StatefulConnection<?, ?>> getPoolConfig(RedisProperties.Pool properties) {
             GenericObjectPoolConfig<StatefulConnection<?, ?>> config = new GenericObjectPoolConfig<>();
             config.setMaxTotal(properties.getMaxActive());
             config.setMaxIdle(properties.getMaxIdle());
@@ -319,7 +319,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
                 config.setMaxWait(properties.getMaxWait());
             }
             //自定义连接空闲时长
-            config.setMinEvictableIdleTime(properties.getMinEvictableIdleDuration());
+            config.setMinEvictableIdleDuration(properties.getMinEvictableIdleDuration());
             return config;
         }
     }

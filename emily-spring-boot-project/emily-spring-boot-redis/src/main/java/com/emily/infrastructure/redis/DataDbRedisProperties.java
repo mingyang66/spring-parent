@@ -32,26 +32,26 @@ public class DataDbRedisProperties {
     /**
      * 客户端类型
      */
-    private DataRedisProperties.ClientType clientType = DataRedisProperties.ClientType.LETTUCE;
+    private RedisProperties.ClientType clientType = RedisProperties.ClientType.LETTUCE;
 
     /**
      * 多数据源配置
      */
-    private Map<String, DataRedisProperties> config = new HashMap<>();
+    private Map<String, RedisProperties> config = new HashMap<>();
 
-    public Map<String, DataRedisProperties> getConfig() {
+    public Map<String, RedisProperties> getConfig() {
         return config;
     }
 
-    public void setConfig(Map<String, DataRedisProperties> config) {
+    public void setConfig(Map<String, RedisProperties> config) {
         this.config = config;
     }
 
-    public DataRedisProperties.ClientType getClientType() {
+    public RedisProperties.ClientType getClientType() {
         return clientType;
     }
 
-    public void setClientType(DataRedisProperties.ClientType clientType) {
+    public void setClientType(RedisProperties.ClientType clientType) {
         this.clientType = clientType;
     }
 
@@ -71,7 +71,7 @@ public class DataDbRedisProperties {
         this.enabled = enabled;
     }
 
-    public DataRedisProperties getDefaultDataSource() {
+    public RedisProperties getDefaultDataSource() {
         return this.config.get(this.getDefaultConfig());
     }
 

@@ -1,6 +1,8 @@
 package com.emily.infrastructure.redis;
 
 import io.lettuce.core.protocol.ProtocolVersion;
+import org.jspecify.annotations.NonNull;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 
 import java.time.Duration;
 
@@ -10,15 +12,12 @@ import java.time.Duration;
  * @author :  Emily
  * @since :  2023/10/25 11:11 PM
  */
-public class DataRedisProperties extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties {
+public class RedisProperties extends DataRedisProperties {
     /**
      * 协议版本
      */
     private ProtocolVersion protocolVersion = ProtocolVersion.RESP3;
-    /**
-     * 基于jedis连接配置
-     */
-    private Jedis jedis = new Jedis();
+
     /**
      * 基于lettuce连接配置
      */
@@ -33,15 +32,7 @@ public class DataRedisProperties extends org.springframework.boot.data.redis.aut
     }
 
     @Override
-    public Jedis getJedis() {
-        return jedis;
-    }
-
-    public void setJedis(Jedis jedis) {
-        this.jedis = jedis;
-    }
-
-    @Override
+    @NonNull
     public Lettuce getLettuce() {
         return lettuce;
     }
@@ -50,7 +41,7 @@ public class DataRedisProperties extends org.springframework.boot.data.redis.aut
         this.lettuce = lettuce;
     }
 
-    public static class Pool extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Pool {
+    public static class Pool extends DataRedisProperties.Pool {
         /**
          * 对象在池中最小可空闲时间, 默认：30分钟
          * 它指定了一个对象在池中保持空闲的最小时间，超过这个时间后，如果池中的对象数量超过了BaseObjectPoolConfig.minIdle设置的最小空闲对象数量，就会触发空闲对象的逐出操作
@@ -66,23 +57,8 @@ public class DataRedisProperties extends org.springframework.boot.data.redis.aut
         }
     }
 
-    public static class Jedis extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Jedis {
-        /**
-         * 连接池配置
-         */
-        private Pool pool = new Pool();
 
-        @Override
-        public Pool getPool() {
-            return pool;
-        }
-
-        public void setPool(Pool pool) {
-            this.pool = pool;
-        }
-    }
-
-    public static class Lettuce extends org.springframework.boot.data.redis.autoconfigure.DataRedisProperties.Lettuce {
+    public static class Lettuce extends DataRedisProperties.Lettuce {
         /**
          * 是否开启连接校验，默认：false
          */
@@ -126,6 +102,7 @@ public class DataRedisProperties extends org.springframework.boot.data.redis.aut
         }
 
         @Override
+        @NonNull
         public Pool getPool() {
             return pool;
         }

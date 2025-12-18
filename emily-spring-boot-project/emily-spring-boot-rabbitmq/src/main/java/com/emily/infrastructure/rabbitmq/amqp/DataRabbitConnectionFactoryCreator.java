@@ -2,8 +2,8 @@ package com.emily.infrastructure.rabbitmq.amqp;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
-import com.emily.infrastructure.rabbitmq.listener.DefaultMqConnectionListener;
-import com.emily.infrastructure.rabbitmq.listener.DefaultMqExceptionHandler;
+import com.emily.infrastructure.rabbitmq.listener.DefaultConnectionListener;
+import com.emily.infrastructure.rabbitmq.listener.DataRabbitExceptionHandler;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import com.rabbitmq.client.impl.CredentialsRefreshService;
 import org.apache.commons.lang3.StringUtils;
@@ -110,9 +110,9 @@ public class DataRabbitConnectionFactoryCreator {
             //启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
             factory.getRabbitConnectionFactory().setTopologyRecoveryEnabled(properties.getConnection().isTopologyRecovery());
             //替换默认异常处理DefaultExceptionHandler
-            factory.getRabbitConnectionFactory().setExceptionHandler(new DefaultMqExceptionHandler(context));
+            factory.getRabbitConnectionFactory().setExceptionHandler(new DataRabbitExceptionHandler(context));
             //添加连接监听器
-            factory.addConnectionListener(new DefaultMqConnectionListener(factory, context));
+            factory.addConnectionListener(new DefaultConnectionListener(factory, context));
 
             defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), factory);
         }

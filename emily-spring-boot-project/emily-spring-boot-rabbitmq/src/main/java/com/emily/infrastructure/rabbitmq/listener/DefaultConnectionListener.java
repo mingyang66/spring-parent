@@ -10,6 +10,7 @@ import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.otter.infrastructure.servlet.RequestUtils;
 import com.rabbitmq.client.ShutdownSignalException;
+import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionListener;
@@ -23,12 +24,12 @@ import java.time.LocalDateTime;
  * @author :  Emily
  * @since :  2023/8/23 9:45 AM
  */
-public class DefaultMqConnectionListener implements ConnectionListener {
+public class DefaultConnectionListener implements ConnectionListener {
 
     private final CachingConnectionFactory connectionFactory;
     private final ApplicationContext context;
 
-    public DefaultMqConnectionListener(CachingConnectionFactory connectionFactory, ApplicationContext context) {
+    public DefaultConnectionListener(CachingConnectionFactory connectionFactory, ApplicationContext context) {
         this.connectionFactory = connectionFactory;
         this.context = context;
     }
@@ -57,7 +58,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
      * @param connection the connection.
      */
     @Override
-    public void onClose(Connection connection) {
+    public void onClose(@NonNull Connection connection) {
         ConnectionListener.super.onClose(connection);
         BaseLogger baseLogger = new BaseLogger()
                 .systemNumber(SystemNumberHelper.getSystemNumber())
@@ -76,7 +77,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
      * @param signal the shut down signal.
      */
     @Override
-    public void onShutDown(ShutdownSignalException signal) {
+    public void onShutDown(@NonNull ShutdownSignalException signal) {
         ConnectionListener.super.onShutDown(signal);
         BaseLogger baseLogger = new BaseLogger()
                 .systemNumber(SystemNumberHelper.getSystemNumber())
@@ -95,7 +96,7 @@ public class DefaultMqConnectionListener implements ConnectionListener {
      * @param exception the exception thrown.
      */
     @Override
-    public void onFailed(Exception exception) {
+    public void onFailed(@NonNull Exception exception) {
         ConnectionListener.super.onFailed(exception);
         BaseLogger baseLogger = new BaseLogger()
                 .systemNumber(SystemNumberHelper.getSystemNumber())

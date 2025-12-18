@@ -20,8 +20,8 @@ import java.util.List;
  * @author :  Emily
  * @since :  2023/9/23 21:36 PM
  */
-abstract class DataRedisDbConnectionConfiguration {
-    private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", DataRedisDbConnectionConfiguration.class.getClassLoader());
+abstract class DataDbRedisConnectionConfiguration {
+    private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", DataDbRedisConnectionConfiguration.class.getClassLoader());
     private final DataDbRedisProperties properties;
     private final @Nullable RedisStandaloneConfiguration standaloneConfiguration;
     private final @Nullable RedisSentinelConfiguration sentinelConfiguration;
@@ -30,7 +30,7 @@ abstract class DataRedisDbConnectionConfiguration {
     private final DataRedisConnectionDetails connectionDetails;
     protected final Mode mode;
 
-    protected DataRedisDbConnectionConfiguration(DataDbRedisProperties properties, DataRedisConnectionDetails connectionDetails, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration) {
+    protected DataDbRedisConnectionConfiguration(DataDbRedisProperties properties, DataRedisConnectionDetails connectionDetails, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration) {
         this.properties = properties;
         this.standaloneConfiguration = (RedisStandaloneConfiguration) standaloneConfigurationProvider.getIfAvailable();
         this.sentinelConfiguration = (RedisSentinelConfiguration) sentinelConfigurationProvider.getIfAvailable();

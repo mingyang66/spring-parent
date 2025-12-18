@@ -1,6 +1,8 @@
 package com.emily.infrastructure.redis.connection;
 
 /**
+ * org.springframework.boot.data.redis.autoconfigure.DataRedisUrlSyntaxException
+ *
  * @author :  Emily
  * @since :  2025/11/28 下午4:16
  */

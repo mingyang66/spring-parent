@@ -1,8 +1,8 @@
 package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.redis.common.DataRedisInfo;
-import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
-import com.emily.infrastructure.redis.connection.PropertiesDataRedisDbConnectionDetails;
+import com.emily.infrastructure.redis.connection.DataDbLettuceConnectionConfiguration;
+import com.emily.infrastructure.redis.connection.DataDbPropertiesDataRedisConnectionDetails;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -29,7 +29,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
 
 import java.util.Map;
-import java.util.Objects;
 
 import static com.emily.infrastructure.redis.common.SerializationUtils.jackson2JsonRedisSerializer;
 import static com.emily.infrastructure.redis.common.SerializationUtils.stringSerializer;
@@ -45,7 +44,7 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 @AutoConfiguration(before = DataRedisAutoConfiguration.class)
 @EnableConfigurationProperties(DataDbRedisProperties.class)
 @ConditionalOnProperty(prefix = DataDbRedisProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@Import({LettuceDbConnectionConfiguration.class})
+@Import({DataDbLettuceConnectionConfiguration.class})
 public class DataDbRedisAutoConfiguration implements InitializingBean, DisposableBean {
 
     private final DataDbRedisProperties properties;
@@ -61,11 +60,11 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(DataRedisConnectionDetails.class)
-    PropertiesDataRedisDbConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
+    DataDbPropertiesDataRedisConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
         for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), new DataDbPropertiesDataRedisConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REDIS_CONNECT_DETAILS), PropertiesDataRedisDbConnectionDetails.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataDbPropertiesDataRedisConnectionDetails.class);
     }
 
     @Bean(name = DataRedisInfo.DEFAULT_REDIS_TEMPLATE)

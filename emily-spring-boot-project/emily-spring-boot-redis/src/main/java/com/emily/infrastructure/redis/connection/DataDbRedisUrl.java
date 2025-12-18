@@ -8,6 +8,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
+ * org.springframework.boot.data.redis.autoconfigure.DataRedisUrl
+ *
  * @author :  Emily
  * @since :  2025/11/28 下午4:12
  */
@@ -69,7 +71,7 @@ record DataDbRedisUrl(URI uri, boolean useSsl, Credentials credentials, int data
     }
 
     static record Credentials(@Nullable String username, @Nullable String password) {
-        private static final Credentials NONE = new Credentials((String)null, (String)null);
+        private static final Credentials NONE = new Credentials((String) null, (String) null);
 
         Credentials(@Nullable String username, @Nullable String password) {
             this.username = username;
@@ -81,7 +83,7 @@ record DataDbRedisUrl(URI uri, boolean useSsl, Credentials credentials, int data
                 return NONE;
             } else {
                 int index = userInfo.indexOf(58);
-                return index != -1 ? new Credentials(userInfo.substring(0, index), userInfo.substring(index + 1)) : new Credentials((String)null, userInfo);
+                return index != -1 ? new Credentials(userInfo.substring(0, index), userInfo.substring(index + 1)) : new Credentials((String) null, userInfo);
             }
         }
 

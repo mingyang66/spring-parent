@@ -55,16 +55,16 @@ import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
         havingValue = "lettuce",
         matchIfMissing = true
 )
-public class LettuceDbConnectionConfiguration extends DataDbRedisConnectionConfiguration {
+public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionConfiguration {
     private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    LettuceDbConnectionConfiguration(DataDbRedisProperties properties,
-                                     DefaultListableBeanFactory defaultListableBeanFactory,
-                                     ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
-                                     ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
-                                     ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
-                                     ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
-                                     DataRedisConnectionDetails connectionDetails) {
+    DataDbLettuceConnectionConfiguration(DataDbRedisProperties properties,
+                                         DefaultListableBeanFactory defaultListableBeanFactory,
+                                         ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
+                                         ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
+                                         ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
+                                         ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
+                                         DataRedisConnectionDetails connectionDetails) {
         super(properties, connectionDetails, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, masterReplicaConfiguration);
         this.defaultListableBeanFactory = defaultListableBeanFactory;
     }

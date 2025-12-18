@@ -12,15 +12,17 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * org.springframework.boot.data.redis.autoconfigure.PropertiesDataRedisConnectionDetails
+ *
  * @author :  Emily
  * @since :  2023/9/25 211:58 PM
  */
-public class PropertiesDataRedisDbConnectionDetails implements DataRedisConnectionDetails {
+public class DataDbPropertiesDataRedisConnectionDetails implements DataRedisConnectionDetails {
 
     private final DataRedisProperties properties;
     private final @Nullable SslBundles sslBundles;
 
-    public PropertiesDataRedisDbConnectionDetails(DataRedisProperties properties, SslBundles sslBundles) {
+    public DataDbPropertiesDataRedisConnectionDetails(DataRedisProperties properties, SslBundles sslBundles) {
         this.properties = properties;
         this.sslBundles = sslBundles;
     }
@@ -105,7 +107,7 @@ public class PropertiesDataRedisDbConnectionDetails implements DataRedisConnecti
         }
 
         public List<DataRedisConnectionDetails.Node> getNodes() {
-            return PropertiesDataRedisDbConnectionDetails.this.asNodes(this.properties.getNodes());
+            return DataDbPropertiesDataRedisConnectionDetails.this.asNodes(this.properties.getNodes());
         }
 
         public @Nullable String getUsername() {
@@ -121,7 +123,7 @@ public class PropertiesDataRedisDbConnectionDetails implements DataRedisConnecti
         private final List<DataRedisConnectionDetails.Node> nodes;
 
         PropertiesCluster(DataRedisProperties.Cluster properties) {
-            this.nodes = PropertiesDataRedisDbConnectionDetails.this.asNodes(properties.getNodes());
+            this.nodes = DataDbPropertiesDataRedisConnectionDetails.this.asNodes(properties.getNodes());
         }
 
         public List<DataRedisConnectionDetails.Node> getNodes() {
@@ -133,7 +135,7 @@ public class PropertiesDataRedisDbConnectionDetails implements DataRedisConnecti
         private final List<DataRedisConnectionDetails.Node> nodes;
 
         PropertiesMasterReplica(DataRedisProperties.Masterreplica properties) {
-            this.nodes = PropertiesDataRedisDbConnectionDetails.this.asNodes(properties.getNodes());
+            this.nodes = DataDbPropertiesDataRedisConnectionDetails.this.asNodes(properties.getNodes());
         }
 
         public List<DataRedisConnectionDetails.Node> getNodes() {

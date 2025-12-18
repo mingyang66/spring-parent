@@ -3,6 +3,7 @@ package com.emily.infrastructure.redis.connection;
 
 import com.emily.infrastructure.redis.DataDbRedisProperties;
 import com.emily.infrastructure.redis.DataRedisProperties;
+import com.emily.infrastructure.redis.common.DataRedisInfo;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulConnection;
@@ -11,6 +12,7 @@ import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import jakarta.annotation.Nullable;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -33,12 +35,10 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.Map;
 
-import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * org.springframework.boot.data.redis.autoconfigure.LettuceConnectionConfiguration
@@ -92,7 +92,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                     ClientResources clientResources) {
         for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = defaultListableBeanFactory.getBean(join(entry.getKey(), REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails redisConnectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
@@ -103,9 +103,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             if (!this.getProperties().getDefaultConfig().equals(entry.getKey())) {
                 factory.afterPropertiesSet();
             }
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), REDIS_CONNECTION_FACTORY), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(join(this.getProperties().getDefaultConfig(), REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
     }
 
     @Bean
@@ -117,7 +117,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
             ClientResources clientResources) {
         for (Map.Entry<String, DataRedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = BeanFactoryProvider.getBean(join(entry.getKey(), REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails redisConnectionDetails = BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
@@ -129,9 +129,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor("redis-");
             executor.setVirtualThreads(true);
             factory.setExecutor(executor);
-            defaultListableBeanFactory.registerSingleton(join(entry.getKey(), REDIS_CONNECTION_FACTORY), factory);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(join(this.getProperties().getDefaultConfig(), REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
     }
 
     private LettuceConnectionFactory createConnectionFactory(
@@ -173,7 +173,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         SslBundle sslBundle = this.getSslBundle();
         this.applyProperties(builder, sslBundle, properties);
         String url = properties.getUrl();
-        if (StringUtils.hasText(url)) {
+        if (org.springframework.util.StringUtils.hasText(url)) {
             customizeConfigurationFromUrl(builder, properties);
         }
 
@@ -213,7 +213,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             }
         }
 
-        if (StringUtils.hasText(properties.getClientName())) {
+        if (org.springframework.util.StringUtils.hasText(properties.getClientName())) {
             builder.clientName(properties.getClientName());
         }
 

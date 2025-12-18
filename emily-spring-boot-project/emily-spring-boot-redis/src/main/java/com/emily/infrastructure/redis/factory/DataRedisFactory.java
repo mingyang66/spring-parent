@@ -14,12 +14,12 @@ import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
  * @author Emily
  * @since 2021/07/11
  */
-public class RedisDbFactory {
+public class DataRedisFactory {
 
     private static ApplicationContext context;
 
     public static void registerApplicationContext(ApplicationContext context) {
-        RedisDbFactory.context = context;
+        DataRedisFactory.context = context;
     }
 
     /**

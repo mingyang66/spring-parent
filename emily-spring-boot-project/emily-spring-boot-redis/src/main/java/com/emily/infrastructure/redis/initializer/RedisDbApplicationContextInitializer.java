@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis.initializer;
 
-import com.emily.infrastructure.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.factory.DataRedisFactory;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
@@ -24,6 +24,6 @@ public class RedisDbApplicationContextInitializer implements ApplicationContextI
         // 关闭消息监听器、仓储配置类开关
         System.getProperties().put("spring.data.redis.repositories.enabled", false);
         // 初始化容器应用程序上下文
-        RedisDbFactory.registerApplicationContext(applicationContext);
+        DataRedisFactory.registerApplicationContext(applicationContext);
     }
 }

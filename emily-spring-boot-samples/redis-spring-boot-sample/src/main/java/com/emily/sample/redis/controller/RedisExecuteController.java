@@ -1,6 +1,6 @@
 package com.emily.sample.redis.controller;
 
-import com.emily.infrastructure.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.factory.DataRedisFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -28,7 +28,7 @@ public class RedisExecuteController {
 
     @GetMapping("ex")
     public void ex() {
-        String s = RedisDbFactory.getStringRedisTemplate().execute(new RedisCallback<String>() {
+        String s = DataRedisFactory.getStringRedisTemplate().execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 StringRedisConnection stringRedisConnection = (StringRedisConnection) connection;

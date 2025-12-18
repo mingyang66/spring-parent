@@ -1,6 +1,6 @@
 package com.emily.sample.redis.controller;
 
-import com.emily.infrastructure.redis.factory.RedisDbFactory;
+import com.emily.infrastructure.redis.factory.DataRedisFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RedisMessageController {
     @GetMapping("send")
     public void send() {
-        RedisDbFactory.getStringRedisTemplate().convertAndSend("test", "测试消息");
-        RedisDbFactory.getStringRedisTemplate("test1").convertAndSend("test1", "测试消息1");
+        DataRedisFactory.getStringRedisTemplate().convertAndSend("test", "测试消息");
+        DataRedisFactory.getStringRedisTemplate("test1").convertAndSend("test1", "测试消息1");
     }
 
 }

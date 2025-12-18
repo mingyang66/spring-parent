@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
+import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * Redis数据源

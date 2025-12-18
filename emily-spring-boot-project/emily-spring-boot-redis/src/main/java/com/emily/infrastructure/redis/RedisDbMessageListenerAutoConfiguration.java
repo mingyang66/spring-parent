@@ -16,7 +16,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
+import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * Redis仓储类
@@ -26,13 +26,13 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
  * @since :  2024/7/8 上午19:57
  */
 @SuppressWarnings("all")
-@AutoConfiguration(after = DataRedisDbAutoConfiguration.class)
-@ConditionalOnProperty(prefix = DataRedisDbProperties.PREFIX, name = "listener", havingValue = "true")
+@AutoConfiguration(after = DataDbRedisAutoConfiguration.class)
+@ConditionalOnProperty(prefix = DataDbRedisProperties.PREFIX, name = "listener", havingValue = "true")
 public class RedisDbMessageListenerAutoConfiguration implements InitializingBean, DisposableBean {
     private static final Logger LOG = LoggerFactory.getLogger(RedisDbMessageListenerAutoConfiguration.class);
-    private final DataRedisDbProperties redisDbProperties;
+    private final DataDbRedisProperties redisDbProperties;
 
-    RedisDbMessageListenerAutoConfiguration(DataRedisDbProperties redisDbProperties) {
+    RedisDbMessageListenerAutoConfiguration(DataDbRedisProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
     }
 

@@ -1,14 +1,13 @@
 package com.emily.infrastructure.redis.connection;
 
 
-import com.emily.infrastructure.redis.DataRedisDbProperties;
+import com.emily.infrastructure.redis.DataDbRedisProperties;
 import com.emily.infrastructure.redis.DataRedisProperties;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
-import io.lettuce.core.protocol.ProtocolVersion;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import jakarta.annotation.Nullable;
@@ -39,7 +38,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
+import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * @author :  Emily
@@ -57,7 +56,7 @@ import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 public class LettuceDbConnectionConfiguration extends DataRedisDbConnectionConfiguration {
 
 
-    LettuceDbConnectionConfiguration(DataRedisDbProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration, DataRedisConnectionDetails connectionDetails) {
+    LettuceDbConnectionConfiguration(DataDbRedisProperties properties, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration, DataRedisConnectionDetails connectionDetails) {
         super(properties, connectionDetails, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, masterReplicaConfiguration);
     }
 

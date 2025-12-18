@@ -11,8 +11,8 @@ import java.util.Map;
  * @author Emily
  * @since 2021/07/11
  */
-@ConfigurationProperties(prefix = DataRedisDbProperties.PREFIX)
-public class DataRedisDbProperties {
+@ConfigurationProperties(prefix = DataDbRedisProperties.PREFIX)
+public class DataDbRedisProperties {
     /**
      * 属性配置前缀
      */

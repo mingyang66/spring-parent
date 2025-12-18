@@ -1,8 +1,10 @@
 package com.emily.infrastructure.redis;
 
+import com.emily.infrastructure.redis.common.DataRedisInfo;
 import com.emily.infrastructure.redis.connection.LettuceDbConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.PropertiesDataRedisDbConnectionDetails;
 import com.emily.infrastructure.redis.factory.BeanFactoryProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -24,11 +26,11 @@ import org.springframework.context.annotation.Role;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.Assert;
 
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
 import static com.emily.infrastructure.redis.common.SerializationUtils.jackson2JsonRedisSerializer;
 import static com.emily.infrastructure.redis.common.SerializationUtils.stringSerializer;
 
@@ -41,74 +43,72 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @AutoConfiguration(before = DataRedisAutoConfiguration.class)
-@EnableConfigurationProperties(DataRedisDbProperties.class)
-@ConditionalOnProperty(prefix = DataRedisDbProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@EnableConfigurationProperties(DataDbRedisProperties.class)
+@ConditionalOnProperty(prefix = DataDbRedisProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import({LettuceDbConnectionConfiguration.class})
-public class DataRedisDbAutoConfiguration implements InitializingBean, DisposableBean {
+public class DataDbRedisAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private final DataRedisDbProperties properties;
+    private final DataDbRedisProperties properties;
+    private final DefaultListableBeanFactory defaultListableBeanFactory;
 
-    public DataRedisDbAutoConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRedisDbProperties properties) {
+    public DataDbRedisAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
         BeanFactoryProvider.registerDefaultListableBeanFactory(defaultListableBeanFactory);
+        Assert.notNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         this.properties = properties;
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(DataRedisConnectionDetails.class)
     PropertiesDataRedisDbConnectionDetails redisConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
-            BeanFactoryProvider.registerSingleton(join(entry.getKey(), REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), new PropertiesDataRedisDbConnectionDetails(entry.getValue(), sslBundles.getIfAvailable()));
         }
-        return BeanFactoryProvider.getBean(join(defaultConfig, REDIS_CONNECT_DETAILS), PropertiesDataRedisDbConnectionDetails.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REDIS_CONNECT_DETAILS), PropertiesDataRedisDbConnectionDetails.class);
     }
 
-    @Bean(name = DEFAULT_REDIS_TEMPLATE)
+    @Bean(name = DataRedisInfo.DEFAULT_REDIS_TEMPLATE)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    @ConditionalOnMissingBean(name = DEFAULT_REDIS_TEMPLATE)
-    @DependsOn(value = {DEFAULT_REDIS_CONNECTION_FACTORY})
+    @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REDIS_TEMPLATE)
+    @DependsOn(value = {DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY})
     public RedisTemplate<Object, Object> redisTemplate() {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         RedisTemplate<Object, Object> redisTemplate = null;
         for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
-            String key = entry.getKey();
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
             template.setKeySerializer(stringSerializer());
             template.setValueSerializer(jackson2JsonRedisSerializer());
             template.setHashKeySerializer(stringSerializer());
             template.setHashValueSerializer(jackson2JsonRedisSerializer());
-            template.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
-            if (defaultConfig.equals(key)) {
+            template.setConnectionFactory(BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            if (properties.getDefaultConfig().equals(entry.getKey())) {
                 redisTemplate = template;
             } else {
                 template.afterPropertiesSet();
             }
-            BeanFactoryProvider.registerSingleton(join(key, REDIS_TEMPLATE), template);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_TEMPLATE), template);
         }
         return redisTemplate;
     }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    @ConditionalOnMissingBean(name = DEFAULT_STRING_REDIS_TEMPLATE)
-    @DependsOn(value = {DEFAULT_REDIS_CONNECTION_FACTORY})
+    @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_STRING_REDIS_TEMPLATE)
+    @DependsOn(value = {DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY})
     public StringRedisTemplate stringRedisTemplate() {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
         for (Map.Entry<String, DataRedisProperties> entry : properties.getConfig().entrySet()) {
-            String key = entry.getKey();
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());
             template.setValueSerializer(stringSerializer());
             template.setHashKeySerializer(stringSerializer());
             template.setHashValueSerializer(stringSerializer());
-            template.setConnectionFactory(BeanFactoryProvider.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
-            if (!defaultConfig.equals(key)) {
+            template.setConnectionFactory(BeanFactoryProvider.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            if (!properties.getDefaultConfig().equals(entry.getKey())) {
                 template.afterPropertiesSet();
             }
-            BeanFactoryProvider.registerSingleton(join(key, STRING_REDIS_TEMPLATE), template);
+            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.STRING_REDIS_TEMPLATE), template);
         }
-        return BeanFactoryProvider.getBean(join(defaultConfig, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
     }
 
 
@@ -123,6 +123,6 @@ public class DataRedisDbAutoConfiguration implements InitializingBean, Disposabl
     }
 
     static class LogHolder {
-        private static final Logger LOG = LoggerFactory.getLogger(DataRedisDbAutoConfiguration.class);
+        private static final Logger LOG = LoggerFactory.getLogger(DataDbRedisAutoConfiguration.class);
     }
 }

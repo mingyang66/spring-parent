@@ -23,19 +23,19 @@ import reactor.core.publisher.Flux;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.emily.infrastructure.redis.common.RedisBeanNames.*;
+import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * @author :  Emily
  * @since :  2023/9/25 21:51 PM
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration(after = {DataRedisDbAutoConfiguration.class})
+@AutoConfiguration(after = {DataDbRedisAutoConfiguration.class})
 @ConditionalOnClass({ReactiveRedisConnectionFactory.class, ReactiveRedisTemplate.class, Flux.class})
 public class RedisDbReactiveAutoConfiguration implements InitializingBean, DisposableBean {
-    private final DataRedisDbProperties redisDbProperties;
+    private final DataDbRedisProperties redisDbProperties;
 
-    public RedisDbReactiveAutoConfiguration(DataRedisDbProperties redisDbProperties) {
+    public RedisDbReactiveAutoConfiguration(DataDbRedisProperties redisDbProperties) {
         this.redisDbProperties = redisDbProperties;
     }
 

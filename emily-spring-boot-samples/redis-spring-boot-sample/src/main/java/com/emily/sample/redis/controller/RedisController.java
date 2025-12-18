@@ -3,15 +3,18 @@ package com.emily.sample.redis.controller;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.redis.common.RedisKeyspace;
 import com.emily.infrastructure.redis.factory.RedisDbFactory;
-import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,18 +24,11 @@ import java.util.concurrent.TimeUnit;
 
 
 @RestController
-@RequestMapping("api/redis")
 public class RedisController {
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    // @Qualifier("test1StringRedisTemplate")
-    private StringRedisTemplate testStringRedisTemplate;
-    @Autowired
-    private RedisTemplate redisTemplate;
-    @Autowired
-    //@Qualifier("test1RedisTemplate")
-    private RedisTemplate testRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate testStringRedisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> testRedisTemplate;
     @Autowired
     private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
     @Autowired
@@ -41,23 +37,25 @@ public class RedisController {
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-    @GetMapping("test")
-    public String test() {
-        // ReactiveListOperations<String, String> listOperations = testReactiveStringRedisTemplate.opsForList();
-        //1、没有使用 subscribe()
-        // listOperations.leftPush("reactiveList", "hello1");
-        //2、直接调用 subscribe()
-        // listOperations.leftPush("reactiveList", "world2").subscribe();
-        //3、对输出的 mono 使用 subscribe()
-        //Mono<Long> mono = listOperations.leftPush("reactiveList", "yinyu3");
-        // mono.subscribe(System.out::println);
+    public RedisController(StringRedisTemplate stringRedisTemplate,
+                           @Qualifier("test1StringRedisTemplate") StringRedisTemplate testStringRedisTemplate,
+                           RedisTemplate<Object, Object> redisTemplate,
+                           @Qualifier("test1RedisTemplate") RedisTemplate<Object, Object> testRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.testStringRedisTemplate = testStringRedisTemplate;
+        this.redisTemplate = redisTemplate;
+        this.testRedisTemplate = testRedisTemplate;
+    }
 
-        RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好");
-        RedisDbFactory.getStringRedisTemplate("test").opsForValue().set("test", "你好");
-        stringRedisTemplate.opsForValue().set("test1", "你好1");
-        testStringRedisTemplate.opsForValue().set("test2", "你好2");
-        redisTemplate.opsForValue().set("test3", "test3");
-        testRedisTemplate.opsForHash().put("test:hash", "tt", 23);
+    @GetMapping("api/redis/test")
+    public String test() {
+
+        RedisDbFactory.getStringRedisTemplate().opsForValue().set("test", "你好", 100, TimeUnit.SECONDS);
+        RedisDbFactory.getStringRedisTemplate("test1").opsForValue().set("test", "你好", 100, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set("test1", "你好1", 100, TimeUnit.SECONDS);
+        testStringRedisTemplate.opsForValue().set("test2", "你好2", 100, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("test3", "test3", 100, TimeUnit.SECONDS);
+        testRedisTemplate.opsForValue().set("test3", "test3", 100, TimeUnit.SECONDS);
         return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test");
     }
 
@@ -80,6 +78,7 @@ public class RedisController {
         return RedisDbFactory.getStringRedisTemplate().opsForValue().get("test") + "-" +
                 JsonUtils.toJSONPrettyString(RedisDbFactory.getRedisTemplate().opsForValue().get("test1"));
     }
+
     @GetMapping("getTest1")
     public String getTest1() {
 
@@ -93,6 +92,7 @@ public class RedisController {
         return RedisDbFactory.getStringRedisTemplate("test1").opsForValue().get("test") + "-" +
                 JsonUtils.toJSONPrettyString(RedisDbFactory.getRedisTemplate("test1").opsForValue().get("test1"));
     }
+
     @GetMapping("getCn")
     public Object get2() {
         for (int i = 0; i < 1000; i++) {
@@ -139,21 +139,21 @@ public class RedisController {
 
     @GetMapping("hash")
     public void hash(@RequestParam("code") String code) {
-        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), code);
+        String key = RedisKeyspace.of("EMIS-TEST", code);
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         stringRedisTemplate.opsForHash().put(key, "accountCode" + code, code);
     }
 
     @GetMapping("lock")
     public Boolean lock(@RequestParam("code") String code) {
-        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "123");
+        String key = RedisKeyspace.of("Emily-Test", "123");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         return stringRedisTemplate.opsForValue().setIfAbsent(key, code, 10, TimeUnit.SECONDS);
     }
 
     @GetMapping("setBit")
     public Long setBit(@RequestParam("accountCode") Long accountCode, @RequestParam("date") String date, @RequestParam("offset") Long offset) {
-        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
+        String key = RedisKeyspace.of("Emily-Test", "bloom", date, accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         Boolean flag = stringRedisTemplate.opsForValue().setBit(key, offset, true);
         System.out.println(flag);
@@ -162,14 +162,14 @@ public class RedisController {
 
     @GetMapping("getBit")
     public Boolean getBit(@RequestParam("accountCode") Long accountCode, @RequestParam("date") String date, @RequestParam("offset") Long offset) {
-        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "bloom", date, accountCode + "");
+        String key = RedisKeyspace.of("Emily-Test", "bloom", date, accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         return stringRedisTemplate.execute((RedisCallback<Boolean>) connection -> connection.getBit(key.getBytes(), offset));
     }
 
     @GetMapping("batch")
     public void batchBit(@RequestParam("accountCode") Long accountCode) {
-        String key = RedisKeyspace.of(SystemNumberHelper.getSystemNumber(), "bloom", accountCode + "");
+        String key = RedisKeyspace.of("Emily-Test", "bloom", accountCode + "");
         StringRedisTemplate stringRedisTemplate = RedisDbFactory.getStringRedisTemplate();
         for (int i = 0; i < 10000; i++) {
             // stringRedisTemplate.opsForValue().bitField(key, new BitFieldSubCommands(sd));

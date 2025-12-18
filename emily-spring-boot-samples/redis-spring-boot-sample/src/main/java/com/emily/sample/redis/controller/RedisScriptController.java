@@ -1,7 +1,6 @@
 package com.emily.sample.redis.controller;
 
 import com.emily.infrastructure.redis.common.LuaScriptTools;
-import com.otter.infrastructure.servlet.RequestUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,9 +38,7 @@ public class RedisScriptController {
     @GetMapping("list")
     public boolean list() {
         String value = "list" + RandomUtils.nextInt();
-        if (StringUtils.isNotBlank(RequestUtils.getHeader("value"))) {
-            value = RequestUtils.getHeader("value");
-        }
+
         boolean count = LuaScriptTools.listCircle(redisTemplate, "test-script-list", value, 3, Duration.ofSeconds(20));
         System.out.println("结果：" + count);
         return count;
@@ -49,7 +46,7 @@ public class RedisScriptController {
 
     @GetMapping("zset")
     public boolean zset() {
-        String value = RequestUtils.getHeader("value");
+        String value = "sd";
         return LuaScriptTools.zSetCircle(redisTemplate, "test-script-zset", System.currentTimeMillis(), value, 3, Duration.ofSeconds(60));
     }
 
@@ -71,7 +68,7 @@ public class RedisScriptController {
 
     @GetMapping("releaseLock")
     public boolean releaseLock() {
-        String value = RequestUtils.getHeader("value");
+        String value = "sd";
         return LuaScriptTools.releaseLock(redisTemplate, "mykey", value);
     }
 }

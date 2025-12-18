@@ -1,6 +1,6 @@
 package com.emily.infrastructure.redis.connection;
 
-import com.emily.infrastructure.redis.DataRedisDbProperties;
+import com.emily.infrastructure.redis.DataDbRedisProperties;
 import com.emily.infrastructure.redis.DataRedisProperties;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.ObjectProvider;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 abstract class DataRedisDbConnectionConfiguration {
     private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool", DataRedisDbConnectionConfiguration.class.getClassLoader());
-    private final DataRedisDbProperties properties;
+    private final DataDbRedisProperties properties;
     private final @Nullable RedisStandaloneConfiguration standaloneConfiguration;
     private final @Nullable RedisSentinelConfiguration sentinelConfiguration;
     private final @Nullable RedisClusterConfiguration clusterConfiguration;
@@ -30,7 +30,7 @@ abstract class DataRedisDbConnectionConfiguration {
     private final DataRedisConnectionDetails connectionDetails;
     protected final Mode mode;
 
-    protected DataRedisDbConnectionConfiguration(DataRedisDbProperties properties, DataRedisConnectionDetails connectionDetails, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration) {
+    protected DataRedisDbConnectionConfiguration(DataDbRedisProperties properties, DataRedisConnectionDetails connectionDetails, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration) {
         this.properties = properties;
         this.standaloneConfiguration = (RedisStandaloneConfiguration) standaloneConfigurationProvider.getIfAvailable();
         this.sentinelConfiguration = (RedisSentinelConfiguration) sentinelConfigurationProvider.getIfAvailable();
@@ -164,7 +164,7 @@ abstract class DataRedisDbConnectionConfiguration {
         return nodes;
     }
 
-    public DataRedisDbProperties getProperties() {
+    public DataDbRedisProperties getProperties() {
         return properties;
     }
 

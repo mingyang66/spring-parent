@@ -22,11 +22,11 @@ import java.nio.charset.Charset;
 
 @RestController
 @RequestMapping("api/rabbit")
-public class RabbitMQController {
+public class RabbitController {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitTemplate emilyRabbitTemplate;
 
-    public RabbitMQController(RabbitTemplate rabbitTemplate, @Qualifier(value = "emilyRabbitTemplate") RabbitTemplate emilyRabbitTemplate) {
+    public RabbitController(RabbitTemplate rabbitTemplate, @Qualifier(value = "emilyRabbitTemplate") RabbitTemplate emilyRabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
         this.emilyRabbitTemplate = emilyRabbitTemplate;
     }

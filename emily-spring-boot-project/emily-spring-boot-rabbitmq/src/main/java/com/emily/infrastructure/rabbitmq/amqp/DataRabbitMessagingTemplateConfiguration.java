@@ -13,9 +13,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandi
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.util.Assert;
 
 import java.util.Map;
-import java.util.Objects;
 
 
 /**
@@ -28,20 +28,22 @@ import java.util.Objects;
 @Import(DataRabbitTemplateConfiguration.class)
 public class DataRabbitMessagingTemplateConfiguration {
     private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DataRabbitProperties properties;
 
-    public DataRabbitMessagingTemplateConfiguration(DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataRabbitMessagingTemplateConfiguration(DefaultListableBeanFactory defaultListableBeanFactory, DataRabbitProperties properties) {
         this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.properties = properties;
+        Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
+        Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
     }
 
     @Bean
     @ConditionalOnSingleCandidate(RabbitTemplate.class)
-    public RabbitMessagingTemplate rabbitMessagingTemplate(DataRabbitProperties properties) {
-        String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
-        Map<String, RabbitProperties> dataMap = Objects.requireNonNull(properties.getConfig(), "RabbitMQ连接配置不存在");
-        for (Map.Entry<String, RabbitProperties> entry : dataMap.entrySet()) {
+    public RabbitMessagingTemplate rabbitMessagingTemplate() {
+        for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             RabbitTemplate rabbitTemplate = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
             defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), new RabbitMessagingTemplate(rabbitTemplate));
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(defaultConfig, DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
+        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
     }
 }

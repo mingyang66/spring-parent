@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DataPropertiesRabbitConnectionDetails  implements RabbitConnectionDetails {
+/**
+ * org.springframework.boot.amqp.autoconfigure.PropertiesRabbitConnectionDetails
+ * 适配RabbitProperties到RabbitConnectionDetails
+ */
+public class DataPropertiesRabbitConnectionDetails implements RabbitConnectionDetails {
     private final RabbitProperties properties;
     private final @Nullable SslBundles sslBundles;
 
@@ -35,11 +39,11 @@ public class DataPropertiesRabbitConnectionDetails  implements RabbitConnectionD
     }
 
     public List<Address> getAddresses() {
-        List<RabbitConnectionDetails.Address> addresses = new ArrayList();
+        List<RabbitConnectionDetails.Address> addresses = new ArrayList<>();
         Iterator var2 = this.properties.determineAddresses().iterator();
 
-        while(var2.hasNext()) {
-            String address = (String)var2.next();
+        while (var2.hasNext()) {
+            String address = (String) var2.next();
             int portSeparatorIndex = address.lastIndexOf(58);
             String host = address.substring(0, portSeparatorIndex);
             String port = address.substring(portSeparatorIndex + 1);

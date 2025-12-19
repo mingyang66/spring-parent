@@ -28,22 +28,22 @@ import java.util.Map;
 @Import(DataRabbitTemplateConfiguration.class)
 public class DataRabbitMessagingTemplateConfiguration {
     private final DataRabbitProperties properties;
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory beanFactory;
 
-    public DataRabbitMessagingTemplateConfiguration(DataRabbitProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataRabbitMessagingTemplateConfiguration(DataRabbitProperties properties, DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         this.properties = properties;
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.beanFactory = beanFactory;
     }
 
     @Bean
     @ConditionalOnSingleCandidate(RabbitTemplate.class)
     public RabbitMessagingTemplate rabbitMessagingTemplate() {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            RabbitTemplate rabbitTemplate = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), new RabbitMessagingTemplate(rabbitTemplate));
+            RabbitTemplate rabbitTemplate = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), new RabbitMessagingTemplate(rabbitTemplate));
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_MESSAGING_TEMPLATE), RabbitMessagingTemplate.class);
     }
 }

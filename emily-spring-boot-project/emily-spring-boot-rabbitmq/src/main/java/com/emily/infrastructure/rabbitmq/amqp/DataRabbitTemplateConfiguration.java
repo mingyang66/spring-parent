@@ -37,13 +37,13 @@ import java.util.Map;
 public class DataRabbitTemplateConfiguration {
 
     private final DataRabbitProperties properties;
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory beanFactory;
 
-    public DataRabbitTemplateConfiguration(DataRabbitProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataRabbitTemplateConfiguration(DataRabbitProperties properties, DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         this.properties = properties;
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.beanFactory = beanFactory;
     }
 
     @Bean
@@ -54,9 +54,9 @@ public class DataRabbitTemplateConfiguration {
             RabbitTemplateConfigurer configurer = new RabbitTemplateConfigurer(entry.getValue());
             configurer.setMessageConverter((MessageConverter) messageConverter.getIfUnique());
             configurer.setRetrySettingsCustomizers(retrySettingsCustomizers.orderedStream().toList());
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), configurer);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
     }
 
     @Bean
@@ -66,12 +66,12 @@ public class DataRabbitTemplateConfiguration {
     public RabbitTemplate rabbitTemplate() {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             RabbitTemplate template = new RabbitTemplate();
-            ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
-            RabbitTemplateConfigurer configurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
+            ConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
+            RabbitTemplateConfigurer configurer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
             configurer.configure(template, connectionFactory);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE), template);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE), template);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
     }
 
     @Bean
@@ -83,9 +83,9 @@ public class DataRabbitTemplateConfiguration {
     @ConditionalOnMissingBean
     public AmqpAdmin amqpAdmin() {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            ConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.AMQP_ADMIN), new RabbitAdmin(connectionFactory));
+            ConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.AMQP_ADMIN), new RabbitAdmin(connectionFactory));
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.AMQP_ADMIN), RabbitAdmin.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.AMQP_ADMIN), RabbitAdmin.class);
     }
 }

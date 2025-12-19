@@ -35,22 +35,22 @@ import java.util.Map;
 @Configuration(proxyBeanMethods = false)
 public class DataRabbitConnectionFactoryCreator {
     private final DataRabbitProperties properties;
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory beanFactory;
 
-    public DataRabbitConnectionFactoryCreator(DataRabbitProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataRabbitConnectionFactoryCreator(DataRabbitProperties properties, DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
         Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
         this.properties = properties;
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.beanFactory = beanFactory;
     }
 
     @Bean
     @ConditionalOnMissingBean
     RabbitConnectionDetails rabbitConnectionDetails(ObjectProvider<SslBundles> sslBundles) {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), new DataPropertiesRabbitConnectionDetails(entry.getValue(), (SslBundles) sslBundles.getIfAvailable()));
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), new DataPropertiesRabbitConnectionDetails(entry.getValue(), (SslBundles) sslBundles.getIfAvailable()));
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
     }
 
     @Bean
@@ -60,13 +60,13 @@ public class DataRabbitConnectionFactoryCreator {
                                                                                        ObjectProvider<CredentialsProvider> credentialsProvider,
                                                                                        ObjectProvider<CredentialsRefreshService> credentialsRefreshService) {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
+            RabbitConnectionDetails connectionDetails = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
             RabbitConnectionFactoryBeanConfigurer configurer = new RabbitConnectionFactoryBeanConfigurer(resourceLoader, entry.getValue(), connectionDetails);
             configurer.setCredentialsProvider((CredentialsProvider) credentialsProvider.getIfUnique());
             configurer.setCredentialsRefreshService((CredentialsRefreshService) credentialsRefreshService.getIfUnique());
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), configurer);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
     }
 
     @Bean
@@ -74,12 +74,12 @@ public class DataRabbitConnectionFactoryCreator {
     @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECT_DETAILS})
     public CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            RabbitConnectionDetails connectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
+            RabbitConnectionDetails connectionDetails = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECT_DETAILS), RabbitConnectionDetails.class);
             CachingConnectionFactoryConfigurer configurer = new CachingConnectionFactoryConfigurer(entry.getValue(), connectionDetails);
             configurer.setConnectionNameStrategy((ConnectionNameStrategy) connectionNameStrategy.getIfUnique());
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), configurer);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), configurer);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
     }
 
     @Bean
@@ -88,8 +88,8 @@ public class DataRabbitConnectionFactoryCreator {
     public CachingConnectionFactory rabbitConnectionFactory(ObjectProvider<ConnectionFactoryCustomizer> connectionFactoryCustomizers,
                                                             ApplicationContext context) throws Exception {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
-            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
+            RabbitConnectionFactoryBeanConfigurer rabbitConnectionFactoryBeanConfigurer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_BEAN_CONFIGURER), RabbitConnectionFactoryBeanConfigurer.class);
+            CachingConnectionFactoryConfigurer rabbitCachingConnectionFactoryConfigurer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY_CONFIGURER), CachingConnectionFactoryConfigurer.class);
 
             RabbitConnectionFactoryBean connectionFactoryBean = new DataSslBundleRabbitConnectionFactoryBean();
             rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
@@ -114,8 +114,8 @@ public class DataRabbitConnectionFactoryCreator {
             //添加连接监听器
             factory.addConnectionListener(new DataRabbitConnectionListener(factory, context));
 
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), factory);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), CachingConnectionFactory.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), CachingConnectionFactory.class);
     }
 }

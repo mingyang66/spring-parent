@@ -35,11 +35,11 @@ import java.util.Map;
 @ConditionalOnClass({ReactiveRedisConnectionFactory.class, ReactiveRedisTemplate.class, Flux.class})
 public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, DisposableBean {
     private final DataDbRedisProperties properties;
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory beanFactory;
 
-    public DataDbRedisReactiveAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataDbRedisReactiveAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory beanFactory) {
         this.properties = properties;
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.beanFactory = beanFactory;
     }
 
     @Bean
@@ -57,9 +57,9 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
                 .build();
         ReactiveRedisTemplate<Object, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
-            ReactiveRedisConnectionFactory factory = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+            ReactiveRedisConnectionFactory factory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
             ReactiveRedisTemplate<Object, Object> template = new ReactiveRedisTemplate<>(factory, serializationContext);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_REDIS_TEMPLATE), template);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_REDIS_TEMPLATE), template);
             if (properties.getDefaultConfig().equals(entry.getKey())) {
                 redisTemplate = template;
             }
@@ -73,10 +73,10 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
     public ReactiveStringRedisTemplate reactiveStringRedisTemplate() {
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
-            ReactiveRedisConnectionFactory connectionFactory = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), new ReactiveStringRedisTemplate(connectionFactory));
+            ReactiveRedisConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), new ReactiveStringRedisTemplate(connectionFactory));
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), ReactiveStringRedisTemplate.class);
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), ReactiveStringRedisTemplate.class);
     }
 
     @Override

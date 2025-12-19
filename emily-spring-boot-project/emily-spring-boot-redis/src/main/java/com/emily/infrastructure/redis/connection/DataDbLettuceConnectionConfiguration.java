@@ -55,17 +55,17 @@ import java.util.Map;
         matchIfMissing = true
 )
 public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionConfiguration {
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory beanFactory;
 
     DataDbLettuceConnectionConfiguration(DataDbRedisProperties properties,
-                                         DefaultListableBeanFactory defaultListableBeanFactory,
+                                         DefaultListableBeanFactory beanFactory,
                                          ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
                                          ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
                                          ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
                                          ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
                                          DataRedisConnectionDetails connectionDetails) {
         super(properties, connectionDetails, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, masterReplicaConfiguration);
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.beanFactory = beanFactory;
     }
 
     /**
@@ -91,7 +91,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                     ClientResources clientResources) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails redisConnectionDetails = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
@@ -102,9 +102,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             if (!this.getProperties().getDefaultConfig().equals(entry.getKey())) {
                 factory.afterPropertiesSet();
             }
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), factory);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
+        return beanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
     }
 
     @Bean
@@ -116,7 +116,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
             ClientResources clientResources) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = defaultListableBeanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
+            DataRedisConnectionDetails redisConnectionDetails = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
             LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
@@ -128,9 +128,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor("redis-");
             executor.setVirtualThreads(true);
             factory.setExecutor(executor);
-            defaultListableBeanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), factory);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), factory);
         }
-        return defaultListableBeanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
+        return beanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
     }
 
     private LettuceConnectionFactory createConnectionFactory(

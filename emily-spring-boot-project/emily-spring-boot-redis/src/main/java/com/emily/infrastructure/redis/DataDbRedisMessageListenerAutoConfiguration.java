@@ -28,14 +28,14 @@ import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 @SuppressWarnings("all")
 @AutoConfiguration(after = DataDbRedisAutoConfiguration.class)
 @ConditionalOnProperty(prefix = DataDbRedisProperties.PREFIX, name = "listener", havingValue = "true")
-public class RedisDbMessageListenerAutoConfiguration implements InitializingBean, DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(RedisDbMessageListenerAutoConfiguration.class);
+public class DataDbRedisMessageListenerAutoConfiguration implements InitializingBean, DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(DataDbRedisMessageListenerAutoConfiguration.class);
     private final DataDbRedisProperties properties;
-    private final DefaultListableBeanFactory defaultListableBeanFactory;
+    private final DefaultListableBeanFactory beanFactory;
 
-    public RedisDbMessageListenerAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory defaultListableBeanFactory) {
+    public DataDbRedisMessageListenerAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory beanFactory) {
         this.properties = properties;
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
+        this.beanFactory = beanFactory;
     }
 
     /**
@@ -60,12 +60,12 @@ public class RedisDbMessageListenerAutoConfiguration implements InitializingBean
                 redisMessageListenerContainer = messageListenerContainer;
             } else {
                 // 设置连接工厂类
-                messageListenerContainer.setConnectionFactory(defaultListableBeanFactory.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                messageListenerContainer.setConnectionFactory(beanFactory.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 messageListenerContainer.afterPropertiesSet();
                 messageListenerContainer.start();
             }
             // 注册redis消息监听容器
-            defaultListableBeanFactory.registerSingleton(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
+            beanFactory.registerSingleton(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
         }
         return redisMessageListenerContainer;
     }

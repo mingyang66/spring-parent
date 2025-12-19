@@ -1,12 +1,12 @@
 package com.emily.infrastructure.redis.factory;
 
+import com.emily.infrastructure.redis.common.DataRedisInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-
-import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * Redis数据源
@@ -28,7 +28,7 @@ public class DataRedisFactory {
      * @return redis操作对象
      */
     public static StringRedisTemplate getStringRedisTemplate() {
-        return context.getBean(DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
+        return context.getBean(DataRedisInfo.DEFAULT_STRING_REDIS_TEMPLATE, StringRedisTemplate.class);
     }
 
     /**
@@ -41,7 +41,7 @@ public class DataRedisFactory {
         if (key == null || key.isBlank()) {
             return getStringRedisTemplate();
         }
-        return context.getBean(join(key, STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
+        return context.getBean(StringUtils.join(key, DataRedisInfo.STRING_REDIS_TEMPLATE), StringRedisTemplate.class);
     }
 
     /**
@@ -51,7 +51,7 @@ public class DataRedisFactory {
      */
     @SuppressWarnings("unchecked")
     public static RedisTemplate<Object, Object> getRedisTemplate() {
-        return context.getBean(DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
+        return context.getBean(DataRedisInfo.DEFAULT_REDIS_TEMPLATE, RedisTemplate.class);
     }
 
     /**
@@ -65,7 +65,7 @@ public class DataRedisFactory {
         if (key == null || key.isBlank()) {
             return getRedisTemplate();
         } else {
-            return context.getBean(join(key, REDIS_TEMPLATE), RedisTemplate.class);
+            return context.getBean(StringUtils.join(key, DataRedisInfo.REDIS_TEMPLATE), RedisTemplate.class);
         }
     }
 
@@ -76,7 +76,7 @@ public class DataRedisFactory {
      */
     @SuppressWarnings("unchecked")
     public static ReactiveRedisTemplate<Object, Object> getReactiveRedisTemplate() {
-        return context.getBean(DEFAULT_REACTIVE_REDIS_TEMPLATE, ReactiveRedisTemplate.class);
+        return context.getBean(DataRedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE, ReactiveRedisTemplate.class);
     }
 
     /**
@@ -90,7 +90,7 @@ public class DataRedisFactory {
         if (key == null || key.isBlank()) {
             return getReactiveRedisTemplate();
         }
-        return context.getBean(join(key, REACTIVE_REDIS_TEMPLATE), ReactiveRedisTemplate.class);
+        return context.getBean(StringUtils.join(key, DataRedisInfo.REACTIVE_REDIS_TEMPLATE), ReactiveRedisTemplate.class);
     }
 
     /**
@@ -99,7 +99,7 @@ public class DataRedisFactory {
      * @return redis响应是模板对象
      */
     public static ReactiveStringRedisTemplate getReactiveStringRedisTemplate() {
-        return context.getBean(DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE, ReactiveStringRedisTemplate.class);
+        return context.getBean(DataRedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE, ReactiveStringRedisTemplate.class);
     }
 
     /**
@@ -112,6 +112,6 @@ public class DataRedisFactory {
         if (key == null || key.isBlank()) {
             return getReactiveStringRedisTemplate();
         }
-        return context.getBean(join(key, REACTIVE_STRING_REDIS_TEMPLATE), ReactiveStringRedisTemplate.class);
+        return context.getBean(StringUtils.join(key, DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), ReactiveStringRedisTemplate.class);
     }
 }

@@ -1,5 +1,7 @@
 package com.emily.infrastructure.redis;
 
+import com.emily.infrastructure.redis.common.DataRedisInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -15,8 +17,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 import java.util.Map;
 import java.util.Objects;
-
-import static com.emily.infrastructure.redis.common.DataRedisInfo.*;
 
 /**
  * Redis仓储类
@@ -60,12 +60,12 @@ public class DataDbRedisMessageListenerAutoConfiguration implements Initializing
                 redisMessageListenerContainer = messageListenerContainer;
             } else {
                 // 设置连接工厂类
-                messageListenerContainer.setConnectionFactory(beanFactory.getBean(join(key, REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+                messageListenerContainer.setConnectionFactory(beanFactory.getBean(StringUtils.join(key, DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
                 messageListenerContainer.afterPropertiesSet();
                 messageListenerContainer.start();
             }
             // 注册redis消息监听容器
-            beanFactory.registerSingleton(join(key, REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
+            beanFactory.registerSingleton(StringUtils.join(key, DataRedisInfo.REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
         }
         return redisMessageListenerContainer;
     }

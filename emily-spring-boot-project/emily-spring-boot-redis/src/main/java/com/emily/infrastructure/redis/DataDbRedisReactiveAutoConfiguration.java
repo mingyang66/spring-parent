@@ -1,6 +1,7 @@
 package com.emily.infrastructure.redis;
 
 import com.emily.infrastructure.redis.common.DataRedisInfo;
+import com.emily.infrastructure.redis.common.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +15,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import reactor.core.publisher.Flux;
 
 import java.util.Map;
@@ -46,19 +45,17 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate(ResourceLoader resourceLoader) {
-        RedisSerializer<Object> javaSerializer = RedisSerializer.java(resourceLoader.getClassLoader());
-        RedisSerializationContext<Object, Object> serializationContext = RedisSerializationContext
-                .newSerializationContext()
-                .key(javaSerializer)
-                .value(RedisSerializer.json())
-                .hashKey(RedisSerializer.string())
-                .hashValue(RedisSerializer.json())
+    public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate() {
+        RedisSerializationContext<String, Object> serializationContext = RedisSerializationContext.<String, Object>newSerializationContext(SerializationUtils.stringSerializer())
+                .key(SerializationUtils.stringSerializer())
+                .value(SerializationUtils.jackson2JsonRedisSerializer())
+                .hashKey(SerializationUtils.stringSerializer())
+                .hashValue(SerializationUtils.jackson2JsonRedisSerializer())
                 .build();
-        ReactiveRedisTemplate<Object, Object> redisTemplate = null;
+        ReactiveRedisTemplate<String, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             ReactiveRedisConnectionFactory factory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
-            ReactiveRedisTemplate<Object, Object> template = new ReactiveRedisTemplate<>(factory, serializationContext);
+            ReactiveRedisTemplate<String, Object> template = new ReactiveRedisTemplate<>(factory, serializationContext);
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_REDIS_TEMPLATE), template);
             if (properties.getDefaultConfig().equals(entry.getKey())) {
                 redisTemplate = template;

@@ -29,8 +29,8 @@ public class RedisController {
     private final RedisTemplate<Object, Object> testRedisTemplate;
     private final ReactiveStringRedisTemplate reactiveStringRedisTemplate;
     private final ReactiveStringRedisTemplate testReactiveStringRedisTemplate;
-    private final ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate;
-    private final ReactiveRedisTemplate<Object, Object> testReactiveRedisTemplate;
+    private final ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
+    private final ReactiveRedisTemplate<String, Object> testReactiveRedisTemplate;
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -40,8 +40,8 @@ public class RedisController {
                            @Qualifier("test1RedisTemplate") RedisTemplate<Object, Object> testRedisTemplate,
                            ReactiveStringRedisTemplate reactiveStringRedisTemplate,
                            @Qualifier("test1ReactiveStringRedisTemplate") ReactiveStringRedisTemplate testReactiveStringRedisTemplate,
-                           ReactiveRedisTemplate<Object, Object> reactiveRedisTemplate,
-                           @Qualifier("test1ReactiveRedisTemplate") ReactiveRedisTemplate<Object, Object> testReactiveRedisTemplate
+                           ReactiveRedisTemplate<String, Object> reactiveRedisTemplate,
+                           @Qualifier("test1ReactiveRedisTemplate") ReactiveRedisTemplate<String, Object> testReactiveRedisTemplate
     ) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.testStringRedisTemplate = testStringRedisTemplate;
@@ -72,7 +72,9 @@ public class RedisController {
         reactiveStringRedisTemplate.opsForValue().set("test1", "你好1", Duration.ofSeconds(100)).block();
         testReactiveStringRedisTemplate.opsForValue().set("test1", "你好2", Duration.ofSeconds(100)).block();
         reactiveRedisTemplate.opsForValue().set("test3", "test3", Duration.ofSeconds(100)).block();
-        testReactiveRedisTemplate.opsForValue().set("test3", "test3", Duration.ofSeconds(100)).block();
+        testReactiveRedisTemplate.opsForValue().set("test4", "test4", Duration.ofSeconds(100)).block();
+        reactiveRedisTemplate.opsForHash().put("test5","test5","test5").block();
+        reactiveRedisTemplate.opsForHash().put("test5","test6","test6").block();
         return DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().get("test").subscribe().toString();
     }
 

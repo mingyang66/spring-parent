@@ -51,9 +51,9 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
         RedisSerializationContext<Object, Object> serializationContext = RedisSerializationContext
                 .newSerializationContext()
                 .key(javaSerializer)
-                .value(javaSerializer)
-                .hashKey(javaSerializer)
-                .hashValue(javaSerializer)
+                .value(RedisSerializer.json())
+                .hashKey(RedisSerializer.string())
+                .hashValue(RedisSerializer.json())
                 .build();
         ReactiveRedisTemplate<Object, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
@@ -81,12 +81,12 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
 
     @Override
     public void destroy() {
-        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDbReactiveAutoConfiguration】");
+        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【DataDbRedisReactiveAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbReactiveAutoConfiguration】");
+        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【DataDbRedisReactiveAutoConfiguration】");
     }
 
     private static class LogHolder {

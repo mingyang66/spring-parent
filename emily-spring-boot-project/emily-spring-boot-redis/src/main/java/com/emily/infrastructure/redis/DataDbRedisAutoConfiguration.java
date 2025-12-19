@@ -111,12 +111,12 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
 
     @Override
     public void destroy() {
-        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
+        LogHolder.LOG.info("<== 【销毁--自动化配置】----Redis数据库多数据源组件【DataDbRedisAutoConfiguration】");
     }
 
     @Override
     public void afterPropertiesSet() {
-        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【RedisDbAutoConfiguration】");
+        LogHolder.LOG.info("==> 【初始化--自动化配置】----Redis数据库多数据源组件【DataDbRedisAutoConfiguration】");
     }
 
     static class LogHolder {

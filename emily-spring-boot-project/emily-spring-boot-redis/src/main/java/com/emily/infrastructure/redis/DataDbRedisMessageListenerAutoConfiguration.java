@@ -48,36 +48,29 @@ public class DataDbRedisMessageListenerAutoConfiguration implements Initializing
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
         String defaultConfig = Objects.requireNonNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
-        RedisMessageListenerContainer redisMessageListenerContainer = null;
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
-            String key = entry.getKey();
             // 实例化消息监听容器
             RedisMessageListenerContainer messageListenerContainer = new RedisMessageListenerContainer();
-            if (defaultConfig.equals(key)) {
-                // 设置连接工厂类
-                messageListenerContainer.setConnectionFactory(connectionFactory);
-                // 默认容器监听器
-                redisMessageListenerContainer = messageListenerContainer;
-            } else {
-                // 设置连接工厂类
-                messageListenerContainer.setConnectionFactory(beanFactory.getBean(StringUtils.join(key, DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            // 设置连接工厂类
+            messageListenerContainer.setConnectionFactory(beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            if (!properties.getDefaultConfig().equals(entry.getKey())) {
                 messageListenerContainer.afterPropertiesSet();
                 messageListenerContainer.start();
             }
             // 注册redis消息监听容器
-            beanFactory.registerSingleton(StringUtils.join(key, DataRedisInfo.REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_MESSAGE_LISTENER_CONTAINER), messageListenerContainer);
         }
-        return redisMessageListenerContainer;
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REDIS_MESSAGE_LISTENER_CONTAINER), RedisMessageListenerContainer.class);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LOG.info("==> 【初始化--自动化配置】----Redis数据库监听器组件【RedisDbRepositoriesAutoConfiguration】");
+        LOG.info("==> 【初始化--自动化配置】----Redis数据库监听器组件【DataDbRedisMessageListenerAutoConfiguration】");
     }
 
     @Override
     public void destroy() throws Exception {
-        LOG.info("<== 【销毁--自动化配置】----Redis数据库监听器组件【RedisDbRepositoriesAutoConfiguration】");
+        LOG.info("<== 【销毁--自动化配置】----Redis数据库监听器组件【DataDbRedisMessageListenerAutoConfiguration】");
     }
 
 }

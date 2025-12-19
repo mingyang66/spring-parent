@@ -2,7 +2,7 @@ package com.emily.infrastructure.autoconfigure.tomcat.factory;
 
 import com.emily.infrastructure.autoconfigure.tomcat.TomcatProperties;
 import org.apache.catalina.connector.Connector;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 
 /**
@@ -27,6 +27,6 @@ public class TomcatServerCustomizer implements WebServerFactoryCustomizer<Tomcat
         connector.setPort(properties.getPort());
         //non-SSL to SSL（暂时不生效）
         connector.setRedirectPort(8081);
-        factory.addAdditionalTomcatConnectors(connector);
+       // factory.addAdditionalTomcatConnectors(connector);
     }
 }

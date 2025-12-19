@@ -1,6 +1,7 @@
 package com.emily.infrastructure.redis.initializer;
 
 import com.emily.infrastructure.redis.factory.DataRedisFactory;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
@@ -11,7 +12,7 @@ import org.springframework.core.Ordered;
  * @author Emily
  * @since 2020/09/22
  */
-public class RedisDbApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+public class RedisDbApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 2;

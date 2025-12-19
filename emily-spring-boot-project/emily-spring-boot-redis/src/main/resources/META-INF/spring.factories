@@ -4,3 +4,6 @@ org.springframework.context.ApplicationContextInitializer=\
 # Failure Analyzers
 org.springframework.boot.diagnostics.FailureAnalyzer=\
   com.emily.infrastructure.redis.diagnostics.analyzer.RedisIdentifierFailureAnalyzer
+#Environment
+org.springframework.boot.EnvironmentPostProcessor=\
+  com.emily.infrastructure.redis.processor.DataRedisEnvironmentPostProcessor

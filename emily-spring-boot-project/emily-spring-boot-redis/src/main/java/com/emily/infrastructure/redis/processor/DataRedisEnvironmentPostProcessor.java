@@ -13,7 +13,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 public class DataRedisEnvironmentPostProcessor implements EnvironmentPostProcessor {
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, @NonNull SpringApplication application) {
-        String excludes = environment.getProperty("spring.autoconfigure.exclude", "");
+        String excludes = environment.getProperty("spring.autoconfigure.exclude", StringUtils.EMPTY);
         if (StringUtils.isNotBlank(excludes)) {
             excludes += ",";
         }

@@ -18,7 +18,7 @@
         <spring-boot.version>4.0.0</spring-boot.version>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
         <spring-shell.version>3.4.1</spring-shell.version>
-        <spring.mybatis.version>3.0.5</spring.mybatis.version>
+        <spring.mybatis.version>4.0.0</spring.mybatis.version>
         <alibaba.druid.version>1.2.27</alibaba.druid.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>

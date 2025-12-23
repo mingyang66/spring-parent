@@ -52,7 +52,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
 
     public DataDbRedisAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
-        Assert.isTrue(ObjectUtils.isNotEmpty(properties.getConfig()),"Redis数据库配置缺失");
+        Assert.notEmpty(properties.getConfig(),"Redis连接配置不存在");
         this.properties = properties;
         this.beanFactory = beanFactory;
     }

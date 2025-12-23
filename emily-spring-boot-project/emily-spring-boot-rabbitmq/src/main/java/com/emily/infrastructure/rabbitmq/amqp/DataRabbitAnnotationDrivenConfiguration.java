@@ -54,7 +54,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
                                                    DataRabbitProperties properties,
                                                    DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "RabbitMQ默认配置必须配置");
-        Assert.notNull(properties.getConfig(), "RabbitMQ连接配置不存在");
+        Assert.notEmpty(properties.getConfig(), "RabbitMQ连接配置不存在");
         this.messageConverter = messageConverter;
         this.messageRecoverer = messageRecoverer;
         this.retrySettingsCustomizers = retrySettingsCustomizers;

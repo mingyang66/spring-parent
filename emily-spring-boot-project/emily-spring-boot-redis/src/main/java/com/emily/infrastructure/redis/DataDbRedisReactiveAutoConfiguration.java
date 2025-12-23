@@ -19,6 +19,7 @@ import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Flux;
 
 import java.util.Map;
@@ -37,6 +38,8 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
     private final DefaultListableBeanFactory beanFactory;
 
     public DataDbRedisReactiveAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory beanFactory) {
+        Assert.notNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        Assert.notEmpty(properties.getConfig(), "Redis连接配置不存在");
         this.properties = properties;
         this.beanFactory = beanFactory;
     }

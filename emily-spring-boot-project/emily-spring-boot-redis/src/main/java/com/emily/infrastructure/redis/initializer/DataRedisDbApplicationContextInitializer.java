@@ -12,7 +12,7 @@ import org.springframework.core.Ordered;
  * @author Emily
  * @since 2020/09/22
  */
-public class RedisDbApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
+public class DataRedisDbApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 2;

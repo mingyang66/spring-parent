@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
+ * EnvironmentPostProcessor是springboot提供的一个扩展接口，允许开发者在应用上下文刷新之前对环境配置进行自定义处理；
+ *
  * @author :  Emily
  * @since :  2025/12/14 下午1:26
  */

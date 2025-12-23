@@ -25,6 +25,6 @@ public class RedisDbApplicationContextInitializer implements ApplicationContextI
         // 关闭消息监听器、仓储配置类开关
         System.getProperties().put("spring.data.redis.repositories.enabled", false);
         // 初始化容器应用程序上下文
-        DataRedisFactory.registerApplicationContext(applicationContext);
+        DataRedisFactory.register(applicationContext);
     }
 }

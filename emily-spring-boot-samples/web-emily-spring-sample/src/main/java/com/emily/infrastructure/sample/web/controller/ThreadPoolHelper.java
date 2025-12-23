@@ -15,9 +15,6 @@ public class ThreadPoolHelper {
      * @return ThreadPoolTaskExecutor
      */
     public static ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor() {
-        //try {
-        //return IocUtils.getBean(ThreadPoolTaskExecutor.class);
-        // } catch (Exception exception) {
         int poolSize = 8;
         int maxPoolSize = 64;
         int queueCapacity = 10000;
@@ -27,6 +24,5 @@ public class ThreadPoolHelper {
         threadPoolTaskExecutor.setQueueCapacity(queueCapacity);
         threadPoolTaskExecutor.initialize();
         return threadPoolTaskExecutor;
-        // }
     }
 }

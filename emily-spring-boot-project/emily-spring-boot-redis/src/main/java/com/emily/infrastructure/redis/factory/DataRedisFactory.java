@@ -18,7 +18,7 @@ public class DataRedisFactory {
 
     private static ApplicationContext context;
 
-    public static void registerApplicationContext(ApplicationContext context) {
+    public static void register(ApplicationContext context) {
         DataRedisFactory.context = context;
     }
 

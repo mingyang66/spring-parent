@@ -3,6 +3,7 @@ package com.emily.infrastructure.redis;
 import com.emily.infrastructure.redis.common.DataRedisInfo;
 import com.emily.infrastructure.redis.connection.DataDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.DataDbPropertiesDataRedisConnectionDetails;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
 
     public DataDbRedisAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
+        Assert.isTrue(ObjectUtils.isNotEmpty(properties.getConfig()),"Redis数据库配置缺失");
         this.properties = properties;
         this.beanFactory = beanFactory;
     }

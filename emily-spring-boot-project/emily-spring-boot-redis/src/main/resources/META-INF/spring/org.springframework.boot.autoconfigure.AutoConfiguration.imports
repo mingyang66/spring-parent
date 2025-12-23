@@ -1,3 +1,2 @@
 com.emily.infrastructure.redis.DataDbRedisAutoConfiguration
 com.emily.infrastructure.redis.DataDbRedisReactiveAutoConfiguration
-com.emily.infrastructure.redis.DataDbRedisMessageListenerAutoConfiguration

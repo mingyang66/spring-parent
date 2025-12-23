@@ -1,9 +1,9 @@
 package com.emily.infrastructure.sample.web.config.interceptor;
 
+import jakarta.annotation.Nonnull;
 import org.aopalliance.intercept.ConstructorInterceptor;
 import org.aopalliance.intercept.ConstructorInvocation;
 
-import javax.annotation.Nonnull;
 
 /**
  * @author Emily

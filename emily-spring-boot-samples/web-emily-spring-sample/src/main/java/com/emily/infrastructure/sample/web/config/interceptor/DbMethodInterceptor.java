@@ -2,12 +2,12 @@ package com.emily.infrastructure.sample.web.config.interceptor;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.interceptor.DataSourceCustomizer;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Role;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 
 /**

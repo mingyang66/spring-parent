@@ -3,11 +3,11 @@ package com.emily.infrastructure.transfer.rest.interceptor.timeout;
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.transfer.rest.annotation.TargetHttpTimeout;
 import com.emily.infrastructure.transfer.rest.context.RestTemplateContextHolder;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.hc.client5.http.config.RequestConfig;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 

@@ -10,10 +10,10 @@ import com.emily.infrastructure.logger.event.EventType;
 import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
 import com.emily.infrastructure.mybatis.helper.MethodHelper;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
+import jakarta.annotation.Nonnull;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.context.ApplicationContext;
 
-import javax.annotation.Nonnull;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
 import org.springframework.boot.amqp.autoconfigure.RabbitTemplateConfigurer;
+import org.springframework.boot.amqp.autoconfigure.RabbitTemplateCustomizer;
 import org.springframework.boot.amqp.autoconfigure.RabbitTemplateRetrySettingsCustomizer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -63,12 +64,13 @@ public class DataRabbitTemplateConfiguration {
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
     @ConditionalOnMissingBean(RabbitOperations.class)
     @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE_CONFIGURER})
-    public RabbitTemplate rabbitTemplate() {
+    public RabbitTemplate rabbitTemplate(ObjectProvider<RabbitTemplateCustomizer> customizers) {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             RabbitTemplate template = new RabbitTemplate();
             ConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
             RabbitTemplateConfigurer configurer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
             configurer.configure(template, connectionFactory);
+            customizers.orderedStream().forEach((customizer) -> customizer.customize(template));
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE), template);
         }
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);

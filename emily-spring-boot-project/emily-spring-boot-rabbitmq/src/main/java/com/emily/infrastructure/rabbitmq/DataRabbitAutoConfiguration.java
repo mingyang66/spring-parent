@@ -3,11 +3,13 @@ package com.emily.infrastructure.rabbitmq;
 import com.emily.infrastructure.rabbitmq.amqp.DataRabbitAnnotationDrivenConfiguration;
 import com.emily.infrastructure.rabbitmq.amqp.DataRabbitMessagingTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
+import com.emily.infrastructure.rabbitmq.listener.DataRabbitMessagePostProcessor;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitReturnsCallback;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitTemplateCustomizer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.annotation.MultiRabbitBootstrapConfiguration;
 import org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerAnnotationBeanPostProcessor;
@@ -81,13 +83,30 @@ public class DataRabbitAutoConfiguration implements InitializingBean, Disposable
      */
     @Bean(DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE_CUSTOMIZER)
     @ConditionalOnMissingBean
-    @DependsOn(value = {DataRabbitInfo.DEFAULT_RETURNS_CALLBACK})
+    @DependsOn(value = {DataRabbitInfo.DEFAULT_RETURNS_CALLBACK, DataRabbitInfo.DEFAULT_MESSAGE_POST_PROCESSOR})
     public RabbitTemplateCustomizer rabbitTemplateCustomizer() {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             RabbitTemplate.ReturnsCallback returnsCallback = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RETURNS_CALLBACK), RabbitTemplate.ReturnsCallback.class);
-            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CUSTOMIZER), new DataRabbitTemplateCustomizer(entry.getValue(), returnsCallback));
+            DataRabbitTemplateCustomizer dataRabbitTemplateCustomizer = new DataRabbitTemplateCustomizer(entry.getValue(), returnsCallback);
+            if (properties.isStoreLogSentMessages()) {
+                dataRabbitTemplateCustomizer.setMessagePostProcessor(beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), MessagePostProcessor.class));
+            }
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CUSTOMIZER), dataRabbitTemplateCustomizer);
         }
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE_CUSTOMIZER), RabbitTemplateCustomizer.class);
+    }
+
+    /**
+     * 消息发送前预处理
+     */
+    @Bean(DataRabbitInfo.DEFAULT_MESSAGE_POST_PROCESSOR)
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = DataRabbitProperties.PREFIX, name = "post-processor", havingValue = "true", matchIfMissing = true)
+    public MessagePostProcessor messagePostProcessor(ApplicationContext context) {
+        for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), new DataRabbitMessagePostProcessor(context));
+        }
+        return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), MessagePostProcessor.class);
     }
 
     @Override

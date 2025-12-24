@@ -28,6 +28,10 @@ public class DataRabbitProperties {
      */
     private String defaultConfig;
     /**
+     * 存储发送的消息到日志平台
+     */
+    private boolean storeLogSentMessages = true;
+    /**
      * 连接工厂配置
      */
     private Connection connection = new Connection();
@@ -66,6 +70,14 @@ public class DataRabbitProperties {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public boolean isStoreLogSentMessages() {
+        return storeLogSentMessages;
+    }
+
+    public void setStoreLogSentMessages(boolean storeLogSentMessages) {
+        this.storeLogSentMessages = storeLogSentMessages;
     }
 
     public static class Connection {

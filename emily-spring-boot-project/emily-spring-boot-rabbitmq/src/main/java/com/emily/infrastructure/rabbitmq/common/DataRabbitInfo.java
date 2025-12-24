@@ -69,4 +69,7 @@ public class DataRabbitInfo {
 
     public static final String RETURNS_CALLBACK = "ReturnsCallback";
     public static final String DEFAULT_RETURNS_CALLBACK = "returnsCallback";
+
+    public static final String MESSAGE_POST_PROCESSOR = "MessagePostProcessor";
+    public static final String DEFAULT_MESSAGE_POST_PROCESSOR = "messagePostProcessor";
 }

@@ -63,4 +63,10 @@ public class DataRabbitInfo {
 
     public static final String RABBIT_CONNECT_DETAILS = "RabbitConnectionDetails";
     public static final String DEFAULT_RABBIT_CONNECT_DETAILS = "rabbitConnectionDetails";
+
+    public static final String RABBIT_TEMPLATE_CUSTOMIZER = "RabbitTemplateCustomizer";
+    public static final String DEFAULT_RABBIT_TEMPLATE_CUSTOMIZER = "rabbitTemplateCustomizer";
+
+    public static final String RETURNS_CALLBACK = "ReturnsCallback";
+    public static final String DEFAULT_RETURNS_CALLBACK = "returnsCallback";
 }

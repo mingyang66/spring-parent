@@ -21,7 +21,6 @@ import java.nio.charset.Charset;
 
 
 @RestController
-@RequestMapping("api/rabbit")
 public class RabbitController {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitTemplate emilyRabbitTemplate;
@@ -31,32 +30,13 @@ public class RabbitController {
         this.emilyRabbitTemplate = emilyRabbitTemplate;
     }
 
-    @GetMapping("test")
+    @GetMapping("api/rabbit/return")
     public void test() {
-        TopicExchange exchange = ExchangeBuilder.topicExchange("exchange").build();
-        Queue queue = QueueBuilder.durable("topic.test.queue").build();
-        Binding binding = BindingBuilder.bind(queue).to(exchange).with("topic.#");
-        DataRabbitFactory.declare("test", queue, exchange, binding);
-
-        TopicExchange exchange1 = ExchangeBuilder.topicExchange("exchange_emily").build();
-        Queue queue1 = QueueBuilder.durable("topic.emily.queue").build();
-        Binding binding1 = BindingBuilder.bind(queue1).to(exchange1).with("emily.#");
-        DataRabbitFactory.declare("emily", queue1, exchange1, binding1);
-
-        RabbitMessagingTemplate template = DataRabbitFactory.getRabbitMessagingTemplate();
-        RabbitMessagingTemplate template1 = DataRabbitFactory.getRabbitMessagingTemplate("emily");
-        //template.convertAndSend("exchange","topic.test",new Message("nihao".getBytes(Charset.defaultCharset())));
-        //template.convertAndSend("exchange","topic.emily",new Message("nihao".getBytes(Charset.defaultCharset())));
-        template1.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
-
-        RabbitTemplate rabbitTemplate = DataRabbitFactory.getRabbitTemplate();
-        RabbitTemplate rabbitTemplateEmily = DataRabbitFactory.getRabbitTemplate("emily");
-        rabbitTemplate.convertAndSend("exchange", "topic.test", new Message("nihao".getBytes(Charset.defaultCharset())));
-        rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplate.convertAndSend("emily.return", "", new Message("nihao".getBytes(Charset.defaultCharset())));
 
     }
 
-    @GetMapping("send")
+    @GetMapping("api/rabbit/send")
     public void send() {
         //RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
         rabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
@@ -64,7 +44,7 @@ public class RabbitController {
         emilyRabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 
-    @GetMapping("send1")
+    @GetMapping("api/rabbit/send1")
     public void send1() {
         RabbitTemplate rabbitTemplateEmily = DataRabbitFactory.getRabbitTemplate("emily");
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));

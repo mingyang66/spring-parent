@@ -11,6 +11,7 @@ open module emily.spring.boot.logger {
     requires spring.boot.autoconfigure;
     requires emily.logger;
     requires emily.json;
+    requires org.jspecify;
 
     exports com.emily.infrastructure.logger;
     exports com.emily.infrastructure.logger.initializer;

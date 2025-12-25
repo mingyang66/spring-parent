@@ -81,7 +81,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
 
-public class DataRabbitListenerAnnotationBeanPostProcessor implements BeanPostProcessor, Ordered, BeanFactoryAware, BeanClassLoaderAware, EnvironmentAware, SmartInitializingSingleton {
+public class RabbitListenerAnnotationBeanPostProcessor implements BeanPostProcessor, Ordered, BeanFactoryAware, BeanClassLoaderAware, EnvironmentAware, SmartInitializingSingleton {
     public static final String DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME = "rabbitListenerContainerFactory";
     public static final String RABBIT_EMPTY_STRING_ARGUMENTS_PROPERTY = "spring.rabbitmq.emptyStringArguments";
     private static final ConversionService CONVERSION_SERVICE = new DefaultConversionService();
@@ -104,7 +104,7 @@ public class DataRabbitListenerAnnotationBeanPostProcessor implements BeanPostPr
         return Integer.MAX_VALUE;
     }
 
-    public DataRabbitListenerAnnotationBeanPostProcessor() {
+    public RabbitListenerAnnotationBeanPostProcessor() {
         this.charset = StandardCharsets.UTF_8;
         this.emptyStringArguments.add("x-dead-letter-exchange");
     }
@@ -880,15 +880,15 @@ public class DataRabbitListenerAnnotationBeanPostProcessor implements BeanPostPr
 
         private MessageHandlerMethodFactory createDefaultMessageHandlerMethodFactory() {
             DefaultMessageHandlerMethodFactory defaultFactory = new AmqpMessageHandlerMethodFactory();
-            Validator validator = DataRabbitListenerAnnotationBeanPostProcessor.this.registrar.getValidator();
+            Validator validator = RabbitListenerAnnotationBeanPostProcessor.this.registrar.getValidator();
             if (validator != null) {
                 defaultFactory.setValidator(validator);
             }
 
-            defaultFactory.setBeanFactory(DataRabbitListenerAnnotationBeanPostProcessor.this.beanFactory);
-            this.defaultFormattingConversionService.addConverter(new BytesToStringConverter(DataRabbitListenerAnnotationBeanPostProcessor.this.charset));
+            defaultFactory.setBeanFactory(RabbitListenerAnnotationBeanPostProcessor.this.beanFactory);
+            this.defaultFormattingConversionService.addConverter(new BytesToStringConverter(RabbitListenerAnnotationBeanPostProcessor.this.charset));
             defaultFactory.setConversionService(this.defaultFormattingConversionService);
-            List<HandlerMethodArgumentResolver> customArgumentsResolver = new ArrayList(DataRabbitListenerAnnotationBeanPostProcessor.this.registrar.getCustomMethodArgumentResolvers());
+            List<HandlerMethodArgumentResolver> customArgumentsResolver = new ArrayList(RabbitListenerAnnotationBeanPostProcessor.this.registrar.getCustomMethodArgumentResolvers());
             defaultFactory.setCustomArgumentResolvers(customArgumentsResolver);
             defaultFactory.setMessageConverter(new GenericMessageConverter(this.defaultFormattingConversionService));
             defaultFactory.afterPropertiesSet();

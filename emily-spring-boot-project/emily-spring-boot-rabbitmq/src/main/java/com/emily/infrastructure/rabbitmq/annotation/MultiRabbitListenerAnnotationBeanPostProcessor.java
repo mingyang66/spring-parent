@@ -13,8 +13,8 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.util.StringUtils;
 
-public class DataMultiRabbitListenerAnnotationBeanPostProcessor extends DataRabbitListenerAnnotationBeanPostProcessor {
-    public DataMultiRabbitListenerAnnotationBeanPostProcessor() {
+public class MultiRabbitListenerAnnotationBeanPostProcessor extends RabbitListenerAnnotationBeanPostProcessor {
+    public MultiRabbitListenerAnnotationBeanPostProcessor() {
     }
 
     protected Collection<Declarable> processAmqpListener(RabbitListener rabbitListener, Method method, Object bean, String beanName) {
@@ -34,7 +34,7 @@ public class DataMultiRabbitListenerAnnotationBeanPostProcessor extends DataRabb
     }
 
     private RabbitListener proxyIfAdminNotPresent(final RabbitListener rabbitListener, final String rabbitAdmin) {
-        return StringUtils.hasText(rabbitListener.admin()) ? rabbitListener : (RabbitListener)Proxy.newProxyInstance(RabbitListener.class.getClassLoader(), new Class[]{RabbitListener.class}, new DataMultiRabbitListenerAnnotationBeanPostProcessor.RabbitListenerAdminReplacementInvocationHandler(rabbitListener, rabbitAdmin));
+        return StringUtils.hasText(rabbitListener.admin()) ? rabbitListener : (RabbitListener)Proxy.newProxyInstance(RabbitListener.class.getClassLoader(), new Class[]{RabbitListener.class}, new MultiRabbitListenerAnnotationBeanPostProcessor.RabbitListenerAdminReplacementInvocationHandler(rabbitListener, rabbitAdmin));
     }
 
     protected String resolveMultiRabbitAdminName(RabbitListener rabbitListener) {

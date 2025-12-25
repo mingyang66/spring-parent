@@ -6,17 +6,17 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
-public class DataRabbitBootstrapConfiguration implements ImportBeanDefinitionRegistrar {
-    public DataRabbitBootstrapConfiguration() {
+public class RabbitBootstrapConfiguration implements ImportBeanDefinitionRegistrar {
+    public RabbitBootstrapConfiguration() {
     }
 
     public void registerBeanDefinitions(@Nullable AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         if (!registry.containsBeanDefinition("org.springframework.amqp.rabbit.config.internalRabbitListenerAnnotationProcessor")) {
-            registry.registerBeanDefinition("org.springframework.amqp.rabbit.config.internalRabbitListenerAnnotationProcessor", new RootBeanDefinition(DataRabbitListenerAnnotationBeanPostProcessor.class));
+            registry.registerBeanDefinition("org.springframework.amqp.rabbit.config.internalRabbitListenerAnnotationProcessor", new RootBeanDefinition(RabbitListenerAnnotationBeanPostProcessor.class));
         }
 
         if (!registry.containsBeanDefinition("org.springframework.amqp.rabbit.config.internalRabbitListenerEndpointRegistry")) {
-            registry.registerBeanDefinition("org.springframework.amqp.rabbit.config.internalRabbitListenerEndpointRegistry", new RootBeanDefinition(DataRabbitListenerEndpointRegistry.class));
+            registry.registerBeanDefinition("org.springframework.amqp.rabbit.config.internalRabbitListenerEndpointRegistry", new RootBeanDefinition(RabbitListenerEndpointRegistry.class));
         }
 
     }

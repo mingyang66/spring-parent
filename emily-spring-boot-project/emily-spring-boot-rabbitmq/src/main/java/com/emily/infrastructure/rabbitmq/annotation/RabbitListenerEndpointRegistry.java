@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class DataRabbitListenerEndpointRegistry implements DisposableBean, SmartLifecycle, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
+public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLifecycle, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
     protected final Log logger = LogFactory.getLog(this.getClass());
     private final Map<String, MessageListenerContainer> listenerContainers = new ConcurrentHashMap();
     private final Lock listenerContainersLock = new ReentrantLock();
@@ -27,7 +27,7 @@ public class DataRabbitListenerEndpointRegistry implements DisposableBean, Smart
     private @Nullable ConfigurableApplicationContext applicationContext;
     private boolean contextRefreshed;
 
-    public DataRabbitListenerEndpointRegistry() {
+    public RabbitListenerEndpointRegistry() {
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -39,7 +39,7 @@ public class DataRabbitListenerEndpointRegistry implements DisposableBean, Smart
 
     public @Nullable MessageListenerContainer getListenerContainer(String id) {
         Assert.hasText(id, "Container identifier must not be empty");
-        return (MessageListenerContainer) this.listenerContainers.get(id);
+        return this.listenerContainers.get(id);
     }
 
     public Set<String> getListenerContainerIds() {
@@ -68,7 +68,7 @@ public class DataRabbitListenerEndpointRegistry implements DisposableBean, Smart
             if (StringUtils.hasText(endpoint.getGroup()) && this.applicationContext != null) {
                 Object containerGroup;
                 if (this.applicationContext.containsBean(endpoint.getGroup())) {
-                    containerGroup = (List) this.applicationContext.getBean(endpoint.getGroup(), List.class);
+                    containerGroup = this.applicationContext.getBean(endpoint.getGroup(), List.class);
                 } else {
                     containerGroup = new ArrayList();
                     this.applicationContext.getBeanFactory().registerSingleton(endpoint.getGroup(), containerGroup);
@@ -106,7 +106,7 @@ public class DataRabbitListenerEndpointRegistry implements DisposableBean, Smart
     }
 
     public @Nullable MessageListenerContainer unregisterListenerContainer(String id) {
-        return (MessageListenerContainer) this.listenerContainers.remove(id);
+        return this.listenerContainers.remove(id);
     }
 
     public void destroy() {
@@ -119,7 +119,7 @@ public class DataRabbitListenerEndpointRegistry implements DisposableBean, Smart
                     disposable.destroy();
                 } catch (Exception var5) {
                     Exception ex = var5;
-                    this.logger.warn("Failed to destroy listener container [" + String.valueOf(listenerContainer) + "]", ex);
+                    this.logger.warn("Failed to destroy listener container [" + listenerContainer + "]", ex);
                 }
             }
         }
@@ -168,7 +168,7 @@ public class DataRabbitListenerEndpointRegistry implements DisposableBean, Smart
                 } catch (Exception var7) {
                     Exception e = var7;
                     if (this.logger.isWarnEnabled()) {
-                        this.logger.warn("Failed to stop listener container [" + String.valueOf(listenerContainer) + "]", e);
+                        this.logger.warn("Failed to stop listener container [" + listenerContainer + "]", e);
                     }
                 }
             }

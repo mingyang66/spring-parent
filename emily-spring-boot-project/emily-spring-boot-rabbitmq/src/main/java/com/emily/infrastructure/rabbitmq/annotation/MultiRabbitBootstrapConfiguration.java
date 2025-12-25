@@ -1,4 +1,4 @@
-﻿package com.emily.infrastructure.rabbitmq.annotation;
+package com.emily.infrastructure.rabbitmq.annotation;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

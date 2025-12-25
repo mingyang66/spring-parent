@@ -1,4 +1,4 @@
-﻿package com.emily.infrastructure.rabbitmq.annotation;
+package com.emily.infrastructure.rabbitmq.annotation;
 
 
 import java.lang.reflect.InvocationHandler;

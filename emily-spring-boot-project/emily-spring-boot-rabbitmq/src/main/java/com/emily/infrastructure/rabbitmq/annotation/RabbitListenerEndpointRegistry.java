@@ -1,4 +1,4 @@
-﻿package com.emily.infrastructure.rabbitmq.annotation;
+package com.emily.infrastructure.rabbitmq.annotation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -224,4 +224,3 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
         }
     }
 }
-

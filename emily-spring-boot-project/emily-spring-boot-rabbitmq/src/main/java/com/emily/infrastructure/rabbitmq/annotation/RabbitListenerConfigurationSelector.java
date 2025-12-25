@@ -1,4 +1,4 @@
-﻿package com.emily.infrastructure.rabbitmq.annotation;
+package com.emily.infrastructure.rabbitmq.annotation;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.DeferredImportSelector;

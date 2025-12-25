@@ -1,10 +1,10 @@
 package com.emily.infrastructure.rabbitmq.amqp;
 
 import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
+import com.emily.infrastructure.rabbitmq.annotation.EnableRabbit;
 import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.NonNull;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.config.DirectRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.config.RabbitListenerConfigUtils;
@@ -30,7 +30,6 @@ import org.springframework.core.task.VirtualThreadTaskExecutor;
 import org.springframework.util.Assert;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 配置RabbitMQ  注解驱动端点 org.springframework.boot.amqp.autoconfigure.RabbitAnnotationDrivenConfiguration

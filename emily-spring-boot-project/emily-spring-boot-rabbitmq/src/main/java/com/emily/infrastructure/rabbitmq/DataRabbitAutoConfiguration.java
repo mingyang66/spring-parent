@@ -3,10 +3,12 @@ package com.emily.infrastructure.rabbitmq;
 import com.emily.infrastructure.rabbitmq.amqp.DataRabbitAnnotationDrivenConfiguration;
 import com.emily.infrastructure.rabbitmq.amqp.DataRabbitMessagingTemplateConfiguration;
 import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
+import com.emily.infrastructure.rabbitmq.listener.DataRabbitListenerMethodInterceptor;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitMessagePostProcessor;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitReturnsCallback;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitTemplateCustomizer;
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.MessagePostProcessor;
@@ -14,8 +16,10 @@ import org.springframework.amqp.rabbit.annotation.MultiRabbitBootstrapConfigurat
 import org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerAnnotationBeanPostProcessor;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurationSelector;
+import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -107,6 +111,25 @@ public class DataRabbitAutoConfiguration implements InitializingBean, Disposable
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), new DataRabbitMessagePostProcessor(context));
         }
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), MessagePostProcessor.class);
+    }
+
+    @Bean(DataRabbitInfo.DEFAULT_CONTAINER_CUSTOMIZER)
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(
+            name = {"spring.rabbitmq.listener.type"},
+            havingValue = "simple",
+            matchIfMissing = true
+    )
+    public ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer(ApplicationContext context) {
+        ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer = null;
+        for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
+            ContainerCustomizer<@NonNull SimpleMessageListenerContainer> customizer = container -> container.setAdviceChain(new DataRabbitListenerMethodInterceptor(context));
+            if (properties.getDefaultConfig().contains(entry.getKey())) {
+                containerCustomizer = customizer;
+            }
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.CONTAINER_CUSTOMIZER), customizer);
+        }
+        return containerCustomizer;
     }
 
     @Override

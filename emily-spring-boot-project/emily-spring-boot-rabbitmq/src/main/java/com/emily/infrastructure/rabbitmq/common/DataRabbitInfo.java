@@ -72,4 +72,7 @@ public class DataRabbitInfo {
 
     public static final String MESSAGE_POST_PROCESSOR = "MessagePostProcessor";
     public static final String DEFAULT_MESSAGE_POST_PROCESSOR = "messagePostProcessor";
+
+    public static final String CONTAINER_CUSTOMIZER = "ContainerCustomizer";
+    public static final String DEFAULT_CONTAINER_CUSTOMIZER = "containerCustomizer";
 }

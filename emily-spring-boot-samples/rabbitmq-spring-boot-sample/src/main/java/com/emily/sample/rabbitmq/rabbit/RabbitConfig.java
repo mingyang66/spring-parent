@@ -3,8 +3,11 @@ package com.emily.sample.rabbitmq.rabbit;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 
 import java.io.IOException;
 
@@ -24,12 +27,16 @@ public class RabbitConfig {
         channel.basicAck(deliveryTag, false);
     }
 
-    @RabbitListener(queues = "topic.test.queue")
+    //@RabbitListener(queues = "topic.test.queue")
     public void handlerEmily(Channel channel, Message message) throws IOException {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         System.out.println("TEST-" + new String(message.getBody()));
         channel.basicAck(deliveryTag, false);
     }
 
-
+    @RabbitListener(queues = "topic.test.queue")
+    public void handlerEmily1(Channel channel, @Payload String message, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) throws IOException {
+        System.out.println("TEST-" + message);
+        channel.basicAck(deliveryTag, false);
+    }
 }

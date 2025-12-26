@@ -32,21 +32,25 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
 
     @Override
     public @Nullable Object invoke(MethodInvocation invocation) throws Throwable {
-        Object[] args = invocation.getArguments();
-        Message message = argToMessage(args);
-        // 处理回退消息的逻辑
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.PLATFORM, new BaseLogger()
-                .systemNumber(LocalContextHolder.current().getSystemNumber())
-                .appType(LocalContextHolder.current().getAppType())
-                .appVersion(LocalContextHolder.current().getAppVersion())
-                .traceId(LocalContextHolder.current().getTraceId())
-                .clientIp(LocalContextHolder.current().getClientIp())
-                .serverIp(RequestUtils.getServerIp())
-                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
-                .url("RabbitMQ-Subscribe")
-                .body("回退消息: " + new String(message.getBody(), StandardCharsets.UTF_8) +
-                        ", 属性: " + JsonUtils.toJSONString(message.getMessageProperties()))));
-        return invocation.proceed();
+        try {
+            Object[] args = invocation.getArguments();
+            Message message = argToMessage(args);
+            // 处理回退消息的逻辑
+            context.publishEvent(new LoggerPrintApplicationEvent(EventType.PLATFORM, new BaseLogger()
+                    .systemNumber(LocalContextHolder.current().getSystemNumber())
+                    .appType(LocalContextHolder.current().getAppType())
+                    .appVersion(LocalContextHolder.current().getAppVersion())
+                    .traceId(LocalContextHolder.current().getTraceId())
+                    .clientIp(LocalContextHolder.current().getClientIp())
+                    .serverIp(RequestUtils.getServerIp())
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .url("RabbitMQ-Subscribe")
+                    .body("回退消息: " + new String(message.getBody(), StandardCharsets.UTF_8) +
+                            ", 属性: " + JsonUtils.toJSONString(message.getMessageProperties()))));
+            return invocation.proceed();
+        } finally {
+            LocalContextHolder.unbind();
+        }
     }
 
     /**

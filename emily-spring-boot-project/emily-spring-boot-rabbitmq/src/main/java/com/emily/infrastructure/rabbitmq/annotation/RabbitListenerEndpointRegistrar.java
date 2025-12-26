@@ -1,12 +1,5 @@
 package com.emily.infrastructure.rabbitmq.annotation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import org.jspecify.annotations.Nullable;
 import org.springframework.amqp.rabbit.listener.MultiMethodRabbitListenerEndpoint;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
@@ -18,6 +11,10 @@ import org.springframework.messaging.handler.annotation.support.MessageHandlerMe
 import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver;
 import org.springframework.util.Assert;
 import org.springframework.validation.Validator;
+
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class RabbitListenerEndpointRegistrar implements BeanFactoryAware, InitializingBean {
     private final List<AmqpListenerEndpointDescriptor> endpointDescriptors = new ArrayList();
@@ -90,8 +87,8 @@ public class RabbitListenerEndpointRegistrar implements BeanFactoryAware, Initia
 
         try {
             AmqpListenerEndpointDescriptor descriptor;
-            for(Iterator var1 = this.endpointDescriptors.iterator(); var1.hasNext(); this.endpointRegistry.registerListenerContainer(descriptor.endpoint, this.resolveContainerFactory(descriptor))) {
-                descriptor = (AmqpListenerEndpointDescriptor)var1.next();
+            for (Iterator var1 = this.endpointDescriptors.iterator(); var1.hasNext(); this.endpointRegistry.registerListenerContainer(descriptor.endpoint, this.resolveContainerFactory(descriptor))) {
+                descriptor = (AmqpListenerEndpointDescriptor) var1.next();
                 RabbitListenerEndpoint var4 = descriptor.endpoint;
                 if (var4 instanceof MultiMethodRabbitListenerEndpoint multi) {
                     if (this.validator != null) {
@@ -112,7 +109,7 @@ public class RabbitListenerEndpointRegistrar implements BeanFactoryAware, Initia
         } else if (this.containerFactory != null) {
             return this.containerFactory;
         } else if (this.containerFactoryBeanName != null) {
-            this.containerFactory = (RabbitListenerContainerFactory)this.beanFactory.getBean(this.containerFactoryBeanName, RabbitListenerContainerFactory.class);
+            this.containerFactory = (RabbitListenerContainerFactory) this.beanFactory.getBean(this.containerFactoryBeanName, RabbitListenerContainerFactory.class);
             return this.containerFactory;
         } else {
             String var10002 = RabbitListenerContainerFactory.class.getSimpleName();
@@ -140,10 +137,11 @@ public class RabbitListenerEndpointRegistrar implements BeanFactoryAware, Initia
     }
 
     public void registerEndpoint(RabbitListenerEndpoint endpoint) {
-        this.registerEndpoint(endpoint, (RabbitListenerContainerFactory)null);
+        this.registerEndpoint(endpoint, (RabbitListenerContainerFactory) null);
     }
 
-    private static record AmqpListenerEndpointDescriptor(RabbitListenerEndpoint endpoint, @Nullable RabbitListenerContainerFactory<?> containerFactory) {
+    private static record AmqpListenerEndpointDescriptor(RabbitListenerEndpoint endpoint,
+                                                         @Nullable RabbitListenerContainerFactory<?> containerFactory) {
         private AmqpListenerEndpointDescriptor(RabbitListenerEndpoint endpoint, @Nullable RabbitListenerContainerFactory<?> containerFactory) {
             this.endpoint = endpoint;
             this.containerFactory = containerFactory;

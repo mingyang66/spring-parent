@@ -27,7 +27,7 @@ public class DataRabbitTemplateCustomizer implements RabbitTemplateCustomizer {
         if (determineMandatoryFlag()) {
             rabbitTemplate.setReturnsCallback(returnsCallback);
         }
-        if(messagePostProcessor != null) {
+        if (messagePostProcessor != null) {
             rabbitTemplate.setBeforePublishPostProcessors(messagePostProcessor);
         }
     }

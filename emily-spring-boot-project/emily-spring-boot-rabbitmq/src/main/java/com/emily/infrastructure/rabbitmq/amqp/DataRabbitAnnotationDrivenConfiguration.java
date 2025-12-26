@@ -26,6 +26,7 @@ import org.springframework.boot.thread.Threading;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.task.VirtualThreadTaskExecutor;
 import org.springframework.util.Assert;
 
@@ -39,6 +40,7 @@ import java.util.Map;
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(EnableRabbit.class)
+@Import(value = {DataRabbitAnnotationDrivenListenerConfiguration.class})
 public class DataRabbitAnnotationDrivenConfiguration {
 
     private final ObjectProvider<MessageConverter> messageConverter;

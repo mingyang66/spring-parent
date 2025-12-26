@@ -25,7 +25,7 @@ import java.util.Map;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(RabbitMessagingTemplate.class)
 @ConditionalOnMissingBean(RabbitMessagingTemplate.class)
-@Import(DataRabbitTemplateConfiguration.class)
+@Import(value = {DataRabbitTemplateConfiguration.class, DataRabbitTemplateListenerConfiguration.class})
 public class DataRabbitMessagingTemplateConfiguration {
     private final DataRabbitProperties properties;
     private final DefaultListableBeanFactory beanFactory;

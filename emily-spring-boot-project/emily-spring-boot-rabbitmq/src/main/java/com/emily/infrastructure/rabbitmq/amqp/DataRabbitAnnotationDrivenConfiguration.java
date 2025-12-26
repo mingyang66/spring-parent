@@ -112,7 +112,9 @@ public class DataRabbitAnnotationDrivenConfiguration {
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), SimpleRabbitListenerContainerFactory.class);
     }
 
-    @Bean
+    @Bean(
+            name = {DataRabbitInfo.DEFAULT_DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER}
+    )
     @ConditionalOnMissingBean
     @ConditionalOnThreading(Threading.PLATFORM)
     DataDirectRabbitListenerContainerFactoryConfigurer directRabbitListenerContainerFactoryConfigurer(DataRabbitProperties properties) {

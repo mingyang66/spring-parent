@@ -18,6 +18,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListenerAnnotationBeanPo
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurationSelector;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.DirectMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.DisposableBean;
@@ -113,21 +114,39 @@ public class DataRabbitAutoConfiguration implements InitializingBean, Disposable
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), MessagePostProcessor.class);
     }
 
-    @Bean(DataRabbitInfo.DEFAULT_CONTAINER_CUSTOMIZER)
+    @Bean(DataRabbitInfo.DEFAULT_SIMPLE_CONTAINER_CUSTOMIZER)
     @ConditionalOnMissingBean
     @ConditionalOnProperty(
-            name = {"spring.rabbitmq.listener.type"},
+            name = {"spring.emily.rabbit.listener-type"},
             havingValue = "simple",
             matchIfMissing = true
     )
-    public ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer(ApplicationContext context) {
+    public ContainerCustomizer<@NonNull SimpleMessageListenerContainer> simpleContainerCustomizer(ApplicationContext context) {
         ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer = null;
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             ContainerCustomizer<@NonNull SimpleMessageListenerContainer> customizer = container -> container.setAdviceChain(new DataRabbitListenerMethodInterceptor(context));
             if (properties.getDefaultConfig().contains(entry.getKey())) {
                 containerCustomizer = customizer;
             }
-            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.CONTAINER_CUSTOMIZER), customizer);
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.SIMPLE_CONTAINER_CUSTOMIZER), customizer);
+        }
+        return containerCustomizer;
+    }
+
+    @Bean(DataRabbitInfo.DEFAULT_DIRECT_CONTAINER_CUSTOMIZER)
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(
+            name = {"spring.emily.rabbit.listener-type"},
+            havingValue = "direct"
+    )
+    public ContainerCustomizer<@NonNull DirectMessageListenerContainer> directContainerCustomizer(ApplicationContext context) {
+        ContainerCustomizer<@NonNull DirectMessageListenerContainer> containerCustomizer = null;
+        for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
+            ContainerCustomizer<@NonNull DirectMessageListenerContainer> customizer = container -> container.setAdviceChain(new DataRabbitListenerMethodInterceptor(context));
+            if (properties.getDefaultConfig().contains(entry.getKey())) {
+                containerCustomizer = customizer;
+            }
+            beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.DIRECT_CONTAINER_CUSTOMIZER), customizer);
         }
         return containerCustomizer;
     }

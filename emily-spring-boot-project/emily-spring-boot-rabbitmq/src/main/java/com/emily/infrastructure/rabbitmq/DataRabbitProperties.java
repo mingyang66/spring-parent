@@ -32,6 +32,10 @@ public class DataRabbitProperties {
      */
     private boolean storeLogSentMessages = true;
     /**
+     * 监听器类型
+     */
+    private RabbitProperties.ContainerType listenerType = RabbitProperties.ContainerType.SIMPLE;
+    /**
      * 连接工厂配置
      */
     private Connection connection = new Connection();
@@ -78,6 +82,14 @@ public class DataRabbitProperties {
 
     public void setStoreLogSentMessages(boolean storeLogSentMessages) {
         this.storeLogSentMessages = storeLogSentMessages;
+    }
+
+    public RabbitProperties.ContainerType getListenerType() {
+        return listenerType;
+    }
+
+    public void setListenerType(RabbitProperties.ContainerType listenerType) {
+        this.listenerType = listenerType;
     }
 
     public static class Connection {

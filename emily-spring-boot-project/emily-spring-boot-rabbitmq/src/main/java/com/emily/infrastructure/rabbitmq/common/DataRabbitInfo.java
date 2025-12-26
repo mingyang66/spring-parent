@@ -73,6 +73,9 @@ public class DataRabbitInfo {
     public static final String MESSAGE_POST_PROCESSOR = "MessagePostProcessor";
     public static final String DEFAULT_MESSAGE_POST_PROCESSOR = "messagePostProcessor";
 
-    public static final String CONTAINER_CUSTOMIZER = "ContainerCustomizer";
-    public static final String DEFAULT_CONTAINER_CUSTOMIZER = "containerCustomizer";
+    public static final String SIMPLE_CONTAINER_CUSTOMIZER = "SimpleContainerCustomizer";
+    public static final String DEFAULT_SIMPLE_CONTAINER_CUSTOMIZER = "simpleContainerCustomizer";
+
+    public static final String DIRECT_CONTAINER_CUSTOMIZER = "DirectContainerCustomizer";
+    public static final String DEFAULT_DIRECT_CONTAINER_CUSTOMIZER = "directContainerCustomizer";
 }

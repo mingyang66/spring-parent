@@ -92,17 +92,17 @@ public class DataRabbitAnnotationDrivenConfiguration {
             name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnProperty(
-            name = {"spring.rabbitmq.listener.type"},
+            name = {"spring.emily.rabbit.listener-type"},
             havingValue = "simple",
             matchIfMissing = true
     )
-    @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER, DataRabbitInfo.DEFAULT_CONTAINER_CUSTOMIZER})
+    @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER, DataRabbitInfo.DEFAULT_SIMPLE_CONTAINER_CUSTOMIZER})
     SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             DataSimpleRabbitListenerContainerFactoryConfigurer configurer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.SIMPLE_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataSimpleRabbitListenerContainerFactoryConfigurer.class);
             ConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
             @SuppressWarnings("unchecked")
-            ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.CONTAINER_CUSTOMIZER), ContainerCustomizer.class);
+            ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.SIMPLE_CONTAINER_CUSTOMIZER), ContainerCustomizer.class);
 
             SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
             configurer.configure(factory, connectionFactory);
@@ -143,18 +143,20 @@ public class DataRabbitAnnotationDrivenConfiguration {
             name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnProperty(
-            name = {"spring.rabbitmq.listener.type"},
+            name = {"spring.emily.rabbit.listener-type"},
             havingValue = "direct"
     )
-    @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER})
-    DirectRabbitListenerContainerFactory directRabbitListenerContainerFactory(ObjectProvider<ContainerCustomizer<@NonNull DirectMessageListenerContainer>> directContainerCustomizer) {
+    @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER, DataRabbitInfo.DEFAULT_DIRECT_CONTAINER_CUSTOMIZER})
+    DirectRabbitListenerContainerFactory directRabbitListenerContainerFactory() {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             DataDirectRabbitListenerContainerFactoryConfigurer configurer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER), DataDirectRabbitListenerContainerFactoryConfigurer.class);
             ConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_CONNECTION_FACTORY), ConnectionFactory.class);
+            @SuppressWarnings("unchecked")
+            ContainerCustomizer<@NonNull DirectMessageListenerContainer> containerCustomizer = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.DIRECT_CONTAINER_CUSTOMIZER), ContainerCustomizer.class);
 
             DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
             configurer.configure(factory, connectionFactory);
-            directContainerCustomizer.ifUnique(factory::setContainerCustomizer);
+            factory.setContainerCustomizer(containerCustomizer);
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), factory);
         }
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_LISTENER_CONTAINER_FACTORY), DirectRabbitListenerContainerFactory.class);

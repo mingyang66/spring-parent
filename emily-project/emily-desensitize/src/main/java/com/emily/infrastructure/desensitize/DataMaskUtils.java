@@ -62,9 +62,9 @@ public class DataMaskUtils {
 
     /**
      * 手机号脱敏
-     * 1. 11位手机号，取前三后四中间脱敏；如：18221120687  182*****0687
-     * 2. 3位区号+11位手机号，区号+取前三后四中间脱敏；如：08518221120687  085182*****0687
-     * 3. 4位区号+11位手机号，区号+取前三后四中间脱敏；如：008618221120687 0086182*****0687
+     * 1. 11位手机号，取前三后四中间脱敏；如：18221120687  182****0687
+     * 2. 3位区号+11位手机号，区号+取前三后四中间脱敏；如：08518221120687  085182****0687
+     * 3. 4位区号+11位手机号，区号+取前三后四中间脱敏；如：008618221120687 0086182****0687
      * 4. 手机号长度大于等于4时，取四等份中间两份隐藏，首尾两份展示
      * 5. 长度小于4，则原样展示
      *
@@ -76,7 +76,7 @@ public class DataMaskUtils {
             return phone;
         }
         if (phone.length() == 11) {
-            return String.join("*****", phone.substring(0, 3), phone.substring(7));
+            return String.join("****", phone.substring(0, 3), phone.substring(7));
         } else if (phone.length() == 14) {
             return String.join("", phone.substring(0, 3), maskPhoneNumber(phone.substring(3)));
         } else if (phone.length() == 15) {

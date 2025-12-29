@@ -1,5 +1,6 @@
 package com.emily.sample.rabbitmq.rabbit;
 
+import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -17,7 +18,7 @@ import java.io.IOException;
  * @since Created in 2022/6/10 4:48 下午
  */
 @Configuration
-@DependsOn(value = {"rabbitListenerContainerFactory"})
+@DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY})
 public class RabbitConfig {
 
     @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory")

@@ -24,9 +24,9 @@ public class DataMaskUtilsTest {
 
     @Test
     public void phoneNumber() {
-        Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("18221120687"), "182*****0687");
-        Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("08518221120687"), "085182*****0687");
-        Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("008618221120687"), "0086182*****0687");
+        Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("18221120687"), "182****0687");
+        Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("08518221120687"), "085182****0687");
+        Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("008618221120687"), "0086182****0687");
         Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("123"), "123");
         Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("1234"), "1**4");
         Assertions.assertEquals(DataMaskUtils.maskPhoneNumber("12345"), "1**45");

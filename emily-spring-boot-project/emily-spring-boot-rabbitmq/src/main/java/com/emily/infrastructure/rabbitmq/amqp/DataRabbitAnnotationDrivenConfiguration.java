@@ -34,6 +34,7 @@ import java.util.Map;
 
 /**
  * 配置RabbitMQ  注解驱动端点 org.springframework.boot.amqp.autoconfigure.RabbitAnnotationDrivenConfiguration
+ * 提前初始化RabbitListenerContainerFactory对象修改方法com.emily.infrastructure.rabbitmq.annotation.RabbitListenerAnnotationBeanPostProcessor#resolveContainerFactory
  *
  * @author Emily
  * @since Created in 2022/11/17 10:27 上午

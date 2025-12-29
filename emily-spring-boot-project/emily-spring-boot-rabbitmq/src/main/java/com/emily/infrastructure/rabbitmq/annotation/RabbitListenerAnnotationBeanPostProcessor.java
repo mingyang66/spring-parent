@@ -21,6 +21,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.config.*;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.expression.StandardBeanExpressionResolver;
 import org.springframework.core.Ordered;
@@ -415,6 +416,9 @@ public class RabbitListenerAnnotationBeanPostProcessor implements BeanPostProces
             String containerFactoryBeanName = this.resolveExpressionAsString(rabbitListener.containerFactory(), "containerFactory");
             if (StringUtils.hasText(containerFactoryBeanName)) {
                 try {
+                    if (!this.beanFactory.containsBean(containerFactoryBeanName) && this.beanFactory instanceof DefaultListableBeanFactory defaultListableBeanFactory) {
+                        defaultListableBeanFactory.getBeansOfType(RabbitListenerContainerFactory.class, false, true);
+                    }
                     factory = (RabbitListenerContainerFactory) this.beanFactory.getBean(containerFactoryBeanName, RabbitListenerContainerFactory.class);
                 } catch (NoSuchBeanDefinitionException var8) {
                     NoSuchBeanDefinitionException ex = var8;

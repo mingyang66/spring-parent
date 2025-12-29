@@ -1,12 +1,10 @@
 package com.emily.sample.rabbitmq.rabbit;
 
-import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 
@@ -18,7 +16,6 @@ import java.io.IOException;
  * @since Created in 2022/6/10 4:48 下午
  */
 @Configuration
-@DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY})
 public class RabbitConfig {
 
     @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory")

@@ -47,7 +47,7 @@ public class DataRabbitTemplateConfiguration {
         this.beanFactory = beanFactory;
     }
 
-    @Bean
+    @Bean(DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE_CONFIGURER)
     @ConditionalOnMissingBean
     public RabbitTemplateConfigurer rabbitTemplateConfigurer(ObjectProvider<MessageConverter> messageConverter,
                                                              ObjectProvider<RabbitTemplateRetrySettingsCustomizer> retrySettingsCustomizers) {
@@ -60,7 +60,7 @@ public class DataRabbitTemplateConfiguration {
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE_CONFIGURER), RabbitTemplateConfigurer.class);
     }
 
-    @Bean
+    @Bean(DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE)
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
     @ConditionalOnMissingBean(RabbitOperations.class)
     @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE_CONFIGURER, DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE_CUSTOMIZER})
@@ -77,7 +77,7 @@ public class DataRabbitTemplateConfiguration {
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRabbitInfo.RABBIT_TEMPLATE), RabbitTemplate.class);
     }
 
-    @Bean
+    @Bean(DataRabbitInfo.DEFAULT_AMQP_ADMIN)
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
     @ConditionalOnBooleanProperty(
             name = {"spring.rabbitmq.dynamic"},

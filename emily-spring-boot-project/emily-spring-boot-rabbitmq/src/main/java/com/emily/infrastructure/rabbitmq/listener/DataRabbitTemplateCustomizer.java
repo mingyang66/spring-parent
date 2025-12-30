@@ -14,17 +14,16 @@ import org.springframework.boot.amqp.autoconfigure.RabbitTemplateCustomizer;
  */
 public class DataRabbitTemplateCustomizer implements RabbitTemplateCustomizer {
     private final RabbitProperties rabbitProperties;
-    private final RabbitTemplate.ReturnsCallback returnsCallback;
+    private RabbitTemplate.ReturnsCallback returnsCallback;
     private MessagePostProcessor messagePostProcessor;
 
-    public DataRabbitTemplateCustomizer(RabbitProperties rabbitProperties, RabbitTemplate.ReturnsCallback returnsCallback) {
+    public DataRabbitTemplateCustomizer(RabbitProperties rabbitProperties) {
         this.rabbitProperties = rabbitProperties;
-        this.returnsCallback = returnsCallback;
     }
 
     @Override
     public void customize(@NonNull RabbitTemplate rabbitTemplate) {
-        if (determineMandatoryFlag()) {
+        if (determineMandatoryFlag() && returnsCallback != null) {
             rabbitTemplate.setReturnsCallback(returnsCallback);
         }
         if (messagePostProcessor != null) {
@@ -39,5 +38,9 @@ public class DataRabbitTemplateCustomizer implements RabbitTemplateCustomizer {
 
     public void setMessagePostProcessor(MessagePostProcessor messagePostProcessor) {
         this.messagePostProcessor = messagePostProcessor;
+    }
+
+    public void setReturnsCallback(RabbitTemplate.ReturnsCallback returnsCallback) {
+        this.returnsCallback = returnsCallback;
     }
 }

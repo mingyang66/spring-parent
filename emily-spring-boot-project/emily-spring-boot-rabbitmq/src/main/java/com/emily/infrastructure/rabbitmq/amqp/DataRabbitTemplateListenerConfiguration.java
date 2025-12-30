@@ -16,7 +16,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import java.util.Map;
 
@@ -41,6 +40,7 @@ public class DataRabbitTemplateListenerConfiguration {
      */
     @Bean(DataRabbitInfo.DEFAULT_RETURNS_CALLBACK)
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = DataRabbitProperties.PREFIX, name = "store-log-messages", havingValue = "true", matchIfMissing = true)
     public RabbitTemplate.ReturnsCallback returnsCallback(ApplicationContext context) {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RETURNS_CALLBACK), new DataRabbitReturnsCallback(context));
@@ -53,17 +53,21 @@ public class DataRabbitTemplateListenerConfiguration {
      */
     @Bean(DataRabbitInfo.DEFAULT_RABBIT_TEMPLATE_CUSTOMIZER)
     @ConditionalOnMissingBean
-    @DependsOn(value = {DataRabbitInfo.DEFAULT_RETURNS_CALLBACK})
     public RabbitTemplateCustomizer rabbitTemplateCustomizer() {
         //提前初始化
         if (beanFactory.containsBean(DataRabbitInfo.DEFAULT_MESSAGE_POST_PROCESSOR)) {
             beanFactory.getBeansOfType(MessagePostProcessor.class, false, true);
         }
+        if (beanFactory.containsBean(DataRabbitInfo.DEFAULT_RETURNS_CALLBACK)) {
+            beanFactory.getBeansOfType(RabbitTemplate.ReturnsCallback.class, false, true);
+        }
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
-            RabbitTemplate.ReturnsCallback returnsCallback = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RETURNS_CALLBACK), RabbitTemplate.ReturnsCallback.class);
-            DataRabbitTemplateCustomizer dataRabbitTemplateCustomizer = new DataRabbitTemplateCustomizer(entry.getValue(), returnsCallback);
+            DataRabbitTemplateCustomizer dataRabbitTemplateCustomizer = new DataRabbitTemplateCustomizer(entry.getValue());
             if (beanFactory.containsBean(StringUtils.join(entry.getKey(), DataRabbitInfo.MESSAGE_POST_PROCESSOR))) {
                 dataRabbitTemplateCustomizer.setMessagePostProcessor(beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), MessagePostProcessor.class));
+            }
+            if (beanFactory.containsBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RETURNS_CALLBACK))) {
+                dataRabbitTemplateCustomizer.setReturnsCallback(beanFactory.getBean(StringUtils.join(entry.getKey(), DataRabbitInfo.RETURNS_CALLBACK), RabbitTemplate.ReturnsCallback.class));
             }
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.RABBIT_TEMPLATE_CUSTOMIZER), dataRabbitTemplateCustomizer);
         }
@@ -75,7 +79,7 @@ public class DataRabbitTemplateListenerConfiguration {
      */
     @Bean(DataRabbitInfo.DEFAULT_MESSAGE_POST_PROCESSOR)
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = DataRabbitProperties.PREFIX, name = "store-log-sent-messages", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = DataRabbitProperties.PREFIX, name = "store-log-messages", havingValue = "true", matchIfMissing = true)
     public MessagePostProcessor messagePostProcessor(ApplicationContext context) {
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.MESSAGE_POST_PROCESSOR), new DataRabbitMessagePostProcessor(context));

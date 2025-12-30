@@ -28,9 +28,9 @@ public class DataRabbitProperties {
      */
     private String defaultConfig;
     /**
-     * 存储发送的消息到日志平台
+     * 存储发送、退回、接收的消息到日志平台
      */
-    private boolean storeLogSentMessages = true;
+    private boolean storeLogMessages = true;
     /**
      * 监听器类型
      */
@@ -76,12 +76,12 @@ public class DataRabbitProperties {
         this.connection = connection;
     }
 
-    public boolean isStoreLogSentMessages() {
-        return storeLogSentMessages;
+    public boolean isStoreLogMessages() {
+        return storeLogMessages;
     }
 
-    public void setStoreLogSentMessages(boolean storeLogSentMessages) {
-        this.storeLogSentMessages = storeLogSentMessages;
+    public void setStoreLogMessages(boolean storeLogMessages) {
+        this.storeLogMessages = storeLogMessages;
     }
 
     public RabbitProperties.ContainerType getListenerType() {

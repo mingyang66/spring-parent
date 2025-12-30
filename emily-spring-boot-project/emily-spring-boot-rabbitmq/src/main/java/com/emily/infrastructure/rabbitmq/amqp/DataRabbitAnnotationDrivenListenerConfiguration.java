@@ -45,7 +45,7 @@ public class DataRabbitAnnotationDrivenListenerConfiguration {
         ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer = null;
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             ContainerCustomizer<@NonNull SimpleMessageListenerContainer> customizer = container -> container.setAdviceChain(new DataRabbitListenerMethodInterceptor(context));
-            if (properties.getDefaultConfig().contains(entry.getKey())) {
+            if (properties.getDefaultConfig().equals(entry.getKey())) {
                 containerCustomizer = customizer;
             }
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.SIMPLE_CONTAINER_CUSTOMIZER), customizer);
@@ -63,7 +63,7 @@ public class DataRabbitAnnotationDrivenListenerConfiguration {
         ContainerCustomizer<@NonNull DirectMessageListenerContainer> containerCustomizer = null;
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
             ContainerCustomizer<@NonNull DirectMessageListenerContainer> customizer = container -> container.setAdviceChain(new DataRabbitListenerMethodInterceptor(context));
-            if (properties.getDefaultConfig().contains(entry.getKey())) {
+            if (properties.getDefaultConfig().equals(entry.getKey())) {
                 containerCustomizer = customizer;
             }
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRabbitInfo.DIRECT_CONTAINER_CUSTOMIZER), customizer);

@@ -1,14 +1,10 @@
 package com.emily.sample.rabbitmq.rabbit;
 
 import com.emily.infrastructure.rabbitmq.factory.DataRabbitFactory;
-import org.jspecify.annotations.Nullable;
-import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
@@ -36,22 +32,6 @@ public class RabbitController {
     public void test() {
         rabbitTemplate.convertAndSend("emily.return", "return", new Message("nihao".getBytes(Charset.defaultCharset())));
         emilyRabbitTemplate.convertAndSend("emily.account", "account", new Message("nihao".getBytes(Charset.defaultCharset())));
-        rabbitTemplate.setBeforePublishPostProcessors(new MessagePostProcessor() {
-            @Override
-            public Message postProcessMessage(Message message) throws AmqpException {
-                return null;
-            }
-
-            @Override
-            public Message postProcessMessage(Message message, @Nullable Correlation correlation) {
-                return MessagePostProcessor.super.postProcessMessage(message, correlation);
-            }
-
-            @Override
-            public Message postProcessMessage(Message message, @Nullable Correlation correlation, String exchange, String routingKey) {
-                return MessagePostProcessor.super.postProcessMessage(message, correlation, exchange, routingKey);
-            }
-        });
 
     }
 

@@ -2,10 +2,13 @@ package com.emily.infrastructure.logger.utils;
 
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.boot.task.ThreadPoolTaskExecutorBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 
 
@@ -78,11 +81,6 @@ public class PrintLogUtils {
 
     public static class ThreadPoolLogHelper {
         private static ThreadPoolTaskExecutor taskExecutor;
-        private static ApplicationContext context;
-
-        public static void init(ApplicationContext context) {
-            ThreadPoolLogHelper.context = context;
-        }
 
         /**
          * 获取线程池
@@ -90,21 +88,21 @@ public class PrintLogUtils {
          * @since 20230811 新增获取默认线程池
          */
         static ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor() {
-            try {
-                if (Objects.nonNull(taskExecutor)) {
-                    return taskExecutor;
-                }
-                taskExecutor = context.getBean(ThreadPoolTaskExecutor.class);
-            } catch (Exception exception) {
-                int poolSize = 8;
-                int maxPoolSize = 64;
-                int queueCapacity = 10000;
-                taskExecutor = new ThreadPoolTaskExecutor();
-                taskExecutor.setCorePoolSize(poolSize);
-                taskExecutor.setMaxPoolSize(maxPoolSize);
-                taskExecutor.setQueueCapacity(queueCapacity);
-                taskExecutor.initialize();
+            if (Objects.nonNull(taskExecutor)) {
+                return taskExecutor;
             }
+            ThreadPoolTaskExecutorBuilder builder = new ThreadPoolTaskExecutorBuilder();
+            builder = builder.queueCapacity(Integer.MAX_VALUE);
+            builder = builder.corePoolSize(8);
+            builder = builder.maxPoolSize(Integer.MAX_VALUE);
+            builder = builder.allowCoreThreadTimeOut(true);
+            builder = builder.keepAlive(Duration.ofSeconds(60L));
+            builder = builder.awaitTermination(false);
+            builder = builder.awaitTerminationPeriod(null);
+            builder = builder.threadNamePrefix("emily-task-");
+            taskExecutor = builder.build();
+            taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
+            taskExecutor.initialize();
             return taskExecutor;
         }
     }

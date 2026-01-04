@@ -2,7 +2,6 @@ package com.emily.infrastructure.logger.initializer;
 
 import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logger.LoggerProperties;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -35,8 +34,6 @@ public class LogbackApplicationContextInitializer implements ApplicationContextI
         if (properties.isEnabled()) {
             // 初始化日志SDK上下文
             LogbackContextInitializer.init(properties);
-            // 初始化线程池对象
-            PrintLogUtils.ThreadPoolLogHelper.init(context);
         }
     }
 

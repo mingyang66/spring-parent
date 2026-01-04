@@ -78,7 +78,7 @@ public class PrintLogUtils {
         private static final Logger PLATFORM = LoggerFactory.getModuleLogger(PrintLogUtils.class, "platform", "platform");
     }
 
-    public static class ThreadPoolLogHelper {
+    static class ThreadPoolLogHelper {
         private static ThreadPoolTaskExecutor taskExecutor;
 
         /**

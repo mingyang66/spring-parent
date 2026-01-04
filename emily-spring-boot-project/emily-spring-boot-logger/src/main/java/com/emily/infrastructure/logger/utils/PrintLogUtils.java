@@ -3,7 +3,6 @@ package com.emily.infrastructure.logger.utils;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.boot.task.ThreadPoolTaskExecutorBuilder;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.time.Duration;
@@ -83,9 +82,7 @@ public class PrintLogUtils {
         private static ThreadPoolTaskExecutor taskExecutor;
 
         /**
-         * 获取线程池
-         *
-         * @since 20230811 新增获取默认线程池
+         * 获取线程池 TaskExecutorConfigurations
          */
         static ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor() {
             if (Objects.nonNull(taskExecutor)) {

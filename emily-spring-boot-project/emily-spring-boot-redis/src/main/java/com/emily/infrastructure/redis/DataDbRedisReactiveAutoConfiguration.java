@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisReactiveAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -25,7 +26,7 @@ import reactor.core.publisher.Flux;
 import java.util.Map;
 
 /**
- * org.springframework.boot.data.redis.autoconfigure.DataRedisReactiveAutoConfiguration
+ * 配置源码{@link DataRedisReactiveAutoConfiguration}
  *
  * @author :  Emily
  * @since :  2023/9/25 21:51 PM

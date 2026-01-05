@@ -3,7 +3,6 @@ package com.emily.infrastructure.redis;
 import com.emily.infrastructure.redis.common.DataRedisInfo;
 import com.emily.infrastructure.redis.connection.DataDbLettuceConnectionConfiguration;
 import com.emily.infrastructure.redis.connection.DataDbPropertiesDataRedisConnectionDetails;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

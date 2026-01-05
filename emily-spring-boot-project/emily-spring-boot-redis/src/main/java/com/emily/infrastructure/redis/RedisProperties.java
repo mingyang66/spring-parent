@@ -32,7 +32,6 @@ public class RedisProperties extends DataRedisProperties {
     }
 
     @Override
-    @NonNull
     public Lettuce getLettuce() {
         return lettuce;
     }

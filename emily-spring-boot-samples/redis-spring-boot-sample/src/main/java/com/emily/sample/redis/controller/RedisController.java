@@ -65,15 +65,15 @@ public class RedisController {
 
     @GetMapping("api/redis/reactive")
     public String getInfo() {
-        DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().set("test", "你好", Duration.ofSeconds(100)).block();
-        DataRedisFactory.getReactiveStringRedisTemplate("test1").opsForValue().set("test", "你好", Duration.ofSeconds(100)).block();
-        reactiveStringRedisTemplate.opsForValue().set("test1", "你好1", Duration.ofSeconds(100)).block();
-        testReactiveStringRedisTemplate.opsForValue().set("test1", "你好2", Duration.ofSeconds(100)).block();
-        reactiveRedisTemplate.opsForValue().set("test3", "test3", Duration.ofSeconds(100)).block();
-        testReactiveRedisTemplate.opsForValue().set("test4", "test4", Duration.ofSeconds(100)).block();
-        reactiveRedisTemplate.opsForHash().put("test5","test5","test5").block();
-        reactiveRedisTemplate.opsForHash().put("test5","test6","test6").block();
-        return DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().get("test").subscribe().toString();
+        DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().set("test-reactive", "reactive-你好", Duration.ofSeconds(100)).block();
+        DataRedisFactory.getReactiveStringRedisTemplate("test1").opsForValue().set("test-reactive", "reactive-你好", Duration.ofSeconds(100)).block();
+        reactiveStringRedisTemplate.opsForValue().set("test1-reactive", "你好1", Duration.ofSeconds(100)).block();
+        testReactiveStringRedisTemplate.opsForValue().set("test1-reactive", "你好2", Duration.ofSeconds(100)).block();
+        reactiveRedisTemplate.opsForValue().set("test3-reactive", "test3", Duration.ofSeconds(100)).block();
+        testReactiveRedisTemplate.opsForValue().set("test4-reactive", "test4", Duration.ofSeconds(100)).block();
+        reactiveRedisTemplate.opsForHash().put("test5-reactive","test5","test5").block();
+        reactiveRedisTemplate.opsForHash().put("test5-reactive","test6","test6").block();
+        return DataRedisFactory.getReactiveStringRedisTemplate().opsForValue().get("test-reactive").subscribe().toString();
     }
 
     @GetMapping("getTest")

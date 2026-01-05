@@ -12,7 +12,7 @@ import org.springframework.core.Ordered;
  * @author Emily
  * @since 2020/09/22
  */
-public class DataRedisDbApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
+public class DataDbRedisApplicationContextInitializer implements ApplicationContextInitializer<@NonNull ConfigurableApplicationContext>, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 2;
@@ -21,9 +21,9 @@ public class DataRedisDbApplicationContextInitializer implements ApplicationCont
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         // 关闭LettuceConnectionConfiguration、JedisConnectionConfiguration自动化配置类
-        System.getProperties().put("spring.data.redis.client-type", "");
+        //System.getProperties().put("spring.data.redis.client-type", "");
         // 关闭消息监听器、仓储配置类开关
-        System.getProperties().put("spring.data.redis.repositories.enabled", false);
+        //System.getProperties().put("spring.data.redis.repositories.enabled", false);
         // 初始化容器应用程序上下文
         DataRedisFactory.register(applicationContext);
     }

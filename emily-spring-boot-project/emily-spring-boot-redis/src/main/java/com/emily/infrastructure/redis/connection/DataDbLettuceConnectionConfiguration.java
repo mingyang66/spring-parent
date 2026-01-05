@@ -83,7 +83,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         return builder.build();
     }
 
-    @Bean
+    @Bean(DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY)
     @Primary
     @ConditionalOnMissingBean({RedisConnectionFactory.class})
     @ConditionalOnThreading(Threading.PLATFORM)
@@ -107,7 +107,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         return beanFactory.getBean(StringUtils.join(this.getProperties().getDefaultConfig(), DataRedisInfo.REDIS_CONNECTION_FACTORY), LettuceConnectionFactory.class);
     }
 
-    @Bean
+    @Bean(name = DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY)
     @Primary
     @ConditionalOnMissingBean(RedisConnectionFactory.class)
     @ConditionalOnThreading(Threading.VIRTUAL)

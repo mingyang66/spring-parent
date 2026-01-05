@@ -34,13 +34,13 @@ import static com.emily.infrastructure.redis.common.SerializationUtils.stringSer
 
 /**
  * Redis多数据源配置，参考源码：LettuceConnectionConfiguration
- * {@link DataRedisAutoConfiguration}
+ * 原始配置类{@link DataRedisAutoConfiguration}
  *
  * @author Emily
  * @since 2021/07/11
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration(before = DataRedisAutoConfiguration.class)
+@AutoConfiguration
 @EnableConfigurationProperties(DataDbRedisProperties.class)
 @ConditionalOnProperty(prefix = DataDbRedisProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import({DataDbLettuceConnectionConfiguration.class})
@@ -51,7 +51,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
 
     public DataDbRedisAutoConfiguration(DataDbRedisProperties properties, DefaultListableBeanFactory beanFactory) {
         Assert.notNull(properties.getDefaultConfig(), "Redis默认标识不可为空");
-        Assert.notEmpty(properties.getConfig(),"Redis连接配置不存在");
+        Assert.notEmpty(properties.getConfig(), "Redis连接配置不存在");
         this.properties = properties;
         this.beanFactory = beanFactory;
     }

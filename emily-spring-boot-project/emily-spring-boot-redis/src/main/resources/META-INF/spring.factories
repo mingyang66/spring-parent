@@ -1,6 +1,6 @@
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.redis.initializer.DataRedisDbApplicationContextInitializer
+  com.emily.infrastructure.redis.initializer.DataDbRedisApplicationContextInitializer
 # Failure Analyzers
 org.springframework.boot.diagnostics.FailureAnalyzer=\
   com.emily.infrastructure.redis.diagnostics.analyzer.DataRedisIdentifierFailureAnalyzer

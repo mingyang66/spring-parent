@@ -44,7 +44,7 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
         this.beanFactory = beanFactory;
     }
 
-    @Bean
+    @Bean(name = DataRedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
@@ -67,7 +67,7 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
         return redisTemplate;
     }
 
-    @Bean
+    @Bean(name = DataRedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)

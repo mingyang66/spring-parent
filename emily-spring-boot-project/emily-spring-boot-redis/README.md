@@ -10,6 +10,10 @@
 
 ##### 二、属性配置
 
+- spring.emily.redis.default-config默认配置必须配置；
+- spring.emily.redis.config.test.client-type默认lettuce，默认只支持lettuce;
+- spring.emily.redis.config.test.protocol-version版本协议 RESP2（Redis 2 to Redis 5）、RESP3（Redis 6）
+
 ```properties
 # 是否开启Redis多数据源配置，默认：true
 spring.emily.redis.enabled=true

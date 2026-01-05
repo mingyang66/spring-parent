@@ -139,8 +139,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
             ClientResources clientResources) {
-        LettuceClientConfiguration clientConfiguration = getLettuceClientConfiguration(
-                clientConfigurationBuilderCustomizers, clientOptionsBuilderCustomizers, clientResources,
+        LettuceClientConfiguration clientConfiguration = getLettuceClientConfiguration(clientConfigurationBuilderCustomizers,
+                clientOptionsBuilderCustomizers,
+                clientResources,
                 properties);
         return switch (this.mode) {
             case STANDALONE ->

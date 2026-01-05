@@ -1,5 +1,5 @@
 ###-----
-基础库发布5.0.6
+基础库发布6.0.0
 Bug Fixes
 ###-----
 
@@ -9,6 +9,8 @@ Bug Fixes
 4. 新增参数校验注解@NoneOrBothEmpty标注字段全部不为空或全部为空；
 5. 新增参数校验注解@NotBothEmpty标注字段不全部为空；
 6. 新增IpUtils对IPV4转换数字，数字转换IP工具类；
+7. 重构redis sdk;
+8. 重构rabbit sdk;
    
 Dependency Upgrades
 

@@ -164,11 +164,10 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         };
     }
 
-    private LettuceClientConfiguration getLettuceClientConfiguration
-            (ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
-             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-             ClientResources clientResources,
-             RedisProperties properties) {
+    private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
+                                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
+                                                                     ClientResources clientResources,
+                                                                     RedisProperties properties) {
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = this.createBuilder(properties.getLettuce().getPool());
         SslBundle sslBundle = this.getSslBundle();
         this.applyProperties(builder, sslBundle, properties);
@@ -238,9 +237,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         return canonicalName.toString();
     }
 
-    private ClientOptions createClientOptions
-            (ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientConfigurationBuilderCustomizers, @Nullable SslBundle
-                    sslBundle, RedisProperties properties) {
+    private ClientOptions createClientOptions(ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientConfigurationBuilderCustomizers,
+                                              @Nullable SslBundle sslBundle,
+                                              RedisProperties properties) {
         ClientOptions.Builder builder = this.initializeClientOptionsBuilder(properties);
         Duration connectTimeout = properties.getConnectTimeout();
         if (connectTimeout != null) {

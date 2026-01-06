@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Role;
  * @since Created in 2022/6/2 4:58 下午
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration(before = RabbitAutoConfiguration.class)
+@AutoConfiguration
 @EnableConfigurationProperties(DataRabbitProperties.class)
 @ConditionalOnProperty(prefix = DataRabbitProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import({DataRabbitAnnotationDrivenConfiguration.class, DataRabbitMessagingTemplateConfiguration.class})

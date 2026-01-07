@@ -8,19 +8,20 @@ import com.emily.infrastructure.logger.event.LogEventType;
 import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.otter.infrastructure.servlet.RequestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Correlation;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 消息发送前对消息进行预处理
@@ -44,6 +45,8 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
     @Override
     @NonNull
     public Message postProcessMessage(@NonNull Message message, @Nullable Correlation correlation, @NonNull String exchange, @NonNull String routingKey) {
+        MessageProperties messageProperties = message.getMessageProperties();
+        String returnCorrelation = messageProperties.getHeader("spring_listener_return_correlation");
         context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
                 .systemNumber(LocalContextHolder.current().getSystemNumber())
                 .appType(LocalContextHolder.current().getAppType())
@@ -57,7 +60,7 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                         Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
                         Map.entry("Exchange", exchange),
                         Map.entry("RoutingKey", routingKey),
-                        Map.entry("spring_listener_return_correlation", Objects.requireNonNull(message.getMessageProperties().getHeader("spring_listener_return_correlation")))
+                        Map.entry("spring_listener_return_correlation", returnCorrelation == null ? StringUtils.EMPTY : returnCorrelation)
                 )))
         ));
 

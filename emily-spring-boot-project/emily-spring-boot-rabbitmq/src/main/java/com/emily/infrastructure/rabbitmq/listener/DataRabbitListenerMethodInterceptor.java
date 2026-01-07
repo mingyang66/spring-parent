@@ -10,8 +10,10 @@ import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.Nullable;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
@@ -34,6 +36,8 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
         try {
             Object[] args = invocation.getArguments();
             Message message = argToMessage(args);
+            MessageProperties messageProperties = message.getMessageProperties();
+            String returnCorrelation = messageProperties.getHeader("spring_listener_return_correlation");
             // 处理回退消息的逻辑
             context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
                     .systemNumber(LocalContextHolder.current().getSystemNumber())
@@ -50,7 +54,7 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                             Map.entry("ReceivedRoutingKey", Objects.requireNonNull(message.getMessageProperties().getReceivedRoutingKey())),
                             Map.entry("ConsumerQueue", Objects.requireNonNull(message.getMessageProperties().getConsumerQueue())),
                             Map.entry("ContentType", Objects.requireNonNull(message.getMessageProperties().getContentType())),
-                            Map.entry("spring_listener_return_correlation", Objects.requireNonNull(message.getMessageProperties().getHeader("spring_listener_return_correlation")))
+                            Map.entry("spring_listener_return_correlation", returnCorrelation == null ? StringUtils.EMPTY : returnCorrelation)
                     )))
             ));
             return invocation.proceed();

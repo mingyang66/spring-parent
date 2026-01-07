@@ -61,7 +61,6 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                 )))
         ));
 
-
         return MessagePostProcessor.super.postProcessMessage(message, correlation, exchange, routingKey);
     }
 }

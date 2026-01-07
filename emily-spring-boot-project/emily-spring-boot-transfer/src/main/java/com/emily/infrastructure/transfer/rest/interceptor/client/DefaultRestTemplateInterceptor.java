@@ -7,8 +7,8 @@ import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.event.EventType;
-import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
+import com.emily.infrastructure.logger.event.LogEventType;
+import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.transfer.rest.factory.HttpRequestFactory;
 import org.springframework.context.ApplicationContext;
@@ -84,7 +84,7 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
                     //响应时间
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
-            context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+            context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

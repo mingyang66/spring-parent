@@ -4,8 +4,8 @@ import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.event.EventType;
-import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
+import com.emily.infrastructure.logger.event.LogEventType;
+import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.otter.infrastructure.servlet.RequestUtils;
 import com.rabbitmq.client.Connection;
@@ -38,6 +38,6 @@ public class DataRabbitExceptionHandler extends StrictExceptionHandler {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
     }
 }

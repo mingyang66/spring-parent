@@ -6,6 +6,6 @@ package com.emily.infrastructure.logger.event;
  * @author :  Emily
  * @since :  2024/12/28 下午11:19
  */
-public enum EventType {
+public enum LogEventType {
     REQEUST, THIRD_PARTY, PLATFORM
 }

@@ -5,8 +5,8 @@ import com.emily.infrastructure.common.UUIDUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.event.EventType;
-import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
+import com.emily.infrastructure.logger.event.LogEventType;
+import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.helper.SystemNumberHelper;
 import com.otter.infrastructure.servlet.RequestUtils;
 import com.rabbitmq.client.ShutdownSignalException;
@@ -49,7 +49,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection);
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -68,7 +68,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Close [Called when a connection is closed]: " + connection);
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -87,7 +87,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("ShutDown [Called when a connection is force closed] " + signal.getMessage());
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -106,6 +106,6 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception));
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
     }
 }

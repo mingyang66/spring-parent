@@ -10,17 +10,17 @@ import org.springframework.util.Assert;
  * @author :  Emily
  * @since :  2024/12/278下午11:11
  */
-public class LoggerPrintApplicationEvent extends ApplicationEvent {
+public class LogPrintApplicationEvent extends ApplicationEvent {
     /**
      * 事件类型
      */
-    private final EventType eventType;
+    private final LogEventType eventType;
     /**
      * 日志对象
      */
     private final BaseLogger baseLogger;
 
-    public LoggerPrintApplicationEvent(EventType eventType, BaseLogger baseLogger) {
+    public LogPrintApplicationEvent(LogEventType eventType, BaseLogger baseLogger) {
         super(baseLogger);
         Assert.notNull(eventType, "eventType must not be null");
         Assert.notNull(baseLogger, "baseLogger must not be null");
@@ -32,7 +32,7 @@ public class LoggerPrintApplicationEvent extends ApplicationEvent {
         return baseLogger;
     }
 
-    public EventType getEventType() {
+    public LogEventType getEventType() {
         return eventType;
     }
 }

@@ -4,4 +4,4 @@ org.springframework.context.ApplicationContextInitializer=\
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\
-  com.emily.infrastructure.logger.event.LoggerPrintApplicationListener
+  com.emily.infrastructure.logger.event.LogPrintApplicationListener

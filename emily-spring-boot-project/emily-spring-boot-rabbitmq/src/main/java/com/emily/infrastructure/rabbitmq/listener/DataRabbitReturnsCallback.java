@@ -3,8 +3,8 @@ package com.emily.infrastructure.rabbitmq.listener;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.event.EventType;
-import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
+import com.emily.infrastructure.logger.event.LogEventType;
+import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.springframework.amqp.core.ReturnedMessage;
@@ -30,7 +30,7 @@ public class DataRabbitReturnsCallback implements RabbitTemplate.ReturnsCallback
     @Override
     public void returnedMessage(ReturnedMessage returned) {
         // 处理回退消息的逻辑
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.PLATFORM, new BaseLogger()
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
                 .systemNumber(LocalContextHolder.current().getSystemNumber())
                 .appType(LocalContextHolder.current().getAppType())
                 .appVersion(LocalContextHolder.current().getAppVersion())

@@ -6,8 +6,8 @@ import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.event.EventType;
-import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
+import com.emily.infrastructure.logger.event.LogEventType;
+import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.emily.infrastructure.tracing.holder.TracingPhase;
 import com.emily.infrastructure.web.filter.helper.MethodHelper;
@@ -126,7 +126,7 @@ public class GlobalExceptionCustomizer {
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件
-        context.publishEvent(new LoggerPrintApplicationEvent(EventType.REQEUST, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(LogEventType.REQEUST, baseLogger));
         //--------------------------后通知特殊条件判断-------------------------
         LocalContextHolder.unbind(true);
         if (LOG.isDebugEnabled()) {

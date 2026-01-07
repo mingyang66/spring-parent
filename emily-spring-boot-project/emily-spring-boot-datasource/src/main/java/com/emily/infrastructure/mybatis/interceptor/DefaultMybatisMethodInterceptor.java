@@ -6,8 +6,8 @@ import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
-import com.emily.infrastructure.logger.event.EventType;
-import com.emily.infrastructure.logger.event.LoggerPrintApplicationEvent;
+import com.emily.infrastructure.logger.event.LogEventType;
+import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.mybatis.helper.MethodHelper;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import jakarta.annotation.Nonnull;
@@ -60,7 +60,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //打印日志
-            context.publishEvent(new LoggerPrintApplicationEvent(EventType.THIRD_PARTY, baseLogger));
+            context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
             //非servlet上下文移除数据
             LocalContextHolder.unbind();
         }

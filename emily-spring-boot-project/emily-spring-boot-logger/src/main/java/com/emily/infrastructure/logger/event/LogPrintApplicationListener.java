@@ -11,14 +11,14 @@ import org.springframework.context.ApplicationListener;
  * @author :  Emily
  * @since :  2024/12/28 下午11:24
  */
-public class LoggerPrintApplicationListener implements ApplicationListener<@NonNull LoggerPrintApplicationEvent> {
+public class LogPrintApplicationListener implements ApplicationListener<@NonNull LogPrintApplicationEvent> {
     @Override
-    public void onApplicationEvent(LoggerPrintApplicationEvent event) {
-        if (EventType.REQEUST == event.getEventType()) {
+    public void onApplicationEvent(LogPrintApplicationEvent event) {
+        if (LogEventType.REQEUST == event.getEventType()) {
             PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(event.getBaseLogger()));
-        } else if (EventType.THIRD_PARTY == event.getEventType()) {
+        } else if (LogEventType.THIRD_PARTY == event.getEventType()) {
             PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(event.getBaseLogger()));
-        } else if (EventType.PLATFORM == event.getEventType()) {
+        } else if (LogEventType.PLATFORM == event.getEventType()) {
             PrintLogUtils.printPlatform(() -> JsonUtils.toJSONString(event.getBaseLogger()));
         }
     }

@@ -16,8 +16,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author :  Emily
@@ -45,8 +44,15 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                     .serverIp(RequestUtils.getServerIp())
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .url("RabbitMQ-Subscribe")
-                    .body("回退消息: " + new String(message.getBody(), StandardCharsets.UTF_8) +
-                            ", 属性: " + JsonUtils.toJSONString(message.getMessageProperties()))));
+                    .body(new HashMap<>(Map.ofEntries(
+                            Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
+                            Map.entry("ReceivedExchange", Objects.requireNonNull(message.getMessageProperties().getReceivedExchange())),
+                            Map.entry("ReceivedRoutingKey", Objects.requireNonNull(message.getMessageProperties().getReceivedRoutingKey())),
+                            Map.entry("ConsumerQueue", Objects.requireNonNull(message.getMessageProperties().getConsumerQueue())),
+                            Map.entry("ContentType", Objects.requireNonNull(message.getMessageProperties().getContentType())),
+                            Map.entry("spring_listener_return_correlation", Objects.requireNonNull(message.getMessageProperties().getHeader("spring_listener_return_correlation")))
+                    )))
+            ));
             return invocation.proceed();
         } finally {
             LocalContextHolder.unbind();

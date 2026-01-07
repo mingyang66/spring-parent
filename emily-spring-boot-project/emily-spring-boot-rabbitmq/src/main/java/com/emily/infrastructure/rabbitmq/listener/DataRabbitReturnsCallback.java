@@ -2,6 +2,7 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
+import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.event.LogEventType;
 import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
@@ -13,6 +14,8 @@ import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * RabbitMQ消息发送未找到合适的队列消息退回回调类
@@ -39,9 +42,12 @@ public class DataRabbitReturnsCallback implements RabbitTemplate.ReturnsCallback
                 .serverIp(RequestUtils.getServerIp())
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ-ReturnsCallback")
-                .body("回退消息: " + new String(returned.getMessage().getBody(), StandardCharsets.UTF_8) +
-                        ", 交换机: " + returned.getExchange() +
-                        ", 路由键: " + returned.getRoutingKey() +
-                        ", 原因: " + returned.getReplyText())));
+                .body(new HashMap<>(Map.ofEntries(
+                        Map.entry("Message", JsonUtils.toJSONString(new String(returned.getMessage().getBody(), StandardCharsets.UTF_8))),
+                        Map.entry("Exchange", returned.getExchange()),
+                        Map.entry("RoutingKey", returned.getRoutingKey()),
+                        Map.entry("ReplyText", returned.getReplyText())
+                )))
+        ));
     }
 }

@@ -18,6 +18,9 @@ import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 消息发送前对消息进行预处理
@@ -50,10 +53,14 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                 .serverIp(RequestUtils.getServerIp())
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ-Publish")
-                .body("回退消息: " + new String(message.getBody(), StandardCharsets.UTF_8) +
-                        ", 交换机: " + exchange +
-                        ", 路由键: " + routingKey +
-                        ", 消息属性: " + JsonUtils.toJSONString(message.getMessageProperties()))));
+                .body(new HashMap<>(Map.ofEntries(
+                        Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
+                        Map.entry("Exchange", exchange),
+                        Map.entry("RoutingKey", routingKey),
+                        Map.entry("spring_listener_return_correlation", Objects.requireNonNull(message.getMessageProperties().getHeader("spring_listener_return_correlation")))
+                )))
+        ));
+
 
         return MessagePostProcessor.super.postProcessMessage(message, correlation, exchange, routingKey);
     }

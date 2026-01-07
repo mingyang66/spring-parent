@@ -1,4 +1,4 @@
-package com.emily.infrastructure.rabbitmq.listener;
+package com.emily.infrastructure.rabbitmq.amqp;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.core.MessagePostProcessor;

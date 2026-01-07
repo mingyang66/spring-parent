@@ -4,7 +4,6 @@ import com.emily.infrastructure.rabbitmq.DataRabbitProperties;
 import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitMessagePostProcessor;
 import com.emily.infrastructure.rabbitmq.listener.DataRabbitReturnsCallback;
-import com.emily.infrastructure.rabbitmq.listener.DataRabbitTemplateCustomizer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

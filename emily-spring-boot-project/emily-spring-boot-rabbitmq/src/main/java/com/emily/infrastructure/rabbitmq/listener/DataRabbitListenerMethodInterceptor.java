@@ -1,11 +1,13 @@
 package com.emily.infrastructure.rabbitmq.listener;
 
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
 import com.emily.infrastructure.logback.entity.BaseLogger;
 import com.emily.infrastructure.logger.event.LogEventType;
 import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
+import com.emily.infrastructure.rabbitmq.common.DataRabbitInfo;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -14,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.Nullable;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
@@ -21,6 +24,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
+ * 消费端{@link RabbitListener}注解标记方法拦截器
+ *
  * @author :  Emily
  * @since :  2025/12/21 下午4:17
  */
@@ -37,8 +42,15 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
             Object[] args = invocation.getArguments();
             Message message = argToMessage(args);
             MessageProperties messageProperties = message.getMessageProperties();
-            String returnCorrelation = messageProperties.getHeader("spring_listener_return_correlation");
-            // 处理回退消息的逻辑
+            //回退消息唯一标识
+            String returnCorrelation = messageProperties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY);
+            //请求上下文唯一标识
+            String traceId = messageProperties.getHeader(HeaderInfo.TRACE_ID);
+            //串联式请求上下文唯一标识
+            if (StringUtils.isBlank(traceId)) {
+                LocalContextHolder.current().setTraceId(traceId);
+            }
+            //处理回退消息的逻辑
             context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
                     .systemNumber(LocalContextHolder.current().getSystemNumber())
                     .appType(LocalContextHolder.current().getAppType())

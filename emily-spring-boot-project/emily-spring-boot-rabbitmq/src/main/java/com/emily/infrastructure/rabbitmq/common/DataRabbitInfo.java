@@ -78,4 +78,6 @@ public class DataRabbitInfo {
 
     public static final String DIRECT_CONTAINER_CUSTOMIZER = "DirectContainerCustomizer";
     public static final String DEFAULT_DIRECT_CONTAINER_CUSTOMIZER = "directContainerCustomizer";
+
+    public static final String RETURN_CORRELATION_KEY = "spring_request_return_correlation";
 }

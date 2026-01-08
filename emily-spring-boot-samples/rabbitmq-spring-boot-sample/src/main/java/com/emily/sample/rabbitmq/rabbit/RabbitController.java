@@ -31,7 +31,6 @@ public class RabbitController {
     @GetMapping("api/rabbit/return")
     public void test() {
         rabbitTemplate.convertAndSend("emily.return", "return", new Message("nihao".getBytes(Charset.defaultCharset())));
-
         emilyRabbitTemplate.convertAndSend("emily.account", "account", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 
@@ -39,10 +38,8 @@ public class RabbitController {
     public void send() {
         //RabbitTemplate rabbitTemplate = RabbitMqFactory.getRabbitTemplate();
         rabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
-        System.out.println(rabbitTemplate.getUUID());
         //RabbitTemplate rabbitTemplateEmily = RabbitMqFactory.getRabbitTemplate("emily");
         emilyRabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
-        System.out.println(emilyRabbitTemplate.getUUID());
     }
 
     @GetMapping("api/rabbit/send1")

@@ -44,7 +44,8 @@
 - [emily-spring-boot-i18n多语言翻译组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-i18n/README.md)
 - [emily-spring-boot-rateLimiter限流组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-rateLimiter/README.md)
 - [emily-spring-boot-security加解密组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-security/README.md)
-- [emily-spring-boot-redis数据库多数据源组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-redis/README.md)
+- [emily-spring-boot-redis组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-redis/README.md)
+- [emily-spring-boot-rabbitmq组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-rabbitmq/README.md)
 
 
 ![架构图](https://github.com/mingyang66/spring-parent/blob/master/framework.png)

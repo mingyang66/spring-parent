@@ -1,6 +1,6 @@
 # 基础框架SDK
 
-> master分支是基于java17及springboot 3.x.x的版本，原来基于java11及springboot2.7.x版本的代码在java11分支
+> master分支是基于java21及springboot 3.5.9的版本，原来基于java11及springboot2.7.x版本的代码在java11分支
 
 - #### Maven’s Bill of Material (BOM)
 
@@ -12,7 +12,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-dependencies</artifactId>
-                <version>5.0.2</version>
+                <version>6.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -28,7 +28,7 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-spring-boot-parent</artifactId>
-        <version>5.0.2</version>
+        <version>6.0.0</version>
         <relativePath/>
     </parent>
 ```

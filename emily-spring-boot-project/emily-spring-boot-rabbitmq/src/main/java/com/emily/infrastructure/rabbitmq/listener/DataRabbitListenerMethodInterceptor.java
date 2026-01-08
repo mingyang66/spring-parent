@@ -47,7 +47,7 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
             //请求上下文唯一标识
             String traceId = messageProperties.getHeader(HeaderInfo.TRACE_ID);
             //串联式请求上下文唯一标识
-            if (StringUtils.isBlank(traceId)) {
+            if (StringUtils.isNotBlank(traceId)) {
                 LocalContextHolder.current().setTraceId(traceId);
             }
             //处理回退消息的逻辑

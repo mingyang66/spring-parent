@@ -64,7 +64,7 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                         Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
                         Map.entry("Exchange", exchange),
                         Map.entry("RoutingKey", routingKey),
-                        Map.entry("spring_listener_return_correlation", returnCorrelation == null ? StringUtils.EMPTY : returnCorrelation)
+                        Map.entry(DataRabbitInfo.RETURN_CORRELATION_KEY, returnCorrelation == null ? StringUtils.EMPTY : returnCorrelation)
                 )))
         ));
 

@@ -31,10 +31,7 @@ public class DataRabbitProperties {
      * 存储发送、退回、接收的消息到日志平台
      */
     private boolean storeLogMessages = true;
-    /**
-     * 监听器类型
-     */
-    private RabbitProperties.ContainerType listenerType = RabbitProperties.ContainerType.SIMPLE;
+
     /**
      * 连接工厂配置
      */
@@ -83,15 +80,7 @@ public class DataRabbitProperties {
     public void setStoreLogMessages(boolean storeLogMessages) {
         this.storeLogMessages = storeLogMessages;
     }
-
-    public RabbitProperties.ContainerType getListenerType() {
-        return listenerType;
-    }
-
-    public void setListenerType(RabbitProperties.ContainerType listenerType) {
-        this.listenerType = listenerType;
-    }
-
+    
     public static class Connection {
         /**
          * 设置TCP连接超时时间，默认：60000ms
@@ -109,6 +98,10 @@ public class DataRabbitProperties {
          * 启用或禁用拓扑恢复，默认：true【拓扑恢复功能可以帮助消费者重新声明之前定义的队列、交换机和绑定等拓扑结构】
          */
         private boolean topologyRecovery = true;
+        /**
+         * 监听器类型
+         */
+        private RabbitProperties.ContainerType listenerType = RabbitProperties.ContainerType.SIMPLE;
 
         public int getConnectionTimeout() {
             return connectionTimeout;
@@ -140,6 +133,14 @@ public class DataRabbitProperties {
 
         public void setTopologyRecovery(boolean topologyRecovery) {
             this.topologyRecovery = topologyRecovery;
+        }
+
+        public RabbitProperties.ContainerType getListenerType() {
+            return listenerType;
+        }
+
+        public void setListenerType(RabbitProperties.ContainerType listenerType) {
+            this.listenerType = listenerType;
         }
     }
 }

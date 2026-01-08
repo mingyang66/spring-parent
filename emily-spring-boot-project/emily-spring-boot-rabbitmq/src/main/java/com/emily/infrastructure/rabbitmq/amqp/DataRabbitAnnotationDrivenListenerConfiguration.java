@@ -36,7 +36,7 @@ public class DataRabbitAnnotationDrivenListenerConfiguration {
 
     @Bean(DataRabbitInfo.DEFAULT_SIMPLE_CONTAINER_CUSTOMIZER)
     @ConditionalOnMissingBean
-    @ConditionalOnExpression(value = "'${spring.emily.rabbit.listener-type:simple}' == 'simple' and '${spring.emily.rabbit.store-log-messages:true}' == 'true'")
+    @ConditionalOnExpression(value = "'${spring.emily.rabbit.connection.listener-type:simple}' == 'simple' and '${spring.emily.rabbit.store-log-messages:true}' == 'true'")
     public ContainerCustomizer<@NonNull SimpleMessageListenerContainer> simpleContainerCustomizer(ApplicationContext context) {
         ContainerCustomizer<@NonNull SimpleMessageListenerContainer> containerCustomizer = null;
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {
@@ -51,7 +51,7 @@ public class DataRabbitAnnotationDrivenListenerConfiguration {
 
     @Bean(DataRabbitInfo.DEFAULT_DIRECT_CONTAINER_CUSTOMIZER)
     @ConditionalOnMissingBean
-    @ConditionalOnExpression(value = "'${spring.emily.rabbit.listener-type:direct}' == 'direct' and '${spring.emily.rabbit.store-log-messages:true}' == 'true'")
+    @ConditionalOnExpression(value = "'${spring.emily.rabbit.connection.listener-type:direct}' == 'direct' and '${spring.emily.rabbit.store-log-messages:true}' == 'true'")
     public ContainerCustomizer<@NonNull DirectMessageListenerContainer> directContainerCustomizer(ApplicationContext context) {
         ContainerCustomizer<@NonNull DirectMessageListenerContainer> containerCustomizer = null;
         for (Map.Entry<String, RabbitProperties> entry : properties.getConfig().entrySet()) {

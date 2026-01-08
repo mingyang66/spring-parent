@@ -95,7 +95,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
             name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnProperty(
-            name = {"spring.emily.rabbit.listener-type"},
+            name = {"spring.emily.rabbit.connection.listener-type"},
             havingValue = "simple",
             matchIfMissing = true
     )
@@ -152,7 +152,7 @@ public class DataRabbitAnnotationDrivenConfiguration {
             name = {DataRabbitInfo.DEFAULT_RABBIT_LISTENER_CONTAINER_FACTORY}
     )
     @ConditionalOnProperty(
-            name = {"spring.emily.rabbit.listener-type"},
+            name = {"spring.emily.rabbit.connection.listener-type"},
             havingValue = "direct"
     )
     @DependsOn(value = {DataRabbitInfo.DEFAULT_RABBIT_CONNECTION_FACTORY, DataRabbitInfo.DEFAULT_DIRECT_RABBIT_LISTENER_CONTAINER_FACTORY_CONFIGURER})

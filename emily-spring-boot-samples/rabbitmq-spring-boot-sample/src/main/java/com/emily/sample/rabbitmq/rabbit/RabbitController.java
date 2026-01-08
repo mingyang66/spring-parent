@@ -36,8 +36,8 @@ public class RabbitController {
 
     @GetMapping("api/rabbit/send")
     public void send() {
-        rabbitTemplate.convertAndSend("emily.test1", "", new Message("nihao".getBytes(Charset.defaultCharset())));
-        emilyRabbitTemplate.convertAndSend("emily.test1", "", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
+        emilyRabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 
     @GetMapping("api/rabbit/send1")

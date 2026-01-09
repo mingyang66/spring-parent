@@ -1,26 +1,16 @@
 package com.emily.sample.request.entity;
 
+import java.util.List;
+
 /**
  * @author :  Emily
  * @since :  2024/10/25 下午2:31
  */
 public class User {
-    private Integer id;
-    private String name;
+    public Integer id;
+    public String name;
+    public boolean sex;
+    public String[] arrays;
+    public List<String> list;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

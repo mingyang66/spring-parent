@@ -53,54 +53,7 @@
 
 ------
 
-#### 
-
-#### 三、Redis多数据源组件
-
-- 属性配置
-
-```properties
-# 是否开启Redis多数据源配置，默认：true
-spring.emily.redis.enabled=true
-# Redis监控是否开启，默认：false
-spring.emily.redis.monitor-enabled=false
-# Redis监控固定间隔时间，默认：30s
-spring.emily.redis.monitor-fire-rate=10s
-# 是否开启连接校验，默认：false
-spring.emily.redis.validate-connection=false
-# 是否开启共享本地物理连接，默认：true
-spring.emily.redis.share-native-connection=true
-
-spring.emily.redis.config.default.client-type=lettuce
-spring.emily.redis.config.default.database=15
-spring.emily.redis.config.default.password=test12345
-spring.emily.redis.config.default.sentinel.master=xxx
-spring.emily.redis.config.default.sentinel.nodes=x.x.x.x:26380,x.x.x.x:26381,xx.x.x.x:26382
-# 读取超时时间
-spring.emily.redis.config.default.timeout=3000
-# 连接超时时间
-spring.emily.redis.config.default.connect-timeout=PT3S
-spring.emily.redis.config.default.lettuce.pool.enabled=true
-spring.emily.redis.config.default.lettuce.pool.max-active=8
-spring.emily.redis.config.default.lettuce.pool.max-idle=8
-#
-spring.emily.redis.config.default.lettuce.pool.min-idle=4
-spring.emily.redis.config.default.lettuce.pool.max-wait=-1
-# 每隔多少时间空闲线程驱逐器关闭多余的空闲连接，且保持最少空闲连接可用，同时min-idle要大于0
-spring.emily.redis.config.default.lettuce.pool.time-between-eviction-runs=PT0.1S
-
-spring.emily.redis.config.test.client-type=lettuce
-spring.emily.redis.config.test.database=15
-spring.emily.redis.config.test.password=xx
-spring.emily.redis.config.test.sentinel.master=xx
-spring.emily.redis.config.test.sentinel.nodes=x.x.x.x:26379,x.x.x.x:26379,x.x.x.x:26379
-spring.emily.redis.config.test.timeout=300
-spring.emily.redis.config.test.lettuce.pool.max-active=8
-spring.emily.redis.config.test.lettuce.pool.max-idle=8
-spring.emily.redis.config.test.lettuce.pool.min-idle=0
-spring.emily.redis.config.test.lettuce.pool.max-wait=-1
-```
-
+####
 
 
 #### 七、API路由设置组件

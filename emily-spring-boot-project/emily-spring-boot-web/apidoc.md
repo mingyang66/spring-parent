@@ -15,7 +15,7 @@ https://nodejs.org/en/download
 - 安装apiDoc
 
 ```java
-npm install -g apidoc
+npm install apidoc -g
 ```
 
 - 创建配置文件apidoc.json文件

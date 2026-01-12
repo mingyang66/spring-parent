@@ -13,7 +13,7 @@ public class UserController {
      * @api {get} /api/request/getUsername 获取用户姓名
      * @apiVersion 1.0.0
      * @apiName getUsername
-     * @apiGroup 用户请求控制器
+     * @apiGroup 1、用户请求控制器
      * @apiParam {String} [name] 用户名必填.
      * @apiSuccessExample 请求成功:
      * HTTP/1.1 200 OK
@@ -44,7 +44,7 @@ public class UserController {
      * @api {get} /api/v2/request/getUserById/:id 通过ID获取用户名
      * @apiVersion 1.0.0
      * @apiName getUserById
-     * @apiGroup 用户请求控制器
+     * @apiGroup 1、用户请求控制器
      * @apiParam {String} id 用户唯一标识 必填.
      * @apiSuccess {String} firstname 用户名
      * @apiSuccess {String} lastname 姓氏
@@ -65,7 +65,7 @@ public class UserController {
      * @api {POST} /api/request/getUserInfo 获取用户详细信息
      * @apiVersion 1.0.0
      * @apiName getUserInfo
-     * @apiGroup 用户请求控制器
+     * @apiGroup 1、用户请求控制器
      * @apiBody {Number} id 用户唯一标识
      * @apiBody {String=刘慈欣} name=刘婵 用户名
      * @apiBody {Boolean=true} sex 性别

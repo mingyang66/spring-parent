@@ -1,0 +1,9 @@
+{
+  "name": "Spring Boot API文档",
+  "version": "1.0.0",
+  "description": "用户管理系统接口文档",
+  "url": "http://localhost:8080/",
+  "title": "浏览器头",
+  "input": ["../../../../src/main/java/com/emily/sample/request/controller"],
+  "output": "src/main/resources/static/"
+}

@@ -8,6 +8,7 @@ import com.emily.infrastructure.logger.event.LogEventType;
 import com.emily.infrastructure.logger.event.LogPrintApplicationEvent;
 import com.emily.infrastructure.tracing.holder.LocalContextHolder;
 import com.otter.infrastructure.servlet.RequestUtils;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.ApplicationContext;
@@ -32,8 +33,9 @@ public class DataRabbitReturnsCallback implements RabbitTemplate.ReturnsCallback
 
     @Override
     public void returnedMessage(ReturnedMessage returned) {
+        MessageProperties properties = returned.getMessage().getMessageProperties();
         // 处理回退消息的逻辑
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.PLATFORM, new BaseLogger()
                 .systemNumber(LocalContextHolder.current().getSystemNumber())
                 .appType(LocalContextHolder.current().getAppType())
                 .appVersion(LocalContextHolder.current().getAppVersion())

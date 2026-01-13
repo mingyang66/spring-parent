@@ -78,7 +78,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //请求参数
                     .requestParams(AttributeInfo.PARAMS_BODY, MethodHelper.getMethodArgs(invocation));
             //异步记录接口响应信息
-            context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
+            context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
             //删除线程上下文中的数据，防止内存溢出
             FeignContextHolder.unbind();
             //非servlet上下文移除数据

@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rabbitmq.listener;
 
+import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -38,20 +39,19 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
 
     @Override
     public @Nullable Object invoke(MethodInvocation invocation) throws Throwable {
+        Object[] args = invocation.getArguments();
+        //消息
+        Message message = argToMessage(args);
+        //消息属性
+        MessageProperties properties = message.getMessageProperties();
+        //标记为容器上下文类别
+        LocalContextHolder.current().setServlet(true);
+        //串联式请求上下文唯一标识
+        if (StringUtils.isNotBlank(properties.getHeader(HeaderInfo.TRACE_ID))) {
+            LocalContextHolder.current().setTraceId(properties.getHeader(HeaderInfo.TRACE_ID));
+        }
         try {
-            Object[] args = invocation.getArguments();
-            Message message = argToMessage(args);
-            MessageProperties messageProperties = message.getMessageProperties();
-            //回退消息唯一标识
-            String returnCorrelation = messageProperties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY);
-            //请求上下文唯一标识
-            String traceId = messageProperties.getHeader(HeaderInfo.TRACE_ID);
-            //串联式请求上下文唯一标识
-            if (StringUtils.isNotBlank(traceId)) {
-                LocalContextHolder.current().setTraceId(traceId);
-            }
-            //处理回退消息的逻辑
-            context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
+            context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.PLATFORM, new BaseLogger()
                     .systemNumber(LocalContextHolder.current().getSystemNumber())
                     .appType(LocalContextHolder.current().getAppType())
                     .appVersion(LocalContextHolder.current().getAppVersion())
@@ -66,12 +66,26 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                             Map.entry("ReceivedRoutingKey", Objects.requireNonNull(message.getMessageProperties().getReceivedRoutingKey())),
                             Map.entry("ConsumerQueue", Objects.requireNonNull(message.getMessageProperties().getConsumerQueue())),
                             Map.entry("ContentType", Objects.requireNonNull(message.getMessageProperties().getContentType())),
-                            Map.entry("spring_listener_return_correlation", returnCorrelation == null ? StringUtils.EMPTY : returnCorrelation)
+                            Map.entry("spring_listener_return_correlation", Objects.requireNonNullElse(properties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY), StringUtils.EMPTY))
                     )))
             ));
             return invocation.proceed();
+        } catch (Throwable ex) {
+            context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.PLATFORM, new BaseLogger()
+                    .systemNumber(LocalContextHolder.current().getSystemNumber())
+                    .appType(LocalContextHolder.current().getAppType())
+                    .appVersion(LocalContextHolder.current().getAppVersion())
+                    .traceId(LocalContextHolder.current().getTraceId())
+                    .clientIp(LocalContextHolder.current().getClientIp())
+                    .serverIp(RequestUtils.getServerIp())
+                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .url("RabbitMQ-Subscribe")
+                    .body(new HashMap<>(Map.ofEntries(
+                            Map.entry("Message", PrintExceptionUtils.printErrorInfo(ex)))))
+            ));
+            throw ex;
         } finally {
-            LocalContextHolder.unbind();
+            LocalContextHolder.unbind(true);
         }
     }
 

@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * RabbitMQ生产端发送消息前对消息进行预处理，拦截发送消息内容
@@ -47,11 +48,10 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
     @Override
     @NonNull
     public Message postProcessMessage(@NonNull Message message, @Nullable Correlation correlation, @NonNull String exchange, @NonNull String routingKey) {
-        MessageProperties messageProperties = message.getMessageProperties();
+        MessageProperties properties = message.getMessageProperties();
         //消息请求头添加请求上下文唯一标识
-        messageProperties.setHeader(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
-        String returnCorrelation = messageProperties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY);
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.PLATFORM, new BaseLogger()
+        properties.setHeader(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.PLATFORM, new BaseLogger()
                 .systemNumber(LocalContextHolder.current().getSystemNumber())
                 .appType(LocalContextHolder.current().getAppType())
                 .appVersion(LocalContextHolder.current().getAppVersion())
@@ -64,7 +64,7 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                         Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
                         Map.entry("Exchange", exchange),
                         Map.entry("RoutingKey", routingKey),
-                        Map.entry(DataRabbitInfo.RETURN_CORRELATION_KEY, returnCorrelation == null ? StringUtils.EMPTY : returnCorrelation)
+                        Map.entry(DataRabbitInfo.RETURN_CORRELATION_KEY, Objects.requireNonNullElse(properties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY), StringUtils.EMPTY))
                 )))
         ));
 

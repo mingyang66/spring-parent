@@ -49,7 +49,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection);
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -68,7 +68,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Close [Called when a connection is closed]: " + connection);
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -87,7 +87,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("ShutDown [Called when a connection is force closed] " + signal.getMessage());
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 
     /**
@@ -106,6 +106,6 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception));
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 }

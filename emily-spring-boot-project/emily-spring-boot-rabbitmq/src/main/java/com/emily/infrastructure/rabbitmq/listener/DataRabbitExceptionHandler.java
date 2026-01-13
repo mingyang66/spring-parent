@@ -38,6 +38,6 @@ public class DataRabbitExceptionHandler extends StrictExceptionHandler {
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.THIRD_PARTY, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 }

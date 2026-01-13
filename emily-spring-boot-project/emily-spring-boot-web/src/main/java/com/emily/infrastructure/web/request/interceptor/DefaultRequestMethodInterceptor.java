@@ -93,7 +93,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             //API耗时--用于返回值耗时字段设置
             LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
             //异步记录接口响应信息
-            context.publishEvent(new LogPrintApplicationEvent(LogEventType.REQEUST, baseLogger));
+            context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.REQEUST, baseLogger));
             if (LOG.isDebugEnabled()) {
                 LOG.debug("接口日志记录拦截器：END<<============{}", baseLogger.getUrl());
             }

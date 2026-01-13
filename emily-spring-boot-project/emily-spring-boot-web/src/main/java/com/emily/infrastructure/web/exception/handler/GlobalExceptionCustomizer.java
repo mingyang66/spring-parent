@@ -126,7 +126,7 @@ public class GlobalExceptionCustomizer {
         //API耗时
         LocalContextHolder.current().setSpentTime(baseLogger.getSpentTime());
         //记录日志到文件
-        context.publishEvent(new LogPrintApplicationEvent(LogEventType.REQEUST, baseLogger));
+        context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.REQEUST, baseLogger));
         //--------------------------后通知特殊条件判断-------------------------
         LocalContextHolder.unbind(true);
         if (LOG.isDebugEnabled()) {

@@ -67,10 +67,10 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                     .url("RabbitMQ-Subscribe")
                     .body(new HashMap<>(Map.ofEntries(
                             Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
-                            Map.entry("ReceivedExchange", Objects.requireNonNull(message.getMessageProperties().getReceivedExchange())),
-                            Map.entry("ReceivedRoutingKey", Objects.requireNonNull(message.getMessageProperties().getReceivedRoutingKey())),
-                            Map.entry("ConsumerQueue", Objects.requireNonNull(message.getMessageProperties().getConsumerQueue())),
-                            Map.entry("ContentType", Objects.requireNonNull(message.getMessageProperties().getContentType())),
+                            Map.entry("ReceivedExchange", Objects.requireNonNullElse(properties.getReceivedExchange(), StringUtils.EMPTY)),
+                            Map.entry("ReceivedRoutingKey", Objects.requireNonNullElse(properties.getReceivedRoutingKey(), StringUtils.EMPTY)),
+                            Map.entry("ConsumerQueue", Objects.requireNonNullElse(properties.getConsumerQueue(), StringUtils.EMPTY)),
+                            Map.entry("ContentType", properties.getContentType()),
                             Map.entry("spring_listener_return_correlation", Objects.requireNonNullElse(properties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY), StringUtils.EMPTY))
                     )))
             ));

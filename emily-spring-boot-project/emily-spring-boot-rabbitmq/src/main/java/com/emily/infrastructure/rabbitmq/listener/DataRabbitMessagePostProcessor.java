@@ -51,11 +51,15 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
         MessageProperties properties = message.getMessageProperties();
         //消息请求头添加请求上下文唯一标识
         properties.setHeader(HeaderInfo.TRACE_ID, LocalContextHolder.current().getTraceId());
+        //链路追踪标记
+        properties.setHeader(HeaderInfo.TRACE_TAG, Objects.requireNonNullElse(properties.getHeader(HeaderInfo.TRACE_TAG), StringUtils.EMPTY));
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.PLATFORM, new BaseLogger()
                 .systemNumber(LocalContextHolder.current().getSystemNumber())
                 .appType(LocalContextHolder.current().getAppType())
                 .appVersion(LocalContextHolder.current().getAppVersion())
                 .traceId(LocalContextHolder.current().getTraceId())
+                .traceTag(Objects.requireNonNullElse(properties.getHeader(HeaderInfo.TRACE_TAG), StringUtils.EMPTY))
+                .traceTag(LocalContextHolder.current().getTraceTag())
                 .clientIp(LocalContextHolder.current().getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))

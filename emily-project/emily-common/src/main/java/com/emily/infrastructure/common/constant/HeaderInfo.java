@@ -32,6 +32,10 @@ public class HeaderInfo {
      */
     public static final String TRACE_ID = "traceId";
     /**
+     * 追踪标识
+     */
+    public static final String TRACE_TAG = "traceTag";
+    /**
      * 多语言头
      */
     public static final String LANGUAGE = "language";

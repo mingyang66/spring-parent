@@ -44,11 +44,15 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
         Message message = argToMessage(args);
         //消息属性
         MessageProperties properties = message.getMessageProperties();
-        //标记为容器上下文类别
+        //标记类别
         LocalContextHolder.current().setServlet(true);
-        //串联式请求上下文唯一标识
+        //追踪唯一标识
         if (StringUtils.isNotBlank(properties.getHeader(HeaderInfo.TRACE_ID))) {
             LocalContextHolder.current().setTraceId(properties.getHeader(HeaderInfo.TRACE_ID));
+        }
+        //追踪标记
+        if (StringUtils.isNotBlank(properties.getHeader(HeaderInfo.TRACE_TAG))) {
+            LocalContextHolder.current().setTraceTag(properties.getHeader(HeaderInfo.TRACE_TAG));
         }
         try {
             context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.PLATFORM, new BaseLogger()
@@ -56,6 +60,7 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                     .appType(LocalContextHolder.current().getAppType())
                     .appVersion(LocalContextHolder.current().getAppVersion())
                     .traceId(LocalContextHolder.current().getTraceId())
+                    .traceTag(LocalContextHolder.current().getTraceTag())
                     .clientIp(LocalContextHolder.current().getClientIp())
                     .serverIp(RequestUtils.getServerIp())
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
@@ -76,6 +81,7 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                     .appType(LocalContextHolder.current().getAppType())
                     .appVersion(LocalContextHolder.current().getAppVersion())
                     .traceId(LocalContextHolder.current().getTraceId())
+                    .traceTag(LocalContextHolder.current().getTraceTag())
                     .clientIp(LocalContextHolder.current().getClientIp())
                     .serverIp(RequestUtils.getServerIp())
                     .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))

@@ -19,6 +19,10 @@ public class BaseLogger {
      */
     private String traceId;
     /**
+     * 追踪标识
+     */
+    private String traceTag;
+    /**
      * 客户端IP
      */
     private String clientIp;
@@ -119,6 +123,14 @@ public class BaseLogger {
         this.traceId = traceId;
     }
 
+    public String getTraceTag() {
+        return traceTag;
+    }
+
+    public void setTraceTag(String traceTag) {
+        this.traceTag = traceTag;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -174,6 +186,11 @@ public class BaseLogger {
 
     public BaseLogger traceId(String traceId) {
         this.traceId = traceId;
+        return this;
+    }
+
+    public BaseLogger traceTag(String traceTag) {
+        this.traceTag = traceTag;
         return this;
     }
 

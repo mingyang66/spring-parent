@@ -14,6 +14,10 @@ public class TracingHolder {
      */
     private String traceId;
     /**
+     * 追踪标识
+     */
+    private String traceTag;
+    /**
      * 系统编号|标识
      */
     private String systemNumber;
@@ -92,6 +96,14 @@ public class TracingHolder {
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
+    }
+
+    public String getTraceTag() {
+        return traceTag;
+    }
+
+    public void setTraceTag(String traceTag) {
+        this.traceTag = traceTag;
     }
 
     public Instant getStartTime() {

@@ -77,7 +77,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //事务唯一编号
                     .traceId(LocalContextHolder.current().getTraceId())
                     //时间
-                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //客户端IP
                     .clientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP

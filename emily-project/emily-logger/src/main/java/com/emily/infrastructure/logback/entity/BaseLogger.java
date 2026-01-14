@@ -23,6 +23,10 @@ public class BaseLogger {
      */
     private String traceTag;
     /**
+     * 追踪时间
+     */
+    private String traceTime;
+    /**
      * 客户端IP
      */
     private String clientIp;
@@ -54,10 +58,7 @@ public class BaseLogger {
      * 请求参数
      */
     private Map<String, Object> requestParams = new HashMap<>();
-    /**
-     * 触发时间
-     */
-    private String triggerTime;
+
     /**
      * 耗时
      */
@@ -99,12 +100,12 @@ public class BaseLogger {
         this.spentTime = spentTime;
     }
 
-    public String getTriggerTime() {
-        return triggerTime;
+    public String getTraceTime() {
+        return traceTime;
     }
 
-    public void setTriggerTime(String triggerTime) {
-        this.triggerTime = triggerTime;
+    public void setTraceTime(String traceTime) {
+        this.traceTime = traceTime;
     }
 
     public Map<String, Object> getRequestParams() {
@@ -239,8 +240,8 @@ public class BaseLogger {
         return this;
     }
 
-    public BaseLogger triggerTime(String triggerTime) {
-        this.triggerTime = triggerTime;
+    public BaseLogger traceTime(String traceTime) {
+        this.traceTime = traceTime;
         return this;
     }
 

@@ -82,7 +82,7 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
                     //耗时
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start))
                     //响应时间
-                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
+                    .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS));
             //异步线程池记录日志
             context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
             //非servlet上下文移除数据

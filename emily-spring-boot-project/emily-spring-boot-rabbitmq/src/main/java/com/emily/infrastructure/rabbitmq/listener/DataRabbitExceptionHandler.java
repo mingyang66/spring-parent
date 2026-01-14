@@ -33,9 +33,9 @@ public class DataRabbitExceptionHandler extends StrictExceptionHandler {
         BaseLogger baseLogger = new BaseLogger()
                 .systemNumber(SystemNumberHelper.getSystemNumber())
                 .traceId(UUIDUtils.randomSimpleUUID())
+                .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .clientIp(RequestUtils.getClientIp())
                 .serverIp(RequestUtils.getServerIp())
-                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ")
                 .body("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));

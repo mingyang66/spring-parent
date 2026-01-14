@@ -59,9 +59,9 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                 .appVersion(LocalContextHolder.current().getAppVersion())
                 .traceId(LocalContextHolder.current().getTraceId())
                 .traceTag(Objects.requireNonNullElse(properties.getHeader(HeaderInfo.TRACE_TAG), StringUtils.EMPTY))
+                .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .clientIp(LocalContextHolder.current().getClientIp())
                 .serverIp(RequestUtils.getServerIp())
-                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ-Publish")
                 .body(new HashMap<>(Map.ofEntries(
                         Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),

@@ -116,7 +116,7 @@ public class GlobalExceptionCustomizer {
                 //版本号
                 .appVersion(LocalContextHolder.current().getAppVersion())
                 //触发时间
-                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求参数
                 .requestParams(getRequestParams(ex, request))
                 //响应体

@@ -60,7 +60,7 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     //系统标识
                     .systemNumber(LocalContextHolder.current().getSystemNumber())
                     //时间
-                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
+                    .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //客户端IP
                     .clientIp(LocalContextHolder.current().getClientIp())
                     //服务端IP
@@ -71,8 +71,6 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     .appVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start))
-                    //触发时间
-                    .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     //响应结果
                     .body(MethodHelper.getResult(response))
                     //请求参数

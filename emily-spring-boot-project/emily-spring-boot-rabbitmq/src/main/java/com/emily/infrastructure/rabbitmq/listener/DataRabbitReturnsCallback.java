@@ -39,9 +39,9 @@ public class DataRabbitReturnsCallback implements RabbitTemplate.ReturnsCallback
                 .appVersion(LocalContextHolder.current().getAppVersion())
                 .traceId(LocalContextHolder.current().getTraceId())
                 .traceTag(LocalContextHolder.current().getTraceTag())
+                .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .clientIp(LocalContextHolder.current().getClientIp())
                 .serverIp(RequestUtils.getServerIp())
-                .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 .url("RabbitMQ-ReturnsCallback")
                 .body(new HashMap<>(Map.ofEntries(
                         Map.entry("Message", JsonUtils.toJSONString(new String(returned.getMessage().getBody(), StandardCharsets.UTF_8))),

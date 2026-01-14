@@ -59,7 +59,6 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                 .appVersion(LocalContextHolder.current().getAppVersion())
                 .traceId(LocalContextHolder.current().getTraceId())
                 .traceTag(Objects.requireNonNullElse(properties.getHeader(HeaderInfo.TRACE_TAG), StringUtils.EMPTY))
-                .traceTag(LocalContextHolder.current().getTraceTag())
                 .clientIp(LocalContextHolder.current().getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .triggerTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))

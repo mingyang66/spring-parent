@@ -1,7 +1,9 @@
 package com.emily.sample.rabbitmq.rabbit;
 
+import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.rabbitmq.factory.DataRabbitFactory;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +38,8 @@ public class RabbitController {
 
     @GetMapping("api/rabbit/send")
     public void send() {
-        rabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
+        rabbitTemplate.convertAndSend("emily.test", "", MessageBuilder.withBody("nihao".getBytes(Charset.defaultCharset()))
+                .setHeader(HeaderInfo.TRACE_TAG, "60000986").build());
         emilyRabbitTemplate.convertAndSend("emily.test", "", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 

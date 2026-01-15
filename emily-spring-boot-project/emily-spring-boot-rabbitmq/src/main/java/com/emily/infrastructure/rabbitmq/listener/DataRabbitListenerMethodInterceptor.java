@@ -71,7 +71,7 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
                             Map.entry("ReceivedRoutingKey", Objects.requireNonNullElse(properties.getReceivedRoutingKey(), StringUtils.EMPTY)),
                             Map.entry("ConsumerQueue", Objects.requireNonNullElse(properties.getConsumerQueue(), StringUtils.EMPTY)),
                             Map.entry("ContentType", properties.getContentType()),
-                            Map.entry("spring_listener_return_correlation", Objects.requireNonNullElse(properties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY), StringUtils.EMPTY))
+                            Map.entry(DataRabbitInfo.RETURN_CORRELATION_KEY, Objects.requireNonNullElse(properties.getHeader(DataRabbitInfo.RETURN_CORRELATION_KEY), StringUtils.EMPTY))
                     )))
             ));
             return invocation.proceed();

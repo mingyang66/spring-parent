@@ -36,6 +36,8 @@
 - [maven相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/MAVEN.md)
 - [git相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/GIT.md)
 - [apidoc文档生成操作手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-web/apidoc.md)
+- [定制基于Java21的JDK docker镜像](https://github.com/mingyang66/spring-parent/blob/master/doc/docker/%E5%AE%9A%E5%88%B6java21%E9%95%9C%E5%83%8F.md)
+- [定制基于Java21的maven docker镜像](https://github.com/mingyang66/spring-parent/blob/master/doc/docker/%E5%AE%9A%E5%88%B6%E5%9F%BA%E4%BA%8Ejava21%E7%9A%84maven%E9%95%9C%E5%83%8F.md)
 - [emily-captcha图形验证码组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-project/emily-captcha/README.md)
 - [emily-spring-boot-desensitize方法返回值和日志脱敏组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-desensitize/README.md)
 - [emily-spring-boot-tracing全链路日志追踪组件SDK使用手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-tracing/README.md)

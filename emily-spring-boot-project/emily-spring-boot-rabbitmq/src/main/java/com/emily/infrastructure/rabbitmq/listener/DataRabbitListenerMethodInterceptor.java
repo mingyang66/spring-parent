@@ -39,9 +39,8 @@ public class DataRabbitListenerMethodInterceptor implements MethodInterceptor {
 
     @Override
     public @Nullable Object invoke(MethodInvocation invocation) throws Throwable {
-        Object[] args = invocation.getArguments();
         //消息
-        Message message = argToMessage(args);
+        Message message = argToMessage(invocation.getArguments());
         //消息属性
         MessageProperties properties = message.getMessageProperties();
         //标记类别

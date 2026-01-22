@@ -153,7 +153,7 @@ public class GlobalExceptionCustomizer {
                         //获取请求头
                         Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
                         //获取Body请求参数
-                        Map.entry(AttributeInfo.OUT_PARAMS, MethodHelper.getResult(bindException.getTarget())),
+                        Map.entry(AttributeInfo.OUT_PARAMS, Objects.requireNonNullElse(MethodHelper.getResult(bindException.getTarget()), null)),
                         //获取Get、POST等URL后缀请求参数
                         Map.entry(AttributeInfo.URL, RequestUtils.getParameters(request))
                 ));

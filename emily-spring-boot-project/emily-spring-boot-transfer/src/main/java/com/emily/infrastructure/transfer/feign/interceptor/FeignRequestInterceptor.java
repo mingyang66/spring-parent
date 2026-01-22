@@ -32,7 +32,7 @@ public class FeignRequestInterceptor implements RequestInterceptor, PriorityOrde
                 //请求url
                 .url(String.format("%s%s", StringUtils.rightPad(template.feignTarget().url(), 1, CharacterInfo.PATH_SEPARATOR), RegExUtils.replaceFirst(template.url(), CharacterInfo.PATH_SEPARATOR, "")))
                 //请求参数
-                .requestParams(AttributeInfo.HEADERS, template.headers());
+                .params(AttributeInfo.HEADERS, template.headers());
         // 将日志信息放入请求对象
         FeignContextHolder.bind(baseLogger);
     }

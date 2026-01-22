@@ -55,7 +55,7 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .clientIp(LocalContextHolder.current().getClientIp())
                     .serverIp(LocalContextHolder.current().getServerIp())
-                    .requestParams(params)
+                    .params(params)
                     .body(result)
                     .url(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start));

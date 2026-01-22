@@ -57,7 +57,7 @@ public class BaseLogger {
     /**
      * 请求参数
      */
-    private Map<String, Object> requestParams = new HashMap<>();
+    private Map<String, Object> params = new HashMap<>();
 
     /**
      * 耗时
@@ -108,12 +108,12 @@ public class BaseLogger {
         this.traceTime = traceTime;
     }
 
-    public Map<String, Object> getRequestParams() {
-        return requestParams;
+    public Map<String, Object> getParams() {
+        return params;
     }
 
-    public void setRequestParams(Map<String, Object> requestParams) {
-        this.requestParams = requestParams;
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
     }
 
     public String getTraceId() {
@@ -230,13 +230,13 @@ public class BaseLogger {
         return this;
     }
 
-    public BaseLogger requestParams(Map<String, Object> requestParams) {
-        this.requestParams = requestParams;
+    public BaseLogger params(Map<String, Object> params) {
+        this.params = params;
         return this;
     }
 
-    public BaseLogger requestParams(String key, Object value) {
-        this.requestParams.put(key, value);
+    public BaseLogger params(String key, Object value) {
+        this.params.put(key, value);
         return this;
     }
 

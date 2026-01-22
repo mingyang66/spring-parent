@@ -118,7 +118,7 @@ public class GlobalExceptionCustomizer {
                 //触发时间
                 .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求参数
-                .requestParams(getRequestParams(ex, request))
+                .params(getRequestParams(ex, request))
                 //响应体
                 .body(PrintExceptionUtils.printErrorInfo(ex))
                 //耗时(未处理任何逻辑)

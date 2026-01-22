@@ -56,7 +56,7 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
                 //请求URL
                 .url(request.getURI().toString())
                 //请求参数
-                .requestParams(HttpRequestFactory.getArgs(request.getHeaders(), body));
+                .params(HttpRequestFactory.getArgs(request.getHeaders(), body));
         //开始计时
         Instant start = Instant.now();
         try {

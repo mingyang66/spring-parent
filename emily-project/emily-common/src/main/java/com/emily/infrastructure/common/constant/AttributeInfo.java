@@ -9,7 +9,6 @@ package com.emily.infrastructure.common.constant;
 public class AttributeInfo {
     public static final String OUT_PARAMS = "outParams";
     public static final String IN_PARAMS = "inParams";
-    public static final String PARAMS_URL = "params_url";
-
+    public static final String URL = "url";
     public static final String HEADERS = "headers";
 }

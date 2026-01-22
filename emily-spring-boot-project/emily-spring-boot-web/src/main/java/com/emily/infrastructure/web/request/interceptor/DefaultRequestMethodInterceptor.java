@@ -115,7 +115,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         }
         if (response instanceof ResponseEntity<?> entity) {
             if (entity.getStatusCode().is2xxSuccessful()) {
-                baseLogger.body(MethodHelper.getResult(entity.getBody()));
+                baseLogger.outParams(AttributeInfo.OUT_PARAMS, MethodHelper.getResult(entity.getBody()));
                 return entity;
             }
             Map<?, ?> dataMap = JsonUtils.toJavaBean(JsonUtils.toJSONString(entity.getBody()), Map.class);
@@ -125,11 +125,11 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
             BaseResponse<Object> baseResponse = new BaseResponse<>()
                     .status(entity.getStatusCode().value())
                     .message(dataMap.get("error").toString());
-            baseLogger.body(baseResponse);
+            baseLogger.outParams(AttributeInfo.OUT_PARAMS, baseResponse);
             return new ResponseEntity<>(baseResponse, entity.getHeaders(), entity.getStatusCode());
         }
         // 设置响应体
-        baseLogger.body(MethodHelper.getResult(response));
+        baseLogger.outParams(AttributeInfo.OUT_PARAMS, MethodHelper.getResult(response));
         return response;
     }
 

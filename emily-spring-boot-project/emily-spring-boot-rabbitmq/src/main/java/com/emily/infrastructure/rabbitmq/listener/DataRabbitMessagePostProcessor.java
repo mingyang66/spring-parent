@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rabbitmq.listener;
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -63,7 +64,7 @@ public class DataRabbitMessagePostProcessor implements MessagePostProcessor {
                 .clientIp(LocalContextHolder.current().getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ-Publish")
-                .body(new HashMap<>(Map.ofEntries(
+                .outParams(AttributeInfo.OUT_PARAMS, new HashMap<>(Map.ofEntries(
                         Map.entry("Message", JsonUtils.toJSONString(new String(message.getBody(), StandardCharsets.UTF_8))),
                         Map.entry("Exchange", exchange),
                         Map.entry("RoutingKey", routingKey),

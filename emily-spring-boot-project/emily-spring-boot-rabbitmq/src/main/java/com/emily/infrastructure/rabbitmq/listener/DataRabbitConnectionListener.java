@@ -2,6 +2,7 @@ package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.common.UUIDUtils;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
@@ -48,7 +49,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .clientIp(RequestUtils.getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ")
-                .body("Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection);
+                .outParams(AttributeInfo.OUT_PARAMS, "Created new connection [Called when a new connection is established]: " + connectionFactory.toString() + "/" + connection);
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 
@@ -67,7 +68,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .clientIp(RequestUtils.getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ")
-                .body("Close [Called when a connection is closed]: " + connection);
+                .outParams(AttributeInfo.OUT_PARAMS, "Close [Called when a connection is closed]: " + connection);
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 
@@ -86,7 +87,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .clientIp(RequestUtils.getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ")
-                .body("ShutDown [Called when a connection is force closed] " + signal.getMessage());
+                .outParams(AttributeInfo.OUT_PARAMS, "ShutDown [Called when a connection is force closed] " + signal.getMessage());
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 
@@ -105,7 +106,7 @@ public class DataRabbitConnectionListener implements ConnectionListener {
                 .clientIp(RequestUtils.getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ")
-                .body("Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception));
+                .outParams(AttributeInfo.OUT_PARAMS, "Failed [Called when a connection couldn't be established] " + PrintExceptionUtils.printErrorInfo(exception));
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 }

@@ -118,9 +118,9 @@ public class GlobalExceptionCustomizer {
                 //触发时间
                 .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                 //请求参数
-                .params(getRequestParams(ex, request))
+                .inParams(getRequestParams(ex, request))
                 //响应体
-                .body(PrintExceptionUtils.printErrorInfo(ex))
+                .outParams(AttributeInfo.OUT_PARAMS, PrintExceptionUtils.printErrorInfo(ex))
                 //耗时(未处理任何逻辑)
                 .spentTime(DateComputeUtils.minusMillis(Instant.now(), LocalContextHolder.current().getStartTime()));
         //API耗时
@@ -153,7 +153,7 @@ public class GlobalExceptionCustomizer {
                         //获取请求头
                         Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
                         //获取Body请求参数
-                        Map.entry(AttributeInfo.PARAMS_BODY, MethodHelper.getResult(bindException.getTarget())),
+                        Map.entry(AttributeInfo.OUT_PARAMS, MethodHelper.getResult(bindException.getTarget())),
                         //获取Get、POST等URL后缀请求参数
                         Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
                 ));

@@ -55,18 +55,18 @@ public class BaseLogger {
      */
     private String message;
     /**
-     * 请求参数
-     */
-    private Map<String, Object> params = new HashMap<>();
-
-    /**
      * 耗时
      */
     private long spentTime;
     /**
+     * 请求参数
+     */
+    private Map<String, Object> inParams = new HashMap<>();
+
+    /**
      * 响应结果
      */
-    private Object body;
+    private Map<String, Object> outParams = new HashMap<>();
 
     public String getAppType() {
         return appType;
@@ -108,12 +108,12 @@ public class BaseLogger {
         this.traceTime = traceTime;
     }
 
-    public Map<String, Object> getParams() {
-        return params;
+    public Map<String, Object> getInParams() {
+        return inParams;
     }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
+    public void setInParams(Map<String, Object> inParams) {
+        this.inParams = inParams;
     }
 
     public String getTraceId() {
@@ -140,12 +140,12 @@ public class BaseLogger {
         this.url = url;
     }
 
-    public Object getBody() {
-        return body;
+    public Map<String, Object> getOutParams() {
+        return outParams;
     }
 
-    public void setBody(Object body) {
-        this.body = body;
+    public void setOutParams(Map<String, Object> outParams) {
+        this.outParams = outParams;
     }
 
     public String getClientIp() {
@@ -230,16 +230,6 @@ public class BaseLogger {
         return this;
     }
 
-    public BaseLogger params(Map<String, Object> params) {
-        this.params = params;
-        return this;
-    }
-
-    public BaseLogger params(String key, Object value) {
-        this.params.put(key, value);
-        return this;
-    }
-
     public BaseLogger traceTime(String traceTime) {
         this.traceTime = traceTime;
         return this;
@@ -250,8 +240,23 @@ public class BaseLogger {
         return this;
     }
 
-    public BaseLogger body(Object body) {
-        this.body = body;
+    public BaseLogger inParams(Map<String, Object> inParams) {
+        this.inParams = inParams;
+        return this;
+    }
+
+    public BaseLogger inParams(String key, Object value) {
+        this.inParams.put(key, value);
+        return this;
+    }
+
+    public BaseLogger outParams(Map<String, Object> params) {
+        this.outParams.putAll(params);
+        return this;
+    }
+
+    public BaseLogger outParams(String key, Object value) {
+        this.outParams.put(key, value);
         return this;
     }
 }

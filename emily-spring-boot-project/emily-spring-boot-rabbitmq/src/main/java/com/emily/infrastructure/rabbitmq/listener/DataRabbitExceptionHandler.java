@@ -1,6 +1,7 @@
 package com.emily.infrastructure.rabbitmq.listener;
 
 import com.emily.infrastructure.common.UUIDUtils;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.logback.entity.BaseLogger;
@@ -37,7 +38,7 @@ public class DataRabbitExceptionHandler extends StrictExceptionHandler {
                 .clientIp(RequestUtils.getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ")
-                .body("An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
+                .outParams(AttributeInfo.OUT_PARAMS, "An unexpected connection driver error occurred" + " (Exception message: " + exception.getMessage() + ")");
         context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
     }
 }

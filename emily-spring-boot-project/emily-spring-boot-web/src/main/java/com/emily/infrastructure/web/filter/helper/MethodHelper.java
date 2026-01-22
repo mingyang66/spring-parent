@@ -45,7 +45,7 @@ public class MethodHelper {
                 //获取请求头
                 Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
                 //获取Body请求参数
-                Map.entry(AttributeInfo.PARAMS_BODY, getMethodArgs(invocation)),
+                Map.entry(AttributeInfo.OUT_PARAMS, getMethodArgs(invocation)),
                 //获取Get、POST等URL后缀请求参数
                 Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
         ));
@@ -68,7 +68,7 @@ public class MethodHelper {
                 //获取请求头
                 Map.entry(AttributeInfo.HEADERS, RequestUtils.getHeaders(request)),
                 //获取Body请求参数
-                Map.entry(AttributeInfo.PARAMS_BODY, paramMap),
+                Map.entry(AttributeInfo.OUT_PARAMS, paramMap),
                 //获取Get、POST等URL后缀请求参数
                 Map.entry(AttributeInfo.PARAMS_URL, RequestUtils.getParameters(request))
         ));

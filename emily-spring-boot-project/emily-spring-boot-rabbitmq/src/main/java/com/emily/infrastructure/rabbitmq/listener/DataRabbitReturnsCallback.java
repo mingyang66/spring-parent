@@ -1,5 +1,6 @@
 package com.emily.infrastructure.rabbitmq.listener;
 
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
 import com.emily.infrastructure.json.JsonUtils;
@@ -43,7 +44,7 @@ public class DataRabbitReturnsCallback implements RabbitTemplate.ReturnsCallback
                 .clientIp(LocalContextHolder.current().getClientIp())
                 .serverIp(RequestUtils.getServerIp())
                 .url("RabbitMQ-ReturnsCallback")
-                .body(new HashMap<>(Map.ofEntries(
+                .outParams(AttributeInfo.OUT_PARAMS, new HashMap<>(Map.ofEntries(
                         Map.entry("Message", JsonUtils.toJSONString(new String(returned.getMessage().getBody(), StandardCharsets.UTF_8))),
                         Map.entry("Exchange", returned.getExchange()),
                         Map.entry("RoutingKey", returned.getRoutingKey()),

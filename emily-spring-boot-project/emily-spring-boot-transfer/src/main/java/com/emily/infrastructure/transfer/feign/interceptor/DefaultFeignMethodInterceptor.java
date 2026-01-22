@@ -71,10 +71,10 @@ public class DefaultFeignMethodInterceptor implements FeignCustomizer {
                     .appVersion(LocalContextHolder.current().getAppVersion())
                     //耗时
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start))
-                    //响应结果
-                    .body(MethodHelper.getResult(response))
                     //请求参数
-                    .params(AttributeInfo.PARAMS_BODY, MethodHelper.getMethodArgs(invocation));
+                    .inParams(AttributeInfo.IN_PARAMS, MethodHelper.getMethodArgs(invocation))
+                    //响应结果
+                    .outParams(AttributeInfo.OUT_PARAMS,MethodHelper.getResult(response));
             //异步记录接口响应信息
             context.publishEvent(new LogPrintApplicationEvent(context, LogEventType.THIRD_PARTY, baseLogger));
             //删除线程上下文中的数据，防止内存溢出

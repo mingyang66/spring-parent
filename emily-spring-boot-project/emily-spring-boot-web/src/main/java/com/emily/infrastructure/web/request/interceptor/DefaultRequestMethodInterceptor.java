@@ -3,6 +3,7 @@ package com.emily.infrastructure.web.request.interceptor;
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.ObjectUtils;
 import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -55,7 +56,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
         //设置当前阶段标识，标记后如果发生异常，全局异常处理控制器不会记录日志
         LocalContextHolder.current().setTracingPhase(TracingPhase.CONTROLLER);
         //封装异步日志信息
-        BaseLogger baseLogger = new BaseLogger().params(MethodHelper.getApiArgs(invocation, RequestUtils.getRequest()));
+        BaseLogger baseLogger = new BaseLogger().inParams(MethodHelper.getApiArgs(invocation, RequestUtils.getRequest()));
         try {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("接口日志记录拦截器：START============>>{}", FilterUtil.getRequestPath(RequestUtils.getRequest()));
@@ -70,7 +71,7 @@ public class DefaultRequestMethodInterceptor implements RequestCustomizer {
                     //响应描述
                     .message((ex instanceof BasicException) ? ex.getMessage() : ApplicationStatus.EXCEPTION.getMessage())
                     //异常响应体
-                    .body(PrintExceptionUtils.printErrorInfo(ex));
+                    .outParams(AttributeInfo.OUT_PARAMS, PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             baseLogger.systemNumber(LocalContextHolder.current().getSystemNumber())

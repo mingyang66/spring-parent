@@ -2,6 +2,7 @@ package com.emily.infrastructure.mybatis.interceptor;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
 import com.emily.infrastructure.date.DatePatternInfo;
@@ -55,8 +56,8 @@ public class DefaultMybatisMethodInterceptor implements MybatisCustomizer {
                     .traceTime(DateConvertUtils.format(LocalDateTime.now(), DatePatternInfo.YYYY_MM_DD_HH_MM_SS_SSS))
                     .clientIp(LocalContextHolder.current().getClientIp())
                     .serverIp(LocalContextHolder.current().getServerIp())
-                    .params(params)
-                    .body(result)
+                    .inParams(params)
+                    .outParams(AttributeInfo.OUT_PARAMS, result)
                     .url(MessageFormat.format("{0}.{1}", invocation.getMethod().getDeclaringClass().getCanonicalName(), invocation.getMethod().getName()))
                     .spentTime(DateComputeUtils.minusMillis(Instant.now(), start));
             //打印日志

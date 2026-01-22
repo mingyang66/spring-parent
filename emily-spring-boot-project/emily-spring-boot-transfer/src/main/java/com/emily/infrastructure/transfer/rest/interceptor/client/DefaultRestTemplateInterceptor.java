@@ -2,6 +2,7 @@ package com.emily.infrastructure.transfer.rest.interceptor.client;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.PrintExceptionUtils;
+import com.emily.infrastructure.common.constant.AttributeInfo;
 import com.emily.infrastructure.common.constant.HeaderInfo;
 import com.emily.infrastructure.date.DateComputeUtils;
 import com.emily.infrastructure.date.DateConvertUtils;
@@ -56,19 +57,19 @@ public class DefaultRestTemplateInterceptor implements RestTemplateCustomizer {
                 //请求URL
                 .url(request.getURI().toString())
                 //请求参数
-                .params(HttpRequestFactory.getArgs(request.getHeaders(), body));
+                .inParams(HttpRequestFactory.getArgs(request.getHeaders(), body));
         //开始计时
         Instant start = Instant.now();
         try {
             //调用接口
             ClientHttpResponse response = execution.execute(request, body);
             //响应结果
-            baseLogger.body(HttpRequestFactory.getResponseBody(StreamUtils.copyToByteArray(response.getBody())));
+            baseLogger.outParams(AttributeInfo.OUT_PARAMS, HttpRequestFactory.getResponseBody(StreamUtils.copyToByteArray(response.getBody())));
 
             return response;
         } catch (IOException ex) {
             //响应结果
-            baseLogger.body(PrintExceptionUtils.printErrorInfo(ex));
+            baseLogger.outParams(AttributeInfo.OUT_PARAMS, PrintExceptionUtils.printErrorInfo(ex));
             throw ex;
         } finally {
             //客户端IP

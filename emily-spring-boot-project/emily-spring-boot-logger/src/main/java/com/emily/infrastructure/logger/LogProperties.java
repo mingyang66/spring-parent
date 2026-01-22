@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Emily
  * @since :  Created in 2023/7/6 7:50 PM
  */
-@ConfigurationProperties(prefix = LoggerProperties.PREFIX)
-public class LoggerProperties extends LogbackProperties {
+@ConfigurationProperties(prefix = LogProperties.PREFIX)
+public class LogProperties extends LogbackProperties {
     /**
      * 前缀
      */

@@ -17,7 +17,7 @@ import java.util.function.Supplier;
  * @author :  Emily
  * @since :  2024/1/1 4:12 PM
  */
-public class PrintLogUtils {
+public class LogPrintUtils {
     /**
      * 记录请求日志
      *
@@ -73,9 +73,9 @@ public class PrintLogUtils {
     }
 
     static class LogHolder {
-        private static final Logger REQUEST = LoggerFactory.getModuleLogger(PrintLogUtils.class, "request", "request");
-        private static final Logger THIRDPARTY = LoggerFactory.getModuleLogger(PrintLogUtils.class, "thirdParty", "thirdParty");
-        private static final Logger PLATFORM = LoggerFactory.getModuleLogger(PrintLogUtils.class, "platform", "platform");
+        private static final Logger REQUEST = LoggerFactory.getModuleLogger(LogPrintUtils.class, "request", "request");
+        private static final Logger THIRDPARTY = LoggerFactory.getModuleLogger(LogPrintUtils.class, "thirdParty", "thirdParty");
+        private static final Logger PLATFORM = LoggerFactory.getModuleLogger(LogPrintUtils.class, "platform", "platform");
     }
 
     static class ThreadPoolLogHelper {

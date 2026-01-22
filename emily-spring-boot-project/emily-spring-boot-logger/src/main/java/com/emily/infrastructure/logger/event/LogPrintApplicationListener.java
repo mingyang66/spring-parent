@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logger.event;
 
 import com.emily.infrastructure.json.JsonUtils;
-import com.emily.infrastructure.logger.utils.PrintLogUtils;
+import com.emily.infrastructure.logger.utils.LogPrintUtils;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -29,11 +29,11 @@ public class LogPrintApplicationListener implements ApplicationListener<@NonNull
             return;
         }
         if (LogEventType.REQEUST == event.getEventType()) {
-            PrintLogUtils.printRequest(() -> JsonUtils.toJSONString(event.getBaseLogger()));
+            LogPrintUtils.printRequest(() -> JsonUtils.toJSONString(event.getBaseLogger()));
         } else if (LogEventType.THIRD_PARTY == event.getEventType()) {
-            PrintLogUtils.printThirdParty(() -> JsonUtils.toJSONString(event.getBaseLogger()));
+            LogPrintUtils.printThirdParty(() -> JsonUtils.toJSONString(event.getBaseLogger()));
         } else if (LogEventType.PLATFORM == event.getEventType()) {
-            PrintLogUtils.printPlatform(() -> JsonUtils.toJSONString(event.getBaseLogger()));
+            LogPrintUtils.printPlatform(() -> JsonUtils.toJSONString(event.getBaseLogger()));
         }
     }
 

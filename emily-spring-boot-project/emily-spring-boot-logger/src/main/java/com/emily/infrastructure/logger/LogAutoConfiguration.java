@@ -17,11 +17,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @since : 2020/08/08
  */
 @AutoConfiguration
-@EnableConfigurationProperties(LoggerProperties.class)
-@ConditionalOnProperty(prefix = LoggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class LoggerAutoConfiguration implements InitializingBean, DisposableBean {
+@EnableConfigurationProperties(LogProperties.class)
+@ConditionalOnProperty(prefix = LogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+public class LogAutoConfiguration implements InitializingBean, DisposableBean {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LoggerAutoConfiguration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LogAutoConfiguration.class);
 
     @Override
     public void destroy() {

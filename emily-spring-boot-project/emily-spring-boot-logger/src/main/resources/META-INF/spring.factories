@@ -1,6 +1,6 @@
 #Initializers
 org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.logger.initializer.LogbackApplicationContextInitializer
+  com.emily.infrastructure.logger.initializer.LogApplicationContextInitializer
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\

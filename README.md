@@ -33,8 +33,8 @@
     </parent>
 ```
 
-- [maven相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/MAVEN.md)
-- [git相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/GIT.md)
+- [maven相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/doc/%E4%B8%AD%E9%97%B4%E4%BB%B6/maven/MAVEN.md)
+- [git相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/doc/%E4%B8%AD%E9%97%B4%E4%BB%B6/git/GIT.md)
 - [apidoc文档生成操作手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-web/apidoc.md)
 - [docker镜像-定制基于Java21的JDK镜像](https://github.com/mingyang66/spring-parent/blob/master/doc/docker/%E5%AE%9A%E5%88%B6java21%E9%95%9C%E5%83%8F.md)
 - [docker镜像-定制基于Java21的maven镜像](https://github.com/mingyang66/spring-parent/blob/master/doc/docker/%E5%AE%9A%E5%88%B6%E5%9F%BA%E4%BA%8Ejava21%E7%9A%84maven%E9%95%9C%E5%83%8F.md)

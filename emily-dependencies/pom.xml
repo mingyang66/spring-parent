@@ -15,24 +15,21 @@
     <description>Bill Of Material</description>
 
     <properties>
-        <spring-boot.version>4.0.1</spring-boot.version>
+        <spring-boot.version>4.0.2</spring-boot.version>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
-        <spring-shell.version>3.4.1</spring-shell.version>
+        <spring-shell.version>4.0.0</spring-shell.version>
         <spring.mybatis.version>4.0.1</spring.mybatis.version>
         <alibaba.druid.version>1.2.27</alibaba.druid.version>
         <commons-io.version>2.21.0</commons-io.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
         <google-guava.version>33.5.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
-        <jackson-bom.version>3.0.3</jackson-bom.version>
         <junit-jupiter.version>6.0.1</junit-jupiter.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <logback.version>1.5.22</logback.version>
         <slf4j.version>2.0.17</slf4j.version>
         <jansi.version>2.4.2</jansi.version>
-        <knife4j.version>4.5.0</knife4j.version>
         <bcprov-jdk18on.version>1.83</bcprov-jdk18on.version>
-        <mockito.version>5.20.0</mockito.version>
     </properties>
 
     <dependencyManagement>
@@ -237,30 +234,6 @@
                 <groupId>org.fusesource.jansi</groupId>
                 <artifactId>jansi</artifactId>
                 <version>${jansi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

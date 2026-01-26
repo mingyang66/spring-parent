@@ -21,12 +21,9 @@
         <spring.mybatis.version>4.0.1</spring.mybatis.version>
         <alibaba.druid.version>1.2.27</alibaba.druid.version>
         <commons-io.version>2.21.0</commons-io.version>
-        <commons-lang3.version>3.19.0</commons-lang3.version>
         <google-guava.version>33.5.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
         <java-jwt.version>4.4.0</java-jwt.version>
-        <logback.version>1.5.25</logback.version>
-        <slf4j.version>2.0.17</slf4j.version>
         <jansi.version>2.4.2</jansi.version>
         <bcprov-jdk18on.version>1.83</bcprov-jdk18on.version>
     </properties>
@@ -213,21 +210,6 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
                 <version>${bcprov-jdk18on.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.fusesource.jansi</groupId>

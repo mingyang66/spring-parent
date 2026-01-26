@@ -24,9 +24,8 @@
         <commons-lang3.version>3.19.0</commons-lang3.version>
         <google-guava.version>33.5.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
-        <junit-jupiter.version>6.0.1</junit-jupiter.version>
         <java-jwt.version>4.4.0</java-jwt.version>
-        <logback.version>1.5.22</logback.version>
+        <logback.version>1.5.25</logback.version>
         <slf4j.version>2.0.17</slf4j.version>
         <jansi.version>2.4.2</jansi.version>
         <bcprov-jdk18on.version>1.83</bcprov-jdk18on.version>

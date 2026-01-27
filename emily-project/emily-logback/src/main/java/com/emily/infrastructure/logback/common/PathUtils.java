@@ -30,7 +30,7 @@ public class PathUtils {
      * @return 格式化后的url
      */
     public static String normalizePath(String path) {
-        if (path == null || path.length() == 0) {
+        if (path == null || path.isEmpty()) {
             return StrUtils.EMPTY;
         }
         String normalizedPath = path;

@@ -12,8 +12,8 @@ public enum LogbackType {
     GROUP(2, "分组日志"),
     MODULE(3, "模块日志");
 
-    private Integer code;
-    private String desc;
+    private final Integer code;
+    private final String desc;
 
     LogbackType(Integer code, String desc) {
         this.code = code;

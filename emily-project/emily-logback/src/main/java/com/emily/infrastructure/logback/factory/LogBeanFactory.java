@@ -12,7 +12,10 @@ import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
-import com.emily.infrastructure.logback.configuration.filter.LogbackFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogAcceptMarkerFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogDenyMarkerFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
 import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackFixedWindowRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
@@ -21,7 +24,9 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认容器工厂类
@@ -29,11 +34,11 @@ import java.util.Optional;
  * @author :  Emily
  * @since :  2024/1/1 9:47 AM
  */
-public class DefaultLogbackBeanFactory {
+public class LogBeanFactory {
     private static final List<AbstractRollingPolicy> POLICIES = new ArrayList<>(3);
     private static final List<AbstractLogback> LOGGERS = new ArrayList<>(3);
     private static final List<LogbackPatternLayoutEncoder> ENCODERS = new ArrayList<>(1);
-    private static final List<LogbackFilter> FILTERS = new ArrayList<>(1);
+    private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(256);
 
     public static void registerBean(LoggerContext lc, LogbackProperties properties) {
         POLICIES.add(new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
@@ -46,7 +51,16 @@ public class DefaultLogbackBeanFactory {
 
         ENCODERS.add(new LogbackPatternLayoutEncoder(lc));
 
-        FILTERS.add(new LogbackFilter(lc));
+
+        beanMap.putIfAbsent(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(lc));
+        beanMap.putIfAbsent(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(lc));
+        beanMap.putIfAbsent(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(lc));
+        beanMap.putIfAbsent(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(lc));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getBean(Class<T> clazz) {
+        return (T) beanMap.get(clazz.getSimpleName());
     }
 
     /**
@@ -87,14 +101,5 @@ public class DefaultLogbackBeanFactory {
      */
     public static PatternLayoutEncoder getEncoder(String pattern) {
         return ENCODERS.get(0).getEncoder(pattern);
-    }
-
-    /**
-     * 获取Filter对象
-     *
-     * @return
-     */
-    public static LogbackFilter getFilter() {
-        return FILTERS.get(0);
     }
 }

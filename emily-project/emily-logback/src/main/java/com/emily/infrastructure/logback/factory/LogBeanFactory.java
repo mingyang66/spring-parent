@@ -1,7 +1,6 @@
 package com.emily.infrastructure.logback.factory;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
@@ -37,7 +36,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LogBeanFactory {
     private static final List<AbstractRollingPolicy> POLICIES = new ArrayList<>(3);
     private static final List<AbstractLogback> LOGGERS = new ArrayList<>(3);
-    private static final List<LogbackPatternLayoutEncoder> ENCODERS = new ArrayList<>(1);
     private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(256);
 
     public static void registerBean(LoggerContext lc, LogbackProperties properties) {
@@ -49,8 +47,7 @@ public class LogBeanFactory {
         LOGGERS.add(new LogbackModule(lc, properties));
         LOGGERS.add(new LogbackRoot(lc, properties));
 
-        ENCODERS.add(new LogbackPatternLayoutEncoder(lc));
-
+        beanMap.putIfAbsent(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(lc));
 
         beanMap.putIfAbsent(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(lc));
         beanMap.putIfAbsent(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(lc));
@@ -91,15 +88,5 @@ public class LogBeanFactory {
             return logback.get().getLogger(commonKeys);
         }
         throw new IllegalArgumentException("非法参数");
-    }
-
-    /**
-     * 获取Encoder对象
-     *
-     * @param pattern 输出样式
-     * @return 编码器对象
-     */
-    public static PatternLayoutEncoder getEncoder(String pattern) {
-        return ENCODERS.get(0).getEncoder(pattern);
     }
 }

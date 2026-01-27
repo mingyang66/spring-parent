@@ -9,6 +9,7 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.common.StrUtils;
+import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
@@ -76,7 +77,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置过滤器
         appender.addFilter(LogBeanFactory.getBean(LogLevelFilter.class).getFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogBeanFactory.getEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();

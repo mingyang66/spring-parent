@@ -13,7 +13,6 @@ import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.slf4j.Logger;
 
 import static com.emily.infrastructure.logback.common.CommonCache.APPENDER;
-import static com.emily.infrastructure.logback.common.CommonCache.LOGGER;
 
 /**
  * 日志类 logback+slf4j
@@ -94,17 +93,13 @@ public class ContextServiceProvider implements ContextProvider {
                 .withLogbackType(logbackType)
                 .build();
         // 获取Logger对象
-        Logger logger = LOGGER.get(commonKeys.getLoggerName());
+        Logger logger = LogBeanFactory.getBean(commonKeys.getLoggerName());
         if (logger == null) {
             synchronized (ContextServiceProvider.class) {
-                if (logger == null) {
-                    // 获取logger日志对象
-                    logger = LogBeanFactory.getLogger(commonKeys);
-                    // 存入缓存
-                    LOGGER.putIfAbsent(commonKeys.getLoggerName(), logger);
-                } else {
-                    logger = LOGGER.get(commonKeys.getLoggerName());
-                }
+                // 获取logger日志对象
+                logger = LogBeanFactory.getLogger(commonKeys);
+                // 存入缓存
+                LogBeanFactory.registerBean(commonKeys.getLoggerName(), logger);
             }
         }
         return logger;
@@ -125,7 +120,7 @@ public class ContextServiceProvider implements ContextProvider {
                 .withLogbackType(LogbackType.ROOT)
                 .build());
         // 将root添加到缓存
-        LOGGER.put(Logger.ROOT_LOGGER_NAME, rootLogger);
+        LogBeanFactory.registerBean(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
     /**
@@ -136,7 +131,7 @@ public class ContextServiceProvider implements ContextProvider {
     public void stopAndReset() {
         lc.stop();
         lc.reset();
-        LOGGER.clear();
+        LogBeanFactory.clear();
         APPENDER.clear();
     }
 }

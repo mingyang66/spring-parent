@@ -55,9 +55,22 @@ public class LogBeanFactory {
         beanMap.putIfAbsent(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(lc));
     }
 
+    public static void registerBean(String beanName, Object bean) {
+        beanMap.putIfAbsent(beanName, bean);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T getBean(Class<T> clazz) {
         return (T) beanMap.get(clazz.getSimpleName());
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getBean(String beanName) {
+        return (T) beanMap.get(beanName);
+    }
+
+    public static void clear() {
+        beanMap.clear();
     }
 
     /**

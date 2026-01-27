@@ -2,7 +2,6 @@ package com.emily.infrastructure.logback.common;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import org.slf4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,10 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since :  Created in 2023/7/2 5:31 PM
  */
 public class CommonCache {
-    /**
-     * Logger对象容器
-     */
-    public static final Map<String, Logger> LOGGER = new ConcurrentHashMap<>();
     /**
      * Appender实例对象缓存
      */

@@ -6,9 +6,18 @@ import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.CommonNames;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
+import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
+import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
+import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logback.configuration.context.ConfigurationAction;
+import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogAcceptMarkerFilter;
 import com.emily.infrastructure.logback.configuration.filter.LogDenyMarkerFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
+import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
+import com.emily.infrastructure.logback.configuration.policy.LogbackFixedWindowRollingPolicy;
+import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
+import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.slf4j.Logger;
@@ -39,7 +48,20 @@ public class ContextServiceProvider implements ContextProvider {
         this.lc = lc;
         this.properties = properties;
         // 注册日志对象
-        LogBeanFactory.registerBean(lc, properties);
+        LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(lc, properties));
+        LogBeanFactory.registerBean(LogbackModule.class.getSimpleName(), new LogbackModule(lc, properties));
+        LogBeanFactory.registerBean(LogbackRoot.class.getSimpleName(), new LogbackRoot(lc, properties));
+
+        LogBeanFactory.registerBean(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
+        LogBeanFactory.registerBean(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(lc, properties));
+        LogBeanFactory.registerBean(LogbackFixedWindowRollingPolicy.class.getSimpleName(), new LogbackFixedWindowRollingPolicy(lc, properties));
+
+        LogBeanFactory.registerBean(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(lc));
+
+        LogBeanFactory.registerBean(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(lc));
+        LogBeanFactory.registerBean(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(lc));
+        LogBeanFactory.registerBean(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(lc));
+        LogBeanFactory.registerBean(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(lc));
         // 开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(lc, properties);
         configuration.start();

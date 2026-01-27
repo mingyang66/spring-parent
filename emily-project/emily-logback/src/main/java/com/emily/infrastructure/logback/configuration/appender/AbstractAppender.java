@@ -4,8 +4,7 @@ package com.emily.infrastructure.logback.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-
-import static com.emily.infrastructure.logback.common.CommonCache.APPENDER;
+import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 /**
  * Appender抽象类
@@ -24,9 +23,9 @@ public abstract class AbstractAppender {
         //appender名称重新拼接
         String appenderName = this.resolveName(level);
         //如果已经存在，则忽略，否则添加
-        APPENDER.putIfAbsent(appenderName, this.getAppender(level));
+        LogBeanFactory.registerBean(appenderName, this.getAppender(level));
         // return appender object
-        return APPENDER.get(appenderName);
+        return LogBeanFactory.getBean(appenderName);
     }
 
     /**

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @since :  2024/1/1 9:47 AM
  */
 public class LogBeanFactory {
-    private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(256);
+    private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(64);
 
     public static void registerBean(LoggerContext lc, LogbackProperties properties) {
         beanMap.putIfAbsent(LogbackGroup.class.getSimpleName(), new LogbackGroup(lc, properties));

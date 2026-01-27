@@ -13,8 +13,6 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.slf4j.Logger;
 
-import static com.emily.infrastructure.logback.common.CommonCache.APPENDER;
-
 /**
  * 日志类 logback+slf4j
  *
@@ -133,6 +131,5 @@ public class ContextServiceProvider implements ContextProvider {
         lc.stop();
         lc.reset();
         LogBeanFactory.clear();
-        APPENDER.clear();
     }
 }

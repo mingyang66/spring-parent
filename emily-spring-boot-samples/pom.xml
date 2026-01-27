@@ -13,7 +13,6 @@
     <artifactId>emily-spring-boot-samples</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>demo-emily-spring-cloud</module>
         <module>web-emily-spring-sample</module>
         <module>sqlite-spring-boot-sample</module>
         <module>websocket-spring-boot-sample</module>
@@ -31,6 +30,7 @@
         <module>rateLimiter-spring-boot-sample</module>
         <module>shell-spring-boot-starter</module>
         <module>rabbitmq-spring-boot-sample</module>
+        <module>logger-spring-boot-sample</module>
     </modules>
 
 </project>

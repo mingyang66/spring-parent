@@ -1,9 +1,6 @@
 package com.emily.infrastructure.logback.factory;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.rolling.RollingFileAppender;
-import ch.qos.logback.core.rolling.RollingPolicy;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
@@ -15,17 +12,14 @@ import com.emily.infrastructure.logback.configuration.filter.LogAcceptMarkerFilt
 import com.emily.infrastructure.logback.configuration.filter.LogDenyMarkerFilter;
 import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
-import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackFixedWindowRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 默认容器工厂类
@@ -34,18 +28,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since :  2024/1/1 9:47 AM
  */
 public class LogBeanFactory {
-    private static final List<AbstractRollingPolicy> POLICIES = new ArrayList<>(3);
     private static final List<AbstractLogback> LOGGERS = new ArrayList<>(3);
     private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(256);
 
     public static void registerBean(LoggerContext lc, LogbackProperties properties) {
-        POLICIES.add(new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
-        POLICIES.add(new LogbackTimeBasedRollingPolicy(lc, properties));
-        POLICIES.add(new LogbackFixedWindowRollingPolicy(lc, properties));
-
         LOGGERS.add(new LogbackGroup(lc, properties));
         LOGGERS.add(new LogbackModule(lc, properties));
         LOGGERS.add(new LogbackRoot(lc, properties));
+
+        beanMap.putIfAbsent(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
+        beanMap.putIfAbsent(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(lc, properties));
+        beanMap.putIfAbsent(LogbackFixedWindowRollingPolicy.class.getSimpleName(), new LogbackFixedWindowRollingPolicy(lc, properties));
 
         beanMap.putIfAbsent(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(lc));
 
@@ -65,28 +58,17 @@ public class LogBeanFactory {
     }
 
     @SuppressWarnings("unchecked")
+    public static <T> Set<T> getBeans(Class<T> clazz) {
+        return (Set<T>) beanMap.values().stream().filter(l -> clazz.isAssignableFrom(l.getClass())).collect(Collectors.toSet());
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T> T getBean(String beanName) {
         return (T) beanMap.get(beanName);
     }
 
     public static void clear() {
         beanMap.clear();
-    }
-
-    /**
-     * 获取RollingPolicy对象
-     *
-     * @param appender      文件输出对象
-     * @param loggerPath    文件路径
-     * @param rollingPolicy 滚动策略对象
-     * @return 滚动策略对象
-     */
-    public static RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath, LogbackProperties.RollingPolicy rollingPolicy) {
-        Optional<AbstractRollingPolicy> policy = POLICIES.stream().filter(l -> l.support(rollingPolicy.getType())).findFirst();
-        if (policy.isPresent()) {
-            return policy.get().getRollingPolicy(appender, loggerPath);
-        }
-        throw new IllegalArgumentException("not support rolling policy type: " + rollingPolicy + " , please check your configuration");
     }
 
     /**

@@ -35,32 +35,16 @@ public class CommonKeys {
         return loggerName;
     }
 
-    public void setLoggerName(String loggerName) {
-        this.loggerName = loggerName;
-    }
-
     public String getFilePath() {
         return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
     public LogbackType getLogbackType() {
         return logbackType;
-    }
-
-    public void setLogbackType(LogbackType logbackType) {
-        this.logbackType = logbackType;
     }
 
     public static class Builder {
@@ -103,10 +87,10 @@ public class CommonKeys {
 
         public CommonKeys build() {
             CommonKeys property = new CommonKeys();
-            property.setLoggerName(this.loggerName);
-            property.setFilePath(this.filePath);
-            property.setFileName(this.fileName);
-            property.setLogbackType(this.logbackType);
+            property.loggerName = this.loggerName;
+            property.filePath = this.filePath;
+            property.fileName = this.fileName;
+            property.logbackType = this.logbackType;
             return property;
         }
     }

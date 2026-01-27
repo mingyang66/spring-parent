@@ -9,7 +9,7 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.common.StrUtils;
-import com.emily.infrastructure.logback.configuration.context.LogbackBeanFactory;
+import com.emily.infrastructure.logback.factory.DefaultLogbackBeanFactory;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 
 import java.io.File;
@@ -62,7 +62,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
-        appender.setRollingPolicy(LogbackBeanFactory.getRollingPolicy(appender, loggerPath, rp));
+        appender.setRollingPolicy(DefaultLogbackBeanFactory.getRollingPolicy(appender, loggerPath, rp));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(lc);
@@ -73,9 +73,9 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
-        appender.addFilter(LogbackBeanFactory.getFilter().getLevelFilter(level));
+        appender.addFilter(DefaultLogbackBeanFactory.getFilter().getLevelFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogbackBeanFactory.getEncoder(this.resolveFilePattern()));
+        appender.setEncoder(DefaultLogbackBeanFactory.getEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();

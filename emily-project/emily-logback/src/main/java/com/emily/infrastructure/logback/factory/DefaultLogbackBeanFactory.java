@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.configuration.context;
+package com.emily.infrastructure.logback.factory;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
@@ -29,7 +29,7 @@ import java.util.Optional;
  * @author :  Emily
  * @since :  2024/1/1 9:47 AM
  */
-public class LogbackBeanFactory {
+public class DefaultLogbackBeanFactory {
     private static final List<AbstractRollingPolicy> POLICIES = new ArrayList<>(3);
     private static final List<AbstractLogback> LOGGERS = new ArrayList<>(3);
     private static final List<LogbackPatternLayoutEncoder> ENCODERS = new ArrayList<>(1);

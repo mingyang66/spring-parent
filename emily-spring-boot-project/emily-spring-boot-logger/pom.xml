@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>
-            <artifactId>emily-logger</artifactId>
+            <artifactId>emily-logback</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.mingyang66</groupId>

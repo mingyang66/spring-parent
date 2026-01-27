@@ -9,7 +9,7 @@ open module emily.spring.boot.logger {
     requires org.slf4j;
     requires spring.beans;
     requires spring.boot.autoconfigure;
-    requires emily.logger;
+    requires emily.logback;
     requires emily.json;
     requires org.jspecify;
 

@@ -18,6 +18,6 @@
         <module>emily-jwt</module>
         <module>emily-date</module>
         <module>emily-common</module>
-        <module>emily-logger</module>
+        <module>emily-logback</module>
     </modules>
 </project>

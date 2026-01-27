@@ -6,7 +6,7 @@ import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.CommonNames;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.configuration.context.ConfigurationAction;
-import com.emily.infrastructure.logback.configuration.context.LogbackBeanFactory;
+import com.emily.infrastructure.logback.factory.DefaultLogbackBeanFactory;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import org.slf4j.Logger;
 
@@ -39,17 +39,17 @@ public class ContextServiceProvider implements ContextProvider {
         this.lc = lc;
         this.properties = properties;
         // 注册日志对象
-        LogbackBeanFactory.registerBean(lc, properties);
+        DefaultLogbackBeanFactory.registerBean(lc, properties);
         // 开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(lc, properties);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> {
-            lc.addTurboFilter(LogbackBeanFactory.getFilter().getAcceptMarkerFilter(marker));
+            lc.addTurboFilter(DefaultLogbackBeanFactory.getFilter().getAcceptMarkerFilter(marker));
         });
         //全局过滤器，拒绝标记的日志记录到文件中
         properties.getMarker().getDenyMarker().forEach((marker) -> {
-            lc.addTurboFilter(LogbackBeanFactory.getFilter().getDenyMarkerFilter(marker));
+            lc.addTurboFilter(DefaultLogbackBeanFactory.getFilter().getDenyMarkerFilter(marker));
         });
         start();
     }
@@ -97,7 +97,7 @@ public class ContextServiceProvider implements ContextProvider {
             synchronized (ContextServiceProvider.class) {
                 if (logger == null) {
                     // 获取logger日志对象
-                    logger = LogbackBeanFactory.getLogger(commonKeys);
+                    logger = DefaultLogbackBeanFactory.getLogger(commonKeys);
                     // 存入缓存
                     LOGGER.putIfAbsent(commonKeys.getLoggerName(), logger);
                 } else {
@@ -114,7 +114,7 @@ public class ContextServiceProvider implements ContextProvider {
     @Override
     public void start() {
         // 获取root logger对象
-        Logger rootLogger = LogbackBeanFactory.getLogger(CommonKeys.newBuilder()
+        Logger rootLogger = DefaultLogbackBeanFactory.getLogger(CommonKeys.newBuilder()
                 // logger name
                 .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path

@@ -5,6 +5,7 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.CommonKeys;
 import com.emily.infrastructure.logback.common.CommonNames;
 import com.emily.infrastructure.logback.common.PathUtils;
+import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logback.configuration.context.ConfigurationAction;
 import com.emily.infrastructure.logback.configuration.filter.LogAcceptMarkerFilter;
 import com.emily.infrastructure.logback.configuration.filter.LogDenyMarkerFilter;
@@ -97,7 +98,7 @@ public class ContextServiceProvider implements ContextProvider {
         if (logger == null) {
             synchronized (ContextServiceProvider.class) {
                 // 获取logger日志对象
-                logger = LogBeanFactory.getLogger(commonKeys);
+                logger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(commonKeys);
                 // 存入缓存
                 LogBeanFactory.registerBean(commonKeys.getLoggerName(), logger);
             }
@@ -111,7 +112,7 @@ public class ContextServiceProvider implements ContextProvider {
     @Override
     public void start() {
         // 获取root logger对象
-        Logger rootLogger = LogBeanFactory.getLogger(CommonKeys.newBuilder()
+        Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(CommonKeys.newBuilder()
                 // logger name
                 .withLoggerName(CommonNames.resolveLoggerName(LogbackType.ROOT, null, null, null))
                 // logger file path

@@ -2,8 +2,6 @@ package com.emily.infrastructure.logback.factory;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.common.CommonKeys;
-import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
@@ -15,9 +13,9 @@ import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFi
 import com.emily.infrastructure.logback.configuration.policy.LogbackFixedWindowRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeBasedRollingPolicy;
 import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
-import org.slf4j.Logger;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -28,13 +26,12 @@ import java.util.stream.Collectors;
  * @since :  2024/1/1 9:47 AM
  */
 public class LogBeanFactory {
-    private static final List<AbstractLogback> LOGGERS = new ArrayList<>(3);
     private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(256);
 
     public static void registerBean(LoggerContext lc, LogbackProperties properties) {
-        LOGGERS.add(new LogbackGroup(lc, properties));
-        LOGGERS.add(new LogbackModule(lc, properties));
-        LOGGERS.add(new LogbackRoot(lc, properties));
+        beanMap.putIfAbsent(LogbackGroup.class.getSimpleName(), new LogbackGroup(lc, properties));
+        beanMap.putIfAbsent(LogbackModule.class.getSimpleName(), new LogbackModule(lc, properties));
+        beanMap.putIfAbsent(LogbackRoot.class.getSimpleName(), new LogbackRoot(lc, properties));
 
         beanMap.putIfAbsent(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
         beanMap.putIfAbsent(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(lc, properties));
@@ -69,19 +66,5 @@ public class LogBeanFactory {
 
     public static void clear() {
         beanMap.clear();
-    }
-
-    /**
-     * 构建Logger对象
-     * 日志级别以及优先级排序: OFF > ERROR > WARN > INFO > DEBUG > TRACE >ALL
-     *
-     * @param commonKeys 属性配置上下文传递类
-     */
-    public static Logger getLogger(CommonKeys commonKeys) {
-        Optional<AbstractLogback> logback = LOGGERS.stream().filter(l -> l.supports(commonKeys.getLogbackType())).findFirst();
-        if (logback.isPresent()) {
-            return logback.get().getLogger(commonKeys);
-        }
-        throw new IllegalArgumentException("非法参数");
     }
 }

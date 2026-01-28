@@ -35,11 +35,11 @@ public class DataRabbitProperties {
     /**
      * 连接工厂配置
      */
-    private Connection connection = new Connection();
+    private final Connection connection = new Connection();
     /**
      * RabbitMq属性配置
      */
-    private Map<String, RabbitProperties> config = new HashMap<>();
+    private final Map<String, RabbitProperties> config = new HashMap<>();
 
     public boolean isEnabled() {
         return enabled;
@@ -61,16 +61,8 @@ public class DataRabbitProperties {
         return config;
     }
 
-    public void setConfig(Map<String, RabbitProperties> config) {
-        this.config = config;
-    }
-
     public Connection getConnection() {
         return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
     }
 
     public boolean isStoreLogMessages() {

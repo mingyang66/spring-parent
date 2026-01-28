@@ -37,14 +37,10 @@ public class DataDbRedisProperties {
     /**
      * 多数据源配置
      */
-    private Map<String, RedisProperties> config = new HashMap<>();
+    private final Map<String, RedisProperties> config = new HashMap<>();
 
     public Map<String, RedisProperties> getConfig() {
         return config;
-    }
-
-    public void setConfig(Map<String, RedisProperties> config) {
-        this.config = config;
     }
 
     public RedisProperties.ClientType getClientType() {

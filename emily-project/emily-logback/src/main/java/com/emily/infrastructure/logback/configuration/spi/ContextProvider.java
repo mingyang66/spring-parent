@@ -35,11 +35,11 @@ public interface ContextProvider {
     /**
      * 启动上下文，初始化root logger对象
      */
-    void start();
+    void start(LogbackProperties properties);
 
     /**
      * 此方法会清除掉所有的内部属性，内部状态消息除外，关闭所有的appender，移除所有的turboFilters过滤器，
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
-    void stopAndReset();
+    void stopAndReset(LoggerContext lc);
 }

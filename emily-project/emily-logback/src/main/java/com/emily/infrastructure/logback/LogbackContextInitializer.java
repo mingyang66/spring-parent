@@ -34,7 +34,7 @@ public class LogbackContextInitializer {
             return;
         }
         if (isAlreadyInitialized()) {
-            context.stopAndReset();
+            context.stopAndReset(LogHolder.LC);
         }
         // 初始化日志上下文
         List<ContextProvider> list = ClassicEnvUtil.loadFromServiceLoader(ContextProvider.class, ContextProvider.class.getClassLoader());
@@ -45,6 +45,8 @@ public class LogbackContextInitializer {
         context = list.getFirst();
         // 初始化
         context.initialize(LogHolder.LC, properties);
+        //启动上下文，初始化root logger对象
+        context.start(properties);
 
         if (isAlreadyInitialized()) {
             LogHolder.LOG.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");

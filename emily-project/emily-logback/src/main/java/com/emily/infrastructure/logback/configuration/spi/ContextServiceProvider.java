@@ -32,9 +32,6 @@ import org.slf4j.Logger;
  * @since : 2020/08/04
  */
 public class ContextServiceProvider implements ContextProvider {
-    private LogbackProperties properties;
-    private LoggerContext lc;
-
     /**
      * ------------------------------------
      * 1. 属性配置
@@ -48,8 +45,6 @@ public class ContextServiceProvider implements ContextProvider {
      */
     @Override
     public void initialize(LoggerContext lc, LogbackProperties properties) {
-        this.lc = lc;
-        this.properties = properties;
         // 注册日志对象
         LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(lc, properties));
         LogBeanFactory.registerBean(LogbackModule.class.getSimpleName(), new LogbackModule(lc, properties));
@@ -80,7 +75,6 @@ public class ContextServiceProvider implements ContextProvider {
         properties.getMarker().getDenyMarker().forEach((marker) -> {
             lc.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker));
         });
-        start();
     }
 
     /**
@@ -114,20 +108,20 @@ public class ContextServiceProvider implements ContextProvider {
     @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
         //通用参数
-        LogPathField commonKeys = LogPathField.newBuilder()
+        LogPathField field = LogPathField.newBuilder()
                 .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, clazz))
                 .withFilePath(PathUtils.normalizePath(filePath))
                 .withFileName(fileName)
                 .withLogbackType(logbackType)
                 .build();
         // 获取Logger对象
-        Logger logger = LogBeanFactory.getBean(commonKeys.getLoggerName());
+        Logger logger = LogBeanFactory.getBean(field.getLoggerName());
         if (logger == null) {
             synchronized (ContextServiceProvider.class) {
                 // 获取logger日志对象
-                logger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(commonKeys);
+                logger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(field);
                 // 存入缓存
-                LogBeanFactory.registerBean(commonKeys.getLoggerName(), logger);
+                LogBeanFactory.registerBean(field.getLoggerName(), logger);
             }
         }
         return logger;
@@ -137,7 +131,7 @@ public class ContextServiceProvider implements ContextProvider {
      * 启动上下文，初始化root logger对象
      */
     @Override
-    public void start() {
+    public void start(LogbackProperties properties) {
         // 获取root logger对象
         Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
                 // logger name
@@ -156,7 +150,7 @@ public class ContextServiceProvider implements ContextProvider {
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
     @Override
-    public void stopAndReset() {
+    public void stopAndReset(LoggerContext lc) {
         lc.stop();
         lc.reset();
         LogBeanFactory.clear();

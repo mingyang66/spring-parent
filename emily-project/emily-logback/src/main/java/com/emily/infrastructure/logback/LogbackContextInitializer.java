@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 日志初始化管理器
+ * <a href="https://www.baeldung.com/logback">logback说明文档</a>
  *
  * @author Emily
  * @since :  Created in 2023/7/2 11:16 AM

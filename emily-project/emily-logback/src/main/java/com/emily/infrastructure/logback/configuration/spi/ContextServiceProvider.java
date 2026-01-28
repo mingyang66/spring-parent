@@ -94,18 +94,18 @@ public class ContextServiceProvider implements ContextProvider {
      * }
      * }</pre>
      *
-     * @param clazz       当前打印类实例
-     * @param filePath    文件路径
-     * @param fileName    文件名称
-     * @param logbackType 日志类型
-     * @param <T>         类类型
+     * @param requiredType 当前打印类实例
+     * @param filePath     文件路径
+     * @param fileName     文件名称
+     * @param logbackType  日志类型
+     * @param <T>          类类型
      * @return logger对象
      */
     @Override
-    public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
+    public <T> Logger getLogger(Class<T> requiredType, String filePath, String fileName, LogbackType logbackType) {
         //通用参数
         LogPathField field = LogPathField.newBuilder()
-                .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, clazz))
+                .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, requiredType))
                 .withFilePath(PathUtils.normalizePath(filePath))
                 .withFileName(fileName)
                 .withLogbackType(logbackType)

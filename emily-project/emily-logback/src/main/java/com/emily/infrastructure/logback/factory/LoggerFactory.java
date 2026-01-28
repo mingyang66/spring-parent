@@ -16,12 +16,12 @@ public class LoggerFactory {
      * 获取日志Logger对象
      * 日志路径格式：基础路径/filePath/日志级别info|error|debug/info.log
      *
-     * @param clazz 类实例
-     * @param <T>   参数实例类型
+     * @param requiredType 类实例
+     * @param <T>          参数实例类型
      * @return logger实例对象
      */
-    public static <T> Logger getLogger(Class<T> clazz) {
-        return org.slf4j.LoggerFactory.getLogger(clazz);
+    public static <T> Logger getLogger(Class<T> requiredType) {
+        return org.slf4j.LoggerFactory.getLogger(requiredType);
     }
 
 
@@ -29,16 +29,16 @@ public class LoggerFactory {
      * 获取分组Logger日志对象
      * 日志路径格式：基础路径/filePath/日志级别info|error|debug/info.log
      *
-     * @param clazz    类实例
-     * @param filePath 分组日志路径
-     * @param <T>      类类型
+     * @param requiredType 类实例
+     * @param filePath     分组日志路径
+     * @param <T>          类类型
      * @return logger实例对象
      */
-    public static <T> Logger getGroupLogger(Class<T> clazz, String filePath) {
+    public static <T> Logger getGroupLogger(Class<T> requiredType, String filePath) {
         try {
-            return LogbackContextInitializer.getContextProvider().getLogger(clazz, filePath, null, LogbackType.GROUP);
+            return LogbackContextInitializer.getContextProvider().getLogger(requiredType, filePath, null, LogbackType.GROUP);
         } catch (IllegalStateException ex) {
-            return getLogger(clazz);
+            return getLogger(requiredType);
         }
     }
 
@@ -46,17 +46,17 @@ public class LoggerFactory {
      * 获取模块Logger日志对象
      * 日志路径格式：基础路径/filePath/fileName.log
      *
-     * @param clazz    类实例
-     * @param filePath 模块日志路径
-     * @param fileName 模块文件名文件名
-     * @param <T>      类类型
+     * @param requiredType 类实例
+     * @param filePath     模块日志路径
+     * @param fileName     模块文件名文件名
+     * @param <T>          类类型
      * @return logger实例对象
      */
-    public static <T> Logger getModuleLogger(Class<T> clazz, String filePath, String fileName) {
+    public static <T> Logger getModuleLogger(Class<T> requiredType, String filePath, String fileName) {
         try {
-            return LogbackContextInitializer.getContextProvider().getLogger(clazz, filePath, fileName, LogbackType.MODULE);
+            return LogbackContextInitializer.getContextProvider().getLogger(requiredType, filePath, fileName, LogbackType.MODULE);
         } catch (IllegalStateException ex) {
-            return getLogger(clazz);
+            return getLogger(requiredType);
         }
     }
 }

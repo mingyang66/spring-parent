@@ -23,14 +23,14 @@ public interface ContextProvider {
     /**
      * 获取logger日志对象
      *
-     * @param clazz       当前打印类实例
-     * @param filePath    文件路径
-     * @param fileName    文件名称
-     * @param logbackType 日志类型
-     * @param <T>         类类型
+     * @param requiredType 当前打印类实例
+     * @param filePath     文件路径
+     * @param fileName     文件名称
+     * @param logbackType  日志类型
+     * @param <T>          类类型
      * @return logger对象
      */
-    <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType);
+    <T> Logger getLogger(Class<T> requiredType, String filePath, String fileName, LogbackType logbackType);
 
     /**
      * 启动上下文，初始化root logger对象

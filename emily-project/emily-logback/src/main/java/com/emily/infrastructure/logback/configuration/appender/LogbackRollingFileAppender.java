@@ -6,7 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.common.CommonKeys;
+import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
@@ -36,16 +36,16 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final CommonKeys commonKeys;
+    private final LogPathField field;
 
-    private LogbackRollingFileAppender(LoggerContext lc, LogbackProperties properties, CommonKeys commonKeys) {
+    private LogbackRollingFileAppender(LoggerContext lc, LogbackProperties properties, LogPathField field) {
         this.lc = lc;
         this.properties = properties;
-        this.commonKeys = commonKeys;
+        this.field = field;
     }
 
-    public static LogbackRollingFileAppender create(LoggerContext lc, LogbackProperties properties, CommonKeys commonKeys) {
-        return new LogbackRollingFileAppender(lc, properties, commonKeys);
+    public static LogbackRollingFileAppender create(LoggerContext lc, LogbackProperties properties, LogPathField field) {
+        return new LogbackRollingFileAppender(lc, properties, field);
     }
 
     /**
@@ -96,18 +96,18 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
-        String filePath = commonKeys.getFilePath();
+        String filePath = field.getFilePath();
         //日志级别
         String levelStr = level.levelStr.toLowerCase();
         // 基础路径
         String loggerPath = StrUtils.join(basePath, filePath, File.separator);
         //基础日志、分组日志
-        if (LogbackType.ROOT.equals(commonKeys.getLogbackType()) || LogbackType.GROUP.equals(commonKeys.getLogbackType())) {
+        if (LogbackType.ROOT.equals(field.getLogbackType()) || LogbackType.GROUP.equals(field.getLogbackType())) {
             loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
         }
         //分模块日志
-        else if (LogbackType.MODULE.equals(commonKeys.getLogbackType())) {
-            loggerPath = StrUtils.join(loggerPath, commonKeys.getFileName());
+        else if (LogbackType.MODULE.equals(field.getLogbackType())) {
+            loggerPath = StrUtils.join(loggerPath, field.getFileName());
         } else {
             throw new UnsupportedOperationException("Unsupported log type");
         }
@@ -122,11 +122,11 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     @Override
     protected String resolveFilePattern() {
         //基础日志
-        if (LogbackType.ROOT.equals(commonKeys.getLogbackType())) {
+        if (LogbackType.ROOT.equals(field.getLogbackType())) {
             return properties.getRoot().getPattern();
         }
         //分组
-        if (LogbackType.GROUP.equals(commonKeys.getLogbackType())) {
+        if (LogbackType.GROUP.equals(field.getLogbackType())) {
             return properties.getGroup().getPattern();
         }
         //分模块
@@ -142,11 +142,11 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      */
     @Override
     protected String resolveName(Level level) {
-        String fileName = commonKeys.getFileName();
+        String fileName = field.getFileName();
         if (StrUtils.isEmpty(fileName)) {
             fileName = level.levelStr.toLowerCase();
         }
         //拼装appender name
-        return MessageFormat.format("{0}{1}.{2}.{3}", commonKeys.getLogbackType(), commonKeys.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
+        return MessageFormat.format("{0}{1}.{2}.{3}", field.getLogbackType(), field.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
     }
 }

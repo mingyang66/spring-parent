@@ -2,7 +2,7 @@ package com.emily.infrastructure.logback.configuration.spi;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.common.CommonKeys;
+import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.common.LogNameUtils;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
@@ -107,7 +107,7 @@ public class ContextServiceProvider implements ContextProvider {
     @Override
     public <T> Logger getLogger(Class<T> clazz, String filePath, String fileName, LogbackType logbackType) {
         //通用参数
-        CommonKeys commonKeys = CommonKeys.newBuilder()
+        LogPathField commonKeys = LogPathField.newBuilder()
                 .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, clazz))
                 .withFilePath(PathUtils.normalizePath(filePath))
                 .withFileName(fileName)
@@ -132,7 +132,7 @@ public class ContextServiceProvider implements ContextProvider {
     @Override
     public void start() {
         // 获取root logger对象
-        Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(CommonKeys.newBuilder()
+        Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
                 // logger name
                 .withLoggerName(LogNameUtils.joinLogName(LogbackType.ROOT, null, null, null))
                 // logger file path

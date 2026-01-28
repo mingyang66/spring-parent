@@ -4,7 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.common.CommonKeys;
+import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
@@ -39,7 +39,7 @@ public class LogbackModule extends AbstractLogback {
      * @return 日志对象
      */
     @Override
-    public Logger getLogger(CommonKeys commonKeys) {
+    public Logger getLogger(LogPathField commonKeys) {
         // 获取Logger对象
         Logger logger = lc.getLogger(commonKeys.getLoggerName());
         // 设置是否向上级打印信息

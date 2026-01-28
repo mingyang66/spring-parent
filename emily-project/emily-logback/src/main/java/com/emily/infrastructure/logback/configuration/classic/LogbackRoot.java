@@ -4,7 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.common.CommonKeys;
+import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
@@ -36,7 +36,7 @@ public class LogbackRoot extends AbstractLogback {
      * 日志级别以及优先级排序: OFF &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt;ALL
      */
     @Override
-    public Logger getLogger(CommonKeys commonKeys) {
+    public Logger getLogger(LogPathField commonKeys) {
         // 获取logger对象
         Logger logger = lc.getLogger(commonKeys.getLoggerName());
         //设置是否向上级打印信息

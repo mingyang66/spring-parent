@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.configuration.classic;
 
 import ch.qos.logback.classic.Logger;
-import com.emily.infrastructure.logback.common.CommonKeys;
+import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 
 /**
@@ -27,5 +27,5 @@ public abstract class AbstractLogback {
      * @param commonKeys appender属性名
      * @return 返回Logger日志对象
      */
-    public abstract Logger getLogger(CommonKeys commonKeys);
+    public abstract Logger getLogger(LogPathField commonKeys);
 }

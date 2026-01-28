@@ -8,7 +8,7 @@
         <relativePath>../../emily-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-logger</artifactId>
+    <artifactId>emily-logback</artifactId>
     <packaging>jar</packaging>
     <name>emily-logger</name>
     <description>Java通用日志组件SDK</description>

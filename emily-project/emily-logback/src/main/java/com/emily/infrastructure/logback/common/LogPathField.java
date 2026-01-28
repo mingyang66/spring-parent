@@ -9,7 +9,7 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
  * @author Emily
  * @since : 2021/07/07
  */
-public class CommonKeys {
+public class LogPathField {
     /**
      * logger name
      */
@@ -85,13 +85,13 @@ public class CommonKeys {
             return this;
         }
 
-        public CommonKeys build() {
-            CommonKeys property = new CommonKeys();
-            property.loggerName = this.loggerName;
-            property.filePath = this.filePath;
-            property.fileName = this.fileName;
-            property.logbackType = this.logbackType;
-            return property;
+        public LogPathField build() {
+            LogPathField field = new LogPathField();
+            field.loggerName = this.loggerName;
+            field.filePath = this.filePath;
+            field.fileName = this.fileName;
+            field.logbackType = this.logbackType;
+            return field;
         }
     }
 }

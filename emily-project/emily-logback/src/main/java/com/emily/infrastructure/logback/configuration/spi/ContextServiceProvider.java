@@ -68,13 +68,9 @@ public class ContextServiceProvider implements ContextProvider {
         ConfigurationAction configuration = new ConfigurationAction(lc, properties);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
-        properties.getMarker().getAcceptMarker().forEach((marker) -> {
-            lc.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker));
-        });
+        properties.getMarker().getAcceptMarker().forEach((marker) -> lc.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker)));
         //全局过滤器，拒绝标记的日志记录到文件中
-        properties.getMarker().getDenyMarker().forEach((marker) -> {
-            lc.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker));
-        });
+        properties.getMarker().getDenyMarker().forEach((marker) -> lc.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker)));
     }
 
     /**

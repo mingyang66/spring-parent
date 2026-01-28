@@ -421,11 +421,11 @@ public class LogbackProperties {
         /**
          * 文件归档策略
          */
-        private RollingPolicy rollingPolicy = new RollingPolicy();
+        private final RollingPolicy rollingPolicy = new RollingPolicy();
         /**
          * 异步日志配置
          */
-        private Async async = new Async();
+        private final Async async = new Async();
 
         public String getPath() {
             return path;
@@ -463,16 +463,8 @@ public class LogbackProperties {
             return rollingPolicy;
         }
 
-        public void setRollingPolicy(RollingPolicy rollingPolicy) {
-            this.rollingPolicy = rollingPolicy;
-        }
-
         public Async getAsync() {
             return async;
-        }
-
-        public void setAsync(Async async) {
-            this.async = async;
         }
     }
 

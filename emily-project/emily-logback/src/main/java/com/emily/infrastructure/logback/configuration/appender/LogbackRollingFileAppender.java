@@ -102,11 +102,11 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         // 基础路径
         String loggerPath = StrUtils.join(basePath, filePath, File.separator);
         //基础日志、分组日志
-        if (LogbackType.ROOT.equals(field.getLogbackType()) || LogbackType.GROUP.equals(field.getLogbackType())) {
+        if (LogbackType.ROOT == field.getLogbackType() || LogbackType.GROUP == field.getLogbackType()) {
             loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
         }
         //分模块日志
-        else if (LogbackType.MODULE.equals(field.getLogbackType())) {
+        else if (LogbackType.MODULE == field.getLogbackType()) {
             loggerPath = StrUtils.join(loggerPath, field.getFileName());
         } else {
             throw new UnsupportedOperationException("Unsupported log type");

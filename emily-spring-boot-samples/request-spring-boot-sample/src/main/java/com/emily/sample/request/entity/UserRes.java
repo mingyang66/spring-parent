@@ -1,7 +1,7 @@
 package com.emily.sample.request.entity;
 
 /**
- * @author :  姚明洋
+ * @author :  Emily
  * @since :  2026/1/9 下午3:35
  */
 public class UserRes {

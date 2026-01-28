@@ -481,26 +481,18 @@ public class LogProperties {
         /**
          * 接受指定标记的日志记录到文件中
          */
-        private List<String> acceptMarker = new ArrayList<>();
+        private final List<String> acceptMarker = new ArrayList<>();
         /**
          * 拒绝标记的日志记录到文件中
          */
-        private List<String> denyMarker = new ArrayList<>();
+        private final List<String> denyMarker = new ArrayList<>();
 
         public List<String> getAcceptMarker() {
             return acceptMarker;
         }
 
-        public void setAcceptMarker(List<String> acceptMarker) {
-            this.acceptMarker = acceptMarker;
-        }
-
         public List<String> getDenyMarker() {
             return denyMarker;
-        }
-
-        public void setDenyMarker(List<String> denyMarker) {
-            this.denyMarker = denyMarker;
         }
     }
 }

@@ -10,8 +10,10 @@ import com.emily.infrastructure.logback.LogbackProperties;
 /**
  * -------------------------------------------
  * debug和logback.debug可以在VM Options中配置，示例如下:
+ * <pre>{@code
  * -Dlogback.debug=true
  * -Ddebug=true
+ * }</pre>
  * -------------------------------------------
  * <p>
  * logback日志全局configuration配置属性解析

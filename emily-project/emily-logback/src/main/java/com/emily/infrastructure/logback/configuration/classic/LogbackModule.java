@@ -48,7 +48,7 @@ public class LogbackModule extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getModule().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = LogbackRollingFileAppender.create(lc, properties, field);
+        AbstractAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class).logPathField(field);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender

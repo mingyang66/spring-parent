@@ -7,6 +7,7 @@ import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
+import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
@@ -56,6 +57,7 @@ public class ContextServiceProvider implements ContextProvider {
 
         LogBeanFactory.registerBean(LogbackAsyncAppender.class.getSimpleName(), new LogbackAsyncAppender(lc, properties));
         LogBeanFactory.registerBean(LogbackConsoleAppender.class.getSimpleName(), new LogbackConsoleAppender(lc, properties));
+        LogBeanFactory.registerBean(LogbackRollingFileAppender.class.getSimpleName(), new LogbackRollingFileAppender(lc, properties));
 
         LogBeanFactory.registerBean(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
         LogBeanFactory.registerBean(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(lc, properties));

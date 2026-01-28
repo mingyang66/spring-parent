@@ -36,16 +36,16 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LogPathField field;
+    private LogPathField field;
 
-    private LogbackRollingFileAppender(LoggerContext lc, LogbackProperties properties, LogPathField field) {
+    public LogbackRollingFileAppender(LoggerContext lc, LogbackProperties properties) {
         this.lc = lc;
         this.properties = properties;
-        this.field = field;
     }
 
-    public static LogbackRollingFileAppender create(LoggerContext lc, LogbackProperties properties, LogPathField field) {
-        return new LogbackRollingFileAppender(lc, properties, field);
+    public LogbackRollingFileAppender logPathField(LogPathField field) {
+        this.field = field;
+        return this;
     }
 
     /**

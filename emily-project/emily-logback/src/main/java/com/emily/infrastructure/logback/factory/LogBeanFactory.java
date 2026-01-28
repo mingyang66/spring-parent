@@ -19,13 +19,13 @@ public class LogBeanFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getBean(Class<T> clazz) {
-        return (T) beanMap.get(clazz.getSimpleName());
+    public static <T> T getBean(Class<T> requiredType) {
+        return (T) beanMap.get(requiredType.getSimpleName());
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Set<T> getBeans(Class<T> clazz) {
-        return (Set<T>) beanMap.values().stream().filter(l -> clazz.isAssignableFrom(l.getClass())).collect(Collectors.toSet());
+    public static <T> Set<T> getBeans(Class<T> requiredType) {
+        return (Set<T>) beanMap.values().stream().filter(l -> requiredType.isAssignableFrom(l.getClass())).collect(Collectors.toSet());
     }
 
     @SuppressWarnings("unchecked")

@@ -42,7 +42,7 @@ public class LogbackContextInitializer {
             System.out.println("Non existing log context");
             return;
         }
-        context = list.get(0);
+        context = list.getFirst();
         // 初始化
         context.initialize(LogHolder.LC, properties);
 

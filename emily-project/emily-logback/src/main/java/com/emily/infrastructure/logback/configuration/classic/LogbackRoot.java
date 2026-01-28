@@ -10,6 +10,7 @@ import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppen
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
+import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 /**
  * 日志组件抽象类
@@ -36,19 +37,19 @@ public class LogbackRoot extends AbstractLogback {
      * 日志级别以及优先级排序: OFF &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt;ALL
      */
     @Override
-    public Logger getLogger(LogPathField commonKeys) {
+    public Logger getLogger(LogPathField field) {
         // 获取logger对象
-        Logger logger = lc.getLogger(commonKeys.getLoggerName());
+        Logger logger = lc.getLogger(field.getLoggerName());
         //设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
         logger.setLevel(Level.toLevel(properties.getRoot().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = LogbackRollingFileAppender.create(lc, properties, commonKeys);
+        AbstractAppender appender = LogbackRollingFileAppender.create(lc, properties, field);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = LogbackAsyncAppender.create(lc, properties);
+            LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
             }

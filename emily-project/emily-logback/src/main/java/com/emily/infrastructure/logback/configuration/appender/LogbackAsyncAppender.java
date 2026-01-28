@@ -2,6 +2,7 @@ package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logback.LogbackProperties;
 
@@ -25,13 +26,9 @@ public class LogbackAsyncAppender {
      */
     private final LogbackProperties properties;
 
-    private LogbackAsyncAppender(LoggerContext lc, LogbackProperties properties) {
+    public LogbackAsyncAppender(LoggerContext lc, LogbackProperties properties) {
         this.lc = lc;
         this.properties = properties;
-    }
-
-    public static LogbackAsyncAppender create(LoggerContext lc, LogbackProperties properties) {
-        return new LogbackAsyncAppender(lc, properties);
     }
 
     /**
@@ -40,7 +37,7 @@ public class LogbackAsyncAppender {
      * @param ref 附件appender的引用
      * @return 异步appender对象
      */
-    public AsyncAppender getAppender(Appender ref) {
+    public AsyncAppender getAppender(Appender<ILoggingEvent> ref) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         AsyncAppender appender = new AsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

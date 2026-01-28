@@ -31,13 +31,9 @@ public class LogbackConsoleAppender extends AbstractAppender {
      */
     private final LogbackProperties properties;
 
-    private LogbackConsoleAppender(LoggerContext lc, LogbackProperties properties) {
+    public LogbackConsoleAppender(LoggerContext lc, LogbackProperties properties) {
         this.lc = lc;
         this.properties = properties;
-    }
-
-    public static LogbackConsoleAppender create(LoggerContext lc, LogbackProperties properties) {
-        return new LogbackConsoleAppender(lc, properties);
     }
 
     /**

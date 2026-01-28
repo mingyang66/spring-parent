@@ -37,7 +37,7 @@ public class LogbackAsyncAppender {
      * @param ref 附件appender的引用
      * @return 异步appender对象
      */
-    public AsyncAppender getAppender(Appender<ILoggingEvent> ref) {
+    public Appender<ILoggingEvent> getAppender(Appender<ILoggingEvent> ref) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         AsyncAppender appender = new AsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。

@@ -87,7 +87,7 @@ public class LogbackModule extends AbstractLogback {
         }
         if (properties.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(LogbackConsoleAppender.create(lc, properties).build(logger.getLevel()));
+            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).build(logger.getLevel()));
         }
 
         return logger;

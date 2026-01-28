@@ -87,7 +87,7 @@ public class LogbackGroup extends AbstractLogback {
         }
         if (properties.getGroup().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(LogbackConsoleAppender.create(lc, properties).build(logger.getLevel()));
+            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).build(logger.getLevel()));
         }
 
         return logger;

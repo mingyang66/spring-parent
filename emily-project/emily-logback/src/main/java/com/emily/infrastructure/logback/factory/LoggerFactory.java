@@ -36,7 +36,7 @@ public class LoggerFactory {
      */
     public static <T> Logger getGroupLogger(Class<T> requiredType, String filePath) {
         try {
-            return LogbackContextInitializer.getContextProvider().getLogger(requiredType, filePath, null, LogbackType.GROUP);
+            return LogbackContextInitializer.getLogbackContext().getLogger(requiredType, filePath, null, LogbackType.GROUP);
         } catch (IllegalStateException ex) {
             return getLogger(requiredType);
         }
@@ -54,7 +54,7 @@ public class LoggerFactory {
      */
     public static <T> Logger getModuleLogger(Class<T> requiredType, String filePath, String fileName) {
         try {
-            return LogbackContextInitializer.getContextProvider().getLogger(requiredType, filePath, fileName, LogbackType.MODULE);
+            return LogbackContextInitializer.getLogbackContext().getLogger(requiredType, filePath, fileName, LogbackType.MODULE);
         } catch (IllegalStateException ex) {
             return getLogger(requiredType);
         }

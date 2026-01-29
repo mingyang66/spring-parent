@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.configuration.spi;
+package com.emily.infrastructure.logback.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
@@ -12,7 +12,6 @@ import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
-import com.emily.infrastructure.logback.configuration.context.ConfigurationAction;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogAcceptMarkerFilter;
@@ -32,7 +31,7 @@ import org.slf4j.Logger;
  * @author Emily
  * @since : 2020/08/04
  */
-public class ContextServiceProvider implements ContextProvider {
+public class LogbackContext {
     /**
      * ------------------------------------
      * 1. 属性配置
@@ -44,7 +43,6 @@ public class ContextServiceProvider implements ContextProvider {
      * @param context    上下文
      * @param properties logback日志属性
      */
-    @Override
     public void initialize(LoggerContext context, LogbackProperties properties) {
         // 注册日志对象
         LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(context, properties));
@@ -103,7 +101,6 @@ public class ContextServiceProvider implements ContextProvider {
      * @param <T>          类类型
      * @return logger对象
      */
-    @Override
     public <T> Logger getLogger(Class<T> requiredType, String filePath, String fileName, LogbackType logbackType) {
         //通用参数
         LogPathField field = LogPathField.newBuilder()
@@ -115,7 +112,7 @@ public class ContextServiceProvider implements ContextProvider {
         // 获取Logger对象
         Logger logger = LogBeanFactory.getBean(field.getLoggerName());
         if (logger == null) {
-            synchronized (ContextServiceProvider.class) {
+            synchronized (LogbackContext.class) {
                 // 获取logger日志对象
                 logger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(field);
                 // 存入缓存
@@ -128,7 +125,6 @@ public class ContextServiceProvider implements ContextProvider {
     /**
      * 启动上下文，初始化root logger对象
      */
-    @Override
     public void start(LogbackProperties properties) {
         // 获取root logger对象
         Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
@@ -147,7 +143,6 @@ public class ContextServiceProvider implements ContextProvider {
      * 此方法会清除掉所有的内部属性，内部状态消息除外，关闭所有的appender，移除所有的turboFilters过滤器，
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
-    @Override
     public void stopAndReset(LoggerContext context) {
         context.stop();
         context.reset();

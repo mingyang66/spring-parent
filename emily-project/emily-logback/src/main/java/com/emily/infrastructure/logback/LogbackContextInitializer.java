@@ -2,7 +2,7 @@ package com.emily.infrastructure.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ClassicEnvUtil;
-import com.emily.infrastructure.logback.configuration.spi.ContextProvider;
+import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class LogbackContextInitializer {
     /**
      * logback sdk context
      */
-    private static ContextProvider contextProvider;
+    private static LogbackContext logbackContext;
     /**
      * 是否已经初始化，默认：false
      */
@@ -34,52 +34,37 @@ public class LogbackContextInitializer {
         if (!properties.isEnabled()) {
             return;
         }
-        if (isAlreadyInitialized()) {
-            contextProvider.stopAndReset(LogHolder.LC);
+        if (initialized) {
+            logbackContext.stopAndReset(LogHolder.LC);
         }
         // 初始化日志上下文
-        List<ContextProvider> list = ClassicEnvUtil.loadFromServiceLoader(ContextProvider.class, ContextProvider.class.getClassLoader());
+        List<LogbackContext> list = ClassicEnvUtil.loadFromServiceLoader(LogbackContext.class, LogbackContext.class.getClassLoader());
         if (list.isEmpty()) {
             System.out.println("Non existing log context");
             return;
         }
-        contextProvider = list.getFirst();
+        logbackContext = list.getFirst();
         // 初始化
-        contextProvider.initialize(LogHolder.LC, properties);
+        logbackContext.initialize(LogHolder.LC, properties);
         // 启动上下文，初始化root logger对象
-        contextProvider.start(properties);
+        logbackContext.start(properties);
 
-        if (isAlreadyInitialized()) {
+        if (initialized) {
             LogHolder.LOG.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
         } else {
             LogHolder.LOG.info("Log sdk initialized");
         }
         // 设置为已初始化
-        markAsInitialized();
+        initialized = true;
     }
 
-    public static ContextProvider getContextProvider() {
-        if (isAlreadyInitialized()) {
-            return contextProvider;
+    public static LogbackContext getLogbackContext() {
+        if (initialized) {
+            return logbackContext;
         }
         throw new IllegalStateException("Log sdk not initialized");
     }
 
-    /**
-     * 是否已经初始化过
-     *
-     * @return true-是 false-否
-     */
-    static boolean isAlreadyInitialized() {
-        return initialized;
-    }
-
-    /**
-     * 标记为已经初始化
-     */
-    static void markAsInitialized() {
-        initialized = true;
-    }
 
     public static class LogHolder {
         private static final LoggerContext LC = (LoggerContext) LoggerFactory.getILoggerFactory();

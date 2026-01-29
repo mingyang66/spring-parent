@@ -60,18 +60,18 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //归档策略属性配置
         RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
         //日志文件路径
-        String loggerPath = this.resolveFilePath(level);
+        String loggerPath = this.getFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
-        //设置文件名，policy激活后才可以从appender获取文件路径
-        appender.setFile(loggerPath);
-        //设置日志文件归档策略
-        appender.setRollingPolicy(LogBeanFactory.getBeans(AbstractRollingPolicy.class).stream().filter(l -> l.support(policyType)).findFirst().orElseThrow().getRollingPolicy(appender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(context);
         //appender的name属性
-        appender.setName(this.resolveName(level));
+        appender.setName(this.getName(level));
+        //设置文件名，policy激活后才可以从appender获取文件路径
+        appender.setFile(loggerPath);
+        //设置日志文件归档策略
+        appender.setRollingPolicy(LogBeanFactory.getBeans(AbstractRollingPolicy.class).stream().filter(l -> l.support(policyType)).findFirst().orElseThrow().getRollingPolicy(appender, loggerPath));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
         appender.setAppend(properties.getAppender().isAppend());
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
@@ -79,7 +79,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置过滤器
         appender.addFilter(LogBeanFactory.getBean(LogLevelFilter.class).getFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.getFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();
@@ -93,7 +93,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return 日志文件路径
      */
     @Override
-    protected String resolveFilePath(Level level) {
+    protected String getFilePath(Level level) {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
@@ -121,7 +121,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return 日志格式
      */
     @Override
-    protected String resolveFilePattern() {
+    protected String getFilePattern() {
         //基础日志
         if (LogbackType.ROOT.equals(field.getLogbackType())) {
             return properties.getRoot().getPattern();
@@ -142,7 +142,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return appender name值
      */
     @Override
-    protected String resolveName(Level level) {
+    protected String getName(Level level) {
         String fileName = field.getFileName();
         if (StrUtils.isEmpty(fileName)) {
             fileName = level.levelStr.toLowerCase();

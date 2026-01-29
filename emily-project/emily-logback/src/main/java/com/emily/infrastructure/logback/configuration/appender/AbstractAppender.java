@@ -21,7 +21,7 @@ public abstract class AbstractAppender {
      */
     public Appender<ILoggingEvent> build(Level level) {
         //appender名称重新拼接
-        String appenderName = this.resolveName(level);
+        String appenderName = this.getName(level);
         //如果已经存在，则忽略，否则添加
         LogBeanFactory.registerBean(appenderName, this.getAppender(level));
         // return appender object
@@ -42,14 +42,14 @@ public abstract class AbstractAppender {
      * @param level 日志级别
      * @return 日志文件路径
      */
-    protected abstract String resolveFilePath(Level level);
+    protected abstract String getFilePath(Level level);
 
     /**
      * 获取日志输出格式
      *
      * @return 日志文件输出格式
      */
-    protected abstract String resolveFilePattern();
+    protected abstract String getFilePattern();
 
     /**
      * 获取appenderName
@@ -57,6 +57,6 @@ public abstract class AbstractAppender {
      * @param level 日志级别
      * @return appender name
      */
-    protected abstract String resolveName(Level level);
+    protected abstract String getName(Level level);
 
 }

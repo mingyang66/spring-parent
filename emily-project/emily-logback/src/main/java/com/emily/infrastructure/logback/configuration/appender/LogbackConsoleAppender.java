@@ -6,7 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
+import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
@@ -54,7 +54,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         //添加过滤器
         appender.addFilter(LogBeanFactory.getBean(LogThresholdLevelFilter.class).getFilter(level));
         //设置编码
-        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.resolveFilePattern()));
+        appender.setEncoder(LogBeanFactory.getBean(LogbackConsoleLayoutEncoder.class).getEncoder(this.resolveFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(true);
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。

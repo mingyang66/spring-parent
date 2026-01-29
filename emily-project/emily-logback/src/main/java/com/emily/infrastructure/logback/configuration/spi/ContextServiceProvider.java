@@ -13,6 +13,7 @@ import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
 import com.emily.infrastructure.logback.configuration.context.ConfigurationAction;
+import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogAcceptMarkerFilter;
 import com.emily.infrastructure.logback.configuration.filter.LogDenyMarkerFilter;
@@ -59,6 +60,7 @@ public class ContextServiceProvider implements ContextProvider {
         LogBeanFactory.registerBean(LogbackFixedWindowRollingPolicy.class.getSimpleName(), new LogbackFixedWindowRollingPolicy(context, properties));
 
         LogBeanFactory.registerBean(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(context));
+        LogBeanFactory.registerBean(LogbackConsoleLayoutEncoder.class.getSimpleName(), new LogbackConsoleLayoutEncoder(context));
 
         LogBeanFactory.registerBean(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(context));
         LogBeanFactory.registerBean(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(context));

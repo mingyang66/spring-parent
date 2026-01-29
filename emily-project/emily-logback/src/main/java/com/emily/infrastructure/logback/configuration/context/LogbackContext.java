@@ -64,13 +64,15 @@ public class LogbackContext {
         LogBeanFactory.registerBean(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(context));
         LogBeanFactory.registerBean(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(context));
         LogBeanFactory.registerBean(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(context));
-        // 开启OnConsoleStatusListener监听器，即开启debug模式
+        //开启OnConsoleStatusListener监听器，即开启debug模式
         ConfigurationAction configuration = new ConfigurationAction(context, properties);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker)));
         //全局过滤器，拒绝标记的日志记录到文件中
         properties.getMarker().getDenyMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker)));
+        //初始化Root Logger
+        initRootLogger(properties);
     }
 
     /**
@@ -125,7 +127,7 @@ public class LogbackContext {
     /**
      * 启动上下文，初始化root logger对象
      */
-    public void start(LogbackProperties properties) {
+    void initRootLogger(LogbackProperties properties) {
         // 获取root logger对象
         Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
                 // logger name

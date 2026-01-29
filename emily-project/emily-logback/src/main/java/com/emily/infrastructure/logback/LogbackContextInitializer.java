@@ -46,8 +46,6 @@ public class LogbackContextInitializer {
         logbackContext = list.getFirst();
         // 初始化
         logbackContext.initialize(LogHolder.LC, properties);
-        // 启动上下文，初始化root logger对象
-        logbackContext.start(properties);
 
         if (initialized) {
             LogHolder.LOG.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");

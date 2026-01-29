@@ -24,8 +24,8 @@ public abstract class AbstractLogback {
     /**
      * 获取Logger对象
      *
-     * @param commonKeys appender属性名
+     * @param field appender属性名
      * @return 返回Logger日志对象
      */
-    public abstract Logger getLogger(LogPathField commonKeys);
+    public abstract Logger getLogger(LogPathField field);
 }

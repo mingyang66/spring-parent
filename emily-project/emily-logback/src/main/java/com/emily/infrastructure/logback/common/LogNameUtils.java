@@ -1,9 +1,9 @@
 package com.emily.infrastructure.logback.common;
 
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
-import org.slf4j.Logger;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * 通用name工具方法
@@ -19,15 +19,9 @@ public class LogNameUtils {
      * @param logbackType 日志类型
      * @return logger name
      */
-    public static <T> String joinLogName(LogbackType logbackType, String filePath, String fileName, Class<?> clazz) {
-        if (logbackType.equals(LogbackType.ROOT)) {
-            return Logger.ROOT_LOGGER_NAME;
-        }
-        if (fileName == null) {
-            fileName = StrUtils.EMPTY;
-        }
+    public static String joinLogName(LogbackType logbackType, String filePath, String fileName, Class<?> requiredClass) {
         //拼装logger name
-        return MessageFormat.format("{0}{1}.{2}.{3}", logbackType, filePath, fileName, clazz.getName())
+        return MessageFormat.format("{0}{1}.{2}.{3}", logbackType, filePath, Objects.requireNonNullElse(fileName, StrUtils.EMPTY), requiredClass.getName())
                 .replace(PathUtils.SLASH, PathUtils.DOT)
                 .replace(StrUtils.join(PathUtils.DOT, PathUtils.DOT), PathUtils.DOT);
     }

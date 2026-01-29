@@ -133,7 +133,7 @@ public class ContextServiceProvider implements ContextProvider {
         // 获取root logger对象
         Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
                 // logger name
-                .withLoggerName(LogNameUtils.joinLogName(LogbackType.ROOT, null, null, null))
+                .withLoggerName(Logger.ROOT_LOGGER_NAME)
                 // logger file path
                 .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
                 // logger type

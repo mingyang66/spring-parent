@@ -3,6 +3,7 @@ package com.emily.infrastructure.logback.configuration.classic;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.util.LevelUtil;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
@@ -46,7 +47,7 @@ public class LogbackGroup extends AbstractLogback {
         // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别
-        logger.setLevel(Level.toLevel(properties.getGroup().getLevel().toString()));
+        logger.setLevel(LevelUtil.levelStringToLevel(properties.getGroup().getLevel().toString()));
         // appender对象
         AbstractAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class).logPathField(field);
         // 是否开启异步日志

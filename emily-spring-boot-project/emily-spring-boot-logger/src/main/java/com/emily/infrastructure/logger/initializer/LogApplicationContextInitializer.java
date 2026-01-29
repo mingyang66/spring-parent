@@ -35,7 +35,7 @@ public class LogApplicationContextInitializer implements ApplicationContextIniti
         // SDK组件开关打开时才会初始化日志组件、线程池
         if (properties.isEnabled()) {
             // 初始化日志SDK上下文
-            LogbackContextInitializer.init(properties);
+            LogbackContextInitializer.initialize(properties);
         }
     }
 

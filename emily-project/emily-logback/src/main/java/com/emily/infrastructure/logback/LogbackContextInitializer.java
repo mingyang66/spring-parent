@@ -30,7 +30,7 @@ public class LogbackContextInitializer {
      *
      * @param properties 日志属性配置
      */
-    public static void init(LogbackProperties properties) {
+    public static void initialize(LogbackProperties properties) {
         if (!properties.isEnabled()) {
             return;
         }
@@ -46,7 +46,7 @@ public class LogbackContextInitializer {
         context = list.getFirst();
         // 初始化
         context.initialize(LogHolder.LC, properties);
-        //启动上下文，初始化root logger对象
+        // 启动上下文，初始化root logger对象
         context.start(properties);
 
         if (isAlreadyInitialized()) {

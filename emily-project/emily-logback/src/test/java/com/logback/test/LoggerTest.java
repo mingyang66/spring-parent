@@ -20,8 +20,8 @@ public class LoggerTest {
 
     @Test
     public void test1() {
-        LogbackContextInitializer.init(new LogbackProperties());
-        LogbackContextInitializer.init(new LogbackProperties());
+        LogbackContextInitializer.initialize(new LogbackProperties());
+        LogbackContextInitializer.initialize(new LogbackProperties());
         logger.info("info test ----------------");
         logger.error("info test ----------------");
         logger.warn("warn test ----------------");

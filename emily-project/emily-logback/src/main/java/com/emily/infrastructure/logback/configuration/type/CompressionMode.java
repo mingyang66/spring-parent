@@ -5,6 +5,7 @@ package com.emily.infrastructure.logback.configuration.type;
  * 压缩比率如下：
  * .gz  1/5  10KB压缩后2KB
  * .zip  2/11 11KB压缩后2KB
+ * .xz
  * ---------------------------------------------
  * <p>
  * 压缩模式
@@ -13,7 +14,7 @@ package com.emily.infrastructure.logback.configuration.type;
  * @since : Created in 2023/7/15 9:55 AM
  */
 public enum CompressionMode {
-    NONE(""), GZ(".gz"), ZIP(".zip");
+    NONE(""), GZ(".gz"), ZIP(".zip"), XZ(".xz");
     final String suffix;
 
     CompressionMode(String suffix) {

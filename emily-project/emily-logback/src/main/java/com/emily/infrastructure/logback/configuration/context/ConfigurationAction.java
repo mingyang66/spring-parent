@@ -29,8 +29,8 @@ public class ConfigurationAction extends ContextAwareBase {
     static final String PACKAGING_DATA_ATTR = "packagingData";
     private final LogbackProperties properties;
 
-    public ConfigurationAction(LoggerContext lc, LogbackProperties properties) {
-        this.context = lc;
+    public ConfigurationAction(LoggerContext context, LogbackProperties properties) {
+        this.context = context;
         this.properties = properties;
     }
 

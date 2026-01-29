@@ -16,11 +16,11 @@ import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
  * @since : 2022/01/10
  */
 public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
-    private final LoggerContext lc;
+    private final LoggerContext context;
     private final LogbackProperties properties;
 
-    public LogbackFixedWindowRollingPolicy(LoggerContext lc, LogbackProperties properties) {
-        this.lc = lc;
+    public LogbackFixedWindowRollingPolicy(LoggerContext context, LogbackProperties properties) {
+        this.context = context;
         this.properties = properties;
     }
 
@@ -50,9 +50,9 @@ public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
         FixedWindowRollingPolicy policy = new FixedWindowRollingPolicy();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         //但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        policy.setContext(lc);
+        policy.setContext(context);
         //归档文件名格式设置
-        String fp = StrUtils.substVars(lc, loggerPath, "%d{yyyy-MM-dd}%i.log");
+        String fp = StrUtils.substVars(context, loggerPath, "%d{yyyy-MM-dd}%i.log");
         //设置文件名模式，支持对文件进行压缩ZIP、GZ todo 带打开
         //policy.setFileNamePattern(StrUtils.join(fp, properties.getAppender().getRollingPolicy().getCompressionMode().getSuffix()));
         policy.setMinIndex(1);

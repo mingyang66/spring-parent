@@ -19,7 +19,7 @@ public class LogbackContextInitializer {
     /**
      * logback sdk context
      */
-    private static ContextProvider context;
+    private static ContextProvider contextProvider;
     /**
      * 是否已经初始化，默认：false
      */
@@ -35,7 +35,7 @@ public class LogbackContextInitializer {
             return;
         }
         if (isAlreadyInitialized()) {
-            context.stopAndReset(LogHolder.LC);
+            contextProvider.stopAndReset(LogHolder.LC);
         }
         // 初始化日志上下文
         List<ContextProvider> list = ClassicEnvUtil.loadFromServiceLoader(ContextProvider.class, ContextProvider.class.getClassLoader());
@@ -43,11 +43,11 @@ public class LogbackContextInitializer {
             System.out.println("Non existing log context");
             return;
         }
-        context = list.getFirst();
+        contextProvider = list.getFirst();
         // 初始化
-        context.initialize(LogHolder.LC, properties);
+        contextProvider.initialize(LogHolder.LC, properties);
         // 启动上下文，初始化root logger对象
-        context.start(properties);
+        contextProvider.start(properties);
 
         if (isAlreadyInitialized()) {
             LogHolder.LOG.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
@@ -60,7 +60,7 @@ public class LogbackContextInitializer {
 
     public static ContextProvider getContextProvider() {
         if (isAlreadyInitialized()) {
-            return context;
+            return contextProvider;
         }
         throw new IllegalStateException("Log sdk not initialized");
     }

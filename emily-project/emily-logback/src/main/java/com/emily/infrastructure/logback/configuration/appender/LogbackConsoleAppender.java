@@ -25,14 +25,14 @@ public class LogbackConsoleAppender extends AbstractAppender {
     /**
      * 属性配置
      */
-    private final LoggerContext lc;
+    private final LoggerContext context;
     /**
      * 属性配置
      */
     private final LogbackProperties properties;
 
-    public LogbackConsoleAppender(LoggerContext lc, LogbackProperties properties) {
-        this.lc = lc;
+    public LogbackConsoleAppender(LoggerContext context, LogbackProperties properties) {
+        this.context = context;
         this.properties = properties;
     }
 
@@ -48,7 +48,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(lc);
+        appender.setContext(context);
         //appender的name属性
         appender.setName(this.resolveName(level));
         //添加过滤器

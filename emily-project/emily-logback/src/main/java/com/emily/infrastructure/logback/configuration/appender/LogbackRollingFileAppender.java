@@ -29,7 +29,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     /**
      * logger上下文
      */
-    private final LoggerContext lc;
+    private final LoggerContext context;
     /**
      * 属性配置
      */
@@ -39,8 +39,8 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      */
     private LogPathField field;
 
-    public LogbackRollingFileAppender(LoggerContext lc, LogbackProperties properties) {
-        this.lc = lc;
+    public LogbackRollingFileAppender(LoggerContext context, LogbackProperties properties) {
+        this.context = context;
         this.properties = properties;
     }
 
@@ -69,7 +69,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         appender.setRollingPolicy(LogBeanFactory.getBeans(AbstractRollingPolicy.class).stream().filter(l -> l.support(policyType)).findFirst().orElseThrow().getRollingPolicy(appender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(lc);
+        appender.setContext(context);
         //appender的name属性
         appender.setName(this.resolveName(level));
         //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
@@ -112,7 +112,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         } else {
             throw new UnsupportedOperationException("Unsupported log type");
         }
-        return StrUtils.substVars(lc, loggerPath, ".log");
+        return StrUtils.substVars(context, loggerPath, ".log");
     }
 
     /**

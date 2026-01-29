@@ -19,11 +19,11 @@ import com.emily.infrastructure.logback.factory.LogBeanFactory;
  * @since : 2021/12/12
  */
 public class LogbackGroup extends AbstractLogback {
-    private final LoggerContext lc;
+    private final LoggerContext context;
     private final LogbackProperties properties;
 
-    public LogbackGroup(LoggerContext lc, LogbackProperties properties) {
-        this.lc = lc;
+    public LogbackGroup(LoggerContext context, LogbackProperties properties) {
+        this.context = context;
         this.properties = properties;
     }
 
@@ -42,7 +42,7 @@ public class LogbackGroup extends AbstractLogback {
     @Override
     public Logger getLogger(LogPathField field) {
         // 获取logger对象
-        Logger logger = lc.getLogger(field.getLoggerName());
+        Logger logger = context.getLogger(field.getLoggerName());
         // 设置是否向上级打印信息
         logger.setAdditive(false);
         // 设置日志级别

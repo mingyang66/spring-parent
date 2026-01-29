@@ -15,10 +15,10 @@ public interface ContextProvider {
     /**
      * 属性配置
      *
-     * @param lc         上下文
+     * @param context    上下文
      * @param properties logback日志属性
      */
-    void initialize(LoggerContext lc, LogbackProperties properties);
+    void initialize(LoggerContext context, LogbackProperties properties);
 
     /**
      * 获取logger日志对象
@@ -41,5 +41,5 @@ public interface ContextProvider {
      * 此方法会清除掉所有的内部属性，内部状态消息除外，关闭所有的appender，移除所有的turboFilters过滤器，
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
-    void stopAndReset(LoggerContext lc);
+    void stopAndReset(LoggerContext context);
 }

@@ -12,15 +12,15 @@ public class LogbackSocketAppender {
     /**
      * logger上下文
      */
-    private final LoggerContext lc;
+    private final LoggerContext context;
 
-    public LogbackSocketAppender(LoggerContext lc) {
-        this.lc = lc;
+    public LogbackSocketAppender(LoggerContext context) {
+        this.context = context;
     }
 
     protected Appender<ILoggingEvent> getAppender() {
         ch.qos.logback.classic.net.SocketAppender appender = new ch.qos.logback.classic.net.SocketAppender();
-        appender.setContext(lc);
+        appender.setContext(context);
         appender.setName("socketAppenderName");
         appender.setRemoteHost("172.30.71.32");
         appender.setPort(8100);

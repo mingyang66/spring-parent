@@ -40,37 +40,37 @@ public class ContextServiceProvider implements ContextProvider {
      * 4. packagingData异常堆栈拼接所属jar包控制
      * 5. 全局过滤器TurboFilter控制
      *
-     * @param lc         上下文
+     * @param context    上下文
      * @param properties logback日志属性
      */
     @Override
-    public void initialize(LoggerContext lc, LogbackProperties properties) {
+    public void initialize(LoggerContext context, LogbackProperties properties) {
         // 注册日志对象
-        LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(lc, properties));
-        LogBeanFactory.registerBean(LogbackModule.class.getSimpleName(), new LogbackModule(lc, properties));
-        LogBeanFactory.registerBean(LogbackRoot.class.getSimpleName(), new LogbackRoot(lc, properties));
+        LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(context, properties));
+        LogBeanFactory.registerBean(LogbackModule.class.getSimpleName(), new LogbackModule(context, properties));
+        LogBeanFactory.registerBean(LogbackRoot.class.getSimpleName(), new LogbackRoot(context, properties));
 
-        LogBeanFactory.registerBean(LogbackAsyncAppender.class.getSimpleName(), new LogbackAsyncAppender(lc, properties));
-        LogBeanFactory.registerBean(LogbackConsoleAppender.class.getSimpleName(), new LogbackConsoleAppender(lc, properties));
-        LogBeanFactory.registerBean(LogbackRollingFileAppender.class.getSimpleName(), new LogbackRollingFileAppender(lc, properties));
+        LogBeanFactory.registerBean(LogbackAsyncAppender.class.getSimpleName(), new LogbackAsyncAppender(context, properties));
+        LogBeanFactory.registerBean(LogbackConsoleAppender.class.getSimpleName(), new LogbackConsoleAppender(context, properties));
+        LogBeanFactory.registerBean(LogbackRollingFileAppender.class.getSimpleName(), new LogbackRollingFileAppender(context, properties));
 
-        LogBeanFactory.registerBean(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(lc, properties));
-        LogBeanFactory.registerBean(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(lc, properties));
-        LogBeanFactory.registerBean(LogbackFixedWindowRollingPolicy.class.getSimpleName(), new LogbackFixedWindowRollingPolicy(lc, properties));
+        LogBeanFactory.registerBean(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(context, properties));
+        LogBeanFactory.registerBean(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(context, properties));
+        LogBeanFactory.registerBean(LogbackFixedWindowRollingPolicy.class.getSimpleName(), new LogbackFixedWindowRollingPolicy(context, properties));
 
-        LogBeanFactory.registerBean(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(lc));
+        LogBeanFactory.registerBean(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(context));
 
-        LogBeanFactory.registerBean(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(lc));
-        LogBeanFactory.registerBean(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(lc));
-        LogBeanFactory.registerBean(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(lc));
-        LogBeanFactory.registerBean(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(lc));
+        LogBeanFactory.registerBean(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(context));
+        LogBeanFactory.registerBean(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(context));
+        LogBeanFactory.registerBean(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(context));
+        LogBeanFactory.registerBean(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(context));
         // 开启OnConsoleStatusListener监听器，即开启debug模式
-        ConfigurationAction configuration = new ConfigurationAction(lc, properties);
+        ConfigurationAction configuration = new ConfigurationAction(context, properties);
         configuration.start();
         //全局过滤器，接受指定标记的日志记录到文件中
-        properties.getMarker().getAcceptMarker().forEach((marker) -> lc.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker)));
+        properties.getMarker().getAcceptMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker)));
         //全局过滤器，拒绝标记的日志记录到文件中
-        properties.getMarker().getDenyMarker().forEach((marker) -> lc.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker)));
+        properties.getMarker().getDenyMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker)));
     }
 
     /**
@@ -146,9 +146,9 @@ public class ContextServiceProvider implements ContextProvider {
      * 引发OnReset事件，移除所有的状态监听器，移除所有的上下文监听器（reset相关复位除外）
      */
     @Override
-    public void stopAndReset(LoggerContext lc) {
-        lc.stop();
-        lc.reset();
+    public void stopAndReset(LoggerContext context) {
+        context.stop();
+        context.reset();
         LogBeanFactory.clear();
     }
 }

@@ -20,14 +20,14 @@ public class LogbackAsyncAppender {
     /**
      * logger上下文
      */
-    private final LoggerContext lc;
+    private final LoggerContext context;
     /**
      * 属性配置
      */
     private final LogbackProperties properties;
 
-    public LogbackAsyncAppender(LoggerContext lc, LogbackProperties properties) {
-        this.lc = lc;
+    public LogbackAsyncAppender(LoggerContext context, LogbackProperties properties) {
+        this.context = context;
         this.properties = properties;
     }
 
@@ -43,7 +43,7 @@ public class LogbackAsyncAppender {
         AsyncAppender appender = new AsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(lc);
+        appender.setContext(context);
         //appender的name属性
         appender.setName(String.join("", PREFIX, ref.getName()));
         //队列的最大容量，默认为 256

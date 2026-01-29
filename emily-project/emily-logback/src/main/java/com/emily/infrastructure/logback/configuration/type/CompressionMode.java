@@ -14,7 +14,7 @@ package com.emily.infrastructure.logback.configuration.type;
  */
 public enum CompressionMode {
     NONE(""), GZ(".gz"), ZIP(".zip");
-    String suffix;
+    final String suffix;
 
     CompressionMode(String suffix) {
         this.suffix = suffix;

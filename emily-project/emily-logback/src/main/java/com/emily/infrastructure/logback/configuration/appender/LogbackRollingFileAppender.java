@@ -13,6 +13,7 @@ import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayo
 import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
+import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.io.File;
@@ -57,7 +58,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
     @Override
     protected Appender<ILoggingEvent> getAppender(Level level) {
         //归档策略属性配置
-        LogbackProperties.RollingPolicy rp = properties.getAppender().getRollingPolicy();
+        RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
         //日志文件路径
         String loggerPath = this.resolveFilePath(level);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
@@ -65,7 +66,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
-        appender.setRollingPolicy(LogBeanFactory.getBeans(AbstractRollingPolicy.class).stream().filter(l -> l.support(rp.getType())).findFirst().orElseThrow().getRollingPolicy(appender, loggerPath));
+        appender.setRollingPolicy(LogBeanFactory.getBeans(AbstractRollingPolicy.class).stream().filter(l -> l.support(policyType)).findFirst().orElseThrow().getRollingPolicy(appender, loggerPath));
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(lc);

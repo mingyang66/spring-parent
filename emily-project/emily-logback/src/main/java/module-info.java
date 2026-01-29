@@ -9,6 +9,7 @@ module emily.logback {
     requires ch.qos.logback.classic;
     requires ch.qos.logback.core;
     requires org.slf4j;
+    requires java.sql;
     uses ContextProvider;
     provides ContextProvider with ContextServiceProvider;
     exports com.emily.infrastructure.logback;

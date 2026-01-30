@@ -33,6 +33,10 @@ public class LogBeanFactory {
         return (T) beanMap.get(beanName);
     }
 
+    public static boolean containsBean(String beanName) {
+        return beanMap.containsKey(beanName);
+    }
+
     public static void clear() {
         beanMap.clear();
     }

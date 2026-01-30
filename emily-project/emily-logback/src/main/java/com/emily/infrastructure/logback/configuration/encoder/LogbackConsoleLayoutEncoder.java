@@ -3,6 +3,7 @@ package com.emily.infrastructure.logback.configuration.encoder;
 import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Context;
+import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 
 import java.nio.charset.StandardCharsets;
@@ -21,7 +22,7 @@ public class LogbackConsoleLayoutEncoder {
         this.context = context;
     }
 
-    public LayoutWrappingEncoder<ILoggingEvent> getEncoder(String pattern) {
+    public Encoder<ILoggingEvent> getEncoder(String pattern) {
         LayoutWrappingEncoder<ILoggingEvent> encoder = new LayoutWrappingEncoder<>();
         encoder.setContext(context);
 

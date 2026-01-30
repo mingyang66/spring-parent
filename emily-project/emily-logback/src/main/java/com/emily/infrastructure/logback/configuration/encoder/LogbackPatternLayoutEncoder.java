@@ -3,7 +3,7 @@ package com.emily.infrastructure.logback.configuration.encoder;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Context;
-import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
+import ch.qos.logback.core.encoder.Encoder;
 
 import java.nio.charset.StandardCharsets;
 
@@ -26,7 +26,7 @@ public class LogbackPatternLayoutEncoder {
      * @param pattern 日志输出格式
      * @return 编码方式对象
      */
-    public LayoutWrappingEncoder<ILoggingEvent> getEncoder(String pattern) {
+    public Encoder<ILoggingEvent> getEncoder(String pattern) {
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。

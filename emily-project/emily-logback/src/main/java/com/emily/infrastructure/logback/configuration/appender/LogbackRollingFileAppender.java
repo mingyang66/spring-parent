@@ -86,6 +86,16 @@ public class LogbackRollingFileAppender extends AbstractAppender {
         return appender;
     }
 
+    @Override
+    public Appender<ILoggingEvent> registerElseGet(Level level) {
+        //appender名称重新拼接
+        String appenderName = this.getName(level);
+        //如果已经存在，则忽略，否则添加
+        LogBeanFactory.registerBean(appenderName, this.getAppender(level));
+        // return appender object
+        return LogBeanFactory.getBean(appenderName);
+    }
+
     /**
      * 获取文件路径
      *

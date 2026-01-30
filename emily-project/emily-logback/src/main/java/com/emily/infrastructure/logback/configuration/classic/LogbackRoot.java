@@ -52,35 +52,35 @@ public class LogbackRoot extends AbstractLogback {
             //异步appender
             LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.build(Level.ERROR)));
+                logger.addAppender(asyncAppender.getAppender(appender.registerElseGet(Level.ERROR)));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.build(Level.WARN)));
+                logger.addAppender(asyncAppender.getAppender(appender.registerElseGet(Level.WARN)));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.build(Level.INFO)));
+                logger.addAppender(asyncAppender.getAppender(appender.registerElseGet(Level.INFO)));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.build(Level.DEBUG)));
+                logger.addAppender(asyncAppender.getAppender(appender.registerElseGet(Level.DEBUG)));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.build(Level.TRACE)));
+                logger.addAppender(asyncAppender.getAppender(appender.registerElseGet(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(appender.build(Level.ERROR));
+                logger.addAppender(appender.registerElseGet(Level.ERROR));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(appender.build(Level.WARN));
+                logger.addAppender(appender.registerElseGet(Level.WARN));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(appender.build(Level.INFO));
+                logger.addAppender(appender.registerElseGet(Level.INFO));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(appender.build(Level.DEBUG));
+                logger.addAppender(appender.registerElseGet(Level.DEBUG));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(appender.build(Level.TRACE));
+                logger.addAppender(appender.registerElseGet(Level.TRACE));
             }
         }
         if (properties.getRoot().isConsole()) {
@@ -89,7 +89,7 @@ public class LogbackRoot extends AbstractLogback {
             //基于springboot默认初始化的appender name默认大写
             logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
             // 添加控制台appender
-            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).build(logger.getLevel()));
+            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).registerElseGet(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE);

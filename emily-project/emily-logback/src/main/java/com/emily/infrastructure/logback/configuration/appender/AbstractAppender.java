@@ -23,7 +23,7 @@ public abstract class AbstractAppender {
     /**
      * 容器中存在忽略，否则注册，获取对应bean对象
      */
-    public abstract Appender<ILoggingEvent> registerElseGet(Level level);
+    public abstract Appender<ILoggingEvent> registerAndGet(Level level);
 
     /**
      * 获取文件路径

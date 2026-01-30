@@ -25,7 +25,7 @@ import java.text.MessageFormat;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackRollingFileAppender extends AbstractAppender {
+public class LogbackRollingFileAppender implements LogbackAppender {
     /**
      * logger上下文
      */
@@ -56,7 +56,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return appender
      */
     @Override
-    protected Appender<ILoggingEvent> getAppender(Level level) {
+    public Appender<ILoggingEvent> getAppender(Level level) {
         //归档策略属性配置
         RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
         //日志文件路径
@@ -103,7 +103,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return 日志文件路径
      */
     @Override
-    protected String getFilePath(Level level) {
+    public String getFilePath(Level level) {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
@@ -131,7 +131,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return 日志格式
      */
     @Override
-    protected String getFilePattern() {
+    public String getFilePattern() {
         //基础日志
         if (LogbackType.ROOT.equals(field.getLogbackType())) {
             return properties.getRoot().getPattern();
@@ -152,7 +152,7 @@ public class LogbackRollingFileAppender extends AbstractAppender {
      * @return appender name值
      */
     @Override
-    protected String getName(Level level) {
+    public String getName(Level level) {
         String fileName = field.getFileName();
         if (StrUtils.isEmpty(fileName)) {
             fileName = level.levelStr.toLowerCase();

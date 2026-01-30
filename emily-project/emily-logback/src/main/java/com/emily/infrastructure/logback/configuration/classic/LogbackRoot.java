@@ -6,7 +6,7 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.LevelUtil;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.LogPathField;
-import com.emily.infrastructure.logback.configuration.appender.AbstractAppender;
+import com.emily.infrastructure.logback.configuration.appender.LogbackAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
@@ -46,7 +46,7 @@ public class LogbackRoot extends AbstractLogback {
         // 设置日志级别
         logger.setLevel(LevelUtil.levelStringToLevel(properties.getRoot().getLevel().toString()));
         // appender对象
-        AbstractAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class).logPathField(field);
+        LogbackAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class).logPathField(field);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender

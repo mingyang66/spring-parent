@@ -16,7 +16,7 @@ import com.emily.infrastructure.logback.factory.LogBeanFactory;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackConsoleAppender extends AbstractAppender {
+public class LogbackConsoleAppender implements LogbackAppender {
     /**
      * 控制台appender name
      * 必须小写，否则会出现多个控制台appender
@@ -43,7 +43,7 @@ public class LogbackConsoleAppender extends AbstractAppender {
      * @return consul appender
      */
     @Override
-    protected Appender<ILoggingEvent> getAppender(Level level) {
+    public Appender<ILoggingEvent> getAppender(Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -75,17 +75,12 @@ public class LogbackConsoleAppender extends AbstractAppender {
     }
 
     @Override
-    protected String getFilePath(Level level) {
-        return null;
-    }
-
-    @Override
-    protected String getFilePattern() {
+    public String getFilePattern() {
         return properties.getRoot().getConsolePattern();
     }
 
     @Override
-    protected String getName(Level level) {
+    public String getName(Level level) {
         return CONSOLE;
     }
 }

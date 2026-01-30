@@ -27,6 +27,7 @@ public class ConfigurationAction extends ContextAwareBase {
     static final String SCAN_ATTR = "scan";
     static final String SCAN_PERIOD_ATTR = "scanPeriod";
     static final String PACKAGING_DATA_ATTR = "packagingData";
+    private final LoggerContext context;
     private final LogbackProperties properties;
 
     public ConfigurationAction(LoggerContext context, LogbackProperties properties) {
@@ -47,7 +48,7 @@ public class ConfigurationAction extends ContextAwareBase {
         } else {
             addInfo(INTERNAL_DEBUG_ATTR + " attribute not set");
         }
-        ((LoggerContext) context).setPackagingDataEnabled(properties.isPackagingData());
+        context.setPackagingDataEnabled(properties.isPackagingData());
     }
 
 }

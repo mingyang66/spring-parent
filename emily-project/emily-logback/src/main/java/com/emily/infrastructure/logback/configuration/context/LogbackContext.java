@@ -65,8 +65,7 @@ public class LogbackContext {
         LogBeanFactory.registerBean(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(context));
         LogBeanFactory.registerBean(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(context));
         //开启OnConsoleStatusListener监听器，即开启debug模式
-        ConfigurationAction configuration = new ConfigurationAction(context, properties);
-        configuration.start();
+        new ConfigurationAction(context, properties).start();
         //全局过滤器，接受指定标记的日志记录到文件中
         properties.getMarker().getAcceptMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker)));
         //全局过滤器，拒绝标记的日志记录到文件中

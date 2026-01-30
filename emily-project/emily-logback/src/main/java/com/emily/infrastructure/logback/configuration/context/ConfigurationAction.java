@@ -1,6 +1,8 @@
 package com.emily.infrastructure.logback.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.classic.util.ContextInitializer;
 import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.status.OnConsoleStatusListener;
 import ch.qos.logback.core.util.StatusListenerConfigHelper;
@@ -17,6 +19,10 @@ import com.emily.infrastructure.logback.LogbackProperties;
  * -------------------------------------------
  * <p>
  * logback日志全局configuration配置属性解析
+ * <p>
+ * {@link ch.qos.logback.classic.joran.action.ConfigurationAction}类初始化入口
+ * {@link JoranConfigurator}
+ * {@link ContextInitializer#autoConfig(ClassLoader)}
  *
  * @author Emily
  * @since :  Created in 2023/7/15 5:32 PM

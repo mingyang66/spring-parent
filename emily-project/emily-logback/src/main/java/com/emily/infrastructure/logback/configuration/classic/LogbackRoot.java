@@ -52,19 +52,19 @@ public class LogbackRoot extends AbstractLogback {
             //异步appender
             LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.registerAndGet(Level.ERROR)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.ERROR)));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.registerAndGet(Level.WARN)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.WARN)));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.registerAndGet(Level.INFO)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.INFO)));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.registerAndGet(Level.DEBUG)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.DEBUG)));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getAppender(appender.registerAndGet(Level.TRACE)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.TRACE)));
             }
         } else {
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {

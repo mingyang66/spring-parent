@@ -6,6 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.StrUtils;
+import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 /**
  * 通过名字和级别设置异步Appender
@@ -46,7 +47,7 @@ public class LogbackAsyncAppender {
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(context);
         //appender的name属性
-        appender.setName(StrUtils.join(PREFIX, ref.getName()));
+        appender.setName(this.getName(ref.getName()));
         //队列的最大容量，默认为 256
         appender.setQueueSize(async.getQueueSize());
         //默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
@@ -63,5 +64,18 @@ public class LogbackAsyncAppender {
         appender.addAppender(ref);
         appender.start();
         return appender;
+    }
+
+    public Appender<ILoggingEvent> registerAndGet(Appender<ILoggingEvent> ref) {
+        String appenderName = this.getName(ref.getName());
+        if (LogBeanFactory.containsBean(appenderName)) {
+            return LogBeanFactory.getBean(appenderName);
+        }
+        LogBeanFactory.registerBean(appenderName, this.getAppender(ref));
+        return LogBeanFactory.getBean(appenderName);
+    }
+
+    public String getName(String name) {
+        return StrUtils.join(PREFIX, name);
     }
 }

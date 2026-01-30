@@ -21,7 +21,7 @@ public class LogNameUtils {
      */
     public static String joinLogName(LogbackType logbackType, String filePath, String fileName, Class<?> requiredClass) {
         //拼装logger name
-        return MessageFormat.format("{0}{1}.{2}.{3}", logbackType, filePath, Objects.requireNonNullElse(fileName, StrUtils.EMPTY), requiredClass.getName())
+        return MessageFormat.format("{0}.{1}.{2}.{3}", logbackType, filePath, Objects.requireNonNullElse(fileName, StrUtils.EMPTY), requiredClass.getName())
                 .replace(PathUtils.SLASH, PathUtils.DOT)
                 .replace(StrUtils.join(PathUtils.DOT, PathUtils.DOT), PathUtils.DOT);
     }

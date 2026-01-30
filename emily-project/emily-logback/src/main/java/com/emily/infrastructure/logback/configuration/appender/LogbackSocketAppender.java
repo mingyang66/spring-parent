@@ -1,6 +1,7 @@
 package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.net.SocketAppender;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 
@@ -9,9 +10,6 @@ import ch.qos.logback.core.Appender;
  * @since :  2023/10/18 9:47 PM
  */
 public class LogbackSocketAppender {
-    /**
-     * logger上下文
-     */
     private final LoggerContext context;
 
     public LogbackSocketAppender(LoggerContext context) {
@@ -19,7 +17,7 @@ public class LogbackSocketAppender {
     }
 
     protected Appender<ILoggingEvent> getAppender() {
-        ch.qos.logback.classic.net.SocketAppender appender = new ch.qos.logback.classic.net.SocketAppender();
+        SocketAppender appender = new SocketAppender();
         appender.setContext(context);
         appender.setName("socketAppenderName");
         appender.setRemoteHost("172.30.71.32");

@@ -8,7 +8,7 @@ import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
-import com.emily.infrastructure.logback.configuration.classic.AbstractLogback;
+import com.emily.infrastructure.logback.configuration.classic.Logback;
 import com.emily.infrastructure.logback.configuration.classic.LogbackGroup;
 import com.emily.infrastructure.logback.configuration.classic.LogbackModule;
 import com.emily.infrastructure.logback.configuration.classic.LogbackRoot;
@@ -116,7 +116,7 @@ public class LogbackContext {
         if (logger == null) {
             synchronized (LogbackContext.class) {
                 // 获取logger日志对象
-                logger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(field);
+                logger = LogBeanFactory.getBeans(Logback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(field);
                 // 存入缓存
                 LogBeanFactory.registerBean(field.getLoggerName(), logger);
             }
@@ -129,7 +129,7 @@ public class LogbackContext {
      */
     void initRootLogger(LogbackProperties properties) {
         // 获取root logger对象
-        Logger rootLogger = LogBeanFactory.getBeans(AbstractLogback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
+        Logger rootLogger = LogBeanFactory.getBeans(Logback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
                 // logger name
                 .withLoggerName(Logger.ROOT_LOGGER_NAME)
                 // logger file path

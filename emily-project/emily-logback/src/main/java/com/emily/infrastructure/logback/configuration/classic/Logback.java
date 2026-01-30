@@ -10,14 +10,14 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
  * @author Emily
  * @since : 2021/12/17
  */
-public abstract class AbstractLogback {
+public interface Logback {
     /**
      * 判定是否支持指定的日志类型
      *
      * @param logbackType 日志类型
      * @return true-支持，false-不支持
      */
-    public boolean supports(LogbackType logbackType) {
+    default boolean supports(LogbackType logbackType) {
         return false;
     }
 
@@ -27,5 +27,5 @@ public abstract class AbstractLogback {
      * @param field appender属性名
      * @return 返回Logger日志对象
      */
-    public abstract Logger getLogger(LogPathField field);
+    Logger getLogger(LogPathField field);
 }

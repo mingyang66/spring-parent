@@ -19,7 +19,7 @@ import com.emily.infrastructure.logback.factory.LogBeanFactory;
  * @author Emily
  * @since : 2021/12/12
  */
-public class LogbackGroup extends AbstractLogback {
+public class LogbackGroup implements Logback {
     private final LoggerContext context;
     private final LogbackProperties properties;
 

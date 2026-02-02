@@ -1,13 +1,13 @@
 package com.emily.sample.lua.test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import party.iroiro.luajava.Lua;
 import party.iroiro.luajava.lua54.Lua54;
 import party.iroiro.luajava.value.LuaValue;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author :  Emily

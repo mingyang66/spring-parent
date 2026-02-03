@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.service;
+package com.emily.sample.datasource.service;
 
 /**
  * @author Emily

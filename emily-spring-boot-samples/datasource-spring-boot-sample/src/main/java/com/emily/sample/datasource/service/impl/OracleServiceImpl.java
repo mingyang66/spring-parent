@@ -1,7 +1,7 @@
-package com.emily.infrastructure.sample.web.service.impl;
+package com.emily.sample.datasource.service.impl;
 
-import com.emily.infrastructure.sample.web.mapper.oracle.OracleMapper;
-import com.emily.infrastructure.sample.web.service.OracleService;
+import com.emily.sample.datasource.mapper.oracle.OracleMapper;
+import com.emily.sample.datasource.service.OracleService;
 import org.springframework.stereotype.Service;
 
 /**

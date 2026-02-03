@@ -1,8 +1,8 @@
-package com.emily.infrastructure.sample.web.mapper.mysql;
+package com.emily.sample.datasource.mapper.mysql;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
-import com.emily.infrastructure.sample.web.entity.Job;
+import com.emily.sample.datasource.entity.Job;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

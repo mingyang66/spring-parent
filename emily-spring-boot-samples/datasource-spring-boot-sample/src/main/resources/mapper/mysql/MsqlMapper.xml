@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.emily.infrastructure.sample.web.mapper.mysql.MysqlMapper">
+<mapper namespace="com.emily.sample.datasource.mapper.mysql.MysqlMapper">
     <select id="findLocks" resultType="java.lang.String">
         SELECT qjd.LOCK_NAME
         FROM QUARTZ_LOCKS qjd
@@ -12,7 +12,7 @@
         WHERE ql.LOCK_NAME = #{lockName}
     </delete>
 
-    <select id="getMysql" resultType="com.emily.infrastructure.sample.web.entity.World">
+    <select id="getMysql" resultType="com.emily.sample.datasource.entity.World">
         SELECT *
         FROM world w
         where w.username = #{username}

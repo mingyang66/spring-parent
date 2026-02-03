@@ -31,6 +31,7 @@
         <module>shell-spring-boot-starter</module>
         <module>rabbitmq-spring-boot-sample</module>
         <module>logger-spring-boot-sample</module>
+        <module>datasource-spring-boot-sample</module>
     </modules>
 
 </project>

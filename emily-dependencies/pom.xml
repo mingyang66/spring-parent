@@ -19,7 +19,6 @@
         <spring-cloud.version>2025.1.0</spring-cloud.version>
         <spring-shell.version>4.0.0</spring-shell.version>
         <spring.mybatis.version>4.0.1</spring.mybatis.version>
-        <alibaba.druid.version>1.2.27</alibaba.druid.version>
         <commons-io.version>2.21.0</commons-io.version>
         <google-guava.version>33.5.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
@@ -173,12 +172,6 @@
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-spring-boot-security</artifactId>
                 <version>${revision}</version>
-            </dependency>
-            <!-- 第三方依赖 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-3-starter</artifactId>
-                <version>${alibaba.druid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

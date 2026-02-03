@@ -1,4 +1,4 @@
-package com.emily.infrastructure.sample.web.mapper.oracle;
+package com.emily.sample.datasource.mapper.oracle;
 
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;

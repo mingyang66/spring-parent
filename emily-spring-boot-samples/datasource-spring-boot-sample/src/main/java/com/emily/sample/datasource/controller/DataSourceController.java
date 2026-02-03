@@ -1,15 +1,15 @@
-package com.emily.infrastructure.sample.web.controller;
+package com.emily.sample.datasource.controller;
 
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.helper.SqlSessionFactoryHelper;
 import com.emily.infrastructure.date.DateComputeUtils;
-import com.emily.infrastructure.sample.web.entity.Item;
-import com.emily.infrastructure.sample.web.entity.Job;
-import com.emily.infrastructure.sample.web.entity.World;
-import com.emily.infrastructure.sample.web.mapper.mysql.ItemMapper;
-import com.emily.infrastructure.sample.web.mapper.mysql.JobMapper;
-import com.emily.infrastructure.sample.web.service.MysqlService;
-import com.emily.infrastructure.sample.web.service.OracleService;
+import com.emily.sample.datasource.entity.Item;
+import com.emily.sample.datasource.entity.Job;
+import com.emily.sample.datasource.entity.World;
+import com.emily.sample.datasource.mapper.mysql.ItemMapper;
+import com.emily.sample.datasource.mapper.mysql.JobMapper;
+import com.emily.sample.datasource.service.MysqlService;
+import com.emily.sample.datasource.service.OracleService;
 import com.google.common.collect.Lists;
 import com.otter.infrastructure.servlet.RequestUtils;
 import org.apache.ibatis.mapping.MappedStatement;

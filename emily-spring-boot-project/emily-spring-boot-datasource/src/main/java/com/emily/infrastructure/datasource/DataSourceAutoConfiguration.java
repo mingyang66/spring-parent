@@ -1,8 +1,5 @@
 package com.emily.infrastructure.datasource;
 
-import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
-import com.alibaba.druid.spring.boot3.autoconfigure.properties.DruidStatProperties;
-import com.alibaba.druid.spring.boot3.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.emily.infrastructure.aop.advisor.AnnotationPointcutAdvisor;
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
@@ -23,7 +20,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -43,7 +39,6 @@ import java.util.Objects;
  * @since 4.0.8
  */
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@AutoConfiguration(before = DruidDataSourceAutoConfigure.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 @ConditionalOnProperty(prefix = DataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, InitializingBean, DisposableBean {
@@ -123,18 +118,6 @@ public class DataSourceAutoConfiguration implements BeanFactoryPostProcessor, In
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         }
-
-        if (beanFactory.containsBeanDefinition(DruidSpringAopConfiguration.class.getName())) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(DruidSpringAopConfiguration.class.getName());
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-
-        beanNames = beanFactory.getBeanNamesForType(DruidStatProperties.class);
-        if (beanNames.length > 0 && beanFactory.containsBeanDefinition(beanNames[0])) {
-            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanNames[0]);
-            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        }
-
     }
 
     @Override

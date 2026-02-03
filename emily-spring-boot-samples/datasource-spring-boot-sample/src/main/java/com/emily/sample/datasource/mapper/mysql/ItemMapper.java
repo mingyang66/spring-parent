@@ -1,6 +1,6 @@
-package com.emily.infrastructure.sample.web.mapper.mysql;
+package com.emily.sample.datasource.mapper.mysql;
 
-import com.emily.infrastructure.sample.web.entity.Item;
+import com.emily.sample.datasource.entity.Item;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

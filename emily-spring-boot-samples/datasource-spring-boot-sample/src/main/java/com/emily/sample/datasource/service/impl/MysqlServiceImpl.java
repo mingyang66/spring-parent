@@ -1,8 +1,8 @@
-package com.emily.infrastructure.sample.web.service.impl;
+package com.emily.sample.datasource.service.impl;
 
-import com.emily.infrastructure.sample.web.entity.World;
-import com.emily.infrastructure.sample.web.mapper.mysql.MysqlMapper;
-import com.emily.infrastructure.sample.web.service.MysqlService;
+import com.emily.sample.datasource.entity.World;
+import com.emily.sample.datasource.mapper.mysql.MysqlMapper;
+import com.emily.sample.datasource.service.MysqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

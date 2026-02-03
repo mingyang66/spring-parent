@@ -1,6 +1,6 @@
-package com.emily.infrastructure.sample.web.service;
+package com.emily.sample.datasource.service;
 
-import com.emily.infrastructure.sample.web.entity.World;
+import com.emily.sample.datasource.entity.World;
 
 import java.util.List;
 

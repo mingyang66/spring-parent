@@ -8,7 +8,7 @@
 echo '#########emily-parent...'
 cd emily-project
 ../mvnw clean install -pl emily-json
-../mvnw clean install -pl emily-logger
+../mvnw clean install -pl emily-logback
 ../mvnw clean install -pl emily-captcha
 ../mvnw clean install -pl emily-language
 ../mvnw clean install -pl emily-desensitize

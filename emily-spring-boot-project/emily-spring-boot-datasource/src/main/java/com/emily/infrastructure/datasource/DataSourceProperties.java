@@ -1,6 +1,5 @@
 package com.emily.infrastructure.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
@@ -38,17 +37,13 @@ public class DataSourceProperties {
      */
     private boolean lenientFallback = true;
     /**
-     * Druid数据库连接池多数据源配置
-     */
-    private Map<String, DruidDataSource> druid;
-    /**
      * Hikari数据库连接池多数据源配置
      */
-    private Map<String, HikariDataSource> hikari;
+    private Map<String, HikariDataSource> config = new HashMap<>();
     /**
      * JNDI数据源
      */
-    private Map<String, String> jndi;
+    private Map<String, String> jndi = new HashMap<>();
 
     public boolean isEnabled() {
         return enabled;
@@ -82,28 +77,12 @@ public class DataSourceProperties {
         this.lenientFallback = lenientFallback;
     }
 
-    public Map<String, DruidDataSource> getDruid() {
-        return druid;
-    }
-
-    public void setDruid(Map<String, DruidDataSource> druid) {
-        this.druid = druid;
-    }
-
-    public Map<String, HikariDataSource> getHikari() {
-        return hikari;
-    }
-
-    public void setHikari(Map<String, HikariDataSource> hikari) {
-        this.hikari = hikari;
+    public Map<String, HikariDataSource> getConfig() {
+        return config;
     }
 
     public Map<String, String> getJndi() {
         return jndi;
-    }
-
-    public void setJndi(Map<String, String> jndi) {
-        this.jndi = jndi;
     }
 
     /**
@@ -113,11 +92,8 @@ public class DataSourceProperties {
      */
     public Map<Object, Object> getTargetDataSources() {
         Map<Object, Object> dsMap = new HashMap<>(5);
-        if (!CollectionUtils.isEmpty(this.druid)) {
-            dsMap.putAll(this.druid);
-        }
-        if (!CollectionUtils.isEmpty(this.hikari)) {
-            dsMap.putAll(this.hikari);
+        if (!CollectionUtils.isEmpty(this.config)) {
+            dsMap.putAll(this.config);
         }
         if (!CollectionUtils.isEmpty(this.jndi)) {
             dsMap.putAll(this.jndi);

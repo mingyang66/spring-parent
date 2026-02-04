@@ -21,14 +21,13 @@ import static org.mockito.Mockito.when;
 public class RequestUtilsTest {
 
     private HttpServletRequest request;
-    private ServletRequestAttributes requestAttributes;
 
     @BeforeEach
     public void setUp() {
         // 使用Mockito来模拟一个HttpServletRequest对象
         request = Mockito.mock(HttpServletRequest.class);
         // 你可以根据需要进一步配置mock对象的行为
-        requestAttributes = Mockito.mock(ServletRequestAttributes.class);
+        ServletRequestAttributes requestAttributes = Mockito.mock(ServletRequestAttributes.class);
         RequestContextHolder.setRequestAttributes(requestAttributes);
         when(requestAttributes.getRequest()).thenReturn(request);
     }

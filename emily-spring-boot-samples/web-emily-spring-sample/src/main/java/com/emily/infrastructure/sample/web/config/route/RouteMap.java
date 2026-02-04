@@ -1,7 +1,6 @@
 package com.emily.infrastructure.sample.web.config.route;
 
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Map;
  * @since Created in 2023/2/4 2:38 下午
  */
 public class RouteMap {
-    public static Map<String, String> CACHE = Maps.newHashMap();
+    public static Map<String, String> CACHE = new HashMap<>();
 
     static {
         CACHE.put("/logback/debug", "/logback/debug1");

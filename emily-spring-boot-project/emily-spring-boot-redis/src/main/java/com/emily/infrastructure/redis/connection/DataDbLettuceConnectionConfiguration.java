@@ -4,6 +4,7 @@ package com.emily.infrastructure.redis.connection;
 import com.emily.infrastructure.redis.DataDbRedisProperties;
 import com.emily.infrastructure.redis.RedisProperties;
 import com.emily.infrastructure.redis.common.DataRedisInfo;
+import com.emily.infrastructure.redis.tracing.LoggingTracing;
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.cluster.ClusterClientOptions;
@@ -79,6 +80,9 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     @ConditionalOnMissingBean(ClientResources.class)
     DefaultClientResources lettuceClientResources(ObjectProvider<ClientResourcesBuilderCustomizer> customizers) {
         DefaultClientResources.Builder builder = DefaultClientResources.builder();
+        if (this.getProperties().isTracing()) {
+            builder.tracing(new LoggingTracing(true));
+        }
         customizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
         return builder.build();
     }

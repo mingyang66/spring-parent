@@ -26,13 +26,17 @@ public class DataDbRedisProperties {
      */
     private boolean listener;
     /**
-     * 默认配置标识
+     * 是否开启操作指令追踪，默认：false
      */
-    private String defaultConfig;
+    private boolean tracing;
     /**
      * 客户端类型
      */
     private RedisProperties.ClientType clientType = RedisProperties.ClientType.LETTUCE;
+    /**
+     * 默认配置标识
+     */
+    private String defaultConfig;
 
     /**
      * 多数据源配置
@@ -49,6 +53,14 @@ public class DataDbRedisProperties {
 
     public void setClientType(RedisProperties.ClientType clientType) {
         this.clientType = clientType;
+    }
+
+    public boolean isTracing() {
+        return tracing;
+    }
+
+    public void setTracing(boolean tracing) {
+        this.tracing = tracing;
     }
 
     public String getDefaultConfig() {

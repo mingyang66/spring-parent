@@ -11,7 +11,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -94,30 +93,28 @@ abstract class DataDbRedisConnectionConfiguration {
             return this.clusterConfiguration;
         } else {
             RedisProperties.Cluster clusterProperties = properties.getCluster();
-            if (connectionDetails.getCluster() != null) {
-                RedisClusterConfiguration config = new RedisClusterConfiguration();
-                config.setClusterNodes(this.getNodes(connectionDetails.getCluster()));
-                if (clusterProperties != null && clusterProperties.getMaxRedirects() != null) {
-                    config.setMaxRedirects(clusterProperties.getMaxRedirects());
-                }
-
-                config.setUsername(connectionDetails.getUsername());
-                String password = connectionDetails.getPassword();
-                if (password != null) {
-                    config.setPassword(RedisPassword.of(password));
-                }
-
-                return config;
-            } else {
-                return null;
+            connectionDetails.getCluster();
+            RedisClusterConfiguration config = new RedisClusterConfiguration();
+            config.setClusterNodes(this.getNodes(connectionDetails.getCluster()));
+            if (clusterProperties.getMaxRedirects() != null) {
+                config.setMaxRedirects(clusterProperties.getMaxRedirects());
             }
+
+            config.setUsername(connectionDetails.getUsername());
+            String password = connectionDetails.getPassword();
+            if (password != null) {
+                config.setPassword(RedisPassword.of(password));
+            }
+
+            return config;
         }
     }
 
     protected final @Nullable RedisStaticMasterReplicaConfiguration getMasterReplicaConfiguration(DataRedisConnectionDetails connectionDetails) {
         if (this.masterReplicaConfiguration != null) {
             return this.masterReplicaConfiguration;
-        } else if (connectionDetails.getMasterReplica() != null) {
+        } else {
+            connectionDetails.getMasterReplica();
             List<DataRedisConnectionDetails.Node> nodes = connectionDetails.getMasterReplica().getNodes();
             Assert.state(!nodes.isEmpty(), "At least one node is required for master-replica configuration");
             RedisStaticMasterReplicaConfiguration config = new RedisStaticMasterReplicaConfiguration(((DataRedisConnectionDetails.Node) nodes.get(0)).host(), ((DataRedisConnectionDetails.Node) nodes.get(0)).port());
@@ -131,8 +128,6 @@ abstract class DataDbRedisConnectionConfiguration {
             }
 
             return config;
-        } else {
-            return null;
         }
     }
 
@@ -158,11 +153,9 @@ abstract class DataDbRedisConnectionConfiguration {
     }
 
     private List<RedisNode> createSentinels(DataRedisConnectionDetails.Sentinel sentinel) {
-        List<RedisNode> nodes = new ArrayList();
-        Iterator var3 = sentinel.getNodes().iterator();
+        List<RedisNode> nodes = new ArrayList<>();
 
-        while (var3.hasNext()) {
-            DataRedisConnectionDetails.Node node = (DataRedisConnectionDetails.Node) var3.next();
+        for (DataRedisConnectionDetails.Node node : sentinel.getNodes()) {
             nodes.add(this.asRedisNode(node));
         }
 

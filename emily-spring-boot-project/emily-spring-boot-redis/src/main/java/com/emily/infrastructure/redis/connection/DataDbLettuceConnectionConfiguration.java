@@ -149,6 +149,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
         LettuceClientConfiguration clientConfiguration = getLettuceClientConfiguration(clientConfigurationBuilderCustomizers,
                 clientOptionsBuilderCustomizers,
                 clientResources,
+                redisConnectionDetails,
                 properties);
         return switch (this.mode) {
             case STANDALONE ->
@@ -174,9 +175,10 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     private LettuceClientConfiguration getLettuceClientConfiguration(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
                                                                      ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
                                                                      ClientResources clientResources,
+                                                                     DataRedisConnectionDetails connectionDetails,
                                                                      RedisProperties properties) {
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = this.createBuilder(properties.getLettuce().getPool());
-        SslBundle sslBundle = this.getSslBundle();
+        SslBundle sslBundle = this.getSslBundle(connectionDetails);
         this.applyProperties(builder, sslBundle, properties);
         String url = properties.getUrl();
         if (org.springframework.util.StringUtils.hasText(url)) {

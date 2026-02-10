@@ -139,8 +139,8 @@ abstract class DataDbRedisConnectionConfiguration {
         return new RedisNode(node.host(), node.port());
     }
 
-    protected @Nullable SslBundle getSslBundle() {
-        return this.connectionDetails.getSslBundle();
+    protected @Nullable SslBundle getSslBundle(DataRedisConnectionDetails connectionDetails) {
+        return connectionDetails.getSslBundle();
     }
 
     protected boolean isSslEnabled(RedisProperties properties) {

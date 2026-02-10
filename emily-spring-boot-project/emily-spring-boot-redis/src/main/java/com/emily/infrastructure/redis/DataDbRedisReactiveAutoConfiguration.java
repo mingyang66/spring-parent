@@ -49,7 +49,7 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REACTIVE_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate() {
+    public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(Map<String, ReactiveRedisConnectionFactory> connectionFactories) {
         RedisSerializationContext<String, Object> serializationContext = RedisSerializationContext.<String, Object>newSerializationContext(SerializationUtils.stringSerializer())
                 .key(SerializationUtils.stringSerializer())
                 .value(SerializationUtils.jackson2JsonRedisSerializer())
@@ -58,8 +58,8 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
                 .build();
         ReactiveRedisTemplate<String, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
-            ReactiveRedisConnectionFactory factory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
-            ReactiveRedisTemplate<String, Object> template = new ReactiveRedisTemplate<>(factory, serializationContext);
+            ReactiveRedisConnectionFactory connectionFactory = connectionFactories.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY));
+            ReactiveRedisTemplate<String, Object> template = new ReactiveRedisTemplate<>(connectionFactory, serializationContext);
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_REDIS_TEMPLATE), template);
             if (properties.getDefaultConfig().equals(entry.getKey())) {
                 redisTemplate = template;
@@ -72,9 +72,9 @@ public class DataDbRedisReactiveAutoConfiguration implements InitializingBean, D
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REACTIVE_STRING_REDIS_TEMPLATE)
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveStringRedisTemplate reactiveStringRedisTemplate() {
+    public ReactiveStringRedisTemplate reactiveStringRedisTemplate(Map<String, ReactiveRedisConnectionFactory> connectionFactories) {
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
-            ReactiveRedisConnectionFactory connectionFactory = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), ReactiveRedisConnectionFactory.class);
+            ReactiveRedisConnectionFactory connectionFactory = connectionFactories.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY));
             beanFactory.registerSingleton(StringUtils.join(entry.getKey(), DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), new ReactiveStringRedisTemplate(connectionFactory));
         }
         return beanFactory.getBean(StringUtils.join(properties.getDefaultConfig(), DataRedisInfo.REACTIVE_STRING_REDIS_TEMPLATE), ReactiveStringRedisTemplate.class);

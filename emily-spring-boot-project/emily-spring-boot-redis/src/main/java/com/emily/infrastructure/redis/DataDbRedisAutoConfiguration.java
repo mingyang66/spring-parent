@@ -70,7 +70,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_REDIS_TEMPLATE)
     @DependsOn(value = {DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY})
-    public RedisTemplate<Object, Object> redisTemplate() {
+    public RedisTemplate<Object, Object> redisTemplate(Map<String, RedisConnectionFactory> connectionFactories) {
         RedisTemplate<Object, Object> redisTemplate = null;
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             RedisTemplate<Object, Object> template = new RedisTemplate<>();
@@ -78,7 +78,7 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
             template.setValueSerializer(jackson2JsonRedisSerializer());
             template.setHashKeySerializer(stringSerializer());
             template.setHashValueSerializer(jackson2JsonRedisSerializer());
-            template.setConnectionFactory(beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            template.setConnectionFactory(connectionFactories.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY)));
             if (properties.getDefaultConfig().equals(entry.getKey())) {
                 redisTemplate = template;
             } else {
@@ -93,14 +93,14 @@ public class DataDbRedisAutoConfiguration implements InitializingBean, Disposabl
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @ConditionalOnMissingBean(name = DataRedisInfo.DEFAULT_STRING_REDIS_TEMPLATE)
     @DependsOn(value = {DataRedisInfo.DEFAULT_REDIS_CONNECTION_FACTORY})
-    public StringRedisTemplate stringRedisTemplate() {
+    public StringRedisTemplate stringRedisTemplate(Map<String, RedisConnectionFactory> connectionFactories) {
         for (Map.Entry<String, RedisProperties> entry : properties.getConfig().entrySet()) {
             StringRedisTemplate template = new StringRedisTemplate();
             template.setKeySerializer(stringSerializer());
             template.setValueSerializer(stringSerializer());
             template.setHashKeySerializer(stringSerializer());
             template.setHashValueSerializer(stringSerializer());
-            template.setConnectionFactory(beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY), RedisConnectionFactory.class));
+            template.setConnectionFactory(connectionFactories.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECTION_FACTORY)));
             if (!properties.getDefaultConfig().equals(entry.getKey())) {
                 template.afterPropertiesSet();
             }

@@ -30,7 +30,12 @@ abstract class DataDbRedisConnectionConfiguration {
     private final DataRedisConnectionDetails connectionDetails;
     protected final Mode mode;
 
-    protected DataDbRedisConnectionConfiguration(DataDbRedisProperties properties, DataRedisConnectionDetails connectionDetails, ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider, ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider, ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider, ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration) {
+    protected DataDbRedisConnectionConfiguration(DataDbRedisProperties properties,
+                                                 ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
+                                                 ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
+                                                 ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
+                                                 ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
+                                                 DataRedisConnectionDetails connectionDetails) {
         this.properties = properties;
         this.standaloneConfiguration = (RedisStandaloneConfiguration) standaloneConfigurationProvider.getIfAvailable();
         this.sentinelConfiguration = (RedisSentinelConfiguration) sentinelConfigurationProvider.getIfAvailable();

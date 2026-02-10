@@ -59,13 +59,14 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     private final DefaultListableBeanFactory beanFactory;
 
     DataDbLettuceConnectionConfiguration(DataDbRedisProperties properties,
-                                         DefaultListableBeanFactory beanFactory,
                                          ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
                                          ObjectProvider<RedisSentinelConfiguration> sentinelConfigurationProvider,
                                          ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
                                          ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
-                                         DataRedisConnectionDetails connectionDetails) {
-        super(properties, connectionDetails, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, masterReplicaConfiguration);
+                                         DataRedisConnectionDetails connectionDetails,
+                                         DefaultListableBeanFactory beanFactory
+    ) {
+        super(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, masterReplicaConfiguration, connectionDetails);
         this.beanFactory = beanFactory;
     }
 

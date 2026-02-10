@@ -93,10 +93,11 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     @ConditionalOnThreading(Threading.PLATFORM)
     LettuceConnectionFactory redisConnectionFactory(ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
                                                     ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-                                                    ClientResources clientResources) {
+                                                    ClientResources clientResources,
+                                                    Map<String, DataRedisConnectionDetails> connectionDetails) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
-            LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
+            DataRedisConnectionDetails redisConnectionDetails = connectionDetails.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS));
+            LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, redisConnectionDetails, entry.getValue());
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
             //是否开启共享本地物理连接，默认：true
@@ -118,10 +119,11 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     LettuceConnectionFactory redisConnectionFactoryVirtualThreads(
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-            ClientResources clientResources) {
+            ClientResources clientResources,
+            Map<String, DataRedisConnectionDetails> connectionDetails) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = beanFactory.getBean(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS), DataRedisConnectionDetails.class);
-            LettuceConnectionFactory factory = createConnectionFactory(entry.getValue(), redisConnectionDetails, builderCustomizers, clientOptionsBuilderCustomizers, clientResources);
+            DataRedisConnectionDetails redisConnectionDetails = connectionDetails.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS));
+            LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, redisConnectionDetails, entry.getValue());
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
             //是否开启共享本地物理连接，默认：true
@@ -138,11 +140,11 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
     }
 
     private LettuceConnectionFactory createConnectionFactory(
-            RedisProperties properties,
-            DataRedisConnectionDetails redisConnectionDetails,
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> clientConfigurationBuilderCustomizers,
             ObjectProvider<LettuceClientOptionsBuilderCustomizer> clientOptionsBuilderCustomizers,
-            ClientResources clientResources) {
+            ClientResources clientResources,
+            DataRedisConnectionDetails redisConnectionDetails,
+            RedisProperties properties) {
         LettuceClientConfiguration clientConfiguration = getLettuceClientConfiguration(clientConfigurationBuilderCustomizers,
                 clientOptionsBuilderCustomizers,
                 clientResources,

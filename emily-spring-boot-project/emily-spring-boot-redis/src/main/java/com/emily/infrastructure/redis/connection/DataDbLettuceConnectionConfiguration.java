@@ -64,8 +64,7 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
                                          ObjectProvider<RedisClusterConfiguration> clusterConfigurationProvider,
                                          ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
                                          DataRedisConnectionDetails connectionDetails,
-                                         DefaultListableBeanFactory beanFactory
-    ) {
+                                         DefaultListableBeanFactory beanFactory) {
         super(properties, standaloneConfigurationProvider, sentinelConfigurationProvider, clusterConfigurationProvider, masterReplicaConfiguration, connectionDetails);
         this.beanFactory = beanFactory;
     }
@@ -97,8 +96,11 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
                                                     ClientResources clientResources,
                                                     Map<String, DataRedisConnectionDetails> connectionDetails) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = connectionDetails.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS));
-            LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, redisConnectionDetails, entry.getValue());
+            LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers,
+                    clientOptionsBuilderCustomizers,
+                    clientResources,
+                    connectionDetails.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS)),
+                    entry.getValue());
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
             //是否开启共享本地物理连接，默认：true
@@ -123,8 +125,11 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             ClientResources clientResources,
             Map<String, DataRedisConnectionDetails> connectionDetails) {
         for (Map.Entry<String, RedisProperties> entry : this.getProperties().getConfig().entrySet()) {
-            DataRedisConnectionDetails redisConnectionDetails = connectionDetails.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS));
-            LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers, clientOptionsBuilderCustomizers, clientResources, redisConnectionDetails, entry.getValue());
+            LettuceConnectionFactory factory = createConnectionFactory(builderCustomizers,
+                    clientOptionsBuilderCustomizers,
+                    clientResources,
+                    connectionDetails.get(StringUtils.join(entry.getKey(), DataRedisInfo.REDIS_CONNECT_DETAILS)),
+                    entry.getValue());
             //是否提前初始化连接，默认：false
             factory.setEagerInitialization(entry.getValue().getLettuce().isEagerInitialization());
             //是否开启共享本地物理连接，默认：true

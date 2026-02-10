@@ -36,10 +36,10 @@ abstract class DataDbRedisConnectionConfiguration {
                                                  ObjectProvider<RedisStaticMasterReplicaConfiguration> masterReplicaConfiguration,
                                                  DataRedisConnectionDetails connectionDetails) {
         this.properties = properties;
-        this.standaloneConfiguration = (RedisStandaloneConfiguration) standaloneConfigurationProvider.getIfAvailable();
-        this.sentinelConfiguration = (RedisSentinelConfiguration) sentinelConfigurationProvider.getIfAvailable();
-        this.clusterConfiguration = (RedisClusterConfiguration) clusterConfigurationProvider.getIfAvailable();
-        this.masterReplicaConfiguration = (RedisStaticMasterReplicaConfiguration) masterReplicaConfiguration.getIfAvailable();
+        this.standaloneConfiguration = standaloneConfigurationProvider.getIfAvailable();
+        this.sentinelConfiguration = sentinelConfigurationProvider.getIfAvailable();
+        this.clusterConfiguration = clusterConfigurationProvider.getIfAvailable();
+        this.masterReplicaConfiguration = masterReplicaConfiguration.getIfAvailable();
         this.connectionDetails = connectionDetails;
         this.mode = this.determineMode(properties.getDefaultDataSource(), connectionDetails);
     }

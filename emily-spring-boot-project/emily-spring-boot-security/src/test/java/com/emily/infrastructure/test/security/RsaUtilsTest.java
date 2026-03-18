@@ -1,5 +1,6 @@
 package com.emily.infrastructure.test.security;
 
+import com.emily.infrastructure.security.utils.RsaGenerateUtils;
 import com.emily.infrastructure.security.utils.RsaUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,10 @@ import java.security.NoSuchAlgorithmException;
 public class RsaUtilsTest {
     @Test
     void testEncrypt() throws NoSuchAlgorithmException {
-        KeyPair keyPair = RsaUtils.generateKeyPair(2048);
-        String privateKey = RsaUtils.getPrivateKeyString(keyPair);
+        KeyPair keyPair = RsaGenerateUtils.generateKeyPair(2048);
+        String privateKey = RsaGenerateUtils.getPrivateKeyString(keyPair);
        // System.out.println(privateKey);
-        String publicKey = RsaUtils.getPublicKeyString(keyPair);
+        String publicKey = RsaGenerateUtils.getPublicKeyString(keyPair);
        // System.out.println(publicKey);
         String str = "123456789...";
         System.out.println(str.getBytes(StandardCharsets.UTF_8).length);

@@ -6,7 +6,7 @@ import java.util.Base64;
 /**
  * RSA公私钥生成
  */
-public class RsaGenerateUtils {
+public class RsaKeyPairUtils {
     /**
      * 算法
      */

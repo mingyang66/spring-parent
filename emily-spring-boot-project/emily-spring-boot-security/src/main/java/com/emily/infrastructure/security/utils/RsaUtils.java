@@ -21,6 +21,9 @@ public class RsaUtils {
     private static final Logger LOG = LoggerFactory.getLogger(RsaUtils.class);
 
     private static final String ALGORITHM = "RSA";
+    /**
+     * Algorithm/Mode/Padding  算法/模式/填充
+     */
     private static final String TRANSFORMATION = "RSA/ECB/PKCS1Padding";
     private static final String TRANSFORMATION2 = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
 

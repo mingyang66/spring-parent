@@ -101,6 +101,8 @@ public class RsaUtils {
 
     /**
      * 从字符串加载公钥 (自动清洗 PEM 格式)
+     * "\\s+" : 这是一个正则表达式
+     * \s:代表任意空白符，包括：空格、制表符（\t）、换行符（\n,\r）、换页符（\f），+代表一次或多次匹配，\\转义字符
      */
     private static RSAPublicKey loadPublicKeyFromString(String keyStr) throws Exception {
         // 2. 清理 PEM 格式，只保留 Base64 内容 移除所有换行和空格

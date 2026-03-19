@@ -24,7 +24,7 @@ public class RsaUtils {
      */
     private static final String ALGORITHM = "RSA";
     /**
-     * Algorithm/Mode/Padding  算法/模式/填充
+     * 转换字符串 Algorithm/Mode/Padding  算法/模式/填充
      */
     private static final String TRANSFORMATION = "RSA/ECB/PKCS1Padding";
     private static final String TRANSFORMATION2 = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
@@ -43,10 +43,10 @@ public class RsaUtils {
 
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
-            int encryptBlock = (publicKey.getModulus().bitLength() / 8) - 11;
+            //秘钥加密最大字节数
+            int blockSize = (publicKey.getModulus().bitLength() / 8) - 11;
             byte[] dataBytes = content.getBytes(StandardCharsets.UTF_8);
-            byte[] resultBytes = doSegmentedOperation(dataBytes, cipher, encryptBlock);
+            byte[] resultBytes = doSegmentedOperation(dataBytes, cipher, blockSize);
             return Base64.getEncoder().encodeToString(resultBytes);
         } catch (Exception e) {
             LOG.error(e.getMessage());
@@ -66,10 +66,10 @@ public class RsaUtils {
 
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
-            int decryptBlock = privateKey.getModulus().bitLength() / 8;
+            //秘钥解密最大字节数
+            int blockSize = privateKey.getModulus().bitLength() / 8;
             byte[] dataBytes = Base64.getDecoder().decode(base64Content);
-            byte[] resultBytes = doSegmentedOperation(dataBytes, cipher, decryptBlock);
+            byte[] resultBytes = doSegmentedOperation(dataBytes, cipher, blockSize);
             return new String(resultBytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
             LOG.error(e.getMessage());

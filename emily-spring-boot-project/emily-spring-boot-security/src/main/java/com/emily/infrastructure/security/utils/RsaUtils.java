@@ -1,6 +1,5 @@
 package com.emily.infrastructure.security.utils;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,7 +125,6 @@ public class RsaUtils {
                 .replace("-----END PRIVATE KEY-----", "")
                 .replaceAll("\\s+", "");
         byte[] keyBytes = Base64.getDecoder().decode(base64Key);
-        Security.addProvider(new BouncyCastleProvider());
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
         return (RSAPrivateKey) keyFactory.generatePrivate(spec);

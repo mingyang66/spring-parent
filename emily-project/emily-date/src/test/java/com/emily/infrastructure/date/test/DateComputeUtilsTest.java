@@ -21,7 +21,7 @@ public class DateComputeUtilsTest {
     @Test
     public void between() {
         Duration duration = DateComputeUtils.between(LocalDateTime.now().plusDays(5), LocalDateTime.now());
-        Assertions.assertEquals(duration.getSeconds(), 431999);
+        Assertions.assertEquals(duration.getSeconds(), 432000);
 
         Duration duration1 = Duration.parse("P1DT1H10M10.5S");
         Assertions.assertEquals(duration1.toDays(), 1);

@@ -15,8 +15,8 @@
     <description>Bill Of Material</description>
 
     <properties>
-        <spring-boot.version>4.0.2</spring-boot.version>
-        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <spring-boot.version>4.0.4</spring-boot.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
         <spring-shell.version>4.0.0</spring-shell.version>
         <spring.mybatis.version>4.0.1</spring.mybatis.version>
         <commons-io.version>2.21.0</commons-io.version>

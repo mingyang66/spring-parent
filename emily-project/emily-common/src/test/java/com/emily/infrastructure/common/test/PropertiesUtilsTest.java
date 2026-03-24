@@ -19,7 +19,7 @@ public class PropertiesUtilsTest {
         Properties properties = PropertiesUtils.loadConfigElseGet(path);
         Assertions.assertEquals(properties.getProperty("test.key"), "testkey");
 
-        path = "/Users/yaomingyang/Documents/IDE/workplace-java/spring-parent/emily-project/emily-common/src/test/resources/test.properties";
+        path = "D:\\workplace-java\\spring-parent\\emily-project\\emily-common\\src\\test\\resources\\test.properties";
         properties = PropertiesUtils.loadConfigElseGet(path);
         Assertions.assertEquals(properties.getProperty("test.key"), "testkey");
 

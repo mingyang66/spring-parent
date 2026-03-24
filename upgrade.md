@@ -1,4 +1,10 @@
 ###-----
+基础库发布6.1.0
+Bug Fixes
+###-----
+1. as
+
+###-----
 基础库发布6.0.0
 Bug Fixes
 ###-----
@@ -11,7 +17,7 @@ Bug Fixes
 6. 新增IpUtils对IPV4转换数字，数字转换IP工具类；
 7. 重构redis sdk;
 8. 重构rabbit sdk;
-   
+
 Dependency Upgrades
 
 1. Upgrade to druid 1.2.27;

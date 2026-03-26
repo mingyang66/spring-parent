@@ -2,7 +2,7 @@
 基础库发布6.1.0
 Bug Fixes
 ###-----
-1. as
+1. SimpleSecurityPlugin加解密插件支持抛出异常；
 
 ###-----
 基础库发布6.0.0

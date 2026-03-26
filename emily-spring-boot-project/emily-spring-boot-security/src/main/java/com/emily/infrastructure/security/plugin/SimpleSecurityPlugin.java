@@ -13,7 +13,7 @@ public interface SimpleSecurityPlugin<R> extends BasePlugin {
      * @param value 字段值
      * @return 加解密后的值
      */
-    R getPlugin(R value);
+    R getPlugin(R value) throws Throwable;
 
     default int getOrder() {
         return LOWEST_PRECEDENCE;

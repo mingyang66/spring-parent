@@ -4,6 +4,7 @@ import com.emily.infrastructure.validation.annotation.SuffixCheck;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * 后缀 校验
@@ -31,7 +32,7 @@ public class SuffixCheckValidator implements ConstraintValidator<SuffixCheck, St
         if (StringUtils.isBlank(value)) {
             return true;
         }
-        return StringUtils.endsWithAny(value, suffix);
+        return Strings.CS.endsWithAny(value, suffix);
     }
 
 }

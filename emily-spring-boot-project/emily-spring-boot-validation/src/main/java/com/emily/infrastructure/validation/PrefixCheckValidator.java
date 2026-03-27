@@ -4,6 +4,7 @@ import com.emily.infrastructure.validation.annotation.PrefixCheck;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * 前缀 校验
@@ -31,7 +32,7 @@ public class PrefixCheckValidator implements ConstraintValidator<PrefixCheck, St
         if (StringUtils.isBlank(value)) {
             return true;
         }
-        return StringUtils.startsWithAny(value, prefix);
+        return  Strings.CS.startsWithAny(value, prefix);
     }
 
 }

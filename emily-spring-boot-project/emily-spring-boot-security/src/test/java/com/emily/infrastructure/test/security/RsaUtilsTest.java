@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class RsaUtilsTest {
     @Test
-    void testEncrypt() throws NoSuchAlgorithmException {
+    void testEncrypt() throws Throwable {
         KeyPair keyPair = RsaKeyPairUtils.generateKeyPair(2048);
         String privateKey = RsaKeyPairUtils.getPrivateKeyString(keyPair);
        // System.out.println(privateKey);

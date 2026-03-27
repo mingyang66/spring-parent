@@ -32,21 +32,17 @@ public class DesUtils {
      * @param iv   偏移量
      * @return 加密后内容
      */
-    public static String encrypt(String data, String key, String iv) {
-        try {
-            if (isEmpty(data, key, iv)) {
-                return data;
-            }
-            final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
-            Key secretKey = keyFactory.generateSecret(dks);
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
-            final byte[] bytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(bytes);
-        } catch (Exception e) {
+    public static String encrypt(String data, String key, String iv) throws Throwable {
+        if (isEmpty(data, key, iv)) {
             return data;
         }
+        final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+        Key secretKey = keyFactory.generateSecret(dks);
+        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
+        final byte[] bytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     /**
@@ -57,21 +53,17 @@ public class DesUtils {
      * @param iv   偏移量
      * @return 解密后内容
      */
-    public static String decrypt(String data, String key, String iv) {
-        try {
-            if (isEmpty(data, key, iv)) {
-                return data;
-            }
-            final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
-            Key secretKey = keyFactory.generateSecret(dks);
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
-            byte[] dataBytes = Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8));
-            return new String(cipher.doFinal(dataBytes), StandardCharsets.UTF_8);
-        } catch (Exception e) {
+    public static String decrypt(String data, String key, String iv) throws Throwable {
+        if (isEmpty(data, key, iv)) {
             return data;
         }
+        final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+        Key secretKey = keyFactory.generateSecret(dks);
+        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
+        byte[] dataBytes = Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8));
+        return new String(cipher.doFinal(dataBytes), StandardCharsets.UTF_8);
     }
 
     private static boolean isEmpty(String data, String key, String iv) {

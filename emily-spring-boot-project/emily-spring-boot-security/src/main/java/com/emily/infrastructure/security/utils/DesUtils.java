@@ -4,6 +4,7 @@ package com.emily.infrastructure.security.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
@@ -36,11 +37,15 @@ public class DesUtils {
         if (isEmpty(data, key, iv)) {
             return data;
         }
-        final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
+        //1.生成秘钥
+        final DESKeySpec desKeySpec = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
+        //2.秘钥工厂生成SecretKey
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
-        Key secretKey = keyFactory.generateSecret(dks);
+        SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
+        //3.密码器初始化
         Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
+        //4.执行加密病转换为Base64
         final byte[] bytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(bytes);
     }
@@ -57,13 +62,17 @@ public class DesUtils {
         if (isEmpty(data, key, iv)) {
             return data;
         }
-        final DESKeySpec dks = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
+        //1.生成秘钥
+        final DESKeySpec desKeySpec = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
-        Key secretKey = keyFactory.generateSecret(dks);
+        Key secretKey = keyFactory.generateSecret(desKeySpec);
+        //2.容器初始化
         Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8)));
-        byte[] dataBytes = Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8));
-        return new String(cipher.doFinal(dataBytes), StandardCharsets.UTF_8);
+        //3.执行解密
+        byte[] decodedBytes = Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8));
+        byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+        return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
 
     private static boolean isEmpty(String data, String key, String iv) {

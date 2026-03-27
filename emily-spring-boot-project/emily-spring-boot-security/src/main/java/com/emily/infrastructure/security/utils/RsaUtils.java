@@ -20,9 +20,9 @@ public class RsaUtils {
     private static final String ALGORITHM = "RSA";
     /**
      * 转换字符串 Algorithm/Mode/Padding  算法/模式/填充
+     * RSA/ECB/PKCS1Padding
      */
-    private static final String TRANSFORMATION = "RSA/ECB/PKCS1Padding";
-    private static final String TRANSFORMATION2 = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
+    private static final String TRANSFORMATION = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
 
 
     /**

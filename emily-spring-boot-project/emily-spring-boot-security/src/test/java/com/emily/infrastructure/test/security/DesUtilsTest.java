@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  */
 public class DesUtilsTest {
     @Test
-    void testEncrypt() {
+    void testEncrypt() throws Throwable {
         Assertions.assertEquals("EgIOHMYk2mc=", DesUtils.encrypt("123", "12345678", "65432112"));
         Assertions.assertEquals("123", DesUtils.decrypt("EgIOHMYk2mc=", "12345678", "65432112"));
     }

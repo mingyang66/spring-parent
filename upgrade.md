@@ -6,6 +6,7 @@ Bug Fixes
 1. SimpleSecurityPlugin加解密插件支持抛出异常；
 2. 使用Strings.CS替换StringUtils过期方法；
 3. RsaUtils、DesUtils工具类更改为如果发生异常直接抛出；
+4. record-builder-core依赖关联支持；
 
 ###-----
 基础库发布6.0.0

@@ -25,6 +25,7 @@
         <java-jwt.version>4.4.0</java-jwt.version>
         <jansi.version>2.4.2</jansi.version>
         <bcprov-jdk18on.version>1.83</bcprov-jdk18on.version>
+        <record.builder.version>52</record.builder.version>
     </properties>
 
     <dependencyManagement>
@@ -208,6 +209,12 @@
                 <groupId>org.fusesource.jansi</groupId>
                 <artifactId>jansi</artifactId>
                 <version>${jansi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.soabase.record-builder</groupId>
+                <artifactId>record-builder-core</artifactId>
+                <version>${record.builder.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

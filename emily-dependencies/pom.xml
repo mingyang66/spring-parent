@@ -23,8 +23,8 @@
         <google-guava.version>33.5.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>
         <java-jwt.version>4.4.0</java-jwt.version>
-        <jansi.version>2.4.2</jansi.version>
-        <bcprov-jdk18on.version>1.83</bcprov-jdk18on.version>
+        <jansi.version>2.4.3</jansi.version>
+        <bcprov-jdk18on.version>1.84</bcprov-jdk18on.version>
         <record.builder.version>52</record.builder.version>
     </properties>
 

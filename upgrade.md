@@ -3,7 +3,11 @@
 Bug Fixes
 ###-----
 
-1.
+1.central-publishing-maven-plugin插件版本控制抽出为公共配置；
+
+Dependency Upgrades
+
+1. Upgrade to maven-gpg-plugin 3.2.8;
 
 ###-----
 基础库发布6.1.0

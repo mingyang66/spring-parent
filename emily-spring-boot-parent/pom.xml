@@ -14,12 +14,13 @@
     <packaging>pom</packaging>
 
     <name>emily-spring-boot-parent</name>
+    <description>Base Spring Boot Parent</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 
     <properties>
         <java.version>21</java.version>
         <maven.compiler.release>21</maven.compiler.release>
-        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>3.10.1</maven-javadoc-plugin.version>
@@ -63,7 +64,7 @@
         <url>https://github.com/mingyang66/spring-parent</url>
     </scm>
 
-    <distributionManagement>
+<!--    <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
@@ -72,17 +73,40 @@
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-    </distributionManagement>
+    </distributionManagement>-->
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.10.0</version> <!-- 请检查是否有更新版本 -->
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- 必须与 settings.xml 中的 server ID 一致 -->
+                    <publishingServerId>central-portal</publishingServerId>
+
+                    <!-- 关键配置：设置为 false，这样构建时会停下来让你去网页确认 -->
+                    <!-- 设置为 true 则会自动发布（不推荐初学者使用） -->
+                    <autoPublish>false</autoPublish>
+
+                    <!-- 等待状态，uploaded 表示上传到暂存库即可，无需自动发布 -->
+                    <waitUntil>uploaded</waitUntil>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>${flatten-maven-plugin.version}</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <!--
+                    | 模式名称 | 解析所有属性? | 保留 CI 友好属性? | 保留自定义属性? | 推荐使用场景 |
+                    | `full` | ✅ 是 | ❌ 否 | ❌ 否 | 需要完全静态的 POM 文件，或解决版本号未解析的报错。 |
+                    | `oss` | ✅ 是 | ✅ 是 | ❌ 否 | 发布到 Maven Central 仓库，需要兼容 CI 友好变量。 |
+                    | `resolveCiFriendliesOnly` | ❌ 否 | ✅ 是 | ✅ 是 | 仅替换 CI 友好变量，保留其他所有属性原样。 |
+                    -->
+                    <flattenMode>oss</flattenMode>
                 </configuration>
                 <executions>
                     <execution>
@@ -101,8 +125,91 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- 发布到中央仓库插件 -->
+            <!-- 使用GnuPG签署项目的所有附加工件 -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <!--使用GunPG对项目工件、POM和附加工件进行签名以进行部署-->
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 生成源码插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--构建过程中生成源码包，并将其附加到maven项目中-->
+                    <!-- <attach>true</attach>-->
+                    <!--<classifier>tests</classifier>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <!--Maven编译后保留方法名-->
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+            <!-- 生成API文档插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <!--控制构建过程中如果出现错误是否停止构建-->
+                    <failOnError>false</failOnError>
+                    <!--排除指定的包，可以使用: or , or ; 三种符号分割-->
+                    <excludePackageNames>com.emily.cloud.test.*,com.emily.infrastructure.test.*
+                    </excludePackageNames>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- GPG 签名插件 -->
+        <!--    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version> &lt;!&ndash; 建议使用较新版本 &ndash;&gt;
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>C:\Program Files\GnuPG\bin\gpg.exe</executable>
+                </configuration>
+            </plugin>-->
+            <!-- 发布到中央仓库插件 -->
+           <!-- <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>${nexus-staging-maven-plugin.version}</version>
@@ -112,25 +219,25 @@
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <!-- 支持单元测试 -->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
     <profiles>
-        <profile>
-            <!--注意,此id必须与setting.xml中指定的一致,不要自作聪明改它名字-->
-            <id>source</id>
+        <!--<profile>
+            &lt;!&ndash;注意,此id必须与setting.xml中指定的一致,不要自作聪明改它名字&ndash;&gt;
+            <id>central-portal</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
-                    <!-- 生成源码插件 -->
+                    &lt;!&ndash; 生成源码插件 &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -144,9 +251,9 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <!--构建过程中生成源码包，并将其附加到maven项目中-->
-                            <!-- <attach>true</attach>-->
-                            <!--<classifier>tests</classifier>-->
+                            &lt;!&ndash;构建过程中生成源码包，并将其附加到maven项目中&ndash;&gt;
+                            &lt;!&ndash; <attach>true</attach>&ndash;&gt;
+                            &lt;!&ndash;<classifier>tests</classifier>&ndash;&gt;
                         </configuration>
                     </plugin>
                     <plugin>
@@ -154,7 +261,7 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>${maven-compiler-plugin.version}</version>
                         <configuration>
-                            <!--Maven编译后保留方法名-->
+                            &lt;!&ndash;Maven编译后保留方法名&ndash;&gt;
                             <parameters>true</parameters>
                         </configuration>
                     </plugin>
@@ -168,15 +275,15 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- 生成API文档插件 -->
+                    &lt;!&ndash; 生成API文档插件 &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>${maven-javadoc-plugin.version}</version>
                         <configuration>
-                            <!--控制构建过程中如果出现错误是否停止构建-->
+                            &lt;!&ndash;控制构建过程中如果出现错误是否停止构建&ndash;&gt;
                             <failOnError>false</failOnError>
-                            <!--排除指定的包，可以使用: or , or ; 三种符号分割-->
+                            &lt;!&ndash;排除指定的包，可以使用: or , or ; 三种符号分割&ndash;&gt;
                             <excludePackageNames>com.emily.cloud.test.*,com.emily.infrastructure.test.*
                             </excludePackageNames>
                         </configuration>
@@ -191,15 +298,15 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
+        </profile>-->
+<!--        <profile>
             <id>gpg</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
-                    <!-- 使用GnuPG签署项目的所有附加工件 -->
+                    &lt;!&ndash; 使用GnuPG签署项目的所有附加工件 &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -209,7 +316,7 @@
                                 <id>sign-artifacts</id>
                                 <phase>verify</phase>
                                 <goals>
-                                    <!--使用GunPG对项目工件、POM和附加工件进行签名以进行部署-->
+                                    &lt;!&ndash;使用GunPG对项目工件、POM和附加工件进行签名以进行部署&ndash;&gt;
                                     <goal>sign</goal>
                                 </goals>
                             </execution>
@@ -217,6 +324,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
+        </profile>-->
     </profiles>
 </project>

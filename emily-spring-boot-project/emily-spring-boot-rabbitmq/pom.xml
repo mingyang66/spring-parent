@@ -9,10 +9,19 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <name>emily-spring-boot-rabbitmq</name>
+    <description>Emily Spring Boot RabbitMQ</description>
     <artifactId>emily-spring-boot-rabbitmq</artifactId>
     <url>https://github.com/mingyang66/spring-parent</url>
 
+    <developers>
+        <developer>
+            <name>Emily</name>
+            <email>mingyangsky@foxmail.com</email>
+            <organization>个人基础设施项目建设</organization>
+            <organizationUrl>https://github.com/mingyang66/spring-parent</organizationUrl>
+        </developer>
+    </developers>
     <!--开源协议...-->
     <licenses>
         <license>
@@ -20,6 +29,15 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/mingyang66/spring-parent.git</connection>
+        <developerConnection>scm:git:ssh://github.com:mingyang66/spring-parent.git</developerConnection>
+        <url>https://github.com/mingyang66/spring-parent</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/mingyang66/spring-parent/issues</url>
+    </issueManagement>
 
     <dependencies>
         <dependency>

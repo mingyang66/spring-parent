@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>emily-language</artifactId>
+    <name>emily-language</name>
     <description>Java简体繁体想换转换，实体类多语言支持SDK</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 
@@ -20,6 +21,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <developers>
+        <developer>
+            <name>Emily</name>
+            <email>mingyangsky@foxmail.com</email>
+            <organization>个人基础设施项目建设</organization>
+            <organizationUrl>https://github.com/mingyang66/spring-parent</organizationUrl>
+        </developer>
+    </developers>
     <!--开源协议...-->
     <licenses>
         <license>
@@ -27,6 +36,15 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/mingyang66/spring-parent.git</connection>
+        <developerConnection>scm:git:ssh://github.com:mingyang66/spring-parent.git</developerConnection>
+        <url>https://github.com/mingyang66/spring-parent</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/mingyang66/spring-parent/issues</url>
+    </issueManagement>
 
     <dependencies>
         <dependency>

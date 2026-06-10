@@ -11,6 +11,8 @@
     </parent>
 
     <artifactId>emily-spring-boot-project</artifactId>
+    <name>emily-spring-boot-project</name>
+    <description>Emily Spring Boot Project</description>
     <packaging>pom</packaging>
     <modules>
         <module>emily-spring-boot-logger</module>

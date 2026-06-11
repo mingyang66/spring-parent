@@ -4,7 +4,6 @@
 
 - #### Maven’s Bill of Material (BOM)
 
-
 ```xml
     <dependencyManagement>
         <dependencies>
@@ -12,7 +11,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-dependencies</artifactId>
-                <version>6.0.0</version>
+                <version>6.1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -23,16 +22,16 @@
 
 - 基于继承关系的Maven父依赖：
 
-
 ```xml
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-spring-boot-parent</artifactId>
-        <version>6.0.0</version>
+        <version>6.1.0</version>
         <relativePath/>
     </parent>
 ```
 
+- [个人站点主页](https://mingyang66.github.io/raccoon-docs)
 - [maven相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/doc/%E4%B8%AD%E9%97%B4%E4%BB%B6/maven/MAVEN.md)
 - [git相关指令操作手册](https://github.com/mingyang66/spring-parent/blob/master/doc/%E4%B8%AD%E9%97%B4%E4%BB%B6/git/GIT.md)
 - [apidoc文档生成操作手册](https://github.com/mingyang66/spring-parent/tree/master/emily-spring-boot-project/emily-spring-boot-web/apidoc.md)
@@ -50,14 +49,11 @@
 - [emily-spring-boot-redis组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-redis/README.md)
 - [emily-spring-boot-rabbitmq组件SDK使用手册](https://github.com/mingyang66/spring-parent/blob/master/emily-spring-boot-project/emily-spring-boot-rabbitmq/README.md)
 
-
 ![架构图](https://github.com/mingyang66/spring-parent/blob/master/framework.png)
-
 
 ------
 
-####
-
+#### 
 
 #### 七、API路由设置组件
 
@@ -108,8 +104,6 @@ spring.emily.filter.global-switch=true
 spring.emily.filter.route-switch=false
 ```
 
-
-
 #### 十二、返回值包装组件
 
 - 支持所有数据类型返回值包装BaseResponse类；
@@ -129,7 +123,6 @@ spring.emily.response.enabled-adapter=false
 spring.emily.response.enabled-advice=true
 # 排除指定url对返回值进行包装，支持正则表达式
 spring.emily.response.exclude=abc/a.html
-
 ```
 
 返回值包装案例：
@@ -163,10 +156,7 @@ http://127.0.0.1:8500/v1/agent/service/deregister/instance-id(实例ID)
 ##### IDEA快捷键
 
 - 查询类的所有方法：
-
+  
   ```
   F+command+F12
   ```
-
-  
-

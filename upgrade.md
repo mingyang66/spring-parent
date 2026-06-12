@@ -8,6 +8,7 @@ Bug Fixes
 Dependency Upgrades
 
 1. Upgrade to maven-gpg-plugin 3.2.8;
+2. Upgrade to spring-boot 4.1.0;
 
 ###-----
 基础库发布6.1.0

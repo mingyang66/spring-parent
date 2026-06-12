@@ -293,8 +293,8 @@ public class DataDbLettuceConnectionConfiguration extends DataDbRedisConnectionC
             if (refreshProperties.getPeriod() != null) {
                 refreshBuilder.enablePeriodicRefresh(refreshProperties.getPeriod());
             }
-            if (refreshProperties.isAdaptive()) {
-                refreshBuilder.enableAllAdaptiveRefreshTriggers();
+            if (refreshProperties.getPeriod() != null) {
+                refreshBuilder.enablePeriodicRefresh(refreshProperties.getPeriod());
             }
             return builder.topologyRefreshOptions(refreshBuilder.build());
         } else {

@@ -4,6 +4,7 @@ Bug Fixes
 ###-----
 
 1.central-publishing-maven-plugin插件版本控制抽出为公共配置；
+2.rabbit sdk兼容升级的最新版本；
 
 Dependency Upgrades
 

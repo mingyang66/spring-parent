@@ -1,6 +1,7 @@
 package com.emily.sample.rabbitmq.rabbit;
 
 import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -18,7 +19,7 @@ import java.io.IOException;
 @Configuration
 public class RabbitConfig {
 
-    @RabbitListener(queues = "emily.test.queue", containerFactory = "emilyRabbitListenerContainerFactory")
+    @RabbitListener(queues = "emily.test.queue", containerFactory = "testRabbitListenerContainerFactory")
     public void handler(Channel channel, Message message) throws IOException {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         System.out.println("EMILY-" + new String(message.getBody()));
@@ -32,9 +33,9 @@ public class RabbitConfig {
         channel.basicAck(deliveryTag, false);
     }
 
-    @RabbitListener(queues = "topic.test.queue")
+    @RabbitListener(queues = "topic.test.queue",ackMode = "MANUAL")
     public void handlerEmily1(Channel channel, @Payload String message, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) throws IOException {
         System.out.println("TEST-" + message);
-        channel.basicAck(deliveryTag, false);
+        //channel.basicAck(deliveryTag, false);
     }
 }

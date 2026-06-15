@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-        <revision>6.1.0</revision>
+        <revision>6.1.1</revision>
         <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
         <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>

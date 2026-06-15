@@ -66,15 +66,15 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
             MessageListenerContainer container = this.createListenerContainer(endpoint, factory);
             this.listenerContainers.put(id, container);
             if (StringUtils.hasText(endpoint.getGroup()) && this.applicationContext != null) {
-                Object containerGroup;
+                List<MessageListenerContainer> containerGroup;
                 if (this.applicationContext.containsBean(endpoint.getGroup())) {
-                    containerGroup = this.applicationContext.getBean(endpoint.getGroup(), List.class);
+                    containerGroup = (List)this.applicationContext.getBean(endpoint.getGroup(), List.class);
                 } else {
                     containerGroup = new ArrayList();
                     this.applicationContext.getBeanFactory().registerSingleton(endpoint.getGroup(), containerGroup);
                 }
 
-                ((List) containerGroup).add(container);
+                containerGroup.add(container);
             }
 
             if (this.contextRefreshed) {
@@ -110,16 +110,12 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
     }
 
     public void destroy() {
-        Iterator var1 = this.getListenerContainers().iterator();
-
-        while (var1.hasNext()) {
-            MessageListenerContainer listenerContainer = (MessageListenerContainer) var1.next();
+        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
             if (listenerContainer instanceof DisposableBean disposable) {
                 try {
                     disposable.destroy();
-                } catch (Exception var5) {
-                    Exception ex = var5;
-                    this.logger.warn("Failed to destroy listener container [" + listenerContainer + "]", ex);
+                } catch (Exception ex) {
+                    this.logger.warn("Failed to destroy listener container [" + String.valueOf(listenerContainer) + "]", ex);
                 }
             }
         }
@@ -135,20 +131,14 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
     }
 
     public void start() {
-        Iterator var1 = this.getListenerContainers().iterator();
-
-        while (var1.hasNext()) {
-            MessageListenerContainer listenerContainer = (MessageListenerContainer) var1.next();
+        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
             this.startIfNecessary(listenerContainer);
         }
 
     }
 
     public void stop() {
-        Iterator var1 = this.getListenerContainers().iterator();
-
-        while (var1.hasNext()) {
-            MessageListenerContainer listenerContainer = (MessageListenerContainer) var1.next();
+        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
             listenerContainer.stop();
         }
 
@@ -158,17 +148,13 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
         Collection<MessageListenerContainer> containers = this.getListenerContainers();
         if (!containers.isEmpty()) {
             AggregatingCallback aggregatingCallback = new AggregatingCallback(containers.size(), callback);
-            Iterator var4 = containers.iterator();
 
-            while (var4.hasNext()) {
-                MessageListenerContainer listenerContainer = (MessageListenerContainer) var4.next();
-
+            for(MessageListenerContainer listenerContainer : containers) {
                 try {
                     listenerContainer.stop(aggregatingCallback);
-                } catch (Exception var7) {
-                    Exception e = var7;
+                } catch (Exception e) {
                     if (this.logger.isWarnEnabled()) {
-                        this.logger.warn("Failed to stop listener container [" + listenerContainer + "]", e);
+                        this.logger.warn("Failed to stop listener container [" + String.valueOf(listenerContainer) + "]", e);
                     }
                 }
             }
@@ -179,18 +165,13 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
     }
 
     public boolean isRunning() {
-        Iterator var1 = this.getListenerContainers().iterator();
-
-        MessageListenerContainer listenerContainer;
-        do {
-            if (!var1.hasNext()) {
-                return false;
+        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
+            if (listenerContainer.isRunning()) {
+                return true;
             }
+        }
 
-            listenerContainer = (MessageListenerContainer) var1.next();
-        } while (!listenerContainer.isRunning());
-
-        return true;
+        return false;
     }
 
     private void startIfNecessary(MessageListenerContainer listenerContainer) {

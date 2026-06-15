@@ -14,7 +14,7 @@
     <name>emily-json</name>
     <description>Java基于jackson封装的json序列化和反序列化SDK</description>
     <url>https://github.com/mingyang66/spring-parent</url>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

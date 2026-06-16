@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,30 +37,28 @@ public class DataPropertiesRabbitConnectionDetails implements RabbitConnectionDe
         return this.properties.determineVirtualHost();
     }
 
+    @Override
     public List<Address> getAddresses() {
-        List<RabbitConnectionDetails.Address> addresses = new ArrayList<>();
-        Iterator var2 = this.properties.determineAddresses().iterator();
-
-        while (var2.hasNext()) {
-            String address = (String) var2.next();
-            int portSeparatorIndex = address.lastIndexOf(58);
+        List<Address> addresses = new ArrayList<>();
+        for (String address : this.properties.determineAddresses()) {
+            int portSeparatorIndex = address.lastIndexOf(':');
             String host = address.substring(0, portSeparatorIndex);
             String port = address.substring(portSeparatorIndex + 1);
-            addresses.add(new RabbitConnectionDetails.Address(host, Integer.parseInt(port)));
+            addresses.add(new Address(host, Integer.parseInt(port)));
         }
-
         return addresses;
     }
 
+    @Override
     public @Nullable SslBundle getSslBundle() {
         RabbitProperties.Ssl ssl = this.properties.getSsl();
         if (!ssl.determineEnabled()) {
             return null;
-        } else if (StringUtils.hasLength(ssl.getBundle())) {
+        }
+        if (StringUtils.hasLength(ssl.getBundle())) {
             Assert.notNull(this.sslBundles, "SSL bundle name has been set but no SSL bundles found in context");
             return this.sslBundles.getBundle(ssl.getBundle());
-        } else {
-            return null;
         }
+        return null;
     }
 }

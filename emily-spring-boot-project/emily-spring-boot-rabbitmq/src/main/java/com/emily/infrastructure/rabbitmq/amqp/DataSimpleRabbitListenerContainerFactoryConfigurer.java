@@ -9,13 +9,13 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.amqp.autoconfigure.AbstractRabbitListenerContainerFactoryConfigurer;
 import org.springframework.boot.amqp.autoconfigure.RabbitListenerRetrySettingsCustomizer;
 import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
+import org.springframework.boot.amqp.autoconfigure.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.boot.context.properties.PropertyMapper;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
- * RabbitMQ监听器工厂配置类 Simple模式
+ * RabbitMQ监听器工厂配置类 Simple模式 {@link SimpleRabbitListenerContainerFactoryConfigurer}
  *
  * @author Emily
  * @since Created in 2022/11/17 10:34 上午
@@ -41,26 +41,15 @@ public final class DataSimpleRabbitListenerContainerFactoryConfigurer extends Ab
         super.setRetrySettingsCustomizers(retrySettingsCustomizers);
     }
 
+    @Override
     public void configure(SimpleRabbitListenerContainerFactory factory, @NonNull ConnectionFactory connectionFactory) {
         PropertyMapper map = PropertyMapper.get();
-        RabbitProperties.SimpleContainer config = this.getRabbitProperties().getListener().getSimple();
-        this.configure(factory, connectionFactory, config);
-        Objects.requireNonNull(config);
-        PropertyMapper.Source<Integer> var10000 = map.from(config::getConcurrency);
-        Objects.requireNonNull(factory);
-        var10000.to(factory::setConcurrentConsumers);
-        Objects.requireNonNull(config);
-        var10000 = map.from(config::getMaxConcurrency);
-        Objects.requireNonNull(factory);
-        var10000.to(factory::setMaxConcurrentConsumers);
-        Objects.requireNonNull(config);
-        var10000 = map.from(config::getBatchSize);
-        Objects.requireNonNull(factory);
-        var10000.to(factory::setBatchSize);
-        Objects.requireNonNull(config);
-        PropertyMapper.Source<Boolean> var100000 = map.from(config::isConsumerBatchEnabled);
-        Objects.requireNonNull(factory);
-        var100000.to(factory::setConsumerBatchEnabled);
+        RabbitProperties.SimpleContainer config = getRabbitProperties().getListener().getSimple();
+        configure(factory, connectionFactory, config);
+        map.from(config::getConcurrency).to(factory::setConcurrentConsumers);
+        map.from(config::getMaxConcurrency).to(factory::setMaxConcurrentConsumers);
+        map.from(config::getBatchSize).to(factory::setBatchSize);
+        map.from(config::isConsumerBatchEnabled).to(factory::setConsumerBatchEnabled);
     }
 
 }

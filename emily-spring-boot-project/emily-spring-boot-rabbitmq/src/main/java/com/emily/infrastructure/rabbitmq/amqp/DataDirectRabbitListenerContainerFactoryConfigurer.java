@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.amqp.autoconfigure.AbstractRabbitListenerContainerFactoryConfigurer;
+import org.springframework.boot.amqp.autoconfigure.DirectRabbitListenerContainerFactoryConfigurer;
 import org.springframework.boot.amqp.autoconfigure.RabbitListenerRetrySettingsCustomizer;
 import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
@@ -13,7 +14,7 @@ import org.springframework.boot.context.properties.PropertyMapper;
 import java.util.List;
 
 /**
- * RabbitMQ监听器工厂配置类 Direct模式
+ * RabbitMQ监听器工厂配置类 Direct模式{@link DirectRabbitListenerContainerFactoryConfigurer}
  *
  * @author Emily
  * @since Created in 2022/11/17 10:32 上午

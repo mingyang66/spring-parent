@@ -5,12 +5,15 @@ import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;
 import org.springframework.boot.ssl.SslBundle;
 
 /**
+ * org.springframework.boot.amqp.autoconfigure.SslBundleRabbitConnectionFactoryBean
+ *
  * @author :  Emily
  * @since :  2025/12/4 下午5:39
  */
 public class DataSslBundleRabbitConnectionFactoryBean extends RabbitConnectionFactoryBean {
     private @Nullable SslBundle sslBundle;
-    private boolean enableHostnameVerification;
+
+    private boolean enableHostnameVerification = true;
 
     DataSslBundleRabbitConnectionFactoryBean() {
     }

@@ -20,21 +20,23 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLifecycle, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
-    protected final Log logger = LogFactory.getLog(this.getClass());
-    private final Map<String, MessageListenerContainer> listenerContainers = new ConcurrentHashMap();
+    protected final Log logger = LogFactory.getLog(getClass()); // NOSONAR protected
+
+    private final Map<String, MessageListenerContainer> listenerContainers = new ConcurrentHashMap<>();
+
     private final Lock listenerContainersLock = new ReentrantLock();
+
     private int phase = Integer.MAX_VALUE;
+
     private @Nullable ConfigurableApplicationContext applicationContext;
+
     private boolean contextRefreshed;
 
-    public RabbitListenerEndpointRegistry() {
-    }
-
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         if (applicationContext instanceof ConfigurableApplicationContext configurable) {
             this.applicationContext = configurable;
         }
-
     }
 
     public @Nullable MessageListenerContainer getListenerContainer(String id) {
@@ -54,51 +56,56 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
         this.registerListenerContainer(endpoint, factory, false);
     }
 
-    public void registerListenerContainer(RabbitListenerEndpoint endpoint, RabbitListenerContainerFactory<?> factory, boolean startImmediately) {
+    @SuppressWarnings({"unchecked", "NullAway"}) // Dataflow analysis limitation
+    public void registerListenerContainer(RabbitListenerEndpoint endpoint, RabbitListenerContainerFactory<?> factory,
+                                          boolean startImmediately) {
+
         Assert.notNull(endpoint, "Endpoint must not be null");
         Assert.notNull(factory, "Factory must not be null");
+
         String id = endpoint.getId();
         Assert.hasText(id, "Endpoint id must not be empty");
         this.listenerContainersLock.lock();
-
         try {
-            Assert.state(!this.listenerContainers.containsKey(id), "Another endpoint is already registered with id '" + id + "'");
-            MessageListenerContainer container = this.createListenerContainer(endpoint, factory);
+            Assert.state(!this.listenerContainers.containsKey(id),
+                    "Another endpoint is already registered with id '" + id + "'");
+            MessageListenerContainer container = createListenerContainer(endpoint, factory);
             this.listenerContainers.put(id, container);
             if (StringUtils.hasText(endpoint.getGroup()) && this.applicationContext != null) {
                 List<MessageListenerContainer> containerGroup;
                 if (this.applicationContext.containsBean(endpoint.getGroup())) {
-                    containerGroup = (List)this.applicationContext.getBean(endpoint.getGroup(), List.class);
-                } else {
-                    containerGroup = new ArrayList();
+                    containerGroup = this.applicationContext.getBean(endpoint.getGroup(), List.class);
+                }
+                else {
+                    containerGroup = new ArrayList<>();
                     this.applicationContext.getBeanFactory().registerSingleton(endpoint.getGroup(), containerGroup);
                 }
-
                 containerGroup.add(container);
             }
-
             if (this.contextRefreshed) {
                 container.lazyLoad();
             }
-
             if (startImmediately) {
-                this.startIfNecessary(container);
+                startIfNecessary(container);
             }
-        } finally {
+        }
+        finally {
             this.listenerContainersLock.unlock();
         }
-
     }
 
-    protected MessageListenerContainer createListenerContainer(RabbitListenerEndpoint endpoint, RabbitListenerContainerFactory<?> factory) {
+    protected MessageListenerContainer createListenerContainer(RabbitListenerEndpoint endpoint,
+                                                               RabbitListenerContainerFactory<?> factory) {
+
         MessageListenerContainer listenerContainer = factory.createListenerContainer(endpoint);
         listenerContainer.afterPropertiesSet();
-        int containerPhase = listenerContainer.getPhase();
-        if (containerPhase < Integer.MAX_VALUE) {
-            if (this.phase < Integer.MAX_VALUE && this.phase != containerPhase) {
-                throw new IllegalStateException("Encountered phase mismatch between container factory definitions: " + this.phase + " vs " + containerPhase);
-            }
 
+        int containerPhase = listenerContainer.getPhase();
+        if (containerPhase < Integer.MAX_VALUE) {  // a custom phase value
+            if (this.phase < Integer.MAX_VALUE && this.phase != containerPhase) {
+                throw new IllegalStateException("Encountered phase mismatch between container factory definitions: " +
+                        this.phase + " vs " + containerPhase);
+            }
             this.phase = listenerContainer.getPhase();
         }
 
@@ -109,17 +116,18 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
         return this.listenerContainers.remove(id);
     }
 
+    @Override
     public void destroy() {
-        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
+        for (MessageListenerContainer listenerContainer : getListenerContainers()) {
             if (listenerContainer instanceof DisposableBean disposable) {
                 try {
                     disposable.destroy();
-                } catch (Exception ex) {
-                    this.logger.warn("Failed to destroy listener container [" + String.valueOf(listenerContainer) + "]", ex);
+                }
+                catch (Exception ex) {
+                    this.logger.warn("Failed to destroy listener container [" + listenerContainer + "]", ex);
                 }
             }
         }
-
     }
 
     public int getPhase() {
@@ -130,38 +138,40 @@ public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLife
         return true;
     }
 
+    @Override
     public void start() {
-        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
-            this.startIfNecessary(listenerContainer);
+        for (MessageListenerContainer listenerContainer : getListenerContainers()) {
+            startIfNecessary(listenerContainer);
         }
-
     }
 
+    @Override
     public void stop() {
-        for(MessageListenerContainer listenerContainer : this.getListenerContainers()) {
+        for (MessageListenerContainer listenerContainer : getListenerContainers()) {
             listenerContainer.stop();
         }
-
     }
 
+
+    @Override
     public void stop(Runnable callback) {
-        Collection<MessageListenerContainer> containers = this.getListenerContainers();
+        Collection<MessageListenerContainer> containers = getListenerContainers();
         if (!containers.isEmpty()) {
             AggregatingCallback aggregatingCallback = new AggregatingCallback(containers.size(), callback);
-
-            for(MessageListenerContainer listenerContainer : containers) {
+            for (MessageListenerContainer listenerContainer : containers) {
                 try {
                     listenerContainer.stop(aggregatingCallback);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     if (this.logger.isWarnEnabled()) {
-                        this.logger.warn("Failed to stop listener container [" + String.valueOf(listenerContainer) + "]", e);
+                        this.logger.warn("Failed to stop listener container [" + listenerContainer + "]", e);
                     }
                 }
             }
-        } else {
+        }
+        else {
             callback.run();
         }
-
     }
 
     public boolean isRunning() {

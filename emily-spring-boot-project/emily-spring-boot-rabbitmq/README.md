@@ -91,7 +91,6 @@ public class RabbitController {
         rabbitTemplateEmily.convertAndSend("exchange_emily", "emily.23", new Message("nihao".getBytes(Charset.defaultCharset())));
     }
 }
-
 ```
 
 - 消费端消费消息
@@ -120,6 +119,21 @@ public class RabbitConfig {
         channel.basicAck(deliveryTag, false);
     }
 }
-
 ```
 
+##### 四、@RabbitListener消息确认模式
+
+```
+#消息确认模式
+spring.emily.rabbit.config.emily.listener.direct.acknowledge-mode=manual
+```
+
+- 一共有两种种确认模式：MANUAL、AUTO
+
+- 默认是手动确认模式：AUTO
+
+##### 五、重构SDK注意事项
+
+- 多个containerFactory无需自动化配置，系统启动时自动初始化核心注意com.emily.infrastructure.rabbitmq.annotation.RabbitListenerAnnotationBeanPostProcessor#resolveContainerFactory方法；
+
+- s

@@ -33,9 +33,9 @@ public class RabbitConfig {
         channel.basicAck(deliveryTag, false);
     }
 
-    @RabbitListener(queues = "topic.test.queue",ackMode = "MANUAL")
+    @RabbitListener(queues = "topic.test.queue")
     public void handlerEmily1(Channel channel, @Payload String message, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) throws IOException {
         System.out.println("TEST-" + message);
-        //channel.basicAck(deliveryTag, false);
+        channel.basicAck(deliveryTag, false);
     }
 }

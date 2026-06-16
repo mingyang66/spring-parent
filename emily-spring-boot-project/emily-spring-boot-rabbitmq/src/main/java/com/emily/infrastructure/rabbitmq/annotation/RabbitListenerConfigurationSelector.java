@@ -15,6 +15,7 @@ public class RabbitListenerConfigurationSelector implements DeferredImportSelect
 
     @Override
     public String[] selectImports(@NonNull AnnotationMetadata importingClassMetadata) {
-        return new String[]{MultiRabbitBootstrapConfiguration.class.getName(), RabbitBootstrapConfiguration.class.getName()};
+        return new String[]{MultiRabbitBootstrapConfiguration.class.getName(),
+                RabbitBootstrapConfiguration.class.getName()};
     }
 }

@@ -11,10 +11,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.boot.amqp.autoconfigure.RabbitProperties;
-import org.springframework.boot.amqp.autoconfigure.RabbitTemplateConfigurer;
-import org.springframework.boot.amqp.autoconfigure.RabbitTemplateCustomizer;
-import org.springframework.boot.amqp.autoconfigure.RabbitTemplateRetrySettingsCustomizer;
+import org.springframework.boot.amqp.autoconfigure.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
@@ -28,8 +25,8 @@ import java.util.Map;
 
 
 /**
- * RabbitTemplate配置类 参考：RabbitAutoConfiguration.RabbitTemplateConfiguration
- *
+ * RabbitTemplate配置类
+ * @see RabbitAutoConfiguration RabbitTemplateConfiguration
  * @author Emily
  * @since Created in 2022/6/6 10:08 上午
  */

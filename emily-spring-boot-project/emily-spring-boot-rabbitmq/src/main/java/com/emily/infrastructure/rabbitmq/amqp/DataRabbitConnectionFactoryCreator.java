@@ -27,7 +27,7 @@ import java.util.Map;
 
 
 /**
- * Rabbit工厂创建器 参考：{@link RabbitAutoConfiguration}
+ * Rabbit工厂创建器 参考：{@link RabbitAutoConfiguration} RabbitConnectionFactoryCreator
  *
  * @author Emily
  * @since Created in 2022/6/6 9:54 上午
@@ -94,7 +94,7 @@ public class DataRabbitConnectionFactoryCreator {
             RabbitConnectionFactoryBean connectionFactoryBean = new DataSslBundleRabbitConnectionFactoryBean();
             rabbitConnectionFactoryBeanConfigurer.configure(connectionFactoryBean);
             connectionFactoryBean.afterPropertiesSet();
-            com.rabbitmq.client.ConnectionFactory connectionFactory = (com.rabbitmq.client.ConnectionFactory) connectionFactoryBean.getObject();
+            com.rabbitmq.client.ConnectionFactory connectionFactory = connectionFactoryBean.getObject();
             connectionFactoryCustomizers.orderedStream().forEach((customizer) -> {
                 customizer.customize(connectionFactory);
             });

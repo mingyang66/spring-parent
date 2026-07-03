@@ -21,7 +21,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * {@link RabbitListenerEndpointRegistrar}
+ * {@link org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry}
  */
 public class RabbitListenerEndpointRegistry implements DisposableBean, SmartLifecycle, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
     protected final Log logger = LogFactory.getLog(getClass()); // NOSONAR protected

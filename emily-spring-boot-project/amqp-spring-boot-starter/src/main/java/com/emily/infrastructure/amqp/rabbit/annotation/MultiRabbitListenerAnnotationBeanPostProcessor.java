@@ -16,7 +16,7 @@ import java.lang.reflect.Proxy;
 import java.util.Collection;
 
 /**
- * {@link org.springframework.amqp.rabbit.annotation.MultiRabbitListenerAnnotationBeanPostProcessor}
+ * 源码：{@link org.springframework.amqp.rabbit.annotation.MultiRabbitListenerAnnotationBeanPostProcessor}
  */
 public class MultiRabbitListenerAnnotationBeanPostProcessor extends RabbitListenerAnnotationBeanPostProcessor {
 

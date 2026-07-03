@@ -10,9 +10,6 @@ import org.springframework.core.type.AnnotationMetadata;
  */
 @Order
 public class RabbitListenerConfigurationSelector implements DeferredImportSelector {
-    public RabbitListenerConfigurationSelector() {
-    }
-
     @Override
     public String[] selectImports(@NonNull AnnotationMetadata importingClassMetadata) {
         return new String[]{MultiRabbitBootstrapConfiguration.class.getName(),

@@ -81,7 +81,7 @@ public class DataRabbitTemplateConfiguration {
     @Bean(DataRabbitInfo.DEFAULT_AMQP_ADMIN)
     @ConditionalOnSingleCandidate(ConnectionFactory.class)
     @ConditionalOnBooleanProperty(
-            name = {"spring.rabbitmq.dynamic"},
+            name = {"spring.emily.rabbit.dynamic"},
             matchIfMissing = true
     )
     @ConditionalOnMissingBean

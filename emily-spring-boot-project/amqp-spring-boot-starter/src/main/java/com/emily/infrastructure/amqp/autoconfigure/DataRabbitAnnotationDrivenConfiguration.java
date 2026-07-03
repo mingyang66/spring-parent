@@ -177,16 +177,16 @@ public class DataRabbitAnnotationDrivenConfiguration {
 
     private DataSimpleRabbitListenerContainerFactoryConfigurer simpleListenerConfigurer(RabbitProperties rabbitProperties) {
         DataSimpleRabbitListenerContainerFactoryConfigurer configurer = new DataSimpleRabbitListenerContainerFactoryConfigurer(rabbitProperties);
-        configurer.setMessageConverter((MessageConverter) this.messageConverter.getIfUnique());
-        configurer.setMessageRecoverer((MessageRecoverer) this.messageRecoverer.getIfUnique());
+        configurer.setMessageConverter(this.messageConverter.getIfUnique());
+        configurer.setMessageRecoverer(this.messageRecoverer.getIfUnique());
         configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().toList());
         return configurer;
     }
 
     private DataDirectRabbitListenerContainerFactoryConfigurer directListenerConfigurer(RabbitProperties rabbitProperties) {
         DataDirectRabbitListenerContainerFactoryConfigurer configurer = new DataDirectRabbitListenerContainerFactoryConfigurer(rabbitProperties);
-        configurer.setMessageConverter((MessageConverter) this.messageConverter.getIfUnique());
-        configurer.setMessageRecoverer((MessageRecoverer) this.messageRecoverer.getIfUnique());
+        configurer.setMessageConverter(this.messageConverter.getIfUnique());
+        configurer.setMessageRecoverer(this.messageRecoverer.getIfUnique());
         configurer.setRetrySettingsCustomizers(this.retrySettingsCustomizers.orderedStream().toList());
         return configurer;
     }

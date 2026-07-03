@@ -8,7 +8,7 @@ Bug Fixes
 3. @EnableRabbit注解相关RabbitMQ SDK源码重构开发；
 4. emily-spring-boot-rabbitmq重命名为amqp-spring-boot-starter并对代码所处的包进行重新变更梳理；
 5. amqp-spring-boot-starter新增spring.emily.rabbit.dynamic注解支持Amqp动态手工配置；
-6. 
+6. emily-spring-boot-datasource重命名为datasource-spring-boot-starter；
 
 Dependency Upgrades
 

@@ -18,7 +18,7 @@
         <module>emily-spring-boot-logger</module>
         <module>emily-spring-boot-aop</module>
         <module>emily-spring-boot-redis</module>
-        <module>emily-spring-boot-datasource</module>
+        <module>datasource-spring-boot-starter</module>
         <module>emily-spring-boot-starter</module>
         <module>amqp-spring-boot-starter</module>
         <module>emily-spring-boot-transfer</module>

@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>emily-spring-boot-datasource</artifactId>
-    <name>emily-spring-boot-datasource</name>
-    <description>Emily Spring Boot Datasource</description>
+    <artifactId>datasource-spring-boot-starter</artifactId>
+    <name>datasource-spring-boot-starter</name>
+    <description>DataSource Spring Boot Starter</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 
     <developers>

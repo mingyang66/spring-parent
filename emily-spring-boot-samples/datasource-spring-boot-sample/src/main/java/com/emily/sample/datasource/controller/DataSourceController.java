@@ -7,7 +7,6 @@ import com.emily.sample.datasource.entity.Item;
 import com.emily.sample.datasource.entity.Job;
 import com.emily.sample.datasource.entity.World;
 import com.emily.sample.datasource.mapper.mysql.ItemMapper;
-import com.emily.sample.datasource.mapper.mysql.JobMapper;
 import com.emily.sample.datasource.service.MysqlService;
 import com.emily.sample.datasource.service.OracleService;
 import com.google.common.collect.Lists;
@@ -36,14 +35,12 @@ import java.util.List;
 @RequestMapping("api")
 public class DataSourceController {
 
-    private final JobMapper jobMapper;
     private final ItemMapper itemMapper;
     private final OracleService oracleService;
     private final MysqlService mysqlService;
     private final SqlSessionTemplate sqlSessionTemplate;
 
-    public DataSourceController(JobMapper jobMapper, ItemMapper itemMapper, OracleService oracleService, MysqlService mysqlService, SqlSessionTemplate sqlSessionTemplate) {
-        this.jobMapper = jobMapper;
+    public DataSourceController(ItemMapper itemMapper, OracleService oracleService, MysqlService mysqlService, SqlSessionTemplate sqlSessionTemplate) {
         this.itemMapper = itemMapper;
         this.oracleService = oracleService;
         this.mysqlService = mysqlService;

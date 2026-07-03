@@ -39,11 +39,11 @@ public class DataSourceProperties {
     /**
      * Hikari数据库连接池多数据源配置
      */
-    private Map<String, HikariDataSource> config = new HashMap<>();
+    private final Map<String, HikariDataSource> config = new HashMap<>();
     /**
      * JNDI数据源
      */
-    private Map<String, String> jndi = new HashMap<>();
+    private final Map<String, String> jndi = new HashMap<>();
 
     public boolean isEnabled() {
         return enabled;

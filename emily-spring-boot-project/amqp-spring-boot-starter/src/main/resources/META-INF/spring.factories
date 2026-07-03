@@ -1,0 +1,8 @@
+#Initializers
+org.springframework.context.ApplicationContextInitializer=\
+  com.emily.infrastructure.amqp.initializer.DataRabbitApplicationContextInitializer
+# Failure Analyzers
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+  com.emily.infrastructure.amqp.diagnostics.analyzer.DataRabbitIdentifierFailureAnalyzer
+org.springframework.boot.EnvironmentPostProcessor=\
+  com.emily.infrastructure.amqp.processor.DataRabbitEnvironmentPostProcessor

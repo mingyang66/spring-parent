@@ -3,9 +3,10 @@
 Bug Fixes
 ###-----
 
-1.central-publishing-maven-plugin插件版本控制抽出为公共配置；
-2.rabbit sdk兼容升级的最新版本；
-3.@EnableRabbit注解相关RabbitMQ SDK源码重构开发；
+1. central-publishing-maven-plugin插件版本控制抽出为公共配置；
+2. rabbit sdk兼容升级的最新版本；
+3. @EnableRabbit注解相关RabbitMQ SDK源码重构开发；
+4. emily-spring-boot-rabbitmq重命名为amqp-spring-boot-starter并对代码所处的包进行重新变更梳理；
 
 Dependency Upgrades
 

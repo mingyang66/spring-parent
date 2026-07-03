@@ -20,7 +20,7 @@
         <module>emily-spring-boot-redis</module>
         <module>emily-spring-boot-datasource</module>
         <module>emily-spring-boot-starter</module>
-        <module>emily-spring-boot-rabbitmq</module>
+        <module>amqp-spring-boot-starter</module>
         <module>emily-spring-boot-transfer</module>
         <module>emily-spring-boot-validation</module>
         <module>emily-spring-boot-web</module>

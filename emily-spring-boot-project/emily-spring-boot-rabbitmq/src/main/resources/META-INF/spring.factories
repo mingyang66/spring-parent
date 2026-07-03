@@ -1,8 +1,0 @@
-#Initializers
-org.springframework.context.ApplicationContextInitializer=\
-  com.emily.infrastructure.rabbitmq.initializer.DataRabbitApplicationContextInitializer
-# Failure Analyzers
-org.springframework.boot.diagnostics.FailureAnalyzer=\
-  com.emily.infrastructure.rabbitmq.diagnostics.analyzer.DataRabbitIdentifierFailureAnalyzer
-org.springframework.boot.EnvironmentPostProcessor=\
-  com.emily.infrastructure.rabbitmq.processor.DataRabbitEnvironmentPostProcessor

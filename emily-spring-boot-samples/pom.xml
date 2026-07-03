@@ -29,7 +29,7 @@
         <module>graphql-spring-boot-sample</module>
         <module>rateLimiter-spring-boot-sample</module>
         <module>shell-spring-boot-starter</module>
-        <module>rabbitmq-spring-boot-sample</module>
+        <module>amqp-spring-boot-sample</module>
         <module>logger-spring-boot-sample</module>
         <module>datasource-spring-boot-sample</module>
     </modules>

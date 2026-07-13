@@ -28,13 +28,13 @@ cd ../emily-spring-boot-project
 ../mvnw clean deploy -pl emily-spring-boot-validation
 # 依赖其它
 ../mvnw clean deploy -pl emily-spring-boot-desensitize
-../mvnw clean deploy -pl emily-spring-boot-datasource
-../mvnw clean deploy -pl emily-spring-boot-rabbitmq
+../mvnw clean deploy -pl datasource-spring-boot-starter
+../mvnw clean deploy -pl amqp-spring-boot-starter
 ../mvnw clean deploy -pl emily-spring-boot-starter
 ../mvnw clean deploy -pl emily-spring-boot-transfer
 ../mvnw clean deploy -pl emily-spring-boot-i18n
 ../mvnw clean deploy -pl emily-spring-boot-rateLimiter
 ../mvnw clean deploy -pl emily-spring-boot-security
-../mvnw clean deploy -pl emily-spring-boot-web
+../mvnw clean deploy -pl web-spring-boot-starter
 cd ..
 echo '#########package end...'

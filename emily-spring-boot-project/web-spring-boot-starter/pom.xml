@@ -8,10 +8,10 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-spring-boot-web</artifactId>
+    <artifactId>web-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-web</name>
+    <name>webspring-boot-starter</name>
     <description>Emily Spring Boot Web</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

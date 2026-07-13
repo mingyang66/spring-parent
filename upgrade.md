@@ -30,7 +30,7 @@ Bug Fixes
 Bug Fixes
 ###-----
 
-1. emily-spring-boot-web异常处理BusinessException、RemoteInvokeException根据是否引入emily-spring-boot-i18n包判定是否支持多语言翻译；
+1. web-spring-boot-starter异常处理BusinessException、RemoteInvokeException根据是否引入emily-spring-boot-i18n包判定是否支持多语言翻译；
 2. Upgrade springboot 3.5.3;
 3. SecurityUtils对实体类字段值为空时不触发对应插件问题修复；
 4. 新增参数校验注解@NoneOrBothEmpty标注字段全部不为空或全部为空；
@@ -157,12 +157,12 @@ Bug Fixes
 6. 新增emily-spring-boot-validation模块并将emily-spring-boot-starter中valid校验迁移到此模块；
 7. emily-spring-boot-core deleted common-io dependency;
 8. emily-spring-boot-starter add common-io dependency;
-9. 新增emily-spring-boot-web module并且将emily-spring-boot-starter中请求响应全局处理迁移过来；
+9. 新增web-spring-boot-starter module并且将emily-spring-boot-starter中请求响应全局处理迁移过来；
 10. 新增emily-spring-boot-tracing链路追踪模块；
 11. 将emily-spring-boot-core重命名为emily-spring-boot-aop;
 12. emily-dependencies添加knife4j-openapi2-spring-boot-starter依赖管理；
 13. 新增emily-spring-boot-rateLimiter限流组件模块；
-14. emily-spring-boot-web中新增emily-spring-boot-aop依赖；
+14. web-spring-boot-starter中新增emily-spring-boot-aop依赖；
 
 ------
 Dependency Upgrades

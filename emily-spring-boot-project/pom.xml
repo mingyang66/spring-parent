@@ -23,7 +23,7 @@
         <module>amqp-spring-boot-starter</module>
         <module>emily-spring-boot-transfer</module>
         <module>emily-spring-boot-validation</module>
-        <module>emily-spring-boot-web</module>
+        <module>web-spring-boot-starter</module>
         <module>emily-spring-boot-tracing</module>
         <module>emily-spring-boot-rateLimiter</module>
         <module>emily-spring-boot-i18n</module>

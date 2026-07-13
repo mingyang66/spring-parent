@@ -1,8 +1,8 @@
 @startjson
-#highlight "emily-spring-boot-project" / "emily-spring-boot-datasource" / "0" /"emily-spring-boot-desensitize"
+#highlight "emily-spring-boot-project" / "datasource-spring-boot-starter" / "0" /"emily-spring-boot-desensitize"
 #highlight "emily-spring-boot-project" / "emily-spring-boot-transfer" / "0" /"emily-spring-boot-desensitize"
-#highlight "emily-spring-boot-project" / "emily-spring-boot-web" / "0" /"emily-spring-boot-desensitize"
-#highlight "emily-spring-boot-project" / "emily-spring-boot-web" / "0" /"emily-spring-boot-i18n"
+#highlight "emily-spring-boot-project" / "web-spring-boot-starter" / "0" /"emily-spring-boot-desensitize"
+#highlight "emily-spring-boot-project" / "web-spring-boot-starter" / "0" /"emily-spring-boot-i18n"
 {
 "emily-project":
   {
@@ -46,13 +46,13 @@
         "otter-spring-servlet":"请求上下文SDK",
         "emily-language":"多语言SDK"
   }],
-  "emily-spring-boot-datasource": [{
+  "datasource-spring-boot-starter": [{
         "emily-spring-boot-logger":"日志组件SDK",
         "emily-spring-boot-tracing":"链路追踪SDK",
         "emily-spring-boot-desensitize":"脱敏SDK",
         "emily-date":"日期SDK"
   }],
-  "emily-spring-boot-rabbitmq": [{
+  "amqp-spring-boot-starter": [{
         "emily-spring-boot-logger":"日志组件SDK",
         "emily-spring-boot-tracing":"链路追踪SDK",
         "emily-date":"日期SDK"
@@ -63,7 +63,7 @@
           "emily-spring-boot-desensitize":"脱敏SDK",
           "emily-date":"日期SDK"
   }],
-  "emily-spring-boot-web": [{
+  "web-spring-boot-starter": [{
            "emily-spring-boot-logger":"日志组件SDK",
            "emily-spring-boot-tracing":"链路追踪SDK",
            "emily-spring-boot-desensitize":"脱敏SDK",

@@ -3,7 +3,7 @@
 ```xml
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-spring-boot-datasource</artifactId>
+                <artifactId>datasource-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
 ```

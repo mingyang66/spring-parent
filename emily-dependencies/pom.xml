@@ -106,7 +106,7 @@
             <!-- emily-spring-boot-project -->
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-spring-boot-web</artifactId>
+                <artifactId>web-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

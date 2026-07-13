@@ -27,13 +27,13 @@ cd ../emily-spring-boot-project
 ../mvnw clean install -pl emily-spring-boot-redis
 ../mvnw clean install -pl emily-spring-boot-validation
 # 依赖其它
-../mvnw clean install -pl emily-spring-boot-datasource
-../mvnw clean install -pl emily-spring-boot-rabbitmq
+../mvnw clean install -pl datasource-spring-boot-starter
+../mvnw clean install -pl amqp-spring-boot-starter
 ../mvnw clean install -pl emily-spring-boot-starter
 ../mvnw clean install -pl emily-spring-boot-transfer
 ../mvnw clean install -pl emily-spring-boot-desensitize
 ../mvnw clean install -pl emily-spring-boot-i18n
 ../mvnw clean install -pl emily-spring-boot-rateLimiter
 ../mvnw clean install -pl emily-spring-boot-security
-../mvnw clean install -pl emily-spring-boot-web
+../mvnw clean install -pl web-spring-boot-starter
 echo '#########打包完成...'

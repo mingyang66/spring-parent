@@ -24,7 +24,7 @@ cd ../emily-spring-boot-project
 ../mvnw clean install -pl emily-spring-boot-aop -am
 ../mvnw clean install -pl emily-spring-boot-tracing
 ../mvnw clean install -pl emily-spring-boot-logger
-../mvnw clean install -pl emily-spring-boot-redis
+../mvnw clean install -pl redis-spring-boot-starter
 ../mvnw clean install -pl emily-spring-boot-validation
 # 依赖其它
 ../mvnw clean install -pl datasource-spring-boot-starter

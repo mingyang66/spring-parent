@@ -5,7 +5,7 @@
 ```xml
 <dependency>
     <groupId>io.github.mingyang66</groupId>
-    <artifactId>emily-spring-boot-redis</artifactId>
+    <artifactId>redis-spring-boot-starter</artifactId>
     <version>4.4.0</version>
 </dependency>
 ```

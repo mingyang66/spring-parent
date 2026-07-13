@@ -24,7 +24,7 @@ cd ../emily-spring-boot-project
 ../mvnw clean deploy -pl emily-spring-boot-aop -am
 ../mvnw clean deploy -pl emily-spring-boot-tracing
 ../mvnw clean deploy -pl emily-spring-boot-logger
-../mvnw clean deploy -pl emily-spring-boot-redis
+../mvnw clean deploy -pl redis-spring-boot-starter
 ../mvnw clean deploy -pl emily-spring-boot-validation
 # 依赖其它
 ../mvnw clean deploy -pl emily-spring-boot-desensitize

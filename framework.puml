@@ -22,7 +22,7 @@
  },
 "emily-spring-boot-project":
   {
-  "emily-spring-boot-redis": "Redis多数据源SDK",
+  "redis-spring-boot-starter": "Redis多数据源SDK",
   "emily-spring-boot-validation": "自定义参数校验SDK",
   "emily-spring-boot-aop": "AOP切面SDK",
   "emily-spring-boot-logger": [{

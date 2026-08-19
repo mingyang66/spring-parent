@@ -18,6 +18,7 @@ Bug Fixes
 13. emily-spring-boot-tracing重命名为tracing-spring-boot-starter;
 14. emily-spring-boot-security重命名为security-spring-boot-starter;
 15. emily-spring-boot-validation重命名为validation-spring-boot-starter;
+16. emily-spring-boot-transfer重命名为transfer-spring-boot-starter;
 
 Dependency Upgrades
 

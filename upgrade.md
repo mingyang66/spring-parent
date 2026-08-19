@@ -15,6 +15,7 @@ Bug Fixes
 10. emily-spring-boot-logger重命名为logger-spring-boot-starter;
 11. emily-spring-boot-i18n重命名为i18n-spring-boot-starter;
 12. emily-spring-boot-ratelLimiter重命名为rateLimiter-spring-boot-starter;
+13. emily-spring-boot-tracing重命名为tracing-spring-boot-starter;
 
 Dependency Upgrades
 

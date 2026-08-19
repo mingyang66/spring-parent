@@ -8,7 +8,7 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-spring-boot-tracing</artifactId>
+    <artifactId>tracing-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
     <name>emily-spring-boot-tracing</name>

@@ -13,6 +13,7 @@ Bug Fixes
 8. emily-spring-boot-desensitize重命名为desensitize-spring-boot-starter;
 9. emily-spring-boot-aop重命名为aop-spring-boot-starter;
 10. emily-spring-boot-logger重命名为logger-spring-boot-starter;
+11. emily-spring-boot-i18n重命名为i18n-spring-boot-starter;
 
 Dependency Upgrades
 

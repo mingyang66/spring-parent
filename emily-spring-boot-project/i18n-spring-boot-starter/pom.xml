@@ -10,7 +10,7 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-spring-boot-i18n</artifactId>
+    <artifactId>i18n-spring-boot-starter</artifactId>
     <name>emily-spring-boot-i18n</name>
     <description>Emily Spring Boot I18n</description>
 

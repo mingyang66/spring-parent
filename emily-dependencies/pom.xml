@@ -121,7 +121,7 @@
             </dependency>
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
-                <artifactId>emily-spring-boot-logger</artifactId>
+                <artifactId>logger-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

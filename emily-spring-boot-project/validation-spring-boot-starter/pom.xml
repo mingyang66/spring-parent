@@ -8,7 +8,7 @@
         <relativePath>../../emily-spring-boot-project/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emily-spring-boot-validation</artifactId>
+    <artifactId>validation-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
     <name>emily-spring-boot-validation</name>

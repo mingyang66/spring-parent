@@ -11,7 +11,7 @@
     <artifactId>rateLimiter-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-rateLimiter</name>
+    <name>rateLimiter-spring-boot-starter</name>
     <description>Emily Spring Boot RateLimiter</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

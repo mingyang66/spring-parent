@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>i18n-spring-boot-starter</artifactId>
-    <name>emily-spring-boot-i18n</name>
+    <name>i18n-spring-boot-starter</name>
     <description>Emily Spring Boot I18n</description>
 
     <properties>

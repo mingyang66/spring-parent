@@ -11,7 +11,7 @@
     <artifactId>security-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-security</name>
+    <name>security-spring-boot-starter</name>
     <description>Emily Spring Boot Security</description>
     <url>http://maven.apache.org</url>
 

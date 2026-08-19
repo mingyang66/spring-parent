@@ -11,7 +11,7 @@
     <artifactId>transfer-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-transfer</name>
+    <name>transfer-spring-boot-starter</name>
     <description>Emily Spring Boot Transfer</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

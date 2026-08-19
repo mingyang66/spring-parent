@@ -22,18 +22,18 @@ cd ../emily-spring-project
 cd ../emily-spring-boot-project
 # 独立
 ../mvnw clean install -pl aop-spring-boot-starter -am
-../mvnw clean install -pl emily-spring-boot-tracing
-../mvnw clean install -pl emily-spring-boot-logger
+../mvnw clean install -pl tracing-spring-boot-starter
+../mvnw clean install -pl logger-spring-boot-starter
 ../mvnw clean install -pl redis-spring-boot-starter
-../mvnw clean install -pl emily-spring-boot-validation
+../mvnw clean install -pl validation-spring-boot-starter
 # 依赖其它
 ../mvnw clean install -pl datasource-spring-boot-starter
 ../mvnw clean install -pl amqp-spring-boot-starter
-../mvnw clean install -pl emily-spring-boot-starter
-../mvnw clean install -pl emily-spring-boot-transfer
+../mvnw clean install -pl starter-spring-boot-starter
+../mvnw clean install -pl transfer-spring-boot-starter
 ../mvnw clean install -pl desensitize-spring-boot-starter
-../mvnw clean install -pl emily-spring-boot-i18n
-../mvnw clean install -pl emily-spring-boot-rateLimiter
-../mvnw clean install -pl emily-spring-boot-security
+../mvnw clean install -pl i18n-spring-boot-starter
+../mvnw clean install -pl rateLimiter-spring-boot-starter
+../mvnw clean install -pl security-spring-boot-starter
 ../mvnw clean install -pl web-spring-boot-starter
 echo '#########打包完成...'

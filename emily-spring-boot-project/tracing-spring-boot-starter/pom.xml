@@ -11,7 +11,7 @@
     <artifactId>tracing-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-tracing</name>
+    <name>tracing-spring-boot-starter</name>
     <description>Emily Spring Boot Tracing</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

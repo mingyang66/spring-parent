@@ -11,7 +11,7 @@
     <artifactId>validation-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>emily-spring-boot-validation</name>
+    <name>validation-spring-boot-starter</name>
     <description>Emily Spring Boot Validation</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

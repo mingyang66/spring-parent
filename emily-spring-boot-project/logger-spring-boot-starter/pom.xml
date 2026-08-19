@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>logger-spring-boot-starter</artifactId>
-    <name>emily-spring-boot-logger</name>
+    <name>logger-spring-boot-starter</name>
     <description>Java基于logback的日志组件SDK</description>
     <url>https://github.com/mingyang66/spring-parent</url>
 

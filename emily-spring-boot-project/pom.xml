@@ -15,20 +15,19 @@
     <description>Emily Spring Boot Project</description>
     <packaging>pom</packaging>
     <modules>
-        <module>emily-spring-boot-logger</module>
-        <module>emily-spring-boot-aop</module>
+        <module>logger-spring-boot-starter</module>
+        <module>aop-spring-boot-starter</module>
         <module>redis-spring-boot-starter</module>
         <module>datasource-spring-boot-starter</module>
-        <module>emily-spring-boot-starter</module>
         <module>amqp-spring-boot-starter</module>
-        <module>emily-spring-boot-transfer</module>
-        <module>emily-spring-boot-validation</module>
+        <module>transfer-spring-boot-starter</module>
+        <module>validation-spring-boot-starter</module>
         <module>web-spring-boot-starter</module>
-        <module>emily-spring-boot-tracing</module>
-        <module>emily-spring-boot-rateLimiter</module>
-        <module>emily-spring-boot-i18n</module>
-        <module>emily-spring-boot-desensitize</module>
-        <module>emily-spring-boot-security</module>
+        <module>tracing-spring-boot-starter</module>
+        <module>rateLimiter-spring-boot-starter</module>
+        <module>i18n-spring-boot-starter</module>
+        <module>desensitize-spring-boot-starter</module>
+        <module>security-spring-boot-starter</module>
     </modules>
 
 </project>

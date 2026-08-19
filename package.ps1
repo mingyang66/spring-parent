@@ -22,19 +22,18 @@ cd ../emily-spring-project
 cd ../emily-spring-boot-project
 # 独立
 ../mvnw clean deploy -pl aop-spring-boot-starter -am
-../mvnw clean deploy -pl emily-spring-boot-tracing
-../mvnw clean deploy -pl emily-spring-boot-logger
+../mvnw clean deploy -pl tracing-spring-boot-starter
+../mvnw clean deploy -pl logger-spring-boot-starter
 ../mvnw clean deploy -pl redis-spring-boot-starter
-../mvnw clean deploy -pl emily-spring-boot-validation
+../mvnw clean deploy -pl validation-spring-boot-starter
 # 依赖其它
 ../mvnw clean deploy -pl desensitize-spring-boot-starter
 ../mvnw clean deploy -pl datasource-spring-boot-starter
 ../mvnw clean deploy -pl amqp-spring-boot-starter
-../mvnw clean deploy -pl emily-spring-boot-starter
-../mvnw clean deploy -pl emily-spring-boot-transfer
-../mvnw clean deploy -pl emily-spring-boot-i18n
-../mvnw clean deploy -pl emily-spring-boot-rateLimiter
-../mvnw clean deploy -pl emily-spring-boot-security
+../mvnw clean deploy -pl transfer-spring-boot-transfer
+../mvnw clean deploy -pl i18n-spring-boot-starter
+../mvnw clean deploy -pl rateLimiter-spring-boot-starter
+../mvnw clean deploy -pl security-spring-boot-starter
 ../mvnw clean deploy -pl web-spring-boot-starter
 cd ..
 echo '#########package end...'

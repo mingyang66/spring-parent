@@ -1,8 +1,0 @@
-com.emily.infrastructure.web.request.RequestAutoConfiguration
-com.emily.infrastructure.web.response.ResponseAutoConfiguration
-com.emily.infrastructure.autoconfigure.bean.factory.EmilyBeanFactoryPostProcessorAutoConfiguration
-com.emily.infrastructure.autoconfigure.bean.registry.EmilyBeanDefinitionRegistryAutoConfiguration
-com.emily.infrastructure.web.servlet.ServletAutoConfiguration
-com.emily.infrastructure.web.exception.GlobalExceptionAutoConfiguration
-com.emily.infrastructure.autoconfigure.tomcat.TomcatAutoConfiguration
-com.emily.infrastructure.web.filter.FilterAutoConfiguration

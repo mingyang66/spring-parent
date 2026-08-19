@@ -21,7 +21,7 @@ cd ../emily-spring-project
 ../mvnw clean deploy -pl otter-spring-servlet
 cd ../emily-spring-boot-project
 # 独立
-../mvnw clean deploy -pl emily-spring-boot-aop -am
+../mvnw clean deploy -pl aop-spring-boot-starter -am
 ../mvnw clean deploy -pl emily-spring-boot-tracing
 ../mvnw clean deploy -pl emily-spring-boot-logger
 ../mvnw clean deploy -pl redis-spring-boot-starter

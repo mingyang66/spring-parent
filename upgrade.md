@@ -11,6 +11,7 @@ Bug Fixes
 6. emily-spring-boot-datasource重命名为datasource-spring-boot-starter；
 7. OrderedContentCachingRequestFilter过滤器unbind修改到try...finally中；
 8. emily-spring-boot-desensitize重命名为desensitize-spring-boot-starter;
+9. emily-spring-boot-aop重命名为aop-spring-boot-starter;
 
 Dependency Upgrades
 

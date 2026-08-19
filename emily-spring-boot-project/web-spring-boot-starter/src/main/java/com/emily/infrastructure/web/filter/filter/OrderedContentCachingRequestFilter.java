@@ -34,19 +34,22 @@ public class OrderedContentCachingRequestFilter extends OncePerRequestFilter imp
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
-        //创建ContentCachingRequestWrapper对象用于缓存请求体
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 0);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("请求接口缓存拦截器：START============>>{}", FilterUtil.getRequestPath(request));
-        }
-        //标记阶段标识
-        LocalContextHolder.current().setTracingPhase(TracingPhase.PARAMETER);
-        //继续执行过滤器链，并传递包装后的请求对象
-        filterChain.doFilter(requestWrapper, response);
-        //移除线程上下文数据
-        LocalContextHolder.unbind(true);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("请求接口缓存拦截器：END<<============{}", FilterUtil.getRequestPath(request));
+        try {
+            //创建ContentCachingRequestWrapper对象用于缓存请求体
+            ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 0);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("请求接口缓存拦截器：START============>>{}", FilterUtil.getRequestPath(request));
+            }
+            //标记阶段标识
+            LocalContextHolder.current().setTracingPhase(TracingPhase.PARAMETER);
+            //继续执行过滤器链，并传递包装后的请求对象
+            filterChain.doFilter(requestWrapper, response);
+        } finally {
+            //移除线程上下文数据
+            LocalContextHolder.unbind(true);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("请求接口缓存拦截器：END<<============{}", FilterUtil.getRequestPath(request));
+            }
         }
     }
 

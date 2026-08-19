@@ -10,6 +10,7 @@ Bug Fixes
 5. amqp-spring-boot-starter新增spring.emily.rabbit.dynamic注解支持Amqp动态手工配置；
 6. emily-spring-boot-datasource重命名为datasource-spring-boot-starter；
 7. OrderedContentCachingRequestFilter过滤器unbind修改到try...finally中；
+8. emily-spring-boot-desensitize重命名为desensitize-spring-boot-starter;
 
 Dependency Upgrades
 

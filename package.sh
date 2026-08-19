@@ -31,7 +31,7 @@ cd ../emily-spring-boot-project
 ../mvnw clean install -pl amqp-spring-boot-starter
 ../mvnw clean install -pl emily-spring-boot-starter
 ../mvnw clean install -pl emily-spring-boot-transfer
-../mvnw clean install -pl emily-spring-boot-desensitize
+../mvnw clean install -pl desensitize-spring-boot-starter
 ../mvnw clean install -pl emily-spring-boot-i18n
 ../mvnw clean install -pl emily-spring-boot-rateLimiter
 ../mvnw clean install -pl emily-spring-boot-security

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 日志初始化管理器
@@ -19,18 +20,19 @@ public class LogbackContextInitializer {
     /**
      * logback sdk context
      */
-    private static LogbackContext logbackContext;
+    private static volatile LogbackContext logbackContext;
     /**
      * 是否已经初始化，默认：false
      */
-    private static boolean initialized;
+    private static volatile boolean initialized;
 
     /**
      * 日志组件SDK初始化
      *
      * @param properties 日志属性配置
      */
-    public static void initialize(LogbackProperties properties) {
+    public static synchronized void initialize(LogbackProperties properties) {
+        Objects.requireNonNull(properties, "properties must not be null");
         if (!properties.isEnabled()) {
             return;
         }

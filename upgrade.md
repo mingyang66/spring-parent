@@ -10,6 +10,7 @@ Bug Fixes
 5. LogbackContext.getLogger() 原子创建修改；
 6. LogbackContextInitializer.initialize() 的线程安全；
 7. 降低 LogbackAsyncAppender.getAppender()可见性；
+8. 删除已无调用方的 LogBeanFactory.containsBean()；
 
 Dependency Upgrades
 

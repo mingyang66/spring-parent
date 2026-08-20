@@ -11,6 +11,7 @@ Bug Fixes
 6. LogbackContextInitializer.initialize() 的线程安全；
 7. 降低 LogbackAsyncAppender.getAppender()可见性；
 8. 删除已无调用方的 LogBeanFactory.containsBean()；
+9. 修复ConfigurationAction缺少Context的警告；
 
 Dependency Upgrades
 

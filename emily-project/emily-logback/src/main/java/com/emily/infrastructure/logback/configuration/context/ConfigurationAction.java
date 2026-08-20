@@ -39,6 +39,7 @@ public class ConfigurationAction extends ContextAwareBase {
     public ConfigurationAction(LoggerContext context, LogbackProperties properties) {
         this.context = context;
         this.properties = properties;
+        setContext(context);
     }
 
     /**

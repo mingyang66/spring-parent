@@ -8,8 +8,10 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
+import java.util.Objects;
+
 /**
- * 通过名字和级别设置异步Appender
+ * 设置异步Appender
  *
  * @author Emily
  * @since : 2020/08/04
@@ -29,18 +31,26 @@ public class LogbackAsyncAppender {
     private final LogbackProperties properties;
 
     public LogbackAsyncAppender(LoggerContext context, LogbackProperties properties) {
-        this.context = context;
-        this.properties = properties;
+        this.context = Objects.requireNonNull(context, "context must not be null");
+        this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
     /**
-     * 控制台打印appender
+     * 创建并注册Logback异步Appender。
+     * 每个异步Appender包装一个目标Appender，并使用独立有界队列
+     * 和单个Worker线程异步转发日志事件
      *
      * @param ref 附件appender的引用
      * @return 异步appender对象
      */
-    public Appender<ILoggingEvent> getAppender(Appender<ILoggingEvent> ref) {
+    public AsyncAppender getAppender(Appender<ILoggingEvent> ref) {
         LogbackProperties.Async async = properties.getAppender().getAsync();
+        if (async.getQueueSize() < 1) {
+            throw new IllegalArgumentException("Async appender queueSize must be greater than 0");
+        }
+        if (async.getMaxFlushTime() < 0) {
+            throw new IllegalArgumentException("Async appender maxFlushTime must not be negative");
+        }
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         AsyncAppender appender = new AsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -51,7 +61,9 @@ public class LogbackAsyncAppender {
         //队列的最大容量，默认为 256
         appender.setQueueSize(async.getQueueSize());
         //默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
-        appender.setDiscardingThreshold(async.getDiscardingThreshold());
+        if (Objects.nonNull(async.getDiscardingThreshold())) {
+            appender.setDiscardingThreshold(async.getDiscardingThreshold());
+        }
         //获取调用者的数据相对来说比较昂贵。为了提高性能，默认情况下不会获取调用者的信息。默认情况下，只有像线程名或者 MDC 这种"便宜"的数据会被复制。设置为 true 时，appender 会包含调用者的信息
         appender.setIncludeCallerData(false);
         //根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。当 LoggerContext 被停止时，
@@ -63,19 +75,18 @@ public class LogbackAsyncAppender {
         //添加附加的appender,最多只能添加一个
         appender.addAppender(ref);
         appender.start();
+        if (!appender.isStarted()) {
+            throw new IllegalStateException("Failed to start async appender " + appender.getName());
+        }
         return appender;
     }
 
-    public Appender<ILoggingEvent> registerAndGet(Appender<ILoggingEvent> ref) {
-        String appenderName = this.getName(ref.getName());
-        if (LogBeanFactory.containsBean(appenderName)) {
-            return LogBeanFactory.getBean(appenderName);
-        }
-        LogBeanFactory.registerBean(appenderName, this.getAppender(ref));
-        return LogBeanFactory.getBean(appenderName);
+    public AsyncAppender registerAndGet(Appender<ILoggingEvent> ref) {
+        String appenderName = getName(ref.getName());
+        return LogBeanFactory.computeIfAbsent(appenderName, key -> getAppender(ref));
     }
 
-    public String getName(String name) {
+    private String getName(String name) {
         return StrUtils.join(PREFIX, name);
     }
 }

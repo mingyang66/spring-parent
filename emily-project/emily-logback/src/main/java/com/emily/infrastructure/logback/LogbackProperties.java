@@ -262,7 +262,7 @@ public class LogbackProperties {
         /**
          * 默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
          */
-        private int discardingThreshold;
+        private Integer discardingThreshold;
         /**
          * 根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。
          * 当 LoggerContext 被停止时， AsyncAppender stop 方法会等待工作线程指定的时间来完成。
@@ -291,11 +291,11 @@ public class LogbackProperties {
             this.queueSize = queueSize;
         }
 
-        public int getDiscardingThreshold() {
+        public Integer getDiscardingThreshold() {
             return discardingThreshold;
         }
 
-        public void setDiscardingThreshold(int discardingThreshold) {
+        public void setDiscardingThreshold(Integer discardingThreshold) {
             this.discardingThreshold = discardingThreshold;
         }
 

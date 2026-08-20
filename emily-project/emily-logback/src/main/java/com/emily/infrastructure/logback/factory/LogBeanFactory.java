@@ -3,6 +3,7 @@ package com.emily.infrastructure.logback.factory;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -16,6 +17,11 @@ public class LogBeanFactory {
 
     public static void registerBean(String beanName, Object bean) {
         beanMap.putIfAbsent(beanName, bean);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T computeIfAbsent(String beanName, Function<String, T> factory) {
+        return (T) beanMap.computeIfAbsent(beanName, factory);
     }
 
     @SuppressWarnings("unchecked")

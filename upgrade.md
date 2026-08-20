@@ -8,7 +8,8 @@ Bug Fixes
 3. LogbackRollingFileAppender和LogbackConsoleAppender改为原子注册；
 4. 消除 LogbackRollingFileAppender.field 的共享可变状态；
 5. LogbackContext.getLogger() 原子创建修改；
-6. LogbackContextInitializer.initialize() 的线程安全
+6. LogbackContextInitializer.initialize() 的线程安全；
+7. 降低 LogbackAsyncAppender.getAppender()可见性；
 
 Dependency Upgrades
 

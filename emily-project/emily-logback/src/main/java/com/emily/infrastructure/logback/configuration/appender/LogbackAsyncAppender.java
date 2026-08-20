@@ -43,7 +43,7 @@ public class LogbackAsyncAppender {
      * @param ref 附件appender的引用
      * @return 异步appender对象
      */
-    public AsyncAppender getAppender(Appender<ILoggingEvent> ref) {
+    private AsyncAppender getAppender(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
         LogbackProperties.Async async = properties.getAppender().getAsync();
         if (async.getQueueSize() < 1) {

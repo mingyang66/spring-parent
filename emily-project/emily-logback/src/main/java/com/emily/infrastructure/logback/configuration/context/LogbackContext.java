@@ -110,17 +110,12 @@ public class LogbackContext {
                 .withFileName(fileName)
                 .withLogbackType(logbackType)
                 .build();
-        // 获取Logger对象
-        Logger logger = LogBeanFactory.getBean(field.getLoggerName());
-        if (logger == null) {
-            synchronized (LogbackContext.class) {
-                // 获取logger日志对象
-                logger = LogBeanFactory.getBeans(Logback.class).stream().filter(l -> l.supports(logbackType)).findFirst().orElseThrow().getLogger(field);
-                // 存入缓存
-                LogBeanFactory.registerBean(field.getLoggerName(), logger);
-            }
-        }
-        return logger;
+        // 原子创建并缓存Logger对象
+        return LogBeanFactory.computeIfAbsent(field.getLoggerName(), key -> LogBeanFactory.getBeans(Logback.class).stream()
+                .filter(l -> l.supports(logbackType))
+                .findFirst()
+                .orElseThrow()
+                .getLogger(field));
     }
 
     /**

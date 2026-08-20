@@ -6,7 +6,6 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.LevelUtil;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.LogPathField;
-import com.emily.infrastructure.logback.configuration.appender.LogbackAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
@@ -49,41 +48,41 @@ public class LogbackGroup implements Logback {
         // 设置日志级别
         logger.setLevel(LevelUtil.levelStringToLevel(properties.getGroup().getLevel().toString()));
         // appender对象
-        LogbackAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class).logPathField(field);
+        LogbackRollingFileAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class);
         // 是否开启异步日志
         if (properties.getAppender().getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.ERROR)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.ERROR, field)));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.WARN)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.WARN, field)));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.INFO)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.INFO, field)));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.DEBUG)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.DEBUG, field)));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.TRACE)));
+                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.TRACE, field)));
             }
         } else {
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
-                logger.addAppender(appender.registerAndGet(Level.ERROR));
+                logger.addAppender(appender.registerAndGet(Level.ERROR, field));
             }
             if (logger.getLevel().levelInt <= Level.WARN_INT) {
-                logger.addAppender(appender.registerAndGet(Level.WARN));
+                logger.addAppender(appender.registerAndGet(Level.WARN, field));
             }
             if (logger.getLevel().levelInt <= Level.INFO_INT) {
-                logger.addAppender(appender.registerAndGet(Level.INFO));
+                logger.addAppender(appender.registerAndGet(Level.INFO, field));
             }
             if (logger.getLevel().levelInt <= Level.DEBUG_INT) {
-                logger.addAppender(appender.registerAndGet(Level.DEBUG));
+                logger.addAppender(appender.registerAndGet(Level.DEBUG, field));
             }
             if (logger.getLevel().levelInt <= Level.TRACE_INT) {
-                logger.addAppender(appender.registerAndGet(Level.TRACE));
+                logger.addAppender(appender.registerAndGet(Level.TRACE, field));
             }
         }
         if (properties.getGroup().isConsole()) {

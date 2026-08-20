@@ -18,6 +18,7 @@ import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * 通过名字和级别设置Appender
@@ -25,7 +26,7 @@ import java.text.MessageFormat;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackRollingFileAppender implements LogbackAppender {
+public class LogbackRollingFileAppender {
     /**
      * logger上下文
      */
@@ -34,40 +35,33 @@ public class LogbackRollingFileAppender implements LogbackAppender {
      * 属性配置
      */
     private final LogbackProperties properties;
-    /**
-     * 属性配置
-     */
-    private LogPathField field;
 
     public LogbackRollingFileAppender(LoggerContext context, LogbackProperties properties) {
-        this.context = context;
-        this.properties = properties;
-    }
-
-    public LogbackRollingFileAppender logPathField(LogPathField field) {
-        this.field = field;
-        return this;
+        this.context = Objects.requireNonNull(context, "context must not be null");
+        this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
     /**
      * 获取按照时间归档文件附加器对象
      *
      * @param level 日志级别
+     * @param field 日志路径属性
      * @return appender
      */
-    @Override
-    public Appender<ILoggingEvent> getAppender(Level level) {
+    public Appender<ILoggingEvent> getAppender(Level level, LogPathField field) {
+        Objects.requireNonNull(level, "level must not be null");
+        Objects.requireNonNull(field, "field must not be null");
         //归档策略属性配置
         RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
         //日志文件路径
-        String loggerPath = this.getFilePath(level);
+        String loggerPath = this.getFilePath(level, field);
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(context);
         //appender的name属性
-        appender.setName(this.getName(level));
+        appender.setName(this.getName(level, field));
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
@@ -79,27 +73,28 @@ public class LogbackRollingFileAppender implements LogbackAppender {
         //设置过滤器
         appender.addFilter(LogBeanFactory.getBean(LogLevelFilter.class).getFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.getFilePattern()));
+        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.getFilePattern(field)));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         appender.start();
         return appender;
     }
 
-    @Override
-    public Appender<ILoggingEvent> registerAndGet(Level level) {
-        String appenderName = this.getName(level);
-        return LogBeanFactory.computeIfAbsent(appenderName, key -> this.getAppender(level));
+    public Appender<ILoggingEvent> registerAndGet(Level level, LogPathField field) {
+        Objects.requireNonNull(level, "level must not be null");
+        Objects.requireNonNull(field, "field must not be null");
+        String appenderName = this.getName(level, field);
+        return LogBeanFactory.computeIfAbsent(appenderName, key -> this.getAppender(level, field));
     }
 
     /**
      * 获取文件路径
      *
      * @param level 日志级别
+     * @param field 日志路径属性
      * @return 日志文件路径
      */
-    @Override
-    public String getFilePath(Level level) {
+    public String getFilePath(Level level, LogPathField field) {
         //基础相对路径
         String basePath = properties.getAppender().getPath();
         //文件路径
@@ -124,10 +119,10 @@ public class LogbackRollingFileAppender implements LogbackAppender {
     /**
      * 获取日志输出格式
      *
+     * @param field 日志路径属性
      * @return 日志格式
      */
-    @Override
-    public String getFilePattern() {
+    public String getFilePattern(LogPathField field) {
         //基础日志
         if (LogbackType.ROOT.equals(field.getLogbackType())) {
             return properties.getRoot().getPattern();
@@ -145,10 +140,10 @@ public class LogbackRollingFileAppender implements LogbackAppender {
      * 拼接规则：分组.路径.文件名.日志级别
      *
      * @param level 日志级别
+     * @param field 日志路径属性
      * @return appender name值
      */
-    @Override
-    public String getName(Level level) {
+    public String getName(Level level, LogPathField field) {
         String fileName = field.getFileName();
         if (StrUtils.isEmpty(fileName)) {
             fileName = level.levelStr.toLowerCase();

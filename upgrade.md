@@ -5,6 +5,7 @@ Bug Fixes
 
 1. LogPrintUtils打印日志工具类去掉异步线程池、开启logback自带异步线程池；
 2. LogbackAsyncAppender.registerAndGet异步注册并发问题解决；
+3. LogbackRollingFileAppender和LogbackConsoleAppender改为原子注册；
 
 Dependency Upgrades
 

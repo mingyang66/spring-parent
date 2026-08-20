@@ -67,11 +67,7 @@ public class LogbackConsoleAppender implements LogbackAppender {
     @Override
     public Appender<ILoggingEvent> registerAndGet(Level level) {
         String appenderName = this.getName(level);
-        if (LogBeanFactory.containsBean(appenderName)) {
-            return LogBeanFactory.getBean(appenderName);
-        }
-        LogBeanFactory.registerBean(appenderName, this.getAppender(level));
-        return LogBeanFactory.getBean(appenderName);
+        return LogBeanFactory.computeIfAbsent(appenderName, key -> this.getAppender(level));
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -96,6 +98,18 @@ public class LogbackAsyncAppender {
     public AsyncAppender registerAndGet(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
         return LogBeanFactory.computeIfAbsent(appenderName, key -> getAppender(ref));
+    }
+
+    /**
+     * 获取所有已注册异步Appender的实时队列状态快照。
+     *
+     * @return 按Appender名称排序的队列状态快照
+     */
+    public List<AsyncAppenderQueueSnapshot> getQueueSnapshots() {
+        return LogBeanFactory.getBeans(AsyncAppender.class).stream()
+                .map(AsyncAppenderQueueSnapshot::from)
+                .sorted(Comparator.comparing(AsyncAppenderQueueSnapshot::name))
+                .toList();
     }
 
     private String validateAndGetName(Appender<ILoggingEvent> ref) {

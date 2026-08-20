@@ -5,6 +5,7 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.appender.AsyncAppenderQueueSnapshot;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -90,6 +91,25 @@ public class LogbackAsyncAppenderTest {
         stopped.setContext(context);
         stopped.setName("stopped-" + UUID.randomUUID());
         Assertions.assertThrows(IllegalStateException.class, () -> factory.registerAndGet(stopped));
+    }
+
+    @Test
+    void shouldExposeAsyncAppenderQueueSnapshot() {
+        LogbackProperties properties = properties(100);
+        properties.getAppender().getAsync().setDiscardingThreshold(10);
+        properties.getAppender().getAsync().setNeverBlock(true);
+        LogbackAsyncAppender factory = factory(properties);
+        AsyncAppender appender = factory.registerAndGet(startedTarget());
+
+        AsyncAppenderQueueSnapshot snapshot = factory.getQueueSnapshots().getFirst();
+
+        Assertions.assertEquals(appender.getName(), snapshot.name());
+        Assertions.assertTrue(snapshot.started());
+        Assertions.assertEquals(100, snapshot.queueSize());
+        Assertions.assertEquals(snapshot.queueSize(), snapshot.queuedElements() + snapshot.remainingCapacity());
+        Assertions.assertEquals((double) snapshot.queuedElements() / snapshot.queueSize(), snapshot.usageRatio());
+        Assertions.assertEquals(10, snapshot.discardingThreshold());
+        Assertions.assertTrue(snapshot.neverBlock());
     }
 
     private LogbackAsyncAppender factory(LogbackProperties properties) {

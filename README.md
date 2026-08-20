@@ -11,7 +11,7 @@
             <dependency>
                 <groupId>io.github.mingyang66</groupId>
                 <artifactId>emily-dependencies</artifactId>
-                <version>6.1.0</version>
+                <version>6.1.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -26,7 +26,7 @@
     <parent>
         <groupId>io.github.mingyang66</groupId>
         <artifactId>emily-spring-boot-parent</artifactId>
-        <version>6.1.0</version>
+        <version>6.1.2</version>
         <relativePath/>
     </parent>
 ```

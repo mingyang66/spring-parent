@@ -254,9 +254,9 @@ public class LogbackProperties {
         /**
          * 是否启用日志异步记录Appender
          */
-        private boolean enabled;
+        private boolean enabled = true;
         /**
-         * 队列的最大容量，默认为 256
+         * 队列的最大容量，默认为 8192
          */
         private int queueSize = 8192;
         /**

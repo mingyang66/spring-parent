@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
 /**
  * 默认容器工厂类
@@ -12,15 +13,20 @@ import java.util.stream.Collectors;
  * @author :  Emily
  * @since :  2024/1/1 9:47 AM
  */
-public class LogBeanFactory {
+public final class LogBeanFactory {
     private static final Map<String, Object> beanMap = new ConcurrentHashMap<>(64);
+
+    private LogBeanFactory() {
+    }
 
     public static void registerBean(String beanName, Object bean) {
         beanMap.putIfAbsent(beanName, bean);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T computeIfAbsent(String beanName, Function<String, T> factory) {
+    public static <T> T computeIfAbsent(String beanName, Function<String, ? extends T> factory) {
+        Objects.requireNonNull(beanName, "beanName must not be null");
+        Objects.requireNonNull(factory, "factory must not be null");
         return (T) beanMap.computeIfAbsent(beanName, factory);
     }
 

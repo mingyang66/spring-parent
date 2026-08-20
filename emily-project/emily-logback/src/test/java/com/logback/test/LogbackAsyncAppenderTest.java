@@ -1,0 +1,112 @@
+package com.logback.test;
+
+import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
+import com.emily.infrastructure.logback.factory.LogBeanFactory;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
+
+public class LogbackAsyncAppenderTest {
+
+    private LoggerContext context;
+
+    @BeforeEach
+    void setUp() {
+        context = new LoggerContext();
+    }
+
+    @AfterEach
+    void tearDown() {
+        context.stop();
+        LogBeanFactory.clear();
+    }
+
+    @Test
+    void shouldUseLogbackDefaultDiscardingThresholdWhenUnset() {
+        LogbackProperties properties = properties(100);
+        AsyncAppender appender = factory(properties).registerAndGet(startedTarget());
+
+        Assertions.assertEquals(20, appender.getDiscardingThreshold());
+    }
+
+    @Test
+    void shouldAcceptZeroDiscardingThreshold() {
+        LogbackProperties properties = properties(100);
+        properties.getAppender().getAsync().setDiscardingThreshold(0);
+        AsyncAppender appender = factory(properties).registerAndGet(startedTarget());
+
+        Assertions.assertEquals(0, appender.getDiscardingThreshold());
+    }
+
+    @Test
+    void shouldRejectInvalidQueueSize() {
+        LogbackProperties properties = properties(0);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> factory(properties).registerAndGet(startedTarget()));
+    }
+
+    @Test
+    void shouldRejectNegativeMaxFlushTime() {
+        LogbackProperties properties = properties(100);
+        properties.getAppender().getAsync().setMaxFlushTime(-1);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> factory(properties).registerAndGet(startedTarget()));
+    }
+
+    @Test
+    void shouldRejectDiscardingThresholdOutsideQueueRange() {
+        LogbackProperties negative = properties(100);
+        negative.getAppender().getAsync().setDiscardingThreshold(-1);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> factory(negative).registerAndGet(startedTarget()));
+
+        LogbackProperties greaterThanQueue = properties(100);
+        greaterThanQueue.getAppender().getAsync().setDiscardingThreshold(101);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> factory(greaterThanQueue).registerAndGet(startedTarget()));
+    }
+
+    @Test
+    void shouldRejectInvalidTargetAppender() {
+        LogbackAsyncAppender factory = factory(properties(100));
+        Assertions.assertThrows(NullPointerException.class, () -> factory.registerAndGet(null));
+
+        ListAppender<ILoggingEvent> unnamed = new ListAppender<>();
+        unnamed.setContext(context);
+        unnamed.start();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> factory.registerAndGet(unnamed));
+
+        ListAppender<ILoggingEvent> stopped = new ListAppender<>();
+        stopped.setContext(context);
+        stopped.setName("stopped-" + UUID.randomUUID());
+        Assertions.assertThrows(IllegalStateException.class, () -> factory.registerAndGet(stopped));
+    }
+
+    private LogbackAsyncAppender factory(LogbackProperties properties) {
+        return new LogbackAsyncAppender(context, properties);
+    }
+
+    private LogbackProperties properties(int queueSize) {
+        LogbackProperties properties = new LogbackProperties();
+        properties.getAppender().getAsync().setQueueSize(queueSize);
+        return properties;
+    }
+
+    private ListAppender<ILoggingEvent> startedTarget() {
+        ListAppender<ILoggingEvent> target = new ListAppender<>();
+        target.setContext(context);
+        target.setName("target-" + UUID.randomUUID());
+        target.start();
+        return target;
+    }
+}

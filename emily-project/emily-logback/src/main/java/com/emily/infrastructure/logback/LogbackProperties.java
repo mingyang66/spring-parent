@@ -258,7 +258,7 @@ public class LogbackProperties {
         /**
          * 队列的最大容量，默认为 256
          */
-        private int queueSize = 256;
+        private int queueSize = 8192;
         /**
          * 默认，当队列还剩余 20% 的容量时，会丢弃级别为 TRACE, DEBUG 与 INFO 的日志，仅仅只保留 WARN 与 ERROR 级别的日志。想要保留所有的事件，可以设置为 0
          */

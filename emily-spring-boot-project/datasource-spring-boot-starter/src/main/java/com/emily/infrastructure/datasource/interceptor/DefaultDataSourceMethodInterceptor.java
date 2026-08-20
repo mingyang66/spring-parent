@@ -2,13 +2,10 @@ package com.emily.infrastructure.datasource.interceptor;
 
 import com.emily.infrastructure.aop.constant.AopOrderInfo;
 import com.emily.infrastructure.common.ObjectUtils;
-import com.emily.infrastructure.common.PrintExceptionUtils;
 import com.emily.infrastructure.datasource.DataSourceProperties;
 import com.emily.infrastructure.datasource.annotation.TargetDataSource;
 import com.emily.infrastructure.datasource.context.DataSourceContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
@@ -21,7 +18,6 @@ import java.lang.reflect.Method;
  */
 public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultDataSourceMethodInterceptor.class);
 
     private final DataSourceProperties properties;
 
@@ -75,9 +71,6 @@ public class DefaultDataSourceMethodInterceptor implements DataSourceCustomizer 
             DataSourceContextHolder.bind(lookupKey);
             //调用TargetDataSource标记的切换数据源方法
             return invocation.proceed();
-        } catch (Throwable ex) {
-            LOG.error(PrintExceptionUtils.printErrorInfo(ex));
-            throw ex;
         } finally {
             this.after(method);
         }

@@ -2,12 +2,7 @@ package com.emily.infrastructure.logger.utils;
 
 import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
-import org.springframework.boot.task.ThreadPoolTaskExecutorBuilder;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.time.Duration;
-import java.util.Objects;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 
 
@@ -24,7 +19,7 @@ public class LogPrintUtils {
      * @param message 日志信息
      */
     public static void printRequest(String message) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.REQUEST.info(message));
+        LogHolder.REQUEST.info(message);
     }
 
     /**
@@ -33,7 +28,7 @@ public class LogPrintUtils {
      * @param supplier 日志信息
      */
     public static void printRequest(Supplier<String> supplier) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.REQUEST.info(supplier.get()));
+        LogHolder.REQUEST.info(supplier.get());
     }
 
     /**
@@ -42,7 +37,7 @@ public class LogPrintUtils {
      * @param message 日志信息
      */
     public static void printThirdParty(String message) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.THIRDPARTY.info(message));
+        LogHolder.THIRD_PARTY.info(message);
     }
 
     /**
@@ -51,7 +46,7 @@ public class LogPrintUtils {
      * @param supplier 日志信息
      */
     public static void printThirdParty(Supplier<String> supplier) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.THIRDPARTY.info(supplier.get()));
+        LogHolder.THIRD_PARTY.info(supplier.get());
     }
 
     /**
@@ -60,7 +55,7 @@ public class LogPrintUtils {
      * @param message 日志信息
      */
     public static void printPlatform(String message) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.PLATFORM.info(message));
+        LogHolder.PLATFORM.info(message);
     }
 
     /**
@@ -69,38 +64,13 @@ public class LogPrintUtils {
      * @param supplier 日志信息
      */
     public static void printPlatform(Supplier<String> supplier) {
-        ThreadPoolLogHelper.defaultThreadPoolTaskExecutor().submit(() -> LogHolder.PLATFORM.info(supplier.get()));
+        LogHolder.PLATFORM.info(supplier.get());
     }
 
     static class LogHolder {
         private static final Logger REQUEST = LoggerFactory.getModuleLogger(LogPrintUtils.class, "request", "request");
-        private static final Logger THIRDPARTY = LoggerFactory.getModuleLogger(LogPrintUtils.class, "thirdParty", "thirdParty");
+        private static final Logger THIRD_PARTY = LoggerFactory.getModuleLogger(LogPrintUtils.class, "thirdParty", "thirdParty");
         private static final Logger PLATFORM = LoggerFactory.getModuleLogger(LogPrintUtils.class, "platform", "platform");
     }
 
-    static class ThreadPoolLogHelper {
-        private static ThreadPoolTaskExecutor taskExecutor;
-
-        /**
-         * 获取线程池 TaskExecutorConfigurations
-         */
-        static ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor() {
-            if (Objects.nonNull(taskExecutor)) {
-                return taskExecutor;
-            }
-            ThreadPoolTaskExecutorBuilder builder = new ThreadPoolTaskExecutorBuilder();
-            builder = builder.queueCapacity(Integer.MAX_VALUE);
-            builder = builder.corePoolSize(8);
-            builder = builder.maxPoolSize(Integer.MAX_VALUE);
-            builder = builder.allowCoreThreadTimeOut(true);
-            builder = builder.keepAlive(Duration.ofSeconds(60L));
-            builder = builder.awaitTermination(false);
-            builder = builder.awaitTerminationPeriod(null);
-            builder = builder.threadNamePrefix("emily-task-");
-            taskExecutor = builder.build();
-            taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
-            taskExecutor.initialize();
-            return taskExecutor;
-        }
-    }
 }

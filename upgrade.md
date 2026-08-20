@@ -3,7 +3,7 @@
 Bug Fixes
 ###-----
 
-1. 22
+1. LogPrintUtils打印日志工具类去掉异步线程池、开启logback自带异步线程池；
 
 Dependency Upgrades
 

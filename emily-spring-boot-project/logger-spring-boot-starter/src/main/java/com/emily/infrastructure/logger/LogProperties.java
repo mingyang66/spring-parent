@@ -260,7 +260,7 @@ public class LogProperties {
         /**
          * 是否启用日志异步记录Appender
          */
-        private boolean enabled;
+        private boolean enabled = true;
         /**
          * 队列的最大容量，默认为 256
          */

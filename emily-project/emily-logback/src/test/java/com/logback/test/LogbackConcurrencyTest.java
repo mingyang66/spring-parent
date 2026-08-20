@@ -45,7 +45,7 @@ public class LogbackConcurrencyTest {
             for (int i = 0; i < taskCount; i++) {
                 futures.add(executor.submit(() -> {
                     start.await();
-                    return factory.registerAndGet(target);
+                    return factory.getOrCreate(target);
                 }));
             }
             start.countDown();

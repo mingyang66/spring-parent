@@ -54,40 +54,40 @@ public class LogbackModule implements Logback {
             //异步appender
             LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.ERROR, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.ERROR, field)));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.WARN, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.WARN, field)));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.INFO, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.INFO, field)));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.DEBUG, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.DEBUG, field)));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.registerAndGet(appender.registerAndGet(Level.TRACE, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.TRACE, field)));
             }
         } else {
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(appender.registerAndGet(Level.ERROR, field));
+                logger.addAppender(appender.getOrCreate(Level.ERROR, field));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(appender.registerAndGet(Level.WARN, field));
+                logger.addAppender(appender.getOrCreate(Level.WARN, field));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(appender.registerAndGet(Level.INFO, field));
+                logger.addAppender(appender.getOrCreate(Level.INFO, field));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(appender.registerAndGet(Level.DEBUG, field));
+                logger.addAppender(appender.getOrCreate(Level.DEBUG, field));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(appender.registerAndGet(Level.TRACE, field));
+                logger.addAppender(appender.getOrCreate(Level.TRACE, field));
             }
         }
         if (properties.getModule().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).registerAndGet(logger.getLevel()));
+            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).getOrCreate(logger.getLevel()));
         }
 
         return logger;

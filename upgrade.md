@@ -13,6 +13,7 @@ Bug Fixes
 8. 删除已无调用方的 LogBeanFactory.containsBean()；
 9. 修复ConfigurationAction缺少Context的警告；
 10. 异步快照支持；
+11. 命名三个Appender工厂的 registerAndGet() 为 getOrCreate()，同步更新接口、所有调用方和测试；
 
 Dependency Upgrades
 

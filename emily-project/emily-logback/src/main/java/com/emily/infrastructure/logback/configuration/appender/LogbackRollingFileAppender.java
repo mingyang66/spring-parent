@@ -80,7 +80,7 @@ public class LogbackRollingFileAppender {
         return appender;
     }
 
-    public Appender<ILoggingEvent> registerAndGet(Level level, LogPathField field) {
+    public Appender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
         Objects.requireNonNull(level, "level must not be null");
         Objects.requireNonNull(field, "field must not be null");
         String appenderName = this.getName(level, field);

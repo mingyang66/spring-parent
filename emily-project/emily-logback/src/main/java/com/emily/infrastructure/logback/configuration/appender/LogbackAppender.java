@@ -22,9 +22,9 @@ public interface LogbackAppender {
     Appender<ILoggingEvent> getAppender(Level level);
 
     /**
-     * 容器中存在忽略，否则注册，获取对应bean对象
+     * 获取已存在的Appender，不存在则创建并缓存
      */
-    Appender<ILoggingEvent> registerAndGet(Level level);
+    Appender<ILoggingEvent> getOrCreate(Level level);
 
     /**
      * 获取文件路径

@@ -95,7 +95,7 @@ public class LogbackAsyncAppender {
         return appender;
     }
 
-    public AsyncAppender registerAndGet(Appender<ILoggingEvent> ref) {
+    public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
         return LogBeanFactory.computeIfAbsent(appenderName, key -> getAppender(ref));
     }

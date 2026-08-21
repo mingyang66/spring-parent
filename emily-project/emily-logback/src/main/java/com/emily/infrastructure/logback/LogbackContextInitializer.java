@@ -37,25 +37,20 @@ public class LogbackContextInitializer {
             return;
         }
         if (initialized) {
-            logbackContext.stopAndReset(LogHolder.LC);
+            return;
         }
         // 初始化日志上下文
         List<LogbackContext> list = ClassicEnvUtil.loadFromServiceLoader(LogbackContext.class, LogbackContext.class.getClassLoader());
         if (list.isEmpty()) {
-            System.out.println("Non existing log context");
-            return;
+            throw new IllegalStateException("No LogbackContext implementation found");
         }
-        logbackContext = list.getFirst();
+        LogbackContext candidate = list.getFirst();
         // 初始化
-        logbackContext.initialize(LogHolder.LC, properties);
-
-        if (initialized) {
-            LogHolder.LOG.warn("It has already been initialized,please do not repeatedly initialize the log sdk.");
-        } else {
-            LogHolder.LOG.info("Log sdk initialized");
-        }
-        // 设置为已初始化
+        candidate.initialize(LogHolder.LC, properties);
+        // 初始化完成后发布上下文和状态
+        logbackContext = candidate;
         initialized = true;
+        LogHolder.LOG.info("Log sdk initialized");
     }
 
     public static LogbackContext getLogbackContext() {

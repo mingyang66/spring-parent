@@ -21,7 +21,9 @@ public class LoggerTest {
     @Test
     public void test1() {
         LogbackContextInitializer.initialize(new LogbackProperties());
+        Object context = LogbackContextInitializer.getLogbackContext();
         LogbackContextInitializer.initialize(new LogbackProperties());
+        Assertions.assertSame(context, LogbackContextInitializer.getLogbackContext());
         logger.info("info test ----------------");
         logger.error("info test ----------------");
         logger.warn("warn test ----------------");

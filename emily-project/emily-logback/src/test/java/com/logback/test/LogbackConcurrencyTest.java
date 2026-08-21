@@ -67,6 +67,8 @@ public class LogbackConcurrencyTest {
 
     @Test
     void shouldInitializeConcurrentlyWithoutFailure() throws Exception {
+        LogbackContextInitializer.initialize(new LogbackProperties());
+        LogbackContext expected = LogbackContextInitializer.getLogbackContext();
         int taskCount = 8;
         ExecutorService executor = Executors.newFixedThreadPool(taskCount);
         CountDownLatch start = new CountDownLatch(1);
@@ -84,7 +86,7 @@ public class LogbackConcurrencyTest {
             for (Future<?> future : futures) {
                 future.get();
             }
-            Assertions.assertNotNull(LogbackContextInitializer.getLogbackContext());
+            Assertions.assertSame(expected, LogbackContextInitializer.getLogbackContext());
         } finally {
             executor.shutdownNow();
         }

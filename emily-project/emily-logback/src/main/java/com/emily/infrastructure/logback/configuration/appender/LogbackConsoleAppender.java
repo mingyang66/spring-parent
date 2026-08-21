@@ -52,9 +52,9 @@ public class LogbackConsoleAppender implements LogbackAppender {
         //appender的name属性
         appender.setName(this.getName(level));
         //添加过滤器
-        appender.addFilter(LogBeanFactory.getBean(LogThresholdLevelFilter.class).getFilter(level));
+        appender.addFilter(LogBeanFactory.getComponent(LogThresholdLevelFilter.class).getFilter(level));
         //设置编码
-        appender.setEncoder(LogBeanFactory.getBean(LogbackConsoleLayoutEncoder.class).getEncoder(this.getFilePattern()));
+        appender.setEncoder(LogBeanFactory.getComponent(LogbackConsoleLayoutEncoder.class).getEncoder(this.getFilePattern()));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(true);
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
@@ -70,7 +70,8 @@ public class LogbackConsoleAppender implements LogbackAppender {
     @Override
     public Appender<ILoggingEvent> getOrCreate(Level level) {
         String appenderName = this.getName(level);
-        return LogBeanFactory.computeIfAbsent(appenderName, key -> this.getAppender(level));
+        return LogBeanFactory.getOrCreateAppender(
+                appenderName, ConsoleAppender.class, () -> this.getAppender(level));
     }
 
     @Override

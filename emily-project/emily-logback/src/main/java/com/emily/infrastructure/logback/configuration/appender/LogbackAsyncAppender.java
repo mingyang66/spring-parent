@@ -97,7 +97,7 @@ public class LogbackAsyncAppender {
 
     public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
-        return LogBeanFactory.computeIfAbsent(appenderName, key -> getAppender(ref));
+        return LogBeanFactory.getOrCreateAppender(appenderName, AsyncAppender.class, () -> getAppender(ref));
     }
 
     /**
@@ -106,7 +106,7 @@ public class LogbackAsyncAppender {
      * @return 按Appender名称排序的队列状态快照
      */
     public List<AsyncAppenderQueueSnapshot> getQueueSnapshots() {
-        return LogBeanFactory.getBeans(AsyncAppender.class).stream()
+        return LogBeanFactory.getAppenders(AsyncAppender.class).stream()
                 .map(AsyncAppenderQueueSnapshot::from)
                 .sorted(Comparator.comparing(AsyncAppenderQueueSnapshot::name))
                 .toList();

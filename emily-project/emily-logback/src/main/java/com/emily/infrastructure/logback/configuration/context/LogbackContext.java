@@ -49,31 +49,31 @@ public class LogbackContext {
     public void initialize(LoggerContext context, LogbackProperties properties) {
         LogbackPropertiesValidator.validate(properties);
         // 注册日志对象
-        LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(context, properties));
-        LogBeanFactory.registerBean(LogbackModule.class.getSimpleName(), new LogbackModule(context, properties));
-        LogBeanFactory.registerBean(LogbackRoot.class.getSimpleName(), new LogbackRoot(context, properties));
+        LogBeanFactory.registerComponent(LogbackGroup.class, new LogbackGroup(context, properties));
+        LogBeanFactory.registerComponent(LogbackModule.class, new LogbackModule(context, properties));
+        LogBeanFactory.registerComponent(LogbackRoot.class, new LogbackRoot(context, properties));
 
-        LogBeanFactory.registerBean(LogbackAsyncAppender.class.getSimpleName(), new LogbackAsyncAppender(context, properties));
-        LogBeanFactory.registerBean(LogbackConsoleAppender.class.getSimpleName(), new LogbackConsoleAppender(context, properties));
-        LogBeanFactory.registerBean(LogbackRollingFileAppender.class.getSimpleName(), new LogbackRollingFileAppender(context, properties));
+        LogBeanFactory.registerComponent(LogbackAsyncAppender.class, new LogbackAsyncAppender(context, properties));
+        LogBeanFactory.registerComponent(LogbackConsoleAppender.class, new LogbackConsoleAppender(context, properties));
+        LogBeanFactory.registerComponent(LogbackRollingFileAppender.class, new LogbackRollingFileAppender(context, properties));
 
-        LogBeanFactory.registerBean(LogbackSizeAndTimeBasedRollingPolicy.class.getSimpleName(), new LogbackSizeAndTimeBasedRollingPolicy(context, properties));
-        LogBeanFactory.registerBean(LogbackTimeBasedRollingPolicy.class.getSimpleName(), new LogbackTimeBasedRollingPolicy(context, properties));
-        LogBeanFactory.registerBean(LogbackFixedWindowRollingPolicy.class.getSimpleName(), new LogbackFixedWindowRollingPolicy(context, properties));
+        LogBeanFactory.registerComponent(LogbackSizeAndTimeBasedRollingPolicy.class, new LogbackSizeAndTimeBasedRollingPolicy(context, properties));
+        LogBeanFactory.registerComponent(LogbackTimeBasedRollingPolicy.class, new LogbackTimeBasedRollingPolicy(context, properties));
+        LogBeanFactory.registerComponent(LogbackFixedWindowRollingPolicy.class, new LogbackFixedWindowRollingPolicy(context, properties));
 
-        LogBeanFactory.registerBean(LogbackPatternLayoutEncoder.class.getSimpleName(), new LogbackPatternLayoutEncoder(context));
-        LogBeanFactory.registerBean(LogbackConsoleLayoutEncoder.class.getSimpleName(), new LogbackConsoleLayoutEncoder(context));
+        LogBeanFactory.registerComponent(LogbackPatternLayoutEncoder.class, new LogbackPatternLayoutEncoder(context));
+        LogBeanFactory.registerComponent(LogbackConsoleLayoutEncoder.class, new LogbackConsoleLayoutEncoder(context));
 
-        LogBeanFactory.registerBean(LogAcceptMarkerFilter.class.getSimpleName(), new LogAcceptMarkerFilter(context));
-        LogBeanFactory.registerBean(LogDenyMarkerFilter.class.getSimpleName(), new LogDenyMarkerFilter(context));
-        LogBeanFactory.registerBean(LogLevelFilter.class.getSimpleName(), new LogLevelFilter(context));
-        LogBeanFactory.registerBean(LogThresholdLevelFilter.class.getSimpleName(), new LogThresholdLevelFilter(context));
+        LogBeanFactory.registerComponent(LogAcceptMarkerFilter.class, new LogAcceptMarkerFilter(context));
+        LogBeanFactory.registerComponent(LogDenyMarkerFilter.class, new LogDenyMarkerFilter(context));
+        LogBeanFactory.registerComponent(LogLevelFilter.class, new LogLevelFilter(context));
+        LogBeanFactory.registerComponent(LogThresholdLevelFilter.class, new LogThresholdLevelFilter(context));
         //开启OnConsoleStatusListener监听器，即开启debug模式
         new ConfigurationAction(context, properties).start();
         //全局过滤器，接受指定标记的日志记录到文件中
-        properties.getMarker().getAcceptMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogAcceptMarkerFilter.class).getFilter(marker)));
+        properties.getMarker().getAcceptMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getComponent(LogAcceptMarkerFilter.class).getFilter(marker)));
         //全局过滤器，拒绝标记的日志记录到文件中
-        properties.getMarker().getDenyMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getBean(LogDenyMarkerFilter.class).getFilter(marker)));
+        properties.getMarker().getDenyMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getComponent(LogDenyMarkerFilter.class).getFilter(marker)));
         //初始化Root Logger
         initRootLogger(properties);
     }
@@ -97,22 +97,22 @@ public class LogbackContext {
                 .withLogbackType(logbackType)
                 .build();
         String loggerName = field.getLoggerName();
-        Logger logger = LogBeanFactory.getBean(loggerName);
+        Logger logger = LogBeanFactory.getLogger(loggerName);
         if (logger != null) {
             return logger;
         }
         synchronized (LOGGER_CREATION_LOCK) {
-            logger = LogBeanFactory.getBean(loggerName);
+            logger = LogBeanFactory.getLogger(loggerName);
             if (logger == null) {
                 logger = createLogger(field, logbackType);
-                LogBeanFactory.registerBean(loggerName, logger);
+                LogBeanFactory.registerLogger(loggerName, logger);
             }
             return logger;
         }
     }
 
     private Logger createLogger(LogPathField field, LogbackType logbackType) {
-        return LogBeanFactory.getBeans(Logback.class).stream()
+        return LogBeanFactory.getComponents(Logback.class).stream()
                 .filter(l -> l.supports(logbackType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + logbackType))
@@ -124,7 +124,7 @@ public class LogbackContext {
      */
     void initRootLogger(LogbackProperties properties) {
         // 获取root logger对象
-        Logger rootLogger = LogBeanFactory.getBeans(Logback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
+        Logger rootLogger = LogBeanFactory.getComponents(Logback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
                 // logger name
                 .withLoggerName(Logger.ROOT_LOGGER_NAME)
                 // logger file path
@@ -133,7 +133,7 @@ public class LogbackContext {
                 .withLogbackType(LogbackType.ROOT)
                 .build());
         // 将root添加到缓存
-        LogBeanFactory.registerBean(Logger.ROOT_LOGGER_NAME, rootLogger);
+        LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
 }

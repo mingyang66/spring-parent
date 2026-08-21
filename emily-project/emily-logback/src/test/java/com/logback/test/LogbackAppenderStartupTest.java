@@ -37,7 +37,7 @@ public class LogbackAppenderStartupTest {
     @Test
     void shouldStartAndCacheRollingFileAppender(@TempDir Path tempDir) {
         LogbackProperties properties = initializedProperties(tempDir.toString());
-        LogbackRollingFileAppender factory = LogBeanFactory.getBean(LogbackRollingFileAppender.class);
+        LogbackRollingFileAppender factory = LogBeanFactory.getComponent(LogbackRollingFileAppender.class);
         LogPathField field = groupField("startup-success");
 
         Appender<ILoggingEvent> appender = factory.getOrCreate(Level.INFO, field);
@@ -50,7 +50,7 @@ public class LogbackAppenderStartupTest {
     void shouldNotCacheRollingFileAppenderWhenStartupFails(@TempDir Path tempDir) {
         LogbackProperties properties = initializedProperties(tempDir.toString());
         properties.getAppender().getTimeRollingPolicy().setTotalSizeCap("invalid-size");
-        LogbackRollingFileAppender factory = LogBeanFactory.getBean(LogbackRollingFileAppender.class);
+        LogbackRollingFileAppender factory = LogBeanFactory.getComponent(LogbackRollingFileAppender.class);
         LogPathField field = groupField("startup-failure");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> factory.getOrCreate(Level.INFO, field));
@@ -60,7 +60,7 @@ public class LogbackAppenderStartupTest {
     @Test
     void shouldStartConsoleAppender(@TempDir Path tempDir) {
         initializedProperties(tempDir.toString());
-        LogbackConsoleAppender factory = LogBeanFactory.getBean(LogbackConsoleAppender.class);
+        LogbackConsoleAppender factory = LogBeanFactory.getComponent(LogbackConsoleAppender.class);
 
         Appender<ILoggingEvent> appender = factory.getOrCreate(Level.INFO);
 

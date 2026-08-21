@@ -66,7 +66,7 @@ public class LogbackRollingFileAppender {
         //设置文件名，policy激活后才可以从appender获取文件路径
         appender.setFile(loggerPath);
         //设置日志文件归档策略
-        RollingPolicy rollingPolicy = LogBeanFactory.getBeans(AbstractRollingPolicy.class).stream()
+        RollingPolicy rollingPolicy = LogBeanFactory.getComponents(AbstractRollingPolicy.class).stream()
                 .filter(l -> l.support(policyType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No rolling policy found for " + policyType))
@@ -77,9 +77,9 @@ public class LogbackRollingFileAppender {
         //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(properties.getAppender().isPrudent());
         //设置过滤器
-        appender.addFilter(LogBeanFactory.getBean(LogLevelFilter.class).getFilter(level));
+        appender.addFilter(LogBeanFactory.getComponent(LogLevelFilter.class).getFilter(level));
         //设置附加器编码
-        appender.setEncoder(LogBeanFactory.getBean(LogbackPatternLayoutEncoder.class).getEncoder(this.getFilePattern(field)));
+        appender.setEncoder(LogBeanFactory.getComponent(LogbackPatternLayoutEncoder.class).getEncoder(this.getFilePattern(field)));
         //设置是否将输出流刷新，确保日志信息不丢失，默认：true
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
         try {
@@ -105,7 +105,8 @@ public class LogbackRollingFileAppender {
         Objects.requireNonNull(level, "level must not be null");
         Objects.requireNonNull(field, "field must not be null");
         String appenderName = this.getName(level, field);
-        return LogBeanFactory.computeIfAbsent(appenderName, key -> this.getAppender(level, field));
+        return LogBeanFactory.getOrCreateAppender(
+                appenderName, RollingFileAppender.class, () -> this.getAppender(level, field));
     }
 
     /**

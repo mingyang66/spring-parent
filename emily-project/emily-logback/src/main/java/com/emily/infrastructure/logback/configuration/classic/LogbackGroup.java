@@ -48,11 +48,11 @@ public class LogbackGroup implements Logback {
         // 设置日志级别
         logger.setLevel(LevelUtil.levelStringToLevel(properties.getGroup().getLevel().toString()));
         // appender对象
-        LogbackRollingFileAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class);
+        LogbackRollingFileAppender appender = LogBeanFactory.getComponent(LogbackRollingFileAppender.class);
         // 是否开启异步日志
         if (properties.getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
+            LogbackAsyncAppender asyncAppender = LogBeanFactory.getComponent(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.ERROR, field)));
             }
@@ -87,7 +87,7 @@ public class LogbackGroup implements Logback {
         }
         if (properties.getGroup().isConsole()) {
             // 添加控制台appender
-            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).getOrCreate(logger.getLevel()));
+            logger.addAppender(LogBeanFactory.getComponent(LogbackConsoleAppender.class).getOrCreate(logger.getLevel()));
         }
 
         return logger;

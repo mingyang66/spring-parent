@@ -45,11 +45,11 @@ public class LogbackRoot implements Logback {
         // 设置日志级别
         logger.setLevel(LevelUtil.levelStringToLevel(properties.getRoot().getLevel().toString()));
         // appender对象
-        LogbackRollingFileAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class);
+        LogbackRollingFileAppender appender = LogBeanFactory.getComponent(LogbackRollingFileAppender.class);
         // 是否开启异步日志
         if (properties.getAsync().isEnabled()) {
             //异步appender
-            LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
+            LogbackAsyncAppender asyncAppender = LogBeanFactory.getComponent(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt <= Level.ERROR_INT) {
                 logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.ERROR, field)));
             }
@@ -88,7 +88,7 @@ public class LogbackRoot implements Logback {
             //基于springboot默认初始化的appender name默认大写
             logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
             // 添加控制台appender
-            logger.addAppender(LogBeanFactory.getBean(LogbackConsoleAppender.class).getOrCreate(logger.getLevel()));
+            logger.addAppender(LogBeanFactory.getComponent(LogbackConsoleAppender.class).getOrCreate(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE);

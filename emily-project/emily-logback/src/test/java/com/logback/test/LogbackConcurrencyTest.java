@@ -124,6 +124,35 @@ public class LogbackConcurrencyTest {
         }
     }
 
+    @Test
+    void shouldRejectRepeatedInitializationOnSameInstance() {
+        LoggerContext context = newContext();
+        LogbackContext logbackContext = new LogbackContext();
+        LogbackProperties properties = new LogbackProperties();
+        properties.getRoot().setConsole(false);
+
+        logbackContext.initialize(context, properties);
+
+        IllegalStateException exception = Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> logbackContext.initialize(context, properties));
+        Assertions.assertTrue(exception.getMessage().contains("already been initialized"));
+    }
+
+    @Test
+    void shouldRejectInitializationWhenGlobalContainerIsInUse() {
+        LoggerContext firstContext = newContext();
+        LogbackProperties properties = new LogbackProperties();
+        properties.getRoot().setConsole(false);
+        new LogbackContext().initialize(firstContext, properties);
+
+        LoggerContext secondContext = newContext();
+        IllegalStateException exception = Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> new LogbackContext().initialize(secondContext, properties));
+        Assertions.assertTrue(exception.getMessage().contains("container is not empty"));
+    }
+
     private LoggerContext newContext() {
         LoggerContext context = new LoggerContext();
         contexts.add(context);

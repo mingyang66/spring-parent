@@ -26,6 +26,8 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.slf4j.Logger;
 
+import java.util.Objects;
+
 /**
  * 日志类 logback+slf4j
  *
@@ -33,7 +35,9 @@ import org.slf4j.Logger;
  * @since : 2020/08/04
  */
 public class LogbackContext {
+    private static final Object INITIALIZATION_LOCK = new Object();
     private static final Object LOGGER_CREATION_LOCK = new Object();
+    private boolean initialized;
 
     /**
      * ------------------------------------
@@ -47,7 +51,30 @@ public class LogbackContext {
      * @param properties logback日志属性
      */
     public void initialize(LoggerContext context, LogbackProperties properties) {
+        Objects.requireNonNull(context, "context must not be null");
         LogbackPropertiesValidator.validate(properties);
+        synchronized (INITIALIZATION_LOCK) {
+            if (initialized) {
+                throw new IllegalStateException("LogbackContext instance has already been initialized");
+            }
+            if (!LogBeanFactory.isEmpty()) {
+                throw new IllegalStateException("Logback component container is not empty");
+            }
+            try {
+                doInitialize(context, properties);
+                initialized = true;
+            } catch (RuntimeException | Error ex) {
+                try {
+                    LogBeanFactory.shutdownAndClear();
+                } catch (RuntimeException cleanupEx) {
+                    ex.addSuppressed(cleanupEx);
+                }
+                throw ex;
+            }
+        }
+    }
+
+    private void doInitialize(LoggerContext context, LogbackProperties properties) {
         // 注册日志对象
         LogBeanFactory.registerComponent(LogbackGroup.class, new LogbackGroup(context, properties));
         LogBeanFactory.registerComponent(LogbackModule.class, new LogbackModule(context, properties));

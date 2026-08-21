@@ -98,6 +98,15 @@ public final class LogBeanFactory {
                 .toList();
     }
 
+    public static boolean isEmpty() {
+        LIFECYCLE_LOCK.readLock().lock();
+        try {
+            return APPENDER_MAP.isEmpty() && LOGGER_MAP.isEmpty() && COMPONENT_MAP.isEmpty();
+        } finally {
+            LIFECYCLE_LOCK.readLock().unlock();
+        }
+    }
+
     /**
      * 停止所有已注册Appender并清空缓存。
      * AsyncAppender优先停止，以便在目标Appender关闭前刷新队列。

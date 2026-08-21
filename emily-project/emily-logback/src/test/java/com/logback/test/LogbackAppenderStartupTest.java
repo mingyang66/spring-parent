@@ -11,6 +11,7 @@ import ch.qos.logback.core.spi.FilterReply;
 import ch.qos.logback.core.status.NopStatusListener;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.LogbackContextInitializer;
+import com.emily.infrastructure.logback.common.LogNameUtils;
 import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
@@ -109,6 +110,57 @@ public class LogbackAppenderStartupTest {
         Assertions.assertTrue(originalAppender.isStarted());
         Assertions.assertEquals(List.of(originalFilter), context.getTurboFilterList());
         Assertions.assertEquals(originalStatusListeners, context.getStatusManager().getCopyOfStatusListenerList());
+        Assertions.assertTrue(LogBeanFactory.isEmpty());
+    }
+
+    @Test
+    void shouldRestoreLoggerContextStateAfterSuccessfulShutdown(@TempDir Path tempDir) {
+        Logger root = context.getLogger(Logger.ROOT_LOGGER_NAME);
+        root.setLevel(Level.ERROR);
+        root.setAdditive(true);
+        context.setPackagingDataEnabled(false);
+        ListAppender<ILoggingEvent> originalRootAppender = new ListAppender<>();
+        originalRootAppender.setContext(context);
+        originalRootAppender.setName("CONSOLE");
+        originalRootAppender.start();
+        root.addAppender(originalRootAppender);
+        MarkerFilter originalFilter = markerFilter("original-filter");
+        context.addTurboFilter(originalFilter);
+
+        String groupLoggerName = LogNameUtils.joinLogName(
+                LogbackType.GROUP, "runtime", null, LogbackAppenderStartupTest.class);
+        Logger groupLogger = context.getLogger(groupLoggerName);
+        groupLogger.setLevel(Level.ERROR);
+        groupLogger.setAdditive(true);
+        ListAppender<ILoggingEvent> originalGroupAppender = new ListAppender<>();
+        originalGroupAppender.setContext(context);
+        originalGroupAppender.setName("group-original");
+        originalGroupAppender.start();
+        groupLogger.addAppender(originalGroupAppender);
+
+        LogbackProperties properties = new LogbackProperties();
+        properties.getAppender().setPath(tempDir.toString());
+        properties.setPackagingData(true);
+        properties.getRoot().setLevel(org.slf4j.event.Level.INFO);
+        properties.getRoot().setConsole(false);
+        properties.getGroup().setLevel(org.slf4j.event.Level.INFO);
+        properties.getMarker().getAcceptMarker().add("sdk-filter");
+        LogbackContext logbackContext = new LogbackContext();
+        logbackContext.initialize(context, properties);
+        logbackContext.getLogger(LogbackAppenderStartupTest.class, "runtime", null, LogbackType.GROUP);
+
+        logbackContext.shutdown();
+
+        Assertions.assertEquals(Level.ERROR, root.getLevel());
+        Assertions.assertTrue(root.isAdditive());
+        Assertions.assertFalse(context.isPackagingDataEnabled());
+        Assertions.assertTrue(root.isAttached(originalRootAppender));
+        Assertions.assertTrue(originalRootAppender.isStarted());
+        Assertions.assertEquals(Level.ERROR, groupLogger.getLevel());
+        Assertions.assertTrue(groupLogger.isAdditive());
+        Assertions.assertTrue(groupLogger.isAttached(originalGroupAppender));
+        Assertions.assertTrue(originalGroupAppender.isStarted());
+        Assertions.assertEquals(List.of(originalFilter), context.getTurboFilterList());
         Assertions.assertTrue(LogBeanFactory.isEmpty());
     }
 

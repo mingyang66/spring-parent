@@ -43,7 +43,10 @@ import java.util.*;
 public class LogbackContext {
     private static final Object INITIALIZATION_LOCK = new Object();
     private static final Object LOGGER_CREATION_LOCK = new Object();
+    private final Map<String, LoggerSnapshot> loggerSnapshots = new HashMap<>();
     private boolean initialized;
+    private LoggerContext loggerContext;
+    private InitializationSnapshot initializationSnapshot;
 
     /**
      * ------------------------------------
@@ -69,6 +72,8 @@ public class LogbackContext {
             InitializationSnapshot snapshot = InitializationSnapshot.capture(context);
             try {
                 doInitialize(context, properties);
+                loggerContext = context;
+                initializationSnapshot = snapshot;
                 initialized = true;
             } catch (RuntimeException | Error ex) {
                 try {
@@ -151,11 +156,50 @@ public class LogbackContext {
     }
 
     private Logger createLogger(LogPathField field, LogbackType logbackType) {
+        ch.qos.logback.classic.Logger logger = loggerContext.getLogger(field.getLoggerName());
+        loggerSnapshots.putIfAbsent(field.getLoggerName(), LoggerSnapshot.capture(logger));
         return LogBeanFactory.getComponents(Logback.class).stream()
                 .filter(l -> l.supports(logbackType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + logbackType))
                 .getLogger(field);
+    }
+
+    /**
+     * 停止SDK资源并恢复初始化前及运行期间接管前的LoggerContext状态。
+     */
+    public void shutdown() {
+        synchronized (INITIALIZATION_LOCK) {
+            if (!initialized) {
+                return;
+            }
+            RuntimeException failure = null;
+            try {
+                LogBeanFactory.shutdownAndClear();
+            } catch (RuntimeException ex) {
+                failure = ex;
+            }
+            try {
+                for (LoggerSnapshot snapshot : loggerSnapshots.values()) {
+                    snapshot.restore();
+                }
+                initializationSnapshot.restore(loggerContext);
+            } catch (RuntimeException ex) {
+                if (failure == null) {
+                    failure = ex;
+                } else {
+                    failure.addSuppressed(ex);
+                }
+            } finally {
+                loggerSnapshots.clear();
+                initializationSnapshot = null;
+                loggerContext = null;
+                initialized = false;
+            }
+            if (failure != null) {
+                throw failure;
+            }
+        }
     }
 
     /**
@@ -234,6 +278,36 @@ public class LogbackContext {
             Set<T> values = Collections.newSetFromMap(new IdentityHashMap<>());
             iterator.forEachRemaining(values::add);
             return values;
+        }
+    }
+
+    private record LoggerSnapshot(
+            ch.qos.logback.classic.Logger logger,
+            Level level,
+            boolean additive,
+            Set<Appender<ILoggingEvent>> appenders) {
+
+        static LoggerSnapshot capture(ch.qos.logback.classic.Logger logger) {
+            return new LoggerSnapshot(
+                    logger,
+                    logger.getLevel(),
+                    logger.isAdditive(),
+                    InitializationSnapshot.identitySet(logger.iteratorForAppenders()));
+        }
+
+        void restore() {
+            for (Appender<ILoggingEvent> appender : InitializationSnapshot.identitySet(logger.iteratorForAppenders())) {
+                if (!appenders.contains(appender)) {
+                    logger.detachAppender(appender);
+                }
+            }
+            for (Appender<ILoggingEvent> appender : appenders) {
+                if (!logger.isAttached(appender)) {
+                    logger.addAppender(appender);
+                }
+            }
+            logger.setLevel(level);
+            logger.setAdditive(additive);
         }
     }
 

@@ -60,8 +60,13 @@ public class LogbackContextInitializer {
      * 关闭日志SDK创建的资源并重置初始化状态，允许后续重新初始化。
      */
     public static synchronized void shutdown() {
+        LogbackContext context = logbackContext;
         try {
-            LogBeanFactory.shutdownAndClear();
+            if (context != null) {
+                context.shutdown();
+            } else {
+                LogBeanFactory.shutdownAndClear();
+            }
         } finally {
             logbackContext = null;
         }

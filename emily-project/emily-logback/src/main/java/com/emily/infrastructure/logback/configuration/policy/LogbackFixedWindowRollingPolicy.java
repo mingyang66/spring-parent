@@ -62,6 +62,9 @@ public class LogbackFixedWindowRollingPolicy extends AbstractRollingPolicy {
         //添加内部状态
         policy.addInfo("Build FixedWindowRollingPolicy Success");
         policy.start();
+        if (!policy.isStarted()) {
+            throw new IllegalStateException("Failed to start FixedWindowRollingPolicy for " + loggerPath);
+        }
         return policy;
     }
 }

@@ -60,6 +60,9 @@ public class LogbackConsoleAppender implements LogbackAppender {
         //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
         appender.setWithJansi(properties.getRoot().isWithJansi());
         appender.start();
+        if (!appender.isStarted()) {
+            throw new IllegalStateException("Failed to start console appender " + appender.getName());
+        }
         return appender;
 
     }

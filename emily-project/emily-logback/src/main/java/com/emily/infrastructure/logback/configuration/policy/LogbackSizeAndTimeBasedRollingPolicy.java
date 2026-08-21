@@ -71,6 +71,9 @@ public class LogbackSizeAndTimeBasedRollingPolicy extends AbstractRollingPolicy 
         //添加内部状态
         policy.addInfo("Build SizeAndTimeBasedRollingPolicy Policy Success");
         policy.start();
+        if (!policy.isStarted()) {
+            throw new IllegalStateException("Failed to start SizeAndTimeBasedRollingPolicy for " + loggerPath);
+        }
         return policy;
     }
 }

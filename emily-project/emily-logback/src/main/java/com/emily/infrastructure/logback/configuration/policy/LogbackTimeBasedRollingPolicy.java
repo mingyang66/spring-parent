@@ -70,6 +70,9 @@ public class LogbackTimeBasedRollingPolicy extends AbstractRollingPolicy {
         //添加内部状态
         policy.addInfo("Build TimeBasedRollingPolicy Success");
         policy.start();
+        if (!policy.isStarted()) {
+            throw new IllegalStateException("Failed to start TimeBasedRollingPolicy for " + loggerPath);
+        }
         return policy;
     }
 }

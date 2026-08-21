@@ -3,7 +3,6 @@ package com.emily.infrastructure.logback.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
 import com.emily.infrastructure.logback.LogbackProperties;
@@ -49,7 +48,7 @@ public class LogbackRollingFileAppender {
      * @param field 日志路径属性
      * @return appender
      */
-    public Appender<ILoggingEvent> getAppender(Level level, LogPathField field) {
+    private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field) {
         Objects.requireNonNull(level, "level must not be null");
         Objects.requireNonNull(field, "field must not be null");
         //归档策略属性配置
@@ -101,12 +100,12 @@ public class LogbackRollingFileAppender {
         }
     }
 
-    public Appender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
+    public RollingFileAppender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
         Objects.requireNonNull(level, "level must not be null");
         Objects.requireNonNull(field, "field must not be null");
         String appenderName = this.getName(level, field);
         return LogBeanFactory.getOrCreateAppender(
-                appenderName, RollingFileAppender.class, () -> this.getAppender(level, field));
+                appenderName, RollingFileAppender.class, () -> this.createAppender(level, field));
     }
 
     /**

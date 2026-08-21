@@ -3,7 +3,6 @@ package com.emily.infrastructure.logback.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
@@ -16,7 +15,7 @@ import com.emily.infrastructure.logback.factory.LogBeanFactory;
  * @author Emily
  * @since : 2020/08/04
  */
-public class LogbackConsoleAppender implements LogbackAppender {
+public class LogbackConsoleAppender {
     /**
      * 控制台appender name
      * 必须小写，否则会出现多个控制台appender
@@ -42,8 +41,7 @@ public class LogbackConsoleAppender implements LogbackAppender {
      * @param level 日志级别
      * @return consul appender
      */
-    @Override
-    public Appender<ILoggingEvent> getAppender(Level level) {
+    private ConsoleAppender<ILoggingEvent> createAppender(Level level) {
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
         ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
@@ -67,19 +65,16 @@ public class LogbackConsoleAppender implements LogbackAppender {
 
     }
 
-    @Override
-    public Appender<ILoggingEvent> getOrCreate(Level level) {
+    public ConsoleAppender<ILoggingEvent> getOrCreate(Level level) {
         String appenderName = this.getName(level);
         return LogBeanFactory.getOrCreateAppender(
-                appenderName, ConsoleAppender.class, () -> this.getAppender(level));
+                appenderName, ConsoleAppender.class, () -> this.createAppender(level));
     }
 
-    @Override
     public String getFilePattern() {
         return properties.getRoot().getConsolePattern();
     }
 
-    @Override
     public String getName(Level level) {
         return CONSOLE;
     }

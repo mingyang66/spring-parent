@@ -484,7 +484,7 @@ public class LogProperties {
          * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
          * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
          */
-        private final RollingPolicyType rollingPolicyType = RollingPolicyType.TIME_BASE;
+        private RollingPolicyType rollingPolicyType = RollingPolicyType.TIME_BASE;
         /**
          * 文件归档策略
          */
@@ -493,13 +493,6 @@ public class LogProperties {
          * 基于时间归档策略
          */
         private final TimeRollingPolicy timeRollingPolicy = new TimeRollingPolicy();
-        public RollingPolicyType getRollingPolicyType() {
-            return rollingPolicyType;
-        }
-
-        public TimeRollingPolicy getTimeRollingPolicy() {
-            return timeRollingPolicy;
-        }
 
         public String getPath() {
             return path;
@@ -533,10 +526,21 @@ public class LogProperties {
             this.immediateFlush = immediateFlush;
         }
 
+        public RollingPolicyType getRollingPolicyType() {
+            return rollingPolicyType;
+        }
+
+        public void setRollingPolicyType(RollingPolicyType rollingPolicyType) {
+            this.rollingPolicyType = rollingPolicyType;
+        }
+
         public SizeTimeRollingPolicy getSizeTimeRollingPolicy() {
             return sizeTimeRollingPolicy;
         }
 
+        public TimeRollingPolicy getTimeRollingPolicy() {
+            return timeRollingPolicy;
+        }
     }
 
     /**

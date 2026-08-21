@@ -3,11 +3,11 @@ package com.emily.infrastructure.logback;
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.common.ClassicEnvUtil;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
+import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 日志初始化管理器
@@ -32,7 +32,7 @@ public class LogbackContextInitializer {
      * @param properties 日志属性配置
      */
     public static synchronized void initialize(LogbackProperties properties) {
-        Objects.requireNonNull(properties, "properties must not be null");
+        LogbackPropertiesValidator.validate(properties);
         if (!properties.isEnabled()) {
             return;
         }

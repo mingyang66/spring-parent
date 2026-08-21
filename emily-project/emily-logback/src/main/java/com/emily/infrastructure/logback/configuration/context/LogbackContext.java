@@ -2,6 +2,7 @@ package com.emily.infrastructure.logback.configuration.context;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import com.emily.infrastructure.logback.common.LogNameUtils;
 import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.common.PathUtils;
@@ -46,6 +47,7 @@ public class LogbackContext {
      * @param properties logback日志属性
      */
     public void initialize(LoggerContext context, LogbackProperties properties) {
+        LogbackPropertiesValidator.validate(properties);
         // 注册日志对象
         LogBeanFactory.registerBean(LogbackGroup.class.getSimpleName(), new LogbackGroup(context, properties));
         LogBeanFactory.registerBean(LogbackModule.class.getSimpleName(), new LogbackModule(context, properties));

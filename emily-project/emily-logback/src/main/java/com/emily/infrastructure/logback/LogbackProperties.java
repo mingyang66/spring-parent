@@ -47,6 +47,10 @@ public class LogbackProperties {
      * appender配置
      */
     private final Appender appender = new Appender();
+    /**
+     * 异步日志配置
+     */
+    private final Async async = new Async();
 
     public boolean isEnabled() {
         return enabled;
@@ -90,6 +94,10 @@ public class LogbackProperties {
 
     public Module getModule() {
         return module;
+    }
+
+    public Async getAsync() {
+        return async;
     }
 
     /**
@@ -479,10 +487,6 @@ public class LogbackProperties {
          * 基于时间归档策略
          */
         private final TimeRollingPolicy timeRollingPolicy = new TimeRollingPolicy();
-        /**
-         * 异步日志配置
-         */
-        private final Async async = new Async();
 
         public RollingPolicyType getRollingPolicyType() {
             return rollingPolicyType;
@@ -528,9 +532,6 @@ public class LogbackProperties {
             return sizeTimeRollingPolicy;
         }
 
-        public Async getAsync() {
-            return async;
-        }
     }
 
     /**

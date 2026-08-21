@@ -41,7 +41,7 @@ public class LogbackAsyncAppenderTest {
     @Test
     void shouldAcceptZeroDiscardingThreshold() {
         LogbackProperties properties = properties(100);
-        properties.getAppender().getAsync().setDiscardingThreshold(0);
+        properties.getAsync().setDiscardingThreshold(0);
         AsyncAppender appender = factory(properties).getOrCreate(startedTarget());
 
         Assertions.assertEquals(0, appender.getDiscardingThreshold());
@@ -58,7 +58,7 @@ public class LogbackAsyncAppenderTest {
     @Test
     void shouldRejectNegativeMaxFlushTime() {
         LogbackProperties properties = properties(100);
-        properties.getAppender().getAsync().setMaxFlushTime(-1);
+        properties.getAsync().setMaxFlushTime(-1);
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> factory(properties).getOrCreate(startedTarget()));
@@ -67,12 +67,12 @@ public class LogbackAsyncAppenderTest {
     @Test
     void shouldRejectDiscardingThresholdOutsideQueueRange() {
         LogbackProperties negative = properties(100);
-        negative.getAppender().getAsync().setDiscardingThreshold(-1);
+        negative.getAsync().setDiscardingThreshold(-1);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> factory(negative).getOrCreate(startedTarget()));
 
         LogbackProperties greaterThanQueue = properties(100);
-        greaterThanQueue.getAppender().getAsync().setDiscardingThreshold(101);
+        greaterThanQueue.getAsync().setDiscardingThreshold(101);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> factory(greaterThanQueue).getOrCreate(startedTarget()));
     }
@@ -96,8 +96,8 @@ public class LogbackAsyncAppenderTest {
     @Test
     void shouldExposeAsyncAppenderQueueSnapshot() {
         LogbackProperties properties = properties(100);
-        properties.getAppender().getAsync().setDiscardingThreshold(10);
-        properties.getAppender().getAsync().setNeverBlock(true);
+        properties.getAsync().setDiscardingThreshold(10);
+        properties.getAsync().setNeverBlock(true);
         LogbackAsyncAppender factory = factory(properties);
         AsyncAppender appender = factory.getOrCreate(startedTarget());
 
@@ -118,7 +118,7 @@ public class LogbackAsyncAppenderTest {
 
     private LogbackProperties properties(int queueSize) {
         LogbackProperties properties = new LogbackProperties();
-        properties.getAppender().getAsync().setQueueSize(queueSize);
+        properties.getAsync().setQueueSize(queueSize);
         return properties;
     }
 

@@ -47,7 +47,7 @@ public class LogbackAsyncAppender {
      */
     private AsyncAppender getAppender(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
-        LogbackProperties.Async async = properties.getAppender().getAsync();
+        LogbackProperties.Async async = properties.getAsync();
         if (async.getQueueSize() < 1) {
             throw new IllegalArgumentException("Async appender queueSize must be greater than 0");
         }

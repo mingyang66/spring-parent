@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 测试配置文件
+ * 日志配置属性
  *
  * @author Emily
  * @since :  Created in 2023/7/6 7:50 PM
@@ -53,6 +53,10 @@ public class LogProperties {
      * appender配置
      */
     private final Appender appender = new Appender();
+    /**
+     * 异步日志配置
+     */
+    private final Async async = new Async();
 
     public boolean isEnabled() {
         return enabled;
@@ -96,6 +100,10 @@ public class LogProperties {
 
     public Module getModule() {
         return module;
+    }
+
+    public Async getAsync() {
+        return async;
     }
 
     /**
@@ -476,7 +484,7 @@ public class LogProperties {
          * 是否开启基于文件大小和时间的SizeAndTimeBasedRollingPolicy归档策略
          * 默认是基于TimeBasedRollingPolicy的时间归档策略，默认false
          */
-        private RollingPolicyType rollingPolicyType = RollingPolicyType.TIME_BASE;
+        private final RollingPolicyType rollingPolicyType = RollingPolicyType.TIME_BASE;
         /**
          * 文件归档策略
          */
@@ -485,17 +493,8 @@ public class LogProperties {
          * 基于时间归档策略
          */
         private final TimeRollingPolicy timeRollingPolicy = new TimeRollingPolicy();
-        /**
-         * 异步日志配置
-         */
-        private final Async async = new Async();
-
         public RollingPolicyType getRollingPolicyType() {
             return rollingPolicyType;
-        }
-
-        public void setRollingPolicyType(RollingPolicyType rollingPolicyType) {
-            this.rollingPolicyType = rollingPolicyType;
         }
 
         public TimeRollingPolicy getTimeRollingPolicy() {
@@ -538,9 +537,6 @@ public class LogProperties {
             return sizeTimeRollingPolicy;
         }
 
-        public Async getAsync() {
-            return async;
-        }
     }
 
     /**

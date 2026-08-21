@@ -50,7 +50,7 @@ public class LogbackModule implements Logback {
         // appender对象
         LogbackRollingFileAppender appender = LogBeanFactory.getBean(LogbackRollingFileAppender.class);
         // 是否开启异步日志
-        if (properties.getAppender().getAsync().isEnabled()) {
+        if (properties.getAsync().isEnabled()) {
             //异步appender
             LogbackAsyncAppender asyncAppender = LogBeanFactory.getBean(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {

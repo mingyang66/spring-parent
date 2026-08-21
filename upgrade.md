@@ -14,6 +14,7 @@ Bug Fixes
 9. 修复ConfigurationAction缺少Context的警告；
 10. 异步快照支持；
 11. 命名三个Appender工厂的 registerAndGet() 为 getOrCreate()，同步更新接口、所有调用方和测试；
+12. LogProperties异步配置async属性提升到第一级；
 
 Dependency Upgrades
 

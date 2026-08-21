@@ -1,8 +1,13 @@
 package com.emily.infrastructure.logback.configuration.context;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.turbo.TurboFilter;
+import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.spi.LifeCycle;
+import ch.qos.logback.core.status.StatusListener;
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import com.emily.infrastructure.logback.common.LogNameUtils;
 import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.common.PathUtils;
@@ -24,9 +29,10 @@ import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeB
 import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
+import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 日志类 logback+slf4j
@@ -60,6 +66,7 @@ public class LogbackContext {
             if (!LogBeanFactory.isEmpty()) {
                 throw new IllegalStateException("Logback component container is not empty");
             }
+            InitializationSnapshot snapshot = InitializationSnapshot.capture(context);
             try {
                 doInitialize(context, properties);
                 initialized = true;
@@ -68,6 +75,11 @@ public class LogbackContext {
                     LogBeanFactory.shutdownAndClear();
                 } catch (RuntimeException cleanupEx) {
                     ex.addSuppressed(cleanupEx);
+                }
+                try {
+                    snapshot.restore(context);
+                } catch (RuntimeException rollbackEx) {
+                    ex.addSuppressed(rollbackEx);
                 }
                 throw ex;
             }
@@ -161,6 +173,68 @@ public class LogbackContext {
                 .build());
         // 将root添加到缓存
         LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, rootLogger);
+    }
+
+    /**
+     * 初始化回滚
+     */
+    private record InitializationSnapshot(
+            ch.qos.logback.classic.Logger root,
+            Level level,
+            boolean additive,
+            boolean packagingDataEnabled,
+            Set<Appender<ILoggingEvent>> appenders,
+            Set<TurboFilter> turboFilters,
+            Set<StatusListener> statusListeners) {
+
+        static InitializationSnapshot capture(LoggerContext context) {
+            ch.qos.logback.classic.Logger root = context.getLogger(Logger.ROOT_LOGGER_NAME);
+            return new InitializationSnapshot(
+                    root,
+                    root.getLevel(),
+                    root.isAdditive(),
+                    context.isPackagingDataEnabled(),
+                    identitySet(root.iteratorForAppenders()),
+                    identitySet(context.getTurboFilterList().iterator()),
+                    identitySet(context.getStatusManager().getCopyOfStatusListenerList().iterator()));
+        }
+
+        void restore(LoggerContext context) {
+            for (Appender<ILoggingEvent> appender : identitySet(root.iteratorForAppenders())) {
+                if (!appenders.contains(appender)) {
+                    root.detachAppender(appender);
+                }
+            }
+            for (Appender<ILoggingEvent> appender : appenders) {
+                if (!root.isAttached(appender)) {
+                    root.addAppender(appender);
+                }
+            }
+            root.setLevel(level);
+            root.setAdditive(additive);
+            context.setPackagingDataEnabled(packagingDataEnabled);
+
+            for (TurboFilter filter : new ArrayList<>(context.getTurboFilterList())) {
+                if (!turboFilters.contains(filter)) {
+                    context.getTurboFilterList().remove(filter);
+                    filter.stop();
+                }
+            }
+            for (StatusListener listener : context.getStatusManager().getCopyOfStatusListenerList()) {
+                if (!statusListeners.contains(listener)) {
+                    context.getStatusManager().remove(listener);
+                    if (listener instanceof LifeCycle lifeCycle && lifeCycle.isStarted()) {
+                        lifeCycle.stop();
+                    }
+                }
+            }
+        }
+
+        private static <T> Set<T> identitySet(Iterator<T> iterator) {
+            Set<T> values = Collections.newSetFromMap(new IdentityHashMap<>());
+            iterator.forEachRemaining(values::add);
+            return values;
+        }
     }
 
 }

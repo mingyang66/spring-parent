@@ -13,6 +13,9 @@ import ch.qos.logback.classic.AsyncAppender;
  * @param usageRatio           队列使用率，取值范围为0到1
  * @param discardingThreshold  低级别日志丢弃阈值
  * @param neverBlock           队列满时是否不阻塞调用线程
+ * @param enqueuedEvents        已成功入队的事件总数
+ * @param discardedEvents       因丢弃阈值被丢弃的事件总数
+ * @param rejectedEvents        因neverBlock且队列满被拒绝的事件总数
  */
 public record AsyncAppenderQueueSnapshot(
         String name,
@@ -22,12 +25,16 @@ public record AsyncAppenderQueueSnapshot(
         int remainingCapacity,
         double usageRatio,
         int discardingThreshold,
-        boolean neverBlock) {
+        boolean neverBlock,
+        long enqueuedEvents,
+        long discardedEvents,
+        long rejectedEvents) {
 
     static AsyncAppenderQueueSnapshot from(AsyncAppender appender) {
         int queueSize = appender.getQueueSize();
         int queuedElements = appender.getNumberOfElementsInQueue();
         double usageRatio = queueSize == 0 ? 0 : (double) queuedElements / queueSize;
+        MonitoredAsyncAppender monitored = appender instanceof MonitoredAsyncAppender value ? value : null;
         return new AsyncAppenderQueueSnapshot(
                 appender.getName(),
                 appender.isStarted(),
@@ -36,6 +43,9 @@ public record AsyncAppenderQueueSnapshot(
                 appender.getRemainingCapacity(),
                 usageRatio,
                 appender.getDiscardingThreshold(),
-                appender.isNeverBlock());
+                appender.isNeverBlock(),
+                monitored == null ? 0 : monitored.getEnqueuedEvents(),
+                monitored == null ? 0 : monitored.getDiscardedEvents(),
+                monitored == null ? 0 : monitored.getRejectedEvents());
     }
 }

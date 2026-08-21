@@ -1,8 +1,12 @@
 package com.logback.test;
 
 import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.util.LogbackMDCAdapter;
+import ch.qos.logback.core.AppenderBase;
 import ch.qos.logback.core.read.ListAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.LogbackContextInitializer;
@@ -15,6 +19,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class LogbackAsyncAppenderTest {
 
@@ -23,6 +29,7 @@ public class LogbackAsyncAppenderTest {
     @BeforeEach
     void setUp() {
         context = new LoggerContext();
+        context.setMDCAdapter(new LogbackMDCAdapter());
     }
 
     @AfterEach
@@ -123,6 +130,42 @@ public class LogbackAsyncAppenderTest {
         Assertions.assertEquals((double) snapshot.queuedElements() / snapshot.queueSize(), snapshot.usageRatio());
         Assertions.assertEquals(10, snapshot.discardingThreshold());
         Assertions.assertTrue(snapshot.neverBlock());
+        Assertions.assertEquals(0, snapshot.enqueuedEvents());
+        Assertions.assertEquals(0, snapshot.discardedEvents());
+        Assertions.assertEquals(0, snapshot.rejectedEvents());
+    }
+
+    @Test
+    void shouldCountDiscardedRejectedAndEnqueuedEvents() throws Exception {
+        LogbackProperties properties = properties(4);
+        properties.getAsync().setDiscardingThreshold(2);
+        properties.getAsync().setNeverBlock(true);
+        BlockingAppender target = new BlockingAppender();
+        target.setContext(context);
+        target.setName("blocking-" + UUID.randomUUID());
+        target.start();
+        LogbackAsyncAppender factory = factory(properties);
+        AsyncAppender appender = factory.getOrCreate(target);
+        Logger logger = context.getLogger("monitored-async");
+        logger.setLevel(Level.INFO);
+        logger.setAdditive(false);
+        logger.addAppender(appender);
+
+        logger.info("worker-blocker");
+        Assertions.assertTrue(target.awaitBlocked());
+        logger.info("queued-1");
+        logger.info("queued-2");
+        logger.info("queued-3");
+        logger.info("discarded");
+        logger.warn("queued-warn");
+        logger.warn("rejected-warn");
+
+        AsyncAppenderQueueSnapshot snapshot = factory.getQueueSnapshots().getFirst();
+        Assertions.assertEquals(5, snapshot.enqueuedEvents());
+        Assertions.assertEquals(1, snapshot.discardedEvents());
+        Assertions.assertEquals(1, snapshot.rejectedEvents());
+
+        target.release();
     }
 
     private LogbackAsyncAppender factory(LogbackProperties properties) {
@@ -141,5 +184,28 @@ public class LogbackAsyncAppenderTest {
         target.setName("target-" + UUID.randomUUID());
         target.start();
         return target;
+    }
+
+    private static final class BlockingAppender extends AppenderBase<ILoggingEvent> {
+        private final CountDownLatch blocked = new CountDownLatch(1);
+        private final CountDownLatch release = new CountDownLatch(1);
+
+        @Override
+        protected void append(ILoggingEvent eventObject) {
+            blocked.countDown();
+            try {
+                release.await();
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        boolean awaitBlocked() throws InterruptedException {
+            return blocked.await(5, TimeUnit.SECONDS);
+        }
+
+        void release() {
+            release.countDown();
+        }
     }
 }

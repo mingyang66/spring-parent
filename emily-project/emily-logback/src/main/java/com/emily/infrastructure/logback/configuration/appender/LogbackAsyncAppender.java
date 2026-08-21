@@ -60,7 +60,7 @@ public class LogbackAsyncAppender {
             throw new IllegalArgumentException("Async appender discardingThreshold must be between 0 and queueSize");
         }
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        AsyncAppender appender = getAsyncAppender(appenderName, async, discardingThreshold);
+        MonitoredAsyncAppender appender = getAsyncAppender(appenderName, async, discardingThreshold);
         //添加附加的appender,最多只能添加一个
         appender.addAppender(ref);
         appender.start();
@@ -71,8 +71,8 @@ public class LogbackAsyncAppender {
         return appender;
     }
 
-    private AsyncAppender getAsyncAppender(String appenderName, LogbackProperties.Async async, Integer discardingThreshold) {
-        AsyncAppender appender = new AsyncAppender();
+    private MonitoredAsyncAppender getAsyncAppender(String appenderName, LogbackProperties.Async async, Integer discardingThreshold) {
+        MonitoredAsyncAppender appender = new MonitoredAsyncAppender();
         //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
         // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(context);

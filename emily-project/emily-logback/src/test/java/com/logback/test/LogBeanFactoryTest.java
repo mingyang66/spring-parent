@@ -11,6 +11,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Supplier;
+
 public class LogBeanFactoryTest {
 
     private final LoggerContext context = new LoggerContext();
@@ -48,6 +50,24 @@ public class LogBeanFactoryTest {
                 () -> LogBeanFactory.getOrCreateAppender(name, AsyncAppender.class, AsyncAppender::new));
 
         Assertions.assertTrue(exception.getMessage().contains(AsyncAppender.class.getName()));
+    }
+
+    @Test
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    void shouldNotCacheAppenderReturnedWithWrongType() {
+        String name = "wrong-factory-type";
+        ListAppender<ILoggingEvent> wrongAppender = startedListAppender(name);
+        Supplier wrongFactory = () -> wrongAppender;
+
+        Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> LogBeanFactory.getOrCreateAppender(name, AsyncAppender.class, wrongFactory));
+
+        Assertions.assertFalse(wrongAppender.isStarted());
+        Assertions.assertTrue(LogBeanFactory.getAppenders(ListAppender.class).isEmpty());
+        AsyncAppender expected = new AsyncAppender();
+        AsyncAppender actual = LogBeanFactory.getOrCreateAppender(name, AsyncAppender.class, () -> expected);
+        Assertions.assertSame(expected, actual);
     }
 
     @Test

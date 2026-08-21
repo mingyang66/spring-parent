@@ -79,15 +79,34 @@ public final class LogBeanFactory {
         Objects.requireNonNull(factory, "factory must not be null");
         LIFECYCLE_LOCK.readLock().lock();
         try {
-            Appender<ILoggingEvent> appender = APPENDER_MAP.computeIfAbsent(name, key -> factory.get());
+            Appender<ILoggingEvent> appender = APPENDER_MAP.computeIfAbsent(
+                    name, key -> createAndValidateAppender(name, type, factory));
             if (!type.isInstance(appender)) {
-                throw new IllegalStateException("Appender " + name + " is " + appender.getClass().getName()
-                        + ", expected " + type.getName());
+                throw appenderTypeMismatch(name, type, appender);
             }
             return (T) appender;
         } finally {
             LIFECYCLE_LOCK.readLock().unlock();
         }
+    }
+
+    private static <T extends Appender<ILoggingEvent>> Appender<ILoggingEvent> createAndValidateAppender(
+            String name, Class<?> type, Supplier<? extends T> factory) {
+        Appender<ILoggingEvent> created = Objects.requireNonNull(
+                factory.get(), "Appender factory returned null for " + name);
+        if (type.isInstance(created)) {
+            return created;
+        }
+        if (created.isStarted()) {
+            created.stop();
+        }
+        throw appenderTypeMismatch(name, type, created);
+    }
+
+    private static IllegalStateException appenderTypeMismatch(
+            String name, Class<?> type, Appender<ILoggingEvent> appender) {
+        return new IllegalStateException("Appender " + name + " is " + appender.getClass().getName()
+                + ", expected " + type.getName());
     }
 
     public static <T extends Appender<ILoggingEvent>> List<T> getAppenders(Class<T> type) {

@@ -125,7 +125,7 @@ public class LogProperties {
         /**
          * 记录文件格式-不带颜色
          */
-        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36}:%-4.4line : %msg %n";
+        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36} : %msg %n";
         /**
          * 打印控制台格式-带颜色
          * 可以打印当前类名格式，默认：[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%p (%file:%line\\)] : %msg%n
@@ -198,7 +198,7 @@ public class LogProperties {
         /**
          * 模块日志输出格式，默认：%msg%n
          */
-        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36}:%-4.4line : %msg %n";
+        private String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %cn --- [%18.18thread] %-36.36logger{36} : %msg %n";
 
         public Level getLevel() {
             return level;
@@ -288,6 +288,10 @@ public class LogProperties {
          * 在队列满的时候 appender 会阻塞而不是丢弃信息。设置为 true，appender 不会阻塞你的应用而会将消息丢弃，默认为 false
          */
         private boolean neverBlock;
+        /**
+         * 是否采集调用者类名、方法名和行号等信息，默认：false
+         */
+        private boolean includeCallerData;
 
         public boolean isEnabled() {
             return enabled;
@@ -327,6 +331,14 @@ public class LogProperties {
 
         public void setNeverBlock(boolean neverBlock) {
             this.neverBlock = neverBlock;
+        }
+
+        public boolean isIncludeCallerData() {
+            return includeCallerData;
+        }
+
+        public void setIncludeCallerData(boolean includeCallerData) {
+            this.includeCallerData = includeCallerData;
         }
     }
 

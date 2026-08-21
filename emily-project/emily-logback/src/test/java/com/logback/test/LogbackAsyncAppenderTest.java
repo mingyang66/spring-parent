@@ -48,6 +48,18 @@ public class LogbackAsyncAppenderTest {
     }
 
     @Test
+    void shouldConfigureCallerDataCollection() {
+        LogbackProperties defaultProperties = properties(100);
+        AsyncAppender defaultAppender = factory(defaultProperties).getOrCreate(startedTarget());
+        Assertions.assertFalse(defaultAppender.isIncludeCallerData());
+
+        LogbackProperties enabledProperties = properties(100);
+        enabledProperties.getAsync().setIncludeCallerData(true);
+        AsyncAppender enabledAppender = factory(enabledProperties).getOrCreate(startedTarget());
+        Assertions.assertTrue(enabledAppender.isIncludeCallerData());
+    }
+
+    @Test
     void shouldRejectInvalidQueueSize() {
         LogbackProperties properties = properties(0);
 

@@ -85,7 +85,7 @@ public class LogbackAsyncAppender {
             appender.setDiscardingThreshold(discardingThreshold);
         }
         //获取调用者的数据相对来说比较昂贵。为了提高性能，默认情况下不会获取调用者的信息。默认情况下，只有像线程名或者 MDC 这种"便宜"的数据会被复制。设置为 true 时，appender 会包含调用者的信息
-        appender.setIncludeCallerData(false);
+        appender.setIncludeCallerData(async.isIncludeCallerData());
         //根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。当 LoggerContext 被停止时，
         // AsyncAppender stop 方法会等待工作线程指定的时间来完成。使用 maxFlushTime 来指定最大的刷新时间，单位为毫秒。在指定时间内没有被处理完的事件将会被丢弃。
         // 这个属性的值的含义与 Thread.join(long)) 相同

@@ -30,7 +30,7 @@ public class LogbackConcurrencyTest {
 
     @AfterEach
     void tearDown() {
-        LogBeanFactory.shutdownAndClear();
+        LogbackContextInitializer.shutdown();
         contexts.forEach(LoggerContext::stop);
     }
 
@@ -151,6 +151,20 @@ public class LogbackConcurrencyTest {
                 IllegalStateException.class,
                 () -> new LogbackContext().initialize(secondContext, properties));
         Assertions.assertTrue(exception.getMessage().contains("container is not empty"));
+    }
+
+    @Test
+    void shouldReinitializeAfterShutdown() {
+        LogbackContextInitializer.initialize(new LogbackProperties());
+        LogbackContext first = LogbackContextInitializer.getLogbackContext();
+
+        LogbackContextInitializer.shutdown();
+        Assertions.assertThrows(IllegalStateException.class, LogbackContextInitializer::getLogbackContext);
+
+        LogbackContextInitializer.initialize(new LogbackProperties());
+        LogbackContext second = LogbackContextInitializer.getLogbackContext();
+
+        Assertions.assertNotSame(first, second);
     }
 
     private LoggerContext newContext() {

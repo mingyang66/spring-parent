@@ -115,6 +115,7 @@ public final class LogBeanFactory {
         LIFECYCLE_LOCK.writeLock().lock();
         try {
             RuntimeException failure = null;
+            detachAppendersFromLoggers();
             failure = stopAppenders(true, failure);
             failure = stopAppenders(false, failure);
             APPENDER_MAP.clear();
@@ -125,6 +126,16 @@ public final class LogBeanFactory {
             }
         } finally {
             LIFECYCLE_LOCK.writeLock().unlock();
+        }
+    }
+
+    private static void detachAppendersFromLoggers() {
+        for (Logger logger : LOGGER_MAP.values()) {
+            if (logger instanceof ch.qos.logback.classic.Logger classicLogger) {
+                for (Appender<ILoggingEvent> appender : APPENDER_MAP.values()) {
+                    classicLogger.detachAppender(appender);
+                }
+            }
         }
     }
 

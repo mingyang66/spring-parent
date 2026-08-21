@@ -5,6 +5,7 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.configuration.appender.AsyncAppenderQueueSnapshot;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
@@ -26,7 +27,7 @@ public class LogbackAsyncAppenderTest {
 
     @AfterEach
     void tearDown() {
-        LogBeanFactory.shutdownAndClear();
+        LogbackContextInitializer.shutdown();
         context.stop();
     }
 

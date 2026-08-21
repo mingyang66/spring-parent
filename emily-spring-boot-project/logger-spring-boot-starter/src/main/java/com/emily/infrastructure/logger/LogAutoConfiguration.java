@@ -1,5 +1,6 @@
 package com.emily.infrastructure.logger;
 
+import com.emily.infrastructure.logback.LogbackContextInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -26,6 +27,7 @@ public class LogAutoConfiguration implements InitializingBean, DisposableBean {
     @Override
     public void destroy() {
         LOG.info("<== 【销毁--自动化配置】----Logger日志组件【LoggerAutoConfiguration】");
+        LogbackContextInitializer.shutdown();
     }
 
     @Override

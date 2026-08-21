@@ -5,6 +5,7 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logback.LogbackProperties;
+import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.common.LogPathField;
 import com.emily.infrastructure.logback.configuration.appender.LogbackConsoleAppender;
 import com.emily.infrastructure.logback.configuration.appender.LogbackRollingFileAppender;
@@ -30,7 +31,7 @@ public class LogbackAppenderStartupTest {
 
     @AfterEach
     void tearDown() {
-        LogBeanFactory.shutdownAndClear();
+        LogbackContextInitializer.shutdown();
         context.stop();
     }
 

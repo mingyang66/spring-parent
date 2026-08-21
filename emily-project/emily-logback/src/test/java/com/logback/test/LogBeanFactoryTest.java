@@ -6,6 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.read.ListAppender;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
+import com.emily.infrastructure.logback.LogbackContextInitializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class LogBeanFactoryTest {
 
     @AfterEach
     void tearDown() {
-        LogBeanFactory.shutdownAndClear();
+        LogbackContextInitializer.shutdown();
         context.stop();
     }
 
@@ -61,14 +62,16 @@ public class LogBeanFactoryTest {
     void shouldStopResourcesBeforeClearingCaches() {
         String name = "shutdown";
         ListAppender<ILoggingEvent> appender = startedListAppender(name);
-        org.slf4j.Logger logger = context.getLogger(name);
+        ch.qos.logback.classic.Logger logger = context.getLogger(name);
         LogBeanFactory.getOrCreateAppender(name, ListAppender.class, () -> appender);
         LogBeanFactory.registerLogger(name, logger);
         LogBeanFactory.registerComponent(String.class, "component");
+        logger.addAppender(appender);
 
         LogBeanFactory.shutdownAndClear();
 
         Assertions.assertFalse(appender.isStarted());
+        Assertions.assertFalse(logger.isAttached(appender));
         Assertions.assertNull(LogBeanFactory.getLogger(name));
         Assertions.assertTrue(LogBeanFactory.getAppenders(ListAppender.class).isEmpty());
         Assertions.assertThrows(IllegalStateException.class, () -> LogBeanFactory.getComponent(String.class));

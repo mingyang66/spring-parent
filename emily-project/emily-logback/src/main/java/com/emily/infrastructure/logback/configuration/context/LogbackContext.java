@@ -32,6 +32,8 @@ import org.slf4j.Logger;
  * @since : 2020/08/04
  */
 public class LogbackContext {
+    private static final Object LOGGER_CREATION_LOCK = new Object();
+
     /**
      * ------------------------------------
      * 1. 属性配置
@@ -75,25 +77,7 @@ public class LogbackContext {
     }
 
     /**
-     * 获取logger日志对象
-     * 使用双重检查锁(Double-Checked Locking)的方式实现，如下示例：首先检查对象是否已经创建，如果没有，则进入synchronized块。在synchronized块内部再次检查
-     * 是否已经被创建，以防止多个线程同时创建对象。如果对象任然为null,则创建对象并赋值给instance。
-     * <pre>{@code
-     * public class ObjectCreator {
-     *     private static Object instance;
-     *
-     *     public static Object getInstance() {
-     *         if (instance == null) {
-     *             synchronized (ObjectCreator.class) {
-     *                 if (instance == null) {
-     *                     instance = new Object();
-     *                 }
-     *             }
-     *         }
-     *         return instance;
-     *     }
-     * }
-     * }</pre>
+     * 获取logger日志对象，同名Logger使用双重检查确保只初始化一次。
      *
      * @param requiredType 当前打印类实例
      * @param filePath     文件路径
@@ -110,12 +94,27 @@ public class LogbackContext {
                 .withFileName(fileName)
                 .withLogbackType(logbackType)
                 .build();
-        // 原子创建并缓存Logger对象
-        return LogBeanFactory.computeIfAbsent(field.getLoggerName(), key -> LogBeanFactory.getBeans(Logback.class).stream()
+        String loggerName = field.getLoggerName();
+        Logger logger = LogBeanFactory.getBean(loggerName);
+        if (logger != null) {
+            return logger;
+        }
+        synchronized (LOGGER_CREATION_LOCK) {
+            logger = LogBeanFactory.getBean(loggerName);
+            if (logger == null) {
+                logger = createLogger(field, logbackType);
+                LogBeanFactory.registerBean(loggerName, logger);
+            }
+            return logger;
+        }
+    }
+
+    private Logger createLogger(LogPathField field, LogbackType logbackType) {
+        return LogBeanFactory.getBeans(Logback.class).stream()
                 .filter(l -> l.supports(logbackType))
                 .findFirst()
-                .orElseThrow()
-                .getLogger(field));
+                .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + logbackType))
+                .getLogger(field);
     }
 
     /**

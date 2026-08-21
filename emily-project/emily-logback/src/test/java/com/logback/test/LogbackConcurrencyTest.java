@@ -7,10 +7,13 @@ import ch.qos.logback.core.read.ListAppender;
 import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
+import com.emily.infrastructure.logback.configuration.context.LogbackContext;
+import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +85,38 @@ public class LogbackConcurrencyTest {
                 future.get();
             }
             Assertions.assertNotNull(LogbackContextInitializer.getLogbackContext());
+        } finally {
+            executor.shutdownNow();
+        }
+    }
+
+    @Test
+    void shouldCreateSameLoggerOnceConcurrently() throws Exception {
+        LoggerContext context = newContext();
+        LogbackProperties properties = new LogbackProperties();
+        properties.getRoot().setConsole(false);
+        properties.getGroup().setConsole(false);
+        LogbackContext logbackContext = new LogbackContext();
+        logbackContext.initialize(context, properties);
+        int taskCount = 32;
+        ExecutorService executor = Executors.newFixedThreadPool(8);
+        CountDownLatch start = new CountDownLatch(1);
+
+        try {
+            List<Future<Logger>> futures = new ArrayList<>();
+            for (int i = 0; i < taskCount; i++) {
+                futures.add(executor.submit(() -> {
+                    start.await();
+                    return logbackContext.getLogger(LogbackConcurrencyTest.class, "concurrency", null, LogbackType.GROUP);
+                }));
+            }
+            start.countDown();
+
+            Set<Logger> loggers = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+            for (Future<Logger> future : futures) {
+                loggers.add(future.get());
+            }
+            Assertions.assertEquals(1, loggers.size());
         } finally {
             executor.shutdownNow();
         }

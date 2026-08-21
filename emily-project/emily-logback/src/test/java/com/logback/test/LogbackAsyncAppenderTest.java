@@ -32,20 +32,20 @@ public class LogbackAsyncAppenderTest {
     }
 
     @Test
-    void shouldUseLogbackDefaultDiscardingThresholdWhenUnset() {
+    void shouldKeepLowLevelLogsByDefault() {
         LogbackProperties properties = properties(100);
-        AsyncAppender appender = factory(properties).getOrCreate(startedTarget());
-
-        Assertions.assertEquals(20, appender.getDiscardingThreshold());
-    }
-
-    @Test
-    void shouldAcceptZeroDiscardingThreshold() {
-        LogbackProperties properties = properties(100);
-        properties.getAsync().setDiscardingThreshold(0);
         AsyncAppender appender = factory(properties).getOrCreate(startedTarget());
 
         Assertions.assertEquals(0, appender.getDiscardingThreshold());
+    }
+
+    @Test
+    void shouldUseLogbackDefaultDiscardingThresholdWhenExplicitlyUnset() {
+        LogbackProperties properties = properties(100);
+        properties.getAsync().setDiscardingThreshold(null);
+        AsyncAppender appender = factory(properties).getOrCreate(startedTarget());
+
+        Assertions.assertEquals(20, appender.getDiscardingThreshold());
     }
 
     @Test

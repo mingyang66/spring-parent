@@ -30,8 +30,8 @@ public class LogbackConcurrencyTest {
 
     @AfterEach
     void tearDown() {
+        LogBeanFactory.shutdownAndClear();
         contexts.forEach(LoggerContext::stop);
-        LogBeanFactory.clear();
     }
 
     @Test

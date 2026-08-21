@@ -1,6 +1,7 @@
 package com.emily.infrastructure.logback.factory;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.core.Appender;
 import org.slf4j.Logger;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
 /**
@@ -20,6 +22,7 @@ public final class LogBeanFactory {
     private static final Map<Class<?>, Object> COMPONENT_MAP = new ConcurrentHashMap<>(32);
     private static final Map<String, Logger> LOGGER_MAP = new ConcurrentHashMap<>(32);
     private static final Map<String, Appender<ILoggingEvent>> APPENDER_MAP = new ConcurrentHashMap<>(64);
+    private static final ReentrantReadWriteLock LIFECYCLE_LOCK = new ReentrantReadWriteLock();
 
     private LogBeanFactory() {
     }
@@ -27,7 +30,12 @@ public final class LogBeanFactory {
     public static <T> void registerComponent(Class<T> type, T component) {
         Objects.requireNonNull(type, "type must not be null");
         Objects.requireNonNull(component, "component must not be null");
-        COMPONENT_MAP.putIfAbsent(type, component);
+        LIFECYCLE_LOCK.readLock().lock();
+        try {
+            COMPONENT_MAP.putIfAbsent(type, component);
+        } finally {
+            LIFECYCLE_LOCK.readLock().unlock();
+        }
     }
 
     public static <T> T getComponent(Class<T> type) {
@@ -55,7 +63,12 @@ public final class LogBeanFactory {
     public static void registerLogger(String name, Logger logger) {
         Objects.requireNonNull(name, "name must not be null");
         Objects.requireNonNull(logger, "logger must not be null");
-        LOGGER_MAP.putIfAbsent(name, logger);
+        LIFECYCLE_LOCK.readLock().lock();
+        try {
+            LOGGER_MAP.putIfAbsent(name, logger);
+        } finally {
+            LIFECYCLE_LOCK.readLock().unlock();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -64,12 +77,17 @@ public final class LogBeanFactory {
         Objects.requireNonNull(name, "name must not be null");
         Objects.requireNonNull(type, "type must not be null");
         Objects.requireNonNull(factory, "factory must not be null");
-        Appender<ILoggingEvent> appender = APPENDER_MAP.computeIfAbsent(name, key -> factory.get());
-        if (!type.isInstance(appender)) {
-            throw new IllegalStateException("Appender " + name + " is " + appender.getClass().getName()
-                    + ", expected " + type.getName());
+        LIFECYCLE_LOCK.readLock().lock();
+        try {
+            Appender<ILoggingEvent> appender = APPENDER_MAP.computeIfAbsent(name, key -> factory.get());
+            if (!type.isInstance(appender)) {
+                throw new IllegalStateException("Appender " + name + " is " + appender.getClass().getName()
+                        + ", expected " + type.getName());
+            }
+            return (T) appender;
+        } finally {
+            LIFECYCLE_LOCK.readLock().unlock();
         }
-        return (T) appender;
     }
 
     public static <T extends Appender<ILoggingEvent>> List<T> getAppenders(Class<T> type) {
@@ -80,9 +98,42 @@ public final class LogBeanFactory {
                 .toList();
     }
 
-    public static void clear() {
-        APPENDER_MAP.clear();
-        LOGGER_MAP.clear();
-        COMPONENT_MAP.clear();
+    /**
+     * 停止所有已注册Appender并清空缓存。
+     * AsyncAppender优先停止，以便在目标Appender关闭前刷新队列。
+     */
+    public static void shutdownAndClear() {
+        LIFECYCLE_LOCK.writeLock().lock();
+        try {
+            RuntimeException failure = null;
+            failure = stopAppenders(true, failure);
+            failure = stopAppenders(false, failure);
+            APPENDER_MAP.clear();
+            LOGGER_MAP.clear();
+            COMPONENT_MAP.clear();
+            if (failure != null) {
+                throw failure;
+            }
+        } finally {
+            LIFECYCLE_LOCK.writeLock().unlock();
+        }
+    }
+
+    private static RuntimeException stopAppenders(boolean async, RuntimeException failure) {
+        for (Appender<ILoggingEvent> appender : APPENDER_MAP.values()) {
+            if ((appender instanceof AsyncAppender) != async || !appender.isStarted()) {
+                continue;
+            }
+            try {
+                appender.stop();
+            } catch (RuntimeException ex) {
+                if (failure == null) {
+                    failure = ex;
+                } else {
+                    failure.addSuppressed(ex);
+                }
+            }
+        }
+        return failure;
     }
 }

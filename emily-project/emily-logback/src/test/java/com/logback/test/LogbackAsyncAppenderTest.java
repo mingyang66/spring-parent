@@ -26,8 +26,8 @@ public class LogbackAsyncAppenderTest {
 
     @AfterEach
     void tearDown() {
+        LogBeanFactory.shutdownAndClear();
         context.stop();
-        LogBeanFactory.clear();
     }
 
     @Test

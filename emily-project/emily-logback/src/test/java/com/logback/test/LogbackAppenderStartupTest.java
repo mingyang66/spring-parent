@@ -30,8 +30,8 @@ public class LogbackAppenderStartupTest {
 
     @AfterEach
     void tearDown() {
+        LogBeanFactory.shutdownAndClear();
         context.stop();
-        LogBeanFactory.clear();
     }
 
     @Test

@@ -16,8 +16,8 @@ public class LogBeanFactoryTest {
 
     @AfterEach
     void tearDown() {
+        LogBeanFactory.shutdownAndClear();
         context.stop();
-        LogBeanFactory.clear();
     }
 
     @Test
@@ -55,6 +55,23 @@ public class LogBeanFactoryTest {
                 IllegalStateException.class,
                 () -> LogBeanFactory.getComponent(ConsoleAppender.class));
         Assertions.assertTrue(exception.getMessage().contains(ConsoleAppender.class.getName()));
+    }
+
+    @Test
+    void shouldStopResourcesBeforeClearingCaches() {
+        String name = "shutdown";
+        ListAppender<ILoggingEvent> appender = startedListAppender(name);
+        org.slf4j.Logger logger = context.getLogger(name);
+        LogBeanFactory.getOrCreateAppender(name, ListAppender.class, () -> appender);
+        LogBeanFactory.registerLogger(name, logger);
+        LogBeanFactory.registerComponent(String.class, "component");
+
+        LogBeanFactory.shutdownAndClear();
+
+        Assertions.assertFalse(appender.isStarted());
+        Assertions.assertNull(LogBeanFactory.getLogger(name));
+        Assertions.assertTrue(LogBeanFactory.getAppenders(ListAppender.class).isEmpty());
+        Assertions.assertThrows(IllegalStateException.class, () -> LogBeanFactory.getComponent(String.class));
     }
 
     private ListAppender<ILoggingEvent> startedListAppender(String name) {

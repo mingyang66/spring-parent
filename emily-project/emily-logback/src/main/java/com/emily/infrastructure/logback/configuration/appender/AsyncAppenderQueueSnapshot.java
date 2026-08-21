@@ -4,6 +4,8 @@ import ch.qos.logback.classic.AsyncAppender;
 
 /**
  * 异步Appender队列运行状态快照。
+ * queuedElements仅统计BlockingQueue中的事件，不包含Worker已批量取出但尚未写入目标Appender的事件。
+ * 各字段为非原子近似采样，不保证queuedElements与remainingCapacity之和始终等于queueSize。
  *
  * @param name                 Appender名称
  * @param started              是否已启动

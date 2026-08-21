@@ -8,6 +8,7 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
+import com.emily.infrastructure.logback.factory.AppenderType;
 
 /**
  * 通过名字和级别设置Appender
@@ -68,7 +69,7 @@ public class LogbackConsoleAppender {
     public ConsoleAppender<ILoggingEvent> getOrCreate(Level level) {
         String appenderName = this.getName(level);
         return LogBeanFactory.getOrCreateAppender(
-                appenderName, ConsoleAppender.class, () -> this.createAppender(level));
+                appenderName, AppenderType.CONSOLE, () -> this.createAppender(level));
     }
 
     public String getFilePattern() {

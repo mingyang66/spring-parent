@@ -71,9 +71,8 @@ public final class LogBeanFactory {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Appender<ILoggingEvent>> T getOrCreateAppender(
-            String name, Class<?> type, Supplier<? extends T> factory) {
+            String name, AppenderType<T> type, Supplier<? extends T> factory) {
         Objects.requireNonNull(name, "name must not be null");
         Objects.requireNonNull(type, "type must not be null");
         Objects.requireNonNull(factory, "factory must not be null");
@@ -84,14 +83,14 @@ public final class LogBeanFactory {
             if (!type.isInstance(appender)) {
                 throw appenderTypeMismatch(name, type, appender);
             }
-            return (T) appender;
+            return type.cast(appender);
         } finally {
             LIFECYCLE_LOCK.readLock().unlock();
         }
     }
 
     private static <T extends Appender<ILoggingEvent>> Appender<ILoggingEvent> createAndValidateAppender(
-            String name, Class<?> type, Supplier<? extends T> factory) {
+            String name, AppenderType<T> type, Supplier<? extends T> factory) {
         Appender<ILoggingEvent> created = Objects.requireNonNull(
                 factory.get(), "Appender factory returned null for " + name);
         if (type.isInstance(created)) {
@@ -104,12 +103,12 @@ public final class LogBeanFactory {
     }
 
     private static IllegalStateException appenderTypeMismatch(
-            String name, Class<?> type, Appender<ILoggingEvent> appender) {
+            String name, AppenderType<?> type, Appender<ILoggingEvent> appender) {
         return new IllegalStateException("Appender " + name + " is " + appender.getClass().getName()
-                + ", expected " + type.getName());
+                + ", expected " + type.typeName());
     }
 
-    public static <T extends Appender<ILoggingEvent>> List<T> getAppenders(Class<T> type) {
+    public static <T extends Appender<ILoggingEvent>> List<T> getAppenders(AppenderType<T> type) {
         Objects.requireNonNull(type, "type must not be null");
         return APPENDER_MAP.values().stream()
                 .filter(type::isInstance)

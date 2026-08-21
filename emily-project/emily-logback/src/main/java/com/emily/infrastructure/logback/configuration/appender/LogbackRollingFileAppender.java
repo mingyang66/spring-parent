@@ -15,6 +15,7 @@ import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPoli
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
+import com.emily.infrastructure.logback.factory.AppenderType;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -105,7 +106,7 @@ public class LogbackRollingFileAppender {
         Objects.requireNonNull(field, "field must not be null");
         String appenderName = this.getName(level, field);
         return LogBeanFactory.getOrCreateAppender(
-                appenderName, RollingFileAppender.class, () -> this.createAppender(level, field));
+                appenderName, AppenderType.ROLLING_FILE, () -> this.createAppender(level, field));
     }
 
     /**

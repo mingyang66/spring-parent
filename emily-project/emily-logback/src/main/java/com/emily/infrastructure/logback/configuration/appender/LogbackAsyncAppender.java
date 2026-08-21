@@ -7,6 +7,7 @@ import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
+import com.emily.infrastructure.logback.factory.AppenderType;
 
 import java.util.Comparator;
 import java.util.List;
@@ -97,7 +98,7 @@ public class LogbackAsyncAppender {
 
     public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
-        return LogBeanFactory.getOrCreateAppender(appenderName, AsyncAppender.class, () -> getAppender(ref));
+        return LogBeanFactory.getOrCreateAppender(appenderName, AppenderType.ASYNC, () -> getAppender(ref));
     }
 
     /**
@@ -106,7 +107,7 @@ public class LogbackAsyncAppender {
      * @return 按Appender名称排序的队列状态快照
      */
     public List<AsyncAppenderQueueSnapshot> getQueueSnapshots() {
-        return LogBeanFactory.getAppenders(AsyncAppender.class).stream()
+        return LogBeanFactory.getAppenders(AppenderType.ASYNC).stream()
                 .map(AsyncAppenderQueueSnapshot::from)
                 .sorted(Comparator.comparing(AsyncAppenderQueueSnapshot::name))
                 .toList();

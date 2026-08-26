@@ -11,7 +11,7 @@ import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackPatternLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
-import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPolicy;
+import com.emily.infrastructure.logback.configuration.policy.LogbackRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
 import com.emily.infrastructure.logback.factory.AppenderType;
@@ -45,21 +45,13 @@ public class LogbackRollingFileAppender {
     }
 
     private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field) {
-        RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
         String loggerPath = getFilePath(level, field);
-
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
+        RollingPolicy rollingPolicy = this.getRollingPolicy(appender, loggerPath);
         appender.setContext(context);
         appender.setName(getName(level, field));
         appender.setFile(loggerPath);
-
-        RollingPolicy rollingPolicy = LogBeanFactory.getComponents(AbstractRollingPolicy.class).stream()
-                .filter(l -> l.support(policyType))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No rolling policy found for " + policyType))
-                .getRollingPolicy(appender, loggerPath);
         appender.setRollingPolicy(rollingPolicy);
-
         appender.setAppend(properties.getAppender().isAppend());
         appender.setPrudent(properties.getAppender().isPrudent());
         appender.addFilter(LogBeanFactory.getComponent(LogLevelFilter.class).getFilter(level));
@@ -77,6 +69,15 @@ public class LogbackRollingFileAppender {
             throw new IllegalStateException("Failed to start rolling file appender " + appender.getName() + " for " + loggerPath);
         }
         return appender;
+    }
+
+    private RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath) {
+        RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
+        return LogBeanFactory.getComponents(LogbackRollingPolicy.class).stream()
+                .filter(l -> l.support(policyType))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No rolling policy found for " + policyType))
+                .getRollingPolicy(appender, loggerPath);
     }
 
     private void stopRollingPolicy(RollingPolicy rollingPolicy) {

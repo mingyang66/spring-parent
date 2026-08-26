@@ -11,14 +11,14 @@ import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
  * @author :  Emily
  * @since :  2023/10/19 11:32 PM
  */
-public abstract class AbstractRollingPolicy {
+public interface LogbackRollingPolicy {
     /**
      * 判定是否支持该归档策略
      *
      * @param type 归档策略类型
      * @return true-支持，false-不支持
      */
-    public boolean support(RollingPolicyType type) {
+    default boolean support(RollingPolicyType type) {
         return false;
     }
 
@@ -29,5 +29,5 @@ public abstract class AbstractRollingPolicy {
      * @param loggerPath 日志文件路径
      * @return 归档策略
      */
-    public abstract RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath);
+    RollingPolicy getRollingPolicy(RollingFileAppender<ILoggingEvent> appender, String loggerPath);
 }

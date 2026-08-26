@@ -16,7 +16,7 @@ import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
  * @author Emily
  * @since : 2022/01/10
  */
-public class LogbackSizeAndTimeBasedRollingPolicy extends AbstractRollingPolicy {
+public class LogbackSizeAndTimeBasedRollingPolicy implements LogbackRollingPolicy {
     private final LoggerContext context;
     private final LogbackProperties properties;
 

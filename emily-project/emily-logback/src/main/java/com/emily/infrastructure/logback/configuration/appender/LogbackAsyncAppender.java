@@ -1,11 +1,13 @@
 package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.StrUtils;
+import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.util.Comparator;
@@ -30,10 +32,11 @@ public class LogbackAsyncAppender {
         this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
-    public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref) {
+    public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref, Level level) {
+        Objects.requireNonNull(level, "level must not be null");
         String appenderName = validateAndGetName(ref);
         return LogBeanFactory.getOrCreateAppender(appenderName,
-                name -> createAppender(ref, name));
+                name -> createAppender(ref, name, level));
     }
 
     /**
@@ -48,19 +51,17 @@ public class LogbackAsyncAppender {
                 .toList();
     }
 
-    private AsyncAppender createAppender(Appender<ILoggingEvent> ref, String appenderName) {
+    private AsyncAppender createAppender(Appender<ILoggingEvent> ref, String appenderName, Level level) {
         LogbackProperties.Async async = properties.getAsync();
         MonitoredAsyncAppender appender = new MonitoredAsyncAppender();
         appender.setContext(context);
         appender.setName(appenderName);
         appender.setQueueSize(async.getQueueSize());
-        Integer discardingThreshold = async.getDiscardingThreshold();
-        if (discardingThreshold != null) {
-            appender.setDiscardingThreshold(discardingThreshold);
-        }
+        appender.setDiscardingThreshold(async.getDiscardingThreshold());
         appender.setIncludeCallerData(async.isIncludeCallerData());
         appender.setMaxFlushTime(async.getMaxFlushTime());
         appender.setNeverBlock(async.isNeverBlock());
+        appender.addFilter(new LogLevelFilter(context).getFilter(level));
         appender.addAppender(ref);
         appender.start();
         if (!appender.isStarted()) {

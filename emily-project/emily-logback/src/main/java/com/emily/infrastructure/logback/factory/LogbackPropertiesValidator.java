@@ -72,9 +72,9 @@ public final class LogbackPropertiesValidator {
             throw invalid(PREFIX + "async.queue-size", "must be greater than 0", async.getQueueSize());
         }
         requireNonNegative(PREFIX + "async.max-flush-time", async.getMaxFlushTime());
-        Integer threshold = async.getDiscardingThreshold();
-        if (threshold != null && (threshold < 0 || threshold > async.getQueueSize())) {
-            throw invalid(PREFIX + "async.discarding-threshold", "must be between 0 and queue-size", threshold);
+        int threshold = async.getDiscardingThreshold();
+        if (threshold < -1 || threshold > async.getQueueSize()) {
+            throw invalid(PREFIX + "async.discarding-threshold", "must be -1 or between 0 and queue-size", threshold);
         }
     }
 

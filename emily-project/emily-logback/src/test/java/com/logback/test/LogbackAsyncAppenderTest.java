@@ -39,78 +39,49 @@ public class LogbackAsyncAppenderTest {
     }
 
     @Test
-    void shouldKeepLowLevelLogsByDefault() {
+    void shouldUseLogbackDefaultDiscardingThreshold() {
         LogbackProperties properties = properties(100);
-        AsyncAppender appender = factory(properties).getOrCreate(startedTarget());
-
-        Assertions.assertEquals(0, appender.getDiscardingThreshold());
-    }
-
-    @Test
-    void shouldUseLogbackDefaultDiscardingThresholdWhenExplicitlyUnset() {
-        LogbackProperties properties = properties(100);
-        properties.getAsync().setDiscardingThreshold(null);
-        AsyncAppender appender = factory(properties).getOrCreate(startedTarget());
+        AsyncAppender appender = factory(properties).getOrCreate(startedTarget(), Level.INFO);
 
         Assertions.assertEquals(20, appender.getDiscardingThreshold());
     }
 
     @Test
+    void shouldKeepLowLevelLogsWhenDiscardingThresholdIsZero() {
+        LogbackProperties properties = properties(100);
+        properties.getAsync().setDiscardingThreshold(0);
+
+        AsyncAppender appender = factory(properties).getOrCreate(startedTarget(), Level.INFO);
+
+        Assertions.assertEquals(0, appender.getDiscardingThreshold());
+    }
+
+    @Test
     void shouldConfigureCallerDataCollection() {
         LogbackProperties defaultProperties = properties(100);
-        AsyncAppender defaultAppender = factory(defaultProperties).getOrCreate(startedTarget());
+        AsyncAppender defaultAppender = factory(defaultProperties).getOrCreate(startedTarget(), Level.INFO);
         Assertions.assertFalse(defaultAppender.isIncludeCallerData());
 
         LogbackProperties enabledProperties = properties(100);
         enabledProperties.getAsync().setIncludeCallerData(true);
-        AsyncAppender enabledAppender = factory(enabledProperties).getOrCreate(startedTarget());
+        AsyncAppender enabledAppender = factory(enabledProperties).getOrCreate(startedTarget(), Level.INFO);
         Assertions.assertTrue(enabledAppender.isIncludeCallerData());
-    }
-
-    @Test
-    void shouldRejectInvalidQueueSize() {
-        LogbackProperties properties = properties(0);
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> factory(properties).getOrCreate(startedTarget()));
-    }
-
-    @Test
-    void shouldRejectNegativeMaxFlushTime() {
-        LogbackProperties properties = properties(100);
-        properties.getAsync().setMaxFlushTime(-1);
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> factory(properties).getOrCreate(startedTarget()));
-    }
-
-    @Test
-    void shouldRejectDiscardingThresholdOutsideQueueRange() {
-        LogbackProperties negative = properties(100);
-        negative.getAsync().setDiscardingThreshold(-1);
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> factory(negative).getOrCreate(startedTarget()));
-
-        LogbackProperties greaterThanQueue = properties(100);
-        greaterThanQueue.getAsync().setDiscardingThreshold(101);
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> factory(greaterThanQueue).getOrCreate(startedTarget()));
     }
 
     @Test
     void shouldRejectInvalidTargetAppender() {
         LogbackAsyncAppender factory = factory(properties(100));
-        Assertions.assertThrows(NullPointerException.class, () -> factory.getOrCreate(null));
+        Assertions.assertThrows(NullPointerException.class, () -> factory.getOrCreate(null, Level.INFO));
 
         ListAppender<ILoggingEvent> unnamed = new ListAppender<>();
         unnamed.setContext(context);
         unnamed.start();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> factory.getOrCreate(unnamed));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> factory.getOrCreate(unnamed, Level.INFO));
 
         ListAppender<ILoggingEvent> stopped = new ListAppender<>();
         stopped.setContext(context);
         stopped.setName("stopped-" + UUID.randomUUID());
-        Assertions.assertThrows(IllegalStateException.class, () -> factory.getOrCreate(stopped));
+        Assertions.assertThrows(IllegalStateException.class, () -> factory.getOrCreate(stopped, Level.INFO));
     }
 
     @Test
@@ -119,7 +90,7 @@ public class LogbackAsyncAppenderTest {
         properties.getAsync().setDiscardingThreshold(10);
         properties.getAsync().setNeverBlock(true);
         LogbackAsyncAppender factory = factory(properties);
-        AsyncAppender appender = factory.getOrCreate(startedTarget());
+        AsyncAppender appender = factory.getOrCreate(startedTarget(), Level.INFO);
 
         AsyncAppenderQueueSnapshot snapshot = factory.getQueueSnapshots().getFirst();
 
@@ -145,7 +116,7 @@ public class LogbackAsyncAppenderTest {
         target.setName("blocking-" + UUID.randomUUID());
         target.start();
         LogbackAsyncAppender factory = factory(properties);
-        AsyncAppender appender = factory.getOrCreate(target);
+        AsyncAppender appender = factory.getOrCreate(target, Level.INFO);
         Logger logger = context.getLogger("monitored-async");
         logger.setLevel(Level.INFO);
         logger.setAdditive(false);
@@ -161,9 +132,9 @@ public class LogbackAsyncAppenderTest {
         logger.warn("rejected-warn");
 
         AsyncAppenderQueueSnapshot snapshot = factory.getQueueSnapshots().getFirst();
-        Assertions.assertEquals(5, snapshot.enqueuedEvents());
+        Assertions.assertEquals(4, snapshot.enqueuedEvents());
         Assertions.assertEquals(1, snapshot.discardedEvents());
-        Assertions.assertEquals(1, snapshot.rejectedEvents());
+        Assertions.assertEquals(0, snapshot.rejectedEvents());
 
         target.release();
     }

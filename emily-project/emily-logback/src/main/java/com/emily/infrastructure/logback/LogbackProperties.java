@@ -268,10 +268,10 @@ public class LogbackProperties {
          */
         private int queueSize = 8192;
         /**
-         * 低级别日志丢弃阈值，默认：0，即不提前丢弃TRACE、DEBUG和INFO日志。
-         * 设置为null时使用Logback原生默认值queueSize/5。
+         * 低级别日志丢弃阈值，默认：-1，使用Logback原生默认值queueSize/5。
+         * 设置为0时不提前丢弃TRACE、DEBUG和INFO日志。
          */
-        private Integer discardingThreshold = 0;
+        private int discardingThreshold = -1;
         /**
          * 根据所引用 appender 队列的深度以及延迟， AsyncAppender 可能会耗费长时间去刷新队列。
          * 当 LoggerContext 被停止时， AsyncAppender stop 方法会等待工作线程指定的时间来完成。
@@ -304,11 +304,11 @@ public class LogbackProperties {
             this.queueSize = queueSize;
         }
 
-        public Integer getDiscardingThreshold() {
+        public int getDiscardingThreshold() {
             return discardingThreshold;
         }
 
-        public void setDiscardingThreshold(Integer discardingThreshold) {
+        public void setDiscardingThreshold(int discardingThreshold) {
             this.discardingThreshold = discardingThreshold;
         }
 

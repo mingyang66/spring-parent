@@ -1,6 +1,7 @@
 package com.logback.test;
 
 import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
@@ -48,7 +49,7 @@ public class LogbackConcurrencyTest {
             for (int i = 0; i < taskCount; i++) {
                 futures.add(executor.submit(() -> {
                     start.await();
-                    return factory.getOrCreate(target);
+                    return factory.getOrCreate(target, Level.INFO);
                 }));
             }
             start.countDown();

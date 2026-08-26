@@ -54,19 +54,19 @@ public class LogbackModule implements Logback {
             //异步appender
             LogbackAsyncAppender asyncAppender = LogBeanFactory.getComponent(LogbackAsyncAppender.class);
             if (logger.getLevel().levelInt == Level.ERROR_INT) {
-                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.ERROR, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.ERROR, field), Level.ERROR));
             }
             if (logger.getLevel().levelInt == Level.WARN_INT) {
-                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.WARN, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.WARN, field), Level.WARN));
             }
             if (logger.getLevel().levelInt == Level.INFO_INT) {
-                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.INFO, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.INFO, field), Level.INFO));
             }
             if (logger.getLevel().levelInt == Level.DEBUG_INT) {
-                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.DEBUG, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.DEBUG, field), Level.DEBUG));
             }
             if (logger.getLevel().levelInt == Level.TRACE_INT) {
-                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.TRACE, field)));
+                logger.addAppender(asyncAppender.getOrCreate(appender.getOrCreate(Level.TRACE, field), Level.TRACE));
             }
         } else {
             if (logger.getLevel().levelInt == Level.ERROR_INT) {

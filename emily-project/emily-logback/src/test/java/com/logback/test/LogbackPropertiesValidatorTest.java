@@ -59,6 +59,14 @@ public class LogbackPropertiesValidatorTest {
         LogbackProperties invalidThreshold = new LogbackProperties();
         invalidThreshold.getAsync().setDiscardingThreshold(invalidThreshold.getAsync().getQueueSize() + 1);
         assertInvalid(invalidThreshold, "spring.emily.logger.async.discarding-threshold");
+
+        LogbackProperties negativeThreshold = new LogbackProperties();
+        negativeThreshold.getAsync().setDiscardingThreshold(-2);
+        assertInvalid(negativeThreshold, "spring.emily.logger.async.discarding-threshold");
+
+        LogbackProperties negativeFlushTime = new LogbackProperties();
+        negativeFlushTime.getAsync().setMaxFlushTime(-1);
+        assertInvalid(negativeFlushTime, "spring.emily.logger.async.max-flush-time");
     }
 
     private void assertInvalid(LogbackProperties properties, String propertyName) {

@@ -31,11 +31,12 @@ public class LogBeanFactoryTest {
         ListAppender<ILoggingEvent> appender = startedListAppender(sharedName);
         String component = "component";
 
-        LogBeanFactory.registerLogger(sharedName, logger);
+        Assertions.assertSame(logger, LogBeanFactory.getOrCreateLogger(sharedName, () -> logger));
         LogBeanFactory.getOrCreateAppender(sharedName, LIST_APPENDER, () -> appender);
         LogBeanFactory.registerComponent(String.class, component);
 
-        Assertions.assertSame(logger, LogBeanFactory.getLogger(sharedName));
+        Assertions.assertSame(logger, LogBeanFactory.getOrCreateLogger(sharedName,
+                () -> context.getLogger("unused")));
         Assertions.assertSame(appender,
                 LogBeanFactory.getOrCreateAppender(sharedName, LIST_APPENDER, () -> startedListAppender("unused")));
         Assertions.assertSame(component, LogBeanFactory.getComponent(String.class));
@@ -67,7 +68,7 @@ public class LogBeanFactoryTest {
         ListAppender<ILoggingEvent> appender = startedListAppender(name);
         ch.qos.logback.classic.Logger logger = context.getLogger(name);
         LogBeanFactory.getOrCreateAppender(name, LIST_APPENDER, () -> appender);
-        LogBeanFactory.registerLogger(name, logger);
+        LogBeanFactory.getOrCreateLogger(name, () -> logger);
         LogBeanFactory.registerComponent(String.class, "component");
         logger.addAppender(appender);
 
@@ -75,7 +76,7 @@ public class LogBeanFactoryTest {
 
         Assertions.assertFalse(appender.isStarted());
         Assertions.assertFalse(logger.isAttached(appender));
-        Assertions.assertNull(LogBeanFactory.getLogger(name));
+        Assertions.assertTrue(LogBeanFactory.isEmpty());
         Assertions.assertTrue(LogBeanFactory.getAppenders(LIST_APPENDER).isEmpty());
         Assertions.assertThrows(IllegalStateException.class, () -> LogBeanFactory.getComponent(String.class));
     }

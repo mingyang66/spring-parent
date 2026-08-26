@@ -55,23 +55,7 @@ public final class LogBeanFactory {
                 .toList();
     }
 
-    public static Logger getLogger(String name) {
-        Objects.requireNonNull(name, "name must not be null");
-        return LOGGER_MAP.get(name);
-    }
-
-    public static void registerLogger(String name, Logger logger) {
-        Objects.requireNonNull(name, "name must not be null");
-        Objects.requireNonNull(logger, "logger must not be null");
-        LIFECYCLE_LOCK.readLock().lock();
-        try {
-            LOGGER_MAP.putIfAbsent(name, logger);
-        } finally {
-            LIFECYCLE_LOCK.readLock().unlock();
-        }
-    }
-
-    public static Logger getOrCreateLogger(String name, Supplier<Logger> factory) {
+    public static Logger getOrCreateLogger(String name, Supplier<? extends Logger> factory) {
         Objects.requireNonNull(name, "name must not be null");
         Objects.requireNonNull(factory, "factory must not be null");
         LIFECYCLE_LOCK.readLock().lock();

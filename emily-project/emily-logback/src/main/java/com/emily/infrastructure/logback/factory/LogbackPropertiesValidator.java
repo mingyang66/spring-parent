@@ -66,7 +66,8 @@ public final class LogbackPropertiesValidator {
         requireNonNegative(PREFIX + "appender.time-rolling-policy.total-size-cap", timeTotal.getSize());
     }
 
-    private static void validateAsync(LogbackProperties.Async async) {
+    public static void validateAsync(LogbackProperties.Async async) {
+        Objects.requireNonNull(async, "async must not be null");
         if (async.getQueueSize() < 1) {
             throw invalid(PREFIX + "async.queue-size", "must be greater than 0", async.getQueueSize());
         }

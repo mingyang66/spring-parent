@@ -85,14 +85,14 @@ public class LogbackRoot implements Logback {
         if (properties.getRoot().isConsole()) {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE);
-            //基于springboot默认初始化的appender name默认大写
+            //基于spring-boot默认初始化的appender name默认大写
             logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
             // 添加控制台appender
             logger.addAppender(LogBeanFactory.getComponent(LogbackConsoleAppender.class).getOrCreate(logger.getLevel()));
         } else {
             //移除console控制台appender
             logger.detachAppender(LogbackConsoleAppender.CONSOLE);
-            //基于springboot默认初始化appender name默认大写
+            //基于spring-boot默认初始化appender name默认大写
             logger.detachAppender(LogbackConsoleAppender.CONSOLE.toUpperCase());
         }
         return logger;

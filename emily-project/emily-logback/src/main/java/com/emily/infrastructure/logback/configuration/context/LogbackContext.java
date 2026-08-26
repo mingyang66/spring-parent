@@ -135,13 +135,13 @@ public class LogbackContext {
      * 获取模块Logger，同名Logger通过双重检查保证只创建一次。
      *
      * @param requiredType 调用方类型
+     * @param logbackType  日志类型
      * @param filePath     日志文件目录
      * @param fileName     日志文件名
-     * @param logbackType  日志类型
      * @param <T>          调用方泛型
      * @return SLF4J Logger实例
      */
-    public <T> Logger getLogger(Class<T> requiredType, String filePath, String fileName, LogbackType logbackType) {
+    public <T> Logger getLogger(Class<T> requiredType, LogbackType logbackType, String filePath, String fileName) {
         LogPathField field = LogPathField.newBuilder()
                 .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, requiredType))
                 .withFilePath(PathUtils.normalizePath(filePath))

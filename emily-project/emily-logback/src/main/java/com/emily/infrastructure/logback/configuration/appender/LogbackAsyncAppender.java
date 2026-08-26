@@ -52,6 +52,18 @@ public class LogbackAsyncAppender {
     }
 
     private AsyncAppender createAppender(Appender<ILoggingEvent> ref, String appenderName, Level level) {
+        MonitoredAsyncAppender appender = getMonitoredAsyncAppender(appenderName);
+        appender.addFilter(LogBeanFactory.getComponent(LogLevelFilter.class).getFilter(level));
+        appender.addAppender(ref);
+        appender.start();
+        if (!appender.isStarted()) {
+            appender.detachAppender(ref);
+            throw new IllegalStateException("Failed to start async appender " + appenderName);
+        }
+        return appender;
+    }
+
+    private MonitoredAsyncAppender getMonitoredAsyncAppender(String appenderName) {
         LogbackProperties.Async async = properties.getAsync();
         MonitoredAsyncAppender appender = new MonitoredAsyncAppender();
         appender.setContext(context);
@@ -61,13 +73,6 @@ public class LogbackAsyncAppender {
         appender.setIncludeCallerData(async.isIncludeCallerData());
         appender.setMaxFlushTime(async.getMaxFlushTime());
         appender.setNeverBlock(async.isNeverBlock());
-        appender.addFilter(new LogLevelFilter(context).getFilter(level));
-        appender.addAppender(ref);
-        appender.start();
-        if (!appender.isStarted()) {
-            appender.detachAppender(ref);
-            throw new IllegalStateException("Failed to start async appender " + appenderName);
-        }
         return appender;
     }
 

@@ -4,11 +4,11 @@ import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.common.ClassicEnvUtil;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
-import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 日志初始化管理器
@@ -17,43 +17,42 @@ import java.util.List;
  * @author Emily
  * @since :  Created in 2023/7/2 11:16 AM
  */
-public class LogbackContextInitializer {
-    /**
-     * logback sdk context
-     */
+public final class LogbackContextInitializer {
+
     private static volatile LogbackContext logbackContext;
+
+    private LogbackContextInitializer() {
+    }
+
     /**
      * 日志组件SDK初始化
      *
      * @param properties 日志属性配置
      */
     public static synchronized void initialize(LogbackProperties properties) {
-        LogbackPropertiesValidator.validate(properties);
+        Objects.requireNonNull(properties, "properties must not be null");
         if (!properties.isEnabled()) {
             return;
         }
-        if (logbackContext != null && !LogBeanFactory.isEmpty()) {
+        if (logbackContext != null) {
             return;
         }
-        // 初始化日志上下文
         List<LogbackContext> list = ClassicEnvUtil.loadFromServiceLoader(LogbackContext.class, LogbackContext.class.getClassLoader());
         if (list.isEmpty()) {
             throw new IllegalStateException("No LogbackContext implementation found");
         }
         LogbackContext candidate = list.getFirst();
-        // 初始化
         candidate.initialize(LogHolder.LC, properties);
-        // 初始化完成后发布上下文和状态
         logbackContext = candidate;
         LogHolder.LOG.info("Log sdk initialized");
     }
 
     public static LogbackContext getLogbackContext() {
         LogbackContext context = logbackContext;
-        if (context != null && !LogBeanFactory.isEmpty()) {
-            return context;
+        if (context == null) {
+            throw new IllegalStateException("Log sdk not initialized");
         }
-        throw new IllegalStateException("Log sdk not initialized");
+        return context;
     }
 
     /**
@@ -72,8 +71,7 @@ public class LogbackContextInitializer {
         }
     }
 
-
-    public static class LogHolder {
+    private static class LogHolder {
         private static final LoggerContext LC = (LoggerContext) LoggerFactory.getILoggerFactory();
         private static final Logger LOG = LoggerFactory.getLogger(LogbackContextInitializer.class);
     }

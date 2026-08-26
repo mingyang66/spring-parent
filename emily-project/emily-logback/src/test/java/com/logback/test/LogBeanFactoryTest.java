@@ -1,11 +1,9 @@
 package com.logback.test;
 
-import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.read.ListAppender;
-import com.emily.infrastructure.logback.factory.AppenderType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import com.emily.infrastructure.logback.LogbackContextInitializer;
 import org.junit.jupiter.api.AfterEach;
@@ -13,9 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class LogBeanFactoryTest {
-    private static final AppenderType<ListAppender<ILoggingEvent>> LIST_APPENDER =
-            AppenderType.parameterized(ListAppender.class);
-
     private final LoggerContext context = new LoggerContext();
 
     @AfterEach
@@ -32,26 +27,14 @@ public class LogBeanFactoryTest {
         String component = "component";
 
         Assertions.assertSame(logger, LogBeanFactory.getOrCreateLogger(sharedName, () -> logger));
-        LogBeanFactory.getOrCreateAppender(sharedName, LIST_APPENDER, () -> appender);
+        LogBeanFactory.getOrCreateAppender(sharedName, name -> appender);
         LogBeanFactory.registerComponent(String.class, component);
 
         Assertions.assertSame(logger, LogBeanFactory.getOrCreateLogger(sharedName,
                 () -> context.getLogger("unused")));
         Assertions.assertSame(appender,
-                LogBeanFactory.getOrCreateAppender(sharedName, LIST_APPENDER, () -> startedListAppender("unused")));
+                LogBeanFactory.getOrCreateAppender(sharedName, name -> startedListAppender("unused")));
         Assertions.assertSame(component, LogBeanFactory.getComponent(String.class));
-    }
-
-    @Test
-    void shouldRejectAppenderTypeCollision() {
-        String name = "type-collision";
-        LogBeanFactory.getOrCreateAppender(name, LIST_APPENDER, () -> startedListAppender(name));
-
-        IllegalStateException exception = Assertions.assertThrows(
-                IllegalStateException.class,
-                () -> LogBeanFactory.getOrCreateAppender(name, AppenderType.ASYNC, AsyncAppender::new));
-
-        Assertions.assertTrue(exception.getMessage().contains(AsyncAppender.class.getName()));
     }
 
     @Test
@@ -79,7 +62,7 @@ public class LogBeanFactoryTest {
         String name = "shutdown";
         ListAppender<ILoggingEvent> appender = startedListAppender(name);
         ch.qos.logback.classic.Logger logger = context.getLogger(name);
-        LogBeanFactory.getOrCreateAppender(name, LIST_APPENDER, () -> appender);
+        LogBeanFactory.getOrCreateAppender(name, key -> appender);
         LogBeanFactory.getOrCreateLogger(name, () -> logger);
         LogBeanFactory.registerComponent(String.class, "component");
         logger.addAppender(appender);
@@ -89,7 +72,7 @@ public class LogBeanFactoryTest {
         Assertions.assertFalse(appender.isStarted());
         Assertions.assertFalse(logger.isAttached(appender));
         Assertions.assertTrue(LogBeanFactory.isEmpty());
-        Assertions.assertTrue(LogBeanFactory.getAppenders(LIST_APPENDER).isEmpty());
+        Assertions.assertTrue(LogBeanFactory.<ListAppender<ILoggingEvent>>getAppenders(ListAppender.class).isEmpty());
         Assertions.assertThrows(IllegalStateException.class, () -> LogBeanFactory.getComponent(String.class));
     }
 

@@ -3,11 +3,11 @@ package com.emily.infrastructure.logback.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
-import com.emily.infrastructure.logback.factory.AppenderType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.util.Objects;
@@ -30,9 +30,9 @@ public class LogbackConsoleAppender {
         this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
-    public ConsoleAppender<ILoggingEvent> getOrCreate(Level level) {
-        return LogBeanFactory.getOrCreateAppender(
-                CONSOLE, AppenderType.CONSOLE, () -> createAppender(level));
+    public Appender<ILoggingEvent> getOrCreate(Level level) {
+        return LogBeanFactory.getOrCreateAppender(CONSOLE,
+                name -> createAppender(level));
     }
 
     private ConsoleAppender<ILoggingEvent> createAppender(Level level) {

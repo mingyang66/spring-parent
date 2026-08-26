@@ -3,6 +3,7 @@ package com.emily.infrastructure.logback.configuration.appender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
 import com.emily.infrastructure.logback.LogbackProperties;
@@ -14,7 +15,6 @@ import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.configuration.policy.LogbackRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
-import com.emily.infrastructure.logback.factory.AppenderType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.io.File;
@@ -36,12 +36,12 @@ public class LogbackRollingFileAppender {
         this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
-    public RollingFileAppender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
+    public Appender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
         Objects.requireNonNull(level, "level must not be null");
         Objects.requireNonNull(field, "field must not be null");
         String appenderName = getName(level, field);
-        return LogBeanFactory.getOrCreateAppender(
-                appenderName, AppenderType.ROLLING_FILE, () -> createAppender(level, field));
+        return LogBeanFactory.getOrCreateAppender(appenderName,
+                name -> createAppender(level, field));
     }
 
     private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field) {

@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.factory;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import org.slf4j.Logger;
 
@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -79,58 +80,39 @@ public final class LogBeanFactory {
     }
 
     /**
-     * Returns the cached Appender or creates and starts one while holding the lifecycle read lock.
-     * {@link #shutdownAndClear()} waits for an in-progress factory invocation before stopping resources.
+     * Returns the cached Appender or creates one using its cache key while holding the lifecycle read lock.
+     * {@link #shutdownAndClear()} waits for an in-progress mapping function before stopping resources.
      *
-     * @param name    appender name
-     * @param type    expected appender type
-     * @param factory creates the Appender when absent
-     * @param <T>     appender type
+     * @param name            appender name
+     * @param mappingFunction creates the Appender when absent
+     * @param <T>             expected Appender type
      * @return cached or newly created Appender
      */
     public static <T extends Appender<ILoggingEvent>> T getOrCreateAppender(
-            String name, AppenderType<T> type, Supplier<? extends T> factory) {
+            String name, Function<String, Appender<ILoggingEvent>> mappingFunction) {
         Objects.requireNonNull(name, "name must not be null");
-        Objects.requireNonNull(type, "type must not be null");
-        Objects.requireNonNull(factory, "factory must not be null");
+        Objects.requireNonNull(mappingFunction, "mappingFunction must not be null");
         LIFECYCLE_LOCK.readLock().lock();
         try {
-            Appender<ILoggingEvent> appender = APPENDER_MAP.computeIfAbsent(
-                    name, key -> createAndValidateAppender(name, type, factory));
-            if (!type.isInstance(appender)) {
-                throw appenderTypeMismatch(name, type, appender);
-            }
-            return type.cast(appender);
+            Appender<ILoggingEvent> appender = APPENDER_MAP.computeIfAbsent(name, key -> Objects.requireNonNull(
+                    mappingFunction.apply(key), "Appender mapping function must not return null for " + key));
+            return castAppender(appender);
         } finally {
             LIFECYCLE_LOCK.readLock().unlock();
         }
     }
 
-    private static <T extends Appender<ILoggingEvent>> Appender<ILoggingEvent> createAndValidateAppender(
-            String name, AppenderType<T> type, Supplier<? extends T> factory) {
-        Appender<ILoggingEvent> created = Objects.requireNonNull(
-                factory.get(), "Appender factory returned null for " + name);
-        if (type.isInstance(created)) {
-            return created;
-        }
-        if (created.isStarted()) {
-            created.stop();
-        }
-        throw appenderTypeMismatch(name, type, created);
-    }
-
-    private static IllegalStateException appenderTypeMismatch(
-            String name, AppenderType<?> type, Appender<ILoggingEvent> appender) {
-        return new IllegalStateException("Appender " + name + " is " + appender.getClass().getName()
-                + ", expected " + type.typeName());
-    }
-
-    public static <T extends Appender<ILoggingEvent>> List<T> getAppenders(AppenderType<T> type) {
+    public static <T extends Appender<ILoggingEvent>> List<T> getAppenders(Class<?> type) {
         Objects.requireNonNull(type, "type must not be null");
         return APPENDER_MAP.values().stream()
                 .filter(type::isInstance)
-                .map(type::cast)
+                .map(LogBeanFactory::<T>castAppender)
                 .toList();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Appender<ILoggingEvent>> T castAppender(Appender<ILoggingEvent> appender) {
+        return (T) appender;
     }
 
     public static boolean isEmpty() {

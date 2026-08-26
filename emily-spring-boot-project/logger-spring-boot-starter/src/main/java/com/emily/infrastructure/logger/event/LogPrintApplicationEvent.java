@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
  * 打印日志事件
  *
  * @author :  Emily
- * @since :  2024/12/278下午11:11
+ * @since : 2024/12/28 下午11:11
  */
 public class LogPrintApplicationEvent extends ApplicationEvent {
     /**

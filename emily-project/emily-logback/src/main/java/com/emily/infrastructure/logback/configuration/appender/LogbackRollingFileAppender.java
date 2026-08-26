@@ -18,6 +18,7 @@ import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -99,7 +100,10 @@ public class LogbackRollingFileAppender {
         } else {
             throw new UnsupportedOperationException("Unsupported log type");
         }
-        return StrUtils.substVars(context, loggerPath, ".log");
+        String resolvedPath = StrUtils.substVars(context, loggerPath, ".log")
+                .replace('/', File.separatorChar)
+                .replace('\\', File.separatorChar);
+        return Path.of(resolvedPath).normalize().toString();
     }
 
     private String getFilePattern(LogPathField field) {

@@ -9,6 +9,7 @@ import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
+import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -39,6 +40,7 @@ public class LogbackConcurrencyTest {
     void shouldRegisterSameAsyncAppenderOnceConcurrently() throws Exception {
         LoggerContext context = newContext();
         ListAppender<ILoggingEvent> target = startedTarget(context);
+        LogBeanFactory.registerComponent(LogLevelFilter.class, new LogLevelFilter(context));
         LogbackAsyncAppender factory = new LogbackAsyncAppender(context, new LogbackProperties());
         int taskCount = 32;
         ExecutorService executor = Executors.newFixedThreadPool(8);

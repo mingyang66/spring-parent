@@ -14,6 +14,7 @@ module emily.logback {
     exports com.emily.infrastructure.logback.configuration.type;
     exports com.emily.infrastructure.logback.entity;
     exports com.emily.infrastructure.logback.configuration.appender;
+    exports com.emily.infrastructure.logback.configuration.filter to emily.logger.test;
     // 👇 关键：声明本模块会通过 ServiceLoader 使用这个接口
     uses com.emily.infrastructure.logback.configuration.context.LogbackContext;
     provides com.emily.infrastructure.logback.configuration.context.LogbackContext

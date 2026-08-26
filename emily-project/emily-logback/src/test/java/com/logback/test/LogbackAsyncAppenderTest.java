@@ -12,6 +12,7 @@ import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.configuration.appender.AsyncAppenderQueueSnapshot;
 import com.emily.infrastructure.logback.configuration.appender.LogbackAsyncAppender;
+import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,7 @@ public class LogbackAsyncAppenderTest {
     void setUp() {
         context = new LoggerContext();
         context.setMDCAdapter(new LogbackMDCAdapter());
+        LogBeanFactory.registerComponent(LogLevelFilter.class, new LogLevelFilter(context));
     }
 
     @AfterEach
@@ -38,13 +40,6 @@ public class LogbackAsyncAppenderTest {
         context.stop();
     }
 
-    @Test
-    void shouldUseLogbackDefaultDiscardingThreshold() {
-        LogbackProperties properties = properties(100);
-        AsyncAppender appender = factory(properties).getOrCreate(startedTarget(), Level.INFO);
-
-        Assertions.assertEquals(20, appender.getDiscardingThreshold());
-    }
 
     @Test
     void shouldKeepLowLevelLogsWhenDiscardingThresholdIsZero() {

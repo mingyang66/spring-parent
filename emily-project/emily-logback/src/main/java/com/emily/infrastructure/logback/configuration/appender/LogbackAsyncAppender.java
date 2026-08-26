@@ -7,7 +7,6 @@ import ch.qos.logback.core.Appender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
-import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +32,7 @@ public class LogbackAsyncAppender {
 
     public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref) {
         String appenderName = validateAndGetName(ref);
-        return (AsyncAppender) LogBeanFactory.getOrCreateAppender(appenderName,
+        return LogBeanFactory.getOrCreateAppender(appenderName,
                 name -> createAppender(ref, name));
     }
 
@@ -51,7 +50,6 @@ public class LogbackAsyncAppender {
 
     private AsyncAppender createAppender(Appender<ILoggingEvent> ref, String appenderName) {
         LogbackProperties.Async async = properties.getAsync();
-        LogbackPropertiesValidator.validateAsync(async);
         MonitoredAsyncAppender appender = new MonitoredAsyncAppender();
         appender.setContext(context);
         appender.setName(appenderName);

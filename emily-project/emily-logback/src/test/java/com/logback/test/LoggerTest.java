@@ -32,12 +32,16 @@ public class LoggerTest {
     }
 
     @Test
-    public void pathTest() {
-        Assertions.assertEquals(PathUtils.normalizePath(null), "");
-        Assertions.assertEquals(PathUtils.normalizePath(""), "");
-        Assertions.assertEquals(PathUtils.normalizePath("a/"), "/a");
-        Assertions.assertEquals(PathUtils.normalizePath("/a/"), "/a");
-        Assertions.assertEquals(PathUtils.normalizePath("/a/b"), "/a/b");
-        Assertions.assertEquals(PathUtils.normalizePath("/a/b/"), "/a/b");
+    void shouldNormalizePath() {
+        Assertions.assertEquals("", PathUtils.normalizePath(null));
+        Assertions.assertEquals("", PathUtils.normalizePath(""));
+        Assertions.assertEquals("/a", PathUtils.normalizePath("a/"));
+        Assertions.assertEquals("/a", PathUtils.normalizePath("/a/"));
+        Assertions.assertEquals("/a/b", PathUtils.normalizePath("/a/b"));
+        Assertions.assertEquals("/a/b", PathUtils.normalizePath("/a/b/"));
+        Assertions.assertEquals("/a/b", PathUtils.normalizePath("\\a\\b\\"));
+        Assertions.assertEquals("/a/b", PathUtils.normalizePath("//a///b//"));
+        Assertions.assertEquals("", PathUtils.normalizePath("///"));
     }
+
 }

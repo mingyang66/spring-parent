@@ -22,6 +22,7 @@ public final class LogBeanFactory {
     private static final Map<Class<?>, Object> COMPONENT_MAP = new ConcurrentHashMap<>(32);
     private static final Map<String, Logger> LOGGER_MAP = new ConcurrentHashMap<>(32);
     private static final Map<String, Appender<ILoggingEvent>> APPENDER_MAP = new ConcurrentHashMap<>(64);
+    // Keeps resource creation and shutdown mutually exclusive.
     private static final ReentrantReadWriteLock LIFECYCLE_LOCK = new ReentrantReadWriteLock();
 
     private LogBeanFactory() {
@@ -58,6 +59,14 @@ public final class LogBeanFactory {
                 .toList();
     }
 
+    /**
+     * Returns the cached Logger or creates one while holding the lifecycle read lock.
+     * {@link #shutdownAndClear()} waits for an in-progress factory invocation before clearing caches.
+     *
+     * @param name    logger name
+     * @param factory creates the Logger when absent
+     * @return cached or newly created Logger
+     */
     public static Logger getOrCreateLogger(String name, Supplier<? extends Logger> factory) {
         Objects.requireNonNull(name, "name must not be null");
         Objects.requireNonNull(factory, "factory must not be null");
@@ -69,6 +78,16 @@ public final class LogBeanFactory {
         }
     }
 
+    /**
+     * Returns the cached Appender or creates and starts one while holding the lifecycle read lock.
+     * {@link #shutdownAndClear()} waits for an in-progress factory invocation before stopping resources.
+     *
+     * @param name    appender name
+     * @param type    expected appender type
+     * @param factory creates the Appender when absent
+     * @param <T>     appender type
+     * @return cached or newly created Appender
+     */
     public static <T extends Appender<ILoggingEvent>> T getOrCreateAppender(
             String name, AppenderType<T> type, Supplier<? extends T> factory) {
         Objects.requireNonNull(name, "name must not be null");
@@ -126,6 +145,7 @@ public final class LogBeanFactory {
     /**
      * 停止所有已注册Appender并清空缓存。
      * AsyncAppender优先停止，以便在目标Appender关闭前刷新队列。
+     * This method acquires the lifecycle write lock and waits for in-progress resource creation.
      */
     public static void shutdownAndClear() {
         LIFECYCLE_LOCK.writeLock().lock();

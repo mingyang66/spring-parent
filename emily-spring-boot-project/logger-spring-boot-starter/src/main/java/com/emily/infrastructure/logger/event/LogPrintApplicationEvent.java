@@ -15,7 +15,7 @@ public class LogPrintApplicationEvent extends ApplicationEvent {
     /**
      * 当前事件上下文
      */
-    private ApplicationContext context;
+    private final ApplicationContext context;
     /**
      * 事件类型
      */
@@ -26,7 +26,7 @@ public class LogPrintApplicationEvent extends ApplicationEvent {
     private final BaseLogger baseLogger;
 
     public LogPrintApplicationEvent(ApplicationContext context, LogEventType eventType, BaseLogger baseLogger) {
-        super(baseLogger);
+        super(context);
         Assert.notNull(eventType, "eventType must not be null");
         Assert.notNull(baseLogger, "baseLogger must not be null");
         this.eventType = eventType;

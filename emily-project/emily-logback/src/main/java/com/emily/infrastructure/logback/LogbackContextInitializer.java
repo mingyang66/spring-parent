@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public final class LogbackContextInitializer {
 
-    private static volatile LogbackContext logbackContext;
+    private static volatile LogbackContext context;
 
     private LogbackContextInitializer() {
     }
@@ -34,40 +34,40 @@ public final class LogbackContextInitializer {
         if (!properties.isEnabled()) {
             return;
         }
-        if (logbackContext != null) {
+        if (context != null) {
             return;
         }
         List<LogbackContext> list = ClassicEnvUtil.loadFromServiceLoader(LogbackContext.class, LogbackContext.class.getClassLoader());
         if (list.isEmpty()) {
             throw new IllegalStateException("No LogbackContext implementation found");
         }
-        LogbackContext candidate = list.getFirst();
-        candidate.initialize(LogHolder.LC, properties);
-        logbackContext = candidate;
+        LogbackContext newContext = list.getFirst();
+        newContext.initialize(LogHolder.LC, properties);
+        context = newContext;
         LogHolder.LOG.info("Log sdk initialized");
     }
 
     public static LogbackContext getLogbackContext() {
-        LogbackContext context = logbackContext;
-        if (context == null) {
+        LogbackContext currentContext = context;
+        if (currentContext == null) {
             throw new IllegalStateException("Log sdk not initialized");
         }
-        return context;
+        return currentContext;
     }
 
     /**
      * 关闭日志SDK创建的资源并重置初始化状态，允许后续重新初始化。
      */
     public static synchronized void shutdown() {
-        LogbackContext context = logbackContext;
+        LogbackContext currentContext = context;
         try {
-            if (context != null) {
-                context.shutdown();
+            if (currentContext != null) {
+                currentContext.shutdown();
             } else {
                 LogBeanFactory.shutdownAndClear();
             }
         } finally {
-            logbackContext = null;
+            context = null;
         }
     }
 

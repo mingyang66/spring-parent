@@ -31,33 +31,39 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 日志类 logback+slf4j
+ * Logback日志上下文，负责组件注册、Logger创建及生命周期管理。
  *
  * @author Emily
- * @since : 2020/08/04
+ * @since 2020/08/04
  */
 public class LogbackContext {
+
     private static final Object INITIALIZATION_LOCK = new Object();
     private static final Object LOGGER_CREATION_LOCK = new Object();
-    private final Map<String, LoggerSnapshot> loggerSnapshots = new HashMap<>();
+
+    private final Map<String, LoggerSnapshot> loggerSnapshots = new ConcurrentHashMap<>();
     private boolean initialized;
-    private LoggerContext loggerContext;
     private InitializationSnapshot initializationSnapshot;
 
     /**
-     * ------------------------------------
-     * 1. 属性配置
-     * 2. 报告状态展示控制；
-     * 3. debug内部状态信息控制；
-     * 4. packagingData异常堆栈拼接所属jar包控制
-     * 5. 全局过滤器TurboFilter控制
+     * 初始化日志上下文。
+     * <p>依次完成：属性验证、状态快照、组件注册、TurboFilter安装、Root Logger初始化。
+     * 初始化失败时自动回滚至快照状态。
      *
-     * @param context    上下文
-     * @param properties logback日志属性
+     * @param context    logback LoggerContext
+     * @param properties 日志配置属性
      */
     public void initialize(LoggerContext context, LogbackProperties properties) {
         Objects.requireNonNull(context, "context must not be null");
@@ -72,7 +78,6 @@ public class LogbackContext {
             InitializationSnapshot snapshot = InitializationSnapshot.capture(context);
             try {
                 doInitialize(context, properties);
-                loggerContext = context;
                 initializationSnapshot = snapshot;
                 initialized = true;
             } catch (RuntimeException | Error ex) {
@@ -92,48 +97,46 @@ public class LogbackContext {
     }
 
     private void doInitialize(LoggerContext context, LogbackProperties properties) {
-        // 注册日志对象
+        // 核心组件
         LogBeanFactory.registerComponent(LogbackGroup.class, new LogbackGroup(context, properties));
         LogBeanFactory.registerComponent(LogbackModule.class, new LogbackModule(context, properties));
         LogBeanFactory.registerComponent(LogbackRoot.class, new LogbackRoot(context, properties));
-
+        // Appender
         LogBeanFactory.registerComponent(LogbackAsyncAppender.class, new LogbackAsyncAppender(context, properties));
         LogBeanFactory.registerComponent(LogbackConsoleAppender.class, new LogbackConsoleAppender(context, properties));
         LogBeanFactory.registerComponent(LogbackRollingFileAppender.class, new LogbackRollingFileAppender(context, properties));
-
+        // 滚动策略
         LogBeanFactory.registerComponent(LogbackSizeAndTimeBasedRollingPolicy.class, new LogbackSizeAndTimeBasedRollingPolicy(context, properties));
         LogBeanFactory.registerComponent(LogbackTimeBasedRollingPolicy.class, new LogbackTimeBasedRollingPolicy(context, properties));
         LogBeanFactory.registerComponent(LogbackFixedWindowRollingPolicy.class, new LogbackFixedWindowRollingPolicy(context, properties));
-
+        // 编码器
         LogBeanFactory.registerComponent(LogbackPatternLayoutEncoder.class, new LogbackPatternLayoutEncoder(context));
         LogBeanFactory.registerComponent(LogbackConsoleLayoutEncoder.class, new LogbackConsoleLayoutEncoder(context));
-
+        // 过滤器
         LogBeanFactory.registerComponent(LogAcceptMarkerFilter.class, new LogAcceptMarkerFilter(context));
         LogBeanFactory.registerComponent(LogDenyMarkerFilter.class, new LogDenyMarkerFilter(context));
         LogBeanFactory.registerComponent(LogLevelFilter.class, new LogLevelFilter(context));
         LogBeanFactory.registerComponent(LogThresholdLevelFilter.class, new LogThresholdLevelFilter(context));
-        //开启OnConsoleStatusListener监听器，即开启debug模式
+
         new ConfigurationAction(context, properties).start();
-        //全局过滤器，接受指定标记的日志记录到文件中
-        properties.getMarker().getAcceptMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getComponent(LogAcceptMarkerFilter.class).getFilter(marker)));
-        //全局过滤器，拒绝标记的日志记录到文件中
-        properties.getMarker().getDenyMarker().forEach((marker) -> context.addTurboFilter(LogBeanFactory.getComponent(LogDenyMarkerFilter.class).getFilter(marker)));
-        //初始化Root Logger
+        properties.getMarker().getAcceptMarker().forEach(marker ->
+                context.addTurboFilter(LogBeanFactory.getComponent(LogAcceptMarkerFilter.class).getFilter(marker)));
+        properties.getMarker().getDenyMarker().forEach(marker ->
+                context.addTurboFilter(LogBeanFactory.getComponent(LogDenyMarkerFilter.class).getFilter(marker)));
         initRootLogger(properties);
     }
 
     /**
-     * 获取logger日志对象，同名Logger使用双重检查确保只初始化一次。
+     * 获取模块Logger，同名Logger通过双重检查保证只创建一次。
      *
-     * @param requiredType 当前打印类实例
-     * @param filePath     文件路径
-     * @param fileName     文件名称
+     * @param requiredType 调用方类型
+     * @param filePath     日志文件目录
+     * @param fileName     日志文件名
      * @param logbackType  日志类型
-     * @param <T>          类类型
-     * @return logger对象
+     * @param <T>          调用方泛型
+     * @return SLF4J Logger实例
      */
     public <T> Logger getLogger(Class<T> requiredType, String filePath, String fileName, LogbackType logbackType) {
-        //通用参数
         LogPathField field = LogPathField.newBuilder()
                 .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, requiredType))
                 .withFilePath(PathUtils.normalizePath(filePath))
@@ -156,7 +159,8 @@ public class LogbackContext {
     }
 
     private Logger createLogger(LogPathField field, LogbackType logbackType) {
-        ch.qos.logback.classic.Logger logger = loggerContext.getLogger(field.getLoggerName());
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        ch.qos.logback.classic.Logger logger = context.getLogger(field.getLoggerName());
         loggerSnapshots.putIfAbsent(field.getLoggerName(), LoggerSnapshot.capture(logger));
         return LogBeanFactory.getComponents(Logback.class).stream()
                 .filter(l -> l.supports(logbackType))
@@ -166,7 +170,7 @@ public class LogbackContext {
     }
 
     /**
-     * 停止SDK资源并恢复初始化前及运行期间接管前的LoggerContext状态。
+     * 关闭SDK资源并恢复LoggerContext至初始化前状态。
      */
     public void shutdown() {
         synchronized (INITIALIZATION_LOCK) {
@@ -183,7 +187,8 @@ public class LogbackContext {
                 for (LoggerSnapshot snapshot : loggerSnapshots.values()) {
                     snapshot.restore();
                 }
-                initializationSnapshot.restore(loggerContext);
+                LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+                initializationSnapshot.restore(context);
             } catch (RuntimeException ex) {
                 if (failure == null) {
                     failure = ex;
@@ -193,7 +198,6 @@ public class LogbackContext {
             } finally {
                 loggerSnapshots.clear();
                 initializationSnapshot = null;
-                loggerContext = null;
                 initialized = false;
             }
             if (failure != null) {
@@ -202,27 +206,20 @@ public class LogbackContext {
         }
     }
 
-    /**
-     * 启动上下文，初始化root logger对象
-     */
     void initRootLogger(LogbackProperties properties) {
-        // 将root添加到缓存
-        LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, LogBeanFactory.getComponents(Logback.class).stream()
+        LogPathField field = LogPathField.newBuilder()
+                .withLoggerName(Logger.ROOT_LOGGER_NAME)
+                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
+                .withLogbackType(LogbackType.ROOT)
+                .build();
+        Logger rootLogger = LogBeanFactory.getComponents(Logback.class).stream()
                 .filter(l -> l.supports(LogbackType.ROOT))
                 .findFirst()
-                .orElseThrow().getLogger(LogPathField.newBuilder()
-                        // logger name
-                        .withLoggerName(Logger.ROOT_LOGGER_NAME)
-                        // logger file path
-                        .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
-                        // logger type
-                        .withLogbackType(LogbackType.ROOT)
-                        .build()));
+                .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + LogbackType.ROOT))
+                .getLogger(field);
+        LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, rootLogger);
     }
 
-    /**
-     * 初始化回滚
-     */
     private record InitializationSnapshot(
             ch.qos.logback.classic.Logger root,
             Level level,
@@ -245,7 +242,8 @@ public class LogbackContext {
         }
 
         void restore(LoggerContext context) {
-            for (Appender<ILoggingEvent> appender : identitySet(root.iteratorForAppenders())) {
+            Set<Appender<ILoggingEvent>> currentAppenders = identitySet(root.iteratorForAppenders());
+            for (Appender<ILoggingEvent> appender : currentAppenders) {
                 if (!appenders.contains(appender)) {
                     root.detachAppender(appender);
                 }
@@ -297,7 +295,8 @@ public class LogbackContext {
         }
 
         void restore() {
-            for (Appender<ILoggingEvent> appender : InitializationSnapshot.identitySet(logger.iteratorForAppenders())) {
+            Set<Appender<ILoggingEvent>> currentAppenders = InitializationSnapshot.identitySet(logger.iteratorForAppenders());
+            for (Appender<ILoggingEvent> appender : currentAppenders) {
                 if (!appenders.contains(appender)) {
                     logger.detachAppender(appender);
                 }
@@ -311,5 +310,4 @@ public class LogbackContext {
             logger.setAdditive(additive);
         }
     }
-
 }

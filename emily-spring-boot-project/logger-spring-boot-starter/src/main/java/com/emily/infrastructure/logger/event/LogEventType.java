@@ -7,5 +7,5 @@ package com.emily.infrastructure.logger.event;
  * @since :  2024/12/28 下午11:19
  */
 public enum LogEventType {
-    REQEUST, THIRD_PARTY, PLATFORM
+    REQUEST, THIRD_PARTY, PLATFORM
 }

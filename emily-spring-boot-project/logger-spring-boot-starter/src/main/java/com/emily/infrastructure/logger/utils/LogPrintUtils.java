@@ -28,7 +28,10 @@ public class LogPrintUtils {
      * @param supplier 日志信息
      */
     public static void printRequest(Supplier<String> supplier) {
-        LogHolder.REQUEST.info(supplier.get());
+        Logger logger = LogHolder.REQUEST;
+        if (logger.isInfoEnabled()) {
+            logger.info(supplier.get());
+        }
     }
 
     /**
@@ -46,7 +49,10 @@ public class LogPrintUtils {
      * @param supplier 日志信息
      */
     public static void printThirdParty(Supplier<String> supplier) {
-        LogHolder.THIRD_PARTY.info(supplier.get());
+        Logger logger = LogHolder.THIRD_PARTY;
+        if (logger.isInfoEnabled()) {
+            logger.info(supplier.get());
+        }
     }
 
     /**
@@ -64,7 +70,10 @@ public class LogPrintUtils {
      * @param supplier 日志信息
      */
     public static void printPlatform(Supplier<String> supplier) {
-        LogHolder.PLATFORM.info(supplier.get());
+        Logger logger = LogHolder.PLATFORM;
+        if (logger.isInfoEnabled()) {
+            logger.info(supplier.get());
+        }
     }
 
     static class LogHolder {

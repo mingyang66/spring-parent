@@ -28,7 +28,7 @@ public class LogPrintApplicationListener implements ApplicationListener<@NonNull
         if (event.getContext() != context) {
             return;
         }
-        if (LogEventType.REQEUST == event.getEventType()) {
+        if (LogEventType.REQUEST == event.getEventType()) {
             LogPrintUtils.printRequest(() -> JsonUtils.toJSONString(event.getBaseLogger()));
         } else if (LogEventType.THIRD_PARTY == event.getEventType()) {
             LogPrintUtils.printThirdParty(() -> JsonUtils.toJSONString(event.getBaseLogger()));

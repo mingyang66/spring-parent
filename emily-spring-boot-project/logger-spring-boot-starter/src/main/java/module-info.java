@@ -16,4 +16,5 @@ open module emily.spring.boot.logger {
     exports com.emily.infrastructure.logger;
     exports com.emily.infrastructure.logger.initializer;
     exports com.emily.infrastructure.logger.utils;
+    exports com.emily.infrastructure.logger.event;
 }

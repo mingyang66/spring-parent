@@ -71,6 +71,17 @@ public final class LogBeanFactory {
         }
     }
 
+    public static Logger getOrCreateLogger(String name, Supplier<Logger> factory) {
+        Objects.requireNonNull(name, "name must not be null");
+        Objects.requireNonNull(factory, "factory must not be null");
+        LIFECYCLE_LOCK.readLock().lock();
+        try {
+            return LOGGER_MAP.computeIfAbsent(name, key -> Objects.requireNonNull(factory.get(), "Logger factory returned null for " + name));
+        } finally {
+            LIFECYCLE_LOCK.readLock().unlock();
+        }
+    }
+
     public static <T extends Appender<ILoggingEvent>> T getOrCreateAppender(
             String name, AppenderType<T> type, Supplier<? extends T> factory) {
         Objects.requireNonNull(name, "name must not be null");

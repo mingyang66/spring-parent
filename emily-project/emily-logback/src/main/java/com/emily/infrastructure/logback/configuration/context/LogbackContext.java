@@ -29,17 +29,9 @@ import com.emily.infrastructure.logback.configuration.policy.LogbackSizeAndTimeB
 import com.emily.infrastructure.logback.configuration.policy.LogbackTimeBasedRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
-import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -51,9 +43,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LogbackContext {
 
     private static final Object INITIALIZATION_LOCK = new Object();
-    private static final Object LOGGER_CREATION_LOCK = new Object();
-
     private final Map<String, LoggerSnapshot> loggerSnapshots = new ConcurrentHashMap<>();
+    private LoggerContext context;
+    private LogbackProperties properties;
+
     private boolean initialized;
     private InitializationSnapshot initializationSnapshot;
 
@@ -66,8 +59,8 @@ public class LogbackContext {
      * @param properties 日志配置属性
      */
     public void initialize(LoggerContext context, LogbackProperties properties) {
-        Objects.requireNonNull(context, "context must not be null");
-        LogbackPropertiesValidator.validate(properties);
+        this.context = Objects.requireNonNull(context, "LoggerContext must not be null");
+        this.properties = Objects.requireNonNull(properties, "LogbackProperties must not be null");
         synchronized (INITIALIZATION_LOCK) {
             if (initialized) {
                 throw new IllegalStateException("LogbackContext instance has already been initialized");
@@ -77,7 +70,9 @@ public class LogbackContext {
             }
             InitializationSnapshot snapshot = InitializationSnapshot.capture(context);
             try {
-                doInitialize(context, properties);
+                doInitialize();
+                configure();
+                initRootLogger();
                 initializationSnapshot = snapshot;
                 initialized = true;
             } catch (RuntimeException | Error ex) {
@@ -96,7 +91,7 @@ public class LogbackContext {
         }
     }
 
-    private void doInitialize(LoggerContext context, LogbackProperties properties) {
+    private void doInitialize() {
         // 核心组件
         LogBeanFactory.registerComponent(LogbackGroup.class, new LogbackGroup(context, properties));
         LogBeanFactory.registerComponent(LogbackModule.class, new LogbackModule(context, properties));
@@ -117,13 +112,23 @@ public class LogbackContext {
         LogBeanFactory.registerComponent(LogDenyMarkerFilter.class, new LogDenyMarkerFilter(context));
         LogBeanFactory.registerComponent(LogLevelFilter.class, new LogLevelFilter(context));
         LogBeanFactory.registerComponent(LogThresholdLevelFilter.class, new LogThresholdLevelFilter(context));
+    }
 
+    private void configure() {
         new ConfigurationAction(context, properties).start();
         properties.getMarker().getAcceptMarker().forEach(marker ->
                 context.addTurboFilter(LogBeanFactory.getComponent(LogAcceptMarkerFilter.class).getFilter(marker)));
         properties.getMarker().getDenyMarker().forEach(marker ->
                 context.addTurboFilter(LogBeanFactory.getComponent(LogDenyMarkerFilter.class).getFilter(marker)));
-        initRootLogger(properties);
+    }
+
+    private void initRootLogger() {
+        LogPathField field = LogPathField.newBuilder()
+                .withLoggerName(Logger.ROOT_LOGGER_NAME)
+                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
+                .withLogbackType(LogbackType.ROOT)
+                .build();
+        LogBeanFactory.getOrCreateLogger(Logger.ROOT_LOGGER_NAME, () -> createLogger(field, LogbackType.ROOT));
     }
 
     /**
@@ -143,23 +148,10 @@ public class LogbackContext {
                 .withFileName(fileName)
                 .withLogbackType(logbackType)
                 .build();
-        String loggerName = field.getLoggerName();
-        Logger logger = LogBeanFactory.getLogger(loggerName);
-        if (logger != null) {
-            return logger;
-        }
-        synchronized (LOGGER_CREATION_LOCK) {
-            logger = LogBeanFactory.getLogger(loggerName);
-            if (logger == null) {
-                logger = createLogger(field, logbackType);
-                LogBeanFactory.registerLogger(loggerName, logger);
-            }
-            return logger;
-        }
+        return LogBeanFactory.getOrCreateLogger(field.getLoggerName(), () -> createLogger(field, logbackType));
     }
 
     private Logger createLogger(LogPathField field, LogbackType logbackType) {
-        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         ch.qos.logback.classic.Logger logger = context.getLogger(field.getLoggerName());
         loggerSnapshots.putIfAbsent(field.getLoggerName(), LoggerSnapshot.capture(logger));
         return LogBeanFactory.getComponents(Logback.class).stream()
@@ -187,7 +179,6 @@ public class LogbackContext {
                 for (LoggerSnapshot snapshot : loggerSnapshots.values()) {
                     snapshot.restore();
                 }
-                LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
                 initializationSnapshot.restore(context);
             } catch (RuntimeException ex) {
                 if (failure == null) {
@@ -206,19 +197,6 @@ public class LogbackContext {
         }
     }
 
-    void initRootLogger(LogbackProperties properties) {
-        LogPathField field = LogPathField.newBuilder()
-                .withLoggerName(Logger.ROOT_LOGGER_NAME)
-                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
-                .withLogbackType(LogbackType.ROOT)
-                .build();
-        Logger rootLogger = LogBeanFactory.getComponents(Logback.class).stream()
-                .filter(l -> l.supports(LogbackType.ROOT))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + LogbackType.ROOT))
-                .getLogger(field);
-        LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, rootLogger);
-    }
 
     private record InitializationSnapshot(
             ch.qos.logback.classic.Logger root,

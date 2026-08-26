@@ -206,17 +206,18 @@ public class LogbackContext {
      * 启动上下文，初始化root logger对象
      */
     void initRootLogger(LogbackProperties properties) {
-        // 获取root logger对象
-        Logger rootLogger = LogBeanFactory.getComponents(Logback.class).stream().filter(l -> l.supports(LogbackType.ROOT)).findFirst().orElseThrow().getLogger(LogPathField.newBuilder()
-                // logger name
-                .withLoggerName(Logger.ROOT_LOGGER_NAME)
-                // logger file path
-                .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
-                // logger type
-                .withLogbackType(LogbackType.ROOT)
-                .build());
         // 将root添加到缓存
-        LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, rootLogger);
+        LogBeanFactory.registerLogger(Logger.ROOT_LOGGER_NAME, LogBeanFactory.getComponents(Logback.class).stream()
+                .filter(l -> l.supports(LogbackType.ROOT))
+                .findFirst()
+                .orElseThrow().getLogger(LogPathField.newBuilder()
+                        // logger name
+                        .withLoggerName(Logger.ROOT_LOGGER_NAME)
+                        // logger file path
+                        .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
+                        // logger type
+                        .withLogbackType(LogbackType.ROOT)
+                        .build()));
     }
 
     /**

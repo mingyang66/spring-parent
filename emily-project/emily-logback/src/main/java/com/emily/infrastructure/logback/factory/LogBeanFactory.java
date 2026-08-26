@@ -32,7 +32,10 @@ public final class LogBeanFactory {
         Objects.requireNonNull(component, "component must not be null");
         LIFECYCLE_LOCK.readLock().lock();
         try {
-            COMPONENT_MAP.putIfAbsent(type, component);
+            Object existing = COMPONENT_MAP.putIfAbsent(type, component);
+            if (existing != null && existing != component) {
+                throw new IllegalStateException("Component already registered: " + type.getName());
+            }
         } finally {
             LIFECYCLE_LOCK.readLock().unlock();
         }

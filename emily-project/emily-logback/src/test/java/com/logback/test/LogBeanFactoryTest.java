@@ -63,6 +63,18 @@ public class LogBeanFactoryTest {
     }
 
     @Test
+    void shouldRejectDuplicateComponentRegistration() {
+        LogBeanFactory.registerComponent(String.class, "first");
+
+        IllegalStateException exception = Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> LogBeanFactory.registerComponent(String.class, "second"));
+
+        Assertions.assertTrue(exception.getMessage().contains(String.class.getName()));
+        Assertions.assertEquals("first", LogBeanFactory.getComponent(String.class));
+    }
+
+    @Test
     void shouldStopResourcesBeforeClearingCaches() {
         String name = "shutdown";
         ListAppender<ILoggingEvent> appender = startedListAppender(name);

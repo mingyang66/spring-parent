@@ -14,27 +14,21 @@ import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.configuration.policy.AbstractRollingPolicy;
 import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.configuration.type.RollingPolicyType;
-import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import com.emily.infrastructure.logback.factory.AppenderType;
+import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
 import java.io.File;
-import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
- * 通过名字和级别设置Appender
+ * 滚动文件Appender管理器，负责创建和注册基于时间和大小的滚动文件Appender。
  *
  * @author Emily
- * @since : 2020/08/04
+ * @since 2020/08/04
  */
 public class LogbackRollingFileAppender {
-    /**
-     * logger上下文
-     */
+
     private final LoggerContext context;
-    /**
-     * 属性配置
-     */
     private final LogbackProperties properties;
 
     public LogbackRollingFileAppender(LoggerContext context, LogbackProperties properties) {
@@ -42,46 +36,36 @@ public class LogbackRollingFileAppender {
         this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
-    /**
-     * 获取按照时间归档文件附加器对象
-     *
-     * @param level 日志级别
-     * @param field 日志路径属性
-     * @return appender
-     */
-    private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field) {
+    public RollingFileAppender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
         Objects.requireNonNull(level, "level must not be null");
         Objects.requireNonNull(field, "field must not be null");
-        //归档策略属性配置
+        String appenderName = getName(level, field);
+        return LogBeanFactory.getOrCreateAppender(
+                appenderName, AppenderType.ROLLING_FILE, () -> createAppender(level, field));
+    }
+
+    private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field) {
         RollingPolicyType policyType = properties.getAppender().getRollingPolicyType();
-        //日志文件路径
-        String loggerPath = this.getFilePath(level, field);
-        //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
+        String loggerPath = getFilePath(level, field);
+
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
-        //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
-        // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
         appender.setContext(context);
-        //appender的name属性
-        appender.setName(this.getName(level, field));
-        //设置文件名，policy激活后才可以从appender获取文件路径
+        appender.setName(getName(level, field));
         appender.setFile(loggerPath);
-        //设置日志文件归档策略
+
         RollingPolicy rollingPolicy = LogBeanFactory.getComponents(AbstractRollingPolicy.class).stream()
                 .filter(l -> l.support(policyType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No rolling policy found for " + policyType))
                 .getRollingPolicy(appender, loggerPath);
         appender.setRollingPolicy(rollingPolicy);
-        //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
+
         appender.setAppend(properties.getAppender().isAppend());
-        //如果是 true，日志会被安全的写入文件，即使其他的appender也在向此文件做写入操作，效率低，默认是 false|Support multiple-JVM writing to the same log file
         appender.setPrudent(properties.getAppender().isPrudent());
-        //设置过滤器
         appender.addFilter(LogBeanFactory.getComponent(LogLevelFilter.class).getFilter(level));
-        //设置附加器编码
-        appender.setEncoder(LogBeanFactory.getComponent(LogbackPatternLayoutEncoder.class).getEncoder(this.getFilePattern(field)));
-        //设置是否将输出流刷新，确保日志信息不丢失，默认：true
+        appender.setEncoder(LogBeanFactory.getComponent(LogbackPatternLayoutEncoder.class).getEncoder(getFilePattern(field)));
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
+
         try {
             appender.start();
         } catch (RuntimeException ex) {
@@ -101,36 +85,15 @@ public class LogbackRollingFileAppender {
         }
     }
 
-    public RollingFileAppender<ILoggingEvent> getOrCreate(Level level, LogPathField field) {
-        Objects.requireNonNull(level, "level must not be null");
-        Objects.requireNonNull(field, "field must not be null");
-        String appenderName = this.getName(level, field);
-        return LogBeanFactory.getOrCreateAppender(
-                appenderName, AppenderType.ROLLING_FILE, () -> this.createAppender(level, field));
-    }
-
-    /**
-     * 获取文件路径
-     *
-     * @param level 日志级别
-     * @param field 日志路径属性
-     * @return 日志文件路径
-     */
-    public String getFilePath(Level level, LogPathField field) {
-        //基础相对路径
+    private String getFilePath(Level level, LogPathField field) {
         String basePath = properties.getAppender().getPath();
-        //文件路径
         String filePath = field.getFilePath();
-        //日志级别
         String levelStr = level.levelStr.toLowerCase();
-        // 基础路径
         String loggerPath = StrUtils.join(basePath, filePath, File.separator);
-        //基础日志、分组日志
+
         if (LogbackType.ROOT == field.getLogbackType() || LogbackType.GROUP == field.getLogbackType()) {
             loggerPath = StrUtils.join(loggerPath, levelStr, File.separator, levelStr);
-        }
-        //分模块日志
-        else if (LogbackType.MODULE == field.getLogbackType()) {
+        } else if (LogbackType.MODULE == field.getLogbackType()) {
             loggerPath = StrUtils.join(loggerPath, field.getFileName());
         } else {
             throw new UnsupportedOperationException("Unsupported log type");
@@ -138,39 +101,23 @@ public class LogbackRollingFileAppender {
         return StrUtils.substVars(context, loggerPath, ".log");
     }
 
-    /**
-     * 获取日志输出格式
-     *
-     * @param field 日志路径属性
-     * @return 日志格式
-     */
-    public String getFilePattern(LogPathField field) {
-        //基础日志
+    private String getFilePattern(LogPathField field) {
         if (LogbackType.ROOT.equals(field.getLogbackType())) {
             return properties.getRoot().getPattern();
         }
-        //分组
         if (LogbackType.GROUP.equals(field.getLogbackType())) {
             return properties.getGroup().getPattern();
         }
-        //分模块
         return properties.getModule().getPattern();
     }
 
-    /**
-     * 日志级别
-     * 拼接规则：分组.路径.文件名.日志级别
-     *
-     * @param level 日志级别
-     * @param field 日志路径属性
-     * @return appender name值
-     */
-    public String getName(Level level, LogPathField field) {
+    private String getName(Level level, LogPathField field) {
         String fileName = field.getFileName();
         if (StrUtils.isEmpty(fileName)) {
             fileName = level.levelStr.toLowerCase();
         }
-        //拼装appender name
-        return MessageFormat.format("{0}{1}.{2}.{3}", field.getLogbackType(), field.getFilePath(), fileName, level.levelStr.toLowerCase()).replace(PathUtils.SLASH, PathUtils.DOT);
+        String levelStr = level.levelStr.toLowerCase();
+        return (field.getLogbackType() + field.getFilePath() + "." + fileName + "." + levelStr)
+                .replace(PathUtils.SLASH, PathUtils.DOT);
     }
 }

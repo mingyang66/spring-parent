@@ -7,76 +7,50 @@ import ch.qos.logback.core.ConsoleAppender;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.configuration.encoder.LogbackConsoleLayoutEncoder;
 import com.emily.infrastructure.logback.configuration.filter.LogThresholdLevelFilter;
-import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import com.emily.infrastructure.logback.factory.AppenderType;
+import com.emily.infrastructure.logback.factory.LogBeanFactory;
+
+import java.util.Objects;
 
 /**
- * 通过名字和级别设置Appender
+ * 控制台Appender工厂，负责创建和注册控制台输出Appender。
  *
  * @author Emily
- * @since : 2020/08/04
+ * @since 2020/08/04
  */
 public class LogbackConsoleAppender {
-    /**
-     * 控制台appender name
-     * 必须小写，否则会出现多个控制台appender
-     */
+
     public static final String CONSOLE = "console";
-    /**
-     * 属性配置
-     */
+
     private final LoggerContext context;
-    /**
-     * 属性配置
-     */
     private final LogbackProperties properties;
 
     public LogbackConsoleAppender(LoggerContext context, LogbackProperties properties) {
-        this.context = context;
-        this.properties = properties;
-    }
-
-    /**
-     * 控制台打印appender
-     *
-     * @param level 日志级别
-     * @return consul appender
-     */
-    private ConsoleAppender<ILoggingEvent> createAppender(Level level) {
-        //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：
-        ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
-        //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
-        // 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
-        appender.setContext(context);
-        //appender的name属性
-        appender.setName(this.getName(level));
-        //添加过滤器
-        appender.addFilter(LogBeanFactory.getComponent(LogThresholdLevelFilter.class).getFilter(level));
-        //设置编码
-        appender.setEncoder(LogBeanFactory.getComponent(LogbackConsoleLayoutEncoder.class).getEncoder(this.getFilePattern()));
-        //设置是否将输出流刷新，确保日志信息不丢失，默认：true
-        appender.setImmediateFlush(true);
-        //ANSI color codes支持，默认：false；请注意，基于Unix的操作系统（如Linux和Mac OS X）默认支持ANSI颜色代码。
-        appender.setWithJansi(properties.getRoot().isWithJansi());
-        appender.start();
-        if (!appender.isStarted()) {
-            throw new IllegalStateException("Failed to start console appender " + appender.getName());
-        }
-        return appender;
-
+        this.context = Objects.requireNonNull(context, "context must not be null");
+        this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
     public ConsoleAppender<ILoggingEvent> getOrCreate(Level level) {
-        String appenderName = this.getName(level);
         return LogBeanFactory.getOrCreateAppender(
-                appenderName, AppenderType.CONSOLE, () -> this.createAppender(level));
+                CONSOLE, AppenderType.CONSOLE, () -> createAppender(level));
     }
 
-    public String getFilePattern() {
+    private ConsoleAppender<ILoggingEvent> createAppender(Level level) {
+        ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
+        appender.setContext(context);
+        appender.setName(CONSOLE);
+        appender.addFilter(LogBeanFactory.getComponent(LogThresholdLevelFilter.class).getFilter(level));
+        appender.setEncoder(LogBeanFactory.getComponent(LogbackConsoleLayoutEncoder.class).getEncoder(getFilePattern()));
+        appender.setImmediateFlush(true);
+        appender.setWithJansi(properties.getRoot().isWithJansi());
+        appender.start();
+        if (!appender.isStarted()) {
+            throw new IllegalStateException("Failed to start console appender " + CONSOLE);
+        }
+        return appender;
+    }
+
+    private String getFilePattern() {
         return properties.getRoot().getConsolePattern();
-    }
-
-    public String getName(Level level) {
-        return CONSOLE;
     }
 }

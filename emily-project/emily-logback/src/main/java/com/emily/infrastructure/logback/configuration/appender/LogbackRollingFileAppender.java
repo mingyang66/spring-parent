@@ -58,15 +58,8 @@ public class LogbackRollingFileAppender {
         appender.addFilter(LogBeanFactory.getComponent(LogLevelFilter.class).getFilter(level));
         appender.setEncoder(LogBeanFactory.getComponent(LogbackPatternLayoutEncoder.class).getEncoder(getFilePattern(field)));
         appender.setImmediateFlush(properties.getAppender().isImmediateFlush());
-
-        try {
-            appender.start();
-        } catch (RuntimeException ex) {
-            stopRollingPolicy(rollingPolicy);
-            throw ex;
-        }
+        appender.start();
         if (!appender.isStarted()) {
-            stopRollingPolicy(rollingPolicy);
             throw new IllegalStateException("Failed to start rolling file appender " + appender.getName() + " for " + loggerPath);
         }
         return appender;
@@ -79,12 +72,6 @@ public class LogbackRollingFileAppender {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No rolling policy found for " + policyType))
                 .getRollingPolicy(appender, loggerPath);
-    }
-
-    private void stopRollingPolicy(RollingPolicy rollingPolicy) {
-        if (rollingPolicy.isStarted()) {
-            rollingPolicy.stop();
-        }
     }
 
     private String getFilePath(Level level, LogPathField field) {

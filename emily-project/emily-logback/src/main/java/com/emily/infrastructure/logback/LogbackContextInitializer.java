@@ -1,14 +1,13 @@
 package com.emily.infrastructure.logback;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.util.ClassicEnvUtil;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.ServiceLoader;
 
 /**
  * 日志初始化管理器
@@ -37,11 +36,10 @@ public final class LogbackContextInitializer {
         if (context != null) {
             return;
         }
-        List<LogbackContext> list = ClassicEnvUtil.loadFromServiceLoader(LogbackContext.class, LogbackContext.class.getClassLoader());
-        if (list.isEmpty()) {
-            throw new IllegalStateException("No LogbackContext implementation found");
-        }
-        LogbackContext newContext = list.getFirst();
+        LogbackContext newContext = ServiceLoader
+                .load(LogbackContext.class, LogbackContext.class.getClassLoader())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No LogbackContext implementation found"));
         newContext.initialize(LogHolder.LC, properties);
         context = newContext;
         LogHolder.LOG.info("Log sdk initialized");

@@ -10,8 +10,6 @@ import com.emily.infrastructure.logback.common.StrUtils;
 import com.emily.infrastructure.logback.configuration.filter.LogLevelFilter;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,18 +35,6 @@ public class LogbackAsyncAppender {
         String appenderName = validateAndGetName(ref);
         return LogBeanFactory.getOrCreateAppender(appenderName,
                 name -> createAppender(ref, name, level));
-    }
-
-    /**
-     * 获取所有已注册异步Appender的实时队列状态快照。
-     *
-     * @return 按Appender名称排序的队列状态快照
-     */
-    public List<AsyncAppenderQueueSnapshot> getQueueSnapshots() {
-        return LogBeanFactory.<AsyncAppender>getAppenders(AsyncAppender.class).stream()
-                .map(AsyncAppenderQueueSnapshot::from)
-                .sorted(Comparator.comparing(AsyncAppenderQueueSnapshot::name))
-                .toList();
     }
 
     private AsyncAppender createAppender(Appender<ILoggingEvent> ref, String appenderName, Level level) {

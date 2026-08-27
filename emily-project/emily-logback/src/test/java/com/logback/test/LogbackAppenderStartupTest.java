@@ -147,7 +147,7 @@ public class LogbackAppenderStartupTest {
         properties.getMarker().getAcceptMarker().add("sdk-filter");
         LogbackContext logbackContext = new LogbackContext();
         logbackContext.initialize(context, properties);
-        logbackContext.getLogger(LogbackAppenderStartupTest.class, "runtime", null, LogbackType.GROUP);
+        logbackContext.getLogger(LogbackAppenderStartupTest.class, LogbackType.GROUP, "runtime", null);
 
         logbackContext.shutdown();
 

@@ -112,7 +112,7 @@ public class LogbackConcurrencyTest {
             for (int i = 0; i < taskCount; i++) {
                 futures.add(executor.submit(() -> {
                     start.await();
-                    return logbackContext.getLogger(LogbackConcurrencyTest.class, "concurrency", null, LogbackType.GROUP);
+                    return logbackContext.getLogger(LogbackConcurrencyTest.class, LogbackType.GROUP, "concurrency", null);
                 }));
             }
             start.countDown();

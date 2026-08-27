@@ -1,4 +1,4 @@
-package com.logback.test;
+package com.emily.infrastructure.logback.test;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

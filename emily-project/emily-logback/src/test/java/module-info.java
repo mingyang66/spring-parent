@@ -8,6 +8,6 @@ module emily.logger.test {
     requires ch.qos.logback.core;
     requires org.junit.jupiter.api;
     requires org.slf4j;
-    exports com.logback.test;
-    opens com.logback.test to org.junit.platform.commons;
+    exports com.emily.infrastructure.logback.test;
+    opens com.emily.infrastructure.logback.test to org.junit.platform.commons;
 }

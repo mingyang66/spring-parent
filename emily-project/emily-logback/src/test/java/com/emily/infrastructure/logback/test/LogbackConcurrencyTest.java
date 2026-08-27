@@ -1,4 +1,4 @@
-package com.logback.test;
+package com.emily.infrastructure.logback.test;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;

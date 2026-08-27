@@ -38,7 +38,7 @@ public class LogbackAsyncAppender {
     }
 
     private AsyncAppender createAppender(Appender<ILoggingEvent> ref, String appenderName, Level level) {
-        MonitoredAsyncAppender appender = getMonitoredAsyncAppender(appenderName);
+        AsyncAppender appender = createAsyncAppender(appenderName);
         appender.addFilter(LogBeanFactory.getComponent(LogLevelFilter.class).getFilter(level));
         appender.addAppender(ref);
         appender.start();
@@ -49,9 +49,9 @@ public class LogbackAsyncAppender {
         return appender;
     }
 
-    private MonitoredAsyncAppender getMonitoredAsyncAppender(String appenderName) {
+    private AsyncAppender createAsyncAppender(String appenderName) {
         LogbackProperties.Async async = properties.getAsync();
-        MonitoredAsyncAppender appender = new MonitoredAsyncAppender();
+        AsyncAppender appender = new AsyncAppender();
         appender.setContext(context);
         appender.setName(appenderName);
         appender.setQueueSize(async.getQueueSize());

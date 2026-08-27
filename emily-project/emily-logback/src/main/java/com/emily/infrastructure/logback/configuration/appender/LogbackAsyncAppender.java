@@ -32,7 +32,7 @@ public class LogbackAsyncAppender {
 
     public AsyncAppender getOrCreate(Appender<ILoggingEvent> ref, Level level) {
         Objects.requireNonNull(level, "level must not be null");
-        String appenderName = validateAndGetName(ref);
+        String appenderName = getName(ref);
         return LogBeanFactory.getOrCreateAppender(appenderName,
                 name -> createAppender(ref, name, level));
     }
@@ -62,7 +62,7 @@ public class LogbackAsyncAppender {
         return appender;
     }
 
-    private String validateAndGetName(Appender<ILoggingEvent> ref) {
+    private String getName(Appender<ILoggingEvent> ref) {
         Objects.requireNonNull(ref, "ref must not be null");
         String refName = ref.getName();
         if (refName == null || refName.isBlank()) {

@@ -42,15 +42,15 @@ public class LogbackRollingFileAppender {
         Objects.requireNonNull(field, "field must not be null");
         String appenderName = getName(level, field);
         return LogBeanFactory.getOrCreateAppender(appenderName,
-                name -> createAppender(level, field));
+                name -> createAppender(level, field, appenderName));
     }
 
-    private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field) {
+    private RollingFileAppender<ILoggingEvent> createAppender(Level level, LogPathField field, String appenderName) {
         String loggerPath = getFilePath(level, field);
         RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
         RollingPolicy rollingPolicy = this.getRollingPolicy(appender, loggerPath);
         appender.setContext(context);
-        appender.setName(getName(level, field));
+        appender.setName(appenderName);
         appender.setFile(loggerPath);
         appender.setRollingPolicy(rollingPolicy);
         appender.setAppend(properties.getAppender().isAppend());
@@ -74,6 +74,12 @@ public class LogbackRollingFileAppender {
                 .getRollingPolicy(appender, loggerPath);
     }
 
+    /**
+     * 文件路径案例：
+     * logs\base\error\error.log
+     * logs\group\test\error\error.log
+     * logs\test1\tt0.log
+     */
     private String getFilePath(Level level, LogPathField field) {
         String basePath = properties.getAppender().getPath();
         String filePath = field.getFilePath();
@@ -103,6 +109,12 @@ public class LogbackRollingFileAppender {
         return properties.getModule().getPattern();
     }
 
+    /**
+     * 名字案例：
+     * ROOT.base.error.error
+     * GROUP.group.test.error.error
+     * MODULE.test1.tt0.info
+     */
     private String getName(Level level, LogPathField field) {
         String fileName = field.getFileName();
         if (StrUtils.isEmpty(fileName)) {

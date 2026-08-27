@@ -15,10 +15,10 @@
     <description>Bill Of Material</description>
 
     <properties>
-        <spring-boot.version>4.1.0</spring-boot.version>
-        <spring-cloud.version>2025.1.1</spring-cloud.version>
-        <spring-shell.version>4.0.0</spring-shell.version>
-        <spring.mybatis.version>4.0.1</spring.mybatis.version>
+        <spring-boot.version>4.1.1</spring-boot.version>
+        <spring-cloud.version>2025.1.3</spring-cloud.version>
+        <spring-shell.version>4.0.3</spring-shell.version>
+        <spring.mybatis.version>4.1.0</spring.mybatis.version>
         <commons-io.version>2.21.0</commons-io.version>
         <google-guava.version>33.5.0-jre</google-guava.version>
         <alibaba-ttl.version>2.14.5</alibaba-ttl.version>

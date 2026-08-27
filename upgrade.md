@@ -19,7 +19,11 @@ Bug Fixes
 
 Dependency Upgrades
 
-1. 2
+1. spring-boot Upgrade to 4.1.1;
+2. spring-cloud Upgrade to 2025.1.3;
+3. mybatis-spring-boot-starter Upgrade to 4.1.0;
+4. spring-shell-dependencies Upgrade to 4.0.3;
+5. 
 
 ###-----
 基础库发布6.1.2

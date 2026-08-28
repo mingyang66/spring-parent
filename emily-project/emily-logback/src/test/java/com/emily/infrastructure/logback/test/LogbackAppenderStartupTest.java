@@ -39,8 +39,7 @@ public class LogbackAppenderStartupTest {
 
     @AfterEach
     void tearDown() {
-        LogbackContextInitializer.shutdown();
-        context.stop();
+        LogbackContextInitializer.stopAndReset();
     }
 
     @Test
@@ -110,7 +109,6 @@ public class LogbackAppenderStartupTest {
         Assertions.assertTrue(originalAppender.isStarted());
         Assertions.assertEquals(List.of(originalFilter), context.getTurboFilterList());
         Assertions.assertEquals(originalStatusListeners, context.getStatusManager().getCopyOfStatusListenerList());
-        Assertions.assertTrue(LogBeanFactory.isEmpty());
     }
 
     @Test
@@ -149,7 +147,7 @@ public class LogbackAppenderStartupTest {
         logbackContext.initialize(context, properties);
         logbackContext.getLogger(LogbackAppenderStartupTest.class, LogbackType.GROUP, "runtime", null);
 
-        logbackContext.shutdown();
+        logbackContext.stopAndReset();
 
         Assertions.assertEquals(Level.ERROR, root.getLevel());
         Assertions.assertTrue(root.isAdditive());
@@ -161,7 +159,6 @@ public class LogbackAppenderStartupTest {
         Assertions.assertTrue(groupLogger.isAttached(originalGroupAppender));
         Assertions.assertTrue(originalGroupAppender.isStarted());
         Assertions.assertEquals(List.of(originalFilter), context.getTurboFilterList());
-        Assertions.assertTrue(LogBeanFactory.isEmpty());
     }
 
     private LogbackProperties initializedProperties(String path) {

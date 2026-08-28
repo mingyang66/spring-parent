@@ -1,4 +1,4 @@
-package com.emily.infrastructure.logback.test;
+package com.emily.infrastructure.logback.configuration.appender;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.net.SimpleSocketServer;

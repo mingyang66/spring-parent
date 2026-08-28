@@ -2,7 +2,6 @@ package com.emily.infrastructure.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
-import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,8 @@ public final class LogbackContextInitializer {
             return;
         }
         if (context != null) {
-            return;
+            stopAndReset();
+            LogHolder.LOG.info("The log component has been cleaned up");
         }
         LogbackContext newContext = ServiceLoader
                 .load(LogbackContext.class, LogbackContext.class.getClassLoader())
@@ -46,23 +46,19 @@ public final class LogbackContextInitializer {
     }
 
     public static LogbackContext getLogbackContext() {
-        LogbackContext currentContext = context;
-        if (currentContext == null) {
+        if (context == null) {
             throw new IllegalStateException("Log sdk not initialized");
         }
-        return currentContext;
+        return context;
     }
 
     /**
      * 关闭日志SDK创建的资源并重置初始化状态，允许后续重新初始化。
      */
-    public static synchronized void shutdown() {
-        LogbackContext currentContext = context;
+    public static synchronized void stopAndReset() {
         try {
-            if (currentContext != null) {
-                currentContext.shutdown();
-            } else {
-                LogBeanFactory.shutdownAndClear();
+            if (context != null) {
+                context.stopAndReset();
             }
         } finally {
             context = null;

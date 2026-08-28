@@ -32,8 +32,7 @@ public class LogbackConcurrencyTest {
 
     @AfterEach
     void tearDown() {
-        LogbackContextInitializer.shutdown();
-        contexts.forEach(LoggerContext::stop);
+        LogbackContextInitializer.stopAndReset();
     }
 
     @Test
@@ -161,7 +160,7 @@ public class LogbackConcurrencyTest {
         LogbackContextInitializer.initialize(new LogbackProperties());
         LogbackContext first = LogbackContextInitializer.getLogbackContext();
 
-        LogbackContextInitializer.shutdown();
+        LogbackContextInitializer.stopAndReset();
         Assertions.assertThrows(IllegalStateException.class, LogbackContextInitializer::getLogbackContext);
 
         LogbackContextInitializer.initialize(new LogbackProperties());

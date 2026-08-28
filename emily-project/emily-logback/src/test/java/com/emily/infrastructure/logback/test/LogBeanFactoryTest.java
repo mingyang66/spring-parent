@@ -1,5 +1,6 @@
 package com.emily.infrastructure.logback.test;
 
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
@@ -15,14 +16,14 @@ public class LogBeanFactoryTest {
 
     @AfterEach
     void tearDown() {
-        LogbackContextInitializer.shutdown();
-        context.stop();
+        LogBeanFactory.shutdownAndClear();
+        LogbackContextInitializer.stopAndReset();
     }
 
     @Test
     void shouldIsolateLoggerAppenderAndComponentNamespaces() {
         String sharedName = "shared-name";
-        org.slf4j.Logger logger = context.getLogger(sharedName);
+        Logger logger = context.getLogger(sharedName);
         ListAppender<ILoggingEvent> appender = startedListAppender(sharedName);
         String component = "component";
 
@@ -71,7 +72,6 @@ public class LogBeanFactoryTest {
 
         Assertions.assertFalse(appender.isStarted());
         Assertions.assertFalse(logger.isAttached(appender));
-        Assertions.assertTrue(LogBeanFactory.isEmpty());
         Assertions.assertTrue(LogBeanFactory.<ListAppender<ILoggingEvent>>getAppenders(ListAppender.class).isEmpty());
         Assertions.assertThrows(IllegalStateException.class, () -> LogBeanFactory.getComponent(String.class));
     }

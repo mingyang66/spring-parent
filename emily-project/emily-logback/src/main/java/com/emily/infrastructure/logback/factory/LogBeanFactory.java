@@ -1,6 +1,5 @@
 package com.emily.infrastructure.logback.factory;
 
-import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import org.slf4j.Logger;
@@ -115,14 +114,6 @@ public final class LogBeanFactory {
         return (T) appender;
     }
 
-    public static boolean isEmpty() {
-        LIFECYCLE_LOCK.readLock().lock();
-        try {
-            return APPENDER_MAP.isEmpty() && LOGGER_MAP.isEmpty() && COMPONENT_MAP.isEmpty();
-        } finally {
-            LIFECYCLE_LOCK.readLock().unlock();
-        }
-    }
 
     /**
      * 停止所有已注册Appender并清空缓存。
@@ -132,46 +123,11 @@ public final class LogBeanFactory {
     public static void shutdownAndClear() {
         LIFECYCLE_LOCK.writeLock().lock();
         try {
-            RuntimeException failure = null;
-            detachAppendersFromLoggers();
-            failure = stopAppenders(true, failure);
-            failure = stopAppenders(false, failure);
             APPENDER_MAP.clear();
             LOGGER_MAP.clear();
             COMPONENT_MAP.clear();
-            if (failure != null) {
-                throw failure;
-            }
         } finally {
             LIFECYCLE_LOCK.writeLock().unlock();
         }
-    }
-
-    private static void detachAppendersFromLoggers() {
-        for (Logger logger : LOGGER_MAP.values()) {
-            if (logger instanceof ch.qos.logback.classic.Logger classicLogger) {
-                for (Appender<ILoggingEvent> appender : APPENDER_MAP.values()) {
-                    classicLogger.detachAppender(appender);
-                }
-            }
-        }
-    }
-
-    private static RuntimeException stopAppenders(boolean async, RuntimeException failure) {
-        for (Appender<ILoggingEvent> appender : APPENDER_MAP.values()) {
-            if ((appender instanceof AsyncAppender) != async || !appender.isStarted()) {
-                continue;
-            }
-            try {
-                appender.stop();
-            } catch (RuntimeException ex) {
-                if (failure == null) {
-                    failure = ex;
-                } else {
-                    failure.addSuppressed(ex);
-                }
-            }
-        }
-        return failure;
     }
 }

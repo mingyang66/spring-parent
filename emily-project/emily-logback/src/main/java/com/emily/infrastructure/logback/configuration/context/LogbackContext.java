@@ -1,12 +1,6 @@
 package com.emily.infrastructure.logback.configuration.context;
 
-import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.turbo.TurboFilter;
-import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.spi.LifeCycle;
-import ch.qos.logback.core.status.StatusListener;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.LogNameUtils;
 import com.emily.infrastructure.logback.common.LogPathField;
@@ -31,8 +25,7 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.slf4j.Logger;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Objects;
 
 /**
  * Logback日志上下文，负责组件注册、Logger创建及生命周期管理。
@@ -41,14 +34,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 2020/08/04
  */
 public class LogbackContext {
-
-    private static final Object INITIALIZATION_LOCK = new Object();
-    private final Map<String, LoggerSnapshot> loggerSnapshots = new ConcurrentHashMap<>();
     private LoggerContext context;
     private LogbackProperties properties;
-
-    private boolean initialized;
-    private InitializationSnapshot initializationSnapshot;
 
     /**
      * 初始化日志上下文。
@@ -58,37 +45,12 @@ public class LogbackContext {
      * @param context    logback LoggerContext
      * @param properties 日志配置属性
      */
-    public void initialize(LoggerContext context, LogbackProperties properties) {
+    public synchronized void initialize(LoggerContext context, LogbackProperties properties) {
         this.context = Objects.requireNonNull(context, "LoggerContext must not be null");
         this.properties = Objects.requireNonNull(properties, "LogbackProperties must not be null");
-        synchronized (INITIALIZATION_LOCK) {
-            if (initialized) {
-                throw new IllegalStateException("LogbackContext instance has already been initialized");
-            }
-            if (!LogBeanFactory.isEmpty()) {
-                throw new IllegalStateException("Logback component container is not empty");
-            }
-            InitializationSnapshot snapshot = InitializationSnapshot.capture(context);
-            try {
-                doInitialize();
-                configure();
-                initRootLogger();
-                initializationSnapshot = snapshot;
-                initialized = true;
-            } catch (RuntimeException | Error ex) {
-                try {
-                    LogBeanFactory.shutdownAndClear();
-                } catch (RuntimeException cleanupEx) {
-                    ex.addSuppressed(cleanupEx);
-                }
-                try {
-                    snapshot.restore(context);
-                } catch (RuntimeException rollbackEx) {
-                    ex.addSuppressed(rollbackEx);
-                }
-                throw ex;
-            }
-        }
+        doInitialize();
+        configure();
+        initRootLogger();
     }
 
     private void doInitialize() {
@@ -128,7 +90,7 @@ public class LogbackContext {
                 .withFilePath(PathUtils.normalizePath(properties.getRoot().getFilePath()))
                 .withLogbackType(LogbackType.ROOT)
                 .build();
-        LogBeanFactory.getOrCreateLogger(Logger.ROOT_LOGGER_NAME, () -> createLogger(field, LogbackType.ROOT));
+        LogBeanFactory.getOrCreateLogger(Logger.ROOT_LOGGER_NAME, () -> createLogger(field));
     }
 
     /**
@@ -148,144 +110,22 @@ public class LogbackContext {
                 .withFileName(fileName)
                 .withLogbackType(logbackType)
                 .build();
-        return LogBeanFactory.getOrCreateLogger(field.getLoggerName(), () -> createLogger(field, logbackType));
+        return LogBeanFactory.getOrCreateLogger(field.getLoggerName(), () -> createLogger(field));
     }
 
-    private Logger createLogger(LogPathField field, LogbackType logbackType) {
-        ch.qos.logback.classic.Logger logger = context.getLogger(field.getLoggerName());
-        loggerSnapshots.putIfAbsent(field.getLoggerName(), LoggerSnapshot.capture(logger));
+    private Logger createLogger(LogPathField field) {
         return LogBeanFactory.getComponents(Logback.class).stream()
-                .filter(l -> l.supports(logbackType))
+                .filter(l -> l.supports(field.getLogbackType()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + logbackType))
+                .orElseThrow(() -> new IllegalStateException("No Logback implementation found for " + field.getLogbackType()))
                 .getLogger(field);
     }
 
     /**
      * 关闭SDK资源并恢复LoggerContext至初始化前状态。
      */
-    public void shutdown() {
-        synchronized (INITIALIZATION_LOCK) {
-            if (!initialized) {
-                return;
-            }
-            RuntimeException failure = null;
-            try {
-                LogBeanFactory.shutdownAndClear();
-            } catch (RuntimeException ex) {
-                failure = ex;
-            }
-            try {
-                for (LoggerSnapshot snapshot : loggerSnapshots.values()) {
-                    snapshot.restore();
-                }
-                initializationSnapshot.restore(context);
-            } catch (RuntimeException ex) {
-                if (failure == null) {
-                    failure = ex;
-                } else {
-                    failure.addSuppressed(ex);
-                }
-            } finally {
-                loggerSnapshots.clear();
-                initializationSnapshot = null;
-                initialized = false;
-            }
-            if (failure != null) {
-                throw failure;
-            }
-        }
-    }
-
-
-    private record InitializationSnapshot(
-            ch.qos.logback.classic.Logger root,
-            Level level,
-            boolean additive,
-            boolean packagingDataEnabled,
-            Set<Appender<ILoggingEvent>> appenders,
-            Set<TurboFilter> turboFilters,
-            Set<StatusListener> statusListeners) {
-
-        static InitializationSnapshot capture(LoggerContext context) {
-            ch.qos.logback.classic.Logger root = context.getLogger(Logger.ROOT_LOGGER_NAME);
-            return new InitializationSnapshot(
-                    root,
-                    root.getLevel(),
-                    root.isAdditive(),
-                    context.isPackagingDataEnabled(),
-                    identitySet(root.iteratorForAppenders()),
-                    identitySet(context.getTurboFilterList().iterator()),
-                    identitySet(context.getStatusManager().getCopyOfStatusListenerList().iterator()));
-        }
-
-        void restore(LoggerContext context) {
-            Set<Appender<ILoggingEvent>> currentAppenders = identitySet(root.iteratorForAppenders());
-            for (Appender<ILoggingEvent> appender : currentAppenders) {
-                if (!appenders.contains(appender)) {
-                    root.detachAppender(appender);
-                }
-            }
-            for (Appender<ILoggingEvent> appender : appenders) {
-                if (!root.isAttached(appender)) {
-                    root.addAppender(appender);
-                }
-            }
-            root.setLevel(level);
-            root.setAdditive(additive);
-            context.setPackagingDataEnabled(packagingDataEnabled);
-
-            for (TurboFilter filter : new ArrayList<>(context.getTurboFilterList())) {
-                if (!turboFilters.contains(filter)) {
-                    context.getTurboFilterList().remove(filter);
-                    filter.stop();
-                }
-            }
-            for (StatusListener listener : context.getStatusManager().getCopyOfStatusListenerList()) {
-                if (!statusListeners.contains(listener)) {
-                    context.getStatusManager().remove(listener);
-                    if (listener instanceof LifeCycle lifeCycle && lifeCycle.isStarted()) {
-                        lifeCycle.stop();
-                    }
-                }
-            }
-        }
-
-        private static <T> Set<T> identitySet(Iterator<T> iterator) {
-            Set<T> values = Collections.newSetFromMap(new IdentityHashMap<>());
-            iterator.forEachRemaining(values::add);
-            return values;
-        }
-    }
-
-    private record LoggerSnapshot(
-            ch.qos.logback.classic.Logger logger,
-            Level level,
-            boolean additive,
-            Set<Appender<ILoggingEvent>> appenders) {
-
-        static LoggerSnapshot capture(ch.qos.logback.classic.Logger logger) {
-            return new LoggerSnapshot(
-                    logger,
-                    logger.getLevel(),
-                    logger.isAdditive(),
-                    InitializationSnapshot.identitySet(logger.iteratorForAppenders()));
-        }
-
-        void restore() {
-            Set<Appender<ILoggingEvent>> currentAppenders = InitializationSnapshot.identitySet(logger.iteratorForAppenders());
-            for (Appender<ILoggingEvent> appender : currentAppenders) {
-                if (!appenders.contains(appender)) {
-                    logger.detachAppender(appender);
-                }
-            }
-            for (Appender<ILoggingEvent> appender : appenders) {
-                if (!logger.isAttached(appender)) {
-                    logger.addAppender(appender);
-                }
-            }
-            logger.setLevel(level);
-            logger.setAdditive(additive);
-        }
+    public synchronized void stopAndReset() {
+        LogBeanFactory.shutdownAndClear();
+        context.stop();
     }
 }

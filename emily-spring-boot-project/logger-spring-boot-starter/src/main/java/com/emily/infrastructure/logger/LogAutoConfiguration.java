@@ -26,8 +26,8 @@ public class LogAutoConfiguration implements InitializingBean, DisposableBean {
 
     @Override
     public void destroy() {
+        LogbackContextInitializer.stopAndReset();
         LOG.info("<== 【销毁--自动化配置】----Logger日志组件【LoggerAutoConfiguration】");
-        LogbackContextInitializer.shutdown();
     }
 
     @Override

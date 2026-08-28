@@ -4,6 +4,7 @@ import com.emily.infrastructure.logback.LogbackContextInitializer;
 import com.emily.infrastructure.logback.LogbackProperties;
 import com.emily.infrastructure.logback.common.PathUtils;
 import com.emily.infrastructure.logback.factory.LoggerFactory;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -18,12 +19,17 @@ public class LoggerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
 
+    @AfterEach
+    void tearDown() {
+        LogbackContextInitializer.stopAndReset();
+    }
+
     @Test
-    public void test1() {
+    void shouldReplaceContextWhenReinitialized() {
         LogbackContextInitializer.initialize(new LogbackProperties());
         Object context = LogbackContextInitializer.getLogbackContext();
         LogbackContextInitializer.initialize(new LogbackProperties());
-        Assertions.assertSame(context, LogbackContextInitializer.getLogbackContext());
+        Assertions.assertNotSame(context, LogbackContextInitializer.getLogbackContext());
         logger.info("info test ----------------");
         logger.error("info test ----------------");
         logger.warn("warn test ----------------");

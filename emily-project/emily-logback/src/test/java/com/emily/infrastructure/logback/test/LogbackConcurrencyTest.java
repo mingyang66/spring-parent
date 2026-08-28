@@ -33,6 +33,9 @@ public class LogbackConcurrencyTest {
     @AfterEach
     void tearDown() {
         LogbackContextInitializer.stopAndReset();
+        LogBeanFactory.clear();
+        contexts.forEach(LoggerContext::stop);
+        contexts.clear();
     }
 
     @Test
@@ -88,7 +91,7 @@ public class LogbackConcurrencyTest {
             for (Future<?> future : futures) {
                 future.get();
             }
-            Assertions.assertSame(expected, LogbackContextInitializer.getLogbackContext());
+            Assertions.assertNotSame(expected, LogbackContextInitializer.getLogbackContext());
         } finally {
             executor.shutdownNow();
         }
@@ -138,7 +141,7 @@ public class LogbackConcurrencyTest {
         IllegalStateException exception = Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> logbackContext.initialize(context, properties));
-        Assertions.assertTrue(exception.getMessage().contains("already been initialized"));
+        Assertions.assertTrue(exception.getMessage().contains("already registered"));
     }
 
     @Test
@@ -152,7 +155,7 @@ public class LogbackConcurrencyTest {
         IllegalStateException exception = Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> new LogbackContext().initialize(secondContext, properties));
-        Assertions.assertTrue(exception.getMessage().contains("container is not empty"));
+        Assertions.assertTrue(exception.getMessage().contains("already registered"));
     }
 
     @Test

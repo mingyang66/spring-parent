@@ -1,6 +1,5 @@
-package com.emily.infrastructure.logger.utils;
+package com.emily.infrastructure.logback.factory;
 
-import com.emily.infrastructure.logback.factory.LoggerFactory;
 import org.slf4j.Logger;
 
 import java.util.function.Supplier;
@@ -12,7 +11,7 @@ import java.util.function.Supplier;
  * @author :  Emily
  * @since :  2024/1/1 4:12 PM
  */
-public class LogPrintUtils {
+public class LogPrintFactory {
     /**
      * 记录请求日志
      *
@@ -77,9 +76,9 @@ public class LogPrintUtils {
     }
 
     static class LogHolder {
-        private static final Logger REQUEST = LoggerFactory.getModuleLogger(LogPrintUtils.class, "request", "request");
-        private static final Logger THIRD_PARTY = LoggerFactory.getModuleLogger(LogPrintUtils.class, "thirdParty", "thirdParty");
-        private static final Logger PLATFORM = LoggerFactory.getModuleLogger(LogPrintUtils.class, "platform", "platform");
+        private static final Logger REQUEST = LoggerFactory.getModuleLogger(LogPrintFactory.class, "request", "request");
+        private static final Logger THIRD_PARTY = LoggerFactory.getModuleLogger(LogPrintFactory.class, "thirdParty", "thirdParty");
+        private static final Logger PLATFORM = LoggerFactory.getModuleLogger(LogPrintFactory.class, "platform", "platform");
     }
 
 }

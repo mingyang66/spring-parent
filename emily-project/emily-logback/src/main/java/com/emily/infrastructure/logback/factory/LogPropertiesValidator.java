@@ -8,11 +8,11 @@ import java.util.Objects;
 /**
  * 日志配置属性验证器。
  */
-public final class LogbackPropertiesValidator {
+public final class LogPropertiesValidator {
 
     private static final String PREFIX = "spring.emily.logger.";
 
-    private LogbackPropertiesValidator() {
+    private LogPropertiesValidator() {
     }
 
     public static void validate(LogbackProperties properties) {

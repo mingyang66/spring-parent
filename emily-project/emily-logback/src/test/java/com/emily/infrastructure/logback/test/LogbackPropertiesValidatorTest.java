@@ -1,7 +1,7 @@
 package com.emily.infrastructure.logback.test;
 
 import com.emily.infrastructure.logback.LogbackProperties;
-import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
+import com.emily.infrastructure.logback.factory.LogPropertiesValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,7 @@ public class LogbackPropertiesValidatorTest {
 
     @Test
     void shouldAcceptDefaultProperties() {
-        Assertions.assertDoesNotThrow(() -> LogbackPropertiesValidator.validate(new LogbackProperties()));
+        Assertions.assertDoesNotThrow(() -> LogPropertiesValidator.validate(new LogbackProperties()));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class LogbackPropertiesValidatorTest {
     private void assertInvalid(LogbackProperties properties, String propertyName) {
         IllegalArgumentException exception = Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> LogbackPropertiesValidator.validate(properties));
+                () -> LogPropertiesValidator.validate(properties));
         Assertions.assertTrue(exception.getMessage().contains(propertyName), exception.getMessage());
     }
 }

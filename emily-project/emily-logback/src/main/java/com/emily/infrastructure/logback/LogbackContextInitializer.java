@@ -2,7 +2,7 @@ package com.emily.infrastructure.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.emily.infrastructure.logback.configuration.context.LogbackContext;
-import com.emily.infrastructure.logback.factory.LogbackPropertiesValidator;
+import com.emily.infrastructure.logback.factory.LogPropertiesValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public final class LogbackContextInitializer {
      * @param properties 日志属性配置
      */
     public static synchronized void initialize(LogbackProperties properties) {
-        LogbackPropertiesValidator.validate(properties);
+        LogPropertiesValidator.validate(properties);
         if (!properties.isEnabled()) {
             return;
         }

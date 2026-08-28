@@ -18,14 +18,14 @@ public class LogNameUtils {
      * <p>
      * 构建标准化的日志记录器名称
      *
+     * @param requiredClass 关联的类
      * @param logbackType   日志类型枚举
      * @param filePath      文件路径（可为null）
      * @param fileName      文件名（可为null）
-     * @param requiredClass 关联的类
      * @return 标准化后的日志记录器名称
      * @throws IllegalArgumentException 如果logbackType或requiredClass为null
      */
-    public static String joinLogName(LogbackType logbackType, String filePath, String fileName, Class<?> requiredClass) {
+    public static String joinLogName(Class<?> requiredClass, LogbackType logbackType, String filePath, String fileName) {
         // 参数校验
         Objects.requireNonNull(logbackType, "LogbackType cannot be null");
         Objects.requireNonNull(requiredClass, "Required class cannot be null");

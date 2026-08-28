@@ -103,7 +103,7 @@ public class LogbackContext {
      */
     public <T> Logger getLogger(Class<T> requiredType, LogbackType logbackType, String filePath, String fileName) {
         LogPathField field = LogPathField.newBuilder()
-                .withLoggerName(LogNameUtils.joinLogName(logbackType, filePath, fileName, requiredType))
+                .withLoggerName(LogNameUtils.joinLogName(requiredType, logbackType, filePath, fileName))
                 .withFilePath(PathUtils.normalizePath(filePath))
                 .withFileName(fileName)
                 .withLogbackType(logbackType)

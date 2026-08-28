@@ -25,8 +25,6 @@ import com.emily.infrastructure.logback.configuration.type.LogbackType;
 import com.emily.infrastructure.logback.factory.LogBeanFactory;
 import org.slf4j.Logger;
 
-import java.util.Objects;
-
 /**
  * Logback日志上下文，负责组件注册、Logger创建及生命周期管理。
  *
@@ -46,8 +44,8 @@ public class LogbackContext {
      * @param properties 日志配置属性
      */
     public synchronized void initialize(LoggerContext context, LogbackProperties properties) {
-        this.context = Objects.requireNonNull(context, "LoggerContext must not be null");
-        this.properties = Objects.requireNonNull(properties, "LogbackProperties must not be null");
+        this.context = context;
+        this.properties = properties;
         doInitialize();
         configure();
         initRootLogger();
@@ -125,7 +123,7 @@ public class LogbackContext {
      * 关闭SDK资源并恢复LoggerContext至初始化前状态。
      */
     public synchronized void stopAndReset() {
-        LogBeanFactory.shutdownAndClear();
+        LogBeanFactory.clear();
         context.stop();
     }
 }

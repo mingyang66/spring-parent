@@ -61,7 +61,7 @@ public final class LogBeanFactory {
 
     /**
      * Returns the cached Logger or creates one while holding the lifecycle read lock.
-     * {@link #shutdownAndClear()} waits for an in-progress factory invocation before clearing caches.
+     * {@link #clear()} waits for an in-progress factory invocation before clearing caches.
      *
      * @param name    logger name
      * @param factory creates the Logger when absent
@@ -80,7 +80,7 @@ public final class LogBeanFactory {
 
     /**
      * Returns the cached Appender or creates one using its cache key while holding the lifecycle read lock.
-     * {@link #shutdownAndClear()} waits for an in-progress mapping function before stopping resources.
+     * {@link #clear()} waits for an in-progress mapping function before stopping resources.
      *
      * @param name            appender name
      * @param mappingFunction creates the Appender when absent
@@ -120,7 +120,7 @@ public final class LogBeanFactory {
      * AsyncAppender优先停止，以便在目标Appender关闭前刷新队列。
      * This method acquires the lifecycle write lock and waits for in-progress resource creation.
      */
-    public static void shutdownAndClear() {
+    public static void clear() {
         LIFECYCLE_LOCK.writeLock().lock();
         try {
             APPENDER_MAP.clear();

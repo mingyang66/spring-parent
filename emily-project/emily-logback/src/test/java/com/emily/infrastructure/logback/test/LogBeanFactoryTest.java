@@ -16,7 +16,7 @@ public class LogBeanFactoryTest {
 
     @AfterEach
     void tearDown() {
-        LogBeanFactory.shutdownAndClear();
+        LogBeanFactory.clear();
         LogbackContextInitializer.stopAndReset();
     }
 
@@ -68,7 +68,8 @@ public class LogBeanFactoryTest {
         LogBeanFactory.registerComponent(String.class, "component");
         logger.addAppender(appender);
 
-        LogBeanFactory.shutdownAndClear();
+        context.stop();
+        LogBeanFactory.clear();
 
         Assertions.assertFalse(appender.isStarted());
         Assertions.assertFalse(logger.isAttached(appender));

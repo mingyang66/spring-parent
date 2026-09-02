@@ -18,7 +18,10 @@ public class LogPrintFactory {
      * @param message 日志信息
      */
     public static void printRequest(String message) {
-        LogHolder.REQUEST.info(message);
+        Logger logger = LogHolder.REQUEST;
+        if (logger.isInfoEnabled()) {
+            logger.info(message);
+        }
     }
 
     /**
@@ -39,7 +42,10 @@ public class LogPrintFactory {
      * @param message 日志信息
      */
     public static void printThirdParty(String message) {
-        LogHolder.THIRD_PARTY.info(message);
+        Logger logger = LogHolder.THIRD_PARTY;
+        if (logger.isInfoEnabled()) {
+            logger.info(message);
+        }
     }
 
     /**
@@ -60,7 +66,10 @@ public class LogPrintFactory {
      * @param message 日志信息
      */
     public static void printPlatform(String message) {
-        LogHolder.PLATFORM.info(message);
+        Logger logger = LogHolder.PLATFORM;
+        if (logger.isInfoEnabled()) {
+            logger.info(message);
+        }
     }
 
     /**

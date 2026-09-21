@@ -270,6 +270,10 @@ public class LogbackProperties {
         /**
          * 低级别日志丢弃阈值，默认：-1，使用Logback原生默认值queueSize/5。
          * 设置为0时不提前丢弃TRACE、DEBUG和INFO日志。
+         * --------------------------------------------------------------------------------
+         * -1：未设置，logback 启动时自动按 queueSize / 5 计算
+         * 0：禁用丢弃策略（remainingCapacity() < 0 永远为 false，所有事件都入队）
+         * 正整数：显式指定阈值，当队列剩余容量 < 100 时触发丢弃
          */
         private int discardingThreshold = -1;
         /**
